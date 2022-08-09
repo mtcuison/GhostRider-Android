@@ -74,19 +74,23 @@ public class Import_Relation implements ImportInstance {
         protected String doInBackground(JSONObject... jsonObjects) {
             String response = "";
             try {
-                if(conn.isDeviceConnected()) {
-                    response = WebClient.httpsPostJSon(poApi.getUrlDownloadRelation(loConfig.isBackUpServer()), jsonObjects[0].toString(), headers.getHeaders());
-                    JSONObject loJson = new JSONObject(Objects.requireNonNull(response));
-                    Log.e(TAG, loJson.getString("result"));
-                    String lsResult = loJson.getString("result");
-                    if(lsResult.equalsIgnoreCase("success")){
-                        JSONArray laJson = loJson.getJSONArray("detail");
-                        if(!repository.insertBulkRelation(laJson)){
-                            response = AppConstants.ERROR_SAVING_TO_LOCAL();
+                if(repository.GetRelationRecordsCount() == 0) {
+                    if (conn.isDeviceConnected()) {
+                        response = WebClient.httpsPostJSon(poApi.getUrlDownloadRelation(loConfig.isBackUpServer()), jsonObjects[0].toString(), headers.getHeaders());
+                        JSONObject loJson = new JSONObject(Objects.requireNonNull(response));
+                        Log.e(TAG, loJson.getString("result"));
+                        String lsResult = loJson.getString("result");
+                        if (lsResult.equalsIgnoreCase("success")) {
+                            JSONArray laJson = loJson.getJSONArray("detail");
+                            if (!repository.insertBulkRelation(laJson)) {
+                                response = AppConstants.ERROR_SAVING_TO_LOCAL();
+                            }
                         }
+                    } else {
+                        response = AppConstants.NO_INTERNET();
                     }
                 } else {
-                    response = AppConstants.NO_INTERNET();
+                    response = AppConstants.LOCAL_EXCEPTION_ERROR("Records exists.");
                 }
             } catch (Exception e) {
                 Log.e(TAG, Arrays.toString(e.getStackTrace()));

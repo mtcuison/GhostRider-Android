@@ -1,22 +1,8 @@
 package org.guanzongroup.com.creditevaluation.Activity;
 
 import static org.rmj.g3appdriver.GRider.Constants.AppConstants.SUB_FOLDER_CI_ADDRESS;
-import static org.rmj.guanzongroup.ghostrider.notifications.Object.GNotifBuilder.APP_SYNC_DATA;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.cardview.widget.CardView;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,15 +10,19 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ExpandableListAdapter;
-import android.widget.ExpandableListView;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -47,8 +37,6 @@ import org.guanzongroup.com.creditevaluation.Dialog.DialogCIReason;
 import org.guanzongroup.com.creditevaluation.Model.AdditionalInfoModel;
 import org.guanzongroup.com.creditevaluation.R;
 import org.guanzongroup.com.creditevaluation.ViewModel.VMEvaluation;
-import org.guanzongroup.com.creditevaluation.ViewModel.ViewModelCallback;
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditOnlineApplicationCI;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
@@ -57,7 +45,6 @@ import org.rmj.g3appdriver.GRider.Etc.LocationRetriever;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
-import org.rmj.guanzongroup.ghostrider.notifications.Object.GNotifBuilder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -210,10 +197,10 @@ public class Activity_Evaluation extends AppCompatActivity implements VMEvaluati
             rgHasRecord.setOnCheckedChangeListener(new ONCIHasRecord(rgHasRecord,mViewModel));
             btnSaveAdditional.setOnClickListener(v -> {
 
-                infoModel.setRemRecrd(txtRecordRemarks.getText().toString());
-                infoModel.setAsstPersonnel(txtPersonnel.getText().toString());
-                infoModel.setAsstPosition(txtPosition.getText().toString());
-                infoModel.setMobileNo(txtMobileNo.getText().toString());
+                infoModel.setRemRecrd(Objects.requireNonNull(txtRecordRemarks.getText()).toString());
+                infoModel.setAsstPersonnel(Objects.requireNonNull(txtPersonnel.getText()).toString());
+                infoModel.setAsstPosition(Objects.requireNonNull(txtPosition.getText()).toString());
+                infoModel.setMobileNo(Objects.requireNonNull(txtMobileNo.getText()).toString());
 //                infoModel.setNeighbr1(txtNeighbor1.getText().toString());
 //                infoModel.setNeighbr2(txtNeighbor2.getText().toString());
 //                infoModel.setNeighbr3(txtNeighbor3.getText().toString());
@@ -512,6 +499,7 @@ public class Activity_Evaluation extends AppCompatActivity implements VMEvaluati
         });
         poMessage.show();
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

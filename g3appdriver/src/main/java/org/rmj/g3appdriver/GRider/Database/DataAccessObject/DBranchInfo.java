@@ -106,6 +106,14 @@ public interface DBranchInfo {
             "WHERE sBranchCd = (SELECT sBranchCd FROM User_Info_Master))")
     LiveData<List<EBranchInfo>> getAreaBranchList();
 
+    @Query("SELECT * FROM Branch_Info")
+    List<EBranchInfo> getBranchList();
+
+    @Query("SELECT * FROM Branch_Info " +
+            "WHERE sAreaCode = (SELECT sAreaCode FROM Branch_Info " +
+            "WHERE sBranchCd = (SELECT sBranchCd FROM User_Info_Master))")
+    List<EBranchInfo> getAreaBranchesList();
+
     @Query("SELECT * FROM Branch_Info WHERE sBranchCd = " +
             "(SELECT sBranchCd FROM Employee_Log_Selfie WHERE cReqCCntx != '1' || cReqRSIxx != '1' ORDER BY dLogTimex DESC LIMIT 1)")
     LiveData<EBranchInfo> getSelfieLogBranchInfo();

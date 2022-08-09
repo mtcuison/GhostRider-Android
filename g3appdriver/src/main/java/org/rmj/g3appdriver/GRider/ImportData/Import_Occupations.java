@@ -87,17 +87,21 @@ public class Import_Occupations implements ImportInstance {
         protected String doInBackground(JSONObject... jsonObjects) {
             String response = "";
             try {
-                if (loConnectx.isDeviceConnected()) {
-                    response = WebClient.httpsPostJSon(poApi.getUrlImportOccupations(poConfig.isBackUpServer()), jsonObjects[0].toString(), loHeaders.getHeaders());
-                    JSONObject loJson = new JSONObject(response);
-                    Log.e(TAG, loJson.getString("result"));
-                    String lsResult = loJson.getString("result");
-                    if (lsResult.equalsIgnoreCase("success")) {
-                        JSONArray laJson = loJson.getJSONArray("detail");
-                        saveDataToLocal(laJson);
+                if(db.GetOccupationRecordsCount() == 0) {
+                    if (loConnectx.isDeviceConnected()) {
+                        response = WebClient.httpsPostJSon(poApi.getUrlImportOccupations(poConfig.isBackUpServer()), jsonObjects[0].toString(), loHeaders.getHeaders());
+                        JSONObject loJson = new JSONObject(response);
+                        Log.e(TAG, loJson.getString("result"));
+                        String lsResult = loJson.getString("result");
+                        if (lsResult.equalsIgnoreCase("success")) {
+                            JSONArray laJson = loJson.getJSONArray("detail");
+                            saveDataToLocal(laJson);
+                        }
+                    } else {
+                        response = AppConstants.NO_INTERNET();
                     }
                 } else {
-                    response = AppConstants.NO_INTERNET();
+                    response = AppConstants.LOCAL_EXCEPTION_ERROR("Records exists.");
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -132,12 +136,14 @@ public class Import_Occupations implements ImportInstance {
             List<EOccupationInfo> occupationInfoList = new ArrayList<>();
             for (int x = 0; x < laJson.length(); x++) {
                 JSONObject loJson = laJson.getJSONObject(x);
-                EOccupationInfo info = new EOccupationInfo();
-                info.setOccptnID(loJson.getString("sOccptnID"));
-                info.setOccptnNm(loJson.getString("sOccptnNm"));
-                info.setRecdStat(loJson.getString("cRecdStat"));
-                info.setTimeStmp(loJson.getString("dTimeStmp"));
-                occupationInfoList.add(info);
+                if(db.CheckIfExist(loJson.getString("sOccptnID")) == null) {
+                    EOccupationInfo info = new EOccupationInfo();
+                    info.setOccptnID(loJson.getString("sOccptnID"));
+                    info.setOccptnNm(loJson.getString("sOccptnNm"));
+                    info.setRecdStat(loJson.getString("cRecdStat"));
+                    info.setTimeStmp(loJson.getString("dTimeStmp"));
+                    occupationInfoList.add(info);
+                }
             }
             db.insertBulkData(occupationInfoList);
         }

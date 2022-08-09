@@ -14,11 +14,8 @@ package org.rmj.g3appdriver.GRider.Database.DataAccessObject;
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
-import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
-import org.rmj.g3appdriver.GRider.Database.Entities.EBranchLoanApplication;
-import org.rmj.g3appdriver.GRider.Database.Entities.ECIEvaluation;
 import org.rmj.g3appdriver.GRider.Database.Entities.ERelation;
 
 import java.util.List;
@@ -28,8 +25,14 @@ public interface DRelation {
     @Insert
     void insert(ERelation eRelation);
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert
     void insertBulkData(List<ERelation> eRelation);
+
+    @Query("SELECT COUNT(*) FROM RELATION")
+    Integer GetRelationRecordsCount();
+
+    @Query("SELECT * FROM RELATION WHERE sRelatnID=:fsVal")
+    ERelation CheckIfExist(String fsVal);
 
     @Query("SELECT * FROM Relation ")
     LiveData<List<ERelation>> getRelation();

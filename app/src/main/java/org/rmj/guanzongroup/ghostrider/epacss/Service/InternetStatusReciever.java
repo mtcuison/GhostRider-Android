@@ -11,6 +11,9 @@
 
 package org.rmj.guanzongroup.ghostrider.epacss.Service;
 
+import static org.rmj.g3appdriver.etc.WebFileServer.RequestAccessToken;
+import static org.rmj.g3appdriver.etc.WebFileServer.RequestClientToken;
+
 import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.BroadcastReceiver;
@@ -31,6 +34,7 @@ import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicationDocuments;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ELog_Selfie;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RApprovalCode;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchLoanApplication;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCashCount;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplication;
@@ -39,10 +43,10 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RDCP_Remittance;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RLogSelfie;
+import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Http.WebClient;
 import org.rmj.g3appdriver.dev.Telephony;
-import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
@@ -54,8 +58,6 @@ import org.rmj.guanzongroup.ghostrider.notifications.Object.GNotifBuilder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
-import static org.rmj.g3appdriver.etc.WebFileServer.*;
 
 public class InternetStatusReciever extends BroadcastReceiver {
     private static final String TAG = InternetStatusReciever.class.getSimpleName();
@@ -152,6 +154,11 @@ public class InternetStatusReciever extends BroadcastReceiver {
                 try {
                     loginDetails = poLog.getUnsentSelfieLogin();
                 } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try{
+                    new RApprovalCode(instance).uploadApprovalCodes();
+                } catch (Exception e){
                     e.printStackTrace();
                 }
                 try {

@@ -397,7 +397,7 @@
                         android:layout_height="wrap_content"
                         style="@style/TextInputStyle.Edittext"
                         android:gravity="center"
-                        android:inputType="number|none"
+                        android:inputType="numberDecimal"
                         android:maxLines="1"
                         android:imeOptions="actionDone"/>
 

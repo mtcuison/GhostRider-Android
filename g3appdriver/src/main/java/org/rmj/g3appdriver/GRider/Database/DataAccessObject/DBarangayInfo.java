@@ -35,6 +35,12 @@ public interface DBarangayInfo {
     @Delete
     void delete(EBarangayInfo barangayInfo);
 
+    @Query("SELECT COUNT(*) FROM Barangay_Info")
+    Integer GetBarangayRecordCount();
+
+    @Query("SELECT * FROM Barangay_Info WHERE sBrgyIDxx=:fsVal")
+    EBarangayInfo CheckIfExist(String fsVal);
+
     @Query("SELECT * FROM Barangay_Info")
     LiveData<List<EBarangayInfo>> getAllBarangayInfo();
 

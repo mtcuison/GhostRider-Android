@@ -15,7 +15,6 @@ import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
-import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
@@ -29,8 +28,14 @@ public interface DProvinceInfo {
     @Insert
     void insert(EProvinceInfo provinceInfo);
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert
     void insertBulkData(List<EProvinceInfo> provinceInfoList);
+
+    @Query("SELECT COUNT(*) FROM Province_Info")
+    Integer GetProvinceRecordsCount();
+
+    @Query("SELECT * FROM Province_Info WHERE sProvIDxx=:fsVal")
+    EProvinceInfo CheckIfExist(String fsVal);
 
     @Update
     void update(EProvinceInfo provinceInfo);

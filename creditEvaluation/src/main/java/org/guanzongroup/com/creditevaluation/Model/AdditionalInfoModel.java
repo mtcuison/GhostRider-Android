@@ -52,7 +52,7 @@ public class AdditionalInfoModel {
     }
     public boolean isPersonnel(){
         if (this.AsstPersonnel == null || this.AsstPersonnel.trim().isEmpty()){
-            message = "Please enter brgy. personnel's fullname.";
+            message = "Please enter brgy. personnel's full name.";
             return false;
         }
         return true;

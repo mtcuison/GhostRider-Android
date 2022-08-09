@@ -11,16 +11,11 @@
 
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments;
 
+import static android.app.Activity.RESULT_OK;
+
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,6 +29,15 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -46,7 +50,6 @@ import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_Transaction;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter.AddressInfoAdapter;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter.MobileInfoAdapter;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.AddressUpdate;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.MobileUpdate;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
@@ -55,8 +58,6 @@ import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.ViewModelCa
 import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
 
 import java.util.Objects;
-
-import static android.app.Activity.RESULT_OK;
 
 public class Fragment_CustomerNotAround extends Fragment implements ViewModelCallback {
     private VMCustomerNotAround mViewModel;
@@ -86,26 +87,54 @@ public class Fragment_CustomerNotAround extends Fragment implements ViewModelCal
 
     private boolean isAddressAdded, isMobileAdded, isMobileToggled = true;
 
+    private final ActivityResultLauncher<Intent> poCamera = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+        @Override
+        public void onActivityResult(ActivityResult result) {
+            if(result.getResultCode() == RESULT_OK){
+
+                if (isMobileToggled) {
+                    mViewModel.saveMobileToLocal(Fragment_CustomerNotAround.this);
+                } else {
+                    mViewModel.saveAddressToLocal(Fragment_CustomerNotAround.this);
+                }
+
+                try{
+                    poImageInfo.setMD5Hashx(WebFileServer.createMD5Hash(psPhotox));
+                    mViewModel.saveImageInfo(poImageInfo);
+
+                    mViewModel.updateCollectionDetail(txtRemarks.getText().toString());
+                    Log.e("Fragment_CNA:", "Image Info Save");
+                    OnSuccessResult(new String[]{"Customer Not Around Info has been saved."});
+                } catch (RuntimeException e){
+                    e.printStackTrace();
+                }
+            }else {
+                requireActivity().finish();
+            }
+        }
+    });
+
+    private final ActivityResultLauncher<Intent> poDialer = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+        if(result.getResultCode() == RESULT_OK){
+
+        } else {
+
+        }
+    });
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mViewModel = new ViewModelProvider(requireActivity()).get(VMCustomerNotAround.class);
         View view = inflater.inflate(R.layout.fragment_customer_not_around_fragment, container, false);
         addressInfoModel = new AddressUpdate();
         poMessage = new MessageBox(getActivity());
         poImageInfo = new EImageInfo();
 
-        initWidgets(view);
-
-        return view;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
         String TransNox = Activity_Transaction.getInstance().getTransNox();
         int EntryNox = Activity_Transaction.getInstance().getEntryNox();
+        initWidgets(view);
+
         try {
-            mViewModel = ViewModelProviders.of(this).get(VMCustomerNotAround.class);
 
             mViewModel.setParameter(TransNox, EntryNox);
 
@@ -149,7 +178,7 @@ public class Fragment_CustomerNotAround extends Fragment implements ViewModelCal
                         @Override
                         public void OnMobileNoClick(String MobileNo) {
                             Intent mobileIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", MobileNo, null));
-                            startActivityForResult(mobileIntent, MOBILE_DIALER);
+                            poDialer.launch(mobileIntent);
                         }
                     });
                     rvCNAOutputs.setAdapter(mobileAdapter);
@@ -170,7 +199,7 @@ public class Fragment_CustomerNotAround extends Fragment implements ViewModelCal
                 txtTown.setAdapter(loAdapter);
             });
 
-            txtTown.setOnItemClickListener((adapterView, view, i, l) -> {
+            txtTown.setOnItemClickListener((adapterView, v, i, l) -> {
                 String lsTown = txtTown.getText().toString();
                 String[] town = lsTown.split(", ");
                 mViewModel.getTownProvinceInfo().observe(getViewLifecycleOwner(), townProvinceInfos -> {
@@ -191,7 +220,7 @@ public class Fragment_CustomerNotAround extends Fragment implements ViewModelCal
                 });
             });
 
-            txtBrgy.setOnItemClickListener((adapterView, view, i, l) -> mViewModel.getBarangayInfoList().observe(getViewLifecycleOwner(), eBarangayInfos -> {
+            txtBrgy.setOnItemClickListener((adapterView, v, i, l) -> mViewModel.getBarangayInfoList().observe(getViewLifecycleOwner(), eBarangayInfos -> {
                 for (int x = 0; x < eBarangayInfos.size(); x++) {
                     if (txtBrgy.getText().toString().equalsIgnoreCase(eBarangayInfos.get(x).getBrgyName())) {
                         addressInfoModel.setBarangayID(eBarangayInfos.get(x).getBrgyIDxx());
@@ -211,7 +240,7 @@ public class Fragment_CustomerNotAround extends Fragment implements ViewModelCal
                 poMessage.initDialog();
                 poMessage.setTitle("Customer Not Around");
                 poMessage.setMessage("Please take a selfie in customer's place in order to confirm transaction.");
-                poMessage.setPositiveButton("Okay", (view, dialog) -> {
+                poMessage.setPositiveButton("Okay", (v1, dialog) -> {
                     dialog.dismiss();
                     poImage.CreateFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
                         new LocationRetriever(getActivity(), getActivity()).getLocation((message, latitude1, longitude1) -> {
@@ -225,11 +254,12 @@ public class Fragment_CustomerNotAround extends Fragment implements ViewModelCal
                             poImageInfo.setLongitud(String.valueOf(longitude1));
                             mViewModel.setImagePath(photPath);
                             mViewModel.setImgFileNme(FileName);
-                            startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
+                            openCamera.putExtra("android.intent.extras.CAMERA_FACING", 1);
+                            poCamera.launch(openCamera);
                         });
                     });
                 });
-                poMessage.setNegativeButton("Cancel", (view, dialog) -> {
+                poMessage.setNegativeButton("Cancel", (v1, dialog) -> {
                     dialog.dismiss();
                 });
                 poMessage.show();
@@ -237,36 +267,7 @@ public class Fragment_CustomerNotAround extends Fragment implements ViewModelCal
         } catch (Exception e){
             e.printStackTrace();
         }
-    }
-
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data){
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == ImageFileCreator.GCAMERA) {
-            if (resultCode == RESULT_OK) {
-                if (isMobileToggled) {
-                    mViewModel.saveMobileToLocal(Fragment_CustomerNotAround.this);
-                } else {
-                    mViewModel.saveAddressToLocal(Fragment_CustomerNotAround.this);
-                }
-
-                try{
-                    poImageInfo.setMD5Hashx(WebFileServer.createMD5Hash(psPhotox));
-                    mViewModel.saveImageInfo(poImageInfo);
-
-                    mViewModel.updateCollectionDetail(txtRemarks.getText().toString());
-                    Log.e("Fragment_CNA:", "Image Info Save");
-                    OnSuccessResult(new String[]{"Customer Not Around Info has been saved."});
-                }catch (NullPointerException e){
-                    e.printStackTrace();
-                }catch (RuntimeException e){
-                    e.printStackTrace();
-                }
-            } else {
-                requireActivity().finish();
-            }
-        }
+        return view;
     }
 
     private void initWidgets(View v){
@@ -417,7 +418,7 @@ public class Fragment_CustomerNotAround extends Fragment implements ViewModelCal
                                 @Override
                                 public void OnMobileNoClick(String MobileNo) {
                                     Intent mobileIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", MobileNo, null));
-                                    startActivityForResult(mobileIntent, MOBILE_DIALER);
+                                    poDialer.launch(mobileIntent);
                                 }
                             });
                             rvCNAOutputs.setAdapter(mobileAdapter);

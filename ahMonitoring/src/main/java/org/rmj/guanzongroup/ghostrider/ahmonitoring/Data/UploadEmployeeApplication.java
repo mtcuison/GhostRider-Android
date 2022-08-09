@@ -166,7 +166,8 @@ public class UploadEmployeeApplication {
                         } else {
                             JSONObject jsonResponse = new JSONObject(lsResult);
                             if (jsonResponse.getString("result").equalsIgnoreCase("success")){
-                                poBusTrp.updateOBSentStatus(loOb.getTransNox());
+                                String sTransnox = jsonResponse.getString("sTransNox");
+                                poBusTrp.updateOBSentStatus(loOb.getTransNox(), sTransnox);
                                 Log.d(TAG, "Business trip application updated.");
                             } else {
                                 JSONObject loError = jsonResponse.getJSONObject("error");

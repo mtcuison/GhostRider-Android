@@ -133,6 +133,7 @@ public class VMBranchApplications extends AndroidViewModel {
             try{
                 if(conn.isDeviceConnected()) {
                     response = WebClient.sendRequest(webApi.getUrlBranchLoanApp(loConfig.isBackUpServer()), strings[0].toString(), headers.getHeaders());
+                    Log.d(TAG, response);
                     JSONObject jsonResponse = new JSONObject(response);
                     String lsResult = jsonResponse.getString("result");
                     if (lsResult.equalsIgnoreCase("success")) {

@@ -166,9 +166,6 @@ public class VMEvaluation extends AndroidViewModel {
                         poCIEvaluation.UpdatePresentBarangay(transNox[0],infoModel.getAsstPersonnel());
                         poCIEvaluation.UpdatePosition(transNox[0],infoModel.getAsstPosition());
                         poCIEvaluation.UpdateContact(transNox[0],infoModel.getMobileNo());
-//                        poCIEvaluation.UpdateNeighbor1(transNox[0],infoModel.getNeighbr1());
-//                        poCIEvaluation.UpdateNeighbor2(transNox[0],infoModel.getNeighbr1());
-//                        poCIEvaluation.UpdateNeighbor3(transNox[0],infoModel.getNeighbr1());
                         response[0] = "Barangay Records and Personnel Info successfully saved.";
                     }else{
                         response[0] = infoModel.getMessage();

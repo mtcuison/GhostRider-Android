@@ -11,26 +11,30 @@
 
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment;
 
-import androidx.annotation.RequiresApi;
-import androidx.core.app.ActivityCompat;
-import androidx.lifecycle.ViewModelProvider;
+import static android.app.Activity.RESULT_OK;
 
 import android.app.AlertDialog;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
+import android.os.SystemClock;
 import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 
@@ -53,9 +57,6 @@ import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMSelfieLogin;
 import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
 
-import static android.app.Activity.RESULT_OK;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class Fragment_SelfieLogin extends Fragment {
@@ -83,8 +84,85 @@ public class Fragment_SelfieLogin extends Fragment {
 
     private static boolean isDialogShown;
 
-    private List<EBranchInfo> paBranch = new ArrayList<>();
     private String psEmpLvl;
+
+    private long mLastClickTime = 0;
+
+    private final ActivityResultLauncher<Intent> poCamera = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+        @Override
+        public void onActivityResult(ActivityResult result) {
+            try{
+                int resultCode = result.getResultCode();
+                if(resultCode == RESULT_OK){
+                    poLog.setTransact(AppConstants.CURRENT_DATE);
+                    poLog.setBranchCd(sSlectBranch);
+                    poLog.setEmployID(poUser.getEmployID());
+                    poLog.setLogTimex(new AppConstants().DATE_MODIFIED);
+                    poLog.setLatitude(pnLatittude);
+                    poLog.setLongitud(pnLongitude);
+                    poLog.setSendStat("0");
+
+                    poImage.setFileCode("0021");
+                    poImage.setSourceNo(poUser.getClientID());
+                    poImage.setDtlSrcNo(poUser.getUserIDxx());
+                    poImage.setSourceCD("LOGa");
+                    poImage.setImageNme(psFileNamex);
+                    poImage.setFileLoct(psPhotoPath);
+                    poImage.setLatitude(pnLatittude);
+                    poImage.setLongitud(pnLongitude);
+                    poImage.setMD5Hashx(WebFileServer.createMD5Hash(psPhotoPath));
+                    poImage.setCaptured(new AppConstants().DATE_MODIFIED);
+                    mViewModel.loginTimeKeeper(poLog, poImage, new VMSelfieLogin.OnLoginTimekeeperListener() {
+                        @Override
+                        public void OnLogin() {
+                            poLoad.initDialog("Selfie Log", "Sending your time in. Please wait...", false);
+                            poLoad.show();
+                        }
+
+                        @Override
+                        public void OnSuccess(String args) {
+                            try {
+                                poLoad.dismiss();
+                            } catch (Exception e){
+                                e.printStackTrace();
+                            }
+                            psPhotoPath = "";
+                            pnLatittude = "";
+                            pnLongitude = "";
+                            psFileNamex = "";
+                            showMessageDialog("Your time in has been save to server.");
+                        }
+
+                        @Override
+                        public void OnFailed(String message) {
+                            try {
+                                poLoad.dismiss();
+                            } catch (Exception e){
+                                e.printStackTrace();
+                            }
+                            showMessageDialog("Your time in has been save.");
+                        }
+                    });
+                }
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+    });
+
+    private final ActivityResultLauncher<Intent> poSettings = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+        @Override
+        public void onActivityResult(ActivityResult result) {
+            if(result.getResultCode() == RESULT_OK){
+                boolean isEnabled = loLocation.isLocationEnabled();
+                if(isEnabled){
+                    initCamera();
+                } else {
+                    requestLocationEnabled();
+                }
+            }
+        }
+    });
 
     public static Fragment_SelfieLogin newInstance() {
         return new Fragment_SelfieLogin();
@@ -93,84 +171,17 @@ public class Fragment_SelfieLogin extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        mViewModel = new ViewModelProvider(this).get(VMSelfieLogin.class);
         View view =  inflater.inflate(R.layout.fragment_selfie_login, container, false);
         initWidgets(view);
-        return view;
-    }
 
-    private void initWidgets(View view){
-        lblUsername = view.findViewById(R.id.lbl_username);
-        lblPosition = view.findViewById(R.id.lbl_userPosition);
-        lblBranch = view.findViewById(R.id.lbl_userBranch);
-        lblNotice = view.findViewById(R.id.lbl_notice);
-        btnCamera = view.findViewById(R.id.btn_takeSelfie);
-        btnBranch = view.findViewById(R.id.btn_selectBranch);
-        recyclerView = view.findViewById(R.id.recyclerview_timeLog);
-
-        poImage = new EImageInfo();
-        poLog = new ELog_Selfie();
-        poLoad = new LoadDialog(requireActivity());
-        poMessage = new MessageBox(requireActivity());
-        loLocation = new GLocationManager(requireActivity());
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(VMSelfieLogin.class);
         psEmpLvl = mViewModel.getEmployeeLevel();
 
-        mViewModel.getAreaBranchList().observe(getViewLifecycleOwner(), eBranchInfos -> {
-            try {
-                paBranch = eBranchInfos;
-                lblNotice.setVisibility(View.GONE);
-                btnBranch.setVisibility(View.VISIBLE);
-                if (psEmpLvl.equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER))) {
-                    new DialogBranchSelection(requireActivity(), paBranch).initDialog(true, new DialogBranchSelection.OnBranchSelectedCallback() {
-                        @Override
-                        public void OnSelect(String BranchCode, AlertDialog dialog) {
-                            mViewModel.checkIfAlreadyLog(BranchCode, new VMSelfieLogin.OnBranchSelectedCallback() {
-                                @Override
-                                public void OnLoad() {
-
-                                }
-
-                                @Override
-                                public void OnSuccess() {
-                                    sSlectBranch = BranchCode;
-                                    mViewModel.getBranchInfo(BranchCode).observe(getViewLifecycleOwner(), eBranchInfo -> {
-                                        try{
-                                            lblBranch.setText(eBranchInfo.getBranchNm());
-                                            mViewModel.importInventoryTask(BranchCode);
-                                        } catch (Exception e){
-                                            e.printStackTrace();
-                                        }
-                                    });
-                                }
-
-                                @Override
-                                public void OnFailed(String message) {
-                                    poMessage.initDialog();
-                                    poMessage.setTitle("Selfie Login");
-                                    poMessage.setMessage(message);
-                                    poMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
-                                    poMessage.show();
-                                }
-                            });
-                            dialog.dismiss();
-                        }
-
-                        @Override
-                        public void OnCancel() {
-//                                requireActivity().finish();
-                        }
-                    });
-                }
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-        });
-
+        lblNotice.setVisibility(View.GONE);
+        btnBranch.setVisibility(View.VISIBLE);
+        if (psEmpLvl.equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER))) {
+            SetupDialogForBranchList();
+        }
         mViewModel.getUserInfo().observe(getViewLifecycleOwner(), eEmployeeInfo -> {
             try {
                 poUser = eEmployeeInfo;
@@ -191,9 +202,7 @@ public class Fragment_SelfieLogin extends Fragment {
         });
 
         mViewModel.getAllEmployeeTimeLog().observe(getViewLifecycleOwner(), eLog_selfies -> {
-            TimeLogAdapter logAdapter = new TimeLogAdapter(eLog_selfies, sTransNox -> {
-                GToast.CreateMessage(requireActivity(), "Feature not yet implemented", GToast.INFORMATION).show();
-            });
+            TimeLogAdapter logAdapter = new TimeLogAdapter(eLog_selfies, sTransNox -> GToast.CreateMessage(requireActivity(), "Feature not yet implemented", GToast.INFORMATION).show());
             LinearLayoutManager loManager = new LinearLayoutManager(requireActivity());
             loManager.setOrientation(RecyclerView.VERTICAL);
             recyclerView.setLayoutManager(loManager);
@@ -201,208 +210,106 @@ public class Fragment_SelfieLogin extends Fragment {
 
         });
 
-        btnBranch.setOnClickListener(v -> new DialogBranchSelection(requireActivity(), paBranch).initDialog(true, new DialogBranchSelection.OnBranchSelectedCallback() {
+        btnBranch.setOnClickListener(v -> mViewModel.CheckBranchList(new VMSelfieLogin.OnBranchCheckListener() {
             @Override
-            public void OnSelect(String BranchCode, AlertDialog dialog) {
-                sSlectBranch = BranchCode;
-                mViewModel.checkIfAlreadyLog(BranchCode, new VMSelfieLogin.OnBranchSelectedCallback() {
+            public void OnCheck(List<EBranchInfo> area, List<EBranchInfo> all) {
+                new DialogBranchSelection(requireActivity(), area, all).initDialog(true, new DialogBranchSelection.OnBranchSelectedCallback() {
                     @Override
-                    public void OnLoad() {
-                        poLoad.initDialog("Selfie Log", "Validating branch. Please wait...", false);
-                        poLoad.show();
-                    }
-
-                    @Override
-                    public void OnSuccess() {
-                        poLoad.dismiss();
+                    public void OnSelect(String BranchCode, AlertDialog dialog) {
                         sSlectBranch = BranchCode;
-                        mViewModel.getBranchInfo(BranchCode).observe(getViewLifecycleOwner(), eBranchInfo -> {
-                            try{
-                                lblBranch.setText(eBranchInfo.getBranchNm());
-                                mViewModel.importInventoryTask(BranchCode);
-                            } catch (Exception e){
-                                e.printStackTrace();
+                        mViewModel.checkIfAlreadyLog(BranchCode, new VMSelfieLogin.OnBranchSelectedCallback() {
+                            @Override
+                            public void OnLoad() {
+                                poLoad.initDialog("Selfie Log", "Validating branch. Please wait...", false);
+                                poLoad.show();
+                            }
+
+                            @Override
+                            public void OnSuccess() {
+                                poLoad.dismiss();
+                                sSlectBranch = BranchCode;
+                                mViewModel.getBranchInfo(BranchCode).observe(getViewLifecycleOwner(), eBranchInfo -> {
+                                    try{
+                                        lblBranch.setText(eBranchInfo.getBranchNm());
+                                        mViewModel.importInventoryTask(BranchCode);
+                                    } catch (Exception e){
+                                        e.printStackTrace();
+                                    }
+                                });
+                            }
+
+                            @Override
+                            public void OnFailed(String message) {
+                                poLoad.dismiss();
+                                poMessage.initDialog();
+                                poMessage.setTitle("Selfie Login");
+                                poMessage.setMessage(message);
+                                poMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
+                                poMessage.show();
                             }
                         });
+                        dialog.dismiss();
                     }
 
                     @Override
-                    public void OnFailed(String message) {
-                        poLoad.dismiss();
-                        poMessage.initDialog();
-                        poMessage.setTitle("Selfie Login");
-                        poMessage.setMessage(message);
-                        poMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
-                        poMessage.show();
+                    public void OnCancel() {
                     }
                 });
-                dialog.dismiss();
             }
 
             @Override
-            public void OnCancel() {
-//                        requireActivity().finish();
+            public void OnFailed(String message) {
+
             }
         }));
 
-        btnCamera.setOnClickListener(view -> {
-//            if(psEmpLvl.equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER))){
-//                if(sSlectBranch.isEmpty()){
-//                    if (psEmpLvl.equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER))
-//                            && sSlectBranch.isEmpty()) {
-//                        lblNotice.setVisibility(View.GONE);
-//                        new DialogBranchSelection(requireActivity(), paBranch).initDialog(true, new DialogBranchSelection.OnBranchSelectedCallback() {
-//                            @Override
-//                            public void OnSelect(String BranchCode, AlertDialog dialog) {
-//                                mViewModel.checkIfAlreadyLog(BranchCode, new VMSelfieLogin.OnBranchSelectedCallback() {
-//                                    @Override
-//                                    public void OnLoad() {
-//
-//                                    }
-//
-//                                    @Override
-//                                    public void OnSuccess() {
-//                                        sSlectBranch = BranchCode;
-//                                        mViewModel.getBranchInfo(BranchCode).observe(getViewLifecycleOwner(), eBranchInfo -> {
-//                                            try{
-//                                                lblBranch.setText(eBranchInfo.getBranchNm());
-//                                                mViewModel.importInventoryTask(BranchCode);
-//                                            } catch (Exception e){
-//                                                e.printStackTrace();
-//                                            }
-//                                        });
-//                                        mViewModel.isPermissionsGranted().observe(getViewLifecycleOwner(), isGranted -> {
-//                                            if (!isGranted) {
-//                                                mViewModel.getPermisions().observe(getViewLifecycleOwner(), strings -> ActivityCompat.requestPermissions(requireActivity(), strings, AppConstants.PERMISION_REQUEST_CODE));
-//                                            } else {
-//                                                initCamera();
-//                                            }
-//                                        });
-//                                        dialog.dismiss();
-//                                    }
-//
-//                                    @Override
-//                                    public void OnFailed(String message) {
-//                                        poMessage.initDialog();
-//                                        poMessage.setTitle("Selfie Login");
-//                                        poMessage.setMessage(message);
-//                                        poMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
-//                                        poMessage.show();
-//                                    }
-//                                });
-//                            }
-//
-//                            @Override
-//                            public void OnCancel() {
-////                                requireActivity().finish();
-//                            }
-//                        });
-//                    } else {
-//                        lblNotice.setVisibility(View.VISIBLE);
-//                    }
-//                } else {
-//                    mViewModel.isPermissionsGranted().observe(getViewLifecycleOwner(), isGranted -> {
-//                        if (!isGranted) {
-//                            mViewModel.getPermisions().observe(getViewLifecycleOwner(), strings -> ActivityCompat.requestPermissions(requireActivity(), strings, AppConstants.PERMISION_REQUEST_CODE));
-//                        } else {
-//                            initCamera();
-//                        }
-//                    });
-//                }
-//            } else {
-            mViewModel.isPermissionsGranted().observe(getViewLifecycleOwner(), isGranted -> {
-                if (!isGranted) {
-                    mViewModel.getPermisions().observe(getViewLifecycleOwner(), strings -> ActivityCompat.requestPermissions(requireActivity(), strings, AppConstants.PERMISION_REQUEST_CODE));
-                } else {
-                    initCamera();
-                }
-            });
-//            }
-        });
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == ImageFileCreator.GCAMERA){
-            if(resultCode == RESULT_OK){
-                poLog.setTransact(AppConstants.CURRENT_DATE);
-                poLog.setBranchCd(sSlectBranch);
-                poLog.setEmployID(poUser.getEmployID());
-                poLog.setLogTimex(new AppConstants().DATE_MODIFIED);
-                poLog.setLatitude(pnLatittude);
-                poLog.setLongitud(pnLongitude);
-                poLog.setSendStat("0");
-
-                poImage.setFileCode("0021");
-                poImage.setSourceNo(poUser.getClientID());
-                poImage.setDtlSrcNo(poUser.getUserIDxx());
-                poImage.setSourceCD("LOGa");
-                poImage.setImageNme(psFileNamex);
-                poImage.setFileLoct(psPhotoPath);
-                poImage.setLatitude(pnLatittude);
-                poImage.setLongitud(pnLongitude);
-                poImage.setMD5Hashx(WebFileServer.createMD5Hash(psPhotoPath));
-                poImage.setCaptured(new AppConstants().DATE_MODIFIED);
-                mViewModel.loginTimeKeeper(poLog, poImage, new VMSelfieLogin.OnLoginTimekeeperListener() {
-                    @Override
-                    public void OnLogin() {
-                        poLoad.initDialog("Selfie Log", "Sending your time in. Please wait...", false);
-                        poLoad.show();
-                    }
-
-                    @Override
-                    public void OnSuccess(String args) {
-                        try {
-                            poLoad.dismiss();
-                        } catch (Exception e){
-                            e.printStackTrace();
-                        }
-                        psPhotoPath = "";
-                        pnLatittude = "";
-                        pnLongitude = "";
-                        psFileNamex = "";
-                        showMessageDialog("Your time in has been save to server.");
-                    }
-
-                    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
-                    @Override
-                    public void OnFailed(String message) {
-                        try {
-                            poLoad.dismiss();
-                        } catch (Exception e){
-                            e.printStackTrace();
-                        }
-                        showMessageDialog("Your time in has been save.");
+        btnCamera.setOnClickListener(v -> {
+            long time = SystemClock.elapsedRealtime() - mLastClickTime;
+            if(time < 5000){
+                Toast.makeText(requireActivity(), "Please wait...", Toast.LENGTH_LONG).show();
+            } else {
+                mLastClickTime = SystemClock.elapsedRealtime();
+                mViewModel.isPermissionsGranted().observe(getViewLifecycleOwner(), isGranted -> {
+                    if (!isGranted) {
+                        mViewModel.getPermisions().observe(getViewLifecycleOwner(), strings -> ActivityCompat.requestPermissions(requireActivity(), strings, AppConstants.PERMISION_REQUEST_CODE));
+                    } else {
+                        initCamera();
                     }
                 });
             }
-        } else if(requestCode == GLocationManager.GLocationResCode){
-            boolean isEnabled = loLocation.isLocationEnabled();
-            if(isEnabled){
-                initCamera();
-            } else {
-                requestLocationEnabled();
-            }
-        }
+        });
+        return view;
+    }
+
+    private void initWidgets(View view){
+        lblUsername = view.findViewById(R.id.lbl_username);
+        lblPosition = view.findViewById(R.id.lbl_userPosition);
+        lblBranch = view.findViewById(R.id.lbl_userBranch);
+        lblNotice = view.findViewById(R.id.lbl_notice);
+        btnCamera = view.findViewById(R.id.btn_takeSelfie);
+        btnBranch = view.findViewById(R.id.btn_selectBranch);
+        recyclerView = view.findViewById(R.id.recyclerview_timeLog);
+
+        poImage = new EImageInfo();
+        poLog = new ELog_Selfie();
+        poLoad = new LoadDialog(requireActivity());
+        poMessage = new MessageBox(requireActivity());
+        loLocation = new GLocationManager(requireActivity());
     }
 
     private void initCamera(){
         try {
             ImageFileCreator loImage = new ImageFileCreator(requireActivity(), AppConstants.SUB_FOLDER_SELFIE_LOG, poUser.getUserIDxx());
-            loImage.CreateFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
-                new LocationRetriever(requireActivity(), requireActivity()).getLocation((message, latitude1, longitude1) -> {
-                    psPhotoPath = photPath;
-                    psFileNamex = FileName;
-                    pnLatittude = String.valueOf(latitude1);
-                    pnLongitude = String.valueOf(longitude1);
-                    startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
-                });
-            });
-        } catch(NullPointerException e) {
+            loImage.CreateFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> new LocationRetriever(requireActivity(), requireActivity()).getLocation((message, latitude1, longitude1) -> {
+                psPhotoPath = photPath;
+                psFileNamex = FileName;
+                pnLatittude = String.valueOf(latitude1);
+                pnLongitude = String.valueOf(longitude1);
+                openCamera.putExtra("android.intent.extras.CAMERA_FACING", 1);
+                poCamera.launch(openCamera);
+            }));
+        } catch(RuntimeException e) {
             e.printStackTrace();
-        } catch(RuntimeException r) {
-            r.printStackTrace();
         }
     }
 
@@ -418,7 +325,8 @@ public class Fragment_SelfieLogin extends Fragment {
             isDialogShown = false;
         });
         poMessage.setPositiveButton("Go to Settings", (view, dialog) -> {
-            startActivityForResult(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS), GLocationManager.GLocationResCode);
+            Intent loIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+            poSettings.launch(loIntent);
             dialog.dismiss();
             isDialogShown = false;
         });
@@ -445,5 +353,61 @@ public class Fragment_SelfieLogin extends Fragment {
             requireActivity().startActivity(loIntent);
             requireActivity().finish();
         }
+    }
+
+    private void SetupDialogForBranchList(){
+        mViewModel.CheckBranchList(new VMSelfieLogin.OnBranchCheckListener() {
+            @Override
+            public void OnCheck(List<EBranchInfo> area, List<EBranchInfo> all) {
+                new DialogBranchSelection(requireActivity(), area, all).initDialog(true, new DialogBranchSelection.OnBranchSelectedCallback() {
+                    @Override
+                    public void OnSelect(String BranchCode, AlertDialog dialog) {
+                        sSlectBranch = BranchCode;
+                        mViewModel.checkIfAlreadyLog(BranchCode, new VMSelfieLogin.OnBranchSelectedCallback() {
+                            @Override
+                            public void OnLoad() {
+                                poLoad.initDialog("Selfie Log", "Validating branch. Please wait...", false);
+                                poLoad.show();
+                            }
+
+                            @Override
+                            public void OnSuccess() {
+                                poLoad.dismiss();
+                                sSlectBranch = BranchCode;
+                                mViewModel.getBranchInfo(BranchCode).observe(getViewLifecycleOwner(), eBranchInfo -> {
+                                    try{
+                                        lblBranch.setText(eBranchInfo.getBranchNm());
+                                        mViewModel.importInventoryTask(BranchCode);
+                                    } catch (Exception e){
+                                        e.printStackTrace();
+                                    }
+                                });
+                            }
+
+                            @Override
+                            public void OnFailed(String message) {
+                                poLoad.dismiss();
+                                poMessage.initDialog();
+                                poMessage.setTitle("Selfie Login");
+                                poMessage.setMessage(message);
+                                poMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
+                                poMessage.show();
+                            }
+                        });
+                        dialog.dismiss();
+                    }
+
+                    @Override
+                    public void OnCancel() {
+//                        requireActivity().finish();
+                    }
+                });
+            }
+
+            @Override
+            public void OnFailed(String message) {
+
+            }
+        });
     }
 }

@@ -12,25 +12,16 @@
 package org.rmj.g3appdriver.GRider.Database.Repositories;
 
 import android.app.Application;
-import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.rmj.appdriver.base.GConnection;
-import org.rmj.apprdiver.util.SQLUtil;
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCIEvaluation;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DRelation;
-import org.rmj.g3appdriver.GRider.Database.DbConnection;
-import org.rmj.g3appdriver.GRider.Database.Entities.EBranchLoanApplication;
 import org.rmj.g3appdriver.GRider.Database.Entities.ERelation;
 import org.rmj.g3appdriver.GRider.Database.GGC_GriderDB;
 
-import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class RRelation {
@@ -63,12 +54,14 @@ public class RRelation {
             List<ERelation> relations = new ArrayList<>();
             for (int x = 0; x < faJson.length(); x++) {
                 JSONObject loJson = faJson.getJSONObject(x);
-                ERelation loanInfo = new ERelation();
-                loanInfo.setRelatnID(loJson.getString("sRelatnID"));
-                loanInfo.setRelatnDs(loJson.getString("sRelatnDs"));
-                loanInfo.setRecdStats(loJson.getString("cRecdStat"));;
-                loanInfo.setTimeStmp(loJson.getString("dTimeStmp"));
-                relations.add(loanInfo);
+                if(relDao.CheckIfExist(loJson.getString("sRelatnID")) == null) {
+                    ERelation loanInfo = new ERelation();
+                    loanInfo.setRelatnID(loJson.getString("sRelatnID"));
+                    loanInfo.setRelatnDs(loJson.getString("sRelatnDs"));
+                    loanInfo.setRecdStats(loJson.getString("cRecdStat"));
+                    loanInfo.setTimeStmp(loJson.getString("dTimeStmp"));
+                    relations.add(loanInfo);
+                }
             }
             relDao.insertBulkData(relations);
             return true;
@@ -78,4 +71,7 @@ public class RRelation {
         }
     }
 
+    public Integer GetRelationRecordsCount(){
+        return relDao.GetRelationRecordsCount();
+    }
 }

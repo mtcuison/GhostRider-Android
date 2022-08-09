@@ -29,13 +29,12 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECodeApproval;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RApprovalCode;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
-import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
+import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.g3appdriver.utils.WebClient;
-import org.rmj.guanzongroup.ghostrider.approvalcode.Etc.ViewModelCallback;
 import org.rmj.guanzongroup.ghostrider.approvalcode.Model.ManualLog;
 
 import java.util.List;
@@ -168,7 +167,7 @@ public class VMManualLog extends AndroidViewModel {
                                         String TransNox = loResponse.getString("sTransNox");
                                         loApproval.updateUploaded(detail.getTransNox(), TransNox);
                                         Log.d(TAG, "Approval Code has been uploaded to server");
-                                    } else {
+                                     } else {
                                         JSONObject loError = loResponse.getJSONObject("error");
                                         String message = loError.getString("message");
                                         Log.d(TAG, "Failed to upload approval code. " + message);

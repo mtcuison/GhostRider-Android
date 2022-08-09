@@ -11,13 +11,12 @@
 
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments;
 
+import static android.app.Activity.RESULT_OK;
+
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,37 +27,34 @@ import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
-import org.rmj.g3appdriver.GRider.Etc.LocationRetriever;
-import org.rmj.g3appdriver.etc.WebFileServer;
-import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import org.rmj.g3appdriver.GRider.Constants.AppConstants;
+import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
+import org.rmj.g3appdriver.GRider.Etc.LocationRetriever;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_Transaction;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogImagePreview;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.PromiseToPayModel;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMPromiseToPay;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.ViewModelCallback;
+import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
 
-import java.io.File;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Objects;
-
-import static android.app.Activity.RESULT_OK;
 
 public class Fragment_PromiseToPay extends Fragment implements ViewModelCallback {
 
@@ -82,6 +78,23 @@ public class Fragment_PromiseToPay extends Fragment implements ViewModelCallback
     private int EntryNox;
     private MessageBox poMessage;
 
+    private final ActivityResultLauncher<Intent> poCamera = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+        @Override
+        public void onActivityResult(ActivityResult result) {
+            if(result.getResultCode() == RESULT_OK) {
+                try {
+                    poImageInfo.setMD5Hashx(WebFileServer.createMD5Hash(infoModel.getPtpImgPath()));
+                    mViewModel.saveImageInfo(poImageInfo);
+                    submitPtp(Remarksx);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }else {
+                infoModel.setPtpImgPath("");
+            }
+        }
+    });
+
     public static Fragment_PromiseToPay newInstance() {
         return new Fragment_PromiseToPay();
     }
@@ -89,45 +102,16 @@ public class Fragment_PromiseToPay extends Fragment implements ViewModelCallback
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        mViewModel = new ViewModelProvider(requireActivity()).get(VMPromiseToPay.class);
         View view = inflater.inflate(R.layout.fragment_promise_to_pay, container, false);
         infoModel = new PromiseToPayModel();
         poMessage = new MessageBox(getActivity());
-        initWidgets(view);
-
-        return view;
-    }
-
-    private void initWidgets(View v) {
-        lblBranch = v.findViewById(R.id.lbl_headerBranch);
-        lblAddress = v.findViewById(R.id.lbl_headerAddress);
-
-        lblAccNo = v.findViewById(R.id.tvAccountNo);
-        lblClientNm = v.findViewById(R.id.tvClientname);
-        lblTransNo = v.findViewById(R.id.lbl_dcpTransNo);
-
-        lblImgPath = v.findViewById(R.id.tvImgPath);
-
-        tilBranchName = v.findViewById(R.id.til_ptp_branchName);
-        ptpDate = v.findViewById(R.id.pToPayDate);
-        ptpBranchName = v.findViewById(R.id.txt_ptp_branchName);
-        rgPtpAppUnit = v.findViewById(R.id.rb_ap_ptpBranch);
-        ptpRemark = v.findViewById(R.id.tie_ptp_Remarks);
-        ptpCollName = v.findViewById(R.id.txt_ptp_collectorName);
-        btnPtp = v.findViewById(R.id.btn_ptp_submit);
-//        btnCamera = v.findViewById(R.id.imgPtpCamera);
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        //Initialize Parameters...
         Remarksx = Activity_Transaction.getInstance().getRemarksCode();
         TransNox = Activity_Transaction.getInstance().getTransNox();
         EntryNox = Activity_Transaction.getInstance().getEntryNox();
         AccntNox = Activity_Transaction.getInstance().getAccntNox();
+        initWidgets(view);
 
-        mViewModel = new ViewModelProvider(this).get(VMPromiseToPay.class);
         mViewModel.setParameter(TransNox, EntryNox, Remarksx);
         mViewModel.setViewPtpBranch().observe(getViewLifecycleOwner(), integer -> tilBranchName.setVisibility(integer));
         mViewModel.getPtpDate().observe(getViewLifecycleOwner(), date -> ptpDate.setText(date));
@@ -155,7 +139,7 @@ public class Fragment_PromiseToPay extends Fragment implements ViewModelCallback
             ptpBranchName.setAdapter(adapter);
         });
 
-        ptpBranchName.setOnItemClickListener((adapterView, view, i, l) -> mViewModel.getAllBranchInfo().observe(getViewLifecycleOwner(), eBranchInfos -> {
+        ptpBranchName.setOnItemClickListener((adapterView, v, i, l) -> mViewModel.getAllBranchInfo().observe(getViewLifecycleOwner(), eBranchInfos -> {
             for(int x = 0; x < eBranchInfos.size(); x++){
                 if(ptpBranchName.getText().toString().equalsIgnoreCase(eBranchInfos.get(x).getBranchNm())){
                     mViewModel.setBanchCde(eBranchInfos.get(x).getBranchCd());
@@ -176,7 +160,7 @@ public class Fragment_PromiseToPay extends Fragment implements ViewModelCallback
         ptpDate.setOnClickListener(v ->  {
             final Calendar newCalendar = Calendar.getInstance();
             @SuppressLint("SimpleDateFormat") final SimpleDateFormat dateFormatter = new SimpleDateFormat("MMMM dd, yyyy");
-            final DatePickerDialog  StartTime = new DatePickerDialog(getActivity(), (view131, year, monthOfYear, dayOfMonth) -> {
+            final DatePickerDialog StartTime = new DatePickerDialog(getActivity(), (view131, year, monthOfYear, dayOfMonth) -> {
                 Calendar newDate = Calendar.getInstance();
                 newDate.set(year, monthOfYear, dayOfMonth);
                 lsDate = dateFormatter.format(newDate.getTime());
@@ -195,27 +179,28 @@ public class Fragment_PromiseToPay extends Fragment implements ViewModelCallback
                 e.printStackTrace();
             }
         });
-        // TODO: Use the ViewModel
+
+        return view;
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        Log.e("REQUEST CODE", String.valueOf(requestCode));
-        Log.e("RESULT CODE", String.valueOf(resultCode));
-        if(requestCode == ImageFileCreator.GCAMERA){
-            if(resultCode == RESULT_OK) {
-                try {
-                    poImageInfo.setMD5Hashx(WebFileServer.createMD5Hash(infoModel.getPtpImgPath()));
-                    mViewModel.saveImageInfo(poImageInfo);
-                    submitPtp(Remarksx);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }else {
-                infoModel.setPtpImgPath("");
-            }
-        }
+    private void initWidgets(View v) {
+        lblBranch = v.findViewById(R.id.lbl_headerBranch);
+        lblAddress = v.findViewById(R.id.lbl_headerAddress);
+
+        lblAccNo = v.findViewById(R.id.tvAccountNo);
+        lblClientNm = v.findViewById(R.id.tvClientname);
+        lblTransNo = v.findViewById(R.id.lbl_dcpTransNo);
+
+        lblImgPath = v.findViewById(R.id.tvImgPath);
+
+        tilBranchName = v.findViewById(R.id.til_ptp_branchName);
+        ptpDate = v.findViewById(R.id.pToPayDate);
+        ptpBranchName = v.findViewById(R.id.txt_ptp_branchName);
+        rgPtpAppUnit = v.findViewById(R.id.rb_ap_ptpBranch);
+        ptpRemark = v.findViewById(R.id.tie_ptp_Remarks);
+        ptpCollName = v.findViewById(R.id.txt_ptp_collectorName);
+        btnPtp = v.findViewById(R.id.btn_ptp_submit);
+//        btnCamera = v.findViewById(R.id.imgPtpCamera);
     }
 //
     @Override
@@ -274,7 +259,6 @@ public class Fragment_PromiseToPay extends Fragment implements ViewModelCallback
 
     public void submitPtp(String remarks) throws Exception{
         //save ImageInfo...
-
         //Saving CollectionDetail...
         infoModel.setPtpDate(Objects.requireNonNull(ptpDate.getText().toString()));
         infoModel.setPtpRemCode(remarks);
@@ -309,7 +293,8 @@ public class Fragment_PromiseToPay extends Fragment implements ViewModelCallback
                             mViewModel.setLatitude(String.valueOf(latitude1));
                             mViewModel.setLongitude(String.valueOf(longitude1));
                             mViewModel.setImgName(FileName);
-                            startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
+                            openCamera.putExtra("android.intent.extras.CAMERA_FACING", 1);
+                            poCamera.launch(openCamera);
                         });
                     } catch (Exception e) {
                         e.printStackTrace();

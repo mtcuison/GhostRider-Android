@@ -91,18 +91,23 @@ public class ImportProvinces implements ImportInstance{
         protected String doInBackground(JSONObject... jsonObjects) {
             String response = "";
             try {
-                if(conn.isDeviceConnected()) {
-                    response = WebClient.httpsPostJSon(poApi.getUrlImportProvince(loConfig.isBackUpServer()), jsonObjects[0].toString(), headers.getHeaders());
-                    JSONObject loJson = new JSONObject(response);
-                    Log.e(TAG, loJson.getString("result"));
-                    String lsResult = loJson.getString("result");
-                    if(lsResult.equalsIgnoreCase("success")){
-                        JSONArray laJson = loJson.getJSONArray("detail");
-                        saveDataToLocal(laJson);
+                if(repository.GetProvinceRecordsCount() == 0) {
+                    if (conn.isDeviceConnected()) {
+                        response = WebClient.httpsPostJSon(poApi.getUrlImportProvince(loConfig.isBackUpServer()), jsonObjects[0].toString(), headers.getHeaders());
+                        JSONObject loJson = new JSONObject(response);
+                        Log.e(TAG, loJson.getString("result"));
+                        String lsResult = loJson.getString("result");
+                        if (lsResult.equalsIgnoreCase("success")) {
+                            JSONArray laJson = loJson.getJSONArray("detail");
+                            saveDataToLocal(laJson);
+                        }
+                    } else {
+                        response = AppConstants.NO_INTERNET();
                     }
                 } else {
-                    response = AppConstants.NO_INTERNET();
+                    response = AppConstants.LOCAL_EXCEPTION_ERROR("Records exists.");
                 }
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -136,12 +141,14 @@ public class ImportProvinces implements ImportInstance{
             List<EProvinceInfo> provinceInfoList = new ArrayList<>();
             for(int x = 0; x < laJson.length(); x++){
                 JSONObject loJson = new JSONObject(laJson.getString(x));
-                EProvinceInfo provinceInfo = new EProvinceInfo();
-                provinceInfo.setProvIDxx(loJson.getString("sProvIDxx"));
-                provinceInfo.setProvName(loJson.getString("sProvName"));
-                provinceInfo.setRecdStat(loJson.getString("cRecdStat").charAt(0));
-                provinceInfo.setTimeStmp(loJson.getString("dTimeStmp"));
-                provinceInfoList.add(provinceInfo);
+                if(repository.CheckIfExist(loJson.getString("sProvIDxx")) == null) {
+                    EProvinceInfo provinceInfo = new EProvinceInfo();
+                    provinceInfo.setProvIDxx(loJson.getString("sProvIDxx"));
+                    provinceInfo.setProvName(loJson.getString("sProvName"));
+                    provinceInfo.setRecdStat(loJson.getString("cRecdStat").charAt(0));
+                    provinceInfo.setTimeStmp(loJson.getString("dTimeStmp"));
+                    provinceInfoList.add(provinceInfo);
+                }
             }
             repository.insertBulkInfo(provinceInfoList);
         }

@@ -16,7 +16,6 @@ import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
-import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
@@ -27,11 +26,17 @@ import java.util.List;
 @Dao
 public interface DOccupationInfo {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert()
     void insertBulkData(List<EOccupationInfo> occupationInfos);
 
     @Update
     void update(EOccupationInfo occupationInfo);
+
+    @Query("SELECT COUNT(*) FROM Occupation_Info")
+    Integer GetOccupationRecordsCount();
+
+    @Query("SELECT * FROM Occupation_Info WHERE sOccptnID=:fsVal")
+    EOccupationInfo CheckIfExist(String fsVal);
 
     @Delete
     void delete(EOccupationInfo occupationInfo);

@@ -11,17 +11,19 @@
 
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -53,7 +55,7 @@ public class Activity_CashCountSubmit extends AppCompatActivity implements VMCas
     private TextInputLayout tilPrvnlRcpt;
     private TextInputLayout tilCllctRcpt;
 
-    private boolean isTapSubmit = false;
+    private long mLastClickTime = 0;
 
     private TextInputEditText txtCurr_DateTime,
             txtRequestID,
@@ -114,37 +116,39 @@ public class Activity_CashCountSubmit extends AppCompatActivity implements VMCas
             }
         });
         btnSendToServer.setOnClickListener(v->{
-            if (isTapSubmit) {
-                return;
-            }
-            this.isTapSubmit = true;
-            JSONObject parameters = getParameters();
-            try{
-                double lnPetty = 0.0;
-                if(!txtPettyCashxxx.getText().toString().trim().isEmpty()){
-                    lnPetty = Double.parseDouble(Objects.requireNonNull(txtPettyCashxxx.getText()).toString().replace(",", ""));
+            long time = SystemClock.elapsedRealtime() - mLastClickTime;
+            if(time < 5000){
+                Toast.makeText(Activity_CashCountSubmit.this, "Please wait...", Toast.LENGTH_LONG).show();
+            } else {
+                mLastClickTime = SystemClock.elapsedRealtime();
+                JSONObject parameters = getParameters();
+                try{
+                    double lnPetty = 0.0;
+                    if(!txtPettyCashxxx.getText().toString().trim().isEmpty()){
+                        lnPetty = Double.parseDouble(Objects.requireNonNull(txtPettyCashxxx.getText()).toString().replace(",", ""));
+                    }
+                    parameters.put("sTransNox", Objects.requireNonNull(txtTransNox.getText()).toString());
+                    parameters.put("sBranchCd", BranchCd);
+                    parameters.put("nPettyAmt", lnPetty);
+                    parameters.put("sORNoxxxx", Objects.requireNonNull(txtOfficialReceipt.getText()).toString());
+                    parameters.put("sSINoxxxx", Objects.requireNonNull(txtSalesInvoice.getText()).toString());
+                    parameters.put("sPRNoxxxx", Objects.requireNonNull(txtProvisionalReceipt.getText()).toString());
+                    parameters.put("sCRNoxxxx", Objects.requireNonNull(txtCollectionReceipt.getText()).toString());
+                    parameters.put("sORNoxNPt", Objects.requireNonNull(txtORNorthPoint.getText()).toString());
+                    parameters.put("sPRNoxNPt", Objects.requireNonNull(txtPRNorthPoint.getText()).toString());
+                    parameters.put("sDRNoxxxx", Objects.requireNonNull(txtDeliveryRcpt.getText()).toString());
+                    parameters.put("dTransact", AppConstants.CURRENT_DATE);
+                    parameters.put("dEntryDte", new AppConstants().DATE_MODIFIED);
+                    parameters.put("sReqstdBy", EmployID);
+                    infoModel.setCrNoxxxx(txtCollectionReceipt.getText().toString());
+                    infoModel.setPrNoxxxx(txtProvisionalReceipt.getText().toString());
+                    infoModel.setSiNoxxxx(txtSalesInvoice.getText().toString());
+                    infoModel.setOrNoxxxx(txtOfficialReceipt.getText().toString());
+                    infoModel.setEntryTme(new AppConstants().DATE_MODIFIED);
+                    mViewModel.saveCashCount(infoModel, parameters, Activity_CashCountSubmit.this);
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-                parameters.put("sTransNox", Objects.requireNonNull(txtTransNox.getText()).toString());
-                parameters.put("sBranchCd", BranchCd);
-                parameters.put("nPettyAmt", lnPetty);
-                parameters.put("sORNoxxxx", Objects.requireNonNull(txtOfficialReceipt.getText()).toString());
-                parameters.put("sSINoxxxx", Objects.requireNonNull(txtSalesInvoice.getText()).toString());
-                parameters.put("sPRNoxxxx", Objects.requireNonNull(txtProvisionalReceipt.getText()).toString());
-                parameters.put("sCRNoxxxx", Objects.requireNonNull(txtCollectionReceipt.getText()).toString());
-                parameters.put("sORNoxNPt", Objects.requireNonNull(txtORNorthPoint.getText()).toString());
-                parameters.put("sPRNoxNPt", Objects.requireNonNull(txtPRNorthPoint.getText()).toString());
-                parameters.put("sDRNoxxxx", Objects.requireNonNull(txtDeliveryRcpt.getText()).toString());
-                parameters.put("dTransact", AppConstants.CURRENT_DATE);
-                parameters.put("dEntryDte", new AppConstants().DATE_MODIFIED);
-                parameters.put("sReqstdBy", EmployID);
-                infoModel.setCrNoxxxx(txtCollectionReceipt.getText().toString());
-                infoModel.setPrNoxxxx(txtProvisionalReceipt.getText().toString());
-                infoModel.setSiNoxxxx(txtSalesInvoice.getText().toString());
-                infoModel.setOrNoxxxx(txtOfficialReceipt.getText().toString());
-                infoModel.setEntryTme(new AppConstants().DATE_MODIFIED);
-                mViewModel.saveCashCount(infoModel, parameters, Activity_CashCountSubmit.this);
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
         });
     }
@@ -256,7 +260,6 @@ public class Activity_CashCountSubmit extends AppCompatActivity implements VMCas
 
     @Override
     public void onSuccessSaveCashCount() {
-        isTapSubmit = false;
         poMessage.initDialog();
         poMessage.setTitle("Cast Count");
         poMessage.setMessage("Cash count has been saved successfully.");
@@ -270,7 +273,6 @@ public class Activity_CashCountSubmit extends AppCompatActivity implements VMCas
     @Override
     public void onSaveCashCountFailed(String message) {
         initDialog("Cash Count",message);
-        isTapSubmit = false;
 //        checkEmployeeLevelForInventory();
     }
 

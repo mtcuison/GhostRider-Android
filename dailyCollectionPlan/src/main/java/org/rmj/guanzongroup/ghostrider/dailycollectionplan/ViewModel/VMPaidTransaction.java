@@ -13,12 +13,10 @@ package org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel;
 
 import android.app.Application;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -33,16 +31,18 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBankInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
+import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Http.WebClient;
 import org.rmj.g3appdriver.dev.Telephony;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.PaidTransactionModel;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -77,6 +77,8 @@ public class VMPaidTransaction extends AndroidViewModel {
         this.poBranch = new RBranch(application);
         this.poDcp = new RDailyCollectionPlan(application);
         this.pnDsCntx.setValue((double) 0);
+        this.pnOthers.setValue((double) 0);
+        this.pnAmount.setValue((double) 0);
         this.pnOthers.setValue((double) 0);
         this.poBank = new RBankInfo(application);
         this.poConfig = AppConfigPreference.getInstance(application);
@@ -203,8 +205,11 @@ public class VMPaidTransaction extends AndroidViewModel {
     private void calculatePenalty(){
         try {
             EDCPCollectionDetail loDetail = poDcpDetail.getValue();
-            Date ldPurchase = new Date(loDetail.getPurchase());
-            Date ldDueDatex = new Date(loDetail.getDueDatex());
+            DateFormat loFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date ldPurchase = loFormat.parse(loDetail.getPurchase());
+            Date ldDueDatex = loFormat.parse(loDetail.getDueDatex());
+            Log.d(TAG, "Date Purchase: "+ ldPurchase);
+            Log.d(TAG, "Due Date: "+ ldDueDatex);
             double lnMonAmort = Double.parseDouble(loDetail.getMonAmort());
             double lnABalance = Double.parseDouble(loDetail.getABalance());
             double lnAmtPaidx = pnAmtDue.getValue();
@@ -259,7 +264,6 @@ public class VMPaidTransaction extends AndroidViewModel {
             callback.OnStartSaving();
         }
 
-        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         @Override
         protected String doInBackground(String... strings) {
             String lsResponse;

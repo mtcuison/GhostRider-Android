@@ -13,10 +13,6 @@ package org.rmj.g3appdriver.GRider.ImportData;
 
 import android.app.Application;
 import android.os.AsyncTask;
-import android.os.Build;
-import android.util.Log;
-
-import androidx.annotation.RequiresApi;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -74,7 +70,6 @@ public class Import_BankList implements ImportInstance{
         }
 
 
-        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         @Override
         protected String doInBackground(JSONObject... jsonObjects) {
             String response = "";

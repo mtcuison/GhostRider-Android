@@ -11,21 +11,21 @@
 
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment;
 
-import androidx.lifecycle.ViewModelProvider;
-
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
+import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -57,6 +57,8 @@ public class Fragment_LeaveApplication extends Fragment {
     private LoadDialog poProgress;
     private MessageBox poMessage;
 
+    private long mLastClickTime = 0;
+
     public static Fragment_LeaveApplication newInstance() {
         return new Fragment_LeaveApplication();
     }
@@ -80,12 +82,7 @@ public class Fragment_LeaveApplication extends Fragment {
 
         poProgress = new LoadDialog(getActivity());
         poMessage = new MessageBox(getActivity());
-        return view;
-    }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VMLeaveApplication.class);
         poLeave = new LeaveApplication();
         mViewModel.getUserInfo().observe(getViewLifecycleOwner(), eEmployeeInfo -> {
@@ -112,7 +109,7 @@ public class Fragment_LeaveApplication extends Fragment {
         txtDateFrom.setOnClickListener(v -> {
             final Calendar newCalendar = Calendar.getInstance();
             @SuppressLint("SimpleDateFormat") final SimpleDateFormat dateFormatter = new SimpleDateFormat("MMMM dd, yyyy");
-            final DatePickerDialog dateFrom = new DatePickerDialog(getActivity(), (view, year, month, dayOfMonth) -> {
+            final DatePickerDialog dateFrom = new DatePickerDialog(getActivity(), (viewx, year, month, dayOfMonth) -> {
                 try {
                     Calendar newDate = Calendar.getInstance();
                     newDate.set(year, month, dayOfMonth);
@@ -143,7 +140,7 @@ public class Fragment_LeaveApplication extends Fragment {
             if(!Objects.requireNonNull(txtDateFrom.getText()).toString().isEmpty()) {
                 final Calendar newCalendar = Calendar.getInstance();
                 @SuppressLint("SimpleDateFormat") final SimpleDateFormat dateFormatter = new SimpleDateFormat("MMMM dd, yyyy");
-                @SuppressLint("SetTextI18n") final DatePickerDialog dateFrom = new DatePickerDialog(getActivity(), (view, year, month, dayOfMonth) -> {
+                @SuppressLint("SetTextI18n") final DatePickerDialog dateFrom = new DatePickerDialog(getActivity(), (viewx, year, month, dayOfMonth) -> {
                     Calendar newDate = Calendar.getInstance();
                     newDate.set(year, month, dayOfMonth);
                     try {
@@ -170,46 +167,58 @@ public class Fragment_LeaveApplication extends Fragment {
         });
 
         btnSubmit.setOnClickListener(v -> {
-            poLeave.setLeaveType(String.valueOf(spnType.getSelectedItemPosition()));
-            poLeave.setDateFromx(Objects.requireNonNull(txtDateFrom.getText()).toString());
-            poLeave.setDateThrux(Objects.requireNonNull(txtDateTo.getText()).toString());
-            poLeave.setNoOfDaysx(Integer.parseInt(Objects.requireNonNull(txtNoDays.getText()).toString()));
-            poLeave.setRemarksxx(Objects.requireNonNull(txtRemarks.getText()).toString());
-            mViewModel.SaveApplication(poLeave, new VMLeaveApplication.LeaveApplicationCallback() {
-                @Override
-                public void OnSave(String Title, String message) {
-                    poProgress.initDialog(Title, message, false);
-                    poProgress.show();
+            long time = SystemClock.elapsedRealtime() - mLastClickTime;
+            if(time < 5000) {
+                Toast.makeText(requireContext(), "Please wait...", Toast.LENGTH_LONG).show();
+            } else {
+                mLastClickTime = SystemClock.elapsedRealtime();
+                poLeave.setLeaveType(String.valueOf(spnType.getSelectedItemPosition()));
+                poLeave.setDateFromx(Objects.requireNonNull(txtDateFrom.getText()).toString());
+                poLeave.setDateThrux(Objects.requireNonNull(txtDateTo.getText()).toString());
+                String lsNoDays = Objects.requireNonNull(txtNoDays.getText()).toString();
+                int lnNoDays = 0;
+                if (!lsNoDays.trim().isEmpty()) {
+                    lnNoDays = Integer.parseInt(lsNoDays);
                 }
+                poLeave.setNoOfDaysx(lnNoDays);
+                poLeave.setRemarksxx(Objects.requireNonNull(txtRemarks.getText()).toString());
+                mViewModel.SaveApplication(poLeave, new VMLeaveApplication.LeaveApplicationCallback() {
+                    @Override
+                    public void OnSave(String Title, String message) {
+                        poProgress.initDialog(Title, message, false);
+                        poProgress.show();
+                    }
 
-                @Override
-                public void OnSuccess() {
-                    poProgress.dismiss();
-                    poMessage.initDialog();
-                    poMessage.setTitle("Leave Application");
-                    poMessage.setMessage("Your leave application has been submitted.");
-                    poMessage.setPositiveButton("Okay", (view, dialog) -> {
-                        dialog.dismiss();
-                        spnType.setSelection(0);
-                        txtDateFrom.setText("");
-                        txtDateTo.setText("");
-                        txtNoDays.setText("");
-                        txtRemarks.setText("");
-                    });
-                    poMessage.show();
-                }
+                    @Override
+                    public void OnSuccess() {
+                        poProgress.dismiss();
+                        poMessage.initDialog();
+                        poMessage.setTitle("Leave Application");
+                        poMessage.setMessage("Your leave application has been submitted.");
+                        poMessage.setPositiveButton("Okay", (view, dialog) -> {
+                            dialog.dismiss();
+                            spnType.setSelection(0);
+                            txtDateFrom.setText("");
+                            txtDateTo.setText("");
+                            txtNoDays.setText("");
+                            txtRemarks.setText("");
+                            requireActivity().finish();
+                        });
+                        poMessage.show();
+                    }
 
-                @Override
-                public void OnFailed(String message) {
-                    poProgress.dismiss();
-                    poMessage.initDialog();
-                    poMessage.setTitle("Leave Application");
-                    poMessage.setMessage(message);
-                    poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-                    poMessage.show();
-                }
-            });
+                    @Override
+                    public void OnFailed(String message) {
+                        poProgress.dismiss();
+                        poMessage.initDialog();
+                        poMessage.setTitle("Leave Application");
+                        poMessage.setMessage(message);
+                        poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                        poMessage.show();
+                    }
+                });
+            }
         });
+        return view;
     }
-
 }

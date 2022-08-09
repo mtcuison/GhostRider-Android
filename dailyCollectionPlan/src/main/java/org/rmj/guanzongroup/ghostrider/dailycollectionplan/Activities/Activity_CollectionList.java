@@ -28,8 +28,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -47,16 +50,14 @@ import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
-import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
-import org.rmj.g3appdriver.etc.AppAssistantConfig;
 import org.rmj.g3appdriver.utils.DayCheck;
 import org.rmj.g3appdriver.utils.FileRemover;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter.CollectionAdapter;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogAccountDetail;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogConfirmPost;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogAddCollection;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogConfirmPost;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.Dialog_ClientSearch;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.Dialog_DebugEntry;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
@@ -64,9 +65,7 @@ import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Service.GLocatorService;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMCollectionList;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.ViewModelCallback;
-import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_Help;
 
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URI;
@@ -107,6 +106,34 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
     private JSONObject poDcpData;
 
     private List<DDCPCollectionDetail.CollectionDetail> plDetail;
+
+    private final ActivityResultLauncher<Intent> poImport = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+        if(result.getResultCode() == RESULT_OK){
+            Intent loIntent = result.getData();
+            Uri uri = loIntent.getData();
+            importDataFromFile(uri);
+        }
+    });
+
+    private final ActivityResultLauncher<Intent> poExport = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+        @Override
+        public void onActivityResult(ActivityResult result) {
+            if(result.getResultCode() == RESULT_OK){
+                Intent loIntent = result.getData();
+                Uri uri = loIntent.getData();
+                exportCollectionList(uri, poDcpData);
+                mViewModel.setExportedDCP(false);
+            }
+        }
+    });
+
+    private final ActivityResultLauncher<Intent> poDialer = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+        if(result.getResultCode() == RESULT_OK){
+
+        } else {
+
+        }
+    });
 
     @SuppressLint("NewApi")
     @Override
@@ -180,11 +207,8 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
                         e.printStackTrace();
                     }
 
-                    startActivityForResult(intent, PICK_TEXT_FILE);
+                    poImport.launch(intent);
                 });
-//                } else{
-//                        lnPosted.setVisibility(View.VISIBLE);
-//                    }
 
                 // Remove old files every monday (with confirmation)
                 deleteOldFileSchedule();
@@ -194,20 +218,12 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
                 @Override
                 public void OnClick(int position) {
                     showTransaction(position,collectionDetails);
-//                    if (!AppAssistantConfig.getInstance(Activity_CollectionList.this).getASSIST_DCP_TRANSACTION()){
-//                        Intent intent = new Intent(Activity_CollectionList.this, Activity_Help.class);
-//                        intent.putExtra("help", AppConstants.INTENT_TRANSACTION_DCP);
-//                        startActivityForResult(intent, AppConstants.INTENT_TRANSACTION_DCP);
-//                        DCP_Constants.collectionPos = position;
-//                    }else{
-//                    }
-
                 }
 
                 @Override
                 public void OnMobileNoClickListener(String MobileNo) {
                     Intent mobileIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", MobileNo, null));
-                    startActivityForResult(mobileIntent, MOBILE_DIALER);
+                    poDialer.launch(mobileIntent);
                 }
 
                 @Override
@@ -310,13 +326,13 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
         if(item.getItemId() == android.R.id.home){
             finish();
         } else if(item.getItemId() == R.id.action_menu_add_collection){
-            if (!AppAssistantConfig.getInstance(Activity_CollectionList.this).getASSIST_DCP_ADD()){
-                Intent intent = new Intent(Activity_CollectionList.this, Activity_Help.class);
-                intent.putExtra("help", AppConstants.INTENT_ADD_COLLECTION_DCP);
-                startActivityForResult(intent, AppConstants.INTENT_ADD_COLLECTION_DCP);
-            }else {
-                showAddDcpCollection();
-            }
+            showAddDcpCollection();
+//            if (!AppAssistantConfig.getInstance(Activity_CollectionList.this).getASSIST_DCP_ADD()){
+//                Intent intent = new Intent(Activity_CollectionList.this, Activity_Help.class);
+//                intent.putExtra("help", AppConstants.INTENT_ADD_COLLECTION_DCP);
+//                startActivityForResult(intent, AppConstants.INTENT_ADD_COLLECTION_DCP);
+//            }else {
+//            }
         } else if (item.getItemId() == R.id.action_menu_post_collection) {
             showPostCollection();
         } else if (item.getItemId() == R.id.action_menu_image_log) {
@@ -422,16 +438,11 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
         }else if (requestCode == AppConstants.INTENT_ADD_COLLECTION_DCP && resultCode == RESULT_OK){
             showAddDcpCollection();
         }else if (requestCode == AppConstants.INTENT_TRANSACTION_DCP && resultCode == RESULT_OK){
-            mViewModel.getCollectionList().observe(this, collectionDetails -> {
-                showTransaction(DCP_Constants.collectionPos, collectionDetails);
-            });
+            mViewModel.getCollectionList().observe(this, collectionDetails -> showTransaction(DCP_Constants.collectionPos, collectionDetails));
         }else if(requestCode == PICK_TEXT_FILE && resultCode == RESULT_OK){
-            Uri uri = data.getData();
-            importDataFromFile(uri);
+
         }else if(requestCode == EXPORT_TEXT_FILE && resultCode == RESULT_OK){
-            Uri uri = data.getData();
-            exportCollectionList(uri, poDcpData);
-            mViewModel.setExportedDCP(false);
+
         }
     }
 
@@ -616,65 +627,6 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
 
                     });
                         /** Comment the following out to use DCPManager function */
-//                    }
-//                    else if(fsType.equalsIgnoreCase("1")) {
-//                        Dialog_ClientSearch loClient = new Dialog_ClientSearch(Activity_CollectionList.this);
-//                        mViewModel.importInsuranceInfo(clientName, new VMCollectionList.OnDownloadClientList() {
-//                            @Override
-//                            public void OnDownload() {
-//                                poDialogx.initDialog("Daily Collection Plan", "Searching client. Please wait...", false);
-//                                poDialogx.show();
-//                            }
-//
-//                            @Override
-//                            public void OnSuccessDownload(List<EDCPCollectionDetail> collectionDetails) {
-//                                poDialogx.dismiss();
-//                                loClient.initDialog(collectionDetails, new Dialog_ClientSearch.OnClientSelectListener() {
-//                                    @Override
-//                                    public void OnSelect(AlertDialog clientDialog, EDCPCollectionDetail detail) {
-//                                        /**
-//                                         * validation if user accidentally tap on list on
-//                                         *
-//                                         */
-//                                        poMessage.initDialog();
-//                                        poMessage.setTitle("Add Collection");
-//                                        poMessage.setMessage("Add " + detail.getFullName() + " with account number " +
-//                                                detail.getAcctNmbr() + " to list of collection?");
-//                                        poMessage.setPositiveButton("Yes", (view, msgDialog) -> {
-//                                            clientDialog.dismiss();
-//                                            mViewModel.insertAddedCollectionDetail(detail, message -> {
-//                                                GToast.CreateMessage(Activity_CollectionList.this, message, GToast.INFORMATION).show();
-//                                                msgDialog.dismiss();
-//                                            });
-//                                        });
-//                                        poMessage.setNegativeButton("No", (view, msgDialog) -> msgDialog.dismiss());
-//                                        poMessage.show();
-//                                    }
-//
-//                                    @Override
-//                                    public void OnCancel(AlertDialog clientDialog) {
-//                                        clientDialog.dismiss();
-//
-//                                            /*
-//                                            Show Add collection dialog if user cancels search client list
-//                                             */
-//                                        loDialog.show();
-//                                    }
-//                                });
-//                                loClient.show();
-//                            }
-//
-//                            @Override
-//                            public void OnFailedDownload(String message) {
-//                                poDialogx.dismiss();
-//                                poMessage.initDialog();
-//                                poMessage.setTitle("Daily Collection Plan");
-//                                poMessage.setMessage(message);
-//                                poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-//                                poMessage.show();
-//                            }
-//                        });
-//                    }
                 }
 
                 @Override
@@ -754,9 +706,6 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
             pfd.close();
 
             return true;
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return false;
         } catch (IOException e) {
             e.printStackTrace();
             return false;
@@ -882,6 +831,6 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
         // the system file picker when your app creates the document.
         Uri loDocs = Uri.parse(String.valueOf(getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)));
         intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, loDocs);
-        startActivityForResult(intent, EXPORT_TEXT_FILE);
+        poExport.launch(intent);
     }
 }
