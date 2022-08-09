@@ -7,8 +7,10 @@ import androidx.lifecycle.LiveData;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.rmj.apprdiver.util.SQLUtil;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditOnlineApplicationCI;
+import org.rmj.g3appdriver.GRider.Database.Entities.EBranchLoanApplication;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditOnlineApplicationCI;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchLoanApplication;
@@ -21,7 +23,7 @@ import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.g3appdriver.utils.WebApi;
 
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -59,10 +61,11 @@ public class EvaluatorManager {
         this.poApis = new WebApi(poConfig.getTestStatus());
     }
 
-    public void DownloadCreditApplications(OnActionCallback callback){
+    public void DownloadForCIApplications(OnActionCallback callback){
         try{
             JSONObject params = new JSONObject();
             params.put("sEmployID", poSession.getEmployeeID());
+            Log.d(TAG, "API address: " + poApis.getUrlDownloadCIApplications(poConfig.isBackUpServer()));
             String lsResponse = WebClient.sendRequest(poApis.getUrlDownloadCIApplications(poConfig.isBackUpServer()), params.toString(), poHeaders.getHeaders());
             if(lsResponse == null){
                 callback.OnFailed("Server no response.");
@@ -85,13 +88,14 @@ public class EvaluatorManager {
                         loApp.setIncmFndg(loJson.getString("sIncmFndg"));
                         loApp.setRcmdRcd1(new AppConstants().DATE_MODIFIED);
                         poCI.SaveApplicationInfo(loApp);
-                    }
 
-                    Thread.sleep(1000);
-                    if(DownloadBranchApplications()){
-                        callback.OnSuccess("success");
-                    } else {
-                        callback.OnFailed(message);
+                        Thread.sleep(1000);
+                        Log.d(TAG, "Downloading application. Transaction number: " + loJson.getString("sTransNox"));
+                        if(DownloadForCIApplicationDetails(loJson.getString("sTransNox"))){
+                            Log.d(TAG, "Credit app info successfully downloaded.");
+                        } else {
+                            Log.d(TAG, "Failed to download credit app. " + message);
+                        }
                     }
                     callback.OnSuccess("success");
                 } else {
@@ -106,30 +110,65 @@ public class EvaluatorManager {
         }
     }
 
-    private boolean DownloadBranchApplications() {
+    private boolean DownloadForCIApplicationDetails(String TransNox) {
         try{
             JSONObject params = new JSONObject();
 
-            String brnCD = poSession.getBranchCode();
-            params.put("bycode", true);
-            params.put("value", brnCD);
-
-            String lsAddress = poApis.getUrlBranchLoanApp(poConfig.isBackUpServer());
+            params.put("sTransNox", TransNox);
+            String lsAddress = poApis.getUrlDownloadCreditAppForCI(poConfig.isBackUpServer());
             String lsResponse = WebClient.sendRequest(lsAddress,
                     params.toString(),
                     poHeaders.getHeaders());
-
+            Log.d(TAG, lsResponse);
             JSONObject loResponse = new JSONObject(lsResponse);
             String lsResult = loResponse.getString("result");
             if (lsResult.equalsIgnoreCase("success")) {
-                JSONArray laJson = loResponse.getJSONArray("detail");
-                return new RBranchLoanApplication(instance).insertBranchApplicationInfos(laJson);
+                JSONObject loJson = loResponse.getJSONObject("detail");
+                return SaveRecord(loJson);
             } else {
                 JSONObject loError = loResponse.getJSONObject("error");
                 message = loError.getString("message");
                 return false;
             }
 
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
+    }
+
+    private boolean SaveRecord(JSONObject foVal){
+        try{
+            EBranchLoanApplication loApp = poCI.CheckIFExist(foVal.getString("sTransNox"));
+            EBranchLoanApplication loDetail = new EBranchLoanApplication();
+            loDetail.setTransNox(foVal.getString("sTransNox"));
+            loDetail.setBranchCD(foVal.getString("sBranchCd"));
+            loDetail.setTransact(foVal.getString("dTransact"));
+            loDetail.setCredInvx(foVal.getString("sCredInvx"));
+            loDetail.setCompnyNm(foVal.getString("sCompnyNm"));
+            loDetail.setSpouseNm(foVal.getString("sSpouseNm"));
+            loDetail.setAddressx(foVal.getString("sAddressx"));
+            loDetail.setMobileNo(foVal.getString("sMobileNo"));
+            loDetail.setQMAppCde(foVal.getString("sQMAppCde"));
+            loDetail.setModelNme(foVal.getString("sModelNme"));
+            loDetail.setDownPaym(foVal.getString("nDownPaym"));
+            loDetail.setAcctTerm(foVal.getString("nAcctTerm"));
+            loDetail.setCreatedX(foVal.getString("sCreatedx"));
+            loDetail.setTranStat(foVal.getString("cTranStat"));
+            loDetail.setTimeStmp(foVal.getString("dTimeStmp"));
+            if(loApp == null){
+                poCI.SaveNewRecord(loDetail);
+                Log.d(TAG, "New record saved.");
+            } else {
+                Date ldDate1 = SQLUtil.toDate(loApp.getTimeStmp(), SQLUtil.FORMAT_TIMESTAMP);
+                Date ldDate2 = SQLUtil.toDate((String) foVal.get("dTimeStmp"), SQLUtil.FORMAT_TIMESTAMP);
+                if (!ldDate1.equals(ldDate2)){
+                    poCI.UpdateExistingRecord(loDetail);
+                    Log.d(TAG, "New record has been updated.");
+                }
+            }
+            return true;
         } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();

@@ -140,7 +140,7 @@ public class DownloadCI {
         WebApi loApi = new WebApi(true);
         JSONObject params = new JSONObject();
         params.put("sTransNox", "C0ZHS2200033");
-        String lsApiAdd = loApi.getUrlAddForEvaluation();
+        String lsApiAdd = loApi.getUrlAddForEvaluation(false);
         String lsResponse = WebClient.httpPostJSon(lsApiAdd,
                 params.toString(), (HashMap<String, String>) headers);
         if(lsResponse == null){

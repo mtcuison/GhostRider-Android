@@ -11,13 +11,6 @@
 
 package org.guanzongroup.com.creditevaluation.Activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,6 +22,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
@@ -211,7 +211,6 @@ public class Activity_CIEvaluationList extends AppCompatActivity  implements VME
                         loan.sRecrdRem = (ciList.get(x).sRecrdRem);
                         loan.sRcmdtnx1 = (ciList.get(x).sRcmdtnx1);
                         ciEvaluationList.add(loan);
-                        continue;
                     }
 
 
