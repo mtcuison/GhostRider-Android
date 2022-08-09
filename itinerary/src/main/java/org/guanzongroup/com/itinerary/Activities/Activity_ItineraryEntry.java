@@ -1,4 +1,4 @@
-package org.guanzongroup.com.itinerary;
+package org.guanzongroup.com.itinerary.Activities;
 
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
 
+import org.guanzongroup.com.itinerary.R;
 import org.guanzongroup.com.itinerary.ViewModel.VMItinerary;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RItinerary;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;

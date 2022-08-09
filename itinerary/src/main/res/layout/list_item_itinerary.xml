@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardElevation="3dp"
+    app:cardUseCompatPadding="true"
+    app:cardCornerRadius="5dp"
+    app:cardMaxElevation="5dp"
+    app:cardPreventCornerOverlap="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="5dp">
+
+        <TextView
+            android:id="@+id/lbl_transNox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TransNox . :"
+            android:textSize="16sp"
+            android:textColor="@color/textColor_Black"
+            android:fontFamily="@font/roboto_medium"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/guanzon_orange"/>
+
+        <TextView
+            android:id="@+id/lbl_dTransact"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="5dp"
+            android:fontFamily="@font/roboto_bold"
+            android:gravity="center_vertical"
+            android:layout_marginTop="5dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"
+                android:text="Start :"
+                android:textColor="@color/textColor_Black"
+                android:fontFamily="@font/roboto_bold"
+                android:drawablePadding="5dp"
+                android:gravity="center_vertical"
+                app:drawableStartCompat="@android:drawable/ic_menu_my_calendar"
+                app:drawableLeftCompat="@android:drawable/ic_menu_my_calendar"
+                android:drawableTint="@color/textColor_Black" />
+
+            <TextView
+                android:id="@+id/lbl_timeStart"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight=".8"
+                android:gravity="end|center_vertical"
+                android:textColor="@color/textColor_Orange"
+                android:fontFamily="@font/roboto_bold"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".2"
+                android:text="End :"
+                android:textColor="@color/textColor_Black"
+                android:fontFamily="@font/roboto_bold"
+                android:drawablePadding="5dp"
+                android:gravity="center_vertical"
+                app:drawableStartCompat="@android:drawable/ic_menu_my_calendar"
+                app:drawableLeftCompat="@android:drawable/ic_menu_my_calendar"
+                android:drawableTint="@color/textColor_Black"/>
+
+            <TextView
+                android:id="@+id/lbl_timeEnd"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight=".8"
+                android:gravity="end|center_vertical"
+                android:textColor="@color/textColor_Orange"
+                android:fontFamily="@font/roboto_bold"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/lbl_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="5dp"
+            android:fontFamily="@font/roboto_bold"
+            android:gravity="center_vertical"
+            android:layout_marginTop="10dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@color/textColor_Black" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilRemarks"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:textColorHint="@color/textColor_Black"
+            android:hint="Purpose / Remarks :"
+            style="@style/TextInputTextAreaStyle">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txt_purpose"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:gravity="top|left"
+                android:inputType="textMultiLine"
+                android:lines="10"
+                android:maxLength="50"
+                android:minLines="3"
+                android:textColor="@color/material_black" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

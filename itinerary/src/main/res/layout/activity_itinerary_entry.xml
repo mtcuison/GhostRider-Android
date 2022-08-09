@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity_ItineraryEntry"
+    tools:context=".Activities.Activity_ItineraryEntry"
     android:theme="@style/GhostRiderMaterialTheme">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -38,146 +38,226 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp">
+            android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/textview1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_regular"
-                android:text="Start of Trip."
-                android:textColor="@color/textColor_Black"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginTop="30dp"/>
-
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_startTime"
-                style="@style/TextInputStyle"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textview1">
+                app:layout_constraintTop_toTopOf="parent">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txt_startTime"
-                    style="@style/TextInputStyle.Edittext"
-                    android:layout_width="match_parent"
+                <ImageView
+                    android:id="@+id/img_bg_guanzon_orange"
+                    android:layout_width="0dp"
+                    android:layout_height="170dp"
+                    android:src="@drawable/bg_samsungknox"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:inputType="time"
-                    android:enabled="false"
-                    android:maxLines="1"/>
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintHorizontal_bias=".2"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/textview2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_regular"
-                android:text="End of Trip."
-                android:layout_marginTop="10dp"
-                android:textColor="@color/textColor_Black"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/til_startTime" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto"
+                        android:scrollHorizontally="false"
+                        android:text="Itinerary Entry"
+                        android:textColor="@color/white"
+                        android:textSize="23sp" />
 
+                    <TextView
+                        android:id="@+id/lbl_username"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/roboto"
+                        android:scrollHorizontally="false"
+                        android:text="Dela Cruz, Josemari Joma, S."
+                        android:textColor="@color/white"
+                        android:textSize="20sp" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_endTime"
-                style="@style/TextInputStyle"
+                    <TextView
+                        android:id="@+id/lbl_userPosition"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_light"
+                        android:scrollHorizontally="false"
+                        android:text="DSA - Bookkeeper"
+                        android:textColor="@color/white"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/lbl_userBranch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_light"
+                        android:scrollHorizontally="false"
+                        android:text="Local data is not sync"
+                        android:textColor="@color/white"
+                        android:textSize="18sp" />
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:padding="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textview2">
+                app:layout_constraintTop_toBottomOf="@id/cl_header">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txt_endTime"
-                    style="@style/TextInputStyle.Edittext"
+                <TextView
+                    android:id="@+id/textview1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="Start of Trip."
+                    android:textColor="@color/textColor_Black"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginTop="30dp"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_startTime"
+                    style="@style/TextInputStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="time"
-                    android:enabled="false"
-                    android:maxLines="1"/>
-            </com.google.android.material.textfield.TextInputLayout>
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textview1">
 
-            <TextView
-                android:id="@+id/textview3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_regular"
-                android:text="Location"
-                android:layout_marginTop="10dp"
-                android:textColor="@color/textColor_Black"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/til_endTime" />
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txt_startTime"
+                        style="@style/TextInputStyle.Edittext"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="time"
+                        android:enabled="false"
+                        android:maxLines="1"/>
+                </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_location"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/TextInputStyle"
-                android:layout_marginTop="5dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textview3">
+                <TextView
+                    android:id="@+id/textview2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="End of Trip."
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/textColor_Black"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/til_startTime" />
 
-                <AutoCompleteTextView
-                    android:id="@+id/txt_location"
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_endTime"
+                    style="@style/TextInputStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    style="@style/AutoCompleteTextStyle"
-                    android:gravity="center"
-                    android:inputType="textAutoComplete|textMultiLine"
-                    android:digits="@string/free_text_restriction"
-                    android:lines="2"
-                    android:maxLength="128"
-                    android:imeOptions="actionNext"/>
-            </com.google.android.material.textfield.TextInputLayout>
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textview2">
 
-            <TextView
-                android:id="@+id/textview4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_regular"
-                android:text="Purpose of Trip"
-                android:layout_marginTop="10dp"
-                android:textColor="@color/textColor_Black"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/til_location" />
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txt_endTime"
+                        style="@style/TextInputStyle.Edittext"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="time"
+                        android:enabled="false"
+                        android:maxLines="1"/>
+                </com.google.android.material.textfield.TextInputLayout>
 
+                <TextView
+                    android:id="@+id/textview3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="Location"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/textColor_Black"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/til_endTime" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_purpose"
-                style="@style/TextInputStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textview4">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txt_purpose"
-                    style="@style/TextInputStyle.Edittext"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_location"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textMultiLine"
-                    android:digits="@string/free_text_restriction"
-                    android:lines="3"
-                    android:maxLength="256"/>
-            </com.google.android.material.textfield.TextInputLayout>
+                    style="@style/TextInputStyle"
+                    android:layout_marginTop="5dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textview3">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_confirm"
-                style="@style/MaterialButtonAccent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Save"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/til_purpose" />
+                    <AutoCompleteTextView
+                        android:id="@+id/txt_location"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/AutoCompleteTextStyle"
+                        android:gravity="center"
+                        android:inputType="textAutoComplete|textMultiLine"
+                        android:digits="@string/free_text_restriction"
+                        android:lines="2"
+                        android:maxLength="128"
+                        android:imeOptions="actionNext"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/textview4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="Purpose of Trip"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/textColor_Black"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/til_location" />
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_purpose"
+                    style="@style/TextInputStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textview4">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txt_purpose"
+                        style="@style/TextInputStyle.Edittext"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textMultiLine"
+                        android:digits="@string/free_text_restriction"
+                        android:lines="3"
+                        android:maxLength="256"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_confirm"
+                    style="@style/MaterialButtonAccent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Save"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/til_purpose" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

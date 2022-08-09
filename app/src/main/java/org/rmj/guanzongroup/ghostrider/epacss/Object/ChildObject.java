@@ -16,6 +16,8 @@ import android.content.Intent;
 
 import org.guanzongroup.com.creditevaluation.Activity.Activity_CIEvaluationList;
 import org.guanzongroup.com.creditevaluation.Activity.Activity_EvaluationCIHistory;
+import org.guanzongroup.com.itinerary.Activities.Activity_ItineraryEntry;
+import org.guanzongroup.com.itinerary.Activities.Activity_ItineraryLog;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Application;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_AreaPerformance;
@@ -163,6 +165,12 @@ public class ChildObject {
                 break;
             case "cash count log":
                 loIntent = new Intent(context, Activity_CashCountLog.class);
+                break;
+            case "itinerary logs":
+                loIntent = new Intent(context, Activity_ItineraryLog.class);
+                break;
+            case "itinerary entry":
+                loIntent = new Intent(context, Activity_ItineraryEntry.class);
                 break;
             default:
                 loIntent = null;
