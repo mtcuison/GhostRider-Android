@@ -85,6 +85,7 @@ public class WebApi {
 
     private static final String URL_REQUEST_FOR_EVALUATIONS = "integsys/gocas/ci_request_for_evaluations.php";
     private static final String URL_ADD_FOR_EVALUATION = "integsys/gocas/ci_add_for_evaluation.php";
+    private static final String URL_DOWNLOAD_CREDIT_APP = "integsys/gocas/download_credit_app.php";
     private static final String URL_SUBMIT_RESULT = "integsys/gocas/ci_submit_result.php";
     private static final String URL_POST_CI_APPROVAL = "integsys/gocas/ci_submit_approval.php";
     private static final String URL_DOWNLOAD_BH_PREVIEW = "integsys/gocas/bh_request_evaluation_preview.php";
@@ -837,6 +838,16 @@ public class WebApi {
         return LIVE + URL_ADD_FOR_EVALUATION;
     }
 
+    public String getUrlDownloadCreditAppForCI(boolean isBackUp) {
+        if(isUnitTest) {
+            return LOCAL + URL_DOWNLOAD_CREDIT_APP;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
+        }
+        return LIVE + URL_DOWNLOAD_CREDIT_APP;
+    }
     public String getUrlSaveItinerary(boolean isBackUp) {
         if(isUnitTest) {
             return LOCAL + URL_SAVE_ITINERARY;

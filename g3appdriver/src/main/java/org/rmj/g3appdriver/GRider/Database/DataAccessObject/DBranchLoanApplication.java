@@ -22,10 +22,6 @@ import androidx.room.RoomWarnings;
 import androidx.room.Update;
 
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchLoanApplication;
-import org.rmj.g3appdriver.GRider.Database.Entities.ECIEvaluation;
-import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplication;
-import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicationDocuments;
-import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 
 import java.util.List;
 @Dao

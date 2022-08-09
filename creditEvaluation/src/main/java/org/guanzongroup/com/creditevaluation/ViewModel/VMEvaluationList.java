@@ -309,7 +309,7 @@ public class VMEvaluationList extends AndroidViewModel {
                 if (!poConn.isDeviceConnected()) {
                     response[0] = "Unable to connect.";
                 } else {
-                    poCIEvaluation.DownloadCreditApplications(new EvaluatorManager.OnActionCallback() {
+                    poCIEvaluation.DownloadForCIApplications(new EvaluatorManager.OnActionCallback() {
                         @Override
                         public void OnSuccess(String args) {
                             response[0] = args;
