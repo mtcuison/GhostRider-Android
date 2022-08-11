@@ -48,6 +48,8 @@ public class WebApi {
     private static final String URL_SUBMIT_CASHCOUNT = "integsys/cashcount/submit_cash_count.php";
     private static final String URL_QUICK_SEARCH = "integsys/paramqry/cash_count_rqst_officer.php";
 
+    private static final String URL_SAVE_ITINERARY = "engineering/submit_itinerary.php";
+    private static final String URL_DOWNLOAD_ITINERARY = "engineering/download_itinerary.php";
     private static final String URL_SCA_REQUEST = "integsys/param/download_sca_request.php";
     private static final String URL_SAVE_APPROVAL = "integsys/codeapproval/save_approval.php";
     private static final String URL_LOAD_APPLICATION_APPROVAL = "integsys/codeapproval/code_load.php";
@@ -778,7 +780,7 @@ public class WebApi {
         } else {
             LIVE = PRIMARY_LIVE;
         }
-        return LIVE + URL_REQUEST_FOR_EVALUATIONS;
+        return LOCAL + URL_REQUEST_FOR_EVALUATIONS;
     }
 
     public String getUrlSubmitCIResult(boolean isBackUp) {
@@ -845,5 +847,26 @@ public class WebApi {
             LIVE = PRIMARY_LIVE;
         }
         return LIVE + URL_DOWNLOAD_CREDIT_APP;
+    }
+    public String getUrlSaveItinerary(boolean isBackUp) {
+        if(isUnitTest) {
+            return LOCAL + URL_SAVE_ITINERARY;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
+        }
+        return LIVE + URL_SAVE_ITINERARY;
+    }
+
+    public String getUrlDownloadItinerary(boolean isBackUp) {
+        if(isUnitTest) {
+            return LOCAL + URL_DOWNLOAD_ITINERARY;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
+        }
+        return LIVE + URL_DOWNLOAD_ITINERARY;
     }
 }

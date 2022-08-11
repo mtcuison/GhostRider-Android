@@ -23,8 +23,8 @@ android {
         applicationId "org.rmj.guanzongroup.ghostrider.epacss"
         minSdkVersion 21
         targetSdkVersion 32
-        versionCode 32
-        versionName "GhostRider Build v.1.1.32"
+        versionCode 33
+        versionName "GhostRider Build v.1.1.33"
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -105,20 +105,21 @@ dependencies {
 
     implementation 'commons-io:commons-io:2.6'
     implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
-    implementation project(':authLibrary')
-    implementation project(':g3appdriver')
-    implementation project(':creditApp')
-    implementation project(':ahMonitoring')
-    implementation project(':promotions')
-    implementation project(':samsungKnox')
-    implementation project(':approvalCode')
-    implementation project(':CreditEvaluator')
-    implementation project(':notifications')
-    implementation project(':imgCapture')
-    implementation project(':griderScanner')
-    implementation project(':dailyCollectionPlan')
-    implementation project(':dataChecker')
+    implementation project(path: ':authLibrary')
+    implementation project(path: ':g3appdriver')
+    implementation project(path: ':creditApp')
+    implementation project(path: ':ahMonitoring')
+    implementation project(path: ':promotions')
+    implementation project(path: ':samsungKnox')
+    implementation project(path: ':approvalCode')
+    implementation project(path: ':CreditEvaluator')
+    implementation project(path: ':notifications')
+    implementation project(path: ':imgCapture')
     implementation project(path: ':griderScanner')
+    implementation project(path: ':dailyCollectionPlan')
+    implementation project(path: ':dataChecker')
+    implementation project(path: ':griderScanner')
+    implementation project(path: ':itinerary')
 //    implementation project(':documentScanner')
 //    implementation project(':appdriver') //implement GhostRider Application Driver
     implementation project(':settings')

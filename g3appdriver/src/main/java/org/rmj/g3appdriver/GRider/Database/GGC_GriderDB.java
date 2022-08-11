@@ -50,6 +50,7 @@ import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DFileCode;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DImageInfo;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DInventoryDetail;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DInventoryMaster;
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DItinerary;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DLocatorSysLog;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DLog_Selfie;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DMcBrand;
@@ -100,6 +101,7 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EGLocatorSysLog;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EInventoryDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.EInventoryMaster;
+import org.rmj.g3appdriver.GRider.Database.Entities.EItinerary;
 import org.rmj.g3appdriver.GRider.Database.Entities.ELog_Selfie;
 import org.rmj.g3appdriver.GRider.Database.Entities.EMcBrand;
 import org.rmj.g3appdriver.GRider.Database.Entities.EMcCategory;
@@ -176,7 +178,8 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EUncapturedClient;
         EEmployeeRole.class,
         EInventoryMaster.class,
         EInventoryDetail.class,
-        ECreditOnlineApplicationCI.class}, version = 33, exportSchema = false)
+        ECreditOnlineApplicationCI.class,
+        EItinerary.class}, version = 34, exportSchema = false)
 public abstract class GGC_GriderDB extends RoomDatabase {
     private static final String TAG = "GhostRider_DB_Manager";
     private static GGC_GriderDB instance;
@@ -230,6 +233,7 @@ public abstract class GGC_GriderDB extends RoomDatabase {
     public abstract DInventoryMaster inventoryMasterDao();
     public abstract DInventoryDetail inventoryDetailDao();
     public abstract DCreditOnlineApplicationCI creditEvaluationDao();
+    public abstract DItinerary itineraryDao();
 
     public static synchronized GGC_GriderDB getInstance(Context context){
         if(instance == null){

@@ -15,8 +15,10 @@ import android.app.Application;
 import android.content.Context;
 import android.os.Build;
 import android.os.StrictMode;
-import org.rmj.g3appdriver.dev.Telephony;
+import android.util.Log;
+
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
+import org.rmj.g3appdriver.dev.Telephony;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.SQLUtil;
 import org.rmj.g3appdriver.utils.SecUtil;
@@ -26,6 +28,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class HttpHeaders {
+    private static final String TAG = HttpHeaders.class.getSimpleName();
 
     private final Telephony poTlphony;
     private final AppConfigPreference poConfigx;
@@ -73,6 +76,12 @@ public class HttpHeaders {
         String lsDevcMdl = Build.MODEL;
         String lsMobileN = poConfigx.getMobileNo();
 
+        if(poConfigx.getTestStatus()){
+            lsMobileN = "09171870011";
+            lsProduct = "gRider";
+            lsTokenxx = "f7qNSw8TRPWHSCga0g8YFF:APA91bG3i_lBPPWv9bbRasNzRH1XX1y0vzp6Ct8S_a-yMPDvSmud8FEVPMr26zZtBPHq2CmaIw9Rx0MZmf3sbuK44q3vQemUBoPPS4Meybw8pnTpcs3p0VbiTuoLHJtdncC6BgirJxt3";
+        }
+
         Map<String, String> headers = new HashMap<>();
         headers.put("Accept", "application/json");
         headers.put("Content-Type", "application/json");
@@ -92,6 +101,7 @@ public class HttpHeaders {
     }
 
     public HashMap<String, String> getHeaders(){
+        Log.d(TAG, initHttpHeaders().toString());
         return (HashMap<String, String>) initHttpHeaders();
     }
 }

@@ -1,9 +1,285 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity_ItineraryEntry">
+    tools:context=".Activities.Activity_ItineraryEntry"
+    android:theme="@style/GhostRiderMaterialTheme.WhiteBG">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/GhostRiderMaterialTheme.AppBarOverlay"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            style="@style/GhostRiderMaterialTheme.PopupOverlay"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/material_tool_bar"
+            app:popupTheme="@style/GhostRiderMaterialTheme.PopupOverlay" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/appbar">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/img_bg_guanzon_orange"
+                    android:layout_width="0dp"
+                    android:layout_height="150dp"
+                    android:src="@drawable/bg_samsungknox"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintHorizontal_bias=".2"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto"
+                        android:scrollHorizontally="false"
+                        android:text="Itinerary Entry"
+                        android:textColor="@color/white"
+                        android:textSize="23sp" />
+
+                    <TextView
+                        android:id="@+id/lbl_username"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/roboto"
+                        android:scrollHorizontally="false"
+                        android:text="Dela Cruz, Josemari Joma, S."
+                        android:textColor="@color/white"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/lbl_userPosition"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_light"
+                        android:scrollHorizontally="false"
+                        android:text="DSA - Bookkeeper"
+                        android:textColor="@color/white"
+                        android:textSize="18sp" />
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cl_header">
+
+                <TextView
+                    android:id="@+id/textview5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Day of Trip."
+                    android:fontFamily="@font/roboto_regular"
+                    android:textColor="@color/textColor_Black"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginTop="30dp"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_schedDate"
+                    style="@style/TextInputStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textview5">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txt_schedDate"
+                        style="@style/TextInputStyle.Edittext"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="time"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:focusedByDefault="false"
+                        android:maxLines="1"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/textview1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="Time of trip"
+                    android:textColor="@color/textColor_Black"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/til_schedDate"
+                    android:layout_marginTop="10dp"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_startTime"
+                    style="@style/TextInputStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:hint="From:"
+                    app:layout_constraintEnd_toStartOf="@+id/til_endTime"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textview1">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txt_startTime"
+                        style="@style/TextInputStyle.Edittext"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:focusedByDefault="false"
+                        android:inputType="time"
+                        android:maxLines="1" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_endTime"
+                    style="@style/TextInputStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:hint="To:"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/til_startTime"
+                    app:layout_constraintTop_toBottomOf="@+id/textview1">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txt_endTime"
+                        style="@style/TextInputStyle.Edittext"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:focusedByDefault="false"
+                        android:inputType="time"
+                        android:maxLines="1" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/textview3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="Location"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/textColor_Black"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/til_endTime" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_location"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/TextInputStyle"
+                    android:layout_marginTop="5dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textview3">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/txt_location"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/AutoCompleteTextStyle"
+                        android:inputType="textAutoComplete|textMultiLine"
+                        android:gravity="top|left"
+                        android:digits="@string/free_text_restriction"
+                        android:lines="2"
+                        android:maxLength="128"
+                        android:imeOptions="actionNext"
+                        android:nextFocusForward="@id/txt_purpose"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/textview4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="Purpose of Trip"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/textColor_Black"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/til_location" />
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_purpose"
+                    style="@style/TextInputStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textview4">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txt_purpose"
+                        style="@style/TextInputStyle.Edittext"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textMultiLine"
+                        android:gravity="top|left"
+                        android:digits="@string/free_text_restriction"
+                        android:imeOptions="actionDone"
+                        android:lines="3"
+                        android:maxLength="256"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_confirm"
+                    style="@style/MaterialButtonAccent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Save"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/til_purpose" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
