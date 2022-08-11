@@ -66,6 +66,9 @@ public class ParentObject {
             case "db explorer":
                 lnIcon = R.drawable.ic_settings_localdata;
                 break;
+            case "employee itinerary":
+                lnIcon = R.drawable.ic_baseline_checklist_24;
+                break;
         }
         return lnIcon;
     }

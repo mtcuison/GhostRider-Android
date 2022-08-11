@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activities.Activity_ItineraryEntry"
-    android:theme="@style/GhostRiderMaterialTheme">
+    android:theme="@style/GhostRiderMaterialTheme.WhiteBG">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
@@ -51,7 +51,7 @@
                 <ImageView
                     android:id="@+id/img_bg_guanzon_orange"
                     android:layout_width="0dp"
-                    android:layout_height="170dp"
+                    android:layout_height="150dp"
                     android:src="@drawable/bg_samsungknox"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
@@ -97,16 +97,6 @@
                         android:textColor="@color/white"
                         android:textSize="18sp" />
 
-                    <TextView
-                        android:id="@+id/lbl_userBranch"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_light"
-                        android:scrollHorizontally="false"
-                        android:text="Local data is not sync"
-                        android:textColor="@color/white"
-                        android:textSize="18sp" />
-
                 </LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -120,22 +110,55 @@
                 app:layout_constraintTop_toBottomOf="@id/cl_header">
 
                 <TextView
-                    android:id="@+id/textview1"
+                    android:id="@+id/textview5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="Day of Trip."
                     android:fontFamily="@font/roboto_regular"
-                    android:text="Start of Trip."
                     android:textColor="@color/textColor_Black"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     android:layout_marginTop="30dp"/>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/til_startTime"
+                    android:id="@+id/til_schedDate"
                     style="@style/TextInputStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textview5">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txt_schedDate"
+                        style="@style/TextInputStyle.Edittext"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="time"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:focusedByDefault="false"
+                        android:maxLines="1"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/textview1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="Time of trip"
+                    android:textColor="@color/textColor_Black"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/til_schedDate"
+                    android:layout_marginTop="10dp"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_startTime"
+                    style="@style/TextInputStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:hint="From:"
+                    app:layout_constraintEnd_toStartOf="@+id/til_endTime"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textview1">
 
@@ -144,40 +167,33 @@
                         style="@style/TextInputStyle.Edittext"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:focusedByDefault="false"
                         android:inputType="time"
-                        android:enabled="false"
-                        android:maxLines="1"/>
+                        android:maxLines="1" />
                 </com.google.android.material.textfield.TextInputLayout>
-
-                <TextView
-                    android:id="@+id/textview2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_regular"
-                    android:text="End of Trip."
-                    android:layout_marginTop="10dp"
-                    android:textColor="@color/textColor_Black"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/til_startTime" />
-
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/til_endTime"
                     style="@style/TextInputStyle"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:hint="To:"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textview2">
+                    app:layout_constraintStart_toEndOf="@id/til_startTime"
+                    app:layout_constraintTop_toBottomOf="@+id/textview1">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/txt_endTime"
                         style="@style/TextInputStyle.Edittext"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:focusedByDefault="false"
                         android:inputType="time"
-                        android:enabled="false"
-                        android:maxLines="1"/>
+                        android:maxLines="1" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView
@@ -206,12 +222,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         style="@style/AutoCompleteTextStyle"
-                        android:gravity="center"
                         android:inputType="textAutoComplete|textMultiLine"
+                        android:gravity="top|left"
                         android:digits="@string/free_text_restriction"
                         android:lines="2"
                         android:maxLength="128"
-                        android:imeOptions="actionNext"/>
+                        android:imeOptions="actionNext"
+                        android:nextFocusForward="@id/txt_purpose"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView
@@ -241,7 +258,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textMultiLine"
+                        android:gravity="top|left"
                         android:digits="@string/free_text_restriction"
+                        android:imeOptions="actionDone"
                         android:lines="3"
                         android:maxLength="256"/>
                 </com.google.android.material.textfield.TextInputLayout>

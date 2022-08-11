@@ -33,13 +33,17 @@ public class AdapterItineraries extends RecyclerView.Adapter<AdapterItineraries.
 
     @Override
     public void onBindViewHolder(@NonNull ItineraryViewHolder holder, int position) {
-        EItinerary loDetail = poList.get(position);
-        holder.lblTransNox.setText(loDetail.getTransNox());
-        holder.lblTransact.setText(FormatUIText.formatGOCasBirthdate(loDetail.getTransact()));
-        holder.lblTimeStrt.setText(loDetail.getTimeFrom());
-        holder.lblTimeEndx.setText(loDetail.getTimeThru());
-        holder.lblLocation.setText(loDetail.getLocation());
-        holder.txtPurpose.setText(loDetail.getRemarksx());
+        try {
+            EItinerary loDetail = poList.get(position);
+            holder.lblTransNox.setText(loDetail.getTransNox());
+            holder.lblTransact.setText(FormatUIText.formatGOCasBirthdate(loDetail.getTransact()));
+            holder.lblTimeStrt.setText(FormatUIText.formatTime_HHMMSS_to_HHMMAA(loDetail.getTimeFrom()));
+            holder.lblTimeEndx.setText(FormatUIText.formatTime_HHMMSS_to_HHMMAA(loDetail.getTimeThru()));
+            holder.txtLocation.setText(loDetail.getLocation());
+            holder.txtPurpose.setText(loDetail.getRemarksx());
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -52,10 +56,9 @@ public class AdapterItineraries extends RecyclerView.Adapter<AdapterItineraries.
         public TextView lblTransNox,
                 lblTransact,
                 lblTimeStrt,
-                lblTimeEndx,
-                lblLocation;
+                lblTimeEndx;
 
-        public TextInputEditText txtPurpose;
+        public TextInputEditText txtLocation, txtPurpose;
 
         public ItineraryViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -64,7 +67,7 @@ public class AdapterItineraries extends RecyclerView.Adapter<AdapterItineraries.
             lblTransact = itemView.findViewById(R.id.lbl_dTransact);
             lblTimeStrt = itemView.findViewById(R.id.lbl_timeStart);
             lblTimeEndx = itemView.findViewById(R.id.lbl_timeEnd);
-            lblLocation = itemView.findViewById(R.id.lbl_location);
+            txtLocation = itemView.findViewById(R.id.txt_location);
             txtPurpose = itemView.findViewById(R.id.txt_purpose);
         }
     }

@@ -121,7 +121,7 @@ public class TestCreateItinerary {
         assertTrue(isSuccess);
     }
 
-    @Test
+//    @Test
     public void test02CreateItinerary() throws Exception{
         RItinerary.Itinerary loDetail = new RItinerary.Itinerary();
         loDetail.setTimeStrt("2022-08-06 10:53:56");
@@ -137,7 +137,7 @@ public class TestCreateItinerary {
         assertTrue(isSuccess);
     }
 
-    @Test
+//    @Test
     public void test03UploadItinerary() throws Exception{
         boolean isSuccess = poSystem.UploadItinerary(TransNox);
         if(isSuccess){
@@ -148,9 +148,9 @@ public class TestCreateItinerary {
         assertTrue(isSuccess);
     }
 
-//    @Test
-    public void test04UploadItinerary() throws Exception{
-        boolean isSuccess = poSystem.DownloadItinerary();
+    @Test
+    public void test04DownloadItinerary() throws Exception{
+        boolean isSuccess = poSystem.DownloadItinerary("", "");
         if(isSuccess){
             Log.d(TAG, "Uploaded successfully");
         } else {
@@ -163,7 +163,7 @@ public class TestCreateItinerary {
 //    @Test
     public void test05UploadItinerary() throws Exception{
         List<EItinerary> loList = new ArrayList<>();
-        poSystem.GetItineraryList().observeForever(eItineraries -> {
+        poSystem.GetItineraryListForCurrentDay().observeForever(eItineraries -> {
             loList.addAll(eItineraries);
            for(int x = 0; x < eItineraries.size(); x++){
                Log.d(TAG, eItineraries.get(x).getTransNox());

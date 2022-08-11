@@ -62,11 +62,12 @@ public class RItinerary {
                 EItinerary loDetail = new EItinerary();
                 loDetail.setTransNox(lsTransno);
                 loDetail.setEmployID(lsEmployID);
-                loDetail.setTransact(new AppConstants().DATE_MODIFIED);
+                loDetail.setTransact(foVal.getTransact());
                 loDetail.setTimeFrom(foVal.getTimeStrt());
                 loDetail.setTimeThru(foVal.getTimeEndx());
                 loDetail.setLocation(foVal.getLocation());
                 loDetail.setRemarksx(foVal.getRemarksx());
+                loDetail.setTimeStmp(new AppConstants().DATE_MODIFIED);
                 poDao.Save(loDetail);
                 sTransNox = lsTransno;
                 return true;
@@ -149,13 +150,16 @@ public class RItinerary {
         }
     }
 
-    public boolean DownloadItinerary(){
+    public boolean DownloadItinerary(String fsArgs1, String fsArgs2){
         try {
             String lsEmployID = poEmployee.getEmployeeID();
             AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
             WebApi loApi = new WebApi(loConfig.getTestStatus());
             JSONObject params = new JSONObject();
             params.put("sEmployID", lsEmployID);
+            params.put("dDateFrom", fsArgs1);
+            params.put("dDateThru", fsArgs2);
+            Log.d(TAG, params.toString());
             String lsResponse = WebClient.httpsPostJSon(loApi.getUrlDownloadItinerary(loConfig.isBackUpServer()),
                     params.toString(),
                     HttpHeaders.getInstance(instance).getHeaders());
@@ -183,6 +187,8 @@ public class RItinerary {
                             loDetail.setTransact(joDetail.getString("dTransact"));
                             loDetail.setTimeFrom(joDetail.getString("dTimeFrom"));
                             loDetail.setTimeThru(joDetail.getString("dTimeThru"));
+                            loDetail.setLocation(joDetail.getString("sLocation"));
+                            loDetail.setRemarksx(joDetail.getString("sRemarksx"));
                             loDetail.setTimeStmp(joDetail.getString("dTimeStmp"));
                             poDao.Save(loDetail);
                             Log.d(TAG, "New record save!");
@@ -205,8 +211,12 @@ public class RItinerary {
         }
     }
 
-    public LiveData<List<EItinerary>> GetItineraryList(){
-        return poDao.GetItineraryList();
+    public LiveData<List<EItinerary>> GetItineraryListForCurrentDay(){
+        return poDao.GetItineraryListForCurrentDay();
+    }
+
+    public LiveData<List<EItinerary>> GetItineraryListForFilteredDate(String fsArgs1, String fsArgs2){
+        return poDao.GetItineraryListForFilteredDate(fsArgs1, fsArgs2);
     }
 
     private String CreateUniqueID(){
@@ -230,6 +240,7 @@ public class RItinerary {
     }
 
     public static class Itinerary{
+        private String dTransact;
         private String dTimeStrt;
         private String dTimeEndx;
         private String sLocation;
@@ -244,6 +255,14 @@ public class RItinerary {
             return message;
         }
 
+        public String getTransact() {
+            return dTransact;
+        }
+
+        public void setTransact(String dTransact) {
+            this.dTransact = dTransact;
+        }
+
         public String getTimeStrt() {
             return dTimeStrt;
         }
@@ -253,7 +272,7 @@ public class RItinerary {
         }
 
         public String getTimeEndx() {
-            return dTimeEndx;
+           return dTimeEndx;
         }
 
         public void setTimeEndx(String dTimeEndx) {
@@ -277,29 +296,35 @@ public class RItinerary {
         }
 
         public boolean isDataValid(){
-            if(dTimeStrt == null){
-                message = "Please enter";
+            if(dTransact == null){
+                message = "Please enter date of trip";
+                return false;
+            } else if(dTransact.trim().isEmpty()){
+                message = "Please enter date of trip";
+                return false;
+            } else if(dTimeStrt == null){
+                message = "Please enter time start";
                 return false;
             } else if (dTimeStrt.trim().isEmpty()){
-                message = "Please enter";
+                message = "Please enter time start";
                 return false;
             } else if(dTimeEndx == null){
-                message = "Please enter";
+                message = "Please enter time end";
                 return false;
             } else if(dTimeEndx.trim().isEmpty()){
-                message = "Please enter";
+                message = "Please enter time end";
                 return false;
             } else if(sLocation == null){
-                message = "Please enter";
+                message = "Please enter location";
                 return false;
             } else if(sLocation.trim().isEmpty()){
-                message = "Please enter";
+                message = "Please enter location";
                 return false;
             } else if(sRemarksx == null){
-                message = "Please enter";
+                message = "Please enter remarks";
                 return false;
             } else if(sRemarksx.trim().isEmpty()){
-                message = "Please enter";
+                message = "Please enter remarks";
                 return false;
             } else {
                 return true;

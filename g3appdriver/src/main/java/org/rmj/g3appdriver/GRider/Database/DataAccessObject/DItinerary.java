@@ -33,9 +33,21 @@ public interface DItinerary {
     @Query("SELECT * FROM Employee_Itinerary WHERE cSendStat = 0")
     List<EItinerary> GetUnsentItineraryList();
 
-    @Query("SELECT * FROM Employee_Itinerary WHERE sEmployID = (SELECT sEmployID FROM User_Info_Master) ORDER BY dTransact DESC")
-    LiveData<List<EItinerary>> GetItineraryList();
+    @Query("SELECT * FROM Employee_Itinerary " +
+            "WHERE sEmployID = (SELECT sEmployID FROM User_Info_Master) " +
+            "AND strftime('%Y-%m-%d', datetime('now', 'localtime')) = dTransact " +
+            "ORDER BY dTransact DESC, dTimeFrom DESC")
+    LiveData<List<EItinerary>> GetItineraryListForCurrentDay();
 
-    @Query("SELECT * FROM Employee_Itinerary WHERE sEmployID = (SELECT sEmployID FROM User_Info_Master) AND cSendStat == '0' ORDER BY dTransact DESC")
+    @Query("SELECT * FROM Employee_Itinerary " +
+            "WHERE sEmployID = (SELECT sEmployID FROM User_Info_Master) " +
+            "AND cSendStat == '0' " +
+            "ORDER BY dTransact DESC")
     List<EItinerary> GetUnsentItinerary();
+
+    @Query("SELECT * FROM Employee_Itinerary " +
+            "WHERE sEmployID = (SELECT sEmployID FROM User_Info_Master) " +
+            "AND dTransact >= strftime('%Y-%m-%d', :dDateFrom) AND dTransact <= strftime('%Y-%m-%d', :dDateThru) " +
+            "ORDER BY dTransact DESC, dTimeFrom DESC")
+    LiveData<List<EItinerary>> GetItineraryListForFilteredDate(String dDateFrom, String dDateThru);
 }

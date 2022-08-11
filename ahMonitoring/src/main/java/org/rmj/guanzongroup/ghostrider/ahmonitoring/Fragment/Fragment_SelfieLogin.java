@@ -182,6 +182,7 @@ public class Fragment_SelfieLogin extends Fragment {
         if (psEmpLvl.equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER))) {
             SetupDialogForBranchList();
         }
+
         mViewModel.getUserInfo().observe(getViewLifecycleOwner(), eEmployeeInfo -> {
             try {
                 poUser = eEmployeeInfo;

@@ -8,8 +8,10 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EItinerary;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
+import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RItinerary;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 
@@ -21,6 +23,7 @@ public class VMItinerary extends AndroidViewModel {
     private final Application instance;
     private final RItinerary poSystem;
     private final RBranch poBranch;
+    private final REmployee poUser;
 
     public interface OnActionCallback {
         void OnLoad(String title, String message);
@@ -33,10 +36,19 @@ public class VMItinerary extends AndroidViewModel {
         this.instance = application;
         this.poSystem = new RItinerary(instance);
         this.poBranch = new RBranch(instance);
+        this.poUser = new REmployee(instance);
     }
 
-    public LiveData<List<EItinerary>> GetItineraryEntries(){
-        return poSystem.GetItineraryList();
+    public LiveData<List<EItinerary>> GetItineraryListForCurrentDay(){
+        return poSystem.GetItineraryListForCurrentDay();
+    }
+
+    public LiveData<List<EItinerary>> GetItineraryForFilteredDate(String fsArgs1, String fsArgs2){
+        return poSystem.GetItineraryListForFilteredDate(fsArgs1, fsArgs2);
+    }
+
+    public LiveData<EEmployeeInfo> getUserInfo(){
+        return poUser.getUserInfo();
     }
 
     public LiveData<String[]> GetAllBranchNames(){
@@ -74,6 +86,7 @@ public class VMItinerary extends AndroidViewModel {
                 boolean isSave = poSystem.SaveItinerary(loVal);
                 if(!isSave){
                     Log.e(TAG, "Unable to save itinerary. Message: " + poSystem.getMessage());
+                    message = poSystem.getMessage();
                     return false;
                 } else {
                     Log.d(TAG, "Data for upload transaction no. : " + poSystem.getTransNox());
@@ -110,8 +123,8 @@ public class VMItinerary extends AndroidViewModel {
         }
     }
 
-    public void DownloadItinerary(OnActionCallback callback){
-        new DownloadItineraryTask(instance, callback).execute();
+    public void DownloadItinerary(String args1, String args2, OnActionCallback callback){
+        new DownloadItineraryTask(instance, callback).execute(args1, args2);
     }
 
     private static class DownloadItineraryTask extends AsyncTask<String, Void, Boolean>{
@@ -136,7 +149,11 @@ public class VMItinerary extends AndroidViewModel {
                     message = "Unable to connect. Please check internet connectivity";
                     return true;
                 } else {
-                    boolean isDownloaded = poSystem.DownloadItinerary();
+                    Log.d(TAG, "Argument 1: " + strings[0]);
+                    Log.d(TAG, "Argument 2: " + strings[1]);
+                    boolean isDownloaded = poSystem.DownloadItinerary(
+                            strings[0]
+                            ,strings[1]);
                     if(!isDownloaded){
                         message = poSystem.getMessage();
                         return false;
