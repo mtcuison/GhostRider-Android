@@ -780,7 +780,7 @@ public class WebApi {
         } else {
             LIVE = PRIMARY_LIVE;
         }
-        return LOCAL + URL_REQUEST_FOR_EVALUATIONS;
+        return LIVE + URL_REQUEST_FOR_EVALUATIONS;
     }
 
     public String getUrlSubmitCIResult(boolean isBackUp) {

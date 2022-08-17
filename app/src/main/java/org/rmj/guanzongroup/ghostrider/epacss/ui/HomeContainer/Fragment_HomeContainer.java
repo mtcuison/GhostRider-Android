@@ -18,7 +18,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
@@ -30,8 +29,8 @@ import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMHomeContainer;
 import org.rmj.guanzongroup.ghostrider.epacss.ui.home.Fragment_Associate_Dashboard;
-import org.rmj.guanzongroup.ghostrider.epacss.ui.home.Fragment_Home;
 import org.rmj.guanzongroup.ghostrider.epacss.ui.home.Fragment_BH_Dashboard;
+import org.rmj.guanzongroup.ghostrider.epacss.ui.home.Fragment_Home;
 import org.rmj.guanzongroup.ghostrider.notifications.Fragment.Fragment_NotificationList;
 import org.rmj.guanzongroup.onlinecreditapplication.Adapter.FragmentAdapter;
 
@@ -59,20 +58,15 @@ public class Fragment_HomeContainer extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+        mViewModel = new ViewModelProvider(this).get(VMHomeContainer.class);
         View root = inflater.inflate(R.layout.fragment_home_container, container, false);
         appBarHome = root.findViewById(R.id.appbar_home);
         tabLayout = root.findViewById(R.id.tab_home);
         viewPager = root.findViewById(R.id.viewpager_home);
         imgHeader = root.findViewById(R.id.img_dashboard_header);
-        return root;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(VMHomeContainer.class);
         try{
-            if(mViewModel.getEmployeeLevel().equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_RANK_FILE))){
+            if(mViewModel.getEmployeeLevel().equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_RANK_FILE)) ||
+                    mViewModel.getEmployeeLevel().equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_SUPERVISOR))){
                 fragment = new Fragment[]{new Fragment_Associate_Dashboard(), new Fragment_NotificationList()};
                 appBarHome.setVisibility(View.VISIBLE);
                 imgHeader.setImageResource(R.drawable.img_associate);
@@ -120,11 +114,11 @@ public class Fragment_HomeContainer extends Fragment {
                 } else {
                     Objects.requireNonNull(tabLayout.getTabAt(1)).removeBadge();
                 }
-            } catch (NullPointerException e){
-                e.printStackTrace();
-            }catch (Exception e){
+            } catch (Exception e){
                 e.printStackTrace();
             }
         });
+
+        return root;
     }
 }

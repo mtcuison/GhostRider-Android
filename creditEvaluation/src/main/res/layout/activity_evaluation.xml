@@ -670,15 +670,16 @@
                                     android:layout_height="wrap_content"
                                     android:orientation="vertical"
                                     android:padding="5dp">
+
                                     <Button
                                         android:id="@+id/btnSave"
+                                        style="@style/GhostRider_Button"
                                         android:layout_width="fill_parent"
                                         android:layout_height="fill_parent"
-                                        android:text="Approval"
-                                        style="@style/GhostRider_Button"
                                         android:layout_alignParentEnd="true"
                                         android:layout_alignParentRight="true"
                                         android:layout_centerVertical="true"
+                                        android:text="Approval"
                                         tools:ignore="RelativeOverlap" />
                                 </LinearLayout>
                             </LinearLayout>

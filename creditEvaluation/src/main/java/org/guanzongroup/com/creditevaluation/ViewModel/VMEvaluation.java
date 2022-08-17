@@ -126,7 +126,7 @@ public class VMEvaluation extends AndroidViewModel {
         }
     }
 
-    public void saveAdditionalInfo(AdditionalInfoModel infoModel,String value, onSaveAdditionalInfo callback){
+    public void saveAdditionalInfo(AdditionalInfoModel infoModel, String value, onSaveAdditionalInfo callback){
         new UpdateTask(app,foManager,infoModel,value, callback).execute(TransNox.getValue());
     }
 
@@ -170,12 +170,10 @@ public class VMEvaluation extends AndroidViewModel {
                     }else{
                         response[0] = infoModel.getMessage();
                     }
-                }
-                else if(btnText.equalsIgnoreCase("Approval")){
+                } else if(btnText.equalsIgnoreCase("Approval")){
                     poCIEvaluation.SaveCIApproval(transNox[0], infoModel.getTranstat(), infoModel.getsRemarks(), new EvaluatorManager.OnActionCallback() {
                         @Override
                         public void OnSuccess(String args) {
-
                             response[0] = "success";
                         }
 
@@ -185,7 +183,6 @@ public class VMEvaluation extends AndroidViewModel {
                         }
                     });
                     Thread.sleep(1000);
-
                 }
                 else if(btnText.equalsIgnoreCase("Neighbor1")){
                     if (!infoModel.isNeighbr1()) {
@@ -209,62 +206,9 @@ public class VMEvaluation extends AndroidViewModel {
                         response[0] = "Neighbor 3 Info successfully saved.";
                     }
                 }
-//                else if(btnText.equalsIgnoreCase("Personnel")){
-//                    if (!infoModel.isPersonnel()){
-//                    response[0] = infoModel.getMessage();
-//                    }else {
-//                        response[0] = infoModel.getMessage();
-//                        poCIEvaluation.UpdatePresentBarangay(transNox[0],infoModel.getAsstPersonnel());
-//                    }
-//                }
-//                else if(btnText.equalsIgnoreCase("Position")){
-//                    if (!infoModel.isPosition()){
-//                        response[0] = infoModel.getMessage();
-//                    }else {
-//                        response[0] = infoModel.getMessage();
-//                        poCIEvaluation.UpdatePosition(transNox[0],infoModel.getAsstPosition());
-//                    }
-//                }
-//                else if(btnText.equalsIgnoreCase("PhoneNo")){
-//                    if (!infoModel.isMobileNo()){
-//                        response[0] = infoModel.getMessage();
-//                    }else {
-//                        response[0] = infoModel.getMessage();
-//                        poCIEvaluation.UpdateContact(transNox[0],infoModel.getMobileNo());
-//                    }
-//                }
-//                else if(btnText.equalsIgnoreCase("Record")){
-//                    if (!infoModel.isHasRecord()){
-//                        response[0] = infoModel.getMessage();
-//                    }else {
-//                        response[0] = infoModel.getMessage();
-//                        poCIEvaluation.UpdateRecordInfo(transNox[0],infoModel.getHasRecrd());
-//                        poCIEvaluation.UpdateRecordRemarks(transNox[0],infoModel.getRemRecrd());
-//
-//                    }
-//                }
-//                else if(btnText.equalsIgnoreCase("Approval")){
-//                    poCIEvaluation.SaveCIApproval(transNox[0], infoModel.getTranstat(), infoModel.getsRemarks(), new EvaluatorManager.OnActionCallback() {
-//                        @Override
-//                        public void OnSuccess(String args) {
-//
-//                            response[0] = "success";
-//                        }
-//
-//                        @Override
-//                        public void OnFailed(String message) {
-//                            response[0] = message;
-//                        }
-//                    });
-//                    Thread.sleep(1000);
-//
-//                }
                 return response[0];
 
-            } catch (NullPointerException e){
-                e.printStackTrace();
-                return e.getMessage();
-            }catch (Exception e){
+            } catch (Exception e){
                 e.printStackTrace();
                 return e.getMessage();
             }
@@ -317,10 +261,7 @@ public class VMEvaluation extends AndroidViewModel {
 
                 return response[0];
 
-            } catch (NullPointerException e){
-                e.printStackTrace();
-                return e.getMessage();
-            }catch (Exception e){
+            } catch (Exception e){
                 e.printStackTrace();
                 return e.getMessage();
             }
@@ -378,10 +319,7 @@ public class VMEvaluation extends AndroidViewModel {
                 Thread.sleep(1000);
                 return response[0];
 
-            } catch (NullPointerException e){
-                e.printStackTrace();
-                return e.getMessage();
-            }catch (Exception e){
+            } catch (Exception e){
                 e.printStackTrace();
                 return e.getMessage();
             }
@@ -414,6 +352,7 @@ public class VMEvaluation extends AndroidViewModel {
             super.onPreExecute();
             callback.OnPost();
         }
+
         @Override
         protected String doInBackground(String... transNox) {
             try {
@@ -439,10 +378,7 @@ public class VMEvaluation extends AndroidViewModel {
                 Thread.sleep(1000);
                 return response[0];
 
-            } catch (NullPointerException e){
-                e.printStackTrace();
-                return e.getMessage();
-            }catch (Exception e){
+            } catch (Exception e){
                 e.printStackTrace();
                 return e.getMessage();
             }
@@ -507,8 +443,8 @@ public class VMEvaluation extends AndroidViewModel {
                         }
 
                         @Override
-                        public void OnFailed(String message) {
-                            message = message;
+                        public void OnFailed(String mssage) {
+                            message = mssage;
                         }
                     });
             return message;

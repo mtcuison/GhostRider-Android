@@ -79,12 +79,12 @@ public interface DCreditOnlineApplicationCI {
     public void UpdateNeighbor3(String TransNox, String val);
 
     @Query("UPDATE Credit_Online_Application_CI SET " +
+            "dRcmdtnx1 =:DateApp, " +
             "cRcmdtnx1 =:fsResult, " +
             "sRcmdtnx1 =:fsRemarks, " +
             "cSendStat = '0', " +
             "sApproved = (SELECT sEmployID FROM User_Info_Master), " +
-            "dApproved =:DateApp, " +
-            "dRcmdtnx1 =:DateApp " +
+            "dApproved =:DateApp " +
             "WHERE sTransNox =:TransNox")
     public void SaveCIApproval(String TransNox, String fsResult, String fsRemarks, String DateApp);
 
@@ -171,6 +171,9 @@ public interface DCreditOnlineApplicationCI {
 
     @Update
     void UpdateExistingRecord(EBranchLoanApplication foVal);
+
+    @Query("UPDATE Credit_Online_Application_CI SET cUploaded = '1' WHERE sTransNox=:TransNox")
+    void UpdateUploadedResult(String TransNox);
 
     public class oDataEvaluationInfo {
         public String sTransNox;

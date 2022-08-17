@@ -165,4 +165,11 @@ public class RCreditOnlineApplicationCI implements DCreditOnlineApplicationCI {
     public void UpdateExistingRecord(EBranchLoanApplication foVal) {
         poDao.UpdateExistingRecord(foVal);
     }
+
+    @Override
+    public void UpdateUploadedResult(String TransNox) {
+        poDao.UpdateUploadedResult(TransNox);
+    }
+
+
 }

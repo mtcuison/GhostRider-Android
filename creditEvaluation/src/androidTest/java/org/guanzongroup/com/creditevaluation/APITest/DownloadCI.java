@@ -2,6 +2,8 @@ package org.guanzongroup.com.creditevaluation.APITest;
 
 import static org.junit.Assert.assertTrue;
 
+import android.util.Log;
+
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.json.JSONObject;
@@ -29,8 +31,9 @@ public class DownloadCI {
     private static final String LIVE_CashCount = "https://restgk.guanzongroup.com.ph/integsys/cashcount/submit_cash_count.php";
     private static final String LOCAL_CashCount = "http://192.168.10.141/integsys/cashcount/submit_cash_count.php";
 
-    public static String IMPORT_FOR_EVALUATION = "http://192.168.10.141/integsys/gocas/ci_request_for_evaluations.php";
+//    public static String IMPORT_FOR_EVALUATION = "https://restgk.guanzongroup.com.ph/integsys/gocas/ci_request_for_evaluations.php";
     public static String SUBMIT_EVALUATION_RESULT = "http://192.168.10.141/integsys/evaluator/submit_evaluation_result.php";
+    public static String IMPORT_FOR_EVALUATION = "http://192.168.10.141/integsys/gocas/ci_request_for_evaluations.php";
 
 //    private final Application instance;
 //    private final Context mContext;
@@ -139,13 +142,14 @@ public class DownloadCI {
     public void test03DownloadForEvaluator() throws Exception {
         WebApi loApi = new WebApi(true);
         JSONObject params = new JSONObject();
-        params.put("sTransNox", "C0ZHS2200033");
+        params.put("sEmployID", "M00119001131");
         String lsApiAdd = loApi.getUrlAddForEvaluation(false);
-        String lsResponse = WebClient.httpPostJSon(lsApiAdd,
+        String lsResponse = WebClient.httpPostJSon(IMPORT_FOR_EVALUATION,
                 params.toString(), (HashMap<String, String>) headers);
         if(lsResponse == null){
             isSuccess = false;
         } else {
+            Log.d(TAG, lsResponse);
             JSONObject loResponse = new JSONObject(lsResponse);
             String lsResult = loResponse.getString("result");
             if(lsResult.equalsIgnoreCase("success")){

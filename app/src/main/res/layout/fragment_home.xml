@@ -123,7 +123,7 @@
                             <com.google.android.material.bottomnavigation.BottomNavigationView
                                 android:id="@+id/navHeader"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
+                                android:layout_height="?android:attr/actionBarSize"
                                 android:background="?android:attr/windowBackground"
                                 android:foreground="?attr/selectableItemBackground"
                                 app:itemBackground="@color/material_lightgrey"

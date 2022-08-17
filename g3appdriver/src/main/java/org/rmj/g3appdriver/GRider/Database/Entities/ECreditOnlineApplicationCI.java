@@ -62,8 +62,10 @@ public class ECreditOnlineApplicationCI {
     private String Rcmdtns2;
     @ColumnInfo(name = "cTranStat")
     private String TranStat;
+    @ColumnInfo(name = "cUploaded")
+    private String Uploaded = "0";
     @ColumnInfo(name = "cSendStat")
-    private String SendStat;
+    private String SendStat = "0";
     @ColumnInfo(name = "sApproved")
     private String Approved;
     @ColumnInfo(name = "dApproved")
@@ -455,5 +457,13 @@ public class ECreditOnlineApplicationCI {
      */
     public void setDapprovd(String dapprovd) {
         Dapprovd = dapprovd;
+    }
+
+    public String getUploaded() {
+        return Uploaded;
+    }
+
+    public void setUploaded(String uploaded) {
+        Uploaded = uploaded;
     }
 }

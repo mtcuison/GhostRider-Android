@@ -13,21 +13,21 @@ package org.guanzongroup.com.creditevaluation.Model;
 
 public class AdditionalInfoModel {
 
-    public String HasRecrd;
-    public String RemRecrd;
-    public String Neighbr1;
-    public String Neighbr2;
-    public String Neighbr3;
+    public String HasRecrd = "";
+    public String RemRecrd = "";
+    public String Neighbr1 = "";
+    public String Neighbr2 = "";
+    public String Neighbr3 = "";
 
 
-    public String AsstPersonnel;
-    public String AsstPosition;
-    public String MobileNo;
+    public String AsstPersonnel = "";
+    public String AsstPosition = "";
+    public String MobileNo = "";
 
-    private String cTranstat;
-    private String sRemarks;
-    private String cRcmdtnx1;
-    private String sRcmdtnx1;
+    private String cTranstat = "";
+    private String sRemarks = "";
+    private String cRcmdtnx1 = "";
+    private String sRcmdtnx1 = "";
     public String message;
     public AdditionalInfoModel() {
     }
@@ -51,7 +51,7 @@ public class AdditionalInfoModel {
                 isNeighbr3();
     }
     public boolean isPersonnel(){
-        if (this.AsstPersonnel == null || this.AsstPersonnel.trim().isEmpty()){
+        if (AsstPersonnel.trim().isEmpty()){
             message = "Please enter brgy. personnel's full name.";
             return false;
         }
@@ -59,7 +59,7 @@ public class AdditionalInfoModel {
     }
 
     public boolean isPosition(){
-        if (this.AsstPosition == null || this.AsstPosition.trim().isEmpty()){
+        if (AsstPosition.trim().isEmpty()){
             message = "Please enter personnel position.";
             return false;
         }
@@ -68,7 +68,7 @@ public class AdditionalInfoModel {
 
     //    NEIGHBOR 1
     public boolean isNeighbr1(){
-        if (this.Neighbr1 == null || this.Neighbr1.trim().isEmpty()){
+        if (Neighbr1.trim().isEmpty()){
             message = "Please enter neighbor 1 fullname.";
             return false;
         }
@@ -76,7 +76,7 @@ public class AdditionalInfoModel {
     }
 
     public boolean isNeighbr2(){
-        if (this.Neighbr2 == null || this.Neighbr2.trim().isEmpty()){
+        if (Neighbr2.trim().isEmpty()){
             message = "Please enter neighbor 2 fullname.";
             return false;
         }
@@ -85,7 +85,7 @@ public class AdditionalInfoModel {
 
 
     public boolean isNeighbr3(){
-        if (this.Neighbr3 == null || this.Neighbr3.trim().isEmpty()){
+        if (Neighbr3.trim().isEmpty()){
             message = "Please enter neighbor 3 fullname.";
             return false;
         }
@@ -93,7 +93,7 @@ public class AdditionalInfoModel {
     }
 
     public boolean isMobileNo(){
-        if (this.MobileNo != null && !this.MobileNo.trim().isEmpty()) {
+        if (!this.MobileNo.trim().isEmpty()) {
             if(!MobileNo.substring(0, 2).equalsIgnoreCase("09")){
                 message = "Contact number must start with '09'";
                 return false;
@@ -109,7 +109,7 @@ public class AdditionalInfoModel {
     }
 
     public boolean isHasRecord(){
-        if (this.HasRecrd == null || this.HasRecrd.trim().isEmpty()){
+        if (HasRecrd.trim().isEmpty()){
             message = "Please select applicant brgy. record.";
             return false;
         }
@@ -119,7 +119,7 @@ public class AdditionalInfoModel {
         return true;
     }
     public boolean isRemRecrd(){
-        if (this.RemRecrd == null || this.RemRecrd.trim().isEmpty()){
+        if (RemRecrd.trim().isEmpty()){
             message = "Please enter record remarks.";
             return false;
         }
@@ -129,18 +129,18 @@ public class AdditionalInfoModel {
         return isApproved() && isReason();
     }
     public boolean isReason(){
-        if (this.sRemarks == null || this.sRemarks.trim().isEmpty()){
+        if (sRemarks.trim().isEmpty()){
             message = "Please enter reason for approval/disapproval evaluation.";
             return false;
         }
         return true;
     }
     public boolean isApproved(){
-        if (this.cTranstat == null || this.cTranstat.trim().isEmpty()){
+        if (cTranstat.trim().isEmpty()){
             message = "Please select approval/disapproval status.";
             return false;
         }
-        else if (this.sRemarks == null || this.sRemarks.trim().isEmpty()){
+        else if (sRemarks.trim().isEmpty()){
             message = "Please enter reason for approval/disapproval evaluation.";
             return false;
         }
