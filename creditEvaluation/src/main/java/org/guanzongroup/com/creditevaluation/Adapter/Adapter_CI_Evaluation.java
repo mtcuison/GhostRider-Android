@@ -25,9 +25,13 @@ public class Adapter_CI_Evaluation extends RecyclerView.Adapter<Adapter_CI_Evalu
     private final JSONArray poList;
     private final onSelectResultListener mListener;
 
+    public interface onEvaluate{
+        void OnSetResult(boolean isChecked);
+    }
+
     public interface onSelectResultListener {
-        void OnCorrect(String fsPar, String fsKey, String fsRes);
-        void OnIncorrect(String fsPar, String fsKey, String fsRes);
+        void OnCorrect(String fsPar, String fsKey, String fsRes, onEvaluate listener);
+        void OnIncorrect(String fsPar, String fsKey, String fsRes, onEvaluate listener);
     }
 
     public Adapter_CI_Evaluation(Context mContext, JSONArray poList, onSelectResultListener mListener) {
@@ -56,13 +60,13 @@ public class Adapter_CI_Evaluation extends RecyclerView.Adapter<Adapter_CI_Evalu
             JSONArray laDetail = loJson.getJSONArray("detail");
             holder.recyclerView.setAdapter(new Evaluate(laDetail, new onSelectResultListener() {
                 @Override
-                public void OnCorrect(String fsPar, String fsKey, String fsRes) {
-                    mListener.OnCorrect(fsPar, fsKey, fsRes);
+                public void OnCorrect(String fsPar, String fsKey, String fsRes, onEvaluate listener) {
+                    mListener.OnCorrect(fsPar, fsKey, fsRes, listener);
                 }
 
                 @Override
-                public void OnIncorrect(String fsPar, String fsKey, String fsRes) {
-                    mListener.OnIncorrect(fsPar, fsKey, fsRes);
+                public void OnIncorrect(String fsPar, String fsKey, String fsRes, onEvaluate listener) {
+                    mListener.OnIncorrect(fsPar, fsKey, fsRes, listener);
                 }
             }));
         } catch (Exception e){
@@ -138,17 +142,27 @@ public class Adapter_CI_Evaluation extends RecyclerView.Adapter<Adapter_CI_Evalu
                 });
 
                 holder.rbCor.setOnClickListener(v -> {
-                    holder.rbCor.setChecked(true);
-                    mListener.OnCorrect(finalLsParnt, finalLsKeyxx, "10");
-                    holder.btnEdit.setVisibility(View.VISIBLE);
-                    holder.DisableRBs();
+                    mListener.OnCorrect(finalLsParnt, finalLsKeyxx, "10", isChecked -> {
+                        if(isChecked){
+                            holder.rbCor.setChecked(true);
+                            holder.btnEdit.setVisibility(View.VISIBLE);
+                            holder.DisableRBs();
+                        } else {
+                            holder.rbCor.setChecked(false);
+                        }
+                    });
                 });
 
                 holder.rbInc.setOnClickListener(v -> {
-                    holder.rbInc.setChecked(true);
-                    mListener.OnCorrect(finalLsParnt, finalLsKeyxx, "20");
-                    holder.btnEdit.setVisibility(View.VISIBLE);
-                    holder.DisableRBs();
+                    mListener.OnCorrect(finalLsParnt, finalLsKeyxx, "20", isChecked -> {
+                        if(isChecked) {
+                            holder.rbInc.setChecked(true);
+                            holder.btnEdit.setVisibility(View.VISIBLE);
+                            holder.DisableRBs();
+                        } else {
+                            holder.rbInc.setChecked(false);
+                        }
+                    });
                 });
 
                 if(lsValue.equalsIgnoreCase("10")){

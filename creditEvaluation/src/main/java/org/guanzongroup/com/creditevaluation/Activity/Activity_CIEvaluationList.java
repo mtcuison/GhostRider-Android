@@ -189,6 +189,7 @@ public class Activity_CIEvaluationList extends AppCompatActivity  implements VME
             Log.e("size", String.valueOf(ciList.size()));
             try {
                 if (ciList.size() > 0) {
+                    layoutNoRecord.setVisibility(View.GONE);
                     loading.setVisibility(View.GONE);
                     ciEvaluationList = new ArrayList<>();
                     for (int x = 0; x < ciList.size(); x++) {

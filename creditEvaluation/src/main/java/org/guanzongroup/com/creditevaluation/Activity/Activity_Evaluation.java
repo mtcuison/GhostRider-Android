@@ -73,21 +73,28 @@ public class Activity_Evaluation extends AppCompatActivity {
                     psAlttude = "",
                     psLongtde = "";
 
+    private Adapter_CI_Evaluation.onEvaluate poAdLstnr;
+
     private final ActivityResultLauncher<Intent> poCamera = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
         try{
-            poImageInfo.setMD5Hashx(WebFileServer.createMD5Hash(poImageInfo.getFileLoct()));
-            mViewModel.saveResidenceImageInfo(poImageInfo);
-            mViewModel.SaveAddressResult(psParent, psAlttude, psLongtde, new VMEvaluation.onSaveAdditionalInfo() {
-                @Override
-                public void OnSuccessResult(String args, String message) {
-                    SaveCIResult(psParent, psKeyxxx, psResult);
-                }
+            if(result.getResultCode() == RESULT_OK) {
+                poImageInfo.setMD5Hashx(WebFileServer.createMD5Hash(poImageInfo.getFileLoct()));
+                mViewModel.saveResidenceImageInfo(poImageInfo);
+                mViewModel.SaveAddressResult(psParent, psAlttude, psLongtde, new VMEvaluation.onSaveAdditionalInfo() {
+                    @Override
+                    public void OnSuccessResult(String args, String message) {
+                        SaveCIResult(psParent, psKeyxxx, psResult);
+                        poAdLstnr.OnSetResult(true);
+                    }
 
-                @Override
-                public void OnFailedResult(String message) {
+                    @Override
+                    public void OnFailedResult(String message) {
 
-                }
-            });
+                    }
+                });
+            } else {
+                poAdLstnr.OnSetResult(false);
+            }
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -546,26 +553,42 @@ public class Activity_Evaluation extends AppCompatActivity {
             Log.d(TAG, laEval.toString());
             Adapter_CI_Evaluation loAdapter = new Adapter_CI_Evaluation(Activity_Evaluation.this, laEval, new Adapter_CI_Evaluation.onSelectResultListener() {
                 @Override
-                public void OnCorrect(String fsPar, String fsKey, String fsRes) {
-                    psKeyxxx = fsKey;
-                    psResult = fsRes;
+                public void OnCorrect(String fsPar, String fsKey, String fsRes, Adapter_CI_Evaluation.onEvaluate listener) {
                     if(fsPar.equalsIgnoreCase("primary_address")){
+                        poAdLstnr = listener;
                         psParent = "primary_address";
+                        psKeyxxx = fsKey;
+                        psResult = fsRes;
                         showDialogImg();
                     } else if(fsPar.equalsIgnoreCase("present_address")){
+                        poAdLstnr = listener;
                         psParent = "present_address";
+                        psKeyxxx = fsKey;
+                        psResult = fsRes;
                         showDialogImg();
                     } else {
                         SaveCIResult(fsPar, fsKey, fsRes);
+                        listener.OnSetResult(true);
                     }
                 }
 
                 @Override
-                public void OnIncorrect(String fsPar, String fsKey, String fsRes) {
-                    if(fsPar.equalsIgnoreCase("present_address") ||
-                            fsPar.equalsIgnoreCase("primary_address")){
+                public void OnIncorrect(String fsPar, String fsKey, String fsRes, Adapter_CI_Evaluation.onEvaluate listener) {
+                    if(fsPar.equalsIgnoreCase("primary_address")){
+                        poAdLstnr = listener;
+                        psParent = "primary_address";
+                        psKeyxxx = fsKey;
+                        psResult = fsRes;
+                        showDialogImg();
+                    } else if(fsPar.equalsIgnoreCase("present_address")){
+                        poAdLstnr = listener;
+                        psParent = "present_address";
+                        psKeyxxx = fsKey;
+                        psResult = fsRes;
+                        showDialogImg();
                     } else {
                         SaveCIResult(fsPar, fsKey, fsRes);
+                        listener.OnSetResult(true);
                     }
                 }
             });
