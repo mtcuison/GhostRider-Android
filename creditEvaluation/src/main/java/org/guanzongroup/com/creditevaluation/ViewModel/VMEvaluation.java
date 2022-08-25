@@ -77,24 +77,9 @@ public class VMEvaluation extends AndroidViewModel {
         return foManager.getApplications(transNox);
     }
 
-    public interface ORetrieveCallBack{
-        void onRetrieveSuccess(HashMap<oParentFndg, List<oChildFndg>> foEvaluate, ECreditOnlineApplicationCI foData);
-        void onRetrieveFailed(String message);
-    }
-    public void parseToEvaluationData(ECreditOnlineApplicationCI eCI) throws Exception {
-        foEvaluate.setValue(foManager.parseToEvaluationData(eCI));
-    }
     public LiveData<HashMap<oParentFndg, List<oChildFndg>>> getParsedEvaluationData(){
         return foEvaluate;
     }
-    //    public HashMap<oParentFndg, List<oChildFndg>> parseToEvaluationData(ECreditOnlineApplicationCI eCI){
-//        try {
-//            return foManager.parseToEvaluationData(eCI);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return null;
-//    }
 
     public void saveResidenceImageInfo(EImageInfo foImage) {
         try {
@@ -114,7 +99,6 @@ public class VMEvaluation extends AndroidViewModel {
                 } else {
                     foImage.setTransNox(poImage.getImageNextCode());
                     poImage.insertImageInfo(foImage);
-
                 }
             }else{
                 foImage.setTransNox(poImage.getImageNextCode());
@@ -457,6 +441,95 @@ public class VMEvaluation extends AndroidViewModel {
                 callback.OnSuccess("Approval sent successfully.");
             } else {
                 callback.OnSuccess(s);
+            }
+        }
+    }
+
+    public void SaveEvaluationResult(String fsParnt, String fsKEyxx, String fsValue, onSaveAdditionalInfo callback){
+        new SaveEvaluationTask(callback).execute(fsParnt, fsKEyxx, fsValue);
+    }
+
+    private class SaveEvaluationTask extends AsyncTask<String, Void, Boolean>{
+        private final EvaluatorManager poCIEvaluation;
+        private final onSaveAdditionalInfo callback;
+        private String message;
+
+        private SaveEvaluationTask(onSaveAdditionalInfo callback) {
+            this.callback = callback;
+            this.poCIEvaluation = new EvaluatorManager(app);
+        }
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            try {
+                String lsTransNox = TransNox.getValue();
+                Log.d(TAG, "Updating result : " + lsTransNox);
+                boolean isSuccess = poCIEvaluation.SaveCIResult(lsTransNox, strings[0], strings[1], strings[2]);
+                if (!isSuccess) {
+                    message = poCIEvaluation.getMessage();
+                    return false;
+                } else {
+                    return true;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                message = e.getMessage();
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            if(aBoolean){
+                callback.OnSuccessResult("", "");
+            } else {
+                callback.OnFailedResult(message);
+            }
+        }
+    }
+
+    public void SaveAddressResult(String fsPar, String fsAlttude, String fsLongtde, onSaveAdditionalInfo callback){
+        new SaveAddressTask(callback).execute(fsPar, fsAlttude, fsLongtde);
+    }
+
+    private class SaveAddressTask extends AsyncTask<String, Void, Boolean>{
+
+        private final EvaluatorManager poCIEvaluation;
+        private final onSaveAdditionalInfo callback;
+        private String message;
+
+        private SaveAddressTask(onSaveAdditionalInfo callback) {
+            this.callback = callback;
+            this.poCIEvaluation = new EvaluatorManager(app);
+        }
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            try {
+                String lsTransNox = TransNox.getValue();
+                Log.d(TAG, "Updating result : " + lsTransNox);
+                boolean isSuccess = poCIEvaluation.SaveAddressLocation(lsTransNox, strings[0], strings[1], strings[2]);
+                if (!isSuccess) {
+                    message = poCIEvaluation.getMessage();
+                    return false;
+                } else {
+                    return true;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                message = e.getMessage();
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            if(aBoolean){
+                callback.OnSuccessResult("", "");
+            } else {
+                callback.OnFailedResult(message);
             }
         }
     }

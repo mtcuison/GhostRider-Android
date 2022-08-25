@@ -139,9 +139,11 @@ public class VMEvaluationList extends AndroidViewModel {
     public LiveData<DCreditOnlineApplicationCI.oDataEvaluationInfo> getForEvaluationInfo(String transNox) {
         return poManager.getForEvaluationInfo(transNox);
     }
+
     public LiveData<List<DCreditOnlineApplicationCI.oDataEvaluationInfo>> getForEvaluationListData() {
         return poManager.getForEvaluationListData();
     }
+
     public void importApplicationInfo(OnImportCallBack callback) {
         try{
             JSONObject loJson = new JSONObject();
@@ -150,6 +152,7 @@ public class VMEvaluationList extends AndroidViewModel {
             e.printStackTrace();
         }
     }
+
     public static class ImportDataTask extends AsyncTask<JSONObject, Void, String>{
         private final RCreditApplication db;
         private final RImageInfo loImage;

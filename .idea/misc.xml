@@ -4,6 +4,10 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/CreditEvaluator/src/main/res/layout/activity_ci_application.xml" value="0.1078125" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/CreditEvaluator/src/main/res/layout/activity_evaluation_list.xml" value="0.14" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/CreditEvaluator/src/main/res/layout/list_item_ci_history_info.xml" value="0.22" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/CreditEvaluator/src/main/res/layout/list_item_ci_special_info.xml" value="0.22" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/CreditEvaluator/src/main/res/layout/list_item_evaluations.xml" value="0.18" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/ahMonitoring/src/main/res/layout/activity_application.xml" value="0.10625" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/ahMonitoring/src/main/res/layout/activity_employee_applications.xml" value="0.10625" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/ahMonitoring/src/main/res/layout/activity_inventory_entry.xml" value="0.25" />
@@ -21,7 +25,14 @@
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/app/src/main/res/layout/activity_splash_screen.xml" value="0.20615384615384616" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/app/src/main/res/layout/fragment_home.xml" value="0.22" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/approvalCode/src/main/res/layout/fragment_approval_entry.xml" value="0.22" />
-        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/creditEvaluation/src/main/res/layout/activity_evaluation.xml" value="0.18" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/creditEvaluation/src/main/res/layout/activity_cievaluation_list.xml" value="0.13958333333333334" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/creditEvaluation/src/main/res/layout/activity_evaluation.xml" value="0.25" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/creditEvaluation/src/main/res/layout/list_evaluation_ci_history_info.xml" value="0.2" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/creditEvaluation/src/main/res/layout/list_item_ci_result.xml" value="0.25" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/creditEvaluation/src/main/res/layout/list_item_evaluate.xml" value="0.2" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/creditEvaluation/src/main/res/layout/list_item_evaluations.xml" value="0.22" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/creditEvaluation/src/main/res/layout/list_item_info_result.xml" value="0.33" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/creditEvaluation/src/main/res/menu/action_menu_credit_evaluation_list.xml" value="0.10104166666666667" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/dailyCollectionPlan/src/main/res/layout/activity_collection_list.xml" value="0.209375" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/dailyCollectionPlan/src/main/res/layout/activity_collection_log.xml" value="0.1" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/dailyCollectionPlan/src/main/res/layout/activity_collection_remittance.xml" value="0.25" />

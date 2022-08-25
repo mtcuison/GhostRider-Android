@@ -11,9 +11,6 @@
 
 package org.guanzongroup.com.creditevaluation.Adapter;
 
-import android.annotation.SuppressLint;
-import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,14 +18,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.guanzongroup.com.creditevaluation.Core.oPreview;
 import org.guanzongroup.com.creditevaluation.R;
-import org.rmj.g3appdriver.GRider.Database.Entities.EBranchPerformance;
 
-import java.util.HashMap;
 import java.util.List;
 
 public class EvaluationCIHistoryInfoAdapter extends RecyclerView.Adapter<EvaluationCIHistoryInfoAdapter.EvaluationViewHolder> {
@@ -55,13 +49,7 @@ public class EvaluationCIHistoryInfoAdapter extends RecyclerView.Adapter<Evaluat
         holder.txtHeader.setText(loDetail.getTitle());
         holder.txtLabelx.setText(loDetail.getLabel());
         holder.txtContnt.setText(loDetail.getValue());
-//        if(!loDetail.getValue().equalsIgnoreCase("Correct") && !loDetail.getValue().equalsIgnoreCase("Incorrect")) {
-//            holder.txtContnt.setTextColor(Color.parseColor("#FF0000"));
-//        } else if(loDetail.getValue().equalsIgnoreCase("Correct")) {
-//            holder.txtContnt.setTextColor(Color.parseColor("#009A17"));
-//        } else if(loDetail.getValue().equalsIgnoreCase("Incorrect")) {
-//            holder.txtContnt.setTextColor(Color.parseColor("#CD001A"));
-//        }
+
         if(!"".equalsIgnoreCase(loDetail.getDescription())) {
             holder.txtDescrp.setVisibility(View.VISIBLE);
             holder.txtDescrp.setText(loDetail.getDescription());

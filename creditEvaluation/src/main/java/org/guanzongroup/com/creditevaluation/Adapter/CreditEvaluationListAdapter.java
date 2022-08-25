@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.guanzongroup.com.creditevaluation.R;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditOnlineApplicationCI;
+import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,7 +69,7 @@ public class CreditEvaluationListAdapter extends RecyclerView.Adapter<CreditEval
             DCreditOnlineApplicationCI.oDataEvaluationInfo poLoan = plLoanApp.get(position);
             holder.lblTransNoxxx.setText("Transaction No.: " + poLoan.sTransNox);
             holder.lblClientName.setText(poLoan.sClientNm);
-            holder.lblAppltnDate.setText(poLoan.dTransact);
+            holder.lblAppltnDate.setText(FormatUIText.formatGOCasBirthdate(poLoan.dTransact));
             holder.lblBranch.setText(poLoan.sBranchNm);
             holder.lnRcmdtnx1.setVisibility(View.GONE);
             if (evaluation.equalsIgnoreCase("CI Evaluation History")) {

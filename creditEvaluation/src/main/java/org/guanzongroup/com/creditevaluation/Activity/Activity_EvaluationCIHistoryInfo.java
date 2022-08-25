@@ -11,6 +11,11 @@
 
 package org.guanzongroup.com.creditevaluation.Activity;
 
+import android.os.Bundle;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -18,19 +23,18 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Bundle;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.TextView;
-
 import com.google.android.material.button.MaterialButton;
 
+import org.guanzongroup.com.creditevaluation.Adapter.Adapter_CI_Result;
 import org.guanzongroup.com.creditevaluation.Adapter.EvaluationCIHistoryInfoAdapter;
-import org.guanzongroup.com.creditevaluation.Core.PreviewParser;
+import org.guanzongroup.com.creditevaluation.Core.FindingsParser;
 import org.guanzongroup.com.creditevaluation.Dialog.DialogCIReason;
 import org.guanzongroup.com.creditevaluation.R;
 import org.guanzongroup.com.creditevaluation.ViewModel.VMEvaluationCIHistoryInfo;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditOnlineApplicationCI;
+import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 
@@ -91,18 +95,16 @@ public class Activity_EvaluationCIHistoryInfo extends AppCompatActivity {
 
     private void getExtras() {
         psTransNo = Objects.requireNonNull(getIntent().getStringExtra("sTransNox"));
-//        psClientN = Objects.requireNonNull(getIntent().getStringExtra("sClientNm"));
-//        dTransact = Objects.requireNonNull(getIntent().getStringExtra("dTransact"));
-//        psBranchx = Objects.requireNonNull(getIntent().getStringExtra("sBranchxx"));
+        psClientN = Objects.requireNonNull(getIntent().getStringExtra("sClientNm"));
+        dTransact = Objects.requireNonNull(getIntent().getStringExtra("dTransact"));
+        psBranchx = Objects.requireNonNull(getIntent().getStringExtra("sBranchxx"));
     }
 
     private void displayData() {
         setHeaderData();
         mViewModel.RetrieveApplicationData(psTransNo).observe(Activity_EvaluationCIHistoryInfo.this, ciDetails -> {
             try {
-                if(ciDetails != null) {
-                    setAdapterValue(ciDetails);
-                }
+                setupEvaluationAdapter(ciDetails);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -111,15 +113,8 @@ public class Activity_EvaluationCIHistoryInfo extends AppCompatActivity {
 
     private void setHeaderData() {
         txtClient.setText(psClientN);
-        txtTransD.setText(dTransact);
+        txtTransD.setText(FormatUIText.formatGOCasBirthdate(dTransact));
         txtBranch.setText(psBranchx);
-    }
-
-    private void setAdapterValue(ECreditOnlineApplicationCI foCiDetlx) {
-        poAdapter = new EvaluationCIHistoryInfoAdapter(PreviewParser.getCIResultPreview(foCiDetlx));
-        poAdapter.notifyDataSetChanged();
-        recyclerView.setAdapter(poAdapter);
-        recyclerView.setLayoutManager(layoutManager);
     }
 
     private class OnApproveListener implements View.OnClickListener {
@@ -168,4 +163,32 @@ public class Activity_EvaluationCIHistoryInfo extends AppCompatActivity {
         }
     }
 
+    private void setupEvaluationAdapter(ECreditOnlineApplicationCI ci){
+        try {
+            JSONArray laEval = new JSONArray();
+            JSONObject loDetail = FindingsParser.scanForEvaluation(ci.getAddressx(), ci.getAddrFndg());
+            if(!loDetail.getJSONArray("detail").getJSONObject(0).toString().equalsIgnoreCase("{}")){
+                laEval.put(FindingsParser.scanForEvaluation(ci.getAddressx(), ci.getAddrFndg()));
+            }
+
+            loDetail = FindingsParser.scanForEvaluation(ci.getIncomexx(), ci.getIncmFndg());
+            if(!loDetail.getJSONArray("detail").getJSONObject(0).toString().equalsIgnoreCase("{}")){
+                laEval.put(FindingsParser.scanForEvaluation(ci.getIncomexx(), ci.getIncmFndg()));
+            }
+
+            loDetail = FindingsParser.scanForEvaluation(ci.getAssetsxx(), ci.getAsstFndg());
+            if(!loDetail.getJSONArray("detail").getJSONObject(0).toString().equalsIgnoreCase("{}")){
+                laEval.put(FindingsParser.scanForEvaluation(ci.getAssetsxx(), ci.getAsstFndg()));
+            }
+
+            Adapter_CI_Result loAdapter = new Adapter_CI_Result(Activity_EvaluationCIHistoryInfo.this, laEval);
+
+            LinearLayoutManager loManager = new LinearLayoutManager(Activity_EvaluationCIHistoryInfo.this);
+            loManager.setOrientation(RecyclerView.VERTICAL);
+            recyclerView.setLayoutManager(loManager);
+            recyclerView.setAdapter(loAdapter);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

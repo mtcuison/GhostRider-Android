@@ -22,6 +22,7 @@
             app:popupTheme="@style/GhostRiderMaterialTheme.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -206,6 +207,7 @@
                             style="@style/HeaderLabelBlack"
                             android:fontFamily="@font/roboto_bold"
                             android:text="Data for Evaluation"/>
+
                         <org.guanzongroup.com.creditevaluation.Adapter.NoScrollExListView
                             android:id="@+id/expListview"
                             android:layout_width="match_parent"
@@ -214,14 +216,16 @@
                             android:padding="5dp"
                             android:scrollbars="none"
                             android:groupIndicator="@null"
-                            />
-<!--                        <ExpandableListView-->
-<!--                            android:id="@+id/expListview"-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="match_parent"-->
-<!--                            android:groupIndicator="@null"-->
-<!--                            android:nestedScrollingEnabled="true"/>-->
+                            android:visibility="gone"/>
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recyclerView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"/>
+
                     </LinearLayout>
+
                 </androidx.cardview.widget.CardView>
                 <!-- END ADDRESS-->
 
@@ -241,8 +245,7 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            >
+                            android:orientation="horizontal">
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -303,22 +306,6 @@
                                             tools:targetApi="jelly_bean"
                                             android:buttonTint="@color/guanzon_digital_orange"/>
                                     </RadioGroup>
-<!--                                    <LinearLayout-->
-<!--                                        android:layout_width="match_parent"-->
-<!--                                        android:layout_height="fill_parent"-->
-<!--                                        android:layout_weight="1.65"-->
-<!--                                        android:orientation="horizontal">-->
-
-<!--                                        <com.google.android.material.button.MaterialButton-->
-<!--                                            android:id="@+id/btnSaveRecord"-->
-<!--                                            android:layout_width="fill_parent"-->
-<!--                                            android:layout_height="fill_parent"-->
-<!--                                            android:layout_gravity="center_horizontal|center|center_vertical"-->
-<!--                                            app:icon="@android:drawable/ic_menu_save"-->
-<!--                                            app:iconTint="@color/guanzon_digital_orange"-->
-<!--                                            app:iconGravity="textStart"-->
-<!--                                            app:iconPadding="0dp" />-->
-<!--                                    </LinearLayout>-->
                                 </LinearLayout>
 
                                 <com.google.android.material.textfield.TextInputLayout
@@ -478,13 +465,23 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:orientation="horizontal"
-                                        android:layout_weight="1.5"
-                                        />
+                                        android:layout_weight="1.5"/>
+
                                     <Button
                                         android:id="@+id/btnSaveAdditional"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="Save"
+                                        android:layout_weight=".5"
+                                        android:layout_marginLeft="10dp"
+                                        style="@style/GhostRider_Button"/>
+
+                                    <Button
+                                        android:id="@+id/btnEditAdditional"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Edit"
+                                        android:visibility="gone"
                                         android:layout_weight=".5"
                                         android:layout_marginLeft="10dp"
                                         style="@style/GhostRider_Button"/>
@@ -527,6 +524,7 @@
                                             android:textColor="@color/material_black"
                                             android:maxLength="50" />
                                     </com.google.android.material.textfield.TextInputLayout>
+
                                     <com.google.android.material.button.MaterialButton
                                         android:id="@+id/btnSaveNeighbor1"
                                         android:layout_width="wrap_content"
@@ -534,6 +532,18 @@
                                         android:layout_weight="1.5"
                                         android:layout_gravity="center_horizontal|center|center_vertical"
                                         app:icon="@android:drawable/ic_menu_save"
+                                        app:iconTint="@color/guanzon_digital_orange"
+                                        app:iconGravity="textStart"
+                                        app:iconPadding="0dp" />
+
+                                    <com.google.android.material.button.MaterialButton
+                                        android:id="@+id/btnEditNeighbor1"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="fill_parent"
+                                        android:layout_weight="1.5"
+                                        android:visibility="gone"
+                                        android:layout_gravity="center_horizontal|center|center_vertical"
+                                        app:icon="@android:drawable/ic_menu_edit"
                                         app:iconTint="@color/guanzon_digital_orange"
                                         app:iconGravity="textStart"
                                         app:iconPadding="0dp" />
@@ -576,6 +586,7 @@
                                             android:textColor="@color/material_black"
                                             android:maxLength="50" />
                                     </com.google.android.material.textfield.TextInputLayout>
+
                                     <com.google.android.material.button.MaterialButton
                                         android:id="@+id/btnSaveNeighbor2"
                                         android:layout_width="wrap_content"
@@ -583,6 +594,18 @@
                                         android:layout_weight="1.5"
                                         android:layout_gravity="center_horizontal|center|center_vertical"
                                         app:icon="@android:drawable/ic_menu_save"
+                                        app:iconTint="@color/guanzon_digital_orange"
+                                        app:iconGravity="textStart"
+                                        app:iconPadding="0dp" />
+
+                                    <com.google.android.material.button.MaterialButton
+                                        android:id="@+id/btnEditNeighbor2"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="fill_parent"
+                                        android:layout_weight="1.5"
+                                        android:visibility="gone"
+                                        android:layout_gravity="center_horizontal|center|center_vertical"
+                                        app:icon="@android:drawable/ic_menu_edit"
                                         app:iconTint="@color/guanzon_digital_orange"
                                         app:iconGravity="textStart"
                                         app:iconPadding="0dp" />
@@ -627,6 +650,7 @@
 <!--                                        android:nextFocusForward="@id/tie_ci_neighborName2"-->
 
                                     </com.google.android.material.textfield.TextInputLayout>
+
                                     <com.google.android.material.button.MaterialButton
                                         android:id="@+id/btnSaveNeighbor3"
                                         android:layout_width="wrap_content"
@@ -634,6 +658,18 @@
                                         android:layout_weight="1.5"
                                         android:layout_gravity="center_horizontal|center|center_vertical"
                                         app:icon="@android:drawable/ic_menu_save"
+                                        app:iconTint="@color/guanzon_digital_orange"
+                                        app:iconGravity="textStart"
+                                        app:iconPadding="0dp" />
+
+                                    <com.google.android.material.button.MaterialButton
+                                        android:id="@+id/btnEditNeighbor3"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="fill_parent"
+                                        android:layout_weight="1.5"
+                                        android:visibility="gone"
+                                        android:layout_gravity="center_horizontal|center|center_vertical"
+                                        app:icon="@android:drawable/ic_menu_edit"
                                         app:iconTint="@color/guanzon_digital_orange"
                                         app:iconGravity="textStart"
                                         app:iconPadding="0dp" />
@@ -646,11 +682,14 @@
                                 android:layout_marginTop="10dp"
                                 android:layout_marginRight="5dp"
                                 android:layout_marginLeft="5dp">
+
                                 <LinearLayout
+                                    android:id="@+id/linear_upload"
                                     android:layout_width="fill_parent"
                                     android:layout_height="wrap_content"
                                     android:orientation="vertical"
                                     android:layout_weight="1"
+                                    android:visibility="gone"
                                     android:padding="5dp">
                                     <Button
                                         android:id="@+id/btnUpload"
@@ -665,10 +704,12 @@
 
                                 </LinearLayout>
                                 <LinearLayout
+                                    android:id="@+id/linear_approve"
                                     android:layout_weight="1"
                                     android:layout_width="fill_parent"
                                     android:layout_height="wrap_content"
                                     android:orientation="vertical"
+                                    android:visibility="gone"
                                     android:padding="5dp">
 
                                     <Button

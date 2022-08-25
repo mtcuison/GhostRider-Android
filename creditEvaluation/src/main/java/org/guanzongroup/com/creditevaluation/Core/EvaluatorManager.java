@@ -61,6 +61,10 @@ public class EvaluatorManager {
         this.poApis = new WebApi(poConfig.getTestStatus());
     }
 
+    public String getMessage() {
+        return message;
+    }
+
     public void DownloadForCIApplications(OnActionCallback callback){
         try{
             JSONObject params = new JSONObject();
@@ -302,6 +306,7 @@ public class EvaluatorManager {
         poCI.UpdateNeighbor3(TransNox, val);
     }
 
+    //Old update for saving CI result
     public void UpdateConfirmInfos(String TransNox, oParentFndg foParent, oChildFndg foChild, OnActionCallback callback) {
         try{
             String lsFindings = "";
@@ -332,6 +337,66 @@ public class EvaluatorManager {
             e.printStackTrace();
             Log.e(TAG, e.getMessage());
             callback.OnFailed("UpdateCIResult " + e.getMessage());
+        }
+    }
+
+    public boolean SaveAddressLocation(String TransNox, String fsPar, String fsAlttude, String fsLongtde){
+        try{
+            String lsFndng = poCI.getAddressForEvaluation(TransNox);
+            JSONObject loJson = new JSONObject(lsFndng);
+            JSONObject loDetail = loJson.getJSONObject(fsPar);
+            loDetail.put("nLatitude", fsAlttude);
+            loDetail.put("nLongitud", fsLongtde);
+            loJson.put(fsPar, loDetail);
+            Log.d(TAG, loJson.toString());
+            poCI.updateAddressEvaluation(TransNox, loJson.toString());
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
+    }
+
+    public boolean SaveCIResult(String TransNox, String fsParnt, String fsKEyxx, String fsValue){
+        try{
+            String lsFndng;
+            JSONObject loJson;
+            JSONObject loDetail;
+            if(fsParnt.isEmpty()){
+                lsFndng = poCI.getAssetsForEvaluation(TransNox);
+                loJson = new JSONObject(lsFndng);
+                loJson.put(fsKEyxx, fsValue);
+                poCI.updateAssetEvaluation(TransNox, loJson.toString());
+            } else {
+                switch (fsParnt) {
+                    case "present_address":
+                    case "primary_address":
+                        lsFndng = poCI.getAddressForEvaluation(TransNox);
+                        loJson = new JSONObject(lsFndng);
+                        loDetail = loJson.getJSONObject(fsParnt);
+                        loDetail.put(fsKEyxx, fsValue);
+                        loJson.put(fsParnt, loDetail);
+                        poCI.updateAddressEvaluation(TransNox, loJson.toString());
+                        break;
+                    case "employed":
+                    case "self_employed":
+                    case "financed":
+                    case "pensioner":
+                        lsFndng = poCI.getIncomeForEvaluation(TransNox);
+                        loJson = new JSONObject(lsFndng);
+                        loDetail = loJson.getJSONObject(fsParnt);
+                        loDetail.put(fsKEyxx, fsValue);
+                        loJson.put(fsParnt, loDetail);
+                        poCI.updateIncomeEvaluation(TransNox, loJson.toString());
+                        break;
+                }
+            }
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
         }
     }
 

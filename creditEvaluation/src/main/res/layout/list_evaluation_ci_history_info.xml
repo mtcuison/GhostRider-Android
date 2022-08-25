@@ -47,8 +47,6 @@
 
     </LinearLayout>
 
-
-
     <TextView
         android:id="@+id/txt_description"
         android:layout_width="wrap_content"
@@ -62,13 +60,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:gravity="bottom"
         android:layout_marginTop="5dp">
 
         <TextView
             android:id="@+id/txt_label"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight=".7"
+            android:layout_weight="1.5"
             android:text="Label: "
             android:textColor="@color/material_black"
             android:fontFamily="@font/roboto_medium"/>
@@ -77,7 +76,7 @@
             android:id="@+id/txt_content"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight=".5"
             android:text="Data"
             android:textColor="@color/material_black"
             android:fontFamily="@font/roboto_regular"

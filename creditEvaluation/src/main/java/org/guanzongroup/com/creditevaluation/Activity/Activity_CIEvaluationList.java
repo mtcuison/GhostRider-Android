@@ -76,7 +76,7 @@ public class Activity_CIEvaluationList extends AppCompatActivity  implements VME
                 e.printStackTrace();
             }
         });
-
+        initData();
     }
 
     @Override
@@ -87,7 +87,6 @@ public class Activity_CIEvaluationList extends AppCompatActivity  implements VME
     }
 
     private void initWidgets() {
-
         Toolbar toolbar = findViewById(R.id.toolbar_creditEvalutionList);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
@@ -115,7 +114,6 @@ public class Activity_CIEvaluationList extends AppCompatActivity  implements VME
     @Override
     public void onSuccessImport() {
         poDialogx.dismiss();
-        initData();
     }
 
     @Override
@@ -213,7 +211,6 @@ public class Activity_CIEvaluationList extends AppCompatActivity  implements VME
                         ciEvaluationList.add(loan);
                     }
 
-
                     String json = new Gson().toJson(ciEvaluationList);
                     adapter = new CreditEvaluationListAdapter(ciEvaluationList, "CI Evaluation List", new CreditEvaluationListAdapter.OnApplicationClickListener() {
                         @Override
@@ -239,7 +236,6 @@ public class Activity_CIEvaluationList extends AppCompatActivity  implements VME
                         @Override
                         public void onTextChanged(CharSequence s, int start, int before, int count) {
                             try {
-
                                 adapter.getFilter().filter(s.toString());
                                 if (adapter.getItemCount() == 0) {
                                     layoutNoRecord.setVisibility(View.VISIBLE);
@@ -263,7 +259,6 @@ public class Activity_CIEvaluationList extends AppCompatActivity  implements VME
                         }
                     });
                 } else {
-//                    mViewModel.ImportCIApplications(Activity_CIEvaluationList.this);
                     layoutNoRecord.setVisibility(View.VISIBLE);
                 }
             } catch (NullPointerException e) {

@@ -1,17 +1,18 @@
 package org.guanzongroup.com.creditevaluation.Core;
 
+import android.util.Log;
+
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class FindingsParser {
-
-    private final List<JSONObject> poParentLst = new ArrayList<>();
-    private List<oChildFndg> poChildLst;
-    private final HashMap<oParentFndg, List<oChildFndg>> poChild = new HashMap<>();
+    private static final String TAG = FindingsParser.class.getSimpleName();
 
     public static HashMap<oParentFndg, List<oChildFndg>> getForEvaluation(String fsField, String fsLabel, String fsFindings) throws Exception{
         switch (fsField){
@@ -122,5 +123,142 @@ public class FindingsParser {
             }
         }
         return poChild;
+    }
+
+    private static boolean isJson(String fsVal){
+        try{
+            JSONObject loJson = new JSONObject(fsVal);
+            Log.d(TAG, fsVal + "Parameter is valid JSONObject.");
+            return true;
+        } catch (Exception e){
+            Log.d(TAG, fsVal + "Parameter is invalid JSONObject.");
+            return false;
+        }
+    }
+
+    public static JSONObject scanForEvaluation(String fsLabel, String fsEval) {
+        JSONObject params = new JSONObject();
+        try {
+            JSONArray loDetail = new JSONArray();
+            List<String> poParentEvl = new ArrayList<>();
+            List<String> poChlLabel = new ArrayList<>();
+
+            JSONObject loForEval = new JSONObject(fsEval);
+
+            JSONObject loForLbel = new JSONObject(fsLabel);
+
+            JSONArray laForLbel = loForLbel.names();
+
+            boolean cNoChild = false;
+            for (int lnCtr = 0; lnCtr < Objects.requireNonNull(laForLbel).length(); lnCtr++) {
+                Log.d(TAG, "KEY : " + loForLbel);
+                Log.d(TAG, "KEY : " + laForLbel.getString(lnCtr));
+                Log.d(TAG, "KEY : " + loForLbel.getString(laForLbel.getString(lnCtr)));
+                if (loForLbel.isNull(laForLbel.getString(lnCtr))) {
+                    Log.d(TAG, "KEY : " + laForLbel.getString(lnCtr) + " is null");
+                } else {
+                    Log.d(TAG, "KEY : " + laForLbel.getString(lnCtr) + " is not null");
+                }
+                if (!loForLbel.isNull(laForLbel.getString(lnCtr)) &&
+                        isJson(loForLbel.getString(laForLbel.getString(lnCtr)))) {
+                    Log.d(TAG, "JSON has child");
+                    cNoChild = true;
+                    if (!loForLbel.isNull(laForLbel.getString(lnCtr))) {
+                        poParentEvl.add(laForLbel.getString(lnCtr));
+                        JSONObject loParent = loForLbel.getJSONObject(laForLbel.getString(lnCtr));
+                        JSONArray laChild = loParent.names();
+
+                        for (int i = 0; i < Objects.requireNonNull(laChild).length(); i++) {
+                            poChlLabel.add(loParent.getString(laChild.getString(i)));
+                        }
+                    }
+                } else if (!loForLbel.isNull(laForLbel.getString(lnCtr)) &&
+                        !isJson(loForLbel.getString(laForLbel.getString(lnCtr)))) {
+                    Log.d(TAG, "JSON has no child");
+                    cNoChild = false;
+                    poParentEvl.add(loForLbel.getString(laForLbel.getString(lnCtr)));
+                }
+            }
+            JSONArray laParent = loForEval.names();
+            if (cNoChild) {
+                Log.d(TAG, "Parsing json with child");
+                for (int x = 0; x < poParentEvl.size(); x++) {
+
+                    String lsParent = poParentEvl.get(x);
+
+                    if (lsParent.equalsIgnoreCase(Objects.requireNonNull(laParent).getString(x))) {
+                        JSONObject loSub = new JSONObject();
+                        Log.d(TAG, "Parent KEY: " + laParent.getString(x));
+
+                        JSONObject loParent = loForEval.getJSONObject(laParent.getString(x));
+
+                        JSONArray laChild = loParent.names();
+
+                        for (int j = 0; j < Objects.requireNonNull(laChild).length(); j++) {
+                            String lsParVal = loParent.getString(laChild.getString(j));
+                            Log.d(TAG, lsParVal);
+                            if(lsParVal.equalsIgnoreCase("20")){
+                                JSONObject loJson = new JSONObject();
+                                loJson.put("sKeyNamex", laChild.getString(j));
+                                loJson.put("sLabelxxx", poChlLabel.get(j));
+                                loJson.put("sValuexxx", loParent.getString(laChild.getString(j)));
+                                loSub.put(lsParent, loJson);
+                            } else if (lsParVal.equalsIgnoreCase("10")){
+                                JSONObject loJson = new JSONObject();
+                                loJson.put("sKeyNamex", laChild.getString(j));
+                                loJson.put("sLabelxxx", poChlLabel.get(j));
+                                loJson.put("sValuexxx", loParent.getString(laChild.getString(j)));
+                                loSub.put(lsParent, loJson);
+                            } else if(lsParVal.equalsIgnoreCase("-1")){
+                                JSONObject loJson = new JSONObject();
+                                loJson.put("sKeyNamex", laChild.getString(j));
+                                loJson.put("sLabelxxx", poChlLabel.get(j));
+                                loJson.put("sValuexxx", loParent.getString(laChild.getString(j)));
+                                loSub.put(lsParent, loJson);
+                            }
+                        }
+                        loDetail.put(loSub);
+                    }
+                }
+            } else {
+                Log.d(TAG, "Parsing json without child");
+                for (int i = 0; i < Objects.requireNonNull(laParent).length(); i++) {
+                    String lsParVal = loForEval.getString(laParent.getString(i));
+                    if (!lsParVal.equalsIgnoreCase("NULL") &&
+                            !lsParVal.equalsIgnoreCase("0.0")) {
+                        JSONObject loJson = new JSONObject();
+                        Log.d(TAG, "Parent list size: " + poParentEvl.size());
+                        Log.d(TAG, "Enumerated parent list: " + laParent.length());
+                        Log.d(TAG, poParentEvl.get(i));
+                        Log.d(TAG, laParent.getString(i));
+                        loJson.put("sKeyNamex", laParent.getString(i));
+                        loJson.put("sLabelxxx", poParentEvl.get(i));
+                        loJson.put("sValuexxx", loForEval.getString(laParent.getString(i)));
+                        loDetail.put(loJson);
+                    }
+                }
+            }
+            params.put("header", GetHeaderKey(fsEval));
+            params.put("detail", loDetail);
+
+            Log.d(TAG, "For label : " + loForLbel);
+            Log.d(TAG, "For evaluation : " + loForEval);
+            Log.d(TAG, params.toString());
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return params;
+    }
+
+
+    private static String GetHeaderKey(String fsVal) throws JSONException {
+        JSONObject loJson = new JSONObject(fsVal);
+        if(loJson.has("present_address")){
+            return "Address Info";
+        } else if(loJson.has("sProprty1")){
+            return "Other Info";
+        } else {
+            return "Means Info";
+        }
     }
 }
