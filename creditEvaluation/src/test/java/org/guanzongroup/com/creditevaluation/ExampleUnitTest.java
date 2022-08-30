@@ -1,10 +1,10 @@
 package org.guanzongroup.com.creditevaluation;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
-
-import static org.junit.Assert.*;
 
 /**
  * Example local unit test, which will execute on the development machine (host).

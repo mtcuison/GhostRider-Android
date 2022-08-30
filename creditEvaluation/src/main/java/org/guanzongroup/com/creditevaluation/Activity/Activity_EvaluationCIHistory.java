@@ -11,6 +11,16 @@
 
 package org.guanzongroup.com.creditevaluation.Activity;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -18,24 +28,12 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
 
 import org.guanzongroup.com.creditevaluation.Adapter.CreditEvaluationListAdapter;
 import org.guanzongroup.com.creditevaluation.R;
 import org.guanzongroup.com.creditevaluation.ViewModel.VMEvaluationHistory;
-import org.guanzongroup.com.creditevaluation.ViewModel.VMEvaluationList;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditOnlineApplicationCI;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
@@ -54,7 +52,6 @@ public class Activity_EvaluationCIHistory extends AppCompatActivity implements V
     private List<DCreditOnlineApplicationCI.oDataEvaluationInfo> ciEvaluationList;
     private LoadDialog poDialogx;
     private MessageBox poMessage;
-    private String userBranch;
     private TextInputEditText txtSearch;
     private TextView layoutNoRecord;
     private TextView lblBranch,lblAddress;
@@ -64,7 +61,6 @@ public class Activity_EvaluationCIHistory extends AppCompatActivity implements V
         setContentView(R.layout.activity_evaluation_cihistory);
         initWidgets();
         mViewModel = new ViewModelProvider(Activity_EvaluationCIHistory.this).get(VMEvaluationHistory.class);
-//        mViewModel.importApplicationInfo(Activity_EvaluationCIHistory.this);
         downloadApplicationsForBHApproval();
         mViewModel.getUserBranchInfo().observe(this, eBranchInfo -> {
             try {
@@ -166,15 +162,16 @@ public class Activity_EvaluationCIHistory extends AppCompatActivity implements V
 //                            poMessage.setMessage("No corresponding feature has been set.");
 //                            poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
 //                            poMessage.show();
-//
+
                             Intent loIntent = new Intent(Activity_EvaluationCIHistory.this, Activity_EvaluationCIHistoryInfo.class);
                             loIntent.putExtra("sTransNox", ciEvaluationLists.get(position).sTransNox);
                             loIntent.putExtra("sClientNm", ciEvaluationLists.get(position).sClientNm);
                             loIntent.putExtra("dTransact", ciEvaluationLists.get(position).dTransact);
                             loIntent.putExtra("sBranchxx", ciEvaluationLists.get(position).sBranchNm);
+                            if(getIntent().hasExtra("cPreviewx")){
+                                loIntent.putExtra("cPreviewx", getIntent().getBooleanExtra("cPreviewx", true));
+                            }
                             startActivity(loIntent);
-
-
                         }
 
                     });

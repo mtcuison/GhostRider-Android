@@ -54,6 +54,8 @@ public class Activity_EvaluationCIHistoryInfo extends AppCompatActivity {
     private String dTransact = "";
     private String psBranchx = "";
 
+    private boolean cPreviewx = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,6 +100,13 @@ public class Activity_EvaluationCIHistoryInfo extends AppCompatActivity {
         psClientN = Objects.requireNonNull(getIntent().getStringExtra("sClientNm"));
         dTransact = Objects.requireNonNull(getIntent().getStringExtra("dTransact"));
         psBranchx = Objects.requireNonNull(getIntent().getStringExtra("sBranchxx"));
+        cPreviewx = getIntent().getBooleanExtra("cPreviewx", true);
+
+        if(cPreviewx){
+            btnApprove.setVisibility(View.GONE);
+        } else {
+            btnApprove.setVisibility(View.VISIBLE);
+        }
     }
 
     private void displayData() {
