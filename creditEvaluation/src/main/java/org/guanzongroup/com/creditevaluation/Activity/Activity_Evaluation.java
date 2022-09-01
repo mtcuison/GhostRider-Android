@@ -190,7 +190,9 @@ public class Activity_Evaluation extends AppCompatActivity {
 
                 if(ci.getUploaded().equalsIgnoreCase("1")){
                     findViewById(R.id.linear_approve).setVisibility(View.VISIBLE);
+                    findViewById(R.id.linear_upload).setVisibility(View.GONE);
                 } else {
+                    findViewById(R.id.linear_approve).setVisibility(View.GONE);
                     findViewById(R.id.linear_upload).setVisibility(View.VISIBLE);
                 }
 

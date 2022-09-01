@@ -41,11 +41,11 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
+import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Http.WebClient;
 import org.rmj.g3appdriver.dev.Telephony;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
@@ -55,10 +55,8 @@ import org.rmj.guanzongroup.ghostrider.notifications.Function.GRiderErrorReport;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
@@ -1444,12 +1442,13 @@ public class VMCollectionList extends AndroidViewModel {
 
     }
 
-    private static class GetSearchListTask extends AsyncTask<String, Void, String> {
+    private static class GetSearchListTask extends AsyncTask<String, Void, Boolean> {
         private final ConnectionUtil poConnect;
         private final DcpManager poDcpMngr;
         private final OnCollectionNameSearch poCallBck;
-        private List<EDCPCollectionDetail> poDetailx;
+        private EDCPCollectionDetail poDetailx;
         private boolean isSuccess = false;
+        private String message = "";
 
         private GetSearchListTask(Application foApp, OnCollectionNameSearch foCallBck) {
             this.poConnect = new ConnectionUtil(foApp);
@@ -1464,45 +1463,44 @@ public class VMCollectionList extends AndroidViewModel {
         }
 
         @Override
-        protected String doInBackground(String... strings) {
-            String lsClientN = strings[0];
-            final String[] lsResultx = {""};
-
+        protected Boolean doInBackground(String... strings) {
             try {
                 if(poConnect.isDeviceConnected()) {
-                    poDcpMngr.getSearchList(lsClientN, new DcpManager.OnSearchCallback() {
+                    poDcpMngr.getSearchList(strings[0], new DcpManager.OnSearchCallback() {
                         @Override
-                        public void OnSuccess(List<EDCPCollectionDetail> foDetail) {
+                        public void OnSuccess(EDCPCollectionDetail foDetail) {
+                            poDetailx = foDetail;
                             isSuccess = true;
                             poDetailx = foDetail;
                         }
 
                         @Override
-                        public void OnFailed(String message) {
-                            lsResultx[0] = message;
+                        public void OnFailed(String fsMsg) {
+                            message = fsMsg;
+                            isSuccess = false;
                         }
                     });
+                    return isSuccess;
                 } else {
-                    lsResultx[0] = AppConstants.SERVER_NO_RESPONSE();
+                    message = "Unable to connect.";
+                    return false;
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                lsResultx[0] = e.getMessage();
+                message = e.getMessage();
+                return false;
             }
-
-            return lsResultx[0];
         }
 
         @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
             if(isSuccess) {
                 poCallBck.onSuccess(poDetailx);
             } else {
-                poCallBck.onFailed(s);
+                poCallBck.onFailed(message);
             }
         }
-
     }
 
     private static class AddCollectionTask extends AsyncTask<EDCPCollectionDetail, Void, String> {
@@ -1630,7 +1628,7 @@ public class VMCollectionList extends AndroidViewModel {
 
     public interface OnCollectionNameSearch {
         void onLoading();
-        void onSuccess(List<EDCPCollectionDetail> foDetail);
+        void onSuccess(EDCPCollectionDetail foDetail);
         void onFailed(String fsMessage);
     }
 }

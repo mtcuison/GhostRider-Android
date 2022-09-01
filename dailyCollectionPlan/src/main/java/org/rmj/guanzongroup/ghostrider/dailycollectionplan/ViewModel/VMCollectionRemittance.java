@@ -85,14 +85,6 @@ public class VMCollectionRemittance extends AndroidViewModel {
         this.loConfig = AppConfigPreference.getInstance(application);
         this.poApi = new WebApi(loConfig.getTestStatus());
     }
-    public void setCltCashx(String psCltCashx) {
-        this.psCltCashx = psCltCashx;
-        calcCashOnHand();
-    }
-    public void setCltCheck(String psCltCheck) {
-        this.psCltCheck = psCltCheck;
-        calcCashOnHand();
-    }
 
     public void setTotalRemittedCash(double nTotRCash) {
         this.nTotRCash = nTotRCash;

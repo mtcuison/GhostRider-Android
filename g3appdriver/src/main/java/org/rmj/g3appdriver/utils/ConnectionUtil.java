@@ -15,13 +15,11 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.NetworkOnMainThreadException;
 import android.os.StrictMode;
 import android.util.Log;
 
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 
-import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.SecureRandom;
@@ -131,8 +129,8 @@ public class ConnectionUtil {
             int responseCode = httpUrlConnection.getResponseCode();
 
             return responseCode == HttpURLConnection.HTTP_OK;
-        } catch (IOException | NetworkOnMainThreadException noInternetConnection){
-            noInternetConnection.printStackTrace();
+        } catch (Exception e){
+            e.printStackTrace();
             return false;
         }
     }

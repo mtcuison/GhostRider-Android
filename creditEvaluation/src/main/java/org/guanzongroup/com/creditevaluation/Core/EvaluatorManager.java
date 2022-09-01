@@ -90,7 +90,46 @@ public class EvaluatorManager {
                         loApp.setAsstFndg(loJson.getString("sAsstFndg"));
                         loApp.setIncomexx(loJson.getString("sIncomexx"));
                         loApp.setIncmFndg(loJson.getString("sIncmFndg"));
-                        loApp.setRcmdRcd1(new AppConstants().DATE_MODIFIED);
+                        if(loJson.getString("dRcmdRcd1") == null){
+                            loApp.setRcmdRcd1(new AppConstants().DATE_MODIFIED);
+                        } else if(loJson.getString("dRcmdRcd2") == null) {
+                            loApp.setHasRecrd(loJson.getString("cHasRecrd"));
+                            loApp.setRecrdRem(loJson.getString("sRecrdRem"));
+                            loApp.setPrsnBrgy(loJson.getString("sPrsnBrgy"));
+                            loApp.setPrsnPstn(loJson.getString("sPrsnPstn"));
+                            loApp.setPrsnNmbr(loJson.getString("sPrsnNmbr"));
+                            loApp.setNeighBr1(loJson.getString("sNeighBr1"));
+                            loApp.setNeighBr2(loJson.getString("sNeighBr2"));
+                            loApp.setNeighBr3(loJson.getString("sNeighBr3"));
+                            loApp.setRcmdRcd1(loJson.getString("dRcmdRcd1"));
+                            loApp.setRcmdtnx1(loJson.getString("dRcmdtnx1"));
+                            loApp.setRcmdtnc1(loJson.getString("cRcmdtnx1"));
+                            loApp.setRcmdtns1(loJson.getString("sRcmdtnx1"));
+                            loApp.setRcmdRcd2(new AppConstants().DATE_MODIFIED);
+                            loApp.setRcmdtnx2(new AppConstants().DATE_MODIFIED);
+                            loApp.setTranStat(loJson.getString("cTranStat"));
+                        } else {
+                            loApp.setHasRecrd(loJson.getString("cHasRecrd"));
+                            loApp.setRecrdRem(loJson.getString("sRecrdRem"));
+                            loApp.setPrsnBrgy(loJson.getString("sPrsnBrgy"));
+                            loApp.setPrsnPstn(loJson.getString("sPrsnPstn"));
+                            loApp.setPrsnNmbr(loJson.getString("sPrsnNmbr"));
+                            loApp.setNeighBr1(loJson.getString("sNeighBr1"));
+                            loApp.setNeighBr2(loJson.getString("sNeighBr2"));
+                            loApp.setNeighBr3(loJson.getString("sNeighBr3"));
+                            loApp.setRcmdRcd1(loJson.getString("dRcmdRcd1"));
+                            loApp.setRcmdtnx1(loJson.getString("dRcmdtnx1"));
+                            loApp.setRcmdtnc1(loJson.getString("cRcmdtnx1"));
+                            loApp.setRcmdtns1(loJson.getString("sRcmdtnx1"));
+                            loApp.setRcmdRcd2(loJson.getString("dRcmdRcd2"));
+                            loApp.setRcmdtnx2(loJson.getString("dRcmdtnx2"));
+                            loApp.setRcmdtnc2(loJson.getString("cRcmdtnx2"));
+                            loApp.setRcmdtns2(loJson.getString("sRcmdtnx2"));
+                            loApp.setTranStat(loJson.getString("cTranStat"));
+                            loApp.setUploaded("1");
+                            loApp.setSendStat("1");
+                        }
+
                         poCI.SaveApplicationInfo(loApp);
 
                         Thread.sleep(1000);
@@ -262,10 +301,6 @@ public class EvaluatorManager {
 
     public HashMap<oParentFndg, List<oChildFndg>> parseToEvaluationPreviewData(ECreditOnlineApplicationCI foDetail) throws Exception{
         HashMap<oParentFndg, List<oChildFndg>> loForEval = new HashMap<>();
-
-//        loForEval.putAll(PreviewParser.getForPreviewResult(oChildFndg.FIELDS.ADDRESS, foDetail.getAddressx(), foDetail.getAddrFndg()));
-//        loForEval.putAll(PreviewParser.getForPreviewResult(oChildFndg.FIELDS.MEANS, foDetail.getIncomexx(), foDetail.getIncmFndg()));
-//        loForEval.putAll(PreviewParser.getForPreviewResult(oChildFndg.FIELDS.ASSETS, foDetail.getAssetsxx(), foDetail.getAsstFndg()));
 
         return loForEval;
     }
@@ -587,7 +622,7 @@ public class EvaluatorManager {
     public void DownloadApplicationsForBHApproval(OnActionCallback callback){
         try{
             JSONObject params = new JSONObject();
-            params.put("sEmployID", "M00117000702");
+            params.put("sEmployID", poSession.getEmployeeID());
 
             String lsResponse = WebClient.sendRequest(poApis.getUrlDownloadBhPreview(poConfig.isBackUpServer()),
                     params.toString(), poHeaders.getHeaders());
@@ -625,6 +660,13 @@ public class EvaluatorManager {
                         loApp.setRcmdtnx2(new AppConstants().DATE_MODIFIED);
                         loApp.setTranStat(loJson.getString("cTranStat"));
                         poCI.SaveApplicationInfo(loApp);
+
+                        Thread.sleep(1000);
+                        if(DownloadForCIApplicationDetails(loJson.getString("sTransNox"))){
+                            Log.d(TAG, "Credit app info successfully downloaded.");
+                        } else {
+                            Log.d(TAG, "Failed to download credit app. " + message);
+                        }
                     }
                     callback.OnSuccess(loResponse.toString());
                 } else {

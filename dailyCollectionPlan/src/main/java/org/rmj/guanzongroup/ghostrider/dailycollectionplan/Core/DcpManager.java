@@ -64,7 +64,7 @@ public class DcpManager {
     }
 
     public interface OnSearchCallback{
-        void OnSuccess(List<EDCPCollectionDetail> foDetail);
+        void OnSuccess(EDCPCollectionDetail foDetail);
         void OnFailed(String message);
     }
 
@@ -188,7 +188,6 @@ public class DcpManager {
     }
 
     public void getSearchList(String fsClientNm, OnSearchCallback callback){
-        List<EDCPCollectionDetail> loSearch = new ArrayList<>();
         try{
             EDCPCollectionMaster loMaster = poDcp.CheckIfHasCollection();
             if(loMaster == null){
@@ -220,39 +219,35 @@ public class DcpManager {
                         String lsMessage = loError.getString("message");
                         callback.OnFailed(lsMessage);
                     } else {
-                        JSONArray laJson = loResponse.getJSONArray("data");
-                        for(int x = 0; x < laJson.length(); x++) {
-                            JSONObject loDetail = laJson.getJSONObject(x);
-                            EDCPCollectionDetail collectionDetail = new EDCPCollectionDetail();
-                            collectionDetail.setTransNox(loMaster.getTransNox());
-                            collectionDetail.setEntryNox(lnEntryNox);
-                            try {
-                                collectionDetail.setAcctNmbr(loDetail.getString("sAcctNmbr"));
-                            } catch (Exception e){
-                                e.printStackTrace();
-                            }
-                            collectionDetail.setFullName(loDetail.getString("xFullName"));
-                            collectionDetail.setIsDCPxxx("0");
-                            collectionDetail.setMobileNo(loDetail.getString("sMobileNo"));
-                            collectionDetail.setHouseNox(loDetail.getString("sHouseNox"));
-                            collectionDetail.setAddressx(loDetail.getString("sAddressx"));
-                            collectionDetail.setBrgyName(loDetail.getString("sBrgyName"));
-                            collectionDetail.setTownName(loDetail.getString("sTownName"));
-                            collectionDetail.setClientID(loDetail.getString("sClientID"));
-                            collectionDetail.setSerialID(loDetail.getString("sSerialID"));
-                            collectionDetail.setSerialNo(loDetail.getString("sSerialNo"));
-                            collectionDetail.setLongitud(loDetail.getString("nLongitud"));
-                            collectionDetail.setLatitude(loDetail.getString("nLatitude"));
-                            collectionDetail.setDueDatex(loDetail.getString("dDueDatex"));
-                            collectionDetail.setMonAmort(loDetail.getString("nMonAmort"));
-                            collectionDetail.setLastPaym(loDetail.getString("nLastPaym"));
-                            collectionDetail.setLastPaid(loDetail.getString("dLastPaym"));
-                            collectionDetail.setAmtDuexx(loDetail.getString("nAmtDuexx"));
-                            collectionDetail.setABalance(loDetail.getString("nABalance"));
-                            collectionDetail.setDelayAvg(loDetail.getString("nDelayAvg"));
-                            loSearch.add(collectionDetail);
+                        JSONObject loDetail = loResponse.getJSONObject("detail");
+                        EDCPCollectionDetail collectionDetail = new EDCPCollectionDetail();
+                        collectionDetail.setTransNox(loMaster.getTransNox());
+                        collectionDetail.setEntryNox(lnEntryNox);
+                        try {
+                            collectionDetail.setAcctNmbr(loDetail.getString("sAcctNmbr"));
+                        } catch (Exception e){
+                            e.printStackTrace();
                         }
-                        callback.OnSuccess(loSearch);
+                        collectionDetail.setFullName(loDetail.getString("xFullName"));
+                        collectionDetail.setIsDCPxxx("0");
+                        collectionDetail.setMobileNo(loDetail.getString("sMobileNo"));
+                        collectionDetail.setHouseNox(loDetail.getString("sHouseNox"));
+                        collectionDetail.setAddressx(loDetail.getString("sAddressx"));
+                        collectionDetail.setBrgyName(loDetail.getString("sBrgyName"));
+                        collectionDetail.setTownName(loDetail.getString("sTownName"));
+                        collectionDetail.setClientID(loDetail.getString("sClientID"));
+                        collectionDetail.setSerialID(loDetail.getString("sSerialID"));
+                        collectionDetail.setSerialNo(loDetail.getString("sSerialNo"));
+                        collectionDetail.setLongitud(loDetail.getString("nLongitud"));
+                        collectionDetail.setLatitude(loDetail.getString("nLatitude"));
+                        collectionDetail.setDueDatex(loDetail.getString("dDueDatex"));
+                        collectionDetail.setMonAmort(loDetail.getString("nMonAmort"));
+                        collectionDetail.setLastPaym(loDetail.getString("nLastPaym"));
+                        collectionDetail.setLastPaid(loDetail.getString("dLastPaym"));
+                        collectionDetail.setAmtDuexx(loDetail.getString("nAmtDuexx"));
+                        collectionDetail.setABalance(loDetail.getString("nABalance"));
+                        collectionDetail.setDelayAvg(loDetail.getString("nDelayAvg"));
+                        callback.OnSuccess(collectionDetail);
                     }
                 }
             }

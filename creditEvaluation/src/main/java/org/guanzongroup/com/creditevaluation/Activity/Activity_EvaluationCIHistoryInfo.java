@@ -47,7 +47,7 @@ public class Activity_EvaluationCIHistoryInfo extends AppCompatActivity {
     private LinearLayoutManager layoutManager;
     private RecyclerView recyclerView;
     private MaterialButton btnApprove;
-    private TextView txtClient, txtTransD, txtBranch;
+    private TextView txtClient, txtTransD, txtBranch, lblCIRcmnd, lblBHRcmnd;
 
     private String psTransNo = "";
     private String psClientN = "";
@@ -91,6 +91,8 @@ public class Activity_EvaluationCIHistoryInfo extends AppCompatActivity {
         txtClient = findViewById(R.id.txt_client_name);
         txtTransD = findViewById(R.id.txt_transaction_date);
         txtBranch = findViewById(R.id.txt_branch);
+        lblCIRcmnd = findViewById(R.id.txt_ci_rcmnd);
+        lblBHRcmnd = findViewById(R.id.txt_bh_rcmnd);
         recyclerView = findViewById(R.id.recyclerview);
         btnApprove = findViewById(R.id.btn_approve);
     }
@@ -101,12 +103,6 @@ public class Activity_EvaluationCIHistoryInfo extends AppCompatActivity {
         dTransact = Objects.requireNonNull(getIntent().getStringExtra("dTransact"));
         psBranchx = Objects.requireNonNull(getIntent().getStringExtra("sBranchxx"));
         cPreviewx = getIntent().getBooleanExtra("cPreviewx", true);
-
-        if(cPreviewx){
-            btnApprove.setVisibility(View.GONE);
-        } else {
-            btnApprove.setVisibility(View.VISIBLE);
-        }
     }
 
     private void displayData() {
@@ -196,6 +192,35 @@ public class Activity_EvaluationCIHistoryInfo extends AppCompatActivity {
             loManager.setOrientation(RecyclerView.VERTICAL);
             recyclerView.setLayoutManager(loManager);
             recyclerView.setAdapter(loAdapter);
+
+            if(cPreviewx){
+                btnApprove.setVisibility(View.GONE);
+                findViewById(R.id.linear_recommendations).setVisibility(View.VISIBLE);
+                if(ci.getRcmdtnc1().equalsIgnoreCase("null")){
+                    lblCIRcmnd.setText("N/A");
+                } else if(ci.getRcmdtnc1().equalsIgnoreCase("1")){
+                    lblCIRcmnd.setText("Approved");
+                } else {
+                    lblCIRcmnd.setText("Disapproved");
+                }
+
+                if(ci.getRcmdtnc2().equalsIgnoreCase("null")){
+                    lblBHRcmnd.setText("N/A");
+                } else if(ci.getRcmdtnc2().equalsIgnoreCase("1")){
+                    lblBHRcmnd.setText("Approved");
+                } else {
+                    lblBHRcmnd.setText("Disapproved");
+                }
+            } else {
+                if(ci.getRcmdtnc2() == null) {
+                    btnApprove.setVisibility(View.VISIBLE);
+                    findViewById(R.id.linear_recommendations).setVisibility(View.GONE);
+                } else {
+                    btnApprove.setVisibility(View.GONE);
+                    findViewById(R.id.linear_recommendations).setVisibility(View.GONE);
+                }
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }

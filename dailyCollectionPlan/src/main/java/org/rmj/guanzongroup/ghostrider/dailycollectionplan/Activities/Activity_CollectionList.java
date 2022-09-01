@@ -58,7 +58,6 @@ import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter.CollectionAda
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogAccountDetail;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogAddCollection;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogConfirmPost;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.Dialog_ClientSearch;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.Dialog_DebugEntry;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
@@ -327,12 +326,6 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
             finish();
         } else if(item.getItemId() == R.id.action_menu_add_collection){
             showAddDcpCollection();
-//            if (!AppAssistantConfig.getInstance(Activity_CollectionList.this).getASSIST_DCP_ADD()){
-//                Intent intent = new Intent(Activity_CollectionList.this, Activity_Help.class);
-//                intent.putExtra("help", AppConstants.INTENT_ADD_COLLECTION_DCP);
-//                startActivityForResult(intent, AppConstants.INTENT_ADD_COLLECTION_DCP);
-//            }else {
-//            }
         } else if (item.getItemId() == R.id.action_menu_post_collection) {
             showPostCollection();
         } else if (item.getItemId() == R.id.action_menu_image_log) {
@@ -547,12 +540,9 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
             loDialog = new DialogAddCollection(Activity_CollectionList.this);
             loDialog.initDialog(new DialogAddCollection.OnDialogButtonClickListener() {
                 @Override
-                public void OnDownloadClick(Dialog Dialog, String clientName, String fsType) {
+                public void OnDownloadClick(Dialog Dialog, String accountNo, String fsType) {
                     Dialog.dismiss();
-                    /** Comment this out to use DCPManager function */
-//                    if(fsType.equalsIgnoreCase("0")) {
-                    Dialog_ClientSearch loClient = new Dialog_ClientSearch(Activity_CollectionList.this);
-                    mViewModel.getSearchList(clientName, new VMCollectionList.OnCollectionNameSearch() {
+                    mViewModel.getSearchList(accountNo, new VMCollectionList.OnCollectionNameSearch() {
                         @Override
                         public void onLoading() {
                             poDialogx.initDialog("Daily Collection Plan", "Searching client. Please wait...", false);
@@ -560,59 +550,45 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
                         }
 
                         @Override
-                        public void onSuccess(List<EDCPCollectionDetail> foDetail) {
+                        public void onSuccess(EDCPCollectionDetail detail) {
                             poDialogx.dismiss();
-                            loClient.initDialog(foDetail, new Dialog_ClientSearch.OnClientSelectListener() {
-                                @Override
-                                public void OnSelect(AlertDialog clientDialog, EDCPCollectionDetail detail) {
-                                    /** Validation if user accidentally tap on list on */
-                                    poMessage.initDialog();
-                                    poMessage.setTitle("Add Collection");
-                                    poMessage.setMessage("Add " + detail.getFullName() + " with account number " +
-                                            detail.getAcctNmbr() + " to list of collection?");
-                                    poMessage.setPositiveButton("Yes", (view, msgDialog) -> {
-                                        clientDialog.dismiss();
-                                        mViewModel.AddCollection(detail, new VMCollectionList.OnTransactionCallback() {
-                                            @Override
-                                            public void onLoading() {
-                                                msgDialog.dismiss();
-                                                poDialogx.initDialog("Daily Collection Plan", "Adding client to DCP list. Please wait...", false);
-                                                poDialogx.show();
-                                            }
+                            /** Validation if user accidentally tap on list on */
+                            poMessage.initDialog();
+                            poMessage.setTitle("Add Collection");
+                            poMessage.setMessage("Add " + detail.getFullName() + " with account number " +
+                                    detail.getAcctNmbr() + " to list of collection?");
+                            poMessage.setPositiveButton("Yes", (view, msgDialog) -> {
+                                mViewModel.AddCollection(detail, new VMCollectionList.OnTransactionCallback() {
+                                    @Override
+                                    public void onLoading() {
+                                        msgDialog.dismiss();
+                                        poDialogx.initDialog("Daily Collection Plan", "Adding client to DCP list. Please wait...", false);
+                                        poDialogx.show();
+                                    }
 
-                                            @Override
-                                            public void onSuccess(String fsMessage) {
-                                                poDialogx.dismiss();
-                                                poMessage.initDialog();
-                                                poMessage.setTitle("Daily Collection Plan");
-                                                poMessage.setMessage(fsMessage);
-                                                poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-                                                poMessage.show();
-                                            }
+                                    @Override
+                                    public void onSuccess(String fsMessage) {
+                                        poDialogx.dismiss();
+                                        poMessage.initDialog();
+                                        poMessage.setTitle("Daily Collection Plan");
+                                        poMessage.setMessage(fsMessage);
+                                        poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                                        poMessage.show();
+                                    }
 
-                                            @Override
-                                            public void onFailed(String fsMessage) {
-                                                poDialogx.dismiss();
-                                                poMessage.initDialog();
-                                                poMessage.setTitle("Daily Collection Plan");
-                                                poMessage.setMessage(fsMessage);
-                                                poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-                                                poMessage.show();
-                                            }
-                                        });
-                                    });
-                                    poMessage.setNegativeButton("No", (view, msgDialog) -> msgDialog.dismiss());
-                                    poMessage.show();
-                                }
-
-                                @Override
-                                public void OnCancel(AlertDialog clientDialog) {
-                                    clientDialog.dismiss();
-                                    /** Show Add collection dialog if user cancels search client list */
-                                    loDialog.show();
-                                }
+                                    @Override
+                                    public void onFailed(String fsMessage) {
+                                        poDialogx.dismiss();
+                                        poMessage.initDialog();
+                                        poMessage.setTitle("Daily Collection Plan");
+                                        poMessage.setMessage(fsMessage);
+                                        poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                                        poMessage.show();
+                                    }
+                                });
                             });
-                            loClient.show();
+                            poMessage.setNegativeButton("No", (view, msgDialog) -> msgDialog.dismiss());
+                            poMessage.show();
                         }
 
                         @Override
@@ -626,7 +602,6 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
                         }
 
                     });
-                        /** Comment the following out to use DCPManager function */
                 }
 
                 @Override
