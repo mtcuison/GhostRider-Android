@@ -90,9 +90,9 @@ public class EvaluatorManager {
                         loApp.setAsstFndg(loJson.getString("sAsstFndg"));
                         loApp.setIncomexx(loJson.getString("sIncomexx"));
                         loApp.setIncmFndg(loJson.getString("sIncmFndg"));
-                        if(loJson.getString("dRcmdRcd1") == null){
+                        if(loJson.getString("dRcmdRcd1").equalsIgnoreCase("null")){
                             loApp.setRcmdRcd1(new AppConstants().DATE_MODIFIED);
-                        } else if(loJson.getString("dRcmdRcd2") == null) {
+                        } else if(loJson.getString("dRcmdRcd2").equalsIgnoreCase("null")) {
                             loApp.setHasRecrd(loJson.getString("cHasRecrd"));
                             loApp.setRecrdRem(loJson.getString("sRecrdRem"));
                             loApp.setPrsnBrgy(loJson.getString("sPrsnBrgy"));

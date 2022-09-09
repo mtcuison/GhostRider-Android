@@ -28,6 +28,11 @@ public class RCreditOnlineApplicationCI implements DCreditOnlineApplicationCI {
     }
 
     @Override
+    public ECreditOnlineApplicationCI CheckIfExist(String TransNox) {
+        return poDao.CheckIfExist(TransNox);
+    }
+
+    @Override
     public LiveData<List<ECreditOnlineApplicationCI>> getForEvaluationList() {
         return poDao.getForEvaluationList();
     }

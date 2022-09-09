@@ -74,13 +74,10 @@ public class CreditEvaluationListAdapter extends RecyclerView.Adapter<CreditEval
             holder.lnRcmdtnx1.setVisibility(View.GONE);
             if (evaluation.equalsIgnoreCase("CI Evaluation History")) {
                 holder.lnRcmdtnx1.setVisibility(View.VISIBLE);
-                holder.lblRcmdtnx1.setText(poLoan.sRcmdtnx1);
-                Log.e("sRcmdtnx1", poLoan.sRcmdtnx1);
+                holder.lblRcmdtnx1.setText(poLoan.cRcmdtnx1);
+                Log.e("cRcmdtnx1", poLoan.cRcmdtnx1);
             }
-        }catch (NullPointerException e){
-            e.printStackTrace();
-        }
-        catch (Exception e){
+        } catch (Exception e){
             e.printStackTrace();
         }
 

@@ -25,7 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 
-import org.guanzongroup.com.creditevaluation.Adapter.Adapter_CI_Result;
+import org.guanzongroup.com.creditevaluation.Adapter.Adapter_CIEvaluation_Headers;
 import org.guanzongroup.com.creditevaluation.Adapter.EvaluationCIHistoryInfoAdapter;
 import org.guanzongroup.com.creditevaluation.Core.FindingsParser;
 import org.guanzongroup.com.creditevaluation.Dialog.DialogCIReason;
@@ -186,7 +186,7 @@ public class Activity_EvaluationCIHistoryInfo extends AppCompatActivity {
                 laEval.put(FindingsParser.scanForEvaluation(ci.getAssetsxx(), ci.getAsstFndg()));
             }
 
-            Adapter_CI_Result loAdapter = new Adapter_CI_Result(Activity_EvaluationCIHistoryInfo.this, laEval);
+            Adapter_CIEvaluation_Headers loAdapter = new Adapter_CIEvaluation_Headers(Activity_EvaluationCIHistoryInfo.this, laEval, true, null);
 
             LinearLayoutManager loManager = new LinearLayoutManager(Activity_EvaluationCIHistoryInfo.this);
             loManager.setOrientation(RecyclerView.VERTICAL);
@@ -204,7 +204,9 @@ public class Activity_EvaluationCIHistoryInfo extends AppCompatActivity {
                     lblCIRcmnd.setText("Disapproved");
                 }
 
-                if(ci.getRcmdtnc2().equalsIgnoreCase("null")){
+                if(ci.getRcmdtnc2() == null){
+                    lblBHRcmnd.setText("N/A");
+                } else if(ci.getRcmdtnc2().equalsIgnoreCase("null")){
                     lblBHRcmnd.setText("N/A");
                 } else if(ci.getRcmdtnc2().equalsIgnoreCase("1")){
                     lblBHRcmnd.setText("Approved");

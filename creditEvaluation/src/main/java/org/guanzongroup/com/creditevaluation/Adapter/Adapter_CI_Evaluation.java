@@ -25,15 +25,6 @@ public class Adapter_CI_Evaluation extends RecyclerView.Adapter<Adapter_CI_Evalu
     private final JSONArray poList;
     private final onSelectResultListener mListener;
 
-    public interface onEvaluate{
-        void OnSetResult(boolean isChecked);
-    }
-
-    public interface onSelectResultListener {
-        void OnCorrect(String fsPar, String fsKey, String fsRes, onEvaluate listener);
-        void OnIncorrect(String fsPar, String fsKey, String fsRes, onEvaluate listener);
-    }
-
     public Adapter_CI_Evaluation(Context mContext, JSONArray poList, onSelectResultListener mListener) {
         this.mContext = mContext;
         this.poList = poList;
@@ -44,7 +35,7 @@ public class Adapter_CI_Evaluation extends RecyclerView.Adapter<Adapter_CI_Evalu
     @NonNull
     @Override
     public VHEvaluations onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_evaluations, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_evaluation_category, parent, false);
         return new VHEvaluations(view);
     }
 

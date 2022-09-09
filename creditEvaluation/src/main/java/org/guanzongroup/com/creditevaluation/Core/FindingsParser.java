@@ -194,6 +194,8 @@ public class FindingsParser {
 
                         JSONArray laChild = loParent.names();
 
+                        JSONArray laSub = new JSONArray();
+
                         for (int j = 0; j < Objects.requireNonNull(laChild).length(); j++) {
                             String lsParVal = loParent.getString(laChild.getString(j));
                             Log.d(TAG, lsParVal);
@@ -202,20 +204,22 @@ public class FindingsParser {
                                 loJson.put("sKeyNamex", laChild.getString(j));
                                 loJson.put("sLabelxxx", poChlLabel.get(j));
                                 loJson.put("sValuexxx", loParent.getString(laChild.getString(j)));
-                                loSub.put(lsParent, loJson);
+                                laSub.put(loJson);
                             } else if (lsParVal.equalsIgnoreCase("10")){
                                 JSONObject loJson = new JSONObject();
                                 loJson.put("sKeyNamex", laChild.getString(j));
                                 loJson.put("sLabelxxx", poChlLabel.get(j));
                                 loJson.put("sValuexxx", loParent.getString(laChild.getString(j)));
-                                loSub.put(lsParent, loJson);
+                                laSub.put(loJson);
                             } else if(lsParVal.equalsIgnoreCase("-1")){
                                 JSONObject loJson = new JSONObject();
                                 loJson.put("sKeyNamex", laChild.getString(j));
                                 loJson.put("sLabelxxx", poChlLabel.get(j));
                                 loJson.put("sValuexxx", loParent.getString(laChild.getString(j)));
-                                loSub.put(lsParent, loJson);
+                                laSub.put(loJson);
                             }
+                            loSub.put("category", laParent.getString(x));
+                            loSub.put(lsParent, laSub);
                         }
                         loDetail.put(loSub);
                     }

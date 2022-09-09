@@ -10,7 +10,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:fontFamily="@font/roboto_medium"
+        android:fontFamily="@font/roboto_regular"
+        android:textColor="@color/textColor_Black"
         android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -39,6 +40,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textColor="@color/black"
+                android:buttonTint="@color/check_green"
                 android:text="Correct"/>
 
             <RadioButton
@@ -46,6 +49,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textColor="@color/black"
+                android:buttonTint="@color/cross_red"
                 android:text="Incorrect"/>
 
         </RadioGroup>
@@ -55,9 +60,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Edit"
-            android:visibility="gone"
+            android:textColor="@color/textColor_Black"
+            app:backgroundTint="@color/guanzon_digital_orange"
+            android:fontFamily="@font/roboto_medium"
             android:layout_weight=".35"
-            style="@style/Widget.AppCompat.Button.Borderless"
             android:drawableLeft="@drawable/ic_exp_edit"/>
 
     </LinearLayout>

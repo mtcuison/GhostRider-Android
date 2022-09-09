@@ -18,6 +18,9 @@ public interface DCreditOnlineApplicationCI {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void SaveApplicationInfo(ECreditOnlineApplicationCI foCI);
 
+    @Query("SELECT * FROM Credit_Online_Application_CI WHERE sTransNox =:TransNox")
+    ECreditOnlineApplicationCI CheckIfExist(String TransNox);
+
     @Query("SELECT * FROM Credit_Online_Application_CI WHERE cTranStat = '0'")
     LiveData<List<ECreditOnlineApplicationCI>> getForEvaluationList();
 
@@ -55,28 +58,28 @@ public interface DCreditOnlineApplicationCI {
     void updateIncomeEvaluation(String TransNox, String Findings);
 
     @Query("UPDATE Credit_Online_Application_CI SET cHasRecrd =:val WHERE sTransNox =:TransNox")
-    public void UpdateRecordInfo(String TransNox, String val);
+    void UpdateRecordInfo(String TransNox, String val);
 
     @Query("UPDATE Credit_Online_Application_CI SET sRecrdRem =:val WHERE sTransNox =:TransNox")
-    public void UpdateRecordRemarks(String TransNox, String val);
+    void UpdateRecordRemarks(String TransNox, String val);
 
     @Query("UPDATE Credit_Online_Application_CI SET sPrsnBrgy =:val WHERE sTransNox =:TransNox")
-    public void UpdatePresentBarangay(String TransNox, String val);
+    void UpdatePresentBarangay(String TransNox, String val);
 
     @Query("UPDATE Credit_Online_Application_CI SET sPrsnPstn =:val WHERE sTransNox =:TransNox")
-    public void UpdatePosition(String TransNox, String val);
+    void UpdatePosition(String TransNox, String val);
 
     @Query("UPDATE Credit_Online_Application_CI SET sPrsnNmbr =:val WHERE sTransNox =:TransNox")
-    public void UpdateContact(String TransNox, String val);
+    void UpdateContact(String TransNox, String val);
 
     @Query("UPDATE Credit_Online_Application_CI SET sNeighBr1 =:val WHERE sTransNox =:TransNox")
-    public void UpdateNeighbor1(String TransNox, String val);
+    void UpdateNeighbor1(String TransNox, String val);
 
     @Query("UPDATE Credit_Online_Application_CI SET sNeighBr2 =:val WHERE sTransNox =:TransNox")
-    public void UpdateNeighbor2(String TransNox, String val);
+    void UpdateNeighbor2(String TransNox, String val);
 
     @Query("UPDATE Credit_Online_Application_CI SET sNeighBr3 =:val WHERE sTransNox =:TransNox")
-    public void UpdateNeighbor3(String TransNox, String val);
+    void UpdateNeighbor3(String TransNox, String val);
 
     @Query("UPDATE Credit_Online_Application_CI SET " +
             "dRcmdtnx1 =:DateApp, " +
@@ -86,14 +89,14 @@ public interface DCreditOnlineApplicationCI {
             "sApproved = (SELECT sEmployID FROM User_Info_Master), " +
             "dApproved =:DateApp " +
             "WHERE sTransNox =:TransNox")
-    public void SaveCIApproval(String TransNox, String fsResult, String fsRemarks, String DateApp);
+    void SaveCIApproval(String TransNox, String fsResult, String fsRemarks, String DateApp);
 
     @Query("UPDATE Credit_Online_Application_CI SET " +
             "cRcmdtnx2 =:fsResult, " +
             "sRcmdtnx2 =:fsRemarks, " +
             "cSendStat = '0' " +
             "WHERE sTransNox =:TransNox")
-    public void SaveBHApproval(String TransNox, String fsResult, String fsRemarks);
+    void SaveBHApproval(String TransNox, String fsResult, String fsRemarks);
 
     @Query("SELECT a.sTransNox, " +
             "a.sCredInvx, " +
@@ -109,7 +112,12 @@ public interface DCreditOnlineApplicationCI {
             "b.dTransact, " +
             "c.sBranchNm, " +
             "b.nDownPaym, " +
-            "a.sRcmdtnx1 " +
+            "a.sRcmdtnx1, " +
+            "CASE " +
+            "WHEN a.cRcmdtnx1 IS NULL " +
+            "THEN 'N/A' " +
+            "WHEN a.cRcmdTnx1 > 0 " +
+            "THEN 'Approved' ELSE 'Disapproved' END AS cRcmdtnx1 " +
             "FROM CREDIT_ONLINE_APPLICATION_CI a " +
             "LEFT JOIN Credit_Online_Application_List b " +
             "ON a.sTransNox = b.sTransNox " +
@@ -132,7 +140,12 @@ public interface DCreditOnlineApplicationCI {
             "b.dTransact, " +
             "c.sBranchNm, " +
             "b.nDownPaym, " +
-            "a.sRcmdtnx1 " +
+            "a.sRcmdtnx1, " +
+            "CASE " +
+            "WHEN a.cRcmdtnx1 IS NULL " +
+            "THEN 'N/A' " +
+            "WHEN a.cRcmdTnx1 > 0 " +
+            "THEN 'Approved' ELSE 'Disapproved' END AS cRcmdtnx1 " +
             "FROM CREDIT_ONLINE_APPLICATION_CI a " +
             "LEFT JOIN Credit_Online_Application_List b " +
             "ON a.sTransNox = b.sTransNox " +
@@ -155,7 +168,12 @@ public interface DCreditOnlineApplicationCI {
             "b.dTransact, " +
             "c.sBranchNm, " +
             "b.nDownPaym, " +
-            "a.sRcmdtnx1 " +
+            "a.sRcmdtnx1, " +
+            "CASE " +
+            "WHEN a.cRcmdtnx1 IS NULL " +
+            "THEN 'N/A' " +
+            "WHEN a.cRcmdTnx1 > 0 " +
+            "THEN 'Approved' ELSE 'Disapproved' END AS cRcmdtnx1 " +
             "FROM CREDIT_ONLINE_APPLICATION_CI a " +
             "LEFT JOIN Credit_Online_Application_List b " +
             "ON a.sTransNox = b.sTransNox " +
@@ -176,7 +194,7 @@ public interface DCreditOnlineApplicationCI {
     @Query("UPDATE Credit_Online_Application_CI SET cUploaded = '1' WHERE sTransNox=:TransNox")
     void UpdateUploadedResult(String TransNox);
 
-    public class oDataEvaluationInfo {
+    class oDataEvaluationInfo {
         public String sTransNox;
         public String sCredInvx;
         public String sAddressx;
@@ -195,5 +213,6 @@ public interface DCreditOnlineApplicationCI {
         public String sModelIDx;
         public String nAcctTerm;
         public String sRcmdtnx1;
+        public String cRcmdtnx1;
     }
 }

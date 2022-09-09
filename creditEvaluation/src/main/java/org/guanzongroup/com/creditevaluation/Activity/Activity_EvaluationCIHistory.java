@@ -49,7 +49,6 @@ public class Activity_EvaluationCIHistory extends AppCompatActivity implements V
     private LinearLayoutManager layoutManager;
     private CreditEvaluationListAdapter adapter;
     private LinearLayout loading;
-    private List<DCreditOnlineApplicationCI.oDataEvaluationInfo> ciEvaluationList;
     private LoadDialog poDialogx;
     private MessageBox poMessage;
     private TextInputEditText txtSearch;
@@ -127,34 +126,8 @@ public class Activity_EvaluationCIHistory extends AppCompatActivity implements V
             try {
                 if (ciList.size() > 0) {
                     loading.setVisibility(View.GONE);
-                    ciEvaluationList = new ArrayList<>();
-                    for (int x = 0; x < ciList.size(); x++) {
-                        DCreditOnlineApplicationCI.oDataEvaluationInfo loan = new DCreditOnlineApplicationCI.oDataEvaluationInfo();
-                        loan.sTransNox = (ciList.get(x).sTransNox);
-                        loan.dTransact = (ciList.get(x).dTransact);
-                        loan.sCredInvx = (ciList.get(x).sCredInvx);
-                        loan.sClientNm = (ciList.get(x).sClientNm);
-                        loan.nAcctTerm = (ciList.get(x).nAcctTerm);
-                        loan.nDownPaym = (ciList.get(x).nDownPaym);
-                        loan.sAddressx = (ciList.get(x).sAddressx);
-                        loan.sAddrFndg = (ciList.get(x).sAddrFndg);
-                        loan.sAssetsxx = (ciList.get(x).sAssetsxx);
-                        loan.sAsstFndg = (ciList.get(x).sAsstFndg);
-                        loan.sIncomexx = (ciList.get(x).sIncmFndg);
-                        loan.cHasRecrd = (ciList.get(x).cHasRecrd);
-                        loan.sBranchNm = (ciList.get(x).sBranchNm);
-                        loan.sRecrdRem = (ciList.get(x).sRecrdRem);
-                        loan.sRcmdtnx1 = (ciList.get(x).sRcmdtnx1);
 
-                        Log.e("sRcmdtnx1 ", ciList.get(x).sRcmdtnx1);
-                        ciEvaluationList.add(loan);
-                        continue;
-                    }
-
-
-                    String json = new Gson().toJson(ciEvaluationList);
-
-                    adapter = new CreditEvaluationListAdapter(ciEvaluationList, "CI Evaluation History", new CreditEvaluationListAdapter.OnApplicationClickListener() {
+                    adapter = new CreditEvaluationListAdapter(ciList, "CI Evaluation History", new CreditEvaluationListAdapter.OnApplicationClickListener() {
                         @Override
                         public void OnClick(int position, List<DCreditOnlineApplicationCI.oDataEvaluationInfo> ciEvaluationLists) {
 //                            poMessage.initDialog();

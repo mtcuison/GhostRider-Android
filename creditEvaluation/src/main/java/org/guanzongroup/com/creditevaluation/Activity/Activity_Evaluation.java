@@ -25,7 +25,10 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import org.guanzongroup.com.creditevaluation.Adapter.Adapter_CIEvaluation_Headers;
 import org.guanzongroup.com.creditevaluation.Adapter.Adapter_CI_Evaluation;
+import org.guanzongroup.com.creditevaluation.Adapter.onEvaluate;
+import org.guanzongroup.com.creditevaluation.Adapter.onSelectResultListener;
 import org.guanzongroup.com.creditevaluation.Core.FindingsParser;
 import org.guanzongroup.com.creditevaluation.Core.oChildFndg;
 import org.guanzongroup.com.creditevaluation.Core.oParentFndg;
@@ -73,7 +76,7 @@ public class Activity_Evaluation extends AppCompatActivity {
                     psAlttude = "",
                     psLongtde = "";
 
-    private Adapter_CI_Evaluation.onEvaluate poAdLstnr;
+    private onEvaluate poAdLstnr;
 
     private final ActivityResultLauncher<Intent> poCamera = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
         try{
@@ -553,9 +556,9 @@ public class Activity_Evaluation extends AppCompatActivity {
                 laEval.put(FindingsParser.scanForEvaluation(ci.getAssetsxx(), ci.getAsstFndg()));
             }
             Log.d(TAG, laEval.toString());
-            Adapter_CI_Evaluation loAdapter = new Adapter_CI_Evaluation(Activity_Evaluation.this, laEval, new Adapter_CI_Evaluation.onSelectResultListener() {
+            Adapter_CIEvaluation_Headers loAdapter = new Adapter_CIEvaluation_Headers(Activity_Evaluation.this, laEval, false, new onSelectResultListener() {
                 @Override
-                public void OnCorrect(String fsPar, String fsKey, String fsRes, Adapter_CI_Evaluation.onEvaluate listener) {
+                public void OnCorrect(String fsPar, String fsKey, String fsRes, onEvaluate listener) {
                     if(fsPar.equalsIgnoreCase("primary_address")){
                         poAdLstnr = listener;
                         psParent = "primary_address";
@@ -575,7 +578,7 @@ public class Activity_Evaluation extends AppCompatActivity {
                 }
 
                 @Override
-                public void OnIncorrect(String fsPar, String fsKey, String fsRes, Adapter_CI_Evaluation.onEvaluate listener) {
+                public void OnIncorrect(String fsPar, String fsKey, String fsRes, onEvaluate listener) {
                     if(fsPar.equalsIgnoreCase("primary_address")){
                         poAdLstnr = listener;
                         psParent = "primary_address";
