@@ -1446,7 +1446,7 @@ public class VMCollectionList extends AndroidViewModel {
         private final ConnectionUtil poConnect;
         private final DcpManager poDcpMngr;
         private final OnCollectionNameSearch poCallBck;
-        private EDCPCollectionDetail poDetailx;
+        private List<EDCPCollectionDetail> poDetailx;
         private boolean isSuccess = false;
         private String message = "";
 
@@ -1468,8 +1468,7 @@ public class VMCollectionList extends AndroidViewModel {
                 if(poConnect.isDeviceConnected()) {
                     poDcpMngr.getSearchList(strings[0], new DcpManager.OnSearchCallback() {
                         @Override
-                        public void OnSuccess(EDCPCollectionDetail foDetail) {
-                            poDetailx = foDetail;
+                        public void OnSuccess(List<EDCPCollectionDetail> foDetail) {
                             isSuccess = true;
                             poDetailx = foDetail;
                         }
@@ -1628,7 +1627,7 @@ public class VMCollectionList extends AndroidViewModel {
 
     public interface OnCollectionNameSearch {
         void onLoading();
-        void onSuccess(EDCPCollectionDetail foDetail);
+        void onSuccess(List<EDCPCollectionDetail> foDetail);
         void onFailed(String fsMessage);
     }
 }

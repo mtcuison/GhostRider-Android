@@ -161,16 +161,20 @@ public class Adapter_CI_Evaluate extends RecyclerView.Adapter<Adapter_CI_Evaluat
         String lsValue;
         if(fsLabel.equalsIgnoreCase("1")){
             lsValue = "YES";
-        } else {
+        } else if(fsLabel.equalsIgnoreCase("0")){
             lsValue = "NO";
+        } else if(fsLabel.isEmpty()){
+            lsValue = "No property info provided by applicant.";
+        } else {
+            lsValue = fsLabel;
         }
         switch (fsKey){
             case "sProprty1":
-                return "Property 1";
+                return "Property 1: " + lsValue;
             case "sProprty2":
-                return "Property 2";
+                return "Property 2: " + lsValue;
             case "sProprty3":
-                return "Property 3";
+                return "Property 3: " + lsValue;
             case "cWith4Whl":
                 return "Has 4 Wheeled Vehicle : "  + lsValue;
             case "cWith3Whl":

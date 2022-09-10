@@ -64,7 +64,7 @@ public class TimeLogAdapter extends RecyclerView.Adapter<TimeLogAdapter.TimeLogV
             }
             if (selfieLogList.get(position).getSendStat().equalsIgnoreCase("1")) {
                 holder.lblStatusx.setText("Uploaded");
-                holder.lblStatusx.setTextColor(Color.parseColor("008000"));
+                holder.lblStatusx.setTextColor(Color.parseColor("#008000"));
             } else {
                 holder.lblStatusx.setText("Sending");
                 holder.lblStatusx.setTextColor(Color.RED);

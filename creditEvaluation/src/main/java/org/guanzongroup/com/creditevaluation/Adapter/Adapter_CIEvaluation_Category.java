@@ -41,7 +41,7 @@ public class Adapter_CIEvaluation_Category extends RecyclerView.Adapter<Adapter_
         try{
             JSONObject loJson = poList.getJSONObject(position);
             String lsHeader = loJson.getString("category");
-            holder.lblHeader.setText(lsHeader);
+            holder.lblHeader.setText(getCategoryLabel(lsHeader));
             LinearLayoutManager loManager = new LinearLayoutManager(mContext);
             loManager.setOrientation(RecyclerView.VERTICAL);
             holder.recyclerView.setLayoutManager(loManager);
@@ -77,6 +77,23 @@ public class Adapter_CIEvaluation_Category extends RecyclerView.Adapter<Adapter_
             super(itemView);
             recyclerView = itemView.findViewById(R.id.recyclerView);
             lblHeader = itemView.findViewById(R.id.textview);
+        }
+    }
+
+    private String getCategoryLabel(String fsVal){
+        switch (fsVal){
+            case "present_address":
+                return "Present Address";
+            case "primary_address":
+                return "Primary Address";
+            case "employed":
+                return "Employment Info";
+            case "self_employed":
+                return "Business Info";
+            case "financed":
+                return "Finance Info";
+            default:
+                return "Pension Info";
         }
     }
 }
