@@ -25,9 +25,4 @@ public interface DUncapturedClient {
 
     @Insert
     void insert(EUncapturedClient uncapturedClient);
-
-    @Delete
-    void delete(EUncapturedClient uncapturedClient);
-
-    //LiveData<List<EUncapturedClient>> getUncapturedClientList();
 }

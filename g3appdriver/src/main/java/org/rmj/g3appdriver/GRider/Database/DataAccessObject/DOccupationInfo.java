@@ -38,9 +38,6 @@ public interface DOccupationInfo {
     @Query("SELECT * FROM Occupation_Info WHERE sOccptnID=:fsVal")
     EOccupationInfo CheckIfExist(String fsVal);
 
-    @Delete
-    void delete(EOccupationInfo occupationInfo);
-
     @Query("SELECT * FROM Occupation_Info")
     LiveData<List<EOccupationInfo>> getAllOccupationInfo();
 

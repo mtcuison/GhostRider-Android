@@ -35,9 +35,6 @@ public interface DAreaPerformance {
     @Update
     void update(EAreaPerformance areaPerformance);
 
-    @Delete
-    void delete(EAreaPerformance areaPerformance);
-
     @Query("DELETE FROM MC_Area_Performance")
     void deleteAllAreaPerformanceInfo();
 

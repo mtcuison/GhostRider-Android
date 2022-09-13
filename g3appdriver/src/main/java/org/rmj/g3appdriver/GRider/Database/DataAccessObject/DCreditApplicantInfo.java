@@ -31,9 +31,6 @@ public interface DCreditApplicantInfo {
     @Update
     void update(ECreditApplicantInfo creditApplicantInfo);
 
-    @Delete
-    void delete(ECreditApplicantInfo creditApplicantInfo);
-
     @Query("SELECT * FROM Credit_Applicant_Info WHERE sTransNox = :TransNox")
     LiveData<ECreditApplicantInfo> getCreditApplicantInfo(String TransNox);
 

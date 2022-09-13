@@ -30,9 +30,6 @@ public interface DCIEvaluation {
     @Update(onConflict = OnConflictStrategy.REPLACE)
     void update(ECIEvaluation eciEvaluation);
 
-    @Delete
-    void delete(ECIEvaluation eciEvaluation);
-
     @Insert
     void insertNewCiApplication(ECIEvaluation eciEvaluation);
 

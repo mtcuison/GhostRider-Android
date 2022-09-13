@@ -33,9 +33,6 @@ public interface DCashCount {
     @Update
     void updateCashCount(ECashCount cashCount);
 
-    @Delete
-    void delete(ECashCount cashCount);
-
     @Query("SELECT * FROM Cash_Count_Master WHERE sTransNox =:TransNox")
     LiveData<ECashCount> getCashCounDetetail(String TransNox);
 

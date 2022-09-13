@@ -35,9 +35,6 @@ public interface DBranchInfo {
     @Update
     void update(EBranchInfo branchInfo);
 
-    @Delete
-    void delete(EBranchInfo branchInfo);
-
     @Query("DELETE FROM Branch_Info")
     void deleteAllBranches();
 

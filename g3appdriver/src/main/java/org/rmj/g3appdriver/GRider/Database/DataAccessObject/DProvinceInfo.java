@@ -40,9 +40,6 @@ public interface DProvinceInfo {
     @Update
     void update(EProvinceInfo provinceInfo);
 
-    @Delete
-    void delete(EProvinceInfo provinceInfo);
-
     @Query("SELECT * FROM Province_Info")
     LiveData<List<EProvinceInfo>> getAllProvinceInfo();
 

@@ -35,9 +35,6 @@ public interface DMcModelPrice {
     @Update
     void update(EMcModelPrice mcModelPrice);
 
-    @Delete
-    void delete(EMcModelPrice mcModelPrice);
-
     @Query("SELECT * FROM Mc_Model_Price WHERE sModelIDx = :BrandID")
     LiveData<List<EMcModelPrice>> getAllModelPrice(String BrandID);
 

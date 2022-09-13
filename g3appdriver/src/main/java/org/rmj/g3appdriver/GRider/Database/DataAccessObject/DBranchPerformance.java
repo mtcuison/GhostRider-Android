@@ -35,9 +35,6 @@ public interface DBranchPerformance {
     @Update
     void update(EBranchPerformance branchPerformance);
 
-    @Delete
-    void delete(EBranchPerformance branchPerformance);
-
     @Query("SELECT * FROM MC_Branch_Performance")
     LiveData<List<EBranchPerformance>> getAllBranchPerformanceInfo();
 

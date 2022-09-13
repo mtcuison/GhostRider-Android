@@ -35,9 +35,6 @@ public interface DMcTermCategory {
     @Update
     void update(EMcTermCategory mcTermCategory);
 
-    @Delete
-    void delete(EMcTermCategory mcTermCategory);
-
     @Query("SELECT * FROM MC_Term_Category")
     LiveData<List<EMcTermCategory>> getAllMcTermCategory();
 

@@ -32,9 +32,6 @@ public interface DDCPCollectionMaster {
     @Update
     void update(EDCPCollectionMaster collectionMaster);
 
-    @Delete
-    void delete(EDCPCollectionMaster collectionMaster);
-
     @Query("SELECT * FROM LR_DCP_Collection_Master")
     LiveData<List<EDCPCollectionMaster>> getCollectionMasterList();
 

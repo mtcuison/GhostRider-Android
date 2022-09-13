@@ -15,9 +15,6 @@ public interface DItinerary {
     @Insert
     void Save(EItinerary foVal);
 
-    @Insert
-    void SaveBulkData(List<EItinerary> foVal);
-
     @Query("SELECT COUNT (*) FROM Employee_Itinerary")
     int GetRowsCountForID();
 

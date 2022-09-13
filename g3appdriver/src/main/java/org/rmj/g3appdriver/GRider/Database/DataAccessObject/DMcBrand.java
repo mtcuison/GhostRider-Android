@@ -35,9 +35,6 @@ public interface DMcBrand {
     @Update
     void update(EMcBrand mcBrand);
 
-    @Delete
-    void delete(EMcBrand mcBrand);
-
     @Query("SELECT * FROM MC_Brand")
     LiveData<List<EMcBrand>> getAllMcBrand();
 

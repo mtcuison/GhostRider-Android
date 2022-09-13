@@ -35,9 +35,6 @@ public interface DTownInfo {
     @Update
     void update(ETownInfo townInfo);
 
-    @Delete
-    void delete(ETownInfo townInfo);
-
     @Query("SELECT COUNT(*) FROM Town_Info")
     Integer GetTownRecordsCount();
 

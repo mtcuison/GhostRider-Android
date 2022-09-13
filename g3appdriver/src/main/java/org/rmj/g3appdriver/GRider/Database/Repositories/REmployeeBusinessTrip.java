@@ -48,11 +48,6 @@ public class REmployeeBusinessTrip implements DEmployeeBusinessTrip {
     }
 
     @Override
-    public void delete(EEmployeeBusinessTrip obLeave) {
-        employeeBusinessTripDao.delete(obLeave);
-    }
-
-    @Override
     public void insertNewOBLeave(EEmployeeBusinessTrip obLeave) {
         employeeBusinessTripDao.insertNewOBLeave(obLeave);
     }

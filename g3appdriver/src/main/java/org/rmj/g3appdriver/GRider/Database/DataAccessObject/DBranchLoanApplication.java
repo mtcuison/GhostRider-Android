@@ -35,9 +35,6 @@ public interface DBranchLoanApplication {
     @Update
     void update(EBranchLoanApplication branchLoanApplication);
 
-    @Delete
-    void delete(EBranchLoanApplication branchLoanApplication);
-
     @Query("SELECT * FROM Credit_Online_Application_List " +
             "WHERE sBranchCD = (SELECT sBranchCD FROM User_Info_Master) ")
     LiveData<List<EBranchLoanApplication>> getAllBranchCreditApplication();

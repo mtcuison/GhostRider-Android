@@ -35,9 +35,6 @@ public interface DMcModel {
     @Update
     void update(EMcModel mcModel);
 
-    @Delete
-    void delete(EMcModel mcModel);
-
     @Query("SELECT * FROM Mc_Model WHERE sBrandIDx = :BrandID")
     LiveData<List<EMcModel>> getAllModeFromBrand(String BrandID);
 

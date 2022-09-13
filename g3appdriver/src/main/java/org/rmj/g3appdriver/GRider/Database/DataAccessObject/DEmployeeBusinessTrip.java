@@ -32,9 +32,6 @@ public interface DEmployeeBusinessTrip {
     @Update(onConflict = OnConflictStrategy.REPLACE)
     void update(EEmployeeBusinessTrip obLeave);
 
-    @Delete
-    void delete(EEmployeeBusinessTrip obLeave);
-
     @Insert
     void insertNewOBLeave(EEmployeeBusinessTrip obLeave);
 

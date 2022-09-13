@@ -33,9 +33,6 @@ public interface DRaffleInfo {
     @Update
     void update(ERaffleInfo raffleEntry);
 
-    @Delete
-    void delete(ERaffleInfo raffleEntry);
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertBulkData(List<ERaffleBasis> raffleEntries);
 

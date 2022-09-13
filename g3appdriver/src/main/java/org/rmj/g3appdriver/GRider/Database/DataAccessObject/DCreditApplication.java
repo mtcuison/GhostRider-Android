@@ -36,9 +36,6 @@ public interface    DCreditApplication {
     @Update
     void update(ECreditApplication creditApplication);
 
-    @Delete
-    void delete(ECreditApplication creditApplication);
-
     @Query("SELECT * FROM Credit_Online_Application")
     LiveData<List<ECreditApplication>> getAllCreditApplication();
 

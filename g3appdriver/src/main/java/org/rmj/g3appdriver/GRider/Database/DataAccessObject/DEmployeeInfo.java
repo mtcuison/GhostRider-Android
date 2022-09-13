@@ -32,9 +32,6 @@ public interface DEmployeeInfo {
     @Update
     void update(EEmployeeInfo employee);
 
-    @Delete
-    void delete(EEmployeeInfo employee);
-
     @Query("SELECT * FROM User_Info_Master")
     LiveData<EEmployeeInfo> getEmployeeInfo();
 

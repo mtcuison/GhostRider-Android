@@ -35,9 +35,6 @@ public interface DCountryInfo {
     @Update
     void update(ECountryInfo countryInfo);
 
-    @Delete
-    void delete(ECountryInfo countryInfo);
-
     @Query("SELECT * FROM Country_Info")
     LiveData<List<ECountryInfo>> getAllCountryInfo();
 

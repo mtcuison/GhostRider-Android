@@ -32,9 +32,6 @@ public interface DBarangayInfo {
     @Update
     void update(EBarangayInfo barangayInfo);
 
-    @Delete
-    void delete(EBarangayInfo barangayInfo);
-
     @Query("SELECT COUNT(*) FROM Barangay_Info")
     Integer GetBarangayRecordCount();
 

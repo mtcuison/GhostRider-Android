@@ -23,7 +23,6 @@ import java.util.List;
 @Dao
 public interface DLog_Selfie {
 
-
     @Insert
     void insertLoginSelfie(ELog_Selfie log_selfie);
 
