@@ -105,7 +105,6 @@ public class DcpManager {
             if(lsEmployID == null || lsEmployID.equalsIgnoreCase("")){
                 callback.OnFailed("Unable to download DCP. Please re-login your account and try again.");
             } else {
-                lsEmployID = "M00121001100";
                 JSONObject loJson = new JSONObject();
                 loJson.put("sEmployID", lsEmployID);
                 loJson.put("dTransact", lsReferDte);

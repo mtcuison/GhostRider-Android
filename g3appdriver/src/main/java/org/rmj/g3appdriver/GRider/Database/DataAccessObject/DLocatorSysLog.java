@@ -17,6 +17,8 @@ import androidx.room.Query;
 
 import org.rmj.g3appdriver.GRider.Database.Entities.EGLocatorSysLog;
 
+import java.util.List;
+
 @Dao
 public interface DLocatorSysLog {
 
@@ -25,4 +27,7 @@ public interface DLocatorSysLog {
 
     @Query("UPDATE GLocator_Sys_log SET cSendStat = '1', dTimeStmp =:dTimeStmp WHERE dTransact =:dTransact")
     void updateSysLogStatus(String dTimeStmp, String dTransact);
+
+    @Query("SELECT * FROM GLocator_Sys_log")
+    List<EGLocatorSysLog> GetTrackingLocations();
 }

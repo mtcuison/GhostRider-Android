@@ -209,11 +209,14 @@ public class GLocatorService extends Service {
                     String lsLat = loDetail.getString("latitude");
                     String lsLon = loDetail.getString("longitude");
                     if(isLocationEnabled(instance)) {
+                        loSysLog.setGpsEnbld("0");
                         loSysLog.setRemarksx("Location service is not enabled.");
                     } else if(lsLat.equalsIgnoreCase("0.00000000000") ||
                     lsLon.equalsIgnoreCase("0.00000000000")){
+                        loSysLog.setGpsEnbld("1");
                         loSysLog.setRemarksx("Unable to trace location while gps is active.");
                     } else {
+                        loSysLog.setGpsEnbld("1");
                         loSysLog.setRemarksx("Location Retrieve.");
                     }
                     poSysLog.saveCurrentLocation(loSysLog);

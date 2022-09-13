@@ -66,6 +66,7 @@ public class WebApi {
     private static final String URL_BRANCH_LOAN_APP = "integsys/param/download_credit_online_application_list.php";
     private static final String URL_DCP_REMITTANCE = "integsys/dcp/dcp_remit.php";
     private static final String URL_DCP_LOCATION_REPORT = "integsys/dcp/dcp_sumbit_coordinates.php";
+    private static final String LOCAL_COORDINATES_TRACKER = "integsys/dcp/dcp_coordinates_receiver.php";
     private static final String URL_BRANCH_REMITTANCE_ACC = "integsys/param/download_branch_bank_account.php";
     private static final String URL_IMPORT_SYS_CONFIG = "integsys/param/download_system_config.php";
     private static final String URL_DOWNLOAD_CREDIT_ONLINE_APP = "integsys/param/download_credit_online_application_list.php";
@@ -868,5 +869,16 @@ public class WebApi {
             LIVE = PRIMARY_LIVE;
         }
         return LIVE + URL_DOWNLOAD_ITINERARY;
+    }
+
+    public String getUrlSubmitLocationTrack(boolean isBackUp) {
+        if(isUnitTest) {
+            return LOCAL + LOCAL_COORDINATES_TRACKER;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
+        }
+        return LIVE + LOCAL_COORDINATES_TRACKER;
     }
 }

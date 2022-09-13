@@ -36,6 +36,8 @@ public class EGLocatorSysLog {
     private String Latitude = "0.00";
     @ColumnInfo(name = "cSendStat")
     private String SendStat = "0";
+    @ColumnInfo(name = "cGpsEnbld")
+    private String GpsEnbld;
     @ColumnInfo(name = "sRemarksx")
     private String Remarksx;
     @ColumnInfo(name = "dTimeStmp")
@@ -116,5 +118,13 @@ public class EGLocatorSysLog {
 
     public void setLstUpdte(String lstUpdte) {
         LstUpdte = lstUpdte;
+    }
+
+    public String getGpsEnbld() {
+        return GpsEnbld;
+    }
+
+    public void setGpsEnbld(String cGpsEnbld) {
+        this.GpsEnbld = cGpsEnbld;
     }
 }
