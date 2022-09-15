@@ -127,7 +127,7 @@ dependencies {
 //    implementation project(':json-simple-1.1.1')
 //    implementation project(':commons-codec-1.11') //implement commons codec
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
-    implementation files('C:/Users/User/Documents/AndroidStudio/_GRider/appdriver.jar')
-    implementation files('C:/Users/User/Documents/AndroidStudio/_GRider/json-simple-1.1.1.jar')
-    implementation files('C:/Users/User/Documents/AndroidStudio/_GRider/commons-codec-1.11.jar')
+    implementation files('D:/Android_Libs/appdriver.jar')
+    implementation files('D:/Android_Libs/json-simple-1.1.1.jar')
+    implementation files('D:/Android_Libs/commons-codec-1.11.jar')
 }

@@ -39,9 +39,9 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'androidx.room:room-runtime:2.4.2'
     implementation 'androidx.sqlite:sqlite:2.2.0'
-    implementation files('C:/Users/User/Documents/AndroidStudio/_GRider/appdriver.jar')
-    implementation files('C:/Users/User/Documents/AndroidStudio/_GRider/json-simple-1.1.1.jar')
-    implementation files('C:/Users/User/Documents/AndroidStudio/_GRider/commons-codec-1.11.jar')
+    implementation files('D:/Android_Libs/appdriver.jar')
+    implementation files('D:/Android_Libs/json-simple-1.1.1.jar')
+    implementation files('D:/Android_Libs/commons-codec-1.11.jar')
     implementation 'androidx.test:core:1.4.0'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test:runner:1.4.0'

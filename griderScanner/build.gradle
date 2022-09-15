@@ -83,7 +83,7 @@ dependencies {
     implementation project(':settings')
     implementation 'com.google.android.gms:play-services-location:19.0.1'
     implementation 'com.google.android.gms:play-services-maps:18.0.2'
-    implementation files('C:/Users/User/Documents/AndroidStudio/_GRider/appdriver.jar')
-    implementation files('C:/Users/User/Documents/AndroidStudio/_GRider/json-simple-1.1.1.jar')
-    implementation files('C:/Users/User/Documents/AndroidStudio/_GRider/commons-codec-1.11.jar')
+    implementation files('D:/Android_Libs/appdriver.jar')
+    implementation files('D:/Android_Libs/json-simple-1.1.1.jar')
+    implementation files('D:/Android_Libs/commons-codec-1.11.jar')
 }

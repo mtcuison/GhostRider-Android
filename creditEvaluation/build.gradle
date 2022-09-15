@@ -79,7 +79,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:21.0.0'
 
 //    implementation project(':json-simple-1.1.1') //implement json simple
-    implementation files('C:/Users/User/Documents/AndroidStudio/_GRider/appdriver.jar')
-    implementation files('C:/Users/User/Documents/AndroidStudio/_GRider/json-simple-1.1.1.jar')
-    implementation files('C:/Users/User/Documents/AndroidStudio/_GRider/commons-codec-1.11.jar')
+    implementation files('D:/Android_Libs/appdriver.jar')
+    implementation files('D:/Android_Libs/json-simple-1.1.1.jar')
+    implementation files('D:/Android_Libs/commons-codec-1.11.jar')
 }
