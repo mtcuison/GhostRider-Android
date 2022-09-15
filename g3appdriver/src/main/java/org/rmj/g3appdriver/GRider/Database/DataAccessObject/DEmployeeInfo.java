@@ -27,7 +27,7 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 public interface DEmployeeInfo {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(EEmployeeInfo employee);
+    void SaveNewEmployeeSession(EEmployeeInfo employee);
 
     @Update
     void update(EEmployeeInfo employee);

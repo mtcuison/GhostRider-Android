@@ -131,6 +131,7 @@ public class ConnectionUtil {
             return responseCode == HttpURLConnection.HTTP_OK;
         } catch (Exception e){
             e.printStackTrace();
+            message = e.getMessage();
             return false;
         }
     }

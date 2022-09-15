@@ -190,11 +190,11 @@ public class Fragment_LeaveApplication extends Fragment {
                     }
 
                     @Override
-                    public void OnSuccess() {
+                    public void OnSuccess(String message) {
                         poProgress.dismiss();
                         poMessage.initDialog();
                         poMessage.setTitle("Leave Application");
-                        poMessage.setMessage("Your leave application has been submitted.");
+                        poMessage.setMessage(message);
                         poMessage.setPositiveButton("Okay", (view, dialog) -> {
                             dialog.dismiss();
                             spnType.setSelection(0);

@@ -65,8 +65,6 @@ public class UploadEmployeeApplication {
         protected String doInBackground(String... strings) {
             try{
                 if(poConn.isDeviceConnected()) {
-                    PostLeaveApp();
-
                     PostBusinessTripApp();
                 } else {
                     Log.d(TAG, "Unable to post applications. No internet");
@@ -83,60 +81,6 @@ public class UploadEmployeeApplication {
             super.onPostExecute(s);
         }
 
-        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-        void PostLeaveApp(){
-            String lsResult;
-            try{
-                List<EEmployeeLeave> loLeave = poLeave.getUnsentEmployeeLeave();
-                if(loLeave.size()>0){
-                    for(int x = 0; x < loLeave.size(); x++){
-                        EEmployeeLeave leave = loLeave.get(x);
-                        JSONObject param = new JSONObject();
-                        param.put("sTransNox", poLeave.getNextLeaveCode());
-                        param.put("dTransact", AppConstants.CURRENT_DATE);
-                        param.put("sEmployID", leave.getEmployID());
-                        param.put("dDateFrom", leave.getDateFrom());
-                        param.put("dDateThru", leave.getDateThru());
-                        param.put("nNoDaysxx", leave.getNoDaysxx());
-                        param.put("sPurposex", leave.getPurposex());
-                        param.put("cLeaveTyp", leave.getLeaveTyp());
-                        param.put("dAppldFrx", leave.getDateFrom());
-                        param.put("dAppldTox", leave.getDateThru());
-                        param.put("sEntryByx", leave.getEmployID());
-                        param.put("dEntryDte", leave.getEntryDte());
-                        param.put("nWithOPay", "0");
-                        param.put("nEqualHrs", leave.getEqualHrs());
-                        param.put("sApproved", "0");
-                        param.put("dApproved", "");
-                        param.put("dSendDate", "2017-07-19");
-                        param.put("cTranStat", "1");
-                        param.put("sModified", leave.getEmployID());
-
-                        lsResult = WebClient.sendRequest(poApi.getUrlSendLeaveApplication(loConfig.isBackUpServer()), param.toString(), poHeaders.getHeaders());
-                        if(lsResult == null){
-                            Log.d(TAG, "Sending employee leave. server no response");
-                        } else {
-                            JSONObject loResult = new JSONObject(lsResult);
-                            String result = loResult.getString("result");
-                            if(result.equalsIgnoreCase("success")){
-                                poLeave.updateSendStatus(
-                                        new AppConstants().DATE_MODIFIED,
-                                        leave.getTransNox(),
-                                        loResult.getString("sTransNox"));
-                                Log.d("Employee Leave", "Leave info updated!");
-                            }
-                        }
-
-                        Thread.sleep(1000);
-                    }
-                }
-            } catch (Exception e){
-                e.printStackTrace();
-                Log.d(TAG, "Sending employee leave. " + e.getMessage());
-            }
-        }
-
-        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         void PostBusinessTripApp(){
             String lsResult;
             try{

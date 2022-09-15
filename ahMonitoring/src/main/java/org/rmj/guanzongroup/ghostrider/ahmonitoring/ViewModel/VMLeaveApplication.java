@@ -56,7 +56,7 @@ public class VMLeaveApplication extends AndroidViewModel {
 
     public interface LeaveApplicationCallback {
         void OnSave(String Title, String message);
-        void OnSuccess();
+        void OnSuccess(String message);
         void OnFailed(String message);
     }
 
@@ -75,33 +75,23 @@ public class VMLeaveApplication extends AndroidViewModel {
     }
 
     public void SaveApplication(LeaveApplication application, LeaveApplicationCallback callback){
-        if(application.isDataValid()) {
-            new SaveLeaveApplication(instance, callback).execute(application);
-        } else {
-            callback.OnFailed(application.getMessage());
-        }
+        new SaveLeaveApplication(instance, callback).execute(application);
     }
 
-    private static class SaveLeaveApplication extends AsyncTask<LeaveApplication, Void, String>{
+    private static class SaveLeaveApplication extends AsyncTask<LeaveApplication, Void, Boolean>{
         private final Application instance;
         private final LeaveApplicationCallback callback;
 
         private final ConnectionUtil poConn;
-        private final HttpHeaders poHeaders;
         private final REmployeeLeave poLeave;
-        private final SessionManager poSession;
-        private final WebApi poApi;
-        private final AppConfigPreference loConfig;
+
+        private String message;
 
         public SaveLeaveApplication(Application application, LeaveApplicationCallback callback) {
             this.instance = application;
             this.callback = callback;
             this.poConn = new ConnectionUtil(instance);
-            this.poHeaders = HttpHeaders.getInstance(instance);
             this.poLeave = new REmployeeLeave(instance);
-            this.poSession = new SessionManager(instance);
-            this.loConfig = AppConfigPreference.getInstance(instance);
-            this.poApi = new WebApi(loConfig.getTestStatus());
         }
 
         @Override
@@ -110,92 +100,112 @@ public class VMLeaveApplication extends AndroidViewModel {
             callback.OnSave("Pet Manager", "Saving your leave application. Please wait...");
         }
 
-        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         @Override
-        protected String doInBackground(LeaveApplication... leaveApplications) {
-            String lsResult;
+        protected Boolean doInBackground(LeaveApplication... leaveApplications) {
             LeaveApplication loLeave = leaveApplications[0];
             try {
+                if(!loLeave.isDataValid()){
+                    message = loLeave.getMessage();
+                    return false;
+                }
                 EEmployeeLeave loApp = new EEmployeeLeave();
-                loApp.setTransNox(poLeave.getNextLeaveCode());
                 loApp.setTransact(AppConstants.CURRENT_DATE);
-                loApp.setEmployID(poSession.getEmployeeID());
                 loApp.setEmployID(loLeave.getEmploName());
                 loApp.setBranchNm(loLeave.getBranchNme());
+                loApp.setDateFrom(loLeave.getDateFromx());
+                loApp.setDateThru(loLeave.getDateThrux());
                 loApp.setAppldFrx(loLeave.getDateFromx());
                 loApp.setAppldTox(loLeave.getDateThrux());
                 loApp.setNoDaysxx(String.valueOf(loLeave.getNoOfDaysx()));
                 loApp.setPurposex(loLeave.getRemarksxx());
                 loApp.setEqualHrs(String.valueOf(loLeave.getNoOfHours()));
                 loApp.setLeaveTyp(loLeave.getLeaveType());
-                loApp.setEntryByx(poSession.getEmployeeID());
                 loApp.setEntryDte(AppConstants.CURRENT_DATE);
                 loApp.setWithOPay("0");
                 loApp.setApproved("0");
                 loApp.setTranStat("0");
-                poLeave.insertApplication(loApp);
-
-                JSONObject param = new JSONObject();
-                param.put("sTransNox", poLeave.getNextLeaveCode());
-                param.put("dTransact", AppConstants.CURRENT_DATE);
-                param.put("sEmployID", poSession.getEmployeeID());
-                param.put("dDateFrom", loLeave.getDateFromx());
-                param.put("dDateThru", loLeave.getDateThrux());
-                param.put("nNoDaysxx", loLeave.getNoOfDaysx());
-                param.put("sPurposex", loLeave.getRemarksxx());
-                param.put("cLeaveTyp", loLeave.getLeaveType());
-                param.put("dAppldFrx", loLeave.getDateFromx());
-                param.put("dAppldTox", loLeave.getDateThrux());
-                param.put("sEntryByx", poSession.getEmployeeID());
-                param.put("dEntryDte", AppConstants.CURRENT_DATE);
-                param.put("nWithOPay", "0");
-                param.put("nEqualHrs", loApp.getEqualHrs());
-                param.put("sApproved", "0");
-                param.put("dApproved", "");
-                param.put("dSendDate", AppConstants.CURRENT_DATE);
-                param.put("cTranStat", "1");
-                param.put("sModified", poSession.getEmployeeID());
-
-                if(poConn.isDeviceConnected()){
-                    lsResult = WebClient.sendRequest(poApi.getUrlSendLeaveApplication(loConfig.isBackUpServer()), param.toString(), poHeaders.getHeaders());
-                    if(lsResult == null){
-                        lsResult = AppConstants.SERVER_NO_RESPONSE();
+                if (poLeave.SaveLeaveApplication(loApp)) {
+                    if (!poConn.isDeviceConnected()) {
+                        message = poConn.getMessage();
+                        return true;
+                    } else if (poLeave.UploadLeaveApplication(poLeave.getTransno())) {
+                        message = poLeave.getMessage();
+                        return true;
                     } else {
-                        JSONObject loResult = new JSONObject(lsResult);
-                        String result = loResult.getString("result");
-                        if(result.equalsIgnoreCase("success")){
-                            poLeave.updateSendStatus(
-                                    new AppConstants().DATE_MODIFIED,
-                                    loApp.getTransNox(),
-                                    loResult.getString("sTransNox"));
-                            Log.d("Employee Leave", "Leave info updated!");
-                        }
+                        message = poLeave.getMessage();
+                        return false;
                     }
                 } else {
-                    lsResult = AppConstants.NO_INTERNET();
+                    message = poLeave.getMessage();
+                    return false;
                 }
-                Log.e("VMLeaveApplication", lsResult);
+
+//                JSONObject param = new JSONObject();
+//                param.put("sTransNox", poLeave.getNextLeaveCode());
+//                param.put("dTransact", AppConstants.CURRENT_DATE);
+//                param.put("sEmployID", poSession.getEmployeeID());
+//                param.put("dDateFrom", loLeave.getDateFromx());
+//                param.put("dDateThru", loLeave.getDateThrux());
+//                param.put("nNoDaysxx", loLeave.getNoOfDaysx());
+//                param.put("sPurposex", loLeave.getRemarksxx());
+//                param.put("cLeaveTyp", loLeave.getLeaveType());
+//                param.put("dAppldFrx", loLeave.getDateFromx());
+//                param.put("dAppldTox", loLeave.getDateThrux());
+//                param.put("sEntryByx", poSession.getEmployeeID());
+//                param.put("dEntryDte", AppConstants.CURRENT_DATE);
+//                param.put("nWithOPay", "0");
+//                param.put("nEqualHrs", loApp.getEqualHrs());
+//                param.put("sApproved", "0");
+//                param.put("dApproved", "");
+//                param.put("dSendDate", AppConstants.CURRENT_DATE);
+//                param.put("cTranStat", "1");
+//                param.put("sModified", poSession.getEmployeeID());
+//
+//                if(poConn.isDeviceConnected()){
+//                    lsResult = WebClient.sendRequest(poApi.getUrlSendLeaveApplication(loConfig.isBackUpServer()), param.toString(), poHeaders.getHeaders());
+//                    if(lsResult == null){
+//                        lsResult = AppConstants.SERVER_NO_RESPONSE();
+//                    } else {
+//                        JSONObject loResult = new JSONObject(lsResult);
+//                        String result = loResult.getString("result");
+//                        if(result.equalsIgnoreCase("success")){
+//                            poLeave.updateSendStatus(
+//                                    new AppConstants().DATE_MODIFIED,
+//                                    loApp.getTransNox(),
+//                                    loResult.getString("sTransNox"));
+//                            Log.d("Employee Leave", "Leave info updated!");
+//                        }
+//                    }
+//                } else {
+//                    lsResult = AppConstants.NO_INTERNET();
+//                }
+//                Log.e("VMLeaveApplication", lsResult);
             } catch (Exception e){
                 e.printStackTrace();
-                lsResult = AppConstants.LOCAL_EXCEPTION_ERROR(e.getMessage());
+                message = e.getMessage();
+                return false;
             }
-            return lsResult;
         }
 
         @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            try{
-                JSONObject loJson = new JSONObject(s);
-                if(loJson.getString("result").equalsIgnoreCase("success")){
-                    callback.OnSuccess();
-                } else {
-                    JSONObject loError = loJson.getJSONObject("error");
-                    callback.OnFailed(loError.getString("message"));
-                }
-            } catch (Exception e){
-                e.printStackTrace();
+        protected void onPostExecute(Boolean isSuccess) {
+            super.onPostExecute(isSuccess);
+            if(isSuccess){
+                callback.OnSuccess(message);
+            } else {
+                callback.OnFailed(message);
             }
+//            try{
+//                JSONObject loJson = new JSONObject(s);
+//                if(loJson.getString("result").equalsIgnoreCase("success")){
+//                    callback.OnSuccess();
+//                } else {
+//                    JSONObject loError = loJson.getJSONObject("error");
+//                    callback.OnFailed(loError.getString("message"));
+//                }
+//            } catch (Exception e){
+//                e.printStackTrace();
+//            }
             this.cancel(true);
         }
     }

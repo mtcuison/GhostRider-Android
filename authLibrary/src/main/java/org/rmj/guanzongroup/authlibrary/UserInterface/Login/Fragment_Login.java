@@ -31,6 +31,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
@@ -86,7 +87,7 @@ public class Fragment_Login extends Fragment implements LoginCallback{
             String email = Objects.requireNonNull(tieEmail.getText()).toString();
             String password = Objects.requireNonNull(tiePassword.getText()).toString();
             String mobileNo = Objects.requireNonNull(tieMobileNo.getText()).toString();
-            mViewModel.Login(new UserAuthInfo(email,password, mobileNo), Fragment_Login.this);
+            mViewModel.Login(new REmployee.UserAuthInfo(email,password, mobileNo), Fragment_Login.this);
         });
 
         lblVersion.setText(poConfigx.getVersionInfo());

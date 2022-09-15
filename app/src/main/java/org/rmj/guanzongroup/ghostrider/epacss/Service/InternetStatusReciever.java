@@ -41,6 +41,7 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplication;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplicationDocument;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RDCP_Remittance;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
+import org.rmj.g3appdriver.GRider.Database.Repositories.REmployeeLeave;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RItinerary;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RLocationSysLog;
@@ -224,8 +225,20 @@ public class InternetStatusReciever extends BroadcastReceiver {
                 }
 
                 new RItinerary(instance).UploadUnsentItinerary();
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 
                 new RLocationSysLog(instance).uploadUnsentLocationTracks();
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                new REmployeeLeave(instance).UploadLeaveApplications();
             }
             return Message;
         }

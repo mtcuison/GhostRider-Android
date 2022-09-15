@@ -22,53 +22,53 @@ public class EEmployeeLeave {
     @PrimaryKey
     @NonNull
     @ColumnInfo(name = "sTransNox")
-    private String TransNox;
+    private String TransNox = "";
     @ColumnInfo(name = "dTransact")
-    private String Transact;
+    private String Transact = "";
     @ColumnInfo(name = "sEmployID")
-    private String EmployID;
+    private String EmployID = "";
     @ColumnInfo(name = "sBranchNm")
-    private String BranchNm;
+    private String BranchNm = "";
     @ColumnInfo(name = "sDeptName")
-    private String DeptName;
+    private String DeptName = "";
     @ColumnInfo(name = "sPositnNm")
-    private String PositnNm;
+    private String PositnNm = "";
     @ColumnInfo(name = "dDateFrom")
-    private String DateFrom;
+    private String DateFrom = "";
     @ColumnInfo(name = "dDateThru")
-    private String DateThru;
+    private String DateThru = "";
     @ColumnInfo(name = "nNoDaysxx")
-    private String NoDaysxx;
+    private String NoDaysxx = "";
     @ColumnInfo(name = "sPurposex")
-    private String Purposex;
+    private String Purposex = "";
     @ColumnInfo(name = "cLeaveTyp")
-    private String LeaveTyp;
+    private String LeaveTyp = "";
     @ColumnInfo(name = "dAppldFrx")
-    private String AppldFrx;
+    private String AppldFrx = "";
     @ColumnInfo(name = "dAppldTox")
-    private String AppldTox;
+    private String AppldTox = "";
     @ColumnInfo(name = "sEntryByx")
-    private String EntryByx;
+    private String EntryByx = "";
     @ColumnInfo(name = "dEntryDte")
-    private String EntryDte;
+    private String EntryDte = "";
     @ColumnInfo(name = "nWithOPay")
-    private String WithOPay;
+    private String WithOPay = "";
     @ColumnInfo(name = "nEqualHrs")
-    private String EqualHrs;
+    private String EqualHrs = "";
     @ColumnInfo(name = "sApproved")
-    private String Approved;
+    private String Approved = "";
     @ColumnInfo(name = "dApproved")
-    private String DApproved;
+    private String DApproved = "";
     @ColumnInfo(name = "cSentStat")
-    private String SentStat;
+    private String SentStat = "";
     @ColumnInfo(name = "dSendDate")
-    private String SendDate;
+    private String SendDate = "";
     @ColumnInfo(name = "nLveCredt")
-    private String LveCredt;
+    private String LveCredt = "";
     @ColumnInfo(name = "cTranStat")
-    private String TranStat;
+    private String TranStat = "";
     @ColumnInfo(name = "dModified")
-    private String Modified;
+    private String Modified = "";
 
     public EEmployeeLeave() {
     }

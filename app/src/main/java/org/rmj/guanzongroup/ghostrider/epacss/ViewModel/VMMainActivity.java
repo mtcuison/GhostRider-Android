@@ -21,7 +21,6 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeRole;
 import org.rmj.g3appdriver.GRider.Database.Entities.ELog_Selfie;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
-import org.rmj.g3appdriver.GRider.Database.Repositories.REmployeeRole;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RLogSelfie;
 import org.rmj.guanzongroup.ghostrider.epacss.Service.InternetStatusReciever;
 
@@ -31,7 +30,6 @@ public class VMMainActivity extends AndroidViewModel {
     private static final String TAG = "GRider Main Activity";
     private final Application app;
     private final InternetStatusReciever poNetRecvr;
-    private final REmployeeRole poRole;
     private final REmployee poUser;
     private final RLogSelfie poLog;
 
@@ -39,7 +37,6 @@ public class VMMainActivity extends AndroidViewModel {
         super(application);
         this.app = application;
         this.poNetRecvr = new InternetStatusReciever(app);
-        this.poRole = new REmployeeRole(app);
         this.poUser = new REmployee(app);
         this.poLog = new RLogSelfie(app);
     }
@@ -49,11 +46,11 @@ public class VMMainActivity extends AndroidViewModel {
     }
 
     public LiveData<List<EEmployeeRole>> getEmployeeRole(){
-        return poRole.getEmployeeRoles();
+        return poUser.getEmployeeRoles();
     }
 
     public LiveData<List<EEmployeeRole>> getChildRoles(){
-        return poRole.getChildRoles();
+        return poUser.getChildRoles();
     }
 
     public LiveData<EEmployeeInfo> getEmployeeInfo(){

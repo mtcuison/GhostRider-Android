@@ -9,20 +9,20 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.LeaveApprovalInfo;
+import org.rmj.g3appdriver.GRider.Database.Repositories.REmployeeLeave;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 
 import java.util.List;
 
 public class Adapter_RequestLeaveObApplication extends RecyclerView.Adapter<Adapter_RequestLeaveObApplication.ViewHolder>{
 
-    private List<LeaveApprovalInfo> infoList;
-    private LeaveApprovalInfo infoModel;
+    private List<REmployeeLeave.LeaveApprovalInfo> infoList;
+    private REmployeeLeave.LeaveApprovalInfo infoModel;
     private Context mContext;
     private onItemClickListener mListener;
 
     public Adapter_RequestLeaveObApplication(Context context,
-                                             List<LeaveApprovalInfo> requestleaveOb_InfoModel_List){
+                                             List<REmployeeLeave.LeaveApprovalInfo> requestleaveOb_InfoModel_List){
         this.mContext = context;
         this.infoList = requestleaveOb_InfoModel_List;
     }
@@ -52,7 +52,7 @@ public class Adapter_RequestLeaveObApplication extends RecyclerView.Adapter<Adap
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        LeaveApprovalInfo requestNamesInfoModel;
+        REmployeeLeave.LeaveApprovalInfo requestNamesInfoModel;
         TextView textView;
         public ViewHolder(@NonNull View itemView, final onItemClickListener listener) {
             super(itemView);

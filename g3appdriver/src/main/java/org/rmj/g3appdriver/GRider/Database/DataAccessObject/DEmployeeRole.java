@@ -27,6 +27,9 @@ public interface DEmployeeRole {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void InsertEmployeeRole(EEmployeeRole role);
 
+    @Query("SELECT * FROM xxxAOEmpRole WHERE sObjectNm=:fsVal")
+    EEmployeeRole GetEmployeeRole(String fsVal);
+
     @Query("DELETE FROM xxxAOEmpRole")
     void DeleteEmployeeRole();
 

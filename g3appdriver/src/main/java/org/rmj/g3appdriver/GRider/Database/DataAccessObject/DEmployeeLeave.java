@@ -31,6 +31,15 @@ public interface DEmployeeLeave {
     @Update
     void updateApplication(EEmployeeLeave poLeave);
 
+    @Query("SELECT COUNT (*) FROM Employee_Leave")
+    int GetRowsCountForID();
+
+    @Query("SELECT * FROM Employee_Leave WHERE sTransNox =:TransNox")
+    EEmployeeLeave GetEmployeeLeaveForUpload(String TransNox);
+
+    @Query("SELECT * FROM Employee_Leave WHERE sTransNox =:TransNox")
+    EEmployeeLeave GetExistedApplication(String TransNox);
+
     @Query("SELECT * FROM Employee_Leave WHERE sTransNox =:TransNox AND cTranStat =:TranStat")
     List<EEmployeeLeave> getTransnoxIfExist(String TransNox, String TranStat);
 
