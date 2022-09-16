@@ -26,6 +26,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -277,24 +278,32 @@ public class Fragment_PromiseToPay extends Fragment implements ViewModelCallback
                     "NOTE: Take a selfie on your current place if customer is not visited");
             poMessage.setPositiveButton("Okay", (view, dialog) -> {
                 dialog.dismiss();
-                poImage.CreateFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
+                poImage.CreateFile((openCamera, camUsage, photPath, FileName) -> {
                     try {
-                        new LocationRetriever(getActivity(), getActivity()).getLocation((message, latitude1, longitude1) -> {
-                            infoModel.setPtpImgPath(photPath);
-                            poImageInfo = new EImageInfo();
-                            poImageInfo.setDtlSrcNo(AccntNox);
-                            poImageInfo.setSourceNo(TransNox);
-                            poImageInfo.setSourceCD("DCPa");
-                            poImageInfo.setImageNme(FileName);
-                            poImageInfo.setFileLoct(photPath);
-                            poImageInfo.setFileCode("0020");
-                            poImageInfo.setLatitude(String.valueOf(latitude1));
-                            poImageInfo.setLongitud(String.valueOf(longitude1));
-                            mViewModel.setLatitude(String.valueOf(latitude1));
-                            mViewModel.setLongitude(String.valueOf(longitude1));
-                            mViewModel.setImgName(FileName);
-                            openCamera.putExtra("android.intent.extras.CAMERA_FACING", 1);
-                            poCamera.launch(openCamera);
+                        new LocationRetriever(requireActivity(), requireActivity()).getLocation(new LocationRetriever.LocationRetrieveCallback() {
+                            @Override
+                            public void OnRetrieve(String message, double latitude, double longitude) {
+                                infoModel.setPtpImgPath(photPath);
+                                poImageInfo = new EImageInfo();
+                                poImageInfo.setDtlSrcNo(AccntNox);
+                                poImageInfo.setSourceNo(TransNox);
+                                poImageInfo.setSourceCD("DCPa");
+                                poImageInfo.setImageNme(FileName);
+                                poImageInfo.setFileLoct(photPath);
+                                poImageInfo.setFileCode("0020");
+                                poImageInfo.setLatitude(String.valueOf(latitude));
+                                poImageInfo.setLongitud(String.valueOf(longitude));
+                                mViewModel.setLatitude(String.valueOf(latitude));
+                                mViewModel.setLongitude(String.valueOf(longitude));
+                                mViewModel.setImgName(FileName);
+                                openCamera.putExtra("android.intent.extras.CAMERA_FACING", 1);
+                                poCamera.launch(openCamera);
+                            }
+
+                            @Override
+                            public void OnFailed(String message) {
+                                Toast.makeText(requireActivity(), message, Toast.LENGTH_SHORT).show();
+                            }
                         });
                     } catch (Exception e) {
                         e.printStackTrace();

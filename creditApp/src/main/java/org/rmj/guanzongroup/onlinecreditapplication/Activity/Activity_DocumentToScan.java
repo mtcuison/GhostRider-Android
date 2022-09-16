@@ -164,7 +164,7 @@ public class Activity_DocumentToScan extends AppCompatActivity {
                         poDocumentsInfo = new ECreditApplicationDocuments();
                         poFilexx = new ImageFileCreator(Activity_DocumentToScan.this , ScannerConstants.SubFolder, fileCodeDetails.get(position).sFileCode,fileCodeDetails.get(position).nEntryNox, TransNox);
                         // poFilexx = new ImageFileCreator(Activity_DocumentToScan.this , AppConstants.APP_PUBLIC_FOLDER, AppConstants.SUB_FOLDER_CREDIT_APP, fileCodeDetails.get(position).sFileCode,fileCodeDetails.get(position).nEntryNox, TransNox);
-                        poFilexx.CreateScanFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
+                        poFilexx.CreateScanFile((openCamera, camUsage, photPath, FileName) -> {
                             mCurrentPhotoPath = photPath;
                             ScannerConstants.Usage =camUsage;
 //                            ScannerConstants.Folder = AppConstants.APP_PUBLIC_FOLDER;
@@ -173,10 +173,10 @@ public class Activity_DocumentToScan extends AppCompatActivity {
                             ScannerConstants.EntryNox = (position + 1);
                             ScannerConstants.FileName = FileName;
                             ScannerConstants.FileDesc = fileCodeDetails.get(position).sBriefDsc;
-                            ScannerConstants.Latt = latitude;
-                            ScannerConstants.Longi = longitude;
-                            Log.e("latitude", String.valueOf(latitude));
-                            Log.e("longitude", String.valueOf(longitude));
+//                            ScannerConstants.Latt = latitude;
+//                            ScannerConstants.Longi = longitude;
+//                            Log.e("latitude", String.valueOf(latitude));
+//                            Log.e("longitude", String.valueOf(longitude));
                             startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
                         });
                     }else{

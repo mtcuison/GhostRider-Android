@@ -106,11 +106,11 @@ public class Fragment_ReviewLoanApp extends Fragment implements UploadCreditApp.
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VMReviewLoanApp.class);
 
-        btnCamera.setOnClickListener(v -> poCamera.CreateFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
+        btnCamera.setOnClickListener(v -> poCamera.CreateFile((openCamera, camUsage, photPath, FileName) -> {
             poImage.setFileLoct(photPath);
             poImage.setFileCode("0029");
-            poImage.setLatitude(String.valueOf(latitude));
-            poImage.setLongitud(String.valueOf(longitude));
+//            poImage.setLatitude(String.valueOf(latitude));
+//            poImage.setLongitud(String.valueOf(longitude));
             poImage.setSourceNo(TransNox);
             getActivity().startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
         }));
@@ -120,11 +120,11 @@ public class Fragment_ReviewLoanApp extends Fragment implements UploadCreditApp.
                 poMessage.initDialog();
                 poMessage.setTitle("Loan Application");
                 poMessage.setMessage("Please take a picture of the loan applicant.");
-                poMessage.setPositiveButton("Open Camera", (view, dialog) -> poCamera.CreateFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
+                poMessage.setPositiveButton("Open Camera", (view, dialog) -> poCamera.CreateFile((openCamera, camUsage, photPath, FileName) -> {
                     poImage.setFileLoct(photPath);
                     poImage.setFileCode("0029");
-                    poImage.setLatitude(String.valueOf(latitude));
-                    poImage.setLongitud(String.valueOf(longitude));
+//                    poImage.setLatitude(Str
+////                    poImage.setLongitud(String.valueOf(longitude));ing.valueOf(latitude));
                     poImage.setSourceNo(TransNox);
                     startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
                     dialog.dismiss();

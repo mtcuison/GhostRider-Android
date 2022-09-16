@@ -243,20 +243,20 @@ public class Fragment_CustomerNotAround extends Fragment implements ViewModelCal
                 poMessage.setPositiveButton("Okay", (v1, dialog) -> {
                     dialog.dismiss();
                     poImage.CreateFile((openCamera, camUsage, photPath, FileName) -> {
-                        new LocationRetriever(getActivity(), getActivity()).getLocation((message, latitude1, longitude1) -> {
-                            psPhotox = photPath;
-                            poImageInfo.setSourceNo(TransNox);
-                            poImageInfo.setSourceCD("DCPa");
-                            poImageInfo.setImageNme(FileName);
-                            poImageInfo.setFileLoct(photPath);
-                            poImageInfo.setFileCode("0020");
-//                            poImageInfo.setLatitude(String.valueOf(latitude1));
-//                            poImageInfo.setLongitud(String.valueOf(longitude1));
-                            mViewModel.setImagePath(photPath);
-                            mViewModel.setImgFileNme(FileName);
-                            openCamera.putExtra("android.intent.extras.CAMERA_FACING", 1);
-                            poCamera.launch(openCamera);
-                        });
+//                        new LocationRetriever(getActivity(), getActivity()).getLocation((message, latitude1, longitude1) -> {
+//                            psPhotox = photPath;
+//                            poImageInfo.setSourceNo(TransNox);
+//                            poImageInfo.setSourceCD("DCPa");
+//                            poImageInfo.setImageNme(FileName);
+//                            poImageInfo.setFileLoct(photPath);
+//                            poImageInfo.setFileCode("0020");
+////                            poImageInfo.setLatitude(String.valueOf(latitude1));
+////                            poImageInfo.setLongitud(String.valueOf(longitude1));
+//                            mViewModel.setImagePath(photPath);
+//                            mViewModel.setImgFileNme(FileName);
+//                            openCamera.putExtra("android.intent.extras.CAMERA_FACING", 1);
+//                            poCamera.launch(openCamera);
+//                        });
                     });
                 });
                 poMessage.setNegativeButton("Cancel", (v1, dialog) -> {
@@ -312,10 +312,10 @@ public class Fragment_CustomerNotAround extends Fragment implements ViewModelCal
     private void addAddress() {
         addressInfoModel.setHouseNumber(Objects.requireNonNull(Objects.requireNonNull(txtHouseNox.getText()).toString()));
         addressInfoModel.setAddress(Objects.requireNonNull(Objects.requireNonNull(txtAddress.getText()).toString()));
-        new LocationRetriever(getActivity(), getActivity()).getLocation((message, latitude, longitude) -> {
-            addressInfoModel.setLatitude(String.valueOf(latitude));
-            addressInfoModel.setLongitude(String.valueOf(longitude));
-        });
+//        new LocationRetriever(getActivity(), getActivity()).getLocation((message, latitude, longitude) -> {
+//            addressInfoModel.setLatitude(String.valueOf(latitude));
+//            addressInfoModel.setLongitude(String.valueOf(longitude));
+//        });
         addressInfoModel.setsRemarksx(Objects.requireNonNull(Objects.requireNonNull(txtRemarks.getText()).toString()));
 
         isAddressAdded = mViewModel.addAddressToList(addressInfoModel, Fragment_CustomerNotAround.this);

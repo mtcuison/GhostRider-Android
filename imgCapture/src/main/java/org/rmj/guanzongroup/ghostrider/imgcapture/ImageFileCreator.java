@@ -107,8 +107,6 @@ public class ImageFileCreator {
                         cameraUsage,
                         currentPhotoPath,
                         generateImageFileName());
-
-
             }
         }
     }
@@ -251,5 +249,59 @@ public class ImageFileCreator {
     //Added String FileName for Creating MD5Hash
     public interface OnScanImageFileWithLocationCreatedListener{
         void OpenCameraWithLocation(Intent openCamera,String FileCode, String photPath, String TransNox, double latitude, double longitude);
+    }
+
+    private Intent loIntent;
+    private String message = "Something went wrong please restart the app and try again.", sFileName, sFilePath;
+
+    public String getFileName() {
+        return sFileName;
+    }
+
+    public String getFilePath() {
+        return sFilePath;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public Intent getCameraIntent() {
+        return loIntent;
+    }
+
+    public boolean IsFileCreated() {
+        try {
+            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            // Ensure that there's a camera activity to handle the intent
+            if (takePictureIntent.resolveActivity(poContext.getPackageManager()) != null) {
+                // Create the File where the photo should go
+                File photoFile = null;
+                try {
+                    photoFile = createImageFile();
+                } catch (IOException ex) {
+                    message = ex.getMessage();
+                    return false;
+                }
+                // Continue only if the File was successfully created
+                if (photoFile != null) {
+                    Uri photoURI = FileProvider.getUriForFile(poContext,
+                            "org.rmj.guanzongroup.ghostrider.epacss" + ".provider",
+                            photoFile);
+
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                    takePictureIntent.putExtra("android.intent.extras.CAMERA_FACING", 1);
+                    sFileName = generateImageFileName();
+                    sFilePath = currentPhotoPath;
+                    loIntent = takePictureIntent;
+                    return true;
+                }
+            }
+            return false;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
     }
 }

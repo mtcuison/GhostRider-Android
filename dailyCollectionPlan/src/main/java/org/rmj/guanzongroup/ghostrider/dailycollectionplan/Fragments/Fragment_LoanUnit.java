@@ -26,6 +26,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -41,6 +42,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.EClientUpdate;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
+import org.rmj.g3appdriver.GRider.Etc.LocationRetriever;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.etc.OnDateSetListener;
 import org.rmj.g3appdriver.etc.WebFileServer;
@@ -346,22 +348,32 @@ public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
                 "NOTE: Take a selfie on your current place if customer is not visited");
         poMessage.setPositiveButton("Okay", (view, dialog) -> {
             dialog.dismiss();
-            poFilexx.CreateFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
-                infoModel.setLuImgPath(photPath);
-                poImageInfo = new EImageInfo();
-                poImageInfo.setDtlSrcNo(AccntNox);
-                poImageInfo.setSourceNo(TransNox);
-                poImageInfo.setSourceCD("DCPa");
-                poImageInfo.setImageNme(FileName);
-                poImageInfo.setFileLoct(photPath);
-                poImageInfo.setFileCode("0020");
-                poImageInfo.setLatitude(String.valueOf(latitude));
-                poImageInfo.setLongitud(String.valueOf(longitude));
-                mViewModel.setLatitude(String.valueOf(latitude));
-                mViewModel.setLongitude(String.valueOf(longitude));
-                mViewModel.setImgName(FileName);
-                openCamera.putExtra("android.intent.extras.CAMERA_FACING", 1);
-                poCamera.launch(openCamera);
+            poFilexx.CreateFile((openCamera, camUsage, photPath, FileName) -> {
+                new LocationRetriever(requireActivity(), requireActivity()).getLocation(new LocationRetriever.LocationRetrieveCallback() {
+                    @Override
+                    public void OnRetrieve(String message, double latitude, double longitude) {
+                        infoModel.setLuImgPath(photPath);
+                        poImageInfo = new EImageInfo();
+                        poImageInfo.setDtlSrcNo(AccntNox);
+                        poImageInfo.setSourceNo(TransNox);
+                        poImageInfo.setSourceCD("DCPa");
+                        poImageInfo.setImageNme(FileName);
+                        poImageInfo.setFileLoct(photPath);
+                        poImageInfo.setFileCode("0020");
+                        poImageInfo.setLatitude(String.valueOf(latitude));
+                        poImageInfo.setLongitud(String.valueOf(longitude));
+                        mViewModel.setLatitude(String.valueOf(latitude));
+                        mViewModel.setLongitude(String.valueOf(longitude));
+                        mViewModel.setImgName(FileName);
+                        openCamera.putExtra("android.intent.extras.CAMERA_FACING", 1);
+                        poCamera.launch(openCamera);
+                    }
+
+                    @Override
+                    public void OnFailed(String message) {
+                        Toast.makeText(requireActivity(), message, Toast.LENGTH_SHORT).show();
+                    }
+                });
             });
         });
         poMessage.setNegativeButton("Cancel", (view, dialog) -> {

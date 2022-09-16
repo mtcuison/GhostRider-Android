@@ -1,12 +1,9 @@
 package org.rmj.g3appdriver.GRider.Etc;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
-import android.content.pm.PackageManager;
-
-import androidx.core.app.ActivityCompat;
+import android.util.Log;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -18,6 +15,12 @@ public class LocationRetriever {
     private final Activity activity;
     private final FusedLocationProviderClient fusedLocationClient;
 
+    private String message;
+    private String nLatitude;
+    private String nLongitde;
+    boolean isSuccess;
+    int lnResult = 0;
+
     public interface LocationRetrieveCallback{
         void OnRetrieve(String message, double latitude, double longitude);
         void OnFailed(String message);
@@ -27,6 +30,18 @@ public class LocationRetriever {
         this.instance = application;
         this.activity = activity;
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(instance);
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public String getLatitude() {
+        return nLatitude;
+    }
+
+    public String getLongitude() {
+        return nLongitde;
     }
 
     @SuppressLint("MissingPermission")
@@ -47,7 +62,7 @@ public class LocationRetriever {
                 });
             } else {
                 GeoLocator location = new GeoLocator(instance, activity);
-                location.GetLocation();
+                location.HasLocation();
                 double lnLatitude = location.getLatitude();
                 double lnLongitude = location.getLongitude();
                 String message = "Last Location \n " +
@@ -58,6 +73,45 @@ public class LocationRetriever {
         } catch (Exception e){
             e.printStackTrace();
             callback.OnFailed("Failed retrieving current location. " + e.getMessage());
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    public boolean HasLocation(){
+        try {
+            String lsCompx = android.os.Build.MANUFACTURER;
+            lsCompx = "huawei";
+            if (!lsCompx.toLowerCase().equalsIgnoreCase("huawei")) {
+                fusedLocationClient.getLastLocation().addOnSuccessListener(location -> {
+                    if (location != null) {
+                        nLatitude = String.valueOf(location.getLatitude());
+                        nLongitde = String.valueOf(location.getLongitude());
+                        isSuccess = true;
+                    } else {
+                        message = "unable to retrieve location.";
+                        isSuccess = false;
+                    }
+                    lnResult = 1;
+                });
+                while(lnResult < 1) {
+                    Log.d(TAG, "waiting location result...");
+                }
+                return isSuccess;
+            } else {
+                GeoLocator location = new GeoLocator(instance, activity);
+                if(!location.HasLocation()) {
+                    message = location.getMessage();
+                    return false;
+                } else {
+                    nLongitde = String.valueOf(location.getLongitude());
+                    nLatitude = String.valueOf(location.getLatitude());
+                    return true;
+                }
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+            message = "Failed retrieving current location. " + e.getMessage();
+            return false;
         }
     }
 }

@@ -313,7 +313,7 @@ public class Fragment_SelfieLogin extends Fragment {
             mViewModel.InitCameraLaunch(requireActivity(), new VMSelfieLogin.OnInitializeCameraCallback() {
                 @Override
                 public void OnInit() {
-                    poLoad.initDialog("Selfie Log", "Validating branch. Please wait...", false);
+                    poLoad.initDialog("Selfie Log", "Initializing camera for selfie log. Please wait...", false);
                     poLoad.show();
                 }
 

@@ -125,20 +125,8 @@ public class VMSelfieLogin extends AndroidViewModel {
         return poLog.getAllEmployeeTimeLog();
     }
 
-    public LiveData<List<ELog_Selfie>> getCurrentTimeLog(){
-        return poLog.getCurrentTimeLog(AppConstants.CURRENT_DATE);
-    }
-
     public String getEmployeeLevel(){
         return poSession.getEmployeeLevel();
-    }
-
-    public LiveData<List<String>> getLastLogDate(){
-        return poLog.getLastLogDate();
-    }
-
-    public LiveData<List<EBranchInfo>> getAreaBranchList(){
-        return pobranch.getAreaBranchList();
     }
 
     public interface OnBranchCheckListener{
@@ -154,23 +142,76 @@ public class VMSelfieLogin extends AndroidViewModel {
         new InitializeCameraTask(activity, instance, callback).execute();
     }
 
+//    private static class InitCameraTask extends AsyncTask<String, Void, Boolean>{
+//
+//        private final Activity activity;
+//        private final Application instance;
+//        private final OnInitializeCameraCallback callback;
+//        private final SessionManager poSession;
+//        private final ImageFileCreator poImage;
+//
+//        private Intent loIntent;
+//        private String message;
+//
+//        public InitCameraTask(Activity activity, Application instance, OnInitializeCameraCallback callback) {
+//            this.activity = activity;
+//            this.instance = instance;
+//            this.callback = callback;
+//            this.poSession = new SessionManager(instance);
+//            this.poImage = new ImageFileCreator(instance, AppConstants.SUB_FOLDER_SELFIE_LOG, poSession.getUserID());
+//        }
+//
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//            callback.OnInit();
+//        }
+//
+//        @Override
+//        protected Boolean doInBackground(String... strings) {
+//            try{
+//                if(!poImage.IsFileCreated()){
+//                    message = poImage.getMessage();
+//                    return false;
+//                } else {
+//
+//                }
+//            } catch (Exception e){
+//                e.printStackTrace();
+//                message = e.getMessage();
+//                return false;
+//            }
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Boolean success) {
+//            super.onPostExecute(success);
+//            if(success){
+//                callback.OnSuccess(loIntent, args);
+//            } else {
+//                callback.OnFailed(message);
+//            }
+//        }
+//    }
+
     private static class InitializeCameraTask extends AsyncTask<String, Void, Boolean>{
 
         private final Activity activity;
         private final Application instance;
         private final OnInitializeCameraCallback callback;
         private final SessionManager poSession;
+        private final ImageFileCreator loImage;
 
         private Intent loIntent;
         private String[] args = new String[4];
         private String message;
-        private boolean isSuccess = false;
 
         public InitializeCameraTask(Activity activity, Application instance, OnInitializeCameraCallback callback){
             this.activity = activity;
             this.instance = instance;
             this.callback = callback;
             this.poSession = new SessionManager(instance);
+            this.loImage = new ImageFileCreator(instance, AppConstants.SUB_FOLDER_SELFIE_LOG, poSession.getUserID());
         }
 
         @Override
@@ -181,31 +222,30 @@ public class VMSelfieLogin extends AndroidViewModel {
 
         @Override
         protected Boolean doInBackground(String... strings) {
-            try{
-                ImageFileCreator loImage = new ImageFileCreator(instance, AppConstants.SUB_FOLDER_SELFIE_LOG, poSession.getUserID());
-                loImage.CreateFile((openCamera, camUsage, photPath, FileName) -> new LocationRetriever(instance, activity).getLocation(new LocationRetriever.LocationRetrieveCallback() {
-                    @Override
-                    public void OnRetrieve(String message, double latitude, double longitude) {
-                        args[0] = photPath;
-                        args[1] = FileName;
-                        args[2] = String.valueOf(latitude);
-                        args[3] = String.valueOf(longitude);
-                        openCamera.putExtra("android.intent.extras.CAMERA_FACING", 1);
-                        isSuccess = true;
-                    }
-
-                    @Override
-                    public void OnFailed(String fsMessage) {
-                        message = fsMessage;
-                        isSuccess = false;
-                    }
-                }));
-            } catch (Exception e){
-                e.printStackTrace();
-                message = e.getMessage();
-                isSuccess = false;
+//            try{
+//
+//            } catch (Exception e){
+//                e.printStackTrace();
+//                message = e.getMessage();
+//                return false;
+//            }
+            if(!loImage.IsFileCreated()){
+                message = loImage.getMessage();
+                return false;
+            } else {
+                LocationRetriever loLrt = new LocationRetriever(instance, activity);
+                if(loLrt.HasLocation()){
+                    args[0] = loImage.getFilePath();
+                    args[1] = loImage.getFileName();
+                    args[2] = loLrt.getLatitude();
+                    args[3] = loLrt.getLongitude();
+                    loIntent = loImage.getCameraIntent();
+                    return true;
+                } else {
+                    message = loLrt.getMessage();
+                    return false;
+                }
             }
-            return isSuccess;
         }
 
         @Override

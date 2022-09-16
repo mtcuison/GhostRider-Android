@@ -19,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -148,19 +149,29 @@ public class Fragment_IncTransaction extends Fragment {
                 }
                 loMessage.setPositiveButton("Okay", (view1, dialog) -> {
                     dialog.dismiss();
-                    poImage.CreateFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> new LocationRetriever(getActivity(), getActivity()).getLocation((message, latitude1, longitude1) -> {
-                        psPhotox = photPath;
-                        poImageInfo.setSourceNo(TransNox);
-                        poImageInfo.setSourceCD("DCPa");
-                        poImageInfo.setImageNme(FileName);
-                        poImageInfo.setFileLoct(photPath);
-                        poImageInfo.setFileCode("0020");
-                        poImageInfo.setLatitude(String.valueOf(latitude1));
-                        poImageInfo.setLongitud(String.valueOf(longitude1));
-                        mViewModel.setImagePath(photPath);
-                        openCamera.putExtra("android.intent.extras.CAMERA_FACING", 1);
-                        poCamera.launch(openCamera);
-                    }));
+                    poImage.CreateFile((openCamera, camUsage, photPath, FileName) -> {
+                        new LocationRetriever(requireActivity(), requireActivity()).getLocation(new LocationRetriever.LocationRetrieveCallback() {
+                            @Override
+                            public void OnRetrieve(String message, double latitude, double longitude) {
+                                psPhotox = photPath;
+                                poImageInfo.setSourceNo(TransNox);
+                                poImageInfo.setSourceCD("DCPa");
+                                poImageInfo.setImageNme(FileName);
+                                poImageInfo.setFileLoct(photPath);
+                                poImageInfo.setFileCode("0020");
+                                poImageInfo.setLatitude(String.valueOf(latitude));
+                                poImageInfo.setLongitud(String.valueOf(longitude));
+                                mViewModel.setImagePath(photPath);
+                                openCamera.putExtra("android.intent.extras.CAMERA_FACING", 1);
+                                poCamera.launch(openCamera);
+                            }
+
+                            @Override
+                            public void OnFailed(String message) {
+                                Toast.makeText(requireActivity(), message, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    });
                 });
                 loMessage.setNegativeButton("Cancel", (view1, dialog) -> {
                     dialog.dismiss();
