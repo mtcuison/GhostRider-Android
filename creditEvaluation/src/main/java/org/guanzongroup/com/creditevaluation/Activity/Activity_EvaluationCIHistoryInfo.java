@@ -19,6 +19,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -34,10 +35,12 @@ import org.guanzongroup.com.creditevaluation.ViewModel.VMEvaluationCIHistoryInfo
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditOnlineApplicationCI;
+import org.rmj.g3appdriver.GRider.Database.Entities.EOccupationInfo;
 import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 
+import java.util.List;
 import java.util.Objects;
 
 public class Activity_EvaluationCIHistoryInfo extends AppCompatActivity {
@@ -186,42 +189,50 @@ public class Activity_EvaluationCIHistoryInfo extends AppCompatActivity {
                 laEval.put(FindingsParser.scanForEvaluation(ci.getAssetsxx(), ci.getAsstFndg()));
             }
 
-            Adapter_CIEvaluation_Headers loAdapter = new Adapter_CIEvaluation_Headers(Activity_EvaluationCIHistoryInfo.this, laEval, true, null);
+            mViewModel.GetOccupationList().observe(Activity_EvaluationCIHistoryInfo.this, eOccupationInfos -> {
 
-            LinearLayoutManager loManager = new LinearLayoutManager(Activity_EvaluationCIHistoryInfo.this);
-            loManager.setOrientation(RecyclerView.VERTICAL);
-            recyclerView.setLayoutManager(loManager);
-            recyclerView.setAdapter(loAdapter);
+                Adapter_CIEvaluation_Headers loAdapter = new Adapter_CIEvaluation_Headers(
+                        Activity_EvaluationCIHistoryInfo.this,
+                        laEval,
+                        eOccupationInfos,
+                        true,
+                        null);
 
-            if(cPreviewx){
-                btnApprove.setVisibility(View.GONE);
-                findViewById(R.id.linear_recommendations).setVisibility(View.VISIBLE);
-                if(ci.getRcmdtnc1().equalsIgnoreCase("null")){
-                    lblCIRcmnd.setText("N/A");
-                } else if(ci.getRcmdtnc1().equalsIgnoreCase("1")){
-                    lblCIRcmnd.setText("Approved");
-                } else {
-                    lblCIRcmnd.setText("Disapproved");
-                }
+                LinearLayoutManager loManager = new LinearLayoutManager(Activity_EvaluationCIHistoryInfo.this);
+                loManager.setOrientation(RecyclerView.VERTICAL);
+                recyclerView.setLayoutManager(loManager);
+                recyclerView.setAdapter(loAdapter);
 
-                if(ci.getRcmdtnc2() == null){
-                    lblBHRcmnd.setText("N/A");
-                } else if(ci.getRcmdtnc2().equalsIgnoreCase("null")){
-                    lblBHRcmnd.setText("N/A");
-                } else if(ci.getRcmdtnc2().equalsIgnoreCase("1")){
-                    lblBHRcmnd.setText("Approved");
-                } else {
-                    lblBHRcmnd.setText("Disapproved");
-                }
-            } else {
-                if(ci.getRcmdtnc2() == null) {
-                    btnApprove.setVisibility(View.VISIBLE);
-                    findViewById(R.id.linear_recommendations).setVisibility(View.GONE);
-                } else {
+                if(cPreviewx){
                     btnApprove.setVisibility(View.GONE);
-                    findViewById(R.id.linear_recommendations).setVisibility(View.GONE);
+                    findViewById(R.id.linear_recommendations).setVisibility(View.VISIBLE);
+                    if(ci.getRcmdtnc1().equalsIgnoreCase("null")){
+                        lblCIRcmnd.setText("N/A");
+                    } else if(ci.getRcmdtnc1().equalsIgnoreCase("1")){
+                        lblCIRcmnd.setText("Approved");
+                    } else {
+                        lblCIRcmnd.setText("Disapproved");
+                    }
+
+                    if(ci.getRcmdtnc2() == null){
+                        lblBHRcmnd.setText("N/A");
+                    } else if(ci.getRcmdtnc2().equalsIgnoreCase("null")){
+                        lblBHRcmnd.setText("N/A");
+                    } else if(ci.getRcmdtnc2().equalsIgnoreCase("1")){
+                        lblBHRcmnd.setText("Approved");
+                    } else {
+                        lblBHRcmnd.setText("Disapproved");
+                    }
+                } else {
+                    if(ci.getRcmdtnc2() == null) {
+                        btnApprove.setVisibility(View.VISIBLE);
+                        findViewById(R.id.linear_recommendations).setVisibility(View.GONE);
+                    } else {
+                        btnApprove.setVisibility(View.GONE);
+                        findViewById(R.id.linear_recommendations).setVisibility(View.GONE);
+                    }
                 }
-            }
+            });
 
         } catch (Exception e) {
             e.printStackTrace();

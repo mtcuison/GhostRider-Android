@@ -17,6 +17,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -40,6 +41,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditOnlineApplicationCI;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
+import org.rmj.g3appdriver.GRider.Database.Entities.EOccupationInfo;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.etc.WebFileServer;
@@ -556,53 +558,61 @@ public class Activity_Evaluation extends AppCompatActivity {
                 laEval.put(FindingsParser.scanForEvaluation(ci.getAssetsxx(), ci.getAsstFndg()));
             }
             Log.d(TAG, laEval.toString());
-            Adapter_CIEvaluation_Headers loAdapter = new Adapter_CIEvaluation_Headers(Activity_Evaluation.this, laEval, false, new onSelectResultListener() {
-                @Override
-                public void OnCorrect(String fsPar, String fsKey, String fsRes, onEvaluate listener) {
-                    if(fsPar.equalsIgnoreCase("primary_address")){
-                        poAdLstnr = listener;
-                        psParent = "primary_address";
-                        psKeyxxx = fsKey;
-                        psResult = fsRes;
-                        showDialogImg();
-                    } else if(fsPar.equalsIgnoreCase("present_address")){
-                        poAdLstnr = listener;
-                        psParent = "present_address";
-                        psKeyxxx = fsKey;
-                        psResult = fsRes;
-                        showDialogImg();
-                    } else {
-                        SaveCIResult(fsPar, fsKey, fsRes);
-                        listener.OnSetResult(true);
-                    }
-                }
 
-                @Override
-                public void OnIncorrect(String fsPar, String fsKey, String fsRes, onEvaluate listener) {
-                    if(fsPar.equalsIgnoreCase("primary_address")){
-                        poAdLstnr = listener;
-                        psParent = "primary_address";
-                        psKeyxxx = fsKey;
-                        psResult = fsRes;
-                        showDialogImg();
-                    } else if(fsPar.equalsIgnoreCase("present_address")){
-                        poAdLstnr = listener;
-                        psParent = "present_address";
-                        psKeyxxx = fsKey;
-                        psResult = fsRes;
-                        showDialogImg();
-                    } else {
-                        SaveCIResult(fsPar, fsKey, fsRes);
-                        listener.OnSetResult(true);
+            mViewModel.GetOccupationList().observe(Activity_Evaluation.this, eOccupationInfos -> {
+                Adapter_CIEvaluation_Headers loAdapter = new Adapter_CIEvaluation_Headers(
+                        Activity_Evaluation.this,
+                        laEval,
+                        eOccupationInfos,
+                        false,
+                        new onSelectResultListener() {
+                    @Override
+                    public void OnCorrect(String fsPar, String fsKey, String fsRes, onEvaluate listener) {
+                        if(fsPar.equalsIgnoreCase("primary_address")){
+                            poAdLstnr = listener;
+                            psParent = "primary_address";
+                            psKeyxxx = fsKey;
+                            psResult = fsRes;
+                            showDialogImg();
+                        } else if(fsPar.equalsIgnoreCase("present_address")){
+                            poAdLstnr = listener;
+                            psParent = "present_address";
+                            psKeyxxx = fsKey;
+                            psResult = fsRes;
+                            showDialogImg();
+                        } else {
+                            SaveCIResult(fsPar, fsKey, fsRes);
+                            listener.OnSetResult(true);
+                        }
                     }
-                }
+
+                    @Override
+                    public void OnIncorrect(String fsPar, String fsKey, String fsRes, onEvaluate listener) {
+                        if(fsPar.equalsIgnoreCase("primary_address")){
+                            poAdLstnr = listener;
+                            psParent = "primary_address";
+                            psKeyxxx = fsKey;
+                            psResult = fsRes;
+                            showDialogImg();
+                        } else if(fsPar.equalsIgnoreCase("present_address")){
+                            poAdLstnr = listener;
+                            psParent = "present_address";
+                            psKeyxxx = fsKey;
+                            psResult = fsRes;
+                            showDialogImg();
+                        } else {
+                            SaveCIResult(fsPar, fsKey, fsRes);
+                            listener.OnSetResult(true);
+                        }
+                    }
+                });
+
+                RecyclerView recyclerView = findViewById(R.id.recyclerView);
+                LinearLayoutManager loManager = new LinearLayoutManager(Activity_Evaluation.this);
+                loManager.setOrientation(RecyclerView.VERTICAL);
+                recyclerView.setLayoutManager(loManager);
+                recyclerView.setAdapter(loAdapter);
             });
-
-            RecyclerView recyclerView = findViewById(R.id.recyclerView);
-            LinearLayoutManager loManager = new LinearLayoutManager(Activity_Evaluation.this);
-            loManager.setOrientation(RecyclerView.VERTICAL);
-            recyclerView.setLayoutManager(loManager);
-            recyclerView.setAdapter(loAdapter);
         } catch (Exception e) {
             e.printStackTrace();
         }
