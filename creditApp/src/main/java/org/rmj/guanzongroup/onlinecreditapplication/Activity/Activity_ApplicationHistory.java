@@ -131,12 +131,12 @@ public class Activity_ApplicationHistory extends AppCompatActivity implements Vi
                                     "0029",
                                     0,
                                     applicationLogs.get(pos).sTransNox);
-                            poCamera.CreateScanFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
+                            poCamera.CreateScanFile((openCamera, camUsage, photPath, FileName) -> {
                                 poImage.setFileLoct(photPath);
                                 poImage.setFileCode("0029");
                                 poImage.setSourceCD("COAD");
-                                poImage.setLatitude(String.valueOf(latitude));
-                                poImage.setLongitud(String.valueOf(longitude));
+//                                poImage.setLatitude(String.valueOf(latitude));
+//                                poImage.setLongitud(String.valueOf(longitude));
                                 poImage.setSourceNo(applicationLogs.get(pos).sTransNox);
                                 poImage.setImageNme(FileName);
                                 poImage.setCaptured(new AppConstants().DATE_MODIFIED);
@@ -183,12 +183,12 @@ public class Activity_ApplicationHistory extends AppCompatActivity implements Vi
                                 "0029",
                                 0,
                                 TransNox);
-                        poCamera.CreateScanFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
+                        poCamera.CreateScanFile((openCamera, camUsage, photPath, FileName) -> {
                             poImage.setFileLoct(photPath);
                             poImage.setFileCode("0029");
                             poImage.setSourceCD("COAD");
-                            poImage.setLatitude(String.valueOf(latitude));
-                            poImage.setLongitud(String.valueOf(longitude));
+//                            poImage.setLatitude(String.valueOf(latitude));
+//                            poImage.setLongitud(String.valueOf(longitude));
                             poImage.setSourceNo(TransNox);
                             poImage.setImageNme(FileName);
                             poImage.setCaptured(new AppConstants().DATE_MODIFIED);

@@ -465,14 +465,14 @@ public class Activity_Evaluation extends AppCompatActivity {
         poMessage.setPositiveButton("Okay", (view, dialog) -> {
             dialog.dismiss();
             poLocation.setTransNox(mViewModel.getTransNox());
-            poLocation.CreateFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
+            poLocation.CreateFile((openCamera, camUsage, photPath, FileName) -> {
                 poImageInfo = new EImageInfo();
                 poImageInfo.setDtlSrcNo(mViewModel.getTransNox());
                 poImageInfo.setSourceNo(mViewModel.getTransNox());
                 poImageInfo.setImageNme(FileName);
                 poImageInfo.setFileLoct(photPath);
-                psAlttude = String.valueOf(latitude);
-                psLongtde = String.valueOf(longitude);
+//                psAlttude = String.valueOf(latitude);
+//                psLongtde = String.valueOf(longitude);
                 openCamera.putExtra("android.intent.extras.CAMERA_FACING", 1);
                 poCamera.launch(openCamera);
             });

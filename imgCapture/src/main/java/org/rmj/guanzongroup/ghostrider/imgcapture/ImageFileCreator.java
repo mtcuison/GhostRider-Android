@@ -85,7 +85,6 @@ public class ImageFileCreator {
     }
 
     public void CreateFile(OnImageFileWithLocationCreatedListener listener) {
-        locationTrack = new LocationTrack(poContext);
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
         if (takePictureIntent.resolveActivity(poContext.getPackageManager()) != null) {
@@ -93,9 +92,6 @@ public class ImageFileCreator {
             File photoFile = null;
             try {
                 photoFile = createImageFile();
-                latitude = locationTrack.getLatitude();
-                longitude = locationTrack.getLongitude();
-
             } catch (IOException ex) {
                 // Error occurred while creating the File...
             }
@@ -110,9 +106,7 @@ public class ImageFileCreator {
                         takePictureIntent,
                         cameraUsage,
                         currentPhotoPath,
-                        generateImageFileName(),
-                        latitude,
-                        longitude);
+                        generateImageFileName());
 
 
             }
@@ -198,7 +192,6 @@ public class ImageFileCreator {
 
     //CreateFile for Document Scanner Camera
     public void CreateScanFile(OnImageFileWithLocationCreatedListener listener) {
-        locationTrack = new LocationTrack(poContext);
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
         if (takePictureIntent.resolveActivity(poContext.getPackageManager()) != null) {
@@ -206,9 +199,6 @@ public class ImageFileCreator {
             File photoFile = null;
             try {
                 photoFile = createScanImageFile();
-//                SET IMAGE LATITUDE AND LONGITUDE
-                latitude = locationTrack.getLatitude();
-                longitude = locationTrack.getLongitude();
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -226,9 +216,7 @@ public class ImageFileCreator {
                         takePictureIntent,
                         cameraUsage,
                         currentPhotoPath,
-                        generateImageScanFileName(),
-                        latitude,
-                        longitude);
+                        generateImageScanFileName());
             }
         }
     }
@@ -254,7 +242,7 @@ public class ImageFileCreator {
     //Edited by mike 2021/02/26
     //Added String FileName for Creating MD5Hash
     public interface OnImageFileWithLocationCreatedListener{
-        void OpenCameraWithLocation(Intent openCamera,String camUsage, String photPath, String FileName, double latitude, double longitude);
+        void OpenCameraWithLocation(Intent openCamera,String camUsage, String photPath, String FileName);
     }
 
     public interface OnImageFileDCPWithLocationCreatedListener{

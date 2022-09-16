@@ -53,13 +53,10 @@ public class DCPPhotoCapture extends AppCompatActivity {
         poFilexx = new ImageFileCreator(this, CAMERA_USAGE);
 
         camera.setOnClickListener(view -> {
-            poFilexx.CreateFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
+            poFilexx.CreateFile((openCamera, camUsage, photPath, FileName) -> {
                 photoPath = photPath;
-                varLatitude = latitude;
-                varLongitude = longitude;
-
-                Log.e("Latitude: ", String.valueOf(latitude));
-                Log.e("Longitude: ", String.valueOf(longitude));
+//                varLatitude = latitude;
+//                varLongitude = longitude;
 
                 startActivityForResult(openCamera, 1);
             });

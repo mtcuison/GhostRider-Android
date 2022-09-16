@@ -12,8 +12,10 @@
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -34,10 +36,12 @@ import org.rmj.g3appdriver.GRider.Database.Entities.ELog_Selfie;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RLogSelfie;
+import org.rmj.g3appdriver.GRider.Etc.LocationRetriever;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Core.SelfieLog;
+import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
 
 import java.util.List;
 
@@ -51,6 +55,13 @@ public class VMSelfieLogin extends AndroidViewModel {
 
     private final MutableLiveData<Boolean> pbGranted = new MutableLiveData<>();
     private final MutableLiveData<String[]> paPermisions = new MutableLiveData<>();
+
+    public interface OnInitializeCameraCallback {
+        void OnInit();
+        void OnSuccess(Intent intent, String[] args);
+        void OnFailed(String message);
+    }
+
     public interface OnLoginTimekeeperListener{
         void OnLogin();
         void OnSuccess(String args);
@@ -139,6 +150,75 @@ public class VMSelfieLogin extends AndroidViewModel {
         new CheckBranchListTask(pobranch, listener).execute();
     }
 
+    public void InitCameraLaunch(Activity activity, OnInitializeCameraCallback callback){
+        new InitializeCameraTask(activity, instance, callback).execute();
+    }
+
+    private static class InitializeCameraTask extends AsyncTask<String, Void, Boolean>{
+
+        private final Activity activity;
+        private final Application instance;
+        private final OnInitializeCameraCallback callback;
+        private final SessionManager poSession;
+
+        private Intent loIntent;
+        private String[] args = new String[4];
+        private String message;
+        private boolean isSuccess = false;
+
+        public InitializeCameraTask(Activity activity, Application instance, OnInitializeCameraCallback callback){
+            this.activity = activity;
+            this.instance = instance;
+            this.callback = callback;
+            this.poSession = new SessionManager(instance);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            callback.OnInit();
+        }
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            try{
+                ImageFileCreator loImage = new ImageFileCreator(instance, AppConstants.SUB_FOLDER_SELFIE_LOG, poSession.getUserID());
+                loImage.CreateFile((openCamera, camUsage, photPath, FileName) -> new LocationRetriever(instance, activity).getLocation(new LocationRetriever.LocationRetrieveCallback() {
+                    @Override
+                    public void OnRetrieve(String message, double latitude, double longitude) {
+                        args[0] = photPath;
+                        args[1] = FileName;
+                        args[2] = String.valueOf(latitude);
+                        args[3] = String.valueOf(longitude);
+                        openCamera.putExtra("android.intent.extras.CAMERA_FACING", 1);
+                        isSuccess = true;
+                    }
+
+                    @Override
+                    public void OnFailed(String fsMessage) {
+                        message = fsMessage;
+                        isSuccess = false;
+                    }
+                }));
+            } catch (Exception e){
+                e.printStackTrace();
+                message = e.getMessage();
+                isSuccess = false;
+            }
+            return isSuccess;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean isSuccess) {
+            super.onPostExecute(isSuccess);
+            if(isSuccess){
+                callback.OnSuccess(loIntent, args);
+            } else {
+                callback.OnFailed(message);
+            }
+        }
+    }
+
     private static class CheckBranchListTask extends AsyncTask<String, Void, Boolean>{
 
         private final RBranch poBranch;
@@ -196,6 +276,12 @@ public class VMSelfieLogin extends AndroidViewModel {
             this.instance = application;
             this.callback = callback;
             this.poLog = new RLogSelfie(instance);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            callback.OnLoad();
         }
 
         @Override

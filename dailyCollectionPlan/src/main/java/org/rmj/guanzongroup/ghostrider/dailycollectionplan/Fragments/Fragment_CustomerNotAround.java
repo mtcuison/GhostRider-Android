@@ -242,7 +242,7 @@ public class Fragment_CustomerNotAround extends Fragment implements ViewModelCal
                 poMessage.setMessage("Please take a selfie in customer's place in order to confirm transaction.");
                 poMessage.setPositiveButton("Okay", (v1, dialog) -> {
                     dialog.dismiss();
-                    poImage.CreateFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
+                    poImage.CreateFile((openCamera, camUsage, photPath, FileName) -> {
                         new LocationRetriever(getActivity(), getActivity()).getLocation((message, latitude1, longitude1) -> {
                             psPhotox = photPath;
                             poImageInfo.setSourceNo(TransNox);
@@ -250,8 +250,8 @@ public class Fragment_CustomerNotAround extends Fragment implements ViewModelCal
                             poImageInfo.setImageNme(FileName);
                             poImageInfo.setFileLoct(photPath);
                             poImageInfo.setFileCode("0020");
-                            poImageInfo.setLatitude(String.valueOf(latitude1));
-                            poImageInfo.setLongitud(String.valueOf(longitude1));
+//                            poImageInfo.setLatitude(String.valueOf(latitude1));
+//                            poImageInfo.setLongitud(String.valueOf(longitude1));
                             mViewModel.setImagePath(photPath);
                             mViewModel.setImgFileNme(FileName);
                             openCamera.putExtra("android.intent.extras.CAMERA_FACING", 1);

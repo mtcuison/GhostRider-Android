@@ -300,15 +300,43 @@ public class Fragment_SelfieLogin extends Fragment {
 
     private void initCamera(){
         try {
-            ImageFileCreator loImage = new ImageFileCreator(requireActivity(), AppConstants.SUB_FOLDER_SELFIE_LOG, poUser.getUserIDxx());
-            loImage.CreateFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> new LocationRetriever(requireActivity(), requireActivity()).getLocation((message, latitude1, longitude1) -> {
-                psPhotoPath = photPath;
-                psFileNamex = FileName;
-                pnLatittude = String.valueOf(latitude1);
-                pnLongitude = String.valueOf(longitude1);
-                openCamera.putExtra("android.intent.extras.CAMERA_FACING", 1);
-                poCamera.launch(openCamera);
-            }));
+//            ImageFileCreator loImage = new ImageFileCreator(requireActivity(), AppConstants.SUB_FOLDER_SELFIE_LOG, poUser.getUserIDxx());
+//            loImage.CreateFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> new LocationRetriever(requireActivity(), requireActivity()).getLocation((message, latitude1, longitude1) -> {
+//                psPhotoPath = photPath;
+//                psFileNamex = FileName;
+//                pnLatittude = String.valueOf(latitude1);
+//                pnLongitude = String.valueOf(longitude1);
+//                openCamera.putExtra("android.intent.extras.CAMERA_FACING", 1);
+//                poCamera.launch(openCamera);
+//            }));
+
+            mViewModel.InitCameraLaunch(requireActivity(), new VMSelfieLogin.OnInitializeCameraCallback() {
+                @Override
+                public void OnInit() {
+                    poLoad.initDialog("Selfie Log", "Validating branch. Please wait...", false);
+                    poLoad.show();
+                }
+
+                @Override
+                public void OnSuccess(Intent intent, String[] args) {
+                    poLoad.dismiss();
+                    psPhotoPath = args[0];
+                    psFileNamex = args[1];
+                    pnLatittude = args[2];
+                    pnLongitude = args[3];
+                    poCamera.launch(intent);
+                }
+
+                @Override
+                public void OnFailed(String message) {
+                    poLoad.dismiss();
+                    poMessage.initDialog();
+                    poMessage.setTitle("Selfie Login");
+                    poMessage.setMessage(message);
+                    poMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
+                    poMessage.show();
+                }
+            });
         } catch(RuntimeException e) {
             e.printStackTrace();
         }

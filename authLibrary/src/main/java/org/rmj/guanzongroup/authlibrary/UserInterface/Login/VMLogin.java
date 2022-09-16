@@ -91,11 +91,11 @@ public class VMLogin extends AndroidViewModel {
             try{
                 Log.d(TAG, "Validating entries...");
                 if(!authInfo[0].isAuthInfoValid()){
-                    Log.d(TAG, "Mobile No: " + authInfo[0].getMobileNo());
-                    poConfig.setMobileNo(authInfo[0].getMobileNo());
                     message = authInfo[0].getMessage();
                     return false;
                 } else {
+                    Log.d(TAG, "Mobile No: " + authInfo[0].getMobileNo());
+                    poConfig.setMobileNo(authInfo[0].getMobileNo());
                     Log.d(TAG, "Checking internet...");
                     if(!poConn.isDeviceConnected()){
                         message = poConn.getMessage();
