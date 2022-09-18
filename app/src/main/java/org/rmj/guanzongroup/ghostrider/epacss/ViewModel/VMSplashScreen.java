@@ -90,6 +90,7 @@ public class VMSplashScreen extends AndroidViewModel {
                 Manifest.permission.CAMERA,
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_BACKGROUND_LOCATION,
                 Manifest.permission.REQUEST_INSTALL_PACKAGES});
         pbGranted.setValue(hasPermissions(application.getApplicationContext(), paPermisions.getValue()));
         this.psVersion.setValue(poConfigx.getVersionInfo());

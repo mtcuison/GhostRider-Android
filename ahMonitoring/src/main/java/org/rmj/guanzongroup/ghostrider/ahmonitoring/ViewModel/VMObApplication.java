@@ -13,29 +13,17 @@ package org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel;
 
 import android.app.Application;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeBusinessTrip;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployeeBusinessTrip;
-import org.rmj.g3appdriver.GRider.Etc.SessionManager;
-import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
-import org.rmj.g3appdriver.GRider.Http.WebClient;
-import org.rmj.g3appdriver.dev.Telephony;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
-import org.rmj.g3appdriver.utils.WebApi;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.OBApplication;
 
 import java.util.List;
 
@@ -45,7 +33,6 @@ public class VMObApplication extends AndroidViewModel {
     private final Application instance;
     private final RBranch pobranch;
     private final REmployee poUser;
-    private final REmployeeBusinessTrip poOBLeave;
     private final LiveData<String[]> paBranchNm;
     public VMObApplication(@NonNull Application application) {
         super(application);
@@ -53,7 +40,6 @@ public class VMObApplication extends AndroidViewModel {
         this.pobranch = new RBranch(instance);
         this.poUser = new REmployee(instance);
         paBranchNm = pobranch.getAllMcBranchNames();
-        this.poOBLeave = new REmployeeBusinessTrip(instance);
     }
     public interface OnSubmitOBLeaveListener{
         void onSuccess();
@@ -73,96 +59,21 @@ public class VMObApplication extends AndroidViewModel {
     public LiveData<List<EBranchInfo>> getAllBranchInfo(){
         return pobranch.getAllMcBranchInfo();
     }
-    public void saveObLeave(OBApplication infoModel, OnSubmitOBLeaveListener callback){
-        new PostObLeaveTask(infoModel, instance, callback).execute();
+    public void saveObLeave(REmployeeBusinessTrip.OBApplication infoModel, OnSubmitOBLeaveListener callback){
+        new PostObLeaveTask(instance, callback).execute(infoModel);
     }
 
-    private static class PostObLeaveTask extends AsyncTask<Void, Void, String> {
-
-        private final OBApplication infoModel;
+    private static class PostObLeaveTask extends AsyncTask<REmployeeBusinessTrip.OBApplication, Void, Boolean> {
         private final OnSubmitOBLeaveListener callback;
-
-        private final HttpHeaders poHeaders;
-        private final ConnectionUtil poConn;
-        private final Telephony poDevID;
-        private final SessionManager poUser;
-        private final AppConfigPreference poConfig;
         private final REmployeeBusinessTrip poOBLeave;
-        private final WebApi poApi;
-        public PostObLeaveTask(OBApplication infoModel, Application instance, OnSubmitOBLeaveListener callback) {
+        private final ConnectionUtil poConn;
 
-            this.infoModel = infoModel;
+        private String message;
+
+        public PostObLeaveTask(Application instance, OnSubmitOBLeaveListener callback) {
             this.callback = callback;
-            this.poOBLeave = new REmployeeBusinessTrip(instance);
-            this.poHeaders = HttpHeaders.getInstance(instance);
             this.poConn = new ConnectionUtil(instance);
-            this.poDevID = new Telephony(instance);
-            this.poUser = new SessionManager(instance);
-            this.poConfig = AppConfigPreference.getInstance(instance);
-            this.poApi = new WebApi(poConfig.getTestStatus());
-        }
-
-        @Override
-        protected String doInBackground(Void... voids) {
-            String lsResponse = "";
-            try{
-                if(!infoModel.isOBLeaveValid()){
-                    lsResponse = AppConstants.LOCAL_EXCEPTION_ERROR(infoModel.getMessage());
-                } else {
-                    EEmployeeBusinessTrip detail = new EEmployeeBusinessTrip();
-                    detail.setTransNox(poOBLeave.getOBLeaveNextCode());
-                    detail.setTransact(new AppConstants().DATE_MODIFIED);
-                    detail.setEmployee(poUser.getEmployeeID());
-                    detail.setBranchNm(infoModel.getDestinat());
-                    detail.setDateFrom(infoModel.getDateFrom());
-                    detail.setDateThru(infoModel.getDateThru());
-                    detail.setRemarksx(infoModel.getRemarksx());
-                    detail.setDestinat(infoModel.getDestinat());
-                    detail.setApproved(poUser.getUserID());
-                    detail.setDapprove(AppConstants.CURRENT_DATE);
-                    detail.setAppldFrx(null);
-                    detail.setAppldTox(null);
-                    detail.setTranStat("0");
-                    detail.setSendStat("0");
-                    poOBLeave.insertNewOBLeave(detail);
-
-                    JSONObject loJson = new JSONObject();
-                    loJson.put("sTransNox", poOBLeave.getOBLeaveNextCode());
-                    loJson.put("dTransact", AppConstants.CURRENT_DATE);
-                    loJson.put("sEmployID", poUser.getEmployeeID());
-                    loJson.put("dDateFrom", infoModel.getDateFrom());
-                    loJson.put("dDateThru", infoModel.getDateThru());
-                    loJson.put("sDestinat", infoModel.getDestinat());
-                    loJson.put("sRemarksx", infoModel.getRemarksx());
-                    loJson.put("sApproved", poUser.getUserID());
-                    loJson.put("dApproved", detail.getDapprove());
-                    loJson.put("dAppldFrx", "");
-                    loJson.put("dAppldTox", "");
-                    loJson.put("cTranStat", "0");
-                    loJson.put("sModified", poUser.getUserID());
-                    loJson.put("dModified", AppConstants.CURRENT_DATE);
-
-                    if(poConn.isDeviceConnected()) {
-                        lsResponse = WebClient.sendRequest(poApi.getUrlSendObApplication(poConfig.isBackUpServer()), loJson.toString(), poHeaders.getHeaders());
-                        JSONObject jsonResponse = new JSONObject(lsResponse);
-                        String lsResult = jsonResponse.getString("result");
-                        if(lsResult.equalsIgnoreCase("success")){
-                            poOBLeave.updateOBSentStatus(loJson.getString("sTransNox"), jsonResponse.getString("sTransNox"));
-                        }
-                        Log.e(TAG, lsResponse);
-                    } else {
-                        lsResponse = AppConstants.SERVER_NO_RESPONSE();
-                        Log.e(TAG, "else " + lsResponse);
-                    }
-                }
-            } catch (NullPointerException e){
-                e.printStackTrace();
-                lsResponse = AppConstants.LOCAL_EXCEPTION_ERROR(e.getMessage());
-            }catch (Exception e){
-                e.printStackTrace();
-                lsResponse = AppConstants.LOCAL_EXCEPTION_ERROR(e.getMessage());
-            }
-            return lsResponse;
+            this.poOBLeave = new REmployeeBusinessTrip(instance);
         }
 
         @Override
@@ -171,25 +82,39 @@ public class VMObApplication extends AndroidViewModel {
         }
 
         @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            try {
-                JSONObject loJson = new JSONObject(s);
-                Log.e(TAG, loJson.getString("result"));
-                String lsResult = loJson.getString("result");
-                if(lsResult.equalsIgnoreCase("success")){
-                    callback.onSuccess();
-                } else {
-                    JSONObject loError = loJson.getJSONObject("error");
-                    String message = loError.getString("message");
-                    callback.onFailed(message);
+        protected Boolean doInBackground(REmployeeBusinessTrip.OBApplication... obApplications) {
+            REmployeeBusinessTrip.OBApplication loApp = obApplications[0];
+            try{
+                if(!poOBLeave.SaveOBApplication(loApp)){
+                    message = poOBLeave.getMessage();
+                    return false;
                 }
-            } catch (JSONException e) {
+
+                if(!poConn.isDeviceConnected()){
+                    message = poConn.getMessage();
+                    return false;
+                }
+
+                if(!poOBLeave.UploadApplication()){
+                    message = poOBLeave.getMessage();
+                    return false;
+                }
+
+                return true;
+            } catch (Exception e){
                 e.printStackTrace();
-                callback.onFailed(e.getMessage());
-            } catch (Exception e) {
-                e.printStackTrace();
-                callback.onFailed(e.getMessage());
+                message = e.getMessage();
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Boolean isSuccess) {
+            super.onPostExecute(isSuccess);
+            if(isSuccess){
+                callback.onSuccess();
+            } else {
+                callback.onFailed(message);
             }
         }
     }

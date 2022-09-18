@@ -328,12 +328,16 @@ public class Fragment_SelfieLogin extends Fragment {
                 }
 
                 @Override
-                public void OnFailed(String message) {
+                public void OnFailed(String message, Intent intent, String[] args) {
                     poLoad.dismiss();
                     poMessage.initDialog();
                     poMessage.setTitle("Selfie Login");
-                    poMessage.setMessage(message);
-                    poMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
+                    poMessage.setMessage(message + "\n Proceed taking selfie log?");
+                    poMessage.setPositiveButton("Continue", (view, dialog) -> {
+                        dialog.dismiss();
+                        poCamera.launch(intent);
+                    });
+                    poMessage.setNegativeButton("Okay", (view1, dialog) -> dialog.dismiss());
                     poMessage.show();
                 }
             });

@@ -63,35 +63,32 @@ public class GeoLocator {
                     ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
                     message = "Location permissions are not enabled.";
                     return false;
+                }
+                Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+                Location location1 = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+                Location location2 = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
+
+
+                if (location != null) {
+                    double latti = location.getLatitude();
+                    double longi = location.getLongitude();
+                    lattitude = latti;
+                    longitude = longi;
+                    return geoAddress();
+                } else if (location1 != null) {
+                    double latti = location1.getLatitude();
+                    double longi = location1.getLongitude();
+                    lattitude = latti;
+                    longitude = longi;
+                    return geoAddress();
                 } else {
-                    @SuppressLint("MissingPermission") Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-
-                    @SuppressLint("MissingPermission") Location location1 = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-
-                    @SuppressLint("MissingPermission") Location location2 = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
-
-                    if (location != null) {
-                        double latti = location.getLatitude();
-                        double longi = location.getLongitude();
-                        lattitude = latti;
-                        longitude = longi;
-                        return geoAddress();
-                    } else if (location1 != null) {
-                        double latti = location1.getLatitude();
-                        double longi = location1.getLongitude();
-                        lattitude = latti;
-                        longitude = longi;
-                        return geoAddress();
-                    } else if (location2 != null) {
-                        double latti = location2.getLatitude();
-                        double longi = location2.getLongitude();
-                        lattitude = latti;
-                        longitude = longi;
-                        return geoAddress();
-                    } else {
-                        message = "Unable to retrieve location";
-                        return false;
-                    }
+                    double latti = location2.getLatitude();
+                    double longi = location2.getLongitude();
+                    lattitude = latti;
+                    longitude = longi;
+                    return geoAddress();
                 }
             }
         } catch (Exception e){

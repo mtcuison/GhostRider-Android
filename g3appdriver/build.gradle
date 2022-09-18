@@ -12,11 +12,11 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 32
+    compileSdkVersion 33
     defaultConfig {
         multiDexEnabled true
         minSdkVersion 21
-        targetSdkVersion 32
+        targetSdkVersion 33
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -36,8 +36,8 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'androidx.appcompat:appcompat:1.4.1'
-    implementation 'androidx.room:room-runtime:2.4.2'
+    implementation 'androidx.appcompat:appcompat:1.5.1'
+    implementation 'androidx.room:room-runtime:2.4.3'
     implementation 'androidx.sqlite:sqlite:2.2.0'
     implementation files('D:/Android_Libs/appdriver.jar')
     implementation files('D:/Android_Libs/json-simple-1.1.1.jar')
@@ -55,9 +55,12 @@ dependencies {
     implementation 'com.google.android.play:core:1.10.3'
     androidTestImplementation 'org.testng:testng:7.4.0'
     //androidTestImplementation 'org.junit.jupiter:junit-jupiter'
-    annotationProcessor 'androidx.room:room-compiler:2.4.2'
+    annotationProcessor 'androidx.room:room-compiler:2.4.3'
     implementation 'com.github.ybq:Android-SpinKit:1.4.0'
-    implementation 'com.google.android.gms:play-services-location:19.0.1'
+    implementation 'com.google.android.gms:play-services-location:20.0.0'
+    implementation 'com.huawei.hms:maps:4.0.1.302'
+    implementation 'com.huawei.hms:location:6.4.0.300'
+    implementation 'com.huawei.hms:site:4.0.3.300'
 
     testImplementation 'org.mockito:mockito-core:4.5.1'
 }

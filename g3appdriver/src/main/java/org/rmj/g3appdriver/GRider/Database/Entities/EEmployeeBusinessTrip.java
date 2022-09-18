@@ -55,6 +55,10 @@ public class EEmployeeBusinessTrip {
     private String TranStat;
     @ColumnInfo(name = "cSendStat")
     private String SendStat;
+    @ColumnInfo(name = "sModified")
+    private String Modified;
+    @ColumnInfo(name = "dModified")
+    private String DModfied;
 
     public EEmployeeBusinessTrip() {
     }
@@ -194,5 +198,21 @@ public class EEmployeeBusinessTrip {
 
     public void setDestinat(String destinat) {
         Destinat = destinat;
+    }
+
+    public String getModified() {
+        return Modified;
+    }
+
+    public void setModified(String modified) {
+        Modified = modified;
+    }
+
+    public String getDModfied() {
+        return DModfied;
+    }
+
+    public void setDModfied(String DModfied) {
+        this.DModfied = DModfied;
     }
 }

@@ -59,7 +59,7 @@ public class VMSelfieLogin extends AndroidViewModel {
     public interface OnInitializeCameraCallback {
         void OnInit();
         void OnSuccess(Intent intent, String[] args);
-        void OnFailed(String message);
+        void OnFailed(String message, Intent intent, String[] args);
     }
 
     public interface OnLoginTimekeeperListener{
@@ -222,13 +222,6 @@ public class VMSelfieLogin extends AndroidViewModel {
 
         @Override
         protected Boolean doInBackground(String... strings) {
-//            try{
-//
-//            } catch (Exception e){
-//                e.printStackTrace();
-//                message = e.getMessage();
-//                return false;
-//            }
             if(!loImage.IsFileCreated()){
                 message = loImage.getMessage();
                 return false;
@@ -242,6 +235,11 @@ public class VMSelfieLogin extends AndroidViewModel {
                     loIntent = loImage.getCameraIntent();
                     return true;
                 } else {
+                    args[0] = loImage.getFilePath();
+                    args[1] = loImage.getFileName();
+                    args[2] = loLrt.getLatitude();
+                    args[3] = loLrt.getLongitude();
+                    loIntent = loImage.getCameraIntent();
                     message = loLrt.getMessage();
                     return false;
                 }
@@ -254,7 +252,7 @@ public class VMSelfieLogin extends AndroidViewModel {
             if(isSuccess){
                 callback.OnSuccess(loIntent, args);
             } else {
-                callback.OnFailed(message);
+                callback.OnFailed(message, loIntent, args);
             }
         }
     }

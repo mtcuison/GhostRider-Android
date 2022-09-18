@@ -34,7 +34,6 @@ import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.g3appdriver.utils.WebClient;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.OBApprovalInfo;
 
 public class VMObApproval extends AndroidViewModel {
     private static final String TAG = VMObApproval.class.getSimpleName();
@@ -183,24 +182,20 @@ public class VMObApproval extends AndroidViewModel {
         }
     }
 
-    public void confirmOBApplication(OBApprovalInfo infoModel, OnConfirmApplicationCallback callback){
+    public void confirmOBApplication(REmployeeBusinessTrip.OBApprovalInfo infoModel, OnConfirmApplicationCallback callback){
         new ConfirmApplicationTask(instance, callback).execute(infoModel);
     }
 
-    private static class ConfirmApplicationTask extends AsyncTask<OBApprovalInfo, Void, String>{
+    private static class ConfirmApplicationTask extends AsyncTask<REmployeeBusinessTrip.OBApprovalInfo, Void, Boolean>{
 
         private final REmployeeBusinessTrip poBusTrip;
         private final ConnectionUtil poConn;
-        private final HttpHeaders poHeaders;
-        private final WebApi poApi;
-        private final AppConfigPreference loConfig;
         private final OnConfirmApplicationCallback callback;
+
+        private String message;
 
         public ConfirmApplicationTask(Application instance, OnConfirmApplicationCallback callback){
             this.poConn = new ConnectionUtil(instance);
-            this.poHeaders = HttpHeaders.getInstance(instance);
-            this.loConfig = AppConfigPreference.getInstance(instance);
-            this.poApi = new WebApi(loConfig.getTestStatus());
             this.callback = callback;
             this.poBusTrip = new REmployeeBusinessTrip(instance);
         }
@@ -213,60 +208,42 @@ public class VMObApproval extends AndroidViewModel {
 
         @SuppressLint("NewApi")
         @Override
-        protected String doInBackground(OBApprovalInfo... obApprovalInfos) {
+        protected Boolean doInBackground(REmployeeBusinessTrip.OBApprovalInfo... obApprovalInfos) {
             String lsResult;
             try{
-                OBApprovalInfo loApp = obApprovalInfos[0];
-                if(!poConn.isDeviceConnected()) {
-                    lsResult = AppConstants.NO_INTERNET();
-                } else {
-                    JSONObject param = new JSONObject();
-                    param.put("sTransNox", loApp.getTransNox());
-                    param.put("dAppldFrx", loApp.getAppldFrx());
-                    param.put("dAppldTox", loApp.getAppldTox());
-                    param.put("sApproved", loApp.getApproved());
-                    param.put("dApproved", loApp.getDateAppv());
-                    param.put("cTranStat", loApp.getTranStat());
-                    lsResult = WebClient.httpsPostJSon(poApi.getUrlConfirmObApplication(loConfig.isBackUpServer()), param.toString(), poHeaders.getHeaders());
-                    if (lsResult != null) {
-                        JSONObject jsonResponse = new JSONObject(lsResult);
-                        String result = jsonResponse.getString("result");
-                        if(result.equalsIgnoreCase("success")){
-                            poBusTrip.updateOBApproval(loApp.getTranStat(), loApp.getTransNox(), new AppConstants().DATE_MODIFIED);
-                            if(loApp.getTranStat().equalsIgnoreCase("1")) {
-                                lsResult = AppConstants.APPROVAL_CODE_GENERATED("Business trip has been approve successfully.");
-                            } else {
-                                lsResult = AppConstants.APPROVAL_CODE_GENERATED("Business trip has been disapprove successfully.");
-                            }
-                        }
-                        Log.e(TAG, lsResult);
-                    } else {
-                        lsResult = AppConstants.SERVER_NO_RESPONSE();
-                    }
+                if(!poBusTrip.SaveBusinessTripApproval(obApprovalInfos[0])){
+                    message = poBusTrip.getMessage();
+                    return false;
                 }
+
+                if(!poConn.isDeviceConnected()) {
+                    message = poConn.getMessage();
+                    return false;
+                }
+
+                if(!poBusTrip.PostBusinessTripApproval()){
+                    message = poBusTrip.getMessage();
+                    return false;
+                }
+
+                message = poBusTrip.getMessage();
+                return true;
             } catch (Exception e){
                 e.printStackTrace();
-                lsResult = AppConstants.LOCAL_EXCEPTION_ERROR(e.getMessage());
+                message = e.getMessage();
+                return false;
             }
-            return lsResult;
         }
 
         @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
+        protected void onPostExecute(Boolean isSuccess) {
+            super.onPostExecute(isSuccess);
             try {
-                JSONObject loJson = new JSONObject(s);
-                String lsResult = loJson.getString("result");
-                if(lsResult.equalsIgnoreCase("success")){
-                    callback.OnSuccess(loJson.getString("code"));
+                if(isSuccess){
+                    callback.OnSuccess(message);
                 } else {
-                    JSONObject loError = loJson.getJSONObject("error");
-                    String message = loError.getString("message");
                     callback.OnFailed(message);
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
-                callback.OnFailed(e.getMessage());
             } catch (Exception e) {
                 e.printStackTrace();
                 callback.OnFailed(e.getMessage());

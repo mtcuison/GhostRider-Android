@@ -13,16 +13,17 @@ package org.rmj.guanzongroup.ghostrider.ahmonitoring.Model;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.rmj.g3appdriver.GRider.Database.Repositories.REmployeeLeave;
 
 import static org.junit.Assert.*;
 
 public class LeaveApplicationTest {
 
-    public LeaveApplication poLeave;
+    public REmployeeLeave.LeaveApplication poLeave;
 
     @Before
     public void setUp() throws Exception {
-        poLeave = new LeaveApplication();
+        poLeave = new REmployeeLeave.LeaveApplication();
     }
 
     @Test

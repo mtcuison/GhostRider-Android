@@ -32,6 +32,15 @@ public class LocationRetriever {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(instance);
     }
 
+    public interface iLocationRetriever{
+        void GetLocation(Context instance, OnRetrieveLocationListener listener);
+    }
+
+    public interface OnRetrieveLocationListener{
+        void OnRetrieve(String latitude, String longitude);
+        void OnFailed(String message, String latitude, String longitude);
+    }
+
     public String getMessage() {
         return message;
     }
@@ -81,33 +90,37 @@ public class LocationRetriever {
         try {
             String lsCompx = android.os.Build.MANUFACTURER;
             lsCompx = "huawei";
+            iLocationRetriever location = null;
             if (!lsCompx.toLowerCase().equalsIgnoreCase("huawei")) {
-                fusedLocationClient.getLastLocation().addOnSuccessListener(location -> {
-                    if (location != null) {
-                        nLatitude = String.valueOf(location.getLatitude());
-                        nLongitde = String.valueOf(location.getLongitude());
-                        isSuccess = true;
-                    } else {
-                        message = "unable to retrieve location.";
-                        isSuccess = false;
-                    }
-                    lnResult = 1;
-                });
-                while(lnResult < 1) {
-                    Log.d(TAG, "waiting location result...");
-                }
-                return isSuccess;
+                location = new GmsLocationRetriever();
             } else {
-                GeoLocator location = new GeoLocator(instance, activity);
-                if(!location.HasLocation()) {
-                    message = location.getMessage();
-                    return false;
-                } else {
-                    nLongitde = String.valueOf(location.getLongitude());
-                    nLatitude = String.valueOf(location.getLatitude());
-                    return true;
-                }
+                location = new HmsLocationRetriever();
             }
+
+            location.GetLocation(instance, new OnRetrieveLocationListener() {
+                @Override
+                public void OnRetrieve(String latitude, String longitude) {
+                    isSuccess = true;
+                    nLatitude = latitude;
+                    nLongitde = longitude;
+                    lnResult = 1;
+                }
+
+                @Override
+                public void OnFailed(String fsMsg, String latitude, String longitude) {
+                    isSuccess = false;
+                    nLatitude = latitude;
+                    nLongitde = longitude;
+                    message = fsMsg;
+                    lnResult = 1;
+                }
+            });
+            while(lnResult < 1) {
+                Log.d(TAG, "waiting location result...");
+                Thread.sleep(1000);
+            }
+
+            return isSuccess;
         } catch (Exception e){
             e.printStackTrace();
             message = "Failed retrieving current location. " + e.getMessage();

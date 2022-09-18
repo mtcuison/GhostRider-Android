@@ -35,6 +35,21 @@ public interface DEmployeeBusinessTrip {
     @Insert
     void insertNewOBLeave(EEmployeeBusinessTrip obLeave);
 
+    @Query("SELECT COUNT (*) FROM Employee_Business_Trip")
+    int GetRowsCountForID();
+
+    @Query("SELECT * FROM Employee_Business_Trip WHERE sTransNox =:TransNox")
+    EEmployeeBusinessTrip GetOBApplicationForPosting(String TransNox);
+
+    @Query("SELECT * FROM Employee_Business_Trip WHERE sTransNox =:TransNox")
+    EEmployeeBusinessTrip GetOBApprovalForPosting(String TransNox);
+
+    @Query("SELECT * FROM EMPLOYEE_BUSINESS_TRIP WHERE cSendStat != '1' AND cTranStat != '0'")
+    List<EEmployeeBusinessTrip> GetUnpostedApprovals();
+
+    @Query("SELECT * FROM Employee_Business_Trip WHERE cSendStat != '1'")
+    List<EEmployeeBusinessTrip> GetUnpostedOBApplications();
+
     @Query("SELECT * FROM Employee_Business_Trip WHERE sTransNox =:TransNox")
     List<EEmployeeBusinessTrip> getOBIfExist(String TransNox);
 
@@ -43,6 +58,9 @@ public interface DEmployeeBusinessTrip {
 
     @Query("UPDATE Employee_Business_Trip SET cSendStat = '1', sTransNox =:newTransNox WHERE sTransNox =:TransNox")
     void updateOBSentStatus(String TransNox, String newTransNox);
+
+    @Query("UPDATE Employee_Business_Trip SET cSendStat = '1' WHERE sTransNox=:TransNox")
+    void updateObApprovalPostedStatus(String TransNox);
 
     @Query("UPDATE Employee_Business_Trip SET " +
             "cTranStat =:TranStat, " +

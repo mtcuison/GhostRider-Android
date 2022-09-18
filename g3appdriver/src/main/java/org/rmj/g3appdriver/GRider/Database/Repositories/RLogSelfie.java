@@ -91,16 +91,5 @@ public class RLogSelfie {
         return lsNextCode;
     }
 
-    private static class InsertSelfieTask extends AsyncTask<ELog_Selfie, Void, String>{
-        private final DLog_Selfie selfieDao;
-
-        public InsertSelfieTask(DLog_Selfie selfieDao) {
-            this.selfieDao = selfieDao;
-        }
-
-        @Override
-        protected String doInBackground(ELog_Selfie... eLog_selfies) {
-            return null;
-        }
-    }
+    
 }

@@ -33,12 +33,12 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
+import org.rmj.g3appdriver.GRider.Database.Repositories.REmployeeBusinessTrip;
 import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.dev.DeptCode;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.OBApplication;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMObApplication;
 
@@ -62,7 +62,7 @@ public class Fragment_ObApplication extends Fragment {
                                 txtDateTo,
                                 txtNoDays,
                                 txtRemarks;
-    private OBApplication infoModel;
+    private REmployeeBusinessTrip.OBApplication infoModel;
     private LoadDialog poProgress;
     private MessageBox loMessage;
 
@@ -76,7 +76,7 @@ public class Fragment_ObApplication extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_ob_application, container, false);
-        infoModel = new OBApplication();
+        infoModel = new REmployeeBusinessTrip.OBApplication();
         lblUsername = view.findViewById(R.id.lbl_username);
         lblPosition = view.findViewById(R.id.lbl_userPosition);
         lblBranch = view.findViewById(R.id.lbl_userBranch);

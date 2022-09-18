@@ -32,12 +32,12 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
+import org.rmj.g3appdriver.GRider.Database.Repositories.REmployeeBusinessTrip;
 import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Application;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.OBApprovalInfo;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMObApproval;
 
@@ -71,7 +71,7 @@ public class Fragment_BusinessTripApproval extends Fragment implements VMObAppro
     private TextInputLayout tilRemarks;
     private LoadDialog poDialogx;
     private MessageBox poMessage;
-    private OBApprovalInfo poModel;
+    private REmployeeBusinessTrip.OBApprovalInfo poModel;
 
     public static Fragment_BusinessTripApproval newInstance() {
         return new Fragment_BusinessTripApproval();
@@ -80,15 +80,9 @@ public class Fragment_BusinessTripApproval extends Fragment implements VMObAppro
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        mViewModel = new ViewModelProvider(this).get(VMObApproval.class);
         View view = inflater.inflate(R.layout.fragment_business_trip_approval, container, false);
         initWidgets(view);
-        return view;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(VMObApproval.class);
         Typeface typeface = ResourcesCompat.getFont(requireActivity(), R.font.roboto_bold);
         tilRemarks.setTypeface(typeface);
         TransNox = Activity_Application.getInstance().getTransNox();
@@ -145,12 +139,12 @@ public class Fragment_BusinessTripApproval extends Fragment implements VMObAppro
             poMessage.initDialog();
             poMessage.setTitle("Leave Approval");
             poMessage.setMessage("Approve " + lblEmployeNm.getText().toString() + "'s business trip application?");
-            poMessage.setPositiveButton("Approve", (view, dialog) -> {
+            poMessage.setPositiveButton("Approve", (view1, dialog) -> {
                 dialog.dismiss();
                 poModel.setTranStat("1");
                 mViewModel.confirmOBApplication(poModel, Fragment_BusinessTripApproval.this);
             });
-            poMessage.setNegativeButton("Cancel", (view, dialog) -> dialog.dismiss());
+            poMessage.setNegativeButton("Cancel", (view1, dialog) -> dialog.dismiss());
             poMessage.show();
         });
 
@@ -158,19 +152,21 @@ public class Fragment_BusinessTripApproval extends Fragment implements VMObAppro
             poMessage.initDialog();
             poMessage.setTitle("Leave Approval");
             poMessage.setMessage("Disapprove " + lblEmployeNm.getText().toString() + "'s business trip application?");
-            poMessage.setPositiveButton("Disapprove", (view, dialog) -> {
+            poMessage.setPositiveButton("Disapprove", (view1, dialog) -> {
                 dialog.dismiss();
                 poModel.setTranStat("3");
                 mViewModel.confirmOBApplication(poModel, Fragment_BusinessTripApproval.this);
             });
-            poMessage.setNegativeButton("Cancel", (view, dialog) -> dialog.dismiss());
+            poMessage.setNegativeButton("Cancel", (view1, dialog) -> dialog.dismiss());
             poMessage.show();
         });
+        return view;
     }
+
     public void initWidgets(View view){
         poDialogx = new LoadDialog(getActivity());
         poMessage = new MessageBox(getActivity());
-        poModel = new OBApprovalInfo();
+        poModel = new REmployeeBusinessTrip.OBApprovalInfo();
         lnSearch = view.findViewById(R.id.linear_search);
         lblBranchNm = view.findViewById(R.id.lbl_headerBranch);
         lblBranchAd = view.findViewById(R.id.lbl_headerAddress);
