@@ -231,6 +231,12 @@ public class VMLeaveApproval extends AndroidViewModel {
         }
 
         @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            callback.onConfirm();
+        }
+
+        @Override
         protected Boolean doInBackground(REmployeeLeave.LeaveApprovalInfo... infos) {
             try{
                 if(!infos[0].isDataValid()){
@@ -239,61 +245,19 @@ public class VMLeaveApproval extends AndroidViewModel {
                 }
 
                 if(!poConn.isDeviceConnected()){
-                    message = poConn.getMessage();
+                    message = poConn.getMessage() + " Your approval will be automatically send if device is reconnected to internet.";
                     return false;
                 }
-                boolean isSuccess = poLeave.PostLeaveApproval(infos[0]);
-                message = poLeave.getMessage();
-                return isSuccess;
-            } catch (Exception e){
+                if(!poLeave.PostLeaveApproval()){
+                    message = poLeave.getMessage();
+                    return false;
+                }
+                return true;
+            } catch (Exception e) {
                 e.printStackTrace();
                 message = e.getMessage();
                 return false;
             }
-//            try{
-//                REmployeeLeave.LeaveApprovalInfo infoModel = infos[0];
-//                JSONObject loJson = new JSONObject();
-//                loJson.put("sTransNox", infoModel.getTransNox());
-//                loJson.put("dTransact", AppConstants.CURRENT_DATE);
-//                loJson.put("dAppldFrx", infoModel.getAppldFrx());
-//                loJson.put("dAppldTox", infoModel.getAppldTox());
-//                loJson.put("cTranStat", infoModel.getTranStat());
-//                loJson.put("nWithPayx", infoModel.getWithPayx());
-//                loJson.put("nWithOPay", infoModel.getWithOPay());
-//                loJson.put("sApproved", infoModel.getApprovex());
-//                loJson.put("dApproved", infoModel.getApproved());
-//
-//                if(poConn.isDeviceConnected()) {
-//                    lsResponse = WebClient.sendRequest(poApi.getUrlConfirmLeaveApplication(loConfig.isBackUpServer()), loJson.toString(), poHeaders.getHeaders());
-//                    if(lsResponse == null) {
-//                        lsResponse = AppConstants.SERVER_NO_RESPONSE();
-//                    } else {
-//                        JSONObject jsonResponse = new JSONObject(lsResponse);
-//                        String lsResult = jsonResponse.getString("result");
-//                        if(lsResult.equalsIgnoreCase("success")){
-//                            poLeave.updateLeaveApproval(infoModel.getTranStat(), infoModel.getTransNox(), new AppConstants().DATE_MODIFIED);
-//                        }
-//                        Log.e(TAG, lsResponse);
-//                    }
-//                } else {
-//                    lsResponse = AppConstants.SERVER_NO_RESPONSE();
-//                    Log.e(TAG, "else " + lsResponse);
-//                }
-//
-//            } catch (NullPointerException e){
-//                e.printStackTrace();
-//                lsResponse = AppConstants.LOCAL_EXCEPTION_ERROR(e.getMessage());
-//            }catch (Exception e){
-//                e.printStackTrace();
-//                lsResponse = AppConstants.LOCAL_EXCEPTION_ERROR(e.getMessage());
-//            }
-//            return lsResponse;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            callback.onConfirm();
         }
 
         @Override
@@ -305,20 +269,6 @@ public class VMLeaveApproval extends AndroidViewModel {
                 } else {
                     callback.onFailed(message);
                 }
-//                JSONObject loJson = new JSONObject(s);
-//                Log.e(TAG, loJson.getString("result"));
-//                String lsResult = loJson.getString("result");
-//                if(lsResult.equalsIgnoreCase("success")){
-//                    if(infoModel.getTranStat().equalsIgnoreCase("1")) {
-//                        callback.onSuccess("Leave Application has been approved.");
-//                    } else {
-//                        callback.onSuccess("Leave Application has been disapproved.");
-//                    }
-//                } else {
-//                    JSONObject loError = loJson.getJSONObject("error");
-//                    String message = loError.getString("message");
-//                    callback.onFailed(message);
-//                }
             } catch (Exception e) {
                 e.printStackTrace();
                 callback.onFailed(e.getMessage());

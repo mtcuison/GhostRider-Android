@@ -55,6 +55,10 @@ public class REmployeeLeave {
         return message;
     }
 
+    public String getTransnox() {
+        return transno;
+    }
+
     public void insertApplication(EEmployeeLeave poLeave) {
         poDao.insertApplication(poLeave);
     }
@@ -83,11 +87,11 @@ public class REmployeeLeave {
         return poDao.getApproveLeaveList();
     }
 
-    public boolean SaveLeaveApplication(LeaveApplication foVal){
+    public String SaveLeaveApplication(LeaveApplication foVal){
         try{
             if(!foVal.isDataValid()){
                 message = foVal.getMessage();
-                return false;
+                return null;
             }
             String lsTransNo = CreateUniqueID();
             EEmployeeLeave loApp = new EEmployeeLeave();
@@ -110,28 +114,27 @@ public class REmployeeLeave {
             loApp.setApproved("0");
             loApp.setTranStat("0");
             poDao.insertApplication(loApp);
-            transno = lsTransNo;
             Log.d(TAG, "Leave application has been save to local.");
             message = "Leave application has been save to local";
-            return true;
+            return lsTransNo;
         } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();
-            return false;
+            return null;
         }
     }
 
-    public boolean UploadLeaveApplication(){
+    public boolean UploadLeaveApplication(String fsVal){
         try{
-            EEmployeeLeave loDetail = poDao.GetEmployeeLeaveForUpload(transno);
+            EEmployeeLeave loDetail = poDao.GetEmployeeLeave(fsVal);
             if(loDetail == null){
                 message = "Unable to retrieve leave application to upload.";
-                return true;
+                return false;
             } else {
                 JSONObject param = new JSONObject();
                 param.put("sTransNox", loDetail.getTransNox());
                 param.put("dTransact", loDetail.getTransact());
-                param.put("sEmployID", loDetail.getEmployID());
+                param.put("sEmployID", poSession.getEmployeeID());
                 param.put("dDateFrom", loDetail.getDateFrom());
                 param.put("dDateThru", loDetail.getDateThru());
                 param.put("nNoDaysxx", loDetail.getNoDaysxx());
@@ -147,7 +150,7 @@ public class REmployeeLeave {
                 param.put("dApproved", "");
                 param.put("dSendDate", loDetail.getSendDate());
                 param.put("cTranStat", loDetail.getTranStat());
-                param.put("sModified", loDetail.getEmployID());
+                param.put("sModified", poSession.getEmployeeID());
 
                 String lsResponse = WebClient.sendRequest(
                         poApi.getUrlSendLeaveApplication(poConfig.isBackUpServer()),
@@ -201,7 +204,7 @@ public class REmployeeLeave {
                 JSONObject param = new JSONObject();
                 param.put("sTransNox", leave.getTransNox());
                 param.put("dTransact", leave.getTransact());
-                param.put("sEmployID", leave.getEmployID());
+                param.put("sEmployID", poSession.getEmployeeID());
                 param.put("dDateFrom", leave.getDateFrom());
                 param.put("dDateThru", leave.getDateThru());
                 param.put("nNoDaysxx", leave.getNoDaysxx());
@@ -217,7 +220,7 @@ public class REmployeeLeave {
                 param.put("dApproved", leave.getApproved());
                 param.put("dSendDate", AppConstants.CURRENT_DATE);
                 param.put("cTranStat", leave.getTranStat());
-                param.put("sModified", leave.getEmployID());
+                param.put("sModified", poSession.getEmployeeID());
 
                 Log.d(TAG, "Uploading leave application no.: " + x + " out of " + loDetail.size());
                 String lsResponse = WebClient.sendRequest(
@@ -283,7 +286,7 @@ public class REmployeeLeave {
                         leave.setLeaveTyp(loJson.getString("cLeaveTyp"));
                         leave.setLveCredt(loJson.getString("nLveCredt"));
                         leave.setTranStat(loJson.getString("cTranStat"));
-                        EEmployeeLeave loDetail = poDao.GetExistedApplication(loJson.getString("sTransNox"));
+                        EEmployeeLeave loDetail = poDao.GetEmployeeLeave(loJson.getString("sTransNox"));
                         if(loDetail == null){
                             poDao.insertApplication(leave);
                             Log.d(TAG, "New leave application save!");
@@ -311,18 +314,50 @@ public class REmployeeLeave {
         }
     }
 
-    public boolean PostLeaveApproval(LeaveApprovalInfo foVal){
+    public boolean SaveLeaveApproval(LeaveApprovalInfo foVal){
+       try{
+           EEmployeeLeave loDetail = poDao.GetEmployeeLeave(foVal.getTransNox());
+           if(loDetail == null){
+               message = "Cannot find business trip to approve.";
+               return false;
+           }
+           loDetail.setTransNox(foVal.getTransNox());
+           loDetail.setTransact(AppConstants.CURRENT_DATE);
+           loDetail.setAppldFrx(foVal.getAppldFrx());
+           loDetail.setAppldTox(foVal.getAppldTox());
+           loDetail.setTranStat(foVal.getTranStat());
+           loDetail.setWithPayx(foVal.getWithPayx());
+           loDetail.setWithOPay(foVal.getWithOPay());
+           loDetail.setApproved(foVal.getApprovex());
+           loDetail.setDApproved(foVal.getApproved());
+           poDao.updateApplication(loDetail);
+           transno = loDetail.getTransNox();
+           return true;
+       } catch (Exception e){
+           e.printStackTrace();
+           message = e.getMessage();
+           return false;
+       }
+    }
+
+    public boolean PostLeaveApproval(){
         try{
+            EEmployeeLeave loDetail = poDao.GetEmployeeLeave(transno);
+            if(loDetail == null){
+                message = "Unable to find leave application to upload.";
+                return false;
+            }
+
             JSONObject params = new JSONObject();
-            params.put("sTransNox", foVal.getTransNox());
-            params.put("dTransact", AppConstants.CURRENT_DATE);
-            params.put("dAppldFrx", foVal.getAppldFrx());
-            params.put("dAppldTox", foVal.getAppldTox());
-            params.put("cTranStat", foVal.getTranStat());
-            params.put("nWithPayx", foVal.getWithPayx());
-            params.put("nWithOPay", foVal.getWithOPay());
-            params.put("sApproved", foVal.getApprovex());
-            params.put("dApproved", foVal.getApproved());
+            params.put("sTransNox", loDetail.getTransNox());
+            params.put("dTransact", loDetail.getTransact());
+            params.put("dAppldFrx", loDetail.getAppldFrx());
+            params.put("dAppldTox", loDetail.getAppldTox());
+            params.put("cTranStat", loDetail.getTranStat());
+            params.put("nWithPayx", loDetail.getWithPayx());
+            params.put("nWithOPay", loDetail.getWithOPay());
+            params.put("sApproved", loDetail.getApproved());
+            params.put("dApproved", loDetail.getDApproved());
 
             String lsResponse = WebClient.sendRequest(
                     poApi.getUrlConfirmLeaveApplication(poConfig.isBackUpServer()),
@@ -335,7 +370,7 @@ public class REmployeeLeave {
                 JSONObject loResponse = new JSONObject(lsResponse);
                 String lsResult = loResponse.getString("result");
                 if(lsResult.equalsIgnoreCase("success")){
-                    poDao.updateLeaveApproval(foVal.getTranStat(), foVal.getTransNox(), new AppConstants().DATE_MODIFIED);
+                    poDao.updatePostedApproval(transno);
                     message = "Leave approval has been posted.";
                     return true;
                 } else {

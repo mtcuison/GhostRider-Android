@@ -35,22 +35,19 @@ public interface DEmployeeLeave {
     int GetRowsCountForID();
 
     @Query("SELECT * FROM Employee_Leave WHERE sTransNox =:TransNox")
-    EEmployeeLeave GetEmployeeLeaveForUpload(String TransNox);
-
-    @Query("SELECT * FROM Employee_Leave WHERE sTransNox =:TransNox")
-    EEmployeeLeave GetExistedApplication(String TransNox);
+    EEmployeeLeave GetEmployeeLeave(String TransNox);
 
     @Query("SELECT * FROM Employee_Leave WHERE sTransNox =:TransNox AND cTranStat =:TranStat")
     List<EEmployeeLeave> getTransnoxIfExist(String TransNox, String TranStat);
-
-    @Query("DELETE FROM Employee_Leave WHERE sTransNox =:TransNox")
-    void deleteApplication(String TransNox);
 
     @Query("SELECT * FROM Employee_Leave WHERE sTransNox =:TransNox")
     LiveData<EEmployeeLeave> getEmployeeLeaveInfo(String TransNox);
 
     @Query("UPDATE Employee_Leave SET sTransNox =:newTransNox, cSentStat = '1', dSendDate =:DateSent WHERE sTransNox =:TransNox")
     void updateSendStatus(String DateSent, String TransNox, String newTransNox);
+
+    @Query("UPDATE Employee_Leave SET cSentStat = '1' WHERE sTransNox =:TransNox")
+    void updatePostedApproval(String TransNox);
 
     @Query("UPDATE Employee_Leave SET " +
             "cTranStat =:TranStat, " +

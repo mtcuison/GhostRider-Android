@@ -90,17 +90,20 @@ public class VMLeaveApplication extends AndroidViewModel {
         protected Boolean doInBackground(REmployeeLeave.LeaveApplication... leaveApplications) {
             REmployeeLeave.LeaveApplication loLeave = leaveApplications[0];
             try {
-                if (poLeave.SaveLeaveApplication(loLeave)) {
-                    if (!poConn.isDeviceConnected()) {
-                        message = poConn.getMessage();
-                        return true;
-                    } else if (poLeave.UploadLeaveApplication()) {
-                        message = poLeave.getMessage();
-                        return true;
-                    } else {
-                        message = poLeave.getMessage();
-                        return false;
-                    }
+                String lsTransNo = poLeave.SaveLeaveApplication(loLeave);
+                if (lsTransNo == null) {
+                    message = poLeave.getMessage();
+                    return false;
+                }
+
+                if (!poConn.isDeviceConnected()) {
+                    message = poConn.getMessage();
+                    return true;
+                }
+
+                if(!poLeave.UploadLeaveApplication(poLeave.getTransnox())) {
+                    message = poLeave.getMessage();
+                    return true;
                 } else {
                     message = poLeave.getMessage();
                     return false;

@@ -209,7 +209,6 @@ public class VMObApproval extends AndroidViewModel {
         @SuppressLint("NewApi")
         @Override
         protected Boolean doInBackground(REmployeeBusinessTrip.OBApprovalInfo... obApprovalInfos) {
-            String lsResult;
             try{
                 if(!poBusTrip.SaveBusinessTripApproval(obApprovalInfos[0])){
                     message = poBusTrip.getMessage();
@@ -217,7 +216,7 @@ public class VMObApproval extends AndroidViewModel {
                 }
 
                 if(!poConn.isDeviceConnected()) {
-                    message = poConn.getMessage();
+                    message = poConn.getMessage() + " Your approval will be automatically send if device is reconnected to internet.";
                     return false;
                 }
 

@@ -51,6 +51,8 @@ public class EEmployeeLeave {
     private String EntryByx = "";
     @ColumnInfo(name = "dEntryDte")
     private String EntryDte = "";
+    @ColumnInfo(name = "nWithPayx")
+    private String WithPayx = "";
     @ColumnInfo(name = "nWithOPay")
     private String WithOPay = "";
     @ColumnInfo(name = "nEqualHrs")
@@ -264,5 +266,13 @@ public class EEmployeeLeave {
 
     public void setModified(String modified) {
         Modified = modified;
+    }
+
+    public String getWithPayx() {
+        return WithPayx;
+    }
+
+    public void setWithPayx(String withPayx) {
+        WithPayx = withPayx;
     }
 }

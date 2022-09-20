@@ -91,7 +91,7 @@ public class VMObApplication extends AndroidViewModel {
                 }
 
                 if(!poConn.isDeviceConnected()){
-                    message = poConn.getMessage();
+                    message = poConn.getMessage() + " Your leave application has been save to local.";
                     return false;
                 }
 

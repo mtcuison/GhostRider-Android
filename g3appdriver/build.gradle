@@ -32,6 +32,10 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
     namespace 'org.rmj.g3appdriver'
+
+    packagingOptions {
+        resources.merges.add("core.properties")
+    }
 }
 
 dependencies {

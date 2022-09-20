@@ -42,7 +42,7 @@ public class REmployeeBusinessTrip {
     private final WebApi poApi;
     private final HttpHeaders poHeaders;
     private final SessionManager poSession;
-    private String transno, message;
+    private String message;
 
     public REmployeeBusinessTrip(Application application){
         this.instance = application;
@@ -101,11 +101,11 @@ public class REmployeeBusinessTrip {
         return poDao.GetApproveBusTrip();
     }
 
-    public boolean SaveOBApplication(OBApplication foVal){
+    public String SaveOBApplication(OBApplication foVal){
         try{
             if(!foVal.isDataValid()){
                 message = foVal.getMessage();
-                return false;
+                return null;
             }
 
             EEmployeeBusinessTrip detail = new EEmployeeBusinessTrip();
@@ -127,18 +127,17 @@ public class REmployeeBusinessTrip {
             poDao.insert(detail);
             Log.d(TAG, "Business trip application save locally.");
             Log.d(TAG, "Business trip transaction no. :" + lsTransNo);
-            transno = lsTransNo;
-            return true;
+            return lsTransNo;
         }catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();
-            return false;
+            return null;
         }
     }
 
-    public boolean UploadApplication(){
+    public boolean UploadApplication(String fsVal){
         try{
-            EEmployeeBusinessTrip loDetail = poDao.GetOBApplicationForPosting(transno);
+            EEmployeeBusinessTrip loDetail = poDao.GetOBApplicationForPosting(fsVal);
             if(loDetail == null){
                 message = "Unable to retrieve business trip application to upload.";
                 Log.e(TAG, message);
@@ -295,24 +294,32 @@ public class REmployeeBusinessTrip {
         }
     }
 
-    public boolean SaveBusinessTripApproval(OBApprovalInfo foVal){
+    public String SaveBusinessTripApproval(OBApprovalInfo foVal){
         try{
-            poDao.updateOBApproval(
-                    foVal.getTranStat(),
-                    foVal.getTransNox(),
-                    new AppConstants().DATE_MODIFIED);
-            transno = foVal.getTransNox();
-            return true;
+            EEmployeeBusinessTrip loDetail = poDao.GetEmployeeBusinessTripForApproval(foVal.getTransNox());
+            if(loDetail == null){
+                message = "Cannot find business trip to approve.";
+                return null;
+            }
+
+            loDetail.setTransNox(foVal.getTransNox());
+            loDetail.setAppldFrx(foVal.getAppldFrx());
+            loDetail.setAppldTox(foVal.getAppldTox());
+            loDetail.setApproved(foVal.getApproved());
+            loDetail.setDapprove(foVal.getDateAppv());
+            loDetail.setTranStat(foVal.getTranStat());
+            poDao.update(loDetail);
+            return loDetail.getTransNox();
         } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();
-            return false;
+            return null;
         }
     }
 
-    public boolean PostBusinessTripApproval(){
+    public boolean PostBusinessTripApproval(String fsVal){
         try{
-            EEmployeeBusinessTrip loDetail = poDao.GetOBApprovalForPosting(transno);
+            EEmployeeBusinessTrip loDetail = poDao.GetOBApprovalForPosting(fsVal);
             if(loDetail == null){
                 message = "No business trip application found.";
                 return false;
@@ -336,7 +343,7 @@ public class REmployeeBusinessTrip {
             JSONObject loResponse = new JSONObject(lsResponse);
             String result = loResponse.getString("result");
             if (result.equalsIgnoreCase("success")) {
-                poDao.updateObApprovalPostedStatus(transno);
+                poDao.updateObApprovalPostedStatus(fsVal);
                 if (loDetail.getTranStat().equalsIgnoreCase("1")) {
                     message = "Business trip has been approve successfully.";
                 } else {
@@ -391,7 +398,7 @@ public class REmployeeBusinessTrip {
                 JSONObject loResponse = new JSONObject(lsResponse);
                 String result = loResponse.getString("result");
                 if (result.equalsIgnoreCase("success")) {
-                    poDao.updateObApprovalPostedStatus(transno);
+                    poDao.updateObApprovalPostedStatus(loDetail.getTransNox());
                     if (loDetail.getTranStat().equalsIgnoreCase("1")) {
                         message = "Business trip has been approve successfully.";
                     } else {
