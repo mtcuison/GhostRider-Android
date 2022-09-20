@@ -256,8 +256,10 @@ public class REmployeeLeave {
 
     public boolean DownloadLeaveApplications(){
         try{
+            String lsAddress = poApi.getUrlGetLeaveApplication(poConfig.isBackUpServer());
+            Log.d(TAG, "Connecting to " + lsAddress + "...");
             String lsResponse = WebClient.sendRequest(
-                    poApi.getUrlGetLeaveApplication(poConfig.isBackUpServer()),
+                    lsAddress,
                     new JSONObject().toString(),
                     poHeaders.getHeaders());
             if(lsResponse == null){

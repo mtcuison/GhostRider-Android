@@ -36,7 +36,7 @@ public class TestLeaveApproval {
         instance = ApplicationProvider.getApplicationContext();
         poUser = new REmployee(instance);
         poLeave = new REmployeeLeave(instance);
-//        AppConfigPreference.getInstance(instance).setTestCase(true);
+        AppConfigPreference.getInstance(instance).setTestCase(true);
     }
 
     @Test

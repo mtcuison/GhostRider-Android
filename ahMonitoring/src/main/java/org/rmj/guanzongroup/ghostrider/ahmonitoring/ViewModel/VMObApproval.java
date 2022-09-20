@@ -210,7 +210,8 @@ public class VMObApproval extends AndroidViewModel {
         @Override
         protected Boolean doInBackground(REmployeeBusinessTrip.OBApprovalInfo... obApprovalInfos) {
             try{
-                if(!poBusTrip.SaveBusinessTripApproval(obApprovalInfos[0])){
+                String lsTransNox = poBusTrip.SaveBusinessTripApproval(obApprovalInfos[0]);
+                if(lsTransNox == null){
                     message = poBusTrip.getMessage();
                     return false;
                 }
@@ -220,7 +221,7 @@ public class VMObApproval extends AndroidViewModel {
                     return false;
                 }
 
-                if(!poBusTrip.PostBusinessTripApproval()){
+                if(!poBusTrip.PostBusinessTripApproval(lsTransNox)){
                     message = poBusTrip.getMessage();
                     return false;
                 }
