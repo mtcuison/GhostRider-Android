@@ -85,7 +85,8 @@ public class VMObApplication extends AndroidViewModel {
         protected Boolean doInBackground(REmployeeBusinessTrip.OBApplication... obApplications) {
             REmployeeBusinessTrip.OBApplication loApp = obApplications[0];
             try{
-                if(!poOBLeave.SaveOBApplication(loApp)){
+                String lsTransNox = poOBLeave.SaveOBApplication(loApp);
+                if(lsTransNox == null){
                     message = poOBLeave.getMessage();
                     return false;
                 }
@@ -95,7 +96,7 @@ public class VMObApplication extends AndroidViewModel {
                     return false;
                 }
 
-                if(!poOBLeave.UploadApplication()){
+                if(!poOBLeave.UploadApplication(lsTransNox)){
                     message = poOBLeave.getMessage();
                     return false;
                 }
