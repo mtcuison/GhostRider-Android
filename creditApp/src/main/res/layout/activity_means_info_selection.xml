@@ -1,9 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:theme="@style/GhostRiderMaterialTheme.WhiteBG"
+    android:padding="5dp"
     tools:context=".Activities.Activity_MeansInfoSelection">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Application Means Info"
+        android:textSize="22sp"
+        android:fontFamily="@font/roboto_bold"
+        android:textColor="@color/black"
+        android:layout_marginTop="15dp"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1.5dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/guanzon_orange"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Please select the source of income of client. If client doesn't have any source of income you can skip this area."
+        android:textColor="@color/black"
+        android:gravity="center"
+        tools:ignore="HardcodedText"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <CheckBox
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/cb_employed"
+            android:text="Employed"
+            android:layout_weight="1"
+            android:fontFamily="@font/roboto_medium"
+            android:layout_margin="15dp"/>
+
+        <CheckBox
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/cb_finance"
+            android:text="Finance"
+            android:fontFamily="@font/roboto_medium"
+            android:layout_margin="15dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <CheckBox
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/cb_sEmployed"
+            android:text="Self Employed"
+            android:layout_weight="1"
+            android:fontFamily="@font/roboto_medium"
+            android:layout_margin="15dp"/>
+
+        <CheckBox
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/cb_pension"
+            android:text="Pension"
+            android:fontFamily="@font/roboto_medium"
+            android:layout_margin="15dp"/>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_creditAppPrvs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sbtnPrvs"
+            style="@style/NavigationButton"
+            android:drawableStart="@drawable/ic_nav_left"
+            android:drawableLeft="@drawable/ic_nav_left"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            tools:ignore="RelativeOverlap"  />
+
+        <Button
+            android:id="@+id/btn_creditAppNext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sbtnNext"
+            style="@style/NavigationButton"
+            android:drawableEnd="@drawable/ic_nav_right"
+            android:drawableRight="@drawable/ic_nav_right"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            tools:ignore="RelativeOverlap" />
+    </RelativeLayout>
+
+
+</LinearLayout>

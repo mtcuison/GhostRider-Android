@@ -1,7 +1,6 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 
 import org.rmj.guanzongroup.onlinecreditapplication.R;

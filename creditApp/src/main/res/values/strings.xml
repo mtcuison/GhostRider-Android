@@ -25,6 +25,7 @@
     <string name="sHintCitizenship">Citizenship (Required)</string>
     <string name="sHintMotherNm">Mother\'s Maiden Name (Required)</string>
     <string name="sHintPrimaryContact">Primary Contact No. (Required)</string>
+    <string name="sHintSimType">Sim Type</string>
     <string name="sHint2ndContact">2nd Contact No. (Optional)</string>
     <string name="sHint3rdContact">3rd Contact No. (Optional)</string>
     <string name="sHintTelephoneNo">Telephone No.</string>
@@ -47,6 +48,7 @@
     <string name="sLabelRent">Rent</string>
     <string name="sLabelCaretaker">Care Taker</string>
     <string name="sLabelPermAddress">Permanent Address</string>
+    <string name="sLabelSetPermAddress">Set Permanent Address</string>
     <string name="sHintCompanyNme">Company Name</string>
     <string name="sHintAddress">Street/ Building/ Barangay</string>
     <string name="sHintPosition">Specific Job/Position</string>
