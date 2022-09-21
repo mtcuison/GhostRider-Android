@@ -84,7 +84,7 @@ public class DataImportService extends JobService {
                 new Import_SCARequest(getApplication()),
                 new ImportBranch(getApplication()),
                 new Import_AreaPerformance(getApplication()),
-                new Import_BranchPerformance(getApplication()),};
+                new Import_BranchPerformance(getApplication())};
         new Thread(() -> {
             for (ImportInstance importInstance : importInstances) {
                 importInstance.ImportData(new ImportDataCallback() {

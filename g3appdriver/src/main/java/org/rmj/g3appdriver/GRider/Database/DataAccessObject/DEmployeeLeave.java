@@ -25,7 +25,7 @@ import java.util.List;
 @Dao
 public interface DEmployeeLeave {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert
     void insertApplication(EEmployeeLeave poLeave);
 
     @Update

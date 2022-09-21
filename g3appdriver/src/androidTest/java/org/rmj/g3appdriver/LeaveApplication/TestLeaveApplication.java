@@ -25,7 +25,7 @@ public class TestLeaveApplication {
 
     private Application instance;
 
-    private REmployeeLeave poLeave;
+    private REmployeeLeave poSys;
     private REmployee poUser;
 
     private boolean isSuccess = false;
@@ -35,7 +35,7 @@ public class TestLeaveApplication {
     public void setUp() throws Exception {
         instance = ApplicationProvider.getApplicationContext();
         poUser = new REmployee(instance);
-        poLeave = new REmployeeLeave(instance);
+        poSys = new REmployeeLeave(instance);
         AppConfigPreference.getInstance(instance).setTestCase(true);
     }
 
@@ -60,9 +60,9 @@ public class TestLeaveApplication {
         loDetail.setRemarksxx("Sample entry");
         loDetail.setEmploName("Garcia, Michael");
         loDetail.setNoOfDaysx(1);
-        String lsResult = poLeave.SaveLeaveApplication(loDetail);
+        String lsResult = poSys.SaveLeaveApplication(loDetail);
         if(lsResult == null){
-            message = poLeave.getMessage();
+            message = poSys.getMessage();
             Log.e(TAG, message);
         } else {
             transno = lsResult;
@@ -73,8 +73,8 @@ public class TestLeaveApplication {
 
     @Test
     public void test03PostLeave() {
-        if(!poLeave.UploadLeaveApplication(transno)){
-            message = poLeave.getMessage();
+        if(!poSys.UploadLeaveApplication(transno)){
+            message = poSys.getMessage();
             Log.e(TAG, message);
         } else {
             isSuccess = true;

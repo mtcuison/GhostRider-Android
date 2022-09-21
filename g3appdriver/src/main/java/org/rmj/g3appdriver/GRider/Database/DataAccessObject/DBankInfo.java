@@ -13,7 +13,9 @@ package org.rmj.g3appdriver.GRider.Database.DataAccessObject;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
+import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import org.rmj.g3appdriver.GRider.Database.Entities.EBankInfo;
 
@@ -22,8 +24,17 @@ import java.util.List;
 @Dao
 public interface DBankInfo {
 
+    @Insert
+    void SaveBankInfo(EBankInfo foVal);
+
+    @Update
+    void UpdateBankInfo(EBankInfo foVal);
+
     @Query("SELECT * FROM Bank_Info WHERE cRecdStat = 1")
     LiveData<List<EBankInfo>> getBankInfoList();
+
+    @Query("SELECT * FROM Bank_Info WHERE sBankIDxx =:BankID")
+    EBankInfo GetBankInfo(String BankID);
 
     @Query("SELECT sBankName FROM Bank_Info WHERE cRecdStat = 1")
     LiveData<String[]> getBankNameList();

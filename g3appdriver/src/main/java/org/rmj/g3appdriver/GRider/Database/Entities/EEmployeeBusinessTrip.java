@@ -59,6 +59,8 @@ public class EEmployeeBusinessTrip {
     private String Modified;
     @ColumnInfo(name = "dModified")
     private String DModfied;
+    @ColumnInfo(name = "dTimeStmp")
+    private String TimeStmp;
 
     public EEmployeeBusinessTrip() {
     }
@@ -214,5 +216,13 @@ public class EEmployeeBusinessTrip {
 
     public void setDModfied(String DModfied) {
         this.DModfied = DModfied;
+    }
+
+    public String getTimeStmp() {
+        return TimeStmp;
+    }
+
+    public void setTimeStmp(String timeStmp) {
+        TimeStmp = timeStmp;
     }
 }

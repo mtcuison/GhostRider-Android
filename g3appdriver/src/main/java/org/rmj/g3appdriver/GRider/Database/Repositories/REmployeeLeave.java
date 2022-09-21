@@ -18,6 +18,7 @@ import androidx.lifecycle.LiveData;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.rmj.apprdiver.util.SQLUtil;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DEmployeeLeave;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeLeave;
@@ -41,7 +42,7 @@ public class REmployeeLeave {
     private final WebApi poApi;
     private final HttpHeaders poHeaders;
     private final SessionManager poSession;
-    private String transno, message;
+    private String message;
 
     public REmployeeLeave(Application instance) {
         this.poDao = GGC_GriderDB.getInstance(instance).employeeLeaveDao();
@@ -53,10 +54,6 @@ public class REmployeeLeave {
 
     public String getMessage() {
         return message;
-    }
-
-    public String getTransnox() {
-        return transno;
     }
 
     public void insertApplication(EEmployeeLeave poLeave) {
@@ -165,7 +162,7 @@ public class REmployeeLeave {
                     if (lsResult.equalsIgnoreCase("success")) {
                         poDao.updateSendStatus(
                                 new AppConstants().DATE_MODIFIED,
-                                transno,
+                                fsVal,
                                 loResponse.getString("sTransNox"));
                         Log.d("Employee Leave", "Leave info updated!");
                         message = "Leave application has been save to server.";
@@ -273,33 +270,55 @@ public class REmployeeLeave {
                     JSONArray jsonA = loResponse.getJSONArray("payload");
                     for (int x = 0; x < jsonA.length(); x++) {
                         JSONObject loJson = jsonA.getJSONObject(x);
-                        EEmployeeLeave leave = new EEmployeeLeave();
-                        leave.setTransNox(loJson.getString("sTransNox"));
-                        leave.setTransact(loJson.getString("dTransact"));
-                        leave.setEmployID(loJson.getString("xEmployee"));
-                        leave.setEntryByx(loJson.getString("sEmployID"));
-                        leave.setBranchNm(loJson.getString("sBranchNm"));
-                        leave.setDeptName(loJson.getString("sDeptName"));
-                        leave.setPositnNm(loJson.getString("sPositnNm"));
-                        leave.setAppldFrx(loJson.getString("dAppldFrx"));
-                        leave.setAppldTox(loJson.getString("dAppldTox"));
-                        leave.setNoDaysxx(loJson.getString("nNoDaysxx"));
-                        leave.setPurposex(loJson.getString("sPurposex"));
-                        leave.setLeaveTyp(loJson.getString("cLeaveTyp"));
-                        leave.setLveCredt(loJson.getString("nLveCredt"));
-                        leave.setTranStat(loJson.getString("cTranStat"));
                         EEmployeeLeave loDetail = poDao.GetEmployeeLeave(loJson.getString("sTransNox"));
                         if(loDetail == null){
+                            EEmployeeLeave leave = new EEmployeeLeave();
+                            leave.setTransNox(loJson.getString("sTransNox"));
+                            leave.setTransact(loJson.getString("dTransact"));
+                            leave.setEmployID(loJson.getString("xEmployee"));
+                            leave.setEntryByx(loJson.getString("sEmployID"));
+                            leave.setBranchNm(loJson.getString("sBranchNm"));
+                            leave.setDeptName(loJson.getString("sDeptName"));
+                            leave.setPositnNm(loJson.getString("sPositnNm"));
+                            leave.setAppldFrx(loJson.getString("dAppldFrx"));
+                            leave.setAppldTox(loJson.getString("dAppldTox"));
+                            leave.setNoDaysxx(loJson.getString("nNoDaysxx"));
+                            leave.setPurposex(loJson.getString("sPurposex"));
+                            leave.setLeaveTyp(loJson.getString("cLeaveTyp"));
+                            leave.setLveCredt(loJson.getString("nLveCredt"));
+                            leave.setTranStat(loJson.getString("cTranStat"));
+                            leave.setTimeStmp(loJson.getString("dTimeStmp"));
                             poDao.insertApplication(leave);
                             Log.d(TAG, "New leave application save!");
                         } else {
-                            if(!loDetail.getTranStat().equalsIgnoreCase("0")){
-                                 if(loJson.getString("cTranStat").equalsIgnoreCase("1") ||
-                                         loJson.getString("cTranStat").equalsIgnoreCase("2")){
-                                     poDao.updateApplication(leave);
-                                     Log.d(TAG, "New leave application has been updated!");
-                                 }
+                            Date ldDate1 = SQLUtil.toDate(loDetail.getTimeStmp(), SQLUtil.FORMAT_TIMESTAMP);
+                            Date ldDate2 = SQLUtil.toDate((String) loJson.get("dTimeStmp"), SQLUtil.FORMAT_TIMESTAMP);
+                            if (!ldDate1.equals(ldDate2)){
+                                loDetail.setTransNox(loJson.getString("sTransNox"));
+                                loDetail.setTransact(loJson.getString("dTransact"));
+                                loDetail.setEmployID(loJson.getString("xEmployee"));
+                                loDetail.setEntryByx(loJson.getString("sEmployID"));
+                                loDetail.setBranchNm(loJson.getString("sBranchNm"));
+                                loDetail.setDeptName(loJson.getString("sDeptName"));
+                                loDetail.setPositnNm(loJson.getString("sPositnNm"));
+                                loDetail.setAppldFrx(loJson.getString("dAppldFrx"));
+                                loDetail.setAppldTox(loJson.getString("dAppldTox"));
+                                loDetail.setNoDaysxx(loJson.getString("nNoDaysxx"));
+                                loDetail.setPurposex(loJson.getString("sPurposex"));
+                                loDetail.setLeaveTyp(loJson.getString("cLeaveTyp"));
+                                loDetail.setLveCredt(loJson.getString("nLveCredt"));
+                                loDetail.setTranStat(loJson.getString("cTranStat"));
+                                loDetail.setTimeStmp(loJson.getString("dTimeStmp"));
+                                poDao.updateApplication(loDetail);
+                                Log.d(TAG, "Leave application record has been updated.");
                             }
+//                            if(!loDetail.getTranStat().equalsIgnoreCase("0")){
+//                                 if(loJson.getString("cTranStat").equalsIgnoreCase("1") ||
+//                                         loJson.getString("cTranStat").equalsIgnoreCase("2")){
+//                                     poDao.updateApplication(leave);
+//                                     Log.d(TAG, "New leave application has been updated!");
+//                                 }
+//                            }
                         }
                     }
                     return true;
@@ -316,12 +335,108 @@ public class REmployeeLeave {
         }
     }
 
-    public boolean SaveLeaveApproval(LeaveApprovalInfo foVal){
+    public boolean DownloadLeaveApplication(String fsVal){
+        try{
+            if(fsVal == null){
+                message = "Please enter transaction no.";
+                return false;
+            }
+
+            if(fsVal.trim().isEmpty()){
+                message = "Please enter transaction no.";
+                return false;
+            }
+
+            JSONObject params = new JSONObject();
+            params.put("sTransNox", fsVal);
+            String lsAddress = poApi.getUrlGetLeaveApplication(poConfig.isBackUpServer());
+            Log.d(TAG, "Connecting to " + lsAddress + "...");
+            String lsResponse = WebClient.sendRequest(
+                    lsAddress,
+                    params.toString(),
+                    poHeaders.getHeaders());
+            if(lsResponse == null){
+                message = "No server response";
+                return false;
+            } else {
+                Log.d(TAG, lsResponse);
+                JSONObject loResponse = new JSONObject(lsResponse);
+                String lsResult = loResponse.getString("result");
+                if (lsResult.equalsIgnoreCase("success")) {
+                    JSONArray jsonA = loResponse.getJSONArray("payload");
+                    for (int x = 0; x < jsonA.length(); x++) {
+                        JSONObject loJson = jsonA.getJSONObject(x);
+                        EEmployeeLeave loDetail = poDao.GetEmployeeLeave(loJson.getString("sTransNox"));
+                        if(loDetail == null){
+                            EEmployeeLeave leave = new EEmployeeLeave();
+                            leave.setTransNox(loJson.getString("sTransNox"));
+                            leave.setTransact(loJson.getString("dTransact"));
+                            leave.setEmployID(loJson.getString("xEmployee"));
+                            leave.setEntryByx(loJson.getString("sEmployID"));
+                            leave.setBranchNm(loJson.getString("sBranchNm"));
+                            leave.setDeptName(loJson.getString("sDeptName"));
+                            leave.setPositnNm(loJson.getString("sPositnNm"));
+                            leave.setAppldFrx(loJson.getString("dAppldFrx"));
+                            leave.setAppldTox(loJson.getString("dAppldTox"));
+                            leave.setNoDaysxx(loJson.getString("nNoDaysxx"));
+                            leave.setPurposex(loJson.getString("sPurposex"));
+                            leave.setLeaveTyp(loJson.getString("cLeaveTyp"));
+                            leave.setLveCredt(loJson.getString("nLveCredt"));
+                            leave.setTranStat(loJson.getString("cTranStat"));
+                            leave.setTimeStmp(loJson.getString("dTimeStmp"));
+                            poDao.insertApplication(leave);
+                            Log.d(TAG, "New leave application save!");
+                        } else {
+                            Date ldDate1 = SQLUtil.toDate(loDetail.getTimeStmp(), SQLUtil.FORMAT_TIMESTAMP);
+                            Date ldDate2 = SQLUtil.toDate((String) loJson.get("dTimeStmp"), SQLUtil.FORMAT_TIMESTAMP);
+                            if (!ldDate1.equals(ldDate2)){
+                                loDetail.setTransNox(loJson.getString("sTransNox"));
+                                loDetail.setTransact(loJson.getString("dTransact"));
+                                loDetail.setEmployID(loJson.getString("xEmployee"));
+                                loDetail.setEntryByx(loJson.getString("sEmployID"));
+                                loDetail.setBranchNm(loJson.getString("sBranchNm"));
+                                loDetail.setDeptName(loJson.getString("sDeptName"));
+                                loDetail.setPositnNm(loJson.getString("sPositnNm"));
+                                loDetail.setAppldFrx(loJson.getString("dAppldFrx"));
+                                loDetail.setAppldTox(loJson.getString("dAppldTox"));
+                                loDetail.setNoDaysxx(loJson.getString("nNoDaysxx"));
+                                loDetail.setPurposex(loJson.getString("sPurposex"));
+                                loDetail.setLeaveTyp(loJson.getString("cLeaveTyp"));
+                                loDetail.setLveCredt(loJson.getString("nLveCredt"));
+                                loDetail.setTranStat(loJson.getString("cTranStat"));
+                                loDetail.setTimeStmp(loJson.getString("dTimeStmp"));
+                                poDao.updateApplication(loDetail);
+                                Log.d(TAG, "Leave application record has been updated.");
+                            }
+//                            if(!loDetail.getTranStat().equalsIgnoreCase("0")){
+//                                 if(loJson.getString("cTranStat").equalsIgnoreCase("1") ||
+//                                         loJson.getString("cTranStat").equalsIgnoreCase("2")){
+//                                     poDao.updateApplication(leave);
+//                                     Log.d(TAG, "New leave application has been updated!");
+//                                 }
+//                            }
+                        }
+                    }
+                    return true;
+                } else {
+                    JSONObject loError = loResponse.getJSONObject("error");
+                    message = loError.getString("message");
+                    return false;
+                }
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
+    }
+
+    public String SaveLeaveApproval(LeaveApprovalInfo foVal){
        try{
            EEmployeeLeave loDetail = poDao.GetEmployeeLeave(foVal.getTransNox());
            if(loDetail == null){
                message = "Cannot find business trip to approve.";
-               return false;
+               return null;
            }
            loDetail.setTransNox(foVal.getTransNox());
            loDetail.setTransact(AppConstants.CURRENT_DATE);
@@ -333,18 +448,17 @@ public class REmployeeLeave {
            loDetail.setApproved(foVal.getApprovex());
            loDetail.setDApproved(foVal.getApproved());
            poDao.updateApplication(loDetail);
-           transno = loDetail.getTransNox();
-           return true;
+           return loDetail.getTransNox();
        } catch (Exception e){
            e.printStackTrace();
            message = e.getMessage();
-           return false;
+           return null;
        }
     }
 
-    public boolean PostLeaveApproval(){
+    public boolean PostLeaveApproval(String fsVal){
         try{
-            EEmployeeLeave loDetail = poDao.GetEmployeeLeave(transno);
+            EEmployeeLeave loDetail = poDao.GetEmployeeLeave(fsVal);
             if(loDetail == null){
                 message = "Unable to find leave application to upload.";
                 return false;
@@ -372,7 +486,7 @@ public class REmployeeLeave {
                 JSONObject loResponse = new JSONObject(lsResponse);
                 String lsResult = loResponse.getString("result");
                 if(lsResult.equalsIgnoreCase("success")){
-                    poDao.updatePostedApproval(transno);
+                    poDao.updatePostedApproval(fsVal);
                     message = "Leave approval has been posted.";
                     return true;
                 } else {

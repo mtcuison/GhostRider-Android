@@ -39,13 +39,7 @@ public interface DEmployeeBusinessTrip {
     int GetRowsCountForID();
 
     @Query("SELECT * FROM Employee_Business_Trip WHERE sTransNox =:TransNox")
-    EEmployeeBusinessTrip GetOBApplicationForPosting(String TransNox);
-
-    @Query("SELECT * FROM Employee_Business_Trip WHERE sTransNox =:TransNox")
-    EEmployeeBusinessTrip GetOBApprovalForPosting(String TransNox);
-
-    @Query("SELECT * FROM Employee_Business_Trip WHERE sTransNox =:TransNox")
-    EEmployeeBusinessTrip GetEmployeeBusinessTripForApproval(String TransNox);
+    EEmployeeBusinessTrip GetEmployeeBusinessTrip(String TransNox);
 
     @Query("SELECT * FROM EMPLOYEE_BUSINESS_TRIP WHERE cSendStat != '1' AND cTranStat != '0'")
     List<EEmployeeBusinessTrip> GetUnpostedApprovals();

@@ -101,7 +101,7 @@ public class VMLeaveApplication extends AndroidViewModel {
                     return true;
                 }
 
-                if(!poLeave.UploadLeaveApplication(poLeave.getTransnox())) {
+                if(!poLeave.UploadLeaveApplication(lsTransNo)) {
                     message = poLeave.getMessage();
                     return true;
                 } else {

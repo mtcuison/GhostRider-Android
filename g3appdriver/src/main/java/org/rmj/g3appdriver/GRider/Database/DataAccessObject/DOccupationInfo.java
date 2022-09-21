@@ -26,17 +26,23 @@ import java.util.List;
 @Dao
 public interface DOccupationInfo {
 
-    @Insert()
+    @Insert
     void insertBulkData(List<EOccupationInfo> occupationInfos);
 
+    @Insert
+    void SaveOccupation(EOccupationInfo foVal);
+
     @Update
-    void update(EOccupationInfo occupationInfo);
+    void update(EOccupationInfo foVal);
+
+    @Query("SELECT * FROM Occupation_Info ORDER BY dTimeStmp DESC LIMIT 1")
+    EOccupationInfo GetLatestDataInfo();
 
     @Query("SELECT COUNT(*) FROM Occupation_Info")
     Integer GetOccupationRecordsCount();
 
     @Query("SELECT * FROM Occupation_Info WHERE sOccptnID=:fsVal")
-    EOccupationInfo CheckIfExist(String fsVal);
+    EOccupationInfo GetOccupationInfo(String fsVal);
 
     @Query("SELECT * FROM Occupation_Info")
     LiveData<List<EOccupationInfo>> getAllOccupationInfo();

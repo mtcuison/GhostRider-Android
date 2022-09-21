@@ -18,6 +18,7 @@ import androidx.lifecycle.LiveData;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.rmj.apprdiver.util.SQLUtil;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DEmployeeBusinessTrip;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeBusinessTrip;
@@ -137,7 +138,7 @@ public class REmployeeBusinessTrip {
 
     public boolean UploadApplication(String fsVal){
         try{
-            EEmployeeBusinessTrip loDetail = poDao.GetOBApplicationForPosting(fsVal);
+            EEmployeeBusinessTrip loDetail = poDao.GetEmployeeBusinessTrip(fsVal);
             if(loDetail == null){
                 message = "Unable to retrieve business trip application to upload.";
                 Log.e(TAG, message);
@@ -164,6 +165,11 @@ public class REmployeeBusinessTrip {
                     poApi.getUrlSendObApplication(poConfig.isBackUpServer()),
                     loJson.toString(),
                     poHeaders.getHeaders());
+
+            if(lsResponse == null){
+                message = "Server no response";
+                return false;
+            }
             JSONObject loResponse = new JSONObject(lsResponse);
             String lsResult = loResponse.getString("result");
             if(lsResult.equalsIgnoreCase("success")){
@@ -260,9 +266,8 @@ public class REmployeeBusinessTrip {
                     JSONArray jsonA = loResponse.getJSONArray("payload");
                     for (int x = 0; x < jsonA.length(); x++) {
                         JSONObject loJson = jsonA.getJSONObject(x);
-                        if (poDao.getOBIfExist(loJson.getString("sTransNox")).size() > 0) {
-                            Log.d(TAG, "OB application already exist.");
-                        } else {
+                        EEmployeeBusinessTrip loDetail = poDao.GetEmployeeBusinessTrip(loJson.getString("sTransNox"));
+                        if(loDetail == null){
                             EEmployeeBusinessTrip loOB = new EEmployeeBusinessTrip();
                             loOB.setTransNox(loJson.getString("sTransNox"));
                             loOB.setTransact(loJson.getString("dTransact"));
@@ -274,7 +279,107 @@ public class REmployeeBusinessTrip {
                             loOB.setDateThru(loJson.getString("dDateThru"));
                             loOB.setRemarksx(loJson.getString("sRemarksx"));
                             loOB.setTranStat(loJson.getString("cTranStat"));
+                            loOB.setTimeStmp(loJson.getString("dTimeStmp"));
                             poDao.insert(loOB);
+                        } else {
+                            Date ldDate1 = SQLUtil.toDate(loDetail.getTimeStmp(), SQLUtil.FORMAT_TIMESTAMP);
+                            Date ldDate2 = SQLUtil.toDate((String) loJson.get("dTimeStmp"), SQLUtil.FORMAT_TIMESTAMP);
+                            if (!ldDate1.equals(ldDate2)){
+                                loDetail.setTransNox(loJson.getString("sTransNox"));
+                                loDetail.setTransact(loJson.getString("dTransact"));
+                                loDetail.setEmployee(loJson.getString("sEmployID"));
+                                loDetail.setFullName(loJson.getString("sCompnyNm"));
+                                loDetail.setBranchNm(loJson.getString("sBranchNm"));
+                                loDetail.setDeptName(loJson.getString("sDeptName"));
+                                loDetail.setDateFrom(loJson.getString("dDateFrom"));
+                                loDetail.setDateThru(loJson.getString("dDateThru"));
+                                loDetail.setRemarksx(loJson.getString("sRemarksx"));
+                                loDetail.setTranStat(loJson.getString("cTranStat"));
+                                loDetail.setTimeStmp(loJson.getString("dTimeStmp"));
+                                poDao.update(loDetail);
+                                Log.d(TAG, "Business trip record has been updated.");
+                            }
+                        }
+                    }
+                } else {
+                    JSONObject loError = loResponse.getJSONObject("error");
+                    if (message != null) {
+                        message = message + "\n" + "Fail to retrieve business trip applications. Reason: " + loError.getString("message");
+                    } else {
+                        message = "Fail to retrieve business trip applications. Reason: " + loError.getString("message");
+                    }
+                }
+            }
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
+    }
+
+    public boolean DownloadApplication(String fsArgs){
+        try{
+            if(fsArgs == null){
+                message = "Please enter transaction no.";
+                return false;
+            }
+
+            if(fsArgs.trim().isEmpty()){
+                message = "Please enter transaction no.";
+                return false;
+            }
+
+            JSONObject params = new JSONObject();
+            params.put("sTransNox", fsArgs);
+
+            String lsResponse = WebClient.sendRequest(
+                    poApi.getUrlGetObApplication(poConfig.isBackUpServer()),
+                    new JSONObject().toString(),
+                    poHeaders.getHeaders());
+            if (lsResponse == null) {
+                message = "No server response.";
+                return false;
+            } else {
+                JSONObject loResponse = new JSONObject(lsResponse);
+                String result = loResponse.getString("result");
+                if (result.equalsIgnoreCase("success")) {
+                    JSONArray jsonA = loResponse.getJSONArray("payload");
+                    for (int x = 0; x < jsonA.length(); x++) {
+                        JSONObject loJson = jsonA.getJSONObject(x);
+                        EEmployeeBusinessTrip loDetail = poDao.GetEmployeeBusinessTrip(loJson.getString("sTransNox"));
+                        if(loDetail == null){
+                            EEmployeeBusinessTrip loOB = new EEmployeeBusinessTrip();
+                            loOB.setTransNox(loJson.getString("sTransNox"));
+                            loOB.setTransact(loJson.getString("dTransact"));
+                            loOB.setEmployee(loJson.getString("sEmployID"));
+                            loOB.setFullName(loJson.getString("sCompnyNm"));
+                            loOB.setBranchNm(loJson.getString("sBranchNm"));
+                            loOB.setDeptName(loJson.getString("sDeptName"));
+                            loOB.setDateFrom(loJson.getString("dDateFrom"));
+                            loOB.setDateThru(loJson.getString("dDateThru"));
+                            loOB.setRemarksx(loJson.getString("sRemarksx"));
+                            loOB.setTranStat(loJson.getString("cTranStat"));
+                            loOB.setTimeStmp(loJson.getString("dTimeStmp"));
+                            poDao.insert(loOB);
+                        } else {
+                            Date ldDate1 = SQLUtil.toDate(loDetail.getTimeStmp(), SQLUtil.FORMAT_TIMESTAMP);
+                            Date ldDate2 = SQLUtil.toDate((String) loJson.get("dTimeStmp"), SQLUtil.FORMAT_TIMESTAMP);
+                            if (!ldDate1.equals(ldDate2)){
+                                loDetail.setTransNox(loJson.getString("sTransNox"));
+                                loDetail.setTransact(loJson.getString("dTransact"));
+                                loDetail.setEmployee(loJson.getString("sEmployID"));
+                                loDetail.setFullName(loJson.getString("sCompnyNm"));
+                                loDetail.setBranchNm(loJson.getString("sBranchNm"));
+                                loDetail.setDeptName(loJson.getString("sDeptName"));
+                                loDetail.setDateFrom(loJson.getString("dDateFrom"));
+                                loDetail.setDateThru(loJson.getString("dDateThru"));
+                                loDetail.setRemarksx(loJson.getString("sRemarksx"));
+                                loDetail.setTranStat(loJson.getString("cTranStat"));
+                                loDetail.setTimeStmp(loJson.getString("dTimeStmp"));
+                                poDao.update(loDetail);
+                                Log.d(TAG, "Business trip record has been updated.");
+                            }
                         }
                     }
                 } else {
@@ -296,7 +401,7 @@ public class REmployeeBusinessTrip {
 
     public String SaveBusinessTripApproval(OBApprovalInfo foVal){
         try{
-            EEmployeeBusinessTrip loDetail = poDao.GetEmployeeBusinessTripForApproval(foVal.getTransNox());
+            EEmployeeBusinessTrip loDetail = poDao.GetEmployeeBusinessTrip(foVal.getTransNox());
             if(loDetail == null){
                 message = "Cannot find business trip to approve.";
                 return null;
@@ -319,7 +424,7 @@ public class REmployeeBusinessTrip {
 
     public boolean PostBusinessTripApproval(String fsVal){
         try{
-            EEmployeeBusinessTrip loDetail = poDao.GetOBApprovalForPosting(fsVal);
+            EEmployeeBusinessTrip loDetail = poDao.GetEmployeeBusinessTrip(fsVal);
             if(loDetail == null){
                 message = "No business trip application found.";
                 return false;
@@ -339,7 +444,7 @@ public class REmployeeBusinessTrip {
                 message = "No server response. Restart app or try again later.";
                 return false;
             }
-
+            Log.d(TAG,lsResponse);
             JSONObject loResponse = new JSONObject(lsResponse);
             String result = loResponse.getString("result");
             if (result.equalsIgnoreCase("success")) {

@@ -14,28 +14,21 @@ package org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel;
 import android.annotation.SuppressLint;
 import android.app.Application;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeLeave;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployeeLeave;
-import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
-import org.rmj.g3appdriver.GRider.Http.WebClient;
+
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
-import org.rmj.g3appdriver.utils.WebApi;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -99,41 +92,20 @@ public class VMLeaveApproval extends AndroidViewModel {
     }
 
     public void downloadLeaveApplication(String transNox, OnDownloadLeaveAppInfo callBack){
-        JSONObject loJson = new JSONObject();
-        try {
-            if(transNox.isEmpty()){
-                callBack.OnFailedDownload("Please enter leave transaction no.");
-            } else {
-                loJson.put("sTransNox", transNox);
-                new DownloadLeaveAppTask(instance, callBack).execute(loJson);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-            callBack.OnFailedDownload(e.getMessage());
-        }
+        new DownloadLeaveAppTask(instance, callBack).execute(transNox);
     }
 
-    private static class DownloadLeaveAppTask extends AsyncTask<JSONObject, Void, String> {
-        private final HttpHeaders headers;
+    private static class DownloadLeaveAppTask extends AsyncTask<String, Void, Boolean> {
         private final ConnectionUtil conn;
         private final REmployeeLeave poLeave;
         private final OnDownloadLeaveAppInfo callback;
-        private String TransNox;
-        private WebApi poApi;
-        private final AppConfigPreference loConfig;
 
-        @Override
-        protected void onProgressUpdate(Void... values) {
-            super.onProgressUpdate(values);
-        }
+        private String transno, message;
 
         public DownloadLeaveAppTask(Application instance, OnDownloadLeaveAppInfo callback) {
-            this.headers = HttpHeaders.getInstance(instance);
             this.conn = new ConnectionUtil(instance);
             this.poLeave = new REmployeeLeave(instance);
             this.callback = callback;
-            this.loConfig = AppConfigPreference.getInstance(instance);
-            this.poApi = new WebApi(loConfig.getTestStatus());
         }
 
         @Override
@@ -143,69 +115,34 @@ public class VMLeaveApproval extends AndroidViewModel {
         }
 
         @Override
-        protected String doInBackground(JSONObject... strings) {
-            String response = "";
+        protected Boolean doInBackground(String... strings) {
             try{
-                if(conn.isDeviceConnected()) {
-                    response = WebClient.sendRequest(poApi.getUrlGetLeaveApplication(loConfig.isBackUpServer()), strings[0].toString(), headers.getHeaders());
-                    JSONObject loResponse = new JSONObject(response);
-                    String lsResult = loResponse.getString("result");
-                    if (lsResult.equalsIgnoreCase("success")) {
-                        JSONArray jsonA = loResponse.getJSONArray("payload");
-                        JSONObject loJson = jsonA.getJSONObject(0);
-                        TransNox = loJson.getString("sTransNox");
-                        if(poLeave.getTransnoxIfExist(loJson.getString("sTransNox"), loJson.getString("cTranStat")).size() > 0){
-                            Log.d(TAG, "Leave application already exist.");
-                        } else {
-                            EEmployeeLeave loLeave = new EEmployeeLeave();
-                            loLeave.setTransNox(loJson.getString("sTransNox"));
-                            loLeave.setTransact(loJson.getString("dTransact"));
-                            loLeave.setEmployID(loJson.getString("xEmployee"));
-                            loLeave.setBranchNm(loJson.getString("sBranchNm"));
-                            loLeave.setDeptName(loJson.getString("sDeptName"));
-                            loLeave.setPositnNm(loJson.getString("sPositnNm"));
-                            loLeave.setAppldFrx(loJson.getString("dAppldFrx"));
-                            loLeave.setAppldTox(loJson.getString("dAppldTox"));
-                            loLeave.setNoDaysxx(loJson.getString("nNoDaysxx"));
-                            loLeave.setPurposex(loJson.getString("sPurposex"));
-                            loLeave.setLeaveTyp(loJson.getString("cLeaveTyp"));
-                            loLeave.setLveCredt(loJson.getString("nLveCredt"));
-                            loLeave.setTranStat(loJson.getString("cTranStat"));
-                            poLeave.insertApplication(loLeave);
-                        }
-                    }
-                } else {
-                    response = AppConstants.SERVER_NO_RESPONSE();
+                if(!conn.isDeviceConnected()) {
+                    message = conn.getMessage();
+                    return false;
                 }
-            } catch (NullPointerException e){
+
+                if(!poLeave.DownloadLeaveApplication(strings[0])){
+                    message = poLeave.getMessage();
+                    return false;
+                }
+
+                transno = strings[0];
+                return true;
+            } catch (Exception e){
                 e.printStackTrace();
-                response = AppConstants.LOCAL_EXCEPTION_ERROR(e.getMessage());
-            }catch (Exception e){
-                e.printStackTrace();
-                response = AppConstants.LOCAL_EXCEPTION_ERROR(e.getMessage());
+                message = e.getMessage();
+                return false;
             }
-            return response;
         }
 
         @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            try {
-                JSONObject loJson = new JSONObject(s);
-                String lsResult = loJson.getString("result");
-                if(lsResult.equalsIgnoreCase("success")){
-                    callback.OnSuccessDownload(TransNox);
-                } else {
-                    JSONObject loError = loJson.getJSONObject("error");
-                    String message = loError.getString("message");
-                    callback.OnFailedDownload(message);
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-                callback.OnFailedDownload(e.getMessage());
-            } catch (Exception e) {
-                e.printStackTrace();
-                callback.OnFailedDownload(e.getMessage());
+        protected void onPostExecute(Boolean isSuccess) {
+            super.onPostExecute(isSuccess);
+            if(isSuccess){
+                callback.OnSuccessDownload(transno);
+            } else {
+                callback.OnFailedDownload(message);
             }
         }
     }
@@ -244,11 +181,17 @@ public class VMLeaveApproval extends AndroidViewModel {
                     return false;
                 }
 
+                String lsTransNox = poLeave.SaveLeaveApproval(infos[0]);
+                if(lsTransNox == null){
+                    message = poLeave.getMessage();
+                    return false;
+                }
+
                 if(!poConn.isDeviceConnected()){
                     message = poConn.getMessage() + " Your approval will be automatically send if device is reconnected to internet.";
                     return false;
                 }
-                if(!poLeave.PostLeaveApproval()){
+                if(!poLeave.PostLeaveApproval(lsTransNox)){
                     message = poLeave.getMessage();
                     return false;
                 }

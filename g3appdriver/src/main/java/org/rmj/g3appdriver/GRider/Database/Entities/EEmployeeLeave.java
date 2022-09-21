@@ -71,6 +71,8 @@ public class EEmployeeLeave {
     private String TranStat = "";
     @ColumnInfo(name = "dModified")
     private String Modified = "";
+    @ColumnInfo(name = "dTimeStmp")
+    private String TimeStmp = "";
 
     public EEmployeeLeave() {
     }
@@ -274,5 +276,13 @@ public class EEmployeeLeave {
 
     public void setWithPayx(String withPayx) {
         WithPayx = withPayx;
+    }
+
+    public String getTimeStmp() {
+        return TimeStmp;
+    }
+
+    public void setTimeStmp(String timeStmp) {
+        TimeStmp = timeStmp;
     }
 }

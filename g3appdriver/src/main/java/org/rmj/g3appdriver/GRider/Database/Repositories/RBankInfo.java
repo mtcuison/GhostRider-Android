@@ -11,7 +11,6 @@
 
 package org.rmj.g3appdriver.GRider.Database.Repositories;
 
-import android.annotation.SuppressLint;
 import android.app.Application;
 import android.util.Log;
 
@@ -19,102 +18,120 @@ import androidx.lifecycle.LiveData;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.rmj.appdriver.base.GConnection;
-import org.rmj.apprdiver.util.SQLUtil;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DBankInfo;
-import org.rmj.g3appdriver.GRider.Database.DbConnection;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBankInfo;
+import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.utils.WebApi;
+import org.rmj.g3appdriver.utils.WebClient;
 
-import java.sql.ResultSet;
 import java.util.List;
-import java.util.Objects;
 
 public class RBankInfo {
     private static final String TAG = RBankInfo.class.getSimpleName();
-    private final DBankInfo bankDao;
+    private final DBankInfo poDao;
 
-    private Application instance;
+    private final AppConfigPreference poConfig;
+    private final WebApi poApi;
+    private final HttpHeaders poHeaders;
 
-    public RBankInfo(Application application){
-        this.instance = application;
-        GGC_GriderDB db = GGC_GriderDB.getInstance(instance);
-        bankDao = db.BankInfoDao();
+    private String message;
+
+    public RBankInfo(Application instance){
+        this.poDao = GGC_GriderDB.getInstance(instance).BankInfoDao();
+        this.poConfig = AppConfigPreference.getInstance(instance);
+        this.poApi = new WebApi(poConfig.getTestStatus());
+        this.poHeaders = HttpHeaders.getInstance(instance);
+    }
+
+    public String getMessage() {
+        return message;
     }
 
     public LiveData<List<EBankInfo>> getBankInfoList(){
-        return bankDao.getBankInfoList();
+        return poDao.getBankInfoList();
     }
 
     public LiveData<String[]> getBankNameList(){
-        return bankDao.getBankNameList();
+        return poDao.getBankNameList();
     }
 
     public LiveData<String> getBankNameFromId(String fsBankId) {
-        return bankDao.getBankNameFromId(fsBankId);
+        return poDao.getBankNameFromId(fsBankId);
     }
 
-    @SuppressLint("NewApi")
-    public boolean insertBankInfo(JSONArray faJson) throws Exception{
-        GConnection loConn = DbConnection.doConnect(instance);
-        boolean result = true;
+    public boolean ImportBankInfo(){
+        try{
+            JSONObject params = new JSONObject();
+            params.put("bsearch", true);
+            params.put("descript", "All");
 
-        if(loConn == null){
-            result = false;
-        }
+            String lsResponse = WebClient.httpsPostJSon(
+                    poApi.getUrlDownloadBankInfo(poConfig.isBackUpServer()),
+                    params.toString(),
+                    poHeaders.getHeaders());
 
-        JSONObject loJson;
-        String lsSQL;
-        ResultSet loRS;
-
-        for(int x = 0; x < faJson.length(); x++){
-            loJson = new JSONObject(faJson.getString(x));
-
-            //check if record already exists on database
-            lsSQL = "SELECT dTimeStmp FROM Bank_Info" +
-                    " WHERE sBankIDxx = " + SQLUtil.toSQL((String) loJson.get("sBankIDxx"));
-            loRS = Objects.requireNonNull(loConn).executeQuery(lsSQL);
-
-            lsSQL = "";
-
-            //record does not exists
-            if (!loRS.next()){
-
-                //check if the record is active
-                if ("1".equals((String) loJson.get("cRecdStat"))){
-
-                    //create insert statement
-                    lsSQL = "INSERT INTO Bank_Info" +
-                            "(sBankIDxx" +
-                            ",sBankName" +
-                            ",cRecdStat)" +
-                            " VALUES" +
-                            "(" + SQLUtil.toSQL(loJson.getString("sBankIDxx")) +
-                            "," + SQLUtil.toSQL(loJson.getString("sBankName")) +
-                            "," + SQLUtil.toSQL(loJson.getString("cRecdStat")) +")";
-                }
-
-            } else {
-
-                //record already exists
-                lsSQL = "UPDATE Bank_Info SET" +
-                        " sBankName = " + SQLUtil.toSQL(loJson.getString("sBankName")) +
-                        ", cRecdStat = " + SQLUtil.toSQL(loJson.getString("cRecdStat")) +
-                        " WHERE sBankIDxx = " + SQLUtil.toSQL(loJson.getString("sBankIDxx"));
+            if(lsResponse == null){
+                message = "Server no response.";
+                return false;
             }
 
-            if (!lsSQL.isEmpty()){
-                //Log.d(TAG, lsSQL);
-                if (loConn.executeUpdate(lsSQL) <= 0) {
-                    //Log.e(TAG, loConn.getMessage());
-                    result = false;
-                }
-            }
-        }
+            JSONObject loResponse = new JSONObject(lsResponse);
+            String lsResult = loResponse.getString("result");
 
-        //terminate object connection
-        loConn = null;
-        return result;
+            if(lsResult.equalsIgnoreCase("error")){
+                JSONObject loError = loResponse.getJSONObject("error");
+                message = loError.getString("message");
+                Log.e(TAG, message);
+                return false;
+            }
+
+            Log.d(TAG, lsResponse);
+            JSONArray laJson = loResponse.getJSONArray("detail");
+            for(int x = 0; x < laJson.length(); x++){
+                JSONObject loJson = laJson.getJSONObject(x);
+                EBankInfo loBank = poDao.GetBankInfo(loJson.getString("sBankIDxx"));
+                if(loBank == null){
+
+                    if(loJson.getString("cRecdStat").equalsIgnoreCase("1")){
+                        EBankInfo loDetail = new EBankInfo();
+                        loDetail.setBankIDxx(loJson.getString("sBankIDxx"));
+                        loDetail.setBankName(loJson.getString("sBankName"));
+                        loDetail.setRecdStat(loJson.getString("cRecdStat"));
+                        Log.d(TAG, loJson.getString("dModified"));
+                        if(loJson.getString("dModified").equalsIgnoreCase("null")){
+                            loDetail.setTimeStmp(new AppConstants().DATE_MODIFIED);
+                        } else {
+                            loDetail.setTimeStmp(loJson.getString("dModified"));
+                        }
+                        poDao.SaveBankInfo(loDetail);
+                    }
+                }
+
+//                else {
+//                    //Date Modified from server has been save as Date TimeStamp
+//                    Log.d(TAG, "Local Time Stamp: " + loBank.getTimeStmp());
+//                    Log.d(TAG, "Server Time Stamp: " + loJson.toString());
+//                    Date ldDate1 = SQLUtil.toDate(loBank.getTimeStmp(), SQLUtil.FORMAT_TIMESTAMP);
+//                    Date ldDate2 = SQLUtil.toDate((String) loJson.get("dModified"), SQLUtil.FORMAT_TIMESTAMP);
+//                    if (!ldDate1.equals(ldDate2)) {
+//                        loBank.setBankIDxx(loJson.getString("sBankIDxx"));
+//                        loBank.setBankName(loJson.getString("sBankName"));
+//                        loBank.setRecdStat(loJson.getString("cRecdStat"));
+//                        loBank.setTimeStmp(loJson.getString("dModified"));
+//                        poDao.UpdateBankInfo(loBank);
+//                        Log.d(TAG, "Bank record has been updated.");
+//                    }
+//                }
+
+            }
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
     }
 }

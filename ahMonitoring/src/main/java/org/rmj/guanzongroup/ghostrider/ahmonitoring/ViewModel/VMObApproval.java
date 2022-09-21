@@ -14,26 +14,18 @@ package org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel;
 import android.annotation.SuppressLint;
 import android.app.Application;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeBusinessTrip;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployeeBusinessTrip;
-import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
+
 import org.rmj.g3appdriver.utils.ConnectionUtil;
-import org.rmj.g3appdriver.utils.WebApi;
-import org.rmj.g3appdriver.utils.WebClient;
 
 public class VMObApproval extends AndroidViewModel {
     private static final String TAG = VMObApproval.class.getSimpleName();
@@ -82,31 +74,44 @@ public class VMObApproval extends AndroidViewModel {
     }
 
     public void downloadBusinessTrip(String TransNox, OnDownloadBusinessTripCallback callback){
-        try{
-            new DownloadBusinessTripTask(instance, TransNox, callback).execute();
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+        new DownloadBusinessTripTask(instance, callback).execute(TransNox);
     }
 
-    private static class DownloadBusinessTripTask extends AsyncTask<String, Void, String>{
+    private static class DownloadBusinessTripTask extends AsyncTask<String, Void, Boolean>{
 
-        private final REmployeeBusinessTrip poBusTrip;
+        private final REmployeeBusinessTrip poSys;
         private final ConnectionUtil poConn;
-        private final HttpHeaders poHeaders;
-        private final String TransNox;
-        private final WebApi poApi;
-        private final AppConfigPreference loConfig;
         private final OnDownloadBusinessTripCallback callback;
 
-        public DownloadBusinessTripTask(Application instance, String TransNox, OnDownloadBusinessTripCallback callback) {
-            this.poBusTrip = new REmployeeBusinessTrip(instance);
+        private String transno, message;
+
+        public DownloadBusinessTripTask(Application instance, OnDownloadBusinessTripCallback callback) {
+            this.poSys = new REmployeeBusinessTrip(instance);
             this.poConn = new ConnectionUtil(instance);
-            this.poHeaders = HttpHeaders.getInstance(instance);
-            this.loConfig = AppConfigPreference.getInstance(instance);
-            this.poApi = new WebApi(loConfig.getTestStatus());
-            this.TransNox = TransNox;
             this.callback = callback;
+        }
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            try{
+                if(!poConn.isDeviceConnected()){
+                    message = poConn.getMessage();
+                    return false;
+                }
+
+                if(!poSys.DownloadApplication(strings[0])){
+                    message = poSys.getMessage();
+                    return false;
+                }
+
+                transno = strings[0];
+                return true;
+
+            } catch (Exception e){
+                e.printStackTrace();
+                message = e.getMessage();
+                return false;
+            }
         }
 
         @Override
@@ -115,69 +120,13 @@ public class VMObApproval extends AndroidViewModel {
             callback.OnDownload("PET Manager", "Downloading business trip. Please wait...");
         }
 
-        @SuppressLint("NewApi")
         @Override
-        protected String doInBackground(String... strings) {
-            String lsResult;
-            try{
-                JSONObject params = new JSONObject();
-                params.put("sTransNox", TransNox);
-                if(!poConn.isDeviceConnected()){
-                    lsResult = AppConstants.NO_INTERNET();
-                } else {
-                    lsResult = WebClient.httpsPostJSon(poApi.getUrlGetObApplication(loConfig.isBackUpServer()), params.toString(), poHeaders.getHeaders());
-                    if (lsResult == null) {
-                        lsResult = AppConstants.SERVER_NO_RESPONSE();
-                    } else {
-                        JSONObject loResponse = new JSONObject(lsResult);
-                        String result = loResponse.getString("result");
-                        if (result.equalsIgnoreCase("success")) {
-                            JSONArray jsonA = loResponse.getJSONArray("payload");
-                            JSONObject loJson = jsonA.getJSONObject(0);
-                            if (poBusTrip.getOBIfExist(loJson.getString("sTransNox")).size() > 0) {
-                                Log.d(TAG, "OB application already exist.");
-                            } else {
-                                EEmployeeBusinessTrip loOB = new EEmployeeBusinessTrip();
-                                loOB.setTransNox(loJson.getString("sTransNox"));
-                                loOB.setTransact(loJson.getString("dTransact"));
-                                loOB.setEmployee(loJson.getString("sCompnyNm"));
-                                loOB.setBranchNm(loJson.getString("sBranchNm"));
-                                loOB.setDeptName(loJson.getString("sDeptName"));
-                                loOB.setDateFrom(loJson.getString("dDateFrom"));
-                                loOB.setDateThru(loJson.getString("dDateThru"));
-                                loOB.setRemarksx(loJson.getString("sRemarksx"));
-                                loOB.setTranStat(loJson.getString("cTranStat"));
-                                poBusTrip.insert(loOB);
-                            }
-                        }
-                    }
-                }
-            } catch (Exception e){
-                e.printStackTrace();
-                lsResult = AppConstants.LOCAL_EXCEPTION_ERROR(e.getMessage());
-            }
-            return lsResult;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            try {
-                JSONObject loJson = new JSONObject(s);
-                String lsResult = loJson.getString("result");
-                if(lsResult.equalsIgnoreCase("success")){
-                    callback.OnSuccessDownload(TransNox);
-                } else {
-                    JSONObject loError = loJson.getJSONObject("error");
-                    String message = loError.getString("message");
-                    callback.OnFailedDownload(message);
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-                callback.OnFailedDownload(e.getMessage());
-            } catch (Exception e) {
-                e.printStackTrace();
-                callback.OnFailedDownload(e.getMessage());
+        protected void onPostExecute(Boolean isSuccess) {
+            super.onPostExecute(isSuccess);
+            if(isSuccess){
+                callback.OnSuccessDownload(transno);
+            } else {
+                callback.OnFailedDownload(message);
             }
         }
     }
