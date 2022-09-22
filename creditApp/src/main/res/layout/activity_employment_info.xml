@@ -128,7 +128,7 @@
                 android:hint="Company Level (Required)"
                 android:inputType="none"
                 android:padding="16dp"
-                android:nextFocusForward="spn_employeeLevel"/>
+                android:nextFocusForward="@+id/spn_employeeLevel"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -146,7 +146,7 @@
                 android:hint="Employee Level (Required)"
                 android:inputType="none"
                 android:padding="16dp"
-                android:nextFocusForward="txt_countryNme"/>
+                android:nextFocusForward="@+id/txt_countryNme"/>
         </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -166,7 +166,7 @@
                 android:inputType="textAutoComplete|textCapWords"
                 android:maxLength="50"
                 tools:ignore="LabelFor"
-                android:nextFocusForward="spn_businessNature"/>
+                android:nextFocusForward="@+id/spn_businessNature"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -185,7 +185,7 @@
                 android:hint="Nature of Business (Required)"
                 android:inputType="none"
                 android:padding="16dp"
-                android:nextFocusForward="txt_CompanyNme"/>
+                android:nextFocusForward="@+id/txt_CompanyNme"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
@@ -208,7 +208,7 @@
                     android:imeOptions="actionNext"
                     android:inputType="textCapWords"
                     android:maxLength="100"
-                    android:nextFocusForward="txt_companyAdd"/>
+                    android:nextFocusForward="@+id/txt_companyAdd"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -225,7 +225,7 @@
                     android:imeOptions="actionNext"
                     android:inputType="textCapWords"
                     android:maxLength="150"
-                    android:nextFocusForward="txt_province"/>
+                    android:nextFocusForward="@+id/txt_province"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout
@@ -250,7 +250,7 @@
                         android:inputType="textAutoComplete|textCapWords"
                         android:maxLength="50"
                         tools:ignore="LabelFor"
-                        android:nextFocusForward="txt_town"/>
+                        android:nextFocusForward="@+id/txt_town"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -270,7 +270,7 @@
                         android:inputType="textCapWords|textAutoComplete"
                         android:maxLength="50"
                         tools:ignore="LabelFor"
-                        android:nextFocusForward="txt_jobPosition"/>
+                        android:nextFocusForward="@+id/txt_jobPosition"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
@@ -290,7 +290,7 @@
                     android:inputType="textAutoComplete|textCapWords"
                     android:maxLength="50"
                     tools:ignore="LabelFor"
-                    android:nextFocusForward="txt_specificJob"/>
+                    android:nextFocusForward="@+id/txt_specificJob"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -307,7 +307,7 @@
                     android:imeOptions="actionNext"
                     android:inputType="textCapWords"
                     android:maxLength="50"
-                    android:nextFocusForward="spn_employmentStatus"/>
+                    android:nextFocusForward="@+id/spn_employmentStatus"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -325,7 +325,7 @@
                     android:hint="Employment Status (Required)"
                     android:inputType="none"
                     android:padding="16dp"
-                    android:nextFocusForward="txt_lenghtService"/>
+                    android:nextFocusForward="@+id/txt_lenghtService"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout
@@ -347,7 +347,7 @@
                         android:imeOptions="actionNext"
                         android:inputType="number|none"
                         android:maxLength="5"
-                        android:nextFocusForward="spn_lengthService"/>
+                        android:nextFocusForward="@+id/spn_lengthService"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -367,7 +367,7 @@
                         android:focusable="false"
                         android:inputType="none"
                         android:padding="16dp"
-                        android:nextFocusForward="txt_monthlySalary" />
+                        android:nextFocusForward="@+id/txt_monthlySalary" />
                 </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
@@ -385,7 +385,7 @@
                     android:imeOptions="actionNext"
                     android:inputType="number|none"
                     android:maxLength="7"
-                    android:nextFocusForward="txt_companyContact"/>
+                    android:nextFocusForward="@+id/txt_companyContact"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -402,7 +402,7 @@
                     android:imeOptions="actionDone"
                     android:inputType="number|none"
                     android:maxLength="11"
-                    android:nextFocusForward="btn_creditAppNext" />
+                    android:nextFocusForward="@+id/btn_creditAppNext" />
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 

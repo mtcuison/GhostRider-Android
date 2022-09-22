@@ -1,9 +1,450 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.Activity_Dependent">
+    android:theme="@style/GhostRiderMaterialTheme.WhiteBG"
+    tools:context=".Fragment.Fragment_Dependent">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="5dp">
+
+        <TextView
+            style="@style/HeaderLabelBlack"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/sLblDependentInfo" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview_dependencies"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/TextInputStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/sHintDependentFNme">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tie_cap_dpdFullname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textCapWords"
+                    android:maxLength="50"
+                    android:imeOptions="actionNext"
+                    android:nextFocusForward="@+id/spinner_cap_dpdRelation"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:gravity="center|center_horizontal|center_vertical"
+                android:orientation="horizontal">
+
+                <!--Dependent Relationship-->
+                <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:tools="http://schemas.android.com/tools"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".6"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/CustomDropDownTilStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                            android:id="@+id/spinner_cap_dpdRelation"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:clickable="false"
+                            android:focusable="false"
+                            android:hint="Dependent Relationship"
+                            android:inputType="none"
+                            android:imeOptions="actionNext"
+                            android:nextFocusForward="@+id/tie_cap_dpdAge"
+                            android:padding="16dp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/TextInputStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.4"
+                    android:hint="@string/sHintAge">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/tie_cap_dpdAge"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number|none"
+                        android:maxLength="3"
+                        android:singleLine="true" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+            <RadioGroup
+                android:id="@+id/rg_cap_dpdStudent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.6"
+                    android:fontFamily="@font/roboto_medium"
+                    android:padding="10dp"
+                    android:text="Is dependent a student?"
+                    android:textColor="@color/material_black"
+                    tools:ignore="HardcodedText"
+                    tools:targetApi="jelly_bean" />
+
+                <RadioButton
+                    android:id="@+id/rb_cap_dpdStudentYes"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".7"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="@string/sLabelYes"
+                    tools:targetApi="jelly_bean" />
+
+                <RadioButton
+                    android:id="@+id/rb_cap_dpdStudentNo"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".7"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="@string/sLabelNo"
+                    tools:targetApi="jelly_bean" />
+            </RadioGroup>
+            <!--Student Dependent School Info...-->
+            <LinearLayout
+                android:id="@+id/linearStudent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="visible">
+                <!--School Type-->
+                <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:tools="http://schemas.android.com/tools"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".6"
+                    android:orientation="vertical">
+
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/CustomDropDownTilStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                            android:id="@+id/spn_cap_dpdSchoolType"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:clickable="false"
+                            android:focusable="false"
+                            android:hint="@string/sSchoolType"
+                            android:inputType="none"
+                            android:padding="16dp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+                    <!--Education Level-->
+                    <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+                        xmlns:tools="http://schemas.android.com/tools"
+                        android:layout_width="fill_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight=".7"
+                        android:orientation="vertical">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/CustomDropDownTilStyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                                android:id="@+id/spinner_cap_educLevel"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:clickable="false"
+                                android:focusable="false"
+                                android:hint="Educational Level"
+                                android:inputType="none"
+                                android:padding="16dp" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <CheckBox
+                        android:id="@+id/cb_cap_dpdScholar"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1.3"
+                        android:text="Scholar"
+                        tools:ignore="HardcodedText" />
+                </LinearLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/TextInputStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/sDependentStudent">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/tie_cap_dpdSchoolName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textCapWords"
+                        android:maxLength="50"
+                        android:imeOptions="actionNext"
+                        android:nextFocusForward="@+id/tie_cap_dpdSchoolAddress"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/TextInputStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/sHintAddress">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/tie_cap_dpdSchoolAddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textCapWords"
+                        android:maxLength="50"
+                        android:imeOptions="actionNext"
+                        android:nextFocusForward="@+id/tie_cap_dpdSchoolProv"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/TextInputStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="@string/sHintProvince">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/tie_cap_dpdSchoolProv"
+                            style="@style/AutoCompleteStyleTheme"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textCapWords|textAutoComplete"
+                            android:maxLength="50"
+                            android:imeOptions="actionNext"
+                            android:nextFocusForward="@+id/tie_cap_dpdSchoolTown"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/TextInputStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="@string/sHintTown">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/tie_cap_dpdSchoolTown"
+                            style="@style/AutoCompleteStyleTheme"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textCapWords|textAutoComplete"
+                            android:maxLength="50" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!--Employed Dependent Info-->
+            <RadioGroup
+                android:id="@+id/rg_cap_dpdEmployed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.6"
+                    android:fontFamily="@font/roboto_medium"
+                    android:padding="10dp"
+                    android:text="Is dependent employed?"
+                    android:textColor="@color/material_black"
+                    tools:ignore="HardcodedText"
+                    tools:targetApi="jelly_bean" />
+
+                <RadioButton
+                    android:id="@+id/rb_cap_dpdEmployedYes"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".7"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="@string/sLabelYes"
+                    tools:targetApi="jelly_bean" />
+
+                <RadioButton
+                    android:id="@+id/rb_cap_dpdEmployedNo"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".7"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="@string/sLabelNo"
+                    tools:targetApi="jelly_bean" />
+            </RadioGroup>
+
+            <LinearLayout
+                android:id="@+id/linearEmployd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="visible">
+                <!-- Employment Type -->
+                <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:tools="http://schemas.android.com/tools"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".6"
+                    android:orientation="vertical">
+
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/CustomDropDownTilStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                            android:id="@+id/spn_cap_dpdEmployedType"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:clickable="false"
+                            android:focusable="false"
+                            android:hint="@string/sHeaderLabelEmploymentTypeSector"
+                            android:inputType="none"
+                            android:padding="16dp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/TextInputStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/sHintCompanyNme">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/tie_cap_dpdCompanyName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textCapWords"
+                        android:maxLength="50" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <CheckBox
+                android:id="@+id/cb_cap_Dependent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:text="Dependent."
+                tools:ignore="HardcodedText"
+                tools:targetApi="jelly_bean" />
+
+            <CheckBox
+                android:id="@+id/cb_cap_HouseHold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:text="House Hold."
+                tools:ignore="HardcodedText"
+                tools:targetApi="jelly_bean" />
+
+            <CheckBox
+                android:id="@+id/cb_cap_Married"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:text="Married."
+                tools:ignore="HardcodedText"
+                tools:targetApi="jelly_bean" />
+        </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_dpd_add"
+            style="@style/MaterialButtonAccent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_thin"
+            android:text="@string/sBtnAddDependent"
+            android:textColor="@color/textColor_White" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="350dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_creditAppPrvs"
+                style="@style/NavigationButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:drawableStart="@drawable/ic_nav_left"
+                android:drawableLeft="@drawable/ic_nav_left"
+                android:text="@string/sbtnPrvs"
+                tools:ignore="RelativeOverlap" />
+
+            <Button
+                android:id="@+id/btn_creditAppNext"
+                style="@style/NavigationButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:drawableEnd="@drawable/ic_nav_right"
+                android:drawableRight="@drawable/ic_nav_right"
+                android:text="@string/sbtnNext"
+                tools:ignore="RelativeOverlap" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</ScrollView>

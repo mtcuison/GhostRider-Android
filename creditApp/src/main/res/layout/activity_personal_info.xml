@@ -40,7 +40,7 @@
                     android:imeOptions="actionNext"
                     android:inputType="textCapWords|textPersonName"
                     android:maxLength="50"
-                    android:nextFocusForward="txt_firstname"/>
+                    android:nextFocusForward="@+id/xt_firstname" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -57,7 +57,7 @@
                     android:imeOptions="actionNext"
                     android:inputType="textPersonName|textCapWords"
                     android:maxLength="50"
-                    android:nextFocusForward="txt_suffix"/>
+                    android:nextFocusForward="@+id/xt_suffix" />
             </com.google.android.material.textfield.TextInputLayout>
 
         </LinearLayout>
@@ -82,7 +82,7 @@
                     android:imeOptions="actionNext"
                     android:inputType="textCapWords|textPersonName"
                     android:maxLength="50"
-                    android:nextFocusForward="txt_middname"/>
+                    android:nextFocusForward="@+id/txt_middname" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -99,7 +99,7 @@
                     android:imeOptions="actionNext"
                     android:inputType="textCapWords|textPersonName"
                     android:maxLength="50"
-                    android:nextFocusForward="txt_nickname"/>
+                    android:nextFocusForward="@+id/txt_nickname" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -117,7 +117,7 @@
                     android:imeOptions="actionNext"
                     android:inputType="textCapWords|textPersonName"
                     android:maxLength="50"
-                    android:nextFocusForward="txt_birthdate"/>
+                    android:nextFocusForward="@+id/txt_birthdate" />
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
@@ -135,7 +135,7 @@
                 android:imeOptions="actionNext"
                 android:inputType="number|none"
                 android:maxLength="20"
-                android:nextFocusForward="txt_bpProvince"/>
+                android:nextFocusForward="@+id/txt_bpProvince" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
@@ -158,7 +158,7 @@
                     android:imeOptions="actionNext"
                     android:inputType="textPersonName|textCapWords"
                     android:maxLength="100"
-                    android:nextFocusForward="txt_bpTown"/>
+                    android:nextFocusForward="@+id/txt_bpTown" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -175,7 +175,7 @@
                     android:imeOptions="actionNext"
                     android:inputType="textPersonName|textCapWords"
                     android:maxLength="100"
-                    android:nextFocusForward="rg_gender"/>
+                    android:nextFocusForward="@+id/rg_gender" />
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
@@ -189,8 +189,8 @@
             android:id="@+id/rg_gender"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:nextFocusForward="spn_civilStatus">
+            android:nextFocusForward="@+id/spn_civilStatus"
+            android:orientation="horizontal">
 
             <RadioButton
                 android:id="@+id/rb_male"
@@ -235,8 +235,8 @@
                 android:cursorVisible="false"
                 android:focusable="false"
                 android:inputType="none"
-                android:padding="16dp"
-                android:nextFocusForward="txt_citizenship"/>
+                android:nextFocusForward="@+id/txt_citizenship"
+                android:padding="16dp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -254,8 +254,8 @@
                 android:imeOptions="actionNext"
                 android:inputType="textCapWords|textAutoComplete"
                 android:maxLength="50"
-                tools:ignore="LabelFor"
-                android:nextFocusForward="txt_motherNme"/>
+                android:nextFocusForward="@+id/txt_motherNme"
+                tools:ignore="LabelFor" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -273,7 +273,7 @@
                 android:imeOptions="actionNext"
                 android:inputType="textCapWords|textPersonName"
                 android:maxLength="120"
-                android:nextFocusForward="txt_mobileNo1"/>
+                android:nextFocusForward="@+id/txt_mobileNo1" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -299,7 +299,7 @@
                     android:imeOptions="actionNext"
                     android:inputType="number|none"
                     android:maxLength="11"
-                    android:nextFocusForward="spn_mobile1Type"/>
+                    android:nextFocusForward="@+id/spn_mobile1Type" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -319,8 +319,8 @@
                     android:cursorVisible="false"
                     android:focusable="false"
                     android:inputType="none"
-                    android:padding="16dp"
-                    android:nextFocusForward="txt_mobileNo2"/>
+                    android:nextFocusForward="@+id/txt_mobileNo2"
+                    android:padding="16dp" />
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
@@ -345,7 +345,7 @@
                     android:imeOptions="actionNext"
                     android:inputType="number|none"
                     android:maxLength="11"
-                    android:nextFocusForward="spn_mobile2Type"/>
+                    android:nextFocusForward="@+id/spn_mobile2Type" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -365,8 +365,8 @@
                     android:cursorVisible="false"
                     android:focusable="false"
                     android:inputType="none"
-                    android:padding="16dp"
-                    android:nextFocusForward="txt_mobileNo3"/>
+                    android:nextFocusForward="@+id/txt_mobileNo3"
+                    android:padding="16dp" />
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
@@ -391,7 +391,7 @@
                     android:imeOptions="actionNext"
                     android:inputType="number|none"
                     android:maxLength="11"
-                    android:nextFocusForward="spn_mobile3Type"/>
+                    android:nextFocusForward="@+id/spn_mobile3Type" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -411,8 +411,8 @@
                     android:cursorVisible="false"
                     android:focusable="false"
                     android:inputType="none"
-                    android:padding="16dp"
-                    android:nextFocusForward="txt_telephoneNo"/>
+                    android:nextFocusForward="@+id/txt_telephoneNo"
+                    android:padding="16dp" />
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
@@ -430,7 +430,7 @@
                 android:imeOptions="actionNext"
                 android:inputType="number|none"
                 android:maxLength="15"
-                android:nextFocusForward="txt_emailAdd"/>
+                android:nextFocusForward="@+id/txt_emailAdd" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -447,7 +447,7 @@
                 android:imeOptions="actionNext"
                 android:inputType="textEmailAddress"
                 android:maxLength="50"
-                android:nextFocusForward="txt_fbAccount"/>
+                android:nextFocusForward="@+id/txt_fbAccount" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -464,7 +464,7 @@
                 android:imeOptions="actionNext"
                 android:inputType="textEmailAddress"
                 android:maxLength="50"
-                android:nextFocusForward="txt_viberAccount"/>
+                android:nextFocusForward="@+id/txt_viberAccount" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -481,11 +481,11 @@
                 android:imeOptions="actionNext"
                 android:inputType="number|none"
                 android:maxLength="11"
-                android:nextFocusForward="spn_employmentLevel" />
+                android:nextFocusForward="@+id/btn_creditAppNext" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/spn_employmentLevel"
+            android:id="@+id/btn_creditAppNext"
             style="@style/NavigationButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

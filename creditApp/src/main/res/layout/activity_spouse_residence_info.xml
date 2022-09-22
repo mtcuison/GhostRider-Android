@@ -170,7 +170,8 @@
                 android:imeOptions="actionDone"
                 android:inputType="textCapWords|textAutoComplete"
                 android:maxLength="50"
-                tools:ignore="LabelFor" />
+                tools:ignore="LabelFor"
+                android:nextFocusForward="@+id/btn_creditAppNext"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <RelativeLayout

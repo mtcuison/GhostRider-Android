@@ -1,191 +1,195 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:theme="@style/GhostRiderMaterialTheme.WhiteBG"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:theme="@style/GhostRiderMaterialTheme.WhiteBG"
     tools:context=".Activities.Activity_SelfEmployedInfo">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:gravity="center"
+        android:orientation="vertical"
         android:padding="5dp">
 
         <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="@style/HeaderLabelBlack"
-        android:text="@string/sHeaderSelfEmplopyedInfo"/>
+            style="@style/HeaderLabelBlack"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/sHeaderSelfEmplopyedInfo" />
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/CustomDropDownTilStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <TextView
                 android:id="@+id/tv_businessNature"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="gone"/>
+                android:visibility="gone" />
+
             <androidx.appcompat.widget.AppCompatAutoCompleteTextView
                 android:id="@+id/spn_businessNature"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:focusable="false"
-                android:padding="16dp"
-                android:cursorVisible="false"
-                android:hint="Nature of Business (Required)"
                 android:clickable="false"
-                android:inputType="none" />
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:hint="Nature of Business (Required)"
+                android:inputType="none"
+                android:padding="16dp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/TextInputStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/sHintBusinessNm"
-            style="@style/TextInputStyle">
+            android:hint="@string/sHintBusinessNm">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/txt_businessName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLines="1"
-                android:inputType="textCapWords"
                 android:imeOptions="actionNext"
-                android:nextFocusForward="@id/txt_businessAddress"
-                android:maxLength="100"/>
+                android:inputType="textCapWords"
+                android:maxLength="100"
+                android:maxLines="1"
+                android:nextFocusForward="@id/txt_businessAddress" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
+            style="@style/HeaderLabelBlack"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/HeaderLabelBlack"
-            android:text="@string/sHeaderBizAddress"/>
+            android:text="@string/sHeaderBizAddress" />
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/TextInputStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/sHintAddress"
-            style="@style/TextInputStyle">
+            android:hint="@string/sHintAddress">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/txt_businessAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLines="1"
-                android:inputType="textCapWords"
                 android:imeOptions="actionNext"
-                android:nextFocusForward="@id/txt_province"
-                android:maxLength="150"/>
+                android:inputType="textCapWords"
+                android:maxLength="150"
+                android:maxLines="1"
+                android:nextFocusForward="@id/txt_province" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:baselineAligned="false">
+            android:baselineAligned="false"
+            android:orientation="horizontal">
 
             <com.google.android.material.textfield.TextInputLayout
+                style="@style/TextInputStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="@string/sHintProvince"
-                style="@style/TextInputStyle">
+                android:hint="@string/sHintProvince">
 
                 <AutoCompleteTextView
                     android:id="@+id/txt_province"
+                    style="@style/AutoCompleteStyleTheme"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    style="@style/AutoCompleteStyleTheme"
-                    android:maxLines="1"
-                    android:inputType="textCapWords"
                     android:imeOptions="actionNext"
-                    android:nextFocusForward="@id/txt_town"
-                    android:maxLength="50"/>
+                    android:inputType="textCapWords"
+                    android:maxLength="50"
+                    android:maxLines="1"
+                    android:nextFocusForward="@id/txt_town" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                style="@style/TextInputStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="@string/sHintTown"
-                style="@style/TextInputStyle">
+                android:hint="@string/sHintTown">
 
                 <AutoCompleteTextView
                     android:id="@+id/txt_town"
+                    style="@style/AutoCompleteStyleTheme"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    style="@style/AutoCompleteStyleTheme"
-                    android:maxLines="1"
-                    android:inputType="textCapWords"
                     android:imeOptions="actionNext"
-                    android:nextFocusForward="@id/txt_lenghtService"
-                    android:maxLength="50"/>
+                    android:inputType="textCapWords"
+                    android:maxLength="50"
+                    android:maxLines="1"
+                    android:nextFocusForward="@id/txt_lenghtService" />
             </com.google.android.material.textfield.TextInputLayout>
 
         </LinearLayout>
 
         <TextView
+            style="@style/HeaderLabelBlack"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/HeaderLabelBlack"
-            android:text="@string/sHeaderBizOtherInfo"/>
+            android:text="@string/sHeaderBizOtherInfo" />
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/CustomDropDownTilStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <androidx.appcompat.widget.AppCompatAutoCompleteTextView
                 android:id="@+id/spn_businessType"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:focusable="false"
-                android:padding="16dp"
-                android:cursorVisible="false"
-                android:hint="Type of Business (Required)"
                 android:clickable="false"
-                android:inputType="none" />
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:hint="Type of Business (Required)"
+                android:inputType="none"
+                android:padding="16dp" />
         </com.google.android.material.textfield.TextInputLayout>
+
         <com.google.android.material.textfield.TextInputLayout
             style="@style/CustomDropDownTilStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <androidx.appcompat.widget.AppCompatAutoCompleteTextView
                 android:id="@+id/spn_businessSize"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:focusable="false"
-                android:padding="16dp"
-                android:cursorVisible="false"
-                android:hint="Size of Business (Required)"
                 android:clickable="false"
-                android:inputType="none" />
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:hint="Size of Business (Required)"
+                android:inputType="none"
+                android:padding="16dp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
             <com.google.android.material.textfield.TextInputLayout
+                style="@style/TextInputStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="@string/sHintLenghtService"
-                style="@style/TextInputStyle">
+                android:hint="@string/sHintLenghtService">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/txt_lenghtService"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLines="1"
                     android:imeOptions="actionNext"
                     android:inputType="number|none"
-                    android:nextFocusForward="@id/txt_monthlyInc"
-                    android:maxLength="3"/>
+                    android:maxLength="3"
+                    android:maxLines="1"
+                    android:nextFocusForward="@id/txt_monthlyInc" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -193,92 +197,88 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.5">
+
                 <androidx.appcompat.widget.AppCompatAutoCompleteTextView
                     android:id="@+id/spn_lenghtSrvc"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:focusable="false"
-                    android:padding="16dp"
-                    android:cursorVisible="false"
-                    android:hint="Length of Stay (Required)"
                     android:clickable="false"
-                    android:inputType="none" />
+                    android:cursorVisible="false"
+                    android:focusable="false"
+                    android:hint="Length of Stay (Required)"
+                    android:inputType="none"
+                    android:padding="16dp" />
             </com.google.android.material.textfield.TextInputLayout>
 
         </LinearLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/TextInputStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="@string/sHintMonthlyIncome"
-            style="@style/TextInputStyle">
+            android:hint="@string/sHintMonthlyIncome">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/txt_monthlyInc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number|none"
-                android:maxLines="1"
                 android:imeOptions="actionNext"
-                android:nextFocusForward="@id/txt_monthlyExp"
-                android:maxLength="9"/>
+                android:inputType="number|none"
+                android:maxLength="9"
+                android:maxLines="1"
+                android:nextFocusForward="@id/txt_monthlyExp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/TextInputStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="@string/sHintMonthlyExp"
-            style="@style/TextInputStyle">
+            android:hint="@string/sHintMonthlyExp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/txt_monthlyExp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number|none"
-                android:maxLines="1"
                 android:imeOptions="actionDone"
-                android:maxLength="9"/>
+                android:inputType="number|none"
+                android:maxLength="9"
+                android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="350dp">
+            android:layout_marginBottom="350dp"
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/btn_creditAppPrvs"
+                style="@style/NavigationButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/sbtnPrvs"
-                style="@style/NavigationButton"
-                android:drawableStart="@drawable/ic_nav_left"
-                android:drawableLeft="@drawable/ic_nav_left"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                tools:ignore="RelativeOverlap"  />
+                android:drawableStart="@drawable/ic_nav_left"
+                android:drawableLeft="@drawable/ic_nav_left"
+                android:text="@string/sbtnPrvs"
+                tools:ignore="RelativeOverlap" />
 
             <Button
                 android:id="@+id/btn_creditAppNext"
+                style="@style/NavigationButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/sbtnNext"
-                style="@style/NavigationButton"
-                android:drawableEnd="@drawable/ic_nav_right"
-                android:drawableRight="@drawable/ic_nav_right"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
+                android:drawableEnd="@drawable/ic_nav_right"
+                android:drawableRight="@drawable/ic_nav_right"
+                android:text="@string/sbtnNext"
                 tools:ignore="RelativeOverlap" />
         </RelativeLayout>
-
-
-
-
-
 
 
     </LinearLayout>

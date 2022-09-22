@@ -32,7 +32,8 @@
                 android:cursorVisible="false"
                 android:focusable="false"
                 android:inputType="none"
-                android:padding="16dp" />
+                android:padding="16dp"
+                android:nextFocusForward="@+id/txt_psnIncRange"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -47,7 +48,8 @@
                 android:layout_height="wrap_content"
                 android:imeOptions="actionNext"
                 android:inputType="number|none"
-                android:maxLength="20" />
+                android:maxLength="20"
+                android:nextFocusForward="@+id/txt_psnRtrmntYear"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -62,7 +64,8 @@
                 android:layout_height="wrap_content"
                 android:imeOptions="actionNext"
                 android:inputType="number|none"
-                android:maxLength="4" />
+                android:maxLength="4"
+                android:nextFocusForward="@+id/txt_natureOfIncome"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
@@ -83,7 +86,8 @@
                 android:layout_height="wrap_content"
                 android:imeOptions="actionNext"
                 android:inputType="textCapWords"
-                android:maxLength="100" />
+                android:maxLength="100"
+                android:nextFocusForward="@+id/txt_incRange"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout

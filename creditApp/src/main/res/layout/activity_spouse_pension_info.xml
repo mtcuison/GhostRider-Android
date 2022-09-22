@@ -70,7 +70,8 @@
                 android:layout_height="wrap_content"
                 android:imeOptions="actionDone"
                 android:inputType="number|none"
-                android:maxLength="4" />
+                android:maxLength="4"
+                android:nextFocusForward="@+id/txt_other_source"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -108,7 +109,9 @@
                 android:layout_height="wrap_content"
                 android:imeOptions="actionDone"
                 android:inputType="number|none"
-                android:maxLength="15" />
+                android:maxLength="15"
+                android:ImeOptions="actionNext"
+                android:nextFocusForward="@+id/btn_creditAppNext"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <RelativeLayout

@@ -32,7 +32,8 @@
                 android:focusable="false"
                 android:hint="Tap here to select financier relationship."
                 android:inputType="none"
-                android:padding="16dp" />
+                android:padding="16dp"
+                android:nextFocusForward="@+id/TextInputStyle"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -47,7 +48,8 @@
                 android:layout_height="wrap_content"
                 android:imeOptions="actionNext"
                 android:inputType="textCapWords"
-                android:maxLength="80" />
+                android:maxLength="80"
+                android:nextFocusForward="@+id/txt_financierInc"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -62,7 +64,8 @@
                 android:layout_height="wrap_content"
                 android:imeOptions="actionNext"
                 android:inputType="number|none"
-                android:maxLength="10" />
+                android:maxLength="10"
+                android:nextFocusForward="@+id/txt_financierCntry"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -78,7 +81,8 @@
                 android:layout_height="wrap_content"
                 android:imeOptions="actionNext"
                 android:inputType="textCapWords"
-                android:maxLength="20" />
+                android:maxLength="20"
+                android:nextFocusForward="@+id/txt_financierContact"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -93,7 +97,8 @@
                 android:layout_height="wrap_content"
                 android:imeOptions="actionNext"
                 android:inputType="number|none"
-                android:maxLength="11" />
+                android:maxLength="11"
+                android:nextFocusForward="@+id/txt_financierFb"/>
         </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -109,7 +114,8 @@
                 android:layout_height="wrap_content"
                 android:imeOptions="actionNext"
                 android:inputType="textPersonName"
-                android:maxLength="80" />
+                android:maxLength="80"
+                android:nextFocusForward="@+id/txt_financierEmail"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
