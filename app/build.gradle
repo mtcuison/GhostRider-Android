@@ -110,7 +110,7 @@ dependencies {
     implementation 'commons-io:commons-io:2.6'
     implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
     implementation project(path: ':authLibrary')
-    implementation project(path: ':g3appdriver')
+//    implementation project(path: ':g3appdriver')
     implementation project(path: ':creditApp')
     implementation project(path: ':ahMonitoring')
     implementation project(path: ':promotions')
@@ -126,7 +126,8 @@ dependencies {
     implementation project(':settings')
     implementation project(':creditEvaluation')
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
-    implementation files('D:/Android_Libs/appdriver.jar')
-    implementation files('D:/Android_Libs/json-simple-1.1.1.jar')
-    implementation files('D:/Android_Libs/commons-codec-1.11.jar')
+    implementation files('D:/Android_Libs/app_driver.aar')
+//    implementation files('D:/Android_Libs/appdriver.jar')
+//    implementation files('D:/Android_Libs/json-simple-1.1.1.jar')
+//    implementation files('D:/Android_Libs/commons-codec-1.11.jar')
 }

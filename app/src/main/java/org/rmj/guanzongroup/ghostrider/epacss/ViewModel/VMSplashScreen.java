@@ -18,6 +18,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -31,10 +32,36 @@ import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCPCollectionDetail
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ETokenInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.AppTokenManager;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RBankInfo;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RBarangay;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RFileCode;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RLogSelfie;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RProvince;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RRelation;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RTown;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
+import org.rmj.g3appdriver.GRider.ImportData.ImportBarangay;
+import org.rmj.g3appdriver.GRider.ImportData.ImportBranch;
+import org.rmj.g3appdriver.GRider.ImportData.ImportBrand;
+import org.rmj.g3appdriver.GRider.ImportData.ImportBrandModel;
+import org.rmj.g3appdriver.GRider.ImportData.ImportCategory;
+import org.rmj.g3appdriver.GRider.ImportData.ImportCountry;
+import org.rmj.g3appdriver.GRider.ImportData.ImportFileCode;
+import org.rmj.g3appdriver.GRider.ImportData.ImportInstance;
+import org.rmj.g3appdriver.GRider.ImportData.ImportMcModelPrice;
+import org.rmj.g3appdriver.GRider.ImportData.ImportMcTermCategory;
+import org.rmj.g3appdriver.GRider.ImportData.ImportProvinces;
+import org.rmj.g3appdriver.GRider.ImportData.ImportTown;
+import org.rmj.g3appdriver.GRider.ImportData.Import_AreaPerformance;
+import org.rmj.g3appdriver.GRider.ImportData.Import_BankList;
+import org.rmj.g3appdriver.GRider.ImportData.Import_BranchPerformance;
+import org.rmj.g3appdriver.GRider.ImportData.Import_Occupations;
+import org.rmj.g3appdriver.GRider.ImportData.Import_Relation;
+import org.rmj.g3appdriver.GRider.ImportData.Import_SCARequest;
+import org.rmj.g3appdriver.GRider.ImportData.Import_SysConfig;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.guanzongroup.ghostrider.epacss.BuildConfig;
@@ -43,6 +70,9 @@ import java.io.IOException;
 import java.util.Date;
 
 public class VMSplashScreen extends AndroidViewModel {
+    private static final String TAG = VMSplashScreen.class.getSimpleName();
+
+    private final Application instance;
 
     private final MutableLiveData<Boolean> pbGranted = new MutableLiveData<>();
     private final MutableLiveData<String[]> paPermisions = new MutableLiveData<>();
@@ -60,10 +90,28 @@ public class VMSplashScreen extends AndroidViewModel {
     private final RDailyCollectionPlan poDcp;
     private final RLogSelfie poLogx;
 
+    private final String[] psPermissions = new String[]{
+            Manifest.permission.MANAGE_EXTERNAL_STORAGE,
+            Manifest.permission.INTERNET,
+            Manifest.permission.ACCESS_NETWORK_STATE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_PHONE_STATE,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.GET_ACCOUNTS,
+            Manifest.permission.CAMERA,
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.ACCESS_BACKGROUND_LOCATION,
+            Manifest.permission.REQUEST_INSTALL_PACKAGES};
+
+    private final MutableLiveData<Boolean> pbIsGrantd = new MutableLiveData<>();
+    private final MutableLiveData<AppStatus> poAppStat = new MutableLiveData<>();
+
     @SuppressLint("InlinedApi")
     @RequiresApi(api = Build.VERSION_CODES.M)
     public VMSplashScreen(@NonNull Application application) throws IOException {
         super(application);
+        this.instance = application;
         poUserDbx = new REmployee(application);
         poConfigx = AppConfigPreference.getInstance(application);
         poSession = new SessionManager(application);
@@ -96,6 +144,18 @@ public class VMSplashScreen extends AndroidViewModel {
         this.psVersion.setValue(poConfigx.getVersionInfo());
         this.poLocator = poDcp.getDCP_COH_StatusForTracking();
         new CheckConnectionTask(application).execute();
+    }
+
+    public void initializeApp(){
+
+    }
+
+    public LiveData<AppStatus> GetAppStatus(){
+        return poAppStat;
+    }
+
+    public String[] GetPermissions(){
+        return psPermissions;
     }
 
     public LiveData<String> getVersionInfo(){
@@ -170,36 +230,156 @@ public class VMSplashScreen extends AndroidViewModel {
         return true;
     }
 
-    private static class CheckConnectionTask extends AsyncTask<String, Void, String>{
+    private static class CheckConnectionTask extends AsyncTask<String, Void, Boolean>{
+
         private final Application instance;
+        private final ConnectionUtil poConn;
 
         private String message;
-        private boolean isConnected = false;
 
         public CheckConnectionTask(Application instance) {
             this.instance = instance;
+            this.poConn = new ConnectionUtil(instance);
         }
 
         @Override
-        protected String doInBackground(String... strings) {
-            ConnectionUtil loConn = new ConnectionUtil(instance);
-            if(loConn.isDeviceConnected()){
-                isConnected = true;
-            } else {
-                isConnected = false;
-                message = loConn.getMessage();
+        protected Boolean doInBackground(String... strings) {
+            if(!poConn.isDeviceConnected()){
+                message = poConn.getMessage();
+                return false;
             }
-            return null;
+            return true;
         }
 
         @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            if(isConnected){
+        protected void onPostExecute(Boolean isSuccess) {
+            super.onPostExecute(isSuccess);
+            if(isSuccess){
                 Toast.makeText(instance, "Device connected", Toast.LENGTH_LONG).show();
             } else {
-                Toast.makeText(instance, message, Toast.LENGTH_LONG).show();
+                Toast.makeText(instance, "Offline mode", Toast.LENGTH_LONG).show();
             }
+        }
+    }
+
+    public void InitializeData(OnInitializecallback onInitializecallback){
+        new InitializeDataTask(instance, onInitializecallback).execute();
+    }
+
+    public interface OnInitializecallback{
+        void OnSuccess();
+        void OnFailed(String message);
+    }
+
+    private static class InitializeDataTask extends AsyncTask<String, Void, Boolean>{
+
+        private final Application instance;
+        private final OnInitializecallback callback;
+        private final ConnectionUtil poConn;
+        private final AppConfigPreference poConfig;
+
+        private String message;
+
+        public InitializeDataTask(Application instance, OnInitializecallback callback) {
+            this.instance = instance;
+            this.callback = callback;
+            this.poConn = new ConnectionUtil(instance);
+            this.poConfig = AppConfigPreference.getInstance(instance);
+        }
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            try{
+                if(!poConn.isDeviceConnected()){
+                    if(!poConfig.isAppFirstLaunch()){
+                        message = "Offline Mode.";
+                        return true;
+                    }
+
+                    message = "Please connect you device to internet to download important data.";
+                    return false;
+                }
+
+                if(!new RBarangay(instance).ImportBarangay()){
+                    Log.e(TAG, "Unable to import barangay");
+                }
+
+                if(!new RTown(instance).ImportTown()){
+                    Log.e(TAG, "Unable to import town");
+                }
+
+                if(!new RProvince(instance).ImportProvince()){
+                    Log.e(TAG, "Unable to import province");
+                }
+
+                if(!new RBranch(instance).ImportBranches()){
+                    Log.e(TAG, "Unable to import branches");
+                }
+
+//                ImportInstance[]  importInstances = {
+//                        new Import_BankList(instance),
+//                        new ImportFileCode(instance),
+//                        new Import_Relation(instance),
+//                        new ImportBrand(instance),
+//                        new ImportBrandModel(instance),
+//                        new ImportCategory(instance),
+//                        new ImportProvinces(instance),
+//                        new ImportMcModelPrice(instance),
+//                        new ImportTown(instance),
+//                        new ImportBarangay(instance),
+//                        new ImportMcTermCategory(instance),
+//                        new ImportCountry(instance),
+//                        new Import_Occupations(instance),
+//                        new Import_SysConfig(instance),
+//                        new Import_SCARequest(instance),
+//                        new ImportBranch(instance),
+//                        new Import_AreaPerformance(instance),
+//                        new Import_BranchPerformance(instance)};
+
+                return true;
+            } catch (Exception e){
+                e.printStackTrace();
+                message = e.getMessage();
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Boolean isSuccess) {
+            super.onPostExecute(isSuccess);
+            if(isSuccess){
+                callback.OnSuccess();
+            } else {
+                callback.OnFailed(message);
+            }
+        }
+    }
+
+    public static class AppStatus{
+        private boolean cPrmnGrnt = false;
+        private boolean cIsLoginx = false;
+        private boolean cCmpltAcc = false;
+
+        public AppStatus(boolean cPrmnGrnt, boolean cIsLoginx, boolean cCmpltAcc) {
+            this.cPrmnGrnt = cPrmnGrnt;
+            this.cIsLoginx = cIsLoginx;
+            this.cCmpltAcc = cCmpltAcc;
+        }
+
+        public boolean isPermissionsGranted() {
+            return cPrmnGrnt;
+        }
+
+        public void setGrantedPermission(boolean cPrmnGrnt) {
+            this.cPrmnGrnt = cPrmnGrnt;
+        }
+
+        public boolean hasAccountSession() {
+            return cIsLoginx;
+        }
+
+        public void setAccountSession(boolean cIsLoginx) {
+            this.cIsLoginx = cIsLoginx;
         }
     }
 }

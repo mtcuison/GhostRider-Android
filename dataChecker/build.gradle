@@ -47,6 +47,8 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
-    implementation project(':g3appdriver')
+//    implementation project(':g3appdriver')
+    implementation files('D:/Android_Libs/app_driver.aar')
     implementation project(':notifications')
+
 }

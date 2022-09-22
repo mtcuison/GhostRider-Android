@@ -76,7 +76,7 @@ dependencies {
     //noinspection GradleCompatible
     implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
-    implementation project(':g3appdriver')
+//    implementation project(':g3appdriver')
 //    implementation project(':appdriver') //implement GhostRider Application Driver
     implementation project(':imgCapture')
     implementation project(':griderScanner')
@@ -85,9 +85,10 @@ dependencies {
     implementation files('libs/commons-lang3-3.3.2.jar')
     implementation files('libs/javax.persistence_2.1.0.v201304241213.jar')
     implementation files('libs/sqldroid-1.1.0-rc1.jar')
-    implementation files('D:/Android_Libs/appdriver.jar')
-    implementation files('D:/Android_Libs/json-simple-1.1.1.jar')
-    implementation files('D:/Android_Libs/commons-codec-1.11.jar')
+    implementation files('D:/Android_Libs/app_driver.aar')
+//    implementation files('D:/Android_Libs/appdriver.jar')
+//    implementation files('D:/Android_Libs/json-simple-1.1.1.jar')
+//    implementation files('D:/Android_Libs/commons-codec-1.11.jar')
 
 //  SPINNER MATERIAL DESIGN
 

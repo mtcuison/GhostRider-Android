@@ -26,7 +26,6 @@ include ':ahMonitoring'
 include ':promotions'
 include ':creditApp'
 include ':authLibrary'
-include ':g3appdriver'
 include ':app'
 rootProject.name = "GhostRider_Android"
 include ':dataChecker'

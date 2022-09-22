@@ -77,13 +77,14 @@ dependencies {
 //    implementation project(':json-simple-1.1.1')
     implementation project(':openCVLibrary341')
     implementation project(':imgCapture')
-    implementation project(':g3appdriver')
+//    implementation project(':g3appdriver')
     implementation project(':notifications')
 //    implementation project(':appdriver') //implement GhostRider Application Driver
     implementation project(':settings')
     implementation 'com.google.android.gms:play-services-location:20.0.0'
     implementation 'com.google.android.gms:play-services-maps:18.1.0'
-    implementation files('D:/Android_Libs/appdriver.jar')
-    implementation files('D:/Android_Libs/json-simple-1.1.1.jar')
-    implementation files('D:/Android_Libs/commons-codec-1.11.jar')
+    implementation files('D:/Android_Libs/app_driver.aar')
+//    implementation files('D:/Android_Libs/appdriver.jar')
+//    implementation files('D:/Android_Libs/json-simple-1.1.1.jar')
+//    implementation files('D:/Android_Libs/commons-codec-1.11.jar')
 }

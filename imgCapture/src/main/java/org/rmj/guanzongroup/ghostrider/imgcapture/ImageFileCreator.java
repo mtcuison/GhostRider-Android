@@ -21,8 +21,6 @@ import android.util.Log;
 
 import androidx.core.content.FileProvider;
 
-import org.rmj.g3appdriver.GRider.Etc.LocationTrack;
-
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -40,7 +38,6 @@ public class ImageFileCreator {
     String currentPhotoPath;
     private double latitude, longitude;
     private String SUB_FOLDER;
-    LocationTrack locationTrack;
 
     File image;
     File docImage;
