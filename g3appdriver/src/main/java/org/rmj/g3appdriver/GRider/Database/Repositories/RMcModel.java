@@ -18,135 +18,139 @@ import androidx.lifecycle.LiveData;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.rmj.appdriver.base.GConnection;
 import org.rmj.apprdiver.util.SQLUtil;
 import org.rmj.g3appdriver.GRider.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DMcModel;
-import org.rmj.g3appdriver.GRider.Database.DbConnection;
 import org.rmj.g3appdriver.GRider.Database.Entities.EMcModel;
+import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.utils.WebApi;
+import org.rmj.g3appdriver.utils.WebClient;
 
-import java.sql.ResultSet;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class RMcModel {
-    private static final String TAG = "DB_Model_Repository";
-    private final Application application;
-    private final DMcModel mcModelDao;
-    private LiveData<List<EMcModel>> allMcModelInfo;
-    private LiveData<String[]> allMcModelName;
+    private static final String TAG = RMcModel.class.getSimpleName();
 
-    public RMcModel(Application application){
-        this.application = application;
-        GGC_GriderDB GGCGriderDB = GGC_GriderDB.getInstance(application);
-        mcModelDao = GGCGriderDB.McModelDao();
+    private final DMcModel poDao;
+
+    private final AppConfigPreference poConfig;
+    private final WebApi poApi;
+    private final HttpHeaders poHeaders;
+
+    private String message;
+
+    public RMcModel(Application instance){
+        this.poDao = GGC_GriderDB.getInstance(instance).McModelDao();
+        this.poConfig = AppConfigPreference.getInstance(instance);
+        this.poApi = new WebApi(poConfig.getTestStatus());
+        this.poHeaders = HttpHeaders.getInstance(instance);
+    }
+
+    public String getMessage() {
+        return message;
     }
 
     public LiveData<List<EMcModel>> getMcModelFromBrand(String BrandID){
-        allMcModelInfo = mcModelDao.getAllModeFromBrand(BrandID);
-        return allMcModelInfo;
+        return poDao.getAllModeFromBrand(BrandID);
     }
 
     public LiveData<String[]> getAllMcModelName(String BrandID){
-        allMcModelName = mcModelDao.getAllModelName(BrandID);
-        return allMcModelName;
+        return poDao.getAllModelName(BrandID);
     }
     public String getModelName(String ModelIDx){
-       return mcModelDao.getModelName(ModelIDx);
+       return poDao.getModelName(ModelIDx);
     }
     public String getLatestDataTime(){
-        return mcModelDao.getLatestDataTime();
+        return poDao.getLatestDataTime();
     }
 
     public void insertBulkData(List<EMcModel> modelList){
-        mcModelDao.insertBulkData(modelList);
+        poDao.insertBulkData(modelList);
     }
 
     public EMcModel getModelInfo(String TransNox){
-        return mcModelDao.getModelInfo(TransNox);
+        return poDao.getModelInfo(TransNox);
     }
 
-    public void saveMcModelInfo(JSONArray faJson) throws Exception {
-        GConnection loConn = DbConnection.doConnect(application);
+    public boolean ImportMCModel(){
+        try{
+            JSONObject params = new JSONObject();
+            params.put("bsearch", true);
+            params.put("descript", "All");
 
-        if (loConn == null) {
-            //Log.e(TAG, "Connection was not initialized.");
-            return;
-        }
-
-        JSONObject loJson;
-        String lsSQL;
-        ResultSet loRS;
-
-        for (int x = 0; x < faJson.length(); x++) {
-            loJson = new JSONObject(faJson.getString(x));
-
-            //check if record already exists on database
-            lsSQL = "SELECT dTimeStmp FROM Mc_Model" +
-                    " WHERE sModelIDx = " + SQLUtil.toSQL((String) loJson.get("sModelIDx"));
-            loRS = loConn.executeQuery(lsSQL);
-
-            lsSQL = "";
-            //record does not exists
-            if (!loRS.next()) {
-                //check if the record is active
-                if ("1".equals((String) loJson.get("cRecdStat"))) {
-                    //create insert statement
-                    lsSQL = "INSERT INTO Mc_Model" +
-                            "(sModelIDx" +
-                            ",sModelCde" +
-                            ",sModelNme" +
-                            ",sBrandIDx" +
-                            ",cMotorTyp" +
-                            ",cRegisTyp" +
-                            ",cEndOfLfe" +
-                            ",cEngineTp" +
-                            ",cHotItemx" +
-                            ",cRecdStat" +
-                            ",dTimeStmp)" +
-                            " VALUES" +
-                            "(" + SQLUtil.toSQL(loJson.getString("sModelIDx")) +
-                            "," + SQLUtil.toSQL(loJson.getString("sModelCde")) +
-                            "," + SQLUtil.toSQL(loJson.getString("sModelNme")) +
-                            "," + SQLUtil.toSQL(loJson.getString("sBrandIDx")) +
-                            "," + SQLUtil.toSQL(loJson.getString("cMotorTyp")) +
-                            "," + SQLUtil.toSQL(loJson.getString("cRegisTyp")) +
-                            "," + SQLUtil.toSQL(loJson.getString("cEndOfLfe")) +
-                            "," + SQLUtil.toSQL(loJson.getString("cEngineTp")) +
-                            "," + SQLUtil.toSQL(loJson.getString("cHotItemx")) +
-                            "," + SQLUtil.toSQL(loJson.getString("cRecdStat")) +
-                            "," + SQLUtil.toSQL(loJson.getString("dTimeStmp")) + ")";
-                }
-            } else { //record already exists
-                Date ldDate1 = SQLUtil.toDate(loRS.getString("dTimeStmp"), SQLUtil.FORMAT_TIMESTAMP);
-                Date ldDate2 = SQLUtil.toDate((String) loJson.get("dTimeStmp"), SQLUtil.FORMAT_TIMESTAMP);
-
-                //compare date if the record from API is newer than the database record
-                if (!ldDate1.equals(ldDate2)) {
-                    //create update statement
-                    lsSQL = "UPDATE Mc_Model SET" +
-                            "   sModelCde = " + SQLUtil.toSQL(loJson.getString("sModelCde")) +
-                            ",  sModelNme = " + SQLUtil.toSQL(loJson.getString("sModelNme")) +
-                            ",  sBrandIDx = " + SQLUtil.toSQL(loJson.getString("sBrandIDx")) +
-                            ",  cMotorTyp = " + SQLUtil.toSQL(loJson.getString("cMotorTyp")) +
-                            ",  cRegisTyp = " + SQLUtil.toSQL(loJson.getString("cRegisTyp")) +
-                            ",  cEndOfLfe = " + SQLUtil.toSQL(loJson.getString("cEndOfLfe")) +
-                            ",  cEngineTp = " + SQLUtil.toSQL(loJson.getString("cEngineTp")) +
-                            ",  cHotItemx = " + SQLUtil.toSQL(loJson.getString("cHotItemx")) +
-                            ",  cRecdStat = " + SQLUtil.toSQL(loJson.getString("cRecdStat")) +
-                            ",  dTimeStmp = " + SQLUtil.toSQL(loJson.getString("dTimeStmp")) +
-                            " WHERE sModelIDx = " + SQLUtil.toSQL(loJson.getString("sModelIDx"));
-                }
+            EMcModel loObj = poDao.GetLatestMCModel();
+            if(loObj != null) {
+                params.put("dTimeStmp", loObj.getTimeStmp());
             }
 
-            if (!lsSQL.isEmpty()) {
-                if (loConn.executeUpdate(lsSQL) <= 0) {
-                    //Log.e(TAG, loConn.getMessage());
+            String lsResponse = WebClient.httpsPostJSon(
+                    poApi.getUrlImportMcModel(poConfig.isBackUpServer()),
+                    params.toString(),
+                    poHeaders.getHeaders());
+
+            if(lsResponse == null){
+                message = "Server no response.";
+                return false;
+            }
+
+            JSONObject loResponse = new JSONObject(Objects.requireNonNull(lsResponse));
+            String lsResult = loResponse.getString("result");
+            if(lsResult.equalsIgnoreCase("error")){
+                JSONObject loError = loResponse.getJSONObject("error");
+                message = loError.getString("message");
+                return false;
+            }
+
+            JSONArray laJson = loResponse.getJSONArray("detail");
+            for(int x = 0; x < laJson.length(); x++){
+                JSONObject loJson = laJson.getJSONObject(x);
+                EMcModel loDetail = poDao.GetMCModel(loJson.getString("sModelIDx"));
+
+                if(loDetail == null) {
+                    if(loJson.getString("cRecdStat").equalsIgnoreCase("1")) {
+                        EMcModel loModel = new EMcModel();
+                        loModel.setModelIDx(loJson.getString("sModelIDx"));
+                        loModel.setModelCde(loJson.getString("sModelCde"));
+                        loModel.setModelNme(loJson.getString("sModelNme"));
+                        loModel.setBrandIDx(loJson.getString("sBrandIDx"));
+                        loModel.setMotorTyp(loJson.getString("cMotorTyp"));
+                        loModel.setRegisTyp(loJson.getString("cRegisTyp"));
+                        loModel.setEndOfLfe(loJson.getString("cEndOfLfe"));
+                        loModel.setEngineTp(loJson.getString("cEngineTp"));
+                        loModel.setHotItemx(loJson.getString("cHotItemx"));
+                        loModel.setRecdStat(loJson.getString("cRecdStat"));
+                        loModel.setTimeStmp(loJson.getString("dTimeStmp"));
+                        poDao.insert(loModel);
+                        Log.d(TAG, "Mc model info has been saved.");
+                    }
+                } else {
+                    Date ldDate1 = SQLUtil.toDate(loDetail.getTimeStmp(), SQLUtil.FORMAT_TIMESTAMP);
+                    Date ldDate2 = SQLUtil.toDate((String) loJson.get("dTimeStmp"), SQLUtil.FORMAT_TIMESTAMP);
+                    if (!ldDate1.equals(ldDate2)) {
+                        loDetail.setModelIDx(loJson.getString("sModelIDx"));
+                        loDetail.setModelCde(loJson.getString("sModelCde"));
+                        loDetail.setModelNme(loJson.getString("sModelNme"));
+                        loDetail.setBrandIDx(loJson.getString("sBrandIDx"));
+                        loDetail.setMotorTyp(loJson.getString("cMotorTyp"));
+                        loDetail.setRegisTyp(loJson.getString("cRegisTyp"));
+                        loDetail.setEndOfLfe(loJson.getString("cEndOfLfe"));
+                        loDetail.setEngineTp(loJson.getString("cEngineTp"));
+                        loDetail.setHotItemx(loJson.getString("cHotItemx"));
+                        loDetail.setRecdStat(loJson.getString("cRecdStat"));
+                        loDetail.setTimeStmp(loJson.getString("dTimeStmp"));
+                        poDao.update(loDetail);
+                        Log.d(TAG, "Mc model info has been updated.");
+                    }
                 }
             }
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
         }
-
-        //terminate object connection
-        loConn = null;
     }
 }

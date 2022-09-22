@@ -27,19 +27,16 @@ import java.util.List;
 public interface DBranchInfo {
 
     @Insert
-    void insert(EBranchInfo branchInfo);
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertBulkData(List<EBranchInfo> branchInfoList);
+    void SaveBranchInfo(EBranchInfo branchInfo);
 
     @Update
-    void update(EBranchInfo branchInfo);
+    void UpdateBranchInfo(EBranchInfo branchInfo);
 
-    @Query("DELETE FROM Branch_Info")
-    void deleteAllBranches();
+    @Query("SELECT * FROM Branch_Info WHERE sBranchCd =:fsVal")
+    EBranchInfo GetBranchInfo(String fsVal);
 
-    @Insert
-    void insertBranchInfo(EBranchInfo branchInfo);
+    @Query("SELECT * FROM Branch_Info ORDER BY dTimeStmp DESC LIMIT 1")
+    EBranchInfo GetLatestBranchInfo();
 
     @Query("UPDATE Branch_Info SET sBranchNm =:BranchNm, " +
             " sDescript=:Descript," +

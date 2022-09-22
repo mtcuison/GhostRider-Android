@@ -24,122 +24,134 @@ import org.rmj.g3appdriver.GRider.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCountryInfo;
 import org.rmj.g3appdriver.GRider.Database.DbConnection;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECountryInfo;
+import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.utils.WebApi;
+import org.rmj.g3appdriver.utils.WebClient;
 
 import java.sql.ResultSet;
 import java.util.Date;
 import java.util.List;
 
 public class RCountry {
-    private static final String TAG = "DB_Country_Repository";
-    private final DCountryInfo countryDao;
-    private final LiveData<List<ECountryInfo>> allCountryInfo;
-    private final LiveData<String[]> allCountryNames;
-    private final LiveData<String[]> allCountryCitizenNames;
-    private final Application application;
+    private static final String TAG = RCountry.class.getSimpleName();
+    private final DCountryInfo poDao;
 
-    public RCountry(Application application){
-        GGC_GriderDB GGCGriderDB = GGC_GriderDB.getInstance(application);
-        this.countryDao = GGCGriderDB.CountryDao();
-        this.allCountryInfo = countryDao.getAllCountryInfo();
-        this.allCountryNames = countryDao.getAllCountryNames();
-        this.allCountryCitizenNames = countryDao.getAllCountryCitizenNames();
-        this.application = application;
+    private final AppConfigPreference poConfig;
+    private final WebApi poApi;
+    private final HttpHeaders poHeaders;
+
+    private String message;
+
+    public RCountry(Application instance){
+        this.poDao = GGC_GriderDB.getInstance(instance).CountryDao();
+        this.poConfig = AppConfigPreference.getInstance(instance);
+        this.poApi = new WebApi(poConfig.getTestStatus());
+        this.poHeaders = HttpHeaders.getInstance(instance);
+    }
+
+    public String getMessage() {
+        return message;
     }
 
     public LiveData<List<ECountryInfo>> getAllCountryInfo() {
-        return allCountryInfo;
+        return poDao.getAllCountryInfo();
     }
 
     public LiveData<String[]> getAllCountryNames(){
-        return allCountryNames;
+        return poDao.getAllCountryNames();
     }
 
     public LiveData<String[]> getAllCountryCitizenName(){
-        return allCountryCitizenNames;
+        return poDao.getAllCountryCitizenNames();
     }
 
     public void insertBulkData(List<ECountryInfo> countryInfos){
-        countryDao.insertBulkData(countryInfos);
+        poDao.insertBulkData(countryInfos);
     }
 
     public String getLatestDataTime(){
-        return countryDao.getLatestDataTime();
+        return poDao.getLatestDataTime();
     }
 
     public ECountryInfo getCountryInfo(String ID){
-        return countryDao.getCountryInfo(ID);
+        return poDao.getCountryInfo(ID);
     }
 
     public LiveData<String> getClientCitizenship(String CntryCde){
-        return countryDao.getClientCitizenship(CntryCde);
+        return poDao.getClientCitizenship(CntryCde);
     }
 
     public LiveData<String> getCountryNameFromId(String fsCntryCd) {
-        return  countryDao.getCountryNameFromId(fsCntryCd);
+        return  poDao.getCountryNameFromId(fsCntryCd);
     }
 
-    public void insertCountryInfo(JSONArray faJson) throws Exception{
-        GConnection loConn = DbConnection.doConnect(application);
+    public boolean ImportCountry(){
+        try {
+            JSONObject params = new JSONObject();
+            params.put("bsearch", true);
+            params.put("descript", "All");
 
-        if (loConn == null){
-            //Log.e(TAG, "Connection was not initialized");
-            return;
-        }
-
-        JSONObject loJson;
-        String lsSQL;
-        ResultSet loRS;
-
-        for (int x = 0; x < faJson.length(); x++){
-            loJson = new JSONObject(faJson.getString(x));
-
-            lsSQL = "SELECT dTimeStmp FROM Country_Info " +
-                    "WHERE sCntryCde = "+ SQLUtil.toSQL((String) loJson.get("sCntryCde"));
-
-            loRS = loConn.executeQuery(lsSQL);
-
-            lsSQL = "";
-
-            if(!loRS.next()){
-
-                if("1".equalsIgnoreCase(loJson.getString("cRecdStat"))){
-                    lsSQL = "INSERT INTO Country_Info" +
-                            "(sCntryCde, " +
-                            "sCntryNme, " +
-                            "sNational, " +
-                            "cRecdStat, " +
-                            "dTimeStmp) " +
-                            "VALUES(" +
-                            ""+SQLUtil.toSQL(loJson.getString("sCntryCde"))+", " +
-                            ""+SQLUtil.toSQL(loJson.getString("sCntryNme"))+"," +
-                            ""+SQLUtil.toSQL(loJson.getString("sNational"))+"," +
-                            ""+SQLUtil.toSQL(loJson.getString("cRecdStat"))+"," +
-                            ""+SQLUtil.toSQL(loJson.getString("dTimeStmp"))+")";
-                }
-            } else {
-                Date ldDate1 = SQLUtil.toDate(loRS.getString("dTimeStmp"), SQLUtil.FORMAT_TIMESTAMP);
-                Date ldDate2 = SQLUtil.toDate((String) loJson.get("dTimeStmp"), SQLUtil.FORMAT_TIMESTAMP);
-
-                if(!ldDate1.equals(ldDate2)){
-                    lsSQL = "UPDATE Country_Info SET " +
-                            "sCntryNme = "+SQLUtil.toSQL(loJson.getString("sCntryNme"))+"," +
-                            "sNational = "+SQLUtil.toSQL(loJson.getString("sNational"))+"," +
-                            "cRecdStat = "+SQLUtil.toSQL(loJson.getString("cRecdStat"))+"," +
-                            "dTimeStmp = "+SQLUtil.toSQL(loJson.getString("dTimeStmp"))+"";
-                }
+            ECountryInfo loObj = poDao.GetLatestCountryInfo();
+            if(loObj != null){
+                params.put("dTimeStmp", loObj.getTimeStmp());
             }
-            if(!lsSQL.isEmpty()){
-                if(loConn.executeUpdate(lsSQL) <= 0){
-                    //Log.e(TAG, loConn.getMessage());
+
+            String lsResponse = WebClient.httpsPostJSon(
+                    poApi.getUrlImportCountry(poConfig.isBackUpServer()),
+                    params.toString(),
+                    poHeaders.getHeaders());
+
+            if(lsResponse == null){
+                message = "Server no response.";
+                return false;
+            }
+
+            JSONObject loResponse = new JSONObject(lsResponse);
+            String lsResult = loResponse.getString("result");
+            if(lsResult.equalsIgnoreCase("error")){
+                JSONObject loError = loResponse.getJSONObject("error");
+                message = loError.getString("message");
+                return false;
+            }
+
+            JSONArray laJson = loResponse.getJSONArray("detail");
+            for(int x = 0; x < laJson.length(); x++){
+                JSONObject loJson = laJson.getJSONObject(x);
+                ECountryInfo loDetail = poDao.GetCountryInfo(loJson.getString("sCntryCde"));
+
+                if(loDetail == null){
+
+                    if(loJson.getString("cRecdStat").equalsIgnoreCase("1")){
+                        ECountryInfo loCountry = new ECountryInfo();
+                        loCountry.setCntryCde(loJson.getString("sCntryCde"));
+                        loCountry.setCntryNme(loJson.getString("sCntryNme"));
+                        loCountry.setNational(loJson.getString("sNational"));
+                        loCountry.setRecdStat(loJson.getString("cRecdStat"));
+                        loCountry.setTimeStmp(loJson.getString("dTimeStmp"));
+                        poDao.insert(loCountry);
+                        Log.d(TAG, "Country info has been saved.");
+                    }
+
                 } else {
-                    //Log.d(TAG, "Country info save successfully");
+                    Date ldDate1 = SQLUtil.toDate(loDetail.getTimeStmp(), SQLUtil.FORMAT_TIMESTAMP);
+                    Date ldDate2 = SQLUtil.toDate((String) loJson.get("dTimeStmp"), SQLUtil.FORMAT_TIMESTAMP);
+                    if (!ldDate1.equals(ldDate2)) {
+                        loDetail.setCntryCde(loJson.getString("sCntryCde"));
+                        loDetail.setCntryNme(loJson.getString("sCntryNme"));
+                        loDetail.setNational(loJson.getString("sNational"));
+                        loDetail.setRecdStat(loJson.getString("cRecdStat"));
+                        loDetail.setTimeStmp(loJson.getString("dTimeStmp"));
+                        poDao.update(loDetail);
+                        Log.d(TAG, "Country info has been updated.");
+                    }
                 }
-            } else {
-                //Log.d(TAG, "No record to update. Country maybe on its latest on local database.");
             }
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
         }
-        //Log.e(TAG, "Country info has been save to local.");
-
-        loConn = null;
     }
 }

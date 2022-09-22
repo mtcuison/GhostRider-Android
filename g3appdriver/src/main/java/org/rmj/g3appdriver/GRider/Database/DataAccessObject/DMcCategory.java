@@ -35,6 +35,12 @@ public interface DMcCategory {
     @Update
     void update(EMcCategory mcCategory);
 
+    @Query("SELECT * FROM MC_Category WHERE sMcCatIDx =:fsVal")
+    EMcCategory GetMcCategory(String fsVal);
+
+    @Query("SELECT * FROM MC_Category ORDER BY dTimeStmp DESC LIMIT 1")
+    EMcCategory GetLatestMcCategory();
+
     @Query("SELECT * FROM MC_Category")
     LiveData<List<EMcCategory>> getAllMcCategory();
 

@@ -100,13 +100,13 @@ public class RBankInfo {
                         loDetail.setBankIDxx(loJson.getString("sBankIDxx"));
                         loDetail.setBankName(loJson.getString("sBankName"));
                         loDetail.setRecdStat(loJson.getString("cRecdStat"));
-                        Log.d(TAG, loJson.getString("dModified"));
                         if(loJson.getString("dModified").equalsIgnoreCase("null")){
                             loDetail.setTimeStmp(new AppConstants().DATE_MODIFIED);
                         } else {
                             loDetail.setTimeStmp(loJson.getString("dModified"));
                         }
                         poDao.SaveBankInfo(loDetail);
+                        Log.d(TAG, "Bank info has been saved.");
                     }
                 }
 

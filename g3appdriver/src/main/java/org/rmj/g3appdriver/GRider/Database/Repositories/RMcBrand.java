@@ -24,101 +24,123 @@ import org.rmj.g3appdriver.GRider.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DMcBrand;
 import org.rmj.g3appdriver.GRider.Database.DbConnection;
 import org.rmj.g3appdriver.GRider.Database.Entities.EMcBrand;
+import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.utils.WebApi;
+import org.rmj.g3appdriver.utils.WebClient;
 
 import java.sql.ResultSet;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class RMcBrand {
-    private static final String TAG = "DB_Brand_Repository";
-    private final DMcBrand mcBrandDao;
-    private final LiveData<List<EMcBrand>> allMcBrand;
-    private final LiveData<String[]> allBrandNames;
-    private final Application application;
+    private static final String TAG = RMcBrand.class.getSimpleName();
 
-    public RMcBrand(Application application){
-        this.application = application;
-        GGC_GriderDB GGCGriderDB = GGC_GriderDB.getInstance(application);
-        mcBrandDao = GGCGriderDB.McBrandDao();
-        allBrandNames = mcBrandDao.getAllBrandName();
-        allMcBrand = mcBrandDao.getAllMcBrand();
+    private final DMcBrand poDao;
+
+    private final AppConfigPreference poConfig;
+    private final WebApi poApi;
+    private final HttpHeaders poHeaders;
+
+    private String message;
+
+    public RMcBrand(Application instance){
+        poDao = GGC_GriderDB.getInstance(instance).McBrandDao();
+        this.poConfig = AppConfigPreference.getInstance(instance);
+        this.poApi = new WebApi(poConfig.getTestStatus());
+        this.poHeaders = HttpHeaders.getInstance(instance);
+    }
+
+    public String getMessage() {
+        return message;
     }
 
     public void insertBulkData(List<EMcBrand> brandList){
-        mcBrandDao.insertBulkData(brandList);
+        poDao.insertBulkData(brandList);
     }
 
     public String getLatestDataTime(){
-        return mcBrandDao.getLatestDataTime();
+        return poDao.getLatestDataTime();
     }
 
     public EMcBrand getMcBrandInfo(String BrandID){
-        return mcBrandDao.getMcBrandInfo(BrandID);
-    }
-
-    public void insertBrandInfo(JSONArray faJson) throws Exception {
-        GConnection loConn = DbConnection.doConnect(application);
-
-        if (loConn == null){
-            //Log.e(TAG, "Connection was not initialized.");
-            return;
-        }
-
-        JSONObject loJson;
-        String lsSQL;
-        ResultSet loRS;
-
-        for(int x = 0; x < faJson.length(); x++){
-            loJson = new JSONObject(faJson.getString(x));
-
-            lsSQL = "SELECT dTimeStmp FROM MC_Brand " +
-                    "WHERE sBrandIDx = "+ SQLUtil.toSQL((String) loJson.get("sBrandIDx"));
-            loRS = loConn.executeQuery(lsSQL);
-
-            lsSQL = "";
-
-            if(!loRS.next()){
-
-                if("1".equalsIgnoreCase(loJson.getString("cRecdStat"))){
-                    lsSQL = "INSERT INTO MC_Brand" +
-                            "(sBrandIDx, " +
-                            "sBrandNme, " +
-                            "cRecdStat, " +
-                            "dTimeStmp) " +
-                            "VALUES(" +
-                            ""+SQLUtil.toSQL(loJson.getString("sBrandIDx"))+", " +
-                            ""+SQLUtil.toSQL(loJson.getString("sBrandNme"))+"," +
-                            ""+SQLUtil.toSQL(loJson.getString("cRecdStat"))+"," +
-                            ""+SQLUtil.toSQL(loJson.getString("dTimeStmp"))+")";
-                }
-            } else {
-                Date ldDate1 = SQLUtil.toDate(loRS.getString("dTimeStmp"), SQLUtil.FORMAT_TIMESTAMP);
-                Date ldDate2 = SQLUtil.toDate((String) loJson.get("dTimeStmp"), SQLUtil.FORMAT_TIMESTAMP);
-
-                if(!ldDate1.equals(ldDate2)){
-                    lsSQL = "UPDATE MC_Brand SET " +
-                            "sBrandNme = "+SQLUtil.toSQL(loJson.getString("sBrandNme"))+"," +
-                            "cRecdStat = "+SQLUtil.toSQL(loJson.getString("cRecdStat"))+"," +
-                            "dTimeStmp = "+SQLUtil.toSQL(loJson.getString("dTimeStmp"))+"";
-                }
-            }
-
-            if(!lsSQL.isEmpty()){
-                if(loConn.executeUpdate(lsSQL) <= 0){
-                    //Log.e(TAG, loConn.getMessage());
-                }
-            }
-        }
-        //Log.e(TAG, "Brand info has been save to local.");
-
-        loConn = null;
+        return poDao.getMcBrandInfo(BrandID);
     }
 
     public LiveData<List<EMcBrand>> getAllBrandInfo(){
-        return allMcBrand;
+        return poDao.getAllMcBrand();
     }
 
     public LiveData<String[]> getAllBrandNames(){
-        return allBrandNames;
+        return poDao.getAllBrandName();
+    }
+
+    public boolean ImportMCBrands(){
+        try{
+            JSONObject params = new JSONObject();
+            params.put("bsearch", true);
+            params.put("descript", "All");
+
+            EMcBrand loObj = poDao.GetLatestBrandInfo();
+            if(loObj != null){
+                params.put("dTimeStmp", loObj.getTimeStmp());
+            }
+
+            String lsResponse = WebClient.httpsPostJSon(
+                    poApi.getUrlImportBrand(poConfig.isBackUpServer()),
+                    params.toString(),
+                    poHeaders.getHeaders());
+
+            if(lsResponse == null){
+                message = "Server no response.";
+                return false;
+            }
+
+            JSONObject loResponse = new JSONObject(lsResponse);
+            String lsResult = loResponse.getString("result");
+
+            if(lsResult.equalsIgnoreCase("error")){
+                JSONObject loError = loResponse.getJSONObject("error");
+                message = loError.getString("message");
+                return false;
+            }
+
+            JSONArray laJson = loResponse.getJSONArray("detail");
+            for(int x = 0 ; x < laJson.length(); x++){
+                JSONObject loJson = laJson.getJSONObject(x);
+                EMcBrand loDetail = poDao.getMcBrandInfo(loJson.getString("sBrandIDx"));
+
+                if(loDetail == null){
+
+                    if(loJson.getString("cRecdStat").equalsIgnoreCase("1")){
+                        EMcBrand loBrand = new EMcBrand();
+                        loBrand.setBrandIDx(loJson.getString("sBrandIDx"));
+                        loBrand.setBrandNme(loJson.getString("sBrandNme"));
+                        loBrand.setRecdStat(loJson.getString("cRecdStat"));
+                        loBrand.setTimeStmp(loJson.getString("dTimeStmp"));
+                        poDao.insert(loBrand);
+                        Log.d(TAG, "MC brand info has been saved.");
+                    }
+
+                } else {
+                    Date ldDate1 = SQLUtil.toDate(loDetail.getTimeStmp(), SQLUtil.FORMAT_TIMESTAMP);
+                    Date ldDate2 = SQLUtil.toDate((String) loJson.get("dTimeStmp"), SQLUtil.FORMAT_TIMESTAMP);
+                    if (!ldDate1.equals(ldDate2)) {
+                        loDetail.setBrandIDx(loJson.getString("sBrandIDx"));
+                        loDetail.setBrandNme(loJson.getString("sBrandNme"));
+                        loDetail.setRecdStat(loJson.getString("cRecdStat"));
+                        loDetail.setTimeStmp(loJson.getString("dTimeStmp"));
+                        poDao.update(loDetail);
+                        Log.d(TAG, "MC brand info has been updated.");
+                    }
+                }
+            }
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
     }
 }

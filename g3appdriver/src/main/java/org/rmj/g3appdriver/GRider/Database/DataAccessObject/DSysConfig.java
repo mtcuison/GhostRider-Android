@@ -16,6 +16,7 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import org.rmj.g3appdriver.GRider.Database.Entities.ESysConfig;
 
@@ -25,7 +26,16 @@ import java.util.List;
 public interface DSysConfig {
 
     @Insert
-    void insert(ESysConfig sysConfig);
+    void SaveSysConfig(ESysConfig sysConfig);
+
+    @Update
+    void UpdateSysConfig(ESysConfig foVal);
+
+    @Query("SELECT * FROM xxxSysConfig ORDER BY dTimeStmp DESC LIMIT 1")
+    ESysConfig GetLatestSysConfig();
+
+    @Query("SELECT * FROM xxxSysConfig WHERE sConfigCd =:fsVal")
+    ESysConfig GetSysConfig(String fsVal);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertSysConfig(List<ESysConfig> sysConfigs);

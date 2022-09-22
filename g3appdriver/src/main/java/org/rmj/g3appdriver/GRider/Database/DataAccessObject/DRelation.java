@@ -15,6 +15,7 @@ import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import org.rmj.g3appdriver.GRider.Database.Entities.ERelation;
 
@@ -28,11 +29,17 @@ public interface DRelation {
     @Insert
     void insertBulkData(List<ERelation> eRelation);
 
+    @Update
+    void update(ERelation foVal);
+
     @Query("SELECT COUNT(*) FROM RELATION")
     Integer GetRelationRecordsCount();
 
     @Query("SELECT * FROM RELATION WHERE sRelatnID=:fsVal")
-    ERelation CheckIfExist(String fsVal);
+    ERelation GetRelationInfo(String fsVal);
+
+    @Query("SELECT * FROM Relation ORDER BY dTimeStmp DESC LIMIT 1")
+    ERelation GetLatestRelationInfo();
 
     @Query("SELECT * FROM Relation ")
     LiveData<List<ERelation>> getRelation();

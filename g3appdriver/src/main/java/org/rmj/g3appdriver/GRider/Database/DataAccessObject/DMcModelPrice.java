@@ -35,6 +35,12 @@ public interface DMcModelPrice {
     @Update
     void update(EMcModelPrice mcModelPrice);
 
+    @Query("SELECT * FROM MC_MODEL_PRICE WHERE sModelIDx =:fsVal")
+    EMcModelPrice GetModelPrice(String fsVal);
+
+    @Query("SELECT * FROM MC_MODEL_PRICE ORDER BY dTimeStmp DESC LIMIT 1")
+    EMcModelPrice GetLatestModelPrice();
+
     @Query("SELECT * FROM Mc_Model_Price WHERE sModelIDx = :BrandID")
     LiveData<List<EMcModelPrice>> getAllModelPrice(String BrandID);
 

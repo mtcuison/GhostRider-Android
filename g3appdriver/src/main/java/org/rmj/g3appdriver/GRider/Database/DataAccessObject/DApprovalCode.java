@@ -29,6 +29,12 @@ import java.util.List;
 public interface DApprovalCode {
 
     @Insert
+    void SaveSCARequest(ESCA_Request foVal);
+
+    @Update
+    void UpdateSCARequest(ESCA_Request foVal);
+
+    @Insert
     void insert(ECodeApproval codeApproval);
 
     @Update
@@ -36,6 +42,9 @@ public interface DApprovalCode {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertBulkData(List<ESCA_Request> requestList);
+
+    @Query("SELECT * FROM XXXSCA_REQUEST WHERE sSCACodex =:TransNox")
+    ESCA_Request GetApprovalCode(String TransNox);
 
     @Query("SELECT * FROM System_Code_Approval ORDER BY dTransact DESC LIMIT 1")
     LiveData<ECodeApproval> getCodeApprovalEntry();

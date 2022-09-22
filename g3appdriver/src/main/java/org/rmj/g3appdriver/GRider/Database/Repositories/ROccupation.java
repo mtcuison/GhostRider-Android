@@ -117,23 +117,27 @@ public class ROccupation {
                 JSONObject loJson = laJson.getJSONObject(x);
                 EOccupationInfo loJob = poDao.GetOccupationInfo(loJson.getString("sOccptnID"));
                 if(loJob == null){
-                    EOccupationInfo info = new EOccupationInfo();
-                    info.setOccptnID(loJson.getString("sOccptnID"));
-                    info.setOccptnNm(loJson.getString("sOccptnNm"));
-                    info.setRecdStat(loJson.getString("cRecdStat"));
-                    info.setTimeStmp(loJson.getString("dTimeStmp"));
-                    poDao.SaveOccupation(info);
+
+                    if(loJson.getString("cRecdStat").equalsIgnoreCase("1")) {
+                        EOccupationInfo info = new EOccupationInfo();
+                        info.setOccptnID(loJson.getString("sOccptnID"));
+                        info.setOccptnNm(loJson.getString("sOccptnNm"));
+                        info.setRecdStat(loJson.getString("cRecdStat"));
+                        info.setTimeStmp(loJson.getString("dTimeStmp"));
+                        poDao.SaveOccupation(info);
+                        Log.d(TAG, "Job title info info has been saved.");
+                    }
+
                 } else {
-                    Log.d(TAG, "Local Time Stamp: " + loDetail.getTimeStmp());
-                    Log.d(TAG, "Server Time Stamp: " + loJson.toString());
-                    Date ldDate1 = SQLUtil.toDate(loDetail.getTimeStmp(), SQLUtil.FORMAT_TIMESTAMP);
+                    Date ldDate1 = SQLUtil.toDate(loJob.getTimeStmp(), SQLUtil.FORMAT_TIMESTAMP);
                     Date ldDate2 = SQLUtil.toDate((String) loJson.get("dTimeStmp"), SQLUtil.FORMAT_TIMESTAMP);
                     if (!ldDate1.equals(ldDate2)) {
-                        loDetail.setOccptnID(loJson.getString("sOccptnID"));
-                        loDetail.setOccptnNm(loJson.getString("sOccptnNm"));
-                        loDetail.setRecdStat(loJson.getString("cRecdStat"));
-                        loDetail.setTimeStmp(loJson.getString("dTimeStmp"));
+                        loJob.setOccptnID(loJson.getString("sOccptnID"));
+                        loJob.setOccptnNm(loJson.getString("sOccptnNm"));
+                        loJob.setRecdStat(loJson.getString("cRecdStat"));
+                        loJob.setTimeStmp(loJson.getString("dTimeStmp"));
                         poDao.update(loDetail);
+                        Log.d(TAG, "Job title info has been updated.");
                     }
                 }
             }

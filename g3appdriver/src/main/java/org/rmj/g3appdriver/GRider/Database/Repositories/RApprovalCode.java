@@ -12,13 +12,14 @@
 package org.rmj.g3appdriver.GRider.Database.Repositories;
 
 import android.app.Application;
-import android.content.Context;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.sqlite.db.SupportSQLiteQuery;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
+import org.rmj.apprdiver.util.SQLUtil;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DApprovalCode;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECodeApproval;
 import org.rmj.g3appdriver.GRider.Database.Entities.ESCA_Request;
@@ -28,67 +29,78 @@ import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.g3appdriver.utils.WebClient;
 
+import java.util.Date;
 import java.util.List;
 
 public class RApprovalCode {
     private static final String TAG = RApprovalCode.class.getSimpleName();
-    private final DApprovalCode approvalDao;
 
-    private final Context context;
+    private final DApprovalCode poDao;
 
-    public RApprovalCode(Application application){
-        this.context = application;
-        GGC_GriderDB GGCGriderDB = GGC_GriderDB.getInstance(application);
-        approvalDao = GGCGriderDB.ApprovalDao();
+    private final AppConfigPreference poConfig;
+    private final WebApi poApi;
+    private final HttpHeaders poHeaders;
+
+    private String message;
+
+    public RApprovalCode(Application instance){
+        this.poDao = GGC_GriderDB.getInstance(instance).ApprovalDao();
+        this.poConfig = AppConfigPreference.getInstance(instance);
+        this.poApi = new WebApi(poConfig.getTestStatus());
+        this.poHeaders = HttpHeaders.getInstance(instance);
+    }
+
+    public String getMessage() {
+        return message;
     }
 
     public void insert(ECodeApproval codeApproval){
-        approvalDao.insert(codeApproval);
+        poDao.insert(codeApproval);
     }
 
     public void update(ECodeApproval codeApproval){
-        approvalDao.update(codeApproval);
+        poDao.update(codeApproval);
     }
 
     public void insertBulkData(List<ESCA_Request> requestList){
-        approvalDao.insertBulkData(requestList);
+        poDao.insertBulkData(requestList);
     }
 
     public LiveData<ECodeApproval> getCodeApprovalInfo(){
-        return approvalDao.getCodeApprovalEntry();
+        return poDao.getCodeApprovalEntry();
     }
 
     public LiveData<List<ESCA_Request>> getAuthReferenceList(){
-        return approvalDao.getSCA_AuthReference();
+        return poDao.getSCA_AuthReference();
     }
 
     public LiveData<List<ESCA_Request>> getAuthNameList(){
-        return approvalDao.getSCA_AuthName();
+        return poDao.getSCA_AuthName();
     }
 
     public LiveData<List<ESCA_Request>> getAuthorizedFeatures(SupportSQLiteQuery sqLiteQuery){
-        return approvalDao.getAuthorizedFeatures(sqLiteQuery);
+        return poDao.getAuthorizedFeatures(sqLiteQuery);
     }
 
     public LiveData<String> getApprovalDesc(String appCode){
-        return approvalDao.getApprovalDesc(appCode);
+        return poDao.getApprovalDesc(appCode);
     }
 
     public List<ECodeApproval> getSystemApprovalForUploading(){
-        return approvalDao.getSystemApprovalForUploading();
+        return poDao.getSystemApprovalForUploading();
     }
 
     public void updateUploaded(String TransNox, String NTransNo){
-        approvalDao.updateUploaded(TransNox, NTransNo);
+        poDao.updateUploaded(TransNox, NTransNo);
     }
 
     public Integer getUnpostedApprovalCode(){
-        return approvalDao.getUnpostedApprovalCode();
+        return poDao.getUnpostedApprovalCode();
     }
 
     public void uploadApprovalCodes(){
         try{
-            List<ECodeApproval> laForPost = approvalDao.getSystemApprovalForUploading();
+            List<ECodeApproval> laForPost = poDao.getSystemApprovalForUploading();
             for (int x = 0; x < laForPost.size(); x++) {
                 ECodeApproval detail = laForPost.get(x);
                 JSONObject param = new JSONObject();
@@ -108,9 +120,10 @@ public class RApprovalCode {
                 param.put("sReqstdTo", detail.getReqstdTo() == null ? "" : detail.getReqstdTo());
                 param.put("cTranStat", detail.getTranStat());
 
-                AppConfigPreference loConfig = AppConfigPreference.getInstance(context);
-                WebApi loApi = new WebApi(loConfig.getTestStatus());
-                String response = WebClient.httpsPostJSon(loApi.getUrlSaveApproval(loConfig.isBackUpServer()), param.toString(), HttpHeaders.getInstance(context).getHeaders());
+                String response = WebClient.httpsPostJSon(
+                        poApi.getUrlSaveApproval(poConfig.isBackUpServer()),
+                        param.toString(),
+                        poHeaders.getHeaders());
                 if (response == null) {
                     Log.d(TAG, "Server no response");
                 } else {
@@ -118,7 +131,7 @@ public class RApprovalCode {
                     String result = loResponse.getString("result");
                     if (result.equalsIgnoreCase("success")) {
                         String TransNox = loResponse.getString("sTransNox");
-                        approvalDao.updateUploaded(detail.getTransNox(), TransNox);
+                        poDao.updateUploaded(detail.getTransNox(), TransNox);
                         Log.d(TAG, "Approval Code has been uploaded to server");
                     } else {
                         JSONObject loError = loResponse.getJSONObject("error");
@@ -130,7 +143,7 @@ public class RApprovalCode {
                 Thread.sleep(1000);
             }
 
-            int unposted = approvalDao.getUnpostedApprovalCode();
+            int unposted = poDao.getUnpostedApprovalCode();
             if (unposted > 0) {
                 Log.d(TAG, "Approval Code has been uploaded to server");
             } else {
@@ -138,6 +151,90 @@ public class RApprovalCode {
             }
         } catch (Exception e){
             e.printStackTrace();
+        }
+    }
+
+    public boolean ImportSCARequest(){
+        try{
+            JSONObject params = new JSONObject();
+            params.put("bsearch", true);
+            params.put("id", "All");
+
+            String lsResponse = WebClient.httpsPostJSon(
+                    poApi.getUrlScaRequest(poConfig.isBackUpServer()),
+                    params.toString(),
+                    poHeaders.getHeaders());
+
+            if(lsResponse == null){
+                message = "Server no response.";
+                return false;
+            }
+
+            JSONObject loResponse = new JSONObject(lsResponse);
+            String lsResult = loResponse.getString("result");
+
+            if(lsResult.equalsIgnoreCase("error")){
+                JSONObject loError = loResponse.getJSONObject("error");
+                message = loError.getString("message");
+                return false;
+            }
+
+            JSONArray laJson = loResponse.getJSONArray("detail");
+            for (int x = 0; x < laJson.length(); x++) {
+                JSONObject loJson = laJson.getJSONObject(x);
+                ESCA_Request loDetail = poDao.GetApprovalCode(loJson.getString("sSCACodex"));
+
+                if(loDetail == null){
+                    if(loJson.getString("cRecdStat").equalsIgnoreCase("1")) {
+                        ESCA_Request info = new ESCA_Request();
+                        info.setSCACodex(loJson.getString("sSCACodex"));
+                        info.setSCATitle(loJson.getString("sSCATitle"));
+                        info.setSCADescx(loJson.getString("sSCADescx"));
+                        info.setSCATypex(loJson.getString("cSCATypex"));
+                        info.setAreaHead(loJson.getString("cAreaHead"));
+                        info.setHCMDeptx(loJson.getString("cHCMDeptx"));
+                        info.setCSSDeptx(loJson.getString("cCSSDeptx"));
+                        info.setComplnce(loJson.getString("cComplnce"));
+                        info.setMktgDept(loJson.getString("cMktgDept"));
+                        info.setASMDeptx(loJson.getString("cASMDeptx"));
+                        info.setTLMDeptx(loJson.getString("cTLMDeptx"));
+                        info.setSCMDeptx(loJson.getString("cSCMDeptx"));
+                        info.setRecdStat(loJson.getString("cRecdStat"));
+                        info.setTimeStmp(loJson.getString("dTimeStmp"));
+                        poDao.SaveSCARequest(info);
+                        Log.d(TAG, "SCA Request has been saved.");
+                    }
+
+                }
+//                else {
+//                    Date ldDate1 = SQLUtil.toDate(loDetail.getTimeStmp(), SQLUtil.FORMAT_TIMESTAMP);
+//                    Date ldDate2 = SQLUtil.toDate((String) loJson.get("dTimeStmp"), SQLUtil.FORMAT_TIMESTAMP);
+//                    if (!ldDate1.equals(ldDate2)) {
+//                        loDetail.setSCACodex(loJson.getString("sSCACodex"));
+//                        loDetail.setSCATitle(loJson.getString("sSCATitle"));
+//                        loDetail.setSCADescx(loJson.getString("sSCADescx"));
+//                        loDetail.setSCATypex(loJson.getString("cSCATypex"));
+//                        loDetail.setAreaHead(loJson.getString("cAreaHead"));
+//                        loDetail.setHCMDeptx(loJson.getString("cHCMDeptx"));
+//                        loDetail.setCSSDeptx(loJson.getString("cCSSDeptx"));
+//                        loDetail.setComplnce(loJson.getString("cComplnce"));
+//                        loDetail.setMktgDept(loJson.getString("cMktgDept"));
+//                        loDetail.setASMDeptx(loJson.getString("cASMDeptx"));
+//                        loDetail.setTLMDeptx(loJson.getString("cTLMDeptx"));
+//                        loDetail.setSCMDeptx(loJson.getString("cSCMDeptx"));
+//                        loDetail.setRecdStat(loJson.getString("cRecdStat"));
+//                        loDetail.setTimeStmp(loJson.getString("dTimeStmp"));
+//                        poDao.SaveSCARequest(loDetail);
+//                        Log.d(TAG, "SCA Request has been updated.");
+//                    }
+//                }
+            }
+
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
         }
     }
 }

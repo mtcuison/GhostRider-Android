@@ -32,6 +32,12 @@ public interface DBarangayInfo {
     @Update
     void update(EBarangayInfo barangayInfo);
 
+    @Query("SELECT * FROM Barangay_Info WHERE sBrgyIDxx =:fsVal")
+    EBarangayInfo GetBarangayInfo(String fsVal);
+
+    @Query("SELECT * FROM Barangay_Info ORDER BY dTimeStmp DESC LIMIT 1")
+    EBarangayInfo GetLatestBarangayInfo();
+
     @Query("SELECT COUNT(*) FROM Barangay_Info")
     Integer GetBarangayRecordCount();
 

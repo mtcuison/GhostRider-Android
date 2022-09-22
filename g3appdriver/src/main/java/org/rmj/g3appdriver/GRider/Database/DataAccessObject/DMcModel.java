@@ -35,6 +35,12 @@ public interface DMcModel {
     @Update
     void update(EMcModel mcModel);
 
+    @Query("SELECT * FROM MC_Model WHERE sModelIDx =:fsVal")
+    EMcModel GetMCModel(String fsVal);
+
+    @Query("SELECT * FROM MC_Model ORDER BY dTimeStmp DESC LIMIT 1")
+    EMcModel GetLatestMCModel();
+
     @Query("SELECT * FROM Mc_Model WHERE sBrandIDx = :BrandID")
     LiveData<List<EMcModel>> getAllModeFromBrand(String BrandID);
 

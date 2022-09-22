@@ -35,6 +35,12 @@ public interface DCountryInfo {
     @Update
     void update(ECountryInfo countryInfo);
 
+    @Query("SELECT * FROM Country_Info WHERE sCntryCde =:fsVal")
+    ECountryInfo GetCountryInfo(String fsVal);
+
+    @Query("SELECT * FROM Country_Info ORDER BY dTimeStmp DESC LIMIT 1")
+    ECountryInfo GetLatestCountryInfo();
+
     @Query("SELECT * FROM Country_Info")
     LiveData<List<ECountryInfo>> getAllCountryInfo();
 

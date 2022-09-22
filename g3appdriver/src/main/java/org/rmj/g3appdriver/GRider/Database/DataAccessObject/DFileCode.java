@@ -13,7 +13,9 @@ package org.rmj.g3appdriver.GRider.Database.DataAccessObject;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
+import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import org.rmj.g3appdriver.GRider.Database.Entities.EFileCode;
 
@@ -21,6 +23,18 @@ import java.util.List;
 
 @Dao
 public interface DFileCode {
+
+    @Insert
+    void insert(EFileCode foVal);
+
+    @Update
+    void update(EFileCode foVal);
+
+    @Query("SELECT * FROM EDocSys_File WHERE sFileCode =:fsVal")
+    EFileCode GetFileCode(String fsVal);
+
+    @Query("SELECT * FROM EDocSys_File ORDER BY dTimeStmp DESC LIMIT 1")
+    EFileCode GetLatestFileCode();
 
     @Query("SELECT * FROM EDocSys_File WHERE sFileCode != '0020' AND sFileCode != '0021'")
     LiveData<List<EFileCode>> selectFileCodeList();

@@ -13,6 +13,7 @@ package org.rmj.g3appdriver.GRider.Database.Repositories;
 
 import android.annotation.SuppressLint;
 import android.app.Application;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
@@ -20,10 +21,15 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.appdriver.base.GConnection;
 import org.rmj.apprdiver.util.SQLUtil;
+import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.DbConnection;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.GGC_GriderDB;
+import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.utils.WebApi;
+import org.rmj.g3appdriver.utils.WebClient;
 
 import java.sql.ResultSet;
 import java.util.Date;
@@ -31,146 +37,163 @@ import java.util.List;
 import java.util.Objects;
 
 public class RBranch {
-    private static final String TAG = "DB_Branch_Repository";
-    private final DBranchInfo branchInfoDao;
-    private final LiveData<List<EBranchInfo>> allMcBranchInfo;
-    private final LiveData<List<EBranchInfo>> allBranchInfo;
-    private final LiveData<String[]> allMcBranchNames;
-    private final LiveData<String[]> allBranchNames;
+    private static final String TAG = RBranch.class.getSimpleName();
 
-    private final Application application;
+    private final DBranchInfo poDao;
+    private final AppConfigPreference poConfig;
+    private final WebApi poApi;
+    private final HttpHeaders poHeaders;
 
-    public RBranch(Application application){
-        this.application = application;
-        GGC_GriderDB GGCGriderDB = GGC_GriderDB.getInstance(application);
-        branchInfoDao = GGCGriderDB.BranchDao();
-        allMcBranchNames = branchInfoDao.getMCBranchNames();
-        allMcBranchInfo = branchInfoDao.getAllMcBranchInfo();
-        allBranchNames = branchInfoDao.getAllBranchNames();
-        allBranchInfo = branchInfoDao.getAllBranchInfo();
+    private String message;
+
+    public RBranch(Application instance){
+        this.poDao = GGC_GriderDB.getInstance(instance).BranchDao();
+        this.poConfig = AppConfigPreference.getInstance(instance);
+        this.poApi = new WebApi(poConfig.getTestStatus());
+        this.poHeaders = HttpHeaders.getInstance(instance);
+    }
+
+    public String getMessage() {
+        return message;
     }
 
     public String getLatestDataTime(){
-        return branchInfoDao.getLatestDataTime();
+        return poDao.getLatestDataTime();
     }
 
     public String getBranchNameForNotification(String BranchCd){
-        return branchInfoDao.getBranchNameForNotification(BranchCd);
+        return poDao.getBranchNameForNotification(BranchCd);
     }
 
     public LiveData<String> getBranchAreaCode(String fsBranchCd) {
-        return branchInfoDao.getBranchAreaCode(fsBranchCd);
+        return poDao.getBranchAreaCode(fsBranchCd);
     }
 
     public LiveData<List<EBranchInfo>> getAreaBranchList(){
-        return branchInfoDao.getAreaBranchList();
+        return poDao.getAreaBranchList();
     }
 
     public List<EBranchInfo> getBranchList(){
-        return branchInfoDao.getBranchList();
+        return poDao.getBranchList();
     }
     public List<EBranchInfo> getAreaBranchesList(){
-        return branchInfoDao.getAreaBranchesList();
-    }
-
-    @SuppressLint("NewApi")
-    public boolean insertBranchInfos(JSONArray faJson) throws Exception {
-        GConnection loConn = DbConnection.doConnect(application);
-        boolean result = true;
-        if (loConn == null){
-            result = false;
-        }
-
-        JSONObject loJson;
-        String lsSQL;
-        ResultSet loRS;
-
-        for(int x = 0; x < faJson.length(); x++){
-            loJson = new JSONObject(faJson.getString(x));
-
-            //check if record already exists on database
-            lsSQL = "SELECT dTimeStmp FROM Branch_Info" +
-                    " WHERE sBranchCd = " + SQLUtil.toSQL((String) loJson.get("sBranchCd"));
-            loRS = Objects.requireNonNull(loConn).executeQuery(lsSQL);
-
-            lsSQL = "";
-            //record does not exists
-            if (!loRS.next()){
-                //check if the record is active
-                if ("1".equals((String) loJson.get("cRecdStat"))){
-                    //create insert statement
-                    EBranchInfo loBranch = new EBranchInfo();
-                    loBranch.setBranchCd(loJson.getString("sBranchCd"));
-                    loBranch.setBranchNm(loJson.getString("sBranchNm"));
-                    loBranch.setDescript(loJson.getString("sDescript"));
-                    loBranch.setAddressx(loJson.getString("sAddressx"));
-                    loBranch.setTownIDxx(loJson.getString("sTownIDxx"));
-                    loBranch.setAreaCode(loJson.getString("sAreaCode"));
-                    loBranch.setDivision(loJson.getString("cDivision"));
-                    loBranch.setPromoDiv(loJson.getString("cPromoDiv"));
-                    loBranch.setRecdStat(loJson.getString("cRecdStat"));
-                    loBranch.setTimeStmp(loJson.getString("dTimeStmp"));
-                    branchInfoDao.insertBranchInfo(loBranch);
-                }
-            } else { //record already exists
-                Date ldDate1 = SQLUtil.toDate(loRS.getString("dTimeStmp"), SQLUtil.FORMAT_TIMESTAMP);
-                Date ldDate2 = SQLUtil.toDate((String) loJson.get("dTimeStmp"), SQLUtil.FORMAT_TIMESTAMP);
-
-                //compare date if the record from API is newer than the database record
-                if (!ldDate1.equals(ldDate2)){
-                    //create update statement
-                    branchInfoDao.updateBranchInfo(loJson.getString("sBranchCd"),
-                            loJson.getString("sBranchNm"),
-                            loJson.getString("sDescript"),
-                            loJson.getString("sAddressx"),
-                            loJson.getString("sTownIDxx"),
-                            loJson.getString("sAreaCode"),
-                            loJson.getString("cDivision"),
-                            loJson.getString("cPromoDiv"),
-                            loJson.getString("cRecdStat"),
-                            loJson.getString("dTimeStmp"));
-                }
-            }
-        }
-
-        //terminate object connection
-        loConn = null;
-        return result;
+        return poDao.getAreaBranchesList();
     }
 
     public LiveData<List<EBranchInfo>> getAllMcBranchInfo() {
-        return allMcBranchInfo;
+        return poDao.getAllMcBranchInfo();
     }
 
     public LiveData<String[]> getAllMcBranchNames(){
-        return allMcBranchNames;
+        return poDao.getMCBranchNames();
     }
 
     public LiveData<String[]> getAllBranchNames(){
-        return allBranchNames;
+        return poDao.getAllBranchNames();
     }
 
     public LiveData<List<EBranchInfo>> getAllBranchInfo(){
-        return allBranchInfo;
+        return poDao.getAllBranchInfo();
     }
 
     public LiveData<String> getPromoDivision(){
-        return branchInfoDao.getPromoDivision();
+        return poDao.getPromoDivision();
     }
 
     public LiveData<EBranchInfo> getUserBranchInfo(){
-        return branchInfoDao.getUserBranchInfo();
+        return poDao.getUserBranchInfo();
     }
 
     public LiveData<String> getBranchName(String BranchCde) {
-        return branchInfoDao.getBranchName(BranchCde);
+        return poDao.getBranchName(BranchCde);
     }
 
     public LiveData<EBranchInfo> getSelfieLogBranchInfo(){
-        return branchInfoDao.getSelfieLogBranchInfo();
+        return poDao.getSelfieLogBranchInfo();
     }
 
     public LiveData<EBranchInfo> getBranchInfo(String BranchCD){
-        return branchInfoDao.getBranchInfo(BranchCD);
+        return poDao.getBranchInfo(BranchCD);
+    }
+
+    public boolean ImportBranches(){
+        try{
+            JSONObject params = new JSONObject();
+            params.put("bsearch", true);
+            params.put("descript", "All");
+
+            EBranchInfo loObj = poDao.GetLatestBranchInfo();
+            if(loObj != null){
+                params.put("dTimeStmp", loObj.getTimeStmp());
+            }
+
+            String lsResponse = WebClient.httpsPostJSon(
+                    poApi.getUrlImportBranches(poConfig.isBackUpServer()),
+                    params.toString(),
+                    poHeaders.getHeaders());
+
+            if(lsResponse == null){
+                message = "Server no response.";
+                return false;
+            }
+
+            JSONObject loResponse = new JSONObject(lsResponse);
+            String lsResult = loResponse.getString("result");
+
+            if(lsResult.equalsIgnoreCase("error")){
+                JSONObject loError = loResponse.getJSONObject("error");
+                message = loError.getString("message");
+                return false;
+            }
+
+            JSONArray laJson = loResponse.getJSONArray("detail");
+            for(int x = 0; x < laJson.length(); x++){
+                JSONObject loJson = laJson.getJSONObject(x);
+                EBranchInfo loDetail = poDao.GetBranchInfo(loJson.getString("sBranchCd"));
+
+                if(loDetail == null){
+
+                    if(loJson.getString("cRecdStat").equalsIgnoreCase("1")){
+                        EBranchInfo loBranch = new EBranchInfo();
+                        loBranch.setBranchCd(loJson.getString("sBranchCd"));
+                        loBranch.setBranchNm(loJson.getString("sBranchNm"));
+                        loBranch.setDescript(loJson.getString("sDescript"));
+                        loBranch.setAddressx(loJson.getString("sAddressx"));
+                        loBranch.setTownIDxx(loJson.getString("sTownIDxx"));
+                        loBranch.setAreaCode(loJson.getString("sAreaCode"));
+                        loBranch.setDivision(loJson.getString("cDivision"));
+                        loBranch.setPromoDiv(loJson.getString("cPromoDiv"));
+                        loBranch.setRecdStat(loJson.getString("cRecdStat"));
+                        loBranch.setTimeStmp(loJson.getString("dTimeStmp"));
+                        poDao.SaveBranchInfo(loBranch);
+                        Log.d(TAG, "Branch info has been saved.");
+                    }
+
+                } else {
+                    Date ldDate1 = SQLUtil.toDate(loDetail.getTimeStmp(), SQLUtil.FORMAT_TIMESTAMP);
+                    Date ldDate2 = SQLUtil.toDate((String) loJson.getString("dTimeStmp"), SQLUtil.FORMAT_TIMESTAMP);
+                    if (!ldDate1.equals(ldDate2)) {
+                        loDetail.setBranchCd(loJson.getString("sBranchCd"));
+                        loDetail.setBranchNm(loJson.getString("sBranchNm"));
+                        loDetail.setDescript(loJson.getString("sDescript"));
+                        loDetail.setAddressx(loJson.getString("sAddressx"));
+                        loDetail.setTownIDxx(loJson.getString("sTownIDxx"));
+                        loDetail.setAreaCode(loJson.getString("sAreaCode"));
+                        loDetail.setDivision(loJson.getString("cDivision"));
+                        loDetail.setPromoDiv(loJson.getString("cPromoDiv"));
+                        loDetail.setRecdStat(loJson.getString("cRecdStat"));
+                        loDetail.setTimeStmp(loJson.getString("dTimeStmp"));
+                        poDao.UpdateBranchInfo(loDetail);
+                        Log.d(TAG, "Branch info has been updated.");
+                    }
+                }
+            }
+
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
     }
 }

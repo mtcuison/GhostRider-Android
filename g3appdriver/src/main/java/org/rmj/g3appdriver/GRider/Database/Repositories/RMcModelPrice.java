@@ -24,109 +24,123 @@ import org.rmj.g3appdriver.GRider.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DMcModelPrice;
 import org.rmj.g3appdriver.GRider.Database.DbConnection;
 import org.rmj.g3appdriver.GRider.Database.Entities.EMcModelPrice;
+import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.utils.WebApi;
+import org.rmj.g3appdriver.utils.WebClient;
 
 import java.sql.ResultSet;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class RMcModelPrice {
-    private static final String TAG = "DB_Price_Repository";
-    private final Application application;
-    private final DMcModelPrice mcModelPriceDao;
-    private LiveData<List<EMcModelPrice>> allMcModelPrice;
+    private static final String TAG = RMcModelPrice.class.getSimpleName();
 
-    public RMcModelPrice(Application application) {
-        this.application = application;
-        GGC_GriderDB GGCGriderDB = GGC_GriderDB.getInstance(application);
-        mcModelPriceDao = GGCGriderDB.McModelPriceDao();
+    private final DMcModelPrice poDao;
+
+    private final AppConfigPreference poConfig;
+    private final WebApi poApi;
+    private final HttpHeaders poHeaders;
+
+    private String message;
+
+    public RMcModelPrice(Application instance) {
+        this.poDao = GGC_GriderDB.getInstance(instance).McModelPriceDao();
+        this.poConfig = AppConfigPreference.getInstance(instance);
+        this.poApi = new WebApi(poConfig.getTestStatus());
+        this.poHeaders = HttpHeaders.getInstance(instance);
+    }
+
+    public String getMessage() {
+        return message;
     }
 
     public void insertBulkData(List<EMcModelPrice> modelPrices) {
-        mcModelPriceDao.insertBulkdData(modelPrices);
+        poDao.insertBulkdData(modelPrices);
     }
 
     public String getLatestDataTime() {
-        return mcModelPriceDao.getLatestDataTime();
+        return poDao.getLatestDataTime();
     }
 
-    public void saveMcModelPrice(JSONArray faJson) throws Exception {
-        GConnection loConn = DbConnection.doConnect(application);
+    public boolean ImportMcModelPrice(){
+        try{
+            JSONObject params = new JSONObject();
+            params.put("bsearch", true);
+            params.put("descript", "All");
 
-        if (loConn == null) {
-            //Log.e(TAG, "Connection was not initialized.");
-            return;
-        }
+            EMcModelPrice loObj = poDao.GetLatestModelPrice();
+            if(loObj != null) {
+                params.put("dTimeStmp", loObj.getTimeStmp());
+            }
 
-        JSONObject loJson;
-        String lsSQL;
-        ResultSet loRS;
+            String lsResponse = WebClient.httpsPostJSon(
+                    poApi.getUrlImportMcModelPrice(poConfig.isBackUpServer()),
+                    params.toString(),
+                    poHeaders.getHeaders());
 
-        for (int x = 0; x < faJson.length(); x++) {
-            loJson = new JSONObject(faJson.getString(x));
+            if(lsResponse == null){
+                message = "Server no response.";
+                return false;
+            }
 
-            //check if record already exists on database
-            lsSQL = "SELECT dTimeStmp FROM Mc_Model_Price" +
-                    " WHERE sModelIDx = " + SQLUtil.toSQL((String) loJson.get("sModelIDx"));
-            loRS = loConn.executeQuery(lsSQL);
+            JSONObject loResponse = new JSONObject(Objects.requireNonNull(lsResponse));
+            String lsResult = loResponse.getString("result");
+            if(lsResult.equalsIgnoreCase("error")){
+                JSONObject loError = loResponse.getJSONObject("error");
+                message = loError.getString("message");
+                return false;
+            }
 
-            lsSQL = "";
-            //record does not exists
-            if (!loRS.next()) {
-                //check if the record is active
-                if ("1".equalsIgnoreCase(loJson.getString("cRecdStat"))) {
-                    //create insert statement
-                    lsSQL = "INSERT INTO Mc_Model_Price" +
-                            "(sModelIDx " +
-                            ",nSelPrice " +
-                            ",nLastPrce " +
-                            ",nDealrPrc " +
-                            ",nMinDownx " +
-                            ",sMCCatIDx " +
-                            ",dPricexxx " +
-                            ",dInsPrice " +
-                            ",cRecdStat " +
-                            ",dTimeStmp)" +
-                            " VALUES" +
-                            "(" + SQLUtil.toSQL(loJson.getString("sModelIDx")) +
-                            "," + SQLUtil.toSQL(loJson.getString("nSelPrice")) +
-                            "," + SQLUtil.toSQL(loJson.getString("nLastPrce")) +
-                            "," + SQLUtil.toSQL(loJson.getString("nDealrPrc")) +
-                            "," + SQLUtil.toSQL(loJson.getString("nMinDownx")) +
-                            "," + SQLUtil.toSQL(loJson.getString("sMCCatIDx")) +
-                            "," + SQLUtil.toSQL(loJson.getString("dPricexxx")) +
-                            "," + SQLUtil.toSQL(loJson.getString("dInsPrice")) +
-                            "," + SQLUtil.toSQL(loJson.getString("cRecdStat")) +
-                            "," + SQLUtil.toSQL(loJson.getString("dTimeStmp")) + ")";
-                }
-            } else { //record already exists
-                Date ldDate1 = SQLUtil.toDate(loRS.getString("dTimeStmp"), SQLUtil.FORMAT_TIMESTAMP);
-                Date ldDate2 = SQLUtil.toDate((String) loJson.get("dTimeStmp"), SQLUtil.FORMAT_TIMESTAMP);
+            JSONArray laJson = loResponse.getJSONArray("detail");
+            for(int x = 0; x < laJson.length(); x++){
+                JSONObject loJson = laJson.getJSONObject(x);
+                EMcModelPrice loDetail = poDao.GetModelPrice(loJson.getString("sModelIDx"));
 
-                //compare date if the record from API is newer than the database record
-                if (!ldDate1.equals(ldDate2)) {
-                    //create update statement
-                    lsSQL = "UPDATE Mc_Model_Price SET" +
-                            " nSelPrice = " + SQLUtil.toSQL(loJson.getString("nSelPrice")) +
-                            ", nLastPrce = " + SQLUtil.toSQL(loJson.getString("nLastPrce")) +
-                            ", nDealrPrc = " + SQLUtil.toSQL(loJson.getString("nDealrPrc")) +
-                            ", nMinDownx = " + SQLUtil.toSQL(loJson.getString("nMinDownx")) +
-                            ", sMCCatIDx = " + SQLUtil.toSQL(loJson.getString("sMCCatIDx")) +
-                            ", dPricexxx = " + SQLUtil.toSQL(loJson.getString("dPricexxx")) +
-                            ", dInsPrice = " + SQLUtil.toSQL(loJson.getString("dInsPrice")) +
-                            ", cRecdStat = " + SQLUtil.toSQL(loJson.getString("cRecdStat")) +
-                            ", dTimeStmp = " + SQLUtil.toSQL(loJson.getString("dTimeStmp")) +
-                            " WHERE sModelIDx = " + SQLUtil.toSQL(loJson.getString("sModelIDx"));
+                if(loDetail == null){
+
+                    if(loJson.getString("cRecdStat").equalsIgnoreCase("1")){
+                        EMcModelPrice loPrice = new EMcModelPrice();
+                        loPrice.setModelIDx(loJson.getString("sModelIDx"));
+                        loPrice.setSelPrice(loJson.getString("nSelPrice"));
+                        loPrice.setLastPrce(loJson.getString("nLastPrce"));
+                        loPrice.setDealrPrc(loJson.getString("nDealrPrc"));
+                        loPrice.setMinDownx(loJson.getString("nMinDownx"));
+                        loPrice.setMCCatIDx(loJson.getString("sMCCatIDx"));
+                        loPrice.setPricexxx(loJson.getString("dPricexxx"));
+                        loPrice.setInsPrice(loJson.getString("dInsPrice"));
+                        loPrice.setRecdStat(loJson.getString("cRecdStat"));
+                        loPrice.setTimeStmp(loJson.getString("dTimeStmp"));
+                        poDao.insert(loPrice);
+                        Log.d(TAG, "Mc model price info has been saved.");
+                    }
+
+                } else {
+                    Date ldDate1 = SQLUtil.toDate(loDetail.getTimeStmp(), SQLUtil.FORMAT_TIMESTAMP);
+                    Date ldDate2 = SQLUtil.toDate((String) loJson.get("dTimeStmp"), SQLUtil.FORMAT_TIMESTAMP);
+                    if (!ldDate1.equals(ldDate2)) {
+                        loDetail.setModelIDx(loJson.getString("sModelIDx"));
+                        loDetail.setSelPrice(loJson.getString("nSelPrice"));
+                        loDetail.setLastPrce(loJson.getString("nLastPrce"));
+                        loDetail.setDealrPrc(loJson.getString("nDealrPrc"));
+                        loDetail.setMinDownx(loJson.getString("nMinDownx"));
+                        loDetail.setMCCatIDx(loJson.getString("sMCCatIDx"));
+                        loDetail.setPricexxx(loJson.getString("dPricexxx"));
+                        loDetail.setInsPrice(loJson.getString("dInsPrice"));
+                        loDetail.setRecdStat(loJson.getString("cRecdStat"));
+                        loDetail.setTimeStmp(loJson.getString("dTimeStmp"));
+                        poDao.insert(loDetail);
+                        Log.d(TAG, "Mc model price info has been updated.");
+                    }
                 }
             }
 
-            if (!lsSQL.isEmpty()) {
-                if (loConn.executeUpdate(lsSQL) <= 0) {
-                    //Log.e(TAG, loConn.getMessage());
-                }
-            }
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
         }
-
-        //terminate object connection
-        loConn = null;
     }
 }

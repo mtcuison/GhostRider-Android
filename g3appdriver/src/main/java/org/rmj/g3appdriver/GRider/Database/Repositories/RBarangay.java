@@ -1,4 +1,4 @@
-    /*
+/*
  * Created by Android Team MIS-SEG Year 2021
  * Copyright (c) 2021. Guanzon Central Office
  * Guanzon Bldg., Perez Blvd., Dagupan City, Pangasinan 2400
@@ -11,71 +11,154 @@
 
 package org.rmj.g3appdriver.GRider.Database.Repositories;
 
-    import android.app.Application;
+import android.app.Application;
+import android.util.Log;
 
-    import androidx.lifecycle.LiveData;
+import androidx.lifecycle.LiveData;
 
-    import org.rmj.g3appdriver.GRider.Database.GGC_GriderDB;
-    import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DBarangayInfo;
-    import org.rmj.g3appdriver.GRider.Database.Entities.EBarangayInfo;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.rmj.apprdiver.util.SQLUtil;
+import org.rmj.g3appdriver.GRider.Database.GGC_GriderDB;
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DBarangayInfo;
+import org.rmj.g3appdriver.GRider.Database.Entities.EBarangayInfo;
+import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.utils.WebApi;
+import org.rmj.g3appdriver.utils.WebClient;
 
-    import java.util.List;
+import java.util.Date;
+import java.util.List;
 
 public class RBarangay {
-    private final DBarangayInfo barangayDao;
-    private final LiveData<List<EBarangayInfo>> allBarangayInfo;
+    private static final String TAG = RBarangay.class.getSimpleName();
 
-    public RBarangay(Application application){
-        GGC_GriderDB GGCGriderDB = GGC_GriderDB.getInstance(application);
-        barangayDao = GGCGriderDB.BarangayDao();
-        allBarangayInfo = barangayDao.getAllBarangayInfo();
+    private final DBarangayInfo poDao;
+
+    private final AppConfigPreference poConfig;
+    private final WebApi poApi;
+    private final HttpHeaders poHeaders;
+
+    private String message;
+
+    public RBarangay(Application instance){
+        this.poDao = GGC_GriderDB.getInstance(instance).BarangayDao();
+        this.poConfig = AppConfigPreference.getInstance(instance);
+        this.poApi = new WebApi(poConfig.getTestStatus());
+        this.poHeaders = HttpHeaders.getInstance(instance);
     }
 
-    public void insertBarangay(EBarangayInfo barangayInfo){
-        //TODO: Create asyncktask class that will insert data to local database on background thread.
+    public String getMessage() {
+        return message;
     }
 
     public void insertBulkData(List<EBarangayInfo> barangayInfos){
-        barangayDao.insertBulkBarangayData(barangayInfos);
-    }
-
-    public void updateBarangay(EBarangayInfo barangayInfo){
-        //TODO: Create asyncktask class that will update data to local database on background thread.
-    }
-
-    public void deleteBarangay(EBarangayInfo barangayInfo){
-        //TODO: Create asyncktask class that will delete data to local database on background thread.
+        poDao.insertBulkBarangayData(barangayInfos);
     }
 
     public LiveData<List<EBarangayInfo>> getAllBarangayInfo(){
-        return allBarangayInfo;
+        return poDao.getAllBarangayInfo();
     }
 
     public LiveData<List<EBarangayInfo>> getAllBarangayFromTown(String TownID){
-        LiveData<List<EBarangayInfo>> allBarangayFromTown = barangayDao.getAllBarangayInfoFromTown(TownID);
+        LiveData<List<EBarangayInfo>> allBarangayFromTown = poDao.getAllBarangayInfoFromTown(TownID);
         return allBarangayFromTown;
     }
 
     public LiveData<String[]> getBarangayNamesFromTown(String TownID){
-        return barangayDao.getAllBarangayNameFromTown(TownID);
+        return poDao.getAllBarangayNameFromTown(TownID);
     }
 
     public LiveData<String> getBarangayInfoFromID(String fsID) {
-        return barangayDao.getBarangayInfoFromID(fsID);
+        return poDao.getBarangayInfoFromID(fsID);
     }
 
     public DBarangayInfo.BrgyTownProvNames getAddressInfo(String BrgyID){
-        return barangayDao.getAddressInfo(BrgyID);
+        return poDao.getAddressInfo(BrgyID);
     }
 
     public String getLatestDataTime(){
-        return barangayDao.getLatestDataTime();
+        return poDao.getLatestDataTime();
     }
 
     public Integer GetBarangayRecordCount(){
-        return barangayDao.GetBarangayRecordCount();
+        return poDao.GetBarangayRecordCount();
     }
     public EBarangayInfo CheckIfExist(String fsVal){
-        return barangayDao.CheckIfExist(fsVal);
+        return poDao.CheckIfExist(fsVal);
+    }
+
+    public boolean ImportBarangay(){
+        try{
+            JSONObject params = new JSONObject();
+            params.put("bsearch", true);
+            params.put("descript", "All");
+
+            EBarangayInfo loObj = poDao.GetLatestBarangayInfo();
+            if(loObj != null) {
+                params.put("dTimeStmp", loObj.getTimeStmp());
+            }
+
+            String lsResponse = WebClient.httpsPostJSon(
+                    poApi.getUrlImportBarangay(poConfig.isBackUpServer()),
+                    params.toString(),
+                    poHeaders.getHeaders());
+
+            if(lsResponse == null){
+                message = "Server no response.";
+                return false;
+            }
+
+            JSONObject loResponse = new JSONObject(lsResponse);
+
+            String lsResult = loResponse.getString("result");
+            if (lsResult.equalsIgnoreCase("error")) {
+                JSONObject loError = loResponse.getJSONObject("error");
+                message = loError.getString("message");
+                return false;
+            }
+
+            JSONArray laJson = loResponse.getJSONArray("detail");
+            for(int x = 0; x < laJson.length(); x++){
+                JSONObject loJson = laJson.getJSONObject(x);
+                EBarangayInfo loDetail = poDao.GetBarangayInfo(loJson.getString("sBrgyIDxx"));
+
+                if(loDetail == null) {
+
+                    if(loJson.getString("cRecdStat").equalsIgnoreCase("1")) {
+                        EBarangayInfo info = new EBarangayInfo();
+                        info.setBrgyIDxx(loJson.getString("sBrgyIDxx"));
+                        info.setBrgyName(loJson.getString("sBrgyName"));
+                        info.setTownIDxx(loJson.getString("sTownIDxx"));
+                        info.setHasRoute(loJson.getString("cHasRoute"));
+                        info.setBlackLst(loJson.getString("cBlackLst"));
+                        info.setRecdStat(loJson.getString("cRecdStat"));
+                        info.setTimeStmp(loJson.getString("dTimeStmp"));
+                        poDao.insert(info);
+                        Log.d(TAG, "Barangay info has been saved.");
+                    }
+
+                } else {
+                    Date ldDate1 = SQLUtil.toDate(loDetail.getTimeStmp(), SQLUtil.FORMAT_TIMESTAMP);
+                    Date ldDate2 = SQLUtil.toDate((String) loJson.get("dTimeStmp"), SQLUtil.FORMAT_TIMESTAMP);
+                    if (!ldDate1.equals(ldDate2)) {
+                        loDetail.setBrgyIDxx(loJson.getString("sBrgyIDxx"));
+                        loDetail.setBrgyName(loJson.getString("sBrgyName"));
+                        loDetail.setTownIDxx(loJson.getString("sTownIDxx"));
+                        loDetail.setHasRoute(loJson.getString("cHasRoute"));
+                        loDetail.setBlackLst(loJson.getString("cBlackLst"));
+                        loDetail.setRecdStat(loJson.getString("cRecdStat"));
+                        loDetail.setTimeStmp(loJson.getString("dTimeStmp"));
+                        poDao.update(loDetail);
+                        Log.d(TAG, "Barangay info has been updated.");
+                    }
+                }
+            }
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
     }
 }

@@ -35,6 +35,12 @@ public interface DMcBrand {
     @Update
     void update(EMcBrand mcBrand);
 
+    @Query("SELECT * FROM MC_Brand WHERE sBrandIDx =:fsVal")
+    EMcBrand GetBrandInfo(String fsVal);
+
+    @Query("SELECT * FROM MC_Brand ORDER BY dTimeStmp DESC LIMIT 1")
+    EMcBrand GetLatestBrandInfo();
+
     @Query("SELECT * FROM MC_Brand")
     LiveData<List<EMcBrand>> getAllMcBrand();
 
