@@ -1,225 +1,246 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:theme="@style/GhostRiderMaterialTheme.WhiteBG"
     tools:context=".Activities.Activity_DisbursementInfo">
 
-    <LinearLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:padding="5dp">
+        android:theme="@style/GhostRiderMaterialTheme.AppBarOverlay">
 
-        <TextView
-            style="@style/HeaderLabelBlack"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_DisbursementInfo"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/material_tool_bar"
+            android:popupTheme="@style/GhostRiderMaterialTheme.PopupOverlay" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/sLblDisbursementInfo" />
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="5dp">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_cap_dbmElectricity"
-            style="@style/TextInputStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/sHintElectric">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tie_cap_dbmElectricity"
+            <TextView
+                style="@style/HeaderLabelBlack"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number|none"
-                android:maxLength="6"
-                android:imeOptions="actionNext"
-                android:nextFocusForward="@+id/tie_cap_dbmFood"/>
-        </com.google.android.material.textfield.TextInputLayout>
+                android:text="@string/sLblDisbursementInfo" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_cap_dbmFood"
-            style="@style/TextInputStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/sHintFood">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tie_cap_dbmFood"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_cap_dbmElectricity"
+                style="@style/TextInputStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number|none"
-                android:maxLength="6"
-                android:imeOptions="actionNext"
-                android:nextFocusForward="@+id/tie_cap_dbmWater"/>
-        </com.google.android.material.textfield.TextInputLayout>
+                android:hint="@string/sHintElectric">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_cap_dbmWater"
-            style="@style/TextInputStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/sHintWater">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tie_cap_dbmElectricity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number|none"
+                    android:maxLength="6"
+                    android:imeOptions="actionNext"
+                    android:nextFocusForward="@+id/tie_cap_dbmFood"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tie_cap_dbmWater"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_cap_dbmFood"
+                style="@style/TextInputStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number|none"
-                android:maxLength="6"
-                android:imeOptions="actionNext"
-                android:nextFocusForward="@+id/tie_cap_dbmLoans"/>
-        </com.google.android.material.textfield.TextInputLayout>
+                android:hint="@string/sHintFood">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_cap_dbmLoans"
-            style="@style/TextInputStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/sHintLoan">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tie_cap_dbmFood"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number|none"
+                    android:maxLength="6"
+                    android:imeOptions="actionNext"
+                    android:nextFocusForward="@+id/tie_cap_dbmWater"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tie_cap_dbmLoans"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_cap_dbmWater"
+                style="@style/TextInputStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number|none"
-                android:maxLength="6"
-                android:imeOptions="actionNext"
-                android:nextFocusForward="@+id/tie_cap_dbmBankName"/>
-        </com.google.android.material.textfield.TextInputLayout>
+                android:hint="@string/sHintWater">
 
-        <TextView
-            style="@style/HeaderLabelBlack"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/sLabelBankAcc" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tie_cap_dbmWater"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number|none"
+                    android:maxLength="6"
+                    android:imeOptions="actionNext"
+                    android:nextFocusForward="@+id/tie_cap_dbmLoans"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_cap_dbmBankName"
-            style="@style/TextInputStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/sHintBankNme">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tie_cap_dbmBankName"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_cap_dbmLoans"
+                style="@style/TextInputStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textCapWords"
-                android:maxLength="50"
-                android:imeOptions="actionNext"
-                android:nextFocusForward="@+id/spinner_cap_dbmAccountType"/>
-        </com.google.android.material.textfield.TextInputLayout>
+                android:hint="@string/sHintLoan">
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/CustomDropDownTilStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Account Type">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tie_cap_dbmLoans"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number|none"
+                    android:maxLength="6"
+                    android:imeOptions="actionNext"
+                    android:nextFocusForward="@+id/tie_cap_dbmBankName"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
-                android:id="@+id/spinner_cap_dbmAccountType"
+            <TextView
+                style="@style/HeaderLabelBlack"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:clickable="false"
-                android:cursorVisible="false"
-                android:focusable="false"
-                android:inputType="none"
-                android:padding="16dp"
-                android:imeOptions="actionNext"
-                android:nextFocusForward="@+id/tie_cap_dbmBankNameCC"/>
-        </com.google.android.material.textfield.TextInputLayout>
+                android:text="@string/sLabelBankAcc" />
 
-        <TextView
-            style="@style/HeaderLabelBlack"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/sLabelCreditCard" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_cap_dbmBankNameCC"
-            style="@style/TextInputStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/sHintBankNme">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tie_cap_dbmBankNameCC"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_cap_dbmBankName"
+                style="@style/TextInputStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textCapWords"
-                android:maxLength="50"
-                android:imeOptions="actionNext"
-                android:nextFocusForward="@+id/tie_cap_dbmCreditLimit"/>
-        </com.google.android.material.textfield.TextInputLayout>
+                android:hint="@string/sHintBankNme">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_cap_dbmCreditLimit"
-            style="@style/TextInputStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/sHintAmountLmt">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tie_cap_dbmBankName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textCapWords"
+                    android:maxLength="50"
+                    android:imeOptions="actionNext"
+                    android:nextFocusForward="@+id/spinner_cap_dbmAccountType"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tie_cap_dbmCreditLimit"
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/CustomDropDownTilStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number|none"
-                android:maxLength="10"
-                android:imeOptions="actionNext"
-                android:nextFocusForward="@+id/tie_cap_dbmYearStarted"/>
-        </com.google.android.material.textfield.TextInputLayout>
+                android:hint="Account Type">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_cap_dbmYearStarted"
-            style="@style/TextInputStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/sHintUseLenght">
+                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                    android:id="@+id/spinner_cap_dbmAccountType"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:cursorVisible="false"
+                    android:focusable="false"
+                    android:inputType="none"
+                    android:padding="16dp"
+                    android:imeOptions="actionNext"
+                    android:nextFocusForward="@+id/tie_cap_dbmBankNameCC"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tie_cap_dbmYearStarted"
+            <TextView
+                style="@style/HeaderLabelBlack"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number|none"
-                android:maxLength="3"
-                android:imeOptions="actionNext"
-                android:nextFocusForward="@+id/btn_creditAppNext"/>
-        </com.google.android.material.textfield.TextInputLayout>
+                android:text="@string/sLabelCreditCard" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btn_creditAppPrvs"
-                style="@style/NavigationButton"
-                android:layout_width="wrap_content"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_cap_dbmBankNameCC"
+                style="@style/TextInputStyle"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:drawableStart="@drawable/ic_nav_left"
-                android:drawableLeft="@drawable/ic_nav_left"
-                android:text="@string/sbtnPrvs"
-                tools:ignore="RelativeOverlap" />
+                android:hint="@string/sHintBankNme">
 
-            <Button
-                android:id="@+id/btn_creditAppNext"
-                style="@style/NavigationButton"
-                android:layout_width="wrap_content"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tie_cap_dbmBankNameCC"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textCapWords"
+                    android:maxLength="50"
+                    android:imeOptions="actionNext"
+                    android:nextFocusForward="@+id/tie_cap_dbmCreditLimit"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_cap_dbmCreditLimit"
+                style="@style/TextInputStyle"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:drawableEnd="@drawable/ic_nav_right"
-                android:drawableRight="@drawable/ic_nav_right"
-                android:text="@string/sbtnNext"
-                tools:ignore="RelativeOverlap" />
-        </RelativeLayout>
+                android:hint="@string/sHintAmountLmt">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tie_cap_dbmCreditLimit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number|none"
+                    android:maxLength="10"
+                    android:imeOptions="actionNext"
+                    android:nextFocusForward="@+id/tie_cap_dbmYearStarted"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_cap_dbmYearStarted"
+                style="@style/TextInputStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/sHintUseLenght">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tie_cap_dbmYearStarted"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number|none"
+                    android:maxLength="3"
+                    android:imeOptions="actionNext"
+                    android:nextFocusForward="@+id/btn_creditAppNext"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_creditAppPrvs"
+                    style="@style/NavigationButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:drawableStart="@drawable/ic_nav_left"
+                    android:drawableLeft="@drawable/ic_nav_left"
+                    android:text="@string/sbtnPrvs"
+                    tools:ignore="RelativeOverlap" />
+
+                <Button
+                    android:id="@+id/btn_creditAppNext"
+                    style="@style/NavigationButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:drawableEnd="@drawable/ic_nav_right"
+                    android:drawableRight="@drawable/ic_nav_right"
+                    android:text="@string/sbtnNext"
+                    tools:ignore="RelativeOverlap" />
+            </RelativeLayout>
 
 
-    </LinearLayout>
+        </LinearLayout>
 
-</ScrollView>
+    </ScrollView>
+
+</LinearLayout>

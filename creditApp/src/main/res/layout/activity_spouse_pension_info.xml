@@ -1,152 +1,172 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:theme="@style/GhostRiderMaterialTheme.WhiteBG"
     tools:context=".Fragment.Fragment_SpousePensionInfo">
 
-    <LinearLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:padding="5dp">
+        android:theme="@style/GhostRiderMaterialTheme.AppBarOverlay">
 
-        <TextView
-            style="@style/HeaderLabelBlack"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_SpousePensionInfo"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/material_tool_bar"
+            android:popupTheme="@style/GhostRiderMaterialTheme.PopupOverlay" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/sLabelSpousePension" />
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="5dp">
 
-        <RadioGroup
-            android:id="@+id/rg_sector"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/rb_government"
+            <TextView
+                style="@style/HeaderLabelBlack"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/sLabelGovernment" />
+                android:text="@string/sLabelSpousePension" />
 
-            <RadioButton
-                android:id="@+id/rb_private"
+            <RadioGroup
+                android:id="@+id/rg_sector"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/sLabelPrivate" />
+                android:orientation="horizontal">
 
-        </RadioGroup>
+                <RadioButton
+                    android:id="@+id/rb_government"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/sLabelGovernment" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/TextInputStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/sHintRangeIncm">
+                <RadioButton
+                    android:id="@+id/rb_private"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/sLabelPrivate" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/txt_pension_amt"
+            </RadioGroup>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/TextInputStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:imeOptions="actionNext"
-                android:inputType="number|none"
-                android:maxLength="15"
-                android:nextFocusForward="@id/txt_retirement_yr" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:hint="@string/sHintRangeIncm">
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/TextInputStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/sHintRetireYear">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txt_pension_amt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
+                    android:inputType="number|none"
+                    android:maxLength="15"
+                    android:nextFocusForward="@id/txt_retirement_yr" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/txt_retirement_yr"
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/TextInputStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:imeOptions="actionDone"
-                android:inputType="number|none"
-                android:maxLength="4"
-                android:nextFocusForward="@+id/txt_other_source"/>
+                android:hint="@string/sHintRetireYear">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txt_retirement_yr"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionDone"
+                    android:inputType="number|none"
+                    android:maxLength="4"
+                    android:nextFocusForward="@+id/txt_other_source" />
 
-        <TextView
-            style="@style/HeaderLabelBlack"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/sLabelOtherSrcIncm" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/TextInputStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/sHintNatureIncm">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/txt_other_source"
+            <TextView
+                style="@style/HeaderLabelBlack"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:imeOptions="actionNext"
-                android:inputType="textCapWords"
-                android:maxLength="50"
-                android:nextFocusForward="@id/txt_other_source_income" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:text="@string/sLabelOtherSrcIncm" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/TextInputStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/sHintRangeIncm">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/txt_other_source_income"
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/TextInputStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:imeOptions="actionDone"
-                android:inputType="number|none"
-                android:maxLength="15"
-                android:ImeOptions="actionNext"
-                android:nextFocusForward="@+id/btn_creditAppNext"/>
-        </com.google.android.material.textfield.TextInputLayout>
+                android:hint="@string/sHintNatureIncm">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
-            android:orientation="horizontal">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txt_other_source"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
+                    android:inputType="textCapWords"
+                    android:maxLength="50"
+                    android:nextFocusForward="@id/txt_other_source_income" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <Button
-                android:id="@+id/btn_creditAppPrvs"
-                style="@style/NavigationButton"
-                android:layout_width="wrap_content"
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/TextInputStyle"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:drawableStart="@drawable/ic_nav_left"
-                android:drawableLeft="@drawable/ic_nav_left"
-                android:text="@string/sbtnPrvs"
-                tools:ignore="RelativeOverlap" />
+                android:hint="@string/sHintRangeIncm">
 
-            <Button
-                android:id="@+id/btn_creditAppNext"
-                style="@style/NavigationButton"
-                android:layout_width="wrap_content"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txt_other_source_income"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ImeOptions="actionNext"
+                    android:imeOptions="actionDone"
+                    android:inputType="number|none"
+                    android:maxLength="15"
+                    android:nextFocusForward="@+id/btn_creditAppNext" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:drawableEnd="@drawable/ic_nav_right"
-                android:drawableRight="@drawable/ic_nav_right"
-                android:text="@string/sbtnNext"
-                tools:ignore="RelativeOverlap" />
-        </RelativeLayout>
+                android:layout_marginBottom="30dp"
+                android:orientation="horizontal">
 
-    </LinearLayout>
+                <Button
+                    android:id="@+id/btn_creditAppPrvs"
+                    style="@style/NavigationButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:drawableStart="@drawable/ic_nav_left"
+                    android:drawableLeft="@drawable/ic_nav_left"
+                    android:text="@string/sbtnPrvs"
+                    tools:ignore="RelativeOverlap" />
 
-</ScrollView>
+                <Button
+                    android:id="@+id/btn_creditAppNext"
+                    style="@style/NavigationButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:drawableEnd="@drawable/ic_nav_right"
+                    android:drawableRight="@drawable/ic_nav_right"
+                    android:text="@string/sbtnNext"
+                    tools:ignore="RelativeOverlap" />
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

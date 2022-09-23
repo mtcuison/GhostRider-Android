@@ -11,18 +11,9 @@
 
 package org.rmj.guanzongroup.onlinecreditapplication.Fragment;
 
-import androidx.annotation.RequiresApi;
-import androidx.lifecycle.ViewModelProviders;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +22,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -42,10 +38,9 @@ import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+import org.rmj.g3appdriver.etc.OnDateSetListener;
 import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
-import org.rmj.guanzongroup.onlinecreditapplication.Data.UploadCreditApp;
-import org.rmj.g3appdriver.etc.OnDateSetListener;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.CoMakerModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
@@ -207,7 +202,7 @@ public class Fragment_CoMaker extends Fragment implements ViewModelCallBack {
 
     }
 
-    private void setupWidgets(View v){
+    private void  setupWidgets(View v){
         tieLastname = v.findViewById(R.id.tie_cap_cmrLastname);
         tieFrstname = v.findViewById(R.id.tie_cap_cmrFirstname);
         tieMiddname = v.findViewById(R.id.tie_cap_cmrMiddname);

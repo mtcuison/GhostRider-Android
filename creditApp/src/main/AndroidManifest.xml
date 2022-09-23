@@ -2,142 +2,144 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application>
         <activity
-            android:name=".Activity_ReviewLoanApp"
+            android:name=".Activities.Activity_ReviewLoanApp"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".Activity_ResidenceInfo"
+            android:name=".Activities.Activity_ResidenceInfo"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".Activity_PersonalInfo"
+            android:name=".Activities.Activity_PersonalInfo"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".Activity_ComakerResidence"
+            android:name=".Activities.Activity_ComakerResidence"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".Activity_CoMaker"
+            android:name=".Activities.Activity_CoMaker"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".Activity_OtherInfo"
+            android:name=".Activities.Activity_OtherInfo"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".Activity_Properties"
+            android:name=".Activities.Activity_Properties"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".Activity_Dependent"
+            android:name=".Activities.Activity_Dependent"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".Activity_DisbursementInfo"
+            android:name=".Activities.Activity_DisbursementInfo"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".Activity_SpousePensionInfo"
+            android:name=".Activities.Activity_SpousePensionInfo"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".Activity_SpouseSelfEmploymentInfo"
+            android:name=".Activities.Activity_SpouseSelfEmploymentInfo"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".Activity_SpouseEmploymentInfo"
+            android:name=".Activities.Activity_SpouseEmploymentInfo"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".Activity_SpouseResidenceInfo"
+            android:name=".Activities.Activity_SpouseResidenceInfo"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".Activity_SpouseInfo"
+            android:name=".Activities.Activity_SpouseInfo"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".Activity_PensionInfo"
+            android:name=".Activities.Activity_PensionInfo"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".Activity_Finance"
+            android:name=".Activities.Activity_Finance"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".Activity_SelfEmployedInfo"
+            android:name=".Activities.Activity_SelfEmployedInfo"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".Activity_EmploymentInfo"
+            android:name=".Activities.Activity_EmploymentInfo"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".Activity_MeansInfoSelection"
+            android:name=".Activities.Activity_MeansInfoSelection"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+
         <activity android:name=".Activity.Activity_CreditAppHome" />
         <activity
             android:name=".Activity.Activity_PendingLoanApplications"
