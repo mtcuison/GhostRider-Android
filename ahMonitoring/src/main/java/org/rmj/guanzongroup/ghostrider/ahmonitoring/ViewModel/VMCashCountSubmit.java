@@ -34,7 +34,7 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchLoanApplication;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCashCount;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RLogSelfie;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RSelfieLog;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Http.WebClient;
@@ -221,7 +221,7 @@ public class VMCashCountSubmit extends AndroidViewModel {
         private JSONObject jsonObject;
         private final HttpHeaders poHeaders;
         private final ConnectionUtil poConn;
-        private final RLogSelfie poLog;
+        private final RSelfieLog poLog;
         private final Telephony poDevID;
         private final SessionManager poUser;
         private final AppConfigPreference poConfig;
@@ -237,7 +237,7 @@ public class VMCashCountSubmit extends AndroidViewModel {
             this.poDevID = new Telephony(instance);
             this.poUser = new SessionManager(instance);
             this.poConfig = AppConfigPreference.getInstance(instance);
-            this.poLog = new RLogSelfie(instance);
+            this.poLog = new RSelfieLog(instance);
             this.poApi = new WebApi(poConfig.getTestStatus());
         }
 

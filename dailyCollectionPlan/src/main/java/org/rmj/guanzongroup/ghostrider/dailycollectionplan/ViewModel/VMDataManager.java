@@ -22,19 +22,19 @@ import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplication;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicationDocuments;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.ELog_Selfie;
+import org.rmj.g3appdriver.GRider.Database.Entities.ESelfieLog;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchLoanApplication;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplication;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplicationDocument;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RLogSelfie;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RSelfieLog;
 
 import java.util.List;
 
 public class VMDataManager extends AndroidViewModel {
 
-    private final RLogSelfie poLog;
+    private final RSelfieLog poLog;
     private final RImageInfo poImage;
     private final RDailyCollectionPlan poDcp;
     private final RCreditApplication poCreditApp;
@@ -51,7 +51,7 @@ public class VMDataManager extends AndroidViewModel {
         super(instance);
         this.poImage = new RImageInfo(instance);
         this.poDcp = new RDailyCollectionPlan(instance);
-        this.poLog = new RLogSelfie(instance);
+        this.poLog = new RSelfieLog(instance);
         this.poCreditApp = new RCreditApplication(instance);
         this.poLoan = new RBranchLoanApplication(instance);
         this.poDocs = new RCreditApplicationDocument(instance);
@@ -81,7 +81,7 @@ public class VMDataManager extends AndroidViewModel {
             boolean hasData = false;
             try{
 
-                List<ELog_Selfie> loginDetails = poLog.getUnsentSelfieLogin();
+                List<ESelfieLog> loginDetails = poLog.getUnsentSelfieLogin();
                 if(loginDetails.size() > 0){
                     hasData = true;
                 }

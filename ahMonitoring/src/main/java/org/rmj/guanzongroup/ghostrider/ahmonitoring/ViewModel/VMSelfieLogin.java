@@ -32,10 +32,11 @@ import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.ELog_Selfie;
+import org.rmj.g3appdriver.GRider.Database.Entities.ESelfieLog;
+import org.rmj.g3appdriver.GRider.Database.Entities.ESelfieLog;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RLogSelfie;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RSelfieLog;
 import org.rmj.g3appdriver.GRider.Etc.LocationRetriever;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
@@ -48,7 +49,7 @@ import java.util.List;
 public class VMSelfieLogin extends AndroidViewModel {
     private static final String TAG = VMSelfieLogin.class.getSimpleName();
     private final Application instance;
-    private final RLogSelfie poLog;
+    private final RSelfieLog poLog;
     private final RBranch pobranch;
     private final SessionManager poSession;
     private final REmployee poUser;
@@ -78,7 +79,7 @@ public class VMSelfieLogin extends AndroidViewModel {
         super(application);
         this.instance = application;
         this.poUser = new REmployee(instance);
-        this.poLog = new RLogSelfie(instance);
+        this.poLog = new RSelfieLog(instance);
         this.pobranch = new RBranch(instance);
         this.poSession = new SessionManager(instance);
         paPermisions.setValue(new String[]{
@@ -121,7 +122,7 @@ public class VMSelfieLogin extends AndroidViewModel {
         return pobranch.getBranchInfo(BranchCD);
     }
 
-    public LiveData<List<ELog_Selfie>> getAllEmployeeTimeLog(){
+    public LiveData<List<ESelfieLog>> getAllEmployeeTimeLog(){
         return poLog.getAllEmployeeTimeLog();
     }
 
@@ -307,13 +308,13 @@ public class VMSelfieLogin extends AndroidViewModel {
 
         private final Application instance;
         private final OnBranchSelectedCallback callback;
-        private final RLogSelfie poLog;
+        private final RSelfieLog poLog;
         private String lsResult = "";
 
         public OnBranchCheckTask(Application application, OnBranchSelectedCallback callback) {
             this.instance = application;
             this.callback = callback;
-            this.poLog = new RLogSelfie(instance);
+            this.poLog = new RSelfieLog(instance);
         }
 
         @Override
@@ -403,7 +404,7 @@ public class VMSelfieLogin extends AndroidViewModel {
         }
     }
 
-    public void loginTimeKeeper(ELog_Selfie selfieLog, EImageInfo loImage, OnLoginTimekeeperListener callback){
+    public void loginTimeKeeper(ESelfieLog selfieLog, EImageInfo loImage, OnLoginTimekeeperListener callback){
         try {
             new LoginTimekeeperTask(loImage, selfieLog, instance, callback).execute();
         } catch (Exception e){
@@ -415,13 +416,13 @@ public class VMSelfieLogin extends AndroidViewModel {
     private static class LoginTimekeeperTask extends AsyncTask<JSONObject, Void, String>{
         private final ConnectionUtil poConn;
         private final EImageInfo poImageInfo;
-        private final ELog_Selfie selfieLog;
+        private final ESelfieLog selfieLog;
         private final OnLoginTimekeeperListener callback;
 
         private final SelfieLog poSlMaster;
         private String lsResult = "";
 
-        public LoginTimekeeperTask(EImageInfo foImage, ELog_Selfie logInfo, Application instance, OnLoginTimekeeperListener callback){
+        public LoginTimekeeperTask(EImageInfo foImage, ESelfieLog logInfo, Application instance, OnLoginTimekeeperListener callback){
             this.poImageInfo = foImage;
             this.selfieLog = logInfo;
             this.poConn = new ConnectionUtil(instance);

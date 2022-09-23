@@ -102,8 +102,8 @@ public class VMApplicationHistory extends AndroidViewModel {
     }
 
     public void saveImageFile(EImageInfo foImage) {
-        foImage.setTransNox(poImage.getImageNextCode());
-        poImage.insertImageInfo(foImage);
+//        foImage.setTransNox(poImage.getImageNextCode());
+//        poImage.insertImageInfo(foImage);
     }
     public void saveApplicantImageFromCamera(String TransNox) {
         try {
@@ -280,7 +280,7 @@ public class VMApplicationHistory extends AndroidViewModel {
                                 loImage.setSendStat("1");
                                 //loImage....
                                 ScannerConstants.PhotoPath = loImage.getFileLoct();
-                                poImage.insertDownloadedImageInfo(loImage);
+//                                poImage.insertDownloadedImageInfo(loImage);
 
                                 poCreditApp.updateApplicantImageStat(psSourceNo);
                                 //end - insert entry to image info

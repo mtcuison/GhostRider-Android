@@ -95,14 +95,14 @@ public class VMEvaluation extends AndroidViewModel {
                 }
                 if (isImgExist) {
                     foImage.setTransNox(tansNo);
-                    poImage.updateImageInfo(foImage);
+//                    poImage.updateImageInfo(foImage);
                 } else {
-                    foImage.setTransNox(poImage.getImageNextCode());
-                    poImage.insertImageInfo(foImage);
+//                    foImage.setTransNox(poImage.getImageNextCode());
+//                    poImage.insertImageInfo(foImage);
                 }
             }else{
-                foImage.setTransNox(poImage.getImageNextCode());
-                poImage.insertImageInfo(foImage);
+//                foImage.setTransNox(poImage.getImageNextCode());
+//                poImage.insertImageInfo(foImage);
             }
 
         } catch (Exception e) {

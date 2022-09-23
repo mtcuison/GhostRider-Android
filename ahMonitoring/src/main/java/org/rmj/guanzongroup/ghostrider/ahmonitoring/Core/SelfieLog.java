@@ -8,11 +8,11 @@ import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EInventoryDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.EInventoryMaster;
-import org.rmj.g3appdriver.GRider.Database.Entities.ELog_Selfie;
+import org.rmj.g3appdriver.GRider.Database.Entities.ESelfieLog;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RInventoryDetail;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RInventoryMaster;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RLogSelfie;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RSelfieLog;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Http.WebClient;
@@ -29,14 +29,14 @@ public class SelfieLog {
     private final Application instance;
 
     private final RImageInfo poImage;
-    private final RLogSelfie poLog;
+    private final RSelfieLog poLog;
     private final SessionManager poSession;
     private final AppConfigPreference poConfig;
     private final AHAPIs poApis;
     private final HttpHeaders poHeaders;
 
     private EImageInfo poImgInfo;
-    private ELog_Selfie poSelfiex;
+    private ESelfieLog poSelfiex;
 
     public interface OnActionCallback{
         void OnSuccess(String args);
@@ -46,7 +46,7 @@ public class SelfieLog {
     public SelfieLog(Application application) {
         this.instance = application;
         this.poImage = new RImageInfo(instance);
-        this.poLog = new RLogSelfie(instance);
+        this.poLog = new RSelfieLog(instance);
         this.poSession = new SessionManager(instance);
         this.poConfig = AppConfigPreference.getInstance(instance);
         this.poApis = new AHAPIs(poConfig.isTesting_Phase());
@@ -55,12 +55,12 @@ public class SelfieLog {
 
     public void setImageInfo(EImageInfo foImgInfo) {
         this.poImgInfo = foImgInfo;
-        poImage.saveSelfieLogImage(poImgInfo);
+//        poImage.saveSelfieLogImage(poImgInfo);
     }
 
-    public void setSelfieLogInfo(ELog_Selfie foSelfiex) {
+    public void setSelfieLogInfo(ESelfieLog foSelfiex) {
         this.poSelfiex = foSelfiex;
-        this.poSelfiex.setTransNox(poLog.getLogNextCode());
+//        this.poSelfiex.setTransNox(poLog.getLogNextCode());
         poLog.insertSelfieLog(poSelfiex);
     }
 

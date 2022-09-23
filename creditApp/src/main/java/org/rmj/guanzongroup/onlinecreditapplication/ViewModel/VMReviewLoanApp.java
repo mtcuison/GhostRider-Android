@@ -97,7 +97,7 @@ public class VMReviewLoanApp extends AndroidViewModel {
 
     public void saveImageFile(EImageInfo foImage){
         this.poPhoto = foImage;
-        poImage.insertImageInfo(foImage);
+//        poImage.insertImageInfo(foImage);
     }
 
     public void SaveCreditOnlineApplication(UploadCreditApp.OnUploadLoanApplication listener){

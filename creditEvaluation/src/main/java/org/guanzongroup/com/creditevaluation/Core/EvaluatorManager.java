@@ -460,13 +460,13 @@ public class EvaluatorManager {
     public void SaveImageInfo(String TransNox, EImageInfo foImage, boolean isPrimary, OnActionCallback callback){
         try {
             if(poImage.CheckImageForCIExist(foImage.getSourceNo(), foImage.getDtlSrcNo()) == null) {
-                foImage.setTransNox(poImage.getImageNextCode());
+//                foImage.setTransNox(poImage.getImageNextCode());
                 foImage.setCaptured(new AppConstants().DATE_MODIFIED);
                 foImage.setSourceCD("COAD");
                 foImage.setFileCode("CI001");
                 foImage.setDtlSrcNo(TransNox);
                 foImage.setMD5Hashx(WebFileServer.createMD5Hash(foImage.getFileLoct()));
-                poImage.insertImageInfo(foImage);
+//                poImage.insertImageInfo(foImage);
             } else {
                 EImageInfo loImage = poImage.CheckImageForCIExist(foImage.getSourceNo(), foImage.getDtlSrcNo());
                 poImage.UpdateImageInfoForCI(loImage);

@@ -138,10 +138,10 @@ public class VMClientInfo extends AndroidViewModel {
             }
             if (isImgExist){
                 foImage.setTransNox(tansNo);
-                poImage.updateImageInfo(foImage);
+//                poImage.updateImageInfo(foImage);
             }else{
-                foImage.setTransNox(poImage.getImageNextCode());
-                poImage.insertImageInfo(foImage);
+//                foImage.setTransNox(poImage.getImageNextCode());
+//                poImage.insertImageInfo(foImage);
             }
         } catch (Exception e){
             e.printStackTrace();
@@ -340,7 +340,7 @@ public class VMClientInfo extends AndroidViewModel {
                                 loImage.setSendStat("1");
                                 //loImage....
                                 ScannerConstants.PhotoPath = loImage.getFileLoct();
-                                poImage.insertImageInfo(loImage);
+//                                poImage.insertImageInfo(loImage);
 //                                saveImageInfo(loImage);
                                 //end - insert entry to image info
                                 saveDocumentInfoFromCamera(poFileInfo.sTransNox, poFileInfo.sFileCode);

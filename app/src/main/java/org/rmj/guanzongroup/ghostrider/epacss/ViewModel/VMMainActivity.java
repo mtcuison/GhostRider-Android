@@ -19,9 +19,9 @@ import androidx.lifecycle.LiveData;
 
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeRole;
-import org.rmj.g3appdriver.GRider.Database.Entities.ELog_Selfie;
+import org.rmj.g3appdriver.GRider.Database.Entities.ESelfieLog;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RLogSelfie;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RSelfieLog;
 import org.rmj.guanzongroup.ghostrider.epacss.Service.InternetStatusReciever;
 
 import java.util.List;
@@ -31,14 +31,14 @@ public class VMMainActivity extends AndroidViewModel {
     private final Application app;
     private final InternetStatusReciever poNetRecvr;
     private final REmployee poUser;
-    private final RLogSelfie poLog;
+    private final RSelfieLog poLog;
 
     public VMMainActivity(@NonNull Application application) {
         super(application);
         this.app = application;
         this.poNetRecvr = new InternetStatusReciever(app);
         this.poUser = new REmployee(app);
-        this.poLog = new RLogSelfie(app);
+        this.poLog = new RSelfieLog(app);
     }
 
     public InternetStatusReciever getInternetReceiver(){
@@ -57,7 +57,7 @@ public class VMMainActivity extends AndroidViewModel {
         return poUser.getEmployeeInfo();
     }
 
-    public LiveData<ELog_Selfie> getLastSelfieLog(){
+    public LiveData<ESelfieLog> getLastSelfieLog(){
         return poLog.getLastSelfieLog();
     }
 }

@@ -78,10 +78,10 @@ public class VMIncompleteTransaction extends AndroidViewModel {
     }
 
     public void saveImageInfo(EImageInfo foImageInfo){
-        ImgTransNox = poImage.getImageNextCode();
+//        ImgTransNox = poImage.getImageNextCode();
         foImageInfo.setTransNox(ImgTransNox);
         foImageInfo.setDtlSrcNo(sAccntNox.getValue());
-        poImage.insertImageInfo(foImageInfo);
+//        poImage.insertImageInfo(foImageInfo);
     }
 
     public void updateCollectionDetail(){

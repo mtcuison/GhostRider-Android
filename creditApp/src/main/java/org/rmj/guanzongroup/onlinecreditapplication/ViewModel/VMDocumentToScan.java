@@ -147,10 +147,10 @@ public class VMDocumentToScan extends AndroidViewModel {
             }
             if (isImgExist) {
                 foImage.setTransNox(tansNo);
-                poImage.updateImageInfo(foImage);
+//                poImage.updateImageInfo(foImage);
             } else {
-                foImage.setTransNox(poImage.getImageNextCode());
-                poImage.insertImageInfo(foImage);
+//                foImage.setTransNox(poImage.getImageNextCode());
+//                poImage.insertImageInfo(foImage);
 
             }
         } catch (Exception e) {
@@ -365,7 +365,7 @@ public class VMDocumentToScan extends AndroidViewModel {
                                 loImage.setSendStat("1");
                                 //loImage....
                                 ScannerConstants.PhotoPath = loImage.getFileLoct();
-                                poImage.insertDownloadedImageInfo(loImage);
+//                                poImage.insertDownloadedImageInfo(loImage);
                                 //end - insert entry to image info
                                 saveDocumentInfoFromCamera(poFileInfo.sTransNox, poFileInfo.sFileCode);
                                 //todo:

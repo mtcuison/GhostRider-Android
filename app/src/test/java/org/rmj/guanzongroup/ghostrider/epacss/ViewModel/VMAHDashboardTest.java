@@ -14,7 +14,7 @@ package org.rmj.guanzongroup.ghostrider.epacss.ViewModel;
 import android.os.Build;
 
 import androidx.lifecycle.Observer;
-import androidx.test.core.app.ApplicationProvider;
+//import androidx.test.core.app.ApplicationProvider;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -22,17 +22,17 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
-import org.robolectric.RobolectricTestRunner;
-import org.robolectric.annotation.Config;
+//import org.robolectric.RobolectricTestRunner;
+//import org.robolectric.annotation.Config;
 
-@RunWith(RobolectricTestRunner.class)
-@Config(sdk = {Build.VERSION_CODES.O_MR1}, manifest= Config.NONE)
+//@RunWith(RobolectricTestRunner.class)
+//@Config(sdk = {Build.VERSION_CODES.O_MR1}, manifest= Config.NONE)
 public class VMAHDashboardTest {
     private VMAHDashboard mViewModel;
 
     @Before
     public void setUp() {
-        mViewModel = new VMAHDashboard(ApplicationProvider.getApplicationContext());
+//        mViewModel = new VMAHDashboard(ApplicationProvider.getApplicationContext());
     }
 
     @After

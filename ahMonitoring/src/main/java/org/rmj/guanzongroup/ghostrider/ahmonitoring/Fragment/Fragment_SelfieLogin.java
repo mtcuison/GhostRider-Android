@@ -42,7 +42,7 @@ import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.ELog_Selfie;
+import org.rmj.g3appdriver.GRider.Database.Entities.ESelfieLog;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.LocationRetriever;
@@ -70,7 +70,7 @@ public class Fragment_SelfieLogin extends Fragment {
 
     private static EEmployeeInfo poUser;
     private EImageInfo poImage;
-    private ELog_Selfie poLog;
+    private ESelfieLog poLog;
     private GLocationManager loLocation;
 
     private LoadDialog poLoad;
@@ -292,7 +292,7 @@ public class Fragment_SelfieLogin extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerview_timeLog);
 
         poImage = new EImageInfo();
-        poLog = new ELog_Selfie();
+        poLog = new ESelfieLog();
         poLoad = new LoadDialog(requireActivity());
         poMessage = new MessageBox(requireActivity());
         loLocation = new GLocationManager(requireActivity());

@@ -272,11 +272,11 @@ public class VMLoanUnit extends AndroidViewModel {
             if (isImgExist){
                 foImage.setTransNox(tansNo);
                 Log.e("Img TransNox", tansNo);
-                poImage.updateImageInfo(foImage);
+//                poImage.updateImageInfo(foImage);
                 Log.e(TAG, "Image info has been updated!");
             }else{
-                foImage.setTransNox(poImage.getImageNextCode());
-                poImage.insertImageInfo(foImage);
+//                foImage.setTransNox(poImage.getImageNextCode());
+//                poImage.insertImageInfo(foImage);
                 Log.e(TAG, "Image info has been save!");
             }
         } catch (Exception e){

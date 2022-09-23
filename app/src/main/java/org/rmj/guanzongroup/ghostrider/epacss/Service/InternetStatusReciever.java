@@ -33,7 +33,7 @@ import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplication;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicationDocuments;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.ELog_Selfie;
+import org.rmj.g3appdriver.GRider.Database.Entities.ESelfieLog;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RApprovalCode;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchLoanApplication;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCashCount;
@@ -45,7 +45,7 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.REmployeeLeave;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RItinerary;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RLocationSysLog;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RLogSelfie;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RSelfieLog;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Http.WebClient;
@@ -93,7 +93,7 @@ public class InternetStatusReciever extends BroadcastReceiver {
         private final SessionManager poSession;
         private final Telephony poDevice;
 
-        private final RLogSelfie poLog;
+        private final RSelfieLog poLog;
         private final RImageInfo poImage;
         private final RDailyCollectionPlan poDcp;
         private final RCreditApplication poCreditApp;
@@ -111,7 +111,7 @@ public class InternetStatusReciever extends BroadcastReceiver {
         private String Message;
 
         private List<ECashCount> cashCounts = new ArrayList<>();
-        private List<ELog_Selfie> loginDetails = new ArrayList<>();
+        private List<ESelfieLog> loginDetails = new ArrayList<>();
         private List<EImageInfo> loginImageInfo = new ArrayList<>();
         private List<EDCPCollectionDetail> collectionDetails = new ArrayList<>();
         private List<ECreditApplication> loanApplications = new ArrayList<>();
@@ -131,7 +131,7 @@ public class InternetStatusReciever extends BroadcastReceiver {
             this.poDevice = new Telephony(instance);
             this.poImage = new RImageInfo(instance);
             this.poDcp = new RDailyCollectionPlan(instance);
-            this.poLog = new RLogSelfie(instance);
+            this.poLog = new RSelfieLog(instance);
             this.poCreditApp = new RCreditApplication(instance);
             this.poLoan = new RBranchLoanApplication(instance);
             this.poDocs = new RCreditApplicationDocument(instance);
@@ -201,7 +201,7 @@ public class InternetStatusReciever extends BroadcastReceiver {
                     e.printStackTrace();
                 }
 
-                poSync.uploadLoginDetails(poLog, loginDetails);
+//                poSync.uploadLoginDetails(poLog, loginDetails);
 
                 try {
                     uploadPaidCollectionDetail();
@@ -323,7 +323,7 @@ public class InternetStatusReciever extends BroadcastReceiver {
                 boolean[] isSent = new boolean[loginDetails.size()];
                 for (int x = 0; x < loginDetails.size(); x++) {
                     try {
-                        ELog_Selfie selfieLog = loginDetails.get(x);
+                        ESelfieLog selfieLog = loginDetails.get(x);
                         JSONObject loJson = new JSONObject();
                         loJson.put("sEmployID", selfieLog.getEmployID());
                         loJson.put("dLogTimex", selfieLog.getLogTimex());

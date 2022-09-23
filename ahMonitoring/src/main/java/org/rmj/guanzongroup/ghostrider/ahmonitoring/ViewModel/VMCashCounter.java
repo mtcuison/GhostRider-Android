@@ -24,7 +24,7 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RLogSelfie;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RSelfieLog;
 
 public class VMCashCounter extends AndroidViewModel {
 
@@ -32,7 +32,7 @@ public class VMCashCounter extends AndroidViewModel {
     private final Application instance;
     private final REmployee poEmploye;
     private final RBranch poBranch;
-    private final RLogSelfie poSelfie;
+    private final RSelfieLog poSelfie;
 
     private String SelfieLogTransNox = "";
 
@@ -77,7 +77,7 @@ public class VMCashCounter extends AndroidViewModel {
         this.instance = application;
         this.poEmploye = new REmployee(application);
         this.poBranch = new RBranch(application);
-        this.poSelfie = new RLogSelfie(application);
+        this.poSelfie = new RSelfieLog(application);
         this.p1000.setValue((double) 0);
         this.p500.setValue((double) 0);
         this.p200.setValue((double) 0);
