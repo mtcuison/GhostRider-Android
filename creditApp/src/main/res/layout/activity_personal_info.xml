@@ -170,11 +170,12 @@
                     android:layout_weight="1"
                     android:hint="@string/sHintBpProv">
 
-                    <com.google.android.material.textfield.TextInputEditText
+                    <androidx.appcompat.widget.AppCompatAutoCompleteTextView
                         android:id="@+id/txt_bpProvince"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:imeOptions="actionNext"
+                        android:padding="16dp"
                         android:inputType="textPersonName|textCapWords"
                         android:maxLength="100"
                         android:nextFocusForward="@+id/txt_bpTown" />
@@ -187,14 +188,14 @@
                     android:layout_weight="1"
                     android:hint="@string/sHintBpTown">
 
-                    <com.google.android.material.textfield.TextInputEditText
+                    <androidx.appcompat.widget.AppCompatAutoCompleteTextView
                         android:id="@+id/txt_bpTown"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:imeOptions="actionNext"
+                        android:imeOptions="actionDone"
+                        android:padding="16dp"
                         android:inputType="textPersonName|textCapWords"
-                        android:maxLength="100"
-                        android:nextFocusForward="@+id/rg_gender" />
+                        android:maxLength="100"/>
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
@@ -265,7 +266,7 @@
                 android:layout_weight="1"
                 android:hint="@string/sHintCitizenship">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <AutoCompleteTextView
                     android:id="@+id/txt_citizenship"
                     style="@style/AutoCompleteStyleTheme"
                     android:layout_width="match_parent"
@@ -338,6 +339,7 @@
                         android:cursorVisible="false"
                         android:focusable="false"
                         android:inputType="none"
+                        android:imeOptions="actionNext"
                         android:nextFocusForward="@+id/txt_mobileNo2"
                         android:padding="16dp" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -384,6 +386,7 @@
                         android:cursorVisible="false"
                         android:focusable="false"
                         android:inputType="none"
+                        android:imeOptions="actionNext"
                         android:nextFocusForward="@+id/txt_mobileNo3"
                         android:padding="16dp" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -430,6 +433,7 @@
                         android:cursorVisible="false"
                         android:focusable="false"
                         android:inputType="none"
+                        android:imeOptions="actionNext"
                         android:nextFocusForward="@+id/txt_telephoneNo"
                         android:padding="16dp" />
                 </com.google.android.material.textfield.TextInputLayout>

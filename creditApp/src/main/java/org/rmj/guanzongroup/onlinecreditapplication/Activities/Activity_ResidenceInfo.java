@@ -46,7 +46,7 @@ public class Activity_ResidenceInfo extends AppCompatActivity {
 
     private void initWidgets() {
 
-        toolbar = findViewById(R.id.toolbar_PersonalInfo);
+        toolbar = findViewById(R.id.toolbar_ResidenceInfo);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 

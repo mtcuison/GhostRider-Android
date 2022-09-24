@@ -72,7 +72,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <TextView
                     style="@style/HeaderLabelBlack"
@@ -146,7 +146,6 @@
                     android:focusable="false"
                     android:hint="Company Level (Required)"
                     android:inputType="none"
-                    android:nextFocusForward="@+id/spn_employeeLevel"
                     android:padding="16dp" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -164,7 +163,6 @@
                     android:focusable="false"
                     android:hint="Employee Level (Required)"
                     android:inputType="none"
-                    android:nextFocusForward="@+id/txt_countryNme"
                     android:padding="16dp" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -175,7 +173,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/sHintCountryNm"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <AutoCompleteTextView
                     android:id="@+id/txt_countryNme"
@@ -184,6 +182,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="textAutoComplete|textCapWords"
                     android:maxLength="50"
+                    android:imeOptions="actionDone"
                     android:nextFocusForward="@+id/spn_businessNature"
                     tools:ignore="LabelFor" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -203,7 +202,6 @@
                     android:focusable="false"
                     android:hint="Nature of Business (Required)"
                     android:inputType="none"
-                    android:nextFocusForward="@+id/txt_CompanyNme"
                     android:padding="16dp" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -323,10 +321,9 @@
                         android:id="@+id/txt_specificJob"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:imeOptions="actionNext"
+                        android:imeOptions="actionDone"
                         android:inputType="textCapWords"
-                        android:maxLength="50"
-                        android:nextFocusForward="@+id/spn_employmentStatus" />
+                        android:maxLength="50"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -363,15 +360,14 @@
                             android:id="@+id/txt_lenghtService"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:imeOptions="actionNext"
+                            android:imeOptions="actionDone"
                             android:inputType="number|none"
-                            android:maxLength="5"
-                            android:nextFocusForward="@+id/spn_lengthService" />
+                            android:maxLength="5"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
-                        style="@style/TextInputStyle"
+                        style="@style/CustomDropDownTilStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1.5"
@@ -418,10 +414,10 @@
                         android:id="@+id/txt_companyContact"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:imeOptions="actionDone"
+                        android:imeOptions="actionNext"
                         android:inputType="number|none"
                         android:maxLength="11"
-                        android:nextFocusForward="@+id/btn_creditAppNext" />
+                        android:nextFocusForward="@+id/btn_creditAppNext"/>
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
@@ -437,12 +433,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
-                    android:layout_alignparentLeft="true"
+                    android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:drawableStart="@drawable/ic_nav_left"
                     android:drawableLeft="@drawable/ic_nav_left"
-                    android:text="@string/sbtnPrvs"
-                    tools:ignore="RelativeOverLap" />
+                    android:text="@string/sbtnPrvs" />
 
                 <Button
                     android:id="@+id/btn_creditAppNext"
@@ -454,8 +449,7 @@
                     android:layout_centerVertical="true"
                     android:drawableEnd="@drawable/ic_nav_right"
                     android:drawableRight="@drawable/ic_nav_right"
-                    android:text="@string/sbtnPrvs"
-                    tools:ignore="RelativeOverLap" />
+                    android:text="@string/sbtnNext" />
 
 
             </RelativeLayout>

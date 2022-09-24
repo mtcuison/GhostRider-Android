@@ -43,7 +43,7 @@ public class Activity_SpouseEmploymentInfo extends AppCompatActivity {
     }
 
     private void initWidgets() {
-        toolbar = findViewById(R.id.toolbar_PersonalInfo);
+        toolbar = findViewById(R.id.toolbar_SpouseEmploymentInfo);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 

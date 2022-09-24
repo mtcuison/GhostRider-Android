@@ -21,12 +21,11 @@ public class Activity_PersonalInfo extends AppCompatActivity {
 
     private TextInputEditText txtLastNm, txtFrstNm, txtMiddNm, txtSuffixx, txtNickNm, txtBirthDt,
             txtMothNm, txtMobileNo1, txtMobileNo2, txtMobileNo3, txtMobileYr1, txtMobileYr2,
-            txtMobileYr3, txtTellNox, txtEmailAdd, txtFbAccount, txtViberAccount;
+            txtMobileYr3, txtTellNox, txtEmailAdd, txtFbAccount, txtViberAccount ;
     private TextInputLayout tilMothNm, tilMobileYr1, tilMobileYr2, tilMobileYr3;
-    private AutoCompleteTextView txtProvince, txtTown, txtCitizen;
+    private AutoCompleteTextView  txtProvince,txtTown ,txtCitizen, spnCivilStatus, spnMobile1,
+            spnMobile2, spnMobile3;
     private RadioGroup rgGender;
-    private AutoCompleteTextView spnCivilStatus, spnMobile1, spnMobile2, spnMobile3;
-
     private MaterialButton btnNext;
     private Toolbar toolbar;
 

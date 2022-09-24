@@ -11,7 +11,6 @@ import androidx.appcompat.widget.Toolbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 
 import java.util.Objects;
@@ -48,7 +47,6 @@ public class Activity_SpouseInfo extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
-        transnox = Activity_CreditApplication.getInstance().getTransNox();
         txtProvince = findViewById(R.id.txt_bpProvince);
         txtTownxx = findViewById(R.id.txt_bpTown);
 

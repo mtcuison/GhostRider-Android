@@ -93,7 +93,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/sHintCompanyNme">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
                     android:id="@+id/txt_financierCntry"
                     style="@style/AutoCompleteStyleTheme"
                     android:layout_width="match_parent"

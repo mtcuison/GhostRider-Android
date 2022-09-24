@@ -2,14 +2,13 @@ package org.rmj.guanzongroup.onlinecreditapplication.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.google.android.material.button.MaterialButton;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
@@ -30,7 +29,7 @@ public class Activity_ReviewLoanApp extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ImageView imgClient;
     private ImageButton btnCamera;
-    private MaterialButton btnSave, btnPrvs;
+    private Button btnSave, btnPrvs;
 
     private List<ReviewAppDetail> plDetail;
     private ECreditApplicantInfo poInfo;
@@ -68,7 +67,7 @@ public class Activity_ReviewLoanApp extends AppCompatActivity {
         btnPrvs = findViewById(R.id.btn_creditAppPrvs);
 
         btnSave.setOnClickListener(v -> {
-            Intent intent = new Intent(Activity_ReviewLoanApp.this, Activity_ReviewLoanApp.class);
+            Intent intent = new Intent(Activity_ReviewLoanApp.this, Activity_PersonalInfo.class);
             startActivity(intent);
             finish();
         });
