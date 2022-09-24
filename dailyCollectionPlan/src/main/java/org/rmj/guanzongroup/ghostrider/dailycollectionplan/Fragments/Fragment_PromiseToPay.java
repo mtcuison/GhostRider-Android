@@ -106,7 +106,7 @@ public class Fragment_PromiseToPay extends Fragment implements ViewModelCallback
         mViewModel = new ViewModelProvider(requireActivity()).get(VMPromiseToPay.class);
         View view = inflater.inflate(R.layout.fragment_promise_to_pay, container, false);
         infoModel = new PromiseToPayModel();
-        poMessage = new MessageBox(getActivity());
+        poMessage = new MessageBox(requireActivity());
         Remarksx = Activity_Transaction.getInstance().getRemarksCode();
         TransNox = Activity_Transaction.getInstance().getTransNox();
         EntryNox = Activity_Transaction.getInstance().getEntryNox();

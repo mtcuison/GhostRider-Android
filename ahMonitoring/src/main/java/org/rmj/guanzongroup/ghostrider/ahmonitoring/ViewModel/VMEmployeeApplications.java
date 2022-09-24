@@ -95,19 +95,15 @@ public class VMEmployeeApplications extends AndroidViewModel {
 
         private final REmployeeLeave loLeave;
         private final ConnectionUtil loConn;
-        private final HttpHeaders loHeaders;
         private final REmployeeBusinessTrip poBusTrip;
-        private final WebApi poApi;
         private final OnDownloadApplicationListener mListener;
-        private final AppConfigPreference loConfig;
+
+        private String message;
 
         public DownloadLeaveTask(Application instance, OnDownloadApplicationListener listener){
             this.loLeave = new REmployeeLeave(instance);
             this.loConn = new ConnectionUtil(instance);
-            this.loHeaders = HttpHeaders.getInstance(instance);
             this.poBusTrip = new REmployeeBusinessTrip(instance);
-            this.loConfig = AppConfigPreference.getInstance(instance);
-            this.poApi = new WebApi(loConfig.getTestStatus());
             this.mListener = listener;
         }
 
@@ -120,83 +116,37 @@ public class VMEmployeeApplications extends AndroidViewModel {
         @SuppressLint("NewApi")
         @Override
         protected Boolean doInBackground(Void... voids) {
-            String response;
-            JSONObject loResponse;
-            String message = null;
             try{
                 if (!loConn.isDeviceConnected()) {
                     message = loConn.getMessage();
-                } else{
-                    if(loLeave.DownloadLeaveApplications()){
-                        message = loLeave.getMessage();
-                    }
+                    return false;
+                }
 
-//                    Thread.sleep(1000);
-//
-//                    String obResponse = WebClient.httpsPostJSon(poApi.getUrlGetObApplication(loConfig.isBackUpServer()), new JSONObject().toString(), loHeaders.getHeaders());
-//                    if (obResponse == null) {
-//                        if(message != null){
-//                            message = message + "\n" + "Server no response while downloading business trip applications";
-//                        } else {
-//                            message = AppConstants.LOCAL_EXCEPTION_ERROR("Server no response while downloading business trip applications");
-//                        }
-//                    } else {
-//                        loResponse = new JSONObject(obResponse);
-//                        String result = loResponse.getString("result");
-//                        if (result.equalsIgnoreCase("success")) {
-//                            JSONArray jsonA = loResponse.getJSONArray("payload");
-//                            for(int x = 0; x < jsonA.length(); x++) {
-//                                JSONObject loJson = jsonA.getJSONObject(x);
-//                                if (poBusTrip.getOBIfExist(loJson.getString("sTransNox")).size() > 0) {
-//                                    Log.d(TAG, "OB application already exist.");
-//                                } else {
-//                                    EEmployeeBusinessTrip loOB = new EEmployeeBusinessTrip();
-//                                    loOB.setTransNox(loJson.getString("sTransNox"));
-//                                    loOB.setTransact(loJson.getString("dTransact"));
-//                                    loOB.setEmployee(loJson.getString("sEmployID"));
-//                                    loOB.setFullName(loJson.getString("sCompnyNm"));
-//                                    loOB.setBranchNm(loJson.getString("sBranchNm"));
-//                                    loOB.setDeptName(loJson.getString("sDeptName"));
-//                                    loOB.setDateFrom(loJson.getString("dDateFrom"));
-//                                    loOB.setDateThru(loJson.getString("dDateThru"));
-//                                    loOB.setRemarksx(loJson.getString("sRemarksx"));
-//                                    loOB.setTranStat(loJson.getString("cTranStat"));
-//                                    poBusTrip.insert(loOB);
-//                                }
-//                            }
-//                        } else {
-//                            JSONObject loError = loResponse.getJSONObject("error");
-//                            if(message != null){
-//                                message = message + "\n" + "Fail to retrieve business trip applications. Reason: " + loError.getString("message");
-//                            } else {
-//                                message = "Fail to retrieve business trip applications. Reason: " + loError.getString("message");
-//                            }
-//                        }
-//                    }
-//
-//                    if(message == null){
-//                        response = AppConstants.APPROVAL_CODE_GENERATED("");
-//                    } else {
-//                        response = AppConstants.LOCAL_EXCEPTION_ERROR(message);
-//                    }
+                if(!loLeave.DownloadLeaveApplications()){
+                    message = loLeave.getMessage();
+                    Log.e(TAG, message);
+                }
+
+                if(!poBusTrip.DownloadApplications()){
+                    message = loLeave.getMessage();
+                    Log.e(TAG, message);
                 }
 
                 return true;
             } catch (Exception e){
                 e.printStackTrace();
-                response = AppConstants.LOCAL_EXCEPTION_ERROR(e.getMessage());
+                message = e.getMessage();
                 return false;
             }
-
         }
 
         @Override
         protected void onPostExecute(Boolean isSuccess) {
             super.onPostExecute(isSuccess);
-            try{
-
-            } catch (Exception e){
-                e.printStackTrace();
+            if(isSuccess){
+                mListener.OnDownloadSuccess();
+            } else {
+                mListener.OnDownloadFailed(message);
             }
         }
     }

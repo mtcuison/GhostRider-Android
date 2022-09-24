@@ -24,10 +24,10 @@ import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.ELog_Selfie;
+import org.rmj.g3appdriver.GRider.Database.Entities.ESelfieLog;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RLogSelfie;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RSelfieLog;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Http.WebClient;
@@ -123,12 +123,12 @@ public class BackgroundSync {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public boolean uploadLoginDetails(RLogSelfie poLog, List<ELog_Selfie> loginDetails) {
+    public boolean uploadLoginDetails(RSelfieLog poLog, List<ESelfieLog> loginDetails) {
         if (loginDetails.size() > 0) {
             boolean[] isSent = new boolean[loginDetails.size()];
             for (int x = 0; x < loginDetails.size(); x++) {
                 try {
-                    ELog_Selfie selfieLog = loginDetails.get(x);
+                    ESelfieLog selfieLog = loginDetails.get(x);
                     JSONObject loJson = new JSONObject();
                     loJson.put("sEmployID", selfieLog.getEmployID());
                     loJson.put("dLogTimex", selfieLog.getLogTimex());

@@ -13,16 +13,18 @@ package org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment;
 
 import static android.app.Activity.RESULT_OK;
 
+import static androidx.core.content.ContextCompat.checkSelfPermission;
+
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -30,7 +32,6 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -43,9 +44,9 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ESelfieLog;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RSelfieLog;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
-import org.rmj.g3appdriver.GRider.Etc.LocationRetriever;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.dev.GLocationManager;
@@ -55,7 +56,6 @@ import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.TimeLogAdapter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Dialog.DialogBranchSelection;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMSelfieLogin;
-import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
 
 import java.util.List;
 
@@ -73,14 +73,16 @@ public class Fragment_SelfieLogin extends Fragment {
     private ESelfieLog poLog;
     private GLocationManager loLocation;
 
+    RSelfieLog.SelfieLog poSelfie = new RSelfieLog.SelfieLog();
+
     private LoadDialog poLoad;
     private MessageBox poMessage;
 
-    private static String sSlectBranch = "";
-    private static String psPhotoPath = "";
-    private static String pnLatittude = "";
-    private static String pnLongitude = "";
-    private static String psFileNamex = "";
+//    private static String sSlectBranch = "";
+//    private static String psPhotoPath = "";
+//    private static String pnLatittude = "";
+//    private static String pnLongitude = "";
+//    private static String psFileNamex = "";
 
     private static boolean isDialogShown;
 
@@ -94,25 +96,26 @@ public class Fragment_SelfieLogin extends Fragment {
             try{
                 int resultCode = result.getResultCode();
                 if(resultCode == RESULT_OK){
-                    poLog.setTransact(AppConstants.CURRENT_DATE);
-                    poLog.setBranchCd(sSlectBranch);
-                    poLog.setEmployID(poUser.getEmployID());
-                    poLog.setLogTimex(new AppConstants().DATE_MODIFIED);
-                    poLog.setLatitude(pnLatittude);
-                    poLog.setLongitud(pnLongitude);
-                    poLog.setSendStat("0");
+//                    poLog.setTransact(AppConstants.CURRENT_DATE);
+//                    poLog.setBranchCd(sSlectBranch);
+//                    poLog.setEmployID(poUser.getEmployID());
+//                    poLog.setLogTimex(new AppConstants().DATE_MODIFIED);
+//                    poLog.setLatitude(pnLatittude);
+//                    poLog.setLongitud(pnLongitude);
+//                    poLog.setSendStat("0");
+//
+//                    poImage.setFileCode("0021");
+//                    poImage.setSourceNo(poUser.getClientID());
+//                    poImage.setDtlSrcNo(poUser.getUserIDxx());
+//                    poImage.setSourceCD("LOGa");
+//                    poImage.setImageNme(psFileNamex);
+//                    poImage.setFileLoct(psPhotoPath);
+//                    poImage.setLatitude(pnLatittude);
+//                    poImage.setLongitud(pnLongitude);
+//                    poImage.setMD5Hashx(WebFileServer.createMD5Hash(psPhotoPath));
+//                    poImage.setCaptured(new AppConstants().DATE_MODIFIED);
 
-                    poImage.setFileCode("0021");
-                    poImage.setSourceNo(poUser.getClientID());
-                    poImage.setDtlSrcNo(poUser.getUserIDxx());
-                    poImage.setSourceCD("LOGa");
-                    poImage.setImageNme(psFileNamex);
-                    poImage.setFileLoct(psPhotoPath);
-                    poImage.setLatitude(pnLatittude);
-                    poImage.setLongitud(pnLongitude);
-                    poImage.setMD5Hashx(WebFileServer.createMD5Hash(psPhotoPath));
-                    poImage.setCaptured(new AppConstants().DATE_MODIFIED);
-                    mViewModel.loginTimeKeeper(poLog, poImage, new VMSelfieLogin.OnLoginTimekeeperListener() {
+                    mViewModel.TimeIn(poSelfie, new VMSelfieLogin.OnLoginTimekeeperListener() {
                         @Override
                         public void OnLogin() {
                             poLoad.initDialog("Selfie Log", "Sending your time in. Please wait...", false);
@@ -126,10 +129,6 @@ public class Fragment_SelfieLogin extends Fragment {
                             } catch (Exception e){
                                 e.printStackTrace();
                             }
-                            psPhotoPath = "";
-                            pnLatittude = "";
-                            pnLongitude = "";
-                            psFileNamex = "";
                             showMessageDialog("Your time in has been save to server.");
                         }
 
@@ -140,13 +139,46 @@ public class Fragment_SelfieLogin extends Fragment {
                             } catch (Exception e){
                                 e.printStackTrace();
                             }
-                            showMessageDialog("Your time in has been save.");
+                            showMessageDialog(message);
                         }
                     });
+
+//                    mViewModel.loginTimeKeeper(poLog, poImage, new VMSelfieLogin.OnLoginTimekeeperListener() {
+//                        @Override
+//                        public void OnLogin() {
+//                            poLoad.initDialog("Selfie Log", "Sending your time in. Please wait...", false);
+//                            poLoad.show();
+//                        }
+//
+//                        @Override
+//                        public void OnSuccess(String args) {
+//                            try {
+//                                poLoad.dismiss();
+//                            } catch (Exception e){
+//                                e.printStackTrace();
+//                            }
+//                            psPhotoPath = "";
+//                            pnLatittude = "";
+//                            pnLongitude = "";
+//                            psFileNamex = "";
+//                            showMessageDialog("Your time in has been save to server.");
+//                        }
+//
+//                        @Override
+//                        public void OnFailed(String message) {
+//                        }
+//                    });
                 }
             } catch (Exception e){
                 e.printStackTrace();
             }
+        }
+    });
+
+    private final ActivityResultLauncher<String> poRequest = registerForActivityResult(new ActivityResultContracts.RequestPermission(), new ActivityResultCallback<Boolean>() {
+        @Override
+        public void onActivityResult(Boolean result) {
+
         }
     });
 
@@ -196,7 +228,7 @@ public class Fragment_SelfieLogin extends Fragment {
         mViewModel.getUserBranchInfo().observe(getViewLifecycleOwner(), eBranchInfo -> {
             try {
                 lblBranch.setText(eBranchInfo.getBranchNm());
-                sSlectBranch = eBranchInfo.getBranchCd();
+                poSelfie.setBranchCode(eBranchInfo.getBranchCd());
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -217,7 +249,6 @@ public class Fragment_SelfieLogin extends Fragment {
                 new DialogBranchSelection(requireActivity(), area, all).initDialog(true, new DialogBranchSelection.OnBranchSelectedCallback() {
                     @Override
                     public void OnSelect(String BranchCode, AlertDialog dialog) {
-                        sSlectBranch = BranchCode;
                         mViewModel.checkIfAlreadyLog(BranchCode, new VMSelfieLogin.OnBranchSelectedCallback() {
                             @Override
                             public void OnLoad() {
@@ -228,7 +259,7 @@ public class Fragment_SelfieLogin extends Fragment {
                             @Override
                             public void OnSuccess() {
                                 poLoad.dismiss();
-                                sSlectBranch = BranchCode;
+                                poSelfie.setBranchCode(BranchCode);
                                 mViewModel.getBranchInfo(BranchCode).observe(getViewLifecycleOwner(), eBranchInfo -> {
                                     try{
                                         lblBranch.setText(eBranchInfo.getBranchNm());
@@ -265,18 +296,12 @@ public class Fragment_SelfieLogin extends Fragment {
         }));
 
         btnCamera.setOnClickListener(v -> {
-            long time = SystemClock.elapsedRealtime() - mLastClickTime;
-            if(time < 5000){
-                Toast.makeText(requireActivity(), "Please wait...", Toast.LENGTH_LONG).show();
+            if(checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+                poRequest.launch(Manifest.permission.ACCESS_COARSE_LOCATION);
+            } else if(checkSelfPermission(requireActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
+                poRequest.launch(Manifest.permission.CAMERA);
             } else {
-                mLastClickTime = SystemClock.elapsedRealtime();
-                mViewModel.isPermissionsGranted().observe(getViewLifecycleOwner(), isGranted -> {
-                    if (!isGranted) {
-                        mViewModel.getPermisions().observe(getViewLifecycleOwner(), strings -> ActivityCompat.requestPermissions(requireActivity(), strings, AppConstants.PERMISION_REQUEST_CODE));
-                    } else {
-                        initCamera();
-                    }
-                });
+                initCamera();
             }
         });
         return view;
@@ -300,16 +325,6 @@ public class Fragment_SelfieLogin extends Fragment {
 
     private void initCamera(){
         try {
-//            ImageFileCreator loImage = new ImageFileCreator(requireActivity(), AppConstants.SUB_FOLDER_SELFIE_LOG, poUser.getUserIDxx());
-//            loImage.CreateFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> new LocationRetriever(requireActivity(), requireActivity()).getLocation((message, latitude1, longitude1) -> {
-//                psPhotoPath = photPath;
-//                psFileNamex = FileName;
-//                pnLatittude = String.valueOf(latitude1);
-//                pnLongitude = String.valueOf(longitude1);
-//                openCamera.putExtra("android.intent.extras.CAMERA_FACING", 1);
-//                poCamera.launch(openCamera);
-//            }));
-
             mViewModel.InitCameraLaunch(requireActivity(), new VMSelfieLogin.OnInitializeCameraCallback() {
                 @Override
                 public void OnInit() {
@@ -320,10 +335,10 @@ public class Fragment_SelfieLogin extends Fragment {
                 @Override
                 public void OnSuccess(Intent intent, String[] args) {
                     poLoad.dismiss();
-                    psPhotoPath = args[0];
-                    psFileNamex = args[1];
-                    pnLatittude = args[2];
-                    pnLongitude = args[3];
+                    poSelfie.setLocation(args[0]);
+                    poSelfie.setFileName(args[1]);
+                    poSelfie.setLatitude(args[2]);
+                    poSelfie.setLongitude(args[3]);
                     poCamera.launch(intent);
                 }
 
@@ -395,7 +410,6 @@ public class Fragment_SelfieLogin extends Fragment {
                 new DialogBranchSelection(requireActivity(), area, all).initDialog(true, new DialogBranchSelection.OnBranchSelectedCallback() {
                     @Override
                     public void OnSelect(String BranchCode, AlertDialog dialog) {
-                        sSlectBranch = BranchCode;
                         mViewModel.checkIfAlreadyLog(BranchCode, new VMSelfieLogin.OnBranchSelectedCallback() {
                             @Override
                             public void OnLoad() {
@@ -406,7 +420,6 @@ public class Fragment_SelfieLogin extends Fragment {
                             @Override
                             public void OnSuccess() {
                                 poLoad.dismiss();
-                                sSlectBranch = BranchCode;
                                 mViewModel.getBranchInfo(BranchCode).observe(getViewLifecycleOwner(), eBranchInfo -> {
                                     try{
                                         lblBranch.setText(eBranchInfo.getBranchNm());
@@ -432,7 +445,7 @@ public class Fragment_SelfieLogin extends Fragment {
 
                     @Override
                     public void OnCancel() {
-//                        requireActivity().finish();
+
                     }
                 });
             }

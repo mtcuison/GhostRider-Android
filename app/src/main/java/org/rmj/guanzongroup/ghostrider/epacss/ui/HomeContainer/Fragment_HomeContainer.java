@@ -70,7 +70,7 @@ public class Fragment_HomeContainer extends Fragment {
                 fragment = new Fragment[]{new Fragment_Associate_Dashboard(), new Fragment_NotificationList()};
                 appBarHome.setVisibility(View.VISIBLE);
                 imgHeader.setImageResource(R.drawable.img_associate);
-            }  else if(mViewModel.getEmployeeLevel().equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_BEANCH_HEAD))) {
+            }  else if(mViewModel.getEmployeeLevel().equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_BRANCH_HEAD))) {
                 fragment = new Fragment[]{new Fragment_BH_Dashboard(), new Fragment_NotificationList()};
                 appBarHome.setVisibility(View.VISIBLE);
                 imgHeader.setImageResource(R.drawable.img_bh_header);

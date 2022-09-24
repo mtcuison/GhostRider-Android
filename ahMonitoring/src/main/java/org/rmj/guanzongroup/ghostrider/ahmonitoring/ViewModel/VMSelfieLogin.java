@@ -143,58 +143,6 @@ public class VMSelfieLogin extends AndroidViewModel {
         new InitializeCameraTask(activity, instance, callback).execute();
     }
 
-//    private static class InitCameraTask extends AsyncTask<String, Void, Boolean>{
-//
-//        private final Activity activity;
-//        private final Application instance;
-//        private final OnInitializeCameraCallback callback;
-//        private final SessionManager poSession;
-//        private final ImageFileCreator poImage;
-//
-//        private Intent loIntent;
-//        private String message;
-//
-//        public InitCameraTask(Activity activity, Application instance, OnInitializeCameraCallback callback) {
-//            this.activity = activity;
-//            this.instance = instance;
-//            this.callback = callback;
-//            this.poSession = new SessionManager(instance);
-//            this.poImage = new ImageFileCreator(instance, AppConstants.SUB_FOLDER_SELFIE_LOG, poSession.getUserID());
-//        }
-//
-//        @Override
-//        protected void onPreExecute() {
-//            super.onPreExecute();
-//            callback.OnInit();
-//        }
-//
-//        @Override
-//        protected Boolean doInBackground(String... strings) {
-//            try{
-//                if(!poImage.IsFileCreated()){
-//                    message = poImage.getMessage();
-//                    return false;
-//                } else {
-//
-//                }
-//            } catch (Exception e){
-//                e.printStackTrace();
-//                message = e.getMessage();
-//                return false;
-//            }
-//        }
-//
-//        @Override
-//        protected void onPostExecute(Boolean success) {
-//            super.onPostExecute(success);
-//            if(success){
-//                callback.OnSuccess(loIntent, args);
-//            } else {
-//                callback.OnFailed(message);
-//            }
-//        }
-//    }
-
     private static class InitializeCameraTask extends AsyncTask<String, Void, Boolean>{
 
         private final Activity activity;
@@ -401,6 +349,68 @@ public class VMSelfieLogin extends AndroidViewModel {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             Log.e(TAG, "Finished importing branch inventory");
+        }
+    }
+
+    public void TimeIn(RSelfieLog.SelfieLog foVal, OnLoginTimekeeperListener callback){
+        new TimeInTask(instance, callback).execute(foVal);
+    }
+
+    public static class TimeInTask extends AsyncTask<RSelfieLog.SelfieLog, Void, Boolean>{
+
+        private final RSelfieLog poSys;
+        private final OnLoginTimekeeperListener callback;
+
+        private final ConnectionUtil poConn;
+
+        private String message;
+
+        public TimeInTask(Application instance, OnLoginTimekeeperListener callback) {
+            this.poSys = new RSelfieLog(instance);
+            this.callback = callback;
+            this.poConn = new ConnectionUtil(instance);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Boolean doInBackground(RSelfieLog.SelfieLog... selfieLogs) {
+            try{
+                String lsTransNo = poSys.SaveSelfieLog(selfieLogs[0]);
+                if(lsTransNo == null){
+                    message = poSys.getMessage();
+                    return false;
+                }
+
+                if(!poConn.isDeviceConnected()){
+                    message = "Your selfie log has been save to local.";
+                    return false;
+                }
+
+                if(!poSys.UploadSelfieLog(lsTransNo)){
+                    message = poSys.getMessage();
+                    return false;
+                }
+
+                return true;
+            } catch (Exception e){
+                e.printStackTrace();
+                message = e.getMessage();
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Boolean isSuccess) {
+            super.onPostExecute(isSuccess);
+            if(isSuccess){
+                callback.OnSuccess(message);
+            } else {
+                callback.OnFailed(message);
+            }
         }
     }
 

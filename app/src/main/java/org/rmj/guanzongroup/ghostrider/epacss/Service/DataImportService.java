@@ -104,7 +104,6 @@ public class DataImportService extends JobService {
                     e.printStackTrace();
                 }
             }
-            AppConfigPreference.getInstance(DataImportService.this).setLastSyncDate(new AppConstants().CURRENT_DATE);
             jobFinished(params, false);
         }).start();
     }

@@ -12,17 +12,14 @@
 package org.rmj.guanzongroup.ghostrider.epacss.ViewModel;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
@@ -38,9 +35,10 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RFileCode;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RLogSelfie;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RSelfieLog;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RProvince;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RRelation;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RSelfieLog;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RTown;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.GRider.ImportData.ImportBarangay;
@@ -84,7 +82,7 @@ public class VMSplashScreen extends AndroidViewModel {
     private final AppConfigPreference poConfigx;
     private final AppTokenManager poToken;
     private final RDailyCollectionPlan poDcp;
-    private final RLogSelfie poLogx;
+    private final RSelfieLog poLogx;
 
     private final MutableLiveData<Boolean> pbIsGrantd = new MutableLiveData<>();
 
@@ -95,7 +93,7 @@ public class VMSplashScreen extends AndroidViewModel {
         poConfigx = AppConfigPreference.getInstance(application);
         poConfigx.setTemp_ProductID("gRider");
         poConfigx.setUpdateLocally(false);
-        poLogx = new RLogSelfie(application);
+        poLogx = new RSelfieLog(application);
         Date buildDate = new Date(BuildConfig.TIMESTAMP);
         poConfigx.setupAppVersionInfo(BuildConfig.VERSION_CODE, BuildConfig.VERSION_NAME, String.valueOf(buildDate.getTime()));
         poToken = new AppTokenManager(application);
@@ -284,9 +282,9 @@ public class VMSplashScreen extends AndroidViewModel {
 
     public void CheckPermissions(){
         List<String> lsPermissions = new ArrayList<>();
-//        if(ActivityCompat.checkSelfPermission(instance, Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED){
-//            lsPermissions.add(Manifest.permission.INTERNET);
-//        }
+        if(ActivityCompat.checkSelfPermission(instance, Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED){
+            lsPermissions.add(Manifest.permission.INTERNET);
+        }
         if(ActivityCompat.checkSelfPermission(instance, Manifest.permission.ACCESS_NETWORK_STATE) != PackageManager.PERMISSION_GRANTED){
             lsPermissions.add(Manifest.permission.ACCESS_NETWORK_STATE);
         }
