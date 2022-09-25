@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -44,8 +45,6 @@ public class Activity_Employee_Applications extends AppCompatActivity implements
 
     private final String[] tabHeaders = {"Leave Application \nList",
                                     "Business Trip Application \nList"};
-    private final int[] tabIcons = {R.drawable.ic_application_leave,
-                                R.drawable.ic_application_business_trip};
 
     private TextView lblBrnchNm, lblBrnchAd, lblHeaderx;
     private Toolbar toolbar;
@@ -105,12 +104,10 @@ public class Activity_Employee_Applications extends AppCompatActivity implements
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 lblHeaderx.setText(tabHeaders[tab.getPosition()]);
-                Objects.requireNonNull(tabLayout.getTabAt(tab.getPosition())).setIcon(tabIcons[tab.getPosition()]);
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-                Objects.requireNonNull(tabLayout.getTabAt(tab.getPosition())).setIcon(tabIcons[tab.getPosition()]);
             }
 
             @Override
@@ -118,9 +115,6 @@ public class Activity_Employee_Applications extends AppCompatActivity implements
 
             }
         });
-
-        Objects.requireNonNull(tabLayout.getTabAt(0)).setIcon(tabIcons[0]);
-        Objects.requireNonNull(tabLayout.getTabAt(1)).setIcon(tabIcons[1]);
     }
 
     @Override
@@ -180,6 +174,7 @@ public class Activity_Employee_Applications extends AppCompatActivity implements
 
         private final Fragment[] fragments = {new Fragment_LeaveList(),
                                         new Fragment_BusinessTripList()};
+        private final String[] titles = {"Leave", "Business Trip"};
 
         public ApplicationsPageAdapter(@NonNull FragmentManager fm) {
             super(fm);
@@ -194,6 +189,12 @@ public class Activity_Employee_Applications extends AppCompatActivity implements
         @Override
         public int getCount() {
             return fragments.length;
+        }
+
+        @Nullable
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return titles[position];
         }
     }
 

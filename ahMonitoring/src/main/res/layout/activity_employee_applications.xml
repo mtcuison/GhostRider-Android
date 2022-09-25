@@ -38,7 +38,7 @@
             style="@style/Widget.MaterialComponents.TabLayout"
             app:tabGravity="fill"
             app:tabMode="fixed"
-            app:tabIconTint="@color/tab_select_indicator"
+            app:tabTextColor="@color/material_white"
             app:tabIndicatorColor="@color/guanzon_orange"
             app:tabIndicator="@drawable/tablayout_select_indicator"
             app:tabIndicatorAnimationDuration="1"

@@ -228,10 +228,10 @@ public class VMSplashScreen extends AndroidViewModel {
                     }
 
                     if(poUser.getSessionTime() <= 0) {
-                        return 3;
+                        return 2;
                     }
 
-                    return 1;
+                    return 3;
                 } else {
                     if(!poConfig.isAppFirstLaunch()){
                         message = "Offline Mode.";
