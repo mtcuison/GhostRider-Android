@@ -32,11 +32,11 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.Repositories.REmployeeBusinessTrip;
 import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
+import org.rmj.g3appdriver.lib.PetManager.EmployeeOB;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Application;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMObApproval;
@@ -71,7 +71,7 @@ public class Fragment_BusinessTripApproval extends Fragment implements VMObAppro
     private TextInputLayout tilRemarks;
     private LoadDialog poDialogx;
     private MessageBox poMessage;
-    private REmployeeBusinessTrip.OBApprovalInfo poModel;
+    private EmployeeOB.OBApprovalInfo poModel;
 
     public static Fragment_BusinessTripApproval newInstance() {
         return new Fragment_BusinessTripApproval();
@@ -166,7 +166,7 @@ public class Fragment_BusinessTripApproval extends Fragment implements VMObAppro
     public void initWidgets(View view){
         poDialogx = new LoadDialog(getActivity());
         poMessage = new MessageBox(getActivity());
-        poModel = new REmployeeBusinessTrip.OBApprovalInfo();
+        poModel = new EmployeeOB.OBApprovalInfo();
         lnSearch = view.findViewById(R.id.linear_search);
         lblBranchNm = view.findViewById(R.id.lbl_headerBranch);
         lblBranchAd = view.findViewById(R.id.lbl_headerAddress);

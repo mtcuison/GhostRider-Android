@@ -27,13 +27,13 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ESelfieLog;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RSelfieLog;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Http.WebClient;
 import org.rmj.g3appdriver.dev.Telephony;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.WebFileServer;
+import org.rmj.g3appdriver.lib.PetManager.SelfieLog;
 import org.rmj.g3appdriver.utils.WebApi;
 
 import java.util.List;
@@ -123,7 +123,7 @@ public class BackgroundSync {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public boolean uploadLoginDetails(RSelfieLog poLog, List<ESelfieLog> loginDetails) {
+    public boolean uploadLoginDetails(SelfieLog poLog, List<ESelfieLog> loginDetails) {
         if (loginDetails.size() > 0) {
             boolean[] isSent = new boolean[loginDetails.size()];
             for (int x = 0; x < loginDetails.size(); x++) {

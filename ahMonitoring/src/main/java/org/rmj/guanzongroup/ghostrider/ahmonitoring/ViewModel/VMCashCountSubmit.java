@@ -33,13 +33,13 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchLoanApplication;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCashCount;
-import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RSelfieLog;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Http.WebClient;
 import org.rmj.g3appdriver.dev.Telephony;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
+import org.rmj.g3appdriver.lib.PetManager.SelfieLog;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.CashCountInfoModel;
@@ -53,7 +53,7 @@ public class VMCashCountSubmit extends AndroidViewModel {
     private static final String TAG = VMCashCountSubmit.class.getSimpleName();
 
     private final Application instance;
-    private final REmployee poEmploye;
+    private final EmployeeMaster poEmploye;
     private final RBranch poBranch;
     private final ECashCount eCashCount;
     private final RCashCount poCashCount;
@@ -64,7 +64,7 @@ public class VMCashCountSubmit extends AndroidViewModel {
     public VMCashCountSubmit(@NonNull Application application) {
         super(application);
         this.instance = application;
-        this.poEmploye = new REmployee(application);
+        this.poEmploye = new EmployeeMaster(application);
         this.poBranch = new RBranch(application);
         this.poCashCount = new RCashCount(application);
         this.eCashCount = new ECashCount();
@@ -221,7 +221,7 @@ public class VMCashCountSubmit extends AndroidViewModel {
         private JSONObject jsonObject;
         private final HttpHeaders poHeaders;
         private final ConnectionUtil poConn;
-        private final RSelfieLog poLog;
+        private final SelfieLog poLog;
         private final Telephony poDevID;
         private final SessionManager poUser;
         private final AppConfigPreference poConfig;
@@ -237,7 +237,7 @@ public class VMCashCountSubmit extends AndroidViewModel {
             this.poDevID = new Telephony(instance);
             this.poUser = new SessionManager(instance);
             this.poConfig = AppConfigPreference.getInstance(instance);
-            this.poLog = new RSelfieLog(instance);
+            this.poLog = new SelfieLog(instance);
             this.poApi = new WebApi(poConfig.getTestStatus());
         }
 

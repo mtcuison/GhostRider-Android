@@ -23,18 +23,18 @@ import androidx.lifecycle.MutableLiveData;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ESelfieLog;
-import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RSelfieLog;
 import org.rmj.g3appdriver.dev.Telephony;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
+import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
+import org.rmj.g3appdriver.lib.PetManager.SelfieLog;
 
 import java.util.List;
 
 public class VMDashboard extends AndroidViewModel {
 
     private final SessionManager poSession;
-    private final REmployee poEmploye;
-    private final RSelfieLog poLog;
+    private final EmployeeMaster poEmploye;
+    private final SelfieLog poLog;
     private MutableLiveData<String> psEmailxx = new MutableLiveData<>();
     private MutableLiveData<String> psUserNme = new MutableLiveData<>();
     private MutableLiveData<String> psBranchx = new MutableLiveData<>();
@@ -45,9 +45,9 @@ public class VMDashboard extends AndroidViewModel {
     public VMDashboard(@NonNull Application application) {
         super(application);
         poSession = new SessionManager(application);
-        poEmploye = new REmployee(application);
+        poEmploye = new EmployeeMaster(application);
         psMobleNo.setValue(new Telephony(application).getMobilNumbers());
-        poLog = new RSelfieLog(application);
+        poLog = new SelfieLog(application);
     }
 
     public LiveData<EEmployeeInfo> getEmployeeInfo(){

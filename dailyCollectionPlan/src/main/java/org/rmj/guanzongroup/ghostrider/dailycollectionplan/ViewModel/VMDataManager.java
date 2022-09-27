@@ -28,13 +28,13 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplication;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplicationDocument;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RSelfieLog;
+import org.rmj.g3appdriver.lib.PetManager.SelfieLog;
 
 import java.util.List;
 
 public class VMDataManager extends AndroidViewModel {
 
-    private final RSelfieLog poLog;
+    private final SelfieLog poLog;
     private final RImageInfo poImage;
     private final RDailyCollectionPlan poDcp;
     private final RCreditApplication poCreditApp;
@@ -51,7 +51,7 @@ public class VMDataManager extends AndroidViewModel {
         super(instance);
         this.poImage = new RImageInfo(instance);
         this.poDcp = new RDailyCollectionPlan(instance);
-        this.poLog = new RSelfieLog(instance);
+        this.poLog = new SelfieLog(instance);
         this.poCreditApp = new RCreditApplication(instance);
         this.poLoan = new RBranchLoanApplication(instance);
         this.poDocs = new RCreditApplicationDocument(instance);

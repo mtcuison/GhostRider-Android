@@ -31,13 +31,13 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EFileCode;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchLoanApplication;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplication;
-import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RFileCode;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Http.WebClient;
 import org.rmj.g3appdriver.GRider.ImportData.Import_CreditAppList;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 
@@ -50,7 +50,7 @@ public class VMBranchApplications extends AndroidViewModel {
     private final LiveData<List<EFileCode>> collectionList;
     private final RBranchLoanApplication poCreditApp;
     private final Import_CreditAppList poImport;
-    private final REmployee poEmploye;
+    private final EmployeeMaster poEmploye;
     private List<ECreditApplication> eCreditApplication;
     private final RCreditApplication rCreditApp;
     private final SessionManager poSession;
@@ -61,7 +61,7 @@ public class VMBranchApplications extends AndroidViewModel {
         this.collectionList = peFileCode.getAllFileCode();
         this.poCreditApp = new RBranchLoanApplication(application);
         this.poImport = new Import_CreditAppList(application);
-        poEmploye = new REmployee(application);
+        poEmploye = new EmployeeMaster(application);
         poEmploye.getEmployeeInfo();
 
         rCreditApp = new RCreditApplication(application);

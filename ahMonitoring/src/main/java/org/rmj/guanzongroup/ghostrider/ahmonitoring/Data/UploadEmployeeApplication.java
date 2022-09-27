@@ -11,12 +11,12 @@ import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeBusinessTrip;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeLeave;
-import org.rmj.g3appdriver.GRider.Database.Repositories.REmployeeBusinessTrip;
-import org.rmj.g3appdriver.GRider.Database.Repositories.REmployeeLeave;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Http.WebClient;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.lib.PetManager.EmployeeLeave;
+import org.rmj.g3appdriver.lib.PetManager.EmployeeOB;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 
@@ -40,14 +40,14 @@ public class UploadEmployeeApplication {
         private final ConnectionUtil poConn;
         private final HttpHeaders poHeaders;
         private final SessionManager poSession;
-        private final REmployeeLeave poLeave;
-        private final REmployeeBusinessTrip poBusTrp;
+        private final EmployeeLeave poLeave;
+        private final EmployeeOB poBusTrp;
         private final WebApi poApi;
         private final AppConfigPreference loConfig;
 
         public UploadTask(Application instance) {
-            this.poLeave = new REmployeeLeave(instance);
-            this.poBusTrp = new REmployeeBusinessTrip(instance);
+            this.poLeave = new EmployeeLeave(instance);
+            this.poBusTrp = new EmployeeOB(instance);
             this.poConn = new ConnectionUtil(instance);
             this.poHeaders = HttpHeaders.getInstance(instance);
             this.poSession = new SessionManager(instance);

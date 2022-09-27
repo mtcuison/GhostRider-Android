@@ -21,8 +21,8 @@ import androidx.lifecycle.LiveData;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
-import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
-import org.rmj.g3appdriver.GRider.Database.Repositories.REmployeeBusinessTrip;
+import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
+import org.rmj.g3appdriver.lib.PetManager.EmployeeOB;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 
 import java.util.List;
@@ -32,13 +32,13 @@ public class VMObApplication extends AndroidViewModel {
     public static final String TAG = VMObApplication.class.getSimpleName();
     private final Application instance;
     private final RBranch pobranch;
-    private final REmployee poUser;
+    private final EmployeeMaster poUser;
     private final LiveData<String[]> paBranchNm;
     public VMObApplication(@NonNull Application application) {
         super(application);
         this.instance = application;
         this.pobranch = new RBranch(instance);
-        this.poUser = new REmployee(instance);
+        this.poUser = new EmployeeMaster(instance);
         paBranchNm = pobranch.getAllMcBranchNames();
     }
     public interface OnSubmitOBLeaveListener{
@@ -59,13 +59,13 @@ public class VMObApplication extends AndroidViewModel {
     public LiveData<List<EBranchInfo>> getAllBranchInfo(){
         return pobranch.getAllMcBranchInfo();
     }
-    public void saveObLeave(REmployeeBusinessTrip.OBApplication infoModel, OnSubmitOBLeaveListener callback){
+    public void saveObLeave(EmployeeOB.OBApplication infoModel, OnSubmitOBLeaveListener callback){
         new PostObLeaveTask(instance, callback).execute(infoModel);
     }
 
-    private static class PostObLeaveTask extends AsyncTask<REmployeeBusinessTrip.OBApplication, Void, Boolean> {
+    private static class PostObLeaveTask extends AsyncTask<EmployeeOB.OBApplication, Void, Boolean> {
         private final OnSubmitOBLeaveListener callback;
-        private final REmployeeBusinessTrip poOBLeave;
+        private final EmployeeOB poOBLeave;
         private final ConnectionUtil poConn;
 
         private String message;
@@ -73,7 +73,7 @@ public class VMObApplication extends AndroidViewModel {
         public PostObLeaveTask(Application instance, OnSubmitOBLeaveListener callback) {
             this.callback = callback;
             this.poConn = new ConnectionUtil(instance);
-            this.poOBLeave = new REmployeeBusinessTrip(instance);
+            this.poOBLeave = new EmployeeOB(instance);
         }
 
         @Override
@@ -82,8 +82,8 @@ public class VMObApplication extends AndroidViewModel {
         }
 
         @Override
-        protected Boolean doInBackground(REmployeeBusinessTrip.OBApplication... obApplications) {
-            REmployeeBusinessTrip.OBApplication loApp = obApplications[0];
+        protected Boolean doInBackground(EmployeeOB.OBApplication... obApplications) {
+            EmployeeOB.OBApplication loApp = obApplications[0];
             try{
                 String lsTransNox = poOBLeave.SaveOBApplication(loApp);
                 if(lsTransNox == null){

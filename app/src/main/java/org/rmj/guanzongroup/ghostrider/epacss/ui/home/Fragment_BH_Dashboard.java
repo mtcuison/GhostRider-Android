@@ -51,11 +51,11 @@ import com.google.android.material.button.MaterialButton;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DBranchPerformance;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchPerformance;
-import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_BranchPerformance;
 import org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_Main;
 import org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_SplashScreen;
@@ -149,7 +149,7 @@ public class Fragment_BH_Dashboard extends Fragment {
             loMessage.setPositiveButton("Yes", (view1, dialog) -> {
                 dialog.dismiss();
                 requireActivity().finish();
-                new REmployee(requireActivity().getApplication()).LogoutUserSession();
+                new EmployeeMaster(requireActivity().getApplication()).LogoutUserSession();
                 AppConfigPreference.getInstance(getActivity()).setIsAppFirstLaunch(false);
                 startActivity(new Intent(getActivity(), Activity_SplashScreen.class));
             });

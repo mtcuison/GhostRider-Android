@@ -18,15 +18,15 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
-import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
+import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 
 public class VMMainContainer extends AndroidViewModel {
 
-    private final REmployee poUser;
+    private final EmployeeMaster poUser;
 
     public VMMainContainer(@NonNull Application application) {
         super(application);
-        this.poUser = new REmployee(application);
+        this.poUser = new EmployeeMaster(application);
     }
 
     public LiveData<EEmployeeInfo> getEmployeeInfo(){

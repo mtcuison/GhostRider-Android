@@ -23,8 +23,7 @@ import androidx.lifecycle.MutableLiveData;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
-import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
-import org.rmj.g3appdriver.GRider.Database.Repositories.REmployeeLeave;
+import org.rmj.g3appdriver.lib.PetManager.EmployeeLeave;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 
 import static org.rmj.g3appdriver.GRider.Constants.AppConstants.LEAVE_TYPE;
@@ -33,13 +32,13 @@ public class VMLeaveApplication extends AndroidViewModel {
 
     private final Application instance;
     private final RBranch pobranch;
-    private final REmployee poUser;
+    private final EmployeeLeave poUser;
 
     public VMLeaveApplication(@NonNull Application application) {
         super(application);
         this.instance = application;
         this.pobranch = new RBranch(instance);
-        this.poUser = new REmployee(instance);
+        this.poUser = new EmployeeLeave(instance);
     }
 
     public interface LeaveApplicationCallback {
@@ -47,10 +46,10 @@ public class VMLeaveApplication extends AndroidViewModel {
         void OnSuccess(String message);
         void OnFailed(String message);
     }
-
-    public LiveData<EEmployeeInfo> getUserInfo(){
-        return poUser.getUserInfo();
-    }
+//
+//    public LiveData<EEmployeeInfo> getUserInfo(){
+//        return poUser.getUserInfo();
+//    }
 
     public LiveData<EBranchInfo> getUserBranchInfo(){
         return pobranch.getUserBranchInfo();
@@ -62,22 +61,22 @@ public class VMLeaveApplication extends AndroidViewModel {
         return loList;
     }
 
-    public void SaveApplication(REmployeeLeave.LeaveApplication application, LeaveApplicationCallback callback){
+    public void SaveApplication(EmployeeLeave.LeaveApplication application, LeaveApplicationCallback callback){
         new SaveLeaveApplication(instance, callback).execute(application);
     }
 
-    private static class SaveLeaveApplication extends AsyncTask<REmployeeLeave.LeaveApplication, Void, Boolean>{
+    private static class SaveLeaveApplication extends AsyncTask<EmployeeLeave.LeaveApplication, Void, Boolean>{
         private final LeaveApplicationCallback callback;
 
         private final ConnectionUtil poConn;
-        private final REmployeeLeave poLeave;
+        private final EmployeeLeave poLeave;
 
         private String message;
 
         public SaveLeaveApplication(Application instance, LeaveApplicationCallback callback) {
             this.callback = callback;
             this.poConn = new ConnectionUtil(instance);
-            this.poLeave = new REmployeeLeave(instance);
+            this.poLeave = new EmployeeLeave(instance);
         }
 
         @Override
@@ -87,8 +86,8 @@ public class VMLeaveApplication extends AndroidViewModel {
         }
 
         @Override
-        protected Boolean doInBackground(REmployeeLeave.LeaveApplication... leaveApplications) {
-            REmployeeLeave.LeaveApplication loLeave = leaveApplications[0];
+        protected Boolean doInBackground(EmployeeLeave.LeaveApplication... leaveApplications) {
+            EmployeeLeave.LeaveApplication loLeave = leaveApplications[0];
             try {
                 String lsTransNo = poLeave.SaveLeaveApplication(loLeave);
                 if (lsTransNo == null) {

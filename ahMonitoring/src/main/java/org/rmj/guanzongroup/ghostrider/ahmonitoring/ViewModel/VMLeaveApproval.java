@@ -24,10 +24,10 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeLeave;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
-import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
-import org.rmj.g3appdriver.GRider.Database.Repositories.REmployeeLeave;
 
 import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
+import org.rmj.g3appdriver.lib.PetManager.EmployeeLeave;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 
 import java.text.ParseException;
@@ -41,8 +41,8 @@ public class VMLeaveApproval extends AndroidViewModel {
     public static final String TAG = VMLeaveApproval.class.getSimpleName();
     private final Application instance;
     private final RBranch pobranch;
-    private final REmployee poUser;
-    private final REmployeeLeave poLeave;
+    private final EmployeeMaster poUser;
+    private final EmployeeLeave poLeave;
 
     private final MutableLiveData<String> TransNox = new MutableLiveData<>();
     private final MutableLiveData<Integer> pnCredit = new MutableLiveData<>();
@@ -54,8 +54,8 @@ public class VMLeaveApproval extends AndroidViewModel {
         super(application);
         this.instance = application;
         this.pobranch = new RBranch(instance);
-        this.poUser = new REmployee(instance);
-        this.poLeave = new REmployeeLeave(instance);
+        this.poUser = new EmployeeMaster(instance);
+        this.poLeave = new EmployeeLeave(instance);
         this.TransNox.setValue("");
     }
 
@@ -97,14 +97,14 @@ public class VMLeaveApproval extends AndroidViewModel {
 
     private static class DownloadLeaveAppTask extends AsyncTask<String, Void, Boolean> {
         private final ConnectionUtil conn;
-        private final REmployeeLeave poLeave;
+        private final EmployeeLeave poLeave;
         private final OnDownloadLeaveAppInfo callback;
 
         private String transno, message;
 
         public DownloadLeaveAppTask(Application instance, OnDownloadLeaveAppInfo callback) {
             this.conn = new ConnectionUtil(instance);
-            this.poLeave = new REmployeeLeave(instance);
+            this.poLeave = new EmployeeLeave(instance);
             this.callback = callback;
         }
 
@@ -147,23 +147,23 @@ public class VMLeaveApproval extends AndroidViewModel {
         }
     }
 
-    public void confirmLeaveApplication(REmployeeLeave.LeaveApprovalInfo infoModel, OnConfirmLeaveAppCallback callBack){
+    public void confirmLeaveApplication(EmployeeLeave.LeaveApprovalInfo infoModel, OnConfirmLeaveAppCallback callBack){
         new ConfirmLeaveTask(infoModel, instance, callBack).execute();
     }
 
-    private static class ConfirmLeaveTask extends AsyncTask<REmployeeLeave.LeaveApprovalInfo, Void, Boolean> {
+    private static class ConfirmLeaveTask extends AsyncTask<EmployeeLeave.LeaveApprovalInfo, Void, Boolean> {
         private final OnConfirmLeaveAppCallback callback;
 
         private final ConnectionUtil poConn;
-        private final REmployeeLeave poLeave;
+        private final EmployeeLeave poLeave;
         private final AppConfigPreference loConfig;
 
         private String message;
 
-        public ConfirmLeaveTask(REmployeeLeave.LeaveApprovalInfo infoModel, Application instance, OnConfirmLeaveAppCallback callback) {
+        public ConfirmLeaveTask(EmployeeLeave.LeaveApprovalInfo infoModel, Application instance, OnConfirmLeaveAppCallback callback) {
             this.callback = callback;
             this.poConn = new ConnectionUtil(instance);
-            this.poLeave = new REmployeeLeave(instance);
+            this.poLeave = new EmployeeLeave(instance);
             this.loConfig = AppConfigPreference.getInstance(instance);
         }
 
@@ -174,7 +174,7 @@ public class VMLeaveApproval extends AndroidViewModel {
         }
 
         @Override
-        protected Boolean doInBackground(REmployeeLeave.LeaveApprovalInfo... infos) {
+        protected Boolean doInBackground(EmployeeLeave.LeaveApprovalInfo... infos) {
             try{
                 if(!infos[0].isDataValid()){
                     message = infos[0].getMessage();

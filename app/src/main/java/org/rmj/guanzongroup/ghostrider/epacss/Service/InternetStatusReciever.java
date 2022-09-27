@@ -41,17 +41,18 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplication;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplicationDocument;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RDCP_Remittance;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
-import org.rmj.g3appdriver.GRider.Database.Repositories.REmployeeLeave;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RItinerary;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RLocationSysLog;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RSelfieLog;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Http.WebClient;
 import org.rmj.g3appdriver.dev.Telephony;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.WebFileServer;
+import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
+import org.rmj.g3appdriver.lib.PetManager.EmployeeLeave;
+import org.rmj.g3appdriver.lib.PetManager.SelfieLog;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Data.UploadEmployeeApplication;
@@ -93,7 +94,7 @@ public class InternetStatusReciever extends BroadcastReceiver {
         private final SessionManager poSession;
         private final Telephony poDevice;
 
-        private final RSelfieLog poLog;
+        private final SelfieLog poLog;
         private final RImageInfo poImage;
         private final RDailyCollectionPlan poDcp;
         private final RCreditApplication poCreditApp;
@@ -131,7 +132,7 @@ public class InternetStatusReciever extends BroadcastReceiver {
             this.poDevice = new Telephony(instance);
             this.poImage = new RImageInfo(instance);
             this.poDcp = new RDailyCollectionPlan(instance);
-            this.poLog = new RSelfieLog(instance);
+            this.poLog = new SelfieLog(instance);
             this.poCreditApp = new RCreditApplication(instance);
             this.poLoan = new RBranchLoanApplication(instance);
             this.poDocs = new RCreditApplicationDocument(instance);
@@ -238,7 +239,7 @@ public class InternetStatusReciever extends BroadcastReceiver {
                     e.printStackTrace();
                 }
 
-                new REmployeeLeave(instance).UploadLeaveApplications();
+                new EmployeeLeave(instance).UploadLeaveApplications();
             }
             return Message;
         }

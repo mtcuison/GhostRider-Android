@@ -33,12 +33,12 @@ import android.widget.TextView;
 
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.guanzongroup.ghostrider.epacss.BuildConfig;
 import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMDashboard;
 import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Etc.GeoLocator;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.dev.DeptCode;
@@ -208,7 +208,7 @@ public class Fragment_Dashboard extends Fragment {
         loMessage.setPositiveButton("Yes", (view, dialog) -> {
             dialog.dismiss();
             requireActivity().finish();
-            new REmployee(requireActivity().getApplication()).LogoutUserSession();
+            new EmployeeMaster(requireActivity().getApplication()).LogoutUserSession();
             AppConfigPreference.getInstance(getActivity()).setIsAppFirstLaunch(false);
             startActivity(new Intent(getActivity(), Activity_SplashScreen.class));
         });

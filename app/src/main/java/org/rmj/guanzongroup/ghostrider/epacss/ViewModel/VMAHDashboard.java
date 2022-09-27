@@ -23,27 +23,27 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ESelfieLog;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
-import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RSelfieLog;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
+import org.rmj.g3appdriver.lib.PetManager.SelfieLog;
 
 import java.util.List;
 
 public class VMAHDashboard extends AndroidViewModel {
     private static final String TAG =  VMAHDashboard.class.getSimpleName();
 
-    private final REmployee poEmployee;
+    private final EmployeeMaster poEmployee;
     private final RBranch pobranch;
-    private final RSelfieLog poLog;
+    private final SelfieLog poLog;
     private final AppConfigPreference poConfigx;
 
     private final MutableLiveData<String> psVersion = new MutableLiveData<>();
 
     public VMAHDashboard(@NonNull Application application) {
         super(application);
-        this.poEmployee = new REmployee(application);
+        this.poEmployee = new EmployeeMaster(application);
         this.pobranch = new RBranch(application);
-        poLog = new RSelfieLog(application);
+        poLog = new SelfieLog(application);
         this.poConfigx = AppConfigPreference.getInstance(application);
         this.psVersion.setValue(poConfigx.getVersionInfo());
     }

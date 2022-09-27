@@ -28,10 +28,10 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeBusinessTrip;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeLeave;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
-import org.rmj.g3appdriver.GRider.Database.Repositories.REmployeeBusinessTrip;
-import org.rmj.g3appdriver.GRider.Database.Repositories.REmployeeLeave;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.lib.PetManager.EmployeeLeave;
+import org.rmj.g3appdriver.lib.PetManager.EmployeeOB;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.g3appdriver.utils.WebClient;
@@ -42,8 +42,8 @@ public class VMEmployeeApplications extends AndroidViewModel {
     private static final String TAG = VMEmployeeApplications.class.getSimpleName();
 
     private final Application instance;
-    private final REmployeeLeave poLeave;
-    private final REmployeeBusinessTrip poBuss;
+    private final EmployeeLeave poLeave;
+    private final EmployeeOB poBuss;
     private final RBranch poBranch;
 
     private final MutableLiveData<Integer> pnLeave = new MutableLiveData<>();
@@ -57,9 +57,9 @@ public class VMEmployeeApplications extends AndroidViewModel {
     public VMEmployeeApplications(@NonNull Application application) {
         super(application);
         this.instance = application;
-        this.poLeave = new REmployeeLeave(instance);
+        this.poLeave = new EmployeeLeave(instance);
         this.poBranch = new RBranch(instance);
-        this.poBuss = new REmployeeBusinessTrip(instance);
+        this.poBuss = new EmployeeOB(instance);
         this.pnLeave.setValue(0);
     }
 
@@ -93,17 +93,17 @@ public class VMEmployeeApplications extends AndroidViewModel {
 
     private static class DownloadLeaveTask extends AsyncTask<Void, Void, Boolean>{
 
-        private final REmployeeLeave loLeave;
+        private final EmployeeLeave loLeave;
         private final ConnectionUtil loConn;
-        private final REmployeeBusinessTrip poBusTrip;
+        private final EmployeeOB poBusTrip;
         private final OnDownloadApplicationListener mListener;
 
         private String message;
 
         public DownloadLeaveTask(Application instance, OnDownloadApplicationListener listener){
-            this.loLeave = new REmployeeLeave(instance);
+            this.loLeave = new EmployeeLeave(instance);
             this.loConn = new ConnectionUtil(instance);
-            this.poBusTrip = new REmployeeBusinessTrip(instance);
+            this.poBusTrip = new EmployeeOB(instance);
             this.mListener = listener;
         }
 

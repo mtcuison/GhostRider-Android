@@ -38,7 +38,6 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EMobileUpdate;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCollectionUpdate;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
-import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
@@ -47,6 +46,7 @@ import org.rmj.g3appdriver.GRider.Http.WebClient;
 import org.rmj.g3appdriver.dev.Telephony;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.WebFileServer;
+import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Core.DcpManager;
@@ -69,7 +69,7 @@ public class VMCollectionList extends AndroidViewModel {
     private final RDailyCollectionPlan poDCPRepo;
     private final RBranch poBranch;
     private final RCollectionUpdate poUpdate;
-    private final REmployee poEmploye;
+    private final EmployeeMaster poEmploye;
     private final LiveData<List<EDCPCollectionDetail>> collectionList;
     private final AppConfigPreference poConfig;
     private final WebApi poApi;
@@ -103,7 +103,7 @@ public class VMCollectionList extends AndroidViewModel {
         poDCPRepo = new RDailyCollectionPlan(application);
         poBranch = new RBranch(application);
         poUpdate = new RCollectionUpdate(application);
-        poEmploye = new REmployee(application);
+        poEmploye = new EmployeeMaster(application);
         poConfig = AppConfigPreference.getInstance(application);
         poApi = new WebApi(poConfig.getTestStatus());
         poDcp = new DcpManager(application);
@@ -1241,10 +1241,10 @@ public class VMCollectionList extends AndroidViewModel {
 
     private static class CheckLoggedUserTask extends AsyncTask<String, Void, Boolean> {
 
-        private final REmployee poEmploye;
+        private final EmployeeMaster poEmploye;
         private final CheckImport mListener;
 
-        public CheckLoggedUserTask(REmployee poEmploye, CheckImport mListener) {
+        public CheckLoggedUserTask(EmployeeMaster poEmploye, CheckImport mListener) {
             this.mListener = mListener;
             this.poEmploye = poEmploye;
         }

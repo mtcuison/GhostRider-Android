@@ -11,8 +11,8 @@ import androidx.lifecycle.LiveData;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EItinerary;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
-import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RItinerary;
+import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 
 import java.util.List;
@@ -23,7 +23,7 @@ public class VMItinerary extends AndroidViewModel {
     private final Application instance;
     private final RItinerary poSystem;
     private final RBranch poBranch;
-    private final REmployee poUser;
+    private final EmployeeMaster poUser;
 
     public interface OnActionCallback {
         void OnLoad(String title, String message);
@@ -36,7 +36,7 @@ public class VMItinerary extends AndroidViewModel {
         this.instance = application;
         this.poSystem = new RItinerary(instance);
         this.poBranch = new RBranch(instance);
-        this.poUser = new REmployee(instance);
+        this.poUser = new EmployeeMaster(instance);
     }
 
     public LiveData<List<EItinerary>> GetItineraryListForCurrentDay(){

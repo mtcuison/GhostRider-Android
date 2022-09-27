@@ -18,17 +18,17 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeBusinessTrip;
-import org.rmj.g3appdriver.GRider.Database.Repositories.REmployeeBusinessTrip;
+import org.rmj.g3appdriver.lib.PetManager.EmployeeOB;
 
 import java.util.List;
 
 public class VMBusinessTripList extends AndroidViewModel {
 
-    private final REmployeeBusinessTrip poBussTrip;
+    private final EmployeeOB poBussTrip;
 
     public VMBusinessTripList(@NonNull Application application) {
         super(application);
-        this.poBussTrip = new REmployeeBusinessTrip(application);
+        this.poBussTrip = new EmployeeOB(application);
     }
 
     public LiveData<List<EEmployeeBusinessTrip>> getBusinessTripList(){

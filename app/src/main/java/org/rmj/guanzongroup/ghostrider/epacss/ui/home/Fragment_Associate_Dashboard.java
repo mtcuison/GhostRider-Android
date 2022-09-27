@@ -31,10 +31,10 @@ import android.widget.TextView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
-import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_Main;
 import org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_SplashScreen;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
@@ -111,7 +111,7 @@ public class Fragment_Associate_Dashboard extends Fragment {
                         dialog.dismiss();
                         poConfig.setTestCase(switchOn);
                         requireActivity().finish();
-                        new REmployee(requireActivity().getApplication()).LogoutUserSession();
+                        new EmployeeMaster(requireActivity().getApplication()).LogoutUserSession();
                         AppConfigPreference.getInstance(getActivity()).setIsAppFirstLaunch(false);
                         startActivity(new Intent(getActivity(), Activity_SplashScreen.class));
                     });
@@ -129,7 +129,7 @@ public class Fragment_Associate_Dashboard extends Fragment {
                         dialog.dismiss();
                         poConfig.setTestCase(switchOn);
                         requireActivity().finish();
-                        new REmployee(requireActivity().getApplication()).LogoutUserSession();
+                        new EmployeeMaster(requireActivity().getApplication()).LogoutUserSession();
                         AppConfigPreference.getInstance(getActivity()).setIsAppFirstLaunch(false);
                         startActivity(new Intent(getActivity(), Activity_SplashScreen.class));
                     });
@@ -153,7 +153,7 @@ public class Fragment_Associate_Dashboard extends Fragment {
             loMessage.setPositiveButton("Yes", (view1, dialog) -> {
                 dialog.dismiss();
                 requireActivity().finish();
-                new REmployee(requireActivity().getApplication()).LogoutUserSession();
+                new EmployeeMaster(requireActivity().getApplication()).LogoutUserSession();
                 AppConfigPreference.getInstance(getActivity()).setIsAppFirstLaunch(false);
                 startActivity(new Intent(getActivity(), Activity_SplashScreen.class));
             });

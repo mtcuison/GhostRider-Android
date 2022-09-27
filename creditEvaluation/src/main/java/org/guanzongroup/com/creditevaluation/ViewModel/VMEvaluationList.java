@@ -32,13 +32,13 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplication;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplication;
-import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.ImportData.Import_LoanApplications;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.WebFileServer;
+import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.g3appdriver.utils.WebClient;
@@ -55,13 +55,13 @@ public class VMEvaluationList extends AndroidViewModel {
     private final MutableLiveData<String> sCredInvxx = new MutableLiveData<>();
 
     private final RBranch RBranch;
-    private final REmployee poEmploye;
+    private final EmployeeMaster poEmploye;
     public VMEvaluationList(@NonNull Application application) {
         super(application);
         this.instance = application;
         this.poManager = new EvaluatorManager(application);
         this.poSession = new SessionManager(application);
-        this.poEmploye = new REmployee(application);
+        this.poEmploye = new EmployeeMaster(application);
         this.poImport = new Import_LoanApplications(application);
         this.RBranch = new RBranch(application);
     }

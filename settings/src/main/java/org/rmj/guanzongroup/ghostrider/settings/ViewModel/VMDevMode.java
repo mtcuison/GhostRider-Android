@@ -24,10 +24,10 @@ import androidx.lifecycle.AndroidViewModel;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
-import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 
@@ -88,13 +88,13 @@ public class VMDevMode extends AndroidViewModel {
 
         private final SessionManager poSession;
         private final AppConfigPreference poConfig;
-        private final REmployee poEmployee;
+        private final EmployeeMaster poEmployee;
         private final OnRestoreCallback callback;
 
         public RestoreSessionInfoTask(Application application, OnRestoreCallback callback){
             poSession = new SessionManager(application);
             poConfig = AppConfigPreference.getInstance(application);
-            poEmployee = new REmployee(application);
+            poEmployee = new EmployeeMaster(application);
             this.callback = callback;
         }
 

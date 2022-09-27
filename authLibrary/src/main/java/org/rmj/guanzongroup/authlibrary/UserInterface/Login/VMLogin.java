@@ -19,9 +19,9 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
-import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.dev.Telephony;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 
 public class VMLogin extends AndroidViewModel {
@@ -61,20 +61,20 @@ public class VMLogin extends AndroidViewModel {
         poConfig.setAgreement(isAgreed);
     }
 
-    public void Login(REmployee.UserAuthInfo authInfo, LoginCallback callback){
+    public void Login(EmployeeMaster.UserAuthInfo authInfo, LoginCallback callback){
         new LoginTask(application, callback).execute(authInfo);
     }
 
-    private static class LoginTask extends AsyncTask<org.rmj.g3appdriver.GRider.Database.Repositories.REmployee.UserAuthInfo, Void, Boolean>{
+    private static class LoginTask extends AsyncTask<EmployeeMaster.UserAuthInfo, Void, Boolean>{
         private final LoginCallback callback;
-        private final REmployee poUser;
+        private final EmployeeMaster poUser;
         private final ConnectionUtil poConn;
         private final AppConfigPreference poConfig;
 
         private String message;
 
         public LoginTask(Application instance, LoginCallback callback){
-            this.poUser = new REmployee(instance);
+            this.poUser = new EmployeeMaster(instance);
             this.callback = callback;
             this.poConfig = AppConfigPreference.getInstance(instance);
             this.poConn = new ConnectionUtil(instance);
@@ -87,7 +87,7 @@ public class VMLogin extends AndroidViewModel {
         }
 
         @Override
-        protected Boolean doInBackground(REmployee.UserAuthInfo... authInfo) {
+        protected Boolean doInBackground(EmployeeMaster.UserAuthInfo... authInfo) {
             try{
                 Log.d(TAG, "Validating entries...");
                 if(!authInfo[0].isAuthInfoValid()){

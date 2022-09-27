@@ -41,11 +41,11 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.Repositories.REmployeeLeave;
 import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+import org.rmj.g3appdriver.lib.PetManager.EmployeeLeave;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Application;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMLeaveApproval;
@@ -60,7 +60,7 @@ public class Fragment_LeaveApproval extends Fragment implements VMLeaveApproval.
     public static final String TAG = Fragment_LeaveApproval.class.getSimpleName();
     private VMLeaveApproval mViewModel;
 
-    private REmployeeLeave.LeaveApprovalInfo infoModel;
+    private EmployeeLeave.LeaveApprovalInfo infoModel;
     private LoadDialog poDialogx;
     private MessageBox poMessage;
 
@@ -100,7 +100,7 @@ public class Fragment_LeaveApproval extends Fragment implements VMLeaveApproval.
                              @Nullable Bundle savedInstanceState) {
         mViewModel = new ViewModelProvider(this).get(VMLeaveApproval.class);
         View view = inflater.inflate(R.layout.fragment_leave_approval, container, false);
-        infoModel = new REmployeeLeave.LeaveApprovalInfo();
+        infoModel = new EmployeeLeave.LeaveApprovalInfo();
         initWidgets(view);
 
         Typeface typeface = ResourcesCompat.getFont(requireActivity(), R.font.roboto_bold);

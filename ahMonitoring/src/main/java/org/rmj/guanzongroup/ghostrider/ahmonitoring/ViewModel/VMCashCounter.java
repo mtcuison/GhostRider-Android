@@ -23,16 +23,16 @@ import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
-import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RSelfieLog;
+import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
+import org.rmj.g3appdriver.lib.PetManager.SelfieLog;
 
 public class VMCashCounter extends AndroidViewModel {
 
     private static final String TAG = VMCashCounter.class.getSimpleName();
     private final Application instance;
-    private final REmployee poEmploye;
+    private final EmployeeMaster poEmploye;
     private final RBranch poBranch;
-    private final RSelfieLog poSelfie;
+    private final SelfieLog poSelfie;
 
     private String SelfieLogTransNox = "";
 
@@ -75,9 +75,9 @@ public class VMCashCounter extends AndroidViewModel {
     public VMCashCounter(@NonNull Application application) {
         super(application);
         this.instance = application;
-        this.poEmploye = new REmployee(application);
+        this.poEmploye = new EmployeeMaster(application);
         this.poBranch = new RBranch(application);
-        this.poSelfie = new RSelfieLog(application);
+        this.poSelfie = new SelfieLog(application);
         this.p1000.setValue((double) 0);
         this.p500.setValue((double) 0);
         this.p200.setValue((double) 0);

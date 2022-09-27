@@ -30,11 +30,11 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
-import org.rmj.g3appdriver.GRider.Database.Repositories.REmployeeLeave;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.dev.DeptCode;
+import org.rmj.g3appdriver.lib.PetManager.EmployeeLeave;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMLeaveApplication;
 
@@ -48,7 +48,7 @@ import java.util.concurrent.TimeUnit;
 public class Fragment_LeaveApplication extends Fragment {
 
     private VMLeaveApplication mViewModel;
-    private REmployeeLeave.LeaveApplication poLeave;
+    private EmployeeLeave.LeaveApplication poLeave;
     private TextView lblTransNox, lblUsername, lblPosition, lblBranch;
     private Spinner spnType;
     private TextInputEditText txtDateFrom, txtDateTo, txtNoDays, txtRemarks;
@@ -84,16 +84,16 @@ public class Fragment_LeaveApplication extends Fragment {
         poMessage = new MessageBox(getActivity());
 
         mViewModel = new ViewModelProvider(this).get(VMLeaveApplication.class);
-        poLeave = new REmployeeLeave.LeaveApplication();
-        mViewModel.getUserInfo().observe(getViewLifecycleOwner(), eEmployeeInfo -> {
-            try{
-                lblUsername.setText(eEmployeeInfo.getUserName());
-                lblPosition.setText(DeptCode.getDepartmentName(eEmployeeInfo.getDeptIDxx()));
-                poLeave.setEmploName(eEmployeeInfo.getUserName());
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-        });
+        poLeave = new EmployeeLeave.LeaveApplication();
+//        mViewModel.getUserInfo().observe(getViewLifecycleOwner(), eEmployeeInfo -> {
+//            try{
+//                lblUsername.setText(eEmployeeInfo.getUserName());
+//                lblPosition.setText(DeptCode.getDepartmentName(eEmployeeInfo.getDeptIDxx()));
+//                poLeave.setEmploName(eEmployeeInfo.getUserName());
+//            } catch (Exception e){
+//                e.printStackTrace();
+//            }
+//        });
 
         mViewModel.getLeaveTypeList().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnType.setAdapter(stringArrayAdapter));
 

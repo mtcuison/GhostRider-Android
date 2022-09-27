@@ -32,17 +32,17 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RAreaPerformance;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchOpeningMonitor;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchPerformance;
-import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RNotificationInfo;
 import org.rmj.g3appdriver.dev.Telephony;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
+import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 
 import java.util.List;
 
 public class VMHome extends AndroidViewModel {
 
     private final SessionManager poSession;
-    private final REmployee poEmploye;
+    private final EmployeeMaster poEmploye;
     private MutableLiveData<String> psEmailxx = new MutableLiveData<>();
     private MutableLiveData<String> psUserNme = new MutableLiveData<>();
     private MutableLiveData<String> psBranchx = new MutableLiveData<>();
@@ -60,7 +60,7 @@ public class VMHome extends AndroidViewModel {
     public VMHome(@NonNull Application application) {
         super(application);
         poSession = new SessionManager(application);
-        poEmploye = new REmployee(application);
+        poEmploye = new EmployeeMaster(application);
         psMobleNo.setValue(new Telephony(application).getMobilNumbers());
         poDatabse = new RAreaPerformance(application);
         this.poNotification = new RNotificationInfo(application);

@@ -44,13 +44,13 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ESelfieLog;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RSelfieLog;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.dev.GLocationManager;
 import org.rmj.g3appdriver.etc.WebFileServer;
+import org.rmj.g3appdriver.lib.PetManager.SelfieLog;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_CashCounter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.TimeLogAdapter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Dialog.DialogBranchSelection;
@@ -73,16 +73,10 @@ public class Fragment_SelfieLogin extends Fragment {
     private ESelfieLog poLog;
     private GLocationManager loLocation;
 
-    RSelfieLog.SelfieLog poSelfie = new RSelfieLog.SelfieLog();
+    SelfieLog.SelfieLogDetail poSelfie = new SelfieLog.SelfieLogDetail();
 
     private LoadDialog poLoad;
     private MessageBox poMessage;
-
-//    private static String sSlectBranch = "";
-//    private static String psPhotoPath = "";
-//    private static String pnLatittude = "";
-//    private static String pnLongitude = "";
-//    private static String psFileNamex = "";
 
     private static boolean isDialogShown;
 
@@ -96,25 +90,6 @@ public class Fragment_SelfieLogin extends Fragment {
             try{
                 int resultCode = result.getResultCode();
                 if(resultCode == RESULT_OK){
-//                    poLog.setTransact(AppConstants.CURRENT_DATE);
-//                    poLog.setBranchCd(sSlectBranch);
-//                    poLog.setEmployID(poUser.getEmployID());
-//                    poLog.setLogTimex(new AppConstants().DATE_MODIFIED);
-//                    poLog.setLatitude(pnLatittude);
-//                    poLog.setLongitud(pnLongitude);
-//                    poLog.setSendStat("0");
-//
-//                    poImage.setFileCode("0021");
-//                    poImage.setSourceNo(poUser.getClientID());
-//                    poImage.setDtlSrcNo(poUser.getUserIDxx());
-//                    poImage.setSourceCD("LOGa");
-//                    poImage.setImageNme(psFileNamex);
-//                    poImage.setFileLoct(psPhotoPath);
-//                    poImage.setLatitude(pnLatittude);
-//                    poImage.setLongitud(pnLongitude);
-//                    poImage.setMD5Hashx(WebFileServer.createMD5Hash(psPhotoPath));
-//                    poImage.setCaptured(new AppConstants().DATE_MODIFIED);
-
                     mViewModel.TimeIn(poSelfie, new VMSelfieLogin.OnLoginTimekeeperListener() {
                         @Override
                         public void OnLogin() {
@@ -133,6 +108,15 @@ public class Fragment_SelfieLogin extends Fragment {
                         }
 
                         @Override
+                        public void OnProceedCashCount(String args) {
+                            Intent loIntent = new Intent(requireActivity(), Activity_CashCounter.class);
+                            loIntent.putExtra("BranchCd", poLog.getBranchCd());
+                            loIntent.putExtra("cancelable", false);
+                            requireActivity().startActivity(loIntent);
+                            requireActivity().finish();
+                        }
+
+                        @Override
                         public void OnFailed(String message) {
                             try {
                                 poLoad.dismiss();
@@ -142,32 +126,6 @@ public class Fragment_SelfieLogin extends Fragment {
                             showMessageDialog(message);
                         }
                     });
-
-//                    mViewModel.loginTimeKeeper(poLog, poImage, new VMSelfieLogin.OnLoginTimekeeperListener() {
-//                        @Override
-//                        public void OnLogin() {
-//                            poLoad.initDialog("Selfie Log", "Sending your time in. Please wait...", false);
-//                            poLoad.show();
-//                        }
-//
-//                        @Override
-//                        public void OnSuccess(String args) {
-//                            try {
-//                                poLoad.dismiss();
-//                            } catch (Exception e){
-//                                e.printStackTrace();
-//                            }
-//                            psPhotoPath = "";
-//                            pnLatittude = "";
-//                            pnLongitude = "";
-//                            psFileNamex = "";
-//                            showMessageDialog("Your time in has been save to server.");
-//                        }
-//
-//                        @Override
-//                        public void OnFailed(String message) {
-//                        }
-//                    });
                 }
             } catch (Exception e){
                 e.printStackTrace();
@@ -263,7 +221,6 @@ public class Fragment_SelfieLogin extends Fragment {
                                 mViewModel.getBranchInfo(BranchCode).observe(getViewLifecycleOwner(), eBranchInfo -> {
                                     try{
                                         lblBranch.setText(eBranchInfo.getBranchNm());
-                                        mViewModel.importInventoryTask(BranchCode);
                                     } catch (Exception e){
                                         e.printStackTrace();
                                     }
@@ -387,20 +344,9 @@ public class Fragment_SelfieLogin extends Fragment {
         poMessage.setTitle("Selfie Log");
         poMessage.setMessage(message);
         poMessage.setPositiveButton("Okay", (view, dialog) ->{
-            checkEmployeeLevel();
             dialog.dismiss();
         });
         poMessage.show();
-    }
-
-    private void checkEmployeeLevel(){
-        if(psEmpLvl.equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER))){
-            Intent loIntent = new Intent(requireActivity(), Activity_CashCounter.class);
-            loIntent.putExtra("BranchCd", poLog.getBranchCd());
-            loIntent.putExtra("cancelable", false);
-            requireActivity().startActivity(loIntent);
-            requireActivity().finish();
-        }
     }
 
     private void SetupDialogForBranchList(){
@@ -423,7 +369,6 @@ public class Fragment_SelfieLogin extends Fragment {
                                 mViewModel.getBranchInfo(BranchCode).observe(getViewLifecycleOwner(), eBranchInfo -> {
                                     try{
                                         lblBranch.setText(eBranchInfo.getBranchNm());
-                                        mViewModel.importInventoryTask(BranchCode);
                                     } catch (Exception e){
                                         e.printStackTrace();
                                     }

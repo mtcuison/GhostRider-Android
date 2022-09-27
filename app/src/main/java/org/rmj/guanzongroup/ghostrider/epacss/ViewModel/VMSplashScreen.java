@@ -33,12 +33,9 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RBankInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBarangay;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
-import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RFileCode;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RSelfieLog;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RProvince;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RRelation;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RSelfieLog;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RTown;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.GRider.ImportData.ImportBarangay;
@@ -61,6 +58,8 @@ import org.rmj.g3appdriver.GRider.ImportData.Import_Relation;
 import org.rmj.g3appdriver.GRider.ImportData.Import_SCARequest;
 import org.rmj.g3appdriver.GRider.ImportData.Import_SysConfig;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
+import org.rmj.g3appdriver.lib.PetManager.SelfieLog;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.guanzongroup.ghostrider.epacss.BuildConfig;
 
@@ -78,22 +77,22 @@ public class VMSplashScreen extends AndroidViewModel {
     private final MutableLiveData<String> psVersion = new MutableLiveData<>();
     private final MutableLiveData<String> sEmployLevel = new MutableLiveData<>();
     private final MutableLiveData<List<String>> psPermissions = new MutableLiveData<>();
-    private final REmployee poUserDbx;
+    private final EmployeeMaster poUserDbx;
     private final AppConfigPreference poConfigx;
     private final AppTokenManager poToken;
     private final RDailyCollectionPlan poDcp;
-    private final RSelfieLog poLogx;
+    private final SelfieLog poLogx;
 
     private final MutableLiveData<Boolean> pbIsGrantd = new MutableLiveData<>();
 
     public VMSplashScreen(@NonNull Application application) throws IOException {
         super(application);
         this.instance = application;
-        poUserDbx = new REmployee(application);
+        poUserDbx = new EmployeeMaster(application);
         poConfigx = AppConfigPreference.getInstance(application);
         poConfigx.setTemp_ProductID("gRider");
         poConfigx.setUpdateLocally(false);
-        poLogx = new RSelfieLog(application);
+        poLogx = new SelfieLog(application);
         Date buildDate = new Date(BuildConfig.TIMESTAMP);
         poConfigx.setupAppVersionInfo(BuildConfig.VERSION_CODE, BuildConfig.VERSION_NAME, String.valueOf(buildDate.getTime()));
         poToken = new AppTokenManager(application);
@@ -182,7 +181,7 @@ public class VMSplashScreen extends AndroidViewModel {
         private final OnInitializecallback callback;
         private final ConnectionUtil poConn;
         private final AppConfigPreference poConfig;
-        private final REmployee poUser;
+        private final EmployeeMaster poUser;
         private final SessionManager poSession;
 
         private String message;
@@ -192,7 +191,7 @@ public class VMSplashScreen extends AndroidViewModel {
             this.callback = callback;
             this.poConn = new ConnectionUtil(instance);
             this.poConfig = AppConfigPreference.getInstance(instance);
-            this.poUser = new REmployee(instance);
+            this.poUser = new EmployeeMaster(instance);
             this.poSession = new SessionManager(instance);
         }
 

@@ -16,8 +16,8 @@ import org.guanzongroup.com.creditevaluation.Model.AdditionalInfoModel;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditOnlineApplicationCI;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
-import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
+import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ import java.util.List;
 public class VMEvaluation extends AndroidViewModel {
     private static final String TAG = VMEvaluation.class.getSimpleName();
     private final Application app;
-    private final REmployee poUser;
+    private final EmployeeMaster poUser;
     private final EvaluatorManager foManager;
     private MutableLiveData<HashMap<oParentFndg, List<oChildFndg>>> poEvaluate = new MutableLiveData<>();
     private MutableLiveData<ECreditOnlineApplicationCI> poData = new MutableLiveData<>();
@@ -42,7 +42,7 @@ public class VMEvaluation extends AndroidViewModel {
     public VMEvaluation(@NonNull Application application) {
         super(application);
         this.app = application;
-        this.poUser = new REmployee(application);
+        this.poUser = new EmployeeMaster(application);
         this.poImage = new RImageInfo(application);
         this.foManager = new EvaluatorManager(application);
         this.records.setValue("-1");

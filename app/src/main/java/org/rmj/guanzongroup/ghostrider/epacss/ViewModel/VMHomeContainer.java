@@ -21,22 +21,22 @@ import androidx.lifecycle.ViewModel;
 
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DNotifications;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
-import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RNotificationInfo;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
+import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 
 import java.util.List;
 
 public class VMHomeContainer extends AndroidViewModel {
     private static final String TAG = VMHomeContainer.class.getSimpleName();
 
-    private final REmployee poUser;
+    private final EmployeeMaster poUser;
     private final RNotificationInfo poNotification;
     private final SessionManager poSession;
 
     public VMHomeContainer(@NonNull Application application) {
         super(application);
-        this.poUser = new REmployee(application);
+        this.poUser = new EmployeeMaster(application);
         this.poNotification = new RNotificationInfo(application);
         this.poSession = new SessionManager(application);
     }

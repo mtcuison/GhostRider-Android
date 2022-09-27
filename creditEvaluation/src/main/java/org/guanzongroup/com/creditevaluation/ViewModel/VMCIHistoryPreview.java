@@ -25,8 +25,8 @@ import org.guanzongroup.com.creditevaluation.Core.oParentFndg;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditOnlineApplicationCI;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
-import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
+import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 
 import java.util.ArrayList;
@@ -37,7 +37,7 @@ public class VMCIHistoryPreview extends AndroidViewModel {
     private static final String TAG = VMEvaluation.class.getSimpleName();
     private final ConnectionUtil poConnect;
     private final Application app;
-    private final REmployee poUser;
+    private final EmployeeMaster poUser;
     private final EvaluatorManager foManager;
     private MutableLiveData<HashMap<oParentFndg, List<oChildFndg>>> foEvaluate = new MutableLiveData<>();
 
@@ -45,7 +45,7 @@ public class VMCIHistoryPreview extends AndroidViewModel {
         super(application);
         this.app = application;
         this.poConnect = new ConnectionUtil(application);
-        this.poUser = new REmployee(application);
+        this.poUser = new EmployeeMaster(application);
         this.foManager = new EvaluatorManager(application);
     }
     public LiveData<ECreditOnlineApplicationCI> getCIEvaluation(String transNox){

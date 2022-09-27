@@ -23,7 +23,7 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECashCount;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCashCount;
-import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
+import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.RequestNamesInfoModel;
 
 import java.util.ArrayList;
@@ -33,7 +33,7 @@ public class VMCashCountLog extends AndroidViewModel {
     private static final String TAG = VMCashCountLog.class.getSimpleName();
 
     private final Application instance;
-    private final REmployee poEmploye;
+    private final EmployeeMaster poEmploye;
     private final RBranch poBranch;
     private final ECashCount eCashCount;
     private final RCashCount poCashCount;
@@ -43,7 +43,7 @@ public class VMCashCountLog extends AndroidViewModel {
     public VMCashCountLog(@NonNull Application application) {
         super(application);
         this.instance = application;
-        this.poEmploye = new REmployee(application);
+        this.poEmploye = new EmployeeMaster(application);
         this.poBranch = new RBranch(application);
         this.poCashCount = new RCashCount(application);
         this.eCashCount = new ECashCount();

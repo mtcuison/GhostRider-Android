@@ -23,8 +23,8 @@ import androidx.lifecycle.MutableLiveData;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeBusinessTrip;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
-import org.rmj.g3appdriver.GRider.Database.Repositories.REmployeeBusinessTrip;
 
+import org.rmj.g3appdriver.lib.PetManager.EmployeeOB;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 
 public class VMObApproval extends AndroidViewModel {
@@ -32,7 +32,7 @@ public class VMObApproval extends AndroidViewModel {
 
     private final Application instance;
 
-    private final REmployeeBusinessTrip poBusTrip;
+    private final EmployeeOB poBusTrip;
     private final RBranch poBranch;
 
     private final MutableLiveData<String> TransNox = new MutableLiveData<>();
@@ -52,7 +52,7 @@ public class VMObApproval extends AndroidViewModel {
     public VMObApproval(@NonNull Application application) {
         super(application);
         this.instance = application;
-        this.poBusTrip = new REmployeeBusinessTrip(application);
+        this.poBusTrip = new EmployeeOB(application);
         this.poBranch = new RBranch(application);
         this.TransNox.setValue("");
     }
@@ -79,14 +79,14 @@ public class VMObApproval extends AndroidViewModel {
 
     private static class DownloadBusinessTripTask extends AsyncTask<String, Void, Boolean>{
 
-        private final REmployeeBusinessTrip poSys;
+        private final EmployeeOB poSys;
         private final ConnectionUtil poConn;
         private final OnDownloadBusinessTripCallback callback;
 
         private String transno, message;
 
         public DownloadBusinessTripTask(Application instance, OnDownloadBusinessTripCallback callback) {
-            this.poSys = new REmployeeBusinessTrip(instance);
+            this.poSys = new EmployeeOB(instance);
             this.poConn = new ConnectionUtil(instance);
             this.callback = callback;
         }
@@ -131,13 +131,13 @@ public class VMObApproval extends AndroidViewModel {
         }
     }
 
-    public void confirmOBApplication(REmployeeBusinessTrip.OBApprovalInfo infoModel, OnConfirmApplicationCallback callback){
+    public void confirmOBApplication(EmployeeOB.OBApprovalInfo infoModel, OnConfirmApplicationCallback callback){
         new ConfirmApplicationTask(instance, callback).execute(infoModel);
     }
 
-    private static class ConfirmApplicationTask extends AsyncTask<REmployeeBusinessTrip.OBApprovalInfo, Void, Boolean>{
+    private static class ConfirmApplicationTask extends AsyncTask<EmployeeOB.OBApprovalInfo, Void, Boolean>{
 
-        private final REmployeeBusinessTrip poBusTrip;
+        private final EmployeeOB poBusTrip;
         private final ConnectionUtil poConn;
         private final OnConfirmApplicationCallback callback;
 
@@ -146,7 +146,7 @@ public class VMObApproval extends AndroidViewModel {
         public ConfirmApplicationTask(Application instance, OnConfirmApplicationCallback callback){
             this.poConn = new ConnectionUtil(instance);
             this.callback = callback;
-            this.poBusTrip = new REmployeeBusinessTrip(instance);
+            this.poBusTrip = new EmployeeOB(instance);
         }
 
         @Override
@@ -157,7 +157,7 @@ public class VMObApproval extends AndroidViewModel {
 
         @SuppressLint("NewApi")
         @Override
-        protected Boolean doInBackground(REmployeeBusinessTrip.OBApprovalInfo... obApprovalInfos) {
+        protected Boolean doInBackground(EmployeeOB.OBApprovalInfo... obApprovalInfos) {
             try{
                 String lsTransNox = poBusTrip.SaveBusinessTripApproval(obApprovalInfos[0]);
                 if(lsTransNox == null){
