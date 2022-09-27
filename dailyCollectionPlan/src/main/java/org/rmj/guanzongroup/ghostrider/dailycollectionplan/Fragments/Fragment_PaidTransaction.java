@@ -81,16 +81,17 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        mViewModel = new ViewModelProvider(this).get(VMPaidTransaction.class);
         View view = inflater.inflate(R.layout.fragment_paid_transaction, container, false);
         infoModel = new PaidTransactionModel();
-        poMessage = new MessageBox(getActivity());
-        poDialog = new LoadDialog(getActivity());
+        poMessage = new MessageBox(requireActivity());
+        poDialog = new LoadDialog(requireActivity());
         initWidgets(view);
 
         String Remarksx = Activity_Transaction.getInstance().getRemarksCode();
         String TransNox = Activity_Transaction.getInstance().getTransNox();
         int EntryNox = Activity_Transaction.getInstance().getEntryNox();
-        mViewModel = new ViewModelProvider(this).get(VMPaidTransaction.class);
+
         mViewModel.setParameter(TransNox, EntryNox);
         mViewModel.getCollectionDetail().observe(getViewLifecycleOwner(), collectionDetail -> {
             try {

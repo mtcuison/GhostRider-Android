@@ -36,6 +36,7 @@ import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Http.WebClient;
 import org.rmj.g3appdriver.dev.Telephony;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.lib.integsys.Dcp.LRDcp;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
@@ -54,6 +55,8 @@ public class VMPaidTransaction extends AndroidViewModel {
     private final RDailyCollectionPlan poDcp;
     private final RBankInfo poBank;
     private final AppConfigPreference poConfig;
+
+    private final LRDcp poLrDcp;
 
     private final MutableLiveData<EDCPCollectionDetail> poDcpDetail = new MutableLiveData<>();
 
@@ -74,6 +77,7 @@ public class VMPaidTransaction extends AndroidViewModel {
     public VMPaidTransaction(@NonNull Application application) {
         super(application);
         this.instance = application;
+        this.poLrDcp = new LRDcp(instance);
         this.poBranch = new RBranch(application);
         this.poDcp = new RDailyCollectionPlan(application);
         this.pnDsCntx.setValue((double) 0);
