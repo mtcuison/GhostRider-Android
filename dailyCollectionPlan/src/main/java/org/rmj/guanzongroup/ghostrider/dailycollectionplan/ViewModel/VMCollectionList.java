@@ -11,67 +11,30 @@
 
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel;
 
-import android.annotation.SuppressLint;
 import android.app.Application;
-import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCPCollectionDetail;
-import org.rmj.g3appdriver.GRider.Database.Entities.EAddressUpdate;
-import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
-import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionMaster;
-import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.EMobileUpdate;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RCollectionUpdate;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
-import org.rmj.g3appdriver.GRider.Etc.GToast;
-import org.rmj.g3appdriver.GRider.Etc.SessionManager;
-import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
-import org.rmj.g3appdriver.GRider.Http.WebClient;
-import org.rmj.g3appdriver.dev.Telephony;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.etc.WebFileServer;
-import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.lib.integsys.Dcp.ImportParams;
 import org.rmj.g3appdriver.lib.integsys.Dcp.LRDcp;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
-import org.rmj.g3appdriver.utils.WebApi;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Core.DcpManager;
-import org.rmj.guanzongroup.ghostrider.notifications.Function.GRiderErrorReport;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
 public class VMCollectionList extends AndroidViewModel {
     private static final String TAG = VMCollectionList.class.getSimpleName();
 
     private final LRDcp poSys;
+    private final ConnectionUtil poConn;
 
-    public interface OnDownloadCollection{
-        void OnDownload();
-        void OnSuccessDownload();
-        void OnDownloadFailed(String message);
+    public interface OnActionCallback {
+        void OnLoad();
+        void OnSuccess();
+        void OnFailed(String message);
     }
 
     public interface OnDownloadClientList{
@@ -83,13 +46,14 @@ public class VMCollectionList extends AndroidViewModel {
     public VMCollectionList(@NonNull Application application) {
         super(application);
         this.poSys = new LRDcp(application);
+        this.poConn = new ConnectionUtil(application);
     }
 
     public LiveData<List<EDCPCollectionDetail>> GetColletionList(){
         return null;
     }
 
-    public void DownloadDCP(ImportParams foVal, OnDownloadCollection callback){
+    public void DownloadDCP(ImportParams foVal, OnActionCallback callback){
         new DownloadDcpTask(callback).execute(foVal);
     }
 
@@ -97,20 +61,25 @@ public class VMCollectionList extends AndroidViewModel {
 
         private String message;
 
-        private final OnDownloadCollection callback;
+        private final OnActionCallback callback;
 
-        public DownloadDcpTask(OnDownloadCollection callback) {
+        public DownloadDcpTask(OnActionCallback callback) {
             this.callback = callback;
         }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            callback.OnDownload();
+            callback.OnLoad();
         }
 
         @Override
         protected Boolean doInBackground(ImportParams... importParams) {
+            if(!poConn.isDeviceConnected()){
+                message = poSys.getMessage();
+                return false;
+            }
+
             if(!poSys.DownloadCollection(importParams[0])){
                 message = poSys.getMessage();
                 return false;
@@ -122,9 +91,183 @@ public class VMCollectionList extends AndroidViewModel {
         protected void onPostExecute(Boolean isSuccess) {
             super.onPostExecute(isSuccess);
             if(isSuccess){
-                callback.OnSuccessDownload();
+                callback.OnSuccess();
             } else {
-                callback.OnDownloadFailed(message);
+                callback.OnFailed(message);
+            }
+        }
+    }
+
+    public void SearchClient(String fsVal, OnDownloadClientList callback){
+        new SearchClientTask(callback).execute(fsVal);
+    }
+
+    private class SearchClientTask extends AsyncTask<String, Void, List<EDCPCollectionDetail>>{
+
+        private final OnDownloadClientList callback;
+
+        private String message;
+
+        public SearchClientTask(OnDownloadClientList callback) {
+            this.callback = callback;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            callback.OnDownload();
+        }
+
+        @Override
+        protected List<EDCPCollectionDetail> doInBackground(String... strings) {
+            if(!poConn.isDeviceConnected()){
+                message = poConn.getMessage();
+                return null;
+            }
+
+            List<EDCPCollectionDetail> loList = poSys.GetSearchList(strings[0]);
+            if(loList == null){
+                message = poSys.getMessage();
+                return null;
+            }
+
+            return loList;
+        }
+
+        @Override
+        protected void onPostExecute(List<EDCPCollectionDetail> searchlist) {
+            super.onPostExecute(searchlist);
+            if(searchlist == null){
+                callback.OnFailedDownload(message);
+            } else {
+                callback.OnSuccessDownload(searchlist);
+            }
+        }
+    }
+
+    public void AddCollection(EDCPCollectionDetail foVal, OnActionCallback callback){
+        new AddCollectionTask(callback).execute(foVal);
+    }
+
+    private class AddCollectionTask extends AsyncTask<EDCPCollectionDetail, Void, Boolean>{
+
+        private final OnActionCallback callback;
+
+        private String message;
+
+        public AddCollectionTask(OnActionCallback callback) {
+            this.callback = callback;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            callback.OnLoad();
+        }
+
+        @Override
+        protected Boolean doInBackground(EDCPCollectionDetail... dcpDetail) {
+            if(!poSys.AddCollection(dcpDetail[0])){
+                message = poSys.getMessage();
+                return false;
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean isSuccess) {
+            super.onPostExecute(isSuccess);
+            if(!isSuccess){
+                callback.OnFailed(message);
+            } else {
+                callback.OnSuccess();
+            }
+        }
+    }
+
+    public void CheckDcpForPosting(OnActionCallback callback){
+
+    }
+
+    private class CheckDcpTask extends AsyncTask<String, Void, Boolean>{
+
+        private final OnActionCallback callback;
+
+        private String message;
+
+        public CheckDcpTask(OnActionCallback callback) {
+            this.callback = callback;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean isSuccess) {
+            super.onPostExecute(isSuccess);
+            if(isSuccess){
+                callback.OnSuccess();
+            } else {
+                callback.OnFailed(message);
+            }
+        }
+    }
+
+    public void PostCollectionList(OnActionCallback callback){
+        new PostCollectionTask()
+    }
+
+    private class PostCollectionTask extends AsyncTask<String, Void, Boolean>{
+
+        private final OnActionCallback callback;
+
+        private String message;
+
+        public PostCollectionTask(OnActionCallback callback) {
+            this.callback = callback;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            callback.OnLoad();
+        }
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            if(!poConn.isDeviceConnected()){
+                message = poConn.getMessage();
+                return false;
+            }
+
+            String lsResult = poSys.PostCollection(strings[0]);
+            if(lsResult == null){
+                message = poSys.getMessage();
+                return false;
+            }
+
+            if(!poSys.PostDcpMaster(lsResult)){
+                message = poSys.getMessage();
+                return false;
+            }
+
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean isSuccess) {
+            super.onPostExecute(isSuccess);
+            if(!isSuccess){
+                callback.OnFailed(message);
+            } else {
+                callback.OnSuccess();
             }
         }
     }

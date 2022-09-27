@@ -40,6 +40,7 @@ public class Dialog_DebugEntry {
 
     public interface OnDebugEntryListener{
         void onConfirm(String args);
+        void onCancel();
     }
 
     public Dialog_DebugEntry(Context context) {
@@ -91,7 +92,10 @@ public class Dialog_DebugEntry {
             }
         });
 
-        btnCancel.setOnClickListener(v -> poDialogx.dismiss());
+        btnCancel.setOnClickListener(v -> {
+            poDialogx.dismiss();
+            listener.onCancel();
+        });
     }
 
     public void show(){
