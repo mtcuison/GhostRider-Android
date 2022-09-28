@@ -68,7 +68,7 @@ public class VMMainScanner extends AndroidViewModel {
     }
 
     public LiveData<EEmployeeInfo> getEmployeeInfo(){
-        return poEmploye.getEmployeeInfo();
+        return poEmploye.GetEmployeeInfo();
     }
 
     public LiveData<List<EBranchLoanApplication>> getBranchCreditApplication(){

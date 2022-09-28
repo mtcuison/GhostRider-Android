@@ -49,7 +49,7 @@ public class VMAHDashboard extends AndroidViewModel {
     }
 
     public LiveData<EEmployeeInfo> getEmployeeInfo(){
-        return poEmployee.getEmployeeInfo();
+        return poEmployee.GetEmployeeInfo();
     }
 
     public LiveData<String> getVersionInfo(){

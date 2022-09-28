@@ -51,7 +51,7 @@ public class VMDashboard extends AndroidViewModel {
     }
 
     public LiveData<EEmployeeInfo> getEmployeeInfo(){
-        return poEmploye.getEmployeeInfo();
+        return poEmploye.GetEmployeeInfo();
     }
 
     public LiveData<String> getMobileNo() {

@@ -71,7 +71,7 @@ public class VMHome extends AndroidViewModel {
     }
 
     public LiveData<EEmployeeInfo> getEmployeeInfo(){
-        return poEmploye.getEmployeeInfo();
+        return poEmploye.GetEmployeeInfo();
     }
 
     public LiveData<String> getMobileNo() {

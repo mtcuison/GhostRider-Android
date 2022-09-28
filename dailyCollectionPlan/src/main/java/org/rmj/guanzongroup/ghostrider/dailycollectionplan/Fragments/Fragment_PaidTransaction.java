@@ -13,7 +13,6 @@ package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -24,7 +23,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -39,9 +37,9 @@ import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+import org.rmj.g3appdriver.lib.integsys.Dcp.PaidDCP;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_Transaction;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogCheckPayment;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.PaidTransactionModel;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMPaidTransaction;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.ViewModelCallback;
@@ -56,7 +54,7 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
     private static final String TAG = Fragment_PaidTransaction.class.getSimpleName();
 
     private VMPaidTransaction mViewModel;
-    private PaidTransactionModel infoModel;
+    private PaidDCP poPaid;
     private MessageBox poMessage;
     private LoadDialog poDialog;
     private CheckBox cbCheckPymnt, cbRebate;
@@ -72,8 +70,6 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
 
     private String psMonthAmt, psRBalance, psAmntDue;
 
-    private long mLastClickTime = 0;
-
     public static Fragment_PaidTransaction newInstance() {
         return new Fragment_PaidTransaction();
     }
@@ -83,42 +79,44 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
                              @Nullable Bundle savedInstanceState) {
         mViewModel = new ViewModelProvider(this).get(VMPaidTransaction.class);
         View view = inflater.inflate(R.layout.fragment_paid_transaction, container, false);
-        infoModel = new PaidTransactionModel();
+        poPaid = new PaidDCP();
         poMessage = new MessageBox(requireActivity());
         poDialog = new LoadDialog(requireActivity());
         initWidgets(view);
 
         String Remarksx = Activity_Transaction.getInstance().getRemarksCode();
         String TransNox = Activity_Transaction.getInstance().getTransNox();
+        String AccntNox = Activity_Transaction.getInstance().getAccntNox();
         int EntryNox = Activity_Transaction.getInstance().getEntryNox();
 
-        mViewModel.setParameter(TransNox, EntryNox);
-        mViewModel.getCollectionDetail().observe(getViewLifecycleOwner(), collectionDetail -> {
+        mViewModel.GetAccountDetail(TransNox, EntryNox, AccntNox).observe(getViewLifecycleOwner(), detail -> {
             try {
-                lblAccNo.setText(collectionDetail.getAcctNmbr());
-                lblClientNm.setText(collectionDetail.getFullName());
-                lblTransNo.setText(collectionDetail.getTransNox());
-                mViewModel.setCurrentCollectionDetail(collectionDetail);
-                psAmntDue = collectionDetail.getAmtDuexx();
-                psMonthAmt = collectionDetail.getMonAmort();
-                psRBalance = collectionDetail.getABalance();
+                poPaid.setAccntNo(detail.getAcctNmbr());
+                poPaid.setTransNo(detail.getTransNox());
+                poPaid.setEntryNo(String.valueOf(detail.getEntryNox()));
+
+                lblAccNo.setText(detail.getAcctNmbr());
+                lblClientNm.setText(detail.getFullName());
+                lblTransNo.setText(detail.getTransNox());
+
+                psAmntDue = detail.getAmtDuexx();
+                psMonthAmt = detail.getMonAmort();
+                psRBalance = detail.getABalance();
                 mViewModel.setMonthlyAmort(Double.valueOf(psMonthAmt));
                 mViewModel.setAmountDue(Double.valueOf(psAmntDue));
                 Date loDate = new SimpleDateFormat("yyyy-MM-dd").parse(new AppConstants().CURRENT_DATE);
-                if (new SimpleDateFormat("yyyy-MM-dd").parse(collectionDetail.getDueDatex()).before(loDate) ||
-                        new SimpleDateFormat("yyyy-MM-dd").parse(collectionDetail.getDueDatex()).equals(loDate)) {
+                if (new SimpleDateFormat("yyyy-MM-dd").parse(detail.getDueDatex()).before(loDate) ||
+                        new SimpleDateFormat("yyyy-MM-dd").parse(detail.getDueDatex()).equals(loDate)) {
                     cbRebate.setEnabled(true);
                 } else {
                     cbRebate.setChecked(false);
                     cbRebate.setEnabled(false);
                 }
-                btnAmort.setText("Amortization : " + FormatUIText.getCurrencyUIFormat(collectionDetail.getMonAmort()));
-                btnRBlnce.setText("Amount Due : " + FormatUIText.getCurrencyUIFormat(collectionDetail.getAmtDuexx()));
+                btnAmort.setText("Amortization : " + FormatUIText.getCurrencyUIFormat(detail.getMonAmort()));
+                btnRBlnce.setText("Amount Due : " + FormatUIText.getCurrencyUIFormat(detail.getAmtDuexx()));
                 SimpleDateFormat loFormatter = new SimpleDateFormat("yyyy-MM-dd");
-                Date loDueDate = loFormatter.parse(collectionDetail.getDueDatex());
+                Date loDueDate = loFormatter.parse(detail.getDueDatex());
                 Date loCrtDate = loFormatter.parse(AppConstants.CURRENT_DATE);
-                Log.d(TAG, "Due Date: " + loDueDate);
-                Log.d(TAG, "Current Date: " + loCrtDate);
                 if (loDueDate.after(loCrtDate)) {
                     cbRebate.setEnabled(false);
                 }
@@ -127,7 +125,7 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
             }
         });
 
-        mViewModel.getUserBranchEmployee().observe(getViewLifecycleOwner(), eBranchInfo -> {
+        mViewModel.GetEmployeeBranch().observe(getViewLifecycleOwner(), eBranchInfo -> {
             try {
                 lblBranch.setText(eBranchInfo.getBranchNm());
                 lblAddress.setText(eBranchInfo.getAddressx());
@@ -136,12 +134,12 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
             }
         });
 
-        mViewModel.getPaymentType().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
+        mViewModel.GetPaymentType().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
             spnType.setAdapter(stringArrayAdapter);
             spnType.setSelection(1);
         });
 
-        mViewModel.getPrNox().observe(getViewLifecycleOwner(), s -> {
+        mViewModel.GetPrNumber().observe(getViewLifecycleOwner(), s -> {
             if(s != null){
                 txtPrNoxx.setText(s);
             }
@@ -195,13 +193,13 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
                     loPayment.initDialog(strings, new DialogCheckPayment.OnCheckPaymentDialogListener() {
                         @Override
                         public void OnConfirm(AlertDialog dialog, String bank, String date, String checkNo, String AcctNo) {
-                            infoModel.setCheckDt(date);
-                            infoModel.setCheckNo(checkNo);
-                            infoModel.setAccntNo(AcctNo);
+                            poPaid.setCheckDt(date);
+                            poPaid.setCheckNo(checkNo);
+                            poPaid.setAccntNo(AcctNo);
                             mViewModel.getBankInfoList().observe(getViewLifecycleOwner(), eBankInfos -> {
                                 for(int x = 0; x < eBankInfos.size(); x++){
                                     if(bank.equalsIgnoreCase(eBankInfos.get(x).getBankName())){
-                                        infoModel.setBankNme(eBankInfos.get(x).getBankIDxx());
+                                        poPaid.setBankNme(eBankInfos.get(x).getBankIDxx());
                                         break;
                                     }
                                 }
@@ -234,21 +232,15 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
         });
 
         btnConfirm.setOnClickListener(v -> {
-            long time = SystemClock.elapsedRealtime() - mLastClickTime;
-            if(time < 5000){
-                Toast.makeText(requireContext(), "Please wait...", Toast.LENGTH_LONG).show();
-            } else {
-                mLastClickTime = SystemClock.elapsedRealtime();
-                infoModel.setRemarksCode(Remarksx);
-                infoModel.setPayment(String.valueOf(spnType.getSelectedItemPosition()));
-                infoModel.setPrNoxxx(Objects.requireNonNull(txtPrNoxx.getText()).toString());
-                infoModel.setRemarks(Objects.requireNonNull(txtRemarks.getText()).toString());
-                infoModel.setAmountx(Objects.requireNonNull(txtAmount.getText()).toString());
-                infoModel.setDscount(Objects.requireNonNull(txtDiscount.getText()).toString());
-                infoModel.setOthersx(Objects.requireNonNull(txtOthers.getText()).toString());
-                infoModel.setTotAmnt(Objects.requireNonNull(txtTotAmnt.getText()).toString());
-                mViewModel.savePaidInfo(infoModel, Fragment_PaidTransaction.this);
-            }
+            poPaid.setRemarks(Remarksx);
+            poPaid.setPayment(String.valueOf(spnType.getSelectedItemPosition()));
+            poPaid.setPrNoxxx(Objects.requireNonNull(txtPrNoxx.getText()).toString());
+            poPaid.setRemarks(Objects.requireNonNull(txtRemarks.getText()).toString());
+            poPaid.setAmountx(Objects.requireNonNull(txtAmount.getText()).toString());
+            poPaid.setDscount(Objects.requireNonNull(txtDiscount.getText()).toString());
+            poPaid.setOthersx(Objects.requireNonNull(txtOthers.getText()).toString());
+            poPaid.setTotAmnt(Objects.requireNonNull(txtTotAmnt.getText()).toString());
+            mViewModel.SavePaymentInfo(poPaid, Fragment_PaidTransaction.this);
         });
 
         return view;

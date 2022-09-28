@@ -19,6 +19,9 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
+import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.lib.integsys.Dcp.ImportParams;
 import org.rmj.g3appdriver.lib.integsys.Dcp.LRDcp;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
@@ -28,12 +31,21 @@ import java.util.List;
 public class VMCollectionList extends AndroidViewModel {
     private static final String TAG = VMCollectionList.class.getSimpleName();
 
+    private final EmployeeMaster poUser;
     private final LRDcp poSys;
     private final ConnectionUtil poConn;
+    private final AppConfigPreference poConfig;
 
     public interface OnActionCallback {
         void OnLoad();
         void OnSuccess();
+        void OnFailed(String message);
+    }
+
+    public interface OnCheckDcpForPosting {
+        void OnLoad();
+        void OnSuccess();
+        void OnIncompleteDcp();
         void OnFailed(String message);
     }
 
@@ -45,12 +57,22 @@ public class VMCollectionList extends AndroidViewModel {
 
     public VMCollectionList(@NonNull Application application) {
         super(application);
+        this.poUser = new EmployeeMaster(application);
         this.poSys = new LRDcp(application);
         this.poConn = new ConnectionUtil(application);
+        this.poConfig = AppConfigPreference.getInstance(application);
+    }
+
+    public LiveData<EEmployeeInfo> GetUserInfo(){
+        return poUser.GetEmployeeInfo();
     }
 
     public LiveData<List<EDCPCollectionDetail>> GetColletionList(){
-        return null;
+        return poSys.GetCollectionList();
+    }
+
+    public boolean IsTesting(){
+        return poConfig.getTestStatus();
     }
 
     public void DownloadDCP(ImportParams foVal, OnActionCallback callback){
@@ -185,43 +207,61 @@ public class VMCollectionList extends AndroidViewModel {
         }
     }
 
-    public void CheckDcpForPosting(OnActionCallback callback){
-
+    public void CheckDcpForPosting(OnCheckDcpForPosting callback){
+        new CheckDcpTask(callback).execute();
     }
 
-    private class CheckDcpTask extends AsyncTask<String, Void, Boolean>{
+    private class CheckDcpTask extends AsyncTask<String, Void, Integer>{
 
-        private final OnActionCallback callback;
+        private final OnCheckDcpForPosting callback;
 
         private String message;
 
-        public CheckDcpTask(OnActionCallback callback) {
+        public CheckDcpTask(OnCheckDcpForPosting callback) {
             this.callback = callback;
         }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            callback.OnLoad();
         }
 
         @Override
-        protected Boolean doInBackground(String... strings) {
-            return null;
+        protected Integer doInBackground(String... strings) {
+            if(!poSys.HasRemittedCollection()){
+                message = poSys.getMessage();
+                return 2;
+            }
+
+            if(poSys.HasNotVisitedCollection()){
+                message = poSys.getMessage();
+                return 0;
+            }
+
+            return 1;
         }
 
         @Override
-        protected void onPostExecute(Boolean isSuccess) {
-            super.onPostExecute(isSuccess);
-            if(isSuccess){
-                callback.OnSuccess();
-            } else {
-                callback.OnFailed(message);
+        protected void onPostExecute(Integer result) {
+            super.onPostExecute(result);
+            switch (result){
+                case 0: //Failed
+                    callback.OnIncompleteDcp();
+                    break;
+                case 1: //Success
+                    callback.OnSuccess();
+                    break;
+                default: //Need remittance
+                    callback.OnFailed(message);
+                    break;
+
             }
         }
     }
 
-    public void PostCollectionList(OnActionCallback callback){
-        new PostCollectionTask()
+    public void PostCollectionList(String fsVal, OnActionCallback callback){
+        new PostCollectionTask(callback).execute(fsVal);
     }
 
     private class PostCollectionTask extends AsyncTask<String, Void, Boolean>{

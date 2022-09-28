@@ -15,10 +15,12 @@ import static org.rmj.g3appdriver.utils.ServiceScheduler.EIGHT_HOUR_PERIODIC;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -116,7 +118,20 @@ public class Activity_SplashScreen extends AppCompatActivity {
 
                         @Override
                         public void OnSessionExpired() {
-                            poLogin.launch(new Intent(Activity_SplashScreen.this, Activity_Authenticate.class));
+                            poDialog.initDialog();
+                            poDialog.setTitle("GhostRider");
+                            poDialog.setMessage("Your last account session has expired. Please login again.");
+                            poDialog.setPositiveButton("Login", (view, dialog) -> {
+                                dialog.dismiss();
+                            });
+                            poDialog.setNegativeButton("Exit", new MessageBox.DialogButton() {
+                                @Override
+                                public void OnButtonClick(View view, AlertDialog dialog) {
+                                    dialog.dismiss();
+                                    finish();
+                                }
+                            });
+                            poDialog.show();
                         }
 
                         @Override
@@ -137,6 +152,4 @@ public class Activity_SplashScreen extends AppCompatActivity {
             }
         });
     }
-
-
 }

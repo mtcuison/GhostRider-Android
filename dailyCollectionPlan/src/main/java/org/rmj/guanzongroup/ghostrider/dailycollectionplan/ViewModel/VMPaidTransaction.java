@@ -21,26 +21,18 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.rmj.apprdiver.util.LRUtil;
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBankInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBankInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
-import org.rmj.g3appdriver.GRider.Etc.SessionManager;
-import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
-import org.rmj.g3appdriver.GRider.Http.WebClient;
-import org.rmj.g3appdriver.dev.Telephony;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.lib.integsys.Dcp.LRDcp;
+import org.rmj.g3appdriver.lib.integsys.Dcp.PaidDCP;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
-import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.PaidTransactionModel;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -50,23 +42,22 @@ import java.util.Objects;
 
 public class VMPaidTransaction extends AndroidViewModel {
     private static final String TAG = VMPaidTransaction.class.getSimpleName();
-    private final Application instance;
+
     private final RBranch poBranch;
-    private final RDailyCollectionPlan poDcp;
     private final RBankInfo poBank;
+    private final ConnectionUtil poConn;
     private final AppConfigPreference poConfig;
 
-    private final LRDcp poLrDcp;
+    private final LRDcp poSys;
 
-    private final MutableLiveData<EDCPCollectionDetail> poDcpDetail = new MutableLiveData<>();
+    private double pnAmortx = 0, pnAmtDue = 0, pnAmount = 0;
+    private String psPrchse = "",
+                    pnDueDte = "",
+                    MonAmort = "",
+                    Balancex = "";
 
-    private final MutableLiveData<String> psTransNox = new MutableLiveData<>();
-    private final MutableLiveData<Integer> psEntryNox = new MutableLiveData<>();
-    private final MutableLiveData<Double> pnAmount = new MutableLiveData<>();
     private final MutableLiveData<Double> pnDsCntx = new MutableLiveData<>();
     private final MutableLiveData<Double> pnOthers = new MutableLiveData<>();
-    private final MutableLiveData<Double> pnAmortx = new MutableLiveData<>();
-    private final MutableLiveData<Double> pnAmtDue = new MutableLiveData<>();
     private final MutableLiveData<Double> pnTotalx = new MutableLiveData<>();
     private final MutableLiveData<Double> pnRebate = new MutableLiveData<>();
     private final MutableLiveData<Double> pnPenlty = new MutableLiveData<>();
@@ -76,51 +67,41 @@ public class VMPaidTransaction extends AndroidViewModel {
 
     public VMPaidTransaction(@NonNull Application application) {
         super(application);
-        this.instance = application;
-        this.poLrDcp = new LRDcp(instance);
+        EmployeeMaster poUser = new EmployeeMaster(application);
+        this.poSys = new LRDcp(application);
         this.poBranch = new RBranch(application);
-        this.poDcp = new RDailyCollectionPlan(application);
-        this.pnDsCntx.setValue((double) 0);
-        this.pnOthers.setValue((double) 0);
-        this.pnAmount.setValue((double) 0);
-        this.pnOthers.setValue((double) 0);
         this.poBank = new RBankInfo(application);
         this.poConfig = AppConfigPreference.getInstance(application);
+        this.poConn = new ConnectionUtil(application);
+        this.pnDsCntx.setValue((double) 0);
+        this.pnOthers.setValue((double) 0);
+        this.pnOthers.setValue((double) 0);
     }
 
-    public void setParameter(String TransNox, int EntryNox){
-        this.psTransNox.setValue(TransNox);
-        this.psEntryNox.setValue(EntryNox);
+    public LiveData<EDCPCollectionDetail> GetAccountDetail(String TransNo, int EntryNo, String Accountno){
+        return poSys.GetAccountDetailForTransaction(TransNo, Accountno, String.valueOf(EntryNo));
     }
 
-    public LiveData<EDCPCollectionDetail> getCollectionDetail(){
-        return poDcp.getCollectionDetail(psTransNox.getValue(), psEntryNox.getValue());
-    }
-
-    public void setCurrentCollectionDetail(EDCPCollectionDetail detail){
-        this.poDcpDetail.setValue(detail);
-    }
-
-    public LiveData<EBranchInfo> getUserBranchEmployee(){
+    public LiveData<EBranchInfo> GetEmployeeBranch(){
         return poBranch.getUserBranchInfo();
     }
 
-    public LiveData<ArrayAdapter<String>> getPaymentType(){
+    public LiveData<ArrayAdapter<String>> GetPaymentType(){
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_dropdown_item, DCP_Constants.PAYMENT_TYPE);
         MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
         liveData.setValue(adapter);
         return liveData;
     }
 
-    public LiveData<String> getPrNox(){
+    public LiveData<String> GetPrNumber(){
         MutableLiveData<String> loPrNox = new MutableLiveData<>();
         loPrNox.setValue(poConfig.getDCP_PRNox());
         return loPrNox;
     }
 
     public void setAmount(Double fnAmount){
-        this.pnAmount.setValue(fnAmount);
-        calculatePenalty();
+        this.pnAmount = fnAmount;
+//        calculatePenalty();
         calculateTotal();
     }
 
@@ -148,11 +129,11 @@ public class VMPaidTransaction extends AndroidViewModel {
     }
 
     public void setMonthlyAmort(Double fnAmortx){
-        this.pnAmortx.setValue(fnAmortx);
+        this.pnAmortx = fnAmortx;
     }
 
     public void setAmountDue(Double fnAmtDue){
-        this.pnAmtDue.setValue(fnAmtDue);
+        this.pnAmtDue = fnAmtDue;
     }
 
     public void setIsRebated(boolean isRebated){
@@ -183,20 +164,18 @@ public class VMPaidTransaction extends AndroidViewModel {
         double lnTotal = 0.00;
         try {
             if(pbRebate) {
-                double lnAmount = pnAmount.getValue();
                 double lnOthers = pnOthers.getValue();
-                double lnAmortx = pnAmortx.getValue();
-                double lnAmtDue = pnAmtDue.getValue();
+                double lnAmount = pnAmount;
 
                 double reb = Double.parseDouble(poConfig.getDCP_CustomerRebate());
 
-                double lnRebate = LRUtil.getRebate(lnAmount, lnAmortx, lnAmtDue, reb);
+                double lnRebate = LRUtil.getRebate(lnAmount, pnAmortx, pnAmtDue, reb);
 
                 lnTotal = lnAmount + lnOthers - lnRebate;
                 pnRebate.setValue(lnRebate);
             } else {
-                double lnAmount = pnAmount.getValue();
                 double lnOthers = pnOthers.getValue();
+                double lnAmount = pnAmount;
                 lnTotal = lnAmount + lnOthers;
                 pnRebate.setValue(0.00);
             }
@@ -206,17 +185,16 @@ public class VMPaidTransaction extends AndroidViewModel {
         pnTotalx.setValue(lnTotal);
     }
 
-    private void calculatePenalty(){
+    private void calculatePenalty(String dPurcahse, String dDueDate, String MonAmort, String Balancex){
         try {
-            EDCPCollectionDetail loDetail = poDcpDetail.getValue();
             DateFormat loFormat = new SimpleDateFormat("yyyy-MM-dd");
-            Date ldPurchase = loFormat.parse(loDetail.getPurchase());
-            Date ldDueDatex = loFormat.parse(loDetail.getDueDatex());
+            Date ldPurchase = loFormat.parse(dPurcahse);
+            Date ldDueDatex = loFormat.parse(dDueDate);
             Log.d(TAG, "Date Purchase: "+ ldPurchase);
             Log.d(TAG, "Due Date: "+ ldDueDatex);
-            double lnMonAmort = Double.parseDouble(loDetail.getMonAmort());
-            double lnABalance = Double.parseDouble(loDetail.getABalance());
-            double lnAmtPaidx = pnAmtDue.getValue();
+            double lnMonAmort = Double.parseDouble(MonAmort);
+            double lnABalance = Double.parseDouble(Balancex);
+            double lnAmtPaidx = pnAmtDue;
             double lnPenalty = LRUtil.getPenalty(ldPurchase, ldDueDatex, lnMonAmort, lnABalance, lnAmtPaidx);
             pnPenlty.setValue(lnPenalty);
         } catch (Exception e){
@@ -232,34 +210,17 @@ public class VMPaidTransaction extends AndroidViewModel {
         return pnPenlty;
     }
 
-    public void savePaidInfo(PaidTransactionModel infoModel, ViewModelCallback callback){
-        new PostPaidTransactionTask(poDcpDetail.getValue(), infoModel, instance, callback).execute();
+    public void SavePaymentInfo(PaidDCP foVal, ViewModelCallback callback){
+        new SavePaymentTask(callback).execute(foVal);
     }
 
-    private static class PostPaidTransactionTask extends AsyncTask<String, Void, String>{
-        private final EDCPCollectionDetail poDcpDetail;
-        private final PaidTransactionModel infoModel;
+    private class SavePaymentTask extends AsyncTask<PaidDCP, Void, Boolean>{
         private final ViewModelCallback callback;
-        private final RDailyCollectionPlan poDcp;
 
-        private final HttpHeaders poHeaders;
-        private final ConnectionUtil poConn;
-        private final Telephony poDevID;
-        private final SessionManager poUser;
-        private final AppConfigPreference poConfig;
-        private final WebApi poApi;
+        private String message;
 
-        public PostPaidTransactionTask(EDCPCollectionDetail dcpDetail, PaidTransactionModel infoModel, Application instance, ViewModelCallback callback) {
-            this.poDcpDetail = dcpDetail;
-            this.infoModel = infoModel;
+        public SavePaymentTask(ViewModelCallback callback) {
             this.callback = callback;
-            this.poDcp = new RDailyCollectionPlan(instance);
-            this.poHeaders = HttpHeaders.getInstance(instance);
-            this.poConn = new ConnectionUtil(instance);
-            this.poDevID = new Telephony(instance);
-            this.poUser = new SessionManager(instance);
-            this.poConfig = AppConfigPreference.getInstance(instance);
-            this.poApi = new WebApi(poConfig.getTestStatus());
         }
 
         @Override
@@ -269,110 +230,34 @@ public class VMPaidTransaction extends AndroidViewModel {
         }
 
         @Override
-        protected String doInBackground(String... strings) {
-            String lsResponse;
-            try{
-                EDCPCollectionDetail detail = poDcpDetail;
-                if(!infoModel.isDataValid()){
-                    lsResponse = AppConstants.LOCAL_EXCEPTION_ERROR(infoModel.getMessage());
-                } else {
-                    if(infoModel.getBankNme() != null){
-                        detail.setBankIDxx(infoModel.getBankNme());
-                        detail.setCheckDte(infoModel.getCheckDt());
-                        detail.setCheckNox(infoModel.getCheckNo());
-                        detail.setCheckAct(infoModel.getAccntNo());
-                    }
-                    detail.setRemCodex(infoModel.getRemarksCode());
-                    detail.setTranType(infoModel.getPayment());
-                    detail.setPRNoxxxx(infoModel.getPrNoxxx());
-                    detail.setTranAmtx(infoModel.getAmountx().replace(",", ""));
-                    detail.setDiscount(infoModel.getDscount().replace(",", ""));
-                    detail.setOthersxx(infoModel.getOthersx().replace(",", ""));
-                    detail.setTranTotl(infoModel.getTotAmnt().replace(",", ""));
-                    detail.setRemarksx(infoModel.getRemarks());
-                    detail.setTranStat("2");
-                    detail.setModified(new AppConstants().DATE_MODIFIED);
-                    poDcp.updateCollectionDetailInfo(detail);
-                    poConfig.setDCP_PRNox(detail.getPRNoxxxx());
-
-                    //StartSending to Server
-                    if(!poConn.isDeviceConnected()) {
-                        lsResponse = AppConstants.LOCAL_EXCEPTION_ERROR("Collection info has been save.");
-                    } else {
-                        JSONObject loData = new JSONObject();
-                        loData.put("sPRNoxxxx", detail.getPRNoxxxx());
-                        loData.put("nTranAmtx", detail.getTranAmtx());
-                        loData.put("nDiscount", detail.getDiscount());
-                        loData.put("nOthersxx", detail.getOthersxx());
-                        loData.put("cTranType", detail.getTranType());
-                        loData.put("nTranTotl", detail.getTranTotl());
-                        if(detail.getBankIDxx() == null) {
-                            loData.put("sBankIDxx", "");
-                            loData.put("sCheckDte", "");
-                            loData.put("sCheckNox", "");
-                            loData.put("sCheckAct", "");
-                        } else {
-                            loData.put("sBankIDxx", detail.getBankIDxx());
-                            loData.put("sCheckDte", detail.getCheckDte());
-                            loData.put("sCheckNox", detail.getCheckNox());
-                            loData.put("sCheckAct", detail.getCheckAct());
-                        }
-                        JSONObject loJson = new JSONObject();
-                        loJson.put("sTransNox", detail.getTransNox());
-                        loJson.put("nEntryNox", detail.getEntryNox());
-                        loJson.put("sAcctNmbr", detail.getAcctNmbr());
-                        loJson.put("sRemCodex", detail.getRemCodex());
-                        loJson.put("dModified", detail.getModified());
-                        loJson.put("sJsonData", loData);
-                        loJson.put("dReceived", "");
-//                        Added by Jonathan 07/27/2021
-                        loData.put("sRemarksx", detail.getRemarksx());
-                        loJson.put("sUserIDxx", poUser.getUserID());
-                        loJson.put("sDeviceID", poDevID.getDeviceID());
-                        Log.e(TAG, loJson.toString());
-                        lsResponse = WebClient.sendRequest(poApi.getUrlDcpSubmit(poConfig.isBackUpServer()), loJson.toString(), poHeaders.getHeaders());
-
-                        if(lsResponse == null){
-                            lsResponse = AppConstants.SERVER_NO_RESPONSE();
-                        } else {
-                            JSONObject loResponse = new JSONObject(lsResponse);
-                            if(loResponse.getString("result").equalsIgnoreCase("success")){
-                                detail.setSendStat("1");
-                                detail.setSendDate(new AppConstants().DATE_MODIFIED);
-                                detail.setModified(new AppConstants().DATE_MODIFIED);
-                                poDcp.updateCollectionDetailInfo(detail);
-                            }
-                        }
-                    }
-                }
-
-            } catch (Exception e){
-                e.printStackTrace();
-                lsResponse = AppConstants.LOCAL_EXCEPTION_ERROR(e.getMessage());
+        protected Boolean doInBackground(PaidDCP... paidDCPS) {
+            paidDCPS[0].setPrNoxxx(poConfig.getDCP_PRNox());
+            String lsResult = poSys.SavePaidTransaction(paidDCPS[0]);
+            if(lsResult == null){
+                message = poSys.getMessage();
+                return false;
             }
-            return lsResponse;
+
+            if(!poConn.isDeviceConnected()){
+                message = "Payment info has been save to local device.";
+                return true;
+            }
+
+            if(!poSys.UploadPaidTransaction(lsResult)){
+                message = poSys.getMessage();
+                return false;
+            }
+
+            return true;
         }
 
         @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            try {
-                JSONObject loJson = new JSONObject(s);
-                Log.e(TAG, loJson.getString("result"));
-                String lsResult = loJson.getString("result");
-                if(lsResult.equalsIgnoreCase("success")){
-                    callback.OnSuccessResult(new String[]{"Transaction has been posted successfully."});
-                } else {
-                    JSONObject loError = loJson.getJSONObject("error");
-                    String message = loError.getString("message");
-                    callback.OnFailedResult(message);
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-                callback.OnFailedResult(e.getMessage());
-            } catch (Exception e) {
-                e.printStackTrace();
-                callback.OnFailedResult(e.getMessage());
+        protected void onPostExecute(Boolean isSuccess) {
+            super.onPostExecute(isSuccess);
+            if(!isSuccess){
+                callback.OnFailedResult(message);
+            } else {
+                callback.OnSuccessResult(new String[]{"Transaction has been posted successfully."});
             }
         }
     }

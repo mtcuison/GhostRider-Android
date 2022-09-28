@@ -54,7 +54,7 @@ public class VMMainActivity extends AndroidViewModel {
     }
 
     public LiveData<EEmployeeInfo> getEmployeeInfo(){
-        return poUser.getEmployeeInfo();
+        return poUser.GetEmployeeInfo();
     }
 
     public LiveData<ESelfieLog> getLastSelfieLog(){

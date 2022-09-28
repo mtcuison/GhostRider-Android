@@ -114,7 +114,7 @@ public class VMCashCounter extends AndroidViewModel {
         this.grandTotalx.setValue((double) 0);
     }
     public LiveData<EEmployeeInfo> getEmplopyeInfo(){
-        return this.poEmploye.getEmployeeInfo();
+        return this.poEmploye.GetEmployeeInfo();
     }
     public LiveData<EBranchInfo> getUserBranchInfo(){
         return poBranch.getUserBranchInfo();

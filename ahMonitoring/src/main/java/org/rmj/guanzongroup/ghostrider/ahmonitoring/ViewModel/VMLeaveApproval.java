@@ -84,7 +84,7 @@ public class VMLeaveApproval extends AndroidViewModel {
     }
 
     public LiveData<EEmployeeInfo> getUserInfo(){
-        return poUser.getEmployeeInfo();
+        return poUser.GetEmployeeInfo();
     }
 
     public LiveData<EBranchInfo> getUserBranchInfo(){

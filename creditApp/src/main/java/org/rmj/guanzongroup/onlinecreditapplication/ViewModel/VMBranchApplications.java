@@ -62,7 +62,7 @@ public class VMBranchApplications extends AndroidViewModel {
         this.poCreditApp = new RBranchLoanApplication(application);
         this.poImport = new Import_CreditAppList(application);
         poEmploye = new EmployeeMaster(application);
-        poEmploye.getEmployeeInfo();
+        poEmploye.GetEmployeeInfo();
 
         rCreditApp = new RCreditApplication(application);
         eCreditApplication = rCreditApp.getAllCreditOnlineApplication().getValue();
@@ -76,7 +76,7 @@ public class VMBranchApplications extends AndroidViewModel {
     }
 
     public LiveData<EEmployeeInfo> getEmployeeInfo() {
-        return poEmploye.getEmployeeInfo();
+        return poEmploye.GetEmployeeInfo();
     }
 
     public LiveData<List<EBranchLoanApplication>> getBranchCreditApplication(){

@@ -88,7 +88,7 @@ public class VMCashCountSubmit extends AndroidViewModel {
     }
 
     public LiveData<EEmployeeInfo> getEmplopyeInfo(){
-        return this.poEmploye.getEmployeeInfo();
+        return this.poEmploye.GetEmployeeInfo();
     }
     public LiveData<EBranchInfo> getUserBranchInfo(){
         return poBranch.getUserBranchInfo();

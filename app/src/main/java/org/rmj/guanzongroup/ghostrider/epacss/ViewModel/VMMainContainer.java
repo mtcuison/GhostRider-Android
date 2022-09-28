@@ -30,6 +30,6 @@ public class VMMainContainer extends AndroidViewModel {
     }
 
     public LiveData<EEmployeeInfo> getEmployeeInfo(){
-        return poUser.getEmployeeInfo();
+        return poUser.GetEmployeeInfo();
     }
 }

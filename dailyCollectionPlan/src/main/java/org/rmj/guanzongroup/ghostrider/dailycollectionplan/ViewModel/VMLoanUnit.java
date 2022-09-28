@@ -42,12 +42,12 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EProvinceInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ETownInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBarangay;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RClientUpdate;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCountry;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RProvince;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RTown;
+import org.rmj.g3appdriver.lib.integsys.Dcp.RClientUpdate;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.LoanUnitModel;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.PromiseToPayModel;
@@ -388,7 +388,7 @@ public class VMLoanUnit extends AndroidViewModel {
                         poClient.updateClientInfo(eClientUpdate);
                         Log.e(TAG, "Client info has been updated!");
                     }else {
-                        eClientUpdate.setClientID(poClient.getClientNextCode());
+//                        eClientUpdate.setClientID(poClient.getClientNextCode());
                         poClient.insertClientUpdateInfo(eClientUpdate);
                         Log.e(TAG, "Client info has been insert!");
                     }

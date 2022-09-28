@@ -54,7 +54,7 @@ public class VMHomeContainer extends AndroidViewModel {
     }
 
     public LiveData<EEmployeeInfo> getEmployeeInfo(){
-        return poUser.getEmployeeInfo();
+        return poUser.GetEmployeeInfo();
     }
 
     public String getEmployeeLevel(){
