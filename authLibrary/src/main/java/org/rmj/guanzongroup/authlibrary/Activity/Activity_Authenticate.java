@@ -20,8 +20,6 @@ import org.rmj.guanzongroup.authlibrary.R;
 
 public class Activity_Authenticate extends AppCompatActivity {
 
-    //private boolean exit = false;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

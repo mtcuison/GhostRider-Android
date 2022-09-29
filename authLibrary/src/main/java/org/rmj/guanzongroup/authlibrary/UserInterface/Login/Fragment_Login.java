@@ -14,11 +14,16 @@ package org.rmj.guanzongroup.authlibrary.UserInterface.Login;
 import static androidx.core.content.ContextCompat.checkSelfPermission;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.telephony.SubscriptionInfo;
+import android.telephony.SubscriptionManager;
+import android.telephony.TelephonyManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +35,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -45,6 +51,9 @@ import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.guanzongroup.authlibrary.R;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class Fragment_Login extends Fragment implements LoginCallback{
@@ -61,11 +70,11 @@ public class Fragment_Login extends Fragment implements LoginCallback{
 
     private AppConfigPreference poConfigx;
 
-    private final ActivityResultLauncher<String> poRequest = registerForActivityResult(new ActivityResultContracts.RequestPermission(), new ActivityResultCallback<Boolean>() {
+    private final ActivityResultLauncher<String[]> poRequest = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), new ActivityResultCallback<Map<String, Boolean>>() {
         @Override
-        public void onActivityResult(Boolean result) {
+        public void onActivityResult(Map<String, Boolean> result) {
             try{
-
+                tieMobileNo.setText(mViewModel.getMobileNo());
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -95,15 +104,8 @@ public class Fragment_Login extends Fragment implements LoginCallback{
         cbAgree = v.findViewById(R.id.cbAgree);
         btnLogin = v.findViewById(R.id.btn_login);
 
-        if(checkSelfPermission(requireActivity(), Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED){
-            poRequest.launch(Manifest.permission.READ_PHONE_STATE);
-        } else if(checkSelfPermission(requireActivity(), Manifest.permission.READ_PHONE_NUMBERS) != PackageManager.PERMISSION_GRANTED){
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                poRequest.launch(Manifest.permission.READ_PHONE_NUMBERS);
-            }
-        }
-
         tieMobileNo.setText(mViewModel.getMobileNo());
+
         tilMobileNo.setVisibility(mViewModel.hasMobileNo());
 
         cbAgree.setChecked(mViewModel.isAgreed());
@@ -118,7 +120,6 @@ public class Fragment_Login extends Fragment implements LoginCallback{
         });
 
         lblVersion.setText(poConfigx.getVersionInfo());
-
 
         tvCreateAccount.setOnClickListener(view -> navController.navigate(R.id.action_fragment_Login_to_fragment_CreateAccount));
         tvTerms.setOnClickListener(view -> navController.navigate(R.id.action_fragment_Login_to_fragment_TermsAndConditions));

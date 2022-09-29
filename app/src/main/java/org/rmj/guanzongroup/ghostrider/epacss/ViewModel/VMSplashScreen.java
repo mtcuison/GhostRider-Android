@@ -171,7 +171,6 @@ public class VMSplashScreen extends AndroidViewModel {
         void OnProgress(String args, int progress);
         void OnSuccess();
         void OnNoSession();
-        void OnSessionExpired();
         void OnFailed(String message);
     }
 
@@ -226,11 +225,11 @@ public class VMSplashScreen extends AndroidViewModel {
                         return 2;
                     }
 
-                    if(poUser.getSessionTime() <= 0) {
+                    if(!poUser.IsSessionValid()){
                         return 2;
                     }
 
-                    return 3;
+                    return 1;
                 } else {
                     if(!poConfig.isAppFirstLaunch()){
                         message = "Offline Mode.";
@@ -269,11 +268,8 @@ public class VMSplashScreen extends AndroidViewModel {
                 case 1:
                     callback.OnSuccess();
                     break;
-                case 2:
-                    callback.OnNoSession();
-                    break;
                 default:
-                    callback.OnSessionExpired();
+                    callback.OnNoSession();
                     break;
             }
         }

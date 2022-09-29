@@ -31,31 +31,27 @@ import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.ESelfieLog;
 import org.rmj.g3appdriver.GRider.Database.Entities.ESelfieLog;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.GRider.Etc.LocationRetriever;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.dev.DeptCode;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.lib.PetManager.SelfieLog;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class VMSelfieLogin extends AndroidViewModel {
-    private static final String TAG = VMSelfieLogin.class.getSimpleName();
+public class VMSelfieLog extends AndroidViewModel {
+    private static final String TAG = VMSelfieLog.class.getSimpleName();
+
     private final Application instance;
     private final SelfieLog poLog;
     private final RBranch pobranch;
     private final SessionManager poSession;
     private final EmployeeMaster poUser;
-
-    private final MutableLiveData<Boolean> pbGranted = new MutableLiveData<>();
-    private final MutableLiveData<String[]> paPermisions = new MutableLiveData<>();
 
     public interface OnInitializeCameraCallback {
         void OnInit();
@@ -76,39 +72,13 @@ public class VMSelfieLogin extends AndroidViewModel {
         void OnFailed(String message);
     }
 
-    public VMSelfieLogin(@NonNull Application application) {
+    public VMSelfieLog(@NonNull Application application) {
         super(application);
         this.instance = application;
         this.poUser = new EmployeeMaster(instance);
         this.poLog = new SelfieLog(instance);
         this.pobranch = new RBranch(instance);
         this.poSession = new SessionManager(instance);
-        paPermisions.setValue(new String[]{
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_COARSE_LOCATION});
-        pbGranted.setValue(hasPermissions(application.getApplicationContext(), paPermisions.getValue()));
-    }
-    public LiveData<Boolean> isPermissionsGranted(){
-        return pbGranted;
-    }
-
-    public LiveData<String[]> getPermisions(){
-        return paPermisions;
-    }
-
-    public void setPermissionsGranted(boolean isGranted){
-        this.pbGranted.setValue(isGranted);
-    }
-
-    private static boolean hasPermissions(Context context, String... permissions){
-        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M && permissions!=null ){
-            for (String permission: permissions){
-                if(ActivityCompat.checkSelfPermission(context, permission)!= PackageManager.PERMISSION_GRANTED){
-                    return false;
-                }
-            }
-        }
-        return true;
     }
 
     public LiveData<EEmployeeInfo> getUserInfo(){
@@ -258,7 +228,6 @@ public class VMSelfieLogin extends AndroidViewModel {
         private final Application instance;
         private final OnBranchSelectedCallback callback;
         private final SelfieLog poLog;
-        private String lsResult = "";
 
         public OnBranchCheckTask(Application application, OnBranchSelectedCallback callback) {
             this.instance = application;
@@ -356,6 +325,10 @@ public class VMSelfieLogin extends AndroidViewModel {
                 //TODO: Revise the return value from boolean to int
                 //check if user must be required to proceed for cash count and random stock inventory
                 if(poSession.getEmployeeLevel().equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER))){
+
+                    //Usually message is only use for storing and error message.
+                    // this time message value will be branch code which will be pass for cash count entry.
+                    message = selfieLogs[0].getBranchCode();
                     return 2;
                 }
                 return 1;
@@ -377,6 +350,8 @@ public class VMSelfieLogin extends AndroidViewModel {
                     callback.OnSuccess(message);
                     break;
                 case 2:
+                    // message value will be branch code.
+                    callback.OnProceedCashCount(message);
                     break;
                 default:
                     break;

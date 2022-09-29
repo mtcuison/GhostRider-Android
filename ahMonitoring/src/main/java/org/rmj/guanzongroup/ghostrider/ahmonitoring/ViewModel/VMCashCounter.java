@@ -12,6 +12,7 @@
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel;
 
 import android.app.Application;
+import android.os.AsyncTask;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -21,20 +22,15 @@ import androidx.lifecycle.MutableLiveData;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
-import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
-import org.rmj.g3appdriver.lib.PetManager.SelfieLog;
+import org.rmj.g3appdriver.lib.integsys.CashCount.CashCount;
 
 public class VMCashCounter extends AndroidViewModel {
-
     private static final String TAG = VMCashCounter.class.getSimpleName();
-    private final Application instance;
-    private final EmployeeMaster poEmploye;
-    private final RBranch poBranch;
-    private final SelfieLog poSelfie;
 
-    private String SelfieLogTransNox = "";
+    private final CashCount poSys;
+
+    private final RBranch poBranch;
 
     private final MutableLiveData<Double> p1000 = new MutableLiveData<>();
     private final MutableLiveData<Double> p500 = new MutableLiveData<>();
@@ -74,10 +70,8 @@ public class VMCashCounter extends AndroidViewModel {
 
     public VMCashCounter(@NonNull Application application) {
         super(application);
-        this.instance = application;
-        this.poEmploye = new EmployeeMaster(application);
+        this.poSys = new CashCount(application);
         this.poBranch = new RBranch(application);
-        this.poSelfie = new SelfieLog(application);
         this.p1000.setValue((double) 0);
         this.p500.setValue((double) 0);
         this.p200.setValue((double) 0);
@@ -113,9 +107,7 @@ public class VMCashCounter extends AndroidViewModel {
         this.cnTotalx.setValue((double) 0);
         this.grandTotalx.setValue((double) 0);
     }
-    public LiveData<EEmployeeInfo> getEmplopyeInfo(){
-        return this.poEmploye.GetEmployeeInfo();
-    }
+
     public LiveData<EBranchInfo> getUserBranchInfo(){
         return poBranch.getUserBranchInfo();
     }
@@ -267,5 +259,51 @@ public class VMCashCounter extends AndroidViewModel {
         }
         jsonData.setValue(param);
         return param;
+    }
+
+    public interface OnCheckCashCountCallback{
+        void OnLoad();
+        void Success();
+        void OnFailed(String message);
+    }
+
+    public void CheckIfCashCountExist(String fsVal, OnCheckCashCountCallback callback){
+        new CheckCashCountTask(callback).execute(fsVal);
+    }
+
+    private class CheckCashCountTask extends AsyncTask<String, Void, Boolean>{
+
+        private final OnCheckCashCountCallback callback;
+
+        private String message;
+
+        public CheckCashCountTask(OnCheckCashCountCallback callback) {
+            this.callback = callback;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            callback.OnLoad();
+        }
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            if(poSys.IsCashCountAlreadyExist(strings[0])){
+                message = poSys.getMessage();
+                return true;
+            }
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean ifExist) {
+            super.onPostExecute(ifExist);
+            if(!ifExist){
+                callback.Success();
+            } else {
+                callback.OnFailed(message);
+            }
+        }
     }
 }

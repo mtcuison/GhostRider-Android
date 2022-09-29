@@ -17,11 +17,13 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
@@ -29,6 +31,7 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
+import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.CashCountInfoModel;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
@@ -61,6 +64,7 @@ public class Activity_CashCounter extends AppCompatActivity {
     private MaterialButton btnNext;
 
     private MessageBox poMessage;
+    private LoadDialog poLoad;
     private CashCountInfoModel infoModel;
     DecimalFormat formatter = new DecimalFormat("###,###,##0.00");
     private String psNotifNo = "";
@@ -70,13 +74,50 @@ public class Activity_CashCounter extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mViewModel = new ViewModelProvider(this).get(VMCashCounter.class);
         setContentView(R.layout.activity_cash_counter);
         instance = Activity_CashCounter.this;
-        mViewModel = new ViewModelProvider(this).get(VMCashCounter.class);
         initWidgets();
         cancelable = getIntent().getBooleanExtra("cancelable", true);
+        BranchCd = getIntent().getStringExtra("BranchCd");
         poMessage = new MessageBox(Activity_CashCounter.this);
+        poLoad = new LoadDialog(Activity_CashCounter.this);
+
         infoModel = new CashCountInfoModel();
+
+        mViewModel.CheckIfCashCountExist(BranchCd, new VMCashCounter.OnCheckCashCountCallback() {
+            @Override
+            public void OnLoad() {
+                poLoad.initDialog("Cash Count", "Checking local records. Please wait...", false);
+                poLoad.show();
+            }
+
+            @Override
+            public void Success() {
+                poLoad.dismiss();
+            }
+
+            @Override
+            public void OnFailed(String message) {
+                poLoad.dismiss();
+                poMessage.initDialog();
+                poMessage.setTitle("Cash Count");
+                poMessage.setMessage("A cash count record for this branch already exist.");
+                poMessage.setNegativeButton("Continue", (view, dialog) -> {
+                    dialog.dismiss();
+                    finish();
+                });
+                poMessage.setPositiveButton("Exit", (view, dialog) -> {
+                    dialog.dismiss();
+                    Intent loIntent = new Intent(Activity_CashCounter.this, Activity_Inventory.class);
+                    loIntent.putExtra("BranchCd", BranchCd);
+                    startActivity(loIntent);
+                    finish();
+                });
+                poMessage.show();
+            }
+        });
+
         mViewModel.getSelfieLogBranchInfo().observe(Activity_CashCounter.this, eBranchInfo -> {
             try {
                 lblBranch.setText(eBranchInfo.getBranchNm());
@@ -245,14 +286,6 @@ public class Activity_CashCounter extends AppCompatActivity {
             intent.putExtra("params", String.valueOf(mViewModel.getJsonData().getValue()));
             intent.putExtra("BranchCd", BranchCd);
             startActivity(intent);
-//                poMessage.initDialog();
-//                poMessage.setTitle("Collection Remittance");
-//                poMessage.setMessage(mViewModel.getJsonData().getValue().toString());
-//                poMessage.setPositiveButton("Okay", (view, dialog) -> {
-//                    dialog.dismiss();
-//
-//                });
-//                poMessage.show();
         });
     }
 
@@ -325,25 +358,25 @@ public class Activity_CashCounter extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == android.R.id.home){
-            finishActivity();
+            ConfirmExist();
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onBackPressed() {
-        finishActivity();
+        ConfirmExist();
     }
 
-    private void finishActivity(){
-        if(cancelable) {
+    private void ConfirmExist(){
+        poMessage.initDialog();
+        poMessage.setTitle("Cash Count");
+        poMessage.setMessage("Exit cash count?");
+        poMessage.setPositiveButton("Yes", (view, dialog) -> {
+            dialog.dismiss();
             finish();
-        } else {
-            poMessage.initDialog();
-            poMessage.setTitle("Cash Count");
-            poMessage.setMessage("To finish your selfie log. Please finish cash count entry.");
-            poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-            poMessage.show();
-        }
+        });
+        poMessage.setNegativeButton("No", (view, dialog) -> dialog.dismiss());
+        poMessage.show();
     }
 }

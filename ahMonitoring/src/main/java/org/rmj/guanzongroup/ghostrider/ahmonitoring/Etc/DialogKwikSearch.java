@@ -23,6 +23,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.rmj.g3appdriver.lib.integsys.CashCount.QuickSearchNames;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.Adapter_RequestNames;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.RequestNamesInfoModel;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
@@ -37,8 +38,8 @@ public class DialogKwikSearch {
     private RecyclerView recyclerView;
     private ImageButton btnClose;
     private Adapter_RequestNames custAdapter;
-    private List<RequestNamesInfoModel> infoList;
-    public DialogKwikSearch(Context context,List<RequestNamesInfoModel> infoList){
+    private List<QuickSearchNames> infoList;
+    public DialogKwikSearch(Context context, List<QuickSearchNames> infoList){
         this.mContex = context;
         this.infoList = infoList;
     }
@@ -55,24 +56,12 @@ public class DialogKwikSearch {
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(mContex);
         layoutManager.setOrientation(RecyclerView.VERTICAL);
-        custAdapter = new Adapter_RequestNames(mContex,infoList);
-        custAdapter.setOnItemClickListener(new Adapter_RequestNames.onItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-                listener.OnClick(poDialogx,infoList.get(position).getRequestName(), infoList.get(position).getRequestIDxx());
-//                new Activity_CashCountSubmit().getInstance().setName(requestNamesList.get(position).getRequestName());
-//                dialog.dismiss();
-            }
-        });
+        custAdapter = new Adapter_RequestNames(infoList);
+        custAdapter.setOnItemClickListener(position -> listener.OnClick(poDialogx,infoList.get(position).getRequestName(), infoList.get(position).getRequestIDxx()));
         recyclerView.setAdapter(custAdapter);
         recyclerView.setLayoutManager(layoutManager);
 
-        btnClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
-        });
+        btnClose.setOnClickListener(v -> dismiss());
 
 
         poDialogx = loBuilder.create();

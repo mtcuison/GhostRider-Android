@@ -10,21 +10,17 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.RequestNamesInfoModel;
+import org.rmj.g3appdriver.lib.integsys.CashCount.QuickSearchNames;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 
 import java.util.List;
 
 public class Adapter_RequestNames extends RecyclerView.Adapter<Adapter_RequestNames.ViewHolder>{
 
-    private List<RequestNamesInfoModel> infoList;
-    private RequestNamesInfoModel infoModel;
-    private Context mContext;
+    private final List<QuickSearchNames> infoList;
     private onItemClickListener mListener;
 
-    public Adapter_RequestNames(Context context,
-                                List<RequestNamesInfoModel> requestNames_InfoModel_List){
-        this.mContext = context;
+    public Adapter_RequestNames(List<QuickSearchNames> requestNames_InfoModel_List){
         this.infoList = requestNames_InfoModel_List;
     }
 
@@ -42,7 +38,7 @@ public class Adapter_RequestNames extends RecyclerView.Adapter<Adapter_RequestNa
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.requestNamesInfoModel = infoList.get(position);
-        infoModel = infoList.get(position);
+        QuickSearchNames infoModel = infoList.get(position);
 
         holder.textView.setText(infoModel.getRequestName());
     }
@@ -53,20 +49,17 @@ public class Adapter_RequestNames extends RecyclerView.Adapter<Adapter_RequestNa
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        RequestNamesInfoModel requestNamesInfoModel;
+        QuickSearchNames requestNamesInfoModel;
         TextView textView;
         public ViewHolder(@NonNull View itemView, final onItemClickListener listener) {
             super(itemView);
             textView = itemView.findViewById(R.id.lbl_employeeName);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(listener!=null){
-                        int position = getAdapterPosition();
-                        if(position!= RecyclerView.NO_POSITION){
-                            listener.onItemClick(position);
-                        }
+            itemView.setOnClickListener(v -> {
+                if(listener!=null){
+                    int position = getAdapterPosition();
+                    if(position!= RecyclerView.NO_POSITION){
+                        listener.onItemClick(position);
                     }
                 }
             });

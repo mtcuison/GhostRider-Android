@@ -39,7 +39,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
@@ -49,20 +48,21 @@ import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.dev.GLocationManager;
-import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.g3appdriver.lib.PetManager.SelfieLog;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_CashCounter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.TimeLogAdapter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Dialog.DialogBranchSelection;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMSelfieLogin;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMSelfieLog;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Fragment_SelfieLogin extends Fragment {
     private static final String TAG = Fragment_SelfieLogin.class.getSimpleName();
 
-    private VMSelfieLogin mViewModel;
+    private VMSelfieLog mViewModel;
 
     private TextView lblUsername, lblPosition, lblBranch, lblNotice;
     private MaterialButton btnCamera, btnBranch;
@@ -90,7 +90,7 @@ public class Fragment_SelfieLogin extends Fragment {
             try{
                 int resultCode = result.getResultCode();
                 if(resultCode == RESULT_OK){
-                    mViewModel.TimeIn(poSelfie, new VMSelfieLogin.OnLoginTimekeeperListener() {
+                    mViewModel.TimeIn(poSelfie, new VMSelfieLog.OnLoginTimekeeperListener() {
                         @Override
                         public void OnLogin() {
                             poLoad.initDialog("Selfie Log", "Sending your time in. Please wait...", false);
@@ -133,9 +133,9 @@ public class Fragment_SelfieLogin extends Fragment {
         }
     });
 
-    private final ActivityResultLauncher<String> poRequest = registerForActivityResult(new ActivityResultContracts.RequestPermission(), new ActivityResultCallback<Boolean>() {
+    private final ActivityResultLauncher<String[]> poRequest = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), new ActivityResultCallback<Map<String, Boolean>>() {
         @Override
-        public void onActivityResult(Boolean result) {
+        public void onActivityResult(Map<String, Boolean> result) {
 
         }
     });
@@ -161,7 +161,7 @@ public class Fragment_SelfieLogin extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        mViewModel = new ViewModelProvider(this).get(VMSelfieLogin.class);
+        mViewModel = new ViewModelProvider(this).get(VMSelfieLog.class);
         View view =  inflater.inflate(R.layout.fragment_selfie_login, container, false);
         initWidgets(view);
 
@@ -201,13 +201,13 @@ public class Fragment_SelfieLogin extends Fragment {
 
         });
 
-        btnBranch.setOnClickListener(v -> mViewModel.CheckBranchList(new VMSelfieLogin.OnBranchCheckListener() {
+        btnBranch.setOnClickListener(v -> mViewModel.CheckBranchList(new VMSelfieLog.OnBranchCheckListener() {
             @Override
             public void OnCheck(List<EBranchInfo> area, List<EBranchInfo> all) {
                 new DialogBranchSelection(requireActivity(), area, all).initDialog(true, new DialogBranchSelection.OnBranchSelectedCallback() {
                     @Override
                     public void OnSelect(String BranchCode, AlertDialog dialog) {
-                        mViewModel.checkIfAlreadyLog(BranchCode, new VMSelfieLogin.OnBranchSelectedCallback() {
+                        mViewModel.checkIfAlreadyLog(BranchCode, new VMSelfieLog.OnBranchSelectedCallback() {
                             @Override
                             public void OnLoad() {
                                 poLoad.initDialog("Selfie Log", "Validating branch. Please wait...", false);
@@ -253,10 +253,16 @@ public class Fragment_SelfieLogin extends Fragment {
         }));
 
         btnCamera.setOnClickListener(v -> {
+            List<String> lsPermissions = new ArrayList<>();
             if(checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-                poRequest.launch(Manifest.permission.ACCESS_COARSE_LOCATION);
-            } else if(checkSelfPermission(requireActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
-                poRequest.launch(Manifest.permission.CAMERA);
+                lsPermissions.add(Manifest.permission.ACCESS_COARSE_LOCATION);
+            }
+            if(checkSelfPermission(requireActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
+                lsPermissions.add(Manifest.permission.CAMERA);
+            }
+
+            if(lsPermissions.size() > 0){
+                poRequest.launch(lsPermissions.toArray(new String[0]));
             } else {
                 initCamera();
             }
@@ -282,7 +288,7 @@ public class Fragment_SelfieLogin extends Fragment {
 
     private void initCamera(){
         try {
-            mViewModel.InitCameraLaunch(requireActivity(), new VMSelfieLogin.OnInitializeCameraCallback() {
+            mViewModel.InitCameraLaunch(requireActivity(), new VMSelfieLog.OnInitializeCameraCallback() {
                 @Override
                 public void OnInit() {
                     poLoad.initDialog("Selfie Log", "Initializing camera for selfie log. Please wait...", false);
@@ -307,9 +313,13 @@ public class Fragment_SelfieLogin extends Fragment {
                     poMessage.setMessage(message + "\n Proceed taking selfie log?");
                     poMessage.setPositiveButton("Continue", (view, dialog) -> {
                         dialog.dismiss();
+                        poSelfie.setLocation(args[0]);
+                        poSelfie.setFileName(args[1]);
+                        poSelfie.setLatitude(args[2]);
+                        poSelfie.setLongitude(args[3]);
                         poCamera.launch(intent);
                     });
-                    poMessage.setNegativeButton("Okay", (view1, dialog) -> dialog.dismiss());
+                    poMessage.setNegativeButton("Cancel", (view1, dialog) -> dialog.dismiss());
                     poMessage.show();
                 }
             });
@@ -343,20 +353,18 @@ public class Fragment_SelfieLogin extends Fragment {
         poMessage.initDialog();
         poMessage.setTitle("Selfie Log");
         poMessage.setMessage(message);
-        poMessage.setPositiveButton("Okay", (view, dialog) ->{
-            dialog.dismiss();
-        });
+        poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
         poMessage.show();
     }
 
     private void SetupDialogForBranchList(){
-        mViewModel.CheckBranchList(new VMSelfieLogin.OnBranchCheckListener() {
+        mViewModel.CheckBranchList(new VMSelfieLog.OnBranchCheckListener() {
             @Override
             public void OnCheck(List<EBranchInfo> area, List<EBranchInfo> all) {
                 new DialogBranchSelection(requireActivity(), area, all).initDialog(true, new DialogBranchSelection.OnBranchSelectedCallback() {
                     @Override
                     public void OnSelect(String BranchCode, AlertDialog dialog) {
-                        mViewModel.checkIfAlreadyLog(BranchCode, new VMSelfieLogin.OnBranchSelectedCallback() {
+                        mViewModel.checkIfAlreadyLog(BranchCode, new VMSelfieLog.OnBranchSelectedCallback() {
                             @Override
                             public void OnLoad() {
                                 poLoad.initDialog("Selfie Log", "Validating branch. Please wait...", false);
