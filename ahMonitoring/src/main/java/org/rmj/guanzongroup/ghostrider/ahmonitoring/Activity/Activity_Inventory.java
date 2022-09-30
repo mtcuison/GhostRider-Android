@@ -20,12 +20,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 
+import org.rmj.g3appdriver.GRider.Database.Entities.EInventoryDetail;
+import org.rmj.g3appdriver.GRider.Database.Entities.EInventoryMaster;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.InventoryItemAdapter;
@@ -33,6 +36,7 @@ import org.rmj.guanzongroup.ghostrider.ahmonitoring.Dialog.DialogPostInventory;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMInventory;
 
+import java.util.List;
 import java.util.Objects;
 
 public class Activity_Inventory extends AppCompatActivity {
@@ -118,31 +122,25 @@ public class Activity_Inventory extends AppCompatActivity {
             }
         });
 
-        mViewModel.getInventoryMasterForBranch(BranchCde).observe(Activity_Inventory.this, inventoryMaster -> {
-            if(inventoryMaster == null){
-                btnPost.setEnabled(false);
-                recyclerView.setVisibility(View.GONE);
-                lblStatus.setVisibility(View.VISIBLE);
-                lblStatus.setText("No inventory items found. Tap here to retry downloading items.");
-            } else if(!inventoryMaster.getTranStat().equalsIgnoreCase("2")){
-                cancelable = false;
-                recyclerView.setVisibility(View.VISIBLE);
-                lblStatus.setVisibility(View.GONE);
-                btnPost.setEnabled(true);
-                Transnox = inventoryMaster.getTransNox();
-                mViewModel.getInventoryDetailForBranch(inventoryMaster.getTransNox()).observe(Activity_Inventory.this, randomItems -> {
-                    mViewModel.getInventoryCountForBranch(inventoryMaster.getTransNox()).observe(Activity_Inventory.this, itemCount -> {
-                        try{
-                            lblCountx.setText("Updated Inventory Items : " + itemCount);
-                        } catch (Exception e){
-                            e.printStackTrace();
-                        }
-                    });
-                    if(randomItems.size() != 0){
+        mViewModel.GetInventoryMaster(BranchCde).observe(Activity_Inventory.this, master -> {
+            try{
+                if(master == null){
+                    btnPost.setEnabled(false);
+                    recyclerView.setVisibility(View.GONE);
+                    lblStatus.setVisibility(View.VISIBLE);
+                } else if(!master.getTranStat().equalsIgnoreCase("2")){
+                    cancelable = false;
+                    recyclerView.setVisibility(View.VISIBLE);
+                    lblStatus.setVisibility(View.GONE);
+                    btnPost.setEnabled(true);
+
+                    String lsTransNo = master.getTransNox();
+                    mViewModel.GetInventoryItems(lsTransNo).observe(Activity_Inventory.this, details -> {
+                        lblCountx.setText("Updated Inventory Items : " + details.size());
                         LinearLayoutManager manager = new LinearLayoutManager(Activity_Inventory.this);
                         manager.setOrientation(RecyclerView.VERTICAL);
                         recyclerView.setLayoutManager(manager);
-                        recyclerView.setAdapter(new InventoryItemAdapter(randomItems, (TransNox, PartID, BarCode, isUpdated, args) -> {
+                        recyclerView.setAdapter(new InventoryItemAdapter(details, (TransNox, PartID, BarCode, isUpdated, args) -> {
                             if(!isUpdated) {
                                 Intent loIntent = new Intent(Activity_Inventory.this, Activity_InventoryEntry.class);
                                 loIntent.putExtra("transno", TransNox);
@@ -168,14 +166,17 @@ public class Activity_Inventory extends AppCompatActivity {
                                 poMessage.show();
                             }
                         }));
-                    }
-                });
-            } else {
-                cancelable = true;
-                recyclerView.setVisibility(View.GONE);
-                lblStatus.setVisibility(View.VISIBLE);
-                lblStatus.setText("Inventory is already posted");
-                btnPost.setEnabled(false);
+                    });
+                } else {
+                    cancelable = true;
+                    recyclerView.setVisibility(View.GONE);
+                    lblStatus.setVisibility(View.VISIBLE);
+                    lblStatus.setText("Inventory is already posted");
+                    btnPost.setEnabled(false);
+                }
+
+            } catch (Exception e){
+                e.printStackTrace();
             }
         });
 

@@ -71,9 +71,13 @@ public class VMInventory extends AndroidViewModel {
         return poBranch.getBranchName(BranchCd);
     }
 
-//    public LiveData<List<EInventoryDetail>> GetInventoryDetails(){
-//        return poSys.
-//    }
+    public LiveData<EInventoryMaster> GetInventoryMaster(String fsVal){
+        return poSys.GetInventoryMaster(fsVal);
+    }
+
+    public LiveData<List<EInventoryDetail>> GetInventoryItems(String fsVal){
+        return poSys.GetInventoryItems(fsVal);
+    }
 
     public void CheckBranchInventory(String fsVal, OnCheckLocalRecords callback){
         new CheckLocalRecordsTask(callback).execute(fsVal);

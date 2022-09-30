@@ -99,16 +99,13 @@ public class Fragment_SelfieLogin extends Fragment {
 
                         @Override
                         public void OnSuccess(String args) {
-                            try {
-                                poLoad.dismiss();
-                            } catch (Exception e){
-                                e.printStackTrace();
-                            }
-                            showMessageDialog("Your time in has been save to server.");
+                            poLoad.dismiss();
+                            showMessageDialog(args);
                         }
 
                         @Override
                         public void OnProceedCashCount(String args) {
+                            poLoad.dismiss();
                             Intent loIntent = new Intent(requireActivity(), Activity_CashCounter.class);
                             loIntent.putExtra("BranchCd", poLog.getBranchCd());
                             loIntent.putExtra("cancelable", false);
@@ -118,11 +115,7 @@ public class Fragment_SelfieLogin extends Fragment {
 
                         @Override
                         public void OnFailed(String message) {
-                            try {
-                                poLoad.dismiss();
-                            } catch (Exception e){
-                                e.printStackTrace();
-                            }
+                            poLoad.dismiss();
                             showMessageDialog(message);
                         }
                     });
@@ -374,6 +367,7 @@ public class Fragment_SelfieLogin extends Fragment {
                             @Override
                             public void OnSuccess() {
                                 poLoad.dismiss();
+                                poSelfie.setBranchCode(BranchCode);
                                 mViewModel.getBranchInfo(BranchCode).observe(getViewLifecycleOwner(), eBranchInfo -> {
                                     try{
                                         lblBranch.setText(eBranchInfo.getBranchNm());

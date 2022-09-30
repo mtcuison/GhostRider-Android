@@ -25,6 +25,7 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ESelfieLog;
 import org.rmj.g3appdriver.dev.Telephony;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.lib.PetManager.SelfieLog;
 
@@ -32,22 +33,17 @@ import java.util.List;
 
 public class VMDashboard extends AndroidViewModel {
 
-    private final SessionManager poSession;
     private final EmployeeMaster poEmploye;
     private final SelfieLog poLog;
-    private MutableLiveData<String> psEmailxx = new MutableLiveData<>();
-    private MutableLiveData<String> psUserNme = new MutableLiveData<>();
-    private MutableLiveData<String> psBranchx = new MutableLiveData<>();
-    private MutableLiveData<String> psDeptNme = new MutableLiveData<>();
+    private final AppConfigPreference poConfig;
     private MutableLiveData<String> psMobleNo = new MutableLiveData<>();
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP_MR1)
     public VMDashboard(@NonNull Application application) {
         super(application);
-        poSession = new SessionManager(application);
-        poEmploye = new EmployeeMaster(application);
-        psMobleNo.setValue(new Telephony(application).getMobilNumbers());
-        poLog = new SelfieLog(application);
+        this.poEmploye = new EmployeeMaster(application);
+        this.psMobleNo.setValue(new Telephony(application).getMobilNumbers());
+        this.poLog = new SelfieLog(application);
+        this.poConfig = AppConfigPreference.getInstance(application);
     }
 
     public LiveData<EEmployeeInfo> getEmployeeInfo(){
@@ -59,6 +55,6 @@ public class VMDashboard extends AndroidViewModel {
     }
 
     public LiveData<List<ESelfieLog>> getCurrentLogTimeIfExist(){
-        return poLog.getCurrentLogTimeIfExist(new AppConstants().CURRENT_DATE);
+        return poLog.getCurrentLogTimeIfExist(AppConstants.CURRENT_DATE);
     }
 }

@@ -331,6 +331,8 @@ public class VMSelfieLog extends AndroidViewModel {
                     message = selfieLogs[0].getBranchCode();
                     return 2;
                 }
+
+                message = "Your selfie log has been save to server.";
                 return 1;
             } catch (Exception e){
                 e.printStackTrace();
