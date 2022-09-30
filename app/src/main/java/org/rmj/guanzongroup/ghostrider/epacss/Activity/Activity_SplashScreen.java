@@ -13,16 +13,21 @@ package org.rmj.guanzongroup.ghostrider.epacss.Activity;
 
 import static org.rmj.g3appdriver.utils.ServiceScheduler.EIGHT_HOUR_PERIODIC;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.hardware.lights.LightState;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -39,6 +44,9 @@ import org.rmj.guanzongroup.ghostrider.epacss.Service.DataImportService;
 import org.rmj.guanzongroup.ghostrider.epacss.Service.GMessagingService;
 import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMSplashScreen;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Activity_SplashScreen extends AppCompatActivity {
     public static final String TAG = Activity_SplashScreen.class.getSimpleName();
 
@@ -49,7 +57,7 @@ public class Activity_SplashScreen extends AppCompatActivity {
     private MessageBox poDialog;
 
     private final ActivityResultLauncher<String[]> poRequest = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), result -> {
-        mViewModel.CheckPermissions();
+        InitializeAppData();
     });
 
     private final ActivityResultLauncher<Intent> poLogin = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
@@ -73,7 +81,7 @@ public class Activity_SplashScreen extends AppCompatActivity {
         prgrssBar = findViewById(R.id.progress_splashscreen);
         lblVrsion = findViewById(R.id.lbl_versionInfo);
 
-        mViewModel.CheckPermissions();
+        CheckPermissions();
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(task -> {
                     if (!task.isSuccessful()) {
@@ -89,48 +97,73 @@ public class Activity_SplashScreen extends AppCompatActivity {
         startService(new Intent(Activity_SplashScreen.this, GMessagingService.class));
 
         AppDirectoryCreator loCreator = new AppDirectoryCreator();
-        mViewModel.GetPermissions().observe(Activity_SplashScreen.this, strings -> {
-            try{
-                if(strings.size() > 0){
-                    poRequest.launch(strings.toArray(new String[0]));
-                } else {
-                    if(loCreator.createAppDirectory(Activity_SplashScreen.this)){
-                        Log.e(TAG, loCreator.getMessage());
-                    } else {
-                        Log.e(TAG, loCreator.getMessage());
-                    }
-                    mViewModel.InitializeData(new VMSplashScreen.OnInitializecallback() {
-                        @Override
-                        public void OnProgress(String args, int progress) {
-                            prgrssBar.setProgress(progress);
-                        }
+        if(loCreator.createAppDirectory(Activity_SplashScreen.this)){
+            Log.e(TAG, loCreator.getMessage());
+        } else {
+            Log.e(TAG, loCreator.getMessage());
+        }
+    }
 
-                        @Override
-                        public void OnSuccess() {
-                            startActivity(new Intent(Activity_SplashScreen.this, Activity_Main.class));
-                            finish();
-                        }
+    private void CheckPermissions(){
+        List<String> lsPermissions = new ArrayList<>();
+        if(ActivityCompat.checkSelfPermission(Activity_SplashScreen.this, Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED){
+            lsPermissions.add(Manifest.permission.INTERNET);
+        }
+        if(ActivityCompat.checkSelfPermission(Activity_SplashScreen.this, Manifest.permission.ACCESS_NETWORK_STATE) != PackageManager.PERMISSION_GRANTED){
+            lsPermissions.add(Manifest.permission.ACCESS_NETWORK_STATE);
+        }
+        if(ActivityCompat.checkSelfPermission(Activity_SplashScreen.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+            lsPermissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        }
+        if(ActivityCompat.checkSelfPermission(Activity_SplashScreen.this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED){
+            lsPermissions.add(Manifest.permission.READ_PHONE_STATE);
+        }
+        if(ActivityCompat.checkSelfPermission(Activity_SplashScreen.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+            lsPermissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
+        }
+        if(ActivityCompat.checkSelfPermission(Activity_SplashScreen.this, Manifest.permission.GET_ACCOUNTS) != PackageManager.PERMISSION_GRANTED){
+            lsPermissions.add(Manifest.permission.GET_ACCOUNTS);
+        }
+        if(ActivityCompat.checkSelfPermission(Activity_SplashScreen.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
+            lsPermissions.add(Manifest.permission.CAMERA);
+        }
+        if(ActivityCompat.checkSelfPermission(Activity_SplashScreen.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+            lsPermissions.add(Manifest.permission.ACCESS_COARSE_LOCATION);
+        }
+        if(ActivityCompat.checkSelfPermission(Activity_SplashScreen.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+            lsPermissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
+        }
+        poRequest.launch(lsPermissions.toArray(new String[0]));
+    }
 
-                        @Override
-                        public void OnNoSession() {
-                            poLogin.launch(new Intent(Activity_SplashScreen.this, Activity_Authenticate.class));
-                        }
+    private void InitializeAppData(){
+        mViewModel.InitializeData(new VMSplashScreen.OnInitializecallback() {
+            @Override
+            public void OnProgress(String args, int progress) {
+                prgrssBar.setProgress(progress);
+            }
 
-                        @Override
-                        public void OnFailed(String message) {
-                            poDialog.initDialog();
-                            poDialog.setTitle("GhostRider Android");
-                            poDialog.setMessage(message);
-                            poDialog.setPositiveButton("Okay", (view, dialog) -> {
-                                dialog.dismiss();
-                                finish();
-                            });
-                            poDialog.show();
-                        }
-                    });
-                }
-            } catch (Exception e){
-                e.printStackTrace();
+            @Override
+            public void OnSuccess() {
+                startActivity(new Intent(Activity_SplashScreen.this, Activity_Main.class));
+                finish();
+            }
+
+            @Override
+            public void OnNoSession() {
+                poLogin.launch(new Intent(Activity_SplashScreen.this, Activity_Authenticate.class));
+            }
+
+            @Override
+            public void OnFailed(String message) {
+                poDialog.initDialog();
+                poDialog.setTitle("GhostRider Android");
+                poDialog.setMessage(message);
+                poDialog.setPositiveButton("Okay", (view, dialog) -> {
+                    dialog.dismiss();
+                    finish();
+                });
+                poDialog.show();
             }
         });
     }

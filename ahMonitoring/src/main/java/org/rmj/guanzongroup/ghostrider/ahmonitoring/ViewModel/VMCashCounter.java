@@ -267,43 +267,43 @@ public class VMCashCounter extends AndroidViewModel {
         void OnFailed(String message);
     }
 
-    public void CheckIfCashCountExist(String fsVal, OnCheckCashCountCallback callback){
-        new CheckCashCountTask(callback).execute(fsVal);
-    }
-
-    private class CheckCashCountTask extends AsyncTask<String, Void, Boolean>{
-
-        private final OnCheckCashCountCallback callback;
-
-        private String message;
-
-        public CheckCashCountTask(OnCheckCashCountCallback callback) {
-            this.callback = callback;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            callback.OnLoad();
-        }
-
-        @Override
-        protected Boolean doInBackground(String... strings) {
-            if(poSys.IsCashCountAlreadyExist(strings[0])){
-                message = poSys.getMessage();
-                return true;
-            }
-            return false;
-        }
-
-        @Override
-        protected void onPostExecute(Boolean ifExist) {
-            super.onPostExecute(ifExist);
-            if(!ifExist){
-                callback.Success();
-            } else {
-                callback.OnFailed(message);
-            }
-        }
-    }
+//    public void CheckIfCashCountExist(String fsVal, OnCheckCashCountCallback callback){
+//        new CheckCashCountTask(callback).execute(fsVal);
+//    }
+//
+//    private class CheckCashCountTask extends AsyncTask<String, Void, Boolean>{
+//
+//        private final OnCheckCashCountCallback callback;
+//
+//        private String message;
+//
+//        public CheckCashCountTask(OnCheckCashCountCallback callback) {
+//            this.callback = callback;
+//        }
+//
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//            callback.OnLoad();
+//        }
+//
+//        @Override
+//        protected Boolean doInBackground(String... strings) {
+//            if(poSys.IsCashCountAlreadyExist(strings[0])){
+//                message = poSys.getMessage();
+//                return true;
+//            }
+//            return false;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Boolean ifExist) {
+//            super.onPostExecute(ifExist);
+//            if(!ifExist){
+//                callback.Success();
+//            } else {
+//                callback.OnFailed(message);
+//            }
+//        }
+//    }
 }

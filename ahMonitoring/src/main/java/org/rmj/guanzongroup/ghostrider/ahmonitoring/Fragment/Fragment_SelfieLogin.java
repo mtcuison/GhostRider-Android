@@ -16,15 +16,18 @@ import static android.app.Activity.RESULT_OK;
 import static androidx.core.content.ContextCompat.checkSelfPermission;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -38,6 +41,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
+import com.huawei.hmf.tasks.OnSuccessListener;
 
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
@@ -45,6 +49,7 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ESelfieLog;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
+import org.rmj.g3appdriver.GRider.Etc.LocationRetriever;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.dev.GLocationManager;
@@ -73,7 +78,10 @@ public class Fragment_SelfieLogin extends Fragment {
     private ESelfieLog poLog;
     private GLocationManager loLocation;
 
-    SelfieLog.SelfieLogDetail poSelfie = new SelfieLog.SelfieLogDetail();
+    private final SelfieLog.SelfieLogDetail poSelfie = new SelfieLog.SelfieLogDetail();
+
+    private com.google.android.gms.location.FusedLocationProviderClient gmsLocation;
+    private com.huawei.hms.location.FusedLocationProviderClient hmsLocation;
 
     private LoadDialog poLoad;
     private MessageBox poMessage;
@@ -81,6 +89,8 @@ public class Fragment_SelfieLogin extends Fragment {
     private static boolean isDialogShown;
 
     private String psEmpLvl;
+
+    private String lsCompx;
 
     private long mLastClickTime = 0;
 
@@ -100,23 +110,17 @@ public class Fragment_SelfieLogin extends Fragment {
                         @Override
                         public void OnSuccess(String args) {
                             poLoad.dismiss();
-                            showMessageDialog(args);
-                        }
-
-                        @Override
-                        public void OnProceedCashCount(String args) {
-                            poLoad.dismiss();
-                            Intent loIntent = new Intent(requireActivity(), Activity_CashCounter.class);
-                            loIntent.putExtra("BranchCd", poLog.getBranchCd());
-                            loIntent.putExtra("cancelable", false);
-                            requireActivity().startActivity(loIntent);
-                            requireActivity().finish();
+                            ValidateCashCount();
                         }
 
                         @Override
                         public void OnFailed(String message) {
                             poLoad.dismiss();
-                            showMessageDialog(message);
+                            poMessage.initDialog();
+                            poMessage.setTitle("Selfie Log");
+                            poMessage.setMessage(message);
+                            poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                            poMessage.show();
                         }
                     });
                 }
@@ -129,7 +133,19 @@ public class Fragment_SelfieLogin extends Fragment {
     private final ActivityResultLauncher<String[]> poRequest = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), new ActivityResultCallback<Map<String, Boolean>>() {
         @Override
         public void onActivityResult(Map<String, Boolean> result) {
-
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                Boolean fineLocationGranted = result.getOrDefault(
+                        Manifest.permission.ACCESS_FINE_LOCATION, false);
+                Boolean coarseLocationGranted = result.getOrDefault(
+                        Manifest.permission.ACCESS_COARSE_LOCATION, false);
+                if (fineLocationGranted != null && fineLocationGranted) {
+                    initCamera();
+                } else if (coarseLocationGranted != null && coarseLocationGranted) {
+                    initCamera();
+                } else {
+                    Toast.makeText(requireActivity(), "Permissions not allowed", Toast.LENGTH_SHORT).show();
+                }
+            }
         }
     });
 
@@ -157,6 +173,15 @@ public class Fragment_SelfieLogin extends Fragment {
         mViewModel = new ViewModelProvider(this).get(VMSelfieLog.class);
         View view =  inflater.inflate(R.layout.fragment_selfie_login, container, false);
         initWidgets(view);
+
+        lsCompx = android.os.Build.MANUFACTURER;
+        if (!lsCompx.toLowerCase().equalsIgnoreCase("huawei")) {
+
+        } else {
+
+        }
+         gmsLocation= com.google.android.gms.location.LocationServices.getFusedLocationProviderClient(requireActivity());
+         hmsLocation = com.huawei.hms.location.LocationServices.getFusedLocationProviderClient(requireActivity());
 
         psEmpLvl = mViewModel.getEmployeeLevel();
 
@@ -246,16 +271,12 @@ public class Fragment_SelfieLogin extends Fragment {
         }));
 
         btnCamera.setOnClickListener(v -> {
-            List<String> lsPermissions = new ArrayList<>();
-            if(checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-                lsPermissions.add(Manifest.permission.ACCESS_COARSE_LOCATION);
-            }
-            if(checkSelfPermission(requireActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
-                lsPermissions.add(Manifest.permission.CAMERA);
-            }
-
-            if(lsPermissions.size() > 0){
-                poRequest.launch(lsPermissions.toArray(new String[0]));
+            if(checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                    checkSelfPermission(requireActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                poRequest.launch(new String[]{
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_COARSE_LOCATION
+                });
             } else {
                 initCamera();
             }
@@ -279,43 +300,49 @@ public class Fragment_SelfieLogin extends Fragment {
         loLocation = new GLocationManager(requireActivity());
     }
 
+    @SuppressLint("MissingPermission")
     private void initCamera(){
         try {
-            mViewModel.InitCameraLaunch(requireActivity(), new VMSelfieLog.OnInitializeCameraCallback() {
-                @Override
-                public void OnInit() {
-                    poLoad.initDialog("Selfie Log", "Initializing camera for selfie log. Please wait...", false);
-                    poLoad.show();
-                }
+            if(checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+            checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+                poRequest.launch(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION});
+            } else {
+                mViewModel.InitCameraLaunch(requireActivity(), new VMSelfieLog.OnInitializeCameraCallback() {
+                    @Override
+                    public void OnInit() {
+                        poLoad.initDialog("Selfie Log", "Initializing camera for selfie log. Please wait...", false);
+                        poLoad.show();
+                    }
 
-                @Override
-                public void OnSuccess(Intent intent, String[] args) {
-                    poLoad.dismiss();
-                    poSelfie.setLocation(args[0]);
-                    poSelfie.setFileName(args[1]);
-                    poSelfie.setLatitude(args[2]);
-                    poSelfie.setLongitude(args[3]);
-                    poCamera.launch(intent);
-                }
-
-                @Override
-                public void OnFailed(String message, Intent intent, String[] args) {
-                    poLoad.dismiss();
-                    poMessage.initDialog();
-                    poMessage.setTitle("Selfie Login");
-                    poMessage.setMessage(message + "\n Proceed taking selfie log?");
-                    poMessage.setPositiveButton("Continue", (view, dialog) -> {
-                        dialog.dismiss();
+                    @Override
+                    public void OnSuccess(Intent intent, String[] args) {
+                        poLoad.dismiss();
                         poSelfie.setLocation(args[0]);
                         poSelfie.setFileName(args[1]);
                         poSelfie.setLatitude(args[2]);
                         poSelfie.setLongitude(args[3]);
                         poCamera.launch(intent);
-                    });
-                    poMessage.setNegativeButton("Cancel", (view1, dialog) -> dialog.dismiss());
-                    poMessage.show();
-                }
-            });
+                    }
+
+                    @Override
+                    public void OnFailed(String message, Intent intent, String[] args) {
+                        poLoad.dismiss();
+                        poMessage.initDialog();
+                        poMessage.setTitle("Selfie Login");
+                        poMessage.setMessage(message + "\n Proceed taking selfie log?");
+                        poMessage.setPositiveButton("Continue", (view, dialog) -> {
+                            dialog.dismiss();
+                            poSelfie.setLocation(args[0]);
+                            poSelfie.setFileName(args[1]);
+                            poSelfie.setLatitude(args[2]);
+                            poSelfie.setLongitude(args[3]);
+                            poCamera.launch(intent);
+                        });
+                        poMessage.setNegativeButton("Cancel", (view1, dialog) -> dialog.dismiss());
+                        poMessage.show();
+                    }
+                });
+            }
         } catch(RuntimeException e) {
             e.printStackTrace();
         }
@@ -342,12 +369,67 @@ public class Fragment_SelfieLogin extends Fragment {
         isDialogShown = true;
     }
 
-    private void showMessageDialog(String message){
-        poMessage.initDialog();
-        poMessage.setTitle("Selfie Log");
-        poMessage.setMessage(message);
-        poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-        poMessage.show();
+    public void ValidateCashCount(){
+        mViewModel.ValidateCashCount(poLog.getBranchCd(), new VMSelfieLog.OnValidateCashCount() {
+            @Override
+            public void OnValidate() {
+                poLoad.initDialog("Selfie Log", "Checking cash count entries. Please wait...", false);
+                poLoad.show();
+            }
+
+            @Override
+            public void OnProceed(String args) {
+                poLoad.dismiss();
+                Intent loIntent = new Intent(requireActivity(), Activity_CashCounter.class);
+                loIntent.putExtra("BranchCd", poLog.getBranchCd());
+                loIntent.putExtra("cancelable", false);
+                requireActivity().startActivity(loIntent);
+                requireActivity().finish();
+            }
+
+            @Override
+            public void OnWarning(String message) {
+                poLoad.dismiss();
+                poMessage.initDialog();
+                poMessage.setTitle("Selfie Login");
+                poMessage.setMessage("A Cash count entry for current branch already exist on local device. Create another entry?");
+                poMessage.setPositiveButton("Create", (view, dialog) -> {
+                    Intent loIntent = new Intent(requireActivity(), Activity_CashCounter.class);
+                    loIntent.putExtra("BranchCd", poLog.getBranchCd());
+                    loIntent.putExtra("cancelable", false);
+                    requireActivity().startActivity(loIntent);
+                    requireActivity().finish();
+                });
+                poMessage.setNegativeButton("Exit", (view, dialog) -> requireActivity().finish());
+                poMessage.show();
+            }
+
+            @Override
+            public void OnFailed(String message) {
+                poLoad.dismiss();
+                poMessage.initDialog();
+                poMessage.setTitle("Selfie Login");
+                poMessage.setMessage(message);
+                poMessage.setPositiveButton("Okay", (view, dialog) -> {
+                    dialog.dismiss();
+                    requireActivity().finish();
+                });
+                poMessage.show();
+            }
+
+            @Override
+            public void OnUnauthorize(String message) {
+                poLoad.dismiss();
+                poMessage.initDialog();
+                poMessage.setTitle("Selfie Log");
+                poMessage.setMessage("Selfie log save.");
+                poMessage.setPositiveButton("Okay", (view, dialog) -> {
+                    dialog.dismiss();
+                    requireActivity().finish();
+                });
+                poMessage.show();
+            }
+        });
     }
 
     private void SetupDialogForBranchList(){

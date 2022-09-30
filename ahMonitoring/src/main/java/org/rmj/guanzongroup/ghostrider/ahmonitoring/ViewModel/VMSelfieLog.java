@@ -38,6 +38,7 @@ import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.lib.PetManager.SelfieLog;
+import org.rmj.g3appdriver.lib.integsys.CashCount.CashCount;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
 
@@ -49,9 +50,11 @@ public class VMSelfieLog extends AndroidViewModel {
 
     private final Application instance;
     private final SelfieLog poLog;
+    private final CashCount poCash;
     private final RBranch pobranch;
     private final SessionManager poSession;
     private final EmployeeMaster poUser;
+    private final ImageFileCreator poImage;
 
     public interface OnInitializeCameraCallback {
         void OnInit();
@@ -62,8 +65,15 @@ public class VMSelfieLog extends AndroidViewModel {
     public interface OnLoginTimekeeperListener{
         void OnLogin();
         void OnSuccess(String args);
-        void OnProceedCashCount(String args);
         void OnFailed(String message);
+    }
+
+    public interface OnValidateCashCount{
+        void OnValidate();
+        void OnProceed(String args);
+        void OnWarning(String message);
+        void OnFailed(String message);
+        void OnUnauthorize(String message);
     }
 
     public interface OnBranchSelectedCallback {
@@ -79,6 +89,8 @@ public class VMSelfieLog extends AndroidViewModel {
         this.poLog = new SelfieLog(instance);
         this.pobranch = new RBranch(instance);
         this.poSession = new SessionManager(instance);
+        this.poCash = new CashCount(instance);
+        this.poImage = new ImageFileCreator(instance, AppConstants.SUB_FOLDER_SELFIE_LOG, poSession.getUserID());
     }
 
     public LiveData<EEmployeeInfo> getUserInfo(){
@@ -281,7 +293,7 @@ public class VMSelfieLog extends AndroidViewModel {
         new TimeInTask(instance, callback).execute(foVal);
     }
 
-    public static class TimeInTask extends AsyncTask<SelfieLog.SelfieLogDetail, Void, Integer>{
+    public static class TimeInTask extends AsyncTask<SelfieLog.SelfieLogDetail, Void, Boolean>{
 
         private final SessionManager poSession;
         private final SelfieLog poSys;
@@ -301,44 +313,79 @@ public class VMSelfieLog extends AndroidViewModel {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            callback.OnLogin();
         }
 
         @Override
-        protected Integer doInBackground(SelfieLog.SelfieLogDetail... selfieLogs) {
+        protected Boolean doInBackground(SelfieLog.SelfieLogDetail... selfieLogs) {
             try{
                 String lsTransNo = poSys.SaveSelfieLog(selfieLogs[0]);
                 if(lsTransNo == null){
                     message = poSys.getMessage();
-                    return 0;
+                    return false;
                 }
 
                 if(!poConn.isDeviceConnected()){
                     message = "Your selfie log has been save to local.";
-                    return 1;
+                    return false;
                 }
 
-                if(!poSys.UploadSelfieLog(lsTransNo)){
+                if (!poSys.UploadSelfieLog(lsTransNo)) {
                     message = poSys.getMessage();
-                    return 0;
+                    return false;
                 }
 
-                //TODO: Revise the return value from boolean to int
-                //check if user must be required to proceed for cash count and random stock inventory
-                if(poSession.getEmployeeLevel().equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER))){
-
-                    //Usually message is only use for storing and error message.
-                    // this time message value will be branch code which will be pass for cash count entry.
-                    message = selfieLogs[0].getBranchCode();
-                    return 2;
-                }
-
-                message = "Your selfie log has been save to server.";
-                return 1;
+                //Usually message is only use for storing and error message.
+                // this time message value will be branch code which will be pass for cash count entry.
+                message = selfieLogs[0].getBranchCode();
+                return true;
             } catch (Exception e){
                 e.printStackTrace();
                 message = e.getMessage();
-                return 0;
+                return false;
             }
+        }
+
+        @Override
+        protected void onPostExecute(Boolean isSuccess) {
+            super.onPostExecute(isSuccess);
+            if(!isSuccess){
+                callback.OnFailed(message);
+            } else {
+                callback.OnSuccess(message);
+            }
+        }
+    }
+
+    public void ValidateCashCount(String fsVal, OnValidateCashCount callback){
+        new ValidateUserCashCount(callback).execute(fsVal);
+    }
+
+    private class ValidateUserCashCount extends AsyncTask<String, Void, Integer>{
+
+        private final OnValidateCashCount callback;
+
+        private String message;
+
+        public ValidateUserCashCount(OnValidateCashCount callback) {
+            this.callback = callback;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            callback.OnValidate();
+        }
+
+        @Override
+        protected Integer doInBackground(String... strings) {
+            int lnResult = poCash.ValidateCashCount(strings[0]);
+            if(lnResult == 1){
+                message = strings[0];
+                return lnResult;
+            }
+            message = poCash.getMessage();
+            return lnResult;
         }
 
         @Override
@@ -349,13 +396,13 @@ public class VMSelfieLog extends AndroidViewModel {
                     callback.OnFailed(message);
                     break;
                 case 1:
-                    callback.OnSuccess(message);
+                    callback.OnProceed(message);
                     break;
                 case 2:
-                    // message value will be branch code.
-                    callback.OnProceedCashCount(message);
+                    callback.OnWarning(message);
                     break;
                 default:
+                    callback.OnUnauthorize(message);
                     break;
             }
         }

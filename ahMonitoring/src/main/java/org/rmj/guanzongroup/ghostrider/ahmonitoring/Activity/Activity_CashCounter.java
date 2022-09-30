@@ -85,38 +85,38 @@ public class Activity_CashCounter extends AppCompatActivity {
 
         infoModel = new CashCountInfoModel();
 
-        mViewModel.CheckIfCashCountExist(BranchCd, new VMCashCounter.OnCheckCashCountCallback() {
-            @Override
-            public void OnLoad() {
-                poLoad.initDialog("Cash Count", "Checking local records. Please wait...", false);
-                poLoad.show();
-            }
-
-            @Override
-            public void Success() {
-                poLoad.dismiss();
-            }
-
-            @Override
-            public void OnFailed(String message) {
-                poLoad.dismiss();
-                poMessage.initDialog();
-                poMessage.setTitle("Cash Count");
-                poMessage.setMessage("A cash count record for this branch already exist.");
-                poMessage.setNegativeButton("Continue", (view, dialog) -> {
-                    dialog.dismiss();
-                    finish();
-                });
-                poMessage.setPositiveButton("Exit", (view, dialog) -> {
-                    dialog.dismiss();
-                    Intent loIntent = new Intent(Activity_CashCounter.this, Activity_Inventory.class);
-                    loIntent.putExtra("BranchCd", BranchCd);
-                    startActivity(loIntent);
-                    finish();
-                });
-                poMessage.show();
-            }
-        });
+//        mViewModel.CheckIfCashCountExist(BranchCd, new VMCashCounter.OnCheckCashCountCallback() {
+//            @Override
+//            public void OnLoad() {
+//                poLoad.initDialog("Cash Count", "Checking local records. Please wait...", false);
+//                poLoad.show();
+//            }
+//
+//            @Override
+//            public void Success() {
+//                poLoad.dismiss();
+//            }
+//
+//            @Override
+//            public void OnFailed(String message) {
+//                poLoad.dismiss();
+//                poMessage.initDialog();
+//                poMessage.setTitle("Cash Count");
+//                poMessage.setMessage("A cash count record for this branch already exist.");
+//                poMessage.setNegativeButton("Continue", (view, dialog) -> {
+//                    dialog.dismiss();
+//                    finish();
+//                });
+//                poMessage.setPositiveButton("Exit", (view, dialog) -> {
+//                    dialog.dismiss();
+//                    Intent loIntent = new Intent(Activity_CashCounter.this, Activity_Inventory.class);
+//                    loIntent.putExtra("BranchCd", BranchCd);
+//                    startActivity(loIntent);
+//                    finish();
+//                });
+//                poMessage.show();
+//            }
+//        });
 
         mViewModel.getSelfieLogBranchInfo().observe(Activity_CashCounter.this, eBranchInfo -> {
             try {

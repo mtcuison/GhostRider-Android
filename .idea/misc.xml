@@ -5,7 +5,6 @@
       <map>
         <entry key="..\:/On Going/GhostRider-Android/ahMonitoring/src/main/res/layout/activity_employee_applications.xml" value="0.3625" />
         <entry key="..\:/On Going/GhostRider-Android/ahMonitoring/src/main/res/layout/fragment_employee_applications.xml" value="0.3625" />
-        <entry key="..\:/On Going/GhostRider-Android/app/src/main/res/layout/fragment_dashboard.xml" value="0.2546875" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/CreditEvaluator/src/main/res/layout/activity_ci_application.xml" value="0.1078125" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/CreditEvaluator/src/main/res/layout/activity_evaluation_list.xml" value="0.14" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/CreditEvaluator/src/main/res/layout/list_item_ci_history_info.xml" value="0.22" />
@@ -48,6 +47,7 @@
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/dailyCollectionPlan/src/main/res/layout/dialog_get_client.xml" value="0.25" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/dailyCollectionPlan/src/main/res/layout/fragment_customer_not_around_fragment.xml" value="0.2" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/dailyCollectionPlan/src/main/res/layout/fragment_paid_transaction.xml" value="0.22" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/dailyCollectionPlan/src/main/res/layout/fragment_promise_to_pay.xml" value="0.10625" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/dailyCollectionPlan/src/main/res/layout/fragment_promise_to_pay_log.xml" value="0.13802083333333334" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/griderScanner/src/main/res/layout/activity_image_crop.xml" value="0.22" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/griderScanner/src/main/res/layout/activity_main_scanner.xml" value="0.16" />

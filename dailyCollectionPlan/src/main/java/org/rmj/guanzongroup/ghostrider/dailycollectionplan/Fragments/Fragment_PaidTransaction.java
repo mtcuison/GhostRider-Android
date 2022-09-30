@@ -57,11 +57,11 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
     private PaidDCP poPaid;
     private MessageBox poMessage;
     private LoadDialog poDialog;
-    private CheckBox cbCheckPymnt, cbRebate;
-    private TextView lblBranch, lblAddress, lblAccNo, lblClientNm, lblTransNo;
 
     private DecimalFormat formatter = new DecimalFormat("###,###,##0.00");
 
+    private CheckBox cbCheckPymnt, cbRebate;
+    private TextView lblBranch, lblAddress, lblAccNo, lblClientNm, lblTransNo;
     private Spinner spnType;
     private TextInputEditText txtPrNoxx, txtRemarks, txtAmount, txtDiscount, txtOthers, txtTotAmnt;
     private TextInputLayout tilDiscount;

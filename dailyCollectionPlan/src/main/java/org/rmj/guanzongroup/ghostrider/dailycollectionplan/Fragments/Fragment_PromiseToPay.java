@@ -203,7 +203,6 @@ public class Fragment_PromiseToPay extends Fragment implements ViewModelCallback
         btnPtp = v.findViewById(R.id.btn_ptp_submit);
 //        btnCamera = v.findViewById(R.id.imgPtpCamera);
     }
-//
     @Override
     public void OnStartSaving() {
 
