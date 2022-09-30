@@ -316,7 +316,7 @@ public class InternetStatusReciever extends BroadcastReceiver {
             }
         }
 
-        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+
         void uploadLoginDetails() throws Exception{
             if (loginDetails.size() > 0) {
                 publishProgress("Sending selfie log info...");
@@ -371,7 +371,6 @@ public class InternetStatusReciever extends BroadcastReceiver {
             }
         }
 
-        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         void uploadPaidCollectionDetail() throws Exception{
             if (collectionDetails.size() > 0) {
                 publishProgress("Sending collection detail info...");

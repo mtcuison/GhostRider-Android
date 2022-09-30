@@ -554,7 +554,7 @@ public class Activity_Evaluation extends AppCompatActivity {
             }
 
             loDetail = FindingsParser.scanForEvaluation(ci.getAssetsxx(), ci.getAsstFndg());
-            if(!loDetail.getJSONArray("detail").getJSONObject(0).toString().equalsIgnoreCase("{}")){
+            if(loDetail.getJSONArray("detail").length() > 0){
                 laEval.put(FindingsParser.scanForEvaluation(ci.getAssetsxx(), ci.getAsstFndg()));
             }
             Log.d(TAG, laEval.toString());
