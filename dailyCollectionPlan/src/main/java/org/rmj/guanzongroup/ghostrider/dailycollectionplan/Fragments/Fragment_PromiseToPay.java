@@ -13,20 +13,21 @@ package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments;
 
 import static android.app.Activity.RESULT_OK;
 
+import static androidx.core.content.ContextCompat.checkSelfPermission;
+
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -41,57 +42,74 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
-import org.rmj.g3appdriver.GRider.Etc.LocationRetriever;
+import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
-import org.rmj.g3appdriver.etc.WebFileServer;
+import org.rmj.g3appdriver.lib.integsys.Dcp.PromiseToPay;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_Transaction;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.PromiseToPayModel;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.OnInitializeCameraCallback;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMPromiseToPay;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.ViewModelCallback;
-import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Objects;
 
-public class Fragment_PromiseToPay extends Fragment implements ViewModelCallback {
+public class Fragment_PromiseToPay extends Fragment {
 
     private VMPromiseToPay mViewModel;
+
+    private PromiseToPay poPtp;
+
+    private LoadDialog poDialog;
+    private MessageBox poMessage;
+
     private TextInputLayout tilBranchName;
-    private TextInputEditText ptpDate, ptpCollName, ptpRemark;
-    private AutoCompleteTextView ptpBranchName;
+    private TextInputEditText txtDate, txtCollct, txtRemarks;
+    private AutoCompleteTextView txtBranch;
     private MaterialButton btnPtp;
     private RadioGroup rgPtpAppUnit;
-    private ImageView btnCamera;
-    private ImageFileCreator poImage;
     private EImageInfo poImageInfo;
 
-    private TextView lblBranch, lblAddress, lblAccNo, lblClientNm, lblTransNo, lblImgPath;
-    private String IsAppointmentUnitX = "", CollId;
-    private PromiseToPayModel infoModel;
-    private String lsDate = "";
+    private TextView lblBranch, lblAddress, lblAccNo, lblClientNm, lblTransNo;
 
-    //Parameters From Activity_Transaction
-    private String TransNox, Remarksx, AccntNox;
-    private int EntryNox;
-    private MessageBox poMessage;
+    ActivityResultLauncher<String[]> poRequest = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), result -> {
+        InitializeCamera();
+    });
 
     private final ActivityResultLauncher<Intent> poCamera = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
         public void onActivityResult(ActivityResult result) {
             if(result.getResultCode() == RESULT_OK) {
-                try {
-                    poImageInfo.setMD5Hashx(WebFileServer.createMD5Hash(infoModel.getPtpImgPath()));
-                    mViewModel.saveImageInfo(poImageInfo);
-                    submitPtp(Remarksx);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }else {
-                infoModel.setPtpImgPath("");
+                mViewModel.SaveTransaction(poPtp, new ViewModelCallback() {
+                    @Override
+                    public void OnStartSaving() {
+                        poDialog.initDialog("Selfie Log", "Saving promise to pay. Please wait...", false);
+                        poDialog.show();
+                    }
+
+                    @Override
+                    public void OnSuccessResult() {
+                        poMessage.initDialog();
+                        poMessage.setTitle("Selfie Login");
+                        poMessage.setMessage("Promise to pay has been save.");
+                        poMessage.setPositiveButton("Okay", (view, dialog) -> {
+                            dialog.dismiss();
+                            requireActivity().finish();
+                        });
+                        poMessage.show();
+                    }
+
+                    @Override
+                    public void OnFailedResult(String message) {
+                        poMessage.initDialog();
+                        poMessage.setTitle("Selfie Login");
+                        poMessage.setMessage(message);
+                        poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                        poMessage.show();
+                    }
+                });
             }
         }
     });
@@ -104,50 +122,15 @@ public class Fragment_PromiseToPay extends Fragment implements ViewModelCallback
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         mViewModel = new ViewModelProvider(requireActivity()).get(VMPromiseToPay.class);
+        poPtp = new PromiseToPay();
         View view = inflater.inflate(R.layout.fragment_promise_to_pay, container, false);
-        infoModel = new PromiseToPayModel();
+        poDialog = new LoadDialog(requireActivity());
         poMessage = new MessageBox(requireActivity());
-        Remarksx = Activity_Transaction.getInstance().getRemarksCode();
-        TransNox = Activity_Transaction.getInstance().getTransNox();
-        EntryNox = Activity_Transaction.getInstance().getEntryNox();
-        AccntNox = Activity_Transaction.getInstance().getAccntNox();
+
+        String transNox = Activity_Transaction.getInstance().getTransNox();
+        int entryNox = Activity_Transaction.getInstance().getEntryNox();
+        String accntNox = Activity_Transaction.getInstance().getAccntNox();
         initWidgets(view);
-
-        mViewModel.setParameter(TransNox, EntryNox, Remarksx);
-        mViewModel.setViewPtpBranch().observe(getViewLifecycleOwner(), integer -> tilBranchName.setVisibility(integer));
-        mViewModel.getPtpDate().observe(getViewLifecycleOwner(), date -> ptpDate.setText(date));
-        mViewModel.getCollectionMaster().observe(getViewLifecycleOwner(), s ->  {
-            CollId = s.getCollctID();
-            ptpCollName.setText(s.getCollName());
-            poImage = new ImageFileCreator(getActivity(), AppConstants.SUB_FOLDER_DCP, TransNox);
-        });
-
-        mViewModel.getCollectionDetail().observe(getViewLifecycleOwner(), collectionDetail -> {
-            try {
-                lblAccNo.setText(collectionDetail.getAcctNmbr());
-                lblClientNm.setText(collectionDetail.getFullName());
-                lblTransNo.setText(collectionDetail.getTransNox());
-                mViewModel.setCurrentCollectionDetail(collectionDetail);
-                mViewModel.setAccountNox(collectionDetail.getAcctNmbr());
-                Log.e("", "Account No collection detail " + collectionDetail.getAcctNmbr() + " Account Instance" + AccntNox);
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-        });
-
-        mViewModel.getAllBranchNames().observe(getViewLifecycleOwner(), strings -> {
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
-            ptpBranchName.setAdapter(adapter);
-        });
-
-        ptpBranchName.setOnItemClickListener((adapterView, v, i, l) -> mViewModel.getAllBranchInfo().observe(getViewLifecycleOwner(), eBranchInfos -> {
-            for(int x = 0; x < eBranchInfos.size(); x++){
-                if(ptpBranchName.getText().toString().equalsIgnoreCase(eBranchInfos.get(x).getBranchNm())){
-                    mViewModel.setBanchCde(eBranchInfos.get(x).getBranchCd());
-                    break;
-                }
-            }
-        }));
 
         mViewModel.getUserBranchEmployee().observe(getViewLifecycleOwner(), eBranchInfo -> {
             try {
@@ -158,26 +141,61 @@ public class Fragment_PromiseToPay extends Fragment implements ViewModelCallback
             }
         });
 
-        ptpDate.setOnClickListener(v ->  {
+        mViewModel.GetAccountDetail(transNox, entryNox, accntNox).observe(getViewLifecycleOwner(), collectionDetail -> {
+            try {
+                poPtp.setTransNox(transNox);
+                poPtp.setEntryNox(String.valueOf(entryNox));
+                poPtp.setAccntNox(accntNox);
+                lblAccNo.setText(collectionDetail.getAcctNmbr());
+                lblClientNm.setText(collectionDetail.getFullName());
+                lblTransNo.setText(collectionDetail.getTransNox());
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+
+        mViewModel.getAllBranchNames().observe(getViewLifecycleOwner(), strings -> {
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
+            txtBranch.setAdapter(adapter);
+        });
+
+        txtBranch.setOnItemClickListener((adapterView, v, i, l) -> mViewModel.getAllBranchInfo().observe(getViewLifecycleOwner(), branch -> {
+            for(int x = 0; x < branch.size(); x++){
+                if(txtBranch.getText().toString().equalsIgnoreCase(branch.get(x).getBranchNm())){
+                    poPtp.setBranchCd(branch.get(x).getBranchCd());
+                    break;
+                }
+            }
+        }));
+
+        txtDate.setOnClickListener(v ->  {
             final Calendar newCalendar = Calendar.getInstance();
             @SuppressLint("SimpleDateFormat") final SimpleDateFormat dateFormatter = new SimpleDateFormat("MMMM dd, yyyy");
             final DatePickerDialog StartTime = new DatePickerDialog(getActivity(), (view131, year, monthOfYear, dayOfMonth) -> {
                 Calendar newDate = Calendar.getInstance();
                 newDate.set(year, monthOfYear, dayOfMonth);
-                lsDate = dateFormatter.format(newDate.getTime());
-                ptpDate.setText(lsDate);
-                mViewModel.setPsPtpDate(lsDate);
+                String lsDate = dateFormatter.format(newDate.getTime());
+                txtDate.setText(lsDate);
+                poPtp.setTransact(lsDate);
             }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
             StartTime.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
             StartTime.show();
         });
 
-        rgPtpAppUnit.setOnCheckedChangeListener(new OnDependencyStatusSelectionListener(rgPtpAppUnit,mViewModel));
+        rgPtpAppUnit.setOnCheckedChangeListener(new OnAppointmentUnitSelectionListener(rgPtpAppUnit));
+
         btnPtp.setOnClickListener( v -> {
-            try {
-                submitPtp(Remarksx);
-            } catch (Exception e){
-                e.printStackTrace();
+            poPtp.setRemarks(Objects.requireNonNull(txtRemarks.getText()).toString().trim());
+            if(checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                    checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                    checkSelfPermission(requireActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
+                poRequest.launch(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION});
+                poRequest.launch(new String[]{
+                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.CAMERA});
+            } else {
+                InitializeCamera();
             }
         });
 
@@ -192,52 +210,21 @@ public class Fragment_PromiseToPay extends Fragment implements ViewModelCallback
         lblClientNm = v.findViewById(R.id.tvClientname);
         lblTransNo = v.findViewById(R.id.lbl_dcpTransNo);
 
-        lblImgPath = v.findViewById(R.id.tvImgPath);
-
         tilBranchName = v.findViewById(R.id.til_ptp_branchName);
-        ptpDate = v.findViewById(R.id.pToPayDate);
-        ptpBranchName = v.findViewById(R.id.txt_ptp_branchName);
+        txtDate = v.findViewById(R.id.pToPayDate);
+        txtBranch = v.findViewById(R.id.txt_ptp_branchName);
         rgPtpAppUnit = v.findViewById(R.id.rb_ap_ptpBranch);
-        ptpRemark = v.findViewById(R.id.tie_ptp_Remarks);
-        ptpCollName = v.findViewById(R.id.txt_ptp_collectorName);
+        txtRemarks = v.findViewById(R.id.tie_ptp_Remarks);
+        txtCollct = v.findViewById(R.id.txt_ptp_collectorName);
         btnPtp = v.findViewById(R.id.btn_ptp_submit);
-//        btnCamera = v.findViewById(R.id.imgPtpCamera);
-    }
-    @Override
-    public void OnStartSaving() {
-
     }
 
-    @Override
-    public void OnSuccessResult(String[] args) {
-        poMessage.initDialog();
-        poMessage.setTitle("Transaction Success");
-        poMessage.setMessage(args[0]);
-        poMessage.setPositiveButton("Okay", (view, dialog) -> {
-            dialog.dismiss();
-            requireActivity().finish();
-        });
-        poMessage.show();
-    }
+    class OnAppointmentUnitSelectionListener implements RadioGroup.OnCheckedChangeListener{
 
-    @Override
-    public void OnFailedResult(String message) {
-        if (message.trim().equalsIgnoreCase("empty"))
-        {
-            showDialogImg();
-        }else {
-            onFailedDialog(message);
-        }
-    }
+        private final View rbView;
 
-    class OnDependencyStatusSelectionListener implements RadioGroup.OnCheckedChangeListener{
-
-        View rbView;
-        VMPromiseToPay vm;
-
-        OnDependencyStatusSelectionListener(View view, VMPromiseToPay vmPromiseToPay){
+        OnAppointmentUnitSelectionListener(View view){
             this.rbView = view;
-            this.vm = vmPromiseToPay;
         }
 
         @Override
@@ -245,83 +232,53 @@ public class Fragment_PromiseToPay extends Fragment implements ViewModelCallback
             if(rbView.getId() == R.id.rb_ap_ptpBranch){
                 String appointment = "0";
                 if(checkedId == R.id.rb_ptpBranch) {
-                    IsAppointmentUnitX = "1";
                     appointment = "1";
+                    tilBranchName.setVisibility(View.VISIBLE);
                 } else {
-                    IsAppointmentUnitX = "0";
+                    tilBranchName.setVisibility(View.GONE);
                     appointment = "0";
-                    vm.setBanchCde("");
+                    poPtp.setBranchCd("");
                 }
-                vm.setIsAppointmentUnitX(appointment);
+                poPtp.setPaymntxx(appointment);
             }
         }
     }
 
-    public void submitPtp(String remarks) throws Exception{
-        //save ImageInfo...
-        //Saving CollectionDetail...
-        infoModel.setPtpDate(Objects.requireNonNull(ptpDate.getText().toString()));
-        infoModel.setPtpRemCode(remarks);
-        infoModel.setPtpRemarks(ptpRemark.getText().toString());
-        infoModel.setPtpAppointmentUnit(IsAppointmentUnitX);
-        infoModel.setPtpCollectorName(Objects.requireNonNull(ptpCollName.getText()).toString());
-        mViewModel.savePtpInfo(infoModel, Fragment_PromiseToPay.this);
+    private void InitializeCamera(){
+        mViewModel.InitCameraLaunch(requireActivity(), new OnInitializeCameraCallback() {
+            @Override
+            public void OnInit() {
+                poDialog.initDialog("Selfie Log", "Initializing camera. Please wait...", false);
+                poDialog.show();
+            }
 
-    }
-    public void showDialogImg(){
-        try {
-            poMessage.initDialog();
-            poMessage.setTitle(Remarksx);
-            poMessage.setMessage("Please take a selfie in customer's place in order to confirm transaction. \n" +
-                    "\n" +
-                    "NOTE: Take a selfie on your current place if customer is not visited");
-            poMessage.setPositiveButton("Okay", (view, dialog) -> {
-                dialog.dismiss();
-                poImage.CreateFile((openCamera, camUsage, photPath, FileName) -> {
-                    try {
-                        new LocationRetriever(requireActivity(), requireActivity()).getLocation(new LocationRetriever.LocationRetrieveCallback() {
-                            @Override
-                            public void OnRetrieve(String message, double latitude, double longitude) {
-                                infoModel.setPtpImgPath(photPath);
-                                poImageInfo = new EImageInfo();
-                                poImageInfo.setDtlSrcNo(AccntNox);
-                                poImageInfo.setSourceNo(TransNox);
-                                poImageInfo.setSourceCD("DCPa");
-                                poImageInfo.setImageNme(FileName);
-                                poImageInfo.setFileLoct(photPath);
-                                poImageInfo.setFileCode("0020");
-                                poImageInfo.setLatitude(String.valueOf(latitude));
-                                poImageInfo.setLongitud(String.valueOf(longitude));
-                                mViewModel.setLatitude(String.valueOf(latitude));
-                                mViewModel.setLongitude(String.valueOf(longitude));
-                                mViewModel.setImgName(FileName);
-                                openCamera.putExtra("android.intent.extras.CAMERA_FACING", 1);
-                                poCamera.launch(openCamera);
-                            }
+            @Override
+            public void OnSuccess(Intent intent, String[] args) {
+                poDialog.dismiss();
+                poPtp.setFilePath(args[0]);
+                poPtp.setFileName(args[1]);
+                poPtp.setLatitude(args[2]);
+                poPtp.setLongtude(args[3]);
+                poCamera.launch(intent);
+            }
 
-                            @Override
-                            public void OnFailed(String message) {
-                                Toast.makeText(requireActivity(), message, Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+            @Override
+            public void OnFailed(String message, Intent intent, String[] args) {
+                poDialog.dismiss();
+                poMessage.initDialog();
+                poMessage.setTitle("Selfie Login");
+                poMessage.setMessage(message + "\n Proceed taking selfie log?");
+                poMessage.setPositiveButton("Continue", (view, dialog) -> {
+                    dialog.dismiss();
+                    poPtp.setFilePath(args[0]);
+                    poPtp.setFileName(args[1]);
+                    poPtp.setLatitude(args[2]);
+                    poPtp.setLongtude(args[3]);
+                    poCamera.launch(intent);
                 });
-            });
-            poMessage.setNegativeButton("Cancel", (view, dialog) -> {
-                dialog.dismiss();
-            });
-            poMessage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    public void onFailedDialog(String messages){
-        poMessage.initDialog();
-        poMessage.setTitle("Transaction Failed");
-        poMessage.setMessage(messages);
-        poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-        poMessage.show();
+                poMessage.setNegativeButton("Cancel", (view1, dialog) -> dialog.dismiss());
+                poMessage.show();
+            }
+        });
     }
 }

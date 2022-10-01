@@ -285,10 +285,10 @@ public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
     }
 
     @Override
-    public void OnSuccessResult(String[] args) {
+    public void OnSuccessResult() {
         poMessage.initDialog();
         poMessage.setTitle("Transaction Success");
-        poMessage.setMessage(args[0]);
+        poMessage.setMessage("Collection save successfully");
         poMessage.setPositiveButton("Okay", (view, dialog) -> {
             dialog.dismiss();
             getActivity().finish();

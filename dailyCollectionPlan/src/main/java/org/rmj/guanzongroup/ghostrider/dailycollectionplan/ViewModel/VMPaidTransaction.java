@@ -13,7 +13,6 @@ package org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel;
 
 import android.app.Application;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
@@ -50,20 +49,16 @@ public class VMPaidTransaction extends AndroidViewModel {
 
     private final LRDcp poSys;
 
-    private double pnAmortx = 0, pnAmtDue = 0, pnAmount = 0;
-    private String psPrchse = "",
-                    pnDueDte = "",
-                    MonAmort = "",
-                    Balancex = "";
+    private EDCPCollectionDetail loDetail;
 
-    private final MutableLiveData<Double> pnDsCntx = new MutableLiveData<>();
-    private final MutableLiveData<Double> pnOthers = new MutableLiveData<>();
+    private double pnAmount = 0;
+
     private final MutableLiveData<Double> pnTotalx = new MutableLiveData<>();
     private final MutableLiveData<Double> pnRebate = new MutableLiveData<>();
     private final MutableLiveData<Double> pnPenlty = new MutableLiveData<>();
     private final MutableLiveData<String> psMssage = new MutableLiveData<>();
 
-    private boolean pbRebate = true;
+    private boolean isDuePass = true;
 
     public VMPaidTransaction(@NonNull Application application) {
         super(application);
@@ -73,9 +68,8 @@ public class VMPaidTransaction extends AndroidViewModel {
         this.poBank = new RBankInfo(application);
         this.poConfig = AppConfigPreference.getInstance(application);
         this.poConn = new ConnectionUtil(application);
-        this.pnDsCntx.setValue((double) 0);
-        this.pnOthers.setValue((double) 0);
-        this.pnOthers.setValue((double) 0);
+        this.pnRebate.setValue((double) 0);
+        this.pnPenlty.setValue((double) 0);
     }
 
     public LiveData<EDCPCollectionDetail> GetAccountDetail(String TransNo, int EntryNo, String Accountno){
@@ -99,47 +93,55 @@ public class VMPaidTransaction extends AndroidViewModel {
         return loPrNox;
     }
 
-    public void setAmount(Double fnAmount){
-        this.pnAmount = fnAmount;
-//        calculatePenalty();
-        calculateTotal();
+    public void InitPurchaseInfo(EDCPCollectionDetail foVal){
+        this.loDetail = foVal;
     }
 
-    public void setDiscount(Double fnDiscount){
+    public void setAmount(Double fnAmount){
+        this.pnAmount = fnAmount;
+        if(!isDuePass) {
+            calculateRebate();
+        } else {
+            calculatePenalty();
+        }
+
+        double lnRebate = pnRebate.getValue();
+        double lnPnalty = pnPenlty.getValue();
+        double lnTotal = pnAmount + lnPnalty - lnRebate;
+        pnTotalx.setValue(lnTotal);
+    }
+
+    public void setRebate(Double fnDiscount){
         try {
-            this.pnDsCntx.setValue(Objects.requireNonNull(fnDiscount));
-            calculateTotal();
-            if (pnRebate.getValue() < Objects.requireNonNull(fnDiscount)) {
-                if (pbRebate) {
+            if (!isDuePass) {
+                psMssage.setValue("Rebate is no longer available for client.");
+            } else {
+                this.pnRebate.setValue(Objects.requireNonNull(fnDiscount));
+                if (pnRebate.getValue() < Objects.requireNonNull(fnDiscount)) {
                     psMssage.setValue("Rebate given is greater than the supposed rebate.");
                 } else {
-                    psMssage.setValue("Rebate disabled");
+                    psMssage.setValue("");
                 }
-            } else {
-                psMssage.setValue("");
             }
+
+            double lnRebate = pnRebate.getValue();
+            double lnPnalty = pnPenlty.getValue();
+            double lnTotal = pnAmount + lnPnalty - lnRebate;
+            pnTotalx.setValue(lnTotal);
         } catch(NullPointerException e) {
             e.printStackTrace();
         }
     }
 
-    public void setOthers(Double fnOthers){
-        this.pnOthers.setValue(fnOthers);
-        calculateTotal();
+    public void setPenalty(Double fnOthers){
+        double lnRebate = pnRebate.getValue();
+        double lnTotal = pnAmount + fnOthers - lnRebate;
+        pnTotalx.setValue(lnTotal);
     }
 
-    public void setMonthlyAmort(Double fnAmortx){
-        this.pnAmortx = fnAmortx;
-    }
-
-    public void setAmountDue(Double fnAmtDue){
-        this.pnAmtDue = fnAmtDue;
-    }
-
-    public void setIsRebated(boolean isRebated){
-        this.pbRebate = isRebated;
-        calculateTotal();
-        if(!isRebated){
+    public void setIsDuePass(boolean isDuePass){
+        this.isDuePass = isDuePass;
+        if(!isDuePass){
             psMssage.setValue("");
         }
     }
@@ -160,42 +162,28 @@ public class VMPaidTransaction extends AndroidViewModel {
         return psMssage;
     }
 
-    private void calculateTotal(){
-        double lnTotal = 0.00;
+    private void calculateRebate(){
         try {
-            if(pbRebate) {
-                double lnOthers = pnOthers.getValue();
-                double lnAmount = pnAmount;
+            double reb = Double.parseDouble(poConfig.getDCP_CustomerRebate());
 
-                double reb = Double.parseDouble(poConfig.getDCP_CustomerRebate());
+            double lnAmortx = Double.parseDouble(loDetail.getMonAmort());
+            double lnAmtDue = Double.parseDouble(loDetail.getAmtDuexx());
 
-                double lnRebate = LRUtil.getRebate(lnAmount, pnAmortx, pnAmtDue, reb);
-
-                lnTotal = lnAmount + lnOthers - lnRebate;
-                pnRebate.setValue(lnRebate);
-            } else {
-                double lnOthers = pnOthers.getValue();
-                double lnAmount = pnAmount;
-                lnTotal = lnAmount + lnOthers;
-                pnRebate.setValue(0.00);
-            }
+            double lnRebate = LRUtil.getRebate(pnAmount, lnAmortx, lnAmtDue, reb);
+            pnRebate.setValue(lnRebate);
         } catch (Exception e){
             e.printStackTrace();
         }
-        pnTotalx.setValue(lnTotal);
     }
 
-    private void calculatePenalty(String dPurcahse, String dDueDate, String MonAmort, String Balancex){
+    private void calculatePenalty(){
         try {
             DateFormat loFormat = new SimpleDateFormat("yyyy-MM-dd");
-            Date ldPurchase = loFormat.parse(dPurcahse);
-            Date ldDueDatex = loFormat.parse(dDueDate);
-            Log.d(TAG, "Date Purchase: "+ ldPurchase);
-            Log.d(TAG, "Due Date: "+ ldDueDatex);
-            double lnMonAmort = Double.parseDouble(MonAmort);
-            double lnABalance = Double.parseDouble(Balancex);
-            double lnAmtPaidx = pnAmtDue;
-            double lnPenalty = LRUtil.getPenalty(ldPurchase, ldDueDatex, lnMonAmort, lnABalance, lnAmtPaidx);
+            Date ldPurchase = loFormat.parse(loDetail.getPurchase());
+            Date ldDueDatex = loFormat.parse(loDetail.getDueDatex());
+            double lnMonAmort = Double.parseDouble(loDetail.getMonAmort());
+            double lnABalance = Double.parseDouble(loDetail.getABalance());
+            double lnPenalty = LRUtil.getPenalty(ldPurchase, ldDueDatex, lnMonAmort, lnABalance, pnAmount);
             pnPenlty.setValue(lnPenalty);
         } catch (Exception e){
             e.printStackTrace();
@@ -257,7 +245,7 @@ public class VMPaidTransaction extends AndroidViewModel {
             if(!isSuccess){
                 callback.OnFailedResult(message);
             } else {
-                callback.OnSuccessResult(new String[]{"Transaction has been posted successfully."});
+                callback.OnSuccessResult();
             }
         }
     }

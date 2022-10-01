@@ -217,7 +217,7 @@ public class VMLoanUnit extends AndroidViewModel {
                 detail.setModified(new AppConstants().DATE_MODIFIED);
                 poDcp.updateCollectionDetailInfo(detail);
                 //Log.e(TAG, "Promise to Pay info has been set." + poDcp.getCollectionDetail(psTransNox.getValue(),psEntryNox.getValue()).getValue().toString());
-                callback.OnSuccessResult(new String[]{"Dcp Save!"});
+                callback.OnSuccessResult();
                 return true;
             }
         } catch (NullPointerException e){
@@ -407,7 +407,7 @@ public class VMLoanUnit extends AndroidViewModel {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             if(s.equalsIgnoreCase("success")){
-                callback.OnSuccessResult(new String[]{DCP_Constants.getRemarksDescription(sRemarksx.getValue()) +" info has been save."});
+                callback.OnSuccessResult();
             } else {
                 callback.OnFailedResult(s);
             }

@@ -56,12 +56,6 @@ public class VMSelfieLog extends AndroidViewModel {
     private final EmployeeMaster poUser;
     private final ImageFileCreator poImage;
 
-    public interface OnInitializeCameraCallback {
-        void OnInit();
-        void OnSuccess(Intent intent, String[] args);
-        void OnFailed(String message, Intent intent, String[] args);
-    }
-
     public interface OnLoginTimekeeperListener{
         void OnLogin();
         void OnSuccess(String args);

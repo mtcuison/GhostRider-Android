@@ -104,7 +104,7 @@ public class Fragment_CustomerNotAround extends Fragment implements ViewModelCal
 
                     mViewModel.updateCollectionDetail(txtRemarks.getText().toString());
                     Log.e("Fragment_CNA:", "Image Info Save");
-                    OnSuccessResult(new String[]{"Customer Not Around Info has been saved."});
+                    OnSuccessResult();
                 } catch (RuntimeException e){
                     e.printStackTrace();
                 }
@@ -340,10 +340,10 @@ public class Fragment_CustomerNotAround extends Fragment implements ViewModelCal
     }
 
     @Override
-    public void OnSuccessResult(String[] args) {
+    public void OnSuccessResult() {
         poMessage.initDialog();
         poMessage.setTitle("Transaction Success");
-        poMessage.setMessage(args[0]);
+        poMessage.setMessage("Collection save successfully");
         poMessage.setPositiveButton("Okay", (view, dialog) -> {
             dialog.dismiss();
             getActivity().finish();

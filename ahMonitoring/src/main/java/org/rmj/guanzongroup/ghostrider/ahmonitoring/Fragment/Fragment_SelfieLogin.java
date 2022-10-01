@@ -58,6 +58,7 @@ import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_CashCounte
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.TimeLogAdapter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Dialog.DialogBranchSelection;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.OnInitializeCameraCallback;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMSelfieLog;
 
 import java.util.ArrayList;
@@ -134,16 +135,30 @@ public class Fragment_SelfieLogin extends Fragment {
         @Override
         public void onActivityResult(Map<String, Boolean> result) {
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-                Boolean fineLocationGranted = result.getOrDefault(
+                Boolean fineLoct = result.getOrDefault(
                         Manifest.permission.ACCESS_FINE_LOCATION, false);
-                Boolean coarseLocationGranted = result.getOrDefault(
+                Boolean coarseL = result.getOrDefault(
                         Manifest.permission.ACCESS_COARSE_LOCATION, false);
-                if (fineLocationGranted != null && fineLocationGranted) {
-                    initCamera();
-                } else if (coarseLocationGranted != null && coarseLocationGranted) {
-                    initCamera();
+                Boolean camerax = result.getOrDefault(
+                        Manifest.permission.CAMERA, false);
+                if(Boolean.FALSE.equals(camerax)){
+                    Toast.makeText(requireActivity(), "Please allow camera permission to proceed.", Toast.LENGTH_SHORT).show();
+                } else if(Boolean.FALSE.equals(fineLoct)){
+                    Toast.makeText(requireActivity(), "Please allow permission to get device location.", Toast.LENGTH_SHORT).show();
+                } else if(Boolean.FALSE.equals(coarseL)){
+                    Toast.makeText(requireActivity(), "Please allow permission to get device location.", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(requireActivity(), "Permissions not allowed", Toast.LENGTH_SHORT).show();
+                    initCamera();
+                }
+            } else {
+                if(checkSelfPermission(requireActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
+                    Toast.makeText(requireActivity(), "Please allow camera permission to proceed.", Toast.LENGTH_SHORT).show();
+                } else if(checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+                    Toast.makeText(requireActivity(), "Please allow permission to get device location.", Toast.LENGTH_SHORT).show();
+                } else if(checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+                    Toast.makeText(requireActivity(), "Please allow permission to get device location.", Toast.LENGTH_SHORT).show();
+                } else {
+                    initCamera();
                 }
             }
         }
@@ -304,13 +319,14 @@ public class Fragment_SelfieLogin extends Fragment {
     private void initCamera(){
         try {
             if(checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-            checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+            checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+            checkSelfPermission(requireActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
                 poRequest.launch(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION});
             } else {
-                mViewModel.InitCameraLaunch(requireActivity(), new VMSelfieLog.OnInitializeCameraCallback() {
+                mViewModel.InitCameraLaunch(requireActivity(), new OnInitializeCameraCallback() {
                     @Override
                     public void OnInit() {
-                        poLoad.initDialog("Selfie Log", "Initializing camera for selfie log. Please wait...", false);
+                        poLoad.initDialog("Selfie Log", "Initializing camera. Please wait...", false);
                         poLoad.show();
                     }
 

@@ -15,7 +15,6 @@ import android.app.AlertDialog;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,17 +57,15 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
     private MessageBox poMessage;
     private LoadDialog poDialog;
 
-    private DecimalFormat formatter = new DecimalFormat("###,###,##0.00");
+    private final DecimalFormat formatter = new DecimalFormat("###,###,##0.00");
 
-    private CheckBox cbCheckPymnt, cbRebate;
+    private CheckBox cbCheckPymnt;
     private TextView lblBranch, lblAddress, lblAccNo, lblClientNm, lblTransNo;
     private Spinner spnType;
-    private TextInputEditText txtPrNoxx, txtRemarks, txtAmount, txtDiscount, txtOthers, txtTotAmnt;
+    private TextInputEditText txtPrNoxx, txtRemarks, txtAmount, txtRebate, txtOthers, txtTotAmnt;
     private TextInputLayout tilDiscount;
     private Button btnAmort, btnRBlnce, btnClear;
     private MaterialButton btnConfirm;
-
-    private String psMonthAmt, psRBalance, psAmntDue;
 
     public static Fragment_PaidTransaction newInstance() {
         return new Fragment_PaidTransaction();
@@ -99,27 +96,41 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
                 lblClientNm.setText(detail.getFullName());
                 lblTransNo.setText(detail.getTransNox());
 
-                psAmntDue = detail.getAmtDuexx();
-                psMonthAmt = detail.getMonAmort();
-                psRBalance = detail.getABalance();
-                mViewModel.setMonthlyAmort(Double.valueOf(psMonthAmt));
-                mViewModel.setAmountDue(Double.valueOf(psAmntDue));
-                Date loDate = new SimpleDateFormat("yyyy-MM-dd").parse(new AppConstants().CURRENT_DATE);
-                if (new SimpleDateFormat("yyyy-MM-dd").parse(detail.getDueDatex()).before(loDate) ||
-                        new SimpleDateFormat("yyyy-MM-dd").parse(detail.getDueDatex()).equals(loDate)) {
-                    cbRebate.setEnabled(true);
-                } else {
-                    cbRebate.setChecked(false);
-                    cbRebate.setEnabled(false);
-                }
+                mViewModel.InitPurchaseInfo(detail);
+
                 btnAmort.setText("Amortization : " + FormatUIText.getCurrencyUIFormat(detail.getMonAmort()));
                 btnRBlnce.setText("Amount Due : " + FormatUIText.getCurrencyUIFormat(detail.getAmtDuexx()));
                 SimpleDateFormat loFormatter = new SimpleDateFormat("yyyy-MM-dd");
                 Date loDueDate = loFormatter.parse(detail.getDueDatex());
                 Date loCrtDate = loFormatter.parse(AppConstants.CURRENT_DATE);
-                if (loDueDate.after(loCrtDate)) {
-                    cbRebate.setEnabled(false);
+                int lnResult = loCrtDate.compareTo(loDueDate);
+                if (lnResult > 0) {
+                    tilDiscount.setErrorEnabled(true);
+                    tilDiscount.setError("Payment due date already pass");
+                    mViewModel.setIsDuePass(true);
+                    txtRebate.setEnabled(false);
+                } else {
+                    tilDiscount.setErrorEnabled(false);
+                    mViewModel.setIsDuePass(false);
+                    txtRebate.setEnabled(true);
                 }
+
+                btnAmort.setOnClickListener(v -> {
+                    mViewModel.setAmount(Double.valueOf(detail.getMonAmort()));
+                    txtAmount.setText(detail.getMonAmort());
+                });
+
+                btnRBlnce.setOnClickListener(v -> {
+                    mViewModel.setAmount(Double.valueOf(detail.getAmtDuexx()));
+                    txtAmount.setText(detail.getAmtDuexx());
+                });
+
+                btnClear.setOnClickListener(v -> {
+                    txtAmount.setText("");
+                    txtRebate.setText("");
+                    txtOthers.setText("");
+                    txtTotAmnt.setText("");
+                });
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -147,7 +158,7 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
 
         mViewModel.getRebate().observe(getViewLifecycleOwner(), aDouble -> {
             try{
-                txtDiscount.setText(String.valueOf(aDouble));
+                txtRebate.setText(String.valueOf(aDouble));
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -170,19 +181,17 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
             }
         });
 
-        txtDiscount.setOnFocusChangeListener((v, hasFocus) -> {
+        txtRebate.setOnFocusChangeListener((v, hasFocus) -> {
             if(!hasFocus) {
-                if (!Objects.requireNonNull(txtDiscount.getText()).toString().isEmpty()) {
-                    mViewModel.setDiscount(Double.valueOf(txtDiscount.getText().toString().replace(",", "")));
+                if (!Objects.requireNonNull(txtRebate.getText()).toString().isEmpty()) {
+                    mViewModel.setRebate(Double.valueOf(txtRebate.getText().toString().replace(",", "")));
                 } else {
-                    mViewModel.setDiscount(0.00);
+                    mViewModel.setRebate(0.00);
                 }
             }
         });
 
         mViewModel.getTotalAmount().observe(getViewLifecycleOwner(), aFloat ->{
-            Log.d(TAG, String.valueOf(aFloat));
-            Log.d(TAG, formatter.format(aFloat));
             txtTotAmnt.setText(formatter.format(aFloat));
         });
 
@@ -218,18 +227,7 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
             }
         });
 
-        cbRebate.setOnCheckedChangeListener((buttonView, isChecked) -> mViewModel.setIsRebated(isChecked));
-
-        btnAmort.setOnClickListener(v -> txtAmount.setText(psMonthAmt));
-
-        btnRBlnce.setOnClickListener(v -> txtAmount.setText(psAmntDue));
-
-        btnClear.setOnClickListener(v -> {
-            txtAmount.setText("");
-            txtDiscount.setText("");
-            txtOthers.setText("");
-            txtTotAmnt.setText("");
-        });
+//        cbRebate.setOnCheckedChangeListener((buttonView, isChecked) -> mViewModel.setIsRebated(isChecked));
 
         btnConfirm.setOnClickListener(v -> {
             poPaid.setRemarks(Remarksx);
@@ -237,7 +235,7 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
             poPaid.setPrNoxxx(Objects.requireNonNull(txtPrNoxx.getText()).toString());
             poPaid.setRemarks(Objects.requireNonNull(txtRemarks.getText()).toString());
             poPaid.setAmountx(Objects.requireNonNull(txtAmount.getText()).toString());
-            poPaid.setDscount(Objects.requireNonNull(txtDiscount.getText()).toString());
+            poPaid.setDscount(Objects.requireNonNull(txtRebate.getText()).toString());
             poPaid.setOthersx(Objects.requireNonNull(txtOthers.getText()).toString());
             poPaid.setTotAmnt(Objects.requireNonNull(txtTotAmnt.getText()).toString());
             mViewModel.SavePaymentInfo(poPaid, Fragment_PaidTransaction.this);
@@ -253,13 +251,12 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
         lblClientNm = v.findViewById(R.id.lbl_dcpClientNm);
         lblTransNo = v.findViewById(R.id.lbl_dcpTransNo);
         spnType = v.findViewById(R.id.spn_paymentType);
-        cbRebate = v.findViewById(R.id.cb_rebate);
         cbCheckPymnt = v.findViewById(R.id.cb_dcpCheckPayment);
         txtPrNoxx = v.findViewById(R.id.txt_dcpPRNumber);
         txtRemarks = v.findViewById(R.id.txt_dcpRemarks);
         txtAmount = v.findViewById(R.id.txt_dcpAmount);
         tilDiscount = v.findViewById(R.id.til_dcpDiscount);
-        txtDiscount = v.findViewById(R.id.txt_dcpDiscount);
+        txtRebate = v.findViewById(R.id.txt_dcpDiscount);
         txtOthers = v.findViewById(R.id.txt_dcpOthers);
         txtTotAmnt = v.findViewById(R.id.txt_dcpTotAmount);
         btnConfirm = v.findViewById(R.id.btn_confirm);
@@ -268,9 +265,8 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
         btnClear = v.findViewById(R.id.btn_clearText);
 
         txtAmount.addTextChangedListener(new OnAmountEnterTextWatcher(txtAmount));
-        txtDiscount.addTextChangedListener(new OnAmountEnterTextWatcher(txtDiscount));
+        txtRebate.addTextChangedListener(new OnAmountEnterTextWatcher(txtRebate));
         txtOthers.addTextChangedListener(new OnAmountEnterTextWatcher(txtOthers));
-//        txtTotAmnt.addTextChangedListener(new FormatUIText.CurrencyFormat(txtTotAmnt));
     }
 
     @Override
@@ -280,11 +276,11 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
     }
 
     @Override
-    public void OnSuccessResult(String[] args) {
+    public void OnSuccessResult() {
         poDialog.dismiss();
         poMessage.initDialog();
         poMessage.setTitle("Transaction Success");
-        poMessage.setMessage(args[0]);
+        poMessage.setMessage("Collection save successfully");
         poMessage.setPositiveButton("Okay", (view, dialog) -> {
             dialog.dismiss();
             requireActivity().finish();
@@ -332,9 +328,9 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
                     }
                 } else if (inputEditText.getId() == R.id.txt_dcpOthers) {
                     if(!Objects.requireNonNull(inputEditText.getText()).toString().isEmpty()) {
-                        mViewModel.setOthers(Double.valueOf(inputEditText.getText().toString().replace(",", "")));
+                        mViewModel.setPenalty(Double.valueOf(inputEditText.getText().toString().replace(",", "")));
                     } else {
-                        mViewModel.setOthers((double) 0);
+                        mViewModel.setPenalty((double) 0);
                     }
                 }
                 inputEditText.addTextChangedListener(this);
