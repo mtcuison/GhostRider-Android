@@ -35,6 +35,8 @@ public class Activity_Properties extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar_Properties);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Properties Info");
+
 
         txtLot1 = findViewById(R.id.tie_cap_propertyLot1);
         txtLot2 = findViewById(R.id.tie_cap_propertyLot2);
@@ -51,12 +53,12 @@ public class Activity_Properties extends AppCompatActivity {
         btnNext = findViewById(R.id.btn_creditAppNext);
 
         btnNext.setOnClickListener(v -> {
-            Intent intent = new Intent(Activity_Properties.this,Activity_OtherInfo.class);
+            Intent intent = new Intent(Activity_Properties.this, Activity_OtherInfo.class);
             startActivity(intent);
             finish();
         });
         btnPrvs.setOnClickListener(v -> {
-            Intent intent = new Intent(Activity_Properties.this,Activity_Dependent.class);
+            Intent intent = new Intent(Activity_Properties.this, Activity_Dependent.class);
             startActivity(intent);
             finish();
         });

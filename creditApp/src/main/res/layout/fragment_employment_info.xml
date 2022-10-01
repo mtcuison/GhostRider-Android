@@ -69,10 +69,10 @@
             android:visibility="gone">
 
             <TextView
+                style="@style/HeaderLabelBlack"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/HeaderLabelBlack"
-                android:text="@string/sLabelUniformPersonnel"/>
+                android:text="@string/sLabelUniformPersonnel" />
 
             <RadioGroup
                 android:id="@+id/rg_uniformPersonel"
@@ -85,22 +85,22 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/sLabelYes"/>
+                    android:text="@string/sLabelYes" />
 
                 <RadioButton
                     android:id="@+id/rb_uniform_no"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/sLabelNo"/>
+                    android:text="@string/sLabelNo" />
 
             </RadioGroup>
 
             <TextView
+                style="@style/HeaderLabelBlack"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/HeaderLabelBlack"
-                android:text="@string/sLabelMilitaryPersonnel"/>
+                android:text="@string/sLabelMilitaryPersonnel" />
 
             <RadioGroup
                 android:id="@+id/rg_militaryPersonal"
@@ -113,14 +113,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/sLabelYes"/>
+                    android:text="@string/sLabelYes" />
 
                 <RadioButton
                     android:id="@+id/rb_military_no"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/sLabelNo"/>
+                    android:text="@string/sLabelNo" />
 
             </RadioGroup>
 
@@ -172,20 +172,20 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_countryNme"
+            style="@style/TextInputStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/sHintCountryNm"
-            style="@style/TextInputStyle"
             android:visibility="gone">
 
             <AutoCompleteTextView
                 android:id="@+id/txt_countryNme"
+                style="@style/AutoCompleteStyleTheme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textAutoComplete|textCapWords"
                 android:maxLength="50"
-                style="@style/AutoCompleteStyleTheme"
-                tools:ignore="LabelFor"/>
+                tools:ignore="LabelFor" />
         </com.google.android.material.textfield.TextInputLayout>
 
 <!--        <Spinner-->

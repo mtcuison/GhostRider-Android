@@ -3,6 +3,7 @@ package org.rmj.guanzongroup.onlinecreditapplication.Activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 
 import java.util.Objects;
@@ -45,6 +47,8 @@ public class Activity_OtherInfo extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar_OtherInfo);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Other Info");
+
 
         tilOthrUser = findViewById(R.id.til_cap_otherUser);
         tilOthrPayr = findViewById(R.id.til_cap_otherPayer);
@@ -71,6 +75,32 @@ public class Activity_OtherInfo extends AppCompatActivity {
         tilOtherSrc.setVisibility(View.GONE);
         btnNext = findViewById(R.id.btn_creditAppNext);
         btnPrevs = findViewById(R.id.btn_creditAppPrvs);
+
+        spnUnitUser.setAdapter(new ArrayAdapter<>(Activity_OtherInfo.this,
+                android.R.layout.simple_list_item_1, CreditAppConstants.UNIT_USER));
+        spnUnitUser.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+
+        spnOthrUser.setAdapter(new ArrayAdapter<>(Activity_OtherInfo.this,
+                android.R.layout.simple_list_item_1, CreditAppConstants.UNIT_USER_OTHERS));
+        spnOthrUser.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+
+        spnUnitPrps.setAdapter(new ArrayAdapter<>(Activity_OtherInfo.this,
+                android.R.layout.simple_list_item_1, CreditAppConstants.UNIT_PURPOSE));
+        spnUnitPrps.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+
+        spnUnitPayr.setAdapter(new ArrayAdapter<>(Activity_OtherInfo.this,
+                android.R.layout.simple_list_item_1, CreditAppConstants.UNIT_USER));
+        spnUnitPayr.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+
+        spnOthrPayr.setAdapter(new ArrayAdapter<>(Activity_OtherInfo.this,
+                android.R.layout.simple_list_item_1, CreditAppConstants.UNIT_PAYER));
+        spnOthrPayr.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+
+//        spnSourcexx.setAdapter(new ArrayAdapter<>(Activity_OtherInfo.this,
+//                android.R.layout.simple_list_item_1, CreditAppConstants.UNIT_PAYER));
+//        spnSourcexx.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+
+
 
         btnNext.setOnClickListener(v -> {
             Intent intent = new Intent(Activity_OtherInfo.this, Activity_CoMaker.class);

@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
@@ -21,6 +22,7 @@ import org.rmj.guanzongroup.onlinecreditapplication.R;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Activity_ReviewLoanApp extends AppCompatActivity {
 
@@ -38,6 +40,9 @@ public class Activity_ReviewLoanApp extends AppCompatActivity {
     private LoadDialog poDialogx;
     private MessageBox poMessage;
 
+    private Toolbar toolbar;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +51,11 @@ public class Activity_ReviewLoanApp extends AppCompatActivity {
     }
 
     private void initWidgets() {
+        toolbar = findViewById(R.id.toolbar_ReviewLoanApp);
+        setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Review Loan Info");
+
         lblClientNm = findViewById(R.id.lbl_clientNme);
 
         recyclerView = findViewById(R.id.recyclerview_applicationInfo);
@@ -53,7 +63,9 @@ public class Activity_ReviewLoanApp extends AppCompatActivity {
         imgClient = findViewById(R.id.img_loanApplicant);
 
         btnCamera = findViewById(R.id.btn_camera);
+
         btnSave = findViewById(R.id.btn_loanAppSave);
+
         btnPrvs = findViewById(R.id.btn_creditAppPrvs);
 
         plDetail = new ArrayList<>();

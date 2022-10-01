@@ -74,7 +74,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <TextView
                     style="@style/HeaderLabelBlack"
@@ -178,7 +178,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/sHintCountryNm"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <AutoCompleteTextView
                     android:id="@+id/txt_countryNme"
@@ -187,8 +187,8 @@
                     android:layout_height="wrap_content"
                     android:inputType="textAutoComplete|textCapWords"
                     android:maxLength="50"
-                    tools:ignore="LabelFor"
-                    android:nextFocusForward="@+id/spn_businessNature"/>
+                    android:nextFocusForward="@+id/spn_businessNature"
+                    tools:ignore="LabelFor" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView

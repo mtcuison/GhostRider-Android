@@ -2,6 +2,7 @@ package org.rmj.guanzongroup.onlinecreditapplication.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 
@@ -11,6 +12,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 
 import java.util.Objects;
@@ -18,6 +20,7 @@ import java.util.Objects;
 public class Activity_SpouseInfo extends AppCompatActivity {
 
     private AutoCompleteTextView txtProvince, txtTownxx, txtCitizenx;
+
     private TextInputEditText txtLastName, txtFirstName, txtSuffix, txtMiddName, txtNickName,
             txtBDate, txtPrimeCntc, txtPrimeCntcYr, txtSecCntct, txtSecCntctYr, txtThirCntct,
             txtThirCntctYr, txtTelNox, txtEmailAdd, txtFbAcct, txtViberAcct, txtMobileYr1,
@@ -25,7 +28,7 @@ public class Activity_SpouseInfo extends AppCompatActivity {
 
     private String transnox;
 
-    private TextInputLayout tilMobileYr1 ,tilMobileYr2 ,tilMobileYr3;
+    private TextInputLayout tilMobileYr1, tilMobileYr2, tilMobileYr3;
     private AutoCompleteTextView spnMobile1, spnMobile2, spnMobile3;
 
     private String spnMobile1Position = "-1";
@@ -46,6 +49,8 @@ public class Activity_SpouseInfo extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar_SpouseInfo);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Spouse Info");
+
 
         txtProvince = findViewById(R.id.txt_bpProvince);
         txtTownxx = findViewById(R.id.txt_bpTown);
@@ -86,13 +91,26 @@ public class Activity_SpouseInfo extends AppCompatActivity {
         btnNext = findViewById(R.id.btn_creditAppNext);
         btnPrvs = findViewById(R.id.btn_creditAppPrvs);
 
+        spnMobile1.setAdapter(new ArrayAdapter<>(Activity_SpouseInfo.this,
+                android.R.layout.simple_list_item_1, CreditAppConstants.MOBILE_NO_TYPE));
+        spnMobile1.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+
+        spnMobile2.setAdapter(new ArrayAdapter<>(Activity_SpouseInfo.this,
+                android.R.layout.simple_list_item_1, CreditAppConstants.MOBILE_NO_TYPE));
+        spnMobile2.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+
+        spnMobile3.setAdapter(new ArrayAdapter<>(Activity_SpouseInfo.this,
+                android.R.layout.simple_list_item_1, CreditAppConstants.MOBILE_NO_TYPE));
+        spnMobile3.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+
+
         btnNext.setOnClickListener(v -> {
-            Intent intent = new Intent(Activity_SpouseInfo.this,Activity_SpouseResidenceInfo.class);
+            Intent intent = new Intent(Activity_SpouseInfo.this, Activity_SpouseResidenceInfo.class);
             startActivity(intent);
             finish();
         });
         btnPrvs.setOnClickListener(v -> {
-            Intent intent = new Intent(Activity_SpouseInfo.this,Activity_PensionInfo.class);
+            Intent intent = new Intent(Activity_SpouseInfo.this, Activity_PensionInfo.class);
             startActivity(intent);
             finish();
         });

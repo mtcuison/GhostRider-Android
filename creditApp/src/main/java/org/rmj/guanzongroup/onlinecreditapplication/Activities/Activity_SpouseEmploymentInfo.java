@@ -2,9 +2,11 @@ package org.rmj.guanzongroup.onlinecreditapplication.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -14,24 +16,29 @@ import androidx.appcompat.widget.Toolbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 
 import java.util.Objects;
 
 public class Activity_SpouseEmploymentInfo extends AppCompatActivity {
 
-    private String  spnCmpLvlPosition = "-1",
-                    spnEmpLvlPosition = "-1",
-                    spnBusNtrPosition = "-1",
-                    spnServcePosition = "-1",
-                    spnEmpStsPosition = "-1";
+    private String spnCmpLvlPosition = "-1",
+            spnEmpLvlPosition = "-1",
+            spnBusNtrPosition = "-1",
+            spnServcePosition = "-1",
+            spnEmpStsPosition = "-1";
     private AutoCompleteTextView spnCmpLvl, spnEmpLvl, spnBusNtr, spnEmpSts, spnServce;
     private AutoCompleteTextView txtCntryx, txtProvNm, txtTownNm, txtJobNme;
     private TextInputLayout tilCntryx, tilCompNm, tilJobTitle, tilCmpLvl, tilBizNature, tilEmpLvl;
     private TextInputEditText txtCompNm, txtCompAd, txtSpcfJb, txtLngthS, txtEsSlry, txtCompCn;
     private LinearLayout lnGovInfo, lnEmpInfo;
-    private Button btnNext,btnPrvs;
+    private Button btnNext, btnPrvs;
+    private RadioButton rbPrivate, rbGovernment, rbOFW, rbUniformYes, rbUniformNo, rbMilitaryYes, rbMilitaryNo;
     private TextView lblBizNature;
+    private String sEmploymentInfo, sUniform, sMilitary;
     private RadioGroup rgSectorx, rgUniform, rgMiltary;
     private Toolbar toolbar;
 
@@ -40,12 +47,58 @@ public class Activity_SpouseEmploymentInfo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_spouse_employment_info);
         initWidgets();
+        json();
+    }
+
+    private void json() {
+        Intent receiveIntent = getIntent();
+        String param = receiveIntent.getStringExtra("params");
+        try {
+            JSONObject object = new JSONObject(param);
+            object.put("sEmplyInfox", sEmploymentInfo);
+            object.put("sUniformx", sUniform);
+            object.put("sMilitaryx", sMilitary);
+
+            object.put("sspnCmpLvlx", spnCmpLvl);
+            object.put("sspnEmpLvlx", spnEmpLvl);
+            object.put("sspnBusNtrx", spnBusNtr);
+            object.put("sspnEmpStsx", spnEmpSts);
+            object.put("sspnServcex", spnServce);
+
+            object.put("stxtCntryxx", txtCntryx);
+            object.put("stxtProvNmx", txtProvNm);
+            object.put("stxtTownNmx", txtTownNm);
+            object.put("stxtJobNmex", txtJobNme);
+            object.put("stxtCompNmx", txtCompNm);
+            object.put("stxtCompAdx", txtCompAd);
+            object.put("stxtSpcfJbx", txtSpcfJb);
+            object.put("stxtLngthSx", txtLngthS);
+            object.put("stxtEsSlryx", txtEsSlry);
+            object.put("stxtCompCnx", txtCompCn);
+
+            btnNext.setOnClickListener(v -> {
+                Intent intent = new Intent(Activity_SpouseEmploymentInfo.this, Activity_SpouseSelfEmploymentInfo.class);
+                intent.putExtra("params", object.toString());
+                startActivity(intent);
+                finish();
+            });
+            btnPrvs.setOnClickListener(v -> {
+                Intent intent = new Intent(Activity_SpouseEmploymentInfo.this, Activity_SpouseResidenceInfo.class);
+                startActivity(intent);
+                finish();
+            });
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private void initWidgets() {
         toolbar = findViewById(R.id.toolbar_SpouseEmploymentInfo);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Spouse Employment Info");
+
 
         rgSectorx = findViewById(R.id.rg_sector);
         rgUniform = findViewById(R.id.rg_uniformPersonel);
@@ -78,22 +131,78 @@ public class Activity_SpouseEmploymentInfo extends AppCompatActivity {
         txtEsSlry = findViewById(R.id.txt_monthlySalary);
         txtCompCn = findViewById(R.id.txt_companyContact);
 
+        rbPrivate = findViewById(R.id.rb_private);
+        rbGovernment = findViewById(R.id.rb_government);
+        rbOFW = findViewById(R.id.rb_ofw);
+
+        rbUniformYes = findViewById(R.id.rb_uniform_yes);
+        rbUniformNo = findViewById(R.id.rb_uniform_no);
+
+        rbMilitaryYes = findViewById(R.id.rb_military_yes);
+        rbMilitaryNo = findViewById(R.id.rb_military_no);
+
         lnGovInfo = findViewById(R.id.linear_governmentSector);
         lnEmpInfo = findViewById(R.id.linear_employmentInfo);
 
         btnPrvs = findViewById(R.id.btn_creditAppPrvs);
         btnNext = findViewById(R.id.btn_creditAppNext);
 
-        btnNext.setOnClickListener(v -> {
-            Intent intent = new Intent(Activity_SpouseEmploymentInfo.this,Activity_SpouseSelfEmploymentInfo.class);
-            startActivity(intent);
-            finish();
+        rgSectorx.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (rbPrivate.isChecked()) {
+                    sEmploymentInfo = "Private";
+                } else if (rbGovernment.isChecked()) {
+                    sEmploymentInfo = "Government";
+                } else if (rbOFW.isChecked()) {
+                    sEmploymentInfo = "OFW";
+                }
+            }
         });
-        btnPrvs.setOnClickListener(v -> {
-            Intent intent = new Intent(Activity_SpouseEmploymentInfo.this,Activity_SpouseResidenceInfo.class);
-            startActivity(intent);
-            finish();
+
+        rgUniform.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (rbUniformYes.isChecked()) {
+                    sUniform = "yes";
+                } else if (rbUniformNo.isChecked()) {
+                    sUniform = "no";
+                }
+            }
         });
+
+        rgMiltary.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (rbMilitaryYes.isChecked()) {
+                    sMilitary = "yes";
+                } else if (rbMilitaryNo.isChecked()) {
+                    sMilitary = "no";
+                }
+            }
+        });
+
+        spnCmpLvl.setAdapter(new ArrayAdapter<>(Activity_SpouseEmploymentInfo.this,
+                android.R.layout.simple_list_item_1, CreditAppConstants.COMPANY_LEVEL));
+        spnCmpLvl.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+
+        spnEmpLvl.setAdapter(new ArrayAdapter<>(Activity_SpouseEmploymentInfo.this,
+                android.R.layout.simple_list_item_1, CreditAppConstants.EMPLOYEE_LEVEL));
+        spnEmpLvl.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+
+        spnBusNtr.setAdapter(new ArrayAdapter<>(Activity_SpouseEmploymentInfo.this,
+                android.R.layout.simple_list_item_1, CreditAppConstants.BUSINESS_NATURE));
+        spnBusNtr.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+
+        spnEmpSts.setAdapter(new ArrayAdapter<>(Activity_SpouseEmploymentInfo.this,
+                android.R.layout.simple_list_item_1, CreditAppConstants.EMPLOYMENT_STATUS));
+        spnEmpSts.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+
+        spnServce.setAdapter(new ArrayAdapter<>(Activity_SpouseEmploymentInfo.this,
+                android.R.layout.simple_list_item_1, CreditAppConstants.LENGTH_OF_STAY));
+        spnServce.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+
+
 
     }
 }

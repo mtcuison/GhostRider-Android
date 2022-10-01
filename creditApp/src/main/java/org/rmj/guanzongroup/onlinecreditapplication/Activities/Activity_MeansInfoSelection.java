@@ -8,13 +8,17 @@ import android.widget.CheckBox;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 
 import java.util.Objects;
 
 public class Activity_MeansInfoSelection extends AppCompatActivity {
 
-    private CheckBox cbEmployed,cbSEmployd,cbFinancex,cbPensionx;
+    private CheckBox cbEmployed, cbSEmployd, cbFinancex, cbPensionx;
+    private String sEmployed = "", sSEmployd = "", sFinancex = "", sPensionx = "";
+//    private JSONObject object;
 
     private Button btnNext, btnPrvs;
     private Toolbar toolbar;
@@ -23,13 +27,51 @@ public class Activity_MeansInfoSelection extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_means_info_selection);
+
         initWidgets();
+        json();
+
+
+    }
+
+    private void json() {
+
+
+
+        try {
+            Intent receiveIntent = getIntent();
+            String param = receiveIntent.getStringExtra("params");
+            JSONObject object = new JSONObject(param);
+            object.put("sEmployedx", (sEmployed));
+            object.put("sSEmploydx", (sSEmployd));
+            object.put("sFinancexx", (sFinancex));
+            object.put("sPensionxx", (sPensionx));
+
+            btnNext.setOnClickListener(v -> {
+                Intent intent = new Intent(Activity_MeansInfoSelection.this, Activity_EmploymentInfo.class);
+                intent.putExtra("params", object.toString());
+                startActivity(intent);
+                finish();
+            });
+            btnPrvs.setOnClickListener(v -> {
+                Intent intent = new Intent(Activity_MeansInfoSelection.this, Activity_ResidenceInfo.class);
+                startActivity(intent);
+                finish();
+            });
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     private void initWidgets() {
         toolbar = findViewById(R.id.toolbar_MeansInfoSelection);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Means Info");
 
         cbEmployed = findViewById(R.id.cb_employed);
         cbSEmployd = findViewById(R.id.cb_sEmployed);
@@ -39,15 +81,40 @@ public class Activity_MeansInfoSelection extends AppCompatActivity {
         btnNext = findViewById(R.id.btn_creditAppNext);
         btnPrvs = findViewById(R.id.btn_creditAppPrvs);
 
-        btnNext.setOnClickListener(v -> {
-            Intent intent = new Intent(Activity_MeansInfoSelection.this,Activity_EmploymentInfo.class);
-            startActivity(intent);
-            finish();
+
+        cbEmployed.setOnClickListener(v -> {
+            boolean checked = ((CheckBox) v).isChecked();
+            if (checked) {
+                sEmployed = "yes";
+            } else {
+                sEmployed = "no";
+            }
         });
-        btnPrvs.setOnClickListener(v -> {
-            Intent intent = new Intent(Activity_MeansInfoSelection.this,Activity_ResidenceInfo.class);
-            startActivity(intent);
-            finish();
+        cbSEmployd.setOnClickListener(v -> {
+            boolean checked = ((CheckBox) v).isChecked();
+            if (checked) {
+                sSEmployd = "yes";
+            } else {
+                sSEmployd = "no";
+            }
         });
+        cbFinancex.setOnClickListener(v -> {
+            boolean checked = ((CheckBox) v).isChecked();
+            if (checked) {
+                sFinancex = "yes";
+            } else {
+                sFinancex = "no";
+            }
+        });
+        cbPensionx.setOnClickListener(v -> {
+            boolean checked = ((CheckBox) v).isChecked();
+            if (checked) {
+                sPensionx = "yes";
+            } else {
+                sPensionx = "no";
+            }
+        });
+
+
     }
 }

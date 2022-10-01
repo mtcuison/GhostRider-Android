@@ -24,9 +24,9 @@ public class Activity_ComakerResidence extends AppCompatActivity {
     private AutoCompleteTextView txtBarangay, txtMunicipality, txtProvince;
     private AutoCompleteTextView spnLgnthStay, spnHouseHold, spnHouseType;
 
-    private String  spnLgnthStayPosition = "-1",
-                    spnHouseHoldPosition = "-1",
-                    spnHouseTypePosition = "-1";
+    private String spnLgnthStayPosition = "-1",
+            spnHouseHoldPosition = "-1",
+            spnHouseTypePosition = "-1";
 
     private RadioGroup rgOwnsership, rgGarage;
 
@@ -46,6 +46,7 @@ public class Activity_ComakerResidence extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar_CoMakerResidence);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Co-Maker Personal Info");
 
         txtLandMark = findViewById(R.id.txt_landmark);
         txtHouseNox = findViewById(R.id.txt_houseNox);
