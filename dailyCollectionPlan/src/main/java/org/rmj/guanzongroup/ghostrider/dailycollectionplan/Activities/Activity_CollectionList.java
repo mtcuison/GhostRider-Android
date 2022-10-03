@@ -50,6 +50,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCPCollectionDetail;
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
@@ -139,15 +140,13 @@ public class Activity_CollectionList extends AppCompatActivity {
         expCollectDetl = new JSONArray();
         initWidgets();
 
-        mViewModel.GetUserInfo().observe(Activity_CollectionList.this, new Observer<EEmployeeInfo>() {
-            @Override
-            public void onChanged(EEmployeeInfo user) {
-                try {
-                    lblBranch.setText(user.getBranchNm());
-                    lblDate.setText(new AppConstants().CURRENT_DATE_WORD);
-                } catch (Exception e){
-                    e.printStackTrace();
-                }
+        mViewModel.GetUserInfo().observe(Activity_CollectionList.this, user -> {
+            try {
+                lblBranch.setText(user.sBranchNm);
+                lblAddxx.setText(user.sAddressx);
+                lblDate.setText(new AppConstants().CURRENT_DATE_WORD);
+            } catch (Exception e){
+                e.printStackTrace();
             }
         });
 
@@ -309,26 +308,6 @@ public class Activity_CollectionList extends AppCompatActivity {
         overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-//        if(requestCode == MOBILE_DIALER){
-//            if(resultCode == RESULT_OK){
-//
-//            }
-//        }
-//        else if (requestCode == AppConstants.INTENT_DOWNLOAD_DCP && resultCode == RESULT_OK){
-//            showDownloadDcp();
-//        }else if (requestCode == AppConstants.INTENT_ADD_COLLECTION_DCP && resultCode == RESULT_OK){
-//            showAddDcpCollection();
-//        }else if (requestCode == AppConstants.INTENT_TRANSACTION_DCP && resultCode == RESULT_OK){
-//            mViewModel.GetColletionList().observe(this, collectionDetails -> showTransaction(DCP_Constants.collectionPos, collectionDetails));
-//        }else if(requestCode == PICK_TEXT_FILE && resultCode == RESULT_OK){
-//
-//        }else if(requestCode == EXPORT_TEXT_FILE && resultCode == RESULT_OK){
-//
-//        }
-    }
     public void showPostCollection(){
         mViewModel.CheckDcpForPosting(new VMCollectionList.OnCheckDcpForPosting() {
             @Override

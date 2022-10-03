@@ -18,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
@@ -63,8 +64,8 @@ public class VMCollectionList extends AndroidViewModel {
         this.poConfig = AppConfigPreference.getInstance(application);
     }
 
-    public LiveData<EEmployeeInfo> GetUserInfo(){
-        return poUser.GetEmployeeInfo();
+    public LiveData<DEmployeeInfo.EmployeeBranch> GetUserInfo(){
+        return poUser.GetEmployeeBranch();
     }
 
     public LiveData<List<EDCPCollectionDetail>> GetColletionList(){

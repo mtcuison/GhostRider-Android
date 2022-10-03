@@ -55,7 +55,6 @@ import org.rmj.g3appdriver.lib.PetManager.EmployeeLeave;
 import org.rmj.g3appdriver.lib.PetManager.SelfieLog;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Data.UploadEmployeeApplication;
 import org.rmj.guanzongroup.ghostrider.epacss.Service.Sync.BackgroundSync;
 import org.rmj.guanzongroup.ghostrider.notifications.Object.GNotifBuilder;
 
@@ -82,8 +81,8 @@ public class InternetStatusReciever extends BroadcastReceiver {
         SendDataTask poSendTask = new SendDataTask(instance);
         poSendTask.execute();
 
-        UploadEmployeeApplication poEmpApp = new UploadEmployeeApplication(instance);
-        poEmpApp.UploadApplication();
+//        UploadEmployeeApplication poEmpApp = new UploadEmployeeApplication(instance);
+//        poEmpApp.UploadApplication();
     }
 
     private class SendDataTask extends AsyncTask<Void, String, String>{
