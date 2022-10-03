@@ -21,6 +21,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DAddressRequest;
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DAddressUpdate;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ import java.util.List;
 
 public class AddressInfoAdapter extends RecyclerView.Adapter<AddressInfoAdapter.AddressHolder> {
 
-    private List<DAddressRequest.CustomerAddressInfo> addressUpdates = new ArrayList<>();
+    private List<DAddressUpdate.AddressUpdateInfo> addressUpdates = new ArrayList<>();
     private final OnDeleteInfoListener mListener;
 
     public AddressInfoAdapter(OnDeleteInfoListener listener){
@@ -45,7 +46,7 @@ public class AddressInfoAdapter extends RecyclerView.Adapter<AddressInfoAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull AddressHolder holder, int position) {
-        DAddressRequest.CustomerAddressInfo current = addressUpdates.get(position);
+        DAddressUpdate.AddressUpdateInfo current = addressUpdates.get(position);
         if(current.cPrimaryx.equalsIgnoreCase("1")){
             holder.tvPrimary.setVisibility(View.VISIBLE);
             holder.tvPrimary.setText("Primary");
@@ -61,7 +62,7 @@ public class AddressInfoAdapter extends RecyclerView.Adapter<AddressInfoAdapter.
         return addressUpdates.size();
     }
 
-    public void setAddress(List<DAddressRequest.CustomerAddressInfo> addressUpdates) {
+    public void setAddress(List<DAddressUpdate.AddressUpdateInfo> addressUpdates) {
         this.addressUpdates = addressUpdates;
         notifyDataSetChanged();
     }

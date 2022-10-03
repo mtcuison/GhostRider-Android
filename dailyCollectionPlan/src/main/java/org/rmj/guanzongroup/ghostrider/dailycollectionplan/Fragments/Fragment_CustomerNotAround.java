@@ -28,12 +28,14 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -42,16 +44,18 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DEmployeeInfo;
+import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
-import org.rmj.g3appdriver.GRider.Etc.LocationRetriever;
+import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.etc.WebFileServer;
+import org.rmj.g3appdriver.lib.integsys.Dcp.AddressUpdate;
+import org.rmj.g3appdriver.lib.integsys.Dcp.MobileUpdate;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_Transaction;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter.AddressInfoAdapter;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter.MobileInfoAdapter;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.AddressUpdate;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.MobileUpdate;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMCustomerNotAround;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.ViewModelCallback;
@@ -59,17 +63,19 @@ import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
 
 import java.util.Objects;
 
-public class Fragment_CustomerNotAround extends Fragment implements ViewModelCallback {
+public class Fragment_CustomerNotAround extends Fragment {
+
     private VMCustomerNotAround mViewModel;
-    private AddressUpdate addressInfoModel;
-    private MobileUpdate mobileInfoModel;
+    private LoadDialog poDialog;
+    private MessageBox poMessage;
+    private AddressUpdate poAddress;
+    private MobileUpdate poMobile;
     private MobileInfoAdapter mobileAdapter;
     private AddressInfoAdapter addressAdapter;
     private EImageInfo poImageInfo;
 
     private ImageFileCreator poImage;
 
-    private MessageBox poMessage;
     private CheckBox cbPrimeContact, cbPrimary;
     private TextView lblBranch, lblAddress, lblAccNo, lblClientNm, lblClientAddress;
     private RadioGroup rg_CNA_Input, rg_addressType;
@@ -93,18 +99,18 @@ public class Fragment_CustomerNotAround extends Fragment implements ViewModelCal
             if(result.getResultCode() == RESULT_OK){
 
                 if (isMobileToggled) {
-                    mViewModel.saveMobileToLocal(Fragment_CustomerNotAround.this);
+//                    mViewModel.saveMobileToLocal(Fragment_CustomerNotAround.this);
                 } else {
-                    mViewModel.saveAddressToLocal(Fragment_CustomerNotAround.this);
+//                    mViewModel.saveAddressToLocal(Fragment_CustomerNotAround.this);
                 }
 
                 try{
                     poImageInfo.setMD5Hashx(WebFileServer.createMD5Hash(psPhotox));
-                    mViewModel.saveImageInfo(poImageInfo);
+//                    mViewModel.saveImageInfo(poImageInfo);
 
                     mViewModel.updateCollectionDetail(txtRemarks.getText().toString());
                     Log.e("Fragment_CNA:", "Image Info Save");
-                    OnSuccessResult();
+//                    OnSuccessResult();
                 } catch (RuntimeException e){
                     e.printStackTrace();
                 }
@@ -126,68 +132,89 @@ public class Fragment_CustomerNotAround extends Fragment implements ViewModelCal
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mViewModel = new ViewModelProvider(requireActivity()).get(VMCustomerNotAround.class);
         View view = inflater.inflate(R.layout.fragment_customer_not_around_fragment, container, false);
-        addressInfoModel = new AddressUpdate();
-        poMessage = new MessageBox(getActivity());
+        poAddress = new AddressUpdate();
+        poMessage = new MessageBox(requireActivity());
         poImageInfo = new EImageInfo();
 
         String TransNox = Activity_Transaction.getInstance().getTransNox();
+        String AccountN = Activity_Transaction.getInstance().getAccntNox();
         int EntryNox = Activity_Transaction.getInstance().getEntryNox();
         initWidgets(view);
 
+        mViewModel.GetUserInfo().observe(getViewLifecycleOwner(), user -> {
+            try{
+                lblBranch.setText(user.sBranchNm);
+                lblAddress.setText(user.sAddressx);
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+
+        mViewModel.GetCollectionDetail(TransNox, AccountN, String.valueOf(EntryNox)).observe(getViewLifecycleOwner(), detail -> {
+            try{
+                poAddress.setsClientID(detail.getClientID());
+
+                lblAccNo.setText(detail.getAcctNmbr());
+                lblClientNm.setText(detail.getFullName());
+                lblClientAddress.setText(detail.getAddressx());
+
+                mViewModel.GetMobileUpdates(detail.getClientID()).observe(getViewLifecycleOwner(), mobileNox -> {
+                    try {
+                        mobileAdapter = new MobileInfoAdapter(new MobileInfoAdapter.OnItemInfoClickListener() {
+                            @Override
+                            public void OnDelete(int position) {
+                                mViewModel.RemoveMobile(mobileNox.get(position).sTransNox, new VMCustomerNotAround.OnRemoveDetailCallback() {
+                                    @Override
+                                    public void OnSuccess() {
+                                        Toast.makeText(requireActivity(), "Mobile info remove.", Toast.LENGTH_SHORT).show();
+                                    }
+
+                                    @Override
+                                    public void OnFailed(String message) {
+                                        Toast.makeText(requireActivity(), message, Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+
+                            @Override
+                            public void OnMobileNoClick(String MobileNo) {
+                                Intent mobileIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", MobileNo, null));
+                                poDialer.launch(mobileIntent);
+                            }
+                        });
+                        rvCNAOutputs.setAdapter(mobileAdapter);
+                        mobileAdapter.setMobileNox(mobileNox);
+                    }
+                    catch(Exception e) {
+                        e.printStackTrace();
+                    }
+                });
+
+                mViewModel.GetAddressUpdates(detail.getClientID()).observe(getViewLifecycleOwner(), address -> {
+                    try {
+                        addressAdapter = new AddressInfoAdapter(position -> mViewModel.RemoveAddress(address.get(position).sTransNox, new VMCustomerNotAround.OnRemoveDetailCallback() {
+                            @Override
+                            public void OnSuccess() {
+                                Toast.makeText(requireActivity(), "Mobile info remove.", Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void OnFailed(String message) {
+                                Toast.makeText(requireActivity(), message, Toast.LENGTH_SHORT).show();
+                            }
+                        }));
+                        rvCNAOutputs.setAdapter(addressAdapter);
+                        addressAdapter.setAddress(address);
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
+                });
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+
         try {
-
-            mViewModel.setParameter(TransNox, EntryNox);
-
-            mViewModel.getCollectionDetail().observe(getViewLifecycleOwner(), collectionDetail -> {
-                try {
-                    lblAccNo.setText(collectionDetail.getAcctNmbr());
-                    lblClientNm.setText(collectionDetail.getFullName());
-                    lblClientAddress.setText(collectionDetail.getAddressx());
-
-                    mViewModel.setClientID(collectionDetail.getClientID());
-                    mViewModel.setCurrentCollectionDetail(collectionDetail);
-
-                    mViewModel.setAccountNo(collectionDetail.getAcctNmbr());
-                    poImage = new ImageFileCreator(getActivity(), AppConstants.SUB_FOLDER_DCP, TransNox);
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            });
-
-            mViewModel.getUserBranchEmployee().observe(getViewLifecycleOwner(), eBranchInfo -> {
-                try {
-                    lblBranch.setText(eBranchInfo.getBranchNm());
-                    lblAddress.setText(eBranchInfo.getAddressx());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            });
-
-            mViewModel.getMobileRequestListForClient().observe(getViewLifecycleOwner(), mobileNox -> {
-                try {
-                    mobileAdapter = new MobileInfoAdapter(new MobileInfoAdapter.OnItemInfoClickListener() {
-                        @Override
-                        public void OnDelete(int position) {
-                            //mViewModel.deleteMobile(mobileNox.get(position).getTransNox());
-                            mViewModel.deleteMobile(position);
-                            GToast.CreateMessage(getActivity(), "Mobile number deleted.", GToast.INFORMATION).show();
-                            mobileAdapter.notifyDataSetChanged();
-                        }
-
-                        @Override
-                        public void OnMobileNoClick(String MobileNo) {
-                            Intent mobileIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", MobileNo, null));
-                            poDialer.launch(mobileIntent);
-                        }
-                    });
-                    rvCNAOutputs.setAdapter(mobileAdapter);
-                    mobileAdapter.setMobileNox(mobileNox);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            });
-
             // Province
             mViewModel.getTownProvinceInfo().observe(getViewLifecycleOwner(), townProvinceInfos -> {
                 String[] townProvince = new String[townProvinceInfos.size()];
@@ -205,10 +232,8 @@ public class Fragment_CustomerNotAround extends Fragment implements ViewModelCal
                 mViewModel.getTownProvinceInfo().observe(getViewLifecycleOwner(), townProvinceInfos -> {
                     for (int x = 0; x < townProvinceInfos.size(); x++) {
                         if (lsTown.equalsIgnoreCase(townProvinceInfos.get(x).sTownName + ", " + townProvinceInfos.get(x).sProvName)) {
-                            addressInfoModel.setsProvName(townProvinceInfos.get(x).sProvName);
-                            addressInfoModel.setsTownName(townProvinceInfos.get(x).sTownName);
-                            addressInfoModel.setTownID(townProvinceInfos.get(x).sTownIDxx);
-                            mViewModel.setTownID(townProvinceInfos.get(x).sTownIDxx);
+                            poAddress.setsProvIDxx(townProvinceInfos.get(x).sProvIDxx);
+                            poAddress.setTownID(townProvinceInfos.get(x).sTownIDxx);
                             break;
                         }
                     }
@@ -223,9 +248,7 @@ public class Fragment_CustomerNotAround extends Fragment implements ViewModelCal
             txtBrgy.setOnItemClickListener((adapterView, v, i, l) -> mViewModel.getBarangayInfoList().observe(getViewLifecycleOwner(), eBarangayInfos -> {
                 for (int x = 0; x < eBarangayInfos.size(); x++) {
                     if (txtBrgy.getText().toString().equalsIgnoreCase(eBarangayInfos.get(x).getBrgyName())) {
-                        addressInfoModel.setBarangayID(eBarangayInfos.get(x).getBrgyIDxx());
-                        addressInfoModel.setsBrgyName(eBarangayInfos.get(x).getBrgyName());
-                        mViewModel.setBrgyID(eBarangayInfos.get(x).getBrgyIDxx());
+                        poAddress.setBarangayID(eBarangayInfos.get(x).getBrgyIDxx());
                         break;
                     }
                 }
@@ -243,20 +266,6 @@ public class Fragment_CustomerNotAround extends Fragment implements ViewModelCal
                 poMessage.setPositiveButton("Okay", (v1, dialog) -> {
                     dialog.dismiss();
                     poImage.CreateFile((openCamera, camUsage, photPath, FileName) -> {
-//                        new LocationRetriever(getActivity(), getActivity()).getLocation((message, latitude1, longitude1) -> {
-//                            psPhotox = photPath;
-//                            poImageInfo.setSourceNo(TransNox);
-//                            poImageInfo.setSourceCD("DCPa");
-//                            poImageInfo.setImageNme(FileName);
-//                            poImageInfo.setFileLoct(photPath);
-//                            poImageInfo.setFileCode("0020");
-////                            poImageInfo.setLatitude(String.valueOf(latitude1));
-////                            poImageInfo.setLongitud(String.valueOf(longitude1));
-//                            mViewModel.setImagePath(photPath);
-//                            mViewModel.setImgFileNme(FileName);
-//                            openCamera.putExtra("android.intent.extras.CAMERA_FACING", 1);
-//                            poCamera.launch(openCamera);
-//                        });
                     });
                 });
                 poMessage.setNegativeButton("Cancel", (v1, dialog) -> {
@@ -301,7 +310,7 @@ public class Fragment_CustomerNotAround extends Fragment implements ViewModelCal
         rvCNAOutputs.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvCNAOutputs.setHasFixedSize(true);
 
-        btnAdd.setOnClickListener(view -> addMobile());
+//        btnAdd.setOnClickListener(view -> addMobile());
         rg_CNA_Input.setOnCheckedChangeListener(new Fragment_CustomerNotAround.OnRadioButtonSelectListener());
         rg_addressType.setOnCheckedChangeListener(new Fragment_CustomerNotAround.OnRadioButtonSelectListener());
         spnRequestCode.setOnItemClickListener((adapterView, view, i, l) -> mViewModel.setRequestCode(String.valueOf(i)));
@@ -309,81 +318,81 @@ public class Fragment_CustomerNotAround extends Fragment implements ViewModelCal
         cbPrimeContact.setOnCheckedChangeListener(new OnCheckboxSetListener());
     }
 
-    private void addAddress() {
-        addressInfoModel.setHouseNumber(Objects.requireNonNull(Objects.requireNonNull(txtHouseNox.getText()).toString()));
-        addressInfoModel.setAddress(Objects.requireNonNull(Objects.requireNonNull(txtAddress.getText()).toString()));
-//        new LocationRetriever(getActivity(), getActivity()).getLocation((message, latitude, longitude) -> {
-//            addressInfoModel.setLatitude(String.valueOf(latitude));
-//            addressInfoModel.setLongitude(String.valueOf(longitude));
+//    private void addAddress() {
+//        poAddress.setHouseNumber(Objects.requireNonNull(Objects.requireNonNull(txtHouseNox.getText()).toString()));
+//        poAddress.setAddress(Objects.requireNonNull(Objects.requireNonNull(txtAddress.getText()).toString()));
+////        new LocationRetriever(getActivity(), getActivity()).getLocation((message, latitude, longitude) -> {
+////            addressInfoModel.setLatitude(String.valueOf(latitude));
+////            addressInfoModel.setLongitude(String.valueOf(longitude));
+////        });
+//        poAddress.setsRemarksx(Objects.requireNonNull(Objects.requireNonNull(txtRemarks.getText()).toString()));
+//
+//        isAddressAdded = mViewModel.addAddressToList(poAddress, Fragment_CustomerNotAround.this);
+//        checkIfAddressAdded(isAddressAdded);
+//    }
+//
+//    private void addMobile() {
+//        mViewModel.getRequestCode().observe(getViewLifecycleOwner(), string -> sRqstCode = string);
+//        mViewModel.getPrimeContact().observe(getViewLifecycleOwner(), string -> sPrimaryx = string);
+//
+//        String sMobileNo = Objects.requireNonNull(txtContact.getText()).toString();
+//        String sRemarks = Objects.requireNonNull(txtRemarks.getText()).toString();
+//
+//        poMobile = new MobileUpdate(sRqstCode, sMobileNo, sPrimaryx,sRemarks);
+//        isMobileAdded = mViewModel.AddMobileToList(poMobile, Fragment_CustomerNotAround.this);
+//        checkIfMobileAdded(isMobileAdded);
+//    }
+//
+//    @Override
+//    public void OnStartSaving() {
+//
+//    }
+//
+//    @Override
+//    public void OnSuccessResult() {
+//        poMessage.initDialog();
+//        poMessage.setTitle("Transaction Success");
+//        poMessage.setMessage("Collection save successfully");
+//        poMessage.setPositiveButton("Okay", (view, dialog) -> {
+//            dialog.dismiss();
+//            getActivity().finish();
 //        });
-        addressInfoModel.setsRemarksx(Objects.requireNonNull(Objects.requireNonNull(txtRemarks.getText()).toString()));
-
-        isAddressAdded = mViewModel.addAddressToList(addressInfoModel, Fragment_CustomerNotAround.this);
-        checkIfAddressAdded(isAddressAdded);
-    }
-
-    private void addMobile() {
-        mViewModel.getRequestCode().observe(getViewLifecycleOwner(), string -> sRqstCode = string);
-        mViewModel.getPrimeContact().observe(getViewLifecycleOwner(), string -> sPrimaryx = string);
-
-        String sMobileNo = Objects.requireNonNull(txtContact.getText()).toString();
-        String sRemarks = Objects.requireNonNull(txtRemarks.getText()).toString();
-
-        mobileInfoModel = new MobileUpdate(sRqstCode, sMobileNo, sPrimaryx,sRemarks);
-        isMobileAdded = mViewModel.AddMobileToList(mobileInfoModel, Fragment_CustomerNotAround.this);
-        checkIfMobileAdded(isMobileAdded);
-    }
-
-    @Override
-    public void OnStartSaving() {
-
-    }
-
-    @Override
-    public void OnSuccessResult() {
-        poMessage.initDialog();
-        poMessage.setTitle("Transaction Success");
-        poMessage.setMessage("Collection save successfully");
-        poMessage.setPositiveButton("Okay", (view, dialog) -> {
-            dialog.dismiss();
-            getActivity().finish();
-        });
-        poMessage.show();
-    }
-
-    @Override
-    public void OnFailedResult(String message) {
-        poMessage.initDialog();
-        poMessage.setTitle("Transaction Failed");
-        poMessage.setMessage(message);
-        poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-        poMessage.show();
-    }
-
-    private void checkIfAddressAdded(boolean isAddressAdded) {
-        if(isAddressAdded) {
-            spnRequestCode.setSelection(0);
-            rb_permanent.setChecked(false);
-            rb_present.setChecked(false);
-            txtHouseNox.setText("");
-            txtAddress.setText("");
-            txtTown.setText("");
-            txtBrgy.setText("");
-            cbPrimary.setChecked(false);
-            txtRemarks.setText("");
-            addressAdapter.notifyDataSetChanged();
-        }
-    }
-
-    private void checkIfMobileAdded(boolean isMobileAdded) {
-        if(isMobileAdded) {
-            spnRequestCode.setSelection(0);
-            cbPrimeContact.setChecked(false);
-            txtContact.setText("");
-            txtRemarks.setText("");
-            mobileAdapter.notifyDataSetChanged();
-        }
-    }
+//        poMessage.show();
+//    }
+//
+//    @Override
+//    public void OnFailedResult(String message) {
+//        poMessage.initDialog();
+//        poMessage.setTitle("Transaction Failed");
+//        poMessage.setMessage(message);
+//        poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+//        poMessage.show();
+//    }
+//
+//    private void checkIfAddressAdded(boolean isAddressAdded) {
+//        if(isAddressAdded) {
+//            spnRequestCode.setSelection(0);
+//            rb_permanent.setChecked(false);
+//            rb_present.setChecked(false);
+//            txtHouseNox.setText("");
+//            txtAddress.setText("");
+//            txtTown.setText("");
+//            txtBrgy.setText("");
+//            cbPrimary.setChecked(false);
+//            txtRemarks.setText("");
+//            addressAdapter.notifyDataSetChanged();
+//        }
+//    }
+//
+//    private void checkIfMobileAdded(boolean isMobileAdded) {
+//        if(isMobileAdded) {
+//            spnRequestCode.setSelection(0);
+//            cbPrimeContact.setChecked(false);
+//            txtContact.setText("");
+//            txtRemarks.setText("");
+//            mobileAdapter.notifyDataSetChanged();
+//        }
+//    }
 
     private class OnRadioButtonSelectListener implements RadioGroup.OnCheckedChangeListener {
         @Override
@@ -402,32 +411,7 @@ public class Fragment_CustomerNotAround extends Fragment implements ViewModelCal
                     txtBrgy.setText("");
                     cbPrimary.setChecked(false);
                     txtRemarks.setText("");
-                    btnAdd.setOnClickListener(view -> addMobile());
-
-                    mViewModel.getMobileRequestListForClient().observe(getViewLifecycleOwner(), mobileNox -> {
-                        try {
-                            mobileAdapter = new MobileInfoAdapter(new MobileInfoAdapter.OnItemInfoClickListener() {
-                                @Override
-                                public void OnDelete(int position) {
-                                    //mViewModel.deleteMobile(mobileNox.get(position).getTransNox());
-                                    mViewModel.deleteMobile(position);
-                                    GToast.CreateMessage(getActivity(), "Mobile number deleted.", GToast.INFORMATION).show();
-                                    mobileAdapter.notifyDataSetChanged();
-                                }
-
-                                @Override
-                                public void OnMobileNoClick(String MobileNo) {
-                                    Intent mobileIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", MobileNo, null));
-                                    poDialer.launch(mobileIntent);
-                                }
-                            });
-                            rvCNAOutputs.setAdapter(mobileAdapter);
-                            mobileAdapter.setMobileNox(mobileNox);
-                        }
-                        catch(Exception e) {
-                            e.printStackTrace();
-                        }
-                    });
+//                    btnAdd.setOnClickListener(view -> addMobile());
                 }
                 else if(checkedId == R.id.rb_address){
                     isMobileToggled = false;
@@ -437,21 +421,23 @@ public class Fragment_CustomerNotAround extends Fragment implements ViewModelCal
                     cbPrimeContact.setChecked(false);
                     txtContact.setText("");
                     txtRemarks.setText("");
-                    btnAdd.setOnClickListener(view -> addAddress());
+                    btnAdd.setOnClickListener(view -> {
+                        mViewModel.SaveNewAddress(poAddress, new ViewModelCallback() {
+                            @Override
+                            public void OnStartSaving() {
 
-                    mViewModel.getAddressRequesListForClient().observe(getViewLifecycleOwner(), eAddressUpdates -> {
-                        try {
-                            addressAdapter = new AddressInfoAdapter(position -> {
-                                //mViewModel.deleteAddress(addressNme.get(position).sTransNox);
-                                mViewModel.deleteAddress(position);
-                                GToast.CreateMessage(getActivity(), "Address deleted.", GToast.INFORMATION).show();
-                                addressAdapter.notifyDataSetChanged();
-                            });
-                            rvCNAOutputs.setAdapter(addressAdapter);
-                            addressAdapter.setAddress(eAddressUpdates);
-                        } catch (Exception e){
-                            e.printStackTrace();
-                        }
+                            }
+
+                            @Override
+                            public void OnSuccessResult() {
+
+                            }
+
+                            @Override
+                            public void OnFailedResult(String message) {
+
+                            }
+                        });
                     });
                 }
             }
