@@ -66,7 +66,9 @@ public class Fragment_PromiseToPay extends Fragment {
     private MessageBox poMessage;
 
     private TextInputLayout tilBranchName;
-    private TextInputEditText txtDate, txtCollct, txtRemarks;
+    private TextInputEditText txtDate,
+            txtCollct,
+            txtRemarks;
     private AutoCompleteTextView txtBranch;
     private MaterialButton btnPtp;
     private RadioGroup rgPtpAppUnit;
@@ -74,9 +76,7 @@ public class Fragment_PromiseToPay extends Fragment {
 
     private TextView lblBranch, lblAddress, lblAccNo, lblClientNm, lblTransNo;
 
-    ActivityResultLauncher<String[]> poRequest = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), result -> {
-        InitializeCamera();
-    });
+    ActivityResultLauncher<String[]> poRequest = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), result -> InitializeCamera());
 
     private final ActivityResultLauncher<Intent> poCamera = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
@@ -132,16 +132,18 @@ public class Fragment_PromiseToPay extends Fragment {
         String accntNox = Activity_Transaction.getInstance().getAccntNox();
         initWidgets(view);
 
-        mViewModel.getUserBranchEmployee().observe(getViewLifecycleOwner(), eBranchInfo -> {
-            try {
-                lblBranch.setText(eBranchInfo.getBranchNm());
-                lblAddress.setText(eBranchInfo.getAddressx());
+        mViewModel.GetUserInfo().observe(getViewLifecycleOwner(), user -> {
+            try{
+                txtCollct.setText(user.sUserName);
+                txtBranch.setText(user.sBranchNm);
+                lblBranch.setText(user.sBranchNm);
+                lblAddress.setText(user.sAddressx);
             } catch (Exception e){
                 e.printStackTrace();
             }
         });
 
-        mViewModel.GetAccountDetail(transNox, entryNox, accntNox).observe(getViewLifecycleOwner(), collectionDetail -> {
+        mViewModel.GetCollectionDetail(transNox, entryNox, accntNox).observe(getViewLifecycleOwner(), collectionDetail -> {
             try {
                 poPtp.setTransNox(transNox);
                 poPtp.setEntryNox(String.valueOf(entryNox));
@@ -230,7 +232,7 @@ public class Fragment_PromiseToPay extends Fragment {
         @Override
         public void onCheckedChanged(RadioGroup group, int checkedId) {
             if(rbView.getId() == R.id.rb_ap_ptpBranch){
-                String appointment = "0";
+                String appointment;
                 if(checkedId == R.id.rb_ptpBranch) {
                     appointment = "1";
                     tilBranchName.setVisibility(View.VISIBLE);

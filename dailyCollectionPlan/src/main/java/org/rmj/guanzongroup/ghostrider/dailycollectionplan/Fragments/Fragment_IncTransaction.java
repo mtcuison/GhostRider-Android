@@ -13,13 +13,16 @@ package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments;
 
 import static android.app.Activity.RESULT_OK;
 
+import static androidx.core.content.ContextCompat.checkSelfPermission;
+
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -33,75 +36,70 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
-import org.rmj.g3appdriver.GRider.Etc.GToast;
-import org.rmj.g3appdriver.GRider.Etc.LocationRetriever;
+import org.rmj.g3appdriver.GRider.Etc.DCP_Constants;
+import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
-import org.rmj.g3appdriver.etc.WebFileServer;
+import org.rmj.g3appdriver.lib.integsys.Dcp.OtherRemCode;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_Transaction;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.OnInitializeCameraCallback;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMIncompleteTransaction;
-import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.ViewModelCallback;
 
 import java.util.Objects;
 
 public class Fragment_IncTransaction extends Fragment {
     private static final String TAG = Fragment_IncTransaction.class.getSimpleName();
+
+    private VMIncompleteTransaction mViewModel;
+
+    private OtherRemCode poRem;
+    private LoadDialog poDialog;
+    private MessageBox poMessage;
+
     private TextView lblFullNme, lblAccount, lblTransact;
     private TextInputEditText txtRemarks;
     private MaterialButton btnPost;
-    private EImageInfo poImageInfo;
-    private ImageFileCreator poImage;
 
     private String TransNox;
     private int EntryNox;
     private String AccntNox;
     private String Remarksx;
 
-    private String psPhotox;
-
-    private VMIncompleteTransaction mViewModel;
-
-    private MessageBox loMessage;
+    ActivityResultLauncher<String[]> poRequest = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), result -> InitializeCamera());
 
     private final ActivityResultLauncher<Intent> poCamera = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
         public void onActivityResult(ActivityResult result) {
-            if(result.getResultCode() == RESULT_OK){
-                if(!Remarksx.equalsIgnoreCase("")) {
-                    try {
-                        poImageInfo.setMD5Hashx(WebFileServer.createMD5Hash(psPhotox));
-                        mViewModel.saveImageInfo(poImageInfo);
-                        mViewModel.updateCollectionDetail();
-                        loMessage.initDialog();
-                        loMessage.setTitle(Remarksx);
-                        loMessage.setMessage("Transaction has been save!");
-                        loMessage.setPositiveButton("Okay", (view, dialog) -> {
+            if(result.getResultCode() == RESULT_OK) {
+                mViewModel.SaveTransaction(poRem, new ViewModelCallback() {
+                    @Override
+                    public void OnStartSaving() {
+                        poDialog.initDialog("Selfie Log", "Saving promise to pay. Please wait...", false);
+                        poDialog.show();
+                    }
+
+                    @Override
+                    public void OnSuccessResult() {
+                        poMessage.initDialog();
+                        poMessage.setTitle("Selfie Login");
+                        poMessage.setMessage("Collection detail has been save.");
+                        poMessage.setPositiveButton("Okay", (view, dialog) -> {
                             dialog.dismiss();
                             requireActivity().finish();
                         });
-                    } catch(NullPointerException e) {
-                        e.printStackTrace();
+                        poMessage.show();
                     }
 
-                } else {
-                    loMessage.initDialog();
-                    loMessage.setTitle(Remarksx);
-                    loMessage.setMessage("Transaction has been save!");
-                    loMessage.setPositiveButton("Okay", (view, dialog) -> {
-                        dialog.dismiss();
-                        requireActivity().finish();
-                    });
-                    loMessage.setNegativeButton("Retry", (view, dialog) -> {
-                        poImageInfo.setMD5Hashx(WebFileServer.createMD5Hash(psPhotox));
-                        mViewModel.saveImageInfo(poImageInfo);
-                        mViewModel.updateCollectionDetail();
-                    });
-                }
-                loMessage.show();
-            } else {
-                requireActivity().finish();
+                    @Override
+                    public void OnFailedResult(String message) {
+                        poMessage.initDialog();
+                        poMessage.setTitle("Selfie Login");
+                        poMessage.setMessage(message);
+                        poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                        poMessage.show();
+                    }
+                });
             }
         }
     });
@@ -114,6 +112,9 @@ public class Fragment_IncTransaction extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         mViewModel = new ViewModelProvider(this).get(VMIncompleteTransaction.class);
+        poDialog = new LoadDialog(requireActivity());
+        poMessage = new MessageBox(requireActivity());
+        poRem = new OtherRemCode();
         View view = inflater.inflate(R.layout.fragment_inc_transaction, container, false);
         initWidgets(view);
 
@@ -122,64 +123,33 @@ public class Fragment_IncTransaction extends Fragment {
         AccntNox = Activity_Transaction.getInstance().getAccntNox();
         Remarksx = Activity_Transaction.getInstance().getRemarksCode();
 
-        poImage = new ImageFileCreator(getActivity(), AppConstants.SUB_FOLDER_DCP, TransNox);
+        mViewModel.GetAccountDetail(TransNox, AccntNox, String.valueOf(EntryNox)).observe(getViewLifecycleOwner(), detail -> {
+            try{
+                poRem.setTransNox(TransNox);
+                poRem.setAccountNo(AccntNox);
+                poRem.setEntryNox(String.valueOf(EntryNox));
+                poRem.setRemCodex(DCP_Constants.getRemarksCode(Remarksx));
 
-        mViewModel.setParameter(TransNox, EntryNox, Remarksx);
-        mViewModel.getCollectionDetail().observe(getViewLifecycleOwner(), collectionDetail -> {
-            try {
-                mViewModel.setAccountNo(collectionDetail.getAcctNmbr());
-                lblFullNme.setText(collectionDetail.getFullName());
-                lblAccount.setText(collectionDetail.getAcctNmbr());
-                lblTransact.setText(Activity_Transaction.getInstance().getRemarksCode());
-                mViewModel.setCollectioNDetail(collectionDetail);
+                lblFullNme.setText(detail.getFullName());
+                lblAccount.setText(detail.getAcctNmbr());
+                lblTransact.setText(Remarksx);
             } catch (Exception e){
                 e.printStackTrace();
             }
         });
 
         btnPost.setOnClickListener(v -> {
-            if(!Objects.requireNonNull(txtRemarks.getText()).toString().trim().isEmpty()) {
-                mViewModel.setRemarks(txtRemarks.getText().toString());
-                loMessage.initDialog();
-                loMessage.setTitle(Remarksx);
-                if (Remarksx.equalsIgnoreCase("Not Visited")) {
-                    loMessage.setMessage("Please take a selfie on your current place if customer is not visited.");
-                } else {
-                    loMessage.setMessage("Please take a selfie in customer's place in order to confirm transaction.");
-                }
-                loMessage.setPositiveButton("Okay", (view1, dialog) -> {
-                    dialog.dismiss();
-                    poImage.CreateFile((openCamera, camUsage, photPath, FileName) -> {
-                        new LocationRetriever(requireActivity(), requireActivity()).getLocation(new LocationRetriever.LocationRetrieveCallback() {
-                            @Override
-                            public void OnRetrieve(String message, double latitude, double longitude) {
-                                psPhotox = photPath;
-                                poImageInfo.setSourceNo(TransNox);
-                                poImageInfo.setSourceCD("DCPa");
-                                poImageInfo.setImageNme(FileName);
-                                poImageInfo.setFileLoct(photPath);
-                                poImageInfo.setFileCode("0020");
-                                poImageInfo.setLatitude(String.valueOf(latitude));
-                                poImageInfo.setLongitud(String.valueOf(longitude));
-                                mViewModel.setImagePath(photPath);
-                                openCamera.putExtra("android.intent.extras.CAMERA_FACING", 1);
-                                poCamera.launch(openCamera);
-                            }
-
-                            @Override
-                            public void OnFailed(String message) {
-                                Toast.makeText(requireActivity(), message, Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    });
-                });
-                loMessage.setNegativeButton("Cancel", (view1, dialog) -> {
-                    dialog.dismiss();
-                    requireActivity().finish();
-                });
-                loMessage.show();
+            poRem.setRemarksx(Objects.requireNonNull(txtRemarks.getText()).toString().trim());
+            if(checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                    checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                    checkSelfPermission(requireActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
+                poRequest.launch(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION});
+                poRequest.launch(new String[]{
+                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.CAMERA});
             } else {
-                GToast.CreateMessage(getActivity(), "Please enter remarks", GToast.ERROR).show();
+                InitializeCamera();
             }
         });
 
@@ -187,9 +157,6 @@ public class Fragment_IncTransaction extends Fragment {
     }
 
     private void initWidgets(View v){
-        loMessage = new MessageBox(requireActivity());
-
-        poImageInfo = new EImageInfo();
         lblFullNme = v.findViewById(R.id.lbl_customerName);
         lblAccount = v.findViewById(R.id.lbl_AccountNo);
         lblTransact = v.findViewById(R.id.lbl_transaction);
@@ -198,4 +165,44 @@ public class Fragment_IncTransaction extends Fragment {
 
         btnPost = v.findViewById(R.id.btn_dcpConfirm);
     }
+
+    private void InitializeCamera(){
+        mViewModel.InitCameraLaunch(requireActivity(), new OnInitializeCameraCallback() {
+            @Override
+            public void OnInit() {
+                poDialog.initDialog("Selfie Log", "Initializing camera. Please wait...", false);
+                poDialog.show();
+            }
+
+            @Override
+            public void OnSuccess(Intent intent, String[] args) {
+                poDialog.dismiss();
+                poRem.setFilePath(args[0]);
+                poRem.setFileName(args[1]);
+                poRem.setLatitude(args[2]);
+                poRem.setLongtude(args[3]);
+                poCamera.launch(intent);
+            }
+
+            @Override
+            public void OnFailed(String message, Intent intent, String[] args) {
+                poDialog.dismiss();
+                poMessage.initDialog();
+                poMessage.setTitle("Selfie Login");
+                poMessage.setMessage(message + "\n Proceed taking selfie log?");
+                poMessage.setPositiveButton("Continue", (view, dialog) -> {
+                    dialog.dismiss();
+                    poRem.setFilePath(args[0]);
+                    poRem.setFileName(args[1]);
+                    poRem.setLatitude(args[2]);
+                    poRem.setLongtude(args[3]);
+                    poCamera.launch(intent);
+                });
+                poMessage.setNegativeButton("Cancel", (view1, dialog) -> dialog.dismiss());
+                poMessage.show();
+            }
+        });
+    }
+
+
 }

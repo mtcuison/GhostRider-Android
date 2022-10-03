@@ -13,14 +13,18 @@ package org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel;
 
 import android.app.Application;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import org.rmj.apprdiver.util.LRUtil;
+import org.rmj.g3appdriver.GRider.Constants.AppConstants;
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBankInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
@@ -35,14 +39,19 @@ import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjusters;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 public class VMPaidTransaction extends AndroidViewModel {
     private static final String TAG = VMPaidTransaction.class.getSimpleName();
 
-    private final RBranch poBranch;
+    private final EmployeeMaster poUser;
     private final RBankInfo poBank;
     private final ConnectionUtil poConn;
     private final AppConfigPreference poConfig;
@@ -62,9 +71,8 @@ public class VMPaidTransaction extends AndroidViewModel {
 
     public VMPaidTransaction(@NonNull Application application) {
         super(application);
-        EmployeeMaster poUser = new EmployeeMaster(application);
+        this.poUser = new EmployeeMaster(application);
         this.poSys = new LRDcp(application);
-        this.poBranch = new RBranch(application);
         this.poBank = new RBankInfo(application);
         this.poConfig = AppConfigPreference.getInstance(application);
         this.poConn = new ConnectionUtil(application);
@@ -72,12 +80,12 @@ public class VMPaidTransaction extends AndroidViewModel {
         this.pnPenlty.setValue((double) 0);
     }
 
-    public LiveData<EDCPCollectionDetail> GetAccountDetail(String TransNo, int EntryNo, String Accountno){
-        return poSys.GetAccountDetailForTransaction(TransNo, Accountno, String.valueOf(EntryNo));
+    public LiveData<DEmployeeInfo.EmployeeBranch> GetUserInfo(){
+        return poUser.GetEmployeeBranch();
     }
 
-    public LiveData<EBranchInfo> GetEmployeeBranch(){
-        return poBranch.getUserBranchInfo();
+    public LiveData<EDCPCollectionDetail> GetCollectionDetail(String TransNo, int EntryNo, String Accountno){
+        return poSys.GetAccountDetailForTransaction(TransNo, Accountno, String.valueOf(EntryNo));
     }
 
     public LiveData<ArrayAdapter<String>> GetPaymentType(){
@@ -113,18 +121,15 @@ public class VMPaidTransaction extends AndroidViewModel {
 
     public void setRebate(Double fnDiscount){
         try {
-            if (!isDuePass) {
-                psMssage.setValue("Rebate is no longer available for client.");
+//            this.pnRebate.setValue(Objects.requireNonNull(fnDiscount));
+            calculateRebate();
+            double lnRebate = pnRebate.getValue();
+            if (lnRebate < Objects.requireNonNull(fnDiscount)) {
+                psMssage.setValue("Rebate given is greater than the supposed rebate.");
             } else {
-                this.pnRebate.setValue(Objects.requireNonNull(fnDiscount));
-                if (pnRebate.getValue() < Objects.requireNonNull(fnDiscount)) {
-                    psMssage.setValue("Rebate given is greater than the supposed rebate.");
-                } else {
-                    psMssage.setValue("");
-                }
+                psMssage.setValue("");
             }
 
-            double lnRebate = pnRebate.getValue();
             double lnPnalty = pnPenlty.getValue();
             double lnTotal = pnAmount + lnPnalty - lnRebate;
             pnTotalx.setValue(lnTotal);
@@ -178,13 +183,29 @@ public class VMPaidTransaction extends AndroidViewModel {
 
     private void calculatePenalty(){
         try {
-            DateFormat loFormat = new SimpleDateFormat("yyyy-MM-dd");
-            Date ldPurchase = loFormat.parse(loDetail.getPurchase());
-            Date ldDueDatex = loFormat.parse(loDetail.getDueDatex());
-            double lnMonAmort = Double.parseDouble(loDetail.getMonAmort());
-            double lnABalance = Double.parseDouble(loDetail.getABalance());
-            double lnPenalty = LRUtil.getPenalty(ldPurchase, ldDueDatex, lnMonAmort, lnABalance, pnAmount);
-            pnPenlty.setValue(lnPenalty);
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+
+                //Split the date string using '-' to get the day...
+                String lsDayDuex = loDetail.getDueDatex().split("-")[2];
+
+                //Check here if the due date is on the maximum days per month
+                // if true check the maximum day of month and set it as the due date for this current month...
+                if(lsDayDuex.equalsIgnoreCase("31")) {
+                    LocalDate lastDayOfMonth = LocalDate.parse(AppConstants.CURRENT_DATE, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+                            .with(TemporalAdjusters.lastDayOfMonth());
+                    lsDayDuex = String.valueOf(lastDayOfMonth.getDayOfMonth());
+                }
+                String lsCrtYear = new SimpleDateFormat("yyyy", Locale.getDefault()).format(Calendar.getInstance().getTime());
+                String lsCrtMnth = new SimpleDateFormat("MM", Locale.getDefault()).format(Calendar.getInstance().getTime());
+                String lsDueDate = lsCrtYear + "-" + lsCrtMnth + "-" + lsDayDuex;
+                DateFormat loFormat = new SimpleDateFormat("yyyy-MM-dd");
+                Date ldPurchase = loFormat.parse(loDetail.getPurchase());
+                Date ldDueDatex = loFormat.parse(lsDueDate);
+                double lnMonAmort = Double.parseDouble(loDetail.getMonAmort());
+                double lnABalance = Double.parseDouble(loDetail.getABalance());
+                double lnPenalty = LRUtil.getPenalty(ldPurchase, ldDueDatex, lnMonAmort, lnABalance, pnAmount);
+                pnPenlty.setValue(lnPenalty);
+            }
         } catch (Exception e){
             e.printStackTrace();
         }

@@ -25,6 +25,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionMaster;
@@ -34,6 +35,7 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
 import org.rmj.g3appdriver.GRider.Etc.LocationRetriever;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
+import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.lib.integsys.Dcp.LRDcp;
 import org.rmj.g3appdriver.lib.integsys.Dcp.PromiseToPay;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
@@ -51,6 +53,7 @@ public class VMPromiseToPay extends AndroidViewModel {
     private static final String TAG = VMPromiseToPay.class.getSimpleName();
 
     private final LRDcp poSys;
+    private final EmployeeMaster poUser;
 
     private final RBranch poBranch;
     private final Application instance;
@@ -60,9 +63,14 @@ public class VMPromiseToPay extends AndroidViewModel {
         this.instance = application;
         this.poSys = new LRDcp(application);
         this.poBranch = new RBranch(application);
+        this.poUser = new EmployeeMaster(application);
     }
 
-    public LiveData<EDCPCollectionDetail> GetAccountDetail(String TransNo, int EntryNo, String Accountno){
+    public LiveData<DEmployeeInfo.EmployeeBranch> GetUserInfo(){
+        return poUser.GetEmployeeBranch();
+    }
+
+    public LiveData<EDCPCollectionDetail> GetCollectionDetail(String TransNo, int EntryNo, String Accountno){
         return poSys.GetAccountDetailForTransaction(TransNo, Accountno, String.valueOf(EntryNo));
     }
 
@@ -81,40 +89,6 @@ public class VMPromiseToPay extends AndroidViewModel {
     public LiveData<EBranchInfo> getUserBranchEmployee(){
         return poBranch.getUserBranchInfo();
     }
-//
-//    public void setIsAppointmentUnitX(String type){
-//        try {
-//            if(Integer.parseInt(type) == 1 || type.equalsIgnoreCase("1")){
-//                this.viewPtpBranch.setValue(View.VISIBLE);
-//            } else {
-//                this.viewPtpBranch.setValue(View.GONE);
-//            }
-//        } catch (NullPointerException e){
-//            e.printStackTrace();
-//        } catch (Exception e){
-//            e.printStackTrace();
-//        }
-//        this.isAppointmentUnitX.setValue(type);
-//    }
-
-//    public LiveData<Integer> setViewPtpBranch(){
-//        return this.viewPtpBranch;
-//    }
-//
-//    public void setLatitude(String sLatitude) {
-//        this.sLatitude.setValue(sLatitude);
-//    }
-//
-//    public void setLongitude(String sLongitude) {
-//        this.sLongitude.setValue(sLongitude);
-//    }
-//    public void setImgName(String imgName) {
-//        this.sImgName.setValue(imgName);
-//    }
-//
-//    public void setAccountNox(String sAccountNo) {
-//        this.psAccountNox.setValue(sAccountNo);
-//    }
 
     public void InitCameraLaunch(Activity activity, OnInitializeCameraCallback callback){
         new InitializeCameraTask(activity, instance, callback).execute();
