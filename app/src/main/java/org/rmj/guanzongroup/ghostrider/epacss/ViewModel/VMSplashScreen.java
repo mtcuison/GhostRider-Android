@@ -11,7 +11,6 @@
 
 package org.rmj.guanzongroup.ghostrider.epacss.ViewModel;
 
-import android.Manifest;
 import android.app.Application;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -25,38 +24,14 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCPCollectionDetail;
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ETokenInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.AppTokenManager;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RBankInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBarangay;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RFileCode;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RProvince;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RRelation;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RTown;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
-import org.rmj.g3appdriver.GRider.ImportData.ImportBarangay;
-import org.rmj.g3appdriver.GRider.ImportData.ImportBranch;
-import org.rmj.g3appdriver.GRider.ImportData.ImportBrand;
-import org.rmj.g3appdriver.GRider.ImportData.ImportBrandModel;
-import org.rmj.g3appdriver.GRider.ImportData.ImportCategory;
-import org.rmj.g3appdriver.GRider.ImportData.ImportCountry;
-import org.rmj.g3appdriver.GRider.ImportData.ImportFileCode;
-import org.rmj.g3appdriver.GRider.ImportData.ImportInstance;
-import org.rmj.g3appdriver.GRider.ImportData.ImportMcModelPrice;
-import org.rmj.g3appdriver.GRider.ImportData.ImportMcTermCategory;
-import org.rmj.g3appdriver.GRider.ImportData.ImportProvinces;
-import org.rmj.g3appdriver.GRider.ImportData.ImportTown;
-import org.rmj.g3appdriver.GRider.ImportData.Import_AreaPerformance;
-import org.rmj.g3appdriver.GRider.ImportData.Import_BankList;
-import org.rmj.g3appdriver.GRider.ImportData.Import_BranchPerformance;
-import org.rmj.g3appdriver.GRider.ImportData.Import_Occupations;
-import org.rmj.g3appdriver.GRider.ImportData.Import_Relation;
-import org.rmj.g3appdriver.GRider.ImportData.Import_SCARequest;
-import org.rmj.g3appdriver.GRider.ImportData.Import_SysConfig;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.lib.PetManager.SelfieLog;
@@ -64,10 +39,8 @@ import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.guanzongroup.ghostrider.epacss.BuildConfig;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 public class VMSplashScreen extends AndroidViewModel {
     private static final String TAG = VMSplashScreen.class.getSimpleName();
@@ -88,18 +61,18 @@ public class VMSplashScreen extends AndroidViewModel {
     public VMSplashScreen(@NonNull Application application) throws IOException {
         super(application);
         this.instance = application;
-        poUserDbx = new EmployeeMaster(application);
-        poConfigx = AppConfigPreference.getInstance(application);
-        poConfigx.setTemp_ProductID("gRider");
-        poConfigx.setUpdateLocally(false);
-        poLogx = new SelfieLog(application);
+        this.poUserDbx = new EmployeeMaster(application);
+        this.poConfigx = AppConfigPreference.getInstance(application);
+        this.poConfigx.setTemp_ProductID("gRider");
+        this.poConfigx.setUpdateLocally(false);
+        this.poLogx = new SelfieLog(application);
         Date buildDate = new Date(BuildConfig.TIMESTAMP);
-        poConfigx.setupAppVersionInfo(BuildConfig.VERSION_CODE, BuildConfig.VERSION_NAME, String.valueOf(buildDate.getTime()));
-        poToken = new AppTokenManager(application);
+        this.poConfigx.setupAppVersionInfo(BuildConfig.VERSION_CODE, BuildConfig.VERSION_NAME, String.valueOf(buildDate.getTime()));
+        this.poToken = new AppTokenManager(application);
         ETokenInfo loToken = new ETokenInfo();
         loToken.setTokenInf("temp_token");
-        poDcp = new RDailyCollectionPlan(application);
-        poToken.setTokenInfo(loToken);
+        this.poDcp = new RDailyCollectionPlan(application);
+        this.poToken.setTokenInfo(loToken);
         this.psVersion.setValue(poConfigx.getVersionInfo());
         new CheckConnectionTask(application).execute();
     }
@@ -163,11 +136,11 @@ public class VMSplashScreen extends AndroidViewModel {
         }
     }
 
-    public void InitializeData(OnInitializecallback onInitializecallback){
+    public void InitializeData(OnInitializeCallback onInitializecallback){
         new InitializeDataTask(instance, onInitializecallback).execute();
     }
 
-    public interface OnInitializecallback{
+    public interface OnInitializeCallback {
         void OnProgress(String args, int progress);
         void OnSuccess();
         void OnNoSession();
@@ -177,7 +150,7 @@ public class VMSplashScreen extends AndroidViewModel {
     private static class InitializeDataTask extends AsyncTask<String, Integer, Integer>{
 
         private final Application instance;
-        private final OnInitializecallback callback;
+        private final OnInitializeCallback callback;
         private final ConnectionUtil poConn;
         private final AppConfigPreference poConfig;
         private final EmployeeMaster poUser;
@@ -185,7 +158,7 @@ public class VMSplashScreen extends AndroidViewModel {
 
         private String message;
 
-        public InitializeDataTask(Application instance, OnInitializecallback callback) {
+        public InitializeDataTask(Application instance, OnInitializeCallback callback) {
             this.instance = instance;
             this.callback = callback;
             this.poConn = new ConnectionUtil(instance);
@@ -251,6 +224,7 @@ public class VMSplashScreen extends AndroidViewModel {
             super.onProgressUpdate(values);
             String lsArgs;
             if(poConfig.isAppFirstLaunch()){
+
                 lsArgs = "Importing Data...";
             } else {
                 lsArgs = "Updating Data...";
@@ -275,59 +249,4 @@ public class VMSplashScreen extends AndroidViewModel {
         }
     }
 
-    public void CheckPermissions(){
-        List<String> lsPermissions = new ArrayList<>();
-        if(ActivityCompat.checkSelfPermission(instance, Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED){
-            lsPermissions.add(Manifest.permission.INTERNET);
-        }
-        if(ActivityCompat.checkSelfPermission(instance, Manifest.permission.ACCESS_NETWORK_STATE) != PackageManager.PERMISSION_GRANTED){
-            lsPermissions.add(Manifest.permission.ACCESS_NETWORK_STATE);
-        }
-//        if(ActivityCompat.checkSelfPermission(instance, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-//            lsPermissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-//        }
-        if(ActivityCompat.checkSelfPermission(instance, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED){
-            lsPermissions.add(Manifest.permission.READ_PHONE_STATE);
-        }
-//        if(ActivityCompat.checkSelfPermission(instance, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-//            lsPermissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
-//        }
-        if(ActivityCompat.checkSelfPermission(instance, Manifest.permission.GET_ACCOUNTS) != PackageManager.PERMISSION_GRANTED){
-            lsPermissions.add(Manifest.permission.GET_ACCOUNTS);
-        }
-        if(ActivityCompat.checkSelfPermission(instance, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
-            lsPermissions.add(Manifest.permission.CAMERA);
-        }
-        if(ActivityCompat.checkSelfPermission(instance, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-            lsPermissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
-        }
-        if(ActivityCompat.checkSelfPermission(instance, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-            lsPermissions.add(Manifest.permission.ACCESS_COARSE_LOCATION);
-        }
-
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-//            if(ActivityCompat.checkSelfPermission(instance, Manifest.permission.MANAGE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-//                lsPermissions.add(Manifest.permission.MANAGE_EXTERNAL_STORAGE);
-//            }
-//        }
-//
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//            if(ActivityCompat.checkSelfPermission(instance, Manifest.permission.READ_PHONE_NUMBERS) != PackageManager.PERMISSION_GRANTED){
-//                lsPermissions.add(Manifest.permission.READ_PHONE_NUMBERS);
-//            }
-//        }
-//
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-//            if(ActivityCompat.checkSelfPermission(instance, Manifest.permission.ACCESS_BACKGROUND_LOCATION) != PackageManager.PERMISSION_GRANTED){
-//                lsPermissions.add(Manifest.permission.ACCESS_BACKGROUND_LOCATION);
-//            }
-//        }
-//
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//            if(ActivityCompat.checkSelfPermission(instance, Manifest.permission.REQUEST_INSTALL_PACKAGES) != PackageManager.PERMISSION_GRANTED){
-//                lsPermissions.add(Manifest.permission.REQUEST_INSTALL_PACKAGES);
-//            }
-//        }
-        psPermissions.setValue(lsPermissions);
-    }
 }

@@ -17,12 +17,10 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.hardware.lights.LightState;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -137,7 +135,7 @@ public class Activity_SplashScreen extends AppCompatActivity {
     }
 
     private void InitializeAppData(){
-        mViewModel.InitializeData(new VMSplashScreen.OnInitializecallback() {
+        mViewModel.InitializeData(new VMSplashScreen.OnInitializeCallback() {
             @Override
             public void OnProgress(String args, int progress) {
                 prgrssBar.setProgress(progress);
