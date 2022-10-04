@@ -32,11 +32,11 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.Entities.EDCP_Remittance;
 import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+import org.rmj.g3appdriver.lib.integsys.Dcp.Remittance;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.CollectionRemittanceInfoModel;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMCollectionRemittance;
@@ -48,7 +48,7 @@ public class Activity_CollectionRemittance extends AppCompatActivity {
     private VMCollectionRemittance mViewModel;
     private LoadDialog poDialogx;
     private MessageBox poMessage;
-    private EDCP_Remittance poRemit;
+    private Remittance poRemit;
 
     private Toolbar toolbar;
     private TextView lblBranch,
@@ -79,37 +79,18 @@ public class Activity_CollectionRemittance extends AppCompatActivity {
         setContentView(R.layout.activity_collection_remittance);
         poDialogx = new LoadDialog(Activity_CollectionRemittance.this);
         poMessage = new MessageBox(Activity_CollectionRemittance.this);
-        poRemit = new EDCP_Remittance();
+        poRemit = new Remittance();
         infoModel =  new CollectionRemittanceInfoModel();
         initWidgets();
-        mViewModel.setTransact(getIntent().getStringExtra("dTransact"));
 
-        mViewModel.InitializeBranchAccountNox(new VMCollectionRemittance.OnInitializeBranchAccountCallback() {
-            @Override
-            public void OnDownload() {
-                poDialogx.initDialog("Collection Remittance", "Initializing remittance accounts. Please wait...", false);
-                poDialogx.dismiss();
-            }
-
-            @Override
-            public void OnSuccessDownload() {
-                poDialogx.dismiss();
-            }
-
-            @Override
-            public void OnFailedDownload(String message) {
-                poDialogx.dismiss();
-            }
-        });
-
-        mViewModel.getUserBranchInfo().observe(this, eBranchInfo -> {
+        mViewModel.GetUserInfo().observe(this, user -> {
             try{
-                lblBranch.setText(eBranchInfo.getBranchNm());
-                lblAddrss.setText(eBranchInfo.getAddressx());
-                txtBranch.setText(eBranchInfo.getBranchNm());
-                poRemit.setBankAcct(eBranchInfo.getBranchCd());
-                poRemit.setPaymForm("0");
-                poRemit.setRemitTyp("0");
+                lblBranch.setText(user.sBranchNm);
+                lblAddrss.setText(user.sAddressx);
+
+                poRemit.setsBankAcct(user.sBranchCd);
+                poRemit.setcPaymForm("0");
+                poRemit.setcRemitTyp("0");
             } catch (Exception e){
                 e.printStackTrace();
             }

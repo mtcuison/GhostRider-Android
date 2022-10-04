@@ -72,7 +72,8 @@ public class Fragment_PromiseToPay extends Fragment {
     private AutoCompleteTextView txtBranch;
     private MaterialButton btnPtp;
     private RadioGroup rgPtpAppUnit;
-    private EImageInfo poImageInfo;
+
+    private String transNox;
 
     private TextView lblBranch, lblAddress, lblAccNo, lblClientNm, lblTransNo;
 
@@ -127,7 +128,7 @@ public class Fragment_PromiseToPay extends Fragment {
         poDialog = new LoadDialog(requireActivity());
         poMessage = new MessageBox(requireActivity());
 
-        String transNox = Activity_Transaction.getInstance().getTransNox();
+        transNox = Activity_Transaction.getInstance().getTransNox();
         int entryNox = Activity_Transaction.getInstance().getEntryNox();
         String accntNox = Activity_Transaction.getInstance().getAccntNox();
         initWidgets(view);
@@ -191,7 +192,6 @@ public class Fragment_PromiseToPay extends Fragment {
             if(checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                     checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                     checkSelfPermission(requireActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
-                poRequest.launch(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION});
                 poRequest.launch(new String[]{
                         Manifest.permission.ACCESS_COARSE_LOCATION,
                         Manifest.permission.ACCESS_FINE_LOCATION,
@@ -247,7 +247,7 @@ public class Fragment_PromiseToPay extends Fragment {
     }
 
     private void InitializeCamera(){
-        mViewModel.InitCameraLaunch(requireActivity(), new OnInitializeCameraCallback() {
+        mViewModel.InitCameraLaunch(requireActivity(), transNox, new OnInitializeCameraCallback() {
             @Override
             public void OnInit() {
                 poDialog.initDialog("Selfie Log", "Initializing camera. Please wait...", false);

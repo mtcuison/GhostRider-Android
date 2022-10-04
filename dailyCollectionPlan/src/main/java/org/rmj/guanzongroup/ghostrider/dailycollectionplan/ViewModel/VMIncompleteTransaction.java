@@ -41,12 +41,12 @@ public class VMIncompleteTransaction extends AndroidViewModel {
         this.poSys = new LRDcp(application);
     }
 
-    public LiveData<EDCPCollectionDetail> GetAccountDetail(String TransNox, String AccountNo, String EntryNox){
+    public LiveData<EDCPCollectionDetail> GetCollectionDetail(String TransNox, String AccountNo, String EntryNox){
         return poSys.GetAccountDetailForTransaction(TransNox, AccountNo, EntryNox);
     }
 
-    public void InitCameraLaunch(Activity activity, OnInitializeCameraCallback callback){
-        new InitializeCameraTask(activity, instance, callback).execute();
+    public void InitCameraLaunch(Activity activity, String TransNox, OnInitializeCameraCallback callback){
+        new InitializeCameraTask(activity, TransNox, instance, callback).execute();
     }
 
     private static class InitializeCameraTask extends AsyncTask<String, Void, Boolean>{
@@ -59,10 +59,9 @@ public class VMIncompleteTransaction extends AndroidViewModel {
         private String[] args = new String[4];
         private String message;
 
-        public InitializeCameraTask(Activity activity, Application instance, OnInitializeCameraCallback callback){
+        public InitializeCameraTask(Activity activity, String TransNox, Application instance, OnInitializeCameraCallback callback){
             this.callback = callback;
-            SessionManager poSession = new SessionManager(instance);
-            this.loImage = new ImageFileCreator(instance, AppConstants.SUB_FOLDER_SELFIE_LOG, poSession.getUserID());
+            this.loImage = new ImageFileCreator(instance, AppConstants.SUB_FOLDER_SELFIE_LOG, TransNox);
             this.loLrt = new LocationRetriever(instance, activity);
         }
 

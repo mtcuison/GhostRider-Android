@@ -11,48 +11,36 @@
 
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel;
 
+import android.app.Activity;
 import android.app.Application;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.widget.ArrayAdapter;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DAddressRequest;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DAddressUpdate;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DMobileUpdate;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DTownInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.EAddressUpdate;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBarangayInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
-import org.rmj.g3appdriver.GRider.Database.Entities.EFileCode;
-import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.EMobileUpdate;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBarangay;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RCollectionUpdate;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RFileCode;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RTown;
+import org.rmj.g3appdriver.GRider.Etc.LocationRetriever;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.lib.integsys.Dcp.AddressUpdate;
 import org.rmj.g3appdriver.lib.integsys.Dcp.CustomerNotAround;
 import org.rmj.g3appdriver.lib.integsys.Dcp.LRDcp;
 import org.rmj.g3appdriver.lib.integsys.Dcp.MobileUpdate;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
+import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class VMCustomerNotAround extends AndroidViewModel {
     private static final String TAG = VMCustomerNotAround.class.getSimpleName();
@@ -62,30 +50,16 @@ public class VMCustomerNotAround extends AndroidViewModel {
     private final LRDcp poSys;
     private final EmployeeMaster poUser;
 
-    private final RBranch poBranch;
-    private final RTown poTownRepo;
-    private final RBarangay poBarangay;
-
-    private final MutableLiveData<String> requestCode = new MutableLiveData<>();
-    private final MutableLiveData<String> addressType = new MutableLiveData<>();
-    private final MutableLiveData<String> primeContact = new MutableLiveData<>();
-    private final MutableLiveData<String> primeAddress = new MutableLiveData<>();
-
-    private final MutableLiveData<List<DAddressRequest.CustomerAddressInfo>> plAddress = new MutableLiveData<>();
-    private final MutableLiveData<List<EMobileUpdate>> plMobile = new MutableLiveData<>();
+    private final RTown poTown;
+    private final RBarangay poBrgy;
 
     public VMCustomerNotAround(@NonNull Application application) {
         super(application);
         this.instance = application;
         this.poSys = new LRDcp(application);
         this.poUser = new EmployeeMaster(application);
-        this.poBranch = new RBranch(application);
-        poTownRepo = new RTown(application);
-        poBarangay = new RBarangay(application);
-        this.primeContact.setValue(ZERO);
-        this.primeAddress.setValue(ZERO);
-        this.plAddress.setValue(new ArrayList<>());
-        this.plMobile.setValue(new ArrayList<>());
+        this.poTown = new RTown(application);
+        this.poBrgy = new RBarangay(application);
     }
 
     public LiveData<DEmployeeInfo.EmployeeBranch> GetUserInfo(){
@@ -263,7 +237,7 @@ public class VMCustomerNotAround extends AndroidViewModel {
         }
     }
 
-    public void SaveCustomerNotAround(CustomerNotAround foVal, ViewModelCallback callback){
+    public void SaveTransaction(CustomerNotAround foVal, ViewModelCallback callback){
         new SaveCNATask(callback).execute(foVal);
     }
 
@@ -295,7 +269,7 @@ public class VMCustomerNotAround extends AndroidViewModel {
         @Override
         protected void onPostExecute(Boolean isSuccess) {
             super.onPostExecute(isSuccess);
-            if(isSuccess){
+            if(!isSuccess){
                 callback.OnFailedResult(message);
             } else {
                 callback.OnSuccessResult();
@@ -303,37 +277,66 @@ public class VMCustomerNotAround extends AndroidViewModel {
         }
     }
 
-    public void setPrimeAddress(String primeAddress) {
-        this.primeAddress.setValue(primeAddress);
+    public void InitCameraLaunch(Activity activity, String TransNox, OnInitializeCameraCallback callback){
+        new InitializeCameraTask(activity, TransNox, instance, callback).execute();
     }
 
-    public MutableLiveData<String> getPrimeAddress() {
-        return primeAddress;
-    }
+    private static class InitializeCameraTask extends AsyncTask<String, Void, Boolean>{
 
+        private final OnInitializeCameraCallback callback;
+        private final ImageFileCreator loImage;
+        private final LocationRetriever loLrt;
 
-    public void setRequestCode(String requestCode) {
-        this.requestCode.setValue(requestCode);
-    }
+        private Intent loIntent;
+        private String[] args = new String[4];
+        private String message;
 
-    public MutableLiveData<String> getRequestCode() {
-        return requestCode;
-    }
+        public InitializeCameraTask(Activity activity, String TransNox, Application instance, OnInitializeCameraCallback callback){
+            this.callback = callback;
+            this.loImage = new ImageFileCreator(instance, AppConstants.SUB_FOLDER_SELFIE_LOG, TransNox);
+            this.loLrt = new LocationRetriever(instance, activity);
+        }
 
-    public void setPrimeContact(String primeContact) {
-        this.primeContact.setValue(primeContact);
-    }
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            callback.OnInit();
+        }
 
-    public MutableLiveData<String> getPrimeContact() {
-        return primeContact;
-    }
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            if(!loImage.IsFileCreated()){
+                message = loImage.getMessage();
+                return false;
+            } else {
+                if(loLrt.HasLocation()){
+                    args[0] = loImage.getFilePath();
+                    args[1] = loImage.getFileName();
+                    args[2] = loLrt.getLatitude();
+                    args[3] = loLrt.getLongitude();
+                    loIntent = loImage.getCameraIntent();
+                    return true;
+                } else {
+                    args[0] = loImage.getFilePath();
+                    args[1] = loImage.getFileName();
+                    args[2] = loLrt.getLatitude();
+                    args[3] = loLrt.getLongitude();
+                    loIntent = loImage.getCameraIntent();
+                    message = loLrt.getMessage();
+                    return false;
+                }
+            }
+        }
 
-    public void setAddressType(String addressType) {
-        this.addressType.setValue(addressType);
-    }
-
-    public LiveData<EBranchInfo> getUserBranchEmployee(){
-        return poBranch.getUserBranchInfo();
+        @Override
+        protected void onPostExecute(Boolean isSuccess) {
+            super.onPostExecute(isSuccess);
+            if(isSuccess){
+                callback.OnSuccess(loIntent, args);
+            } else {
+                callback.OnFailed(message, loIntent, args);
+            }
+        }
     }
 
     public LiveData<ArrayAdapter<String>> getRequestCodeOptions() {
@@ -343,112 +346,10 @@ public class VMCustomerNotAround extends AndroidViewModel {
     }
 
     public LiveData<List<DTownInfo.TownProvinceInfo>> getTownProvinceInfo(){
-        return poTownRepo.getTownProvinceInfo();
-    }
-
-    public LiveData<List<DAddressRequest.CustomerAddressInfo>> getAddressRequesListForClient(){
-        return plAddress;
-    }
-
-    public LiveData<List<EMobileUpdate>> getMobileRequestListForClient(){
-        //return poUpdate.getMobileListForClient(clientID.getValue());
-        return plMobile;
+        return poTown.getTownProvinceInfo();
     }
 
     public LiveData<List<EBarangayInfo>> GetBarangayList(String fsVal){
-        return poBarangay.getAllBarangayFromTown(fsVal);
-    }
-
-//    public boolean addAddressToList(AddressUpdate foAddress, ViewModelCallback callback){
-//        try {
-//            foAddress.setRequestCode(requestCode.getValue());
-//            foAddress.setcAddrssTp(addressType.getValue());
-//            foAddress.setsProvIDxx(psProvID.getValue());
-//            foAddress.setTownID(psTownID.getValue());
-//            foAddress.setBarangayID(psBrgyID.getValue());
-//            foAddress.setPrimaryStatus(primeAddress.getValue());
-//            if (foAddress.isDataValid()) {
-//                DAddressRequest.CustomerAddressInfo info = new DAddressRequest.CustomerAddressInfo();
-//                //Auto Generated random String
-//                info.sTransNox = poDcp.getNextAddressCode();
-//                info.sClientID = clientID.getValue();
-//                info.cReqstCDe = foAddress.getRequestCode();
-//                info.cAddrssTp = foAddress.getcAddrssTp();
-//                info.sHouseNox = foAddress.getHouseNumber();
-//                info.sAddressx = foAddress.getAddress();
-//                info.sProvName = foAddress.getsProvName();
-//                info.sTownName = foAddress.getsTownName();
-//                info.sBrgyName = foAddress.getsBrgyName();
-//                info.sTownIDxx = foAddress.getTownID();
-//                info.sBrgyIDxx = foAddress.getBarangayID();
-//                info.cPrimaryx = foAddress.getPrimaryStatus();
-//                info.sLongitud = foAddress.getLongitude();
-//                info.sLatitude = foAddress.getLatitude();
-//                info.sRemarksx = foAddress.getRemarks();
-//                Objects.requireNonNull(this.plAddress.getValue()).add(info);
-//            } else {
-//                callback.OnFailedResult(foAddress.getMessage());
-//                return false;
-//            }
-//        } catch (Exception e){
-//            e.printStackTrace();
-//            callback.OnFailedResult(e.getMessage());
-//            return false;
-//        }
-//
-//        return true;
-//    }
-
-//    private String getValidatedAddress(AddressUpdate foAddress) {
-//        try {
-//            JSONObject jsonObj = new JSONObject();
-//            jsonObj.put("RqstCode", foAddress.getRequestCode());
-//            jsonObj.put("AddressTp", foAddress.getcAddrssTp());
-//            jsonObj.put("HouseNo", foAddress.getHouseNumber());
-//            jsonObj.put("Address", foAddress.getAddress());
-//            jsonObj.put("TownId", foAddress.getTownID());
-//            jsonObj.put("BrgyId", foAddress.getBarangayID());
-//            jsonObj.put("PrimaryStat", foAddress.getPrimaryStatus());
-//            jsonObj.put("Remarks",foAddress.getRemarks());
-//
-//            return jsonObj.toString();
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//            return e.getMessage();
-//        }
-//    }
-
-//    private String getValidatedMobilenox(MobileUpdate foMobile) {
-//        try {
-//            JSONObject jsonObj = new JSONObject();
-//
-//            jsonObj.put("RequestCode", foMobile.getcReqstCde());
-//            jsonObj.put("MobileNox", foMobile.getsMobileNo());
-//            jsonObj.put("isPrimary", foMobile.getcPrimaryx());
-//            jsonObj.put("Remarks", foMobile.getsRemarksx());
-//
-//            return jsonObj.toString();
-//        }
-//        catch (JSONException e) {
-//            e.printStackTrace();
-//            return e.getMessage();
-//        }
-//    }
-
-    private static class UpdateCollectionTask extends AsyncTask<EDCPCollectionDetail, Void, String> {
-        private final RDailyCollectionPlan poDcp;
-        private final String Remarksx;
-
-        public UpdateCollectionTask(RDailyCollectionPlan poDcp, String Remarks){
-            this.poDcp = poDcp;
-            this.Remarksx = Remarks;
-        }
-
-        @Override
-        protected String doInBackground(EDCPCollectionDetail... detail) {
-            EDCPCollectionDetail loDetail = detail[0];
-            poDcp.updateCNADetail(loDetail.getAcctNmbr(), loDetail.getEntryNox(), Remarksx);
-            return null;
-        }
+        return poBrgy.getAllBarangayFromTown(fsVal);
     }
 }

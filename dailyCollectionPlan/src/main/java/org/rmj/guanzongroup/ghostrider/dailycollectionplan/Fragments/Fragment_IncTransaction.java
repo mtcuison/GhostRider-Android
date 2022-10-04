@@ -23,6 +23,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -123,7 +124,7 @@ public class Fragment_IncTransaction extends Fragment {
         AccntNox = Activity_Transaction.getInstance().getAccntNox();
         Remarksx = Activity_Transaction.getInstance().getRemarksCode();
 
-        mViewModel.GetAccountDetail(TransNox, AccntNox, String.valueOf(EntryNox)).observe(getViewLifecycleOwner(), detail -> {
+        mViewModel.GetCollectionDetail(TransNox, AccntNox, String.valueOf(EntryNox)).observe(getViewLifecycleOwner(), detail -> {
             try{
                 poRem.setTransNox(TransNox);
                 poRem.setAccountNo(AccntNox);
@@ -139,11 +140,15 @@ public class Fragment_IncTransaction extends Fragment {
         });
 
         btnPost.setOnClickListener(v -> {
+            if(txtRemarks.getText().toString().trim().isEmpty()){
+                Toast.makeText(requireActivity(), "Please enter remarks", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             poRem.setRemarksx(Objects.requireNonNull(txtRemarks.getText()).toString().trim());
             if(checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                     checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                     checkSelfPermission(requireActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
-                poRequest.launch(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION});
                 poRequest.launch(new String[]{
                         Manifest.permission.ACCESS_COARSE_LOCATION,
                         Manifest.permission.ACCESS_FINE_LOCATION,
@@ -167,7 +172,7 @@ public class Fragment_IncTransaction extends Fragment {
     }
 
     private void InitializeCamera(){
-        mViewModel.InitCameraLaunch(requireActivity(), new OnInitializeCameraCallback() {
+        mViewModel.InitCameraLaunch(requireActivity(), TransNox, new OnInitializeCameraCallback() {
             @Override
             public void OnInit() {
                 poDialog.initDialog("Selfie Log", "Initializing camera. Please wait...", false);

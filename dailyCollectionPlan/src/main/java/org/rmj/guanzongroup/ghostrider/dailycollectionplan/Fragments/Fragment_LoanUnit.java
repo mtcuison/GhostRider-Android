@@ -13,11 +13,12 @@ package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments;
 
 import static android.app.Activity.RESULT_OK;
 
-import android.annotation.SuppressLint;
-import android.content.ContentResolver;
+import static androidx.core.content.ContextCompat.checkSelfPermission;
+
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,66 +33,55 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.Entities.EClientUpdate;
-import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
-import org.rmj.g3appdriver.GRider.Etc.LocationRetriever;
+import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.etc.OnDateSetListener;
-import org.rmj.g3appdriver.etc.WebFileServer;
+import org.rmj.g3appdriver.lib.integsys.Dcp.LoanUnit;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_Transaction;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.LoanUnitModel;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.OnInitializeCameraCallback;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMLoanUnit;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.ViewModelCallback;
-import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
 
-public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
+import java.text.SimpleDateFormat;
 
-    private AlertDialog poDialogx;
+public class Fragment_LoanUnit extends Fragment {
+
     private VMLoanUnit mViewModel;
-    private String spnCivilStatsPosition = "-1";
-    private String genderPosition = "-1", CollId;
-    private TextView lblBranch, lblAddress, lblAccNo, lblClientNm, lblTransNo,lblLuImgPath, lblRemCode;
+
+    private LoanUnit poLUn;
+
+    private LoadDialog poDialog;
+    private MessageBox poMessage;
+
+    private TextView lblBranch,
+            lblAddress,
+            lblAccNo,
+            lblClientNm,
+            lblTransNo,
+            lblRemCode;
     private TextInputEditText tieLName, tieFName, tieMName, tieSuffix;
     private TextInputEditText tieHouseNo, tieStreet;
     private AutoCompleteTextView tieTown, tieBrgy,tieBPlace;
     private RadioGroup rgGender;
     private TextInputEditText tieBDate, tiePhone, tieMobileNo, tieEmailAdd,tieRemarks;
-    private MaterialButton btnLUSubmit;
+    private MaterialButton btnSave;
     private AutoCompleteTextView spnCivilStats;
-    private LoanUnitModel infoModel;
-    private MessageBox poMessage;
-    public static int CAMERA_REQUEST_CODE = 1231;
 
-    public static String mCurrentPhotoPath;
-    private ImageFileCreator poFilexx;
-    private final String CAMERA_USAGE = "LoanUnit";
-    public static ContentResolver contentResolver;
-
-    //Parameters From Activity_Transaction
     private String TransNox, Remarksx, AccntNox;
     int EntryNox;
-    private EImageInfo poImageInfo;
+
+    ActivityResultLauncher<String[]> poRequest = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), result -> InitializeCamera());
 
     private final ActivityResultLauncher<Intent> poCamera = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
         if(result.getResultCode() == RESULT_OK) {
-            try {
-                poImageInfo.setMD5Hashx(WebFileServer.createMD5Hash(poImageInfo.getFileLoct()));
-                mViewModel.saveLUnImageInfo(poImageInfo);
-                submitLUn(Remarksx);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }else {
-            infoModel.setLuImgPath("");
+            SaveLoanUnit();
         }
     });
 
@@ -103,55 +93,46 @@ public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         mViewModel = new ViewModelProvider(requireActivity()).get(VMLoanUnit.class);
+        poLUn = new LoanUnit();
+        poDialog = new LoadDialog(requireActivity());
+        poMessage = new MessageBox(requireActivity());
         View view = inflater.inflate(R.layout.fragment_loan_unit, container, false);
-        poMessage = new MessageBox(getActivity());
-        infoModel = new LoanUnitModel();
         Remarksx = Activity_Transaction.getInstance().getRemarksCode();
         TransNox = Activity_Transaction.getInstance().getTransNox();
         EntryNox = Activity_Transaction.getInstance().getEntryNox();
         AccntNox = Activity_Transaction.getInstance().getAccntNox();
         initWidgets(view);
 
-
-        mViewModel.setParameter(TransNox, EntryNox, Remarksx);
-        Log.e("", "TransNox = " + TransNox + " EntryNox = " + EntryNox + " Remarks = " + Remarksx);
-        mViewModel.getSpnCivilStats().observe(getViewLifecycleOwner(), stringArrayAdapter ->{
-            spnCivilStats.setAdapter(stringArrayAdapter);
-            spnCivilStats.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
-        } );
-
-        mViewModel.getCollectionMaster().observe(getViewLifecycleOwner(), s ->  {
-            CollId = s.getCollctID();
-            poFilexx = new ImageFileCreator(getActivity(), AppConstants.SUB_FOLDER_DCP, TransNox);
-
-        });
-        mViewModel.getClientData().observe(getViewLifecycleOwner(), data -> {
-            mViewModel.setClientData(data);
-        });
-        mViewModel.getClient(TransNox, AccntNox).observe(getViewLifecycleOwner(), data -> {
-            showOldClientData(data);
-            mViewModel.setClient(data);
+        mViewModel.GetUserInfo().observe(getViewLifecycleOwner(), user -> {
+            try{
+                lblBranch.setText(user.sBranchNm);
+                lblAddress.setText(user.sAddressx);
+            } catch (Exception e){
+                e.printStackTrace();
+            }
         });
 
+        mViewModel.GetCollectionDetail(TransNox, AccntNox, String.valueOf(EntryNox)).observe(getViewLifecycleOwner(), detail -> {
+            try{
+                poLUn.setTransNox(TransNox);
+                poLUn.setEntryNox(String.valueOf(EntryNox));
+                poLUn.setAccntNox(AccntNox);
 
-        mViewModel.getImgInfo().observe(getViewLifecycleOwner(), data -> mViewModel.setImgInfo(data));
-        mViewModel.getCollectionDetail().observe(getViewLifecycleOwner(), collectionDetail -> {
-            try {
-                lblAccNo.setText(collectionDetail.getAcctNmbr());
-                lblClientNm.setText(collectionDetail.getFullName());
-                lblTransNo.setText(collectionDetail.getTransNox());
-                mViewModel.setCurrentCollectionDetail(collectionDetail);
-                tieRemarks.setText(collectionDetail.getRemarksx());
+                lblAccNo.setText(detail.getAcctNmbr());
+                lblClientNm.setText(detail.getFullName());
+                lblTransNo.setText(detail.getTransNox());
+                tieRemarks.setText(detail.getRemarksx());
                 lblRemCode.setText(Remarksx);
             } catch (Exception e){
                 e.printStackTrace();
             }
         });
-        mViewModel.getUserBranchEmployee().observe(getViewLifecycleOwner(), eBranchInfo -> {
-            lblBranch.setText(eBranchInfo.getBranchNm());
-            lblAddress.setText(eBranchInfo.getAddressx());
+
+        mViewModel.getSpnCivilStats().observe(getViewLifecycleOwner(), stringArrayAdapter ->{
+            spnCivilStats.setAdapter(stringArrayAdapter);
+            spnCivilStats.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
-        // Province
+
         mViewModel.getTownProvinceInfo().observe(getViewLifecycleOwner(), townProvinceInfos -> {
             String[] townProvince = new String[townProvinceInfos.size()];
             for(int x = 0; x < townProvinceInfos.size(); x++){
@@ -163,20 +144,19 @@ public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
             tieTown.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
             tieBPlace.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
+
         tieTown.setOnItemClickListener((adapterView, v, i, l) -> {
             String lsTown = tieTown.getText().toString();
             String[] town = lsTown.split(", ");
             mViewModel.getTownProvinceInfo().observe(getViewLifecycleOwner(), townProvinceInfos -> {
                 for(int x = 0; x < townProvinceInfos.size(); x++){
                     if(town[0].equalsIgnoreCase(townProvinceInfos.get(x).sTownName)){
-                        mViewModel.setTownID(townProvinceInfos.get(x).sTownIDxx);
-
-                        infoModel.setLuTown(tieTown.getText().toString());
+                        poLUn.setTownIDxx(townProvinceInfos.get(x).sTownIDxx);
                         break;
                     }
                 }
 
-                mViewModel.getBarangayNameList().observe(getViewLifecycleOwner(), strings -> {
+                mViewModel.getBarangayNameList(poLUn.getTownIDxx()).observe(getViewLifecycleOwner(), strings -> {
                     ArrayAdapter<String> loAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
                     tieBrgy.setAdapter(loAdapter);
                     tieBrgy.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
@@ -184,11 +164,10 @@ public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
             });
         });
 
-        tieBrgy.setOnItemClickListener((adapterView, v, i, l) -> mViewModel.getBarangayInfoList().observe(getViewLifecycleOwner(), eBarangayInfos -> {
+        tieBrgy.setOnItemClickListener((adapterView, v, i, l) -> mViewModel.getBarangayInfoList(poLUn.getTownIDxx()).observe(getViewLifecycleOwner(), eBarangayInfos -> {
             for(int x = 0; x < eBarangayInfos.size(); x++){
                 if(tieBrgy.getText().toString().equalsIgnoreCase(eBarangayInfos.get(x).getBrgyName())){
-                    mViewModel.setBrgyID(eBarangayInfos.get(x).getBrgyIDxx());
-                    infoModel.setLuBrgy(tieBrgy.getText().toString());
+                    poLUn.setBrgyIDxx(eBarangayInfos.get(x).getBrgyIDxx());
                     break;
                 }
             }
@@ -201,13 +180,12 @@ public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
             mViewModel.getTownProvinceInfo().observe(getViewLifecycleOwner(), townProvinceInfos -> {
                 for(int x = 0; x < townProvinceInfos.size(); x++){
                     if(town[0].equalsIgnoreCase(townProvinceInfos.get(x).sTownName)){
-                        mViewModel.setLsBPlaceID(townProvinceInfos.get(x).sTownIDxx);
-                        infoModel.setLuBPlace(tieBPlace.getText().toString());
+                        poLUn.setBirthPlc(townProvinceInfos.get(x).sTownIDxx);
                         break;
                     }
                 }
 
-                mViewModel.getBarangayNameList().observe(getViewLifecycleOwner(), strings -> {
+                mViewModel.getBarangayNameList(poLUn.getTownIDxx()).observe(getViewLifecycleOwner(), strings -> {
                     ArrayAdapter<String> loAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
                     tieBrgy.setAdapter(loAdapter);
                     tieBrgy.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
@@ -215,24 +193,19 @@ public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
             });
         });
 
-        // TODO: Use the ViewModel
-
         spnCivilStats.setOnItemClickListener(new Fragment_LoanUnit.OnItemClickListener(spnCivilStats));
 
         tieBDate.addTextChangedListener(new OnDateSetListener(tieBDate));
 
         rgGender.setOnCheckedChangeListener((radioGroup, i) -> {
             if(i == R.id.rb_male){
-                genderPosition = "0";
-                mViewModel.setGender("0");
+                poLUn.setGenderxx("0");
             }
             if(i == R.id.rb_female){
-                genderPosition = "1";
-                mViewModel.setGender("1");
+                poLUn.setGenderxx("1");
             }
             if(i == R.id.rb_lgbt){
-                genderPosition = "2";
-                mViewModel.setGender("2");
+                poLUn.setGenderxx("2");
             }
         });
         return view;
@@ -251,14 +224,11 @@ public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
         tieFName = v.findViewById(R.id.tie_lun_fName);
         tieMName = v.findViewById(R.id.tie_lun_middName);
         tieSuffix = v.findViewById(R.id.tie_lun_suffix);
-//        Address
         tieHouseNo = v.findViewById(R.id.tie_lun_houseNo);
         tieStreet = v.findViewById(R.id.tie_lun_street);
         tieTown = v.findViewById(R.id.tie_lun_town);
         tieBrgy = v.findViewById(R.id.tie_lun_brgy);
-//        Gender
         rgGender = v.findViewById(R.id.rg_dcp_gender);
-//        Other Info
         spnCivilStats = v.findViewById(R.id.spn_lun_cstatus);
 
         tieBDate = v.findViewById(R.id.tie_lun_bdate);
@@ -267,44 +237,36 @@ public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
         tieMobileNo = v.findViewById(R.id.tie_lun_mobileNp);
         tieEmailAdd = v.findViewById(R.id.tie_lun_email);
         tieRemarks = v.findViewById(R.id.tie_lun_Remarks);
-        btnLUSubmit = v.findViewById(R.id.btn_dcpSubmit);
+        btnSave = v.findViewById(R.id.btn_dcpSubmit);
 
-        btnLUSubmit.setOnClickListener(view -> {
-            try {
-                submitLUn(Remarksx);
-            } catch (Exception e) {
-                e.printStackTrace();
+        btnSave.setOnClickListener(view -> {
+            if(tieRemarks.getText().toString().trim().isEmpty()){
+                Toast.makeText(requireActivity(), "Please enter remarks", Toast.LENGTH_SHORT).show();
+                return;
+            } else if(tieLName.getText().toString().trim().isEmpty()){
+                Toast.makeText(requireActivity(), "Please enter last name", Toast.LENGTH_SHORT).show();
+                return;
+            } else if(tieFName.getText().toString().trim().isEmpty()){
+                Toast.makeText(requireActivity(), "Please enter first name", Toast.LENGTH_SHORT).show();
+                return;
+            } else if(tieMobileNo.getText().toString().trim().isEmpty()){
+                Toast.makeText(requireActivity(), "Please enter mobile no.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if(checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                    checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                    checkSelfPermission(requireActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
+                poRequest.launch(new String[]{
+                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.CAMERA});
+            } else {
+                InitializeCamera();
             }
         });
-
     }
 
-    @Override
-    public void OnStartSaving() {
-
-    }
-
-    @Override
-    public void OnSuccessResult() {
-        poMessage.initDialog();
-        poMessage.setTitle("Transaction Success");
-        poMessage.setMessage("Collection save successfully");
-        poMessage.setPositiveButton("Okay", (view, dialog) -> {
-            dialog.dismiss();
-            getActivity().finish();
-        });
-        poMessage.show();
-    }
-
-    @Override
-    public void OnFailedResult(String message) {
-        if (message.trim().equalsIgnoreCase("empty"))
-        {
-            showDialogImg();
-        }else {
-            onFailedDialog(message);
-        }
-    }
     class OnItemClickListener implements AdapterView.OnItemClickListener {
         AutoCompleteTextView poView;
         public OnItemClickListener(AutoCompleteTextView view) {
@@ -314,133 +276,89 @@ public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
             if (spnCivilStats.equals(poView)) {
-                spnCivilStatsPosition = String.valueOf(i);
-                mViewModel.setSpnCivilStats(String.valueOf(i));
+                poLUn.setCvilStat(String.valueOf(i));
             }
         }
     }
 
-    private void submitLUn(String remarksx)throws Exception{
-        infoModel.setLuRemarks(remarksx);
-        infoModel.setLuRemark(tieRemarks.getText().toString());
-        infoModel.setLuLastName(tieLName.getText().toString());
-        infoModel.setLuFirstName(tieFName.getText().toString());
-        infoModel.setLuMiddleName(tieMName.getText().toString());
-        infoModel.setLuSuffix(tieSuffix.getText().toString());
-        infoModel.setLuHouseNo(tieHouseNo.getText().toString());
-        infoModel.setLuStreet(tieStreet.getText().toString());
-        infoModel.setLuBrgy(tieBrgy.getText().toString());
-        infoModel.setLuTown(tieTown.getText().toString());
-        infoModel.setLuGender(genderPosition);
-        infoModel.setLuBDate(tieBDate.getText().toString());
-        infoModel.setLuBPlace(tieBPlace.getText().toString());
-        infoModel.setLuPhone(tiePhone.getText().toString());
-        infoModel.setLuMobile(tieMobileNo.getText().toString());
-        infoModel.setLuEmail(tieEmailAdd.getText().toString());
-        mViewModel.saveLUnInfo(infoModel, Fragment_LoanUnit.this);
+    private void SaveLoanUnit() {
+        poLUn.setRemarksx(tieRemarks.getText().toString());
+        poLUn.setLastName(tieLName.getText().toString());
+        poLUn.setFrstName(tieFName.getText().toString());
+        poLUn.setMiddName(tieMName.getText().toString());
+        poLUn.setSuffixxx(tieSuffix.getText().toString());
+        poLUn.setBirthDte(new SimpleDateFormat("MM/dd/yyyy").format(tieBDate.getText().toString()));
+        poLUn.setHouseNox(tieHouseNo.getText().toString());
+        poLUn.setStreetxx(tieStreet.getText().toString());
+        poLUn.setPhoneNox(tiePhone.getText().toString());
+        poLUn.setMobileNo(tieMobileNo.getText().toString());
+        poLUn.setEmailAdd(tieEmailAdd.getText().toString());
 
-    }
-    public void showDialogImg(){
-        poMessage.initDialog();
-        poMessage.setTitle(Remarksx);
-        poMessage.setMessage("Please take a selfie in customer's place in order to confirm transaction. \n" +
-                "\n" +
-                "NOTE: Take a selfie on your current place if customer is not visited");
-        poMessage.setPositiveButton("Okay", (view, dialog) -> {
-            dialog.dismiss();
-            poFilexx.CreateFile((openCamera, camUsage, photPath, FileName) -> {
-                new LocationRetriever(requireActivity(), requireActivity()).getLocation(new LocationRetriever.LocationRetrieveCallback() {
-                    @Override
-                    public void OnRetrieve(String message, double latitude, double longitude) {
-                        infoModel.setLuImgPath(photPath);
-                        poImageInfo = new EImageInfo();
-                        poImageInfo.setDtlSrcNo(AccntNox);
-                        poImageInfo.setSourceNo(TransNox);
-                        poImageInfo.setSourceCD("DCPa");
-                        poImageInfo.setImageNme(FileName);
-                        poImageInfo.setFileLoct(photPath);
-                        poImageInfo.setFileCode("0020");
-                        poImageInfo.setLatitude(String.valueOf(latitude));
-                        poImageInfo.setLongitud(String.valueOf(longitude));
-                        mViewModel.setLatitude(String.valueOf(latitude));
-                        mViewModel.setLongitude(String.valueOf(longitude));
-                        mViewModel.setImgName(FileName);
-                        openCamera.putExtra("android.intent.extras.CAMERA_FACING", 1);
-                        poCamera.launch(openCamera);
-                    }
+        mViewModel.SaveTransaction(poLUn, new ViewModelCallback() {
+            @Override
+            public void OnStartSaving() {
+                poDialog.initDialog("Selfie Log", "Saving promise to pay. Please wait...", false);
+                poDialog.show();
+            }
 
-                    @Override
-                    public void OnFailed(String message) {
-                        Toast.makeText(requireActivity(), message, Toast.LENGTH_SHORT).show();
-                    }
+            @Override
+            public void OnSuccessResult() {
+                poMessage.initDialog();
+                poMessage.setTitle("Selfie Login");
+                poMessage.setMessage("Collection detail has been save.");
+                poMessage.setPositiveButton("Okay", (view, dialog) -> {
+                    dialog.dismiss();
+                    requireActivity().finish();
                 });
-            });
+                poMessage.show();
+            }
+
+            @Override
+            public void OnFailedResult(String message) {
+                poMessage.initDialog();
+                poMessage.setTitle("Selfie Login");
+                poMessage.setMessage(message);
+                poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                poMessage.show();
+            }
         });
-        poMessage.setNegativeButton("Cancel", (view, dialog) -> {
-            dialog.dismiss();
+    }
+
+    private void InitializeCamera(){
+        mViewModel.InitCameraLaunch(requireActivity(), TransNox, new OnInitializeCameraCallback() {
+            @Override
+            public void OnInit() {
+                poDialog.initDialog("Selfie Log", "Initializing camera. Please wait...", false);
+                poDialog.show();
+            }
+
+            @Override
+            public void OnSuccess(Intent intent, String[] args) {
+                poDialog.dismiss();
+                poLUn.setFilePath(args[0]);
+                poLUn.setFileName(args[1]);
+                poLUn.setLatitude(args[2]);
+                poLUn.setLongtude(args[3]);
+                poCamera.launch(intent);
+            }
+
+            @Override
+            public void OnFailed(String message, Intent intent, String[] args) {
+                poDialog.dismiss();
+                poMessage.initDialog();
+                poMessage.setTitle("Selfie Login");
+                poMessage.setMessage(message + "\n Proceed taking selfie log?");
+                poMessage.setPositiveButton("Continue", (view, dialog) -> {
+                    dialog.dismiss();
+                    poLUn.setFilePath(args[0]);
+                    poLUn.setFileName(args[1]);
+                    poLUn.setLatitude(args[2]);
+                    poLUn.setLongtude(args[3]);
+                    poCamera.launch(intent);
+                });
+                poMessage.setNegativeButton("Cancel", (view1, dialog) -> dialog.dismiss());
+                poMessage.show();
+            }
         });
-        poMessage.show();
-    }
-    public void onFailedDialog(String messages){
-        poMessage.initDialog();
-        poMessage.setTitle("Transaction Failed");
-        poMessage.setMessage(messages);
-        poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-        poMessage.show();
-    }
-    @SuppressLint("NewApi")
-    public void showOldClientData(EClientUpdate client){
-
-        if (client != null){
-
-            mViewModel.setGender(client.getGenderxx());
-            mViewModel.setSpnCivilStats(client.getCivlStat());
-
-            mViewModel.getSpnCivilStats().observe(getViewLifecycleOwner(), stringArrayAdapter ->{
-                spnCivilStats.setAdapter(stringArrayAdapter);
-            } );
-            mViewModel.getCivilStats().observe(getViewLifecycleOwner(), s -> {
-                spnCivilStats.setText(spnCivilStats.getAdapter().getItem(Integer.parseInt(s)).toString(), false);
-            });
-            mViewModel.getBrgyTownProvinceInfo(client.getBarangay()).observe(getViewLifecycleOwner(), eTownInfo -> {
-                tieBrgy.setText( eTownInfo.sBrgyName);
-                tieTown.setText(eTownInfo.sTownName +", " + eTownInfo.sProvName);
-                mViewModel.setBrgyID(client.getBarangay());
-                mViewModel.setTownID(client.getTownIDxx());
-            });
-            mViewModel.getTownProvinceInfo(client.getTownIDxx()).observe(getViewLifecycleOwner(), eTownInfo -> {
-                tieBPlace.setText(eTownInfo.sTownName +", " + eTownInfo.sProvName);
-                mViewModel.setLsBPlaceID(client.getTownIDxx());
-            });
-
-            mViewModel.getGender().observe(getViewLifecycleOwner(), s -> {
-                Log.e("Gender" , s);
-                if(s.equalsIgnoreCase("0") ){
-                    rgGender.check(R.id.rb_male);
-                }
-                if(s.equalsIgnoreCase("1")){
-                    rgGender.check(R.id.rb_female);
-                }
-                if(s.equalsIgnoreCase("2")){
-                    rgGender.check(R.id.rb_lgbt);
-                }
-            });
-
-            tieLName.setText(client.getLastName());
-            tieFName.setText(client.getFrstName());
-            tieMName.setText(client.getLastName());
-            tieSuffix.setText(client.getMiddName());
-//        Address
-            tieHouseNo.setText(client.getHouseNox());
-            tieStreet.setText(client.getAddressx());
-            tieTown.setText(client.getTownIDxx());
-            tieBrgy.setText(client.getBarangay());
-            tieBDate.setText(client.getBirthDte());
-            tieBPlace.setText(client.getBirthPlc());
-            tiePhone.setText(client.getLandline());
-            tieMobileNo.setText(client.getMobileNo());
-            tieEmailAdd.setText(client.getEmailAdd());
-            Log.e("Client Name", client.getFrstName() + " " + client.getMiddName() + " " + client.getLastName());
-        }
     }
 }
