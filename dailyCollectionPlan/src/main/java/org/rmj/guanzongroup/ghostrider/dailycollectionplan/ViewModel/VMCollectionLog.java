@@ -31,9 +31,9 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EMobileUpdate;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBankInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCollectionUpdate;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RDCP_Remittance;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
+import org.rmj.g3appdriver.lib.integsys.Dcp.LRDcp;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -43,10 +43,10 @@ import java.util.Objects;
 
 public class VMCollectionLog extends AndroidViewModel {
     private static final String TAG = VMCollectionLog.class.getSimpleName();
-    private final RDailyCollectionPlan poDcp;
+    private final LRDcp poSys;
     private final RBranch poBranch;
     private final RImageInfo poImage;
-    private final RDCP_Remittance poRemit;
+    private final LRDcp poRemit;
     private final RCollectionUpdate poUpdate;
     private final RBankInfo poBank;
 
@@ -55,22 +55,15 @@ public class VMCollectionLog extends AndroidViewModel {
     private final MutableLiveData<List<EAddressUpdate>> paAddress = new MutableLiveData<>();
     private final MutableLiveData<List<EMobileUpdate>> paMobile = new MutableLiveData<>();
     private final MutableLiveData<String> dTransact = new MutableLiveData<>();
-    private final MutableLiveData<String> nCashOHnd = new MutableLiveData<>();
-    private final MutableLiveData<String> nCheckOHnd = new MutableLiveData<>();
-
-    private double nTotRemit = 0;
-    private double nTotCollt = 0;
-
-    private final MutableLiveData<List<DDCPCollectionDetail.CollectionDetail>> plDetail = new MutableLiveData<>();
 
     public VMCollectionLog(@NonNull Application application) {
         super(application);
-        this.poDcp = new RDailyCollectionPlan(application);
+        this.poSys = new LRDcp(application);
         this.poBranch = new RBranch(application);
         this.poImage = new RImageInfo(application);
         this.poUpdate = new RCollectionUpdate(application);
         this.dTransact.setValue(new AppConstants().CURRENT_DATE);
-        this.poRemit = new RDCP_Remittance(application);
+        this.poRemit = new LRDcp(application);
         this.poBank = new RBankInfo(application);
     }
 
@@ -79,7 +72,7 @@ public class VMCollectionLog extends AndroidViewModel {
     }
 
     public LiveData<EDCPCollectionMaster> getCollectionMaster(){
-        return poDcp.getCollectionMaster();
+        return poSys.GetCollectionMasterForRemittance();
     }
 
     public void setCollectionMaster(EDCPCollectionMaster collectionMaster){
@@ -94,55 +87,20 @@ public class VMCollectionLog extends AndroidViewModel {
         return poImage.getUnsentImageList();
     }
 
-    public LiveData<String> getCollectedTotal(String fsTrasact){
-        return poDcp.getCollectedTotal(fsTrasact);
+    public LiveData<String> GetTotalCollection(String fsTrasact){
+        return poSys.GetTotalCollection(fsTrasact);
     }
 
-    public LiveData<String> getTotalRemittedPayment(String fsTransact){
-        return poDcp.getTotalRemittedPayment(fsTransact);
+    public LiveData<String> GetTotalRemittance(String fsVal){
+        return poSys.GetRemittedCollection(fsVal);
     }
 
-    public void Calculate_COH_Remitted(String fsTrasact, RDCP_Remittance.OnCalculateCallback callback){
-        poRemit.Calculate_COH_Remitted(fsTrasact, callback);
+    public LiveData<String> GetCashOnHand(String fsVal){
+        return poSys.GetCashOnHand(fsVal);
     }
 
-    public void Calculate_Check_Remitted(String fsTrasact, RDCP_Remittance.OnCalculateCallback callback){
-        poRemit.Calculate_Check_Remitted(fsTrasact, callback);
-    }
-
-    public LiveData<List<EBankInfo>> getBankInfoList(){
-        return poBank.getBankInfoList();
-    }
-
-    public LiveData<List<EBranchInfo>> getBranchInfoList(){
-        return poBranch.getAllBranchInfo();
-    }
-
-    public LiveData<String> getTotalRemittedCollection(String fsTrasact){
-        return poRemit.getTotalRemittedCollection(fsTrasact);
-    }
-
-    public void setnTotRemit(double nTotRemit) {
-        this.nTotRemit = nTotRemit;
-        calc_CashOnHand();
-    }
-
-    public void setnTotCollt(double nTotCollt) {
-        this.nTotCollt = nTotCollt;
-        calc_CashOnHand();
-    }
-
-    public LiveData<String> getCashOnHand(){
-        return nCashOHnd;
-    }
-
-    private void calc_CashOnHand(){
-        double lnTotal = nTotCollt - nTotRemit;
-        nCashOHnd.setValue(String.valueOf(lnTotal));
-    }
-    private void calc_CheckOnHand(){
-        double lnTotal = nTotCollt - nTotRemit;
-        nCheckOHnd.setValue(String.valueOf(lnTotal));
+    public LiveData<String> GetCheckOnHand(String fsVal){
+        return poSys.GetCheckOnHand(fsVal);
     }
 
     public void setDateTransact(String fsTransact){
@@ -159,8 +117,12 @@ public class VMCollectionLog extends AndroidViewModel {
         return dTransact;
     }
 
-    public LiveData<List<EDCPCollectionDetail>> getCollectionDetailForDate(String dTransact){
-        return poDcp.getCollectionDetailForDate(dTransact);
+    public LiveData<EDCPCollectionMaster> GetCollectionMaster(String fsVal){
+        return poSys.GetMasterCollectionForDate(fsVal);
+    }
+
+    public LiveData<List<EDCPCollectionDetail>> GetCollectionDetail(String fsVal){
+        return poSys.GetCollectionDetailForPreview(fsVal);
     }
 
     public void setImageInfoList(List<EImageInfo> imageInfoList){
@@ -182,19 +144,11 @@ public class VMCollectionLog extends AndroidViewModel {
     public void setMobileList(List<EMobileUpdate> paMobile) {
         this.paMobile.setValue(paMobile);
     }
-    public LiveData<String> getTotalCollectedCash(){
-        return poDcp.getCollectedTotalPayment(dTransact.getValue());
+    public LiveData<String> getTotalCollectedCash(String fsVal){
+        return poSys.GetCashCollection(fsVal);
     }
 
-    public LiveData<String> getTotalCollectedCheck(){
-        return poDcp.getCollectedTotalCheckPayment(dTransact.getValue());
-    }
-
-    public void Calculate_COH_Remitted(RDCP_Remittance.OnCalculateCallback callback){
-        poRemit.Calculate_COH_Remitted(dTransact.getValue(), callback);
-    }
-
-    public void Calculate_Check_Remitted(RDCP_Remittance.OnCalculateCallback callback){
-        poRemit.Calculate_Check_Remitted(dTransact.getValue(), callback);
+    public LiveData<String> getTotalCollectedCheck(String fsVal){
+        return poSys.GetCheckCollection(fsVal);
     }
 }

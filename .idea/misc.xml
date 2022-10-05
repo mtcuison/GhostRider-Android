@@ -28,6 +28,7 @@
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/app/src/main/res/layout/activity_splash_screen.xml" value="0.20615384615384616" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/app/src/main/res/layout/fragment_home.xml" value="0.22" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/approvalCode/src/main/res/layout/fragment_approval_entry.xml" value="0.22" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/creditEvaluation/src/main/res/layout/activity_application_list.xml" value="0.11458333333333333" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/creditEvaluation/src/main/res/layout/activity_cievaluation_list.xml" value="0.13958333333333334" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/creditEvaluation/src/main/res/layout/activity_evaluation.xml" value="0.25" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/creditEvaluation/src/main/res/layout/activity_evaluation_ci_history_info.xml" value="0.25" />
@@ -40,8 +41,8 @@
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/creditEvaluation/src/main/res/layout/list_item_evaluations.xml" value="0.22" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/creditEvaluation/src/main/res/layout/list_item_info_result.xml" value="0.33" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/creditEvaluation/src/main/res/menu/action_menu_credit_evaluation_list.xml" value="0.10104166666666667" />
-        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/dailyCollectionPlan/src/main/res/layout/activity_collection_list.xml" value="0.209375" />
-        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/dailyCollectionPlan/src/main/res/layout/activity_collection_log.xml" value="0.1" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/dailyCollectionPlan/src/main/res/layout/activity_collection_list.xml" value="0.21" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/dailyCollectionPlan/src/main/res/layout/activity_collection_log.xml" value="0.22" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/dailyCollectionPlan/src/main/res/layout/activity_collection_remittance.xml" value="0.25" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/dailyCollectionPlan/src/main/res/layout/activity_transactionlog.xml" value="0.13802083333333334" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/dailyCollectionPlan/src/main/res/layout/dialog_confirm_post.xml" value="0.33" />

@@ -121,18 +121,25 @@ public class VMPaidTransaction extends AndroidViewModel {
 
     public void setRebate(Double fnDiscount){
         try {
-//            this.pnRebate.setValue(Objects.requireNonNull(fnDiscount));
-            calculateRebate();
-            double lnRebate = pnRebate.getValue();
-            if (lnRebate < Objects.requireNonNull(fnDiscount)) {
-                psMssage.setValue("Rebate given is greater than the supposed rebate.");
-            } else {
-                psMssage.setValue("");
-            }
+            if(!loDetail.getDelayAvg().equalsIgnoreCase("0")){
+                psMssage.setValue("Unable to calculate rebate for delay account.");
 
-            double lnPnalty = pnPenlty.getValue();
-            double lnTotal = pnAmount + lnPnalty - lnRebate;
-            pnTotalx.setValue(lnTotal);
+                double lnPnalty = pnPenlty.getValue();
+                double lnTotal = pnAmount + lnPnalty - 0.0;
+                pnTotalx.setValue(lnTotal);
+            } else {
+                calculateRebate();
+                double lnRebate = pnRebate.getValue();
+                if (fnDiscount > lnRebate) {
+                    psMssage.setValue("Rebate given is greater than the supposed rebate.");
+                } else {
+                    psMssage.setValue("");
+                }
+
+                double lnPnalty = pnPenlty.getValue();
+                double lnTotal = pnAmount + lnPnalty - lnRebate;
+                pnTotalx.setValue(lnTotal);
+            }
         } catch(NullPointerException e) {
             e.printStackTrace();
         }
@@ -169,13 +176,21 @@ public class VMPaidTransaction extends AndroidViewModel {
 
     private void calculateRebate(){
         try {
-            double reb = Double.parseDouble(poConfig.getDCP_CustomerRebate());
+            if(!loDetail.getDelayAvg().equalsIgnoreCase("0")){
+                psMssage.setValue("Unable to calculate rebate for delay account.");
 
-            double lnAmortx = Double.parseDouble(loDetail.getMonAmort());
-            double lnAmtDue = Double.parseDouble(loDetail.getAmtDuexx());
+                double lnPnalty = pnPenlty.getValue();
+                double lnTotal = pnAmount + lnPnalty - 0.0;
+                pnTotalx.setValue(lnTotal);
+            } else {
+                double reb = Double.parseDouble(poConfig.getDCP_CustomerRebate());
 
-            double lnRebate = LRUtil.getRebate(pnAmount, lnAmortx, lnAmtDue, reb);
-            pnRebate.setValue(lnRebate);
+                double lnAmortx = Double.parseDouble(loDetail.getMonAmort());
+                double lnAmtDue = Double.parseDouble(loDetail.getAmtDuexx());
+
+                double lnRebate = LRUtil.getRebate(pnAmount, lnAmortx, lnAmtDue, reb);
+                pnRebate.setValue(lnRebate);
+            }
         } catch (Exception e){
             e.printStackTrace();
         }

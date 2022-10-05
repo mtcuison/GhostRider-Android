@@ -204,8 +204,6 @@ public class Activity_Evaluation extends AppCompatActivity {
             e.printStackTrace();
         }
 
-
-
         rgHasRecord.setOnCheckedChangeListener(new ONCIHasRecord(rgHasRecord,mViewModel));
         btnSaveAdditional.setOnClickListener(v -> {
             infoModel.setRemRecrd(Objects.requireNonNull(txtRecordRemarks.getText()).toString());

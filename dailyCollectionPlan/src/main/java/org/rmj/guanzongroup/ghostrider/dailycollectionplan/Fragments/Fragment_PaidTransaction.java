@@ -166,8 +166,8 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
 
                 btnClear.setOnClickListener(v -> {
                     txtAmount.setText("");
-                    txtRebate.setText("");
-                    txtOthers.setText("");
+                    txtRebate.setText("0.0");
+                    txtOthers.setText("0.0");
                     txtTotAmnt.setText("");
                 });
             } catch (Exception e){

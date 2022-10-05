@@ -178,17 +178,13 @@ public class Activity_CIHistoryPreview extends AppCompatActivity {
                             cvForEvaluation.setVisibility(View.GONE);
                         }
 
-                    }catch(NullPointerException e){
-                        e.printStackTrace();
-                    }catch(Exception e){
+                    } catch(Exception e){
                         e.printStackTrace();
                     }
                 });
             });
 
-        }catch (NullPointerException e){
-            e.printStackTrace();
-        }catch (Exception e){
+        } catch (Exception e){
             e.printStackTrace();
         }
         btnApprove.setOnClickListener(new OnApproveListener());
@@ -201,6 +197,7 @@ public class Activity_CIHistoryPreview extends AppCompatActivity {
     }
     private void initWidgets(){
         Toolbar toolbar = findViewById(R.id.toolbar_ci_evaluation);
+        toolbar.setTitle("Credit Investigator");
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         infoModel = new AdditionalInfoModel();

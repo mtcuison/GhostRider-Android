@@ -88,6 +88,7 @@ public class Activity_CIEvaluationList extends AppCompatActivity  implements VME
 
     private void initWidgets() {
         Toolbar toolbar = findViewById(R.id.toolbar_creditEvalutionList);
+        toolbar.setTitle("Credit Investigator");
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         poDialogx = new LoadDialog(Activity_CIEvaluationList.this);

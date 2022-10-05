@@ -14,15 +14,9 @@ package org.rmj.guanzongroup.ghostrider.epacss.Service;
 import android.annotation.SuppressLint;
 import android.app.job.JobParameters;
 import android.app.job.JobService;
-import android.os.Build;
 import android.util.Log;
 
-import androidx.annotation.RequiresApi;
-import androidx.work.Configuration;
-
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.ImportData.ImportBarangay;
-import org.rmj.g3appdriver.GRider.ImportData.ImportBranch;
 import org.rmj.g3appdriver.GRider.ImportData.ImportBrand;
 import org.rmj.g3appdriver.GRider.ImportData.ImportBrandModel;
 import org.rmj.g3appdriver.GRider.ImportData.ImportCategory;
@@ -36,12 +30,12 @@ import org.rmj.g3appdriver.GRider.ImportData.ImportProvinces;
 import org.rmj.g3appdriver.GRider.ImportData.ImportTown;
 import org.rmj.g3appdriver.GRider.ImportData.Import_AreaPerformance;
 import org.rmj.g3appdriver.GRider.ImportData.Import_BankList;
+import org.rmj.g3appdriver.GRider.ImportData.Import_BranchAccounts;
 import org.rmj.g3appdriver.GRider.ImportData.Import_BranchPerformance;
 import org.rmj.g3appdriver.GRider.ImportData.Import_Occupations;
 import org.rmj.g3appdriver.GRider.ImportData.Import_Relation;
 import org.rmj.g3appdriver.GRider.ImportData.Import_SCARequest;
 import org.rmj.g3appdriver.GRider.ImportData.Import_SysConfig;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
 
 @SuppressLint("SpecifyJobSchedulerIdRange")
 public class DataImportService extends JobService {
@@ -67,6 +61,7 @@ public class DataImportService extends JobService {
 
     private void doBackgroundTask(JobParameters params) {
         ImportInstance[]  importInstances = {
+                new Import_BranchAccounts(getApplication()),
                 new Import_BankList(getApplication()),
                 new ImportFileCode(getApplication()),
                 new Import_Relation(getApplication()),
@@ -82,7 +77,6 @@ public class DataImportService extends JobService {
                 new Import_Occupations(getApplication()),
                 new Import_SysConfig(getApplication()),
                 new Import_SCARequest(getApplication()),
-                new ImportBranch(getApplication()),
                 new Import_AreaPerformance(getApplication()),
                 new Import_BranchPerformance(getApplication())};
         new Thread(() -> {

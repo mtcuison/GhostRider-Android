@@ -34,24 +34,20 @@ import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicationDocuments;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ESelfieLog;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RApprovalCode;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchLoanApplication;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCashCount;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplication;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplicationDocument;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RDCP_Remittance;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RItinerary;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RLocationSysLog;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Http.WebClient;
 import org.rmj.g3appdriver.dev.Telephony;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.WebFileServer;
-import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.lib.PetManager.EmployeeLeave;
+import org.rmj.g3appdriver.lib.PetManager.EmployeeOB;
 import org.rmj.g3appdriver.lib.PetManager.SelfieLog;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
@@ -85,7 +81,7 @@ public class InternetStatusReciever extends BroadcastReceiver {
 //        poEmpApp.UploadApplication();
     }
 
-    private class SendDataTask extends AsyncTask<Void, String, String>{
+    private class SendDataTask extends AsyncTask<Void, String, Boolean>{
         private final Application instance;
 
         private final AppConfigPreference poConfig;
@@ -99,7 +95,6 @@ public class InternetStatusReciever extends BroadcastReceiver {
         private final RCreditApplication poCreditApp;
         private final RBranchLoanApplication poLoan;
         private final RCreditApplicationDocument poDocs;
-        private final RDCP_Remittance poRemit;
         private final RCashCount poCashCount;
         private final WebApi poApi;
 
@@ -108,7 +103,7 @@ public class InternetStatusReciever extends BroadcastReceiver {
         private String lsClient;
         private String lsAccess;
 
-        private String Message;
+        private String message;
 
         private List<ECashCount> cashCounts = new ArrayList<>();
         private List<ESelfieLog> loginDetails = new ArrayList<>();
@@ -135,7 +130,6 @@ public class InternetStatusReciever extends BroadcastReceiver {
             this.poCreditApp = new RCreditApplication(instance);
             this.poLoan = new RBranchLoanApplication(instance);
             this.poDocs = new RCreditApplicationDocument(instance);
-            this.poRemit = new RDCP_Remittance(instance);
             this.poConfig = AppConfigPreference.getInstance(instance);
             this.poSync = new BackgroundSync(instance);
             this.poCashCount = new RCashCount(instance);
@@ -149,9 +143,33 @@ public class InternetStatusReciever extends BroadcastReceiver {
         }
 
         @Override
-        protected String doInBackground(Void... voids) {
-            Message = "Local data and server is updated.";
-            if(poConn.isDeviceConnected()) {
+        protected Boolean doInBackground(Void... voids) {
+            try {
+                message = "Local data and server is updated.";
+                if (!poConn.isDeviceConnected()) {
+                    message = poConn.getMessage();
+                    publishProgress(message);
+                    return false;
+                }
+
+                SelfieLog loSelfie = new SelfieLog(instance);
+                if(!loSelfie.UploadSelfieLog())
+
+                EmployeeLeave loLeave = new EmployeeLeave(instance);
+                if(!loLeave.UploadLeaveApplications()){
+                    message = loLeave.getMessage();
+                    publishProgress(message);
+                }
+
+                Thread.sleep(1000);
+
+                new EmployeeOB(instance).UploadApplications();
+
+            }catch (Exception e){
+                e.printStackTrace();
+                message = e.getMessage();
+                return false;
+            }
                 Log.e(TAG, "Internet Status Received.");
                 try {
                     loginDetails = poLog.getUnsentSelfieLogin();
@@ -237,14 +255,10 @@ public class InternetStatusReciever extends BroadcastReceiver {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-
-                new EmployeeLeave(instance).UploadLeaveApplications();
-            }
-            return Message;
         }
 
         @Override
-        protected void onPostExecute(String s) {
+        protected void onPostExecute(Boolean s) {
             super.onPostExecute(s);
         }
 

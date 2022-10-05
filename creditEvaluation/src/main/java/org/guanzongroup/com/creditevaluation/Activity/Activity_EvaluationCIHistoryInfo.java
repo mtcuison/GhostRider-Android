@@ -85,6 +85,7 @@ public class Activity_EvaluationCIHistoryInfo extends AppCompatActivity {
         layoutManager.setOrientation(RecyclerView.VERTICAL);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("C.I Result");
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 

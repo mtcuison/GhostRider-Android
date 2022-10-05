@@ -16,7 +16,6 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionMaster;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EMobileUpdate;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCollectionUpdate;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RDCP_Remittance;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
@@ -44,7 +43,6 @@ public class DcpManager {
     private final RDailyCollectionPlan poDcp;
     private final AppConfigPreference poConfig;
     private final RCollectionUpdate poUpdate;
-    private final RDCP_Remittance poRemit;
     private final WebApi poApis;
     private final HttpHeaders poHeaders;
     private final SessionManager poUser;
@@ -87,7 +85,6 @@ public class DcpManager {
         this.poTlphny = new Telephony(instance);
         this.poClient = new RClientUpdate(instance);
         this.poDcpUpdte = new RCollectionUpdate(instance);
-        this.poRemit = new RDCP_Remittance(instance);
         this.poApis = new WebApi(poConfig.getTestStatus());
     }
 
@@ -503,42 +500,6 @@ public class DcpManager {
         } catch (Exception e){
             e.printStackTrace();
             callback.OnFailed("PostLRDCPTransaction " + e.getMessage());
-        }
-    }
-
-    public void ValidatePostCollection(OnValidateCallback callback){
-        try{
-            if(poDcp.CheckIfHasCollection() == null){
-                callback.OnFailed("No Collection to post.");
-            } else if(poRemit.getDCPRemittance() == null &&
-                    poDcp.checkDCPPAYTransaction().size() != 0){
-                callback.OnFailed("Collection is not remitted");
-            } else if(poRemit.getDCPRemittance() != null) {
-                double lnRemitted = poRemit.getCollectedForRemittance();
-                double lnCollectd = poRemit.getCollectedPayments();
-                if(lnRemitted < lnCollectd){
-                    callback.OnFailed("The total payments collected have not yet been remit.");
-                } else {
-                    EDCPCollectionMaster loMaster = poDcp.CheckIfHasCollection();
-                    if("1".equalsIgnoreCase(loMaster.getSendStat())){
-                        callback.OnFailed("Collection for today was already posted.");
-                    } else {
-                        callback.OnSuccess(poDcp.CheckCollectionDetailNoRemCode(loMaster.getTransNox()).size() > 0,"Continue posting DCP transactions? \n" +
-                                "NOTE: Once posted records are unable to update.");
-                    }
-                }
-            } else {
-                EDCPCollectionMaster loMaster = poDcp.CheckIfHasCollection();
-                if("1".equalsIgnoreCase(loMaster.getSendStat())){
-                    callback.OnFailed("Collection for today was already posted.");
-                } else {
-                    callback.OnSuccess(poDcp.CheckCollectionDetailNoRemCode(loMaster.getTransNox()).size() > 0,"Continue posting DCP transactions? \n" +
-                            "NOTE: Once posted records are unable to update.");
-                }
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-            callback.OnFailed(e.getMessage());
         }
     }
 

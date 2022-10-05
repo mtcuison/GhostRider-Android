@@ -11,7 +11,6 @@
 
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
@@ -21,23 +20,19 @@ import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -46,13 +41,9 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCPCollectionDetail;
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
-import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.lib.integsys.Dcp.ImportParams;
@@ -67,7 +58,6 @@ import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMCollectio
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -89,7 +79,6 @@ public class Activity_CollectionList extends AppCompatActivity {
     private LinearLayoutManager layoutManager;
 
     private TextView lblBranch, lblAddxx, lblDate;
-    private JSONArray expCollectDetl;
 
     private MaterialButton btnDownload, btnImport;
     private LinearLayout lnImportPanel, lnPosted;
@@ -100,8 +89,6 @@ public class Activity_CollectionList extends AppCompatActivity {
     private String fileContent= "";
 
     private JSONObject poDcpData;
-
-    private List<DDCPCollectionDetail.CollectionDetail> plDetail;
 
     private final ActivityResultLauncher<Intent> poImport = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
         if(result.getResultCode() == RESULT_OK){
@@ -131,13 +118,12 @@ public class Activity_CollectionList extends AppCompatActivity {
         }
     });
 
-    @SuppressLint("NewApi")
+//    @SuppressLint("NewApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_collection_list);
         mViewModel = new ViewModelProvider(this).get(VMCollectionList.class);
-        expCollectDetl = new JSONArray();
         initWidgets();
 
         mViewModel.GetUserInfo().observe(Activity_CollectionList.this, user -> {
@@ -157,7 +143,6 @@ public class Activity_CollectionList extends AppCompatActivity {
                     recyclerView.setVisibility(View.VISIBLE);
                     lnImportPanel.setVisibility(View.GONE);
                     FILENAME = collectionDetails.get(0).getTransNox();
-                    Log.e("Master List TransNox",collectionDetails.get(0).getTransNox() );
                 } else {
                     tilSearch.setVisibility(View.GONE);
                     recyclerView.setVisibility(View.GONE);
@@ -245,6 +230,7 @@ public class Activity_CollectionList extends AppCompatActivity {
 
     private void initWidgets(){
         Toolbar toolbar = findViewById(R.id.toolbar_collectionList);
+        toolbar.setTitle("Daily Collection Plan");
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
@@ -266,8 +252,6 @@ public class Activity_CollectionList extends AppCompatActivity {
 
         poDialogx = new LoadDialog(Activity_CollectionList.this);
         poMessage = new MessageBox(Activity_CollectionList.this);
-
-        plDetail = new ArrayList<>();
     }
 
     @Override
@@ -318,11 +302,13 @@ public class Activity_CollectionList extends AppCompatActivity {
 
             @Override
             public void OnSuccess() {
+                poDialogx.dismiss();
                 PostCollection("");
             }
 
             @Override
             public void OnIncompleteDcp() {
+                poDialogx.dismiss();
                 DialogConfirmPost loPost = new DialogConfirmPost(Activity_CollectionList.this);
                 loPost.iniDialog(new DialogConfirmPost.DialogPostUnfinishedListener() {
                     @Override
@@ -341,6 +327,7 @@ public class Activity_CollectionList extends AppCompatActivity {
 
             @Override
             public void OnFailed(String message) {
+                poDialogx.dismiss();
                 poMessage.initDialog();
                 poMessage.setTitle("Daily Collection Plan");
                 poMessage.setMessage(message);

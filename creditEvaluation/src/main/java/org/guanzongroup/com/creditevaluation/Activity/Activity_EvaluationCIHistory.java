@@ -73,8 +73,8 @@ public class Activity_EvaluationCIHistory extends AppCompatActivity implements V
 
     }
     private void initWidgets() {
-
         Toolbar toolbar = findViewById(R.id.toolbar_creditEvalutionList);
+        toolbar.setTitle("C.I Results");
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         poDialogx = new LoadDialog(Activity_EvaluationCIHistory.this);
@@ -94,7 +94,6 @@ public class Activity_EvaluationCIHistory extends AppCompatActivity implements V
     public void onStartImport() {
         poDialogx.initDialog("CI Evaluation List", "Importing latest data. Please wait...", false);
         poDialogx.show();
-//        initData();
     }
 
     @Override
@@ -130,12 +129,6 @@ public class Activity_EvaluationCIHistory extends AppCompatActivity implements V
                     adapter = new CreditEvaluationListAdapter(ciList, "CI Evaluation History", new CreditEvaluationListAdapter.OnApplicationClickListener() {
                         @Override
                         public void OnClick(int position, List<DCreditOnlineApplicationCI.oDataEvaluationInfo> ciEvaluationLists) {
-//                            poMessage.initDialog();
-//                            poMessage.setTitle("CI Evaluation History");
-//                            poMessage.setMessage("No corresponding feature has been set.");
-//                            poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-//                            poMessage.show();
-
                             Intent loIntent = new Intent(Activity_EvaluationCIHistory.this, Activity_EvaluationCIHistoryInfo.class);
                             loIntent.putExtra("sTransNox", ciEvaluationLists.get(position).sTransNox);
                             loIntent.putExtra("sClientNm", ciEvaluationLists.get(position).sClientNm);
@@ -185,11 +178,8 @@ public class Activity_EvaluationCIHistory extends AppCompatActivity implements V
                         }
                     });
                 } else {
-//                    mViewModel.ImportCIApplications(Activity_EvaluationCIHistory.this);
                     layoutNoRecord.setVisibility(View.VISIBLE);
                 }
-            } catch (NullPointerException e) {
-                e.printStackTrace();
             } catch (Exception e) {
                 e.printStackTrace();
             }
