@@ -122,9 +122,7 @@ public class ECreditApplicantInfo {
         Purchase = purchase;
     }
 
-    public String getApplInfo() {
-        return ApplInfo;
-    }
+    public String getApplInfo() {return ApplInfo;}
 
     public void setApplInfo(String applInfo) {
         ApplInfo = applInfo;

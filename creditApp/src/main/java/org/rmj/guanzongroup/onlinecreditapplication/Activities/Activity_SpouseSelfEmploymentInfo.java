@@ -40,17 +40,17 @@ public class Activity_SpouseSelfEmploymentInfo extends AppCompatActivity {
         String param = receiveIntent.getStringExtra("params");
         try {
             JSONObject object = new JSONObject(param);
-            object.put("sspnMonthOrYr",spnMonthOrYr);
-            object.put("stxtBizName",txtBizName);
-            object.put("stxtBizAddrss",txtBizAddrss);
-            object.put("stxtBizLength",txtBizLength);
-            object.put("stxtMonthlyInc",txtMonthlyInc);
-            object.put("stxtMonthlyExp",txtMonthlyExp);
-            object.put("sspnBizIndustry",spnBizIndustry);
-            object.put("stxtProvince",txtProvince);
-            object.put("stxtTown",txtTown);
-            object.put("sspnBizType",spnBizType);
-            object.put("sspnBizSize",spnBizSize);
+            object.put("sspnMonthOrYr",spnMonthOrYr.getText().toString().trim());
+            object.put("stxtBizName",txtBizName.getText().toString().trim());
+            object.put("stxtBizAddrss",txtBizAddrss.getText().toString().trim());
+            object.put("stxtBizLength",txtBizLength.getText().toString().trim());
+            object.put("stxtMonthlyInc",txtMonthlyInc.getText().toString().trim());
+            object.put("stxtMonthlyExp",txtMonthlyExp.getText().toString().trim());
+            object.put("sspnBizIndustry",spnBizIndustry.getText().toString().trim());
+            object.put("stxtProvince",txtProvince.getText().toString().trim());
+            object.put("stxtTown",txtTown.getText().toString().trim());
+            object.put("sspnBizType",spnBizType.getText().toString().trim());
+            object.put("sspnBizSize",spnBizSize.getText().toString().trim());
 
             btnNext.setOnClickListener(v -> {
                 Intent intent = new Intent(Activity_SpouseSelfEmploymentInfo.this, Activity_SpousePensionInfo.class);

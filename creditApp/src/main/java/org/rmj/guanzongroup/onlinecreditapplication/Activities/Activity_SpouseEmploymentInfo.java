@@ -59,22 +59,22 @@ public class Activity_SpouseEmploymentInfo extends AppCompatActivity {
             object.put("sUniformx", sUniform);
             object.put("sMilitaryx", sMilitary);
 
-            object.put("sspnCmpLvlx", spnCmpLvl);
-            object.put("sspnEmpLvlx", spnEmpLvl);
-            object.put("sspnBusNtrx", spnBusNtr);
-            object.put("sspnEmpStsx", spnEmpSts);
-            object.put("sspnServcex", spnServce);
+            object.put("sspnCmpLvlx", spnCmpLvl.getText().toString().trim());
+            object.put("sspnEmpLvlx", spnEmpLvl.getText().toString().trim());
+            object.put("sspnBusNtrx", spnBusNtr.getText().toString().trim());
+            object.put("sspnEmpStsx", spnEmpSts.getText().toString().trim());
+            object.put("sspnServcex", spnServce.getText().toString().trim());
 
-            object.put("stxtCntryxx", txtCntryx);
-            object.put("stxtProvNmx", txtProvNm);
-            object.put("stxtTownNmx", txtTownNm);
-            object.put("stxtJobNmex", txtJobNme);
-            object.put("stxtCompNmx", txtCompNm);
-            object.put("stxtCompAdx", txtCompAd);
-            object.put("stxtSpcfJbx", txtSpcfJb);
-            object.put("stxtLngthSx", txtLngthS);
-            object.put("stxtEsSlryx", txtEsSlry);
-            object.put("stxtCompCnx", txtCompCn);
+            object.put("stxtCntryxx", txtCntryx.getText().toString().trim());
+            object.put("stxtProvNmx", txtProvNm.getText().toString().trim());
+            object.put("stxtTownNmx", txtTownNm.getText().toString().trim());
+            object.put("stxtJobNmex", txtJobNme.getText().toString().trim());
+            object.put("stxtCompNmx", txtCompNm.getText().toString().trim());
+            object.put("stxtCompAdx", txtCompAd.getText().toString().trim());
+            object.put("stxtSpcfJbx", txtSpcfJb.getText().toString().trim());
+            object.put("stxtLngthSx", txtLngthS.getText().toString().trim());
+            object.put("stxtEsSlryx", txtEsSlry.getText().toString().trim());
+            object.put("stxtCompCnx", txtCompCn.getText().toString().trim());
 
             btnNext.setOnClickListener(v -> {
                 Intent intent = new Intent(Activity_SpouseEmploymentInfo.this, Activity_SpouseSelfEmploymentInfo.class);

@@ -12,6 +12,8 @@ import androidx.appcompat.widget.Toolbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.rmj.g3appdriver.etc.OnDateSetListener;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
@@ -41,6 +43,50 @@ public class Activity_CoMaker extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_co_maker);
         initWidgets();
+        json();
+    }
+
+    private void json() {
+        Intent receiveIntent = getIntent();
+        String param = receiveIntent.getStringExtra("params");
+        try {
+            JSONObject object = new JSONObject(param);
+            object.put("stieLastname", tieLastname.getText().toString().trim());
+            object.put("stieFrstname", tieFrstname.getText().toString().trim());
+            object.put("stieMiddname", tieMiddname.getText().toString().trim());
+            object.put("stieSuffixxx", tieSuffixxx.getText().toString().trim());
+            object.put("stieNickname", tieNickname.getText().toString().trim());
+            object.put("stieBrthDate", tieBrthDate.getText().toString().trim());
+            object.put("stieBrthProv", tieBrthProv.getText().toString().trim());
+            object.put("stieBrthTown", tieBrthTown.getText().toString().trim());
+            object.put("stiePrmCntct", tiePrmCntct.getText().toString().trim());
+            object.put("stieScnCntct", tieScnCntct.getText().toString().trim());
+            object.put("stieTrtCntct", tieTrtCntct.getText().toString().trim());
+            object.put("stiePrmCntctPlan", tiePrmCntctPlan.getText().toString().trim());
+            object.put("stieScnCntctPlan", tieScnCntctPlan.getText().toString().trim());
+            object.put("stieTrtCntctPlan", tieTrtCntctPlan.getText().toString().trim());
+            object.put("stieFbAcctxx", tieFbAcctxx.getText().toString().trim());
+            object.put("sspnIncmSrce", spnIncmSrce.getText().toString().trim());
+            object.put("sspnBrwrRltn", spnBrwrRltn.getText().toString().trim());
+            object.put("sspnPrmCntct", spnPrmCntct.getText().toString().trim());
+            object.put("sspnScnCntct", spnScnCntct.getText().toString().trim());
+            object.put("sspnTrtCntct", spnTrtCntct.getText().toString().trim());
+
+            btnNext.setOnClickListener(v -> {
+                Intent intent = new Intent(Activity_CoMaker.this, Activity_ComakerResidence.class);
+                intent.putExtra("params", object.toString());
+                startActivity(intent);
+                finish();
+            });
+            btnPrvs.setOnClickListener(v -> {
+                Intent intent = new Intent(Activity_CoMaker.this, Activity_OtherInfo.class);
+                startActivity(intent);
+                finish();
+            });
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private void initWidgets() {
@@ -101,16 +147,6 @@ public class Activity_CoMaker extends AppCompatActivity {
                 android.R.layout.simple_list_item_1, CreditAppConstants.MOBILE_NO_TYPE));
         spnTrtCntct.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
 
-        btnNext.setOnClickListener(v -> {
-            Intent intent = new Intent(Activity_CoMaker.this, Activity_ComakerResidence.class);
-            startActivity(intent);
-            finish();
-        });
-        btnPrvs.setOnClickListener(v -> {
-            Intent intent = new Intent(Activity_CoMaker.this, Activity_OtherInfo.class);
-            startActivity(intent);
-            finish();
-        });
 
     }
 

@@ -93,23 +93,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:hint="@string/sHintSuffix">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/txt_suffix"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:imeOptions="actionNext"
-                        android:inputType="textCapWords|textPersonName"
-                        android:maxLength="50"
-                        android:nextFocusForward="@+id/txt_middname" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    style="@style/TextInputStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:hint="@string/sHintMiddName">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -122,6 +105,24 @@
                         android:nextFocusForward="@+id/txt_nickname" />
 
                 </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/TextInputStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.3"
+                    android:hint="@string/sHintSuffix">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txt_suffix"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:imeOptions="actionNext"
+                        android:inputType="textCapWords|textPersonName"
+                        android:maxLength="50"
+                        android:nextFocusForward="@+id/txt_middname" />
+                </com.google.android.material.textfield.TextInputLayout>
+
 
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/TextInputStyle"
@@ -176,10 +177,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:imeOptions="actionNext"
-                        android:padding="16dp"
-                        android:inputType="textPersonName|textCapWords"
+                        android:inputType="textPersonName|textCapWords|"
                         android:maxLength="100"
-                        android:nextFocusForward="@+id/txt_bpTown" />
+                        android:nextFocusForward="@+id/txt_bpTown"
+                        android:padding="16dp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -194,9 +195,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:imeOptions="actionDone"
-                        android:padding="16dp"
                         android:inputType="textPersonName|textCapWords"
-                        android:maxLength="100"/>
+                        android:maxLength="100"
+                        android:padding="16dp" />
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
@@ -339,10 +340,29 @@
                         android:clickable="false"
                         android:cursorVisible="false"
                         android:focusable="false"
-                        android:inputType="none"
                         android:imeOptions="actionNext"
+                        android:inputType="none"
                         android:nextFocusForward="@+id/txt_mobileNo2"
                         android:padding="16dp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_mobileNo1Year"
+                    style="@style/TextInputStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.6"
+                    android:hint="@string/sHintYear"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txt_mobileNo1Year"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number|none"
+                        android:maxLength="2" />
+
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
@@ -386,10 +406,29 @@
                         android:clickable="false"
                         android:cursorVisible="false"
                         android:focusable="false"
-                        android:inputType="none"
                         android:imeOptions="actionNext"
+                        android:inputType="none"
                         android:nextFocusForward="@+id/txt_mobileNo3"
                         android:padding="16dp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_mobileNo2Year"
+                    style="@style/TextInputStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.6"
+                    android:hint="@string/sHintYear"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txt_mobileNo2Year"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number|none"
+                        android:maxLength="2" />
+
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
@@ -433,10 +472,29 @@
                         android:clickable="false"
                         android:cursorVisible="false"
                         android:focusable="false"
-                        android:inputType="none"
                         android:imeOptions="actionNext"
+                        android:inputType="none"
                         android:nextFocusForward="@+id/txt_telephoneNo"
                         android:padding="16dp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_mobileNo3Year"
+                    style="@style/TextInputStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.6"
+                    android:hint="@string/sHintYear"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txt_mobileNo3Year"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number|none"
+                        android:maxLength="2" />
+
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
@@ -508,14 +566,25 @@
                     android:nextFocusForward="@+id/btn_creditAppNext" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_creditAppNext"
-                style="@style/NavigationButton"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableEnd="@drawable/ic_nav_right"
-                android:drawableRight="@drawable/ic_nav_right"
-                android:text="@string/sbtnNext" />
+                android:layout_marginBottom="300dp"
+                android:orientation="vertical"
+                android:gravity="end">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_creditAppNext"
+                    style="@style/NavigationButton"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/ic_nav_right"
+                    android:drawableRight="@drawable/ic_nav_right"
+                    android:text="@string/sbtnNext" />
+
+            </LinearLayout>
+
 
         </LinearLayout>
 

@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 
@@ -40,6 +42,42 @@ public class Activity_OtherInfo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_other_info);
         initWidgets();
+        json();
+    }
+
+    private void json() {
+        Intent receiveIntent = getIntent();
+        String param = receiveIntent.getStringExtra("params");
+        try {
+            JSONObject object = new JSONObject(param);
+            object.put("sspnUnitPrps", spnUnitPrps.getText().toString().trim());
+            object.put("sspnUnitPayr", spnUnitPayr.getText().toString().trim());
+            object.put("sspnUnitUser", spnUnitUser.getText().toString().trim());
+            object.put("sspnOthrUser", spnOthrUser.getText().toString().trim());
+            object.put("sspnOthrPayr", spnOthrPayr.getText().toString().trim());
+            object.put("sspnSourcexx", spnSourcexx.getText().toString().trim());
+            object.put("stieOthrSrc", tieOthrSrc.getText().toString().trim());
+            object.put("stieRefName", tieRefName.getText().toString().trim());
+            object.put("stieRefCntc", tieRefCntc.getText().toString().trim());
+            object.put("stieRefAdd1", tieRefAdd1.getText().toString().trim());
+            object.put("stieAddProv", tieAddProv.getText().toString().trim());
+            object.put("stieAddTown", tieAddTown.getText().toString().trim());
+
+            btnNext.setOnClickListener(v -> {
+                Intent intent = new Intent(Activity_OtherInfo.this, Activity_CoMaker.class);
+                intent.putExtra("params", object.toString());
+                startActivity(intent);
+                finish();
+            });
+            btnPrevs.setOnClickListener(v -> {
+                Intent intent = new Intent(Activity_OtherInfo.this, Activity_Properties.class);
+                startActivity(intent);
+                finish();
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private void initWidgets() {
@@ -48,7 +86,6 @@ public class Activity_OtherInfo extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Other Info");
-
 
         tilOthrUser = findViewById(R.id.til_cap_otherUser);
         tilOthrPayr = findViewById(R.id.til_cap_otherPayer);
@@ -73,6 +110,7 @@ public class Activity_OtherInfo extends AppCompatActivity {
         tilOthrUser.setVisibility(View.GONE);
         tilOthrPayr.setVisibility(View.GONE);
         tilOtherSrc.setVisibility(View.GONE);
+
         btnNext = findViewById(R.id.btn_creditAppNext);
         btnPrevs = findViewById(R.id.btn_creditAppPrvs);
 
@@ -96,22 +134,10 @@ public class Activity_OtherInfo extends AppCompatActivity {
                 android.R.layout.simple_list_item_1, CreditAppConstants.UNIT_PAYER));
         spnOthrPayr.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
 
-//        spnSourcexx.setAdapter(new ArrayAdapter<>(Activity_OtherInfo.this,
-//                android.R.layout.simple_list_item_1, CreditAppConstants.UNIT_PAYER));
-//        spnSourcexx.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+        spnSourcexx.setAdapter(new ArrayAdapter<>(Activity_OtherInfo.this,
+                android.R.layout.simple_list_item_1, CreditAppConstants.UNIT_PAYER));
+        spnSourcexx.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
 
-
-
-        btnNext.setOnClickListener(v -> {
-            Intent intent = new Intent(Activity_OtherInfo.this, Activity_CoMaker.class);
-            startActivity(intent);
-            finish();
-        });
-        btnPrevs.setOnClickListener(v -> {
-            Intent intent = new Intent(Activity_OtherInfo.this, Activity_Properties.class);
-            startActivity(intent);
-            finish();
-        });
 
     }
 }

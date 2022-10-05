@@ -12,6 +12,8 @@ import androidx.appcompat.widget.Toolbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 
@@ -42,6 +44,41 @@ public class Activity_SpouseInfo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_spouse_info);
         initWidgets();
+        json();
+    }
+
+    private void json() {
+        Intent receiveIntent  = getIntent();
+        String param = receiveIntent.getStringExtra("params");
+        try {
+            JSONObject object = new JSONObject(param);
+            object.put("sSpProvince", txtProvince.getText().toString().trim());
+            object.put("sSpTownxx", txtTownxx.getText().toString().trim());
+            object.put("sSpLastName", txtLastName.getText().toString().trim());
+            object.put("sSpFirstName", txtFirstName.getText().toString().trim());
+            object.put("sSpSuffix", txtSuffix.getText().toString().trim());
+            object.put("sSpMiddName", txtMiddName.getText().toString().trim());
+            object.put("sSpNickName", txtNickName.getText().toString().trim());
+            object.put("sSpBDate", txtBDate.getText().toString().trim());
+            object.put("sSpCitizenx", txtCitizenx.getText().toString().trim());
+            object.put("sSpPrimeCntc", txtPrimeCntc.getText().toString().trim());
+            object.put("sSpPrimeCntcYr", txtPrimeCntcYr.getText().toString().trim());
+            object.put("sSpSecCntct", txtSecCntct.getText().toString().trim());
+            object.put("sSpSecCntctYr", txtSecCntctYr.getText().toString().trim());
+            object.put("sSpThirCntct", txtThirCntct.getText().toString().trim());
+            object.put("sSpThirCntctYr", txtThirCntctYr.getText().toString().trim());
+            object.put("sSpTelNox", txtTelNox.getText().toString().trim());
+            object.put("sSpEmailAdd", txtEmailAdd.getText().toString().trim());
+            object.put("sSpFbAcct", txtFbAcct.getText().toString().trim());
+            object.put("sSpViberAcct", txtViberAcct.getText().toString().trim());
+            object.put("sSpMobileType1", spnMobile1.getText().toString().trim());
+            object.put("sSpMobileType2", spnMobile2.getText().toString().trim());
+            object.put("sSpMobileType3", spnMobile3.getText().toString().trim());
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private void initWidgets() {

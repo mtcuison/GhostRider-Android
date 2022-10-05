@@ -48,18 +48,18 @@ public class Activity_SelfEmployedInfo extends AppCompatActivity {
         String param = receiveIntent.getStringExtra("params");
         try {
             JSONObject object = new JSONObject(param);
-            object.put("sspnBussNtr" , spnBussNtr);
-            object.put("sspnBussTyp" , spnBussTyp);
-            object.put("sspnBussSze" , spnBussSze);
-            object.put("sspnLngSrvc" , spnLngSrvc);
+            object.put("sspnBussNtr" , spnBussNtr.getText().toString().trim());
+            object.put("sspnBussTyp" , spnBussTyp.getText().toString().trim());
+            object.put("sspnBussSze" , spnBussSze.getText().toString().trim());
+            object.put("sspnLngSrvc" , spnLngSrvc.getText().toString().trim());
 
-            object.put("stxtBussName" , txtBussName);
-            object.put("stxtBussAdds" , txtBussAdds);
-            object.put("stxtLnghtSrv" , txtLnghtSrv);
-            object.put("stxtMnthlyIn" , txtMnthlyIn);
-            object.put("stxtMnthlyEx" , txtMnthlyEx);
-            object.put("stxtProvncx" , txtProvnc);
-            object.put("stxtTownxx" , txtTownxx);
+            object.put("stxtBussName" , txtBussName.getText().toString().trim());
+            object.put("stxtBussAdds" , txtBussAdds.getText().toString().trim());
+            object.put("stxtLnghtSrv" , txtLnghtSrv.getText().toString().trim());
+            object.put("stxtMnthlyIn" , txtMnthlyIn.getText().toString().trim());
+            object.put("stxtMnthlyEx" , txtMnthlyEx.getText().toString().trim());
+            object.put("stxtProvncx" , txtProvnc.getText().toString().trim());
+            object.put("stxtTownxx" , txtTownxx.getText().toString().trim());
 
             //Button
             btnNext.setOnClickListener(v -> {

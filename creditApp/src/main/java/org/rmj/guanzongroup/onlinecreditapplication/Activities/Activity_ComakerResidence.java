@@ -13,6 +13,8 @@ import androidx.appcompat.widget.Toolbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 
 import java.util.Objects;
@@ -40,6 +42,30 @@ public class Activity_ComakerResidence extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comaker_residence);
         initWidgets();
+        json();
+    }
+
+    private void json() {
+        Intent receiveIntent = getIntent();
+        String param = receiveIntent.getStringExtra("params");
+        try {
+            JSONObject object = new JSONObject(param);
+            object.put("sCoLandMark", txtLandMark.getText().toString().trim());
+            object.put("sCoHouseNox", txtHouseNox.getText().toString().trim());
+            object.put("sCoAddress1", txtAddress1.getText().toString().trim());
+            object.put("sCoAddress2", txtAddress2.getText().toString().trim());
+            object.put("sCoBarangay", txtBarangay.getText().toString().trim());
+            object.put("sCoMunicipality", txtMunicipality.getText().toString().trim());
+            object.put("sCoProvince", txtProvince.getText().toString().trim());
+            object.put("sCoRelationship", txtRelationship.getText().toString().trim());
+            object.put("sCoLgnthStay", txtLgnthStay.getText().toString().trim());
+            object.put("sCoMonthlyExp", txtMonthlyExp.getText().toString().trim());
+            object.put("sCoLgnthStay", spnLgnthStay.getText().toString().trim());
+            object.put("sCoHouseHold", spnHouseHold.getText().toString().trim());
+            object.put("sCoHouseType", spnHouseType.getText().toString().trim());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private void initWidgets() {

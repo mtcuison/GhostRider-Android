@@ -39,11 +39,11 @@ public class Activity_PensionInfo extends AppCompatActivity {
         String param = receiveIntent.getStringExtra("params");
         try {
             JSONObject object = new JSONObject(param);
-            object.put("sspnSector",spnSector);
-            object.put("stxtRangxx",txtRangxx);
-            object.put("stxtYearxx",txtYearxx);
-            object.put("stxtOthInc",txtOthInc);
-            object.put("stxtRngInc",txtRngInc);
+            object.put("sspnSector",spnSector.getText().toString().trim());
+            object.put("stxtRangxx",txtRangxx.getText().toString().trim());
+            object.put("stxtYearxx",txtYearxx.getText().toString().trim());
+            object.put("stxtOthInc",txtOthInc.getText().toString().trim());
+            object.put("stxtRngInc",txtRngInc.getText().toString().trim());
 
             btnNext.setOnClickListener(v -> {
                 Intent intent = new Intent(Activity_PensionInfo.this, Activity_SpouseInfo.class);

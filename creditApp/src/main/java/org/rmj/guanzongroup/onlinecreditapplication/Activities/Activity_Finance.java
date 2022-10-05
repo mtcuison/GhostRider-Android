@@ -42,12 +42,12 @@ public class Activity_Finance extends AppCompatActivity {
         String param = receiveIntent.getStringExtra("params");
         try {
             JSONObject object = new JSONObject(param);
-            object.put("stxtFNamex",txtFNamex);
-            object.put("stxtFIncme",txtFIncme);
-            object.put("stxtFCntry",txtFCntry);
-            object.put("stxtFMoble",txtFMoble);
-            object.put("stxtFFacbk",txtFFacbk);
-            object.put("stxtFEmail",txtFEmail);
+            object.put("stxtFNamex",txtFNamex.getText().toString().trim());
+            object.put("stxtFIncme",txtFIncme.getText().toString().trim());
+            object.put("stxtFCntry",txtFCntry.getText().toString().trim());
+            object.put("stxtFMoble",txtFMoble.getText().toString().trim());
+            object.put("stxtFFacbk",txtFFacbk.getText().toString().trim());
+            object.put("stxtFEmail",txtFEmail.getText().toString().trim());
 
             btnNext.setOnClickListener(v -> {
                 Intent intent = new Intent(Activity_Finance.this, Activity_PensionInfo.class);

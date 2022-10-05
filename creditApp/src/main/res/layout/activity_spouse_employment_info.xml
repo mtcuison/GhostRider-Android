@@ -74,7 +74,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="visible">
+                android:visibility="gone">
 
                 <TextView
                     style="@style/HeaderLabelBlack"
@@ -178,7 +178,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/sHintCountryNm"
-                android:visibility="visible">
+                android:visibility="gone">
 
                 <AutoCompleteTextView
                     android:id="@+id/txt_countryNme"
@@ -437,7 +437,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="30dp"
+                android:layout_marginBottom="300dp"
                 android:orientation="horizontal">
 
                 <Button

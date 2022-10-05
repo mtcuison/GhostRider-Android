@@ -39,11 +39,11 @@ public class Activity_SpouseResidenceInfo extends AppCompatActivity {
         String param = receiveIntent.getStringExtra("params");
         try {
             JSONObject object = new JSONObject(param);
-            object.put("stxtLandMark",txtLandMark);
-            object.put("stxtHouseNox",txtHouseNox);
-            object.put("stxtAddress1",txtAddress1);
-            object.put("stxtAddress2",txtAddress2);
-            object.put("stxtProvince",txtProvince);
+            object.put("stxtLandMark",txtLandMark.getText().toString().trim());
+            object.put("stxtHouseNox",txtHouseNox.getText().toString().trim());
+            object.put("stxtAddress1",txtAddress1.getText().toString().trim());
+            object.put("stxtAddress2",txtAddress2.getText().toString().trim());
+            object.put("stxtProvince",txtProvince.getText().toString().trim());
             object.put("stxtTown",txtTown);
             object.put("stxtBarangay",txtBarangay);
 

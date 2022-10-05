@@ -71,14 +71,14 @@ public class Activity_Dependent extends AppCompatActivity {
         String param = receiveIntent.getStringExtra("params");
         try {
             JSONObject object = new JSONObject(param);
-            object.put("stieFullname", tieFullname);
-            object.put("stieDpdAgexx", tieDpdAgexx);
-            object.put("stieCompName", tieCompName);
-            object.put("stieSchoolNm", tieSchoolNm);
-            object.put("stieSchlAddx", tieSchlAddx);
-            object.put("stieSchlProv", tieSchlProv);
-            object.put("stieSchlTown", tieSchlTown);
-            object.put("sactRelationx", actRelationx);
+            object.put("stieFullname", tieFullname.getText().toString().trim());
+            object.put("stieDpdAgexx", tieDpdAgexx.getText().toString().trim());
+            object.put("stieCompName", tieCompName.getText().toString().trim());
+            object.put("stieSchoolNm", tieSchoolNm.getText().toString().trim());
+            object.put("stieSchlAddx", tieSchlAddx.getText().toString().trim());
+            object.put("stieSchlProv", tieSchlProv.getText().toString().trim());
+            object.put("stieSchlTown", tieSchlTown.getText().toString().trim());
+            object.put("sactRelationx", actRelationx.getText().toString().trim());
             object.put("ssDepStud", sDepStud);
             object.put("ssDepEmp", sDepEmp);
             object.put("scbDependent", scbDependent);

@@ -40,15 +40,15 @@ public class Activity_DisbursementInfo extends AppCompatActivity {
         String param = receiveIntent.getStringExtra("params");
         try {
             JSONObject object = new JSONObject(param);
-            object.put("stieElctx",tieElctx);
-            object.put("stieWater",tieWater);
-            object.put("stieFoodx",tieFoodx);
-            object.put("stieLoans",tieLoans);
-            object.put("stieBankN",tieBankN);
-            object.put("sspnTypex",spnTypex);
-            object.put("stieCCBnk",tieCCBnk);
-            object.put("stieLimit",tieLimit);
-            object.put("stieYearS",tieYearS);
+            object.put("stieElctx",tieElctx.getText().toString().trim());
+            object.put("stieWater",tieWater.getText().toString().trim());
+            object.put("stieFoodx",tieFoodx.getText().toString().trim());
+            object.put("stieLoans",tieLoans.getText().toString().trim());
+            object.put("stieBankN",tieBankN.getText().toString().trim());
+            object.put("sspnTypex",spnTypex.getText().toString().trim());
+            object.put("stieCCBnk",tieCCBnk.getText().toString().trim());
+            object.put("stieLimit",tieLimit.getText().toString().trim());
+            object.put("stieYearS",tieYearS.getText().toString().trim());
 
             btnNext.setOnClickListener(v -> {
                 Intent intent = new Intent(Activity_DisbursementInfo.this, Activity_Dependent.class);

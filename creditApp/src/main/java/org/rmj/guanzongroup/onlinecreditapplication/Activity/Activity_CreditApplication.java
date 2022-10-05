@@ -11,13 +11,13 @@
 
 package org.rmj.guanzongroup.onlinecreditapplication.Activity;
 
+import android.os.Bundle;
+import android.view.MenuItem;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
-
-import android.os.Bundle;
-import android.view.MenuItem;
 
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.guanzongroup.onlinecreditapplication.Adapter.FragmentAdapter;
@@ -31,13 +31,14 @@ public class Activity_CreditApplication extends AppCompatActivity {
     private static final String TAG = Activity_CreditApplication.class.getSimpleName();
     private static Activity_CreditApplication instance;
     private ViewPager viewPager;
-    private String transNox;
+    private static String transNox ;
+
     public static Activity_CreditApplication getInstance(){
         return instance;
     }
 
-    public String getTransNox(){
-        return transNox;
+    public static String getTransNox(){
+        return transNox ;
     }
 
     public void moveToPageNumber(int fnPageNum){

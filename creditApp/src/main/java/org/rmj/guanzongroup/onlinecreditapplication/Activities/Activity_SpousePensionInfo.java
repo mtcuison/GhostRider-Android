@@ -40,10 +40,10 @@ public class Activity_SpousePensionInfo extends AppCompatActivity {
         try {
             JSONObject object = new JSONObject(param);
             object.put("sPenSector", sPenSector);
-            object.put("stxtPensionAmt", txtPensionAmt);
-            object.put("stxtRetirementYr", txtRetirementYr);
-            object.put("stxtOtherSrc", txtOtherSrc);
-            object.put("stxtOtherSrcInc", txtOtherSrcInc);
+            object.put("stxtPensionAmt", txtPensionAmt.getText().toString().trim());
+            object.put("stxtRetirementYr", txtRetirementYr.getText().toString().trim());
+            object.put("stxtOtherSrc", txtOtherSrc.getText().toString().trim());
+            object.put("stxtOtherSrcInc", txtOtherSrcInc.getText().toString().trim());
 
             btnNext.setOnClickListener(v -> {
                 Intent intent = new Intent(Activity_SpousePensionInfo.this, Activity_DisbursementInfo.class);
