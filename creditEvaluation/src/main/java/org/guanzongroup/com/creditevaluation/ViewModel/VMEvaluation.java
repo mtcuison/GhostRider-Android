@@ -16,7 +16,10 @@ import org.guanzongroup.com.creditevaluation.Model.AdditionalInfoModel;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditOnlineApplicationCI;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
+import org.rmj.g3appdriver.GRider.Database.Entities.EOccupationInfo;
+import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
+import org.rmj.g3appdriver.GRider.Database.Repositories.ROccupation;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 
@@ -29,6 +32,7 @@ public class VMEvaluation extends AndroidViewModel {
     private final Application app;
     private final EmployeeMaster poUser;
     private final EvaluatorManager foManager;
+    private final ROccupation poJob;
     private MutableLiveData<HashMap<oParentFndg, List<oChildFndg>>> poEvaluate = new MutableLiveData<>();
     private MutableLiveData<ECreditOnlineApplicationCI> poData = new MutableLiveData<>();
     private MutableLiveData<String> TransNox = new MutableLiveData<>();
@@ -45,6 +49,7 @@ public class VMEvaluation extends AndroidViewModel {
         this.poUser = new EmployeeMaster(application);
         this.poImage = new RImageInfo(application);
         this.foManager = new EvaluatorManager(application);
+        this.poJob = new ROccupation(application);
         this.records.setValue("-1");
         this.recordRemarks.setValue("");
     }
@@ -77,8 +82,8 @@ public class VMEvaluation extends AndroidViewModel {
         return foManager.getApplications(transNox);
     }
 
-    public LiveData<HashMap<oParentFndg, List<oChildFndg>>> getParsedEvaluationData(){
-        return foEvaluate;
+    public LiveData<List<EOccupationInfo>> GetOccupationList(){
+        return poJob.getAllOccupationInfo();
     }
 
     public void saveResidenceImageInfo(EImageInfo foImage) {

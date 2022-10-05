@@ -21,6 +21,8 @@ import androidx.lifecycle.LiveData;
 import org.guanzongroup.com.creditevaluation.Core.EvaluatorManager;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditOnlineApplicationCI;
+import org.rmj.g3appdriver.GRider.Database.Entities.EOccupationInfo;
+import org.rmj.g3appdriver.GRider.Database.Repositories.ROccupation;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 
 import java.util.List;
@@ -29,15 +31,17 @@ public class VMEvaluationCIHistoryInfo extends AndroidViewModel {
 
     private final ConnectionUtil poConnect;
     private final EvaluatorManager poHistory;
+    private final ROccupation poJob;
 
     public VMEvaluationCIHistoryInfo(@NonNull Application application) {
         super(application);
         this.poConnect = new ConnectionUtil(application);
         this.poHistory = new EvaluatorManager(application);
+        this.poJob = new ROccupation(application);
     }
 
-    public LiveData<List<ECreditOnlineApplicationCI>> getForPreviewResultList() {
-        return poHistory.getForPreviewResultList();
+    public LiveData<List<EOccupationInfo>> GetOccupationList(){
+        return poJob.getAllOccupationInfo();
     }
 
     public LiveData<ECreditOnlineApplicationCI> RetrieveApplicationData(String TransNox) {

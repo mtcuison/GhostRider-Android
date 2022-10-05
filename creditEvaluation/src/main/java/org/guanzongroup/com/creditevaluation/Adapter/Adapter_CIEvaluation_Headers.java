@@ -13,17 +13,26 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.guanzongroup.com.creditevaluation.R;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.rmj.g3appdriver.GRider.Database.Entities.EOccupationInfo;
+
+import java.util.List;
 
 public class Adapter_CIEvaluation_Headers extends RecyclerView.Adapter<Adapter_CIEvaluation_Headers.VHEvaluationHeaders> {
 
     private final Context mContext;
     private final JSONArray poList;
+    private final List<EOccupationInfo> poJob;
     private final boolean cPreview;
     private final onSelectResultListener mListener;
 
-    public Adapter_CIEvaluation_Headers(Context mContext, JSONArray poList, boolean cPreview, onSelectResultListener mListener) {
+    public Adapter_CIEvaluation_Headers(Context mContext,
+                                        JSONArray poList,
+                                        List<EOccupationInfo> poJob,
+                                        boolean cPreview,
+                                        onSelectResultListener mListener) {
         this.mContext = mContext;
         this.poList = poList;
+        this.poJob = poJob;
         this.cPreview = cPreview;
         this.mListener = mListener;
     }
@@ -47,7 +56,7 @@ public class Adapter_CIEvaluation_Headers extends RecyclerView.Adapter<Adapter_C
             holder.recyclerView.setLayoutManager(loManager);
             JSONArray laDetail = loJson.getJSONArray("detail");
             if(laDetail.getJSONObject(0).has("category")) {
-                holder.recyclerView.setAdapter(new Adapter_CIEvaluation_Category(mContext, laDetail, cPreview, new onSelectResultListener() {
+                holder.recyclerView.setAdapter(new Adapter_CIEvaluation_Category(mContext, laDetail, poJob, cPreview, new onSelectResultListener() {
                     @Override
                     public void OnCorrect(String fsPar, String fsKey, String fsRes, onEvaluate listener) {
                         mListener.OnCorrect(fsPar, fsKey, fsRes, listener);
@@ -59,7 +68,7 @@ public class Adapter_CIEvaluation_Headers extends RecyclerView.Adapter<Adapter_C
                     }
                 }));
             } else {
-                holder.recyclerView.setAdapter(new Adapter_CI_Evaluate(laDetail, cPreview, new onSelectResultListener() {
+                holder.recyclerView.setAdapter(new Adapter_CI_Evaluate(laDetail, poJob, cPreview, new onSelectResultListener() {
                     @Override
                     public void OnCorrect(String fsPar, String fsKey, String fsRes, onEvaluate listener) {
                         mListener.OnCorrect(fsPar, fsKey, fsRes, listener);
