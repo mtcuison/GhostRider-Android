@@ -24,7 +24,7 @@ import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DBranchOpeningMonitor;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DBranchOpeningMonitor;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 
 import java.time.LocalTime;

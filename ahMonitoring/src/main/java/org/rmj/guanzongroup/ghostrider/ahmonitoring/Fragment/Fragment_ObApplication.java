@@ -32,12 +32,12 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
 
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
-import org.rmj.g3appdriver.GRider.Etc.GToast;
-import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
-import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.dev.DeptCode;
+import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.etc.FormatUIText;
+import org.rmj.g3appdriver.etc.GToast;
+import org.rmj.g3appdriver.etc.LoadDialog;
+import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.PetManager.EmployeeOB;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMObApplication;

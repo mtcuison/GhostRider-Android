@@ -39,7 +39,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.utils.CopyToClipboard;
 import org.rmj.guanzongroup.ghostrider.approvalcode.Activity.Activity_ApprovalCode;
 import org.rmj.guanzongroup.ghostrider.approvalcode.Etc.ViewModelCallback;

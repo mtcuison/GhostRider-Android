@@ -22,7 +22,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
+import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_Approval;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_BranchOpening;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_BusinessTripApproval;

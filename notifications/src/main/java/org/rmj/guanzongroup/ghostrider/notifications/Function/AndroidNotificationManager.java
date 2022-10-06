@@ -22,17 +22,16 @@ import org.json.JSONObject;
 import org.rmj.appdriver.base.GConnection;
 import org.rmj.emm.EMM;
 import org.rmj.emm.EMMFactory;
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.DbConnection;
-import org.rmj.g3appdriver.GRider.Database.Entities.EBranchOpenMonitor;
-import org.rmj.g3appdriver.GRider.Database.Entities.ENotificationMaster;
-import org.rmj.g3appdriver.GRider.Database.Entities.ENotificationRecipient;
-import org.rmj.g3appdriver.GRider.Database.Entities.ENotificationUser;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchOpeningMonitor;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RNotificationInfo;
-import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
+import org.rmj.g3appdriver.dev.Database.Entities.EBranchOpenMonitor;
+import org.rmj.g3appdriver.dev.Database.Entities.ENotificationMaster;
+import org.rmj.g3appdriver.dev.Database.Entities.ENotificationRecipient;
+import org.rmj.g3appdriver.dev.Database.Entities.ENotificationUser;
+import org.rmj.g3appdriver.dev.Database.Repositories.RBranch;
+import org.rmj.g3appdriver.dev.Database.Repositories.RBranchOpeningMonitor;
+import org.rmj.g3appdriver.dev.Database.Repositories.RNotificationInfo;
+import org.rmj.g3appdriver.dev.HttpHeaders;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.g3appdriver.utils.WebClient;
@@ -62,7 +61,6 @@ public class AndroidNotificationManager {
         private final ConnectionUtil loConn;
         private final HttpHeaders poHeaders;
         private final RNotificationInfo poNotification;
-        private final GConnection loDbConn;
         private final RBranchOpeningMonitor poOpening;
         private final AppConfigPreference loConfig;
         private final RBranch poBranch;
@@ -78,7 +76,7 @@ public class AndroidNotificationManager {
             this.loConn = new ConnectionUtil(instance);
             this.poHeaders = HttpHeaders.getInstance(instance);
             this.poNotification = new RNotificationInfo(instance);
-            this.loDbConn = DbConnection.doConnect(instance);
+
             this.poOpening = new RBranchOpeningMonitor(instance);
             this.poBranch = new RBranch(instance);
             this.loConfig = AppConfigPreference.getInstance(instance);
@@ -99,7 +97,7 @@ public class AndroidNotificationManager {
                 } else {
                     pbSpecial = false;
                     ENotificationMaster loMaster = new ENotificationMaster();
-                    loMaster.setTransNox(poNotification.getClientNextMasterCode());
+//                    loMaster.setTransNox(poNotification.getClientNextMasterCode());
                     loMaster.setMesgIDxx(loParser.getValueOf("transno"));
                     loMaster.setParentxx(loParser.getValueOf("parent"));
                     loMaster.setCreatedx(loParser.getValueOf("stamp"));
@@ -134,7 +132,7 @@ public class AndroidNotificationManager {
                         if ("00001".equalsIgnoreCase(loJSON.getString("module"))) { //table update
                             pcSpecial = '1';
                             EMM instance = EMMFactory.make(EMMFactory.NMM_SysMon_Type.TABLE_UPDATE);
-                            instance.setConnection(loDbConn); //pass the iGConnection here
+//                            instance.setConnection(loDbConn); //pass the iGConnection here
                             instance.setData(lsValue);
                             if (!instance.execute()) System.err.println(instance.getMessage());
                         } else if ("00002".equalsIgnoreCase(loJSON.getString("module"))) {

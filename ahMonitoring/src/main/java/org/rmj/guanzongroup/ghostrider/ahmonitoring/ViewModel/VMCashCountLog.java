@@ -18,11 +18,11 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCashCount;
-import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.ECashCount;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RCashCount;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DCashCount;
+import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.ECashCount;
+import org.rmj.g3appdriver.dev.Database.Repositories.RBranch;
+import org.rmj.g3appdriver.dev.Database.Repositories.RCashCount;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.RequestNamesInfoModel;
 
@@ -48,7 +48,6 @@ public class VMCashCountLog extends AndroidViewModel {
         this.poCashCount = new RCashCount(application);
         this.eCashCount = new ECashCount();
         this.infoList = new ArrayList<>();
-        this.psTransNox.setValue(poCashCount.getCashCountNextCode());
     }
     public LiveData<EBranchInfo> getUserBranchInfo(){
         return poBranch.getUserBranchInfo();

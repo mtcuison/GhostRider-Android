@@ -18,13 +18,10 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.EInventoryDetail;
-import org.rmj.g3appdriver.GRider.Database.Entities.EInventoryMaster;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RInventoryDetail;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RInventoryMaster;
+import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.EInventoryDetail;
+import org.rmj.g3appdriver.dev.Database.Entities.EInventoryMaster;
+import org.rmj.g3appdriver.dev.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.lib.integsys.Inventory.RandomStockInventory;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 

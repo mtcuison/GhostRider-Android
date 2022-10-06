@@ -33,8 +33,8 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ProgressBar;
 
-import org.rmj.g3appdriver.GRider.Etc.MessageBox;
-import org.rmj.g3appdriver.GRider.Etc.SessionManager;
+import org.rmj.g3appdriver.etc.MessageBox;
+import org.rmj.g3appdriver.etc.SessionManager;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 
 import java.io.File;

@@ -11,8 +11,7 @@
 
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter;
 
-import static org.rmj.g3appdriver.GRider.Constants.AppConstants.LEAVE_TYPE;
-import static org.rmj.g3appdriver.GRider.Constants.AppConstants.getLeaveStatus;
+import static org.rmj.g3appdriver.etc.AppConstants.LEAVE_TYPE;
 
 import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
@@ -26,9 +25,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.TextInputEditText;
 
-import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeBusinessTrip;
-import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeLeave;
-import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
+import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeBusinessTrip;
+import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeLeave;
+import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 
 import java.util.List;
@@ -82,7 +82,7 @@ public class EmployeeApplicationAdapter extends RecyclerView.Adapter<EmployeeApp
             holder.lblBrnchNme.setText(loLeave.getBranchNm());
             holder.lblDateFrom.setText(FormatUIText.formatGOCasBirthdate(loLeave.getAppldFrx()));
             holder.lblDateThru.setText(FormatUIText.formatGOCasBirthdate(loLeave.getAppldTox()));
-            holder.lblAppStats.setText(getLeaveStatus(loLeave.getTranStat()));
+            holder.lblAppStats.setText(AppConstants.getLeaveStatus(loLeave.getTranStat()));
             holder.lblLeaveTpe.setText("Leave Type : " + LEAVE_TYPE[Integer.parseInt(loLeave.getLeaveTyp())]);
             holder.txtPurpose.setText(loLeave.getPurposex());
             holder.itemView.setOnClickListener(v -> {

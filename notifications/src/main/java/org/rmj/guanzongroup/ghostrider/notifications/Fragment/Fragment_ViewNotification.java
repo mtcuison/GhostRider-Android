@@ -38,11 +38,11 @@ import android.widget.Toast;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
-import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
-import org.rmj.g3appdriver.GRider.Etc.MessageBox;
-import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.dev.DeptCode;
+import org.rmj.g3appdriver.etc.FormatUIText;
+import org.rmj.g3appdriver.etc.LoadDialog;
+import org.rmj.g3appdriver.etc.MessageBox;
+import org.rmj.g3appdriver.etc.SessionManager;
 import org.rmj.guanzongroup.ghostrider.notifications.Activity.Activity_Notifications;
 import org.rmj.guanzongroup.ghostrider.notifications.Dialog.Dialog_ReplyNotification;
 import org.rmj.guanzongroup.ghostrider.notifications.R;

@@ -23,7 +23,7 @@ import androidx.annotation.RequiresApi;
 import androidx.lifecycle.AndroidViewModel;
 
 import org.json.JSONObject;
-import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
+import org.rmj.g3appdriver.dev.HttpHeaders;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;

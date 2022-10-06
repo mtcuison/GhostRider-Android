@@ -11,8 +11,8 @@
 
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment;
 
-import static org.rmj.g3appdriver.GRider.Constants.AppConstants.LEAVE_TYPE;
-import static org.rmj.g3appdriver.GRider.Constants.AppConstants.getLeaveStatus;
+import static org.rmj.g3appdriver.etc.AppConstants.LEAVE_TYPE;
+import static org.rmj.g3appdriver.etc.AppConstants.getLeaveStatus;
 
 import androidx.core.content.res.ResourcesCompat;
 import androidx.lifecycle.ViewModelProvider;
@@ -40,11 +40,11 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
-import org.rmj.g3appdriver.GRider.Etc.GToast;
-import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
-import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.etc.FormatUIText;
+import org.rmj.g3appdriver.etc.GToast;
+import org.rmj.g3appdriver.etc.LoadDialog;
+import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.PetManager.EmployeeLeave;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Application;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;

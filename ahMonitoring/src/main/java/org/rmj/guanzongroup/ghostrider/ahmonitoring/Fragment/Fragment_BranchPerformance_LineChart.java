@@ -42,7 +42,7 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
-import org.rmj.g3appdriver.GRider.Etc.BranchPerformancePeriod;
+import org.rmj.g3appdriver.etc.BranchPerformancePeriod;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_BranchPerformance;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.BranchPerformanceAdapter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;

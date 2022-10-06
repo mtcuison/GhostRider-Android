@@ -11,9 +11,9 @@
 
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment;
 
-import static org.rmj.g3appdriver.GRider.Etc.BranchPerformancePeriod.getLatestCompletePeriod;
-import static org.rmj.g3appdriver.GRider.Etc.BranchPerformancePeriod.getList;
-import static org.rmj.g3appdriver.GRider.Etc.BranchPerformancePeriod.getPeriodText;
+import static org.rmj.g3appdriver.etc.BranchPerformancePeriod.getLatestCompletePeriod;
+import static org.rmj.g3appdriver.etc.BranchPerformancePeriod.getList;
+import static org.rmj.g3appdriver.etc.BranchPerformancePeriod.getPeriodText;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -39,11 +39,9 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 
-import org.rmj.g3appdriver.GRider.Etc.BranchPerformancePeriod;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_AreaPerformance;
+import org.rmj.g3appdriver.etc.BranchPerformancePeriod;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_BranchPerformance;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.AreaPerformanceMonitoringAdapter;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Etc.FragmentAdapter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMAreaPerfromanceMonitoring;
 
@@ -84,7 +82,7 @@ public class Fragment_AreaPerformance_PieChart extends Fragment {
             }
         });
 
-        poPeriods = BranchPerformancePeriod.getSortedPeriodList(BranchPerformancePeriod.getList());
+        poPeriods = BranchPerformancePeriod.getSortedPeriodList(getList());
         initPieChart();
         mViewModel.getType().observe(getViewLifecycleOwner(), s -> setChartValue(s, getLatestCompletePeriod()));
         rgPeriodx.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {

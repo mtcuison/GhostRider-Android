@@ -11,7 +11,7 @@
 
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment;
 
-import static org.rmj.g3appdriver.GRider.Etc.BranchPerformancePeriod.getPeriodText;
+import static org.rmj.g3appdriver.etc.BranchPerformancePeriod.getPeriodText;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -19,7 +19,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -43,8 +42,7 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
-import org.rmj.g3appdriver.GRider.Etc.BranchPerformancePeriod;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_AreaPerformance;
+import org.rmj.g3appdriver.etc.BranchPerformancePeriod;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_BranchPerformance;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.AreaPerformanceMonitoringAdapter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;

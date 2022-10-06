@@ -16,7 +16,7 @@ import android.app.Application;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.apprdiver.util.WebClient;
-import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
+import org.rmj.g3appdriver.dev.HttpHeaders;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.WebApi;
 

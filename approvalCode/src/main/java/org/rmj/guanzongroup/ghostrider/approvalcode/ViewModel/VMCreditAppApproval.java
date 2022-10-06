@@ -21,10 +21,10 @@ import androidx.lifecycle.AndroidViewModel;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
-import org.rmj.g3appdriver.GRider.Http.WebClient;
+import org.rmj.g3appdriver.dev.HttpHeaders;
+import org.rmj.g3appdriver.dev.WebClient;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.guanzongroup.ghostrider.approvalcode.Etc.ViewModelCallback;

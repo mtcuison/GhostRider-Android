@@ -33,8 +33,8 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
-import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+import org.rmj.g3appdriver.etc.LoadDialog;
+import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.utils.CopyToClipboard;
 import org.rmj.guanzongroup.ghostrider.approvalcode.Activity.Activity_ApprovalCode;
 import org.rmj.guanzongroup.ghostrider.approvalcode.Etc.ViewModelCallback;

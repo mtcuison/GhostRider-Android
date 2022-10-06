@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.guanzongroup.com.itinerary.R;
-import org.rmj.g3appdriver.GRider.Database.Entities.EItinerary;
-import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
+import org.rmj.g3appdriver.dev.Database.Entities.EItinerary;
+import org.rmj.g3appdriver.etc.FormatUIText;
 
 import java.util.List;
 

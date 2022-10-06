@@ -19,11 +19,11 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import org.guanzongroup.com.itinerary.R;
 import org.guanzongroup.com.itinerary.ViewModel.VMItinerary;
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RItinerary;
-import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
-import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+import org.rmj.g3appdriver.dev.Database.Repositories.RItinerary;
 import org.rmj.g3appdriver.dev.DeptCode;
+import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.etc.LoadDialog;
+import org.rmj.g3appdriver.etc.MessageBox;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

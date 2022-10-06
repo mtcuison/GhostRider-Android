@@ -29,9 +29,9 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
-import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.etc.LoadDialog;
+import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_BusinessTripList;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_LeaveList;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;

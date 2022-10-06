@@ -22,7 +22,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.g3appdriver.GRider.Database.Entities.ESelfieLog;
+import org.rmj.g3appdriver.dev.Database.Entities.ESelfieLog;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 
 import java.util.List;

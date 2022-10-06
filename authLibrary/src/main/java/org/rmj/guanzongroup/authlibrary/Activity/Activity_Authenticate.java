@@ -15,7 +15,7 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import org.rmj.g3appdriver.GRider.Etc.TransparentToolbar;
+import org.rmj.g3appdriver.etc.TransparentToolbar;
 import org.rmj.guanzongroup.authlibrary.R;
 
 public class Activity_Authenticate extends AppCompatActivity {

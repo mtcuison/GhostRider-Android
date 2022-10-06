@@ -10,17 +10,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import org.rmj.g3appdriver.GRider.Etc.CashFormatter;
-import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
+import org.rmj.g3appdriver.etc.CashFormatter;
+import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.Adapter_CashCountDetailInfo;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.CashCountDetailedInfo;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.CashCountInfoModel;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMCashCountLog;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMCashCountLogDetails;
 
 import java.util.ArrayList;

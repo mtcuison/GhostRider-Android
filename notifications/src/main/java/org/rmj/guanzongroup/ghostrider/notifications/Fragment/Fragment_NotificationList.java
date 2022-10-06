@@ -29,7 +29,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import org.rmj.g3appdriver.GRider.Etc.GToast;
+import org.rmj.g3appdriver.etc.GToast;
 import org.rmj.guanzongroup.ghostrider.notifications.Activity.Activity_Notifications;
 import org.rmj.guanzongroup.ghostrider.notifications.Adapter.NotificationListAdapter;
 import org.rmj.guanzongroup.ghostrider.notifications.Object.NotificationItemList;
