@@ -88,9 +88,6 @@ public class VMSplashScreen extends AndroidViewModel {
         return psVersion;
     }
 
-    public LiveData<String> getSessionDate(){
-        return poUserDbx.getSessionDate();
-    }
     public LiveData<String> getEmployeeLevel(){
         return this.sEmployLevel;
     }

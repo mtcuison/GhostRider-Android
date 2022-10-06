@@ -80,13 +80,6 @@ public class VMDataManager extends AndroidViewModel {
         protected Boolean doInBackground(String... strings) {
             boolean hasData = false;
             try{
-
-                List<ESelfieLog> loginDetails = poLog.getUnsentSelfieLogin();
-                if(loginDetails.size() > 0){
-                    hasData = true;
-                }
-                publishProgress(1);
-
                 List<EImageInfo> loginImageInfo = poImage.getUnsentSelfieLogImageList();
                 if(loginImageInfo.size() > 0){
                     hasData = true;

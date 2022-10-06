@@ -85,24 +85,24 @@ public class Activity_ImageLog extends AppCompatActivity {
             }
         });
 
-        mViewModel.getDCPImageInfoList().observe(Activity_ImageLog.this, imgInfos -> {
-            if(imgInfos.size() > 0) {
-                recyclerV.setVisibility(View.VISIBLE);
-                lblNoImgs.setVisibility(View.GONE);
-                try {
-                    AdapterImageLog poAdapter = new AdapterImageLog(imgInfos);
-                    recyclerV.setAdapter(poAdapter);
-                    poAdapter.notifyDataSetChanged();
-                } catch (NullPointerException e) {
-                    e.printStackTrace();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            } else {
-                recyclerV.setVisibility(View.GONE);
-                lblNoImgs.setVisibility(View.VISIBLE);
-            }
-        });
+//        mViewModel.getDCPImageInfoList().observe(Activity_ImageLog.this, imgInfos -> {
+//            if(imgInfos.size() > 0) {
+//                recyclerV.setVisibility(View.VISIBLE);
+//                lblNoImgs.setVisibility(View.GONE);
+//                try {
+//                    AdapterImageLog poAdapter = new AdapterImageLog(imgInfos);
+//                    recyclerV.setAdapter(poAdapter);
+//                    poAdapter.notifyDataSetChanged();
+//                } catch (NullPointerException e) {
+//                    e.printStackTrace();
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            } else {
+//                recyclerV.setVisibility(View.GONE);
+//                lblNoImgs.setVisibility(View.VISIBLE);
+//            }
+//        });
     }
 
 }

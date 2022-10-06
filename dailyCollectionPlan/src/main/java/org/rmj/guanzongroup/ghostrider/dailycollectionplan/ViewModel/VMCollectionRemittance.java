@@ -18,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionMaster;
 import org.rmj.g3appdriver.GRider.Database.Entities.ERemittanceAccounts;
@@ -35,7 +36,6 @@ public class VMCollectionRemittance extends AndroidViewModel {
     private final LRDcp poSys;
 
     private final EmployeeMaster poUser;
-    private final RBranch poBranch;
     private final RRemittanceAccount poAccount;
     private final ConnectionUtil poConn;
 
@@ -49,7 +49,6 @@ public class VMCollectionRemittance extends AndroidViewModel {
         super(application);
         this.poSys = new LRDcp(application);
         this.poUser = new EmployeeMaster(application);
-        this.poBranch = new RBranch(application);
         this.poAccount = new RRemittanceAccount(application);
         this.poConn = new ConnectionUtil(application);
     }
@@ -124,22 +123,32 @@ public class VMCollectionRemittance extends AndroidViewModel {
 
         @Override
         protected Boolean doInBackground(Remittance... remittances) {
-            if(!poSys.SaveRemittanceEntry(remittances[0])){
-                message = poSys.getMessage();
+            try {
+                JSONObject params = poSys.SaveRemittanceEntry(remittances[0]);
+                if (params == null) {
+                    message = poSys.getMessage();
+                    return false;
+                }
+
+                if (!poConn.isDeviceConnected()) {
+                    message = "Remittance has been save to local device.";
+                    return true;
+                }
+
+                String lsTransNo = params.getString("sTransNox");
+                String lsEntryNo = params.getString("nEntryNox");
+                if (!poSys.UploadRemittance(lsTransNo, lsEntryNo)) {
+                    message = poSys.getMessage();
+                    return false;
+                }
+
+                message = "Collection remittance has been save to server.";
+                return true;
+            } catch (Exception e){
+                e.printStackTrace();
+                message = e.getMessage();
                 return false;
             }
-
-            if(!poConn.isDeviceConnected()){
-                message = "Remittance has been save to local device.";
-                return true;
-            }
-
-            if(!poSys.RemitCollection()){
-                message = poSys.getMessage();
-            }
-
-            message = "Collection remittance has been save to server.";
-            return true;
         }
 
         @Override

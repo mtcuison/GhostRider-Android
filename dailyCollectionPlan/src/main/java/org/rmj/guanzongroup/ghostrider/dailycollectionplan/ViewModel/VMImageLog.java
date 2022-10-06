@@ -38,8 +38,8 @@ public class VMImageLog extends AndroidViewModel {
         return poBranchx.getUserBranchInfo();
     }
 
-    public LiveData<List<EImageInfo>> getDCPImageInfoList() {
-        return poDcpMngr.getDCPImageInfoList();
-    }
+//    public LiveData<List<EImageInfo>> getDCPImageInfoList() {
+//        return poDcpMngr.getDCPImageInfoList();
+//    }
 
 }

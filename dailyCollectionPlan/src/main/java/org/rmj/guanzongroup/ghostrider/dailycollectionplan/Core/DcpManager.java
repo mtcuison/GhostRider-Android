@@ -66,14 +66,6 @@ public class DcpManager {
         void OnFailed(String message);
     }
 
-    public interface OnCheckDcpCallback{
-        void NoDCPCreated();
-        void HasCollection();
-        void DCPForPosting();
-        void DCPPosted();
-        void OnError(String message);
-    }
-
     public DcpManager(Application application) {
         this.instance = application;
         this.poDcp = new RDailyCollectionPlan(instance);
@@ -252,20 +244,6 @@ public class DcpManager {
                         callback.OnSuccess(loSearch);
                     }
                 }
-            }
-        } catch (Exception e){
-            e.printStackTrace();
-            callback.OnFailed(e.getMessage());
-        }
-    }
-
-    public void AddCollection(EDCPCollectionDetail foDetail, OnActionCallback callback){
-        try{
-            if(poDcp.CheckIFAccountExist(foDetail.getAcctNmbr()) == null) {
-                poDcp.AddCollectionAccount(foDetail);
-                callback.OnSuccess("Collection added successfully");
-            } else {
-                callback.OnFailed("Account already exist.");
             }
         } catch (Exception e){
             e.printStackTrace();
@@ -503,17 +481,6 @@ public class DcpManager {
         }
     }
 
-    public void UpdateNotVisitedCollections(String fsRemarks, OnActionCallback callback){
-        try {
-            String lsTransNox = poDcp.getUnpostedDcpMaster();
-            poDcp.updateNotVisitedCollections(fsRemarks, lsTransNox);
-            callback.OnSuccess("");
-        } catch (Exception e){
-            e.printStackTrace();
-            callback.OnFailed(e.getMessage());
-        }
-    }
-
     public void PostLRDCPCollection(OnActionCallback callback){
         try{
             List<EDCPCollectionDetail> loDcpList = poDcp.getLRDCPCollectionForPosting();
@@ -747,35 +714,6 @@ public class DcpManager {
         } catch (Exception e){
             e.printStackTrace();
             callback.OnFailed("Posting dcp master failed. " + e.getMessage());
-        }
-    }
-
-    public LiveData<List<EImageInfo>> getDCPImageInfoList(){
-        return poImage.getDCPUnpostedImageList();
-    }
-
-    public void CheckDCP(OnCheckDcpCallback callback){
-        try {
-            //Check for unposted collection
-            if(poDcp.CheckIfHasCollection() == null){
-                callback.NoDCPCreated();
-            } else if(poDcp.CheckIfHasCollection() != null){
-                //Check for accounts which was not visited yet.
-                //this condition checks if accounts under collection list have no remarks code yet.
-                if(poDcp.checkCollectionRemarksCode().size() > 0){
-                    callback.HasCollection();
-                } else if(poDcp.CheckIfHasCollection().getSendStat() == null){
-                    callback.DCPForPosting();
-                } else if(poDcp.getLastCollectionMaster().getReferDte().equalsIgnoreCase(AppConstants.CURRENT_DATE) &&
-                        poDcp.getLastCollectionMaster().getSendStat() != null){
-                    callback.DCPPosted();
-                } else {
-                    callback.NoDCPCreated();
-                }
-            }
-        } catch (Exception e){
-            e.printStackTrace();
-            callback.OnError(e.getMessage());
         }
     }
 }
