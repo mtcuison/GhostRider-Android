@@ -543,13 +543,14 @@ public class Activity_Evaluation extends AppCompatActivity {
     private void setupEvaluationAdapter(ECreditOnlineApplicationCI ci){
         try {
             JSONArray laEval = new JSONArray();
+//            JSONObject loDetail;
             JSONObject loDetail = FindingsParser.scanForEvaluation(ci.getAddressx(), ci.getAddrFndg());
-            if(!loDetail.getJSONArray("detail").getJSONObject(0).toString().equalsIgnoreCase("{}")){
+            if(loDetail.getJSONArray("detail").length() > 0){
                 laEval.put(FindingsParser.scanForEvaluation(ci.getAddressx(), ci.getAddrFndg()));
             }
 
             loDetail = FindingsParser.scanForEvaluation(ci.getIncomexx(), ci.getIncmFndg());
-            if(!loDetail.getJSONArray("detail").getJSONObject(0).toString().equalsIgnoreCase("{}")){
+            if(loDetail.getJSONArray("detail").length() > 0){
                 laEval.put(FindingsParser.scanForEvaluation(ci.getIncomexx(), ci.getIncmFndg()));
             }
 
