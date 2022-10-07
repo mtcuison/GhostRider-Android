@@ -24,19 +24,18 @@ import androidx.lifecycle.LiveData;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.Entities.EBranchLoanApplication;
-import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplication;
-import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.EFileCode;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchLoanApplication;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplication;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RFileCode;
-import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
-import org.rmj.g3appdriver.GRider.Http.WebClient;
-import org.rmj.g3appdriver.GRider.ImportData.Import_CreditAppList;
-import org.rmj.g3appdriver.GRider.Etc.SessionManager;
+import org.rmj.g3appdriver.dev.Database.Entities.EBranchLoanApplication;
+import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplication;
+import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.EFileCode;
+import org.rmj.g3appdriver.dev.Database.Repositories.RBranchLoanApplication;
+import org.rmj.g3appdriver.dev.Database.Repositories.RCreditApplication;
+import org.rmj.g3appdriver.dev.Database.Repositories.RFileCode;
+import org.rmj.g3appdriver.dev.HttpHeaders;
+import org.rmj.g3appdriver.dev.WebClient;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.etc.SessionManager;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
@@ -49,7 +48,6 @@ public class VMBranchApplications extends AndroidViewModel {
     private final RFileCode peFileCode;
     private final LiveData<List<EFileCode>> collectionList;
     private final RBranchLoanApplication poCreditApp;
-    private final Import_CreditAppList poImport;
     private final EmployeeMaster poEmploye;
     private List<ECreditApplication> eCreditApplication;
     private final RCreditApplication rCreditApp;
@@ -60,7 +58,6 @@ public class VMBranchApplications extends AndroidViewModel {
         peFileCode = new RFileCode(application);
         this.collectionList = peFileCode.getAllFileCode();
         this.poCreditApp = new RBranchLoanApplication(application);
-        this.poImport = new Import_CreditAppList(application);
         poEmploye = new EmployeeMaster(application);
         poEmploye.GetEmployeeInfo();
 
@@ -140,10 +137,10 @@ public class VMBranchApplications extends AndroidViewModel {
                         JSONArray laJson = jsonResponse.getJSONArray("detail");
 
                         Log.e(TAG, laJson.toString());
-                        if(!brnRepo.insertBranchApplicationInfos(laJson)){
-                            response = AppConstants.ERROR_SAVING_TO_LOCAL();
-                            //brnRepo.insertFromApplication();
-                        }
+//                        if(!brnRepo.insertBranchApplicationInfos(laJson)){
+//                            response = AppConstants.ERROR_SAVING_TO_LOCAL();
+//                            //brnRepo.insertFromApplication();
+//                        }
                     }
                 } else {
                     response = AppConstants.SERVER_NO_RESPONSE();

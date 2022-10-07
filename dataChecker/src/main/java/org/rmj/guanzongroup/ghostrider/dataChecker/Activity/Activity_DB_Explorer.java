@@ -26,12 +26,11 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
-import org.rmj.g3appdriver.GRider.Etc.ProgressDialog;
+import org.rmj.g3appdriver.etc.ProgressDialog;
 import org.rmj.guanzongroup.ghostrider.dataChecker.Adapter.DCPDataAdapter;
 import org.rmj.guanzongroup.ghostrider.dataChecker.Obj.DCPData;
 import org.rmj.guanzongroup.ghostrider.dataChecker.Obj.UserInfo;

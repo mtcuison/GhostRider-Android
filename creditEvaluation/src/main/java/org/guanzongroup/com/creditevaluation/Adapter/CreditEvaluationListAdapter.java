@@ -24,8 +24,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.guanzongroup.com.creditevaluation.R;
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditOnlineApplicationCI;
-import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DCreditOnlineApplicationCI;
+import org.rmj.g3appdriver.etc.FormatUIText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +43,7 @@ public class CreditEvaluationListAdapter extends RecyclerView.Adapter<CreditEval
     private String evaluation;
 //    private final SearchFilter poSearch;
 
-    public CreditEvaluationListAdapter(List<DCreditOnlineApplicationCI.oDataEvaluationInfo> plLoanApp, String val,OnApplicationClickListener onApplicationClickListener) {
+    public CreditEvaluationListAdapter(List<DCreditOnlineApplicationCI.oDataEvaluationInfo> plLoanApp, String val, OnApplicationClickListener onApplicationClickListener) {
         this.plLoanApp = plLoanApp;
         this.plLoanApp1 = plLoanApp;
         this.onApplicationClickListener = onApplicationClickListener;

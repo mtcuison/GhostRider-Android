@@ -5,8 +5,8 @@ import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.rmj.g3appdriver.GRider.Database.Entities.ECreditOnlineApplicationCI;
-import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
+import org.rmj.g3appdriver.dev.Database.Entities.ECreditOnlineApplicationCI;
+import org.rmj.g3appdriver.etc.FormatUIText;
 
 import java.util.ArrayList;
 import java.util.HashMap;

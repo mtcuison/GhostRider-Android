@@ -13,7 +13,7 @@ package org.rmj.guanzongroup.ghostrider.settings.etc;
 
 import android.content.Context;
 
-import org.rmj.g3appdriver.GRider.Etc.SessionManager;
+import org.rmj.g3appdriver.etc.SessionManager;
 import org.rmj.guanzongroup.ghostrider.settings.Model.SettingsModel;
 import org.rmj.guanzongroup.ghostrider.settings.R;
 

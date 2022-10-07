@@ -29,9 +29,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
-import org.rmj.g3appdriver.GRider.Etc.GToast;
-import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
+import org.rmj.g3appdriver.etc.GToast;
 import org.rmj.gocas.pojo.ApplicantInfo;
 import org.rmj.gocas.pojo.ResidenceInfo;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;

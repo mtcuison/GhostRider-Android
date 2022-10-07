@@ -28,8 +28,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RMcModel;
+import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
+import org.rmj.g3appdriver.dev.Database.Repositories.RMcModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 

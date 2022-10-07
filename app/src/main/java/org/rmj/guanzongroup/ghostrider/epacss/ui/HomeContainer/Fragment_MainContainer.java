@@ -25,7 +25,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMMainContainer;
 import org.rmj.guanzongroup.ghostrider.epacss.ui.etc.appConstants;

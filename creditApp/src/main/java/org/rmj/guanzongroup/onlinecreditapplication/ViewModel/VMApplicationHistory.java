@@ -28,16 +28,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.rmj.apprdiver.util.WebFile;
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditApplication;
-import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplication;
-import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplication;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
-import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
-import org.rmj.g3appdriver.GRider.ImportData.Import_LoanApplications;
-import org.rmj.g3appdriver.GRider.Etc.SessionManager;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DCreditApplication;
+import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplication;
+import org.rmj.g3appdriver.dev.Database.Entities.EImageInfo;
+import org.rmj.g3appdriver.dev.Database.Repositories.RCreditApplication;
+import org.rmj.g3appdriver.dev.Database.Repositories.RImageInfo;
+import org.rmj.g3appdriver.dev.HttpHeaders;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.etc.SessionManager;
 import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
@@ -54,14 +53,12 @@ public class VMApplicationHistory extends AndroidViewModel {
     private static final String TAG = VMApplicationHistory.class.getSimpleName();
     private final Application instance;
     private final RCreditApplication poCreditApp;
-    private final Import_LoanApplications poImport;
     private final RImageInfo poImage;
     private final SessionManager poUser;
     public VMApplicationHistory(@NonNull Application application) {
         super(application);
         this.instance = application;
         this.poCreditApp = new RCreditApplication(application);
-        this.poImport = new Import_LoanApplications(application);
         this.poImage = new RImageInfo(application);
         this.poUser = new SessionManager(application);
     }
@@ -355,7 +352,6 @@ public class VMApplicationHistory extends AndroidViewModel {
 
     }
 
-
     private class ImportLoanApplication extends AsyncTask<JSONObject, Void, String>{
         private final RCreditApplication db;
         private final ConnectionUtil loConnectx;
@@ -487,5 +483,4 @@ public class VMApplicationHistory extends AndroidViewModel {
             }
         }
     }
-
 }

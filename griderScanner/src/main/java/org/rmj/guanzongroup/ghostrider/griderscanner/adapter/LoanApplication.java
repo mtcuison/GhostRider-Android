@@ -14,7 +14,7 @@ package org.rmj.guanzongroup.ghostrider.griderscanner.adapter;
 import android.annotation.SuppressLint;
 import android.view.View;
 
-import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
+import org.rmj.g3appdriver.etc.FormatUIText;
 
 import java.io.Serializable;
 import java.text.ParseException;

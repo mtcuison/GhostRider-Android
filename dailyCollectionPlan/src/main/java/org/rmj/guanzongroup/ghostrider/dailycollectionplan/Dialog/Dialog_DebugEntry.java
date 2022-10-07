@@ -24,8 +24,8 @@ import android.widget.Button;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONObject;
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Etc.GToast;
+import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.etc.GToast;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_LogCollection;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 

@@ -23,9 +23,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter.AdapterImageLog;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter.PostDcpAdapter;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMImageLog;
 

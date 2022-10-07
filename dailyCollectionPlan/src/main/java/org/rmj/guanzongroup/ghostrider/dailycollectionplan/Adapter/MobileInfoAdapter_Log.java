@@ -21,8 +21,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DMobileRequest;
-import org.rmj.g3appdriver.GRider.Database.Entities.EMobileUpdate;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DMobileRequest;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 
 import java.util.ArrayList;

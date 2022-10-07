@@ -26,20 +26,20 @@ import androidx.lifecycle.MutableLiveData;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.rmj.apprdiver.util.WebFile;
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditApplicationDocuments;
-import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicationDocuments;
-import org.rmj.g3appdriver.GRider.Database.Entities.EFileCode;
-import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RCollectionUpdate;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplicationDocument;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RFileCode;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
-import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DCreditApplicationDocuments;
+import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicationDocuments;
+import org.rmj.g3appdriver.dev.Database.Entities.EFileCode;
+import org.rmj.g3appdriver.dev.Database.Entities.EImageInfo;
+import org.rmj.g3appdriver.dev.Database.Repositories.RCollectionUpdate;
+import org.rmj.g3appdriver.dev.Database.Repositories.RCreditApplicationDocument;
+import org.rmj.g3appdriver.dev.Database.Repositories.RDailyCollectionPlan;
+import org.rmj.g3appdriver.dev.Database.Repositories.RFileCode;
+import org.rmj.g3appdriver.dev.Database.Repositories.RImageInfo;
+import org.rmj.g3appdriver.dev.HttpHeaders;
 import org.rmj.g3appdriver.dev.Telephony;
-import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.etc.SessionManager;
 import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.guanzongroup.ghostrider.griderscanner.helpers.ScannerConstants;
@@ -148,7 +148,7 @@ public class VMClientInfo extends AndroidViewModel {
         }
     }
 
-    public void PostDocumentScanDetail( ECreditApplicationDocuments poDocumentsInfo,ViewModelCallBack callback) {
+    public void PostDocumentScanDetail(ECreditApplicationDocuments poDocumentsInfo, ViewModelCallBack callback) {
         try {
             new PostDocumentScanDetail(instance, poDocumentsInfo, poDocumentsInfo.getTransNox(), poDocumentsInfo.getFileCode(), poDocumentsInfo.getEntryNox(), poDocumentsInfo.getImageNme(), poDocumentsInfo.getFileLoc(), callback).execute();
         } catch (Exception e) {

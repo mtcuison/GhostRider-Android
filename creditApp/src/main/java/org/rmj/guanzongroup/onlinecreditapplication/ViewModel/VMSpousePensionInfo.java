@@ -20,8 +20,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplicant;
+import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
+import org.rmj.g3appdriver.dev.Database.Repositories.RCreditApplicant;
 import org.rmj.gocas.base.GOCASApplication;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.GOCASHolder;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.SpousePensionInfoModel;

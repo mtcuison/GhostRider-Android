@@ -22,7 +22,7 @@ import android.widget.Button;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
+import org.rmj.g3appdriver.dev.Database.Entities.EDCPCollectionDetail;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter.AdapterClientSearchList;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 

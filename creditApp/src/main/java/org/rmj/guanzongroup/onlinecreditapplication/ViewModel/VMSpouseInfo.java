@@ -11,34 +11,27 @@
 
 package org.rmj.guanzongroup.onlinecreditapplication.ViewModel;
 
-import android.annotation.SuppressLint;
 import android.app.Application;
-import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.CheckedTextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DTownInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.ECountryInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.EProvinceInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.ETownInfo;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RCountry;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplicant;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RProvince;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RTown;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.ECountryInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.EProvinceInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.ETownInfo;
+import org.rmj.g3appdriver.dev.Database.Repositories.RCountry;
+import org.rmj.g3appdriver.dev.Database.Repositories.RCreditApplicant;
+import org.rmj.g3appdriver.dev.Database.Repositories.RProvince;
+import org.rmj.g3appdriver.dev.Database.Repositories.RTown;
 import org.rmj.gocas.base.GOCASApplication;
-import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
-import org.rmj.guanzongroup.onlinecreditapplication.Etc.GOCASHolder;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.SpouseInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 
@@ -50,7 +43,7 @@ public class VMSpouseInfo extends AndroidViewModel {
     private final RCreditApplicant poCreditApp; //Insert Update
     private final RProvince poProvRepo; //Province Repository
     private final RTown poTownRepo; //Town Repository
-    private final RCountry RCountry;
+    private final RCountry poCountry;
 
     private ECreditApplicantInfo poInfo;
 
@@ -74,7 +67,7 @@ public class VMSpouseInfo extends AndroidViewModel {
         poCreditApp = new RCreditApplicant(application);
         poProvRepo = new RProvince(application);
         poTownRepo = new RTown(application);
-        RCountry = new RCountry(application);
+        poCountry = new RCountry(application);
         this.mobileNo1Year.setValue(View.GONE);
         this.mobileNo2Year.setValue(View.GONE);
         this.mobileNo3Year.setValue(View.GONE);
@@ -127,15 +120,15 @@ public class VMSpouseInfo extends AndroidViewModel {
 
     // Get all of the Citizen names in the form of string
     public LiveData<String[]> getAllCountryCitizenNames(){
-        return RCountry.getAllCountryCitizenName();
+        return poCountry.getAllCountryCitizenName();
     }
 
     public LiveData<List<ECountryInfo>> getCountryInfoList(){
-        return RCountry.getAllCountryInfo();
+        return poCountry.getAllCountryInfo();
     }
 
     public LiveData<String> getClientCitizenship(String fsCntryCd) {
-        return RCountry.getClientCitizenship(fsCntryCd);
+        return poCountry.getClientCitizenship(fsCntryCd);
     }
 
     public LiveData<DTownInfo.TownProvinceInfo> getTownProvinceByTownID(String TownID)  {

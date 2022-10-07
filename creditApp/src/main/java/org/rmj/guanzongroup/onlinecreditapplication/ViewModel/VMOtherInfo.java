@@ -30,15 +30,15 @@ import androidx.lifecycle.MutableLiveData;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DTownInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.ECountryInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.EProvinceInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.ETownInfo;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RCountry;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplicant;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RProvince;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RTown;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.ECountryInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.EProvinceInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.ETownInfo;
+import org.rmj.g3appdriver.dev.Database.Repositories.RCountry;
+import org.rmj.g3appdriver.dev.Database.Repositories.RCreditApplicant;
+import org.rmj.g3appdriver.dev.Database.Repositories.RProvince;
+import org.rmj.g3appdriver.dev.Database.Repositories.RTown;
 import org.rmj.gocas.base.GOCASApplication;
 import org.rmj.gocas.pojo.OtherInfo;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
@@ -65,18 +65,18 @@ public class VMOtherInfo extends AndroidViewModel {
 
     private final GOCASApplication poGoCas;
     private final RCreditApplicant poApplcnt;
-    private final RProvince RProvince;
-    private final RTown RTown;
-    private final RCountry RCountry;
+    private final RProvince poProv;
+    private final RTown poTown;
+    private final RCountry poCountry;
     private final LiveData<List<EProvinceInfo>> provinceInfoList;
 
     public VMOtherInfo(@NonNull Application application) {
         super(application);
         this.poApplcnt = new RCreditApplicant(application);
-        RProvince = new RProvince(application);
-        RTown = new RTown(application);
-        RCountry = new RCountry(application);
-        provinceInfoList = RProvince.getAllProvinceInfo();
+        poProv = new RProvince(application);
+        poTown = new RTown(application);
+        poCountry = new RCountry(application);
+        provinceInfoList = poProv.getAllProvinceInfo();
         poGoCas = new GOCASApplication();
         poReference.setValue(new ArrayList<>());
     }
@@ -142,23 +142,23 @@ public class VMOtherInfo extends AndroidViewModel {
     }
 
     public LiveData<List<ETownInfo>> getTownInfoList(){
-        return RTown.getTownInfoFromProvince(lsProvID.getValue());
+        return poTown.getTownInfoFromProvince(lsProvID.getValue());
     }
 
     public LiveData<List<ECountryInfo>> getCountryInfoList(){
-        return RCountry.getAllCountryInfo();
+        return poCountry.getAllCountryInfo();
     }
 
     public LiveData<String[]> getProvinceNameList(){
-        return RProvince.getAllProvinceNames();
+        return poProv.getAllProvinceNames();
     }
 
     public LiveData<String[]> getAllTownNames(){
-        return RTown.getTownNamesFromProvince(lsProvID.getValue());
+        return poTown.getTownNamesFromProvince(lsProvID.getValue());
     }
 
     public LiveData<DTownInfo.TownProvinceName> getLiveTownProvinceNames(String TownID) {
-        return RTown.getLiveTownProvinceNames(TownID);
+        return poTown.getLiveTownProvinceNames(TownID);
     }
 
     public void setProvID(String ProvID) { this.lsProvID.setValue(ProvID); }

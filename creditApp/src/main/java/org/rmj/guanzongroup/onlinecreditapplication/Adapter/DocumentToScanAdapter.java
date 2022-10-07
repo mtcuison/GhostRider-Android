@@ -28,8 +28,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditApplicationDocuments;
-import org.rmj.g3appdriver.GRider.Database.Entities.EFileCode;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DCreditApplicationDocuments;
+import org.rmj.g3appdriver.dev.Database.Entities.EFileCode;
 import org.rmj.g3appdriver.utils.DeviceDimensionsHelper;
 import org.rmj.guanzongroup.ghostrider.griderscanner.dialog.DialogImagePreview;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
@@ -55,7 +55,7 @@ public class DocumentToScanAdapter extends RecyclerView.Adapter<DocumentToScanAd
     private Context aContext;
 
 
-    public DocumentToScanAdapter(Context context,List<DCreditApplicationDocuments.ApplicationDocument> documentsInfo, DocumentToScanAdapter.OnItemClickListener mListener) {
+    public DocumentToScanAdapter(Context context, List<DCreditApplicationDocuments.ApplicationDocument> documentsInfo, DocumentToScanAdapter.OnItemClickListener mListener) {
         this.documentsInfo = documentsInfo;
         this.aContext = context;
         this.mListener = mListener;

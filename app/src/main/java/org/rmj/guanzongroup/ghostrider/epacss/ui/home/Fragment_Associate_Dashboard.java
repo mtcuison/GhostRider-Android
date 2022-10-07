@@ -31,9 +31,9 @@ import android.widget.TextView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
-import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_Main;
 import org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_SplashScreen;
@@ -42,7 +42,7 @@ import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMAHDashboard;
 import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_Settings;
 
 import static android.app.Activity.RESULT_OK;
-import static org.rmj.g3appdriver.GRider.Constants.AppConstants.SETTINGS;
+import static org.rmj.g3appdriver.etc.AppConstants.SETTINGS;
 
 public class Fragment_Associate_Dashboard extends Fragment {
 

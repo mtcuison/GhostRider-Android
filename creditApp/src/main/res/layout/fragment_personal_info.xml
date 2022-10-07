@@ -204,6 +204,15 @@
             style="@style/HeaderLabelBlack"
             android:text="@string/sLblGender"/>
 
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/txt_motherNme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:imeOptions="actionNext"
+            android:inputType="textCapWords|textPersonName"
+            android:maxLength="120"
+            android:nextFocusForward="@id/txt_mobileNo1" />
+
         <RadioGroup
             android:id="@+id/rg_gender"
             android:layout_width="match_parent"
@@ -282,14 +291,6 @@
             android:hint="@string/sHintMotherNm"
             style="@style/TextInputStyle">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/txt_motherNme"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:maxLength="120"
-                android:inputType="textCapWords|textPersonName"
-                android:imeOptions="actionNext"
-                android:nextFocusForward="@id/txt_mobileNo1"/>
         </com.google.android.material.textfield.TextInputLayout>
 <!--     Contact field               -->
         <LinearLayout

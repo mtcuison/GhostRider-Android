@@ -22,7 +22,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import org.rmj.g3appdriver.GRider.Database.Entities.EProvinceInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.EProvinceInfo;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 
 import java.util.ArrayList;

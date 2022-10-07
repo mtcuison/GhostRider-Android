@@ -8,21 +8,21 @@ import androidx.lifecycle.LiveData;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.Entities.EAddressUpdate;
-import org.rmj.g3appdriver.GRider.Database.Entities.EClientUpdate;
-import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
-import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionMaster;
-import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.EMobileUpdate;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RCollectionUpdate;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
-import org.rmj.g3appdriver.GRider.Etc.SessionManager;
-import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
-import org.rmj.g3appdriver.GRider.Http.WebClient;
+import org.rmj.g3appdriver.dev.Database.Entities.EAddressUpdate;
+import org.rmj.g3appdriver.dev.Database.Entities.EClientUpdate;
+import org.rmj.g3appdriver.dev.Database.Entities.EDCPCollectionDetail;
+import org.rmj.g3appdriver.dev.Database.Entities.EDCPCollectionMaster;
+import org.rmj.g3appdriver.dev.Database.Entities.EImageInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.EMobileUpdate;
+import org.rmj.g3appdriver.dev.Database.Repositories.RCollectionUpdate;
+import org.rmj.g3appdriver.dev.Database.Repositories.RDailyCollectionPlan;
+import org.rmj.g3appdriver.dev.Database.Repositories.RImageInfo;
+import org.rmj.g3appdriver.dev.HttpHeaders;
 import org.rmj.g3appdriver.dev.Telephony;
+import org.rmj.g3appdriver.dev.WebClient;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.etc.SessionManager;
 import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.g3appdriver.lib.integsys.Dcp.RClientUpdate;
 import org.rmj.g3appdriver.utils.WebApi;
@@ -80,176 +80,176 @@ public class DcpManager {
         this.poApis = new WebApi(poConfig.getTestStatus());
     }
 
-    public void ImportDcpMaster(String EmployID, String ReferDte, OnActionCallback callback) {
-        try{
-            String lsEmployID;
-            String lsReferDte;
-            if(poConfig.getTestStatus()) {
-                lsEmployID = EmployID;
-                lsReferDte = ReferDte;
-            } else {
-                lsEmployID = poUser.getEmployeeID();
-                lsReferDte = AppConstants.CURRENT_DATE;
-            }
-            if(lsEmployID == null || lsEmployID.equalsIgnoreCase("")){
-                callback.OnFailed("Unable to download DCP. Please re-login your account and try again.");
-            } else {
-                JSONObject loJson = new JSONObject();
-                loJson.put("sEmployID", lsEmployID);
-                loJson.put("dTransact", lsReferDte);
-                loJson.put("cDCPTypex", "1");
-
-                Log.d(TAG, loJson.toString());
-
-                String lsResponse = WebClient.sendRequest(poApis.getUrlDownloadDcp(poConfig.isBackUpServer()), loJson.toString(), poHeaders.getHeaders());
-                if(lsResponse == null){
-                    callback.OnSuccess("Server no response");
-                } else {
-                    JSONObject loResponse = new JSONObject(lsResponse);
-                    String lsResult = loResponse.getString("result");
-                    if (!lsResult.equalsIgnoreCase("success")){
-                        JSONObject loError = loResponse.getJSONObject("error");
-                        String lsMessage = loError.getString("message");
-                        callback.OnFailed(lsMessage);
-                    } else {
-                        JSONObject loMaster = loResponse.getJSONObject("master");
-                        String lsTransNox = loMaster.getString("sTransNox");
-
-                        if(poDcp.getCollectionMasterIfExist(lsTransNox).size() >= 1){
-                            callback.OnFailed("Record already exist on local data.");
-                        } else {
-                            EDCPCollectionMaster collectionMaster = new EDCPCollectionMaster();
-                            collectionMaster.setTransNox(loMaster.getString("sTransNox"));
-                            collectionMaster.setTransact(loMaster.getString("dTransact"));
-                            collectionMaster.setReferNox(loMaster.getString("sReferNox"));
-                            collectionMaster.setCollName(loMaster.getString("xCollName"));
-                            collectionMaster.setRouteNme(loMaster.getString("sRouteNme"));
-                            collectionMaster.setReferDte(loMaster.getString("dReferDte"));
-                            collectionMaster.setTranStat(loMaster.getString("cTranStat"));
-                            collectionMaster.setDCPTypex(loMaster.getString("cDCPTypex"));
-                            collectionMaster.setEntryNox(loMaster.getString("nEntryNox"));
-                            collectionMaster.setBranchNm(loMaster.getString("sBranchNm"));
-                            collectionMaster.setCollctID(loMaster.getString("sCollctID"));
-                            poDcp.insertMasterData(collectionMaster);
-
-                            JSONArray laJson = loResponse.getJSONArray("detail");
-                            List<EDCPCollectionDetail> collectionDetails = new ArrayList<>();
-                            for(int x = 0; x < laJson.length(); x++){
-                                JSONObject loDetail = laJson.getJSONObject(x);
-                                EDCPCollectionDetail collectionDetail = new EDCPCollectionDetail();
-                                collectionDetail.setTransNox(loMaster.getString("sTransNox"));
-                                collectionDetail.setEntryNox(Integer.parseInt(loDetail.getString("nEntryNox")));
-                                collectionDetail.setAcctNmbr(loDetail.getString("sAcctNmbr"));
-                                collectionDetail.setFullName(loDetail.getString("xFullName"));
-                                collectionDetail.setIsDCPxxx(loDetail.getString("cIsDCPxxx"));
-                                collectionDetail.setMobileNo(loDetail.getString("sMobileNo"));
-                                collectionDetail.setHouseNox(loDetail.getString("sHouseNox"));
-                                collectionDetail.setAddressx(loDetail.getString("sAddressx"));
-                                collectionDetail.setBrgyName(loDetail.getString("sBrgyName"));
-                                collectionDetail.setTownName(loDetail.getString("sTownName"));
-                                collectionDetail.setPurchase(loDetail.getString("dPurchase"));
-                                collectionDetail.setAmtDuexx(loDetail.getString("nAmtDuexx"));
-                                collectionDetail.setApntUnit(loDetail.getString("cApntUnit"));
-                                collectionDetail.setDueDatex(loDetail.getString("dDueDatex"));
-                                collectionDetail.setLongitud(loDetail.getString("nLongitud"));
-                                collectionDetail.setLatitude(loDetail.getString("nLatitude"));
-                                collectionDetail.setClientID(loDetail.getString("sClientID"));
-                                collectionDetail.setSerialID(loDetail.getString("sSerialID"));
-                                collectionDetail.setSerialNo(loDetail.getString("sSerialNo"));
-                                collectionDetail.setLastPaym(loDetail.getString("nLastPaym"));
-                                collectionDetail.setLastPaid(loDetail.getString("dLastPaym"));
-                                collectionDetail.setABalance(loDetail.getString("nABalance"));
-                                collectionDetail.setDelayAvg(loDetail.getString("nDelayAvg"));
-                                collectionDetail.setMonAmort(loDetail.getString("nMonAmort"));
-                                collectionDetails.add(collectionDetail);
-                            }
-                            poDcp.insertDetailBulkData(collectionDetails);
-
-                            callback.OnSuccess("Collection for today has been imported successfully");
-                        }
-                    }
-                }
-            }
-        } catch (Exception e){
-            e.printStackTrace();
-            callback.OnFailed("ImportDcpMaster : " + e.getMessage());
-            Log.d(TAG, "ImportDcpMaster : " + e.getMessage());
-        }
-    }
-    public void getSearchList(String fsClientNm, OnSearchCallback callback){
-        List<EDCPCollectionDetail> loSearch = new ArrayList<>();
-        try{
-            EDCPCollectionMaster loMaster = poDcp.CheckIfHasCollection();
-            if(loMaster == null){
-                callback.OnFailed("Unable to add collection. No DCP has been created for today.");
-            } else if("1".equalsIgnoreCase(loMaster.getSendStat())){
-                callback.OnFailed("Unable to add collection. DCP is already posted.");
-            } else {
-                JSONObject loJson = new JSONObject();
-                loJson.put("value", fsClientNm);
-                loJson.put("bycode", false);
-
-                int lnEntryNox = 1;
-                if(poDcp.getDetailCollection(loMaster.getTransNox()) != null){
-                    List<EDCPCollectionDetail> loDcp = poDcp.getDetailCollection(loMaster.getTransNox());
-                    if(loDcp.size() > 0) {
-                        int lnEntry = loDcp.get(0).getEntryNox();
-                        lnEntryNox = lnEntry + 1;
-                    }
-                }
-
-                String lsResponse = WebClient.sendRequest(poApis.getUrlGetArClient(poConfig.isBackUpServer()), loJson.toString(), poHeaders.getHeaders());
-                if(lsResponse == null){
-                    callback.OnFailed("Server no response");
-                } else {
-                    JSONObject loResponse = new JSONObject(lsResponse);
-                    String lsResult = loResponse.getString("result");
-                    if (!lsResult.equalsIgnoreCase("success")){
-                        JSONObject loError = loResponse.getJSONObject("error");
-                        String lsMessage = loError.getString("message");
-                        callback.OnFailed(lsMessage);
-                    } else {
-                        JSONArray laJson = loResponse.getJSONArray("data");
-                        for(int x = 0; x < laJson.length(); x++) {
-                            JSONObject loDetail = laJson.getJSONObject(x);
-                            EDCPCollectionDetail collectionDetail = new EDCPCollectionDetail();
-                            collectionDetail.setTransNox(loMaster.getTransNox());
-                            collectionDetail.setEntryNox(lnEntryNox);
-                            try {
-                                collectionDetail.setAcctNmbr(loDetail.getString("sAcctNmbr"));
-                            } catch (Exception e){
-                                e.printStackTrace();
-                            }
-                            collectionDetail.setFullName(loDetail.getString("xFullName"));
-                            collectionDetail.setIsDCPxxx("0");
-                            collectionDetail.setMobileNo(loDetail.getString("sMobileNo"));
-                            collectionDetail.setHouseNox(loDetail.getString("sHouseNox"));
-                            collectionDetail.setAddressx(loDetail.getString("sAddressx"));
-                            collectionDetail.setBrgyName(loDetail.getString("sBrgyName"));
-                            collectionDetail.setTownName(loDetail.getString("sTownName"));
-                            collectionDetail.setClientID(loDetail.getString("sClientID"));
-                            collectionDetail.setSerialID(loDetail.getString("sSerialID"));
-                            collectionDetail.setSerialNo(loDetail.getString("sSerialNo"));
-                            collectionDetail.setLongitud(loDetail.getString("nLongitud"));
-                            collectionDetail.setLatitude(loDetail.getString("nLatitude"));
-                            collectionDetail.setDueDatex(loDetail.getString("dDueDatex"));
-                            collectionDetail.setMonAmort(loDetail.getString("nMonAmort"));
-                            collectionDetail.setLastPaym(loDetail.getString("nLastPaym"));
-                            collectionDetail.setLastPaid(loDetail.getString("dLastPaym"));
-                            collectionDetail.setAmtDuexx(loDetail.getString("nAmtDuexx"));
-                            collectionDetail.setABalance(loDetail.getString("nABalance"));
-                            collectionDetail.setDelayAvg(loDetail.getString("nDelayAvg"));
-                            loSearch.add(collectionDetail);
-                        }
-                        callback.OnSuccess(loSearch);
-                    }
-                }
-            }
-        } catch (Exception e){
-            e.printStackTrace();
-            callback.OnFailed(e.getMessage());
-        }
-    }
+//    public void ImportDcpMaster(String EmployID, String ReferDte, OnActionCallback callback) {
+//        try{
+//            String lsEmployID;
+//            String lsReferDte;
+//            if(poConfig.getTestStatus()) {
+//                lsEmployID = EmployID;
+//                lsReferDte = ReferDte;
+//            } else {
+//                lsEmployID = poUser.getEmployeeID();
+//                lsReferDte = AppConstants.CURRENT_DATE;
+//            }
+//            if(lsEmployID == null || lsEmployID.equalsIgnoreCase("")){
+//                callback.OnFailed("Unable to download DCP. Please re-login your account and try again.");
+//            } else {
+//                JSONObject loJson = new JSONObject();
+//                loJson.put("sEmployID", lsEmployID);
+//                loJson.put("dTransact", lsReferDte);
+//                loJson.put("cDCPTypex", "1");
+//
+//                Log.d(TAG, loJson.toString());
+//
+//                String lsResponse = WebClient.sendRequest(poApis.getUrlDownloadDcp(poConfig.isBackUpServer()), loJson.toString(), poHeaders.getHeaders());
+//                if(lsResponse == null){
+//                    callback.OnSuccess("Server no response");
+//                } else {
+//                    JSONObject loResponse = new JSONObject(lsResponse);
+//                    String lsResult = loResponse.getString("result");
+//                    if (!lsResult.equalsIgnoreCase("success")){
+//                        JSONObject loError = loResponse.getJSONObject("error");
+//                        String lsMessage = loError.getString("message");
+//                        callback.OnFailed(lsMessage);
+//                    } else {
+//                        JSONObject loMaster = loResponse.getJSONObject("master");
+//                        String lsTransNox = loMaster.getString("sTransNox");
+//
+//                        if(poDcp.getCollectionMasterIfExist(lsTransNox).size() >= 1){
+//                            callback.OnFailed("Record already exist on local data.");
+//                        } else {
+//                            EDCPCollectionMaster collectionMaster = new EDCPCollectionMaster();
+//                            collectionMaster.setTransNox(loMaster.getString("sTransNox"));
+//                            collectionMaster.setTransact(loMaster.getString("dTransact"));
+//                            collectionMaster.setReferNox(loMaster.getString("sReferNox"));
+//                            collectionMaster.setCollName(loMaster.getString("xCollName"));
+//                            collectionMaster.setRouteNme(loMaster.getString("sRouteNme"));
+//                            collectionMaster.setReferDte(loMaster.getString("dReferDte"));
+//                            collectionMaster.setTranStat(loMaster.getString("cTranStat"));
+//                            collectionMaster.setDCPTypex(loMaster.getString("cDCPTypex"));
+//                            collectionMaster.setEntryNox(loMaster.getString("nEntryNox"));
+//                            collectionMaster.setBranchNm(loMaster.getString("sBranchNm"));
+//                            collectionMaster.setCollctID(loMaster.getString("sCollctID"));
+//                            poDcp.insertMasterData(collectionMaster);
+//
+//                            JSONArray laJson = loResponse.getJSONArray("detail");
+//                            List<EDCPCollectionDetail> collectionDetails = new ArrayList<>();
+//                            for(int x = 0; x < laJson.length(); x++){
+//                                JSONObject loDetail = laJson.getJSONObject(x);
+//                                EDCPCollectionDetail collectionDetail = new EDCPCollectionDetail();
+//                                collectionDetail.setTransNox(loMaster.getString("sTransNox"));
+//                                collectionDetail.setEntryNox(Integer.parseInt(loDetail.getString("nEntryNox")));
+//                                collectionDetail.setAcctNmbr(loDetail.getString("sAcctNmbr"));
+//                                collectionDetail.setFullName(loDetail.getString("xFullName"));
+//                                collectionDetail.setIsDCPxxx(loDetail.getString("cIsDCPxxx"));
+//                                collectionDetail.setMobileNo(loDetail.getString("sMobileNo"));
+//                                collectionDetail.setHouseNox(loDetail.getString("sHouseNox"));
+//                                collectionDetail.setAddressx(loDetail.getString("sAddressx"));
+//                                collectionDetail.setBrgyName(loDetail.getString("sBrgyName"));
+//                                collectionDetail.setTownName(loDetail.getString("sTownName"));
+//                                collectionDetail.setPurchase(loDetail.getString("dPurchase"));
+//                                collectionDetail.setAmtDuexx(loDetail.getString("nAmtDuexx"));
+//                                collectionDetail.setApntUnit(loDetail.getString("cApntUnit"));
+//                                collectionDetail.setDueDatex(loDetail.getString("dDueDatex"));
+//                                collectionDetail.setLongitud(loDetail.getString("nLongitud"));
+//                                collectionDetail.setLatitude(loDetail.getString("nLatitude"));
+//                                collectionDetail.setClientID(loDetail.getString("sClientID"));
+//                                collectionDetail.setSerialID(loDetail.getString("sSerialID"));
+//                                collectionDetail.setSerialNo(loDetail.getString("sSerialNo"));
+//                                collectionDetail.setLastPaym(loDetail.getString("nLastPaym"));
+//                                collectionDetail.setLastPaid(loDetail.getString("dLastPaym"));
+//                                collectionDetail.setABalance(loDetail.getString("nABalance"));
+//                                collectionDetail.setDelayAvg(loDetail.getString("nDelayAvg"));
+//                                collectionDetail.setMonAmort(loDetail.getString("nMonAmort"));
+//                                collectionDetails.add(collectionDetail);
+//                            }
+//                            poDcp.insertDetailBulkData(collectionDetails);
+//
+//                            callback.OnSuccess("Collection for today has been imported successfully");
+//                        }
+//                    }
+//                }
+//            }
+//        } catch (Exception e){
+//            e.printStackTrace();
+//            callback.OnFailed("ImportDcpMaster : " + e.getMessage());
+//            Log.d(TAG, "ImportDcpMaster : " + e.getMessage());
+//        }
+//    }
+//    public void getSearchList(String fsClientNm, OnSearchCallback callback){
+//        List<EDCPCollectionDetail> loSearch = new ArrayList<>();
+//        try{
+//            EDCPCollectionMaster loMaster = poDcp.CheckIfHasCollection();
+//            if(loMaster == null){
+//                callback.OnFailed("Unable to add collection. No DCP has been created for today.");
+//            } else if("1".equalsIgnoreCase(loMaster.getSendStat())){
+//                callback.OnFailed("Unable to add collection. DCP is already posted.");
+//            } else {
+//                JSONObject loJson = new JSONObject();
+//                loJson.put("value", fsClientNm);
+//                loJson.put("bycode", false);
+//
+//                int lnEntryNox = 1;
+//                if(poDcp.getDetailCollection(loMaster.getTransNox()) != null){
+//                    List<EDCPCollectionDetail> loDcp = poDcp.getDetailCollection(loMaster.getTransNox());
+//                    if(loDcp.size() > 0) {
+//                        int lnEntry = loDcp.get(0).getEntryNox();
+//                        lnEntryNox = lnEntry + 1;
+//                    }
+//                }
+//
+//                String lsResponse = WebClient.sendRequest(poApis.getUrlGetArClient(poConfig.isBackUpServer()), loJson.toString(), poHeaders.getHeaders());
+//                if(lsResponse == null){
+//                    callback.OnFailed("Server no response");
+//                } else {
+//                    JSONObject loResponse = new JSONObject(lsResponse);
+//                    String lsResult = loResponse.getString("result");
+//                    if (!lsResult.equalsIgnoreCase("success")){
+//                        JSONObject loError = loResponse.getJSONObject("error");
+//                        String lsMessage = loError.getString("message");
+//                        callback.OnFailed(lsMessage);
+//                    } else {
+//                        JSONArray laJson = loResponse.getJSONArray("data");
+//                        for(int x = 0; x < laJson.length(); x++) {
+//                            JSONObject loDetail = laJson.getJSONObject(x);
+//                            EDCPCollectionDetail collectionDetail = new EDCPCollectionDetail();
+//                            collectionDetail.setTransNox(loMaster.getTransNox());
+//                            collectionDetail.setEntryNox(lnEntryNox);
+//                            try {
+//                                collectionDetail.setAcctNmbr(loDetail.getString("sAcctNmbr"));
+//                            } catch (Exception e){
+//                                e.printStackTrace();
+//                            }
+//                            collectionDetail.setFullName(loDetail.getString("xFullName"));
+//                            collectionDetail.setIsDCPxxx("0");
+//                            collectionDetail.setMobileNo(loDetail.getString("sMobileNo"));
+//                            collectionDetail.setHouseNox(loDetail.getString("sHouseNox"));
+//                            collectionDetail.setAddressx(loDetail.getString("sAddressx"));
+//                            collectionDetail.setBrgyName(loDetail.getString("sBrgyName"));
+//                            collectionDetail.setTownName(loDetail.getString("sTownName"));
+//                            collectionDetail.setClientID(loDetail.getString("sClientID"));
+//                            collectionDetail.setSerialID(loDetail.getString("sSerialID"));
+//                            collectionDetail.setSerialNo(loDetail.getString("sSerialNo"));
+//                            collectionDetail.setLongitud(loDetail.getString("nLongitud"));
+//                            collectionDetail.setLatitude(loDetail.getString("nLatitude"));
+//                            collectionDetail.setDueDatex(loDetail.getString("dDueDatex"));
+//                            collectionDetail.setMonAmort(loDetail.getString("nMonAmort"));
+//                            collectionDetail.setLastPaym(loDetail.getString("nLastPaym"));
+//                            collectionDetail.setLastPaid(loDetail.getString("dLastPaym"));
+//                            collectionDetail.setAmtDuexx(loDetail.getString("nAmtDuexx"));
+//                            collectionDetail.setABalance(loDetail.getString("nABalance"));
+//                            collectionDetail.setDelayAvg(loDetail.getString("nDelayAvg"));
+//                            loSearch.add(collectionDetail);
+//                        }
+//                        callback.OnSuccess(loSearch);
+//                    }
+//                }
+//            }
+//        } catch (Exception e){
+//            e.printStackTrace();
+//            callback.OnFailed(e.getMessage());
+//        }
+//    }
 
     public iDCPTransaction getTransaction(String fsRemCode){
         switch (fsRemCode) {

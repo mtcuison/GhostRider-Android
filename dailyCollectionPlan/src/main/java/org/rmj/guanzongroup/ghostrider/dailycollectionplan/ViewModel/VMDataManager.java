@@ -18,16 +18,15 @@ import android.os.AsyncTask;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
-import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplication;
-import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicationDocuments;
-import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
-import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.ESelfieLog;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchLoanApplication;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplication;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplicationDocument;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplication;
+import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicationDocuments;
+import org.rmj.g3appdriver.dev.Database.Entities.EDCPCollectionDetail;
+import org.rmj.g3appdriver.dev.Database.Entities.EImageInfo;
+import org.rmj.g3appdriver.dev.Database.Repositories.RBranchLoanApplication;
+import org.rmj.g3appdriver.dev.Database.Repositories.RCreditApplication;
+import org.rmj.g3appdriver.dev.Database.Repositories.RCreditApplicationDocument;
+import org.rmj.g3appdriver.dev.Database.Repositories.RDailyCollectionPlan;
+import org.rmj.g3appdriver.dev.Database.Repositories.RImageInfo;
 import org.rmj.g3appdriver.lib.PetManager.SelfieLog;
 
 import java.util.List;

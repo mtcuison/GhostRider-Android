@@ -22,12 +22,12 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.EProvinceInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.ETownInfo;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplicant;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RProvince;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RTown;
+import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.EProvinceInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.ETownInfo;
+import org.rmj.g3appdriver.dev.Database.Repositories.RCreditApplicant;
+import org.rmj.g3appdriver.dev.Database.Repositories.RProvince;
+import org.rmj.g3appdriver.dev.Database.Repositories.RTown;
 import org.rmj.gocas.base.GOCASApplication;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.GOCASHolder;

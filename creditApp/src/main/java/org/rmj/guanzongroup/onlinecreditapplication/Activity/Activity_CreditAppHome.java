@@ -34,14 +34,10 @@ import android.widget.LinearLayout;
 
 import com.google.android.material.textfield.TextInputEditText;
 
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
-import org.rmj.g3appdriver.GRider.Etc.GToast;
-import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
-import org.rmj.g3appdriver.GRider.Etc.MessageBox;
-import org.rmj.g3appdriver.etc.WebFileServer;
-import org.rmj.guanzongroup.ghostrider.griderscanner.dialog.DialogImagePreview;
+import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.EImageInfo;
+import org.rmj.g3appdriver.etc.LoadDialog;
+import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
 import org.rmj.guanzongroup.ghostrider.notifications.Object.GNotifBuilder;
 import org.rmj.guanzongroup.onlinecreditapplication.Adapter.CreditAppHomeAdapter;
@@ -84,7 +80,7 @@ public class Activity_CreditAppHome extends AppCompatActivity {
         mViewModel.getAllCreditApp().observe(Activity_CreditAppHome.this, credits->{
             if(credits != null || credits.size()>0) {
                 noRecord.setVisibility(View.GONE);
-                adapter = new CreditAppHomeAdapter(Activity_CreditAppHome.this,credits, new CreditAppHomeAdapter.OnApplicationClickListener() {
+                adapter = new CreditAppHomeAdapter(Activity_CreditAppHome.this, credits, new CreditAppHomeAdapter.OnApplicationClickListener() {
                     @Override
                     public void OnClick(int position, ECreditApplicantInfo loanList) {
 //                        ECreditApplicantInfo creditApplicantInfo = loanList.get(position);

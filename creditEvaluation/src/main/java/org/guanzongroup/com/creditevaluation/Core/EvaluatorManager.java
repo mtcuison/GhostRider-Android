@@ -8,18 +8,18 @@ import androidx.lifecycle.LiveData;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.apprdiver.util.SQLUtil;
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditOnlineApplicationCI;
-import org.rmj.g3appdriver.GRider.Database.Entities.EBranchLoanApplication;
-import org.rmj.g3appdriver.GRider.Database.Entities.ECreditOnlineApplicationCI;
-import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchLoanApplication;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditOnlineApplicationCI;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
-import org.rmj.g3appdriver.GRider.Etc.SessionManager;
-import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
-import org.rmj.g3appdriver.GRider.Http.WebClient;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DCreditOnlineApplicationCI;
+import org.rmj.g3appdriver.dev.Database.Entities.EBranchLoanApplication;
+import org.rmj.g3appdriver.dev.Database.Entities.ECreditOnlineApplicationCI;
+import org.rmj.g3appdriver.dev.Database.Entities.EImageInfo;
+import org.rmj.g3appdriver.dev.Database.Repositories.RBranchLoanApplication;
+import org.rmj.g3appdriver.dev.Database.Repositories.RCreditOnlineApplicationCI;
+import org.rmj.g3appdriver.dev.Database.Repositories.RImageInfo;
+import org.rmj.g3appdriver.dev.HttpHeaders;
+import org.rmj.g3appdriver.dev.WebClient;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.etc.SessionManager;
 import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.g3appdriver.utils.WebApi;
 
@@ -247,11 +247,11 @@ public class EvaluatorManager {
                         poCI.SaveApplicationInfo(loApp);
                     }
                     JSONArray loCredxx = loResponse.getJSONArray("credit_online");
-                    if(new RBranchLoanApplication(instance).insertBranchApplicationInfos(loCredxx)){
-                        callback.OnSuccess("success");
-                    } else {
-                        callback.OnFailed("Failed saving credit application info.");
-                    }
+//                    if(new RBranchLoanApplication(instance).insertBranchApplicationInfos(loCredxx)){
+//                        callback.OnSuccess("success");
+//                    } else {
+//                        callback.OnFailed("Failed saving credit application info.");
+//                    }
                 } else {
                     JSONObject loError = loResponse.getJSONObject("error");
                     String lsMessage = loError.getString("message");

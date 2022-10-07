@@ -11,7 +11,7 @@
 
 package org.rmj.guanzongroup.onlinecreditapplication.Model;
 
-import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
+import org.rmj.g3appdriver.etc.FormatUIText;
 
 import java.io.Serializable;
 

@@ -11,8 +11,6 @@
 
 package org.guanzongroup.com.creditevaluation.Activity;
 
-import static org.rmj.g3appdriver.GRider.Constants.AppConstants.SUB_FOLDER_CI_ADDRESS;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -48,15 +46,10 @@ import org.guanzongroup.com.creditevaluation.Dialog.DialogCIReason;
 import org.guanzongroup.com.creditevaluation.Model.AdditionalInfoModel;
 import org.guanzongroup.com.creditevaluation.R;
 import org.guanzongroup.com.creditevaluation.ViewModel.VMCIHistoryPreview;
-import org.guanzongroup.com.creditevaluation.ViewModel.VMEvaluation;
 import org.guanzongroup.com.creditevaluation.ViewModel.VMEvaluationCIHistoryInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.ECreditOnlineApplicationCI;
-import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
-import org.rmj.g3appdriver.GRider.Etc.GToast;
-import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
-import org.rmj.g3appdriver.GRider.Etc.MessageBox;
-import org.rmj.g3appdriver.etc.WebFileServer;
-import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
+import org.rmj.g3appdriver.dev.Database.Entities.ECreditOnlineApplicationCI;
+import org.rmj.g3appdriver.etc.LoadDialog;
+import org.rmj.g3appdriver.etc.MessageBox;
 
 import java.util.ArrayList;
 import java.util.HashMap;

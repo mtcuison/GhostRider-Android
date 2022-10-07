@@ -18,7 +18,7 @@ import org.guanzongroup.com.creditevaluation.Activity.Activity_CIEvaluationList;
 import org.guanzongroup.com.creditevaluation.Activity.Activity_EvaluationCIHistory;
 import org.guanzongroup.com.itinerary.Activities.Activity_ItineraryEntry;
 import org.guanzongroup.com.itinerary.Activities.Activity_ItineraryLog;
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
+import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Application;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_AreaPerformance;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_CashCountLog;

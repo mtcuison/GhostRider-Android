@@ -11,7 +11,7 @@
 
 package org.rmj.guanzongroup.onlinecreditapplication.Model;
 
-import org.rmj.g3appdriver.GRider.Etc.InputChecker;
+import org.rmj.g3appdriver.etc.InputChecker;
 
 public class SpouseSelfEmployedInfoModel extends InputChecker {
 

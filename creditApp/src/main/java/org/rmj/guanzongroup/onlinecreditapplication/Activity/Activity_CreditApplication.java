@@ -19,7 +19,7 @@ import androidx.viewpager.widget.ViewPager;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.guanzongroup.onlinecreditapplication.Adapter.FragmentAdapter;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_PersonalInfo;

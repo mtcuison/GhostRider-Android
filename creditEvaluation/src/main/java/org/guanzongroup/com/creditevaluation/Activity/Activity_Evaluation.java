@@ -1,6 +1,6 @@
 package org.guanzongroup.com.creditevaluation.Activity;
 
-import static org.rmj.g3appdriver.GRider.Constants.AppConstants.SUB_FOLDER_CI_ADDRESS;
+import static org.rmj.g3appdriver.etc.AppConstants.SUB_FOLDER_CI_ADDRESS;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -39,11 +39,10 @@ import org.guanzongroup.com.creditevaluation.R;
 import org.guanzongroup.com.creditevaluation.ViewModel.VMEvaluation;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.rmj.g3appdriver.GRider.Database.Entities.ECreditOnlineApplicationCI;
-import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.EOccupationInfo;
-import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
-import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+import org.rmj.g3appdriver.dev.Database.Entities.ECreditOnlineApplicationCI;
+import org.rmj.g3appdriver.dev.Database.Entities.EImageInfo;
+import org.rmj.g3appdriver.etc.LoadDialog;
+import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
 

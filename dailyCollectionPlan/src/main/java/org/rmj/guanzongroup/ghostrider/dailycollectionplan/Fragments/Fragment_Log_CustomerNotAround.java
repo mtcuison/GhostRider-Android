@@ -29,8 +29,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import org.rmj.g3appdriver.GRider.Etc.GToast;
+;
+import org.rmj.g3appdriver.etc.GToast;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_TransactionDetail;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter.AddressInfoAdapter_Log;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter.MobileInfoAdapter_Log;

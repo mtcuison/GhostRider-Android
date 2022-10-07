@@ -38,7 +38,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import org.json.simple.JSONObject;
-import org.rmj.g3appdriver.GRider.Etc.GToast;
+import org.rmj.g3appdriver.etc.GToast;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.TextFormatter;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.PurchaseInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;

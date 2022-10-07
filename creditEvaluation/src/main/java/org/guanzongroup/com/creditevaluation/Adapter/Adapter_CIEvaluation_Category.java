@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.guanzongroup.com.creditevaluation.R;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.rmj.g3appdriver.GRider.Database.Entities.EOccupationInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.EOccupationInfo;
 
 import java.util.List;
 

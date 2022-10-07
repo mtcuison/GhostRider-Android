@@ -11,6 +11,8 @@
 
 package org.rmj.guanzongroup.onlinecreditapplication.Fragment;
 
+import static org.rmj.g3appdriver.etc.FormatUIText.*;
+
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,9 +33,9 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
-import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
-import org.rmj.g3appdriver.GRider.Etc.GToast;
+import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
+import org.rmj.g3appdriver.etc.FormatUIText;
+import org.rmj.g3appdriver.etc.GToast;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.SelfEmployedInfoModel;
@@ -98,8 +100,8 @@ public class Fragment_SelfEmployedInfo extends Fragment implements ViewModelCall
         btnPrvs = view.findViewById(R.id.btn_creditAppPrvs);
         btnNext = view.findViewById(R.id.btn_creditAppNext);
 
-        txtMnthlyIn.addTextChangedListener(new FormatUIText.CurrencyFormat(txtMnthlyIn));
-        txtMnthlyEx.addTextChangedListener(new FormatUIText.CurrencyFormat(txtMnthlyEx));
+        txtMnthlyIn.addTextChangedListener(new CurrencyFormat(txtMnthlyIn));
+        txtMnthlyEx.addTextChangedListener(new CurrencyFormat(txtMnthlyEx));
     }
 
     @Override

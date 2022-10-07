@@ -28,13 +28,13 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.LiveData;
 
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DTownInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.EClientUpdate;
-import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RTown;
-import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
-import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.EClientUpdate;
+import org.rmj.g3appdriver.dev.Database.Entities.EDCPCollectionDetail;
+import org.rmj.g3appdriver.dev.Database.Repositories.RDailyCollectionPlan;
+import org.rmj.g3appdriver.dev.Database.Repositories.RTown;
+import org.rmj.g3appdriver.etc.FormatUIText;
+import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_CollectionList;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
@@ -45,7 +45,7 @@ public class DialogAccountDetail {
     private static final String TAG = DialogAccountDetail.class.getSimpleName();
     private AlertDialog poDialogx;
     private final Context context;
-    private org.rmj.g3appdriver.GRider.Database.Repositories.RTown RTown;
+    private RTown poTown;
     private RDailyCollectionPlan poDCPRepo;
     private MessageBox poMessage;
 
@@ -80,7 +80,7 @@ public class DialogAccountDetail {
         poDialogx = loBuilder.create();
         poDialogx.setCancelable(false);
 
-        RTown = new RTown(activity.getApplication());
+        poTown = new RTown(activity.getApplication());
         poDCPRepo = new RDailyCollectionPlan(activity.getApplication());
         TextView lblReferNo = view.findViewById(R.id.lbl_dcpReferNo);
         TextView lblTransNo = view.findViewById(R.id.lbl_dcpTransNo);
@@ -176,11 +176,11 @@ public class DialogAccountDetail {
         return poDCPRepo.getClientUpdateInfo(AccountNox);
     }
     public LiveData<DTownInfo.BrgyTownProvinceInfo> getBrgyTownProvinceInfo(String fsID){
-        return RTown.getBrgyTownProvinceInfo(fsID);
+        return poTown.getBrgyTownProvinceInfo(fsID);
     }
 
     public LiveData<DTownInfo.BrgyTownProvinceInfo> getTownProvinceInfo(String fsID){
-        return RTown.getTownProvinceInfo(fsID);
+        return poTown.getTownProvinceInfo(fsID);
     }
     @SuppressLint("SetTextI18n")
     public void showClientUpdateInfo(Activity_CollectionList activities, EDCPCollectionDetail foDetails) {

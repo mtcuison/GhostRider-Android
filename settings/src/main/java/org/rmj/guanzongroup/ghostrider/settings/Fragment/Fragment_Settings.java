@@ -29,13 +29,11 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreferenceCompat;
 
-
-import org.rmj.g3appdriver.GRider.Etc.GToast;
-import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
-import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.GRider.Etc.SessionManager;
+import org.rmj.g3appdriver.etc.LoadDialog;
+import org.rmj.g3appdriver.etc.MessageBox;
+import org.rmj.g3appdriver.etc.SessionManager;
 import org.rmj.guanzongroup.ghostrider.dataChecker.Activity.Activity_DB_Explorer;
 import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_CheckUpdate;
 import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_Developer;
@@ -51,10 +49,10 @@ import java.util.Objects;
 
 import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.READ_PHONE_STATE;
-import static org.rmj.g3appdriver.GRider.Constants.AppConstants.CAMERA_REQUEST;
-import static org.rmj.g3appdriver.GRider.Constants.AppConstants.DEV_MODE;
-import static org.rmj.g3appdriver.GRider.Constants.AppConstants.LOCATION_REQUEST;
-import static org.rmj.g3appdriver.GRider.Constants.AppConstants.STORAGE_REQUEST;
+import static org.rmj.g3appdriver.etc.AppConstants.CAMERA_REQUEST;
+import static org.rmj.g3appdriver.etc.AppConstants.DEV_MODE;
+import static org.rmj.g3appdriver.etc.AppConstants.LOCATION_REQUEST;
+import static org.rmj.g3appdriver.etc.AppConstants.STORAGE_REQUEST;
 
 public class Fragment_Settings  extends PreferenceFragmentCompat {
 

@@ -17,8 +17,8 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplicant;
+import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
+import org.rmj.g3appdriver.dev.Database.Repositories.RCreditApplicant;
 import org.rmj.gocas.base.GOCASApplication;
 
 public class VMCreditApplication extends AndroidViewModel {

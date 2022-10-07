@@ -31,27 +31,16 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DEmployeeInfo;
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DTownInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.EBarangayInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.EClientUpdate;
-import org.rmj.g3appdriver.GRider.Database.Entities.ECountryInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
-import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionMaster;
-import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.EProvinceInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.ETownInfo;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RBarangay;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RCountry;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RProvince;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RTown;
-import org.rmj.g3appdriver.GRider.Etc.LocationRetriever;
-import org.rmj.g3appdriver.GRider.Etc.SessionManager;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEmployeeInfo;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.EBarangayInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.EDCPCollectionDetail;
+import org.rmj.g3appdriver.dev.Database.Repositories.RBarangay;
+import org.rmj.g3appdriver.dev.Database.Repositories.RBranch;
+import org.rmj.g3appdriver.dev.Database.Repositories.RProvince;
+import org.rmj.g3appdriver.dev.Database.Repositories.RTown;
+import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.etc.LocationRetriever;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.lib.integsys.Dcp.LRDcp;
 import org.rmj.g3appdriver.lib.integsys.Dcp.LoanUnit;
@@ -80,8 +69,8 @@ public class VMLoanUnit extends AndroidViewModel {
     private final EmployeeMaster poUser;
     private final RBranch poBranch;
 
-    private final RProvince RProvince;
-    private final RTown RTown;
+    private final RProvince poProv;
+    private final RTown poTown;
     private final RBarangay Brgy;
 
     public VMLoanUnit(@NonNull Application application) {
@@ -90,8 +79,8 @@ public class VMLoanUnit extends AndroidViewModel {
         this.poSys = new LRDcp(application);
         this.poUser = new EmployeeMaster(application);
         this.poBranch = new RBranch(application);
-        RProvince = new RProvince(application);
-        RTown = new RTown(application);
+        poProv = new RProvince(application);
+        poTown = new RTown(application);
         Brgy = new RBarangay(application);
     }
 
@@ -206,7 +195,7 @@ public class VMLoanUnit extends AndroidViewModel {
     }
 
     public LiveData<List<DTownInfo.TownProvinceInfo>> getTownProvinceInfo(){
-        return RTown.getTownProvinceInfo();
+        return poTown.getTownProvinceInfo();
     }
 
     public LiveData<String[]> getBarangayNameList(String fsVal){

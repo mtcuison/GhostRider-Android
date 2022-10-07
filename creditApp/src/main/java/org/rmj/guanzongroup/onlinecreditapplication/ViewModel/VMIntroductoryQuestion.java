@@ -29,17 +29,18 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import org.json.simple.JSONObject;
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DRawDao;
-import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.EMcBrand;
-import org.rmj.g3appdriver.GRider.Database.Entities.EMcModel;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplicant;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RMcBrand;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RMcModel;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RRawData;
+
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DRawDao;
+import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.EMcBrand;
+import org.rmj.g3appdriver.dev.Database.Entities.EMcModel;
+import org.rmj.g3appdriver.dev.Database.Repositories.RBranch;
+import org.rmj.g3appdriver.dev.Database.Repositories.RCreditApplicant;
+import org.rmj.g3appdriver.dev.Database.Repositories.RMcBrand;
+import org.rmj.g3appdriver.dev.Database.Repositories.RMcModel;
+import org.rmj.g3appdriver.dev.Database.Repositories.RRawData;
+import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.gocas.base.GOCASApplication;
 import org.rmj.gocas.pricelist.PriceFactory;
 import org.rmj.gocas.pricelist.Pricelist;
@@ -57,11 +58,11 @@ import java.util.List;
 public class VMIntroductoryQuestion extends AndroidViewModel {
     public static final String TAG = VMIntroductoryQuestion.class.getSimpleName();
     private final DecimalFormat currency_total = new DecimalFormat("###,###,###.###");
-    private final RBranch RBranch;
+    private final RBranch poBranch;
     private final RMcBrand oBrandRepo;
     private final RMcModel oModelRepo;
     private final RCreditApplicant oCredtRepo;
-    private final RRawData RRawData;
+    private final RRawData poData;
     private final Pricelist poPrice;
 
     private final MutableLiveData<String> psAppType = new MutableLiveData<>();
@@ -79,12 +80,12 @@ public class VMIntroductoryQuestion extends AndroidViewModel {
     private final LiveData<String[]> paBrandNme;
     public VMIntroductoryQuestion(@NonNull Application application) {
         super(application);
-        RBranch = new RBranch(application);
+        poBranch = new RBranch(application);
         oBrandRepo = new RMcBrand(application);
         oModelRepo = new RMcModel(application);
         oCredtRepo = new RCreditApplicant(application);
-        RRawData = new RRawData(application);
-        paBranchNm = RBranch.getAllMcBranchNames();
+        poData = new RRawData(application);
+        paBranchNm = poBranch.getAllMcBranchNames();
         paBrandNme = oBrandRepo.getAllBrandNames();
        // oCredtRepo.deleteAllCredit();
         poPrice = PriceFactory.make(PriceFactory.ProductType.MOTORCYCLE);
@@ -152,11 +153,11 @@ public class VMIntroductoryQuestion extends AndroidViewModel {
     }
 
     public LiveData<List<EBranchInfo>> getAllBranchInfo(){
-        return RBranch.getAllMcBranchInfo();
+        return poBranch.getAllMcBranchInfo();
     }
 
     public LiveData<EBranchInfo> getUserBranchInfo(){
-        return RBranch.getUserBranchInfo();
+        return poBranch.getUserBranchInfo();
     }
 
     public LiveData<String[]> getAllBranchNames(){
@@ -203,11 +204,11 @@ public class VMIntroductoryQuestion extends AndroidViewModel {
     }
 
     public LiveData<DRawDao.McDPInfo> getDpInfo(String ModelCd){
-        return RRawData.getDownpayment(ModelCd);
+        return poData.getDownpayment(ModelCd);
     }
 
     public LiveData<DRawDao.McAmortInfo> getMonthlyAmortInfo(String ModelCd){
-        return RRawData.getMonthlyAmortInfo(ModelCd, 36);
+        return poData.getMonthlyAmortInfo(ModelCd, 36);
     }
 
     public LiveData<String> getMonthlyAmort(){
@@ -240,8 +241,9 @@ public class VMIntroductoryQuestion extends AndroidViewModel {
 
     public void CreateNewApplication(PurchaseInfoModel model,ViewModelCallBack callBack){
         try {
-            String transnox = oCredtRepo.getGOCasNextCode();
+//            String transnox = oCredtRepo.getGOCasNextCode();
 
+            String transnox = "";
             Log.e("TransNox", transnox);
             model.setsBranchCde(psBrnchCd.getValue());
             if(model.isPurchaseInfoValid()) {

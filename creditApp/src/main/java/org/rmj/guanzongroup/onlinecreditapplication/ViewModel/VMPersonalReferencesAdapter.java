@@ -6,8 +6,8 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DTownInfo;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RTown;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
+import org.rmj.g3appdriver.dev.Database.Repositories.RTown;
 
 public class VMPersonalReferencesAdapter extends AndroidViewModel {
     private final RTown poTown;

@@ -20,8 +20,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DMobileUpdate;
-import org.rmj.g3appdriver.GRider.Database.Entities.EMobileUpdate;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DMobileUpdate;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 
 import java.util.ArrayList;

@@ -17,7 +17,7 @@ import com.google.android.material.button.MaterialButton;
 import org.guanzongroup.com.creditevaluation.R;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
+import org.rmj.g3appdriver.etc.FormatUIText;
 
 public class Adapter_CI_Evaluation extends RecyclerView.Adapter<Adapter_CI_Evaluation.VHEvaluations> {
 

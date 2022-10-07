@@ -36,8 +36,8 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreferenceCompat;
 
-import org.rmj.g3appdriver.GRider.Etc.GeoLocator;
-import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+import org.rmj.g3appdriver.etc.GeoLocator;
+import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMSettings;
 import org.rmj.guanzongroup.ghostrider.epacss.themeController.ThemeHelper;
@@ -46,8 +46,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 import static android.Manifest.permission.CAMERA;
-import static org.rmj.g3appdriver.GRider.Constants.AppConstants.CAMERA_REQUEST;
-import static org.rmj.g3appdriver.GRider.Constants.AppConstants.LOCATION_REQUEST;
+import static org.rmj.g3appdriver.etc.AppConstants.CAMERA_REQUEST;
+import static org.rmj.g3appdriver.etc.AppConstants.LOCATION_REQUEST;
 
 public class Activity_Settings extends AppCompatActivity {
 

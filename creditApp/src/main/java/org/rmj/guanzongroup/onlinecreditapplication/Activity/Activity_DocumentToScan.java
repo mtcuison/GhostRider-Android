@@ -31,12 +31,11 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditApplicationDocuments;
-import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicationDocuments;
-import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
-import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
-import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DCreditApplicationDocuments;
+import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicationDocuments;
+import org.rmj.g3appdriver.dev.Database.Entities.EImageInfo;
+import org.rmj.g3appdriver.etc.LoadDialog;
+import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.guanzongroup.ghostrider.griderscanner.ImageCrop;
 import org.rmj.guanzongroup.ghostrider.griderscanner.dialog.DialogImagePreview;

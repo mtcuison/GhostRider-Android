@@ -12,8 +12,9 @@
 package org.rmj.guanzongroup.ghostrider.epacss.ui.home;
 
 import static android.app.Activity.RESULT_OK;
-import static org.rmj.g3appdriver.GRider.Constants.AppConstants.INTENT_BRANCH_OPENING;
-import static org.rmj.g3appdriver.GRider.Constants.AppConstants.SETTINGS;
+
+import static org.rmj.g3appdriver.etc.AppConstants.INTENT_BRANCH_OPENING;
+import static org.rmj.g3appdriver.etc.AppConstants.SETTINGS;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -39,13 +40,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.EBranchPerformance;
-import org.rmj.g3appdriver.GRider.Etc.GeoLocator;
-import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.EBranchPerformance;
 import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.etc.GeoLocator;
+import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Application;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_AreaPerformance;

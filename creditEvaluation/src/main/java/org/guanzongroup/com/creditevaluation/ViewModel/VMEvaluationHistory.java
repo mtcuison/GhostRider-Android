@@ -26,17 +26,16 @@ import org.guanzongroup.com.creditevaluation.Core.EvaluatorManager;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditOnlineApplicationCI;
-import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplication;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplication;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
-import org.rmj.g3appdriver.GRider.Etc.SessionManager;
-import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
-import org.rmj.g3appdriver.GRider.ImportData.Import_LoanApplications;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DCreditOnlineApplicationCI;
+import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplication;
+import org.rmj.g3appdriver.dev.Database.Repositories.RBranch;
+import org.rmj.g3appdriver.dev.Database.Repositories.RCreditApplication;
+import org.rmj.g3appdriver.dev.Database.Repositories.RImageInfo;
+import org.rmj.g3appdriver.dev.HttpHeaders;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.etc.SessionManager;
 import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
@@ -52,10 +51,10 @@ public class VMEvaluationHistory extends AndroidViewModel {
     private final Application instance;
     private final EvaluatorManager poManager;
     private final SessionManager poSession;
-    private final Import_LoanApplications poImport;
+//    private final Import_LoanApplications poImport;
     private final MutableLiveData<String> sCredInvxx = new MutableLiveData<>();
 
-    private final RBranch RBranch;
+    private final RBranch poBranch;
     private final EmployeeMaster poEmploye;
     public VMEvaluationHistory(@NonNull Application application) {
         super(application);
@@ -64,8 +63,8 @@ public class VMEvaluationHistory extends AndroidViewModel {
         this.poManager = new EvaluatorManager(application);
         this.poSession = new SessionManager(application);
         this.poEmploye = new EmployeeMaster(application);
-        this.poImport = new Import_LoanApplications(application);
-        this.RBranch = new RBranch(application);
+//        this.poImport = new Import_LoanApplications(application);
+        this.poBranch = new RBranch(application);
     }
 
     public interface OnImportCallBack{
@@ -74,7 +73,7 @@ public class VMEvaluationHistory extends AndroidViewModel {
         void onImportFailed(String message);
     }
     public LiveData<EBranchInfo> getUserBranchInfo(){
-        return RBranch.getUserBranchInfo();
+        return poBranch.getUserBranchInfo();
     }
     public LiveData<List<DCreditOnlineApplicationCI.oDataEvaluationInfo>> getForEvaluationListDataPreview() {
         return poManager.getForEvaluationListDataPreview();

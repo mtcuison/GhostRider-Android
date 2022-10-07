@@ -20,10 +20,9 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
-import org.rmj.g3appdriver.GRider.Etc.LocationRetriever;
-import org.rmj.g3appdriver.GRider.Etc.SessionManager;
+import org.rmj.g3appdriver.dev.Database.Entities.EDCPCollectionDetail;
+import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.etc.LocationRetriever;
 import org.rmj.g3appdriver.lib.integsys.Dcp.LRDcp;
 import org.rmj.g3appdriver.lib.integsys.Dcp.OtherRemCode;
 import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;

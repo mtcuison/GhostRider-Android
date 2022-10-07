@@ -13,7 +13,7 @@ package org.rmj.guanzongroup.onlinecreditapplication.Adapter;
 
 import android.view.View;
 
-import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
+import org.rmj.g3appdriver.etc.FormatUIText;
 
 public class LoanApplication {
 

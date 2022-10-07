@@ -34,9 +34,9 @@ import com.google.gson.Gson;
 import org.guanzongroup.com.creditevaluation.Adapter.CreditEvaluationListAdapter;
 import org.guanzongroup.com.creditevaluation.R;
 import org.guanzongroup.com.creditevaluation.ViewModel.VMEvaluationHistory;
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditOnlineApplicationCI;
-import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
-import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DCreditOnlineApplicationCI;
+import org.rmj.g3appdriver.etc.LoadDialog;
+import org.rmj.g3appdriver.etc.MessageBox;
 
 import java.util.ArrayList;
 import java.util.List;

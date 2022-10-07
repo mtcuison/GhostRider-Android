@@ -20,15 +20,15 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DTownInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.EBarangayInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.EProvinceInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.ETownInfo;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RBarangay;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplicant;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RProvince;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RTown;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.EBarangayInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.EProvinceInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.ETownInfo;
+import org.rmj.g3appdriver.dev.Database.Repositories.RBarangay;
+import org.rmj.g3appdriver.dev.Database.Repositories.RCreditApplicant;
+import org.rmj.g3appdriver.dev.Database.Repositories.RProvince;
+import org.rmj.g3appdriver.dev.Database.Repositories.RTown;
 import org.rmj.gocas.base.GOCASApplication;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.GOCASHolder;
@@ -41,7 +41,7 @@ public class VMResidenceInfo extends AndroidViewModel {
     private static final String TAG = VMResidenceInfo.class.getSimpleName();
     private ECreditApplicantInfo poInfo;
     private final GOCASApplication poGoCas;
-    private final RCreditApplicant RCreditApplicant;
+    private final RCreditApplicant poAppl;
     private final RProvince poProvnce;
     private final RTown poTownRpo;
     private final RBarangay poBarangy;
@@ -56,7 +56,7 @@ public class VMResidenceInfo extends AndroidViewModel {
 
     public VMResidenceInfo(@NonNull Application application) {
         super(application);
-        this.RCreditApplicant = new RCreditApplicant(application);
+        this.poAppl = new RCreditApplicant(application);
         this.poProvnce = new RProvince(application);
         this.poTownRpo = new RTown(application);
         this.poBarangy = new RBarangay(application);
@@ -92,7 +92,7 @@ public class VMResidenceInfo extends AndroidViewModel {
     }
 
     public LiveData<ECreditApplicantInfo> getCreditApplicationInfo(){
-        return RCreditApplicant.getCreditApplicantInfoLiveData(TRANSNOX.getValue());
+        return poAppl.getCreditApplicantInfoLiveData(TRANSNOX.getValue());
     }
 
     public boolean setGOCasDetailInfo(ECreditApplicantInfo DetailInfo){
@@ -199,7 +199,7 @@ public class VMResidenceInfo extends AndroidViewModel {
                     poInfo.setResidnce(poGoCas.ResidenceInfo().toJSONString());
                     poInfo.setDetlInfo(String.valueOf(infoModel.isOneAddress()));
                     Log.e(TAG, poGoCas.toJSONString());
-                    RCreditApplicant.updateGOCasData(poInfo);
+                    poAppl.updateGOCasData(poInfo);
                     callBack.onSaveSuccessResult("Success");
                     return true;
                 } else {
