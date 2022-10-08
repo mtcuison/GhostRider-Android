@@ -64,14 +64,15 @@ public class Activity_CIEvaluationList extends AppCompatActivity  implements VME
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mViewModel = new ViewModelProvider(Activity_CIEvaluationList.this).get(VMEvaluationList.class);
         setContentView(R.layout.activity_cievaluation_list);
         initWidgets();
-        mViewModel = new ViewModelProvider(Activity_CIEvaluationList.this).get(VMEvaluationList.class);
-        mViewModel.DownloadCreditApplications(Activity_CIEvaluationList.this);
-        mViewModel.getUserBranch().observe(this, eBranchInfo -> {
+        mViewModel.DownloadForCIApplications(Activity_CIEvaluationList.this);
+
+        mViewModel.GetUserInfo().observe(this, eBranchInfo -> {
             try {
-                lblBranch.setText(eBranchInfo.getBranchNm());
-                lblAddress.setText(eBranchInfo.getAddressx());
+                lblBranch.setText(eBranchInfo.sBranchNm);
+                lblAddress.setText(eBranchInfo.sAddressx);
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -142,7 +143,7 @@ public class Activity_CIEvaluationList extends AppCompatActivity  implements VME
                 loDialog.initDialog(new DialogAddApplication.OnDialogButtonClickListener() {
                     @Override
                     public void OnDownloadClick(Dialog Dialog, String args) {
-                        mViewModel.importApplicationInfo(args, new ViewModelCallback() {
+                        mViewModel.AddForCIApplication(args, new ViewModelCallback() {
                             @Override
                             public void OnStartSaving() {
                                 poDialogx.initDialog("Add Application", "Downloading client info. Please wait...", false);

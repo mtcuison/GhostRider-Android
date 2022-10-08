@@ -78,9 +78,5 @@ dependencies {
 //  SPINNER MATERIAL DESIGN
     implementation 'com.google.firebase:firebase-core:21.1.1'
 
-//    implementation project(':json-simple-1.1.1') //implement json simple
     implementation files('D:/Android_Libs/app_driver.aar')
-//    implementation files('D:/Android_Libs/appdriver.jar')
-//    implementation files('D:/Android_Libs/json-simple-1.1.1.jar')
-//    implementation files('D:/Android_Libs/commons-codec-1.11.jar')
 }

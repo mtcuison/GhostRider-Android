@@ -19,11 +19,11 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import org.guanzongroup.com.itinerary.R;
 import org.guanzongroup.com.itinerary.ViewModel.VMItinerary;
-import org.rmj.g3appdriver.dev.Database.Repositories.RItinerary;
 import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
+import org.rmj.g3appdriver.lib.Itinerary.EmployeeItinerary;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -41,7 +41,7 @@ public class Activity_ItineraryEntry extends AppCompatActivity {
     private TextView lblUser, lblDept;
     private TextInputEditText txtDate, txtStrt, txtEndx, txtRmrk;
     private AutoCompleteTextView txtLoct;
-    private final RItinerary.Itinerary loDetail = new RItinerary.Itinerary();
+    private final EmployeeItinerary.ItineraryEntry loDetail = new EmployeeItinerary.ItineraryEntry();
 
     public boolean isClicked = false; //use public variable for button click validation to avoid double tap/click...
 

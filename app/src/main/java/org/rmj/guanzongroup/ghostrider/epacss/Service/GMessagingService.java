@@ -28,9 +28,7 @@ public class GMessagingService extends FirebaseMessagingService {
     public void onNewToken(@NonNull String s) {
         super.onNewToken(s);
         AppTokenManager poToken = new AppTokenManager(getApplication());
-        ETokenInfo loToken = new ETokenInfo();
-        loToken.setTokenInf(s);
-        poToken.setTokenInfo(loToken);
+        poToken.SaveFirebaseToken(s);
         AppConfigPreference.getInstance(GMessagingService.this).setAppToken(s);
     }
 

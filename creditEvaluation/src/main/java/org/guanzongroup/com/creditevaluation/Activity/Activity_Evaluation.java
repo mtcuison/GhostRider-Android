@@ -17,7 +17,6 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,7 +26,6 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import org.guanzongroup.com.creditevaluation.Adapter.Adapter_CIEvaluation_Headers;
-import org.guanzongroup.com.creditevaluation.Adapter.Adapter_CI_Evaluation;
 import org.guanzongroup.com.creditevaluation.Adapter.onEvaluate;
 import org.guanzongroup.com.creditevaluation.Adapter.onSelectResultListener;
 import org.guanzongroup.com.creditevaluation.Core.FindingsParser;
@@ -36,6 +34,7 @@ import org.guanzongroup.com.creditevaluation.Core.oParentFndg;
 import org.guanzongroup.com.creditevaluation.Dialog.DialogCIReason;
 import org.guanzongroup.com.creditevaluation.Model.AdditionalInfoModel;
 import org.guanzongroup.com.creditevaluation.R;
+import org.guanzongroup.com.creditevaluation.ViewModel.OnInitializeCameraCallback;
 import org.guanzongroup.com.creditevaluation.ViewModel.VMEvaluation;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -43,7 +42,8 @@ import org.rmj.g3appdriver.dev.Database.Entities.ECreditOnlineApplicationCI;
 import org.rmj.g3appdriver.dev.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.etc.WebFileServer;
+import org.rmj.g3appdriver.lib.integsys.CreditInvestigator.BarangayRecord;
+import org.rmj.g3appdriver.lib.integsys.CreditInvestigator.CIImage;
 import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
 
 import java.util.HashMap;
@@ -62,38 +62,29 @@ public class Activity_Evaluation extends AppCompatActivity {
     private MaterialButton btnSaveNeighbor1, btnSaveNeighbor2,btnSaveNeighbor3;
     private Button btnSave,btnUpload,btnSaveAdditional;
 
-    private final HashMap<oParentFndg, List<oChildFndg>> poChild = new HashMap<>();
-    private AdditionalInfoModel infoModel;
+    private BarangayRecord poBrgy;
     private LoadDialog poDialogx;
     private MessageBox poMessage;
 
-    private EImageInfo poImageInfo;
+    private CIImage poImage;
 
-    private ImageFileCreator poLocation;
-
-    private String psParent = "",
-                   psKeyxxx = "",
-                   psResult = "",
-                    psAlttude = "",
-                    psLongtde = "";
+    private String psTransNo;
 
     private onEvaluate poAdLstnr;
 
     private final ActivityResultLauncher<Intent> poCamera = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
         try{
             if(result.getResultCode() == RESULT_OK) {
-                poImageInfo.setMD5Hashx(WebFileServer.createMD5Hash(poImageInfo.getFileLoct()));
-                mViewModel.saveResidenceImageInfo(poImageInfo);
-                mViewModel.SaveAddressResult(psParent, psAlttude, psLongtde, new VMEvaluation.onSaveAdditionalInfo() {
+                mViewModel.SaveAddressImage(poImage, new VMEvaluation.OnSaveAddressResult() {
                     @Override
-                    public void OnSuccessResult(String args, String message) {
-                        SaveCIResult(psParent, psKeyxxx, psResult);
+                    public void OnSuccess(String args, String args1, String args2) {
+                        SaveCIResult(args, args1, args2);
                         poAdLstnr.OnSetResult(true);
                     }
 
                     @Override
-                    public void OnFailedResult(String message) {
-
+                    public void OnError(String message) {
+                        Toast.makeText(Activity_Evaluation.this, message, Toast.LENGTH_SHORT).show();
                     }
                 });
             } else {
@@ -107,27 +98,27 @@ public class Activity_Evaluation extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mViewModel = new ViewModelProvider(this).get(VMEvaluation.class);
         setContentView(R.layout.activity_evaluation);
-        try {
-            initWidgets();
-            initIntentData();
-            mViewModel = new ViewModelProvider(this).get(VMEvaluation.class);
-            mViewModel.setTransNox(getIntent().getStringExtra("transno"));
-            mViewModel.getCIEvaluation(getIntent().getStringExtra("transno")).observe(this, ci->{
+        initWidgets();
+        initIntentData();
+        psTransNo = getIntent().getStringExtra("transno");
+        mViewModel.GetApplicationDetail(psTransNo).observe(Activity_Evaluation.this, ci -> {
+            try{
                 setupEvaluationAdapter(ci);
 
                 if(ci.getPrsnBrgy() != null){
                     txtPersonnel.setText(ci.getPrsnBrgy());
-                    infoModel.setAsstPersonnel(ci.getPrsnBrgy());
+                    poBrgy.setsBrgyPrsn(ci.getPrsnBrgy());
                 }
                 if(ci.getPrsnPstn() != null){
                     txtPosition.setText(ci.getPrsnPstn());
-                    infoModel.setAsstPosition(ci.getPrsnPstn());
+                    poBrgy.setsBrgyPstn(ci.getPrsnPstn());
                 }
 
                 if(ci.getPrsnNmbr() != null){
                     txtMobileNo.setText(ci.getPrsnNmbr());
-                    infoModel.setMobileNo(ci.getPrsnNmbr());
+                    poBrgy.setsPrsnNmbr(ci.getPrsnNmbr());
                 }
 
                 if(ci.getPrsnBrgy() != null &&
@@ -144,7 +135,6 @@ public class Activity_Evaluation extends AppCompatActivity {
                 }
 
                 if(ci.getNeighBr1() != null){
-                    infoModel.setNeighbr1(ci.getNeighBr1());
                     txtNeighbor1.setText(ci.getNeighBr1());
                     txtNeighbor1.setEnabled(false);
                     findViewById(R.id.btnSaveNeighbor1).setVisibility(View.GONE);
@@ -152,7 +142,6 @@ public class Activity_Evaluation extends AppCompatActivity {
                 }
 
                 if(ci.getNeighBr2() != null){
-                    infoModel.setNeighbr2(ci.getNeighBr2());
                     txtNeighbor2.setText(ci.getNeighBr2());
                     txtNeighbor2.setEnabled(false);
                     findViewById(R.id.btnSaveNeighbor2).setVisibility(View.GONE);
@@ -160,7 +149,6 @@ public class Activity_Evaluation extends AppCompatActivity {
                 }
 
                 if(ci.getNeighBr3() != null){
-                    infoModel.setNeighbr3(ci.getNeighBr3());
                     txtNeighbor3.setText(ci.getNeighBr3());
                     txtNeighbor3.setEnabled(false);
                     findViewById(R.id.btnSaveNeighbor3).setVisibility(View.GONE);
@@ -168,15 +156,15 @@ public class Activity_Evaluation extends AppCompatActivity {
                 }
 
                 if (ci.getRcmdtnc1() != null) {
-                    infoModel.setcRcmdtnx1(ci.getRcmdtnc1());
+
                 }
 
                 if (ci.getRcmdtns1() != null) {
-                    infoModel.setsRcmdtnx1(ci.getRcmdtns1());
+
                 }
 
                 if (ci.getHasRecrd() != null) {
-                    infoModel.setHasRecrd(ci.getHasRecrd());
+                    poBrgy.setcHasRecrd(ci.getHasRecrd());
                     if(ci.getHasRecrd().equalsIgnoreCase("0")){
                         rgHasRecord.check(R.id.rb_ci_noRecord);
                     }else{
@@ -185,7 +173,7 @@ public class Activity_Evaluation extends AppCompatActivity {
                 }
 
                 if (ci.getRecrdRem() != null) {
-                    infoModel.setRemRecrd(ci.getRecrdRem());
+                    poBrgy.setsRecrdRem(ci.getRecrdRem());
                     if(ci.getHasRecrd().equalsIgnoreCase("1")){
                         tilRecordRemarks.setVisibility(View.VISIBLE);
                         txtRecordRemarks.setText(ci.getRecrdRem());
@@ -199,22 +187,22 @@ public class Activity_Evaluation extends AppCompatActivity {
                     findViewById(R.id.linear_approve).setVisibility(View.GONE);
                     findViewById(R.id.linear_upload).setVisibility(View.VISIBLE);
                 }
-
-            });
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
 
         rgHasRecord.setOnCheckedChangeListener(new ONCIHasRecord(rgHasRecord,mViewModel));
+
         btnSaveAdditional.setOnClickListener(v -> {
-            infoModel.setRemRecrd(Objects.requireNonNull(txtRecordRemarks.getText()).toString());
-            infoModel.setAsstPersonnel(Objects.requireNonNull(txtPersonnel.getText()).toString());
-            infoModel.setAsstPosition(Objects.requireNonNull(txtPosition.getText()).toString());
-            infoModel.setMobileNo(Objects.requireNonNull(txtMobileNo.getText()).toString());
-            mViewModel.saveAdditionalInfo(infoModel, "Additional", new VMEvaluation.onSaveAdditionalInfo() {
+            poBrgy.setsRecrdRem(Objects.requireNonNull(txtRecordRemarks.getText()).toString());
+            poBrgy.setsBrgyPrsn(Objects.requireNonNull(txtPersonnel.getText()).toString());
+            poBrgy.setsBrgyPstn(Objects.requireNonNull(txtPosition.getText()).toString());
+            poBrgy.setsPrsnNmbr(Objects.requireNonNull(txtMobileNo.getText()).toString());
+            mViewModel.SaveBarangayRecord(poBrgy, new VMEvaluation.OnUpdateOtherDetail() {
                 @Override
-                public void OnSuccessResult(String args, String message) {
-                    Toast.makeText(Activity_Evaluation.this, message, Toast.LENGTH_SHORT).show();
+                public void OnSuccess() {
+                    Toast.makeText(Activity_Evaluation.this, "Record saved!", Toast.LENGTH_SHORT).show();
                     findViewById(R.id.rb_ci_noRecord).setEnabled(false);
                     findViewById(R.id.rb_ci_withRecord).setEnabled(false);
                     txtRecordRemarks.setEnabled(false);
@@ -226,117 +214,113 @@ public class Activity_Evaluation extends AppCompatActivity {
                 }
 
                 @Override
-                public void OnFailedResult(String message) {
+                public void OnError(String message) {
                     Toast.makeText(Activity_Evaluation.this, message, Toast.LENGTH_SHORT).show();
                 }
             });
         });
 
         btnSaveNeighbor1.setOnClickListener(v -> {
-            infoModel.setNeighbr1(Objects.requireNonNull(txtNeighbor1.getText()).toString());
-            mViewModel.saveAdditionalInfo(infoModel,"Neighbor1",  new VMEvaluation.onSaveAdditionalInfo() {
+            String lsVal = txtNeighbor1.getText().toString();
+            mViewModel.UpdateOtherDetail(psTransNo, "n1", lsVal, new VMEvaluation.OnUpdateOtherDetail() {
                 @Override
-                public void OnSuccessResult(String args, String message) {
-                    Toast.makeText(Activity_Evaluation.this, message, Toast.LENGTH_SHORT).show();
+                public void OnSuccess() {
+                    Toast.makeText(Activity_Evaluation.this, "Record saved", Toast.LENGTH_SHORT).show();
                     txtNeighbor1.setEnabled(false);
                     findViewById(R.id.btnSaveNeighbor1).setVisibility(View.GONE);
                     findViewById(R.id.btnEditNeighbor1).setVisibility(View.VISIBLE);
                 }
 
                 @Override
-                public void OnFailedResult(String message) {
+                public void OnError(String message) {
                     Toast.makeText(Activity_Evaluation.this, message, Toast.LENGTH_SHORT).show();
                 }
             });
         });
         btnSaveNeighbor2.setOnClickListener(v -> {
-            infoModel.setNeighbr2(Objects.requireNonNull(txtNeighbor2.getText()).toString());
-            mViewModel.saveAdditionalInfo(infoModel,"Neighbor2",  new VMEvaluation.onSaveAdditionalInfo() {
+            String lsVal = txtNeighbor2.getText().toString();
+            mViewModel.UpdateOtherDetail(psTransNo, "n2", lsVal, new VMEvaluation.OnUpdateOtherDetail() {
                 @Override
-                public void OnSuccessResult(String args, String message) {
-                    Toast.makeText(Activity_Evaluation.this, message, Toast.LENGTH_SHORT).show();
+                public void OnSuccess() {
+                    Toast.makeText(Activity_Evaluation.this, "Record saved", Toast.LENGTH_SHORT).show();
                     txtNeighbor2.setEnabled(false);
                     findViewById(R.id.btnSaveNeighbor2).setVisibility(View.GONE);
                     findViewById(R.id.btnEditNeighbor2).setVisibility(View.VISIBLE);
                 }
 
                 @Override
-                public void OnFailedResult(String message) {
+                public void OnError(String message) {
                     Toast.makeText(Activity_Evaluation.this, message, Toast.LENGTH_SHORT).show();
                 }
             });
-
         });
         btnSaveNeighbor3.setOnClickListener(v -> {
-            infoModel.setNeighbr3(Objects.requireNonNull(txtNeighbor3.getText()).toString());
-            mViewModel.saveAdditionalInfo(infoModel,"Neighbor3",  new VMEvaluation.onSaveAdditionalInfo() {
+            String lsVal = txtNeighbor3.getText().toString();
+            mViewModel.UpdateOtherDetail(psTransNo, "n3", lsVal, new VMEvaluation.OnUpdateOtherDetail() {
                 @Override
-                public void OnSuccessResult(String args, String message) {
-                    Toast.makeText(Activity_Evaluation.this, message, Toast.LENGTH_SHORT).show();
+                public void OnSuccess() {
+                    Toast.makeText(Activity_Evaluation.this, "Record saved", Toast.LENGTH_SHORT).show();
                     txtNeighbor3.setEnabled(false);
                     findViewById(R.id.btnSaveNeighbor3).setVisibility(View.GONE);
                     findViewById(R.id.btnEditNeighbor3).setVisibility(View.VISIBLE);
                 }
 
                 @Override
-                public void OnFailedResult(String message) {
+                public void OnError(String message) {
                     Toast.makeText(Activity_Evaluation.this, message, Toast.LENGTH_SHORT).show();
                 }
             });
-
         });
 
         btnSave.setOnClickListener(v ->  {
-            if(!infoModel.isValidEvaluation()){
-                errorMessage(infoModel.getMessage());
-            }else{
-                if (!infoModel.getcRcmdtnx1().isEmpty() && !infoModel.getsRcmdtnx1().isEmpty()){
-                    sendCIEvaluation();
-                }else{
-                    initDialog();
+            mViewModel.UploadResult(psTransNo, new VMEvaluation.OnUploadResultListener() {
+                @Override
+                public void OnUpload() {
+                    poDialogx.initDialog("CI Evaluation", "Sending approval to server. Please wait...", false);
+                    poDialogx.show();
                 }
-            }
 
+                @Override
+                public void OnSuccess() {
+
+                }
+
+                @Override
+                public void OnFailed(String message) {
+
+                }
+            });
         });
 
         btnUpload.setOnClickListener(v ->  {
-            Log.e("sizes", String.valueOf(poChild.size()));
-            if(poChild.size() > 0){
-                errorMessage("Please finish all required findings.");
-            }else{
-                if(!infoModel.isValidEvaluation()){
-                    errorMessage(infoModel.getMessage());
-                }else {
-                    mViewModel.UploadEvaluationResult(new VMEvaluation.onPostCIEvaluation() {
-                        @Override
-                        public void OnPost() {
-                            poDialogx.initDialog("CI Evaluation", "Uploading latest data. Please wait...", false);
-                            poDialogx.show();
-                        }
-
-                        @Override
-                        public void OnSuccessPost(String args) {
-                            Log.e("args", args);
-                            poDialogx.dismiss();
-                            poMessage.initDialog();
-                            poMessage.setTitle("CI Evaluation");
-                            poMessage.setMessage(args);
-                            poMessage.setPositiveButton("Okay", (view, dialog) -> {
-                                dialog.dismiss();
-                            });
-                            poMessage.show();
-                            btnSave.setEnabled(true);
-                        }
-
-                        @Override
-                        public void OnFailedPost(String message) {
-                            Log.e("message", message);
-                            poDialogx.dismiss();
-                            errorMessage(message);
-                        }
-                    });
+            mViewModel.UploadResult(psTransNo, new VMEvaluation.OnUploadResultListener() {
+                @Override
+                public void OnUpload() {
+                    poDialogx.initDialog("CI Evaluation", "Uploading ci result. Please wait...", false);
+                    poDialogx.show();
                 }
-            }
+
+                @Override
+                public void OnSuccess() {
+                    poDialogx.dismiss();
+                    poMessage.initDialog();
+                    poMessage.setTitle("CI Evaluation");
+                    poMessage.setMessage("CI Result uploaded successfully. You may now send recommendation.");
+                    poMessage.setPositiveButton("Okay", (view, dialog) -> {
+                        dialog.dismiss();
+                    });
+                    poMessage.show();
+                }
+
+                @Override
+                public void OnFailed(String message) {
+                    poMessage.initDialog();
+                    poMessage.setTitle("CI Evaluation List");
+                    poMessage.setMessage(message);
+                    poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                    poMessage.show();
+                }
+            });
         });
 
         findViewById(R.id.btnEditAdditional).setOnClickListener(v -> {
@@ -376,8 +360,7 @@ public class Activity_Evaluation extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
-        poLocation = new ImageFileCreator(this, SUB_FOLDER_CI_ADDRESS, getIntent().getStringExtra("transno"));
-        infoModel = new AdditionalInfoModel();
+        poBrgy = new BarangayRecord();
 
         poDialogx = new LoadDialog(Activity_Evaluation.this);
         poMessage = new MessageBox(Activity_Evaluation.this);
@@ -426,11 +409,11 @@ public class Activity_Evaluation extends AppCompatActivity {
         public void onCheckedChanged(RadioGroup group, int checkedId) {
             if(rbView.getId() == R.id.rg_ci_brgyRecord){
                 if(checkedId == R.id.rb_ci_noRecord) {
-                    infoModel.setHasRecrd("0");
+                    poBrgy.setcHasRecrd("0");
                     txtRecordRemarks.setText("");
                     tilRecordRemarks.setVisibility(View.GONE);
                 } else {
-                    infoModel.setHasRecrd("1");
+                    poBrgy.setcHasRecrd("1");
                     tilRecordRemarks.setVisibility(View.VISIBLE);
                 }
             }
@@ -440,21 +423,38 @@ public class Activity_Evaluation extends AppCompatActivity {
     public void initDialog(){
         DialogCIReason loDialog = new DialogCIReason(Activity_Evaluation.this);
         loDialog.initDialogCIReason((dialog, transtat, reason) -> {
-            infoModel.setTranstat(transtat);
-            infoModel.setsRemarks(reason);
             dialog.dismiss();
-            if(infoModel.isApproved()){
-                sendCIEvaluation();
-            }
+            mViewModel.SaveRecommendation(psTransNo, transtat, reason, new VMEvaluation.OnPostRecommendationCallback() {
+                @Override
+                public void OnPost() {
+                    poDialogx.initDialog("CI Evaluation", "Saving recommendation. Please wait...", false);
+                    poDialogx.show();
+                }
+
+                @Override
+                public void OnSuccess() {
+                    poDialogx.dismiss();
+                    poMessage.initDialog();
+                    poMessage.setTitle("CI Evaluation");
+                    poMessage.setMessage("Your recommendation has been saved to server.");
+                    poMessage.setPositiveButton("Okay", (view, dialog) -> {
+                        dialog.dismiss();
+                        finish();
+                    });
+                    poMessage.show();
+                }
+
+                @Override
+                public void OnFailed(String message) {
+                    poMessage.initDialog();
+                    poMessage.setTitle("CI Evaluation List");
+                    poMessage.setMessage(message);
+                    poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                    poMessage.show();
+                }
+            });
         });
         loDialog.show();
-    }
-    public void errorMessage(String message){
-        poMessage.initDialog();
-        poMessage.setTitle("CI Evaluation List");
-        poMessage.setMessage(message);
-        poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-        poMessage.show();
     }
 
     public void showDialogImg(){
@@ -463,84 +463,62 @@ public class Activity_Evaluation extends AppCompatActivity {
         poMessage.setMessage("Please take applicant residence picture. \n");
         poMessage.setPositiveButton("Okay", (view, dialog) -> {
             dialog.dismiss();
-            poLocation.setTransNox(mViewModel.getTransNox());
-            poLocation.CreateFile((openCamera, camUsage, photPath, FileName) -> {
-                poImageInfo = new EImageInfo();
-                poImageInfo.setDtlSrcNo(mViewModel.getTransNox());
-                poImageInfo.setSourceNo(mViewModel.getTransNox());
-                poImageInfo.setImageNme(FileName);
-                poImageInfo.setFileLoct(photPath);
-//                psAlttude = String.valueOf(latitude);
-//                psLongtde = String.valueOf(longitude);
-                openCamera.putExtra("android.intent.extras.CAMERA_FACING", 1);
-                poCamera.launch(openCamera);
+            mViewModel.InitCameraLaunch(Activity_Evaluation.this, psTransNo, new OnInitializeCameraCallback() {
+                @Override
+                public void OnInit() {
+                    poDialogx.initDialog("CI Evaluation", "Initializing camera. Please wait...", false);
+                    poDialogx.show();
+                }
+
+                @Override
+                public void OnSuccess(Intent intent, String[] args) {
+                    poDialogx.dismiss();
+                    poImage.setFilePath(args[0]);
+                    poImage.setFileName(args[1]);
+                    poImage.setLatitude(args[2]);
+                    poImage.setLongtude(args[3]);
+                    poCamera.launch(intent);
+                }
+
+                @Override
+                public void OnFailed(String message, Intent intent, String[] args) {
+                    poDialogx.dismiss();
+                    poMessage.initDialog();
+                    poMessage.setTitle("Selfie Login");
+                    poMessage.setMessage(message + "\n Proceed taking selfie log?");
+                    poMessage.setPositiveButton("Continue", (view, dialog) -> {
+                        dialog.dismiss();
+                        poImage.setFilePath(args[0]);
+                        poImage.setFileName(args[1]);
+                        poImage.setLatitude(args[2]);
+                        poImage.setLongtude(args[3]);
+                        poCamera.launch(intent);
+                    });
+                    poMessage.setNegativeButton("Cancel", (view1, dialog) -> dialog.dismiss());
+                    poMessage.show();
+                }
             });
         });
         poMessage.show();
     }
 
-    private void sendCIEvaluation(){
-        mViewModel.saveAdditionalInfo(infoModel, "Approval", new VMEvaluation.onSaveAdditionalInfo() {
+    private void SaveCIResult(String fsPar, String fsKey, String fsRes){
+        mViewModel.SaveCIResult(psTransNo, fsPar, fsKey, fsRes, new VMEvaluation.OnSaveCIResultListener() {
             @Override
-            public void OnSuccessResult(String args, String message) {
-                mViewModel.postCIEvaluation(new VMEvaluation.onPostCIEvaluation() {
-                    @Override
-                    public void OnPost() {
-                        poDialogx.initDialog("CI Evaluation", "Sending approval to server. Please wait...", false);
-                        poDialogx.show();
-                    }
-
-                    @Override
-                    public void OnSuccessPost(String args) {
-                        poDialogx.dismiss();
-                        poMessage.initDialog();
-                        poMessage.setTitle("CI Evaluation List");
-                        poMessage.setMessage(args);
-                        poMessage.setPositiveButton("Okay", (view, dialog) -> {
-                            dialog.dismiss();
-                            finish();
-                        });
-                        poMessage.show();
-                    }
-
-                    @Override
-                    public void OnFailedPost(String message) {
-                        poDialogx.dismiss();
-                        errorMessage(message);
-                    }
-                });
+            public void OnSuccess() {
+                Toast.makeText(Activity_Evaluation.this, "Record save!", Toast.LENGTH_SHORT).show();
             }
 
             @Override
-            public void OnFailedResult(String message) {
-
+            public void OnError(String message) {
+                Toast.makeText(Activity_Evaluation.this, message, Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    private void SaveCIResult(String fsPar, String fsKey, String fsRes){
-        try{
-            Log.d(TAG, fsPar + ", " + fsKey + ", " + fsRes);
-            mViewModel.SaveEvaluationResult(fsPar, fsKey, fsRes, new VMEvaluation.onSaveAdditionalInfo() {
-                @Override
-                public void OnSuccessResult(String args, String message) {
-                    Toast.makeText(Activity_Evaluation.this, "Record save!", Toast.LENGTH_SHORT).show();
-                }
-
-                @Override
-                public void OnFailedResult(String message) {
-                    Toast.makeText(Activity_Evaluation.this, message, Toast.LENGTH_SHORT).show();
-                }
-            });
-        } catch (Exception e){
-            e.printStackTrace();
-        }
     }
 
     private void setupEvaluationAdapter(ECreditOnlineApplicationCI ci){
         try {
             JSONArray laEval = new JSONArray();
-//            JSONObject loDetail;
             JSONObject loDetail = FindingsParser.scanForEvaluation(ci.getAddressx(), ci.getAddrFndg());
             if(loDetail.getJSONArray("detail").length() > 0){
                 laEval.put(FindingsParser.scanForEvaluation(ci.getAddressx(), ci.getAddrFndg()));
@@ -568,15 +546,15 @@ public class Activity_Evaluation extends AppCompatActivity {
                     public void OnCorrect(String fsPar, String fsKey, String fsRes, onEvaluate listener) {
                         if(fsPar.equalsIgnoreCase("primary_address")){
                             poAdLstnr = listener;
-                            psParent = "primary_address";
-                            psKeyxxx = fsKey;
-                            psResult = fsRes;
+                            poImage.setsParentxx("primary_address");
+                            poImage.setsKeyNamex(fsKey);
+                            poImage.setcResultxx(fsRes);
                             showDialogImg();
                         } else if(fsPar.equalsIgnoreCase("present_address")){
                             poAdLstnr = listener;
-                            psParent = "present_address";
-                            psKeyxxx = fsKey;
-                            psResult = fsRes;
+                            poImage.setsParentxx("present_address");
+                            poImage.setsKeyNamex(fsKey);
+                            poImage.setcResultxx(fsRes);
                             showDialogImg();
                         } else {
                             SaveCIResult(fsPar, fsKey, fsRes);
@@ -588,15 +566,15 @@ public class Activity_Evaluation extends AppCompatActivity {
                     public void OnIncorrect(String fsPar, String fsKey, String fsRes, onEvaluate listener) {
                         if(fsPar.equalsIgnoreCase("primary_address")){
                             poAdLstnr = listener;
-                            psParent = "primary_address";
-                            psKeyxxx = fsKey;
-                            psResult = fsRes;
+                            poImage.setsParentxx("primary_address");
+                            poImage.setsKeyNamex(fsKey);
+                            poImage.setcResultxx(fsRes);
                             showDialogImg();
                         } else if(fsPar.equalsIgnoreCase("present_address")){
                             poAdLstnr = listener;
-                            psParent = "present_address";
-                            psKeyxxx = fsKey;
-                            psResult = fsRes;
+                            poImage.setsParentxx("present_address");
+                            poImage.setsKeyNamex(fsKey);
+                            poImage.setcResultxx(fsRes);
                             showDialogImg();
                         } else {
                             SaveCIResult(fsPar, fsKey, fsRes);

@@ -31,7 +31,7 @@ import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_LeaveAppli
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_LeaveApproval;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_ObApplication;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_Reimbursement;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_SelfieLogin;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_SelfieLog;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 
 import java.util.ArrayList;
@@ -68,7 +68,7 @@ public class Activity_Application extends AppCompatActivity {
         } else if(application == AppConstants.INTENT_LEAVE_APPLICATION){
             viewPager.setAdapter(new ApplicationPageAdapter(getSupportFragmentManager(), new Fragment_LeaveApplication()));
         } else if(application == AppConstants.INTENT_SELFIE_LOGIN){
-            viewPager.setAdapter(new ApplicationPageAdapter(getSupportFragmentManager(), new Fragment_SelfieLogin()));
+            viewPager.setAdapter(new ApplicationPageAdapter(getSupportFragmentManager(), new Fragment_SelfieLog()));
         } else if(application == AppConstants.INTENT_REIMBURSEMENT){
             viewPager.setAdapter(new ApplicationPageAdapter(getSupportFragmentManager(), new Fragment_Reimbursement()));
         } else if(application == AppConstants.INTENT_APPLICATION_APPROVAL){

@@ -18,11 +18,10 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import org.guanzongroup.com.creditevaluation.Core.EvaluatorManager;
 import org.rmj.g3appdriver.dev.Database.Entities.ECreditOnlineApplicationCI;
 import org.rmj.g3appdriver.dev.Database.Entities.EOccupationInfo;
 import org.rmj.g3appdriver.dev.Database.Repositories.ROccupation;
-import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.lib.integsys.CreditInvestigator.CITagging;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 
 import java.util.List;
@@ -30,14 +29,16 @@ import java.util.List;
 public class VMEvaluationCIHistoryInfo extends AndroidViewModel {
 
     private final ConnectionUtil poConnect;
-    private final EvaluatorManager poHistory;
+    private final CITagging poSys;
     private final ROccupation poJob;
+    private final ConnectionUtil poConn;
 
     public VMEvaluationCIHistoryInfo(@NonNull Application application) {
         super(application);
         this.poConnect = new ConnectionUtil(application);
-        this.poHistory = new EvaluatorManager(application);
+        this.poSys = new CITagging(application);
         this.poJob = new ROccupation(application);
+        this.poConn = new ConnectionUtil(application);
     }
 
     public LiveData<List<EOccupationInfo>> GetOccupationList(){
@@ -45,27 +46,20 @@ public class VMEvaluationCIHistoryInfo extends AndroidViewModel {
     }
 
     public LiveData<ECreditOnlineApplicationCI> RetrieveApplicationData(String TransNox) {
-        return poHistory.RetrieveApplicationData(TransNox);
+        return poSys.RetrieveApplicationData(TransNox);
     }
 
     public void PostBHApproval(String fsTransNo, String fsResultx, String fsRemarks, OnTransactionCallBack foCallBck) {
-        new PostBHApprovalTask(poConnect, poHistory, fsResultx, fsRemarks, foCallBck).execute(fsTransNo);
+        new PostBHApprovalTask(foCallBck).execute(fsTransNo, fsResultx, fsRemarks);
     }
 
-    private static class PostBHApprovalTask extends AsyncTask<String, Void, String> {
+    private class PostBHApprovalTask extends AsyncTask<String, Void, Boolean> {
 
-        private final ConnectionUtil loConnect;
-        private final EvaluatorManager loHistory;
-        private final String lsResultx;
-        private final String lsRemarks;
         private final OnTransactionCallBack loCallBck;
-        private boolean isSuccess = false;
 
-        private PostBHApprovalTask(ConnectionUtil foConnect, EvaluatorManager foHistory, String fsResultx, String fsRemarks, OnTransactionCallBack foCallBck) {
-            this.loConnect = foConnect;
-            this.loHistory = foHistory;
-            this.lsResultx = fsResultx;
-            this.lsRemarks = fsRemarks;
+        private String message;
+
+        private PostBHApprovalTask(OnTransactionCallBack foCallBck) {
             this.loCallBck = foCallBck;
         }
 
@@ -76,53 +70,42 @@ public class VMEvaluationCIHistoryInfo extends AndroidViewModel {
         }
 
         @Override
-        protected String doInBackground(String... strings) {
-            String lsTransNo = strings[0];
-            final String[] lsResultx = {""};
-
+        protected Boolean doInBackground(String... args) {
             try {
-                if(loConnect.isDeviceConnected()) {
-                    loHistory.SaveBHApproval(lsTransNo, this.lsResultx, lsRemarks, new EvaluatorManager.OnActionCallback() {
-                        @Override
-                        public void OnSuccess(String args) {
+                String TransNo = args[0];
+                String Resultx = args[1];
+                String Remarks = args[2];
 
-                        }
-
-                        @Override
-                        public void OnFailed(String message) {
-                            lsResultx[0] = message;
-                        }
-                    });
-                    loHistory.PostBHApproval(lsTransNo, new EvaluatorManager.OnActionCallback() {
-                        @Override
-                        public void OnSuccess(String args) {
-                            lsResultx[0] = args;
-                            isSuccess = true;
-                        }
-
-                        @Override
-                        public void OnFailed(String message) {
-                            lsResultx[0] = message;
-                        }
-                    });
-                } else {
-                    lsResultx[0] = AppConstants.SERVER_NO_RESPONSE();
+                if(!poSys.SaveBHApproval(TransNo, Resultx, Remarks)){
+                    message = poSys.getMessage();
+                    return false;
                 }
+
+                if(!poConn.isDeviceConnected()) {
+                    message = poConn.getMessage();
+                    return false;
+                }
+
+                if(!poSys.PostBHApproval(TransNo)){
+                    message = poSys.getMessage();
+                    return false;
+                }
+
+                return true;
             } catch (Exception e) {
                 e.printStackTrace();
-                lsResultx[0] = e.getMessage();
+                message = e.getMessage();
+                return false;
             }
-
-            return lsResultx[0];
         }
 
         @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            if(isSuccess) {
-                loCallBck.onSuccess(s);
+        protected void onPostExecute(Boolean isSuccess) {
+            super.onPostExecute(isSuccess);
+            if(!isSuccess) {
+                loCallBck.onFailed(message);
             } else {
-                loCallBck.onFailed(s);
+                loCallBck.onSuccess("");
             }
         }
 

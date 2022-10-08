@@ -42,7 +42,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Activity_EvaluationCIHistory extends AppCompatActivity implements VMEvaluationHistory.OnImportCallBack{
+public class Activity_EvaluationCIHistory extends AppCompatActivity {
     private static final String TAG = Activity_EvaluationCIHistory.class.getSimpleName();
     private RecyclerView recyclerViewClient;
     private VMEvaluationHistory mViewModel;
@@ -57,16 +57,34 @@ public class Activity_EvaluationCIHistory extends AppCompatActivity implements V
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mViewModel = new ViewModelProvider(Activity_EvaluationCIHistory.this).get(VMEvaluationHistory.class);
         setContentView(R.layout.activity_evaluation_cihistory);
         initWidgets();
-        mViewModel = new ViewModelProvider(Activity_EvaluationCIHistory.this).get(VMEvaluationHistory.class);
-        downloadApplicationsForBHApproval();
-        mViewModel.getUserBranchInfo().observe(this, eBranchInfo -> {
+        mViewModel.GetUserInfo().observe(this, user -> {
             try {
-                lblBranch.setText(eBranchInfo.getBranchNm());
-                lblAddress.setText(eBranchInfo.getAddressx());
+                lblBranch.setText(user.sBranchNm);
+                lblAddress.setText(user.sAddressx);
             } catch (Exception e){
                 e.printStackTrace();
+            }
+        });
+
+        mViewModel.DownloadApplicationsForBHApproval(new VMEvaluationHistory.OnTransactionCallback() {
+            @Override
+            public void onSuccess(String message) {
+                poDialogx.dismiss();
+            }
+
+            @Override
+            public void onFailed(String message) {
+                poDialogx.dismiss();
+                Log.e(Activity_EvaluationCIHistory.class.getSimpleName(), message);
+            }
+
+            @Override
+            public void onLoad() {
+                poDialogx.initDialog("CI Evaluation", "CI Evaluation downlading.. Please wait.", true);
+                poDialogx.show();
             }
         });
         initData();
@@ -88,27 +106,6 @@ public class Activity_EvaluationCIHistory extends AppCompatActivity implements V
         layoutNoRecord = findViewById(R.id.layout_ci_noRecord);
         lblBranch = findViewById(R.id.lblBranch);
         lblAddress = findViewById(R.id.lblAddress);
-    }
-
-    @Override
-    public void onStartImport() {
-        poDialogx.initDialog("CI Evaluation List", "Importing latest data. Please wait...", false);
-        poDialogx.show();
-    }
-
-    @Override
-    public void onSuccessImport() {
-        poDialogx.dismiss();
-    }
-
-    @Override
-    public void onImportFailed(String message) {
-        poDialogx.dismiss();
-        poMessage.initDialog();
-        poMessage.setTitle("CI Evaluation List");
-        poMessage.setMessage(message);
-        poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-        poMessage.show();
     }
 
     @Override
@@ -192,27 +189,4 @@ public class Activity_EvaluationCIHistory extends AppCompatActivity implements V
         super.finish();
         overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
     }
-
-    private void downloadApplicationsForBHApproval() {
-        LoadDialog loDialog = new LoadDialog(Activity_EvaluationCIHistory.this);
-        mViewModel.DownloadApplicationsForBHApproval(new VMEvaluationHistory.OnTransactionCallback() {
-            @Override
-            public void onSuccess(String message) {
-                loDialog.dismiss();
-            }
-
-            @Override
-            public void onFailed(String message) {
-                loDialog.dismiss();
-                Log.e(Activity_EvaluationCIHistory.class.getSimpleName(), message);
-            }
-
-            @Override
-            public void onLoad() {
-                loDialog.initDialog("CI Evaluation", "CI Evaluation downlading.. Please wait.", true);
-                loDialog.show();
-            }
-        });
-    }
-
 }

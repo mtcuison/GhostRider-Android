@@ -385,9 +385,10 @@
                                             android:inputType="textCapWords"
                                             android:digits="@string/free_text_restriction"
                                             android:imeOptions="actionNext"
-                                            android:nextFocusForward="@id/tie_ci_asstPhoneNo"
+                                            android:nextFocusForward="@id/tie_ci_asstPhoneNumber"
                                             android:textColor="@color/material_black"
                                             android:maxLength="50" />
+
                                     </com.google.android.material.textfield.TextInputLayout>
 <!--                                    <com.google.android.material.button.MaterialButton-->
 <!--                                        android:id="@+id/btnSaveAsstPosition"-->

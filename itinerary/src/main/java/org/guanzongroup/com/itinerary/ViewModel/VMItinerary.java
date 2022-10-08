@@ -11,8 +11,8 @@ import androidx.lifecycle.LiveData;
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EItinerary;
 import org.rmj.g3appdriver.dev.Database.Repositories.RBranch;
-import org.rmj.g3appdriver.dev.Database.Repositories.RItinerary;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
+import org.rmj.g3appdriver.lib.Itinerary.EmployeeItinerary;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 
 import java.util.List;
@@ -21,7 +21,7 @@ public class VMItinerary extends AndroidViewModel {
     private static final String TAG = VMItinerary.class.getSimpleName();
 
     private final Application instance;
-    private final RItinerary poSystem;
+    private final EmployeeItinerary poSystem;
     private final RBranch poBranch;
     private final EmployeeMaster poUser;
 
@@ -34,7 +34,7 @@ public class VMItinerary extends AndroidViewModel {
     public VMItinerary(@NonNull Application application) {
         super(application);
         this.instance = application;
-        this.poSystem = new RItinerary(instance);
+        this.poSystem = new EmployeeItinerary(instance);
         this.poBranch = new RBranch(instance);
         this.poUser = new EmployeeMaster(instance);
     }
@@ -55,21 +55,21 @@ public class VMItinerary extends AndroidViewModel {
         return poBranch.getAllBranchNames();
     }
 
-    public void SaveItinerary(RItinerary.Itinerary foVal, OnActionCallback callback){
+    public void SaveItinerary(EmployeeItinerary.ItineraryEntry foVal, OnActionCallback callback){
         new SaveItineraryTask(instance, callback).execute(foVal);
     }
 
-    private static class SaveItineraryTask extends AsyncTask<RItinerary.Itinerary, Void, Boolean>{
+    private static class SaveItineraryTask extends AsyncTask<EmployeeItinerary.ItineraryEntry , Void, Boolean>{
 
         private final OnActionCallback callback;
-        private final RItinerary poSystem;
+        private final EmployeeItinerary poSystem;
         private final ConnectionUtil poConn;
 
         private String message;
 
         public SaveItineraryTask(Application instance, OnActionCallback callback) {
             this.callback = callback;
-            this.poSystem = new RItinerary(instance);
+            this.poSystem = new EmployeeItinerary(instance);
             this.poConn = new ConnectionUtil(instance);
         }
 
@@ -80,30 +80,29 @@ public class VMItinerary extends AndroidViewModel {
         }
 
         @Override
-        protected Boolean doInBackground(RItinerary.Itinerary... itineraries) {
+        protected Boolean doInBackground(EmployeeItinerary.ItineraryEntry ... itineraries) {
             try{
-                RItinerary.Itinerary loVal = itineraries[0];
-                boolean isSave = poSystem.SaveItinerary(loVal);
-                if(!isSave){
+                EmployeeItinerary.ItineraryEntry loVal = itineraries[0];
+                String lsResult = poSystem.SaveItinerary(loVal);
+                if(lsResult == null){
                     Log.e(TAG, "Unable to save itinerary. Message: " + poSystem.getMessage());
                     message = poSystem.getMessage();
                     return false;
+                }
+
+                Log.d(TAG, "Data for upload transaction no. : " + lsResult);
+                if(!poConn.isDeviceConnected()){
+                    Log.e(TAG, "Unable to connect to upload entry.");
+                    message = "Your entry has been save locally and will be uploaded later for if device has reconnected.";
+                    return true;
+                }
+
+                if(!poSystem.UploadItinerary(lsResult)){
+                    message = poSystem.getMessage();
+                    return false;
                 } else {
-                    Log.d(TAG, "Data for upload transaction no. : " + poSystem.getTransNox());
-                    if(!poConn.isDeviceConnected()){
-                        Log.e(TAG, "Unable to connect to upload entry.");
-                        message = "Your entry has been save locally and will be uploaded later for if device has reconnected.";
-                        return true;
-                    } else {
-                        boolean isUploaded = poSystem.UploadItinerary(poSystem.getTransNox());
-                        if(!isUploaded){
-                            message = poSystem.getMessage();
-                            return false;
-                        } else {
-                            message = "Your entry has been save. You may now download the itinerary to other device.";
-                            return true;
-                        }
-                    }
+                    message = "Your entry has been save. You may now download the itinerary to other device.";
+                    return true;
                 }
             } catch (Exception e){
                 e.printStackTrace();
@@ -130,14 +129,14 @@ public class VMItinerary extends AndroidViewModel {
     private static class DownloadItineraryTask extends AsyncTask<String, Void, Boolean>{
 
         private final OnActionCallback callback;
-        private final RItinerary poSystem;
+        private final EmployeeItinerary poSystem;
         private final ConnectionUtil poConn;
 
         private String message;
 
         public DownloadItineraryTask(Application instance, OnActionCallback callback) {
             this.callback = callback;
-            this.poSystem = new RItinerary(instance);
+            this.poSystem = new EmployeeItinerary(instance);
             this.poConn = new ConnectionUtil(instance);
         }
 

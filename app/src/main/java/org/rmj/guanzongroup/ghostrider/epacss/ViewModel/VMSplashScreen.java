@@ -52,7 +52,6 @@ public class VMSplashScreen extends AndroidViewModel {
     private final MutableLiveData<List<String>> psPermissions = new MutableLiveData<>();
     private final EmployeeMaster poUserDbx;
     private final AppConfigPreference poConfigx;
-    private final AppTokenManager poToken;
     private final RDailyCollectionPlan poDcp;
     private final SelfieLog poLogx;
 
@@ -68,11 +67,9 @@ public class VMSplashScreen extends AndroidViewModel {
         this.poLogx = new SelfieLog(application);
         Date buildDate = new Date(BuildConfig.TIMESTAMP);
         this.poConfigx.setupAppVersionInfo(BuildConfig.VERSION_CODE, BuildConfig.VERSION_NAME, String.valueOf(buildDate.getTime()));
-        this.poToken = new AppTokenManager(application);
         ETokenInfo loToken = new ETokenInfo();
         loToken.setTokenInf("temp_token");
         this.poDcp = new RDailyCollectionPlan(application);
-        this.poToken.setTokenInfo(loToken);
         this.psVersion.setValue(poConfigx.getVersionInfo());
         new CheckConnectionTask(application).execute();
     }

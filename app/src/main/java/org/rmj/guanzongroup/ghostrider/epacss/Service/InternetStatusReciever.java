@@ -21,8 +21,8 @@ import android.util.Log;
 
 import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplication;
 import org.rmj.g3appdriver.dev.Database.Repositories.RApprovalCode;
-import org.rmj.g3appdriver.dev.Database.Repositories.RItinerary;
 import org.rmj.g3appdriver.dev.Database.Repositories.RLocationSysLog;
+import org.rmj.g3appdriver.lib.Itinerary.EmployeeItinerary;
 import org.rmj.g3appdriver.lib.PetManager.EmployeeLeave;
 import org.rmj.g3appdriver.lib.PetManager.EmployeeOB;
 import org.rmj.g3appdriver.lib.PetManager.SelfieLog;
@@ -122,7 +122,7 @@ public class InternetStatusReciever extends BroadcastReceiver {
                 }
                 Thread.sleep(1000);
 
-                RItinerary loItnry = new RItinerary(instance);
+                EmployeeItinerary loItnry = new EmployeeItinerary(instance);
                 if(loItnry.UploadUnsentItinerary()){
                     publishProgress("Itinerary entries uploaded successfully");
                 } else {

@@ -104,7 +104,7 @@ public class VMApplicationHistory extends AndroidViewModel {
     }
     public void saveApplicantImageFromCamera(String TransNox) {
         try {
-            poCreditApp.updateApplicantImageStat(TransNox);
+//            poCreditApp.updateApplicantImageStat(TransNox);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -170,7 +170,7 @@ public class VMApplicationHistory extends AndroidViewModel {
                     if (Objects.requireNonNull(lsResponse).equalsIgnoreCase("success")) {
                         String lsTransNo = (String) loUpload.get("sTransNox");
                         poImage.updateImageInfo(lsTransNo, poPhoto.getTransNox());
-                        poCreditApp.updateCustomerImageStat(TransNox);
+//                        poCreditApp.updateCustomerImageStat(TransNox);
                         lsResponse = loUpload.toJSONString();
                     } else {
                         lsResponse = loUpload.toJSONString();
@@ -279,7 +279,7 @@ public class VMApplicationHistory extends AndroidViewModel {
                                 ScannerConstants.PhotoPath = loImage.getFileLoct();
 //                                poImage.insertDownloadedImageInfo(loImage);
 
-                                poCreditApp.updateApplicantImageStat(psSourceNo);
+//                                poCreditApp.updateApplicantImageStat(psSourceNo);
                                 //end - insert entry to image info
                                 Log.e(TAG,loDownload.get("transnox").toString());
                                 //todo:
@@ -470,7 +470,7 @@ public class VMApplicationHistory extends AndroidViewModel {
                 info.setTranStat(loJson.getString("cTranStat"));
                 info.setDivision(loJson.getString("cDivision"));
                 info.setReceived(loJson.getString("dReceived"));
-                info.setCaptured("0");
+//                info.setCaptured("0");
                 creditApplications.add(info);
             }
             db.insertBulkData(creditApplications);
@@ -479,7 +479,7 @@ public class VMApplicationHistory extends AndroidViewModel {
             for(int x = 0; x < faJson.length(); x++){
                 org.json.JSONObject loJSon = faJson.getJSONObject(x);
                 String Transnox = loJSon.getString("sReferNox");
-                db.updateCustomerImageStat(Transnox);
+//                db.updateCustomerImageStat(Transnox);
             }
         }
     }
