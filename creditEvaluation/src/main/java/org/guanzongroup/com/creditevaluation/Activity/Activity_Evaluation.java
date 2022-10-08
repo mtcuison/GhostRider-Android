@@ -105,6 +105,8 @@ public class Activity_Evaluation extends AppCompatActivity {
         psTransNo = getIntent().getStringExtra("transno");
         mViewModel.GetApplicationDetail(psTransNo).observe(Activity_Evaluation.this, ci -> {
             try{
+                poImage.setTransNox(ci.getTransNox());
+                poBrgy.setsTransNox(ci.getTransNox());
                 setupEvaluationAdapter(ci);
 
                 if(ci.getPrsnBrgy() != null){
@@ -273,23 +275,41 @@ public class Activity_Evaluation extends AppCompatActivity {
         });
 
         btnSave.setOnClickListener(v ->  {
-            mViewModel.UploadResult(psTransNo, new VMEvaluation.OnUploadResultListener() {
-                @Override
-                public void OnUpload() {
-                    poDialogx.initDialog("CI Evaluation", "Sending approval to server. Please wait...", false);
-                    poDialogx.show();
-                }
+            DialogCIReason loDialog = new DialogCIReason(Activity_Evaluation.this);
+            loDialog.initDialogCIReason((dialog, transtat, reason) -> {
+                dialog.dismiss();
+                mViewModel.SaveRecommendation(psTransNo, transtat, reason, new VMEvaluation.OnPostRecommendationCallback() {
+                    @Override
+                    public void OnPost() {
+                        poDialogx.initDialog("CI Evaluation", "Saving recommendation. Please wait...", false);
+                        poDialogx.show();
+                    }
 
-                @Override
-                public void OnSuccess() {
+                    @Override
+                    public void OnSuccess() {
+                        poDialogx.dismiss();
+                        poMessage.initDialog();
+                        poMessage.setTitle("CI Evaluation");
+                        poMessage.setMessage("Your recommendation has been saved to server.");
+                        poMessage.setPositiveButton("Okay", (view, dialog) -> {
+                            dialog.dismiss();
+                            finish();
+                        });
+                        poMessage.show();
+                    }
 
-                }
-
-                @Override
-                public void OnFailed(String message) {
-
-                }
+                    @Override
+                    public void OnFailed(String message) {
+                        poDialogx.dismiss();
+                        poMessage.initDialog();
+                        poMessage.setTitle("CI Evaluation List");
+                        poMessage.setMessage(message);
+                        poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                        poMessage.show();
+                    }
+                });
             });
+            loDialog.show();
         });
 
         btnUpload.setOnClickListener(v ->  {
@@ -360,6 +380,7 @@ public class Activity_Evaluation extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
+        poImage = new CIImage();
         poBrgy = new BarangayRecord();
 
         poDialogx = new LoadDialog(Activity_Evaluation.this);
@@ -418,43 +439,6 @@ public class Activity_Evaluation extends AppCompatActivity {
                 }
             }
         }
-    }
-
-    public void initDialog(){
-        DialogCIReason loDialog = new DialogCIReason(Activity_Evaluation.this);
-        loDialog.initDialogCIReason((dialog, transtat, reason) -> {
-            dialog.dismiss();
-            mViewModel.SaveRecommendation(psTransNo, transtat, reason, new VMEvaluation.OnPostRecommendationCallback() {
-                @Override
-                public void OnPost() {
-                    poDialogx.initDialog("CI Evaluation", "Saving recommendation. Please wait...", false);
-                    poDialogx.show();
-                }
-
-                @Override
-                public void OnSuccess() {
-                    poDialogx.dismiss();
-                    poMessage.initDialog();
-                    poMessage.setTitle("CI Evaluation");
-                    poMessage.setMessage("Your recommendation has been saved to server.");
-                    poMessage.setPositiveButton("Okay", (view, dialog) -> {
-                        dialog.dismiss();
-                        finish();
-                    });
-                    poMessage.show();
-                }
-
-                @Override
-                public void OnFailed(String message) {
-                    poMessage.initDialog();
-                    poMessage.setTitle("CI Evaluation List");
-                    poMessage.setMessage(message);
-                    poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-                    poMessage.show();
-                }
-            });
-        });
-        loDialog.show();
     }
 
     public void showDialogImg(){

@@ -271,7 +271,7 @@ public class VMEvaluation extends AndroidViewModel {
     }
 
     public void SaveRecommendation(String args, String args1, String args2, OnPostRecommendationCallback callback){
-        new PostRecommendationTask(callback).execute(args);
+        new PostRecommendationTask(callback).execute(args, args1, args2);
     }
 
     private class PostRecommendationTask extends AsyncTask<String, Void, Boolean>{
@@ -413,7 +413,7 @@ public class VMEvaluation extends AndroidViewModel {
         @Override
         protected Boolean doInBackground(CIImage... ciImages) {
             try{
-                if(!poSys.SaveImageInfo( ciImages[0])){
+                if(!poSys.SaveImageInfo(ciImages[0])){
                     message = poSys.getMessage();
                     return false;
                 }

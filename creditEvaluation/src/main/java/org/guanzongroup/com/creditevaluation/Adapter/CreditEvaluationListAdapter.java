@@ -48,17 +48,16 @@ public class CreditEvaluationListAdapter extends RecyclerView.Adapter<CreditEval
         this.plLoanApp1 = plLoanApp;
         this.onApplicationClickListener = onApplicationClickListener;
         this.evaluation = val;
-//        this.poSearch = new SearchFilter();
     }
+
     public interface OnItemClickListener {
         void OnClick(int position);
-
         void OnActionButtonClick();
     }
+
     @NonNull
     @Override
     public CreditEvaluationViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-//        Log.e(TAG, String.valueOf(viewType));
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ci_list_item, parent, false);
         return new CreditEvaluationViewHolder(view,onApplicationClickListener);
     }
