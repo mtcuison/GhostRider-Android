@@ -22,26 +22,26 @@ import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeRole;
 import org.rmj.g3appdriver.dev.Database.Entities.ESelfieLog;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.lib.PetManager.SelfieLog;
-import org.rmj.guanzongroup.ghostrider.epacss.Service.InternetStatusReciever;
+import org.rmj.guanzongroup.ghostrider.epacss.Service.DataSyncService;
 
 import java.util.List;
 
 public class VMMainActivity extends AndroidViewModel {
     private static final String TAG = "GRider Main Activity";
     private final Application app;
-    private final InternetStatusReciever poNetRecvr;
+    private final DataSyncService poNetRecvr;
     private final EmployeeMaster poUser;
     private final SelfieLog poLog;
 
     public VMMainActivity(@NonNull Application application) {
         super(application);
         this.app = application;
-        this.poNetRecvr = new InternetStatusReciever(app);
+        this.poNetRecvr = new DataSyncService(app);
         this.poUser = new EmployeeMaster(app);
         this.poLog = new SelfieLog(app);
     }
 
-    public InternetStatusReciever getInternetReceiver(){
+    public DataSyncService getInternetReceiver(){
         return poNetRecvr;
     }
 

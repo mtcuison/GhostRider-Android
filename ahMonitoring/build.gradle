@@ -68,7 +68,7 @@ dependencies {
     testImplementation 'org.mockito:mockito-core:4.5.1'
     testImplementation 'org.robolectric:robolectric:4.8.1'
 
-    implementation files('D:/Android_Libs/app_driver.aar')
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation 'com.huawei.hms:maps:4.0.1.302'
     implementation 'com.huawei.hms:location:6.4.0.300'

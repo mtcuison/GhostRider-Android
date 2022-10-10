@@ -8,9 +8,12 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import org.json.JSONObject;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EItinerary;
 import org.rmj.g3appdriver.dev.Database.Repositories.RBranch;
+import org.rmj.g3appdriver.etc.SessionManager;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.lib.Itinerary.EmployeeItinerary;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
@@ -21,9 +24,11 @@ public class VMItinerary extends AndroidViewModel {
     private static final String TAG = VMItinerary.class.getSimpleName();
 
     private final Application instance;
-    private final EmployeeItinerary poSystem;
+    private final EmployeeItinerary poSys;
     private final RBranch poBranch;
     private final EmployeeMaster poUser;
+    private final SessionManager poSession;
+    private final ConnectionUtil poConn;
 
     public interface OnActionCallback {
         void OnLoad(String title, String message);
@@ -31,24 +36,32 @@ public class VMItinerary extends AndroidViewModel {
         void OnFailed(String message);
     }
 
+    public interface OnImportUsersListener{
+        void OnImport(String title, String message);
+        void OnSuccess(List<JSONObject> args);
+        void OnFailed(String message);
+    }
+
     public VMItinerary(@NonNull Application application) {
         super(application);
         this.instance = application;
-        this.poSystem = new EmployeeItinerary(instance);
+        this.poSys = new EmployeeItinerary(instance);
         this.poBranch = new RBranch(instance);
         this.poUser = new EmployeeMaster(instance);
+        this.poSession = new SessionManager(instance);
+        this.poConn = new ConnectionUtil(instance);
     }
 
     public LiveData<List<EItinerary>> GetItineraryListForCurrentDay(){
-        return poSystem.GetItineraryListForCurrentDay();
+        return poSys.GetItineraryListForCurrentDay();
     }
 
     public LiveData<List<EItinerary>> GetItineraryForFilteredDate(String fsArgs1, String fsArgs2){
-        return poSystem.GetItineraryListForFilteredDate(fsArgs1, fsArgs2);
+        return poSys.GetItineraryListForFilteredDate(fsArgs1, fsArgs2);
     }
 
-    public LiveData<EEmployeeInfo> getUserInfo(){
-        return poUser.getUserInfo();
+    public LiveData<DEmployeeInfo.EmployeeBranch> GetUserInfo(){
+        return poUser.GetEmployeeBranch();
     }
 
     public LiveData<String[]> GetAllBranchNames(){
@@ -126,18 +139,14 @@ public class VMItinerary extends AndroidViewModel {
         new DownloadItineraryTask(instance, callback).execute(args1, args2);
     }
 
-    private static class DownloadItineraryTask extends AsyncTask<String, Void, Boolean>{
+    private class DownloadItineraryTask extends AsyncTask<String, Void, Boolean>{
 
         private final OnActionCallback callback;
-        private final EmployeeItinerary poSystem;
-        private final ConnectionUtil poConn;
 
         private String message;
 
         public DownloadItineraryTask(Application instance, OnActionCallback callback) {
             this.callback = callback;
-            this.poSystem = new EmployeeItinerary(instance);
-            this.poConn = new ConnectionUtil(instance);
         }
 
         @Override
@@ -150,11 +159,11 @@ public class VMItinerary extends AndroidViewModel {
                 } else {
                     Log.d(TAG, "Argument 1: " + strings[0]);
                     Log.d(TAG, "Argument 2: " + strings[1]);
-                    boolean isDownloaded = poSystem.DownloadItinerary(
+                    boolean isDownloaded = poSys.DownloadItinerary(
                             strings[0]
                             ,strings[1]);
                     if(!isDownloaded){
-                        message = poSystem.getMessage();
+                        message = poSys.getMessage();
                         return false;
                     } else {
                         message = "Itinerary entries downloaded successfully";
@@ -171,7 +180,7 @@ public class VMItinerary extends AndroidViewModel {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            callback.OnLoad("Employee Itinerary", "Saving entry. Please wait...");
+            callback.OnLoad("Employee Itinerary", "Downloading entries. Please wait...");
         }
 
         @Override
@@ -181,6 +190,59 @@ public class VMItinerary extends AndroidViewModel {
                 callback.OnSuccess(message);
             } else {
                 callback.OnFailed(message);
+            }
+        }
+    }
+
+    public void ImportUsers(OnImportUsersListener listener){
+        new ImportUsersTask(listener).execute();
+    }
+
+    private class ImportUsersTask extends AsyncTask<Void, Void, List<JSONObject>>{
+
+        private final OnImportUsersListener listener;
+
+        private String message;
+
+        public ImportUsersTask(OnImportUsersListener listener) {
+            this.listener = listener;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            listener.OnImport("Employee Itinerary", "Importing employee details. Please wait...");
+        }
+
+        @Override
+        protected List<JSONObject> doInBackground(Void... voids) {
+            try{
+                if(!poConn.isDeviceConnected()){
+                    message = poConn.getMessage();
+                    return null;
+                }
+
+                List<JSONObject> loList = poSys.GetEmployeeList();
+                if(loList == null){
+                     message = poSys.getMessage();
+                     return null;
+                }
+
+                return loList;
+            } catch (Exception e){
+                e.printStackTrace();
+                message = e.getMessage();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(List<JSONObject> args) {
+            super.onPostExecute(args);
+            if(args == null){
+                listener.OnFailed(message);
+            } else {
+                listener.OnSuccess(args);
             }
         }
     }

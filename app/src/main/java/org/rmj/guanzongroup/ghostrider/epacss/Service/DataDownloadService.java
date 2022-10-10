@@ -38,8 +38,8 @@ import org.rmj.g3appdriver.lib.ImportData.Import_SCARequest;
 import org.rmj.g3appdriver.lib.ImportData.Import_SysConfig;
 
 @SuppressLint("SpecifyJobSchedulerIdRange")
-public class DataImportService extends JobService {
-    public static final String TAG = DataImportService.class.getSimpleName();
+public class DataDownloadService extends JobService {
+    public static final String TAG = DataDownloadService.class.getSimpleName();
 
     @Override
     public boolean onStartJob(JobParameters jobParameters) {
@@ -57,7 +57,6 @@ public class DataImportService extends JobService {
         Log.e(TAG, "Data import service has stop.");
         return true;
     }
-
 
     private void doBackgroundTask(JobParameters params) {
         ImportInstance[]  importInstances = {

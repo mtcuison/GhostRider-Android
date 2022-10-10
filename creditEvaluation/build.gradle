@@ -29,7 +29,7 @@ android {
 
 dependencies {
 
-    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'com.google.android.material:material:1.2.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
@@ -78,5 +78,5 @@ dependencies {
 //  SPINNER MATERIAL DESIGN
     implementation 'com.google.firebase:firebase-core:21.1.1'
 
-    implementation files('D:/Android_Libs/app_driver.aar')
+//    implementation files('D:/Android_Libs/app_driver.aar')
 }

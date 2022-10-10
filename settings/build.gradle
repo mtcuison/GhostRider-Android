@@ -82,7 +82,8 @@ dependencies {
 
     implementation platform('com.google.firebase:firebase-bom:29.0.0')
     implementation 'com.google.firebase:firebase-analytics'
-    implementation files('D:/Android_Libs/app_driver.aar')
+
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 //    implementation files('D:/Android_Libs/appdriver.jar')
 //    implementation files('D:/Android_Libs/json-simple-1.1.1.jar')
 //    implementation files('D:/Android_Libs/commons-codec-1.11.jar')

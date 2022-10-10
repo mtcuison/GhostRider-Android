@@ -54,6 +54,7 @@ import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogConfirmP
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.Dialog_ClientSearch;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.Dialog_DebugEntry;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Service.GLocatorService;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMCollectionList;
 
 import java.net.URI;
@@ -471,6 +472,7 @@ public class Activity_CollectionList extends AppCompatActivity {
             @Override
             public void OnSuccess() {
                 poDialogx.dismiss();
+                startService(new Intent(Activity_CollectionList.this, GLocatorService.class));
             }
 
             @Override

@@ -15,10 +15,7 @@ import android.app.Application;
 import android.app.job.JobParameters;
 import android.app.job.JobService;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.util.Log;
-
-import androidx.annotation.RequiresApi;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -40,7 +37,7 @@ import org.rmj.g3appdriver.utils.WebClient;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+
 public class PerformanceImportService extends JobService {
     public static final String TAG = PerformanceImportService.class.getSimpleName();
 

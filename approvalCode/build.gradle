@@ -52,8 +52,7 @@ dependencies {
     implementation 'androidx.room:room-runtime:2.4.2'
     implementation 'androidx.sqlite:sqlite:2.2.0'
 
-    implementation files('D:/Android_Libs/app_driver.aar')
-//    implementation project(':g3appdriver')
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
     
     // For Unit Testing
     testImplementation 'org.mockito:mockito-core:4.5.1'

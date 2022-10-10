@@ -80,5 +80,6 @@ dependencies {
     implementation project(':settings')
     implementation project(':notifications')
     implementation 'com.google.android.gms:play-services-location:20.0.0'
-    implementation files('D:/Android_Libs/app_driver.aar')
+
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 }

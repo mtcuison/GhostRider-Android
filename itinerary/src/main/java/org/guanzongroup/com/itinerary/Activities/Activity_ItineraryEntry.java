@@ -70,10 +70,10 @@ public class Activity_ItineraryEntry extends AppCompatActivity {
         poDialog = new MessageBox(Activity_ItineraryEntry.this);
 
 
-        mViewModel.getUserInfo().observe(Activity_ItineraryEntry.this, eEmployeeInfo -> {
+        mViewModel.GetUserInfo().observe(Activity_ItineraryEntry.this, user -> {
             try {
-                lblUser.setText(eEmployeeInfo.getUserName());
-                lblDept.setText(DeptCode.getDepartmentName(eEmployeeInfo.getDeptIDxx()));
+                lblUser.setText(user.sUserName);
+                lblDept.setText(DeptCode.getDepartmentName(user.sDeptIDxx));
             } catch (NullPointerException e){
                 e.printStackTrace();
             }

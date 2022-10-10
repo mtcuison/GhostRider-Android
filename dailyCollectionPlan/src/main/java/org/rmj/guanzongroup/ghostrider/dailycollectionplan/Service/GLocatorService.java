@@ -49,6 +49,7 @@ import org.rmj.g3appdriver.dev.Telephony;
 import org.rmj.g3appdriver.dev.WebClient;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.etc.LocationRetriever;
 import org.rmj.g3appdriver.etc.SessionManager;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
@@ -89,7 +90,8 @@ public class GLocatorService extends Service {
         loNotif.setAutoCancel(false);
         loNotif.setPriority(NotificationCompat.PRIORITY_MAX);
 
-        startLocationTracking();
+        new LocationRetriever(getApplication()).GetLocationOnBackgroud();
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             startForeground(1, loNotif.build(), ServiceInfo.FOREGROUND_SERVICE_TYPE_LOCATION);
         } else {
@@ -117,157 +119,5 @@ public class GLocatorService extends Service {
     public void onDestroy() {
         stopForeground(STOP_FOREGROUND_REMOVE);
         super.onDestroy();
-    }
-
-    private final LocationCallback locationCallback = new LocationCallback() {
-        @Override
-        public void onLocationResult(@NonNull LocationResult locationResult) {
-            locationResult.getLastLocation();
-            double latitude = locationResult.getLastLocation().getLatitude();
-            double longitude = locationResult.getLastLocation().getLongitude();
-            try {
-                JSONObject loJson = new JSONObject();
-                boolean isGpsEnabld = new GLocationManager(GLocatorService.this).isLocationEnabled();
-                if(!isGpsEnabld) {
-                    loJson.put("cGPSEnbld", "0");
-                } else if (latitude == 0.0 || longitude == 0.0){
-                    loJson.put("cGPSEnbld", "2");
-                } else {
-                    loJson.put("cGPSEnbld", "1");
-                }
-                loJson.put("latitude", latitude);
-                loJson.put("longitude", longitude);
-                new SaveLocationTask(getApplication()).execute(loJson);
-                Log.e(TAG, loJson.toString());
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-            super.onLocationResult(locationResult);
-        }
-    };
-
-    @SuppressLint("MissingPermission")
-    private void startLocationTracking(){
-        LocationRequest loRequest = new LocationRequest();
-        poConfig.getLocationInterval(result -> {
-            if(result == null){
-                result = "10";
-            }
-            long interval = Long.parseLong(result);
-            interval = interval * 60000;
-            loRequest.setInterval(interval);
-            loRequest.setFastestInterval(300000);
-            loRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-
-            LocationServices.getFusedLocationProviderClient(GLocatorService.this).requestLocationUpdates(loRequest, locationCallback, Looper.getMainLooper());
-        });
-    }
-
-    private static class SaveLocationTask extends AsyncTask<JSONObject, Void, String> {
-        private final Application instance;
-        private final SessionManager poUser;
-        private final Telephony poDevID;
-        private final RLocationSysLog poSysLog;
-        private final ConnectionUtil poConn;
-        private final HttpHeaders poHeaders;
-        private final RDailyCollectionPlan poDcp;
-        private final String DateTime;
-        private final WebApi poApi;
-        private final AppConfigPreference loConfig;
-
-        private boolean hasDcp = false;
-
-        public SaveLocationTask(Application instance){
-            this.instance = instance;
-            poUser = new SessionManager(instance);
-            poDevID = new Telephony(instance);
-            poSysLog = new RLocationSysLog(instance);
-            poConn = new ConnectionUtil(instance);
-            poHeaders = HttpHeaders.getInstance(instance);
-            poDcp = new RDailyCollectionPlan(instance);
-            this.DateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
-            this.loConfig = AppConfigPreference.getInstance(instance);
-            this.poApi = new WebApi(loConfig.getTestStatus());
-        }
-
-        @SuppressLint("NewApi")
-        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-        @Override
-        protected String doInBackground(JSONObject... jsonObjects) {
-            String lsResult = "";
-            EGLocatorSysLog loSysLog = new EGLocatorSysLog();
-            try {
-                JSONObject loDetail = jsonObjects[0];
-                if(poDcp.getDCPStatus() > 0) {
-                    hasDcp = true;
-                    loSysLog.setDeviceID(poDevID.getDeviceID());
-                    loSysLog.setLatitude(loDetail.getString("latitude"));
-                    loSysLog.setLongitud(loDetail.getString("longitude"));
-                    loSysLog.setTimeStmp(DateTime);
-                    loSysLog.setTransact(DateTime);
-                    loSysLog.setUserIDxx(poUser.getUserID());
-                    String lsLat = loDetail.getString("latitude");
-                    String lsLon = loDetail.getString("longitude");
-                    if(isLocationEnabled(instance)) {
-                        loSysLog.setGpsEnbld("0");
-                        loSysLog.setRemarksx("Location service is not enabled.");
-                    } else if(lsLat.equalsIgnoreCase("0.00000000000") ||
-                    lsLon.equalsIgnoreCase("0.00000000000")){
-                        loSysLog.setGpsEnbld("1");
-                        loSysLog.setRemarksx("Unable to trace location while gps is active.");
-                    } else {
-                        loSysLog.setGpsEnbld("1");
-                        loSysLog.setRemarksx("Location Retrieve.");
-                    }
-                    poSysLog.saveCurrentLocation(loSysLog);
-
-                    if (poConn.isDeviceConnected()) {
-                        JSONObject params = new JSONObject();
-                        params.put("dTransact", loSysLog.getTransact());
-                        params.put("nLatitude", loSysLog.getLatitude());
-                        params.put("nLongitud", loSysLog.getLongitud());
-                        lsResult = WebClient.sendRequest(poApi.getUrlDcpLocationReport(loConfig.isBackUpServer()), params.toString(), poHeaders.getHeaders());
-                        if (lsResult == null) {
-                            lsResult = AppConstants.SERVER_NO_RESPONSE();
-                        } else {
-                            JSONObject loJson = new JSONObject(lsResult);
-                            if (loJson.getString("result").equalsIgnoreCase("success")) {
-                                poSysLog.updateSysLogStatus(loSysLog.getTransact());
-                            }
-                        }
-                    } else {
-                        lsResult = AppConstants.NO_INTERNET();
-                    }
-                } else {
-                    hasDcp = false;
-                }
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-            return lsResult;
-        }
-
-        public static boolean isLocationEnabled(Context context) {
-            int locationMode = 0;
-            String locationProviders;
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
-                try {
-                    locationMode = Settings.Secure.getInt(context.getContentResolver(), Settings.Secure.LOCATION_MODE);
-
-                } catch (Settings.SettingNotFoundException e) {
-                    e.printStackTrace();
-                    return false;
-                }
-
-                return locationMode != Settings.Secure.LOCATION_MODE_OFF;
-
-            }else{
-                locationProviders = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
-                return !TextUtils.isEmpty(locationProviders);
-            }
-
-
-        }
     }
 }

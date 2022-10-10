@@ -71,7 +71,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto"
                         android:scrollHorizontally="false"
-                        android:text="Itinerary Entry"
+                        android:text="Itinerary Logs"
                         android:textColor="@color/white"
                         android:textSize="23sp" />
 
@@ -82,7 +82,6 @@
                         android:layout_marginTop="10dp"
                         android:fontFamily="@font/roboto"
                         android:scrollHorizontally="false"
-                        android:text="Dela Cruz, Josemari Joma, S."
                         android:textColor="@color/white"
                         android:textSize="20sp" />
 
@@ -92,7 +91,6 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_light"
                         android:scrollHorizontally="false"
-                        android:text="DSA - Bookkeeper"
                         android:textColor="@color/white"
                         android:textSize="18sp" />
 

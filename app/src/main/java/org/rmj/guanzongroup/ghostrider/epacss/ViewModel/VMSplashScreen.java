@@ -12,14 +12,11 @@
 package org.rmj.guanzongroup.ghostrider.epacss.ViewModel;
 
 import android.app.Application;
-import android.content.Context;
-import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -34,76 +31,49 @@ import org.rmj.g3appdriver.dev.Database.Repositories.RTown;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.SessionManager;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
-import org.rmj.g3appdriver.lib.PetManager.SelfieLog;
+import org.rmj.g3appdriver.lib.integsys.Dcp.LRDcp;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.guanzongroup.ghostrider.epacss.BuildConfig;
 
-import java.io.IOException;
 import java.util.Date;
-import java.util.List;
 
 public class VMSplashScreen extends AndroidViewModel {
     private static final String TAG = VMSplashScreen.class.getSimpleName();
 
     private final Application instance;
 
-    private final MutableLiveData<String> psVersion = new MutableLiveData<>();
-    private final MutableLiveData<String> sEmployLevel = new MutableLiveData<>();
-    private final MutableLiveData<List<String>> psPermissions = new MutableLiveData<>();
-    private final EmployeeMaster poUserDbx;
     private final AppConfigPreference poConfigx;
-    private final RDailyCollectionPlan poDcp;
-    private final SelfieLog poLogx;
 
-    private final MutableLiveData<Boolean> pbIsGrantd = new MutableLiveData<>();
-
-    public VMSplashScreen(@NonNull Application application) throws IOException {
+    public VMSplashScreen(@NonNull Application application) {
         super(application);
         this.instance = application;
-        this.poUserDbx = new EmployeeMaster(application);
         this.poConfigx = AppConfigPreference.getInstance(application);
         this.poConfigx.setTemp_ProductID("gRider");
         this.poConfigx.setUpdateLocally(false);
-        this.poLogx = new SelfieLog(application);
         Date buildDate = new Date(BuildConfig.TIMESTAMP);
         this.poConfigx.setupAppVersionInfo(BuildConfig.VERSION_CODE, BuildConfig.VERSION_NAME, String.valueOf(buildDate.getTime()));
         ETokenInfo loToken = new ETokenInfo();
         loToken.setTokenInf("temp_token");
-        this.poDcp = new RDailyCollectionPlan(application);
-        this.psVersion.setValue(poConfigx.getVersionInfo());
         new CheckConnectionTask(application).execute();
     }
 
-    public void initializeApp(){
+    public void SaveFirebaseToken(String fsVal){
+        new SaveTokenTask().execute(fsVal);
     }
 
-    public LiveData<List<String>> GetPermissions(){
-        return psPermissions;
-    }
+    private class SaveTokenTask extends AsyncTask<String, Void, Boolean>{
 
-    public LiveData<String> getVersionInfo(){
-        return psVersion;
-    }
-
-    public LiveData<String> getEmployeeLevel(){
-        return this.sEmployLevel;
-    }
-
-    private static boolean hasPermissions(Context context, String... permissions){
-        for (String permission: permissions){
-            if(ActivityCompat.checkSelfPermission(context, permission)!= PackageManager.PERMISSION_GRANTED){
-                return false;
-            }
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            new AppTokenManager(instance).SaveFirebaseToken(strings[0]);
+            return null;
         }
-        return true;
     }
 
     private static class CheckConnectionTask extends AsyncTask<String, Void, Boolean>{
 
         private final Application instance;
         private final ConnectionUtil poConn;
-
-        private String message;
 
         public CheckConnectionTask(Application instance) {
             this.instance = instance;
@@ -113,7 +83,6 @@ public class VMSplashScreen extends AndroidViewModel {
         @Override
         protected Boolean doInBackground(String... strings) {
             if(!poConn.isDeviceConnected()){
-                message = poConn.getMessage();
                 return false;
             }
             return true;
@@ -136,6 +105,7 @@ public class VMSplashScreen extends AndroidViewModel {
 
     public interface OnInitializeCallback {
         void OnProgress(String args, int progress);
+        void OnHasDCP();
         void OnSuccess();
         void OnNoSession();
         void OnFailed(String message);
@@ -188,6 +158,11 @@ public class VMSplashScreen extends AndroidViewModel {
                     }
                     publishProgress(4);
 
+                    LRDcp loDcp = new LRDcp(instance);
+                    if(loDcp.HasCollection()){
+                        publishProgress(5);
+                    }
+
                     if(!poSession.isLoggedIn()){
                         return 2;
                     }
@@ -218,12 +193,15 @@ public class VMSplashScreen extends AndroidViewModel {
             super.onProgressUpdate(values);
             String lsArgs;
             if(poConfig.isAppFirstLaunch()){
-
                 lsArgs = "Importing Data...";
             } else {
                 lsArgs = "Updating Data...";
             }
-            callback.OnProgress(lsArgs, values[0]);
+            if(values[0] < 5) {
+                callback.OnProgress(lsArgs, values[0]);
+            } else {
+                callback.OnHasDCP();
+            }
         }
 
         @Override

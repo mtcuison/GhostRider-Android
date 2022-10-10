@@ -43,13 +43,12 @@ import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.etc.SessionManager;
 import org.rmj.g3appdriver.lib.ImportData.ImportEmployeeRole;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Application;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_CashCounter;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_CollectionList;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_LogCollection;
 import org.rmj.guanzongroup.ghostrider.epacss.Object.ChildObject;
 import org.rmj.guanzongroup.ghostrider.epacss.Object.ParentObject;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
-import org.rmj.guanzongroup.ghostrider.epacss.Service.InternetStatusReciever;
+import org.rmj.guanzongroup.ghostrider.epacss.Service.DataSyncService;
 import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMMainActivity;
 import org.rmj.guanzongroup.ghostrider.epacss.adapter.ExpandableListDrawerAdapter;
 import org.rmj.guanzongroup.ghostrider.epacss.ui.etc.AppDeptIcon;
@@ -63,7 +62,7 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
     private static final String TAG = Activity_Main.class.getSimpleName();
     private VMMainActivity mViewModel;
 
-    private InternetStatusReciever poNetRecvr;
+    private DataSyncService poNetRecvr;
 
     private AppBarConfiguration mAppBarConfiguration;
     private MessageBox loMessage;
@@ -170,33 +169,33 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
             }
         });
 
-        mViewModel.getLastSelfieLog().observe(this, selfieLog -> {
-            try {
-                String cReqCCx = selfieLog.getReqCCntx();
-                String cReqRSI = selfieLog.getReqRSIxx();
-                String lsDate1 = selfieLog.getLogTimex().substring(0, 10);
-                if (cReqCCx.equalsIgnoreCase("0") &&
-                        poSession.getEmployeeLevel().equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER)) &&
-                        lsDate1.equalsIgnoreCase(AppConstants.CURRENT_DATE)) {
-                    loMessage.initDialog();
-                    loMessage.setTitle("Cash Count");
-                    loMessage.setMessage("You have an unfinish cash count entry. Proceed to Cash Count?");
-                    loMessage.setPositiveButton("Proceed", (view, dialog) -> {
-                        Intent loIntent = new Intent(Activity_Main.this, Activity_CashCounter.class);
-                        loIntent.putExtra("cancelable", false);
-                        startActivity(loIntent);
-                        dialog.dismiss();
-                    });
-                    loMessage.setNegativeButton("Cancel", (view, dialog) -> dialog.dismiss());
-                    loMessage.show();
-                } else if (cReqRSI.equalsIgnoreCase("0") &&
-                        poSession.getEmployeeLevel().equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER))){
-
-                }
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-        });
+//        mViewModel.getLastSelfieLog().observe(this, selfieLog -> {
+//            try {
+//                String cReqCCx = selfieLog.getReqCCntx();
+//                String cReqRSI = selfieLog.getReqRSIxx();
+//                String lsDate1 = selfieLog.getLogTimex().substring(0, 10);
+//                if (cReqCCx.equalsIgnoreCase("0") &&
+//                        poSession.getEmployeeLevel().equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER)) &&
+//                        lsDate1.equalsIgnoreCase(AppConstants.CURRENT_DATE)) {
+//                    loMessage.initDialog();
+//                    loMessage.setTitle("Cash Count");
+//                    loMessage.setMessage("You have an unfinish cash count entry. Proceed to Cash Count?");
+//                    loMessage.setPositiveButton("Proceed", (view, dialog) -> {
+//                        Intent loIntent = new Intent(Activity_Main.this, Activity_CashCounter.class);
+//                        loIntent.putExtra("cancelable", false);
+//                        startActivity(loIntent);
+//                        dialog.dismiss();
+//                    });
+//                    loMessage.setNegativeButton("Cancel", (view, dialog) -> dialog.dismiss());
+//                    loMessage.show();
+//                } else if (cReqRSI.equalsIgnoreCase("0") &&
+//                        poSession.getEmployeeLevel().equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER))){
+//
+//                }
+//            } catch (Exception e){
+//                e.printStackTrace();
+//            }
+//        });
     }
 
     private void initWidgets(){

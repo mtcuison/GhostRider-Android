@@ -17,6 +17,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ProgressBar;
@@ -37,8 +38,11 @@ import org.rmj.g3appdriver.etc.TransparentToolbar;
 import org.rmj.g3appdriver.utils.AppDirectoryCreator;
 import org.rmj.g3appdriver.utils.ServiceScheduler;
 import org.rmj.guanzongroup.authlibrary.Activity.Activity_Authenticate;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_CollectionList;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Service.GLocatorService;
+import org.rmj.guanzongroup.ghostrider.epacss.BuildConfig;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
-import org.rmj.guanzongroup.ghostrider.epacss.Service.DataImportService;
+import org.rmj.guanzongroup.ghostrider.epacss.Service.DataDownloadService;
 import org.rmj.guanzongroup.ghostrider.epacss.Service.GMessagingService;
 import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMSplashScreen;
 
@@ -48,9 +52,10 @@ import java.util.List;
 public class Activity_SplashScreen extends AppCompatActivity {
     public static final String TAG = Activity_SplashScreen.class.getSimpleName();
 
+    private VMSplashScreen mViewModel;
+
     private ProgressBar prgrssBar;
     private TextView lblVrsion;
-    private VMSplashScreen mViewModel;
 
     private MessageBox poDialog;
 
@@ -61,7 +66,7 @@ public class Activity_SplashScreen extends AppCompatActivity {
     private final ActivityResultLauncher<Intent> poLogin = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
         if (result.getResultCode() == RESULT_OK) {
             startActivity(new Intent(Activity_SplashScreen.this, Activity_Main.class));
-            ServiceScheduler.scheduleJob(Activity_SplashScreen.this, DataImportService.class, EIGHT_HOUR_PERIODIC, AppConstants.DataServiceID);
+            ServiceScheduler.scheduleJob(Activity_SplashScreen.this, DataDownloadService.class, EIGHT_HOUR_PERIODIC, AppConstants.DataServiceID);
             finish();
         } else if (result.getResultCode() == RESULT_CANCELED) {
             finish();
@@ -78,6 +83,7 @@ public class Activity_SplashScreen extends AppCompatActivity {
         new TransparentToolbar(Activity_SplashScreen.this).SetupActionbar();
         prgrssBar = findViewById(R.id.progress_splashscreen);
         lblVrsion = findViewById(R.id.lbl_versionInfo);
+        lblVrsion.setText(BuildConfig.VERSION_NAME);
 
         CheckPermissions();
         FirebaseMessaging.getInstance().getToken()
@@ -90,8 +96,10 @@ public class Activity_SplashScreen extends AppCompatActivity {
                     // Get new FCM registration token
                     String token = task.getResult();
 
+                    mViewModel.SaveFirebaseToken(token);
                     AppConfigPreference.getInstance(Activity_SplashScreen.this).setAppToken(token);
                 });
+
         startService(new Intent(Activity_SplashScreen.this, GMessagingService.class));
 
         AppDirectoryCreator loCreator = new AppDirectoryCreator();
@@ -139,6 +147,12 @@ public class Activity_SplashScreen extends AppCompatActivity {
             @Override
             public void OnProgress(String args, int progress) {
                 prgrssBar.setProgress(progress);
+            }
+
+            @Override
+            public void OnHasDCP() {
+                startService(new Intent(Activity_SplashScreen.this, GLocatorService.class));
+                Log.d(TAG, "Location tracking service started.");
             }
 
             @Override

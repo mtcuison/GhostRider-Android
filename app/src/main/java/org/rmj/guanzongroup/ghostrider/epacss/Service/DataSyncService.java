@@ -19,7 +19,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplication;
 import org.rmj.g3appdriver.dev.Database.Repositories.RApprovalCode;
 import org.rmj.g3appdriver.dev.Database.Repositories.RLocationSysLog;
 import org.rmj.g3appdriver.lib.Itinerary.EmployeeItinerary;
@@ -30,17 +29,14 @@ import org.rmj.g3appdriver.lib.integsys.CashCount.CashCount;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.guanzongroup.ghostrider.notifications.Object.GNotifBuilder;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class InternetStatusReciever extends BroadcastReceiver {
-    private static final String TAG = InternetStatusReciever.class.getSimpleName();
+public class DataSyncService extends BroadcastReceiver {
+    private static final String TAG = DataSyncService.class.getSimpleName();
 
     private final Application instance;
 
     private ConnectionUtil poConn;
 
-    public InternetStatusReciever(Application instance) {
+    public DataSyncService(Application instance) {
         this.instance = instance;
     }
 
@@ -56,15 +52,8 @@ public class InternetStatusReciever extends BroadcastReceiver {
     private class SendDataTask extends AsyncTask<Void, String, Boolean>{
         private final Application instance;
 
-        private final List<ECreditApplication> sentAppl = new ArrayList<>();
-
         public SendDataTask(Application instance) {
             this.instance = instance;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
         }
 
         @Override
@@ -143,17 +132,12 @@ public class InternetStatusReciever extends BroadcastReceiver {
                 message = "Local data and server is updated.";
                 Log.d(TAG, message);
                 return true;
-            }catch (Exception e){
+            } catch (Exception e){
                 e.printStackTrace();
                 message = e.getMessage();
                 Log.e(TAG, message);
                 return false;
             }
-        }
-
-        @Override
-        protected void onPostExecute(Boolean s) {
-            super.onPostExecute(s);
         }
 
         @Override
