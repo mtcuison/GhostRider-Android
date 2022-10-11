@@ -27,7 +27,6 @@ public class VMItinerary extends AndroidViewModel {
     private final EmployeeItinerary poSys;
     private final RBranch poBranch;
     private final EmployeeMaster poUser;
-    private final SessionManager poSession;
     private final ConnectionUtil poConn;
 
     public interface OnActionCallback {
@@ -48,7 +47,6 @@ public class VMItinerary extends AndroidViewModel {
         this.poSys = new EmployeeItinerary(instance);
         this.poBranch = new RBranch(instance);
         this.poUser = new EmployeeMaster(instance);
-        this.poSession = new SessionManager(instance);
         this.poConn = new ConnectionUtil(instance);
     }
 
@@ -198,7 +196,7 @@ public class VMItinerary extends AndroidViewModel {
         new ImportUsersTask(listener).execute();
     }
 
-    private class ImportUsersTask extends AsyncTask<Void, Void, List<JSONObject>>{
+    private class ImportUsersTask extends AsyncTask<Void, Void, List<JSONObject>> {
 
         private final OnImportUsersListener listener;
 
@@ -224,8 +222,8 @@ public class VMItinerary extends AndroidViewModel {
 
                 List<JSONObject> loList = poSys.GetEmployeeList();
                 if(loList == null){
-                     message = poSys.getMessage();
-                     return null;
+                    message = poSys.getMessage();
+                    return null;
                 }
 
                 return loList;

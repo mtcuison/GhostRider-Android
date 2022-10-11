@@ -4,6 +4,9 @@
 
     <application>
         <activity
+            android:name=".Activities.Activity_UsersItineraries"
+            android:exported="false" />
+        <activity
             android:name=".Activities.Activity_ItineraryLog"
             android:exported="false"
             android:screenOrientation="userPortrait" />

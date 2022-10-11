@@ -18,8 +18,8 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.sqlite.db.SimpleSQLiteQuery;
 
-import org.rmj.appdriver.mob.base.MiscUtil;
-import org.rmj.appdriver.mob.base.SQLUtil;
+//import org.rmj.appdriver.mob.base.MiscUtil;
+//import org.rmj.appdriver.mob.base.SQLUtil;
 import org.rmj.g3appdriver.dev.Database.Entities.ESCA_Request;
 import org.rmj.g3appdriver.dev.Database.Repositories.RApprovalCode;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
@@ -45,7 +45,7 @@ public class VMApprovalSelection extends AndroidViewModel {
     public LiveData<List<ESCA_Request>> getReferenceAuthList(String Type){
         String lsSqlQryxx = "SELECT *" +
                             " FROM xxxSCA_Request" +
-                            " WHERE cSCATypex = " + SQLUtil.toSQL(Type)  +
+//                            " WHERE cSCATypex = " + SQLUtil.toSQL(Type)  +
                                 " AND cRecdStat = '1'" +
                             " ORDER BY sSCATitle";
 
@@ -86,7 +86,7 @@ public class VMApprovalSelection extends AndroidViewModel {
             }
         }
 
-        if (!lsCondition.isEmpty()) lsSqlQryxx= MiscUtil.addCondition(lsSqlQryxx, lsCondition);
+//        if (!lsCondition.isEmpty()) lsSqlQryxx= MiscUtil.addCondition(lsSqlQryxx, lsCondition);
 
         return poApprvlR.getAuthorizedFeatures(new SimpleSQLiteQuery(lsSqlQryxx));
     }

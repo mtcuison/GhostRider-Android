@@ -442,33 +442,33 @@ public class DcpManager {
                     loImage = poImage.getDCPImageInfoForPosting(lsTransNo, lsAccntNo);
 
                     if (loImage != null) {
-                        org.json.simple.JSONObject loUpload = WebFileServer.UploadFile(
-                                loImage.getFileLoct(),
-                                lsAccess,
-                                loImage.getFileCode(),
-                                loDcp.getAcctNmbr(),
-                                loImage.getImageNme(),
-                                poUser.getBranchCode(),
-                                loImage.getSourceCD(),
-                                loDcp.getTransNox(),
-                                "");
-
-                        String lsResult = (String) loUpload.get("result");
-                        if (lsResult == null) {
-                            Log.e(TAG, "Posting collection Image with account no. :" + loDcp.getAcctNmbr() + ", " + loDcp.getRemCodex() + "Failed!");
-                            Log.d(TAG, "Error : Server no response.");
-                        } else {
-                            if (lsResult.equalsIgnoreCase("success")) {
-                                String lsImageID = (String) loUpload.get("sTransNox");
-                                poImage.updateImageInfo(lsImageID, loImage.getTransNox());
-                                Log.d(TAG, "Posting collection Image with account no. :" + loDcp.getAcctNmbr() + ", " + loDcp.getRemCodex() + "Success!");
-                            } else {
-                                JSONObject loError = new JSONObject((String) loUpload.get("error"));
-                                String lsMessage = loError.getString("message");
-                                Log.d(TAG, "Posting collection Image with account no. :" + loDcp.getAcctNmbr() + ", " + loDcp.getRemCodex() + "Failed!");
-                                Log.d(TAG, "Error : " + lsMessage);
-                            }
-                        }
+//                        org.json.simple.JSONObject loUpload = WebFileServer.UploadFile(
+//                                loImage.getFileLoct(),
+//                                lsAccess,
+//                                loImage.getFileCode(),
+//                                loDcp.getAcctNmbr(),
+//                                loImage.getImageNme(),
+//                                poUser.getBranchCode(),
+//                                loImage.getSourceCD(),
+//                                loDcp.getTransNox(),
+//                                "");
+//
+//                        String lsResult = (String) loUpload.get("result");
+//                        if (lsResult == null) {
+//                            Log.e(TAG, "Posting collection Image with account no. :" + loDcp.getAcctNmbr() + ", " + loDcp.getRemCodex() + "Failed!");
+//                            Log.d(TAG, "Error : Server no response.");
+//                        } else {
+//                            if (lsResult.equalsIgnoreCase("success")) {
+//                                String lsImageID = (String) loUpload.get("sTransNox");
+//                                poImage.updateImageInfo(lsImageID, loImage.getTransNox());
+//                                Log.d(TAG, "Posting collection Image with account no. :" + loDcp.getAcctNmbr() + ", " + loDcp.getRemCodex() + "Success!");
+//                            } else {
+//                                JSONObject loError = new JSONObject((String) loUpload.get("error"));
+//                                String lsMessage = loError.getString("message");
+//                                Log.d(TAG, "Posting collection Image with account no. :" + loDcp.getAcctNmbr() + ", " + loDcp.getRemCodex() + "Failed!");
+//                                Log.d(TAG, "Error : " + lsMessage);
+//                            }
+//                        }
                     }else {
                         Log.d(TAG, "No DCP image found for remarks code: " + lsRemCode);
                     }
@@ -644,33 +644,33 @@ public class DcpManager {
 
                         loImage = poImage.getDCPImageInfoForPosting(lsTransNo, lsAccntNo);
 
-                        org.json.simple.JSONObject loUpload = WebFileServer.UploadFile(
-                                loImage.getFileLoct(),
-                                lsAccess,
-                                loImage.getFileCode(),
-                                loDcp.getAcctNmbr(),
-                                loImage.getImageNme(),
-                                poUser.getBranchCode(),
-                                loImage.getSourceCD(),
-                                loDcp.getTransNox(),
-                                "");
+//                        org.json.simple.JSONObject loUpload = WebFileServer.UploadFile(
+//                                loImage.getFileLoct(),
+//                                lsAccess,
+//                                loImage.getFileCode(),
+//                                loDcp.getAcctNmbr(),
+//                                loImage.getImageNme(),
+//                                poUser.getBranchCode(),
+//                                loImage.getSourceCD(),
+//                                loDcp.getTransNox(),
+//                                "");
 
-                        String lsResult = (String) loUpload.get("result");
-                        if (lsResult == null) {
-                            Log.e(TAG, "Posting collection Image with account no. :" + loDcp.getAcctNmbr() + ", " + loDcp.getRemCodex() + "Failed!");
-                            Log.d(TAG, "Error : Server no response.");
-                        } else {
-                            if (lsResult.equalsIgnoreCase("success")) {
-                                String lsImageID = (String) loUpload.get("sTransNox");
-                                poImage.updateImageInfo(lsImageID, loImage.getTransNox());
-                                Log.d(TAG, "Posting collection Image with account no. :" + loDcp.getAcctNmbr() + ", " + loDcp.getRemCodex() + "Success!");
-                            } else {
-                                JSONObject loError = new JSONObject((String) loUpload.get("error"));
-                                String lsMessage = loError.getString("message");
-                                Log.d(TAG, "Posting collection Image with account no. :" + loDcp.getAcctNmbr() + ", " + loDcp.getRemCodex() + "Failed!");
-                                Log.d(TAG, "Error : " + lsMessage);
-                            }
-                        }
+//                        String lsResult = (String) loUpload.get("result");
+//                        if (lsResult == null) {
+//                            Log.e(TAG, "Posting collection Image with account no. :" + loDcp.getAcctNmbr() + ", " + loDcp.getRemCodex() + "Failed!");
+//                            Log.d(TAG, "Error : Server no response.");
+//                        } else {
+//                            if (lsResult.equalsIgnoreCase("success")) {
+//                                String lsImageID = (String) loUpload.get("sTransNox");
+//                                poImage.updateImageInfo(lsImageID, loImage.getTransNox());
+//                                Log.d(TAG, "Posting collection Image with account no. :" + loDcp.getAcctNmbr() + ", " + loDcp.getRemCodex() + "Success!");
+//                            } else {
+//                                JSONObject loError = new JSONObject((String) loUpload.get("error"));
+//                                String lsMessage = loError.getString("message");
+//                                Log.d(TAG, "Posting collection Image with account no. :" + loDcp.getAcctNmbr() + ", " + loDcp.getRemCodex() + "Failed!");
+//                                Log.d(TAG, "Error : " + lsMessage);
+//                            }
+//                        }
                     }
 
                     Thread.sleep(1000);

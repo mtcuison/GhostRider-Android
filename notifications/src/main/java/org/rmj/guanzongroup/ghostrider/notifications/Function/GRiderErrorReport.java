@@ -15,7 +15,7 @@ import android.app.Application;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.rmj.apprdiver.util.WebClient;
+//import org.rmj.apprdiver.util.WebClient;
 import org.rmj.g3appdriver.dev.HttpHeaders;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.WebApi;
@@ -70,21 +70,22 @@ public class GRiderErrorReport {
 
             JSONObject json_obj = null;
 
-            String response = WebClient.sendHTTP(poApi.getUrlSendRequest(loConfig.isBackUpServer()), param.toString(), poHeaders.getHeaders());
-            if(response == null) {
-                Message = "No server response";
-                return false;
-            } else {
-                JSONObject loResponse = new JSONObject(response);
-                String lsResult =  loResponse.getString("result");
-                if(lsResult.equalsIgnoreCase("success")){
-                    return true;
-                } else {
-                    JSONObject loError = loResponse.getJSONObject("error");
-                    Message = loError.getString("message");
-                    return false;
-                }
-            }
+//            String response = WebClient.sendHTTP(poApi.getUrlSendRequest(loConfig.isBackUpServer()), param.toString(), poHeaders.getHeaders());
+//            if(response == null) {
+//                Message = "No server response";
+//                return false;
+//            } else {
+//                JSONObject loResponse = new JSONObject(response);
+//                String lsResult =  loResponse.getString("result");
+//                if(lsResult.equalsIgnoreCase("success")){
+//                    return true;
+//                } else {
+//                    JSONObject loError = loResponse.getJSONObject("error");
+//                    Message = loError.getString("message");
+//                    return false;
+//                }
+//            }
+            return true;
         } catch (Exception e){
             e.printStackTrace();
             Message = "Something went wrong while sending error report. " + e.getMessage();

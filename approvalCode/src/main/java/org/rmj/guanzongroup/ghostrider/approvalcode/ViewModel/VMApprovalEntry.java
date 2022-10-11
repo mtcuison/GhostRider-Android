@@ -21,7 +21,6 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import org.json.JSONObject;
-import org.rmj.appdriver.mob.lib.RequestApproval;
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ECodeApproval;
 import org.rmj.g3appdriver.dev.Database.Repositories.RApprovalCode;
@@ -101,20 +100,16 @@ public class VMApprovalEntry extends AndroidViewModel {
             String lsResponse = "";
             try{
                 if(approvalEntries[0].isDataValid()) {
-                    RequestApproval loApprovl = new RequestApproval(lsPackage);
-                    loApprovl.setDeptIDxx(loSession.getDeptID());
-                    loApprovl.setEmpLevID(loSession.getEmployeeLevel());
-                    loApprovl.setEmployID(loSession.getEmployeeID());
-                    loApprovl.setRemarks(approvalEntries[0].getRemarks());
+//                    RequestApproval loApprovl = new RequestApproval(lsPackage);
+//                    loApprovl.setDeptIDxx(loSession.getDeptID());
+//                    loApprovl.setEmpLevID(loSession.getEmployeeLevel());
+//                    loApprovl.setEmployID(loSession.getEmployeeID());
+//                    loApprovl.setRemarks(approvalEntries[0].getRemarks());
 
-                    String lsAppCode = loApprovl.Generate(
-                            approvalEntries[0].getBranchCd(),
-                            approvalEntries[0].getReqDatex(),
-                            approvalEntries[0].getSystemCd(),
-                            approvalEntries[0].getMiscInfo());
+                    String lsAppCode = "";
 
                     if (lsAppCode.isEmpty()) {
-                        lsResponse = AppConstants.APPROVAL_CODE_EMPTY(loApprovl.getMessage());
+//                        lsResponse = AppConstants.APPROVAL_CODE_EMPTY(loApprovl.getMessage());
                     } else {
                         lsResponse = AppConstants.APPROVAL_CODE_GENERATED(lsAppCode);
 

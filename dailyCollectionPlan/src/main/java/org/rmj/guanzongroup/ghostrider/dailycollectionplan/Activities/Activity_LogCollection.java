@@ -398,13 +398,13 @@ public class Activity_LogCollection extends AppCompatActivity {
                                     continue;
                                 } else {
                                     loFile.mkdirs();
-                                    org.json.simple.JSONObject loDownload = WebFileServer.DownloadFile(lsAccess,
-                                            "0020",
-                                            loDcpList.get(x).getAcctNmbr(),
-                                            loDcpList.get(x).getImageNme(),
-                                            "DCPa",
-                                            loDcpList.get(x).getTransNox(),
-                                            "");
+//                                    org.json.simple.JSONObject loDownload = WebFileServer.DownloadFile(lsAccess,
+//                                            "0020",
+//                                            loDcpList.get(x).getAcctNmbr(),
+//                                            loDcpList.get(x).getImageNme(),
+//                                            "DCPa",
+//                                            loDcpList.get(x).getTransNox(),
+//                                            "");
 
 //                                    String lsResponse = (String) loDownload.get("result");
 //                                    if (Objects.requireNonNull(lsResponse).equalsIgnoreCase("success")) {

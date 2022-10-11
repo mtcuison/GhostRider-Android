@@ -74,9 +74,6 @@ public class Fragment_SelfieLog extends Fragment {
 
     private final SelfieLog.SelfieLogDetail poSelfie = new SelfieLog.SelfieLogDetail();
 
-    private com.google.android.gms.location.FusedLocationProviderClient gmsLocation;
-    private com.huawei.hms.location.FusedLocationProviderClient hmsLocation;
-
     private LoadDialog poLoad;
     private MessageBox poMessage;
 
@@ -183,8 +180,6 @@ public class Fragment_SelfieLog extends Fragment {
         } else {
 
         }
-         gmsLocation= com.google.android.gms.location.LocationServices.getFusedLocationProviderClient(requireActivity());
-         hmsLocation = com.huawei.hms.location.LocationServices.getFusedLocationProviderClient(requireActivity());
 
         psEmpLvl = mViewModel.getEmployeeLevel();
 

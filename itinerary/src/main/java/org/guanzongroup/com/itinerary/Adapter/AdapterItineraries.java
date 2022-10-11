@@ -17,9 +17,15 @@ import java.util.List;
 public class AdapterItineraries extends RecyclerView.Adapter<AdapterItineraries.ItineraryViewHolder>{
 
     private final List<EItinerary> poList;
+    private final OnClickListener mListener;
 
-    public AdapterItineraries(List<EItinerary> poList) {
+    public interface OnClickListener{
+        void OnClick(EItinerary args);
+    }
+
+    public AdapterItineraries(List<EItinerary> poList,OnClickListener listener) {
         this.poList = poList;
+        this.mListener = listener;
     }
 
     @NonNull
@@ -38,6 +44,8 @@ public class AdapterItineraries extends RecyclerView.Adapter<AdapterItineraries.
             String lsTripTme = FormatUIText.formatTime_HHMMSS_to_HHMMAA(loDetail.getTimeFrom()) + " - " + FormatUIText.formatTime_HHMMSS_to_HHMMAA(loDetail.getTimeThru());
             holder.lblTripTime.setText(lsTripTme);
             holder.lblPurposex.setText("Purpose: " + loDetail.getRemarksx());
+
+            holder.view.setOnClickListener(view -> mListener.OnClick(loDetail));
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -50,6 +58,7 @@ public class AdapterItineraries extends RecyclerView.Adapter<AdapterItineraries.
 
     public static class ItineraryViewHolder extends RecyclerView.ViewHolder{
 
+        public View view;
         public TextView
                 lblLocation,
                 lblDateSchd,
@@ -58,7 +67,7 @@ public class AdapterItineraries extends RecyclerView.Adapter<AdapterItineraries.
 
         public ItineraryViewHolder(@NonNull View itemView) {
             super(itemView);
-
+            view = itemView;
             lblLocation = itemView.findViewById(R.id.lbl_location);
             lblDateSchd = itemView.findViewById(R.id.lbl_dateSched);
             lblTripTime = itemView.findViewById(R.id.lbl_tripTime);

@@ -23,10 +23,16 @@
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/ahMonitoring/src/main/res/layout/fragment_ob_application.xml" value="0.16216216216216217" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/ahMonitoring/src/main/res/layout/fragment_selfie_login.xml" value="0.22" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/ahMonitoring/src/main/res/layout/list_item_applications.xml" value="0.18" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/ahMonitoring/src/main/res/layout/list_item_expenses.xml" value="0.10092592592592593" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/ahMonitoring/src/main/res/layout/list_item_inventory_branch.xml" value="0.10092592592592593" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/ahMonitoring/src/main/res/layout/list_item_leave_ob.xml" value="0.209375" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/ahMonitoring/src/main/res/menu/employee_applications.xml" value="0.209375" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/app/src/main/res/layout/activity_splash_screen.xml" value="0.20615384615384616" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/app/src/main/res/layout/fragment_branch_opening.xml" value="0.10092592592592593" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/app/src/main/res/layout/fragment_home.xml" value="0.22" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/app/src/main/res/layout/fragment_reimbursement.xml" value="0.10092592592592593" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/app/src/main/res/layout/fragment_selfie_log.xml" value="0.10092592592592593" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/app/src/main/res/layout/list_item_inventory_branch.xml" value="0.10092592592592593" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/approvalCode/src/main/res/layout/fragment_approval_entry.xml" value="0.22" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/creditApp/src/main/res/layout/activity_application_history.xml" value="0.13385416666666666" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/creditApp/src/main/res/layout/fragment_personal_info.xml" value="0.25" />
@@ -60,9 +66,12 @@
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/griderScanner/src/main/res/layout/activity_image_crop.xml" value="0.22" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/griderScanner/src/main/res/layout/activity_main_scanner.xml" value="0.16" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/itinerary/src/main/res/layout/activity_itinerary_entry.xml" value="0.22" />
-        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/itinerary/src/main/res/layout/activity_itinerary_log.xml" value="0.14" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/itinerary/src/main/res/layout/activity_itinerary_log.xml" value="0.22" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/itinerary/src/main/res/layout/activity_itinerary_users.xml" value="0.15104166666666666" />
-        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/itinerary/src/main/res/layout/list_item_employee.xml" value="0.33" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/itinerary/src/main/res/layout/activity_users_itineraries.xml" value="0.22" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/itinerary/src/main/res/layout/dialog_date_selection.xml" value="0.33" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/itinerary/src/main/res/layout/dialog_entry_detail.xml" value="0.25" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/itinerary/src/main/res/layout/list_item_employee.xml" value="0.25" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/itinerary/src/main/res/layout/list_item_itinerary.xml" value="0.22" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/notifications/src/main/res/layout/item_loading.xml" value="0.209375" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/notifications/src/main/res/layout/list_item_messages.xml" value="0.209375" />

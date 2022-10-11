@@ -25,10 +25,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Etc.FragmentAdapter;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMMainContainer;
 import org.rmj.guanzongroup.ghostrider.epacss.ui.etc.appConstants;
-import org.rmj.guanzongroup.onlinecreditapplication.Adapter.FragmentAdapter;
 
 public class Fragment_MainContainer extends Fragment {
 

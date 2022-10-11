@@ -1,0 +1,416 @@
+<!--
+  ~ Created by Android Team MIS-SEG Year 2021
+  ~ Copyright (c) 2021. Guanzon Central Office
+  ~ Guanzon Bldg., Perez Blvd., Dagupan City, Pangasinan 2400
+  ~ Project name : GhostRider_Android
+  ~ Module : GhostRider_Android.g3appdriver
+  ~ Electronic Personnel Access Control Security System
+  ~ project file created : 4/24/21 3:19 PM
+  ~ project file last modified : 4/24/21 3:17 PM
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="GhostRiderMaterialTheme" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <item name="colorPrimary">#fefefe</item>
+        <!--        <item name="colorPrimary">@color/guanzon_orange</item>fefefe-->
+        <item name="colorPrimaryVariant">@color/material_black</item>
+        <item name="colorOnPrimary">@color/material_white</item>
+        <!--        <item name="colorAccent">@color/light_grey</item>-->
+
+        <item name="colorAccent">@color/guanzon_orange</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/guanzon_digital_orange_mid</item>
+        <item name="colorSecondaryVariant">@color/guanzon_digital_orange_lighten</item>
+        <item name="colorOnSecondary">@color/textColor_Black</item>
+        <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
+    </style>
+    <style name="GhostRiderMaterialTheme.WhiteBG" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimary">@color/guanzon_orange_day</item>
+        <item name="colorPrimaryVariant">@color/material_black</item>
+        <item name="colorOnPrimary">@color/guanzon_orange_day</item>
+<!--        <item name="colorOnBackground" tools:ignore="DuplicateDefinition">@drawable/bg_gradient_light</item>-->
+<!--        <item name="colorOnSurface" tools:ignore="DuplicateDefinition">@drawable/bg_gradient_light</item>-->
+        <!--        <item name="colorAccent">@color/light_grey</item>-->
+
+        <item name="colorAccent">@color/guanzon_orange_day</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/guanzon_digital_orange_mid</item>
+        <item name="colorSecondaryVariant">@color/guanzon_digital_orange_lighten</item>
+        <item name="colorOnSecondary">@color/material_black</item>
+        <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
+        <item name="android:popupMenuStyle">@style/MyPopupOtherStyle</item>
+        <item name="popupTheme">@style/MyPopupOtherStyle</item>
+        <item name="android:windowBackground">@color/material_white</item>
+        <item name="colorControlNormal">@color/textColor_White</item>
+    </style>
+
+    <!-- Popup Other Style -->
+    <style name="MyPopupOtherStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <!-- Used for the buttons -->
+        <!-- Used for the title and text -->
+        <item name="android:textColorPrimary">@color/material_black</item>
+        <!-- Used for the background -->
+        <item name="android:background">@color/color_circle_logo</item>
+    </style>
+    <style name="WindowAnimationTransition">
+        <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
+        <item name="android:windowExitAnimation">@android:anim/fade_out</item>
+
+    </style>
+
+    <style name="MyTimePickerDialogTheme" parent="@style/Theme.AppCompat.Light.Dialog">
+        <item name="colorOnPrimary">@color/guanzon_digital_orange</item>
+        <item name="android:textColor">@color/guanzon_digital_orange</item>
+        <item name="colorAccent">@color/guanzon_digital_orange</item>
+    </style>
+
+    <style name="GhostRiderMaterialTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+
+
+    <style name="GhostRiderMaterialTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+    <style name="GhostRiderMaterialTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" >
+        <item name="android:textColorPrimary">@color/material_black</item>
+        <item name="android:popupMenuStyle">@style/MyPopupOtherStyle</item>
+    </style>
+    <style name="TextInputStyle.Edittext">
+        <item name="iconStartPadding">10dp</item>
+        <item name="android:drawablePadding">10dp</item>
+        <item name="android:textColor">@color/textColor_Black</item>
+        <item name="colorControlActivated">@color/guanzon_orange</item>
+        <item name="hintTextColor">@color/textColor_Black</item>
+    </style>
+
+    <style name="TextButtonStyle" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="fontFamily">@font/roboto_regular</item>
+        <item name="android:textColor">@color/material_black</item>
+    </style>
+
+
+    <style name="AutoCompleteStyleTheme">
+        <item name="colorControlActivated">@color/guanzon_orange</item>
+        <item name="android:paddingTop">15dp</item>
+        <item name="android:paddingBottom">15dp</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="paddingStart">10dp</item>
+        <item name="maxLines">1</item>
+    </style>
+
+    <style name="MaterialButtonLight" parent="Widget.MaterialComponents.Button">
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="fontFamily">@font/roboto_regular</item>
+        <item name="android:radius">5dp</item>
+        <item name="backgroundTint">#e2e2e2</item>
+        <item name="android:textColor">@color/material_black</item>
+    </style>
+
+    <style name="MaterialButtonAccent" parent="Widget.MaterialComponents.Button">
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="fontFamily">@font/roboto_regular</item>
+        <item name="android:radius">45dp</item>
+        <item name="backgroundTint">@color/guanzon_orange</item>
+        <item name="android:textColor">@color/textColor_Black</item>
+        <item name="iconTint">@color/textColor_Black</item>
+        <item name="iconGravity">textStart</item>
+    </style>
+    <style name="MaterialButtonApproved" parent="Widget.MaterialComponents.Button">
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="fontFamily">@font/roboto_regular</item>
+        <item name="android:radius">45dp</item>
+        <item name="backgroundTint">@color/guanzon_orange</item>
+        <item name="android:textColor">@color/textColor_btnWhite</item>
+        <item name="iconTint">@color/textColor_btnWhite</item>
+        <item name="iconGravity">textStart</item>
+    </style>
+    <style name="MaterialButtonCancel" parent="Widget.MaterialComponents.Button">
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="fontFamily">@font/roboto_regular</item>
+        <item name="android:radius">45dp</item>
+        <item name="backgroundTint">@color/cross_red</item>
+        <item name="android:textColor">@color/textColor_btnWhite</item>
+        <item name="iconTint">@color/textColor_btnWhite</item>
+        <item name="iconGravity">textStart</item>
+    </style>
+
+    <style name="MaterialButtonGrey" parent="Widget.MaterialComponents.Button">
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="fontFamily">@font/roboto_regular</item>
+        <item name="android:radius">45dp</item>
+        <item name="backgroundTint">@color/guanzon_dark_grey</item>
+        <item name="android:textColor">@color/textColor_Black</item>
+        <item name="iconTint">@color/textColor_Black</item>
+        <item name="iconGravity">textStart</item>
+    </style>
+
+    <style name="NavigationButton" parent="Widget.AppCompat.Button.Borderless">
+        <item name="fontFamily">@font/roboto_medium</item>
+        <item name="android:drawablePadding">15dp</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:fontFamily">@font/roboto_medium</item>
+        <item name="android:textColor">@color/material_black</item>
+        <item name="android:layout_margin">10dp</item>
+    </style>
+    <style name="CreditAppHome" parent="Widget.AppCompat.Button.Borderless">
+        <item name="fontFamily">@font/roboto_medium</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:fontFamily">@font/roboto_medium</item>
+        <item name="android:textColor">@color/material_black</item>
+        <item name="android:layout_margin">10dp</item>
+    </style>
+
+    <style name="HeaderLabelBlack">
+        <item name="android:background">@color/guanzon_digital_orange</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="fontFamily">@font/roboto_medium</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:padding">10dp</item>
+    </style>
+
+    <style name="Regular_Label">
+        <item name="android:textColor">@color/material_black</item>
+        <item name="fontFamily">@font/roboto_regular</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:padding">5dp</item>
+    </style>
+
+    <!-- Kent -->
+    <!-- MASTER VIEW GROUP -->
+
+    <style name="MasterViewGroupStyle_Light">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@drawable/bg_gradient_light</item>
+        <item name="android:paddingLeft">25dp</item>
+        <item name="android:paddingRight">25dp</item>
+        <item name="android:paddingTop">35dp</item>
+        <item name="android:paddingBottom">15dp</item>
+    </style>
+
+    <!-- MASTER VIEW GROUP -->
+
+    <!-- MASTER VIEW SCAN GROUP -->
+    <style name="ScannerMasterViewGroupStyle_Light">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@drawable/bg_gradient_light</item>
+    </style>
+
+
+    <!-- BUTTONS -->
+
+    <style name="GhostRider_Button" parent="Widget.MaterialComponents.Button">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingLeft">20dp</item>
+        <item name="android:paddingRight">20dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="backgroundTint">@color/guanzon_digital_orange</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:fontFamily">@font/roboto</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+
+    <!-- TEXT INPUT -->
+
+    <style name="TextInputStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:layout_margin">2dp</item>
+        <item name="boxStrokeColor">@color/guanzon_digital_orange</item>
+        <item name="hintTextColor">@color/guanzon_digital_orange</item>
+        <item name="colorControlActivated">@color/guanzon_orange</item>
+        <item name="boxCornerRadiusBottomEnd">10dp</item>
+        <item name="boxCornerRadiusBottomStart">10dp</item>
+        <item name="boxCornerRadiusTopStart">10dp</item>
+        <item name="boxCornerRadiusTopEnd">10dp</item>
+
+    </style>
+    <style name="TextInputTextAreaStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:layout_margin">2dp</item>
+        <item name="boxStrokeColor">@color/guanzon_digital_orange</item>
+        <item name="hintTextColor">@color/guanzon_digital_orange</item>
+        <item name="colorControlActivated">@color/guanzon_orange</item>
+        <item name="boxCornerRadiusBottomEnd">10dp</item>
+        <item name="boxCornerRadiusBottomStart">10dp</item>
+        <item name="boxCornerRadiusTopStart">10dp</item>
+        <item name="boxCornerRadiusTopEnd">10dp</item>
+    </style>
+    <style name="TextLabel" parent="TextAppearance.AppCompat.Caption">
+        <item name="fontFamily">@font/roboto_bold</item>
+        <item name="android:fontFamily">@font/roboto_bold</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColorHint">@color/textColor_Black</item>
+    </style>
+
+    <!-- TEXT INPUT ORANGE BACKGROUND DCP HEADER-->
+    <style name="TextInputStyleHeaders" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:layout_margin">2dp</item>
+        <item name="colorPrimary">@color/text_color_hint</item>
+        <item name="boxStrokeColor">@color/text_input_layout_stroke_color</item>
+        <item name="boxStrokeWidth">0.8dp</item>
+        <item name="hintTextColor">@color/mtrl_textinput_default_box_stroke_colors</item>
+        <item name="android:textColorHint">@color/text_color_hint</item>
+        <item name="colorControlActivated">@color/mtrl_textinput_default_box_stroke_colors</item>
+        <item name="boxCornerRadiusBottomEnd">10dp</item>
+        <item name="boxCornerRadiusBottomStart">10dp</item>
+        <item name="boxCornerRadiusTopStart">10dp</item>
+        <item name="boxCornerRadiusTopEnd">10dp</item>
+
+    </style>
+    <!-- PROGRESSBAR -->
+
+    <style name="ProgressBarStyle" parent="Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="android:background">@drawable/progressbar_gradient</item>
+    </style>
+
+
+    <!-- TEXT HEADERS -->
+
+    <style name="PrimaryHeaderStyle">
+        <item name="android:fontFamily">@font/roboto_bold</item>
+        <item name="android:textColor">@color/guanzon_dark_grey</item>
+        <item name="android:textSize">25sp</item>
+    </style>
+
+    <style name="DescriptionHeaderStyle">
+        <item name="android:fontFamily">@font/roboto_light</item>
+        <item name="android:textColor">@color/guanzon_dark_grey</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+    <style name="spinnerTheme" parent="@android:style/Widget.TextView.SpinnerItem">
+        <item name="android:textColor">@color/material_black</item>
+        <item name="android:color">@color/guanzon_orange</item>
+        <item name="android:popupBackground">@color/spinner_background</item>
+    </style>
+    <style name="SpinnerTextViewItem" parent="@android:style/Widget.TextView.SpinnerItem" >
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:dropDownVerticalOffset">60dp</item>
+        <item name="android:spinnerMode">dropdown</item>
+        <item name="android:textColor">@color/textColor_Black</item>
+        <item name="android:textColorHint">@color/textColor_Black</item>
+        <item name="android:padding">15dp</item>
+    </style>
+    <style name="TextInputStyleSpinner" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
+        <item name="android:layout_margin">2dp</item>
+        <item name="boxStrokeColor">@color/guanzon_digital_orange</item>
+        <item name="hintTextColor">@color/guanzon_digital_orange</item>
+        <item name="colorControlActivated">@color/guanzon_orange</item>
+        <item name="boxCornerRadiusBottomEnd">10dp</item>
+        <item name="boxCornerRadiusBottomStart">10dp</item>
+        <item name="boxCornerRadiusTopStart">10dp</item>
+        <item name="boxCornerRadiusTopEnd">10dp</item>
+        <item name="android:popupBackground">@color/spinner_background</item>
+        <item name="android:textColor">@color/material_black</item>
+
+    </style>
+    <style name="CustomDropDownTilStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">2dp</item>
+        <item name="boxStrokeColor">@color/guanzon_digital_orange</item>
+        <item name="hintTextColor">@color/guanzon_digital_orange</item>
+        <item name="colorControlActivated">@color/guanzon_orange</item>
+        <item name="boxCornerRadiusBottomEnd">10dp</item>
+        <item name="boxCornerRadiusBottomStart">10dp</item>
+        <item name="android:popupBackground">@color/spinner_background</item>
+        <item name="android:textColor">@color/material_black</item>
+        <item name="boxCornerRadiusTopStart">10dp</item>
+        <item name="boxCornerRadiusTopEnd">10dp</item>
+    </style>
+
+    <style name="CustomDropDownDialogStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">2dp</item>
+        <item name="boxStrokeColor">@color/guanzon_digital_orange</item>
+        <item name="hintTextColor">@color/guanzon_digital_orange</item>
+        <item name="colorControlActivated">@color/guanzon_orange</item>
+        <item name="boxCornerRadiusBottomEnd">10dp</item>
+        <item name="boxCornerRadiusBottomStart">10dp</item>
+        <item name="android:popupBackground">@color/spinner_background</item>
+        <item name="color">@color/material_black</item>
+        <item name="android:textColor">@color/material_black</item>
+        <item name="android:itemBackground">@color/spinner_background</item>
+        <item name="boxCornerRadiusTopStart">10dp</item>
+        <item name="boxCornerRadiusTopEnd">10dp</item>
+        <item name="android:spinnerMode">dialog</item>
+        <item name="android:spinnersShown">true</item>
+    </style>
+    <style name="AutoCompleteTextStyle" parent="Widget.MaterialComponents.AutoCompleteTextView.FilledBox">
+        <item name="android:spinnerMode">dialog</item>
+    </style>
+
+    <style name="PopupAnimation">
+        <item name="android:windowEnterAnimation">@anim/anim_pop_in</item>
+        <item name="android:windowExitAnimation">@anim/anim_pop_out</item>
+    </style>
+<!--    DASHBOARD BUTTON-->
+    <style name="Widget.App.Button.OutlinedButton.IconOnly" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="iconPadding">0dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:paddingLeft">12dp</item>
+        <item name="android:paddingRight">12dp</item>
+        <item name="android:minWidth">48dp</item>
+        <item name="android:minHeight">48dp</item>
+    </style>
+
+    <style name="Base.Widget.AppCompat.ImageButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="iconPadding">0dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:insetLeft">0dp</item>
+        <item name="android:insetRight">0dp</item>
+        <item name="android:minWidth">24dp</item>
+        <item name="android:minHeight">24dp</item>
+    </style>
+
+    <style name="Progress_Vertical_Custom" parent="@android:style/Widget.ProgressBar.Horizontal">
+<!--        <item name="android:progressDrawable">@drawable/progressbar_states</item>-->
+        <item name="android:indeterminateDrawable">
+            @android:drawable/progress_indeterminate_horizontal
+        </item>
+        <item name="android:minWidth">12dip</item>
+        <item name="android:maxWidth">12dip</item>
+    </style>
+    <style name="TextInputLayout.CashCount" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="hintTextAppearance">@style/HintText</item>
+        <item name="android:paddingBottom">3dp</item>
+    </style>
+
+    <style name="HintText">
+        <item name="android:textSize">12sp</item>
+        <item name="android:fontFamily" tools:targetApi="jelly_bean">@font/roboto_regular</item>
+    </style>
+
+
+    <style name="Widget.MaterialComponents.TabLayout" parent="Widget.Design.TabLayout">
+        <item name="enforceMaterialTheme">true</item>
+        <item name="enforceTextAppearance">true</item>
+        <item name="android:background">?attr/colorSurface</item>
+        <item name="tabIconTint">@color/mtrl_tabs_icon_color_selector</item>
+        <item name="tabIndicatorAnimationDuration">@integer/mtrl_tab_indicator_anim_duration_ms</item>
+        <item name="tabIndicatorColor">?attr/colorPrimary</item>
+        <item name="tabTextAppearance">?attr/textAppearanceButton</item>
+        <item name="tabTextColor">@color/mtrl_tabs_icon_color_selector</item>
+        <item name="tabRippleColor">@color/mtrl_tabs_ripple_color</item>
+        <item name="tabUnboundedRipple">true</item>
+    </style>
+</resources>

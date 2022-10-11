@@ -11,7 +11,6 @@
 
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel;
 
-import android.annotation.SuppressLint;
 import android.app.Application;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -106,7 +105,6 @@ public class VMEmployeeApplications extends AndroidViewModel {
             mListener.OnDownload("PET Manager","Downloading leave applications. Please wait...");
         }
 
-        @SuppressLint("NewApi")
         @Override
         protected Boolean doInBackground(Void... voids) {
             try{
@@ -115,13 +113,13 @@ public class VMEmployeeApplications extends AndroidViewModel {
                     return false;
                 }
 
-                if(!loLeave.DownloadLeaveApplications()){
+                if(!loLeave.DownloadApplications()){
                     message = loLeave.getMessage();
                     Log.e(TAG, message);
                 }
 
                 if(!poBusTrip.DownloadApplications()){
-                    message = loLeave.getMessage();
+                    message = poBusTrip.getMessage();
                     Log.e(TAG, message);
                 }
 

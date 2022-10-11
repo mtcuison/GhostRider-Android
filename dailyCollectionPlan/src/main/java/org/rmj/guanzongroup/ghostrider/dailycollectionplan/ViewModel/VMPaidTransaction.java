@@ -22,7 +22,6 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import org.rmj.apprdiver.util.LRUtil;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EBankInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EDCPCollectionDetail;
@@ -186,7 +185,7 @@ public class VMPaidTransaction extends AndroidViewModel {
                 double lnAmortx = Double.parseDouble(loDetail.getMonAmort());
                 double lnAmtDue = Double.parseDouble(loDetail.getAmtDuexx());
 
-                double lnRebate = LRUtil.getRebate(pnAmount, lnAmortx, lnAmtDue, reb);
+                double lnRebate = poSys.CalculateRebate(pnAmount, lnAmortx, lnAmtDue, reb);
                 pnRebate.setValue(lnRebate);
             }
         } catch (Exception e){
@@ -216,7 +215,7 @@ public class VMPaidTransaction extends AndroidViewModel {
                 Date ldDueDatex = loFormat.parse(lsDueDate);
                 double lnMonAmort = Double.parseDouble(loDetail.getMonAmort());
                 double lnABalance = Double.parseDouble(loDetail.getABalance());
-                double lnPenalty = LRUtil.getPenalty(ldPurchase, ldDueDatex, lnMonAmort, lnABalance, pnAmount);
+                double lnPenalty = poSys.CalculatePenalty(ldPurchase, ldDueDatex, lnMonAmort, lnABalance, pnAmount);
                 pnPenlty.setValue(lnPenalty);
             }
         } catch (Exception e){

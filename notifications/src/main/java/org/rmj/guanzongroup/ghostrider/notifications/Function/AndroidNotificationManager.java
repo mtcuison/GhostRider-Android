@@ -19,9 +19,9 @@ import android.util.Log;
 import com.google.firebase.messaging.RemoteMessage;
 
 import org.json.JSONObject;
-import org.rmj.appdriver.base.GConnection;
-import org.rmj.emm.EMM;
-import org.rmj.emm.EMMFactory;
+//import org.rmj.appdriver.base.GConnection;
+//import org.rmj.emm.EMM;
+//import org.rmj.emm.EMMFactory;
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchOpenMonitor;
 import org.rmj.g3appdriver.dev.Database.Entities.ENotificationMaster;
 import org.rmj.g3appdriver.dev.Database.Entities.ENotificationRecipient;
@@ -131,10 +131,10 @@ public class AndroidNotificationManager {
                         JSONObject loJSON = new JSONObject(lsValue);
                         if ("00001".equalsIgnoreCase(loJSON.getString("module"))) { //table update
                             pcSpecial = '1';
-                            EMM instance = EMMFactory.make(EMMFactory.NMM_SysMon_Type.TABLE_UPDATE);
-//                            instance.setConnection(loDbConn); //pass the iGConnection here
-                            instance.setData(lsValue);
-                            if (!instance.execute()) System.err.println(instance.getMessage());
+//                            EMM instance = EMMFactory.make(EMMFactory.NMM_SysMon_Type.TABLE_UPDATE);
+////                            instance.setConnection(loDbConn); //pass the iGConnection here
+//                            instance.setData(lsValue);
+//                            if (!instance.execute()) System.err.println(instance.getMessage());
                         } else if ("00002".equalsIgnoreCase(loJSON.getString("module"))) {
                             pcSpecial = '2';
                             JSONObject loData = loJSON.getJSONObject("data");

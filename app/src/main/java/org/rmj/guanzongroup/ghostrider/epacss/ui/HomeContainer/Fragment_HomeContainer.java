@@ -26,13 +26,13 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.tabs.TabLayout;
 
 import org.rmj.g3appdriver.dev.DeptCode;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Etc.FragmentAdapter;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMHomeContainer;
 import org.rmj.guanzongroup.ghostrider.epacss.ui.home.Fragment_Associate_Dashboard;
 import org.rmj.guanzongroup.ghostrider.epacss.ui.home.Fragment_BH_Dashboard;
 import org.rmj.guanzongroup.ghostrider.epacss.ui.home.Fragment_Home;
 import org.rmj.guanzongroup.ghostrider.notifications.Fragment.Fragment_NotificationList;
-import org.rmj.guanzongroup.onlinecreditapplication.Adapter.FragmentAdapter;
 
 import java.util.Objects;
 
