@@ -121,6 +121,30 @@ public class RImageInfo {
         return poDao.getCIImageForPosting(TransNox);
     }
 
+    public String CheckTokenAvailable(){
+        try{
+            String lsClient = poToken.GetClientToken();
+
+            if(lsClient == null){
+                message = poToken.getMessage();
+                return null;
+            }
+
+            String lsAccess = poToken.GetAccessToken(lsClient);
+
+            if(lsAccess == null){
+                message = poToken.getMessage();
+                return null;
+            }
+
+            return lsAccess;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return null;
+        }
+    }
+
     /**
      *
      * @param args image file name
@@ -248,21 +272,22 @@ public class RImageInfo {
      */
     public boolean UploadImage(String fsVal){
         try{
+            if(poConfig.getTestStatus()){
+                message = "This feature is not available for testing...";
+                return true;
+            }
+
             EImageInfo loDetail = poDao.GetImageInfo(fsVal);
             if(loDetail == null){
                 message = "Unable to find image to upload.";
                 return false;
             }
 
-            if(poConfig.getTestStatus()){
-                message = "This feature is not available for testing...";
-                return true;
-            }
-
             String lsClient = poToken.GetClientToken();
 
             if(lsClient == null){
                 Log.e(TAG, poToken.getMessage());
+                message = "No generated client token to upload image.";
                 return false;
             }
 
@@ -270,6 +295,7 @@ public class RImageInfo {
 
             if(lsAccess == null){
                 Log.e(TAG, message);
+                message = "No generated access token to upload image.";
                 return false;
             }
 

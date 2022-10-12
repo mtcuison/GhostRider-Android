@@ -17,6 +17,7 @@ import static androidx.core.content.ContextCompat.checkSelfPermission;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -246,40 +247,48 @@ public class Fragment_PromiseToPay extends Fragment {
     }
 
     private void InitializeCamera(){
-        mViewModel.InitCameraLaunch(requireActivity(), transNox, new OnInitializeCameraCallback() {
-            @Override
-            public void OnInit() {
-                poDialog.initDialog("Selfie Log", "Initializing camera. Please wait...", false);
-                poDialog.show();
-            }
+        poMessage.initDialog();
+        poMessage.setTitle("Daily Collection Plan");
+        poMessage.setMessage("Please take a selfie with the customer or within the area of the customer.");
+        poMessage.setPositiveButton("Okay", (view, dialog) -> {
+            dialog.dismiss();
+            mViewModel.InitCameraLaunch(requireActivity(), transNox, new OnInitializeCameraCallback() {
+                @Override
+                public void OnInit() {
+                    poDialog.initDialog("Daily Collection Plan", "Initializing camera. Please wait...", false);
+                    poDialog.show();
+                }
 
-            @Override
-            public void OnSuccess(Intent intent, String[] args) {
-                poDialog.dismiss();
-                poPtp.setFilePath(args[0]);
-                poPtp.setFileName(args[1]);
-                poPtp.setLatitude(args[2]);
-                poPtp.setLongtude(args[3]);
-                poCamera.launch(intent);
-            }
-
-            @Override
-            public void OnFailed(String message, Intent intent, String[] args) {
-                poDialog.dismiss();
-                poMessage.initDialog();
-                poMessage.setTitle("Selfie Login");
-                poMessage.setMessage(message + "\n Proceed taking selfie log?");
-                poMessage.setPositiveButton("Continue", (view, dialog) -> {
-                    dialog.dismiss();
+                @Override
+                public void OnSuccess(Intent intent, String[] args) {
+                    poDialog.dismiss();
                     poPtp.setFilePath(args[0]);
                     poPtp.setFileName(args[1]);
                     poPtp.setLatitude(args[2]);
                     poPtp.setLongtude(args[3]);
                     poCamera.launch(intent);
-                });
-                poMessage.setNegativeButton("Cancel", (view1, dialog) -> dialog.dismiss());
-                poMessage.show();
-            }
+                }
+
+                @Override
+                public void OnFailed(String message, Intent intent, String[] args) {
+                    poDialog.dismiss();
+                    poMessage.initDialog();
+                    poMessage.setTitle("Daily Collection Plan");
+                    poMessage.setMessage(message + "\n Proceed taking selfie?");
+                    poMessage.setPositiveButton("Continue", (view, dialog) -> {
+                        dialog.dismiss();
+                        poPtp.setFilePath(args[0]);
+                        poPtp.setFileName(args[1]);
+                        poPtp.setLatitude(args[2]);
+                        poPtp.setLongtude(args[3]);
+                        poCamera.launch(intent);
+                    });
+                    poMessage.setNegativeButton("Cancel", (view1, dialog) -> dialog.dismiss());
+                    poMessage.show();
+                }
+            });
         });
+        poMessage.setNegativeButton("Cancel", (view, dialog) -> dialog.dismiss());
+        poMessage.show();
     }
 }

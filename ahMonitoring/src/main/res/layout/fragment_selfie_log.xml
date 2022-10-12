@@ -102,16 +102,29 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <TextView
-        android:id="@+id/lbl_notice"
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/TextInputStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="2 Log attempt are available for each day. \nUse the 1st for Login and 2nd for logout"
-        android:scrollHorizontally="false"
-        android:gravity="center"
-        android:fontFamily="@font/roboto_light"
-        android:textColor="@color/light_red"
-        android:padding="10dp"/>
+        android:hint="Date"
+        android:layout_marginTop="8dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/txt_selfieDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="date"
+            android:focusable="false"
+            android:clickable="true"
+            android:maxLines="1" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1.5dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/guanzon_orange"/>
 
     <RelativeLayout
         android:layout_width="match_parent"

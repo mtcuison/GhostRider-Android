@@ -28,14 +28,12 @@ import java.util.List;
 
 public class VMEvaluationCIHistoryInfo extends AndroidViewModel {
 
-    private final ConnectionUtil poConnect;
     private final CITagging poSys;
     private final ROccupation poJob;
     private final ConnectionUtil poConn;
 
     public VMEvaluationCIHistoryInfo(@NonNull Application application) {
         super(application);
-        this.poConnect = new ConnectionUtil(application);
         this.poSys = new CITagging(application);
         this.poJob = new ROccupation(application);
         this.poConn = new ConnectionUtil(application);
@@ -105,7 +103,7 @@ public class VMEvaluationCIHistoryInfo extends AndroidViewModel {
             if(!isSuccess) {
                 loCallBck.onFailed(message);
             } else {
-                loCallBck.onSuccess("");
+                loCallBck.onSuccess("Your approval recommendation has been uploaded successfully.");
             }
         }
 

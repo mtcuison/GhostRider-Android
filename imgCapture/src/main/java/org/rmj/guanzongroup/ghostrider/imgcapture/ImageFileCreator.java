@@ -267,7 +267,7 @@ public class ImageFileCreator {
         return loIntent;
     }
 
-    public boolean IsFileCreated() {
+    public boolean IsFileCreated(boolean cSelfieLog) {
         try {
             Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             // Ensure that there's a camera activity to handle the intent
@@ -287,7 +287,9 @@ public class ImageFileCreator {
                             photoFile);
 
                     takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                    takePictureIntent.putExtra("android.intent.extras.CAMERA_FACING", 1);
+                    if(cSelfieLog) {
+                        takePictureIntent.putExtra("android.intent.extras.CAMERA_FACING", 1);
+                    }
                     sFileName = generateImageFileName();
                     sFilePath = currentPhotoPath;
                     loIntent = takePictureIntent;

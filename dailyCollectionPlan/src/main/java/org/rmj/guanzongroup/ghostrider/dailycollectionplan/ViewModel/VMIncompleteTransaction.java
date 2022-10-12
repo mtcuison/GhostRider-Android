@@ -72,7 +72,7 @@ public class VMIncompleteTransaction extends AndroidViewModel {
 
         @Override
         protected Boolean doInBackground(String... strings) {
-            if(!loImage.IsFileCreated()){
+            if(!loImage.IsFileCreated(true)){
                 message = loImage.getMessage();
                 return false;
             } else {

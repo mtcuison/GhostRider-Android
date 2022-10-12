@@ -31,14 +31,12 @@ public class VMMainActivity extends AndroidViewModel {
     private final Application app;
     private final DataSyncService poNetRecvr;
     private final EmployeeMaster poUser;
-    private final SelfieLog poLog;
 
     public VMMainActivity(@NonNull Application application) {
         super(application);
         this.app = application;
         this.poNetRecvr = new DataSyncService(app);
         this.poUser = new EmployeeMaster(app);
-        this.poLog = new SelfieLog(app);
     }
 
     public DataSyncService getInternetReceiver(){
@@ -57,7 +55,4 @@ public class VMMainActivity extends AndroidViewModel {
         return poUser.GetEmployeeInfo();
     }
 
-    public LiveData<ESelfieLog> getLastSelfieLog(){
-        return poLog.getLastSelfieLog();
-    }
 }

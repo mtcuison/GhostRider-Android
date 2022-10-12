@@ -83,7 +83,7 @@ public class Activity_EvaluationCIHistory extends AppCompatActivity {
 
             @Override
             public void onLoad() {
-                poDialogx.initDialog("CI Evaluation", "CI Evaluation downlading.. Please wait.", true);
+                poDialogx.initDialog("CI Evaluation", "CI Evaluation downloading.. Please wait.", true);
                 poDialogx.show();
             }
         });

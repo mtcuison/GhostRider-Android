@@ -11,28 +11,22 @@
 
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel;
 
-import android.Manifest;
 import android.app.Activity;
 import android.app.Application;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import org.json.JSONObject;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ESelfieLog;
 import org.rmj.g3appdriver.dev.Database.Repositories.RBranch;
-import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.LocationRetriever;
 import org.rmj.g3appdriver.etc.SessionManager;
@@ -42,7 +36,6 @@ import org.rmj.g3appdriver.lib.integsys.CashCount.CashCount;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class VMSelfieLog extends AndroidViewModel {
@@ -52,9 +45,8 @@ public class VMSelfieLog extends AndroidViewModel {
     private final SelfieLog poLog;
     private final CashCount poCash;
     private final RBranch pobranch;
-    private final SessionManager poSession;
     private final EmployeeMaster poUser;
-    private final ImageFileCreator poImage;
+    private final MutableLiveData<String> pdTransact = new MutableLiveData<>();
 
     public interface OnLoginTimekeeperListener{
         void OnLogin();
@@ -82,13 +74,12 @@ public class VMSelfieLog extends AndroidViewModel {
         this.poUser = new EmployeeMaster(instance);
         this.poLog = new SelfieLog(instance);
         this.pobranch = new RBranch(instance);
-        this.poSession = new SessionManager(instance);
         this.poCash = new CashCount(instance);
-        this.poImage = new ImageFileCreator(instance, AppConstants.SUB_FOLDER_SELFIE_LOG, poSession.getUserID());
+        this.pdTransact.setValue(AppConstants.CURRENT_DATE);
     }
 
-    public LiveData<EEmployeeInfo> getUserInfo(){
-        return poUser.getUserInfo();
+    public LiveData<DEmployeeInfo.EmployeeBranch> GetUserInfo(){
+        return poUser.GetEmployeeBranch();
     }
 
     public LiveData<EBranchInfo> getUserBranchInfo(){
@@ -99,12 +90,16 @@ public class VMSelfieLog extends AndroidViewModel {
         return pobranch.getBranchInfo(BranchCD);
     }
 
-    public LiveData<List<ESelfieLog>> getAllEmployeeTimeLog(){
-        return poLog.getAllEmployeeTimeLog();
+    public LiveData<String> GetSelectedDate(){
+        return pdTransact;
     }
 
-    public String getEmployeeLevel(){
-        return poSession.getEmployeeLevel();
+    public void SetSelectedDate(String fsVal){
+        this.pdTransact.setValue(fsVal);
+    }
+
+    public LiveData<List<ESelfieLog>> getAllEmployeeTimeLog(String fsVal){
+        return poLog.GetAllEmployeeTimeLog(fsVal);
     }
 
     public interface OnBranchCheckListener{
@@ -125,18 +120,17 @@ public class VMSelfieLog extends AndroidViewModel {
         private final Activity activity;
         private final Application instance;
         private final OnInitializeCameraCallback callback;
-        private final SessionManager poSession;
         private final ImageFileCreator loImage;
 
         private Intent loIntent;
-        private String[] args = new String[4];
+        private final String[] args = new String[4];
         private String message;
 
         public InitializeCameraTask(Activity activity, Application instance, OnInitializeCameraCallback callback){
             this.activity = activity;
             this.instance = instance;
             this.callback = callback;
-            this.poSession = new SessionManager(instance);
+            SessionManager poSession = new SessionManager(instance);
             this.loImage = new ImageFileCreator(instance, AppConstants.SUB_FOLDER_SELFIE_LOG, poSession.getUserID());
         }
 
@@ -148,7 +142,7 @@ public class VMSelfieLog extends AndroidViewModel {
 
         @Override
         protected Boolean doInBackground(String... strings) {
-            if(!loImage.IsFileCreated()){
+            if(!loImage.IsFileCreated(true)){
                 message = loImage.getMessage();
                 return false;
             } else {
@@ -231,12 +225,10 @@ public class VMSelfieLog extends AndroidViewModel {
 
     private static class OnBranchCheckTask extends AsyncTask<String, Void, String>{
 
-        private final Application instance;
         private final OnBranchSelectedCallback callback;
         private final SelfieLog poLog;
 
-        public OnBranchCheckTask(Application application, OnBranchSelectedCallback callback) {
-            this.instance = application;
+        public OnBranchCheckTask(Application instance, OnBranchSelectedCallback callback) {
             this.callback = callback;
             this.poLog = new SelfieLog(instance);
         }
@@ -289,7 +281,6 @@ public class VMSelfieLog extends AndroidViewModel {
 
     public static class TimeInTask extends AsyncTask<SelfieLog.SelfieLogDetail, Void, Boolean>{
 
-        private final SessionManager poSession;
         private final SelfieLog poSys;
         private final OnLoginTimekeeperListener callback;
 
@@ -298,7 +289,6 @@ public class VMSelfieLog extends AndroidViewModel {
         private String message;
 
         public TimeInTask(Application instance, OnLoginTimekeeperListener callback) {
-            this.poSession = new SessionManager(instance);
             this.poSys = new SelfieLog(instance);
             this.callback = callback;
             this.poConn = new ConnectionUtil(instance);

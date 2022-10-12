@@ -18,6 +18,7 @@ import static androidx.core.content.ContextCompat.checkSelfPermission;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -35,18 +36,18 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ESelfieLog;
 import org.rmj.g3appdriver.dev.DeptCode;
-import org.rmj.g3appdriver.dev.GLocationManager;
+import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.GToast;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
@@ -58,6 +59,9 @@ import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.OnInitializeCameraCallback;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMSelfieLog;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -66,11 +70,10 @@ public class Fragment_SelfieLog extends Fragment {
 
     private VMSelfieLog mViewModel;
 
-    private TextView lblUsername, lblPosition, lblBranch, lblNotice;
+    private TextView lblUsername, lblPosition, lblBranch;
+    private TextInputEditText txtDate;
     private MaterialButton btnCamera, btnBranch;
     private RecyclerView recyclerView;
-
-    private ESelfieLog poLog;
 
     private final SelfieLog.SelfieLogDetail poSelfie = new SelfieLog.SelfieLogDetail();
 
@@ -78,12 +81,6 @@ public class Fragment_SelfieLog extends Fragment {
     private MessageBox poMessage;
 
     private static boolean isDialogShown;
-
-    private String psEmpLvl;
-
-    private String lsCompx;
-
-    private long mLastClickTime = 0;
 
     private final ActivityResultLauncher<Intent> poCamera = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
@@ -174,47 +171,57 @@ public class Fragment_SelfieLog extends Fragment {
         View view =  inflater.inflate(R.layout.fragment_selfie_log, container, false);
         initWidgets(view);
 
-        lsCompx = android.os.Build.MANUFACTURER;
-        if (!lsCompx.toLowerCase().equalsIgnoreCase("huawei")) {
-
-        } else {
-
-        }
-
-        psEmpLvl = mViewModel.getEmployeeLevel();
-
-        lblNotice.setVisibility(View.GONE);
         btnBranch.setVisibility(View.VISIBLE);
-        if (psEmpLvl.equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER))) {
-            SetupDialogForBranchList();
-        }
 
-        mViewModel.getUserInfo().observe(getViewLifecycleOwner(), eEmployeeInfo -> {
+        mViewModel.GetUserInfo().observe(getViewLifecycleOwner(), eEmployeeInfo -> {
             try {
-                lblUsername.setText(eEmployeeInfo.getUserName());
-                lblPosition.setText(DeptCode.getDepartmentName(eEmployeeInfo.getDeptIDxx()));
+                lblUsername.setText(eEmployeeInfo.sUserName);
+                lblPosition.setText(DeptCode.getDepartmentName(eEmployeeInfo.sDeptIDxx));
+                if (eEmployeeInfo.sEmpLevID.equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER))) {
+                    SetupDialogForBranchList();
+                }
+                lblBranch.setText(eEmployeeInfo.sBranchCd);
+                poSelfie.setBranchCode(eEmployeeInfo.sBranchCd);
             } catch (NullPointerException e){
                 e.printStackTrace();
             }
         });
 
-        mViewModel.getUserBranchInfo().observe(getViewLifecycleOwner(), eBranchInfo -> {
-            try {
-                lblBranch.setText(eBranchInfo.getBranchNm());
-                poSelfie.setBranchCode(eBranchInfo.getBranchCd());
-            } catch (Exception e) {
+        txtDate.setText(new AppConstants().CURRENT_DATE_WORD);
+        txtDate.setOnClickListener(v -> {
+            final Calendar newCalendar = Calendar.getInstance();
+            @SuppressLint("SimpleDateFormat") final SimpleDateFormat dateFormatter = new SimpleDateFormat("MMMM dd, yyyy");
+            final DatePickerDialog StartTime = new DatePickerDialog(getActivity(), (view131, year, monthOfYear, dayOfMonth) -> {
+                try {
+                    Calendar newDate = Calendar.getInstance();
+                    newDate.set(year, monthOfYear, dayOfMonth);
+                    String lsDate = dateFormatter.format(newDate.getTime());
+                    txtDate.setText(lsDate);
+                    Date loDate = new SimpleDateFormat("MMMM dd, yyyy").parse(lsDate);
+                    lsDate = new SimpleDateFormat("yyyy-MM-dd").format(loDate);
+                    mViewModel.SetSelectedDate(lsDate);
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+            StartTime.getDatePicker().setMaxDate(System.currentTimeMillis() - 1000);
+            StartTime.show();
+        });
+
+        mViewModel.GetSelectedDate().observe(getViewLifecycleOwner(), date -> {
+            try{
+                mViewModel.getAllEmployeeTimeLog(date).observe(getViewLifecycleOwner(), eLog_selfies -> {
+                    TimeLogAdapter logAdapter = new TimeLogAdapter(eLog_selfies, sTransNox -> GToast.CreateMessage(requireActivity(), "Feature not yet implemented", GToast.INFORMATION).show());
+                    LinearLayoutManager loManager = new LinearLayoutManager(requireActivity());
+                    loManager.setOrientation(RecyclerView.VERTICAL);
+                    recyclerView.setLayoutManager(loManager);
+                    recyclerView.setAdapter(logAdapter);
+                });
+            } catch (Exception e){
                 e.printStackTrace();
             }
         });
 
-        mViewModel.getAllEmployeeTimeLog().observe(getViewLifecycleOwner(), eLog_selfies -> {
-            TimeLogAdapter logAdapter = new TimeLogAdapter(eLog_selfies, sTransNox -> GToast.CreateMessage(requireActivity(), "Feature not yet implemented", GToast.INFORMATION).show());
-            LinearLayoutManager loManager = new LinearLayoutManager(requireActivity());
-            loManager.setOrientation(RecyclerView.VERTICAL);
-            recyclerView.setLayoutManager(loManager);
-            recyclerView.setAdapter(logAdapter);
-
-        });
 
         btnBranch.setOnClickListener(v -> mViewModel.CheckBranchList(new VMSelfieLog.OnBranchCheckListener() {
             @Override
@@ -269,10 +276,12 @@ public class Fragment_SelfieLog extends Fragment {
 
         btnCamera.setOnClickListener(v -> {
             if(checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                    checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                     checkSelfPermission(requireActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                 poRequest.launch(new String[]{
                         Manifest.permission.ACCESS_FINE_LOCATION,
-                        Manifest.permission.ACCESS_COARSE_LOCATION
+                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                        Manifest.permission.CAMERA
                 });
             } else {
                 initCamera();
@@ -285,10 +294,10 @@ public class Fragment_SelfieLog extends Fragment {
         lblUsername = view.findViewById(R.id.lbl_username);
         lblPosition = view.findViewById(R.id.lbl_userPosition);
         lblBranch = view.findViewById(R.id.lbl_userBranch);
-        lblNotice = view.findViewById(R.id.lbl_notice);
         btnCamera = view.findViewById(R.id.btn_takeSelfie);
         btnBranch = view.findViewById(R.id.btn_selectBranch);
         recyclerView = view.findViewById(R.id.recyclerview_timeLog);
+        txtDate = view.findViewById(R.id.txt_selfieDate);
 
         poLoad = new LoadDialog(requireActivity());
         poMessage = new MessageBox(requireActivity());
@@ -365,7 +374,7 @@ public class Fragment_SelfieLog extends Fragment {
     }
 
     public void ValidateCashCount(){
-        mViewModel.ValidateCashCount(poLog.getBranchCd(), new VMSelfieLog.OnValidateCashCount() {
+        mViewModel.ValidateCashCount(poSelfie.getBranchCode(), new VMSelfieLog.OnValidateCashCount() {
             @Override
             public void OnValidate() {
                 poLoad.initDialog("Selfie Log", "Checking cash count entries. Please wait...", false);
@@ -376,7 +385,7 @@ public class Fragment_SelfieLog extends Fragment {
             public void OnProceed(String args) {
                 poLoad.dismiss();
                 Intent loIntent = new Intent(requireActivity(), Activity_CashCounter.class);
-                loIntent.putExtra("BranchCd", poLog.getBranchCd());
+                loIntent.putExtra("BranchCd", poSelfie.getBranchCode());
                 loIntent.putExtra("cancelable", false);
                 requireActivity().startActivity(loIntent);
                 requireActivity().finish();
@@ -390,7 +399,7 @@ public class Fragment_SelfieLog extends Fragment {
                 poMessage.setMessage("A Cash count entry for current branch already exist on local device. Create another entry?");
                 poMessage.setPositiveButton("Create", (view, dialog) -> {
                     Intent loIntent = new Intent(requireActivity(), Activity_CashCounter.class);
-                    loIntent.putExtra("BranchCd", poLog.getBranchCd());
+                    loIntent.putExtra("BranchCd", poSelfie.getBranchCode());
                     loIntent.putExtra("cancelable", false);
                     requireActivity().startActivity(loIntent);
                     requireActivity().finish();
@@ -420,7 +429,6 @@ public class Fragment_SelfieLog extends Fragment {
                 poMessage.setMessage("Selfie log save.");
                 poMessage.setPositiveButton("Okay", (view, dialog) -> {
                     dialog.dismiss();
-                    requireActivity().finish();
                 });
                 poMessage.show();
             }

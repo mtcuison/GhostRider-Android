@@ -48,8 +48,11 @@ public interface DSelfieLog {
     @Query("SELECT * FROM Employee_Log_Selfie WHERE cSendStat <> '1'")
     List<ESelfieLog> GetSelfieLogsForUpload();
 
-    @Query("SELECT * FROM Employee_Log_Selfie WHERE sEmployID = (SELECT sEmployID FROM User_Info_Master) ORDER BY dLogTimex DESC")
-    LiveData<List<ESelfieLog>> getAllEmployeeTimeLog();
+    @Query("SELECT * FROM Employee_Log_Selfie " +
+            "WHERE sEmployID = (SELECT sEmployID FROM User_Info_Master) " +
+            "AND dTransact =:fsVal " +
+            "ORDER BY dLogTimex DESC")
+    LiveData<List<ESelfieLog>> getAllEmployeeTimeLog(String fsVal);
 
     @Query("SELECT dLogTimex FROM Employee_Log_Selfie WHERE sEmployID = (SELECT sEmployID FROM User_Info_Master) " +
             "ORDER BY dLogTimex DESC LIMIT 2")

@@ -593,9 +593,13 @@ public class CITagging {
             if(loImages == null){
                  message = "No ci image found";
                  Log.e(TAG, message);
+                 return true;
             } else if(loImages.size() == 0){
                 message = "No ci image found";
                 Log.e(TAG, message);
+                return true;
+            } else if(poImage.CheckTokenAvailable() == null){
+                message = "CI result uploaded successfully. But images are not uploaded. " + poImage.getMessage();
             } else {
                 for(int x = 0; x < loImages.size(); x++){
                     String lsImageID = loImages.get(x).getTransNox();

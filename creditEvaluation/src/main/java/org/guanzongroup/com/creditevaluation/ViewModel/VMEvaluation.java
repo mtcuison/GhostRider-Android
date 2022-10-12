@@ -359,7 +359,7 @@ public class VMEvaluation extends AndroidViewModel {
 
         @Override
         protected Boolean doInBackground(String... strings) {
-            if(!loImage.IsFileCreated()){
+            if(!loImage.IsFileCreated(false)){
                 message = loImage.getMessage();
                 return false;
             } else {

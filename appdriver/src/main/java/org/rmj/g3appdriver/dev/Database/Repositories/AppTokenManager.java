@@ -107,8 +107,8 @@ public class AppTokenManager {
                 Log.d(TAG, "Generating client token...");
 
                 String lsClient = WebFileServer.RequestClientToken(poConfig.ProducID(),
-                        poSession.getClientId(),
-                        poSession.getUserID());
+                        poDao.GetClientID(),
+                        poDao.GetUserID());
 
                 if(lsClient == null){
                     message = "Unable to generate client token.";
@@ -149,8 +149,8 @@ public class AppTokenManager {
 
                 // Client token might be expired already so we generate another client token...
                 String lsClient = WebFileServer.RequestClientToken(poConfig.ProducID(),
-                        poSession.getClientId(),
-                        poSession.getUserID());
+                        poDao.GetClientID(),
+                        poDao.GetUserID());
 
                 if(lsClient == null){
                     message = "Unable to generate client token.";
@@ -229,8 +229,8 @@ public class AppTokenManager {
 
                 // Client token might be expired already so we generate another client token...
                 String lsClient = WebFileServer.RequestClientToken(poConfig.ProducID(),
-                        poSession.getClientId(),
-                        poSession.getUserID());
+                        poDao.GetClientID(),
+                        poDao.GetUserID());
 
                 if(lsClient == null){
                     message = "Unable to generate client token.";

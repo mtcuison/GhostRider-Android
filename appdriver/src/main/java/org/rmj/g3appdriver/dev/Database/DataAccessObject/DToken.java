@@ -27,4 +27,10 @@ public interface DToken {
 
     @Query("SELECT * FROM App_Token_Info WHERE sTokenTpe = '2'")
     ETokenInfo GetAccessToken();
+
+    @Query("SELECT sClientID FROM User_Info_Master")
+    String GetClientID();
+
+    @Query("SELECT sUserIDxx FROM User_Info_Master")
+    String GetUserID();
 }

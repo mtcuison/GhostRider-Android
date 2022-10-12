@@ -63,6 +63,9 @@ import org.rmj.g3appdriver.dev.Database.DataAccessObject.DMcTermCategory;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DMobileRequest;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DMobileUpdate;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DNNDMRequest;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DNotificationDetail;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DNotificationMaster;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DNotificationUser;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DNotifications;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DOccupationInfo;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DProvinceInfo;
@@ -244,6 +247,9 @@ public abstract class GGC_GriderDB extends RoomDatabase {
     public abstract DCreditOnlineApplicationCI creditEvaluationDao();
     public abstract DItinerary itineraryDao();
     public abstract DToken dToken();
+    public abstract DNotificationMaster nMasterDao();
+    public abstract DNotificationDetail nDetailDao();
+    public abstract DNotificationUser nUserDao();
 
     public static synchronized GGC_GriderDB getInstance(Context context){
         if(instance == null){

@@ -10,8 +10,8 @@ public class Notifications {
     private static final String TAG = Notifications.class.getSimpleName();
 
     private final Application instance;
-
-    private final
+//
+//    private final
 
     private String message;
 
@@ -27,6 +27,8 @@ public class Notifications {
         try{
             ENotificationMaster loMaster = null;
 
+
+            return true;
         } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();

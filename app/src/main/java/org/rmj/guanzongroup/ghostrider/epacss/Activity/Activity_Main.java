@@ -168,34 +168,6 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
                 e.printStackTrace();
             }
         });
-
-//        mViewModel.getLastSelfieLog().observe(this, selfieLog -> {
-//            try {
-//                String cReqCCx = selfieLog.getReqCCntx();
-//                String cReqRSI = selfieLog.getReqRSIxx();
-//                String lsDate1 = selfieLog.getLogTimex().substring(0, 10);
-//                if (cReqCCx.equalsIgnoreCase("0") &&
-//                        poSession.getEmployeeLevel().equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER)) &&
-//                        lsDate1.equalsIgnoreCase(AppConstants.CURRENT_DATE)) {
-//                    loMessage.initDialog();
-//                    loMessage.setTitle("Cash Count");
-//                    loMessage.setMessage("You have an unfinish cash count entry. Proceed to Cash Count?");
-//                    loMessage.setPositiveButton("Proceed", (view, dialog) -> {
-//                        Intent loIntent = new Intent(Activity_Main.this, Activity_CashCounter.class);
-//                        loIntent.putExtra("cancelable", false);
-//                        startActivity(loIntent);
-//                        dialog.dismiss();
-//                    });
-//                    loMessage.setNegativeButton("Cancel", (view, dialog) -> dialog.dismiss());
-//                    loMessage.show();
-//                } else if (cReqRSI.equalsIgnoreCase("0") &&
-//                        poSession.getEmployeeLevel().equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER))){
-//
-//                }
-//            } catch (Exception e){
-//                e.printStackTrace();
-//            }
-//        });
     }
 
     private void initWidgets(){

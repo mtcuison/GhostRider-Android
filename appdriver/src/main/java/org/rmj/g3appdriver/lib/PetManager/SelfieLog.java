@@ -72,40 +72,13 @@ public class SelfieLog {
         String DateLog = "%"+fsDate+"%";
         return poDao.getCurrentTimeLogIfExist(DateLog);
     }
-    public LiveData<List<ESelfieLog>> getCurrentTimeLog(String fsDate){
-        String DateLog = "%"+fsDate+"%";
-        return poDao.getCurrentTimeLog(DateLog);
-    }
 
-    public LiveData<List<ESelfieLog>> getAllEmployeeTimeLog(){
-        return poDao.getAllEmployeeTimeLog();
-    }
-
-    public void insertSelfieLog(ESelfieLog selfieLog){
-        poDao.SaveSelfieLog(selfieLog);
+    public LiveData<List<ESelfieLog>> GetAllEmployeeTimeLog(String fsVal){
+        return poDao.getAllEmployeeTimeLog(fsVal);
     }
 
     public int checkBranchCodeIfExist(String BranchCd, String Transact){
         return poDao.checkBranchCodeIfExist(BranchCd, Transact);
-    }
-
-    public LiveData<List<String>> getLastLogDate(){
-        return poDao.getLastLogDate();
-    }
-
-    public void updateEmployeeLogStatus(String sTransNox, String OldTransNox){
-        poDao.updateEmployeeLogStat(sTransNox, OldTransNox, new AppConstants().DATE_MODIFIED());
-    }
-
-    public LiveData<ESelfieLog> getLastSelfieLog(){
-        return poDao.getLastSelfieLog();
-    }
-
-    public void UpdateCashCountRequireStatus(){
-        poDao.UpdateCashCountRequireStatus();
-    }
-    public LiveData<String> getSelfieBranchCode(){
-        return poDao.getSelfieBranchCode();
     }
 
     public String SaveSelfieLog(SelfieLogDetail foVal){

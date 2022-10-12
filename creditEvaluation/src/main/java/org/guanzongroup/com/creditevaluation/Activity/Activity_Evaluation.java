@@ -1,8 +1,8 @@
 package org.guanzongroup.com.creditevaluation.Activity;
 
-import static org.rmj.g3appdriver.etc.AppConstants.SUB_FOLDER_CI_ADDRESS;
-
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -12,11 +12,13 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,25 +31,19 @@ import org.guanzongroup.com.creditevaluation.Adapter.Adapter_CIEvaluation_Header
 import org.guanzongroup.com.creditevaluation.Adapter.onEvaluate;
 import org.guanzongroup.com.creditevaluation.Adapter.onSelectResultListener;
 import org.guanzongroup.com.creditevaluation.Core.FindingsParser;
-import org.guanzongroup.com.creditevaluation.Core.oChildFndg;
-import org.guanzongroup.com.creditevaluation.Core.oParentFndg;
 import org.guanzongroup.com.creditevaluation.Dialog.DialogCIReason;
-import org.guanzongroup.com.creditevaluation.Model.AdditionalInfoModel;
 import org.guanzongroup.com.creditevaluation.R;
 import org.guanzongroup.com.creditevaluation.ViewModel.OnInitializeCameraCallback;
 import org.guanzongroup.com.creditevaluation.ViewModel.VMEvaluation;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Database.Entities.ECreditOnlineApplicationCI;
-import org.rmj.g3appdriver.dev.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.integsys.CreditInvestigator.BarangayRecord;
 import org.rmj.g3appdriver.lib.integsys.CreditInvestigator.CIImage;
-import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
 
-import java.util.HashMap;
-import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class Activity_Evaluation extends AppCompatActivity {
@@ -92,6 +88,39 @@ public class Activity_Evaluation extends AppCompatActivity {
             }
         } catch (Exception e){
             e.printStackTrace();
+        }
+    });
+
+    private final ActivityResultLauncher<String[]> poRequest = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), new ActivityResultCallback<Map<String, Boolean>>() {
+        @Override
+        public void onActivityResult(Map<String, Boolean> result) {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                Boolean fineLoct = result.getOrDefault(
+                        Manifest.permission.ACCESS_FINE_LOCATION, false);
+                Boolean coarseL = result.getOrDefault(
+                        Manifest.permission.ACCESS_COARSE_LOCATION, false);
+                Boolean camerax = result.getOrDefault(
+                        Manifest.permission.CAMERA, false);
+                if(Boolean.FALSE.equals(camerax)){
+                    Toast.makeText(Activity_Evaluation.this, "Please allow camera permission to proceed.", Toast.LENGTH_SHORT).show();
+                } else if(Boolean.FALSE.equals(fineLoct)){
+                    Toast.makeText(Activity_Evaluation.this, "Please allow permission to get device location.", Toast.LENGTH_SHORT).show();
+                } else if(Boolean.FALSE.equals(coarseL)){
+                    Toast.makeText(Activity_Evaluation.this, "Please allow permission to get device location.", Toast.LENGTH_SHORT).show();
+                } else {
+                    showDialogImg();
+                }
+            } else {
+                if(ActivityCompat.checkSelfPermission(Activity_Evaluation.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
+                    Toast.makeText(Activity_Evaluation.this, "Please allow camera permission to proceed.", Toast.LENGTH_SHORT).show();
+                } else if(ActivityCompat.checkSelfPermission(Activity_Evaluation.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+                    Toast.makeText(Activity_Evaluation.this, "Please allow permission to get device location.", Toast.LENGTH_SHORT).show();
+                } else if(ActivityCompat.checkSelfPermission(Activity_Evaluation.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+                    Toast.makeText(Activity_Evaluation.this, "Please allow permission to get device location.", Toast.LENGTH_SHORT).show();
+                } else {
+                    showDialogImg();
+                }
+            }
         }
     });
 
@@ -155,14 +184,6 @@ public class Activity_Evaluation extends AppCompatActivity {
                     txtNeighbor3.setEnabled(false);
                     findViewById(R.id.btnSaveNeighbor3).setVisibility(View.GONE);
                     findViewById(R.id.btnEditNeighbor3).setVisibility(View.VISIBLE);
-                }
-
-                if (ci.getRcmdtnc1() != null) {
-
-                }
-
-                if (ci.getRcmdtns1() != null) {
-
                 }
 
                 if (ci.getHasRecrd() != null) {
@@ -312,36 +333,33 @@ public class Activity_Evaluation extends AppCompatActivity {
             loDialog.show();
         });
 
-        btnUpload.setOnClickListener(v ->  {
-            mViewModel.UploadResult(psTransNo, new VMEvaluation.OnUploadResultListener() {
-                @Override
-                public void OnUpload() {
-                    poDialogx.initDialog("CI Evaluation", "Uploading ci result. Please wait...", false);
-                    poDialogx.show();
-                }
+        btnUpload.setOnClickListener(v -> mViewModel.UploadResult(psTransNo, new VMEvaluation.OnUploadResultListener() {
+            @Override
+            public void OnUpload() {
+                poDialogx.initDialog("CI Evaluation", "Uploading ci result. Please wait...", false);
+                poDialogx.show();
+            }
 
-                @Override
-                public void OnSuccess() {
-                    poDialogx.dismiss();
-                    poMessage.initDialog();
-                    poMessage.setTitle("CI Evaluation");
-                    poMessage.setMessage("CI Result uploaded successfully. You may now send recommendation.");
-                    poMessage.setPositiveButton("Okay", (view, dialog) -> {
-                        dialog.dismiss();
-                    });
-                    poMessage.show();
-                }
+            @Override
+            public void OnSuccess() {
+                poDialogx.dismiss();
+                poMessage.initDialog();
+                poMessage.setTitle("CI Evaluation");
+                poMessage.setMessage("CI Result uploaded successfully. You may now send recommendation.");
+                poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                poMessage.show();
+            }
 
-                @Override
-                public void OnFailed(String message) {
-                    poMessage.initDialog();
-                    poMessage.setTitle("CI Evaluation List");
-                    poMessage.setMessage(message);
-                    poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-                    poMessage.show();
-                }
-            });
-        });
+            @Override
+            public void OnFailed(String message) {
+                poDialogx.dismiss();
+                poMessage.initDialog();
+                poMessage.setTitle("CI Evaluation List");
+                poMessage.setMessage(message);
+                poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                poMessage.show();
+            }
+        }));
 
         findViewById(R.id.btnEditAdditional).setOnClickListener(v -> {
             findViewById(R.id.rb_ci_noRecord).setEnabled(true);
@@ -441,10 +459,23 @@ public class Activity_Evaluation extends AppCompatActivity {
         }
     }
 
+    private void validateCameraPermissions(){
+        if(ActivityCompat.checkSelfPermission(Activity_Evaluation.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(Activity_Evaluation.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(Activity_Evaluation.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            poRequest.launch(new String[]{
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION,
+                    Manifest.permission.CAMERA});
+        } else {
+            showDialogImg();
+        }
+    }
+
     public void showDialogImg(){
         poMessage.initDialog();
         poMessage.setTitle("Residence Info");
-        poMessage.setMessage("Please take applicant residence picture. \n");
+        poMessage.setMessage("Please take a picture of the applicant residence area. \n");
         poMessage.setPositiveButton("Okay", (view, dialog) -> {
             dialog.dismiss();
             mViewModel.InitCameraLaunch(Activity_Evaluation.this, psTransNo, new OnInitializeCameraCallback() {
@@ -468,8 +499,8 @@ public class Activity_Evaluation extends AppCompatActivity {
                 public void OnFailed(String message, Intent intent, String[] args) {
                     poDialogx.dismiss();
                     poMessage.initDialog();
-                    poMessage.setTitle("Selfie Login");
-                    poMessage.setMessage(message + "\n Proceed taking selfie log?");
+                    poMessage.setTitle("CI Evaluation");
+                    poMessage.setMessage(message + "\n Proceed taking picture?");
                     poMessage.setPositiveButton("Continue", (view, dialog) -> {
                         dialog.dismiss();
                         poImage.setFilePath(args[0]);
@@ -533,13 +564,13 @@ public class Activity_Evaluation extends AppCompatActivity {
                             poImage.setsParentxx("primary_address");
                             poImage.setsKeyNamex(fsKey);
                             poImage.setcResultxx(fsRes);
-                            showDialogImg();
+                            validateCameraPermissions();
                         } else if(fsPar.equalsIgnoreCase("present_address")){
                             poAdLstnr = listener;
                             poImage.setsParentxx("present_address");
                             poImage.setsKeyNamex(fsKey);
                             poImage.setcResultxx(fsRes);
-                            showDialogImg();
+                            validateCameraPermissions();
                         } else {
                             SaveCIResult(fsPar, fsKey, fsRes);
                             listener.OnSetResult(true);
@@ -553,13 +584,13 @@ public class Activity_Evaluation extends AppCompatActivity {
                             poImage.setsParentxx("primary_address");
                             poImage.setsKeyNamex(fsKey);
                             poImage.setcResultxx(fsRes);
-                            showDialogImg();
+                            validateCameraPermissions();
                         } else if(fsPar.equalsIgnoreCase("present_address")){
                             poAdLstnr = listener;
                             poImage.setsParentxx("present_address");
                             poImage.setsKeyNamex(fsKey);
                             poImage.setcResultxx(fsRes);
-                            showDialogImg();
+                            validateCameraPermissions();
                         } else {
                             SaveCIResult(fsPar, fsKey, fsRes);
                             listener.OnSetResult(true);
