@@ -11,10 +11,6 @@
 
 package org.rmj.g3appdriver.dev;
 
-import android.os.Build;
-
-import androidx.annotation.RequiresApi;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -31,7 +27,6 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class WebClient {
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public static String sendRequest(String sURL, String sJSon, HashMap<String, String> headers) throws IOException {
         if (sURL.substring(0, 5).equalsIgnoreCase("https")){
             HttpsURLConnection conn = null;
@@ -82,7 +77,6 @@ public class WebClient {
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public static String httpPostJSon(String sURL, String sJSon, HashMap<String, String> headers) throws IOException {
         HttpURLConnection conn = null;
         StringBuilder lsResponse = new StringBuilder();

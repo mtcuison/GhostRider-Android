@@ -41,6 +41,9 @@ public interface DEmployeeInfo {
     @Query("DELETE FROM User_Info_Master")
     void deleteAllEmployeeInfo();
 
+    @Query("DELETE FROM xxxAOEmpRole")
+    void RemoveAuthorizeAccess();
+
     @Query("SELECT sUserIDxx FROM User_Info_Master")
     LiveData<String> getUserID();
 
@@ -60,10 +63,10 @@ public interface DEmployeeInfo {
     Cursor getUserInfo();
 
     @Query("SELECT strftime('%H:%M:%S', 'now', 'localtime') - strftime('%H:%M:%S', dLoginxxx) AS Session FROM User_Info_Master")
-    Integer getSessionTime();
+    Integer getLoginDate();
 
     @Query("SELECT dLoginxxx FROM User_Info_Master")
-    String getLoginDate();
+    String getSessionTime();
 
     @Query("DELETE FROM User_Info_Master")
     void LogoutUser();

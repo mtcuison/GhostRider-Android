@@ -11,16 +11,11 @@
 
 package org.rmj.g3appdriver.dev;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.os.Build;
 import android.provider.Settings;
 import android.telephony.SubscriptionInfo;
 import android.telephony.SubscriptionManager;
-
-import androidx.annotation.RequiresApi;
-import androidx.core.app.ActivityCompat;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -34,6 +34,7 @@ import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.g3appdriver.utils.WebClient;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -56,10 +57,10 @@ public class EmployeeMaster {
 
     public EmployeeMaster(Application application){
         this.instance = application;
-        this.poDao = GGC_GriderDB.getInstance(application).EmployeeDao();
-        this.roleDao = GGC_GriderDB.getInstance(application).employeeRoleDao();
+        this.poDao = GGC_GriderDB.getInstance(instance).EmployeeDao();
+        this.roleDao = GGC_GriderDB.getInstance(instance).employeeRoleDao();
         this.employeeInfo = poDao.getEmployeeInfo();
-        this.poSession = new SessionManager(application);
+        this.poSession = new SessionManager(instance);
         this.poConfig = AppConfigPreference.getInstance(instance);
         this.webApi = new WebApi(poConfig.getTestStatus());
         this.headers = HttpHeaders.getInstance(instance);
@@ -88,10 +89,6 @@ public class EmployeeMaster {
         return poDao.getUserAreaCodeForDashboard();
     }
 
-    public void insertEmployee(EEmployeeInfo employeeInfo){
-        new InsertEmployeeTask(poDao).execute(employeeInfo);
-    }
-
     public LiveData<EEmployeeInfo> GetEmployeeInfo(){
         return employeeInfo;
     }
@@ -112,14 +109,6 @@ public class EmployeeMaster {
         return poDao.getEmployeeID();
     }
 
-    public LiveData<String> getUserBranchID(){
-        return poDao.getSBranchID();
-    }
-
-    public LiveData<String> getLogNumber(){
-        return poDao.getLogNumber();
-    }
-
     public LiveData<List<EEmployeeRole>> getEmployeeRoles(){
         return roleDao.getEmployeeRoles();
     }
@@ -128,41 +117,10 @@ public class EmployeeMaster {
         return roleDao.getChildRoles();
     }
 
-    private static class InsertEmployeeTask extends AsyncTask<EEmployeeInfo, Void, Void>{
-        private DEmployeeInfo employeeDao;
-
-        public InsertEmployeeTask(DEmployeeInfo employeeDao){
-            this.employeeDao = employeeDao;
-        }
-
-        @Override
-        protected Void doInBackground(EEmployeeInfo... eEmployeeInfos) {
-            employeeDao.deleteAllEmployeeInfo();
-            employeeDao.SaveNewEmployeeSession(eEmployeeInfos[0]);
-            return null;
-        }
-    }
-
     public void LogoutUserSession(){
+        poDao.LogoutUser();
+        poDao.ClearAuthorizeFeatures();
         poSession.initUserLogout();
-        new DeleteUserTask(instance).execute();
-    }
-
-    public static class DeleteUserTask extends AsyncTask<Void, Void, Void>{
-        private DEmployeeInfo employeeDao;
-        private DEmployeeRole empRoleDao;
-
-        public DeleteUserTask(Application instance) {
-            this.employeeDao =  GGC_GriderDB.getInstance(instance).EmployeeDao();
-            this.empRoleDao = GGC_GriderDB.getInstance(instance).employeeRoleDao();
-        }
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            employeeDao.deleteAllEmployeeInfo();
-            empRoleDao.DeleteEmployeeRole();
-            return null;
-        }
     }
     
     public boolean AuthenticateUser(UserAuthInfo foVal){
@@ -300,10 +258,16 @@ public class EmployeeMaster {
 
     public boolean IsSessionValid(){
         try{
-            String dLoginxx = poDao.getLoginDate();
+            String lsLoginxx = poDao.getSessionTime();
+            Date loLogin = new SimpleDateFormat("yyyy-MM-dd").parse(lsLoginxx);
+            Date loCrrnt = new SimpleDateFormat("yyyy-MM-dd").parse(AppConstants.CURRENT_DATE);
+            int lnResult = loLogin.compareTo(loCrrnt);
 
+            if(lnResult != 0){
+                return false;
+            }
 
-            int lnSession = poDao.getSessionTime();
+            int lnSession = poDao.getLoginDate();
 
             if(lnSession > 0){
                 poDao.LogoutUser();
@@ -324,7 +288,6 @@ public class EmployeeMaster {
         private final String Email;
         private final String Password;
         private final String MobileNo;
-        private boolean needMobileNo;
         private String message;
 
         public UserAuthInfo(String email, String password, String mobileNo) {
@@ -343,10 +306,6 @@ public class EmployeeMaster {
 
         public String getMobileNo() {
             return MobileNo;
-        }
-
-        public void setMobileValidity(boolean needMobile){
-            needMobileNo = needMobile;
         }
 
         public String getMessage(){
@@ -380,19 +339,17 @@ public class EmployeeMaster {
         }
 
         private boolean isMobileNoValid(){
-            if(needMobileNo){
-                if(MobileNo.isEmpty()){
-                    message = "Please enter mobile no.";
-                    return false;
-                }
-                if(MobileNo.length()!=11){
-                    message = "Mobile number must be 11 characters";
-                    return false;
-                }
-                if(!MobileNo.substring(0, 2).equalsIgnoreCase("09")){
-                    message = "Mobile number must start with '09'";
-                    return false;
-                }
+            if(MobileNo.isEmpty()){
+                message = "Please enter mobile no.";
+                return false;
+            }
+            if(MobileNo.length()!=11){
+                message = "Mobile number must be 11 characters";
+                return false;
+            }
+            if(!MobileNo.substring(0, 2).equalsIgnoreCase("09")){
+                message = "Mobile number must start with '09'";
+                return false;
             }
             return true;
         }
