@@ -21,6 +21,7 @@ import org.json.JSONObject;
 import org.rmj.apprdiver.util.SQLUtil;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEmployeeLeave;
+import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeLeave;
 import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.etc.AppConstants;
@@ -98,11 +99,19 @@ public class EmployeeLeave {
                 message = foVal.getMessage();
                 return null;
             }
+
+            EEmployeeInfo loUser = poDao.GetEmployeeInfo();
+
+            if(loUser == null){
+                message = "Invalid user record. Please re-login your account and try again.";
+                return null;
+            }
+
             String lsTransNo = CreateUniqueID();
             EEmployeeLeave loApp = new EEmployeeLeave();
             loApp.setTransNox(lsTransNo);
-            loApp.setEmployID(poSession.getEmployeeID());
-            loApp.setEntryByx(poSession.getEmployeeID());
+            loApp.setEmployID(loUser.getEmployID());
+            loApp.setEntryByx(loUser.getEmployID());
             loApp.setTransact(AppConstants.CURRENT_DATE);
             loApp.setEmployID(foVal.getEmploName());
             loApp.setBranchNm(foVal.getBranchNme());

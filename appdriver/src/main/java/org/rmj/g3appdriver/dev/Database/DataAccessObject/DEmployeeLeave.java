@@ -17,6 +17,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeLeave;
 
 import java.util.List;
@@ -32,6 +33,9 @@ public interface DEmployeeLeave {
 
     @Query("SELECT COUNT (*) FROM Employee_Leave")
     int GetRowsCountForID();
+
+    @Query("SELECT * FROM User_Info_Master")
+    EEmployeeInfo GetEmployeeInfo();
 
     @Query("SELECT * FROM Employee_Leave WHERE sTransNox =:TransNox")
     EEmployeeLeave GetEmployeeLeave(String TransNox);

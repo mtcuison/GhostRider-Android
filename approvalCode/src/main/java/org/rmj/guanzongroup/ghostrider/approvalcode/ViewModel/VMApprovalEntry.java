@@ -100,16 +100,16 @@ public class VMApprovalEntry extends AndroidViewModel {
             String lsResponse = "";
             try{
                 if(approvalEntries[0].isDataValid()) {
-//                    RequestApproval loApprovl = new RequestApproval(lsPackage);
-//                    loApprovl.setDeptIDxx(loSession.getDeptID());
-//                    loApprovl.setEmpLevID(loSession.getEmployeeLevel());
-//                    loApprovl.setEmployID(loSession.getEmployeeID());
-//                    loApprovl.setRemarks(approvalEntries[0].getRemarks());
+                    RequestApproval loApprovl = new RequestApproval(lsPackage);
+                    loApprovl.setDeptIDxx(loSession.getDeptID());
+                    loApprovl.setEmpLevID(loSession.getEmployeeLevel());
+                    loApprovl.setEmployID(loSession.getEmployeeID());
+                    loApprovl.setRemarks(approvalEntries[0].getRemarks());
 
                     String lsAppCode = "";
 
                     if (lsAppCode.isEmpty()) {
-//                        lsResponse = AppConstants.APPROVAL_CODE_EMPTY(loApprovl.getMessage());
+                        lsResponse = AppConstants.APPROVAL_CODE_EMPTY(loApprovl.getMessage());
                     } else {
                         lsResponse = AppConstants.APPROVAL_CODE_GENERATED(lsAppCode);
 

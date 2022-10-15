@@ -24,6 +24,7 @@ import org.rmj.g3appdriver.dev.Database.Entities.ESCA_Request;
 import org.rmj.g3appdriver.dev.Database.Repositories.RApprovalCode;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.SessionManager;
+import org.rmj.g3appdriver.utils.SQLUtil;
 
 import java.util.List;
 
@@ -45,7 +46,7 @@ public class VMApprovalSelection extends AndroidViewModel {
     public LiveData<List<ESCA_Request>> getReferenceAuthList(String Type){
         String lsSqlQryxx = "SELECT *" +
                             " FROM xxxSCA_Request" +
-//                            " WHERE cSCATypex = " + SQLUtil.toSQL(Type)  +
+                            " WHERE cSCATypex = " + SQLUtil.toSQL(Type)  +
                                 " AND cRecdStat = '1'" +
                             " ORDER BY sSCATitle";
 

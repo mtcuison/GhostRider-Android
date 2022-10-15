@@ -21,6 +21,7 @@ import androidx.room.Update;
 import androidx.sqlite.db.SupportSQLiteQuery;
 
 import org.rmj.g3appdriver.dev.Database.Entities.ECodeApproval;
+import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ESCA_Request;
 
 import java.util.List;
@@ -45,6 +46,12 @@ public interface DApprovalCode {
 
     @Query("SELECT * FROM XXXSCA_REQUEST WHERE sSCACodex =:TransNox")
     ESCA_Request GetApprovalCode(String TransNox);
+
+    @Query("SELECT * FROM User_Info_Master")
+    EEmployeeInfo GetUserInfo();
+
+    @Query("SELECT * FROM System_Code_Approval WHERE sApprCode =:fsVal AND cSendxxxx != '1'")
+    ECodeApproval GetCodeApproval(String fsVal);
 
     @Query("SELECT * FROM System_Code_Approval ORDER BY dTransact DESC LIMIT 1")
     LiveData<ECodeApproval> getCodeApprovalEntry();
