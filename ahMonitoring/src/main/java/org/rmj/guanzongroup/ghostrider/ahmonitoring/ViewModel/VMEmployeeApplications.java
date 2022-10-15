@@ -64,7 +64,7 @@ public class VMEmployeeApplications extends AndroidViewModel {
     }
 
     public LiveData<List<EEmployeeLeave>> getApproveLeaveList(){
-        return poLeave.getApproveLeaveList();
+        return poLeave.GetApproveLeaveApplications();
     }
 
     public LiveData<List<EEmployeeBusinessTrip>> GetApproveBusTrip(){
@@ -72,7 +72,7 @@ public class VMEmployeeApplications extends AndroidViewModel {
     }
 
     public LiveData<List<EEmployeeLeave>> getEmployeeLeaveForApprovalList(){
-        return poLeave.getEmployeeLeaveForApprovalList();
+        return poLeave.GetLeaveApplicationsForApproval();
     }
 
     public LiveData<EBranchInfo> getUserBranchInfo(){
@@ -113,7 +113,7 @@ public class VMEmployeeApplications extends AndroidViewModel {
                     return false;
                 }
 
-                if(!loLeave.DownloadApplications()){
+                if(!loLeave.ImportApplications()){
                     message = loLeave.getMessage();
                     Log.e(TAG, message);
                 }

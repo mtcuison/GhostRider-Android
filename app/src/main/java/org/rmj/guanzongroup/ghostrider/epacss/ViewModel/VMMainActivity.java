@@ -19,9 +19,7 @@ import androidx.lifecycle.LiveData;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeRole;
-import org.rmj.g3appdriver.dev.Database.Entities.ESelfieLog;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
-import org.rmj.g3appdriver.lib.PetManager.SelfieLog;
 import org.rmj.guanzongroup.ghostrider.epacss.Service.DataSyncService;
 
 import java.util.List;

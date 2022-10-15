@@ -27,7 +27,7 @@ import org.rmj.g3appdriver.dev.Database.Entities.ENotificationMaster;
 import org.rmj.g3appdriver.dev.Database.Entities.ENotificationRecipient;
 import org.rmj.g3appdriver.dev.Database.Entities.ENotificationUser;
 import org.rmj.g3appdriver.dev.Database.Repositories.RBranch;
-import org.rmj.g3appdriver.dev.Database.Repositories.RBranchOpeningMonitor;
+import org.rmj.g3appdriver.lib.Notifications.BranchOpeningMonitor;
 import org.rmj.g3appdriver.dev.Database.Repositories.RNotificationInfo;
 import org.rmj.g3appdriver.dev.HttpHeaders;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
@@ -35,7 +35,6 @@ import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.g3appdriver.utils.WebClient;
-import org.rmj.guanzongroup.ghostrider.notifications.Etc.NotificationAssets;
 import org.rmj.guanzongroup.ghostrider.notifications.Etc.RemoteMessageParser;
 import org.rmj.guanzongroup.ghostrider.notifications.Object.GNotifBuilder;
 
@@ -61,7 +60,7 @@ public class AndroidNotificationManager {
         private final ConnectionUtil loConn;
         private final HttpHeaders poHeaders;
         private final RNotificationInfo poNotification;
-        private final RBranchOpeningMonitor poOpening;
+        private final BranchOpeningMonitor poOpening;
         private final AppConfigPreference loConfig;
         private final RBranch poBranch;
         private final WebApi poApi;
@@ -77,7 +76,7 @@ public class AndroidNotificationManager {
             this.poHeaders = HttpHeaders.getInstance(instance);
             this.poNotification = new RNotificationInfo(instance);
 
-            this.poOpening = new RBranchOpeningMonitor(instance);
+            this.poOpening = new BranchOpeningMonitor(instance);
             this.poBranch = new RBranch(instance);
             this.loConfig = AppConfigPreference.getInstance(instance);
             this.poApi = new WebApi(loConfig.getTestStatus());

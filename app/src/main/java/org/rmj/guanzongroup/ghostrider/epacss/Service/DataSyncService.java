@@ -19,12 +19,12 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import org.rmj.g3appdriver.dev.Database.Repositories.RApprovalCode;
 import org.rmj.g3appdriver.dev.Database.Repositories.RLocationSysLog;
+import org.rmj.g3appdriver.lib.ApprovalCode.ApprovalCode;
 import org.rmj.g3appdriver.lib.Itinerary.EmployeeItinerary;
 import org.rmj.g3appdriver.lib.PetManager.EmployeeLeave;
 import org.rmj.g3appdriver.lib.PetManager.EmployeeOB;
-import org.rmj.g3appdriver.lib.PetManager.SelfieLog;
+import org.rmj.g3appdriver.lib.SelfieLog.SelfieLog;
 import org.rmj.g3appdriver.lib.integsys.CashCount.CashCount;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.guanzongroup.ghostrider.notifications.Object.GNotifBuilder;
@@ -50,6 +50,7 @@ public class DataSyncService extends BroadcastReceiver {
     }
 
     private class SendDataTask extends AsyncTask<Void, String, Boolean>{
+
         private final Application instance;
 
         public SendDataTask(Application instance) {
@@ -76,7 +77,7 @@ public class DataSyncService extends BroadcastReceiver {
                 Thread.sleep(1000);
 
                 EmployeeLeave loLeave = new EmployeeLeave(instance);
-                if(loLeave.UploadLeaveApplications()){
+                if(loLeave.UploadApplications()){
                     publishProgress("Leave application/s uploaded successfully");
                 } else {
                     message = loSelfie.getMessage();
@@ -93,7 +94,7 @@ public class DataSyncService extends BroadcastReceiver {
                 }
                 Thread.sleep(1000);
 
-                RApprovalCode loCode = new RApprovalCode(instance);
+                ApprovalCode loCode = new ApprovalCode(instance);
                 if(loCode.UploadApprovalCode()){
                     publishProgress("Approval code/s uploaded successfully");
                 } else {

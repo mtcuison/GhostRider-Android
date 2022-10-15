@@ -79,7 +79,7 @@ public class VMLeaveApproval extends AndroidViewModel {
     }
 
     public LiveData<EEmployeeLeave> getEmployeeLeaveInfo(String TransNox){
-        return poLeave.getEmployeeLeaveInfo(TransNox);
+        return poLeave.GetLeaveApplicationInfo(TransNox);
     }
 
     public LiveData<EEmployeeInfo> getUserInfo(){
@@ -121,7 +121,7 @@ public class VMLeaveApproval extends AndroidViewModel {
                     return false;
                 }
 
-                if(!poLeave.DownloadLeaveApplication(strings[0])){
+                if(!poLeave.DownloadApplication(strings[0])){
                     message = poLeave.getMessage();
                     return false;
                 }
@@ -180,7 +180,7 @@ public class VMLeaveApproval extends AndroidViewModel {
                     return false;
                 }
 
-                String lsTransNox = poLeave.SaveLeaveApproval(infos[0]);
+                String lsTransNox = poLeave.SaveApproval(infos[0]);
                 if(lsTransNox == null){
                     message = poLeave.getMessage();
                     return false;
@@ -190,7 +190,7 @@ public class VMLeaveApproval extends AndroidViewModel {
                     message = poConn.getMessage() + " Your approval will be automatically send if device is reconnected to internet.";
                     return false;
                 }
-                if(!poLeave.PostLeaveApproval(lsTransNox)){
+                if(!poLeave.UploadApproval(lsTransNox)){
                     message = poLeave.getMessage();
                     return false;
                 }

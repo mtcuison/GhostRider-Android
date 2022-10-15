@@ -23,6 +23,7 @@ import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEmployeeBusinessTrip;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeBusinessTrip;
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeLeave;
 import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.etc.AppConstants;
@@ -38,7 +39,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class EmployeeOB {
+public class EmployeeOB implements iPetManager {
     private static final String TAG = EmployeeOB.class.getSimpleName();
 
     private final DEmployeeBusinessTrip poDao;
@@ -66,6 +67,11 @@ public class EmployeeOB {
 
     public LiveData<DEmployeeInfo.EmployeeBranch> GetUserInfo(){
         return poUser.GetEmployeeBranch();
+    }
+
+    @Override
+    public boolean ImportApplications() {
+        return false;
     }
 
     public void insert(EEmployeeBusinessTrip obLeave) {
@@ -207,6 +213,16 @@ public class EmployeeOB {
         }
     }
 
+    @Override
+    public String SaveApproval(Object foVal) {
+        return null;
+    }
+
+    @Override
+    public boolean UploadApproval(String args) {
+        return false;
+    }
+
     public boolean UploadApplications(){
         try{
             List<EEmployeeBusinessTrip> loObs = poDao.GetUnpostedOBApplications();
@@ -270,6 +286,51 @@ public class EmployeeOB {
             message = e.getMessage();
             return false;
         }
+    }
+
+    @Override
+    public boolean UploadApprovals() {
+        return false;
+    }
+
+    @Override
+    public LiveData<List<EEmployeeLeave>> GetLeaveApplicationList() {
+        return null;
+    }
+
+    @Override
+    public LiveData<List<EEmployeeLeave>> GetLeaveApplicationsForApproval() {
+        return null;
+    }
+
+    @Override
+    public LiveData<List<EEmployeeLeave>> GetApproveLeaveApplications() {
+        return null;
+    }
+
+    @Override
+    public LiveData<EEmployeeLeave> GetLeaveApplicationInfo(String args) {
+        return null;
+    }
+
+    @Override
+    public LiveData<List<EEmployeeBusinessTrip>> GetOBApplicationList() {
+        return null;
+    }
+
+    @Override
+    public LiveData<List<EEmployeeBusinessTrip>> GetOBApplicationsForApproval() {
+        return null;
+    }
+
+    @Override
+    public LiveData<EEmployeeBusinessTrip> GetOBApplicationInfo(String args) {
+        return null;
+    }
+
+    @Override
+    public LiveData<List<EEmployeeBusinessTrip>> GetApproveOBApplications() {
+        return null;
     }
 
     public boolean DownloadApplications(){
@@ -415,6 +476,11 @@ public class EmployeeOB {
             message = e.getMessage();
             return false;
         }
+    }
+
+    @Override
+    public String SaveApplication(Object foVal) {
+        return null;
     }
 
     public String SaveBusinessTripApproval(OBApprovalInfo foVal){

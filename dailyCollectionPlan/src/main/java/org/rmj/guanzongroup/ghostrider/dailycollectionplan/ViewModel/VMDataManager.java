@@ -27,7 +27,7 @@ import org.rmj.g3appdriver.dev.Database.Repositories.RCreditApplication;
 import org.rmj.g3appdriver.dev.Database.Repositories.RCreditApplicationDocument;
 import org.rmj.g3appdriver.dev.Database.Repositories.RDailyCollectionPlan;
 import org.rmj.g3appdriver.dev.Database.Repositories.RImageInfo;
-import org.rmj.g3appdriver.lib.PetManager.SelfieLog;
+import org.rmj.g3appdriver.lib.SelfieLog.SelfieLog;
 
 import java.util.List;
 

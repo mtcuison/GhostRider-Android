@@ -9,7 +9,7 @@
  * project file last modified : 6/9/21 2:17 PM
  */
 
-package org.rmj.g3appdriver.dev.Database.Repositories;
+package org.rmj.g3appdriver.lib.Notifications;
 
 import android.app.Application;
 
@@ -21,38 +21,33 @@ import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
 
 import java.util.List;
 
-public class RBranchOpeningMonitor implements DBranchOpeningMonitor {
+public class BranchOpeningMonitor {
 
     private final Application instance;
     private final DBranchOpeningMonitor dao;
 
-    public RBranchOpeningMonitor(Application application) {
+    public BranchOpeningMonitor(Application application) {
         this.instance = application;
         this.dao = GGC_GriderDB.getInstance(instance).openingMonitoryDao();
     }
 
-    @Override
     public void insert(EBranchOpenMonitor branchOpenMonitor) {
         dao.insert(branchOpenMonitor);
     }
 
-    @Override
     public LiveData<List<EBranchOpenMonitor>> getBranchOpeningForDashBoard(String dTransact) {
         return dao.getBranchOpeningForDashBoard(dTransact);
     }
 
-    @Override
     public LiveData<List<EBranchOpenMonitor>> getBranchOpeningForDate(String dTransact) {
         return dao.getBranchOpeningForDate(dTransact);
     }
 
-    @Override
-    public LiveData<List<BranchOpeningInfo>> getBranchOpeningInfoForDashBoard(String dTransact) {
+    public LiveData<List<DBranchOpeningMonitor.BranchOpeningInfo>> getBranchOpeningInfoForDashBoard(String dTransact) {
         return dao.getBranchOpeningInfoForDashBoard(dTransact);
     }
 
-    @Override
-    public LiveData<List<BranchOpeningInfo>> getBranchOpeningInfo(String dTransact) {
+    public LiveData<List<DBranchOpeningMonitor.BranchOpeningInfo>> getBranchOpeningInfo(String dTransact) {
         return dao.getBranchOpeningInfo(dTransact);
     }
 }

@@ -48,6 +48,7 @@ public class VMSplashScreen extends AndroidViewModel {
         super(application);
         this.instance = application;
         this.poConfigx = AppConfigPreference.getInstance(application);
+        this.poConfigx.setPackageName(BuildConfig.APPLICATION_ID);
         this.poConfigx.setTemp_ProductID("gRider");
         this.poConfigx.setUpdateLocally(false);
         Date buildDate = new Date(BuildConfig.TIMESTAMP);

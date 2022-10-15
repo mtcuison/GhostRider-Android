@@ -9,7 +9,7 @@
  * project file last modified : 4/24/21 3:18 PM
  */
 
-package org.rmj.g3appdriver.lib.PetManager;
+package org.rmj.g3appdriver.lib.SelfieLog;
 
 import android.app.Application;
 import android.util.Log;

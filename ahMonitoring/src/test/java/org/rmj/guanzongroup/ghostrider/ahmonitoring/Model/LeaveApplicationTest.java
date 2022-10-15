@@ -13,27 +13,17 @@ package org.rmj.guanzongroup.ghostrider.ahmonitoring.Model;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.rmj.g3appdriver.GRider.Database.Repositories.REmployeeLeave;
 
 import static org.junit.Assert.*;
 
 public class LeaveApplicationTest {
 
-    public REmployeeLeave.LeaveApplication poLeave;
 
     @Before
     public void setUp() throws Exception {
-        poLeave = new REmployeeLeave.LeaveApplication();
     }
 
     @Test
     public void isDataValid() {
-        poLeave.setLeaveType("0");
-        poLeave.setRemarksxx("Sample");
-        poLeave.setNoOfDaysx(0);
-        poLeave.setDateFromx("2021-06-22");
-        poLeave.setDateThrux("2021-06-22");
-
-        assertTrue(poLeave.isDataValid());
     }
 }

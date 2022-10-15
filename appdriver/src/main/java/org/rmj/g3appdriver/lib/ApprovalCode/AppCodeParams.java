@@ -1,76 +1,163 @@
+/*
+ * Created by Android Team MIS-SEG Year 2021
+ * Copyright (c) 2021. Guanzon Central Office
+ * Guanzon Bldg., Perez Blvd., Dagupan City, Pangasinan 2400
+ * Project name : GhostRider_Android
+ * Module : GhostRider_Android.approvalCode
+ * Electronic Personnel Access Control Security System
+ * project file created : 4/24/21 3:19 PM
+ * project file last modified : 4/24/21 3:18 PM
+ */
+
 package org.rmj.g3appdriver.lib.ApprovalCode;
 
 public class AppCodeParams {
-    private String sBranchCd;
-    private String dReqDatex;
+
+    private String sSysTypex;
     private String sSystemCd;
-    private String sMiscInfo;
+    private String sSCATypex;
+    private String sBranchCd;
+    private String sReqDatex;
+    private String sReferNox;
+    private String sLastName;
+    private String sFrstName;
+    private String sMiddName;
+    private String sSuffixxx;
     private String sRemarksx;
 
     private String message;
 
-    public AppCodeParams() {
+    public AppCodeParams(){
+
     }
 
     public String getMessage() {
         return message;
     }
 
-    public String getsBranchCd() {
-        return sBranchCd;
+    public void setSysTypex(String sSysTypex) {
+        this.sSysTypex = sSysTypex;
     }
 
-    public void setsBranchCd(String sBranchCd) {
-        this.sBranchCd = sBranchCd;
-    }
-
-    public String getdReqDatex() {
-        return dReqDatex;
-    }
-
-    public void setdReqDatex(String dReqDatex) {
-        this.dReqDatex = dReqDatex;
-    }
-
-    public String getsSystemCd() {
+    public String getSystemCd() {
         return sSystemCd;
     }
 
-    public void setsSystemCd(String sSystemCd) {
+    public void setSystemCd(String sSystemCd) {
         this.sSystemCd = sSystemCd;
     }
 
-    public String getsMiscInfo() {
-        return sMiscInfo;
+    public String getSCAType() {
+        return sSCATypex;
     }
 
-    public void setsMiscInfo(String sMiscInfo) {
-        this.sMiscInfo = sMiscInfo;
+    public void setSCAType(String sSCATypex) {
+        this.sSCATypex = sSCATypex;
     }
 
-    public String getsRemarksx() {
+    public String getBranchCd() {
+        return sBranchCd;
+    }
+
+    public void setBranchCd(String sBranchCd) {
+        this.sBranchCd = sBranchCd;
+    }
+
+    public String getReqDatex() {
+        return sReqDatex;
+    }
+
+    public void setReqDatex(String sReqDatex) {
+        this.sReqDatex = sReqDatex;
+    }
+
+    public void setReferNox(String sReferNox) {
+        this.sReferNox = sReferNox;
+    }
+
+    public void setLastName(String sLastName) {
+        this.sLastName = sLastName;
+    }
+
+    public void setFrstName(String sFrstName) {
+        this.sFrstName = sFrstName;
+    }
+
+    public void setMiddName(String sMiddName) {
+        this.sMiddName = sMiddName;
+    }
+
+    public void setSuffix(String sSuffixxx) {
+        this.sSuffixxx = sSuffixxx;
+    }
+
+    public String getRemarks() {
         return sRemarksx;
     }
 
-    public void setsRemarksx(String sRemarksx) {
+    public void setRemarks(String sRemarksx) {
         this.sRemarksx = sRemarksx;
     }
 
+    public String getMiscInfo(){
+        if(sSysTypex.equalsIgnoreCase("1")){
+            return sReferNox;
+        }
+        return getFullName();
+    }
+
+    private String getFullName(){
+        String lsFullName = sLastName + ", " + sFrstName;
+        if(!sSuffixxx.trim().isEmpty()){
+            lsFullName = lsFullName + " " + sSuffixxx;
+        }
+        if(!sMiddName.trim().isEmpty()){
+            lsFullName = lsFullName + " " + sMiddName;
+        }
+        return lsFullName;
+    }
+
     public boolean isDataValid(){
-        if(sBranchCd == null){
+        return isBranchValid() && isDateValid() && isReferNoxValid() && isNameValid();
+    }
+
+    private boolean isBranchValid(){
+        if(sBranchCd == null || sBranchCd.trim().isEmpty()){
             message = "Please select branch";
             return false;
-        } else if(dReqDatex == null){
-            message = "Please enter date requested";
-            return false;
-        } else if(sSystemCd == null){
-            message = "Please select system code";
-            return false;
-        } else if(sMiscInfo == null){
-            message = "Please enter misc info ";
+        }
+        return true;
+    }
+
+    private boolean isDateValid(){
+        if(sReqDatex.trim().isEmpty()){
+            message = "Please enter requested date";
             return false;
         }
+        return true;
+    }
 
+    private boolean isReferNoxValid(){
+        if(sSysTypex.equalsIgnoreCase("1")){
+            if(sReferNox.trim().isEmpty()){
+                message = "Please enter reference no.";
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean isNameValid(){
+        if(sSysTypex.equalsIgnoreCase("2")){
+            if(sLastName.trim().isEmpty()){
+                message = "Please enter last name";
+                return false;
+            }
+            if(sFrstName.trim().isEmpty()){
+                message = "Please enter first name";
+                return false;
+            }
+        }
         return true;
     }
 }

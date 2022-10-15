@@ -31,7 +31,7 @@ import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.LocationRetriever;
 import org.rmj.g3appdriver.etc.SessionManager;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
-import org.rmj.g3appdriver.lib.PetManager.SelfieLog;
+import org.rmj.g3appdriver.lib.SelfieLog.SelfieLog;
 import org.rmj.g3appdriver.lib.integsys.CashCount.CashCount;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;

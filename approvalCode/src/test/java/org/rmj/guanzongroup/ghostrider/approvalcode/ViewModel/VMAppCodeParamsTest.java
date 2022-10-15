@@ -26,7 +26,7 @@ import org.robolectric.annotation.Config;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(sdk = {Build.VERSION_CODES.O_MR1}, manifest= Config.NONE)
-public class VMApprovalEntryTest extends TestCase {
+public class VMAppCodeParamsTest extends TestCase {
     private VMApprovalEntry mViewModel;
 
     @Before
@@ -41,12 +41,12 @@ public class VMApprovalEntryTest extends TestCase {
 
     @Test
     public void testGetBranchNameList() {
-        mViewModel.getBranchNameList().observeForever(strings -> assertNotNull(strings));
+        mViewModel.GetBranchNamesList().observeForever(strings -> assertNotNull(strings));
     }
 
     @Test
     public void testGetAllBranchInfo() {
-        mViewModel.getAllBranchInfo().observeForever(eBranchInfos -> assertNotNull(eBranchInfos));
+        mViewModel.GetAllBranchInfo().observeForever(eBranchInfos -> assertNotNull(eBranchInfos));
     }
 
 

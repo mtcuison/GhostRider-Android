@@ -28,7 +28,7 @@ import org.rmj.g3appdriver.dev.Database.Entities.EBranchPerformance;
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.Repositories.RAreaPerformance;
 import org.rmj.g3appdriver.dev.Database.Repositories.RBranch;
-import org.rmj.g3appdriver.dev.Database.Repositories.RBranchOpeningMonitor;
+import org.rmj.g3appdriver.lib.Notifications.BranchOpeningMonitor;
 import org.rmj.g3appdriver.dev.Database.Repositories.RBranchPerformance;
 import org.rmj.g3appdriver.dev.Database.Repositories.RNotificationInfo;
 import org.rmj.g3appdriver.dev.Telephony;
@@ -51,7 +51,7 @@ public class VMHome extends AndroidViewModel {
     private final MutableLiveData<Integer> userLvl = new MutableLiveData<>();
     private final RAreaPerformance poDatabse;
     private final RNotificationInfo poNotification;
-    private final RBranchOpeningMonitor poOpening;
+    private final BranchOpeningMonitor poOpening;
     private final RBranch poBrInfo;
     private final RBranchPerformance poBranch;
 
@@ -64,7 +64,7 @@ public class VMHome extends AndroidViewModel {
         poDatabse = new RAreaPerformance(application);
         this.poNotification = new RNotificationInfo(application);
         this.cv_ahMonitoring.setValue(View.GONE);
-        this.poOpening = new RBranchOpeningMonitor(application);
+        this.poOpening = new BranchOpeningMonitor(application);
         this.poBrInfo = new RBranch(application);
         this.poBranch = new RBranchPerformance(application);
     }

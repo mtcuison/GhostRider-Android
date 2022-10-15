@@ -38,14 +38,13 @@ import com.google.android.material.textfield.TextInputEditText;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.utils.CopyToClipboard;
-import org.rmj.guanzongroup.ghostrider.approvalcode.Etc.ViewModelCallback;
-import org.rmj.guanzongroup.ghostrider.approvalcode.Model.ManualLog;
+import org.rmj.g3appdriver.lib.ApprovalCode.ManualLog;
 import org.rmj.guanzongroup.ghostrider.approvalcode.R;
 import org.rmj.guanzongroup.ghostrider.approvalcode.ViewModel.VMManualLog;
 
 import java.util.Calendar;
 
-public class Fragment_ManualLog extends Fragment implements ViewModelCallback {
+public class Fragment_ManualLog extends Fragment {
 
     private VMManualLog mViewModel;
 
@@ -73,10 +72,11 @@ public class Fragment_ManualLog extends Fragment implements ViewModelCallback {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        mViewModel = new ViewModelProvider(this).get(VMManualLog.class);
         View v = inflater.inflate(R.layout.fragment_manual_log, container, false);
         loManual = new ManualLog();
-        poDialog = new LoadDialog(getActivity());
-        poMsgBox = new MessageBox(getActivity());
+        poDialog = new LoadDialog(requireActivity());
+        poMsgBox = new MessageBox(requireActivity());
         txtBranch = v.findViewById(R.id.txt_appBranch);
         txtReqDate = v.findViewById(R.id.txt_appRequestDate);
         txtAppCode = v.findViewById(R.id.txt_approvalCode);
@@ -117,21 +117,13 @@ public class Fragment_ManualLog extends Fragment implements ViewModelCallback {
             String message;
             if (!KnoxPin.isEmpty()) {
                 new CopyToClipboard(getActivity()).CopyTextClip("Knox_Pin", KnoxPin);
-                message = "Knox pin copied to clipboard.";
+                message = "Approval code copied to clipboard.";
             } else {
                 message = "Unable to copy empty content.";
             }
-            Toast toast = Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT);
-            toast.setGravity(Gravity.CENTER, 0, 0);
-            toast.show();
+            Toast.makeText(requireActivity(), message, Toast.LENGTH_SHORT).show();
         });
-        return v;
-    }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(VMManualLog.class);
         mViewModel.getBranchNames().observe(getViewLifecycleOwner(), strings -> {
             ArrayAdapter<String> loAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
             txtBranch.setAdapter(loAdapter);
@@ -156,38 +148,31 @@ public class Fragment_ManualLog extends Fragment implements ViewModelCallback {
             loManual.setRemarks(txtRemarks.getText().toString());
             loManual.setReqDatex(txtReqDate.getText().toString());
             loManual.setSysCode("ML");
-            mViewModel.creatApprovalCode(loManual, new VMManualLog.CodeApprovalCreatedListener() {
+            mViewModel.GenerateCode(loManual, new VMManualLog.OnGenerateApprovalCodeListener() {
                 @Override
-                public void OnCreate(String args) {
+                public void OnGenerate(String title, String message) {
+                    poDialog.initDialog(title, message, false);
+                    poDialog.show();
+                }
+
+                @Override
+                public void OnSuccess(String args) {
+                    poDialog.dismiss();
                     txtAppCode.setText(args);
                 }
 
                 @Override
-                public void OnCreateFailed(String message) {
-                    Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+                public void OnFailed(String message) {
+                    poDialog.dismiss();
+                    poMsgBox.initDialog();
+                    poMsgBox.setTitle("Approval Code");
+                    poMsgBox.setMessage(message);
+                    poMsgBox.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                    poMsgBox.show();
                 }
             });
         });
-    }
 
-    @Override
-    public void OnLoadData(String Title, String Message) {
-        poDialog.initDialog(Title, Message, false);
-        poDialog.show();
-    }
-
-    @Override
-    public void OnSuccessResult(String args) {
-        poDialog.dismiss();
-    }
-
-    @Override
-    public void OnFailedResult(String message) {
-        poDialog.dismiss();
-        poMsgBox.initDialog();
-        poMsgBox.setTitle("Approval Code");
-        poMsgBox.setMessage(message);
-        poMsgBox.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-        poMsgBox.show();
+        return v;
     }
 }

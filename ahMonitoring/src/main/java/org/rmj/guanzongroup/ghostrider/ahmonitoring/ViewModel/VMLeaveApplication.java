@@ -89,7 +89,7 @@ public class VMLeaveApplication extends AndroidViewModel {
         protected Boolean doInBackground(EmployeeLeave.LeaveApplication... leaveApplications) {
             EmployeeLeave.LeaveApplication loLeave = leaveApplications[0];
             try {
-                String lsTransNo = poLeave.SaveLeaveApplication(loLeave);
+                String lsTransNo = poLeave.SaveApplication(loLeave);
                 if (lsTransNo == null) {
                     message = poLeave.getMessage();
                     return false;
@@ -100,7 +100,7 @@ public class VMLeaveApplication extends AndroidViewModel {
                     return true;
                 }
 
-                if(!poLeave.UploadLeaveApplication(lsTransNo)) {
+                if(!poLeave.UploadApplication(lsTransNo)) {
                     message = poLeave.getMessage();
                     return true;
                 } else {

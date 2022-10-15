@@ -33,6 +33,7 @@ import org.rmj.g3appdriver.dev.Database.Repositories.RSysConfig;
 import org.rmj.g3appdriver.dev.Database.Repositories.RTown;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
+import org.rmj.g3appdriver.lib.ApprovalCode.ApprovalCode;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(AndroidJUnit4.class)
@@ -97,7 +98,7 @@ public class ImportData {
 
     @Test
     public void test04ImportSCARequest() {
-        RApprovalCode loSys = new RApprovalCode(instance);
+        ApprovalCode loSys = new ApprovalCode(instance);
         if(!loSys.ImportSCARequest()){
             message = loSys.getMessage();
             Log.e(TAG, message);

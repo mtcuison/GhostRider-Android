@@ -31,20 +31,19 @@ import android.widget.Toast;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
+import org.rmj.g3appdriver.lib.ApprovalCode.CreditAppInfo;
 import org.rmj.g3appdriver.utils.CopyToClipboard;
 import org.rmj.guanzongroup.ghostrider.approvalcode.Activity.Activity_ApprovalCode;
+import org.rmj.g3appdriver.lib.ApprovalCode.CreditApp;
 import org.rmj.guanzongroup.ghostrider.approvalcode.Etc.ViewModelCallback;
-import org.rmj.guanzongroup.ghostrider.approvalcode.Model.CreditApp;
 import org.rmj.guanzongroup.ghostrider.approvalcode.R;
 import org.rmj.guanzongroup.ghostrider.approvalcode.ViewModel.VMCreditAppApproval;
 
 import java.util.Objects;
 
-public class Fragment_CreditAppApproval extends Fragment implements ViewModelCallback, VMCreditAppApproval.OnLoadApplicationListener {
+public class Fragment_CreditAppApproval extends Fragment {
 
     private VMCreditAppApproval mViewModel;
 
@@ -65,12 +64,66 @@ public class Fragment_CreditAppApproval extends Fragment implements ViewModelCal
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_credit_app_approval, container, false);
+        mViewModel = new ViewModelProvider(this).get(VMCreditAppApproval.class);
+        View layout = inflater.inflate(R.layout.fragment_credit_app_approval, container, false);
         sSystemCD = Activity_ApprovalCode.getInstance().getSystemCode();
-        poDialog = new LoadDialog(getActivity());
-        poMsgBox = new MessageBox(getActivity());
-        initWidgets(view);
-        return view;
+        poDialog = new LoadDialog(requireActivity());
+        poMsgBox = new MessageBox(requireActivity());
+        initWidgets(layout);
+
+        btnLoadApp.setOnClickListener(view -> {
+            String lsTransNo = Objects.requireNonNull(txtTransNox.getText()).toString();
+            String lsBrnchCd = txtBranch.getText().toString();
+            mViewModel.LoadApplication(sSystemCD, lsTransNo, lsBrnchCd, new VMCreditAppApproval.OnLoadApplicationListener() {
+                @Override
+                public void OnLoad(String Title, String Message) {
+                    poDialog.initDialog(Title, Message, false);
+                    poDialog.show();
+                }
+
+                @Override
+                public void OnLoadSuccess(CreditAppInfo args) {
+                    poDialog.dismiss();
+                    txtReBranch.setText(args.getRqstinfo());
+                    txtReqDate.setText(args.getReqstdxx());
+                    txtMiscInfo.setText(args.getMiscinfo());
+                    txtRemarks.setText(args.getRemarks1());
+                }
+
+                @Override
+                public void OnLoadFailed(String message) {
+                    poDialog.dismiss();
+                    poMsgBox.initDialog();
+                    poMsgBox.setTitle("Approval Code");
+                    poMsgBox.setMessage(message);
+                    poMsgBox.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                    poMsgBox.show();
+                }
+            });
+        });
+
+        btnApprove.setOnClickListener(view -> {
+            String lsTransNo = Objects.requireNonNull(txtTransNox.getText()).toString();
+            String lsReasonx = Objects.requireNonNull(txtAppNotes.getText()).toString();
+            CreditApp.Application loApp = new CreditApp.Application(lsTransNo, lsReasonx, "yes");
+            UploadApproval(loApp);
+        });
+
+        btnDApprove.setOnClickListener(view -> {
+            String lsTransNo = Objects.requireNonNull(txtTransNox.getText()).toString();
+            String lsReasonx = Objects.requireNonNull(txtAppNotes.getText()).toString();
+            CreditApp.Application loApp = new CreditApp.Application(lsTransNo, lsReasonx, "no");
+            UploadApproval(loApp);
+        });
+
+        btnAppNoCI.setOnClickListener(view -> {
+            String lsTransNo = Objects.requireNonNull(txtTransNox.getText()).toString();
+            String lsReasonx = Objects.requireNonNull(txtAppNotes.getText()).toString();
+            CreditApp.Application loApp = new CreditApp.Application(lsTransNo, lsReasonx, "na");
+            UploadApproval(loApp);
+        });
+
+        return layout;
     }
 
     private void initWidgets(View v){
@@ -98,97 +151,37 @@ public class Fragment_CreditAppApproval extends Fragment implements ViewModelCal
             String message;
             if (!KnoxPin.isEmpty()) {
                 new CopyToClipboard(getActivity()).CopyTextClip("Knox_Pin", KnoxPin);
-                message = "Knox pin copied to clipboard.";
+                message = "Approval code copied to clipboard.";
             } else {
                 message = "Unable to copy empty content.";
             }
-            Toast toast = Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT);
-            toast.setGravity(Gravity.CENTER, 0, 0);
-            toast.show();
+            Toast.makeText(requireActivity(), message, Toast.LENGTH_SHORT).show();
         });
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(VMCreditAppApproval.class);
-        btnLoadApp.setOnClickListener(view -> {
-            String lsTransNo = Objects.requireNonNull(txtTransNox.getText()).toString();
-            String lsBrnchCd = txtBranch.getText().toString();
-            CreditApp loApp = new CreditApp(sSystemCD, lsTransNo, lsBrnchCd);
-            mViewModel.LoadApplication(loApp, Fragment_CreditAppApproval.this);
+    private void UploadApproval(CreditApp.Application foVal){
+        mViewModel.ApproveApplication(foVal, new ViewModelCallback() {
+            @Override
+            public void OnLoadData(String Title, String Message) {
+                poDialog.initDialog(Title, Message, false);
+                poDialog.show();
+            }
+
+            @Override
+            public void OnSuccessResult(String args) {
+                poDialog.dismiss();
+                txtAppCode.setText(args);
+            }
+
+            @Override
+            public void OnFailedResult(String message) {
+                poDialog.dismiss();
+                poMsgBox.initDialog();
+                poMsgBox.setTitle("Approval Code");
+                poMsgBox.setMessage(message);
+                poMsgBox.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                poMsgBox.show();
+            }
         });
-
-        btnApprove.setOnClickListener(view -> {
-            String lsTransNo = Objects.requireNonNull(txtTransNox.getText()).toString();
-            String lsReasonx = Objects.requireNonNull(txtAppNotes.getText()).toString();
-            CreditApp.Application loApp = new CreditApp.Application(lsTransNo, lsReasonx, "yes");
-            mViewModel.ApproveApplication(loApp, Fragment_CreditAppApproval.this);
-        });
-
-        btnDApprove.setOnClickListener(view -> {
-            String lsTransNo = Objects.requireNonNull(txtTransNox.getText()).toString();
-            String lsReasonx = Objects.requireNonNull(txtAppNotes.getText()).toString();
-            CreditApp.Application loApp = new CreditApp.Application(lsTransNo, lsReasonx, "no");
-            mViewModel.ApproveApplication(loApp, Fragment_CreditAppApproval.this);
-        });
-
-        btnAppNoCI.setOnClickListener(view -> {
-            String lsTransNo = Objects.requireNonNull(txtTransNox.getText()).toString();
-            String lsReasonx = Objects.requireNonNull(txtAppNotes.getText()).toString();
-            CreditApp.Application loApp = new CreditApp.Application(lsTransNo, lsReasonx, "na");
-            mViewModel.ApproveApplication(loApp, Fragment_CreditAppApproval.this);
-        });
-    }
-
-    @Override
-    public void OnLoadData(String Title, String Message) {
-        poDialog.initDialog(Title, Message, false);
-        poDialog.show();
-    }
-
-    @Override
-    public void OnSuccessResult(String args) {
-        txtAppCode.setText(args);
-    }
-
-    @Override
-    public void OnFailedResult(String message) {
-        poDialog.dismiss();
-        poMsgBox.initDialog();
-        poMsgBox.setTitle("Approval Code");
-        poMsgBox.setMessage(message);
-        poMsgBox.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-        poMsgBox.show();
-    }
-
-    @Override
-    public void OnLoad(String Title, String Message) {
-        poDialog.initDialog(Title, Message, false);
-        poDialog.show();
-    }
-
-    @Override
-    public void OnLoadSuccess(String args) {
-        poDialog.dismiss();
-        try{
-            JSONObject loJson = new JSONObject(args);
-            txtReBranch.setText(loJson.getString("rqstinfo"));
-            txtReqDate.setText(loJson.getString("reqstdxx"));
-            txtMiscInfo.setText(loJson.getString("miscinfo"));
-            txtRemarks.setText(loJson.getString("remarks1"));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void OnLoadFailed(String message) {
-        poDialog.dismiss();
-        poMsgBox.initDialog();
-        poMsgBox.setTitle("Approval Code");
-        poMsgBox.setMessage(message);
-        poMsgBox.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-        poMsgBox.show();
     }
 }

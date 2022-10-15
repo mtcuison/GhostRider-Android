@@ -13,14 +13,14 @@ package org.rmj.g3appdriver.lib.ImportData;
 
 import android.app.Application;
 
-import org.rmj.g3appdriver.dev.Database.Repositories.RApprovalCode;
+import org.rmj.g3appdriver.lib.ApprovalCode.ApprovalCode;
 
 public class Import_SCARequest implements ImportInstance{
     public static final String TAG = Import_SCARequest.class.getSimpleName();
-    private final RApprovalCode poSys;
+    private final ApprovalCode poSys;
 
     public Import_SCARequest(Application instance) {
-        this.poSys = new RApprovalCode(instance);
+        this.poSys = new ApprovalCode(instance);
     }
 
     @Override
