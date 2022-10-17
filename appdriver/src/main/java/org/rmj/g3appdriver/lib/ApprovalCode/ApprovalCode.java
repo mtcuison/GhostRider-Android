@@ -17,11 +17,9 @@ import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.sqlite.db.SimpleSQLiteQuery;
-import androidx.sqlite.db.SupportSQLiteQuery;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.rmj.appdriver.mob.lib.RequestApproval;
 import org.rmj.apprdiver.util.MiscUtil;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DApprovalCode;
 import org.rmj.g3appdriver.dev.Database.Entities.ECodeApproval;
@@ -31,6 +29,9 @@ import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.dev.HttpHeaders;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
+import org.rmj.g3appdriver.lib.ApprovalCode.Obj.LoanApproval;
+import org.rmj.g3appdriver.lib.ApprovalCode.Obj.ManualLog;
+import org.rmj.g3appdriver.lib.ApprovalCode.Obj.SystemCode;
 import org.rmj.g3appdriver.utils.SQLUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.g3appdriver.utils.WebClient;
@@ -44,6 +45,8 @@ public class ApprovalCode {
 
     private final EmployeeMaster poUser;
 
+    public final Application instance;
+
     private final AppConfigPreference poConfig;
     private final WebApi poApi;
     private final HttpHeaders poHeaders;
@@ -51,6 +54,7 @@ public class ApprovalCode {
     private String message;
 
     public ApprovalCode(Application instance) {
+        this.instance = instance;
         this.poDao = GGC_GriderDB.getInstance(instance).ApprovalDao();
         this.poUser = new EmployeeMaster(instance);
         this.poConfig = AppConfigPreference.getInstance(instance);
@@ -62,220 +66,16 @@ public class ApprovalCode {
         return message;
     }
 
-    public LiveData<String> GetApprovalCodeDescription(String fsVal){
-        return poDao.getApprovalDesc(fsVal);
-    }
-
-    public String GenerateApprovalCode(AppCodeParams foVal){
-        try{
-            if(!foVal.isDataValid()){
-                message = foVal.getMessage();
-                return null;
-            }
-
-            String lsPackage = poConfig.getPackageName();
-
-            EEmployeeInfo loUser = poDao.GetUserInfo();
-
-            if(loUser == null){
-                message = "Invalid user record. Please re-login your account and try again.";
-                return null;
-            }
-
-            RequestApproval loApp = new RequestApproval(lsPackage);
-            loApp.setDeptIDxx(loUser.getDeptIDxx());
-            loApp.setEmpLevID(loUser.getEmpLevID());
-            loApp.setEmployID(loUser.getEmployID());
-            loApp.setRemarks(foVal.getRemarks());
-
-            String lsAppCode = loApp.Generate(
-                    foVal.getBranchCd(),
-                    foVal.getReqDatex(),
-                    foVal.getSystemCd(),
-                    foVal.getMiscInfo());
-
-            if(lsAppCode.isEmpty()){
-                message = loApp.getMessage();
-                return null;
-            }
-
-            return lsAppCode;
-        } catch (Exception e){
-            e.printStackTrace();
-            message = e.getMessage();
-            return null;
+    public SCA getInstance(eSCA args){
+        switch (args){
+            case MANUAL_LOG:
+                return new ManualLog(instance);
+            case SYSTEM_CODE:
+                return new SystemCode(instance);
+            case CREDIT_APP:
+                return new LoanApproval(instance);
         }
-    }
-
-    public String GenerateApprovalCode(ManualLog foVal){
-        try{
-            if(!foVal.isDataValid()){
-                message = foVal.getMessage();
-                return null;
-            }
-
-            EEmployeeInfo loUser = poDao.GetUserInfo();
-
-            if(loUser == null){
-                message = "Invalid user record. Please re-login your account and try again.";
-            }
-
-            String lsPackage = poConfig.getPackageName();
-
-            RequestApproval loApp = new RequestApproval(lsPackage);
-            loApp.setDeptIDxx(loUser.getDeptIDxx());
-            loApp.setEmpLevID(loUser.getEmpLevID());
-            loApp.setEmployID(loUser.getEmployID());
-            loApp.setReason(foVal.getRemarks());
-
-            String lsReqDate = foVal.getReqDatex();
-
-            long lnVal = Long.valueOf(foVal.getMiscInfo(), 2);
-
-            String lsAppCode = loApp.Generate(
-                    foVal.getBranchCd(),
-                    lsReqDate,
-                    foVal.getSysCode(),
-                    String.valueOf(lnVal));
-
-            if(lsAppCode.isEmpty()){
-                message = loApp.getMessage();
-                return null;
-            }
-
-            return lsAppCode;
-        } catch (Exception e){
-            e.printStackTrace();
-            message = e.getMessage();
-            return null;
-        }
-    }
-
-    public boolean UploadApprovalCode(String fsVal){
-        try {
-            ECodeApproval loCode = poDao.GetCodeApproval(fsVal);
-
-            if(loCode == null){
-                message = "No approval code record found for uploading.";
-                return false;
-            }
-
-            JSONObject param = new JSONObject();
-            param.put("sTransNox", loCode.getTransNox());
-            param.put("dTransact", loCode.getTransact());
-            param.put("sSystemCD", loCode.getSystemCD());
-            param.put("sReqstdBy", loCode.getReqstdBy());
-            param.put("dReqstdxx", loCode.getReqstdxx());
-            param.put("cIssuedBy", loCode.getIssuedBy());
-            param.put("sMiscInfo", loCode.getMiscInfo());
-            param.put("sRemarks1", loCode.getRemarks1());
-            param.put("sRemarks2", loCode.getApprCode() == null ? "" : loCode.getRemarks2());
-            param.put("sApprCode", loCode.getApprCode());
-            param.put("sEntryByx", loCode.getEntryByx());
-            param.put("sApprvByx", loCode.getApprvByx());
-            param.put("sReasonxx", loCode.getReasonxx() == null ? "" : loCode.getReasonxx());
-            param.put("sReqstdTo", loCode.getReqstdTo() == null ? "" : loCode.getReqstdTo());
-            param.put("cTranStat", loCode.getTranStat());
-
-            String lsResponse = WebClient.httpsPostJSon(
-                    poApi.getUrlSaveApproval(poConfig.isBackUpServer()),
-                    param.toString(),
-                    poHeaders.getHeaders());
-
-            if(lsResponse == null){
-                message = "Server no response.";
-                return false;
-            }
-
-            JSONObject loResponse = new JSONObject(lsResponse);
-            String lsResult = loResponse.getString("result");
-
-            if(lsResult.equalsIgnoreCase("error")){
-                JSONObject loError = loResponse.getJSONObject("error");
-                message = loError.getString("message");
-                return false;
-            }
-
-            String lsTransNo = loResponse.getString("sTransNox");
-            poDao.UpdateUploaded(loCode.getTransNox(), lsTransNo);
-
-            return true;
-
-        } catch (Exception e){
-            e.printStackTrace();
-            message = e.getMessage();
-            return false;
-        }
-    }
-
-    public CreditAppInfo GetCreditApp(String args, String args1, String args2){
-        try{
-            JSONObject params = new JSONObject();
-            params.put("systemcd", args);
-            params.put("branchcd", args1);
-            params.put("transnox", args2);
-
-            String lsResponse = WebClient.httpsPostJSon(
-                    poApi.getUrlLoadApplicationApproval(poConfig.isBackUpServer()),
-                    params.toString(),
-                    poHeaders.getHeaders());
-
-            if(lsResponse == null){
-                message = "Server no response.";
-                return null;
-            }
-
-            JSONObject loResponse = new JSONObject(lsResponse);
-            String lsResult = loResponse.getString("result");
-            if(lsResult.equalsIgnoreCase("error")){
-                JSONObject loError = loResponse.getJSONObject("error");
-                message = loError.getString("message");
-                return null;
-            }
-
-            return new CreditAppInfo(loResponse.getString("rqstinfo"),
-                                loResponse.getString("reqstdxx"),
-                                loResponse.getString("miscinfo"),
-                                loResponse.getString("remarks1"));
-        } catch (Exception e){
-            e.printStackTrace();
-            message = e.getMessage();
-            return null;
-        }
-    }
-
-    public String ApproveCreditApp(CreditApp.Application foVal){
-        try{
-            JSONObject params = new JSONObject();
-            params.put("transnox", foVal.getTransNox());
-            params.put("reasonxx", foVal.getReasonxx());
-            params.put("approved", foVal.getApproved());
-
-            String lsResponse = WebClient.httpsPostJSon(
-                    poApi.getUrlApplicationApprove(poConfig.isBackUpServer()),
-                    params.toString(),
-                    poHeaders.getHeaders());
-
-            if(lsResponse == null){
-                message = "Server no response.";
-                return null;
-            }
-
-            JSONObject loResponse = new JSONObject(lsResponse);
-            String lsResult = loResponse.getString("result");
-            if(lsResult.equalsIgnoreCase("error")){
-                JSONObject loError = loResponse.getJSONObject("error");
-                message = loError.getString("message");
-                return null;
-            }
-
-            String lsAppCode = loResponse.getString("apprcode");
-            return lsAppCode;
-        } catch (Exception e){
-            e.printStackTrace();
-            message = e.getMessage();
-            return null;
-        }
+        return null;
     }
 
     public boolean UploadApprovalCode(){
@@ -479,5 +279,11 @@ public class ApprovalCode {
 
         if (!lsCondition.isEmpty()) lsSqlQryxx = MiscUtil.addCondition(lsSqlQryxx, lsCondition);
         return poDao.getAuthorizedFeatures(new SimpleSQLiteQuery(lsSqlQryxx));
+    }
+
+    public enum eSCA{
+        MANUAL_LOG,
+        SYSTEM_CODE,
+        CREDIT_APP
     }
 }

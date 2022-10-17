@@ -24,8 +24,8 @@ import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeBusinessTrip;
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeLeave;
 import org.rmj.g3appdriver.dev.Database.Repositories.RBranch;
-import org.rmj.g3appdriver.lib.PetManager.EmployeeLeave;
-import org.rmj.g3appdriver.lib.PetManager.EmployeeOB;
+import org.rmj.g3appdriver.lib.PetManager.Obj.EmployeeLeave;
+import org.rmj.g3appdriver.lib.PetManager.Obj.EmployeeOB;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 
 import java.util.List;
@@ -68,7 +68,7 @@ public class VMEmployeeApplications extends AndroidViewModel {
     }
 
     public LiveData<List<EEmployeeBusinessTrip>> GetApproveBusTrip(){
-        return poBuss.GetApproveBusTrip();
+        return poBuss.GetApproveOBApplications();
     }
 
     public LiveData<List<EEmployeeLeave>> getEmployeeLeaveForApprovalList(){
@@ -118,7 +118,7 @@ public class VMEmployeeApplications extends AndroidViewModel {
                     Log.e(TAG, message);
                 }
 
-                if(!poBusTrip.DownloadApplications()){
+                if(!poBusTrip.ImportApplications()){
                     message = poBusTrip.getMessage();
                     Log.e(TAG, message);
                 }

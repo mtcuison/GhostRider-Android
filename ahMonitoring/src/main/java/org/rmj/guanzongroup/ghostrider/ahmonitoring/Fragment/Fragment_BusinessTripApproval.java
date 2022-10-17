@@ -36,7 +36,8 @@ import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.etc.SessionManager;
-import org.rmj.g3appdriver.lib.PetManager.EmployeeOB;
+import org.rmj.g3appdriver.lib.PetManager.Obj.EmployeeOB;
+import org.rmj.g3appdriver.lib.PetManager.model.OBApprovalInfo;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Application;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMObApproval;
@@ -71,7 +72,7 @@ public class Fragment_BusinessTripApproval extends Fragment implements VMObAppro
     private TextInputLayout tilRemarks;
     private LoadDialog poDialogx;
     private MessageBox poMessage;
-    private EmployeeOB.OBApprovalInfo poModel;
+    private OBApprovalInfo poModel;
 
     public static Fragment_BusinessTripApproval newInstance() {
         return new Fragment_BusinessTripApproval();
@@ -166,7 +167,7 @@ public class Fragment_BusinessTripApproval extends Fragment implements VMObAppro
     public void initWidgets(View view){
         poDialogx = new LoadDialog(getActivity());
         poMessage = new MessageBox(getActivity());
-        poModel = new EmployeeOB.OBApprovalInfo();
+        poModel = new OBApprovalInfo();
         lnSearch = view.findViewById(R.id.linear_search);
         lblBranchNm = view.findViewById(R.id.lbl_headerBranch);
         lblBranchAd = view.findViewById(R.id.lbl_headerAddress);

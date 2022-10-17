@@ -18,19 +18,20 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
 import org.rmj.g3appdriver.lib.ApprovalCode.ApprovalCode;
-import org.rmj.g3appdriver.lib.ApprovalCode.CreditAppInfo;
+import org.rmj.g3appdriver.lib.ApprovalCode.SCA;
+import org.rmj.g3appdriver.lib.ApprovalCode.model.CreditAppInfo;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.guanzongroup.ghostrider.approvalcode.Etc.ViewModelCallback;
-import org.rmj.g3appdriver.lib.ApprovalCode.CreditApp;
+import org.rmj.g3appdriver.lib.ApprovalCode.model.CreditApp;
 
 public class VMCreditAppApproval extends AndroidViewModel {
     private final ConnectionUtil poConn;
-    private final ApprovalCode poSys;
+    private final SCA poSys;
 
     public VMCreditAppApproval(@NonNull Application application) {
         super(application);
         this.poConn = new ConnectionUtil(application);
-        this.poSys = new ApprovalCode(application);
+        this.poSys = new ApprovalCode(application).getInstance(ApprovalCode.eSCA.CREDIT_APP);
     }
 
     public void LoadApplication(String args, String args1, String args2, OnLoadApplicationListener listener){
@@ -70,7 +71,7 @@ public class VMCreditAppApproval extends AndroidViewModel {
                 lsTransNo = args[1],
                 lsBrnchCd = args[2];
 
-                CreditAppInfo loApp = poSys.GetCreditApp(sSystemCD, lsBrnchCd, lsTransNo);
+                CreditAppInfo loApp = poSys.LoadApplication(sSystemCD, lsBrnchCd, lsTransNo);
                 if(loApp == null){
                     message = poSys.getMessage();
                     return null;
@@ -130,7 +131,7 @@ public class VMCreditAppApproval extends AndroidViewModel {
                     return null;
                 }
 
-                String lsCode = poSys.ApproveCreditApp(params[0]);
+                String lsCode = poSys.GenerateCode(params[0]);
 
                 if(lsCode == null){
                     message = poSys.getMessage();

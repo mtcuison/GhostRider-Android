@@ -11,6 +11,7 @@
 
 package org.rmj.guanzongroup.ghostrider.approvalcode.Fragment;
 
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.app.DatePickerDialog;
@@ -21,10 +22,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.text.InputType;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
@@ -37,15 +38,18 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.utils.CopyToClipboard;
 import org.rmj.guanzongroup.ghostrider.approvalcode.Activity.Activity_ApprovalCode;
-import org.rmj.g3appdriver.lib.ApprovalCode.AppCodeParams;
+import org.rmj.g3appdriver.lib.ApprovalCode.model.AppCodeParams;
 import org.rmj.guanzongroup.ghostrider.approvalcode.R;
 import org.rmj.guanzongroup.ghostrider.approvalcode.ViewModel.VMApprovalEntry;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Objects;
 
 public class Fragment_ApprovalEntry extends Fragment {
@@ -141,19 +145,30 @@ public class Fragment_ApprovalEntry extends Fragment {
             }
         });
 
-        mViewModel.GetBranchNamesList().observe(getViewLifecycleOwner(), strings -> {
-            ArrayAdapter<String> loAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
-            txtBranch.setAdapter(loAdapter);
-        });
-
-        txtBranch.setOnItemClickListener((adapterView, view, i, l) -> mViewModel.GetAllBranchInfo().observe(getViewLifecycleOwner(), eBranchInfos -> {
-            for(int x = 0; x < eBranchInfos.size(); x++){
-                if(txtBranch.getText().toString().equalsIgnoreCase(eBranchInfos.get(x).getBranchNm())){
-                    poEntryxx.setBranchCd(eBranchInfos.get(x).getBranchCd());
-                    break;
+        mViewModel.GetAllBranchInfo().observe(getViewLifecycleOwner(), eBranchInfos -> {
+            try{
+                ArrayList<String> loNames = new ArrayList<>();
+                for(int x = 0; x < eBranchInfos.size(); x++){
+                    loNames.add(eBranchInfos.get(x).getBranchNm());
                 }
+
+                ArrayAdapter<String> loAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, loNames.toArray(new String[0]));
+                txtBranch.setAdapter(loAdapter);
+
+                txtBranch.setOnItemClickListener((parent, view, position, id) -> {
+                    for(int x = 0; x < eBranchInfos.size(); x++){
+                        loNames.add(eBranchInfos.get(x).getBranchNm());
+                        if(txtBranch.getText().toString().equalsIgnoreCase(eBranchInfos.get(x).getBranchNm())){
+                            poEntryxx.setBranchCd(eBranchInfos.get(x).getBranchCd());
+                            break;
+                        }
+                    }
+                });
+
+            } catch (Exception e){
+                e.printStackTrace();
             }
-        }));
+        });
 
         btnCreate.setOnClickListener(view -> {
             if(!createNew){

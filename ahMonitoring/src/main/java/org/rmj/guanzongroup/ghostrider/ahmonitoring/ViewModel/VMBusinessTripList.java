@@ -18,24 +18,25 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeBusinessTrip;
-import org.rmj.g3appdriver.lib.PetManager.EmployeeOB;
+import org.rmj.g3appdriver.lib.PetManager.PetManager;
+import org.rmj.g3appdriver.lib.PetManager.iPM;
 
 import java.util.List;
 
 public class VMBusinessTripList extends AndroidViewModel {
 
-    private final EmployeeOB poBussTrip;
+    private final iPM poSys;
 
     public VMBusinessTripList(@NonNull Application application) {
         super(application);
-        this.poBussTrip = new EmployeeOB(application);
+        this.poSys = new PetManager(application).GetInstance(PetManager.ePetManager.BUSINESS_TRIP_APPLICATION);
     }
 
     public LiveData<List<EEmployeeBusinessTrip>> getBusinessTripList(){
-        return poBussTrip.getOBListForApproval();
+        return poSys.GetOBApplicationList();
     }
     public LiveData<List<EEmployeeBusinessTrip>> getOBList(){
-        return poBussTrip.getOBList();
+        return poSys.GetOBApplicationList();
     }
 
 }

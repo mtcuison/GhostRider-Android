@@ -20,17 +20,16 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
-import org.rmj.g3appdriver.dev.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.lib.ApprovalCode.ApprovalCode;
+import org.rmj.g3appdriver.lib.ApprovalCode.SCA;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
-import org.rmj.g3appdriver.lib.ApprovalCode.AppCodeParams;
+import org.rmj.g3appdriver.lib.ApprovalCode.model.AppCodeParams;
 
 import java.util.List;
 
 public class VMApprovalEntry extends AndroidViewModel {
     private static final String TAG = VMApprovalEntry.class.getSimpleName();
-    private final RBranch poBranchx;
-    private final ApprovalCode poSys;
+    private final SCA poSys;
     private final ConnectionUtil poConn;
 
     public interface OnGenerateApprovalCodeListener{
@@ -39,15 +38,9 @@ public class VMApprovalEntry extends AndroidViewModel {
         void OnFailed(String message);
     }
 
-    public interface CodeApprovalCreatedListener{
-        void OnCreate(String args);
-        void OnCreateFailed(String message);
-    }
-
     public VMApprovalEntry(@NonNull Application application) {
         super(application);
-        poBranchx = new RBranch(application);
-        this.poSys = new ApprovalCode(application);
+        this.poSys = new ApprovalCode(application).getInstance(ApprovalCode.eSCA.SYSTEM_CODE);
         this.poConn = new ConnectionUtil(application);
     }
 
@@ -55,12 +48,8 @@ public class VMApprovalEntry extends AndroidViewModel {
         return poSys.GetApprovalCodeDescription(AppCode);
     }
 
-    public LiveData<String[]> GetBranchNamesList(){
-        return poBranchx.getAllBranchNames();
-    }
-
     public LiveData<List<EBranchInfo>> GetAllBranchInfo(){
-        return poBranchx.getAllBranchInfo();
+        return poSys.GetBranchList();
     }
 
     public void GenerateCode(AppCodeParams foVal, OnGenerateApprovalCodeListener listener){
@@ -91,7 +80,7 @@ public class VMApprovalEntry extends AndroidViewModel {
                     return null;
                 }
 
-                String lsCode = poSys.GenerateApprovalCode(params[0]);
+                String lsCode = poSys.GenerateCode(params[0]);
 
                 if(lsCode == null){
                     message = poSys.getMessage();
@@ -103,7 +92,7 @@ public class VMApprovalEntry extends AndroidViewModel {
                     Log.e(TAG, message);
                 }
 
-                if(!poSys.UploadApprovalCode(lsCode)){
+                if(!poSys.Upload(lsCode)){
                     message = poSys.getMessage();
                     Log.e(TAG, message);
                 }

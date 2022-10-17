@@ -20,39 +20,33 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
-import org.rmj.g3appdriver.dev.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.lib.ApprovalCode.ApprovalCode;
-import org.rmj.g3appdriver.lib.ApprovalCode.ManualLog;
+import org.rmj.g3appdriver.lib.ApprovalCode.SCA;
+import org.rmj.g3appdriver.lib.ApprovalCode.model.ManualTimeLog;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 
 import java.util.List;
 
 public class VMManualLog extends AndroidViewModel {
     public static final String TAG = VMManualLog.class.getSimpleName();
-    private final RBranch poBranchR;
-    private final ApprovalCode poSys;
+    private final SCA poSys;
     private final ConnectionUtil poConn;
 
     public VMManualLog(@NonNull Application application) {
         super(application);
-        this.poBranchR = new RBranch(application);
-        this.poSys = new ApprovalCode(application);
+        this.poSys = new ApprovalCode(application).getInstance(ApprovalCode.eSCA.MANUAL_LOG);
         this.poConn = new ConnectionUtil(application);
     }
 
-    public LiveData<String[]> getBranchNames(){
-        return poBranchR.getAllMcBranchNames();
+    public LiveData<List<EBranchInfo>> GetAllBranchInfo(){
+        return poSys.GetBranchList();
     }
 
-    public LiveData<List<EBranchInfo>> getBranchInfoList(){
-        return poBranchR.getAllMcBranchInfo();
-    }
-
-    public void GenerateCode(ManualLog model, OnGenerateApprovalCodeListener listener){
+    public void GenerateCode(ManualTimeLog model, OnGenerateApprovalCodeListener listener){
         new GenerateCodeTask(listener).execute(model);
     }
 
-    private class GenerateCodeTask extends AsyncTask<ManualLog, Void, String>{
+    private class GenerateCodeTask extends AsyncTask<ManualTimeLog, Void, String>{
 
         private final OnGenerateApprovalCodeListener listener;
 
@@ -69,14 +63,14 @@ public class VMManualLog extends AndroidViewModel {
         }
 
         @Override
-        protected String doInBackground(ManualLog... manualLogs) {
+        protected String doInBackground(ManualTimeLog... manualTimeLogs) {
             try {
-                if (!manualLogs[0].isDataValid()) {
-                    message = manualLogs[0].getMessage();
+                if (!manualTimeLogs[0].isDataValid()) {
+                    message = manualTimeLogs[0].getMessage();
                     return null;
                 }
 
-                String lsCode = poSys.GenerateApprovalCode(manualLogs[0]);
+                String lsCode = poSys.GenerateCode(manualTimeLogs[0]);
 
                 if(lsCode == null){
                     message = poSys.getMessage();
@@ -88,7 +82,7 @@ public class VMManualLog extends AndroidViewModel {
                     Log.e(TAG, message);
                 }
 
-                if(!poSys.UploadApprovalCode(lsCode)){
+                if(!poSys.Upload(lsCode)){
                     message = poSys.getMessage();
                     Log.e(TAG, message);
                 }

@@ -20,7 +20,7 @@ import androidx.lifecycle.LiveData;
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeLeave;
 import org.rmj.g3appdriver.dev.Database.Repositories.RBranch;
-import org.rmj.g3appdriver.lib.PetManager.EmployeeLeave;
+import org.rmj.g3appdriver.lib.PetManager.Obj.EmployeeLeave;
 
 import java.util.List;
 

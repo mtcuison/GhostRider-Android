@@ -21,7 +21,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.text.InputType;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,10 +37,11 @@ import com.google.android.material.textfield.TextInputEditText;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.utils.CopyToClipboard;
-import org.rmj.g3appdriver.lib.ApprovalCode.ManualLog;
+import org.rmj.g3appdriver.lib.ApprovalCode.model.ManualTimeLog;
 import org.rmj.guanzongroup.ghostrider.approvalcode.R;
 import org.rmj.guanzongroup.ghostrider.approvalcode.ViewModel.VMManualLog;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class Fragment_ManualLog extends Fragment {
@@ -60,7 +60,7 @@ public class Fragment_ManualLog extends Fragment {
     private CheckBox cbTmeOutOT;
     private ImageButton btnCopy;
     private MaterialButton btnReqAppCode;
-    private ManualLog loManual;
+    private ManualTimeLog poManual;
 
     private LoadDialog poDialog;
     private MessageBox poMsgBox;
@@ -74,7 +74,7 @@ public class Fragment_ManualLog extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         mViewModel = new ViewModelProvider(this).get(VMManualLog.class);
         View v = inflater.inflate(R.layout.fragment_manual_log, container, false);
-        loManual = new ManualLog();
+        poManual = new ManualTimeLog();
         poDialog = new LoadDialog(requireActivity());
         poMsgBox = new MessageBox(requireActivity());
         txtBranch = v.findViewById(R.id.txt_appBranch);
@@ -124,31 +124,42 @@ public class Fragment_ManualLog extends Fragment {
             Toast.makeText(requireActivity(), message, Toast.LENGTH_SHORT).show();
         });
 
-        mViewModel.getBranchNames().observe(getViewLifecycleOwner(), strings -> {
-            ArrayAdapter<String> loAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
-            txtBranch.setAdapter(loAdapter);
+        mViewModel.GetAllBranchInfo().observe(getViewLifecycleOwner(), eBranchInfos -> {
+            try{
+                ArrayList<String> loNames = new ArrayList<>();
+                for(int x = 0; x < eBranchInfos.size(); x++){
+                    loNames.add(eBranchInfos.get(x).getBranchNm());
+                }
+
+                ArrayAdapter<String> loAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, loNames.toArray(new String[0]));
+                txtBranch.setAdapter(loAdapter);
+
+                txtBranch.setOnItemClickListener((parent, view, position, id) -> {
+                    for(int x = 0; x < eBranchInfos.size(); x++){
+                        loNames.add(eBranchInfos.get(x).getBranchNm());
+                        if(txtBranch.getText().toString().equalsIgnoreCase(eBranchInfos.get(x).getBranchNm())){
+                            poManual.setBranchCd(eBranchInfos.get(x).getBranchCd());
+                            break;
+                        }
+                    }
+                });
+
+            } catch (Exception e){
+                e.printStackTrace();
+            }
         });
 
-        txtBranch.setOnItemClickListener((adapterView, view, i, l) -> mViewModel.getBranchInfoList().observe(getViewLifecycleOwner(), eBranchInfos -> {
-            for(int x = 0; x < eBranchInfos.size(); x++){
-                if(txtBranch.getText().toString().equalsIgnoreCase(eBranchInfos.get(x).getBranchNm())){
-                    loManual.setBranchCd(eBranchInfos.get(x).getBranchCd());
-                    break;
-                }
-            }
-        }));
-
         btnReqAppCode.setOnClickListener(view -> {
-            loManual.setTimeInAM(cbTimeInAM.isChecked()? "1" : "0");
-            loManual.setTimeInPM(cbTimeInPM.isChecked() ? "1" : "0");
-            loManual.setTimeOutAM(cbTmeOutAM.isChecked() ? "1" : "0");
-            loManual.setTimeOutPM(cbTmeOutPM.isChecked() ? "1" : "0");
-            loManual.setTimeInOT(cbTimeInOT.isChecked() ? "1" : "0");
-            loManual.setTimeOutOT(cbTmeOutOT.isChecked() ? "1" : "0");
-            loManual.setRemarks(txtRemarks.getText().toString());
-            loManual.setReqDatex(txtReqDate.getText().toString());
-            loManual.setSysCode("ML");
-            mViewModel.GenerateCode(loManual, new VMManualLog.OnGenerateApprovalCodeListener() {
+            poManual.setTimeInAM(cbTimeInAM.isChecked()? "1" : "0");
+            poManual.setTimeInPM(cbTimeInPM.isChecked() ? "1" : "0");
+            poManual.setTimeOutAM(cbTmeOutAM.isChecked() ? "1" : "0");
+            poManual.setTimeOutPM(cbTmeOutPM.isChecked() ? "1" : "0");
+            poManual.setTimeInOT(cbTimeInOT.isChecked() ? "1" : "0");
+            poManual.setTimeOutOT(cbTmeOutOT.isChecked() ? "1" : "0");
+            poManual.setRemarks(txtRemarks.getText().toString());
+            poManual.setReqDatex(txtReqDate.getText().toString());
+            poManual.setSysCode("ML");
+            mViewModel.GenerateCode(poManual, new VMManualLog.OnGenerateApprovalCodeListener() {
                 @Override
                 public void OnGenerate(String title, String message) {
                     poDialog.initDialog(title, message, false);

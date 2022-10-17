@@ -9,7 +9,7 @@
  * project file last modified : 6/19/21 10:51 AM
  */
 
-package org.rmj.g3appdriver.lib.PetManager;
+package org.rmj.g3appdriver.lib.PetManager.Obj;
 
 import android.app.Application;
 import android.util.Log;
@@ -32,6 +32,9 @@ import org.rmj.g3appdriver.dev.HttpHeaders;
 import org.rmj.g3appdriver.dev.WebClient;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
+import org.rmj.g3appdriver.lib.PetManager.iPM;
+import org.rmj.g3appdriver.lib.PetManager.model.LeaveApplication;
+import org.rmj.g3appdriver.lib.PetManager.model.LeaveApprovalInfo;
 import org.rmj.g3appdriver.utils.WebApi;
 
 import java.text.SimpleDateFormat;
@@ -39,7 +42,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class EmployeeLeave implements iPetManager{
+public class EmployeeLeave implements iPM {
     private static final String TAG = EmployeeLeave.class.getSimpleName();
     private final DEmployeeLeave poDao;
     private final AppConfigPreference poConfig;
@@ -56,10 +59,6 @@ public class EmployeeLeave implements iPetManager{
         this.poHeaders = HttpHeaders.getInstance(instance);
         this.poSession = new SessionManager(instance);
         this.poUser = new EmployeeMaster(instance);
-    }
-
-    public String getMessage() {
-        return message;
     }
 
     @Override
@@ -546,6 +545,11 @@ public class EmployeeLeave implements iPetManager{
         return null;
     }
 
+    @Override
+    public String getMessage() {
+        return message;
+    }
+
     private String CreateUniqueID(){
         String lsUniqIDx = "";
         try{
@@ -564,227 +568,5 @@ public class EmployeeLeave implements iPetManager{
         }
         Log.d(TAG, lsUniqIDx);
         return lsUniqIDx;
-    }
-
-    public static class LeaveApplication {
-        private String EmploName = "";
-        private String BranchNme = "";
-        private String leaveType = "";
-        private String dateFromx = "";
-        private String dateThrux = "";
-        private int noOfDaysx = 0;
-        private String Remarksxx = "";
-        private int noOfHours = 0;
-
-        private String message = "";
-
-        public LeaveApplication() {
-        }
-
-        public String getMessage() {
-            return message;
-        }
-
-        public String getEmploName() {
-            return EmploName;
-        }
-
-        public void setEmploName(String emploName) {
-            EmploName = emploName;
-        }
-
-        public String getBranchNme() {
-            return BranchNme;
-        }
-
-        public void setBranchNme(String branchNme) {
-            BranchNme = branchNme;
-        }
-
-        public String getLeaveType() {
-            return leaveType;
-        }
-
-        public void setLeaveType(String leaveType) {
-            this.leaveType = leaveType;
-        }
-
-        public String getDateFromx() {
-            return FormatUIText.toSqlValue(dateFromx);
-        }
-
-        public void setDateFromx(String dateFromx) {
-            this.dateFromx = dateFromx;
-        }
-
-        public String getDateThrux() {
-            return FormatUIText.toSqlValue(dateThrux);
-        }
-
-        public void setDateThrux(String dateThrux) {
-            this.dateThrux = dateThrux;
-        }
-
-        public int getNoOfDaysx() {
-            return noOfDaysx;
-        }
-
-        public void setNoOfDaysx(int noOfDaysx) {
-            this.noOfDaysx = noOfDaysx;
-        }
-
-        public String getRemarksxx() {
-            return Remarksxx.trim();
-        }
-
-        public void setRemarksxx(String remarksxx) {
-            Remarksxx = remarksxx;
-        }
-
-        public int getNoOfHours(){
-            noOfHours = noOfDaysx * 8;
-            return noOfHours;
-        }
-
-        public boolean isDataValid(){
-            return isLeaveTypeValid() && isDateFromValid() && isDateThruValid() && isRemarksValid();
-        }
-
-        private boolean isDateFromValid(){
-            if(dateFromx.isEmpty()){
-                message = "Please select starting date of leave";
-                return false;
-            }
-            return true;
-        }
-
-        private boolean isDateThruValid(){
-            if(dateThrux.isEmpty()){
-                message = "Please select ending date of leave";
-                return false;
-            }
-            return true;
-        }
-
-        private boolean isLeaveTypeValid(){
-            if(leaveType.isEmpty()){
-                message = "Please select type of leave";
-                return false;
-            }
-            return true;
-        }
-
-        private boolean isRemarksValid(){
-            if(Remarksxx.isEmpty()){
-                message = "Please provide your purpose on remarks area";
-                return false;
-            }
-            return true;
-        }
-    }
-
-    public static class LeaveApprovalInfo {
-        private String TransNox = "";
-        private String AppldFrx = "";
-        private String AppldTox = "";
-        private String WithPayx = "";
-        private String WithOPay = "";
-        private String Approved = "";
-        private String Approvex = "";
-        private String TranStat = "";
-
-        private String message;
-
-        public LeaveApprovalInfo(){
-
-        }
-
-        public String getMessage(){
-            return message;
-        }
-
-        public String getTransNox() {
-            return TransNox;
-        }
-
-        public void setTransNox(String transNox) {
-            TransNox = transNox;
-        }
-
-        public String getAppldFrx() {
-            return AppldFrx;
-        }
-
-        public void setAppldFrx(String appldFrx) {
-            AppldFrx = appldFrx;
-        }
-
-        public String getAppldTox() {
-            return AppldTox;
-        }
-
-        public void setAppldTox(String appldTox) {
-            AppldTox = appldTox;
-        }
-
-        public String getWithPayx() {
-            return WithPayx;
-        }
-
-        public void setWithPayx(String withPayx) {
-            WithPayx = withPayx;
-        }
-
-        public String getWithOPay() {
-            return WithOPay;
-        }
-
-        public void setWithOPay(String withOPay) {
-            WithOPay = withOPay;
-        }
-
-        public String getApprovex() {
-            return Approvex;
-        }
-
-        public void setApprovex(String approvex) {
-            Approvex = approvex;
-        }
-
-        public String getApproved() {
-            return Approved;
-        }
-
-        public void setApproved(String approved) {
-            Approved = approved;
-        }
-
-        public String getTranStat() {
-            return TranStat;
-        }
-
-        public void setTranStat(String tranStat) {
-            TranStat = tranStat;
-        }
-
-        public boolean isDataValid(){
-            if(TransNox.isEmpty()){
-                message = "No leave to approve or cancel";
-                return false;
-            } else if(WithPayx == null || WithPayx.isEmpty()){
-                message = "With pay value is invalid.";
-                return false;
-            } else if(WithOPay == null || WithOPay.isEmpty()){
-                message = "Without pay value is invalid.";
-                return false;
-            } else if (Integer.parseInt(WithPayx) < 0){
-                message = "Negative numbers are not allowed";
-                return false;
-            } else if(Integer.parseInt(WithOPay) < 0){
-                message = "Negative numbers are not allowed";
-                return false;
-            }
-            return true;
-        }
     }
 }

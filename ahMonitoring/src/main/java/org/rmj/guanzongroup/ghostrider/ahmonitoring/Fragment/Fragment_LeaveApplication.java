@@ -30,11 +30,11 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
-import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.etc.GToast;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.lib.PetManager.EmployeeLeave;
+import org.rmj.g3appdriver.lib.PetManager.Obj.EmployeeLeave;
+import org.rmj.g3appdriver.lib.PetManager.model.LeaveApplication;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMLeaveApplication;
 
@@ -48,7 +48,7 @@ import java.util.concurrent.TimeUnit;
 public class Fragment_LeaveApplication extends Fragment {
 
     private VMLeaveApplication mViewModel;
-    private EmployeeLeave.LeaveApplication poLeave;
+    private LeaveApplication poLeave;
     private TextView lblTransNox, lblUsername, lblPosition, lblBranch;
     private Spinner spnType;
     private TextInputEditText txtDateFrom, txtDateTo, txtNoDays, txtRemarks;
@@ -84,7 +84,7 @@ public class Fragment_LeaveApplication extends Fragment {
         poMessage = new MessageBox(getActivity());
 
         mViewModel = new ViewModelProvider(this).get(VMLeaveApplication.class);
-        poLeave = new EmployeeLeave.LeaveApplication();
+        poLeave = new LeaveApplication();
 //        mViewModel.getUserInfo().observe(getViewLifecycleOwner(), eEmployeeInfo -> {
 //            try{
 //                lblUsername.setText(eEmployeeInfo.getUserName());

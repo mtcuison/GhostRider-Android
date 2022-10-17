@@ -8,7 +8,7 @@ import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeLeave;
 
 import java.util.List;
 
-public interface iPetManager {
+public interface iPM {
     LiveData<DEmployeeInfo.EmployeeBranch> GetUserInfo();
     boolean ImportApplications();
     boolean DownloadApplication(String args);
@@ -26,4 +26,5 @@ public interface iPetManager {
     LiveData<List<EEmployeeBusinessTrip>> GetOBApplicationsForApproval();
     LiveData<EEmployeeBusinessTrip> GetOBApplicationInfo(String args);
     LiveData<List<EEmployeeBusinessTrip>> GetApproveOBApplications();
+    String getMessage();
 }

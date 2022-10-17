@@ -1,4 +1,4 @@
-package org.rmj.g3appdriver.lib.ApprovalCode;
+package org.rmj.g3appdriver.lib.ApprovalCode.model;
 
 public class CreditAppInfo {
     private final String rqstinfo,

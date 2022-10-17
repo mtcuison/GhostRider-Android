@@ -18,11 +18,12 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.Repositories.RBranch;
-import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
-import org.rmj.g3appdriver.lib.PetManager.EmployeeOB;
+import org.rmj.g3appdriver.lib.PetManager.PetManager;
+import org.rmj.g3appdriver.lib.PetManager.iPM;
+import org.rmj.g3appdriver.lib.PetManager.model.OBApplication;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 
 import java.util.List;
@@ -32,21 +33,24 @@ public class VMObApplication extends AndroidViewModel {
     public static final String TAG = VMObApplication.class.getSimpleName();
     private final Application instance;
     private final RBranch pobranch;
-    private final EmployeeMaster poUser;
+    private final ConnectionUtil poConn;
+    private final iPM poSys;
     private final LiveData<String[]> paBranchNm;
+
     public VMObApplication(@NonNull Application application) {
         super(application);
         this.instance = application;
         this.pobranch = new RBranch(instance);
-        this.poUser = new EmployeeMaster(instance);
+        this.poConn = new ConnectionUtil(instance);
+        this.poSys = new PetManager(instance).GetInstance(PetManager.ePetManager.BUSINESS_TRIP_APPLICATION);
         paBranchNm = pobranch.getAllMcBranchNames();
     }
     public interface OnSubmitOBLeaveListener{
         void onSuccess();
         void onFailed(String message);
     }
-    public LiveData<EEmployeeInfo> getUserInfo(){
-        return poUser.getUserInfo();
+    public LiveData<DEmployeeInfo.EmployeeBranch> getUserInfo(){
+        return poSys.GetUserInfo();
     }
 
     public LiveData<EBranchInfo> getUserBranchInfo(){
@@ -59,21 +63,17 @@ public class VMObApplication extends AndroidViewModel {
     public LiveData<List<EBranchInfo>> getAllBranchInfo(){
         return pobranch.getAllMcBranchInfo();
     }
-    public void saveObLeave(EmployeeOB.OBApplication infoModel, OnSubmitOBLeaveListener callback){
+    public void saveObLeave(OBApplication infoModel, OnSubmitOBLeaveListener callback){
         new PostObLeaveTask(instance, callback).execute(infoModel);
     }
 
-    private static class PostObLeaveTask extends AsyncTask<EmployeeOB.OBApplication, Void, Boolean> {
+    private class PostObLeaveTask extends AsyncTask<OBApplication, Void, Boolean> {
         private final OnSubmitOBLeaveListener callback;
-        private final EmployeeOB poOBLeave;
-        private final ConnectionUtil poConn;
 
         private String message;
 
         public PostObLeaveTask(Application instance, OnSubmitOBLeaveListener callback) {
             this.callback = callback;
-            this.poConn = new ConnectionUtil(instance);
-            this.poOBLeave = new EmployeeOB(instance);
         }
 
         @Override
@@ -82,12 +82,12 @@ public class VMObApplication extends AndroidViewModel {
         }
 
         @Override
-        protected Boolean doInBackground(EmployeeOB.OBApplication... obApplications) {
-            EmployeeOB.OBApplication loApp = obApplications[0];
+        protected Boolean doInBackground(OBApplication... obApplications) {
+            OBApplication loApp = obApplications[0];
             try{
-                String lsTransNox = poOBLeave.SaveOBApplication(loApp);
+                String lsTransNox = poSys.SaveApplication(loApp);
                 if(lsTransNox == null){
-                    message = poOBLeave.getMessage();
+                    message = poSys.getMessage();
                     return false;
                 }
 
@@ -96,8 +96,8 @@ public class VMObApplication extends AndroidViewModel {
                     return false;
                 }
 
-                if(!poOBLeave.UploadApplication(lsTransNox)){
-                    message = poOBLeave.getMessage();
+                if(!poSys.UploadApplication(lsTransNox)){
+                    message = poSys.getMessage();
                     return false;
                 }
 

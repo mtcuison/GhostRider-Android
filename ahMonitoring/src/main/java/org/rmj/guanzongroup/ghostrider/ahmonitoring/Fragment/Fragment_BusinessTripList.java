@@ -55,17 +55,10 @@ public class Fragment_BusinessTripList extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        mViewModel = new ViewModelProvider(this).get(VMBusinessTripList.class);
         View view = inflater.inflate(R.layout.fragment_business_trip_list, container, false);
 
         setupWidgets(view);
-
-        return view;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(VMBusinessTripList.class);
 
         boolean forViewing = requireActivity().getIntent().getBooleanExtra("type", false);
         if (forViewing) {
@@ -73,6 +66,8 @@ public class Fragment_BusinessTripList extends Fragment {
         } else {
             mViewModel.getBusinessTripList().observe(getViewLifecycleOwner(), this::setupList);
         }
+
+        return view;
     }
 
     private void setupList(List<EEmployeeBusinessTrip> fsList){

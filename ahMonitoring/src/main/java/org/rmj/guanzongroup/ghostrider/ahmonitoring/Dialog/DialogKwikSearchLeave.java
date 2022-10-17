@@ -21,7 +21,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.g3appdriver.lib.PetManager.EmployeeLeave;
+import org.rmj.g3appdriver.lib.PetManager.Obj.EmployeeLeave;
+import org.rmj.g3appdriver.lib.PetManager.model.LeaveApprovalInfo;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.Adapter_RequestLeaveObApplication;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 
@@ -30,13 +31,13 @@ import java.util.List;
 public class DialogKwikSearchLeave {
     Context mContex;
     private AlertDialog poDialogx;
-    private EmployeeLeave.LeaveApprovalInfo infoModel;
+    private LeaveApprovalInfo infoModel;
     private String approval = "";
     private RecyclerView recyclerView;
     private ImageButton btnClose;
     private Adapter_RequestLeaveObApplication custAdapter;
-    private List<EmployeeLeave.LeaveApprovalInfo> infoList;
-    public DialogKwikSearchLeave(Context context, List<EmployeeLeave.LeaveApprovalInfo> infoList){
+    private List<LeaveApprovalInfo> infoList;
+    public DialogKwikSearchLeave(Context context, List<LeaveApprovalInfo> infoList){
         this.mContex = context;
         this.infoList = infoList;
     }
@@ -76,7 +77,7 @@ public class DialogKwikSearchLeave {
 
         poDialogx = loBuilder.create();
         poDialogx.setCancelable(false);
-        infoModel = new EmployeeLeave.LeaveApprovalInfo();
+        infoModel = new LeaveApprovalInfo();
 
     }
 
@@ -94,7 +95,7 @@ public class DialogKwikSearchLeave {
     }
 
     public interface DialogButtonClickListener{
-        void OnClick(Dialog dialog, EmployeeLeave.LeaveApprovalInfo infoModel);
+        void OnClick(Dialog dialog, LeaveApprovalInfo infoModel);
     }
 
 }

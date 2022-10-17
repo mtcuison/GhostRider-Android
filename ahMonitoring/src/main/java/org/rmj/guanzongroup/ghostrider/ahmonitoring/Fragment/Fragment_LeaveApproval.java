@@ -45,7 +45,8 @@ import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.g3appdriver.etc.GToast;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.lib.PetManager.EmployeeLeave;
+import org.rmj.g3appdriver.lib.PetManager.Obj.EmployeeLeave;
+import org.rmj.g3appdriver.lib.PetManager.model.LeaveApprovalInfo;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Application;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMLeaveApproval;
@@ -60,7 +61,7 @@ public class Fragment_LeaveApproval extends Fragment implements VMLeaveApproval.
     public static final String TAG = Fragment_LeaveApproval.class.getSimpleName();
     private VMLeaveApproval mViewModel;
 
-    private EmployeeLeave.LeaveApprovalInfo infoModel;
+    private LeaveApprovalInfo infoModel;
     private LoadDialog poDialogx;
     private MessageBox poMessage;
 
@@ -100,7 +101,7 @@ public class Fragment_LeaveApproval extends Fragment implements VMLeaveApproval.
                              @Nullable Bundle savedInstanceState) {
         mViewModel = new ViewModelProvider(this).get(VMLeaveApproval.class);
         View view = inflater.inflate(R.layout.fragment_leave_approval, container, false);
-        infoModel = new EmployeeLeave.LeaveApprovalInfo();
+        infoModel = new LeaveApprovalInfo();
         initWidgets(view);
 
         Typeface typeface = ResourcesCompat.getFont(requireActivity(), R.font.roboto_bold);
@@ -160,7 +161,7 @@ public class Fragment_LeaveApproval extends Fragment implements VMLeaveApproval.
         mViewModel.getUserInfo().observe(requireActivity(), eEmployeeInfo -> {
             try{
                 infoModel.setApproved(AppConstants.CURRENT_DATE);
-                infoModel.setApprovex(eEmployeeInfo.getUserIDxx());
+                infoModel.setApprovex(eEmployeeInfo.sUserIDxx);
             } catch (Exception e){
                 e.printStackTrace();
             }

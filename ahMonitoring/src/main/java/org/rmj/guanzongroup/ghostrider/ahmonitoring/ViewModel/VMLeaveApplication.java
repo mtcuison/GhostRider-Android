@@ -24,7 +24,9 @@ import androidx.lifecycle.MutableLiveData;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.dev.Database.Repositories.RBranch;
-import org.rmj.g3appdriver.lib.PetManager.EmployeeLeave;
+import org.rmj.g3appdriver.lib.PetManager.PetManager;
+import org.rmj.g3appdriver.lib.PetManager.iPM;
+import org.rmj.g3appdriver.lib.PetManager.model.LeaveApplication;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 
 
@@ -32,13 +34,15 @@ public class VMLeaveApplication extends AndroidViewModel {
 
     private final Application instance;
     private final RBranch pobranch;
-    private final EmployeeLeave poUser;
+    private final iPM poSys;
+    private final ConnectionUtil poConn;
 
     public VMLeaveApplication(@NonNull Application application) {
         super(application);
         this.instance = application;
         this.pobranch = new RBranch(instance);
-        this.poUser = new EmployeeLeave(instance);
+        this.poSys = new PetManager(instance).GetInstance(PetManager.ePetManager.LEAVE_APPLICATION);
+        this.poConn = new ConnectionUtil(instance);
     }
 
     public interface LeaveApplicationCallback {
@@ -46,10 +50,6 @@ public class VMLeaveApplication extends AndroidViewModel {
         void OnSuccess(String message);
         void OnFailed(String message);
     }
-//
-//    public LiveData<EEmployeeInfo> getUserInfo(){
-//        return poUser.getUserInfo();
-//    }
 
     public LiveData<EBranchInfo> getUserBranchInfo(){
         return pobranch.getUserBranchInfo();
@@ -61,22 +61,17 @@ public class VMLeaveApplication extends AndroidViewModel {
         return loList;
     }
 
-    public void SaveApplication(EmployeeLeave.LeaveApplication application, LeaveApplicationCallback callback){
-        new SaveLeaveApplication(instance, callback).execute(application);
+    public void SaveApplication(LeaveApplication application, LeaveApplicationCallback callback){
+        new SaveLeaveApplication(callback).execute(application);
     }
 
-    private static class SaveLeaveApplication extends AsyncTask<EmployeeLeave.LeaveApplication, Void, Boolean>{
+    private class SaveLeaveApplication extends AsyncTask<LeaveApplication, Void, Boolean>{
         private final LeaveApplicationCallback callback;
-
-        private final ConnectionUtil poConn;
-        private final EmployeeLeave poLeave;
 
         private String message;
 
-        public SaveLeaveApplication(Application instance, LeaveApplicationCallback callback) {
+        public SaveLeaveApplication(LeaveApplicationCallback callback) {
             this.callback = callback;
-            this.poConn = new ConnectionUtil(instance);
-            this.poLeave = new EmployeeLeave(instance);
         }
 
         @Override
@@ -86,12 +81,12 @@ public class VMLeaveApplication extends AndroidViewModel {
         }
 
         @Override
-        protected Boolean doInBackground(EmployeeLeave.LeaveApplication... leaveApplications) {
-            EmployeeLeave.LeaveApplication loLeave = leaveApplications[0];
+        protected Boolean doInBackground(LeaveApplication... leaveApplications) {
+            LeaveApplication loLeave = leaveApplications[0];
             try {
-                String lsTransNo = poLeave.SaveApplication(loLeave);
+                String lsTransNo = poSys.SaveApplication(loLeave);
                 if (lsTransNo == null) {
-                    message = poLeave.getMessage();
+                    message = poSys.getMessage();
                     return false;
                 }
 
@@ -100,11 +95,11 @@ public class VMLeaveApplication extends AndroidViewModel {
                     return true;
                 }
 
-                if(!poLeave.UploadApplication(lsTransNo)) {
-                    message = poLeave.getMessage();
+                if(!poSys.UploadApplication(lsTransNo)) {
+                    message = poSys.getMessage();
                     return true;
                 } else {
-                    message = poLeave.getMessage();
+                    message = poSys.getMessage();
                     return false;
                 }
 

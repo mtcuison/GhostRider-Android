@@ -23,7 +23,10 @@ import androidx.lifecycle.MutableLiveData;
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeBusinessTrip;
 import org.rmj.g3appdriver.dev.Database.Repositories.RBranch;
-import org.rmj.g3appdriver.lib.PetManager.EmployeeOB;
+import org.rmj.g3appdriver.lib.PetManager.Obj.EmployeeOB;
+import org.rmj.g3appdriver.lib.PetManager.PetManager;
+import org.rmj.g3appdriver.lib.PetManager.iPM;
+import org.rmj.g3appdriver.lib.PetManager.model.OBApprovalInfo;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 
 public class VMObApproval extends AndroidViewModel {
@@ -31,8 +34,9 @@ public class VMObApproval extends AndroidViewModel {
 
     private final Application instance;
 
-    private final EmployeeOB poBusTrip;
+    private final iPM poSys;
     private final RBranch poBranch;
+    private final ConnectionUtil poConn;
 
     private final MutableLiveData<String> TransNox = new MutableLiveData<>();
 
@@ -51,8 +55,9 @@ public class VMObApproval extends AndroidViewModel {
     public VMObApproval(@NonNull Application application) {
         super(application);
         this.instance = application;
-        this.poBusTrip = new EmployeeOB(application);
-        this.poBranch = new RBranch(application);
+        this.poSys = new PetManager(instance).GetInstance(PetManager.ePetManager.BUSINESS_TRIP_APPLICATION);
+        this.poBranch = new RBranch(instance);
+        this.poConn = new ConnectionUtil(instance);
         this.TransNox.setValue("");
     }
 
@@ -69,7 +74,7 @@ public class VMObApproval extends AndroidViewModel {
     }
 
     public LiveData<EEmployeeBusinessTrip> getBusinessTripInfo(String TransNox){
-        return poBusTrip.getBusinessTripInfo(TransNox);
+        return poSys.GetOBApplicationInfo(TransNox);
     }
 
     public void downloadBusinessTrip(String TransNox, OnDownloadBusinessTripCallback callback){
@@ -130,22 +135,18 @@ public class VMObApproval extends AndroidViewModel {
         }
     }
 
-    public void confirmOBApplication(EmployeeOB.OBApprovalInfo infoModel, OnConfirmApplicationCallback callback){
+    public void confirmOBApplication(OBApprovalInfo infoModel, OnConfirmApplicationCallback callback){
         new ConfirmApplicationTask(instance, callback).execute(infoModel);
     }
 
-    private static class ConfirmApplicationTask extends AsyncTask<EmployeeOB.OBApprovalInfo, Void, Boolean>{
+    private class ConfirmApplicationTask extends AsyncTask<OBApprovalInfo, Void, Boolean>{
 
-        private final EmployeeOB poBusTrip;
-        private final ConnectionUtil poConn;
         private final OnConfirmApplicationCallback callback;
 
         private String message;
 
         public ConfirmApplicationTask(Application instance, OnConfirmApplicationCallback callback){
-            this.poConn = new ConnectionUtil(instance);
             this.callback = callback;
-            this.poBusTrip = new EmployeeOB(instance);
         }
 
         @Override
@@ -156,11 +157,11 @@ public class VMObApproval extends AndroidViewModel {
 
         @SuppressLint("NewApi")
         @Override
-        protected Boolean doInBackground(EmployeeOB.OBApprovalInfo... obApprovalInfos) {
+        protected Boolean doInBackground(OBApprovalInfo... obApprovalInfos) {
             try{
-                String lsTransNox = poBusTrip.SaveBusinessTripApproval(obApprovalInfos[0]);
+                String lsTransNox = poSys.SaveApproval(obApprovalInfos[0]);
                 if(lsTransNox == null){
-                    message = poBusTrip.getMessage();
+                    message = poSys.getMessage();
                     return false;
                 }
 
@@ -169,12 +170,12 @@ public class VMObApproval extends AndroidViewModel {
                     return false;
                 }
 
-                if(!poBusTrip.PostBusinessTripApproval(lsTransNox)){
-                    message = poBusTrip.getMessage();
+                if(!poSys.UploadApproval(lsTransNox)){
+                    message = poSys.getMessage();
                     return false;
                 }
 
-                message = poBusTrip.getMessage();
+                message = poSys.getMessage();
                 return true;
             } catch (Exception e){
                 e.printStackTrace();

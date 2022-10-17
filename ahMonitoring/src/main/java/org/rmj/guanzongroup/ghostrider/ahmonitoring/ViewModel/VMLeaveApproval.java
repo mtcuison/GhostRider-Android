@@ -20,13 +20,16 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeLeave;
 import org.rmj.g3appdriver.dev.Database.Repositories.RBranch;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
-import org.rmj.g3appdriver.lib.PetManager.EmployeeLeave;
+import org.rmj.g3appdriver.lib.PetManager.Obj.EmployeeLeave;
+import org.rmj.g3appdriver.lib.PetManager.PetManager;
+import org.rmj.g3appdriver.lib.PetManager.iPM;
+import org.rmj.g3appdriver.lib.PetManager.model.LeaveApprovalInfo;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 
 import java.text.ParseException;
@@ -40,8 +43,9 @@ public class VMLeaveApproval extends AndroidViewModel {
     public static final String TAG = VMLeaveApproval.class.getSimpleName();
     private final Application instance;
     private final RBranch pobranch;
-    private final EmployeeMaster poUser;
-    private final EmployeeLeave poLeave;
+    private final iPM poSys;
+    private final ConnectionUtil poConn;
+
 
     private final MutableLiveData<String> TransNox = new MutableLiveData<>();
     private final MutableLiveData<Integer> pnCredit = new MutableLiveData<>();
@@ -53,8 +57,8 @@ public class VMLeaveApproval extends AndroidViewModel {
         super(application);
         this.instance = application;
         this.pobranch = new RBranch(instance);
-        this.poUser = new EmployeeMaster(instance);
-        this.poLeave = new EmployeeLeave(instance);
+        this.poSys = new PetManager(instance).GetInstance(PetManager.ePetManager.LEAVE_APPLICATION);
+        this.poConn = new ConnectionUtil(instance);
         this.TransNox.setValue("");
     }
 
@@ -79,11 +83,11 @@ public class VMLeaveApproval extends AndroidViewModel {
     }
 
     public LiveData<EEmployeeLeave> getEmployeeLeaveInfo(String TransNox){
-        return poLeave.GetLeaveApplicationInfo(TransNox);
+        return poSys.GetLeaveApplicationInfo(TransNox);
     }
 
-    public LiveData<EEmployeeInfo> getUserInfo(){
-        return poUser.GetEmployeeInfo();
+    public LiveData<DEmployeeInfo.EmployeeBranch> getUserInfo(){
+        return poSys.GetUserInfo();
     }
 
     public LiveData<EBranchInfo> getUserBranchInfo(){
@@ -146,24 +150,17 @@ public class VMLeaveApproval extends AndroidViewModel {
         }
     }
 
-    public void confirmLeaveApplication(EmployeeLeave.LeaveApprovalInfo infoModel, OnConfirmLeaveAppCallback callBack){
+    public void confirmLeaveApplication(LeaveApprovalInfo infoModel, OnConfirmLeaveAppCallback callBack){
         new ConfirmLeaveTask(infoModel, instance, callBack).execute();
     }
 
-    private static class ConfirmLeaveTask extends AsyncTask<EmployeeLeave.LeaveApprovalInfo, Void, Boolean> {
+    private  class ConfirmLeaveTask extends AsyncTask<LeaveApprovalInfo, Void, Boolean> {
         private final OnConfirmLeaveAppCallback callback;
-
-        private final ConnectionUtil poConn;
-        private final EmployeeLeave poLeave;
-        private final AppConfigPreference loConfig;
 
         private String message;
 
-        public ConfirmLeaveTask(EmployeeLeave.LeaveApprovalInfo infoModel, Application instance, OnConfirmLeaveAppCallback callback) {
+        public ConfirmLeaveTask(LeaveApprovalInfo infoModel, Application instance, OnConfirmLeaveAppCallback callback) {
             this.callback = callback;
-            this.poConn = new ConnectionUtil(instance);
-            this.poLeave = new EmployeeLeave(instance);
-            this.loConfig = AppConfigPreference.getInstance(instance);
         }
 
         @Override
@@ -173,16 +170,16 @@ public class VMLeaveApproval extends AndroidViewModel {
         }
 
         @Override
-        protected Boolean doInBackground(EmployeeLeave.LeaveApprovalInfo... infos) {
+        protected Boolean doInBackground(LeaveApprovalInfo... infos) {
             try{
                 if(!infos[0].isDataValid()){
                     message = infos[0].getMessage();
                     return false;
                 }
 
-                String lsTransNox = poLeave.SaveApproval(infos[0]);
+                String lsTransNox = poSys.SaveApproval(infos[0]);
                 if(lsTransNox == null){
-                    message = poLeave.getMessage();
+                    message = poSys.getMessage();
                     return false;
                 }
 
@@ -190,8 +187,8 @@ public class VMLeaveApproval extends AndroidViewModel {
                     message = poConn.getMessage() + " Your approval will be automatically send if device is reconnected to internet.";
                     return false;
                 }
-                if(!poLeave.UploadApproval(lsTransNox)){
-                    message = poLeave.getMessage();
+                if(!poSys.UploadApproval(lsTransNox)){
+                    message = poSys.getMessage();
                     return false;
                 }
                 return true;

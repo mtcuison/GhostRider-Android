@@ -9,9 +9,9 @@
  * project file last modified : 4/24/21 3:18 PM
  */
 
-package org.rmj.g3appdriver.lib.ApprovalCode;
+package org.rmj.g3appdriver.lib.ApprovalCode.model;
 
-public class ManualLog {
+public class ManualTimeLog {
     private String sBranchCd;
     private String sReqDatex;
     private String psTmeInAM;
@@ -25,7 +25,7 @@ public class ManualLog {
 
     private String message;
 
-    public ManualLog() {
+    public ManualTimeLog() {
     }
 
     public String getMessage(){

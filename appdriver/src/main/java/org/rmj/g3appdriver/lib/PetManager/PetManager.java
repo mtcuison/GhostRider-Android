@@ -2,6 +2,9 @@ package org.rmj.g3appdriver.lib.PetManager;
 
 import android.app.Application;
 
+import org.rmj.g3appdriver.lib.PetManager.Obj.EmployeeLeave;
+import org.rmj.g3appdriver.lib.PetManager.Obj.EmployeeOB;
+
 public class PetManager {
     private static final String TAG = PetManager.class.getSimpleName();
 
@@ -16,7 +19,7 @@ public class PetManager {
         BUSINESS_TRIP_APPLICATION
     }
 
-    public iPetManager GetInstance(ePetManager args){
+    public iPM GetInstance(ePetManager args){
         switch (args){
             case LEAVE_APPLICATION:
                 return new EmployeeLeave(instance);

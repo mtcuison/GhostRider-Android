@@ -38,7 +38,8 @@ import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.g3appdriver.etc.GToast;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.lib.PetManager.EmployeeOB;
+import org.rmj.g3appdriver.lib.PetManager.Obj.EmployeeOB;
+import org.rmj.g3appdriver.lib.PetManager.model.OBApplication;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMObApplication;
 
@@ -62,7 +63,7 @@ public class Fragment_ObApplication extends Fragment {
                                 txtDateTo,
                                 txtNoDays,
                                 txtRemarks;
-    private EmployeeOB.OBApplication infoModel;
+    private OBApplication infoModel;
     private LoadDialog poProgress;
     private MessageBox loMessage;
 
@@ -76,7 +77,7 @@ public class Fragment_ObApplication extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_ob_application, container, false);
-        infoModel = new EmployeeOB.OBApplication();
+        infoModel = new OBApplication();
         lblUsername = view.findViewById(R.id.lbl_username);
         lblPosition = view.findViewById(R.id.lbl_userPosition);
         lblBranch = view.findViewById(R.id.lbl_userBranch);
@@ -97,9 +98,9 @@ public class Fragment_ObApplication extends Fragment {
 
         mViewModel.getUserInfo().observe(getViewLifecycleOwner(), eEmployeeInfo -> {
             try{
-                lblUsername.setText(eEmployeeInfo.getUserName());
-                lblPosition.setText(DeptCode.getDepartmentName(eEmployeeInfo.getDeptIDxx()));
-                infoModel.setEmployID(eEmployeeInfo.getEmployID());
+                lblUsername.setText(eEmployeeInfo.sUserName);
+                lblPosition.setText(DeptCode.getDepartmentName(eEmployeeInfo.sDeptIDxx));
+                infoModel.setEmployID(eEmployeeInfo.sEmployID);
                 infoModel.setTransact(AppConstants.CURRENT_DATE);
             } catch (Exception e){
                 e.printStackTrace();

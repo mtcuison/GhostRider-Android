@@ -92,6 +92,7 @@ public interface DEmployeeInfo {
             "a.sDeptIDxx, " +
             "a.sPositnID, " +
             "a.sEmpLevID," +
+            "a.sEmployID," +
             "b.sBranchCd, " +
             "b.sBranchNm, " +
             "b.sAddressx FROM User_Info_Master a " +
@@ -107,6 +108,7 @@ public interface DEmployeeInfo {
         public String sDeptIDxx;
         public String sPositnID;
         public String sEmpLevID;
+        public String sEmployID;
         public String sBranchCd;
         public String sBranchNm;
         public String sAddressx;
