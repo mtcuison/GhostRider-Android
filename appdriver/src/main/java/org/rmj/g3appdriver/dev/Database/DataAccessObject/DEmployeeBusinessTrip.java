@@ -36,9 +36,6 @@ public interface DEmployeeBusinessTrip {
     @Query("SELECT * FROM User_Info_Master")
     EEmployeeInfo GetEmployeeInfo();
 
-    @Insert
-    void insertNewOBLeave(EEmployeeBusinessTrip obLeave);
-
     @Query("SELECT COUNT (*) FROM Employee_Business_Trip")
     int GetRowsCountForID();
 
@@ -52,9 +49,6 @@ public interface DEmployeeBusinessTrip {
     List<EEmployeeBusinessTrip> GetUnpostedOBApplications();
 
     @Query("SELECT * FROM Employee_Business_Trip WHERE sTransNox =:TransNox")
-    List<EEmployeeBusinessTrip> getOBIfExist(String TransNox);
-
-    @Query("SELECT * FROM Employee_Business_Trip WHERE sTransNox =:TransNox")
     LiveData<EEmployeeBusinessTrip> getBusinessTripInfo(String TransNox);
 
     @Query("UPDATE Employee_Business_Trip SET cSendStat = '1', sTransNox =:newTransNox WHERE sTransNox =:TransNox")
@@ -63,22 +57,12 @@ public interface DEmployeeBusinessTrip {
     @Query("UPDATE Employee_Business_Trip SET cSendStat = '1' WHERE sTransNox=:TransNox")
     void updateObApprovalPostedStatus(String TransNox);
 
-    @Query("UPDATE Employee_Business_Trip SET " +
-            "cTranStat =:TranStat, " +
-            "dApproved =:DateSent, " +
-            "sApproved = (SELECT sUserIDxx FROM User_Info_Master) " +
-            "WHERE sTransNox =:TransNox")
-    void updateOBApproval(String TranStat, String TransNox, String DateSent);
-
     @Query("SELECT * FROM Employee_Business_Trip WHERE sApproved IS NULL AND dApproved IS NULL")
     LiveData<List<EEmployeeBusinessTrip>> getOBListForApproval();
 
     @Query("SELECT * FROM Employee_Business_Trip " +
             "WHERE xEmployee = (SELECT sEmployID FROM User_Info_Master)")
     LiveData<List<EEmployeeBusinessTrip>> getOBList();
-
-    @Query("SELECT * FROM Employee_Business_Trip WHERE cSendStat <> '1'")
-    List<EEmployeeBusinessTrip> getUnsentEmployeeOB();
 
     @Query("SELECT * FROM Employee_Business_Trip WHERE cTranStat <> '0'")
     LiveData<List<EEmployeeBusinessTrip>> GetApproveBusTrip();

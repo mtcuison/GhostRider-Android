@@ -178,7 +178,7 @@ public class Fragment_SelfieLog extends Fragment {
                 if (eEmployeeInfo.sEmpLevID.equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER))) {
                     SetupDialogForBranchList();
                 }
-                lblBranch.setText(eEmployeeInfo.sBranchCd);
+                lblBranch.setText(eEmployeeInfo.sBranchNm);
                 poSelfie.setBranchCode(eEmployeeInfo.sBranchCd);
             } catch (NullPointerException e){
                 e.printStackTrace();

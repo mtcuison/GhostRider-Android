@@ -38,11 +38,11 @@ public class VMLeaveList extends AndroidViewModel {
         this.poBranch = new RBranch(instance);
     }
 
-    public LiveData<List<EEmployeeLeave>> getEmployeeLeaveForApprovalList(){
+    public LiveData<List<EEmployeeLeave>> getForApprovalList(){
         return poLeave.GetLeaveApplicationsForApproval();
     }
 
-    public LiveData<List<EEmployeeLeave>> getEmployeeLeaveList(){
+    public LiveData<List<EEmployeeLeave>> getForPreviewList(){
         return poLeave.GetLeaveApplicationList();
     }
 

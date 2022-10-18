@@ -13,7 +13,6 @@ package org.rmj.guanzongroup.ghostrider.ahmonitoring;
 
 import org.json.JSONObject;
 import org.junit.Test;
-import org.rmj.g3appdriver.GRider.Http.WebClient;
 
 import java.util.HashMap;
 

@@ -118,6 +118,8 @@ public class VMEmployeeApplications extends AndroidViewModel {
                     Log.e(TAG, message);
                 }
 
+                Thread.sleep(1000);
+
                 if(!poBusTrip.ImportApplications()){
                     message = poBusTrip.getMessage();
                     Log.e(TAG, message);

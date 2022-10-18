@@ -32,10 +32,10 @@ public class VMBusinessTripList extends AndroidViewModel {
         this.poSys = new PetManager(application).GetInstance(PetManager.ePetManager.BUSINESS_TRIP_APPLICATION);
     }
 
-    public LiveData<List<EEmployeeBusinessTrip>> getBusinessTripList(){
-        return poSys.GetOBApplicationList();
+    public LiveData<List<EEmployeeBusinessTrip>> getForApprovalList(){
+        return poSys.GetOBApplicationsForApproval();
     }
-    public LiveData<List<EEmployeeBusinessTrip>> getOBList(){
+    public LiveData<List<EEmployeeBusinessTrip>> getForPreviewList(){
         return poSys.GetOBApplicationList();
     }
 

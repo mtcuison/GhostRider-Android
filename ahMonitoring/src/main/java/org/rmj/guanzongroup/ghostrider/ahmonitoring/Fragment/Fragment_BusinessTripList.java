@@ -62,9 +62,9 @@ public class Fragment_BusinessTripList extends Fragment {
 
         boolean forViewing = requireActivity().getIntent().getBooleanExtra("type", false);
         if (forViewing) {
-            mViewModel.getOBList().observe(getViewLifecycleOwner(), this::setupList);
+            mViewModel.getForPreviewList().observe(getViewLifecycleOwner(), this::setupList);
         } else {
-            mViewModel.getBusinessTripList().observe(getViewLifecycleOwner(), this::setupList);
+            mViewModel.getForApprovalList().observe(getViewLifecycleOwner(), this::setupList);
         }
 
         return view;

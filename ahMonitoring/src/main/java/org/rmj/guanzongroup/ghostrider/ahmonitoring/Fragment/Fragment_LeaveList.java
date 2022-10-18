@@ -69,9 +69,9 @@ public class Fragment_LeaveList extends Fragment {
         forViewing = requireActivity().getIntent().getBooleanExtra("type", false);
 
         if(forViewing) {
-            mViewModel.getEmployeeLeaveList().observe(getViewLifecycleOwner(), this::setupList);
+            mViewModel.getForPreviewList().observe(getViewLifecycleOwner(), this::setupList);
         } else {
-            mViewModel.getEmployeeLeaveForApprovalList().observe(getViewLifecycleOwner(), this::setupList);
+            mViewModel.getForApprovalList().observe(getViewLifecycleOwner(), this::setupList);
         }
     }
 

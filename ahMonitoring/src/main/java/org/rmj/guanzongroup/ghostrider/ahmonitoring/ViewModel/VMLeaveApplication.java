@@ -22,6 +22,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.dev.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.lib.PetManager.PetManager;
@@ -51,8 +52,8 @@ public class VMLeaveApplication extends AndroidViewModel {
         void OnFailed(String message);
     }
 
-    public LiveData<EBranchInfo> getUserBranchInfo(){
-        return pobranch.getUserBranchInfo();
+    public LiveData<DEmployeeInfo.EmployeeBranch> GetUserInfo(){
+        return poSys.GetUserInfo();
     }
 
     public LiveData<ArrayAdapter<String>> getLeaveTypeList(){

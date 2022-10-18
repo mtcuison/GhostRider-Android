@@ -30,6 +30,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
+import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.etc.GToast;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
@@ -66,6 +67,7 @@ public class Fragment_LeaveApplication extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        mViewModel = new ViewModelProvider(this).get(VMLeaveApplication.class);
         View view = inflater.inflate(R.layout.fragment_leave_application, container, false);
 
         lblUsername = view.findViewById(R.id.lbl_username);
@@ -83,28 +85,21 @@ public class Fragment_LeaveApplication extends Fragment {
         poProgress = new LoadDialog(getActivity());
         poMessage = new MessageBox(getActivity());
 
-        mViewModel = new ViewModelProvider(this).get(VMLeaveApplication.class);
         poLeave = new LeaveApplication();
-//        mViewModel.getUserInfo().observe(getViewLifecycleOwner(), eEmployeeInfo -> {
-//            try{
-//                lblUsername.setText(eEmployeeInfo.getUserName());
-//                lblPosition.setText(DeptCode.getDepartmentName(eEmployeeInfo.getDeptIDxx()));
-//                poLeave.setEmploName(eEmployeeInfo.getUserName());
-//            } catch (Exception e){
-//                e.printStackTrace();
-//            }
-//        });
-
-        mViewModel.getLeaveTypeList().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnType.setAdapter(stringArrayAdapter));
-
-        mViewModel.getUserBranchInfo().observe(getViewLifecycleOwner(), eBranchInfo -> {
+        mViewModel.GetUserInfo().observe(getViewLifecycleOwner(), eEmployeeInfo -> {
             try{
-                lblBranch.setText(eBranchInfo.getBranchNm());
-                poLeave.setBranchNme(eBranchInfo.getBranchNm());
+                lblUsername.setText(eEmployeeInfo.sUserName);
+                lblPosition.setText(DeptCode.getDepartmentName(eEmployeeInfo.sDeptIDxx));
+                poLeave.setEmploName(eEmployeeInfo.sUserName);
+
+                lblBranch.setText(eEmployeeInfo.sBranchNm);
+                poLeave.setBranchNme(eEmployeeInfo.sBranchNm);
             } catch (Exception e){
                 e.printStackTrace();
             }
         });
+
+        mViewModel.getLeaveTypeList().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnType.setAdapter(stringArrayAdapter));
 
         txtDateFrom.setOnClickListener(v -> {
             final Calendar newCalendar = Calendar.getInstance();

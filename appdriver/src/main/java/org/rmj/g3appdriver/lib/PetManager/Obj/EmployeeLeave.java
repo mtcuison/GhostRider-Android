@@ -110,7 +110,6 @@ public class EmployeeLeave implements iPM {
                     leave.setLveCredt(loJson.getString("nLveCredt"));
                     leave.setTranStat(loJson.getString("cTranStat"));
                     leave.setTimeStmp(loJson.getString("dTimeStmp"));
-                    leave.setSentStat("1");
                     poDao.insertApplication(leave);
                     Log.d(TAG, "New leave application save!");
                 } else {
