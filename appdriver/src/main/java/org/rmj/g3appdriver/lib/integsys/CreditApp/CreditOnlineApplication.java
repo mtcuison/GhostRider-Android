@@ -172,18 +172,18 @@ public class CreditOnlineApplication {
         }
     }
 
-    public boolean CreateApplication(LoanInfo foVal){
+    public String CreateApplication(LoanInfo foVal){
         try{
             if(!foVal.isDataValid()){
                 message = foVal.getMessage();
-                return false;
+                return null;
             }
 
             String lsTransNo = CreateUniqueID();
 
             if(lsTransNo.isEmpty()){
                 message = "Failed to generate unique id please restart the app and try again.";
-                return false;
+                return null;
             }
 
             GOCASApplication loGocas = new GOCASApplication();
@@ -213,46 +213,21 @@ public class CreditOnlineApplication {
             poDao.SaveApplication(loDetail);
 
             Log.d(TAG, "New credit online application has been created.");
-            return true;
+            return loDetail.getTransNox();
         } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();
-            return false;
-        }
-    }
-
-    public LiveData<ECreditApplication> GetApplication(String fsVal){
-        return poDao.GetCurrentApplication(fsVal);
-    }
-
-    public void GetPersonalInfo(ECreditApplication foVal, OnRetrievePersonaInfo listener){
-        new GetPersonalInfoTask(poDao, listener).execute(foVal);
-    }
-
-    public void GetResidenceInfo(ECreditApplication foVal, OnRetrieveResidenceInfo listener){
-
-    }
-
-    private class GetResidenceInfoTask extends AsyncTask<ECreditApplication, Void, String>{
-
-        private final OnRetrievePersonaInfo listener;
-        private final GOCASApplication gocas = new GOCASApplication();
-
-        private String BPlace, Citizen;
-
-        public GetResidenceInfoTask(OnRetrievePersonaInfo listener) {
-            this.listener = listener;
-        }
-        @Override
-        protected String doInBackground(ECreditApplication... eCreditApplications) {
             return null;
         }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-        }
     }
+
+//    public CreditApp getInstance(Class<?> args){
+//        String lsClassNm = args.getSimpleName();
+//        switch (lsClassNm){
+//            case Ac:
+//
+//        }
+//    }
 
     private String CreateUniqueID(){
         String lsUniqIDx = "";

@@ -42,7 +42,6 @@ import java.util.Objects;
 
     private String message;
 
-
     public RTown(Application instance){
         this.poDao = GGC_GriderDB.getInstance(instance).TownDao();
         this.poConfig = AppConfigPreference.getInstance(instance);

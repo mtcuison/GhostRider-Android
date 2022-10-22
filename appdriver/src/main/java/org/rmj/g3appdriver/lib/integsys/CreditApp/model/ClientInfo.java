@@ -1,11 +1,13 @@
 package org.rmj.g3appdriver.lib.integsys.CreditApp.model;
 
+import org.rmj.g3appdriver.etc.FormatUIText;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class ClientInfo {
 
-
+    private String TransNox;
     private String LastName;
     private String FrstName;
     private String MiddName;
@@ -13,9 +15,11 @@ public class ClientInfo {
     private String NickName;
     private String BrthDate;
     private String BrthPlce;
+    private String BirthPlc; //This holds the data for preview of Town, Province names.
     private String Gender;
     private String CvlStats;
     private String Citizenx;
+    private String CtznShip; //This holds the data for preview of citizenship
     private String MotherNm;
     private final List<MobileNo> mobileNoList = new ArrayList<>();
     private String PhoneNox;
@@ -33,9 +37,16 @@ public class ClientInfo {
     public ClientInfo() {
     }
 
-
     public String getMessage(){
         return message;
+    }
+
+    public String getTransNox() {
+        return TransNox;
+    }
+
+    public void setTransNox(String transNox) {
+        TransNox = transNox;
     }
 
     public String getLastName() {
@@ -82,16 +93,51 @@ public class ClientInfo {
         return BrthDate;
     }
 
+    /**
+     *
+     * @return Use this get method to retrieve the UI preview of birthdate.
+     */
+    public String getBirthDte() {
+        return FormatUIText.formatGOCasBirthdate(BrthDate);
+    }
+
     public void setBrthDate(String brthDate) {
         BrthDate = brthDate;
     }
 
+    /***
+     *
+     * @param brthPlce set the actual ID of Town and Province using this method...
+     */
     public void setBrthPlce(String brthPlce){
         BrthPlce = brthPlce;
     }
 
+    /**
+     *
+     * @return get the actual ID of town which
+     * will be the birthdate of applicant using this method...
+     */
     public String getBrthPlce() {
         return BrthPlce;
+    }
+
+    /**
+     *
+     * @return get the town and
+     * province name of the applicant birthplace using this method...
+     */
+    public String getBirthPlc() {
+        return BirthPlc;
+    }
+
+    /**
+     *
+     * @param birthPlc set the town and
+     *                 province name of applicant birthplace using this method...
+     */
+    public void setBirthPlc(String birthPlc) {
+        BirthPlc = birthPlc;
     }
 
     public String getGender() {
@@ -112,6 +158,23 @@ public class ClientInfo {
 
     public String getCitizenx() {
         return Citizenx;
+    }
+
+    /**
+     *
+     * @return use this get method to
+     * retrieve the UI preview of client citizenship.
+     */
+    public String getCtznShip() {
+        return CtznShip;
+    }
+
+    /**
+     *
+     * @param ctznShip use this method to set the UI preview of citizenship.
+     */
+    public void setCtznShip(String ctznShip) {
+        CtznShip = ctznShip;
     }
 
     public void setCitizenx(String citizenx) {
