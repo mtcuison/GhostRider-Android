@@ -17,6 +17,7 @@ import org.junit.runners.MethodSorters;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.lib.PetManager.Obj.EmployeeLeave;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.lib.PetManager.model.LeaveApplication;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(AndroidJUnit4.class)
@@ -52,7 +53,7 @@ public class TestLeaveApplication {
 
     @Test
     public void test02SaveLeave() {
-        EmployeeLeave.LeaveApplication loDetail = new EmployeeLeave.LeaveApplication();
+        LeaveApplication loDetail = new LeaveApplication();
         loDetail.setBranchNme("GMC Dagupan");
         loDetail.setLeaveType("0");
         loDetail.setDateFromx("September 20, 2022");
@@ -60,7 +61,7 @@ public class TestLeaveApplication {
         loDetail.setRemarksxx("Sample entry");
         loDetail.setEmploName("Garcia, Michael");
         loDetail.setNoOfDaysx(1);
-        String lsResult = poSys.SaveLeaveApplication(loDetail);
+        String lsResult = poSys.SaveApplication(loDetail);
         if(lsResult == null){
             message = poSys.getMessage();
             Log.e(TAG, message);
@@ -73,7 +74,7 @@ public class TestLeaveApplication {
 
     @Test
     public void test03PostLeave() {
-        if(!poSys.UploadLeaveApplication(transno)){
+        if(!poSys.UploadApplication(transno)){
             message = poSys.getMessage();
             Log.e(TAG, message);
         } else {

@@ -18,6 +18,8 @@ import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.SessionManager;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.CreditAppInstance;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.PersonalInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.Task.GetPersonalInfoTask;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.Task.OnRetrievePersonaInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.Task.OnRetrieveResidenceInfo;
@@ -32,6 +34,8 @@ import java.util.Locale;
 public class CreditOnlineApplication {
     private static final String TAG = CreditOnlineApplication.class.getSimpleName();
 
+    private final Application instance;
+
     private final DCreditApplication poDao;
 
     private final EmployeeMaster poUser;
@@ -44,6 +48,7 @@ public class CreditOnlineApplication {
     private String message;
 
     public CreditOnlineApplication(Application instance) {
+        this.instance = instance;
         this.poDao = GGC_GriderDB.getInstance(instance).CreditApplicationDao();
         this.poUser = new EmployeeMaster(instance);
         this.poConfig = AppConfigPreference.getInstance(instance);
@@ -221,13 +226,15 @@ public class CreditOnlineApplication {
         }
     }
 
-//    public CreditApp getInstance(Class<?> args){
-//        String lsClassNm = args.getSimpleName();
-//        switch (lsClassNm){
-//            case Ac:
-//
-//        }
-//    }
+    public CreditApp getInstance(CreditAppInstance app){
+        switch (app){
+            case Client_Info:
+                return new PersonalInfo(instance);
+
+            default:
+                return null;
+        }
+    }
 
     private String CreateUniqueID(){
         String lsUniqIDx = "";

@@ -17,6 +17,7 @@ import org.junit.runners.MethodSorters;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.lib.PetManager.Obj.EmployeeLeave;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.lib.PetManager.model.LeaveApprovalInfo;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(AndroidJUnit4.class)
@@ -52,7 +53,7 @@ public class TestLeaveApproval {
 
     @Test
     public void test02DownloadLeave() throws Exception{
-        if(!poSys.DownloadApplications()){
+        if(!poSys.ImportApplications()){
             message = poSys.getMessage();
             Log.e(TAG, message);
         } else {
@@ -64,7 +65,7 @@ public class TestLeaveApproval {
 
     @Test
     public void test03SaveApproval() {
-        EmployeeLeave.LeaveApprovalInfo loDetail = new EmployeeLeave.LeaveApprovalInfo();
+        LeaveApprovalInfo loDetail = new LeaveApprovalInfo();
         loDetail.setTransNox("MX0122000041");
         loDetail.setTranStat("3");
         loDetail.setAppldFrx("2022-09-20");
@@ -72,7 +73,7 @@ public class TestLeaveApproval {
         loDetail.setWithOPay("0");
         loDetail.setWithPayx("1");
         loDetail.setApproved("M00119001131");
-        String lsTransNox = poSys.SaveLeaveApproval(loDetail);
+        String lsTransNox = poSys.SaveApproval(loDetail);
         if(lsTransNox == null){
             message = poSys.getMessage();
             Log.e(TAG, message);
@@ -85,7 +86,7 @@ public class TestLeaveApproval {
 
     @Test
     public void test04PostLeaveApproval() {
-        if(!poSys.PostLeaveApproval(transno)){
+        if(!poSys.UploadApproval(transno)){
             message = poSys.getMessage();
             Log.e(TAG, message);
         } else {

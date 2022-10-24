@@ -18,6 +18,7 @@ import android.util.Log;
 import org.junit.Before;
 import org.junit.Test;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.lib.PetManager.model.OBApprovalInfo;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(AndroidJUnit4.class)
@@ -43,7 +44,7 @@ public class TestOBApproval {
 
     @Test
     public void test01DownloadOBList() throws Exception{
-        if(!poSys.DownloadApplications()){
+        if(!poSys.ImportApplications()){
             message = poSys.getMessage();
             Log.e(TAG, message);
         } else {
@@ -55,14 +56,14 @@ public class TestOBApproval {
 
     @Test
     public void test02ApproveOBApplication() {
-        EmployeeOB.OBApprovalInfo loApp = new EmployeeOB.OBApprovalInfo();
+        OBApprovalInfo loApp = new OBApprovalInfo();
         loApp.setTransNox("MX0122000067");
         loApp.setAppldTox("2022-09-21");
         loApp.setAppldFrx("2022-09-21");
         loApp.setDateAppv("2022-09-21");
         loApp.setTranStat("1");
         loApp.setApproved(poUser.getEmployeeID());
-        String lsTransNox = poSys.SaveBusinessTripApproval(loApp);
+        String lsTransNox = poSys.SaveApproval(loApp);
         if(lsTransNox == null){
             message = poSys.getMessage();
             Log.e(TAG, message);
@@ -75,7 +76,7 @@ public class TestOBApproval {
 
     @Test
     public void test03PostOBApproval() {
-        if(!poSys.PostBusinessTripApproval(transno)){
+        if(!poSys.UploadApproval(transno)){
             message = poSys.getMessage();
             Log.e(TAG, message);
         } else {

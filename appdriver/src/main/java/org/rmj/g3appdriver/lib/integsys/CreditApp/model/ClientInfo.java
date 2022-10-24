@@ -249,91 +249,49 @@ public class ClientInfo {
         VbrAccnt = vbrAccnt;
     }
 
-    private boolean isLastNameValid(){
+    public boolean isDataValid(){
         if(LastName.trim().isEmpty()){
             message = "Please enter last name";
             return false;
         }
-        return true;
-    }
 
-    private boolean isFrstNameValid(){
         if(FrstName.trim().isEmpty()){
             message = "Please enter first name";
             return false;
         }
-        return true;
-    }
 
-    private boolean isMiddNameValid(){
-        if(MiddName.trim().isEmpty()) {
-            message = "Please enter middle name";
-            return false;
-        }else if(MiddName.length() <= 1){
-            message = "Please provide valid Middle name.";
-            return false;
-        }
-        return true;
-    }
-
-    private boolean isBirthdateValid(){
         if(BrthDate.trim().isEmpty()){
             message = "Please enter birth date";
             return false;
         }
-        return true;
-    }
 
-    private boolean isBirthPlaceValid(){
         if(BrthPlce == null || BrthPlce.equalsIgnoreCase("")){
             message = "Please enter birth place";
             return false;
         }
-        return true;
-    }
 
-    private boolean isGenderValid(){
         if(Integer.parseInt(Gender) < 0){
             message = "Please select gender";
             return false;
         }
-        return true;
-    }
 
-    private boolean isMotherNameValid(){
         if(Gender.equalsIgnoreCase("1") && CvlStats.equalsIgnoreCase("1")) {
             if (MotherNm.trim().isEmpty()) {
                 message = "Please enter mother's maiden name";
                 return false;
             }
         }
-        return true;
-    }
 
-    private boolean isCivilStatusValid(){
         if(CvlStats == null || Integer.parseInt(CvlStats) < 0){
             message = "Please select civil status";
             return false;
         }
-        return true;
-    }
 
-    private boolean isCitizenshipValid(){
         if(Citizenx == null || Citizenx.trim().isEmpty()){
             message = "Please enter citizenship";
             return false;
         }
-        return true;
-    }
-    public String getImgPath() {
-        return ImgPath;
-    }
 
-    public void setImgPath(String imgPath) {
-        ImgPath = imgPath;
-    }
-
-    private boolean isValidContact(){
         if (mobileNoList.size()> 0) {
             return isPrimaryContactValid() &&
                     isSecondaryContactValid() &&
@@ -343,7 +301,8 @@ public class ClientInfo {
             return false;
         }
     }
-    public boolean isPrimaryContactValid(){
+
+    private boolean isPrimaryContactValid(){
         if(mobileNoList.get(0).getMobileNo().trim().isEmpty()){
             message = "Please enter primary contact number";
             return false;
@@ -363,7 +322,7 @@ public class ClientInfo {
         return true;
     }
 
-    public boolean isSecondaryContactValid(){
+    private boolean isSecondaryContactValid(){
         if(mobileNoList.size() >= 2) {
             if (mobileNoList.get(1).getMobileNo().trim().isEmpty()) {
                 if(!mobileNoList.get(1).getMobileNo().substring(0, 2).equalsIgnoreCase("09")){
@@ -388,7 +347,7 @@ public class ClientInfo {
         return true;
     }
 
-    public boolean isTertiaryContactValid(){
+    private boolean isTertiaryContactValid(){
         if(mobileNoList.size() == 3) {
             if (!mobileNoList.get(2).getMobileNo().trim().isEmpty()) {
                 if(!mobileNoList.get(2).getMobileNo().substring(0, 2).equalsIgnoreCase("09")){
@@ -410,6 +369,58 @@ public class ClientInfo {
                 return false;
             }
         }
+        return true;
+    }
+
+    public boolean isEqual(ClientInfo val){
+        if(!val.getLastName().equalsIgnoreCase(LastName)){
+            return false;
+        } else if(!val.getFrstName().equalsIgnoreCase(FrstName)){
+            return false;
+        } else if(!val.getMiddName().equalsIgnoreCase(MiddName)){
+            return false;
+        } else if(!val.getSuffix().equalsIgnoreCase(Suffix)){
+            return false;
+        } else if(!val.getNickName().equalsIgnoreCase(NickName)){
+            return false;
+        } else if(!val.getBirthDte().equalsIgnoreCase(BrthDate)){
+            return false;
+        } else if(!val.getBirthPlc().equalsIgnoreCase(BrthPlce)){
+            return false;
+        } else if(!val.getBirthPlc().equalsIgnoreCase(BirthPlc)){
+            return false;
+        } else if(!val.getGender().equalsIgnoreCase(Gender)){
+            return false;
+        } else if(!val.getCvlStats().equalsIgnoreCase(CvlStats)){
+            return false;
+        } else if(!val.getCitizenx().equalsIgnoreCase(Citizenx)){
+            return false;
+        } else if(!val.getCtznShip().equalsIgnoreCase(CtznShip)){
+            return false;
+        } else if(!val.getMotherNm().equalsIgnoreCase(MotherNm)){
+            return false;
+        } else if(!val.getPhoneNox().equalsIgnoreCase(PhoneNox)){
+            return false;
+        } else if(!val.getEmailAdd().equalsIgnoreCase(EmailAdd)){
+            return false;
+        } else if(!val.getFbAccntx().equalsIgnoreCase(FbAccntx)){
+            return false;
+        } else if(!val.getVbrAccnt().equalsIgnoreCase(VbrAccnt)){
+            return false;
+        } else if(val.getMobileNoQty() != mobileNoList.size()){
+            return false;
+        } else if(val.getMobileNoQty() != mobileNoList.size()){
+            for(int x = 0; x < val.getMobileNoQty(); x++){
+                if(!val.getMobileNo(x).equalsIgnoreCase(mobileNoList.get(x).getMobileNo())){
+                    return false;
+                } else if(!val.getPostPaid(x).equalsIgnoreCase(mobileNoList.get(x).getIsPostPd())){
+                    return false;
+                } else if(val.getPostYear(x) != (mobileNoList.get(x).getPostYear())){
+                    return false;
+                }
+            }
+        }
+
         return true;
     }
 }

@@ -17,6 +17,7 @@ import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.lib.PetManager.Obj.EmployeeOB;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.lib.PetManager.model.OBApplication;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(AndroidJUnit4.class)
@@ -42,7 +43,7 @@ public class TestOBApplication {
 
     @Test
     public void test01SaveBusinessTrip() {
-        EmployeeOB.OBApplication loApp = new EmployeeOB.OBApplication();
+        OBApplication loApp = new OBApplication();
         loApp.setTransact(AppConstants.CURRENT_DATE);
         loApp.setEmployID(poUser.getEmployeeID());
         loApp.setDateFrom("2022-09-21");
@@ -51,7 +52,7 @@ public class TestOBApplication {
         loApp.setAppldFrx("2022-09-21");
         loApp.setDestinat("M001");
         loApp.setRemarksx("sample entry");
-        String lsTransNox = poSys.SaveOBApplication(loApp);
+        String lsTransNox = poSys.SaveApplication(loApp);
         if(lsTransNox == null){
             message = poSys.getMessage();
             Log.e(TAG, message);

@@ -22,6 +22,8 @@ public class PersonalInfo implements CreditApp {
     private final RTown poTown;
     private final RCountry poCountry;
 
+    private ClientInfo loLClient;
+
     private String message;
 
     public PersonalInfo(Application instance){
@@ -79,6 +81,7 @@ public class PersonalInfo implements CreditApp {
             loClient.setPhoneNox(loGocas.ApplicantInfo().getPhoneNo(0));
             loClient.setVbrAccnt(loGocas.ApplicantInfo().getViberAccount());
 
+            loLClient = loClient;
             return loClient;
         } catch (Exception e){
             e.printStackTrace();
@@ -89,7 +92,29 @@ public class PersonalInfo implements CreditApp {
 
     @Override
     public int Validate(Object args) {
-        return 0;
+        ClientInfo loClient = (ClientInfo) args;
+
+        if(loLClient == null){
+
+            if(!loClient.isDataValid()){
+                message = loClient.getMessage();
+                return 0;
+            }
+
+        } else {
+
+            //TODO: if all information inside each old object and new object is not the same,
+            // return 2 to indicate validation needs confirmation from user to update the
+            // previous information being save.
+
+            if(!loLClient.isEqual(loClient)){
+                return 2;
+            } else {
+                return 1;
+            }
+        }
+
+        return 1;
     }
 
     @Override
@@ -150,5 +175,4 @@ public class PersonalInfo implements CreditApp {
     public String getMessage() {
         return message;
     }
-
 }

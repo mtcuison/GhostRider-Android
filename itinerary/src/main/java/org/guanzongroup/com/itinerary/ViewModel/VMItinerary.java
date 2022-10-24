@@ -62,10 +62,6 @@ public class VMItinerary extends AndroidViewModel {
         return poUser.GetEmployeeBranch();
     }
 
-    public LiveData<String[]> GetAllBranchNames(){
-        return poBranch.getAllBranchNames();
-    }
-
     public void SaveItinerary(EmployeeItinerary.ItineraryEntry foVal, OnActionCallback callback){
         new SaveItineraryTask(instance, callback).execute(foVal);
     }
