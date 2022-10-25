@@ -13,7 +13,6 @@ package org.rmj.g3appdriver.dev.Database.DataAccessObject;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
-import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
@@ -33,16 +32,28 @@ public interface DCreditApplication {
     void SaveApplication(ECreditApplication creditApplication);
 
     @Update
-    void update(ECreditApplication creditApplication);
+    void Update(ECreditApplication creditApplication);
+
+    @Insert
+    void SaveApplication(ECreditApplicantInfo creditApplicantInfo);
+
+    @Update
+    void Update(ECreditApplicantInfo creditApplicantInfo);
 
     @Query("SELECT * FROM Credit_Online_Application ORDER BY dTimeStmp DESC LIMIT 1")
     ECreditApplication GetLatestRecord();
 
     @Query("SELECT * FROM Credit_Online_Application WHERE sTransNox =:fsVal")
-    ECreditApplication GetApplication(String fsVal);
+    ECreditApplication GetCreditOnlineApplication(String fsVal);
 
     @Query("SELECT * FROM Credit_Online_Application WHERE sTransNox =:fsVal")
-    LiveData<ECreditApplication> GetCurrentApplication(String fsVal);
+    LiveData<ECreditApplication> GetCreditApplication(String fsVal);
+
+    @Query("SELECT * FROM Credit_Applicant_Info WHERE sTransNox =:fsVal")
+    LiveData<ECreditApplicantInfo> GetApplicantInfo(String fsVal);
+
+    @Query("SELECT * FROM Credit_Applicant_Info WHERE sTransNox =:fsVal")
+    ECreditApplicantInfo GetApplicantDetails(String fsVal);
 
     @Query("SELECT a.sTownName || ', ' || b.sProvName FROM Town_Info a " +
             "LEFT JOIN Province_Info b " +
@@ -56,14 +67,11 @@ public interface DCreditApplication {
     @Query("SELECT COUNT (*) FROM Credit_Online_Application")
     int GetRowsCountForID();
 
+    @Query("SELECT COUNT (*) FROM Credit_Applicant_Info")
+    int GetRowsCountForUniqueID();
+
     @Query("SELECT * FROM Credit_Online_Application")
     LiveData<List<ECreditApplication>> getAllCreditApplication();
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertBulkData(List<ECreditApplication> creditApplications);
-
-//    @Query("UPDATE Credit_Online_Application SET cCaptured = '1', sFileLoct = (SELECT sFileLoct FROM Image_Information WHERE sSourceNo =:TransNox) WHERE sTransNox =:TransNox")
-//    void updateCustomerImageStat(String TransNox);
 
     @Query("SELECT * FROM Credit_Online_Application WHERE sTransNox =:TransNox")
     ECreditApplication getLoanInfoOfTransNox(String TransNox);
@@ -92,10 +100,6 @@ public interface DCreditApplication {
 
     @Query("SELECT * FROM Credit_Online_Application WHERE cSendStat <> '1'")
     List<ECreditApplication> getUnsentLoanApplication();
-
-    @RewriteQueriesToDropUnusedColumns
-    @Query("SELECT * FROM Credit_Online_Application WHERE sTransNox =:TransNox")
-    List<ApplicationLog> getDuplicateTransNox(String TransNox);
 
 //    @Query("UPDATE Credit_Online_Application SET sFileLoct = (SELECT sFileLoct FROM Image_Information WHERE sSourceNo =:TransNox) WHERE sTransNox =:TransNox")
 //    void updateApplicantImageStat(String TransNox);

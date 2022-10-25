@@ -67,6 +67,8 @@ public class Activity_UsersItineraries extends AppCompatActivity {
         String lsDeptName = DeptCode.getDepartmentName(getIntent().getStringExtra("sDeptIDxx"));
         String lsDateFrom = getIntent().getStringExtra("dDateFrom");
         String lsDateThru = getIntent().getStringExtra("dDateThru");
+        psFrom = lsDateFrom;
+        psThru = lsDateThru;
 
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("Employee Itinerary");
@@ -84,31 +86,7 @@ public class Activity_UsersItineraries extends AppCompatActivity {
         lblUser.setText(lsUserName);
         lblDept.setText(lsDeptName);
 
-        mViewModel.DownloadItineraryForUser(lsEmployID, lsDateFrom, lsDateThru, new VMUsersItineraries.OnDownloadUserEntriesListener() {
-            @Override
-            public void OnImport(String title, String message) {
-                poLoad.initDialog(title, message, false);
-                poLoad.show();
-            }
-
-            @Override
-            public void OnSuccess(List<EItinerary> args) {
-                poLoad.dismiss();
-                previewIntinerary(args);
-            }
-
-            @Override
-            public void OnFailed(String message) {
-                poLoad.dismiss();
-                poDialog.initDialog();
-                poDialog.setTitle("Employee Itinerary");
-                poDialog.setMessage(message);
-                poDialog.setPositiveButton("Okay", (view, dialog) -> {
-                    dialog.dismiss();
-                });
-                poDialog.show();
-            }
-        });
+        DownloadItinerary(lsEmployID, lsDateFrom, lsDateThru);
         txtFrom.setText(new AppConstants().CURRENT_DATE_WORD);
 
         txtFrom.setText(FormatUIText.formatGOCasBirthdate(lsDateFrom));
@@ -186,8 +164,16 @@ public class Activity_UsersItineraries extends AppCompatActivity {
         btnFilter.setOnClickListener(v -> {
             if(psFrom == null && psThru == null) {
                 Toast.makeText(Activity_UsersItineraries.this, "Please select starting and end date to filter.", Toast.LENGTH_SHORT).show();
+            } else if(!isFiltered){
+                DownloadItinerary(lsEmployID, psFrom, psThru);
+                isFiltered = true;
+                btnFilter.setText("Clear Filter");
             } else {
-
+                isFiltered = false;
+                txtFrom.setText(new AppConstants().CURRENT_DATE_WORD);
+                txtThru.setText(new AppConstants().CURRENT_DATE_WORD);
+                DownloadItinerary(lsEmployID, lsDateFrom, lsDateThru);
+                btnFilter.setText("Filter Records");
             }
         });
     }
@@ -200,9 +186,35 @@ public class Activity_UsersItineraries extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void previewIntinerary(List<EItinerary> foVal){
-        if(!isFiltered) {
-            recyclerView.setAdapter(new AdapterItineraries(foVal, args -> new DialogEntryDetail(Activity_UsersItineraries.this).showDialog(args)));
-        }
+    private void DownloadItinerary(String employId, String lsDateFrom, String lsDateThru){
+        mViewModel.DownloadItineraryForUser(employId, lsDateFrom, lsDateThru, new VMUsersItineraries.OnDownloadUserEntriesListener() {
+            @Override
+            public void OnImport(String title, String message) {
+                poLoad.initDialog(title, message, false);
+                poLoad.show();
+            }
+
+            @Override
+            public void OnSuccess(List<EItinerary> args) {
+                poLoad.dismiss();
+                previewItinerary(args);
+            }
+
+            @Override
+            public void OnFailed(String message) {
+                poLoad.dismiss();
+                poDialog.initDialog();
+                poDialog.setTitle("Employee Itinerary");
+                poDialog.setMessage(message);
+                poDialog.setPositiveButton("Okay", (view, dialog) -> {
+                    dialog.dismiss();
+                });
+                poDialog.show();
+            }
+        });
+    }
+
+    private void previewItinerary(List<EItinerary> foVal){
+        recyclerView.setAdapter(new AdapterItineraries(foVal, args -> new DialogEntryDetail(Activity_UsersItineraries.this).showDialog(args)));
     }
 }

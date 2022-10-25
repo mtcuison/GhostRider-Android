@@ -6,14 +6,19 @@ import androidx.lifecycle.LiveData;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DCreditApplication;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.EBarangayInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ECountryInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplication;
+import org.rmj.g3appdriver.dev.Database.Entities.EOccupationInfo;
 import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.dev.Database.Repositories.RCountry;
 import org.rmj.g3appdriver.dev.Database.Repositories.RTown;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditApp;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.ClientInfo;
 import org.rmj.gocas.base.GOCASApplication;
+
+import java.util.List;
 
 public class PersonalInfo implements CreditApp {
     private static final String TAG = PersonalInfo.class.getSimpleName();
@@ -33,56 +38,57 @@ public class PersonalInfo implements CreditApp {
     }
 
     @Override
-    public LiveData<ECreditApplication> GetApplication(String args) {
-        return poDao.GetCurrentApplication(args);
+    public LiveData<ECreditApplicantInfo> GetApplication(String args) {
+        return poDao.GetApplicantInfo(args);
     }
 
     @Override
-    public Object Parse(ECreditApplication args) {
+    public Object Parse(ECreditApplicantInfo args) {
         try{
-            String lsDetail = args.getDetlInfo();
-            GOCASApplication loGocas = new GOCASApplication();
-            loGocas.setData(lsDetail);
+            String lsDetail = args.getApplInfo();
+            GOCASApplication gocas = new GOCASApplication();
+            gocas.setData(lsDetail);
 
-            ClientInfo loClient = new ClientInfo();
-            loClient.setLastName(loGocas.ApplicantInfo().getLastName());
-            loClient.setFrstName(loGocas.ApplicantInfo().getFirstName());
-            loClient.setMiddName(loGocas.ApplicantInfo().getMiddleName());
-            loClient.setSuffix(loGocas.ApplicantInfo().getSuffixName());
-            loClient.setNickName(loGocas.ApplicantInfo().getNickName());
-            loClient.setBrthDate(loGocas.ApplicantInfo().getBirthdate());
+            ClientInfo loDetail = new ClientInfo();
+            loDetail.setLastName(gocas.ApplicantInfo().getLastName());
+            loDetail.setFrstName(gocas.ApplicantInfo().getFirstName());
+            loDetail.setMiddName(gocas.ApplicantInfo().getMiddleName());
+            loDetail.setSuffix(gocas.ApplicantInfo().getSuffixName());
+            loDetail.setNickName(gocas.ApplicantInfo().getNickName());
+            loDetail.setBrthDate(gocas.ApplicantInfo().getBirthdate());
 
-            loClient.setCitizenx(loGocas.ApplicantInfo().getCitizenship());
+            loDetail.setCitizenx(gocas.ApplicantInfo().getCitizenship());
 
             // Get the UI preview of Citizenship
-            ECountryInfo loCtzen = poCountry.getCountryInfo(loClient.getCitizenx());
+            String lsCtzen = poDao.GetCitizenship(loDetail.getCitizenx());
 
-            loClient.setCtznShip(loCtzen.getNational());
+            loDetail.setCtznShip(lsCtzen);
 
-            loClient.setCvlStats(loGocas.ApplicantInfo().getCivilStatus());
-            loClient.setGender(loGocas.ApplicantInfo().getGender());
-            loClient.setMotherNm(loGocas.ApplicantInfo().getMaidenName());
+            loDetail.setCvlStats(gocas.ApplicantInfo().getCivilStatus());
+            loDetail.setGender(gocas.ApplicantInfo().getGender());
+            loDetail.setMotherNm(gocas.ApplicantInfo().getMaidenName());
 
-            loClient.setBrthPlce(loGocas.ApplicantInfo().getBirthPlace());
+            loDetail.setBrthPlce(gocas.ApplicantInfo().getBirthPlace());
 
             //Get Town, Province names and set to model class to be displayed on UI.
-            DTownInfo.TownProvinceName loBrthPlc = poTown.getTownProvinceName(loClient.getBirthPlc());
+            String lsBrthPlc = poDao.GetBirthPlace(loDetail.getBrthPlce());
 
-            loClient.setBirthPlc(loBrthPlc.sTownName + ", " + loBrthPlc.sProvName);
+            loDetail.setBirthPlc(lsBrthPlc);
 
-            for(int x = 0; x < loGocas.ApplicantInfo().getMobileNoQty(); x++) {
-                loClient.setMobileNo(
-                        loGocas.ApplicantInfo().getMobileNo(x),
-                        loGocas.ApplicantInfo().IsMobilePostpaid(x),
-                        loGocas.ApplicantInfo().getPostPaidYears(x));
+            for(int x = 0; x < gocas.ApplicantInfo().getMobileNoQty(); x++) {
+                loDetail.setMobileNo(
+                        gocas.ApplicantInfo().getMobileNo(x),
+                        gocas.ApplicantInfo().IsMobilePostpaid(x),
+                        gocas.ApplicantInfo().getPostPaidYears(x));
             }
-            loClient.setEmailAdd(loGocas.ApplicantInfo().getEmailAddress(0));
-            loClient.setFbAccntx(loGocas.ApplicantInfo().getFBAccount());
-            loClient.setPhoneNox(loGocas.ApplicantInfo().getPhoneNo(0));
-            loClient.setVbrAccnt(loGocas.ApplicantInfo().getViberAccount());
 
-            loLClient = loClient;
-            return loClient;
+            loDetail.setEmailAdd(gocas.ApplicantInfo().getEmailAddress(0));
+            loDetail.setFbAccntx(gocas.ApplicantInfo().getFBAccount());
+            loDetail.setPhoneNox(gocas.ApplicantInfo().getPhoneNo(0));
+            loDetail.setVbrAccnt(gocas.ApplicantInfo().getViberAccount());
+
+            loLClient = loDetail;
+            return loDetail;
         } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();
@@ -122,17 +128,14 @@ public class PersonalInfo implements CreditApp {
         try{
             ClientInfo loDetail = (ClientInfo) args;
 
-            ECreditApplication loApp = poDao.GetApplication(loDetail.getTransNox());
+            ECreditApplicantInfo loApp = poDao.GetApplicantDetails(loDetail.getTransNox());
 
             if(loApp == null){
                 message = "Unable to find record for update. Please restart credit app and try again.";
                 return false;
             }
 
-            String lsDetlInfo = loApp.getDetlInfo();
-
             GOCASApplication gocas = new GOCASApplication();
-            gocas.setData(lsDetlInfo);
 
             gocas.ApplicantInfo().setLastName(loDetail.getLastName());
             gocas.ApplicantInfo().setFirstName(loDetail.getFrstName());
@@ -140,6 +143,7 @@ public class PersonalInfo implements CreditApp {
             gocas.ApplicantInfo().setSuffixName(loDetail.getSuffix());
             gocas.ApplicantInfo().setNickName(loDetail.getNickName());
             gocas.ApplicantInfo().setBirthdate(loDetail.getBrthDate());
+            gocas.ApplicantInfo().setBirthPlace(loDetail.getBrthPlce());
             gocas.ApplicantInfo().setCitizenship(loDetail.getCitizenx());
             gocas.ApplicantInfo().setCivilStatus(loDetail.getCvlStats());
             gocas.ApplicantInfo().setGender(loDetail.getGender());
@@ -161,8 +165,8 @@ public class PersonalInfo implements CreditApp {
             gocas.ApplicantInfo().setFBAccount(loDetail.getFbAccntx());
             gocas.ApplicantInfo().setViberAccount(loDetail.getVbrAccnt());
 
-            loApp.setDetlInfo(gocas.toJSONString());
-            poDao.update(loApp);
+            loApp.setApplInfo(gocas.toJSONString());
+            poDao.Update(loApp);
             return true;
         } catch (Exception e){
             e.printStackTrace();
@@ -174,5 +178,25 @@ public class PersonalInfo implements CreditApp {
     @Override
     public String getMessage() {
         return message;
+    }
+
+    @Override
+    public LiveData<List<EBarangayInfo>> GetBarangayList(String args) {
+        return null;
+    }
+
+    @Override
+    public LiveData<List<DTownInfo.TownProvinceInfo>> GetTownProvinceList() {
+        return poTown.getTownProvinceInfo();
+    }
+
+    @Override
+    public LiveData<List<ECountryInfo>> GetCountryList() {
+        return poCountry.getAllCountryInfo();
+    }
+
+    @Override
+    public LiveData<List<EOccupationInfo>> GetOccupations() {
+        return null;
     }
 }

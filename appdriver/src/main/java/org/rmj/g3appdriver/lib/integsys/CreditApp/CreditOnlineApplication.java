@@ -1,7 +1,6 @@
 package org.rmj.g3appdriver.lib.integsys.CreditApp;
 
 import android.app.Application;
-import android.os.AsyncTask;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
@@ -11,6 +10,7 @@ import org.json.JSONObject;
 import org.rmj.apprdiver.util.SQLUtil;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DCreditApplication;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEmployeeInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplication;
 import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.dev.HttpHeaders;
@@ -20,9 +20,6 @@ import org.rmj.g3appdriver.etc.SessionManager;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.CreditAppInstance;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.PersonalInfo;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.Task.GetPersonalInfoTask;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.Task.OnRetrievePersonaInfo;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.Task.OnRetrieveResidenceInfo;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.g3appdriver.utils.WebClient;
 import org.rmj.gocas.base.GOCASApplication;
@@ -99,7 +96,7 @@ public class CreditOnlineApplication {
             for(int x = 0; x < laJson.length(); x++){
                 JSONObject loJson = laJson.getJSONObject(x);
 
-                ECreditApplication loDetail = poDao.GetApplication(loJson.getString("sTransNox"));
+                ECreditApplication loDetail = poDao.GetCreditOnlineApplication(loJson.getString("sTransNox"));
 
                 if(loDetail == null) {
                     ECreditApplication info = new ECreditApplication();
@@ -217,8 +214,14 @@ public class CreditOnlineApplication {
             loDetail.setSendStat("0");
             poDao.SaveApplication(loDetail);
 
+            lsTransNo = CreateUniqueIDForApplicant();
+            ECreditApplicantInfo loApp = new ECreditApplicantInfo();
+            loApp.setTransNox(lsTransNo);
+            loApp.setPurchase(loGocas.PurchaseInfo().toJSONString());
+            poDao.SaveApplication(loApp);
+
             Log.d(TAG, "New credit online application has been created.");
-            return loDetail.getTransNox();
+            return lsTransNo;
         } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();
@@ -245,6 +248,26 @@ public class CreditOnlineApplication {
             loBuilder.append(lsCrrYear);
 
             int lnLocalID = poDao.GetRowsCountForID() + 1;
+            String lsPadNumx = String.format("%05d", lnLocalID);
+            loBuilder.append(lsPadNumx);
+            lsUniqIDx = loBuilder.toString();
+        } catch (Exception e){
+            e.printStackTrace();
+            Log.e(TAG, e.getMessage());
+        }
+        Log.d(TAG, lsUniqIDx);
+        return lsUniqIDx;
+    }
+
+    private String CreateUniqueIDForApplicant(){
+        String lsUniqIDx = "";
+        try{
+            String lsBranchCd = "MX01";
+            String lsCrrYear = new SimpleDateFormat("yy", Locale.getDefault()).format(new Date());
+            StringBuilder loBuilder = new StringBuilder(lsBranchCd);
+            loBuilder.append(lsCrrYear);
+
+            int lnLocalID = poDao.GetRowsCountForUniqueID() + 1;
             String lsPadNumx = String.format("%05d", lnLocalID);
             loBuilder.append(lsPadNumx);
             lsUniqIDx = loBuilder.toString();

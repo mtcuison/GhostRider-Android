@@ -3,6 +3,7 @@ package org.rmj.g3appdriver.lib.integsys.CreditApp.model;
 public class ClientResidence {
 
     private boolean oneAddress = false;
+    private String sTransNox;
     private String sLandMark;
     private String sHouseNox;
     private String sAddress1;
@@ -40,6 +41,14 @@ public class ClientResidence {
 
     public String getMessage() {
         return message;
+    }
+
+    public String getTransNox() {
+        return sTransNox;
+    }
+
+    public void setsTransNox(String sTransNox) {
+        this.sTransNox = sTransNox;
     }
 
     public void setOneAddress(boolean oneAddress) {
@@ -449,4 +458,6 @@ public class ClientResidence {
         }
         return true;
     }
+
+
 }

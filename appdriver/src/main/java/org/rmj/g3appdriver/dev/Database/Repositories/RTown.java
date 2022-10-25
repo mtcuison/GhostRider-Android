@@ -69,9 +69,6 @@ import java.util.Objects;
         return poDao.getLatestDataTime();
     }
 
-    public LiveData<ETownInfo> getTownNameAndProvID(String fsID){
-        return poDao.getTownNameAndProvID(fsID);
-    }
     public LiveData<DTownInfo.BrgyTownProvinceInfo> getBrgyTownProvinceInfo(String fsID){
         return poDao.getBrgyTownProvinceInfo(fsID);
     }

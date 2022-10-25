@@ -27,7 +27,6 @@ import org.guanzongroup.com.itinerary.Dialog.DialogEntryDetail;
 import org.guanzongroup.com.itinerary.R;
 import org.guanzongroup.com.itinerary.ViewModel.VMItinerary;
 import org.json.JSONObject;
-import org.rmj.g3appdriver.dev.Database.Entities.EItinerary;
 import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.LoadDialog;
@@ -148,7 +147,7 @@ public class Activity_ItineraryLog extends AppCompatActivity {
                             poDialog.show();
                         }
                     });
-                    previewIntinerary();
+                    previewItinerary();
                 }
             } catch (NullPointerException e){
                 e.printStackTrace();
@@ -274,7 +273,7 @@ public class Activity_ItineraryLog extends AppCompatActivity {
                 btnFilter.setText("Clear Filter");
             } else {
                 isFiltered = false;
-                previewIntinerary();
+                previewItinerary();
                 txtFrom.setText(new AppConstants().CURRENT_DATE_WORD);
                 txtThru.setText(new AppConstants().CURRENT_DATE_WORD);
                 btnFilter.setText("Filter Records");
@@ -290,7 +289,7 @@ public class Activity_ItineraryLog extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void previewIntinerary(){
+    private void previewItinerary(){
         if(!isFiltered) {
             mViewModel.GetItineraryListForCurrentDay().observe(Activity_ItineraryLog.this, eItineraries -> {
                 try {

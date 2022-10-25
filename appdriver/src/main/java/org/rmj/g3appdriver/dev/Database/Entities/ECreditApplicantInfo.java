@@ -33,6 +33,8 @@ public class ECreditApplicantInfo {
     private String ApplInfo;
     @ColumnInfo(name = "sResidnce")
     private String Residnce;
+    @ColumnInfo(name = "cSameAddx")
+    private String SameAddx;
     @ColumnInfo(name = "sAppMeans")
     private String AppMeans;
     @ColumnInfo(name = "sEmplymnt")
@@ -344,5 +346,13 @@ public class ECreditApplicantInfo {
 
     public void setTranStat(String tranStat) {
         TranStat = tranStat;
+    }
+
+    public String getSameAddx() {
+        return SameAddx;
+    }
+
+    public void setSameAddx(String sameAddx) {
+        SameAddx = sameAddx;
     }
 }

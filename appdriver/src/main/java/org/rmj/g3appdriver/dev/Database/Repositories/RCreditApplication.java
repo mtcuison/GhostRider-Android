@@ -76,10 +76,6 @@ public class RCreditApplication {
         return creditApplicationDao.getUnsentLoanApplication();
     }
 
-    public void insertBulkData(List<ECreditApplication> creditApplications){
-        creditApplicationDao.insertBulkData(creditApplications);
-    }
-
 //    public void updateCustomerImageStat(String TransNox){
 //        creditApplicationDao.updateCustomerImageStat(TransNox);
 //    }
