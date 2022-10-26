@@ -13,7 +13,6 @@ package org.rmj.g3appdriver.dev.Database.DataAccessObject;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
-import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
@@ -71,7 +70,7 @@ public interface DBarangayInfo {
             "LEFT JOIN Town_Info b ON a.sTownIDxx = b.sTownIDxx " +
             "LEFT JOIN Province_Info c ON b.sProvIDxx = c.sProvIDxx " +
             "WHERE a.sBrgyIDxx =:BrgyID")
-    BrgyTownProvNames getAddressInfo(String BrgyID);
+    BrgyTownProvNames getBrgyTownProvName(String BrgyID);
 
 
     class BrgyTownProvNames{

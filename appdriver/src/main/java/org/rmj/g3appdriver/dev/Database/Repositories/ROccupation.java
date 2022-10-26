@@ -76,13 +76,6 @@ public class ROccupation {
         return poDao.getLiveOccupationName(ID);
     }
 
-    public Integer GetOccupationRecordsCount(){
-        return poDao.GetOccupationRecordsCount();
-    }
-    public EOccupationInfo CheckIfExist(String fsVal){
-        return poDao.GetOccupationInfo(fsVal);
-    }
-
     public boolean ImportJobTitles(){
         try{
             JSONObject params = new JSONObject();

@@ -4,12 +4,13 @@ import android.app.Application;
 
 import androidx.lifecycle.LiveData;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DCreditApplication;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EBarangayInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ECountryInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplication;
 import org.rmj.g3appdriver.dev.Database.Entities.EOccupationInfo;
 import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.dev.Database.Repositories.RCountry;
@@ -27,7 +28,7 @@ public class PersonalInfo implements CreditApp {
     private final RTown poTown;
     private final RCountry poCountry;
 
-    private ClientInfo loLClient;
+    private ClientInfo poDetail;
 
     private String message;
 
@@ -47,7 +48,9 @@ public class PersonalInfo implements CreditApp {
         try{
             String lsDetail = args.getApplInfo();
             GOCASApplication gocas = new GOCASApplication();
-            gocas.setData(lsDetail);
+            JSONParser loJson = new JSONParser();
+            JSONObject joDetail = (JSONObject) loJson.parse(lsDetail);
+            gocas.ApplicantInfo().setData(joDetail);
 
             ClientInfo loDetail = new ClientInfo();
             loDetail.setLastName(gocas.ApplicantInfo().getLastName());
@@ -86,8 +89,7 @@ public class PersonalInfo implements CreditApp {
             loDetail.setFbAccntx(gocas.ApplicantInfo().getFBAccount());
             loDetail.setPhoneNox(gocas.ApplicantInfo().getPhoneNo(0));
             loDetail.setVbrAccnt(gocas.ApplicantInfo().getViberAccount());
-
-            loLClient = loDetail;
+            poDetail = loDetail;
             return loDetail;
         } catch (Exception e){
             e.printStackTrace();
@@ -98,12 +100,12 @@ public class PersonalInfo implements CreditApp {
 
     @Override
     public int Validate(Object args) {
-        ClientInfo loClient = (ClientInfo) args;
+        ClientInfo loDetail = (ClientInfo) args;
 
-        if(loLClient == null){
+        if(poDetail == null){
 
-            if(!loClient.isDataValid()){
-                message = loClient.getMessage();
+            if(!loDetail.isDataValid()){
+                message = loDetail.getMessage();
                 return 0;
             }
 
@@ -113,7 +115,7 @@ public class PersonalInfo implements CreditApp {
             // return 2 to indicate validation needs confirmation from user to update the
             // previous information being save.
 
-            if(!loLClient.isEqual(loClient)){
+            if(!poDetail.isEqual(loDetail)){
                 return 2;
             } else {
                 return 1;
@@ -165,7 +167,7 @@ public class PersonalInfo implements CreditApp {
             gocas.ApplicantInfo().setFBAccount(loDetail.getFbAccntx());
             gocas.ApplicantInfo().setViberAccount(loDetail.getVbrAccnt());
 
-            loApp.setApplInfo(gocas.toJSONString());
+            loApp.setApplInfo(gocas.ApplicantInfo().toJSONString());
             poDao.Update(loApp);
             return true;
         } catch (Exception e){

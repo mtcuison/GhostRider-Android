@@ -18,8 +18,12 @@ import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.SessionManager;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.CreditAppInstance;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.BusinessInfo;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.EmploymentInfo;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.FinancierInfo;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.PensionInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.PersonalInfo;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.ResidenceInfo;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.g3appdriver.utils.WebClient;
 import org.rmj.gocas.base.GOCASApplication;
@@ -233,7 +237,16 @@ public class CreditOnlineApplication {
         switch (app){
             case Client_Info:
                 return new PersonalInfo(instance);
-
+            case Residence_Info:
+                return new ResidenceInfo(instance);
+            case Employed_Info:
+                return new EmploymentInfo(instance);
+            case Self_Employed_Info:
+                return new BusinessInfo(instance);
+            case Financier_Info:
+                return new FinancierInfo(instance);
+            case Pension_Info:
+                return new PensionInfo(instance);
             default:
                 return null;
         }

@@ -33,6 +33,22 @@
             </AndroidTestResultsTableState>
           </value>
         </entry>
+        <entry key="553700799">
+          <value>
+            <AndroidTestResultsTableState>
+              <option name="preferredColumnWidths">
+                <map>
+                  <entry key="127.0.0.1:58526" value="120" />
+                  <entry key="Duration" value="105" />
+                  <entry key="Microsoft Corporation" value="120" />
+                  <entry key="Microsoft Corporation&#10; Subsystem for Android(TM)" value="135" />
+                  <entry key="Pixel_4_API_33" value="120" />
+                  <entry key="Tests" value="375" />
+                </map>
+              </option>
+            </AndroidTestResultsTableState>
+          </value>
+        </entry>
         <entry key="1031666640">
           <value>
             <AndroidTestResultsTableState>

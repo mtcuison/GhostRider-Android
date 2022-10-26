@@ -1,4 +1,4 @@
-package org.rmj.g3appdriver.lib.integsys.CreditApp.Obj;
+package org.rmj.g3appdriver.lib.integsys.CreditApp;
 
 public enum CreditAppInstance {
     Client_Info,

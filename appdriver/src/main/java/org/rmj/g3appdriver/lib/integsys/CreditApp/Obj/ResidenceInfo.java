@@ -4,6 +4,9 @@ import android.app.Application;
 
 import androidx.lifecycle.LiveData;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DBarangayInfo;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DCreditApplication;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EBarangayInfo;
@@ -26,6 +29,8 @@ public class ResidenceInfo implements CreditApp {
     private final RTown poTown;
     private final RBarangay poBrgy;
 
+    private ClientResidence poDetail;
+
     private String message;
 
     public ResidenceInfo(Application instance) {
@@ -44,13 +49,57 @@ public class ResidenceInfo implements CreditApp {
         try{
             String lsDetail = args.getResidnce();
             GOCASApplication gocas = new GOCASApplication();
-            gocas.setData(lsDetail);
+            JSONParser loJson = new JSONParser();
+            JSONObject joDetail = (JSONObject) loJson.parse(lsDetail);
+            gocas.ResidenceInfo().setData(joDetail);
 
             ClientResidence loDetail = new ClientResidence();
+            loDetail.setOneAddress(args.getSameAddx().equalsIgnoreCase("1"));
+            loDetail.setLandMark(gocas.ResidenceInfo().PresentAddress().getLandMark());
+            loDetail.setHouseNox(gocas.ResidenceInfo().PresentAddress().getHouseNo());
             loDetail.setAddress1(gocas.ResidenceInfo().PresentAddress().getAddress1());
             loDetail.setAddress2(gocas.ResidenceInfo().PresentAddress().getAddress2());
-            loDetail.setOneAddress(args.getSameAddx().equalsIgnoreCase("1"));
 
+            String lsBrgy = gocas.ResidenceInfo().PresentAddress().getBarangay();
+            DBarangayInfo.BrgyTownProvNames loBrgy = poBrgy.getBrgyTownProvName(lsBrgy);
+
+            loDetail.setMunicipalID(gocas.ResidenceInfo().PresentAddress().getTownCity());
+            loDetail.setBarangayID(lsBrgy);
+
+            loDetail.setProvinceNm(loBrgy.sProvName);
+            loDetail.setMunicipalNm(loBrgy.sTownName);
+            loDetail.setBarangayName(loBrgy.sBrgyName);
+
+            loDetail.setOwnerRelation(gocas.ResidenceInfo().getOwnership());
+            loDetail.setLenghtOfStay(String.valueOf(gocas.ResidenceInfo().getRentNoYears()));
+            loDetail.setMonthlyExpenses(String.valueOf(gocas.ResidenceInfo().getRentExpenses()));
+
+            //TODO: make a validation of value for length of stay which
+            // will display if the applicant stays for a year or only for a month
+            double lnLength = gocas.ResidenceInfo().getRentNoYears();
+
+            if(lnLength % 1 == 0){
+                loDetail.setIsYear("1");
+            } else {
+                loDetail.setIsYear("0");
+            }
+
+            loDetail.setPermanentLandMark(gocas.ResidenceInfo().PermanentAddress().getLandMark());
+            loDetail.setPermanentHouseNo(gocas.ResidenceInfo().PermanentAddress().getHouseNo());
+            loDetail.setPermanentAddress1(gocas.ResidenceInfo().PermanentAddress().getAddress1());
+            loDetail.setPermanentAddress2(gocas.ResidenceInfo().PermanentAddress().getAddress2());
+
+            lsBrgy = gocas.ResidenceInfo().PermanentAddress().getBarangay();
+            loBrgy = poBrgy.getBrgyTownProvName(lsBrgy);
+
+            loDetail.setPermanentMunicipalID(gocas.ResidenceInfo().PermanentAddress().getTownCity());
+            loDetail.setPermanentBarangayID(lsBrgy);
+
+            loDetail.setPermanentProvinceNm(loBrgy.sProvName);
+            loDetail.setPermanentMunicipalNm(loBrgy.sTownName);
+            loDetail.setPermanentBarangayName(loBrgy.sBrgyName);
+
+            poDetail = loDetail;
             return loDetail;
         } catch (Exception e){
             e.printStackTrace();
@@ -61,7 +110,29 @@ public class ResidenceInfo implements CreditApp {
 
     @Override
     public int Validate(Object args) {
-        return 0;
+        ClientResidence loDetail = (ClientResidence) args;
+
+        if(poDetail == null){
+
+            if(!loDetail.isDataValid()){
+                message = loDetail.getMessage();
+                return 0;
+            }
+
+        } else {
+
+            //TODO: if all information inside each old object and new object is not the same,
+            // return 2 to indicate validation needs confirmation from user to update the
+            // previous information being save.
+
+//            if(!poDetail.isEqual(loDetail)){
+//                return 2;
+//            } else {
+//                return 1;
+//            }
+        }
+
+        return 1;
     }
 
     @Override
@@ -78,6 +149,33 @@ public class ResidenceInfo implements CreditApp {
 
             GOCASApplication gocas = new GOCASApplication();
 
+            gocas.ResidenceInfo().PresentAddress().setLandMark(loDetail.getLandMark());
+            gocas.ResidenceInfo().PresentAddress().setHouseNo(loDetail.getHouseNox());
+            gocas.ResidenceInfo().PresentAddress().setAddress1(loDetail.getAddress1());
+            gocas.ResidenceInfo().PresentAddress().setAddress2(loDetail.getAddress2());
+            gocas.ResidenceInfo().PresentAddress().setTownCity(loDetail.getMunicipalID());
+            gocas.ResidenceInfo().PresentAddress().setBarangay(loDetail.getBarangayID());
+            gocas.ResidenceInfo().setOwnership(loDetail.getHouseOwn());
+            gocas.ResidenceInfo().setCareTakerRelation(loDetail.getOwnerRelation());
+            gocas.ResidenceInfo().setOwnedResidenceInfo(loDetail.getHouseHold());
+            gocas.ResidenceInfo().setHouseType(loDetail.getHouseType());
+            gocas.ResidenceInfo().setRentedResidenceInfo(loDetail.getHouseHold());
+            gocas.ResidenceInfo().setRentExpenses(loDetail.getMonthlyExpenses());
+            gocas.ResidenceInfo().setRentNoYears(loDetail.getLenghtofStay());
+            gocas.ResidenceInfo().hasGarage(loDetail.getHasGarage());
+            gocas.ResidenceInfo().PermanentAddress().setLandMark(loDetail.getPermanentLandMark());
+            gocas.ResidenceInfo().PermanentAddress().setHouseNo(loDetail.getPermanentHouseNo());
+            gocas.ResidenceInfo().PermanentAddress().setAddress1(loDetail.getPermanentAddress1());
+            gocas.ResidenceInfo().PermanentAddress().setAddress2(loDetail.getPermanentAddress2());
+            gocas.ResidenceInfo().PermanentAddress().setTownCity(loDetail.getPermanentMunicipalID());
+            gocas.ResidenceInfo().PermanentAddress().setBarangay(loDetail.getPermanentBarangayID());
+            loApp.setResidnce(gocas.ResidenceInfo().toJSONString());
+            if(loDetail.isOneAddress()){
+                loApp.setSameAddx("1");
+            } else {
+                loApp.setSameAddx("0");
+            }
+            poDao.Update(loApp);
             return true;
         } catch (Exception e){
             e.printStackTrace();

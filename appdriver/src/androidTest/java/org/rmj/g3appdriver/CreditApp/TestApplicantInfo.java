@@ -23,15 +23,18 @@ import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditApp;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditOnlineApplication;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.LoanInfo;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.CreditAppInstance;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditAppInstance;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.ClientBusiness;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.ClientEmployment;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.ClientFinancier;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.ClientInfo;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.ClientPension;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.ClientResidence;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(AndroidJUnit4.class)
 public class TestApplicantInfo {
     private static final String TAG = TestApplicantInfo.class.getSimpleName();
-    private Application instance;
 
     private CreditOnlineApplication creditApp;
 
@@ -43,7 +46,7 @@ public class TestApplicantInfo {
 
     @Before
     public void setUp() throws Exception {
-        instance = (Application) InstrumentationRegistry.getInstrumentation().getTargetContext().getApplicationContext();
+        Application instance = (Application) InstrumentationRegistry.getInstrumentation().getTargetContext().getApplicationContext();
         AppConfigPreference.getInstance(instance).setTestCase(false);
         creditApp = new CreditOnlineApplication(instance);
     }
@@ -116,31 +119,31 @@ public class TestApplicantInfo {
     public void test04SetupClientInfo() {
         isSuccess = false;
         CreditApp loApp = creditApp.getInstance(CreditAppInstance.Client_Info);
-        ClientInfo loInfo = new ClientInfo();
-        loInfo.setTransNox(message);
-        loInfo.setLastName("Garcia");
-        loInfo.setFrstName("Michael");
-        loInfo.setMiddName("Permison");
-        loInfo.setSuffix("");
-        loInfo.setBrthDate("1996-11-26");
-        loInfo.setBrthPlce("0346");
-        loInfo.setGender("0");
-        loInfo.setCvlStats("0");
-        loInfo.setCitizenx("01");
-        loInfo.setMobileNo("09171870011", "1", 0);
-        loInfo.setEmailAdd("mikegarcia8748@gmail.com");
-        loInfo.setPhoneNox("");
-        loInfo.setFbAccntx("sample");
-        loInfo.setVbrAccnt("09171870011");
+        ClientInfo loDetail = new ClientInfo();
+        loDetail.setTransNox(message);
+        loDetail.setLastName("Garcia");
+        loDetail.setFrstName("Michael");
+        loDetail.setMiddName("Permison");
+        loDetail.setSuffix("");
+        loDetail.setBrthDate("1996-11-26");
+        loDetail.setBrthPlce("0346");
+        loDetail.setGender("0");
+        loDetail.setCvlStats("0");
+        loDetail.setCitizenx("01");
+        loDetail.setMobileNo("09171870011", "1", 0);
+        loDetail.setEmailAdd("mikegarcia8748@gmail.com");
+        loDetail.setPhoneNox("");
+        loDetail.setFbAccntx("sample");
+        loDetail.setVbrAccnt("09171870011");
 
-        if(loApp.Validate(loInfo) == 0){
+        if(loApp.Validate(loDetail) == 0){
             message = loApp.getMessage();
             Log.e(TAG, message);
             assertTrue(isSuccess);
             return;
         }
 
-        if(!loApp.Save(loInfo)){
+        if(!loApp.Save(loDetail)){
             message = loApp.getMessage();
             Log.e(TAG, message);
         } else {
@@ -185,6 +188,7 @@ public class TestApplicantInfo {
                 isSuccess = true;
             }
         });
+
         assertTrue(isSuccess);
     }
 
@@ -193,6 +197,8 @@ public class TestApplicantInfo {
         isSuccess = false;
         CreditApp loApp = creditApp.getInstance(CreditAppInstance.Residence_Info);
         ClientResidence loDetail = new ClientResidence();
+        loDetail.setTransNox(message);
+        loDetail.setLandMark("Sample");
         loDetail.setHouseNox("231");
         loDetail.setAddress1("Baybay");
         loDetail.setAddress2("Sitio Tawi-Tawi");
@@ -201,8 +207,295 @@ public class TestApplicantInfo {
         loDetail.setProvinceID("01");
         loDetail.setHouseOwn("0");
         loDetail.setHouseType("0");
+        loDetail.setHouseHold("0");
         loDetail.setHasGarage("0");
+        loDetail.setIsYear("0");
+        loDetail.setLenghtOfStay("25");
         loDetail.setOneAddress(true);
-        loApp.Save(loDetail);
+
+        if(loApp.Validate(loDetail) == 0){
+            message = loApp.getMessage();
+            Log.e(TAG, message);
+            assertTrue(isSuccess);
+            return;
+        }
+
+        if(!loApp.Save(loDetail)){
+            message = loApp.getMessage();
+            Log.e(TAG, message);
+        } else {
+            isSuccess = true;
+        }
+
+        assertTrue(isSuccess);
+    }
+
+    @Test
+    public void test07CheckResidenceInfo() {
+        isSuccess = false;
+        CreditApp loApp = creditApp.getInstance(CreditAppInstance.Residence_Info);
+        loApp.GetApplication(message).observeForever(app -> {
+            Log.d(TAG, app.getResidnce());
+
+            ClientResidence loDetail = (ClientResidence) loApp.Parse(app);
+
+            if(loDetail != null){
+                Log.d(TAG, "Landmark: " + loDetail.getLandMark());
+                Log.d(TAG, "House No: " + loDetail.getHouseNox());
+                Log.d(TAG, "Address 1: " + loDetail.getAddress1());
+                Log.d(TAG, "Address 2: " + loDetail.getAddress2());
+                Log.d(TAG, "Town ID: " + loDetail.getMunicipalID());
+                Log.d(TAG, "Barangay ID: " + loDetail.getBarangayID());
+                Log.d(TAG, "Municipal: " + loDetail.getMunicipalNm());
+                Log.d(TAG, "Province: " + loDetail.getProvinceNm());
+                Log.d(TAG, "Barangay: " + loDetail.getBarangayName());
+                Log.d(TAG, "House Ownership: " + loDetail.getHouseOwn());
+                Log.d(TAG, "Owner Relation: " + loDetail.getOwnerRelation());
+                Log.d(TAG, "House Hold: " + loDetail.getHouseHold());
+                Log.d(TAG, "House Type: " + loDetail.getHouseType());
+                Log.d(TAG, "Rented House Hold: " + loDetail.getHouseHold());
+                Log.d(TAG, "Monthly Expense: " + loDetail.getMonthlyExpenses());
+                Log.d(TAG, "Length Of Stay: " + loDetail.getLenghtofStay());
+                Log.d(TAG, "Has Garage: " + loDetail.getHasGarage());
+                Log.d(TAG, "Permanent Landmark: " + loDetail.getPermanentLandMark());
+                Log.d(TAG, "Permanent House No: " + loDetail.getPermanentHouseNo());
+                Log.d(TAG, "Permanent Address 1: " + loDetail.getPermanentAddress1());
+                Log.d(TAG, "Permanent Address 2: " + loDetail.getPermanentAddress2());
+                Log.d(TAG, "Permanent Barangay ID: " + loDetail.getPermanentBarangayID());
+                Log.d(TAG, "Permanent Town ID: " + loDetail.getPermanentMunicipalID());
+                Log.d(TAG, "Permanent Town: " + loDetail.getPermanentMunicipalNm());
+                Log.d(TAG, "Permanent Province: " + loDetail.getPermanentProvinceNm());
+                Log.d(TAG, "Permanent Barangay: " + loDetail.getBarangayName());
+
+                isSuccess = true;
+            }
+        });
+
+        assertTrue(isSuccess);
+    }
+
+    @Test
+    public void test08SetupEmploymentInfo() {
+        isSuccess = false;
+        CreditApp loApp = creditApp.getInstance(CreditAppInstance.Employed_Info);
+        ClientEmployment loDetail = new ClientEmployment();
+        loDetail.setTransNox(message);
+        loDetail.setEmploymentSector("1");
+        loDetail.setCompanyLevel("0");
+        loDetail.setBusinessNature("WholeSale/Retail");
+        loDetail.setCompanyName("Guanzon Group");
+        loDetail.setCompanyAddress("Kawasaki Building");
+        loDetail.setProvinceID("01");
+        loDetail.setTownID("0314");
+
+        loDetail.setEmployeeLevel("0");
+        loDetail.setJobTitle("M009093");
+        loDetail.setSpecificJob("Senior Programmer");
+        loDetail.setEmployeeStatus("R");
+        loDetail.setLengthOfService("9");
+        loDetail.setIsYear("0");
+        loDetail.setMonthlyIncome("20000");
+        loDetail.setContact("09171870011");
+
+        if(loApp.Validate(loDetail) == 0){
+            message = loApp.getMessage();
+            Log.e(TAG, message);
+            assertTrue(isSuccess);
+            return;
+        }
+
+        if(!loApp.Save(loDetail)){
+            message = loApp.getMessage();
+            Log.e(TAG, message);
+        } else {
+            isSuccess = true;
+        }
+
+        assertTrue(isSuccess);
+    }
+
+    @Test
+    public void test09CheckEmploymentInfo() {
+        isSuccess = false;
+        CreditApp loApp = creditApp.getInstance(CreditAppInstance.Employed_Info);
+        loApp.GetApplication(message).observeForever(app -> {
+            Log.e(TAG, app.getEmplymnt());
+
+            ClientEmployment loDetail = (ClientEmployment) loApp.Parse(app);
+
+            if(loDetail != null){
+                Log.d(TAG, "Employment Sector: " + loDetail.getEmploymentSector());
+                Log.d(TAG, "Is Uniform Personnel: " + loDetail.getUniformPersonal());
+                Log.d(TAG, "Is Military Personnel: " + loDetail.getMilitaryPersonal());
+                Log.d(TAG, "Government Level: " + loDetail.getGovermentLevel());
+                Log.d(TAG, "Overseas Region: " + loDetail.getOfwRegion());
+                Log.d(TAG, "Company Level: " + loDetail.getCompanyLevel());
+                Log.d(TAG, "Employee Level: " + loDetail.getEmployeeLevel());
+                Log.d(TAG, "Ofw Work Category: " + loDetail.getOfwWorkCategory());
+                Log.d(TAG, "Ofw Country: " + loDetail.getCountry());
+                Log.d(TAG, "Ofw Country Name: " + loDetail.getsCountryN());
+                Log.d(TAG, "Business Nature: " + loDetail.getBusinessNature());
+                Log.d(TAG, "Company Name: " + loDetail.getCompanyName());
+                Log.d(TAG, "Company Address: " + loDetail.getCompanyAddress());
+                Log.d(TAG, "Town ID: " + loDetail.getTownID());
+                Log.d(TAG, "Town Name: " + loDetail.getsTownName());
+                Log.d(TAG, "Province ID: " + loDetail.getProvinceID());
+                Log.d(TAG, "Province Name: " + loDetail.getsProvName());
+                Log.d(TAG, "Job Title: " + loDetail.getJobTitle());
+                Log.d(TAG, "Job Title Name: " + loDetail.getsJobNamex());
+                Log.d(TAG, "Specific Job: " + loDetail.getSpecificJob());
+                Log.d(TAG, "Employment Status: " + loDetail.getEmployeeStatus());
+                Log.d(TAG, "Length Of Service: " + loDetail.getLengthOfService());
+                Log.d(TAG, "Monthly Income: " + loDetail.getMonthlyIncome());
+                Log.d(TAG, "Company Contact: " + loDetail.getContact());
+
+                isSuccess = true;
+            }
+        });
+
+        assertTrue(isSuccess);
+    }
+
+    @Test
+    public void test10SetupSelfEmployed() {
+        isSuccess = false;
+        CreditApp loApp = creditApp.getInstance(CreditAppInstance.Self_Employed_Info);
+
+        ClientBusiness loDetail = new ClientBusiness();
+        loDetail.setTransNox(message);
+        loDetail.setNatureOfBusiness("Agriculture");
+        loDetail.setNameOfBusiness("Rice Mill");
+        loDetail.setBusinessAddress("Sample");
+        loDetail.setTown("0346");
+        loDetail.setTypeOfBusiness("0");
+        loDetail.setSizeOfBusiness("0");
+        loDetail.setIsYear("1");
+        loDetail.setLengthOfService("25");
+        loDetail.setMonthlyExpense("5000");
+        loDetail.setMonthlyIncome("30000");
+
+        if(loApp.Validate(loDetail) == 0){
+            message = loApp.getMessage();
+            Log.e(TAG, message);
+            assertTrue(isSuccess);
+            return;
+        }
+
+        if(!loApp.Save(loDetail)){
+            message = loApp.getMessage();
+            Log.e(TAG, message);
+        } else {
+            isSuccess = true;
+        }
+
+        assertTrue(isSuccess);
+    }
+
+    @Test
+    public void test11CheckSelfEmployed() {
+        isSuccess = false;
+        CreditApp loApp = creditApp.getInstance(CreditAppInstance.Self_Employed_Info);
+        loApp.GetApplication(message).observeForever(app -> {
+            ClientBusiness loDetail = (ClientBusiness) loApp.Parse(app);
+
+            if(loDetail != null) {
+                Log.d(TAG, "Nature of Business: " + loDetail.getNatureOfBusiness());
+                Log.d(TAG, "Name of Business: " + loDetail.getNameOfBusiness());
+                Log.d(TAG, "Business Address: " + loDetail.getBusinessAddress());
+                Log.d(TAG, "Town: " + loDetail.getTown());
+                Log.d(TAG, "Type of Business: " + loDetail.getTypeOfBusiness());
+                Log.d(TAG, "Size of Business: " + loDetail.getSizeOfBusiness());
+                Log.d(TAG, "Length of Service: " + loDetail.getLenghtOfService());
+                Log.d(TAG, "Monthly Expense: " + loDetail.getMonthlyExpense());
+                Log.d(TAG, "Monthly Income: " + loDetail.getMonthlyIncome());
+
+                isSuccess = true;
+            }
+        });
+
+        assertTrue(isSuccess);
+    }
+
+    @Test
+    public void test12SetupFinancier() {
+        isSuccess = false;
+        CreditApp loApp = creditApp.getInstance(CreditAppInstance.Financier_Info);
+
+        ClientFinancier loDetail = new ClientFinancier();
+        loDetail.setTransNox(message);
+        loDetail.setCountry("01");
+        loDetail.setFinancierName("Sample");
+        loDetail.setFacebook("Sample FB");
+        loDetail.setFinancierRelation("0");
+        loDetail.setMobileNo("09171870011");
+        loDetail.setEmail("sample email");
+        loDetail.setRangeOfIncome("10000");
+
+        if(loApp.Validate(loDetail) == 0){
+            message = loApp.getMessage();
+            Log.e(TAG, message);
+            assertTrue(isSuccess);
+            return;
+        }
+
+        if(!loApp.Save(loDetail)){
+            message = loApp.getMessage();
+            Log.e(TAG, message);
+        } else {
+            isSuccess = true;
+        }
+
+        assertTrue(isSuccess);
+    }
+
+    @Test
+    public void test13CheckFinancier() {
+        isSuccess = false;
+        CreditApp loApp = creditApp.getInstance(CreditAppInstance.Financier_Info);
+        loApp.GetApplication(message).observeForever(app -> {
+            Log.d(TAG, app.getFinancex());
+        });
+    }
+
+    @Test
+    public void test14SetupPension() {
+        isSuccess = false;
+        CreditApp loApp = creditApp.getInstance(CreditAppInstance.Pension_Info);
+
+        ClientPension loDetail = new ClientPension();
+        loDetail.setTransNox(message);
+        loDetail.setPensionSector("0");
+        loDetail.setPensionIncomeRange("10000");
+        loDetail.setRetirementYear("1996");
+        loDetail.setNatureOfIncome("Freelance");
+        loDetail.setRangeOfIncom("10000");
+
+        if(loApp.Validate(loDetail) == 0){
+            message = loApp.getMessage();
+            Log.e(TAG, message);
+            assertTrue(isSuccess);
+            return;
+        }
+
+        if(!loApp.Save(loDetail)){
+            message = loApp.getMessage();
+            Log.e(TAG, message);
+        } else {
+            isSuccess = true;
+        }
+
+        assertTrue(isSuccess);
+    }
+
+    @Test
+    public void test15CheckPension() {
+        isSuccess = false;
+        CreditApp loApp = creditApp.getInstance(CreditAppInstance.Pension_Info);
+        loApp.GetApplication(message).observeForever(new Observer<ECreditApplicantInfo>() {
+            @Override
+            public void onChanged(ECreditApplicantInfo app) {
+                Log.d(TAG, app.getPensionx());
+            }
+        });
     }
 }

@@ -14,20 +14,20 @@ import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditApp;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditOnlineApplication;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditAppInstance;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.ClientInfo;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.ClientResidence;
 
-public class VMPersonalInfo extends AndroidViewModel implements CreditAppUI {
-    private static final String TAG = VMPersonalInfo.class.getSimpleName();
+public class VMResidenceInfo extends AndroidViewModel implements CreditAppUI{
+    private static final String TAG = VMResidenceInfo.class.getSimpleName();
 
     private final CreditApp poApp;
 
     private String TransNox;
-
     private String message;
 
-    public VMPersonalInfo(@NonNull Application application) {
+
+    public VMResidenceInfo(@NonNull Application application) {
         super(application);
-        this.poApp = new CreditOnlineApplication(application).getInstance(CreditAppInstance.Client_Info);
+        this.poApp = new CreditOnlineApplication(application).getInstance(CreditAppInstance.Residence_Info);
     }
 
     @Override
@@ -47,10 +47,10 @@ public class VMPersonalInfo extends AndroidViewModel implements CreditAppUI {
 
     @Override
     public void SaveData(Object args, OnSaveInfoListener listener) {
-        new SaveDetailTask(listener).execute((ClientInfo) args);
+        new SaveDetailTask(listener).execute((ClientResidence) args);
     }
 
-    private class ParseDataTask extends AsyncTask<ECreditApplicantInfo, Void, ClientInfo>{
+    private class ParseDataTask extends AsyncTask<ECreditApplicantInfo, Void, ClientResidence>{
 
         private final OnParseListener listener;
 
@@ -59,9 +59,9 @@ public class VMPersonalInfo extends AndroidViewModel implements CreditAppUI {
         }
 
         @Override
-        protected ClientInfo doInBackground(ECreditApplicantInfo... app) {
+        protected ClientResidence doInBackground(ECreditApplicantInfo... app) {
             try {
-                return (ClientInfo) poApp.Parse(app[0]);
+                return (ClientResidence) poApp.Parse(app[0]);
             } catch (Exception e){
                 e.printStackTrace();
                 message = e.getMessage();
@@ -70,7 +70,7 @@ public class VMPersonalInfo extends AndroidViewModel implements CreditAppUI {
         }
 
         @Override
-        protected void onPostExecute(ClientInfo result) {
+        protected void onPostExecute(ClientResidence result) {
             super.onPostExecute(result);
             if(result == null){
                 Log.e(TAG, message);
@@ -80,7 +80,7 @@ public class VMPersonalInfo extends AndroidViewModel implements CreditAppUI {
         }
     }
 
-    private class SaveDetailTask extends AsyncTask<ClientInfo, Void, Boolean>{
+    private class SaveDetailTask extends AsyncTask<ClientResidence, Void, Boolean>{
 
         private final OnSaveInfoListener listener;
 
@@ -89,7 +89,7 @@ public class VMPersonalInfo extends AndroidViewModel implements CreditAppUI {
         }
 
         @Override
-        protected Boolean doInBackground(ClientInfo... info) {
+        protected Boolean doInBackground(ClientResidence... info) {
             if(!poApp.Save(info[0])){
                 message = poApp.getMessage();
                 return false;

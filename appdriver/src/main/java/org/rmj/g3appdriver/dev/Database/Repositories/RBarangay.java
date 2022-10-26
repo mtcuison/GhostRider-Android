@@ -56,10 +56,6 @@ public class RBarangay {
         poDao.insertBulkBarangayData(barangayInfos);
     }
 
-    public LiveData<List<EBarangayInfo>> getAllBarangayInfo(){
-        return poDao.getAllBarangayInfo();
-    }
-
     public LiveData<List<EBarangayInfo>> getAllBarangayFromTown(String TownID){
         LiveData<List<EBarangayInfo>> allBarangayFromTown = poDao.getAllBarangayInfoFromTown(TownID);
         return allBarangayFromTown;
@@ -69,12 +65,8 @@ public class RBarangay {
         return poDao.getAllBarangayNameFromTown(TownID);
     }
 
-    public LiveData<String> getBarangayInfoFromID(String fsID) {
-        return poDao.getBarangayInfoFromID(fsID);
-    }
-
-    public DBarangayInfo.BrgyTownProvNames getAddressInfo(String BrgyID){
-        return poDao.getAddressInfo(BrgyID);
+    public DBarangayInfo.BrgyTownProvNames getBrgyTownProvName(String BrgyID){
+        return poDao.getBrgyTownProvName(BrgyID);
     }
 
     public String getLatestDataTime(){

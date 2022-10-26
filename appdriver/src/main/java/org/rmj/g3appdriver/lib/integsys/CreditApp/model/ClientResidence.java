@@ -3,35 +3,35 @@ package org.rmj.g3appdriver.lib.integsys.CreditApp.model;
 public class ClientResidence {
 
     private boolean oneAddress = false;
-    private String sTransNox;
-    private String sLandMark;
-    private String sHouseNox;
-    private String sAddress1;
-    private String sAddress2;
-    private String sProvncNm;
-    private String sProvncID;
-    private String sMuncplNm;
-    private String sMuncplID;
-    private String sBrgyName;
-    private String sBrgyIDxx;
-    private String sHouseOwn;
-    private String sHouseHld;
-    private String sHouseTpe;
-    private String sHasGarge;
-    private String sPLndMark;
-    private String sPHouseNo;
-    private String sPAddrss1;
-    private String sPAddrss2;
-    private String sPPrvncNm;
-    private String sPProvncD;
-    private String sPMncplNm;
-    private String sPMuncplD;
-    private String sPBrgyNme;
-    private String sPBrgyIDx;
-    private String sRelation;
-    private String sLenghtSt;
-    private String cIsYearxx;
-    private String sExpenses;
+    private String sTransNox = "";
+    private String sLandMark = "";
+    private String sHouseNox = "";
+    private String sAddress1 = "";
+    private String sAddress2 = "";
+    private String sProvncNm = "";
+    private String sProvncID = "";
+    private String sMuncplNm = "";
+    private String sMuncplID = "";
+    private String sBrgyName = "";
+    private String sBrgyIDxx = "";
+    private String sHouseOwn = "";
+    private String sHouseHld = "";
+    private String sHouseTpe = "";
+    private String sHasGarge = "";
+    private String sPLndMark = "";
+    private String sPHouseNo = "";
+    private String sPAddrss1 = "";
+    private String sPAddrss2 = "";
+    private String sPPrvncNm = "";
+    private String sPProvncD = "";
+    private String sPMncplNm = "";
+    private String sPMuncplD = "";
+    private String sPBrgyNme = "";
+    private String sPBrgyIDx = "";
+    private String sRelation = "";
+    private String sLenghtSt = "";
+    private String cIsYearxx = "0";
+    private String sExpenses = "";
 
     private String message;
 
@@ -47,7 +47,7 @@ public class ClientResidence {
         return sTransNox;
     }
 
-    public void setsTransNox(String sTransNox) {
+    public void setTransNox(String sTransNox) {
         this.sTransNox = sTransNox;
     }
 
