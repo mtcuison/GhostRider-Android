@@ -13,30 +13,24 @@ import org.rmj.g3appdriver.dev.Database.Entities.ECountryInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EOccupationInfo;
 import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
-import org.rmj.g3appdriver.dev.Database.Repositories.RBarangay;
-import org.rmj.g3appdriver.dev.Database.Repositories.RTown;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditApp;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.ClientResidence;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.SpouseResidence;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Disbursement;
 import org.rmj.gocas.base.GOCASApplication;
 
 import java.util.List;
+import java.util.Objects;
 
-public class SpouseResidenceInfo implements CreditApp {
-    private static final String TAG = SpouseResidenceInfo.class.getSimpleName();
+public class DisbursementInfo implements CreditApp {
+    private static final String TAG = DisbursementInfo.class.getSimpleName();
 
     private final DCreditApplication poDao;
-    private final RTown poTown;
-    private final RBarangay poBrgy;
 
-    private SpouseResidence poDetail;
+    private Disbursement poDetail;
 
     private String message;
 
-    public SpouseResidenceInfo(Application instance) {
+    public DisbursementInfo(Application instance) {
         this.poDao = GGC_GriderDB.getInstance(instance).CreditApplicationDao();
-        this.poTown = new RTown(instance);
-        this.poBrgy = new RBarangay(instance);
     }
 
     @Override
@@ -47,23 +41,27 @@ public class SpouseResidenceInfo implements CreditApp {
     @Override
     public Object Parse(ECreditApplicantInfo args) {
         try{
-            String lsDetail = args.getResidnce();
+            String lsDetail = args.getDisbrsmt();
             GOCASApplication gocas = new GOCASApplication();
             JSONParser loJson = new JSONParser();
             JSONObject joDetail = (JSONObject) loJson.parse(lsDetail);
-            gocas.ResidenceInfo().setData(joDetail);
+            gocas.DisbursementInfo().setData(joDetail);
 
-            SpouseResidence loDetail = new SpouseResidence();
-            loDetail.setLandMark(gocas.SpouseInfo().ResidenceInfo().PresentAddress().getLandMark());
-            loDetail.setHouseNox(gocas.SpouseInfo().ResidenceInfo().PresentAddress().getHouseNo());
-            loDetail.setAddress1(gocas.SpouseInfo().ResidenceInfo().PresentAddress().getAddress1());
-            loDetail.setAddress2(gocas.SpouseInfo().ResidenceInfo().PresentAddress().getAddress2());
-            loDetail.setMunicipalID(gocas.SpouseInfo().ResidenceInfo().PresentAddress().getTownCity());
-            loDetail.setBarangayID(gocas.SpouseInfo().ResidenceInfo().PresentAddress().getBarangay());
+            Disbursement loDetail = new Disbursement();
+
+            loDetail.setAcctType(gocas.DisbursementInfo().BankAccount().getAccountType());
+            loDetail.setElectric(gocas.DisbursementInfo().Expenses().getElectricBill());
+            loDetail.setFoodExps(gocas.DisbursementInfo().Expenses().getFoodAllowance());
+            loDetail.setWaterExp(gocas.DisbursementInfo().Expenses().getWaterBill());
+            loDetail.setLoanExps(gocas.DisbursementInfo().Expenses().getLoanAmount());
+            loDetail.setBankName(gocas.DisbursementInfo().BankAccount().getBankName());
+            loDetail.setCrdtBank(gocas.DisbursementInfo().CreditCard().getBankName());
+            loDetail.setCrdtLimt(gocas.DisbursementInfo().CreditCard().getCreditLimit());
+//            loDetail.setCrdtYear(gocas.DisbursementInfo().CreditCard().getMemberSince());
 
             poDetail = loDetail;
-
             return loDetail;
+
         } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();
@@ -73,7 +71,7 @@ public class SpouseResidenceInfo implements CreditApp {
 
     @Override
     public int Validate(Object args) {
-        SpouseResidence loDetail = (SpouseResidence) args;
+        Disbursement loDetail = (Disbursement) args;
 
         if(poDetail == null){
 
@@ -101,7 +99,7 @@ public class SpouseResidenceInfo implements CreditApp {
     @Override
     public boolean Save(Object args) {
         try{
-            ClientResidence loDetail = (ClientResidence) args;
+            Disbursement loDetail = (Disbursement) args;
 
             ECreditApplicantInfo loApp = poDao.GetApplicantDetails(loDetail.getTransNox());
 
@@ -111,15 +109,16 @@ public class SpouseResidenceInfo implements CreditApp {
             }
 
             GOCASApplication gocas = new GOCASApplication();
-
-            gocas.SpouseInfo().ResidenceInfo().PresentAddress().setLandMark(loDetail.getLandMark());
-            gocas.SpouseInfo().ResidenceInfo().PresentAddress().setHouseNo(loDetail.getHouseNox());
-            gocas.SpouseInfo().ResidenceInfo().PresentAddress().setAddress1(loDetail.getAddress1());
-            gocas.SpouseInfo().ResidenceInfo().PresentAddress().setAddress2(loDetail.getAddress2());
-            gocas.SpouseInfo().ResidenceInfo().PresentAddress().setTownCity(loDetail.getMunicipalID());
-            gocas.SpouseInfo().ResidenceInfo().PresentAddress().setBarangay(loDetail.getBarangayID());
-
-            loApp.setSpsResdx(gocas.SpouseInfo().ResidenceInfo().toJSONString());
+            gocas.DisbursementInfo().Expenses().setElectricBill(loDetail.getElectric());
+            gocas.DisbursementInfo().Expenses().setFoodAllowance(loDetail.getFoodExps());
+            gocas.DisbursementInfo().Expenses().setWaterBill(loDetail.getWaterExp());
+            gocas.DisbursementInfo().Expenses().setLoanAmount((loDetail.getLoanExps()));
+            gocas.DisbursementInfo().BankAccount().setBankName(loDetail.getBankName());
+            gocas.DisbursementInfo().BankAccount().setAccountType(loDetail.getAcctType());
+            gocas.DisbursementInfo().CreditCard().setBankName(loDetail.getCrdtBank());
+            gocas.DisbursementInfo().CreditCard().setCreditLimit(loDetail.getCrdtLimt());
+            gocas.DisbursementInfo().CreditCard().setMemberSince(loDetail.getCrdtYear());
+            loApp.setDisbrsmt(gocas.DisbursementInfo().toJSONString());
             poDao.Update(loApp);
             return true;
         } catch (Exception e){
@@ -136,12 +135,12 @@ public class SpouseResidenceInfo implements CreditApp {
 
     @Override
     public LiveData<List<EBarangayInfo>> GetBarangayList(String args) {
-        return poBrgy.getAllBarangayFromTown(args);
+        return null;
     }
 
     @Override
     public LiveData<List<DTownInfo.TownProvinceInfo>> GetTownProvinceList() {
-        return poTown.getTownProvinceInfo();
+        return null;
     }
 
     @Override

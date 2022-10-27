@@ -1,17 +1,17 @@
 package org.rmj.g3appdriver.lib.integsys.CreditApp.model;
 
-public class ClientPension {
+public class Pension {
 
     private String TransNox = "";
     private String sSectorx = "";
-    private String sRangexx = "";
+    private long sRangexx = 0;
     private String sRtrYear = "";
     private String sNtrIncm = "";
-    private String sRngIncm = "";
+    private long sRngIncm = 0;
 
     private String message;
 
-    public ClientPension() {
+    public Pension() {
     }
 
     public String getTransNox() {
@@ -35,13 +35,10 @@ public class ClientPension {
     }
 
     public long getPensionIncomeRange() {
-        if(!sRangexx.trim().isEmpty()) {
-            return Long.parseLong(sRangexx);
-        }
-        return 0;
+        return sRangexx;
     }
 
-    public void setPensionIncomeRange(String sRangexx) {
+    public void setPensionIncomeRange(long sRangexx) {
         this.sRangexx = sRangexx;
     }
 
@@ -65,13 +62,10 @@ public class ClientPension {
     }
 
     public long getRangeOfIncome() {
-        if(!sRngIncm.trim().isEmpty()) {
-            return Long.parseLong(sRngIncm);
-        }
-        return 0;
+        return sRngIncm;
     }
 
-    public void setRangeOfIncom(String sRngIncm) {
+    public void setRangeOfIncom(long sRngIncm) {
         this.sRngIncm = sRngIncm;
     }
 
@@ -91,7 +85,7 @@ public class ClientPension {
     }
 
     private boolean isPensionIncomeValid(){
-        if(sRangexx == null || sRangexx.trim().isEmpty()){
+        if(sRangexx == 0){
             message = "Please enter at least estimated income";
             return false;
         }
@@ -108,7 +102,7 @@ public class ClientPension {
 
     private boolean isOtherIncomeValid(){
         if(!sNtrIncm.trim().isEmpty()){
-            if(sRngIncm.trim().isEmpty()){
+            if(sRngIncm == 0){
                 message = "Please enter at least estimated amount in other source of income";
                 return false;
             }

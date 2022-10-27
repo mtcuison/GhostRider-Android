@@ -1,40 +1,148 @@
 package org.rmj.g3appdriver.lib.integsys.CreditApp.Obj;
 
+import android.app.Application;
+
 import androidx.lifecycle.LiveData;
 
+import org.json.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DCreditApplication;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EBarangayInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ECountryInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EOccupationInfo;
+import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
+import org.rmj.g3appdriver.dev.Database.Repositories.RTown;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditApp;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.OtherReference;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Reference;
+import org.rmj.gocas.base.GOCASApplication;
 
 import java.util.List;
+import java.util.Objects;
 
 public class OtherInfo implements CreditApp {
+    private static final String TAG = OtherInfo.class.getSimpleName();
+
+    private final DCreditApplication poDao;
+    private final RTown poTown;
+
+    private OtherReference poDetail;
+
+    private String message;
+
+    public OtherInfo(Application instance) {
+        this.poDao = GGC_GriderDB.getInstance(instance).CreditApplicationDao();
+        this.poTown = new RTown(instance);
+    }
+
     @Override
     public LiveData<ECreditApplicantInfo> GetApplication(String args) {
-        return null;
+        return poDao.GetApplicantInfo(args);
     }
 
     @Override
     public Object Parse(ECreditApplicantInfo args) {
-        return null;
+        try{
+            String lsDetail = args.getOtherInc();
+            GOCASApplication gocas = new GOCASApplication();
+            JSONParser loJson = new JSONParser();
+            org.json.simple.JSONObject joDetail = (org.json.simple.JSONObject) loJson.parse(lsDetail);
+            gocas.OtherInfo().setData(joDetail);
+
+            OtherReference loDetail = new OtherReference();
+            loDetail.setSource(gocas.OtherInfo().getSourceInfo());
+            loDetail.setsUnitUser(gocas.OtherInfo().getUnitUser());
+            loDetail.setsUsr2Buyr(gocas.OtherInfo().getOtherUser());
+            loDetail.setsUnitPayr(gocas.OtherInfo().getUnitPayor());
+            loDetail.setsPyr2Buyr(gocas.OtherInfo().getPayorRelation());
+            loDetail.setsPurposex();
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return null;
+        }
     }
 
     @Override
     public int Validate(Object args) {
-        return 0;
+        OtherReference loDetail = (OtherReference) args;
+
+        if(poDetail == null){
+
+            if(!loDetail.isDataValid()){
+                message = loDetail.getMessage();
+                return 0;
+            }
+
+        } else {
+
+            //TODO: if all information inside each old object and new object is not the same,
+            // return 2 to indicate validation needs confirmation from user to update the
+            // previous information being save.
+
+//            if(!poDetail.isEqual(loDetail)){
+//                return 2;
+//            } else {
+//                return 1;
+//            }
+        }
+
+        return 1;
     }
 
     @Override
     public boolean Save(Object args) {
-        return false;
+        try{
+            OtherReference loDetail = (OtherReference) args;
+
+            ECreditApplicantInfo loApp = poDao.GetApplicantDetails(loDetail.getTransNox());
+
+            if(loApp == null){
+                message = "Unable to find record for update. Please restart credit app and try again.";
+                return false;
+            }
+
+            GOCASApplication gocas = new GOCASApplication();
+
+            org.json.simple.JSONObject loJson = new org.json.simple.JSONObject();
+
+            if (loDetail.getSource().equalsIgnoreCase("Others")){
+                loJson.put("sSrceInfo", loDetail.getCompanyInfoSource());
+            }else{
+                loJson.put("sSrceInfo", loDetail.getSource());
+            }
+
+            org.json.simple.JSONArray reference = new  org.json.simple.JSONArray();
+
+            List<Reference> loList = loDetail.getReferences();
+            for(int x = 0; x < loList.size(); x++){
+                JSONObject jsonObject = new JSONObject();
+                Reference loInfo = loList.get(x);
+                jsonObject.put("sRefrNmex", loInfo.getFullname());
+                jsonObject.put("sRefrTown", loInfo.getTownCity());
+                jsonObject.put("sRefrMPNx", loInfo.getContactN());
+                jsonObject.put("sRefrAddx", loInfo.getAddress1());
+                reference.add(x,jsonObject);
+
+            }
+            loJson.put("personal_reference", reference);
+            gocas.OtherInfo().setData(loJson);
+            loApp.setOthrInfo(gocas.OtherInfo().toJSONString());
+
+            poDao.Update(loApp);
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
     }
 
     @Override
     public String getMessage() {
-        return null;
+        return message;
     }
 
     @Override
@@ -44,7 +152,7 @@ public class OtherInfo implements CreditApp {
 
     @Override
     public LiveData<List<DTownInfo.TownProvinceInfo>> GetTownProvinceList() {
-        return null;
+        return poTown.getTownProvinceInfo();
     }
 
     @Override

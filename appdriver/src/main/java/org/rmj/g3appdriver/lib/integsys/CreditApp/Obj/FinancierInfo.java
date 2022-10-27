@@ -15,7 +15,7 @@ import org.rmj.g3appdriver.dev.Database.Entities.EOccupationInfo;
 import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.dev.Database.Repositories.RCountry;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditApp;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.ClientFinancier;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Financier;
 import org.rmj.gocas.base.GOCASApplication;
 
 import java.util.List;
@@ -26,7 +26,7 @@ public class FinancierInfo implements CreditApp {
     private final DCreditApplication poDao;
     private final RCountry poCountry;
 
-    private ClientFinancier poDetail;
+    private Financier poDetail;
 
     private String message;
 
@@ -43,19 +43,19 @@ public class FinancierInfo implements CreditApp {
     @Override
     public Object Parse(ECreditApplicantInfo args) {
         try{
-            String lsDetail = args.getResidnce();
+            String lsDetail = args.getFinancex();
             GOCASApplication gocas = new GOCASApplication();
             JSONParser loJson = new JSONParser();
             JSONObject joDetail = (JSONObject) loJson.parse(lsDetail);
             gocas.MeansInfo().FinancerInfo().setData(joDetail);
 
-            ClientFinancier loDetail = new ClientFinancier();
+            Financier loDetail = new Financier();
             loDetail.setFinancierRelation(gocas.MeansInfo().FinancerInfo().getSource());
-            loDetail.setFinancierRelation(gocas.MeansInfo().FinancerInfo().getFinancerName());
+            loDetail.setFinancierName(gocas.MeansInfo().FinancerInfo().getFinancerName());
+            loDetail.setRangeOfIncome(gocas.MeansInfo().FinancerInfo().getAmount());
             loDetail.setEmail(gocas.MeansInfo().FinancerInfo().getEmailAddress());
             loDetail.setFacebook(gocas.MeansInfo().FinancerInfo().getFBAccount());
             loDetail.setMobileNo(gocas.MeansInfo().FinancerInfo().getMobileNo());
-            loDetail.setRangeOfIncome(String.valueOf(gocas.MeansInfo().FinancerInfo().getAmount()));
 
             String lsCountry = gocas.MeansInfo().FinancerInfo().getCountry();
             loDetail.setCountry(lsCountry);
@@ -74,7 +74,7 @@ public class FinancierInfo implements CreditApp {
 
     @Override
     public int Validate(Object args) {
-        ClientFinancier loDetail = (ClientFinancier) args;
+        Financier loDetail = (Financier) args;
 
         if(poDetail == null){
 
@@ -102,7 +102,7 @@ public class FinancierInfo implements CreditApp {
     @Override
     public boolean Save(Object args) {
         try{
-            ClientFinancier loDetail = (ClientFinancier) args;
+            Financier loDetail = (Financier) args;
 
             ECreditApplicantInfo loApp = poDao.GetApplicantDetails(loDetail.getTransNox());
 

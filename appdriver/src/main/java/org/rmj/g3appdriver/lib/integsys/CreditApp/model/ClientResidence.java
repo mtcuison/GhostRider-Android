@@ -29,9 +29,9 @@ public class ClientResidence {
     private String sPBrgyNme = "";
     private String sPBrgyIDx = "";
     private String sRelation = "";
-    private String sLenghtSt = "";
-    private String cIsYearxx = "0";
-    private String sExpenses = "";
+    private double sLenghtSt = 0;
+    private int cIsYearxx = 0;
+    private double sExpenses = 0;
 
     private String message;
 
@@ -294,13 +294,11 @@ public class ClientResidence {
 
     public double getLenghtofStay() {
         try{
-            if("".equalsIgnoreCase(sLenghtSt)) {
-                return 0.0;
-            } else if(Integer.parseInt(cIsYearxx) == 0) {
-                double ldValue = Double.parseDouble(sLenghtSt);
+            if(cIsYearxx == 0) {
+                double ldValue = sLenghtSt;
                 return ldValue / 12;
             } else {
-                return Double.parseDouble(sLenghtSt);
+                return sLenghtSt;
             }
         } catch (Exception e){
             e.printStackTrace();
@@ -308,25 +306,25 @@ public class ClientResidence {
         }
     }
 
-    public void setLenghtOfStay(String sLenghtSt) {
+    public void setLenghtOfStay(double sLenghtSt) {
         this.sLenghtSt = sLenghtSt;
     }
 
-    public void setIsYear(String cIsYearxx) {
+    public void setIsYear(int cIsYearxx) {
         this.cIsYearxx = cIsYearxx;
     }
 
     public double getMonthlyExpenses() {
         if(sHouseOwn.equalsIgnoreCase("1") || sHouseOwn.equalsIgnoreCase("2")) {
-            if (sExpenses == null || sExpenses.trim().isEmpty()) {
+            if (sExpenses == 0) {
                 return 0;
             }
-            return Double.parseDouble(sExpenses);
+            return sExpenses;
         }
         return 0;
     }
 
-    public void setMonthlyExpenses(String sExpenses) {
+    public void setMonthlyExpenses(double sExpenses) {
         this.sExpenses = sExpenses;
     }
 
@@ -425,7 +423,7 @@ public class ClientResidence {
 
     private boolean isLengthOfStayValid(){
         if(sHouseOwn.trim().equalsIgnoreCase("1") || sHouseOwn.trim().equalsIgnoreCase("1")) {
-            if (sLenghtSt.trim().isEmpty()){
+            if (sLenghtSt == 0){
                 message = "Please enter length of stay";
                 return false;
             }
@@ -435,7 +433,7 @@ public class ClientResidence {
 
     private boolean isMonthylyExpenseValid(){
         if(sHouseOwn.trim().equalsIgnoreCase("1") || sHouseOwn.trim().equalsIgnoreCase("1")) {
-            if (sExpenses.trim().isEmpty()) {
+            if (sExpenses == 0) {
                 message = "Please enter monthly rent expense";
                 return false;
             }

@@ -1,6 +1,6 @@
 package org.rmj.g3appdriver.lib.integsys.CreditApp.model;
 
-public class ClientBusiness {
+public class Business {
 
     private String sTransNox = "";
     private String sBussNtrx = "";
@@ -10,14 +10,14 @@ public class ClientBusiness {
     private String sBussTown = "";
     private String sBussType = "";
     private String sBussSize = "";
-    private String sLenghtSv = "";
-    private String sLenghtSpinner = "";
-    private String sMnthlyIn = "";
-    private String sMnthlyEx = "";
+    private double sLenghtSv = 0;
+    private String cIsYearxx = "";
+    private long sMnthlyIn = 0;
+    private long sMnthlyEx = 0;
 
     private String message;
 
-    public ClientBusiness() {
+    public Business() {
 
     }
 
@@ -90,35 +90,35 @@ public class ClientBusiness {
     }
 
     public double getLenghtOfService() {
-        if(sLenghtSpinner.equalsIgnoreCase("0")){
-            double ldValue = Double.parseDouble(sLenghtSv);
+        if(cIsYearxx.equalsIgnoreCase("0")){
+            double ldValue = sLenghtSv;
             return ldValue / 12;
         } else {
-            return Double.parseDouble(sLenghtSv);
+            return sLenghtSv;
         }
     }
 
-    public void setLengthOfService(String sLenghtSv) {
+    public void setLengthOfService(double sLenghtSv) {
         this.sLenghtSv = sLenghtSv;
     }
 
     public void setIsYear(String sLenghtSv) {
-        this.sLenghtSpinner = sLenghtSv;
+        this.cIsYearxx = sLenghtSv;
     }
 
     public long getMonthlyIncome() {
-        return Long.parseLong(sMnthlyIn.replace(",", ""));
+        return sMnthlyIn;
     }
 
-    public void setMonthlyIncome(String sMnthlyIn) {
+    public void setMonthlyIncome(long sMnthlyIn) {
         this.sMnthlyIn = sMnthlyIn;
     }
 
     public long getMonthlyExpense() {
-        return Long.parseLong(sMnthlyEx.replace(",", ""));
+        return sMnthlyEx;
     }
 
-    public void setMonthlyExpense(String sMnthlyEx) {
+    public void setMonthlyExpense(long sMnthlyEx) {
         this.sMnthlyEx = sMnthlyEx;
     }
 
@@ -184,7 +184,7 @@ public class ClientBusiness {
     }
 
     boolean isLenghtOfServiceValid(){
-        if(sLenghtSv.trim().isEmpty()){
+        if(sLenghtSv == 0){
             message = "Please enter length of service";
             return false;
         }else {
@@ -192,7 +192,7 @@ public class ClientBusiness {
         }
     }
     boolean isLenghtOfServiceSpinnerValid(){
-        if(Integer.parseInt(sLenghtSpinner) < 0){
+        if(Integer.parseInt(cIsYearxx) < 0){
             message = "Please enter length of service in Month/Year";
             return false;
         }
@@ -200,7 +200,7 @@ public class ClientBusiness {
     }
 
     boolean isMonthlyIncomeValid(){
-        if(sMnthlyIn.trim().isEmpty()){
+        if(sMnthlyIn == 0){
             message = "Please enter monthly income";
             return false;
         }
@@ -208,7 +208,7 @@ public class ClientBusiness {
     }
 
     boolean isMonthlyExpenseValid(){
-        if(sMnthlyEx.trim().isEmpty()){
+        if(sMnthlyEx == 0){
             message = "Please enter monthly expense";
             return false;
         }

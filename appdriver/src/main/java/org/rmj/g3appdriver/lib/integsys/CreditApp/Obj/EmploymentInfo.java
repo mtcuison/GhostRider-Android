@@ -17,7 +17,7 @@ import org.rmj.g3appdriver.dev.Database.Repositories.RCountry;
 import org.rmj.g3appdriver.dev.Database.Repositories.ROccupation;
 import org.rmj.g3appdriver.dev.Database.Repositories.RTown;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditApp;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.ClientEmployment;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Employment;
 import org.rmj.gocas.base.GOCASApplication;
 
 import java.util.List;
@@ -30,7 +30,7 @@ public class EmploymentInfo implements CreditApp {
     private final RCountry poCountry;
     private final ROccupation poPosition;
 
-    private ClientEmployment poDetail;
+    private Employment poDetail;
 
     private String message;
 
@@ -55,7 +55,7 @@ public class EmploymentInfo implements CreditApp {
             JSONObject joDetail = (JSONObject) loJson.parse(lsDetail);
             gocas.MeansInfo().EmployedInfo().setData(joDetail);
 
-            ClientEmployment loDetail = new ClientEmployment();
+            Employment loDetail = new Employment();
             loDetail.setEmploymentSector(gocas.MeansInfo().EmployedInfo().getEmploymentSector());
             loDetail.setUniformPersonal(gocas.MeansInfo().EmployedInfo().IsUniformedPersonel());
             loDetail.setMilitaryPersonal(gocas.MeansInfo().EmployedInfo().IsMilitaryPersonel());
@@ -97,8 +97,8 @@ public class EmploymentInfo implements CreditApp {
             } else {
                 loDetail.setIsYear("0");
             }
-            loDetail.setLengthOfService(String.valueOf(gocas.MeansInfo().EmployedInfo().getLengthOfService()));
-            loDetail.setMonthlyIncome(String.valueOf(gocas.MeansInfo().EmployedInfo().getSalary()));
+            loDetail.setLengthOfService(gocas.MeansInfo().EmployedInfo().getLengthOfService());
+            loDetail.setMonthlyIncome(gocas.MeansInfo().EmployedInfo().getSalary());
             loDetail.setContact(gocas.MeansInfo().EmployedInfo().getCompanyNo());
             poDetail = loDetail;
             return loDetail;
@@ -111,7 +111,7 @@ public class EmploymentInfo implements CreditApp {
 
     @Override
     public int Validate(Object args) {
-        ClientEmployment loDetail = (ClientEmployment) args;
+        Employment loDetail = (Employment) args;
 
         if(poDetail == null){
 
@@ -138,7 +138,7 @@ public class EmploymentInfo implements CreditApp {
     @Override
     public boolean Save(Object args) {
         try{
-            ClientEmployment loDetail = (ClientEmployment) args;
+            Employment loDetail = (Employment) args;
 
             ECreditApplicantInfo loApp = poDao.GetApplicantDetails(loDetail.getTransNox());
 

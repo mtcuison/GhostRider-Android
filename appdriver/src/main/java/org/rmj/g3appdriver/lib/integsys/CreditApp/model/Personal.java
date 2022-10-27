@@ -5,7 +5,7 @@ import org.rmj.g3appdriver.etc.FormatUIText;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClientInfo {
+public class Personal {
 
     private String TransNox;
     private String LastName;
@@ -34,7 +34,7 @@ public class ClientInfo {
 
     private String message;
 
-    public ClientInfo() {
+    public Personal() {
     }
 
     public String getMessage(){
@@ -372,7 +372,7 @@ public class ClientInfo {
         return true;
     }
 
-    public boolean isEqual(ClientInfo val){
+    public boolean isEqual(Personal val){
         if(!val.getLastName().equalsIgnoreCase(LastName)){
             return false;
         } else if(!val.getFrstName().equalsIgnoreCase(FrstName)){

@@ -1,6 +1,6 @@
 package org.rmj.g3appdriver.lib.integsys.CreditApp.model;
 
-public class ClientEmployment {
+public class Employment {
 
     private String sTransNox = "";
     private String sSectorxx = "";
@@ -17,9 +17,9 @@ public class ClientEmployment {
     private String sJobTitle = "";
     private String sSpceficx = "";
     private String cStatusxx = "";
-    private String sLengthxx = "";
+    private double sLengthxx = 0;
     private String cIsYearxx = "";
-    private String sMonthlyx = "";
+    private long sMonthlyx = 0;
     private String sContactx = "";
 
     private String sProvName = "";
@@ -29,7 +29,7 @@ public class ClientEmployment {
 
     private String message;
 
-    public ClientEmployment() {
+    public Employment() {
     }
 
     public String getMessage() {
@@ -190,10 +190,10 @@ public class ClientEmployment {
         if(!sSectorxx.equalsIgnoreCase("2")) {
             try {
                 if (Integer.parseInt(cIsYearxx) == 0) {
-                    double ldValue = Double.parseDouble(sLengthxx);
+                    double ldValue = sLengthxx;
                     return ldValue / 12;
                 } else {
-                    return Double.parseDouble(sLengthxx);
+                    return sLengthxx;
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -203,7 +203,7 @@ public class ClientEmployment {
         return 0;
     }
 
-    public void setLengthOfService(String sLengthxx) {
+    public void setLengthOfService(double sLengthxx) {
         this.sLengthxx = sLengthxx;
     }
 
@@ -212,13 +212,13 @@ public class ClientEmployment {
     }
 
     public long getMonthlyIncome() {
-        if(!sMonthlyx.equalsIgnoreCase("")) {
-            return Long.parseLong(sMonthlyx.replace(",", ""));
+        if(sMonthlyx != 0) {
+            return sMonthlyx;
         }
         return 0;
     }
 
-    public void setMonthlyIncome(String sMonthlyx) {
+    public void setMonthlyIncome(long sMonthlyx) {
         this.sMonthlyx = sMonthlyx;
     }
 
@@ -389,7 +389,7 @@ public class ClientEmployment {
 
     private boolean isLengthOfServiceValid(){
         if(sSectorxx.equalsIgnoreCase("0") || sSectorxx.equalsIgnoreCase("1")) {
-            if (sLengthxx == null || sLengthxx.isEmpty()) {
+            if (sLengthxx == 0) {
                 message = "Please enter length of service";
                 return false;
             }
@@ -408,7 +408,7 @@ public class ClientEmployment {
 
     private boolean isMonthlySalaryValid(){
         if(sSectorxx.equalsIgnoreCase("0") || sSectorxx.equalsIgnoreCase("1")) {
-            if (sMonthlyx == null || sMonthlyx.equalsIgnoreCase("")) {
+            if (sMonthlyx == 0) {
                 message = "Please enter estimated monthly income";
                 return false;
             }

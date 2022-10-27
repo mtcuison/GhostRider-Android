@@ -16,7 +16,7 @@ import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.dev.Database.Repositories.RCountry;
 import org.rmj.g3appdriver.dev.Database.Repositories.RTown;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditApp;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.ClientInfo;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Personal;
 import org.rmj.gocas.base.GOCASApplication;
 
 import java.util.List;
@@ -28,7 +28,7 @@ public class PersonalInfo implements CreditApp {
     private final RTown poTown;
     private final RCountry poCountry;
 
-    private ClientInfo poDetail;
+    private Personal poDetail;
 
     private String message;
 
@@ -52,7 +52,7 @@ public class PersonalInfo implements CreditApp {
             JSONObject joDetail = (JSONObject) loJson.parse(lsDetail);
             gocas.ApplicantInfo().setData(joDetail);
 
-            ClientInfo loDetail = new ClientInfo();
+            Personal loDetail = new Personal();
             loDetail.setLastName(gocas.ApplicantInfo().getLastName());
             loDetail.setFrstName(gocas.ApplicantInfo().getFirstName());
             loDetail.setMiddName(gocas.ApplicantInfo().getMiddleName());
@@ -100,7 +100,7 @@ public class PersonalInfo implements CreditApp {
 
     @Override
     public int Validate(Object args) {
-        ClientInfo loDetail = (ClientInfo) args;
+        Personal loDetail = (Personal) args;
 
         if(poDetail == null){
 
@@ -128,7 +128,7 @@ public class PersonalInfo implements CreditApp {
     @Override
     public boolean Save(Object args) {
         try{
-            ClientInfo loDetail = (ClientInfo) args;
+            Personal loDetail = (Personal) args;
 
             ECreditApplicantInfo loApp = poDao.GetApplicantDetails(loDetail.getTransNox());
 

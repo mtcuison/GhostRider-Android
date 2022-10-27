@@ -13,6 +13,7 @@ public enum CreditAppInstance {
     Spouse_Self_Employed_Info,
     Spouse_Pension_Info,
     Disbursement_Info,
+    Dependent_Info,
     Properties_Info,
     Other_Info,
     CoMaker_Info

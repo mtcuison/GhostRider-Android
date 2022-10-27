@@ -59,6 +59,8 @@ public class ECreditApplicantInfo {
     private String SpsBusnx;
     @ColumnInfo(name = "sSpsPensn")
     private String SpsPensn;
+    @ColumnInfo(name = "sSpOthInc")
+    private String SpOthInc;
     @ColumnInfo(name = "sDisbrsmt")
     private String Disbrsmt;
     @ColumnInfo(name = "sDependnt")
@@ -234,6 +236,14 @@ public class ECreditApplicantInfo {
 
     public void setSpsPensn(String spsPensn) {
         SpsPensn = spsPensn;
+    }
+
+    public String getSpOthInc() {
+        return SpOthInc;
+    }
+
+    public void setSpOthInc(String spOthInc) {
+        SpOthInc = spOthInc;
     }
 
     public String getDisbrsmt() {

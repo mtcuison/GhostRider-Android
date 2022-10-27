@@ -15,7 +15,7 @@ import org.rmj.g3appdriver.dev.Database.Entities.EOccupationInfo;
 import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.dev.Database.Repositories.RTown;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditApp;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.ClientBusiness;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Business;
 import org.rmj.gocas.base.GOCASApplication;
 
 import java.util.List;
@@ -26,7 +26,7 @@ public class BusinessInfo implements CreditApp {
     private final DCreditApplication poDao;
     private final RTown poTown;
 
-    private ClientBusiness poDetail;
+    private Business poDetail;
 
     private String message;
 
@@ -49,7 +49,7 @@ public class BusinessInfo implements CreditApp {
             JSONObject joDetail = (JSONObject) loJson.parse(lsDetail);
             gocas.MeansInfo().SelfEmployedInfo().setData(joDetail);
 
-            ClientBusiness loDetail = new ClientBusiness();
+            Business loDetail = new Business();
 
             loDetail.setNatureOfBusiness(gocas.MeansInfo().SelfEmployedInfo().getNatureOfBusiness());
             loDetail.setNameOfBusiness(gocas.MeansInfo().SelfEmployedInfo().getNameOfBusiness());
@@ -71,9 +71,9 @@ public class BusinessInfo implements CreditApp {
                 loDetail.setIsYear("0");
             }
 
-            loDetail.setLengthOfService(String.valueOf(gocas.MeansInfo().SelfEmployedInfo().getBusinessLength()));
-            loDetail.setMonthlyExpense(String.valueOf(gocas.MeansInfo().SelfEmployedInfo().getMonthlyExpense()));
-            loDetail.setMonthlyIncome(String.valueOf(gocas.MeansInfo().SelfEmployedInfo().getIncome()));
+            loDetail.setLengthOfService(gocas.MeansInfo().SelfEmployedInfo().getBusinessLength());
+            loDetail.setMonthlyExpense(gocas.MeansInfo().SelfEmployedInfo().getMonthlyExpense());
+            loDetail.setMonthlyIncome(gocas.MeansInfo().SelfEmployedInfo().getIncome());
 
             poDetail = loDetail;
             return loDetail;
@@ -86,7 +86,7 @@ public class BusinessInfo implements CreditApp {
 
     @Override
     public int Validate(Object args) {
-        ClientBusiness loDetail = (ClientBusiness) args;
+        Business loDetail = (Business) args;
 
         if(poDetail == null){
 
@@ -114,7 +114,7 @@ public class BusinessInfo implements CreditApp {
     @Override
     public boolean Save(Object args) {
         try{
-            ClientBusiness loDetail = (ClientBusiness) args;
+            Business loDetail = (Business) args;
 
             ECreditApplicantInfo loApp = poDao.GetApplicantDetails(loDetail.getTransNox());
 

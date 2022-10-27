@@ -14,7 +14,7 @@ import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EOccupationInfo;
 import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditApp;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.ClientPension;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Pension;
 import org.rmj.gocas.base.GOCASApplication;
 
 import java.util.List;
@@ -24,7 +24,7 @@ public class PensionInfo implements CreditApp {
 
     private final DCreditApplication poDao;
 
-    private ClientPension poDetail;
+    private Pension poDetail;
 
     private String message;
 
@@ -40,19 +40,26 @@ public class PensionInfo implements CreditApp {
     @Override
     public Object Parse(ECreditApplicantInfo args) {
         try{
-            String lsDetail = args.getResidnce();
+            String lsDetail = args.getPensionx();
             GOCASApplication gocas = new GOCASApplication();
             JSONParser loJson = new JSONParser();
             JSONObject joDetail = (JSONObject) loJson.parse(lsDetail);
             gocas.MeansInfo().PensionerInfo().setData(joDetail);
 
-            ClientPension loDetail = new ClientPension();
+            Pension loDetail = new Pension();
 
             loDetail.setPensionSector(gocas.MeansInfo().PensionerInfo().getSource());
-            loDetail.setPensionIncomeRange(String.valueOf(gocas.MeansInfo().PensionerInfo().getAmount()));
+            loDetail.setPensionIncomeRange(gocas.MeansInfo().PensionerInfo().getAmount());
 //            loDetail.setRetirementYear(gocas.MeansInfo().PensionerInfo().get);
+
+            lsDetail = args.getOtherInc();
+            gocas = new GOCASApplication();
+            loJson = new JSONParser();
+            joDetail = (JSONObject) loJson.parse(lsDetail);
+            gocas.MeansInfo().setData(joDetail);
+
             loDetail.setNatureOfIncome(gocas.MeansInfo().getOtherIncomeNature());
-            loDetail.setRangeOfIncom(String.valueOf(gocas.MeansInfo().getOtherIncomeAmount()));
+//            loDetail.setRangeOfIncom(gocas.MeansInfo().getOtherIncomeAmount());
 
             poDetail = loDetail;
 
@@ -66,7 +73,7 @@ public class PensionInfo implements CreditApp {
 
     @Override
     public int Validate(Object args) {
-        ClientPension loDetail = (ClientPension) args;
+        Pension loDetail = (Pension) args;
 
         if(poDetail == null){
 
@@ -94,7 +101,7 @@ public class PensionInfo implements CreditApp {
     @Override
     public boolean Save(Object args) {
         try {
-            ClientPension loDetail = (ClientPension) args;
+            Pension loDetail = (Pension) args;
 
             ECreditApplicantInfo loApp = poDao.GetApplicantDetails(loDetail.getTransNox());
 
@@ -112,8 +119,10 @@ public class PensionInfo implements CreditApp {
             //TODO refactor saving other income nature and range of income to gocas
             gocas.MeansInfo().setOtherIncomeNature(loDetail.getNatureOfIncome());
             gocas.MeansInfo().setOtherIncomeAmount(loDetail.getRangeOfIncome());
-            loApp.setPensionx(gocas.MeansInfo().toJSONString());
+            loApp.setPensionx(gocas.MeansInfo().PensionerInfo().toJSONString());
+            loApp.setOtherInc(gocas.MeansInfo().toJSONString());
             poDao.Update(loApp);
+
 
             return true;
         } catch (Exception e){

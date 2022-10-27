@@ -71,17 +71,17 @@ public class ResidenceInfo implements CreditApp {
             loDetail.setBarangayName(loBrgy.sBrgyName);
 
             loDetail.setOwnerRelation(gocas.ResidenceInfo().getOwnership());
-            loDetail.setLenghtOfStay(String.valueOf(gocas.ResidenceInfo().getRentNoYears()));
-            loDetail.setMonthlyExpenses(String.valueOf(gocas.ResidenceInfo().getRentExpenses()));
+            loDetail.setLenghtOfStay(gocas.ResidenceInfo().getRentNoYears());
+            loDetail.setMonthlyExpenses(gocas.ResidenceInfo().getRentExpenses());
 
             //TODO: make a validation of value for length of stay which
             // will display if the applicant stays for a year or only for a month
             double lnLength = gocas.ResidenceInfo().getRentNoYears();
 
             if(lnLength % 1 == 0){
-                loDetail.setIsYear("1");
+                loDetail.setIsYear(1);
             } else {
-                loDetail.setIsYear("0");
+                loDetail.setIsYear(0);
             }
 
             loDetail.setPermanentLandMark(gocas.ResidenceInfo().PermanentAddress().getLandMark());

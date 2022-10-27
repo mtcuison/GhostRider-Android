@@ -19,11 +19,18 @@ import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.SessionManager;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.BusinessInfo;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.DependentsInfo;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.DisbursementInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.EmploymentInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.FinancierInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.PensionInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.PersonalInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.ResidenceInfo;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.SpouseBusinessInfo;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.SpouseEmploymentInfo;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.SpouseInfo;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.SpousePensionInfo;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.SpouseResidenceInfo;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.g3appdriver.utils.WebClient;
 import org.rmj.gocas.base.GOCASApplication;
@@ -247,6 +254,20 @@ public class CreditOnlineApplication {
                 return new FinancierInfo(instance);
             case Pension_Info:
                 return new PensionInfo(instance);
+            case Spouse_Info:
+                return new SpouseInfo(instance);
+            case Spouse_Residence_Info:
+                return new SpouseResidenceInfo(instance);
+            case Spouse_Employment_Info:
+                return new SpouseEmploymentInfo(instance);
+            case Spouse_Self_Employed_Info:
+                return new SpouseBusinessInfo(instance);
+            case Spouse_Pension_Info:
+                return new SpousePensionInfo(instance);
+            case Disbursement_Info:
+                return new DisbursementInfo(instance);
+            case Dependent_Info:
+                return new DependentsInfo(instance);
             default:
                 return null;
         }

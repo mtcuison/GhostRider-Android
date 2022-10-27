@@ -1,11 +1,11 @@
 package org.rmj.g3appdriver.lib.integsys.CreditApp.model;
 
-public class ClientFinancier {
+public class Financier {
 
     private String TransNox = "";
     private String sFRltnx = "";
     private String sFNamex = "";
-    private String sFIncme = "";
+    private long sFIncme = 0;
     private String sFCntry = "";
     private String sCountry = "";
     private String sFMoble = "";
@@ -14,7 +14,7 @@ public class ClientFinancier {
 
     private String message;
 
-    public ClientFinancier() {
+    public Financier() {
     }
 
     public String getMessage(){
@@ -46,13 +46,13 @@ public class ClientFinancier {
     }
 
     public long getRangeOfIncome() {
-        if(sFIncme == null || sFIncme.isEmpty()){
+        if(sFIncme == 0){
             return 0;
         }
-        return Long.parseLong(sFIncme.replace(",", ""));
+        return sFIncme;
     }
 
-    public void setRangeOfIncome(String sFIncme) {
+    public void setRangeOfIncome(long sFIncme) {
         this.sFIncme = sFIncme;
     }
 
@@ -112,7 +112,7 @@ public class ClientFinancier {
     }
 
     private boolean isRangeOfIncomeValid(){
-        if(sFIncme.trim().isEmpty()){
+        if(sFIncme == 0){
             message = "Please enter atleast estimated range of income";
             return false;
         }
