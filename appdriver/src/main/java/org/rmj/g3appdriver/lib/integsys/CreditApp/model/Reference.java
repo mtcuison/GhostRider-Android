@@ -2,10 +2,10 @@ package org.rmj.g3appdriver.lib.integsys.CreditApp.model;
 
 public class Reference {
 
-    private String Fullname = "";
-    private String Address1 = "";
-    private String TownCity = "";
-    private String ContactN = "";
+    private final String Fullname;
+    private final String Address1;
+    private final String TownCity;
+    private final String ContactN;
 
     public Reference(String fullname, String address1, String townCity, String contactN) {
         Fullname = fullname;

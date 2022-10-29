@@ -4,7 +4,8 @@ import android.app.Application;
 
 import androidx.lifecycle.LiveData;
 
-import org.json.JSONObject;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DCreditApplication;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
@@ -19,6 +20,7 @@ import org.rmj.g3appdriver.lib.integsys.CreditApp.model.OtherReference;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Reference;
 import org.rmj.gocas.base.GOCASApplication;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -45,10 +47,10 @@ public class OtherInfo implements CreditApp {
     @Override
     public Object Parse(ECreditApplicantInfo args) {
         try{
-            String lsDetail = args.getOtherInc();
+            String lsDetail = args.getOthrInfo();
             GOCASApplication gocas = new GOCASApplication();
             JSONParser loJson = new JSONParser();
-            org.json.simple.JSONObject joDetail = (org.json.simple.JSONObject) loJson.parse(lsDetail);
+            JSONObject joDetail = (JSONObject) loJson.parse(lsDetail);
             gocas.OtherInfo().setData(joDetail);
 
             OtherReference loDetail = new OtherReference();
@@ -57,7 +59,22 @@ public class OtherInfo implements CreditApp {
             loDetail.setsUsr2Buyr(gocas.OtherInfo().getOtherUser());
             loDetail.setsUnitPayr(gocas.OtherInfo().getUnitPayor());
             loDetail.setsPyr2Buyr(gocas.OtherInfo().getPayorRelation());
-            loDetail.setsPurposex();
+            loDetail.setsPurposex(gocas.OtherInfo().getPurpose());
+            loDetail.setSource(gocas.OtherInfo().getSourceInfo());
+
+            JSONArray reference = (JSONArray) joDetail.get("personal_reference");
+
+            for(int x = 0; x < reference.size(); x++){
+                JSONObject joRef = (JSONObject) reference.get(x);
+                loDetail.AddReference(new Reference(
+                        (String) joRef.get("sRefrNmex"),
+                        (String) joRef.get("sRefrMPNx"),
+                        (String) joRef.get("sRefrAddx"),
+                        (String) joRef.get("sRefrTown")));
+            }
+
+            poDetail = loDetail;
+            return loDetail;
         } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();
@@ -106,7 +123,7 @@ public class OtherInfo implements CreditApp {
 
             GOCASApplication gocas = new GOCASApplication();
 
-            org.json.simple.JSONObject loJson = new org.json.simple.JSONObject();
+            JSONObject loJson = new JSONObject();
 
             if (loDetail.getSource().equalsIgnoreCase("Others")){
                 loJson.put("sSrceInfo", loDetail.getCompanyInfoSource());
@@ -114,7 +131,13 @@ public class OtherInfo implements CreditApp {
                 loJson.put("sSrceInfo", loDetail.getSource());
             }
 
-            org.json.simple.JSONArray reference = new  org.json.simple.JSONArray();
+            JSONArray reference = new JSONArray();
+
+            loJson.put("sUnitUser", loDetail.getsUnitUser());
+            loJson.put("sUsr2Buyr", loDetail.getsUsr2Buyr());
+            loJson.put("sUnitPayr", loDetail.getsUnitPayr());
+            loJson.put("sPyr2Buyr", loDetail.getsPyr2Buyr());
+            loJson.put("sPurposex", loDetail.getsPurposex());
 
             List<Reference> loList = loDetail.getReferences();
             for(int x = 0; x < loList.size(); x++){

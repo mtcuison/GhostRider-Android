@@ -23,13 +23,18 @@ import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditOnlineApplication;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.LoanInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditAppInstance;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Business;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.CoMaker;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.CoMakerResidence;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Dependent;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Employment;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Financier;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.OtherReference;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Personal;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Pension;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.ClientResidence;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.ClientSpouseInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Disbursement;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Reference;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(AndroidJUnit4.class)
@@ -197,6 +202,7 @@ public class TestApplicantInfo {
     public void test06SetupResidenceInfo() {
         isSuccess = false;
         CreditApp loApp = creditApp.getInstance(CreditAppInstance.Residence_Info);
+
         ClientResidence loDetail = new ClientResidence();
         loDetail.setTransNox(message);
         loDetail.setLandMark("Sample");
@@ -802,6 +808,225 @@ public class TestApplicantInfo {
             Log.d(TAG, app.getSpOthInc());
 
             Pension loDetail = (Pension) loApp.Parse(app);
+
+            if(loDetail != null){
+                isSuccess = true;
+            }
+        });
+
+        assertTrue(isSuccess);
+    }
+
+    @Test
+    public void test26SetupOtherInfo() {
+        isSuccess = false;
+        CreditApp loApp = creditApp.getInstance(CreditAppInstance.Other_Info);
+
+        OtherReference loDetail = new OtherReference();
+        loDetail.setTransNox(message);
+        loDetail.setSource("0");
+        loDetail.setsPurposex("0");
+        loDetail.setsPyr2Buyr("sample");
+        loDetail.setsUnitPayr("0");
+        loDetail.setsUnitUser("0");
+        loDetail.AddReference(new Reference("sample", "sample1", "0346", "09123456789"));
+        loDetail.AddReference(new Reference("sample1", "sample11", "0346", "09987456321"));
+        loDetail.AddReference(new Reference("sample2", "sample12", "0346", "09365214789"));
+
+        if(loApp.Validate(loDetail) == 0){
+            message = loApp.getMessage();
+            Log.e(TAG, message);
+            assertTrue(isSuccess);
+            return;
+        }
+
+        if(!loApp.Save(loDetail)){
+            message = loApp.getMessage();
+            Log.e(TAG, message);
+        } else {
+            isSuccess = true;
+        }
+
+        assertTrue(isSuccess);
+    }
+
+    @Test
+    public void test27CheckOtherInfo() {
+        isSuccess = false;
+        CreditApp loApp = creditApp.getInstance(CreditAppInstance.Other_Info);
+        loApp.GetApplication(message).observeForever(app -> {
+            Log.d(TAG, app.getOthrInfo());
+
+            OtherReference loDetail = (OtherReference) loApp.Parse(app);
+
+            if(loDetail != null){
+                isSuccess = true;
+            }
+        });
+
+        assertTrue(isSuccess);
+    }
+
+    @Test
+    public void test28SetupCoMaker() {
+        isSuccess = false;
+        CreditApp loApp = creditApp.getInstance(CreditAppInstance.CoMaker_Info);
+
+        CoMaker loDetail = new CoMaker();
+        loDetail.setTransNox(message);
+        loDetail.setRelation("0");
+        loDetail.setIncomexx("0");
+        loDetail.setLastName("Garcia");
+        loDetail.setFrstName("Michael");
+        loDetail.setMiddName("Permison");
+        loDetail.setNickName("Mike");
+        loDetail.setBrthDate("1996-11-26");
+        loDetail.setBrthPlce("0346");
+        loDetail.setMobileNo("09123456789", "0", 0);
+
+        if(loApp.Validate(loDetail) == 0){
+            message = loApp.getMessage();
+            Log.e(TAG, message);
+            assertTrue(isSuccess);
+            return;
+        }
+
+        if(!loApp.Save(loDetail)){
+            message = loApp.getMessage();
+            Log.e(TAG, message);
+        } else {
+            isSuccess = true;
+        }
+
+        assertTrue(isSuccess);
+    }
+
+    @Test
+    public void test29CheckCoMaker() {
+        isSuccess = false;
+        CreditApp loApp = creditApp.getInstance(CreditAppInstance.CoMaker_Info);
+
+        loApp.GetApplication(message).observeForever(app -> {
+            Log.d(TAG, app.getComakerx());
+
+            CoMaker loDetail = (CoMaker) loApp.Parse(app);
+
+            if(loDetail != null){
+                isSuccess = true;
+            }
+        });
+
+        assertTrue(isSuccess);
+    }
+
+    @Test
+    public void test30SetupCoMakerResidence() {
+        isSuccess = false;
+        CreditApp loApp = creditApp.getInstance(CreditAppInstance.CoMaker_Residence_Info);
+
+        CoMakerResidence loDetail = new CoMakerResidence();
+        loDetail.setTransNox(message);
+        loDetail.setLandMark("Sample");
+        loDetail.setHouseNox("231");
+        loDetail.setAddress1("Baybay");
+        loDetail.setAddress2("Sitio Tawi-Tawi");
+        loDetail.setBarangayID("1100170");
+        loDetail.setMunicipalID("0346");
+        loDetail.setProvinceID("01");
+        loDetail.setHouseOwn("0");
+        loDetail.setHouseType("0");
+        loDetail.setHouseHold("0");
+        loDetail.setHasGarage("0");
+        loDetail.setIsYear(0);
+        loDetail.setLenghtOfStay(25);
+
+        if(loApp.Validate(loDetail) == 0){
+            message = loApp.getMessage();
+            Log.e(TAG, message);
+            assertTrue(isSuccess);
+            return;
+        }
+
+        if(!loApp.Save(loDetail)){
+            message = loApp.getMessage();
+            Log.e(TAG, message);
+        } else {
+            isSuccess = true;
+        }
+
+        assertTrue(isSuccess);
+    }
+
+    @Test
+    public void test31CheckCoMakerResidence() {
+        isSuccess = false;
+        CreditApp loApp = creditApp.getInstance(CreditAppInstance.CoMaker_Residence_Info);
+
+        loApp.GetApplication(message).observeForever(app -> {
+            Log.d(TAG, app.getCmResidx());
+
+            CoMakerResidence loDetail = (CoMakerResidence) loApp.Parse(app);
+
+            if(loDetail != null){
+                isSuccess = true;
+            }
+        });
+
+        assertTrue(isSuccess);
+    }
+
+    @Test
+    public void test32SetupDependents() {
+        isSuccess = false;
+        CreditApp loApp = creditApp.getInstance(CreditAppInstance.Dependent_Info);
+
+        Dependent loDetail = new Dependent();
+        loDetail.setTransNox(message);
+        Dependent.DependentInfo loInfo = new Dependent.DependentInfo();
+        loInfo.setFullName("Sample");
+        loInfo.setRelation("0");
+        loInfo.setDpdntAge(22);
+        loInfo.setStudentx("1");
+        loInfo.setSchoolNm("sample");
+        loInfo.setSchlAddx("sample");
+        loInfo.setSchlTown("0346");
+        loInfo.setSchoolTp("1");
+        loInfo.setEduLevel("3");
+        loInfo.setSchoolar("1");
+        loInfo.setEmployed("0");
+        loInfo.setEmpSctor("");
+        loInfo.setCompName("");
+        loInfo.setHouseHld("1");
+        loInfo.setDependnt("1");
+        loInfo.setMarriedx("0");
+        loDetail.Add(loInfo);
+
+        if(loApp.Validate(loDetail) == 0){
+            message = loApp.getMessage();
+            Log.e(TAG, message);
+            assertTrue(isSuccess);
+            return;
+        }
+
+        if(!loApp.Save(loDetail)){
+            message = loApp.getMessage();
+            Log.e(TAG, message);
+        } else {
+            isSuccess = true;
+        }
+
+        assertTrue(isSuccess);
+    }
+
+    @Test
+    public void test33CheckDependents() {
+        isSuccess = false;
+        CreditApp loApp = creditApp.getInstance(CreditAppInstance.Dependent_Info);
+
+        loApp.GetApplication(message).observeForever(app -> {
+            Log.d(TAG, app.getDependnt());
+
+            Dependent loDetail = (Dependent) loApp.Parse(app);
 
             if(loDetail != null){
                 isSuccess = true;

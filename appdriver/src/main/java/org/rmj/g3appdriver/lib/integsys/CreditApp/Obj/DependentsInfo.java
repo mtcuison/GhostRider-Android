@@ -4,6 +4,9 @@ import android.app.Application;
 
 import androidx.lifecycle.LiveData;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DCreditApplication;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EBarangayInfo;
@@ -11,7 +14,9 @@ import org.rmj.g3appdriver.dev.Database.Entities.ECountryInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EOccupationInfo;
 import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
+import org.rmj.g3appdriver.dev.Database.Repositories.RTown;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditApp;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.CoMakerResidence;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Dependent;
 import org.rmj.gocas.base.GOCASApplication;
 
@@ -21,6 +26,7 @@ public class DependentsInfo implements CreditApp {
     private static final String TAG = DependentsInfo.class.getSimpleName();
 
     private final DCreditApplication poDao;
+    private final RTown poTown;
 
     private Dependent poDetail;
 
@@ -28,6 +34,7 @@ public class DependentsInfo implements CreditApp {
 
     public DependentsInfo(Application instance) {
         this.poDao = GGC_GriderDB.getInstance(instance).CreditApplicationDao();
+        this.poTown = new RTown(instance);
     }
 
     @Override
@@ -37,7 +44,48 @@ public class DependentsInfo implements CreditApp {
 
     @Override
     public Object Parse(ECreditApplicantInfo args) {
-        return null;
+        try{
+            String lsDetail = args.getDependnt();
+            GOCASApplication gocas = new GOCASApplication();
+            JSONParser loJson = new JSONParser();
+            JSONObject joDetail = (JSONObject) loJson.parse(lsDetail);
+            gocas.DisbursementInfo().DependentInfo().setData(joDetail);
+
+            Dependent loDetail = new Dependent();
+
+            JSONArray loList = (JSONArray) joDetail.get("children");
+            if(loList.size() > 0){
+                for(int x = 0; x < loList.size(); x++){
+                    JSONObject loChildren = (JSONObject) loList.get(x);
+                    Dependent.DependentInfo loInfo = new Dependent.DependentInfo();
+                    loInfo.setFullName((String) loChildren.get("sFullName"));
+                    loInfo.setRelation((String) loChildren.get("sRelatnCD"));
+                    long lnAge = (long) loChildren.get("nDepdAgex");
+                    loInfo.setDpdntAge((int) lnAge);
+                    loInfo.setStudentx((String) loChildren.get("cIsPupilx"));
+                    loInfo.setSchoolNm((String) loChildren.get("sSchlName"));
+                    loInfo.setSchlAddx((String) loChildren.get("sSchlAddr"));
+                    loInfo.setSchlTown((String) loChildren.get("sSchlTown"));
+                    loInfo.setSchoolTp((String) loChildren.get("cIsPrivte"));
+                    loInfo.setEduLevel((String) loChildren.get("sEducLevl"));
+                    loInfo.setSchoolar((String) loChildren.get("cIsSchlrx"));
+                    loInfo.setEmployed((String) loChildren.get("cHasWorkx"));
+                    loInfo.setEmpSctor((String) loChildren.get("cWorkType"));
+                    loInfo.setCompName((String) loChildren.get("sCompanyx"));
+                    loInfo.setHouseHld((String) loChildren.get("cHouseHld"));
+                    loInfo.setDependnt((String) loChildren.get("cDependnt"));
+                    loInfo.setMarriedx((String) loChildren.get("cIsMarrdx"));
+                }
+            }
+
+            poDetail = loDetail;
+
+            return loDetail;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return null;
+        }
     }
 
     @Override
@@ -127,7 +175,7 @@ public class DependentsInfo implements CreditApp {
 
     @Override
     public LiveData<List<DTownInfo.TownProvinceInfo>> GetTownProvinceList() {
-        return null;
+        return poTown.getTownProvinceInfo();
     }
 
     @Override

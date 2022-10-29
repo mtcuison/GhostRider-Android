@@ -16,7 +16,8 @@ public enum CreditAppInstance {
     Dependent_Info,
     Properties_Info,
     Other_Info,
-    CoMaker_Info
+    CoMaker_Info,
+    CoMaker_Residence_Info
 }
 
 
