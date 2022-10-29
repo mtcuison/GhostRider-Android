@@ -30,9 +30,7 @@ import org.rmj.guanzongroup.ghostrider.approvalcode.Activity.Activity_ApprovalSe
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_CollectionList;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_LogCollection;
 import org.rmj.guanzongroup.ghostrider.samsungknox.Activity_Knox;
-//import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_ApplicationHistory;
-//import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_BranchApplications;
-//import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_IntroductoryQuestion;
+import org.rmj.guanzongroup.onlinecreditapplication.Activities.Activity_IntroductoryQuestion;
 
 public class ChildObject {
 
@@ -58,10 +56,10 @@ public class ChildObject {
                 loIntent = new Intent(context, Activity_LogCollection.class);
                 loIntent.putExtra("syscode", "2");
                 break;
-//            case "loan application":
-//                loIntent = new Intent(context, Activity_IntroductoryQuestion.class);
-////                loIntent = new Intent(context, Activity_CreditAppHome.class);
-//                break;
+            case "loan application":
+                loIntent = new Intent(context, Activity_IntroductoryQuestion.class);
+//                loIntent = new Intent(context, Activity_CreditAppHome.class);
+                break;
 //            case "user application list":
 //                loIntent = new Intent(context, Activity_ApplicationHistory.class);
 ////                loIntent.putExtra("app", AppConstants.INTENT_OB_APPLICATION);

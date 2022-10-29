@@ -1,8 +1,6 @@
 package org.rmj.g3appdriver.lib.integsys.CreditApp;
 
-import android.content.Intent;
-
 public interface OnSaveInfoListener {
-    void OnSave(Intent intent);
+    void OnSave(String args);
     void OnFailed(String message);
 }

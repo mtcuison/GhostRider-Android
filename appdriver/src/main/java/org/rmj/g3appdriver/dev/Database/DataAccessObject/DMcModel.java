@@ -56,4 +56,29 @@ public interface DMcModel {
 
     @Query("SELECT * FROM Mc_Model WHERE sModelIDx =:ModelID")
     EMcModel getModelInfo(String ModelID);
+
+    @Query("SELECT  " +
+            "a.nSelPrice, " +
+            "a.nMinDownx, " +
+            "b.nMiscChrg, " +
+            "b.nRebatesx, " +
+            "b.nEndMrtgg, " +
+            "c.nAcctThru, " +
+            "c.nFactorRt " +
+            "FROM Mc_Model_Price a, MC_Category b, MC_Term_Category c " +
+            "WHERE a.sMCCatIDx = b.sMCCatIDx " +
+            "AND a.sMCCatIDx = c.sMCCatIDx " +
+            "AND a.sModelIDx = :ModelID " +
+            "AND c.nAcctThru = :Term")
+    LiveData<McAmortInfo> GetMonthlyPayment(String ModelID, int Term);
+
+    class McAmortInfo{
+        public String nSelPrice;
+        public String nMinDownx;
+        public String nMiscChrg;
+        public String nRebatesx;
+        public String nEndMrtgg;
+        public String nAcctThru;
+        public String nFactorRt;
+    }
 }

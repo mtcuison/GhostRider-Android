@@ -16,7 +16,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:theme="@style/GhostRiderMaterialTheme.WhiteBG"
-    tools:context=".Activity.Activity_IntroductoryQuestion"
+    tools:context=".Activities.Activity_IntroductoryQuestion"
     android:background="@drawable/bg_gradient_light"
     android:orientation="vertical">
 
@@ -225,6 +225,23 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
+                    style="@style/CustomDropDownTilStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Installment Term (Required)">
+
+                    <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                        android:id="@+id/spn_installmentTerm"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:padding="16dp"
+                        android:cursorVisible="false"
+                        android:clickable="false"
+                        android:inputType="none" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Downpayment"
@@ -238,23 +255,6 @@
                         android:maxLength="50"
                         android:imeOptions="actionDone"/>
                 </com.google.android.material.textfield.TextInputLayout>
-                <com.google.android.material.textfield.TextInputLayout
-                    style="@style/CustomDropDownTilStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Installment Term (Required)">
-                    <androidx.appcompat.widget.AppCompatAutoCompleteTextView
-                        android:id="@+id/spn_installmentTerm"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:focusable="false"
-                        android:padding="16dp"
-                        android:cursorVisible="false"
-                        android:clickable="false"
-                        android:inputType="none" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"

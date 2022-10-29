@@ -21,7 +21,7 @@ import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditApp;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditAppInstance;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditOnlineApplication;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.LoanInfo;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.LoanInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Personal;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -53,15 +53,15 @@ public class TestPersonalInfo {
     public void test01ValidatePurchaseInfo() {
         isSuccess = false;
         LoanInfo loLoan = new LoanInfo();
-        loLoan.setdTargetDte("2022-10-24");
-        loLoan.setsAppTypex("0");
-        loLoan.setsBranchCde("M001");
-        loLoan.setsCustTypex("1");
-        loLoan.setsDownPaymt(10000);
-        loLoan.setsMonthlyAm(1500);
-        loLoan.setsModelIDxx("M123131231");
-        loLoan.setsBrandIDxx("123123123");
-        loLoan.setsAccTermxx(12);
+        loLoan.setTargetDte("2022-10-24");
+        loLoan.setAppTypex("0");
+        loLoan.setBranchCde("M001");
+        loLoan.setCustTypex("1");
+        loLoan.setDownPaymt(10000);
+        loLoan.setMonthlyAm(1500);
+        loLoan.setModelIDxx("M123131231");
+        loLoan.setBrandIDxx("123123123");
+        loLoan.setAccTermxx(12);
 
         if(!loLoan.isDataValid()){
             message = loLoan.getMessage();
@@ -76,15 +76,15 @@ public class TestPersonalInfo {
     public void test02CreateApplication() {
         isSuccess = false;
         LoanInfo loLoan = new LoanInfo();
-        loLoan.setdTargetDte("2022-10-24");
-        loLoan.setsAppTypex("0");
-        loLoan.setsBranchCde("M001");
-        loLoan.setsCustTypex("1");
-        loLoan.setsDownPaymt(10000);
-        loLoan.setsMonthlyAm(1500);
-        loLoan.setsModelIDxx("M123131231");
-        loLoan.setsBrandIDxx("123123123");
-        loLoan.setsAccTermxx(12);
+        loLoan.setTargetDte("2022-10-24");
+        loLoan.setAppTypex("0");
+        loLoan.setBranchCde("M001");
+        loLoan.setCustTypex("1");
+        loLoan.setDownPaymt(10000);
+        loLoan.setMonthlyAm(1500);
+        loLoan.setModelIDxx("M123131231");
+        loLoan.setBrandIDxx("123123123");
+        loLoan.setAccTermxx(12);
 
         String lsResult = creditApp.CreateApplication(loLoan);
 

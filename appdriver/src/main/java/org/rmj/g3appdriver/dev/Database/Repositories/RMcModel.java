@@ -75,6 +75,10 @@ public class RMcModel {
         return poDao.getModelInfo(TransNox);
     }
 
+    public LiveData<DMcModel.McAmortInfo> GetMonthlyPayment(String fsModel, int fnTerm){
+        return poDao.GetMonthlyPayment(fsModel, fnTerm);
+    }
+
     public boolean ImportMCModel(){
         try{
             JSONObject params = new JSONObject();

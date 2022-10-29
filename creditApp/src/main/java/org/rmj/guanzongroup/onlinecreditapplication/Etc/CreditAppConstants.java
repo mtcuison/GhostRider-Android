@@ -23,25 +23,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 
-import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_CoMaker;
-import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_ComakerResidence;
-import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_Dependent;
-import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_DisbursementInfo;
-import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_EmploymentInfo;
-import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_Finance;
-import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_MeansInfoSelection;
-import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_OtherInfo;
-import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_PensionInfo;
-import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_PersonalInfo;
-import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_Properties;
-import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_ResidenceInfo;
-import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_ReviewLoanApp;
-import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_SelfEmployedInfo;
-import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_SpouseEmploymentInfo;
-import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_SpouseInfo;
-import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_SpousePensionInfo;
-import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_SpouseResidenceInfo;
-import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_SpouseSelfEmployedInfo;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 
 public class CreditAppConstants {
@@ -67,27 +48,6 @@ public class CreditAppConstants {
      *            <p>17 new Fragment_CoMakerResidence()</p>
      * @param allLoanUnitNames
      */
-
-    public static Fragment[] APPLICATION_PAGES = {
-            new Fragment_PersonalInfo(),
-            new Fragment_ResidenceInfo(),
-            new Fragment_MeansInfoSelection(),
-            new Fragment_EmploymentInfo(),
-            new Fragment_SelfEmployedInfo(),
-            new Fragment_Finance(),
-            new Fragment_PensionInfo(),
-            new Fragment_SpouseInfo(),
-            new Fragment_SpouseResidenceInfo(),
-            new Fragment_SpouseEmploymentInfo(),
-            new Fragment_SpouseSelfEmployedInfo(),
-            new Fragment_SpousePensionInfo(),
-            new Fragment_DisbursementInfo(),
-            new Fragment_Dependent(),
-            new Fragment_Properties(),
-            new Fragment_OtherInfo(),
-            new Fragment_CoMaker(),
-            new Fragment_ComakerResidence(),
-            new Fragment_ReviewLoanApp()};
 
     public static String[] APPLICATION_TYPE = {
             "Motorcycle",

@@ -117,6 +117,7 @@ dependencies {
     implementation project(path: ':itinerary')
     implementation project(path: ':appDriver')
     implementation project(':settings')
+    implementation project(':creditApp')
     implementation project(':creditEvaluation')
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 

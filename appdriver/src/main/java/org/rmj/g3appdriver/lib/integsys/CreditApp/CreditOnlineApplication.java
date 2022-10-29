@@ -7,13 +7,19 @@ import androidx.lifecycle.LiveData;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.rmj.apprdiver.util.SQLUtil;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DCreditApplication;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEmployeeInfo;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DMcModel;
+import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplication;
+import org.rmj.g3appdriver.dev.Database.Entities.EMcBrand;
+import org.rmj.g3appdriver.dev.Database.Entities.EMcModel;
 import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
+import org.rmj.g3appdriver.dev.Database.Repositories.RBranch;
+import org.rmj.g3appdriver.dev.Database.Repositories.RMcBrand;
+import org.rmj.g3appdriver.dev.Database.Repositories.RMcModel;
 import org.rmj.g3appdriver.dev.HttpHeaders;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
@@ -37,12 +43,16 @@ import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.SpouseEmploymentInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.SpouseInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.SpousePensionInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.SpouseResidenceInfo;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.LoanInfo;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.g3appdriver.utils.WebClient;
 import org.rmj.gocas.base.GOCASApplication;
+import org.rmj.gocas.pricelist.PriceFactory;
+import org.rmj.gocas.pricelist.Pricelist;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class CreditOnlineApplication {
@@ -53,6 +63,11 @@ public class CreditOnlineApplication {
     private final DCreditApplication poDao;
 
     private final EmployeeMaster poUser;
+
+    private final RBranch poBranch;
+    private final RMcBrand poBrand;
+    private final RMcModel poModel;
+    private final Pricelist poPrice;
 
     private final AppConfigPreference poConfig;
     private final SessionManager poSession;
@@ -69,6 +84,10 @@ public class CreditOnlineApplication {
         this.poSession = new SessionManager(instance);
         this.poApi = new WebApi(poConfig.getTestStatus());
         this.poHeaders = HttpHeaders.getInstance(instance);
+        this.poBranch = new RBranch(instance);
+        this.poBrand = new RMcBrand(instance);
+        this.poModel = new RMcModel(instance);
+        this.poPrice = PriceFactory.make(PriceFactory.ProductType.MOTORCYCLE);
     }
 
     public String getMessage() {
@@ -207,19 +226,19 @@ public class CreditOnlineApplication {
 
             GOCASApplication loGocas = new GOCASApplication();
             loGocas.PurchaseInfo().setAppliedFor("0");
-            loGocas.PurchaseInfo().setTargetPurchase(foVal.getdTargetDte());
-            loGocas.PurchaseInfo().setCustomerType(foVal.getsCustTypex());
-            loGocas.PurchaseInfo().setPreferedBranch(foVal.getsBranchCde());
-            loGocas.PurchaseInfo().setBrandName(foVal.getsBrandIDxx());
-            loGocas.PurchaseInfo().setModelID(foVal.getsModelIDxx());
-            loGocas.PurchaseInfo().setDownPayment(foVal.getsDownPaymt());
-            loGocas.PurchaseInfo().setAccountTerm(foVal.getsAccTermxx());
+            loGocas.PurchaseInfo().setTargetPurchase(foVal.getTargetDte());
+            loGocas.PurchaseInfo().setCustomerType(String.valueOf(foVal.getCustTypex()));
+            loGocas.PurchaseInfo().setPreferedBranch(foVal.getBranchCde());
+            loGocas.PurchaseInfo().setBrandName(foVal.getBrandIDxx());
+            loGocas.PurchaseInfo().setModelID(foVal.getModelIDxx());
+            loGocas.PurchaseInfo().setDownPayment(foVal.getDownPaymt());
+            loGocas.PurchaseInfo().setAccountTerm(foVal.getAccTermxx());
             loGocas.PurchaseInfo().setDateApplied(new AppConstants().DATE_MODIFIED());
-            loGocas.PurchaseInfo().setMonthlyAmortization(foVal.getsMonthlyAm());
+            loGocas.PurchaseInfo().setMonthlyAmortization(foVal.getMonthlyAm());
 
             ECreditApplication loDetail = new ECreditApplication();
             loDetail.setTransNox(lsTransNo);
-            loDetail.setBranchCd(foVal.getsBranchCde());
+            loDetail.setBranchCd(foVal.getBranchCde());
             loDetail.setClientNm(loGocas.ApplicantInfo().getClientName());
             loDetail.setUnitAppl(loGocas.PurchaseInfo().getAppliedFor());
             loDetail.setSourceCD("APP");
@@ -246,6 +265,42 @@ public class CreditOnlineApplication {
         }
     }
 
+    public LiveData<List<EBranchInfo>> getAllBranchInfo(){
+        return poBranch.getAllMcBranchInfo();
+    }
+
+    public LiveData<List<EMcBrand>> getAllMcBrand(){
+        return poBrand.getAllBrandInfo();
+    }
+
+    public LiveData<List<EMcModel>> getAllBrandModelInfo(String args){
+        return poModel.getMcModelFromBrand(args);
+    }
+
+    public LiveData<DMcModel.McAmortInfo> GetMonthlyPayment(String ModelID, int Term){
+        return poModel.GetMonthlyPayment(ModelID, Term);
+    }
+
+    public double CalculateAmortization(DMcModel.McAmortInfo args, double fnDPxx){
+        try{
+            org.json.simple.JSONObject loJson = new org.json.simple.JSONObject();
+            loJson.put("nSelPrice", args.nSelPrice);
+            loJson.put("nMinDownx", args.nMinDownx);
+            loJson.put("nMiscChrg", args.nMiscChrg);
+            loJson.put("nRebatesx", args.nRebatesx);
+            loJson.put("nEndMrtgg", args.nEndMrtgg);
+            loJson.put("nAcctThru", args.nAcctThru);
+            loJson.put("nFactorRt", args.nFactorRt);
+
+            poPrice.setPaymentTerm(Integer.parseInt(args.nAcctThru));
+            poPrice.setDownPayment(fnDPxx);
+            return poPrice.getMonthlyAmort(loJson);
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return 0;
+        }
+    }
 
     public CreditApp getInstance(CreditAppInstance app){
         switch (app){
