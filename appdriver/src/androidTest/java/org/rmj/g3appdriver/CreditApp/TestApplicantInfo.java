@@ -7,6 +7,7 @@ import android.app.Application;
 import android.util.Log;
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
+import androidx.lifecycle.Observer;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
@@ -17,6 +18,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
+import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditApp;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditOnlineApplication;
@@ -34,7 +36,9 @@ import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Pension;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.ClientResidence;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.ClientSpouseInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Disbursement;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Properties;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Reference;
+import org.rmj.gocas.base.GOCASApplication;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(AndroidJUnit4.class)
@@ -1034,5 +1038,49 @@ public class TestApplicantInfo {
         });
 
         assertTrue(isSuccess);
+    }
+
+    @Test
+    public void test34SetupProperties() {
+        isSuccess = false;
+        CreditApp loApp = creditApp.getInstance(CreditAppInstance.Properties_Info);
+
+        Properties loDetail = new Properties();
+        loDetail.setTransNox(message);
+        loDetail.setPs2Wheelsx("0");
+        loDetail.setPs3Wheelsx("0");
+        loDetail.setPs4Wheelsx("0");
+        loDetail.setPsFridgexx("0");
+        loDetail.setPsAirConxx("0");
+        loDetail.setPsTelevsnx("0");
+        loDetail.setPsLot1Addx("sample");
+        loDetail.setPsLot2Addx("sample");
+        loDetail.setPsLot3Addx("sample");
+
+//        if(loApp.Validate(loDetail) == 0){
+//            message = loApp.getMessage();
+//            Log.e(TAG, message);
+//            assertTrue(isSuccess);
+//            return;
+//        }
+
+        if(!loApp.Save(loDetail)){
+            message = loApp.getMessage();
+            Log.e(TAG, message);
+        } else {
+            isSuccess = true;
+        }
+
+        assertTrue(isSuccess);
+    }
+
+    @Test
+    public void test35CompileGOCas() {
+        isSuccess = false;
+        CreditApp loApp = creditApp.getInstance(CreditAppInstance.Application_Info);
+        loApp.GetApplication(message).observeForever(app -> {
+            GOCASApplication loDetail = (GOCASApplication) loApp.Parse(app);
+            Log.d(TAG, loDetail.toJSONString());
+        });
     }
 }

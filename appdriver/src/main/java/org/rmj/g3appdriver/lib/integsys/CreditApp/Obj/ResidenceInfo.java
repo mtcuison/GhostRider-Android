@@ -1,6 +1,7 @@
 package org.rmj.g3appdriver.lib.integsys.CreditApp.Obj;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
@@ -70,10 +71,6 @@ public class ResidenceInfo implements CreditApp {
             loDetail.setMunicipalNm(loBrgy.sTownName);
             loDetail.setBarangayName(loBrgy.sBrgyName);
 
-            loDetail.setOwnerRelation(gocas.ResidenceInfo().getOwnership());
-            loDetail.setLenghtOfStay(gocas.ResidenceInfo().getRentNoYears());
-            loDetail.setMonthlyExpenses(gocas.ResidenceInfo().getRentExpenses());
-
             //TODO: make a validation of value for length of stay which
             // will display if the applicant stays for a year or only for a month
             double lnLength = gocas.ResidenceInfo().getRentNoYears();
@@ -83,6 +80,21 @@ public class ResidenceInfo implements CreditApp {
             } else {
                 loDetail.setIsYear(0);
             }
+
+            Log.d(TAG, "House Ownership: " + gocas.ResidenceInfo().getOwnership());
+            loDetail.setOwnerRelation(gocas.ResidenceInfo().getCareTakerRelation());
+
+            Log.d(TAG, "Length Of Stay: " + gocas.ResidenceInfo().getRentNoYears());
+            loDetail.setLenghtOfStay(gocas.ResidenceInfo().getRentNoYears());
+
+            Log.d(TAG, "Monthly Expense: " + gocas.ResidenceInfo().getRentExpenses());
+            loDetail.setMonthlyExpenses(gocas.ResidenceInfo().getRentExpenses());
+
+            loDetail.setHouseOwn(gocas.ResidenceInfo().getOwnership());
+
+            loDetail.setHouseHold(gocas.ResidenceInfo().getRentedResidenceInfo());
+            loDetail.setHouseType(gocas.ResidenceInfo().getHouseType());
+            loDetail.setHasGarage(gocas.ResidenceInfo().hasGarage());
 
             loDetail.setPermanentLandMark(gocas.ResidenceInfo().PermanentAddress().getLandMark());
             loDetail.setPermanentHouseNo(gocas.ResidenceInfo().PermanentAddress().getHouseNo());
@@ -172,6 +184,7 @@ public class ResidenceInfo implements CreditApp {
             loApp.setResidnce(gocas.ResidenceInfo().toJSONString());
             if(loDetail.isOneAddress()){
                 loApp.setSameAddx("1");
+
             } else {
                 loApp.setSameAddx("0");
             }

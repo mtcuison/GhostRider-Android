@@ -1,6 +1,7 @@
 package org.rmj.g3appdriver.lib.integsys.CreditApp.Obj;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
@@ -36,7 +37,40 @@ public class ApplicationInfo implements CreditApp {
 
     @Override
     public Object Parse(ECreditApplicantInfo args) {
-        return null;
+        try {
+            ECreditApplicantInfo loDetail = (ECreditApplicantInfo) args;
+
+            GOCASApplication loMaster = new GOCASApplication();
+
+            JSONParser loJson = new JSONParser();
+
+            loMaster.ApplicantInfo().setData((JSONObject) loJson.parse(loDetail.getApplInfo()));
+            loMaster.ResidenceInfo().setData((JSONObject) loJson.parse(loDetail.getResidnce()));
+            loMaster.MeansInfo().setData((JSONObject) loJson.parse(loDetail.getOtherInc()));
+            loMaster.MeansInfo().EmployedInfo().setData((JSONObject) loJson.parse(loDetail.getEmplymnt()));
+            loMaster.MeansInfo().SelfEmployedInfo().setData((JSONObject) loJson.parse(loDetail.getBusnInfo()));
+            loMaster.MeansInfo().FinancerInfo().setData((JSONObject) loJson.parse(loDetail.getFinancex()));
+            loMaster.MeansInfo().PensionerInfo().setData((JSONObject) loJson.parse(loDetail.getPensionx()));
+            loMaster.SpouseInfo().PersonalInfo().setData((JSONObject) loJson.parse(loDetail.getSpousexx()));
+            loMaster.SpouseInfo().ResidenceInfo().setData((JSONObject) loJson.parse(loDetail.getResidnce()));
+            loMaster.SpouseMeansInfo().setData((JSONObject) loJson.parse(loDetail.getSpOthInc()));
+            loMaster.SpouseMeansInfo().EmployedInfo().setData((JSONObject) loJson.parse(loDetail.getSpsEmplx()));
+            loMaster.SpouseMeansInfo().SelfEmployedInfo().setData((JSONObject) loJson.parse(loDetail.getSpsBusnx()));
+            loMaster.SpouseMeansInfo().PensionerInfo().setData((JSONObject) loJson.parse(loDetail.getSpsPensn()));
+            loMaster.DisbursementInfo().setData((JSONObject) loJson.parse(loDetail.getDisbrsmt()));
+            loMaster.DisbursementInfo().DependentInfo().setData((JSONObject) loJson.parse(loDetail.getDependnt()));
+            loMaster.DisbursementInfo().PropertiesInfo().setData((JSONObject) loJson.parse(loDetail.getProperty()));
+            loMaster.OtherInfo().setData((JSONObject) loJson.parse(loDetail.getOthrInfo()));
+            loMaster.CoMakerInfo().setData((JSONObject) loJson.parse(loDetail.getComakerx()));
+            loMaster.CoMakerInfo().ResidenceInfo().setData((JSONObject) loJson.parse(loDetail.getCmResidx()));
+
+            Log.d(TAG, loMaster.toJSONString());
+            return loMaster;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return null;
+        }
     }
 
     @Override
@@ -68,7 +102,12 @@ public class ApplicationInfo implements CreditApp {
             loMaster.SpouseMeansInfo().PensionerInfo().setData((JSONObject) loJson.parse(loDetail.getSpsPensn()));
             loMaster.DisbursementInfo().setData((JSONObject) loJson.parse(loDetail.getDisbrsmt()));
             loMaster.DisbursementInfo().DependentInfo().setData((JSONObject) loJson.parse(loDetail.getDependnt()));
+            loMaster.DisbursementInfo().PropertiesInfo().setData((JSONObject) loJson.parse(loDetail.getProperty()));
             loMaster.OtherInfo().setData((JSONObject) loJson.parse(loDetail.getOthrInfo()));
+            loMaster.CoMakerInfo().setData((JSONObject) loJson.parse(loDetail.getComakerx()));
+            loMaster.CoMakerInfo().ResidenceInfo().setData((JSONObject) loJson.parse(loDetail.getCmResidx()));
+
+            Log.d(TAG, loMaster.toJSONString());
             return true;
         } catch (Exception e){
             e.printStackTrace();

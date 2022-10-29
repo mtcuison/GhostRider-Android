@@ -19,6 +19,7 @@ import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.SessionManager;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.ApplicationInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.BusinessInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.CoMakerInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.CoMakerResidenceInfo;
@@ -29,6 +30,7 @@ import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.FinancierInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.OtherInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.PensionInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.PersonalInfo;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.PropertiesInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.ResidenceInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.SpouseBusinessInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.SpouseEmploymentInfo;
@@ -273,12 +275,16 @@ public class CreditOnlineApplication {
                 return new DisbursementInfo(instance);
             case Dependent_Info:
                 return new DependentsInfo(instance);
+            case Properties_Info:
+                return new PropertiesInfo(instance);
             case Other_Info:
                 return new OtherInfo(instance);
             case CoMaker_Info:
                 return new CoMakerInfo(instance);
             case CoMaker_Residence_Info:
                 return new CoMakerResidenceInfo(instance);
+            case Application_Info:
+                return new ApplicationInfo(instance);
             default:
                 return null;
         }
