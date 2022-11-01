@@ -115,6 +115,7 @@ public class LoanInfo {
             message = "Please select customer type";
             return false;
         }
+
         if(sAppTypex < 1){
             message = "Please select loan unit";
             return false;
@@ -124,7 +125,7 @@ public class LoanInfo {
             return false;
         }
         if(sBrandIDxx.trim().isEmpty()){
-            message = "Please select mc brand";
+            message = "Please select motorcycle brand";
             return false;
         }
         if(sModelIDxx.trim().isEmpty()){

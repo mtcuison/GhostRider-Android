@@ -2,6 +2,7 @@ package org.rmj.guanzongroup.onlinecreditapplication.ViewModel;
 
 import android.app.Application;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 
@@ -18,6 +19,7 @@ import org.rmj.g3appdriver.dev.Database.Entities.EMcBrand;
 import org.rmj.g3appdriver.dev.Database.Entities.EMcModel;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditOnlineApplication;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.LoanInfo;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 
 import java.util.List;
@@ -29,6 +31,9 @@ public class VMIntroductoryQuestion extends AndroidViewModel implements CreditAp
 
     private final MutableLiveData<String> psBrandID = new MutableLiveData<>();
     private final MutableLiveData<String> psModelID = new MutableLiveData<>();
+    private final MutableLiveData<DMcModel.McAmortInfo> poAmort = new MutableLiveData<>();
+
+    private String message;
 
     public VMIntroductoryQuestion(@NonNull Application instance) {
         super(instance);
@@ -51,6 +56,10 @@ public class VMIntroductoryQuestion extends AndroidViewModel implements CreditAp
         return psModelID;
     }
 
+    public void setModelAmortization(DMcModel.McAmortInfo args){
+        this.poAmort.setValue(args);
+    }
+
     public LiveData<DEmployeeInfo.EmployeeBranch> GetUserInfo(){
         return poApp.GetUserInfo();
     }
@@ -67,12 +76,28 @@ public class VMIntroductoryQuestion extends AndroidViewModel implements CreditAp
         return poApp.getAllBrandModelInfo(args);
     }
 
-    public LiveData<DMcModel.McAmortInfo> GetMonthlyPayment(String ModelID, int Term){
-        return poApp.GetMonthlyPayment(ModelID, Term);
+    public LiveData<DMcModel.McDPInfo> GetInstallmentPlanDetail(String ModelID){
+        return poApp.GetInstallmentPlanDetail(ModelID);
     }
 
-    public double GetMonthlyPayment(DMcModel.McAmortInfo args, double fnDPxx){
-        return poApp.CalculateAmortization(args, fnDPxx);
+    public boolean InitializeTermAndDownpayment(DMcModel.McDPInfo args){
+        return poApp.InitializeMcInstallmentTerms(args);
+    }
+
+    public LiveData<DMcModel.McAmortInfo> GetAmortizationDetail(String args, int args1){
+        return poApp.GetMonthlyPayment(args, args1);
+    }
+
+    public double GetMinimumDownpayment(){
+        return poApp.GetMinimumDownpayment();
+    }
+
+    public double GetMonthlyPayment(double args1){
+        return poApp.GetMonthlyAmortization(poAmort.getValue(), args1);
+    }
+
+    public double GetMonthlyPayment(int args1){
+        return poApp.GetMonthlyAmortization(poAmort.getValue(), args1);
     }
 
     public LiveData<ArrayAdapter<String>> GetApplicationType(){
@@ -110,11 +135,55 @@ public class VMIntroductoryQuestion extends AndroidViewModel implements CreditAp
 
     @Override
     public void Validate(Object args) {
-
     }
 
     @Override
     public void SaveData(Object args, OnSaveInfoListener listener) {
+        LoanInfo loDetail = (LoanInfo) args;
+        new CreateNewApplicationTask(listener).execute(loDetail);
+    }
 
+    private class CreateNewApplicationTask extends AsyncTask<LoanInfo, Void, String>{
+
+        private final OnSaveInfoListener listener;
+
+        public CreateNewApplicationTask(OnSaveInfoListener listener) {
+            this.listener = listener;
+        }
+
+        @Override
+        protected String doInBackground(LoanInfo... loanInfos) {
+            try {
+                LoanInfo loDetail = loanInfos[0];
+
+                if (!loDetail.isDataValid()) {
+                    message = loDetail.getMessage();
+                    return null;
+                }
+
+                String lsResult = poApp.CreateApplication(loDetail);
+
+                if (lsResult == null){
+                    message = poApp.getMessage();
+                    return null;
+                }
+
+                return lsResult;
+            } catch (Exception e){
+                e.printStackTrace();
+                message = e.getMessage();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            if(result == null){
+                listener.OnFailed(message);
+            } else {
+                listener.OnSave(result);
+            }
+        }
     }
 }

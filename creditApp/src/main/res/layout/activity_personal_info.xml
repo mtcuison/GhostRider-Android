@@ -152,54 +152,30 @@
                     android:id="@+id/txt_birthdate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:focusedByDefault="false"
                     android:imeOptions="actionNext"
                     android:inputType="number|none"
                     android:maxLength="20"
                     android:nextFocusForward="@+id/txt_bpProvince" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <LinearLayout
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/TextInputStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:baselineAligned="false"
-                android:orientation="horizontal">
+                android:hint="@string/sHintBpTown">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    style="@style/TextInputStyle"
-                    android:layout_width="0dp"
+                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                    android:id="@+id/txt_bpTown"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:hint="@string/sHintBpProv">
-
-                    <androidx.appcompat.widget.AppCompatAutoCompleteTextView
-                        android:id="@+id/txt_bpProvince"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:imeOptions="actionNext"
-                        android:inputType="textPersonName|textCapWords"
-                        android:maxLength="100"
-                        android:nextFocusForward="@+id/txt_bpTown"
-                        android:padding="16dp" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    style="@style/TextInputStyle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:hint="@string/sHintBpTown">
-
-                    <androidx.appcompat.widget.AppCompatAutoCompleteTextView
-                        android:id="@+id/txt_bpTown"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:imeOptions="actionDone"
-                        android:inputType="textPersonName|textCapWords"
-                        android:maxLength="100"
-                        android:padding="16dp" />
-                </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
+                    android:imeOptions="actionDone"
+                    android:inputType="textPersonName|textCapWords"
+                    android:maxLength="100"
+                    android:padding="16dp" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 style="@style/HeaderLabelBlack"
@@ -262,25 +238,6 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                style="@style/TextInputStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="@string/sHintCitizenship">
-
-                <AutoCompleteTextView
-                    android:id="@+id/txt_citizenship"
-                    style="@style/AutoCompleteStyleTheme"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:imeOptions="actionNext"
-                    android:inputType="textCapWords|textAutoComplete"
-                    android:maxLength="50"
-                    android:nextFocusForward="@+id/txt_motherNme"
-                    tools:ignore="LabelFor" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_motherNme"
                 style="@style/TextInputStyle"
                 android:layout_width="match_parent"
@@ -297,6 +254,25 @@
                     android:maxLength="120"
                     android:nextFocusForward="@+id/txt_mobileNo1" />
 
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/TextInputStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/sHintCitizenship">
+
+                <AutoCompleteTextView
+                    android:id="@+id/txt_citizenship"
+                    style="@style/AutoCompleteStyleTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
+                    android:inputType="textCapWords|textAutoComplete"
+                    android:maxLength="50"
+                    android:nextFocusForward="@+id/txt_motherNme"
+                    tools:ignore="LabelFor" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!--        Contact Field-->

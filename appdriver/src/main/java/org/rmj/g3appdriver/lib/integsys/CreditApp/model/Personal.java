@@ -2,35 +2,29 @@ package org.rmj.g3appdriver.lib.integsys.CreditApp.model;
 
 import org.rmj.g3appdriver.etc.FormatUIText;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Personal {
 
-    private String TransNox;
-    private String LastName;
-    private String FrstName;
-    private String MiddName;
-    private String Suffix;
-    private String NickName;
-    private String BrthDate;
-    private String BrthPlce;
-    private String BirthPlc; //This holds the data for preview of Town, Province names.
-    private String Gender;
-    private String CvlStats;
-    private String Citizenx;
-    private String CtznShip; //This holds the data for preview of citizenship
-    private String MotherNm;
-    private final List<MobileNo> mobileNoList = new ArrayList<>();
-    private String PhoneNox;
-    private String EmailAdd;
-    private String FbAccntx;
-    private String VbrAccnt;
-    private String ImgPath;
-
-    //for save instance state
-    private String ProvNme;
-    private String TownNme;
+    private String TransNox = "";
+    private String LastName = "";
+    private String FrstName = "";
+    private String MiddName = "";
+    private String Suffix = "";
+    private String NickName = "";
+    private String BrthDate = "";
+    private String BrthPlce = "";
+    private String BirthPlc = ""; //This holds the data for preview of Town, Province names.
+    private String Gender = "";
+    private String CvlStats = "";
+    private String Citizenx = "";
+    private String CtznShip = ""; //This holds the data for preview of citizenship
+    private String MotherNm = "";
+    private MobileNo mobileNo1;
+    private MobileNo mobileNo2;
+    private MobileNo mobileNo3;
+    private String PhoneNox = "";
+    private String EmailAdd = "";
+    private String FbAccntx = "";
+    private String VbrAccnt = "";
 
     private String message;
 
@@ -190,31 +184,41 @@ public class Personal {
     }
 
     public int getMobileNoQty(){
-        return mobileNoList.size();
+        int lnCount = 0;
+        if(mobileNo1 != null){
+            lnCount++;
+        }
+        if(mobileNo2 != null){
+            lnCount++;
+        }
+        if(mobileNo3 != null){
+            lnCount++;
+        }
+        return lnCount;
     }
 
-    public String getMobileNo(int position){
-        return mobileNoList.get(position).getMobileNo();
+    public MobileNo getMobileNo1(){
+        return mobileNo1;
     }
 
-    public String getPostPaid(int position){
-        return mobileNoList.get(position).getIsPostPd();
+    public MobileNo getMobileNo2() {
+        return mobileNo2;
     }
 
-    public int getPostYear(int position){
-        return mobileNoList.get(position).getPostYear();
+    public MobileNo getMobileNo3() {
+        return mobileNo3;
     }
 
-    public void setMobileNo(String MobileNo, String Postpaid, int PostYear){
-        MobileNo mobileNo = new MobileNo(MobileNo, Postpaid, PostYear);
-        mobileNoList.add(mobileNo);
+    public void setMobileNo1(MobileNo mobileNo1) {
+        this.mobileNo1 = mobileNo1;
     }
 
-    /**
-     * Clear List of Mobile No if Any Error Occurs to prevent mobile no duplicate.
-     */
-    public void clearMobileNo(){
-        mobileNoList.clear();
+    public void setMobileNo2(MobileNo mobileNo2) {
+        this.mobileNo2 = mobileNo2;
+    }
+
+    public void setMobileNo3(MobileNo mobileNo3) {
+        this.mobileNo3 = mobileNo3;
     }
 
     public String getPhoneNox() {
@@ -292,7 +296,7 @@ public class Personal {
             return false;
         }
 
-        if (mobileNoList.size()> 0) {
+        if (mobileNo1 != null) {
             return isPrimaryContactValid() &&
                     isSecondaryContactValid() &&
                     isTertiaryContactValid();
@@ -303,19 +307,23 @@ public class Personal {
     }
 
     private boolean isPrimaryContactValid(){
-        if(mobileNoList.get(0).getMobileNo().trim().isEmpty()){
+        if(mobileNo1 == null) {
             message = "Please enter primary contact number";
             return false;
         }
-        if(Integer.parseInt(mobileNoList.get(0).getIsPostPd()) < 0){
+        if(mobileNo1.getMobileNo().trim().isEmpty()){
+            message = "Please enter primary contact number";
+            return false;
+        }
+        if(Integer.parseInt(mobileNo1.getIsPostPd()) < 0){
             message = "Please select sim 1 card type";
             return false;
         }
-        if(!mobileNoList.get(0).getMobileNo().substring(0, 2).equalsIgnoreCase("09")){
+        if(!mobileNo1.getMobileNo().substring(0, 2).equalsIgnoreCase("09")){
             message = "Contact number must start with '09'";
             return false;
         }
-        if(mobileNoList.get(0).getMobileNo().length() != 11){
+        if(mobileNo1.getMobileNo().length() != 11){
             message = "Please complete primary contact info";
             return false;
         }
@@ -323,48 +331,52 @@ public class Personal {
     }
 
     private boolean isSecondaryContactValid(){
-        if(mobileNoList.size() >= 2) {
-            if (mobileNoList.get(1).getMobileNo().trim().isEmpty()) {
-                if(!mobileNoList.get(1).getMobileNo().substring(0, 2).equalsIgnoreCase("09")){
-                    message = "Contact number must start with '09'";
-                    return false;
-                }
-                if(mobileNoList.get(1).getMobileNo().length() != 11){
-                    message = "Please complete 2nd contact info";
-                    return false;
-                }
-                if(mobileNoList.get(1).getMobileNo().equalsIgnoreCase(mobileNoList.get(0).getMobileNo())
-                        || mobileNoList.get(1).getMobileNo().equalsIgnoreCase(mobileNoList.get(2).getMobileNo())){
-                    message = "Contact numbers are duplicated";
-                    return false;
-                }
-            }
-            if(Integer.parseInt(mobileNoList.get(1).getIsPostPd()) < 0){
-                message = "Please select sim 2 card type";
+        if (mobileNo2.getMobileNo().trim().isEmpty()) {
+            if(!mobileNo2.getMobileNo().substring(0, 2).equalsIgnoreCase("09")){
+                message = "Contact number must start with '09'";
                 return false;
             }
+
+            if(mobileNo2.getMobileNo().length() != 11){
+                message = "Please complete 2nd contact info";
+                return false;
+            }
+
+            if(mobileNo2.getMobileNo().equalsIgnoreCase(mobileNo1.getMobileNo())){
+                message = "Contact numbers are duplicated";
+                return false;
+            }
+
+            if(mobileNo2.getMobileNo().equalsIgnoreCase(mobileNo3.getMobileNo())){
+                message = "Contact numbers are duplicated";
+                return false;
+            }
+        }
+        if(Integer.parseInt(mobileNo2.getIsPostPd()) < 0){
+            message = "Please select sim 2 card type";
+            return false;
         }
         return true;
     }
 
     private boolean isTertiaryContactValid(){
-        if(mobileNoList.size() == 3) {
-            if (!mobileNoList.get(2).getMobileNo().trim().isEmpty()) {
-                if(!mobileNoList.get(2).getMobileNo().substring(0, 2).equalsIgnoreCase("09")){
+        if(mobileNo1.= 3) {
+            if (!mobileNo1.getMobileNo().trim().isEmpty()) {
+                if(!mobileNo1.getMobileNo().substring(0, 2).equalsIgnoreCase("09")){
                     message = "Contact number must start with '09'";
                     return false;
                 }
-                if(mobileNoList.get(2).getMobileNo().length() != 11){
+                if(mobileNo1.getMobileNo().length() != 11){
                     message = "Please complete 3rd contact info";
                     return false;
                 }
-                if(mobileNoList.get(0).getMobileNo().equalsIgnoreCase(mobileNoList.get(2).getMobileNo())
-                        || mobileNoList.get(1).getMobileNo().equalsIgnoreCase(mobileNoList.get(2).getMobileNo())){
+                if(mobileNo1.getMobileNo().equalsIgnoreCase(mobileNo1.getMobileNo())
+                        || mobileNo1.getMobileNo().equalsIgnoreCase(mobileNo1.getMobileNo())){
                     message = "Contact numbers are duplicated";
                     return false;
                 }
             }
-            if(Integer.parseInt(mobileNoList.get(2).getIsPostPd()) < 0){
+            if(Integer.parseInt(mobileNo1.getIsPostPd()) < 0){
                 message = "Please select sim 3 card type";
                 return false;
             }
@@ -407,15 +419,15 @@ public class Personal {
             return false;
         } else if(!val.getVbrAccnt().equalsIgnoreCase(VbrAccnt)){
             return false;
-        } else if(val.getMobileNoQty() != mobileNoList.size()){
+        } else if(val.getMobileNoQty() != mobileNo1.size()){
             return false;
-        } else if(val.getMobileNoQty() != mobileNoList.size()){
+        } else if(val.getMobileNoQty() != mobileNo1.size()){
             for(int x = 0; x < val.getMobileNoQty(); x++){
-                if(!val.getMobileNo(x).equalsIgnoreCase(mobileNoList.get(x).getMobileNo())){
+                if(!val.getMobileNo(x).equalsIgnoreCase(mobileNo1.get(x).getMobileNo())){
                     return false;
-                } else if(!val.getPostPaid(x).equalsIgnoreCase(mobileNoList.get(x).getIsPostPd())){
+                } else if(!val.getPostPaid(x).equalsIgnoreCase(mobileNo1.get(x).getIsPostPd())){
                     return false;
-                } else if(val.getPostYear(x) != (mobileNoList.get(x).getPostYear())){
+                } else if(val.getPostYear(x) != (mobileNo1.get(x).getPostYear())){
                     return false;
                 }
             }

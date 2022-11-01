@@ -225,7 +225,7 @@ public class CreditOnlineApplication {
             }
 
             GOCASApplication loGocas = new GOCASApplication();
-            loGocas.PurchaseInfo().setAppliedFor("0");
+            loGocas.PurchaseInfo().setAppliedFor(String.valueOf(foVal.getAppTypex()));
             loGocas.PurchaseInfo().setTargetPurchase(foVal.getTargetDte());
             loGocas.PurchaseInfo().setCustomerType(String.valueOf(foVal.getCustTypex()));
             loGocas.PurchaseInfo().setPreferedBranch(foVal.getBranchCde());
@@ -281,7 +281,36 @@ public class CreditOnlineApplication {
         return poModel.GetMonthlyPayment(ModelID, Term);
     }
 
-    public double CalculateAmortization(DMcModel.McAmortInfo args, double fnDPxx){
+    public LiveData<DMcModel.McDPInfo> GetInstallmentPlanDetail(String ModelID){
+        return poModel.getDownpayment(ModelID);
+    }
+
+    public boolean InitializeMcInstallmentTerms(DMcModel.McDPInfo args){
+        try{
+            org.json.simple.JSONObject loJson = new org.json.simple.JSONObject();
+            loJson.put("sModelIDx", args.ModelIDx);
+            loJson.put("sModelNme", args.ModelNme);
+            loJson.put("nRebatesx", args.Rebatesx);
+            loJson.put("nMiscChrg", args.MiscChrg);
+            loJson.put("nEndMrtgg", args.EndMrtgg);
+            loJson.put("nMinDownx", args.MinDownx);
+            loJson.put("nSelPrice", args.SelPrice);
+            loJson.put("nLastPrce", args.LastPrce);
+
+            poPrice.setModelInfo(loJson);
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
+    }
+
+    public double GetMinimumDownpayment(){
+        return poPrice.getMinimumDP();
+    }
+
+    public double GetMonthlyAmortization(DMcModel.McAmortInfo args, double args1){
         try{
             org.json.simple.JSONObject loJson = new org.json.simple.JSONObject();
             loJson.put("nSelPrice", args.nSelPrice);
@@ -292,8 +321,27 @@ public class CreditOnlineApplication {
             loJson.put("nAcctThru", args.nAcctThru);
             loJson.put("nFactorRt", args.nFactorRt);
 
-            poPrice.setPaymentTerm(Integer.parseInt(args.nAcctThru));
-            poPrice.setDownPayment(fnDPxx);
+            poPrice.setDownPayment(args1);
+            return poPrice.getMonthlyAmort(loJson);
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return 0;
+        }
+    }
+
+    public double GetMonthlyAmortization(DMcModel.McAmortInfo args, int args1){
+        try{
+            org.json.simple.JSONObject loJson = new org.json.simple.JSONObject();
+            loJson.put("nSelPrice", args.nSelPrice);
+            loJson.put("nMinDownx", args.nMinDownx);
+            loJson.put("nMiscChrg", args.nMiscChrg);
+            loJson.put("nRebatesx", args.nRebatesx);
+            loJson.put("nEndMrtgg", args.nEndMrtgg);
+            loJson.put("nAcctThru", args.nAcctThru);
+            loJson.put("nFactorRt", args.nFactorRt);
+
+            poPrice.setPaymentTerm(args1);
             return poPrice.getMonthlyAmort(loJson);
         } catch (Exception e){
             e.printStackTrace();

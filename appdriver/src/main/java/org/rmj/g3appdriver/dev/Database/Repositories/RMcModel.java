@@ -79,6 +79,10 @@ public class RMcModel {
         return poDao.GetMonthlyPayment(fsModel, fnTerm);
     }
 
+    public LiveData<DMcModel.McDPInfo> getDownpayment(String ModelID){
+        return poDao.getDownpayment(ModelID);
+    }
+
     public boolean ImportMCModel(){
         try{
             JSONObject params = new JSONObject();

@@ -1,49 +1,58 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Activities;
 
 import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.rmj.g3appdriver.etc.OnDateSetListener;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.ECountryInfo;
+import org.rmj.g3appdriver.etc.MessageBox;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Personal;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
+import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.OnParseListener;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMPersonalInfo;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 public class Activity_PersonalInfo extends AppCompatActivity {
+    private static final String TAG = Activity_PersonalInfo.class.getSimpleName();
 
     private VMPersonalInfo mViewModel;
-    private Personal infoModel;
+    private Personal poDetail;
+
+    private MessageBox poMessage;
+
     private TextInputEditText txtLastNm, txtFrstNm, txtMiddNm, txtSuffixx, txtNickNm, txtBirthDt,
             txtMothNm, txtMobileNo1, txtMobileNo2, txtMobileNo3, txtMobileYr1, txtMobileYr2,
             txtMobileYr3, txtTellNox, txtEmailAdd, txtFbAccount, txtViberAccount;
     private TextInputLayout tilMothNm, tilMobileYr1, tilMobileYr2, tilMobileYr3;
-    private AutoCompleteTextView txtProvince, txtTown, txtCitizen;
+    private AutoCompleteTextView txtTown, txtCitizen;
     private RadioGroup rgGender;
-    private AutoCompleteTextView spnCivilStatus, spnMobile1, spnMobile2, spnMobile3;
-
-    private String psMob1NetTp = "-1";
-    private String psMob2NetTp = "-1";
-    private String psMob3NetTp = "-1";
+    private AutoCompleteTextView spnCivilStatus;
+    private MaterialButton btnNext;
 
     private final String transnox = "";
     private TextInputEditText[] txtMobileNo;
@@ -52,107 +61,163 @@ public class Activity_PersonalInfo extends AppCompatActivity {
     private TextInputLayout[] tilMobileYear;
     private Toolbar toolbar;
 
-    private String[] psMobNetTp;
+    private int[] pnMobile = new int[3];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VMPersonalInfo.class);
+        poDetail = new Personal();
+        poMessage = new MessageBox(Activity_PersonalInfo.this);
         setContentView(R.layout.activity_personal_info);
-//        initWidgets();
+        initWidgets();
+        mViewModel.InitializeApplication(getIntent());
 
-//        mViewModel.setTransNox(transnox);
-//
-//        mViewModel.getCreditApplicantInfo().observe(Activity_PersonalInfo.this, eCreditApplicantInfo -> {
-//
-//            try {
-//                mViewModel.setGOCasDetailInfo(eCreditApplicantInfo);
-//                setUpFieldsFromLocalDB(eCreditApplicantInfo);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        });
-//
-//        mViewModel.getPersonalInfoModel().observe(Activity_PersonalInfo.this, personalInfoModel -> infoModel = personalInfoModel);
-//
-//        mViewModel.getProvinceNameList().observe(Activity_PersonalInfo.this, strings -> {
-//            ArrayAdapter<String> adapter = new ArrayAdapter<>(Activity_PersonalInfo.this, android.R.layout.simple_spinner_dropdown_item, strings);
-//            txtProvince.setAdapter(adapter);
-//            txtProvince.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
-//        });
-//
-//        txtProvince.setOnItemClickListener((adapterView, view, i, l) ->
-//                mViewModel.getProvinceInfoList().observe(Activity_PersonalInfo.this, provinceInfos -> {
-//                    for (int x = 0; x < provinceInfos.size(); x++) {
-//                        if (txtProvince.getText().toString().equalsIgnoreCase(provinceInfos.get(x).getProvName())) {
-//                            mViewModel.setProvID(provinceInfos.get(x).getProvIDxx());
-//                            break;
-//                        }
-//                    }
-//
-//                    mViewModel.getAllTownNames().observe(Activity_PersonalInfo.this, strings -> {
-//                        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, strings);
-//                        txtTown.setAdapter(adapter);
-//                        txtTown.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
-//                    });
-//                }));
-//
-//        txtTown.setOnItemClickListener((adapterView, view, i, l) -> mViewModel.getTownInfoList().observe(Activity_PersonalInfo.this, townInfoList -> {
-//            for (int x = 0; x < townInfoList.size(); x++) {
-//                if (txtTown.getText().toString().equalsIgnoreCase(townInfoList.get(x).getTownName())) {
-//                    mViewModel.setTownID(townInfoList.get(x).getTownIDxx());
-//                    break;
-//                }
-//            }
-//        }));
-//
-//        rgGender.setOnCheckedChangeListener((radioGroup, i) -> {
-//            if (i == R.id.rb_male) {
-//                mViewModel.setGender("0");
-//            }
-//            if (i == R.id.rb_female) {
-//                mViewModel.setGender("1");
-//            }
-//            if (i == R.id.rb_lgbt) {
-//                mViewModel.setGender("2");
-//            }
-//        });
-//
-//        mViewModel.getCivilStatus().observe(Activity_PersonalInfo.this, stringArrayAdapter -> {
-//            spnCivilStatus.setAdapter(stringArrayAdapter);
-//            spnCivilStatus.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
-//        });
-//
-//        mViewModel.setMotherMaidenNameVisibility().observe(Activity_PersonalInfo.this, integer -> tilMothNm.setVisibility(integer));
-//
-//        spnCivilStatus.setOnItemClickListener((adapterView, view, i, l) -> mViewModel.setCvlStats(String.valueOf(i)));
-//
-//        mViewModel.getAllCountryCitizenNames().observe(Activity_PersonalInfo.this, strings -> {
-//            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, strings);
-//            txtCitizen.setAdapter(adapter);
-//            txtCitizen.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
-//        });
-//
-//        txtCitizen.setOnItemClickListener((adapterView, view, i, l) -> mViewModel.getCountryInfoList().observe(Activity_PersonalInfo.this, eCountryInfos -> {
-//            for (int x = 0; x < eCountryInfos.size(); x++) {
-//                if (txtCitizen.getText().toString().equalsIgnoreCase(eCountryInfos.get(x).getNational())) {
-//                    mViewModel.setCitizenship(eCountryInfos.get(x).getCntryCde());
-//                    break;
-//                }
-//            }
-//        }));
-//
-//        mViewModel.getMobileNoType().observe(Activity_PersonalInfo.this, stringArrayAdapter -> {
-//            for (AutoCompleteTextView autoCompleteTextView : txtMobileType) {
-//                autoCompleteTextView.setAdapter(stringArrayAdapter);
-//                autoCompleteTextView.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
-//            }
-//        });
-//        for (int i = 0; i < txtMobileType.length; i++ ){
-//            txtMobileType[i].setOnItemClickListener(new OnItemClickListener(txtMobileType[i]));
-//        }
-//    }
-//
+        mViewModel.GetApplication().observe(Activity_PersonalInfo.this, app -> {
+            try{
+                poDetail.setTransNox(app.getTransNox());
+                mViewModel.ParseData(app, new OnParseListener() {
+                    @Override
+                    public void OnParse(Object args) {
+                        Personal loDetail = (Personal) args;
+
+                    }
+                });
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+
+
+        mViewModel.GetTownProvinceList().observe(Activity_PersonalInfo.this, new Observer<List<DTownInfo.TownProvinceInfo>>() {
+            @Override
+            public void onChanged(List<DTownInfo.TownProvinceInfo> loList) {
+                try{
+                    ArrayList<String> strings = new ArrayList<>();
+                    for(int x = 0; x < loList.size(); x++){
+                        String lsTown = loList.get(x).sTownName + ", " + loList.get(x).sProvName;
+                        strings.add(lsTown);
+                    }
+
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(Activity_PersonalInfo.this, android.R.layout.simple_spinner_dropdown_item, strings.toArray(new String[0]));
+                    txtTown.setAdapter(adapter);
+                    txtTown.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+
+                    txtTown.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            for (int x = 0; x < loList.size(); x++) {
+                                String lsLabel = loList.get(x).sTownName + ", " + loList.get(x).sProvName;
+                                String lsSlctd = txtTown.getText().toString().trim();
+                                if (lsSlctd.equalsIgnoreCase(lsLabel)) {
+                                    poDetail.setBrthPlce(loList.get(x).sTownIDxx);
+                                    poDetail.setBirthPlc(lsLabel);
+                                    break;
+                                }
+                            }
+                        }
+                    });
+
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        mViewModel.GetCountryList().observe(Activity_PersonalInfo.this, new Observer<List<ECountryInfo>>() {
+            @Override
+            public void onChanged(List<ECountryInfo> loList) {
+                try{
+                    ArrayList<String> strings = new ArrayList<>();
+                    for(int x = 0; x < loList.size(); x++){
+                        strings.add(loList.get(x).getNational());
+                    }
+
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(Activity_PersonalInfo.this, android.R.layout.simple_spinner_dropdown_item, strings.toArray(new String[0]));
+                    txtCitizen.setAdapter(adapter);
+                    txtCitizen.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+
+                    txtCitizen.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            for (int x = 0; x < loList.size(); x++) {
+                                String lsLabel = loList.get(x).getNational();
+                                String lsSlctd = txtCitizen.getText().toString().trim();
+                                if (lsSlctd.equalsIgnoreCase(lsLabel)) {
+                                    poDetail.setCitizenx(loList.get(x).getCntryCde());
+                                    poDetail.setCtznShip(loList.get(x).getNational());
+                                    break;
+                                }
+                            }
+                        }
+                    });
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        ArrayAdapter<String> loAdapter = new ArrayAdapter<>(Activity_PersonalInfo.this, android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.CIVIL_STATUS);
+        spnCivilStatus.setAdapter(loAdapter);
+        spnCivilStatus.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+
+        loAdapter = new ArrayAdapter<>(Activity_PersonalInfo.this, android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.MOBILE_NO_TYPE);
+        txtMobileType[0].setAdapter(loAdapter);
+        txtMobileType[0].setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+        txtMobileType[1].setAdapter(loAdapter);
+        txtMobileType[1].setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+        txtMobileType[2].setAdapter(loAdapter);
+        txtMobileType[2].setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+
+        txtMobileType[0].setOnItemClickListener((parent, view, position, id) -> {
+            pnMobile[0] = position;
+            if(position == 1) {
+                tilMobileYear[0].setVisibility(View.VISIBLE);
+            } else {
+                tilMobileYear[0].setVisibility(View.GONE);
+            }
+        });
+        txtMobileType[1].setOnItemClickListener((parent, view, position, id) -> {
+            pnMobile[1] = position;
+            if(position == 1) {
+                tilMobileYear[1].setVisibility(View.VISIBLE);
+            } else {
+                tilMobileYear[1].setVisibility(View.GONE);
+            }
+        });
+        txtMobileType[2].setOnItemClickListener((parent, view, position, id) -> {
+            pnMobile[2] = position;
+            if(position == 1) {
+                tilMobileYear[2].setVisibility(View.VISIBLE);
+            } else {
+                tilMobileYear[2].setVisibility(View.GONE);
+            }
+        });
+
+        rgGender.setOnCheckedChangeListener((radioGroup, i) -> {
+            if (i == R.id.rb_male) {
+                poDetail.setGender("0");
+            }
+            if (i == R.id.rb_female) {
+                poDetail.setGender("1");
+            }
+            if (i == R.id.rb_lgbt) {
+                poDetail.setGender("2");
+            }
+            SetupMaidenEntry();
+        });
+
+        spnCivilStatus.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                poDetail.setCvlStats(String.valueOf(position));
+                SetupMaidenEntry();
+            }
+        });
+
+        btnNext.setOnClickListener(v -> SavePersonalInfo());
+
+
 //    @SuppressLint("NewApi")
 //    public void setUpFieldsFromLocalDB(ECreditApplicantInfo credits) throws JSONException {
 //        if (credits.getApplInfo() != null) {
@@ -240,164 +305,142 @@ public class Activity_PersonalInfo extends AppCompatActivity {
 //            txtFbAccount.getText().clear();
 //        }
 //    }
-//
-//    @Override
-//    public void onSaveInstanceState(@NonNull Bundle outState) {
-//        super.onSaveInstanceState(outState);
-//        outState.putParcelable("sample", infoModel);
-//    }
-//
-//    @Override
-//    public void onSaveSuccessResult(String args) {
-//        Activity_CreditApplication.getInstance().moveToPageNumber(1);
-//    }
-//
-//    @Override
-//    public void onFailedResult(String message) {
-//        GToast.CreateMessage(this, message, GToast.ERROR).show();
-//    }
-//
-//    @Override
-//    public void onPointerCaptureChanged(boolean hasCapture) {
-//        super.onPointerCaptureChanged(hasCapture);
-//    }
-//
-//    private void SavePersonalInfo() {
-//        infoModel.setLastName(Objects.requireNonNull(txtLastNm.getText()).toString());
-//        infoModel.setFrstName(Objects.requireNonNull(txtFrstNm.getText()).toString());
-//        infoModel.setMiddName(Objects.requireNonNull(txtMiddNm.getText()).toString());
-//        infoModel.setSuffix(Objects.requireNonNull(txtSuffixx.getText()).toString());
-//        infoModel.setNickName(Objects.requireNonNull(txtNickNm.getText()).toString());
-//        infoModel.setBrthDate(Objects.requireNonNull(txtBirthDt.getText()).toString());
-//        infoModel.setBrthPlce(Objects.requireNonNull(txtProvince.getText()).toString());
-//        infoModel.setMotherNm(Objects.requireNonNull(txtMothNm.getText()).toString());
-//        infoModel.clearMobileNo();
-//        if (txtMobileNo[0] != null || !Objects.requireNonNull(txtMobileNo[0].getText()).toString().trim().isEmpty()) {
-//            if (Integer.parseInt(psMob1NetTp) == 1) {
-//                infoModel.setMobileNo(txtMobileNo[0].getText().toString(), psMobNetTp[0], Integer.parseInt(Objects.requireNonNull(txtMobileYear[0].getText()).toString()));
-//            } else {
-//                infoModel.setMobileNo(txtMobileNo[0].getText().toString(), psMobNetTp[0], 0);
-//            }
-//        }
-//        if (!Objects.requireNonNull(txtMobileNo[1].getText()).toString().trim().isEmpty()) {
-//            if (Integer.parseInt(psMob2NetTp) == 1) {
-//                infoModel.setMobileNo(txtMobileNo[1].getText().toString(), psMobNetTp[1], Integer.parseInt(Objects.requireNonNull(txtMobileYear[1].getText()).toString()));
-//            } else {
-//                infoModel.setMobileNo(txtMobileNo[1].getText().toString(), psMobNetTp[1], 0);
-//            }
-//        }
-//        if (!Objects.requireNonNull(txtMobileNo[2].getText()).toString().trim().isEmpty()) {
-//            if (Integer.parseInt(psMob3NetTp) == 1) {
-//                infoModel.setMobileNo(txtMobileNo[2].getText().toString(), psMobNetTp[2], Integer.parseInt(Objects.requireNonNull(txtMobileYear[2].getText()).toString()));
-//            } else {
-//                infoModel.setMobileNo(txtMobileNo[2].getText().toString(), psMobNetTp[2], 0);
-//            }
-//        }
-//        infoModel.setPhoneNox(Objects.requireNonNull(txtTellNox.getText()).toString());
-//        infoModel.setEmailAdd(Objects.requireNonNull(txtEmailAdd.getText()).toString());
-//        infoModel.setFbAccntx(Objects.requireNonNull(txtFbAccount.getText()).toString());
-//        infoModel.setVbrAccnt(Objects.requireNonNull(txtViberAccount.getText()).toString());
-//        mViewModel.SavePersonalInfo(infoModel, Activity_PersonalInfo.this);
-//    }
-//
-//    class OnItemClickListener implements AdapterView.OnItemClickListener {
-//        AutoCompleteTextView poView;
-//
-//        public OnItemClickListener(AutoCompleteTextView view) {
-//            this.poView = view;
-//        }
-//
-//        @Override
-//        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//            if (txtMobileType[0].equals(poView)) {
-//                psMob1NetTp = String.valueOf(i);
-//                psMobNetTp[0] = String.valueOf(i);
-//                if (i == 1) {
-//                    tilMobileYear[0].setVisibility(View.VISIBLE);
-//                } else {
-//                    tilMobileYear[0].setVisibility(View.GONE);
-//                }
-//
-//            }
-//            if (txtMobileType[1].equals(poView)) {
-//                psMob2NetTp = String.valueOf(i);
-//                psMobNetTp[1] = String.valueOf(i);
-//                if (i == 1) {
-//                    tilMobileYear[1].setVisibility(View.VISIBLE);
-//                } else {
-//                    tilMobileYear[1].setVisibility(View.GONE);
-//                }
-//            }
-//            if (txtMobileType[2].equals(poView)) {
-//                psMob3NetTp = String.valueOf(i);
-//                psMobNetTp[2] = String.valueOf(i);
-//                if (i == 1) {
-//                    tilMobileYear[2].setVisibility(View.VISIBLE);
-//                } else {
-//                    tilMobileYear[2].setVisibility(View.GONE);
-//                }
-//            }
-//        }
-//    }
-//
-//    private void initWidgets() {
-//
-//        toolbar = findViewById(R.id.toolbar_PersonalInfo);
-//        setSupportActionBar(toolbar);
-//        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-//        getSupportActionBar().setTitle("Personal Info");
-//
-//        txtLastNm = findViewById(R.id.txt_lastname);
-//        txtFrstNm = findViewById(R.id.txt_firstname);
-//        txtMiddNm = findViewById(R.id.txt_middname);
-//        txtSuffixx = findViewById(R.id.txt_suffix);
-//        txtNickNm = findViewById(R.id.txt_nickname);
-//        txtBirthDt = findViewById(R.id.txt_birthdate);
-//        tilMothNm = findViewById(R.id.til_motherNme);
-//        txtMothNm = findViewById(R.id.txt_motherNme);
-//
-//
-//        txtTellNox = findViewById(R.id.txt_telephoneNo);
-//        txtEmailAdd = findViewById(R.id.txt_emailAdd);
-//        txtFbAccount = findViewById(R.id.txt_fbAccount);
-//        txtViberAccount = findViewById(R.id.txt_viberAccount);
-//
-//        txtProvince = findViewById(R.id.txt_bpProvince);
-//        txtTown = findViewById(R.id.txt_bpTown);
-//        txtCitizen = findViewById(R.id.txt_citizenship);
-//        rgGender = findViewById(R.id.rg_gender);
-//        spnCivilStatus = findViewById(R.id.spn_civilStatus);
-//
-//        txtBirthDt.addTextChangedListener(new OnDateSetListener(txtBirthDt));
-//        MaterialButton btnNext = findViewById(R.id.btn_creditAppNext);
-//
-//        txtMobileNo = new TextInputEditText[]{
-//                findViewById(R.id.txt_mobileNo1),
-//                findViewById(R.id.txt_mobileNo2),
-//                findViewById(R.id.txt_mobileNo3),
-//        };
-//        tilMobileYear = new TextInputLayout[]{
-//                findViewById(R.id.til_mobileNo1Year),
-//                findViewById(R.id.til_mobileNo2Year),
-//                findViewById(R.id.til_mobileNo3Year)
-//        };
-//        txtMobileYear = new TextInputEditText[]{
-//                findViewById(R.id.txt_mobileNo1Year),
-//                findViewById(R.id.txt_mobileNo2Year),
-//                findViewById(R.id.txt_mobileNo3Year)
-//        };
-//        txtMobileType = new AutoCompleteTextView[]{
-//                findViewById(R.id.spn_mobile1Type),
-//                findViewById(R.id.spn_mobile2Type),
-//                findViewById(R.id.spn_mobile3Type)
-//        };
-//        psMobNetTp = new String[]{
-//                "-1",
-//                "-1",
-//                "-1"
-//        };
-//
-//        btnNext.setOnClickListener(view -> SavePersonalInfo());
-//
+    }
+
+    private void SavePersonalInfo() {
+        poDetail.setLastName(Objects.requireNonNull(txtLastNm.getText()).toString());
+        poDetail.setFrstName(Objects.requireNonNull(txtFrstNm.getText()).toString());
+        poDetail.setMiddName(Objects.requireNonNull(txtMiddNm.getText()).toString());
+        poDetail.setSuffix(Objects.requireNonNull(txtSuffixx.getText()).toString());
+        poDetail.setNickName(Objects.requireNonNull(txtNickNm.getText()).toString());
+        poDetail.setMotherNm(Objects.requireNonNull(txtMothNm.getText()).toString());
+        poDetail.clearMobileNo();
+        if (txtMobileNo[0] != null || !Objects.requireNonNull(txtMobileNo[0].getText()).toString().trim().isEmpty()) {
+            if (pnMobile[0] == 1) {
+                poDetail.setMobileNo(txtMobileNo[0].getText().toString(), String.valueOf(pnMobile[0]), Integer.parseInt(Objects.requireNonNull(txtMobileYear[0].getText()).toString()));
+            } else {
+                poDetail.setMobileNo(txtMobileNo[0].getText().toString(), String.valueOf(pnMobile[0]), 0);
+            }
+        }
+        if (!Objects.requireNonNull(txtMobileNo[1].getText()).toString().trim().isEmpty()) {
+            if (pnMobile[1] == 1) {
+                poDetail.setMobileNo(txtMobileNo[1].getText().toString(), String.valueOf(pnMobile[1]), Integer.parseInt(Objects.requireNonNull(txtMobileYear[1].getText()).toString()));
+            } else {
+                poDetail.setMobileNo(txtMobileNo[1].getText().toString(), String.valueOf(pnMobile[1]), 0);
+            }
+        }
+        if (!Objects.requireNonNull(txtMobileNo[2].getText()).toString().trim().isEmpty()) {
+            if (pnMobile[2] == 1) {
+                poDetail.setMobileNo(txtMobileNo[2].getText().toString(), String.valueOf(pnMobile[2]), Integer.parseInt(Objects.requireNonNull(txtMobileYear[2].getText()).toString()));
+            } else {
+                poDetail.setMobileNo(txtMobileNo[2].getText().toString(), String.valueOf(pnMobile[2]), 0);
+            }
+        }
+        poDetail.setPhoneNox(Objects.requireNonNull(txtTellNox.getText()).toString());
+        poDetail.setEmailAdd(Objects.requireNonNull(txtEmailAdd.getText()).toString());
+        poDetail.setFbAccntx(Objects.requireNonNull(txtFbAccount.getText()).toString());
+        poDetail.setVbrAccnt(Objects.requireNonNull(txtViberAccount.getText()).toString());
+        mViewModel.SaveData(poDetail, new OnSaveInfoListener() {
+            @Override
+            public void OnSave(String args) {
+                Intent loIntent = new Intent(Activity_PersonalInfo.this, Activity_ResidenceInfo.class);
+                loIntent.putExtra("sTransNox", args);
+                startActivity(loIntent);
+            }
+
+            @Override
+            public void OnFailed(String message) {
+                poMessage.initDialog();
+                poMessage.setTitle("Credit Online Application");
+                poMessage.setMessage(message);
+                poMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
+                poMessage.show();
+            }
+        });
+    }
+
+    private void initWidgets() {
+
+        toolbar = findViewById(R.id.toolbar_PersonalInfo);
+        setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Personal Info");
+
+        txtLastNm = findViewById(R.id.txt_lastname);
+        txtFrstNm = findViewById(R.id.txt_firstname);
+        txtMiddNm = findViewById(R.id.txt_middname);
+        txtSuffixx = findViewById(R.id.txt_suffix);
+        txtNickNm = findViewById(R.id.txt_nickname);
+        txtBirthDt = findViewById(R.id.txt_birthdate);
+        tilMothNm = findViewById(R.id.til_motherNme);
+        txtMothNm = findViewById(R.id.txt_motherNme);
+
+        txtTellNox = findViewById(R.id.txt_telephoneNo);
+        txtEmailAdd = findViewById(R.id.txt_emailAdd);
+        txtFbAccount = findViewById(R.id.txt_fbAccount);
+        txtViberAccount = findViewById(R.id.txt_viberAccount);
+
+        txtTown = findViewById(R.id.txt_bpTown);
+        txtCitizen = findViewById(R.id.txt_citizenship);
+        rgGender = findViewById(R.id.rg_gender);
+        spnCivilStatus = findViewById(R.id.spn_civilStatus);
+
+        txtBirthDt.setOnClickListener(v -> {
+            final Calendar newCalendar = Calendar.getInstance();
+            @SuppressLint("SimpleDateFormat") final SimpleDateFormat dateFormatter = new SimpleDateFormat("MMMM dd, yyyy");
+            final DatePickerDialog StartTime = new DatePickerDialog(Activity_PersonalInfo.this,
+                    android.R.style.Theme_Holo_Dialog,  (view131, year, monthOfYear, dayOfMonth) -> {
+                try {
+                    Calendar newDate = Calendar.getInstance();
+                    newDate.set(year, monthOfYear, dayOfMonth);
+                    String lsDate = dateFormatter.format(newDate.getTime());
+                    txtBirthDt.setText(lsDate);
+                    Date loDate = new SimpleDateFormat("MMMM dd, yyyy").parse(lsDate);
+                    lsDate = new SimpleDateFormat("yyyy-MM-dd").format(loDate);
+                    Log.d(TAG, "Save formatted time: " + lsDate);
+                    poDetail.setBrthDate(lsDate);
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+            StartTime.getDatePicker().setMaxDate(new Date().getTime());
+            StartTime.show();
+        });
+
+        btnNext = findViewById(R.id.btn_creditAppNext);
+
+        txtMobileNo = new TextInputEditText[]{
+                findViewById(R.id.txt_mobileNo1),
+                findViewById(R.id.txt_mobileNo2),
+                findViewById(R.id.txt_mobileNo3),
+        };
+        tilMobileYear = new TextInputLayout[]{
+                findViewById(R.id.til_mobileNo1Year),
+                findViewById(R.id.til_mobileNo2Year),
+                findViewById(R.id.til_mobileNo3Year)
+        };
+        txtMobileYear = new TextInputEditText[]{
+                findViewById(R.id.txt_mobileNo1Year),
+                findViewById(R.id.txt_mobileNo2Year),
+                findViewById(R.id.txt_mobileNo3Year)
+        };
+        txtMobileType = new AutoCompleteTextView[]{
+                findViewById(R.id.spn_mobile1Type),
+                findViewById(R.id.spn_mobile2Type),
+                findViewById(R.id.spn_mobile3Type)
+        };
+    }
+
+    private void SetupMaidenEntry(){
+        if(poDetail.getGender().equalsIgnoreCase("1")) {
+            if (poDetail.getCvlStats().equalsIgnoreCase("1") ||
+                    poDetail.getCvlStats().equalsIgnoreCase("3")) {
+                tilMothNm.setVisibility(View.VISIBLE);
+            } else {
+                tilMothNm.setVisibility(View.GONE);
+            }
+        } else {
+            tilMothNm.setVisibility(View.GONE);
+        }
     }
 }

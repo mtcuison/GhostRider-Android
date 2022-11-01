@@ -85,10 +85,10 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        initWidgets();
         mViewModel = new ViewModelProvider(this).get(VMMainActivity.class);
         poNetRecvr = mViewModel.getInternetReceiver();
+        setContentView(R.layout.activity_main);
+        initWidgets();
 
         mViewModel.getEmployeeInfo().observe(this, eEmployeeInfo -> {
             try{
@@ -197,33 +197,30 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
         View view = navigationView.getHeaderView(0);
         imgDept = view.findViewById(R.id.img_deptLogo);
         lblDept = view.findViewById(R.id.lbl_deptNme);
-        lblDept.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ImportEmployeeRole loImport = new ImportEmployeeRole(getApplication());
-                loImport.RefreshEmployeeRole(new ImportEmployeeRole.OnImportEmployeeRoleCallback() {
-                    @Override
-                    public void OnRequest() {
-                        poDialog.initDialog("GhostRider", "Refreshing employee access. Please wait...", false);
-                        poDialog.show();
-                    }
+        lblDept.setOnClickListener(v -> {
+            ImportEmployeeRole loImport = new ImportEmployeeRole(getApplication());
+            loImport.RefreshEmployeeRole(new ImportEmployeeRole.OnImportEmployeeRoleCallback() {
+                @Override
+                public void OnRequest() {
+                    poDialog.initDialog("GhostRider", "Refreshing employee access. Please wait...", false);
+                    poDialog.show();
+                }
 
-                    @Override
-                    public void OnSuccess() {
-                        poDialog.dismiss();
-                    }
+                @Override
+                public void OnSuccess() {
+                    poDialog.dismiss();
+                }
 
-                    @Override
-                    public void OnFailed(String message) {
-                        poDialog.dismiss();
-                        loMessage.initDialog();
-                        loMessage.setTitle("GhostRider");
-                        loMessage.setMessage(message);
-                        loMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
-                        loMessage.show();
-                    }
-                });
-            }
+                @Override
+                public void OnFailed(String message) {
+                    poDialog.dismiss();
+                    loMessage.initDialog();
+                    loMessage.setTitle("GhostRider");
+                    loMessage.setMessage(message);
+                    loMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
+                    loMessage.show();
+                }
+            });
         });
     }
 

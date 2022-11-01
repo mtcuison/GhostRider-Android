@@ -135,6 +135,7 @@
                         android:clickable="false"
                         android:inputType="none" />
                 </com.google.android.material.textfield.TextInputLayout>
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/til_customerType"
                     style="@style/CustomDropDownTilStyle"

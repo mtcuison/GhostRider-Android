@@ -5,13 +5,13 @@
     <string name="sHintSuffix">Suffix</string>
     <string name="sHintMiddName">MiddleName</string>
     <string name="sHintNickname">NickName</string>
-    <string name="sHintBirthDate">Birth Date (MM/DD/YYYY)</string>
+    <string name="sHintBirthDate">Birth Date</string>
     <string name="sHintBpProv">Province (Birth Place)</string>
     <string name="sGenderMale">Male</string>
     <string name="sGenderFmale">Female</string>
     <string name="sGenderLGBT">LGBT</string>
     <string name="sLblGender">Gender</string>
-    <string name="sHintBpTown">Town (Birth Place)</string>
+    <string name="sHintBpTown">Birth Place (Town, Province)</string>
     <string name="sHintCitizenship">Citizenship (Required)</string>
     <string name="sHintMotherNm">Mother\'s Maiden Name (Required)</string>
     <string name="sHintPrimaryContact">Primary Contact No. (Required)</string>

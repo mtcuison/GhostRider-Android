@@ -9,12 +9,16 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.ECountryInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditApp;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditOnlineApplication;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditAppInstance;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Personal;
+
+import java.util.List;
 
 public class VMPersonalInfo extends AndroidViewModel implements CreditAppUI {
     private static final String TAG = VMPersonalInfo.class.getSimpleName();
@@ -55,6 +59,14 @@ public class VMPersonalInfo extends AndroidViewModel implements CreditAppUI {
         new SaveDetailTask(listener).execute((Personal) args);
     }
 
+    public LiveData<List<DTownInfo.TownProvinceInfo>> GetTownProvinceList(){
+        return poApp.GetTownProvinceList();
+    }
+
+    public LiveData<List<ECountryInfo>> GetCountryList(){
+        return poApp.GetCountryList();
+    }
+
     private class ParseDataTask extends AsyncTask<ECreditApplicantInfo, Void, Personal>{
 
         private final OnParseListener listener;
@@ -66,7 +78,12 @@ public class VMPersonalInfo extends AndroidViewModel implements CreditAppUI {
         @Override
         protected Personal doInBackground(ECreditApplicantInfo... app) {
             try {
-                return (Personal) poApp.Parse(app[0]);
+                Personal loDetail = (Personal) poApp.Parse(app[0]);
+                if(loDetail == null){
+                    message = poApp.getMessage();
+                    return null;
+                }
+                return loDetail;
             } catch (Exception e){
                 e.printStackTrace();
                 message = e.getMessage();

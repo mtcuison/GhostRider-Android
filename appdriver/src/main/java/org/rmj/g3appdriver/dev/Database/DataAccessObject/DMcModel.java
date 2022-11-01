@@ -58,6 +58,8 @@ public interface DMcModel {
     EMcModel getModelInfo(String ModelID);
 
     @Query("SELECT  " +
+            "a.sModelIDx, " +
+            "d.sModelNme, " +
             "a.nSelPrice, " +
             "a.nMinDownx, " +
             "b.nMiscChrg, " +
@@ -65,14 +67,45 @@ public interface DMcModel {
             "b.nEndMrtgg, " +
             "c.nAcctThru, " +
             "c.nFactorRt " +
-            "FROM Mc_Model_Price a, MC_Category b, MC_Term_Category c " +
+            "FROM Mc_Model_Price a, MC_Category b, MC_Term_Category c, Mc_Model d " +
             "WHERE a.sMCCatIDx = b.sMCCatIDx " +
             "AND a.sMCCatIDx = c.sMCCatIDx " +
+            "AND a.sModelIDx = d.sModelIDx " +
             "AND a.sModelIDx = :ModelID " +
             "AND c.nAcctThru = :Term")
     LiveData<McAmortInfo> GetMonthlyPayment(String ModelID, int Term);
 
+
+    @Query("SELECT  " +
+            "a.sModelIDx AS ModelIDx, " +
+            "a.sModelNme AS ModelNme, " +
+            "b.nMinDownx AS MinDownx, " +
+            "c.nRebatesx AS Rebatesx, " +
+            "c.nMiscChrg AS MiscChrg, " +
+            "c.nEndMrtgg AS EndMrtgg, " +
+            "b.nSelPrice AS SelPrice, " +
+            "b.nLastPrce AS LastPrce " +
+            "FROM Mc_Model a, Mc_Model_Price b, MC_Category c " +
+            "WHERE a.sModelIDx = b.sModelIDx " +
+            "AND b.cRecdStat = '1' " +
+            "AND b.sMCCatIDx = c.sMCCatIDx " +
+            "AND (a.sModelIDx = :ModelID)")
+    LiveData<McDPInfo> getDownpayment(String ModelID);
+
+    class McDPInfo{
+        public String ModelIDx;
+        public String ModelNme;
+        public String Rebatesx;
+        public String MiscChrg;
+        public String EndMrtgg;
+        public String MinDownx;
+        public String SelPrice;
+        public String LastPrce;
+    }
+
     class McAmortInfo{
+        public String sModelIDx;
+        public String sModelNme;
         public String nSelPrice;
         public String nMinDownx;
         public String nMiscChrg;
@@ -81,4 +114,5 @@ public interface DMcModel {
         public String nAcctThru;
         public String nFactorRt;
     }
+
 }

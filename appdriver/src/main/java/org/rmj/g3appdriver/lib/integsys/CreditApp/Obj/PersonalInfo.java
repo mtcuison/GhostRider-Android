@@ -47,12 +47,25 @@ public class PersonalInfo implements CreditApp {
     public Object Parse(ECreditApplicantInfo args) {
         try{
             String lsDetail = args.getApplInfo();
+
+            Personal loDetail = new Personal();
+
+            if(lsDetail == null){
+                message = "No personal info detail has been set yet.";
+                return null;
+            }
+
+            if(lsDetail.trim().isEmpty()){
+                message = "No personal info detail has been set yet.";
+                return null;
+            }
+
             GOCASApplication gocas = new GOCASApplication();
             JSONParser loJson = new JSONParser();
             JSONObject joDetail = (JSONObject) loJson.parse(lsDetail);
             gocas.ApplicantInfo().setData(joDetail);
 
-            Personal loDetail = new Personal();
+
             loDetail.setLastName(gocas.ApplicantInfo().getLastName());
             loDetail.setFrstName(gocas.ApplicantInfo().getFirstName());
             loDetail.setMiddName(gocas.ApplicantInfo().getMiddleName());

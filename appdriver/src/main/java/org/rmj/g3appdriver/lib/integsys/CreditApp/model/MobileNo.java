@@ -1,13 +1,22 @@
 package org.rmj.g3appdriver.lib.integsys.CreditApp.model;
 
 public class MobileNo {
-    private final String MobileNo;
-    private final String isPostPd;
-    private final int PostYear;
+    private String MobileNo = "";
+    private String isPostPd = "";
+    private int PostYear = 0;
 
-    public MobileNo(String mobileNo, String isPostPd, int postYear) {
+    public MobileNo() {
+    }
+
+    public void setMobileNo(String mobileNo) {
         MobileNo = mobileNo;
+    }
+
+    public void setIsPostPd(String isPostPd) {
         this.isPostPd = isPostPd;
+    }
+
+    public void setPostYear(int postYear) {
         PostYear = postYear;
     }
 

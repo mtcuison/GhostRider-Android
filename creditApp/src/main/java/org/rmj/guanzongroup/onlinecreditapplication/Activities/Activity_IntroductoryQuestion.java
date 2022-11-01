@@ -12,7 +12,9 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Activities;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -26,17 +28,18 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DMcModel;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.FormatUIText;
+import org.rmj.g3appdriver.etc.MessageBox;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.LoanInfo;
+import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMIntroductoryQuestion;
 
@@ -49,11 +52,11 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity {
     public static final String TAG = Activity_IntroductoryQuestion.class.getSimpleName();
     private VMIntroductoryQuestion mViewModel;
     private LoanInfo poDetail;
+    private MessageBox poMessage;
 
     private TextView lblBranchNm, lblBrandAdd, lblDate;
     private AutoCompleteTextView txtBranchNm, txtBrandNm, txtModelNm;
     private TextInputLayout tilApplType;
-
     private TextInputEditText txtDownPymnt, txtAmort, txtDTarget;
     private AutoCompleteTextView spnApplType, spnCustType, spnAcctTerm;
     private MaterialButton btnCreate;
@@ -67,6 +70,7 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VMIntroductoryQuestion.class);
         poDetail = new LoanInfo();
+        poMessage = new MessageBox(Activity_IntroductoryQuestion.this);
         setContentView(R.layout.activity_introductory_question);
         initWidgets();
 
@@ -81,28 +85,28 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity {
             }
         });
 
+        spnApplType.setText(CreditAppConstants.APPLICATION_TYPE[0]);
+        spnCustType.setText(CreditAppConstants.CUSTOMER_TYPE[0]);
+        spnAcctTerm.setText(CreditAppConstants.INSTALLMENT_TERM[0]);
         mViewModel.GetApplicationType().observe(this, stringArrayAdapter -> {
             spnApplType.setAdapter(stringArrayAdapter);
             spnApplType.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
-            spnApplType.setSelection(0);
-            poDetail.setAppTypex(0);
+            poDetail.setAppTypex(1);
         });
 
         mViewModel.GetCustomerType().observe(this, stringArrayAdapter -> {
             spnCustType.setAdapter(stringArrayAdapter);
             spnCustType.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
-            spnCustType.setSelection(0);
-            poDetail.setAppTypex(0);
+            poDetail.setCustTypex(1);
         });
 
         mViewModel.GetInstallmentTerm().observe(this, stringArrayAdapter -> {
             spnAcctTerm.setAdapter(stringArrayAdapter);
             spnAcctTerm.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
-            spnAcctTerm.setSelection(0);
 
             //Default value has been set here instead inside of the model in order
             // to calculate monthly amortization upon selection of model.
-            poDetail.setAppTypex(36);
+            poDetail.setAccTermxx(0);
         });
 
         txtDTarget.setText(new AppConstants().CURRENT_DATE_WORD);
@@ -160,7 +164,7 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity {
                     for(int x = 0; x < loList.size(); x++){
                         if(txtBrandNm.getText().toString().equalsIgnoreCase(loList.get(x).getBrandNme())){
                             mViewModel.setBrandID(loList.get(x).getBrandIDx());
-                            poDetail.setBranchCde(loList.get(x).getBrandIDx());
+                            poDetail.setBrandIDxx(loList.get(x).getBrandIDx());
                             break;
                         }
                     }
@@ -200,26 +204,41 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity {
 
         mViewModel.GetModelID().observe(Activity_IntroductoryQuestion.this, modelID -> {
             try{
-                mViewModel.GetMonthlyPayment(modelID, poDetail.getAccTermxx()).observe(Activity_IntroductoryQuestion.this, new Observer<DMcModel.McAmortInfo>() {
-                    @Override
-                    public void onChanged(DMcModel.McAmortInfo info) {
-                        try {
-                            Double lnMinDPx = Double.valueOf(info.nMinDownx);
-                            Double lnAmortx = mViewModel.GetMonthlyPayment(info, lnMinDPx);
-                            txtAmort.setText(FormatUIText.getCurrencyUIFormat(String.valueOf(lnAmortx)));
-                        } catch (Exception e){
-                            e.printStackTrace();
+                String lsModel = poDetail.getModelIDxx();
+                int lnTermxx = poDetail.getAccTermxx();
+                mViewModel.GetInstallmentPlanDetail(modelID).observe(Activity_IntroductoryQuestion.this, mcDPInfo -> {
+                    try{
+                        if(mViewModel.InitializeTermAndDownpayment(mcDPInfo)) {
+
+                            mViewModel.GetAmortizationDetail(lsModel, lnTermxx).observe(Activity_IntroductoryQuestion.this, mcAmortInfo -> {
+
+                                mViewModel.setModelAmortization(mcAmortInfo);
+
+                                double lnMinDp = mViewModel.GetMinimumDownpayment();
+                                poDetail.setDownPaymt(lnMinDp);
+                                txtDownPymnt.setText(String.valueOf(lnMinDp));
+
+                                double lnAmort = mViewModel.GetMonthlyPayment(poDetail.getAccTermxx());
+                                poDetail.setMonthlyAm(lnAmort);
+                                txtAmort.setText(FormatUIText.getCurrencyUIFormat(String.valueOf(lnAmort)));
+
+                            });
                         }
+                    } catch (Exception e){
+                        e.printStackTrace();
                     }
                 });
+
             } catch (Exception e){
                 e.printStackTrace();
             }
         });
 
-        spnApplType.setOnItemClickListener(new OnItemClickListener());
-        spnCustType.setOnItemClickListener(new OnItemClickListener());
-        spnAcctTerm.setOnItemClickListener(new OnItemClickListener());
+        spnApplType.setOnItemClickListener(new OnItemClickListener(spnApplType));
+        spnCustType.setOnItemClickListener(new OnItemClickListener(spnCustType));
+        spnAcctTerm.setOnItemClickListener(new OnItemClickListener(spnAcctTerm));
+
+        txtDownPymnt.addTextChangedListener(new FormatUIText.CurrencyFormat(txtDownPymnt));
 
         txtDownPymnt.addTextChangedListener(new TextWatcher() {
             @Override
@@ -228,8 +247,30 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 try{
 
+                    if (!Objects.requireNonNull(txtDownPymnt.getText()).toString().trim().isEmpty()) {
+
+                        txtDownPymnt.removeTextChangedListener(this);
+
+                        String lsInput = txtDownPymnt.getText().toString().trim();
+
+                        Double lnInput = FormatUIText.getParseDouble(lsInput);
+
+                        poDetail.setDownPaymt(lnInput);
+
+                        double lnVal = poDetail.getDownPaymt();
+
+                        double lnMonthly = mViewModel.GetMonthlyPayment(lnVal);
+
+                        poDetail.setMonthlyAm(lnMonthly);
+
+                        txtAmort.setText(FormatUIText.getCurrencyUIFormat(String.valueOf(lnMonthly)));
+
+                        txtDownPymnt.addTextChangedListener(this);
+                    }
                 } catch (Exception e){
                     e.printStackTrace();
+
+                    txtDownPymnt.addTextChangedListener(this);
                 }
             }
             @Override
@@ -238,9 +279,24 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity {
             }
         });
 
-
         btnCreate.setOnClickListener(view -> {
+            mViewModel.SaveData(poDetail, new OnSaveInfoListener() {
+                @Override
+                public void OnSave(String args) {
+                    Intent loIntent = new Intent(Activity_IntroductoryQuestion.this, Activity_PersonalInfo.class);
+                    loIntent.putExtra("sTransNox", args);
+                    startActivity(loIntent);
+                }
 
+                @Override
+                public void OnFailed(String message) {
+                    poMessage.initDialog();
+                    poMessage.setTitle("Credit Online Application");
+                    poMessage.setMessage(message);
+                    poMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
+                    poMessage.show();
+                }
+            });
         });
     }
 
@@ -271,40 +327,6 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity {
         btnCreate = findViewById(R.id.btn_createCreditApp);
     }
 
-    public void CalculatePayment(double lnArgs, int lnArgs1){
-    }
-
-//    private void submitNewApplication() {
-//        try{
-//        poDetail.setAppTypex(lsApplType);
-//        poDetail.setCustTypex(lsCustType);
-//        poDetail.setDownPaymt(Double.parseDouble((Objects.requireNonNull(txtDownPymnt.getText()).toString().replace(",", ""))));
-//        poDetail.setAccTermxx(Integer.parseInt(spnTermPosition));
-//        poDetail.setMonthlyAm(Double.parseDouble((Objects.requireNonNull(txtAmort.getText()).toString()).replace(",", "")));
-//
-//        mViewModel.CreateNewApplication(poDetail, Activity_IntroductoryQuestion.this);
-//        }catch (NullPointerException e){
-//            e.printStackTrace();
-//            GToast.CreateMessage(this,"Something went wrong. Required information might not provided by user.",GToast.INFORMATION).show();
-//        } catch (Exception e){
-//            e.printStackTrace();
-//            GToast.CreateMessage(this,"Something went wrong. Required information might not provided by user.",GToast.INFORMATION).show();
-//        }
-//    }
-//
-//    @Override
-//    public void onSaveSuccessResult(String args) {
-//        Intent loIntent = new Intent(this, Activity_CreditApplication.class);
-//        loIntent.putExtra("transno", args);
-//        startActivity(loIntent);
-//        finish();
-//    }
-//
-//    @Override
-//    public void onFailedResult(String message) {
-//        GToast.CreateMessage(this, message, GToast.ERROR).show();
-//    }
-
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == android.R.id.home){
@@ -326,15 +348,24 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity {
 
     private class OnItemClickListener implements AdapterView.OnItemClickListener {
 
+        private final View loView;
+
+        public OnItemClickListener(View loView) {
+            this.loView = loView;
+        }
+
         @SuppressLint("ResourceAsColor")
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-            if(spnApplType.equals(view)) {
+            if(loView == spnApplType){
                 poDetail.setAppTypex(i);
-            } else if(spnCustType.equals(view)){
+            } else if(loView == spnCustType){
                 poDetail.setCustTypex(i);
-            } else if (spnAcctTerm.equals(view)) {
+            } else if(loView == spnAcctTerm){
                 poDetail.setAccTermxx(i);
+                double lnMonthly = mViewModel.GetMonthlyPayment(poDetail.getAccTermxx());
+
+                txtAmort.setText(FormatUIText.getCurrencyUIFormat(String.valueOf(lnMonthly)));
             }
         }
     }
