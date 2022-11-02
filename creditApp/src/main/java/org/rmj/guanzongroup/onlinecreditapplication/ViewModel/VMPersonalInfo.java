@@ -112,6 +112,13 @@ public class VMPersonalInfo extends AndroidViewModel implements CreditAppUI {
 
         @Override
         protected Boolean doInBackground(Personal... info) {
+            int lnResult = poApp.Validate(info[0]);
+
+            if(lnResult != 1){
+                message = poApp.getMessage();
+                return false;
+            }
+
             if(!poApp.Save(info[0])){
                 message = poApp.getMessage();
                 return false;

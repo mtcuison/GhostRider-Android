@@ -24,6 +24,7 @@ import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ECountryInfo;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.MobileNo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Personal;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
@@ -42,6 +43,7 @@ public class Activity_PersonalInfo extends AppCompatActivity {
 
     private VMPersonalInfo mViewModel;
     private Personal poDetail;
+    private MobileNo[] poMobile = new MobileNo[3];
 
     private MessageBox poMessage;
 
@@ -54,14 +56,11 @@ public class Activity_PersonalInfo extends AppCompatActivity {
     private AutoCompleteTextView spnCivilStatus;
     private MaterialButton btnNext;
 
-    private final String transnox = "";
     private TextInputEditText[] txtMobileNo;
     private AutoCompleteTextView[] txtMobileType;
     private TextInputEditText[] txtMobileYear;
     private TextInputLayout[] tilMobileYear;
     private Toolbar toolbar;
-
-    private int[] pnMobile = new int[3];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -170,7 +169,9 @@ public class Activity_PersonalInfo extends AppCompatActivity {
         txtMobileType[2].setDropDownBackgroundResource(R.drawable.bg_gradient_light);
 
         txtMobileType[0].setOnItemClickListener((parent, view, position, id) -> {
-            pnMobile[0] = position;
+            //TODO: Replace the spinner(dropdown list) for selection of mobile number type into check box with label 'PostPaid'
+            // The default value for mobile no type will be prepaid if not check.
+//            pnMobile[0] = position;
             if(position == 1) {
                 tilMobileYear[0].setVisibility(View.VISIBLE);
             } else {
@@ -178,7 +179,9 @@ public class Activity_PersonalInfo extends AppCompatActivity {
             }
         });
         txtMobileType[1].setOnItemClickListener((parent, view, position, id) -> {
-            pnMobile[1] = position;
+            //TODO: Replace the spinner(dropdown list) for selection of mobile number type into check box with label 'PostPaid'
+            // The default value for mobile no type will be prepaid if not check.
+//            pnMobile[1] = position;
             if(position == 1) {
                 tilMobileYear[1].setVisibility(View.VISIBLE);
             } else {
@@ -186,7 +189,9 @@ public class Activity_PersonalInfo extends AppCompatActivity {
             }
         });
         txtMobileType[2].setOnItemClickListener((parent, view, position, id) -> {
-            pnMobile[2] = position;
+            //TODO: Replace the spinner(dropdown list) for selection of mobile number type into check box with label 'PostPaid'
+            // The default value for mobile no type will be prepaid if not check.
+//            pnMobile[2] = position;
             if(position == 1) {
                 tilMobileYear[2].setVisibility(View.VISIBLE);
             } else {
@@ -314,28 +319,35 @@ public class Activity_PersonalInfo extends AppCompatActivity {
         poDetail.setSuffix(Objects.requireNonNull(txtSuffixx.getText()).toString());
         poDetail.setNickName(Objects.requireNonNull(txtNickNm.getText()).toString());
         poDetail.setMotherNm(Objects.requireNonNull(txtMothNm.getText()).toString());
-        poDetail.clearMobileNo();
+
         if (txtMobileNo[0] != null || !Objects.requireNonNull(txtMobileNo[0].getText()).toString().trim().isEmpty()) {
-            if (pnMobile[0] == 1) {
-                poDetail.setMobileNo(txtMobileNo[0].getText().toString(), String.valueOf(pnMobile[0]), Integer.parseInt(Objects.requireNonNull(txtMobileYear[0].getText()).toString()));
-            } else {
-                poDetail.setMobileNo(txtMobileNo[0].getText().toString(), String.valueOf(pnMobile[0]), 0);
+            poMobile[0] = new MobileNo();
+            poMobile[0].setMobileNo(txtMobileNo[0].getText().toString());
+//            loMobile[1].setIsPostPd();
+            if(poMobile[0].getIsPostPd().equalsIgnoreCase("1")) {
+                poMobile[0].setPostYear(Integer.parseInt(txtMobileYear[0].getText().toString()));
             }
+            poDetail.setMobileNo1(poMobile[0]);
         }
         if (!Objects.requireNonNull(txtMobileNo[1].getText()).toString().trim().isEmpty()) {
-            if (pnMobile[1] == 1) {
-                poDetail.setMobileNo(txtMobileNo[1].getText().toString(), String.valueOf(pnMobile[1]), Integer.parseInt(Objects.requireNonNull(txtMobileYear[1].getText()).toString()));
-            } else {
-                poDetail.setMobileNo(txtMobileNo[1].getText().toString(), String.valueOf(pnMobile[1]), 0);
+            poMobile[1] = new MobileNo();
+            poMobile[1].setMobileNo(txtMobileNo[1].getText().toString());
+//            loMobile[1].setIsPostPd();
+            if(poMobile[1].getIsPostPd().equalsIgnoreCase("1")) {
+                poMobile[1].setPostYear(Integer.parseInt(txtMobileYear[1].getText().toString()));
             }
+            poDetail.setMobileNo2(poMobile[1]);
         }
         if (!Objects.requireNonNull(txtMobileNo[2].getText()).toString().trim().isEmpty()) {
-            if (pnMobile[2] == 1) {
-                poDetail.setMobileNo(txtMobileNo[2].getText().toString(), String.valueOf(pnMobile[2]), Integer.parseInt(Objects.requireNonNull(txtMobileYear[2].getText()).toString()));
-            } else {
-                poDetail.setMobileNo(txtMobileNo[2].getText().toString(), String.valueOf(pnMobile[2]), 0);
+            poMobile[2] = new MobileNo();
+            poMobile[2].setMobileNo(txtMobileNo[2].getText().toString());
+//            poMobile[2].setIsPostPd();
+            if(poMobile[2].getIsPostPd().equalsIgnoreCase("1")) {
+                poMobile[2].setPostYear(Integer.parseInt(txtMobileYear[2].getText().toString()));
             }
+            poDetail.setMobileNo3(poMobile[2]);
         }
+
         poDetail.setPhoneNox(Objects.requireNonNull(txtTellNox.getText()).toString());
         poDetail.setEmailAdd(Objects.requireNonNull(txtEmailAdd.getText()).toString());
         poDetail.setFbAccntx(Objects.requireNonNull(txtFbAccount.getText()).toString());
@@ -360,11 +372,10 @@ public class Activity_PersonalInfo extends AppCompatActivity {
     }
 
     private void initWidgets() {
-
         toolbar = findViewById(R.id.toolbar_PersonalInfo);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Personal Info");
+        getSupportActionBar().setTitle("Guanzon Group OACS");
 
         txtLastNm = findViewById(R.id.txt_lastname);
         txtFrstNm = findViewById(R.id.txt_firstname);

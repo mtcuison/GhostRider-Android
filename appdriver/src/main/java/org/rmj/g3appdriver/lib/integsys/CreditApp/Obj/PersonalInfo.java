@@ -16,6 +16,7 @@ import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.dev.Database.Repositories.RCountry;
 import org.rmj.g3appdriver.dev.Database.Repositories.RTown;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditApp;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.MobileNo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Personal;
 import org.rmj.gocas.base.GOCASApplication;
 
@@ -65,7 +66,6 @@ public class PersonalInfo implements CreditApp {
             JSONObject joDetail = (JSONObject) loJson.parse(lsDetail);
             gocas.ApplicantInfo().setData(joDetail);
 
-
             loDetail.setLastName(gocas.ApplicantInfo().getLastName());
             loDetail.setFrstName(gocas.ApplicantInfo().getFirstName());
             loDetail.setMiddName(gocas.ApplicantInfo().getMiddleName());
@@ -90,12 +90,38 @@ public class PersonalInfo implements CreditApp {
             String lsBrthPlc = poDao.GetBirthPlace(loDetail.getBrthPlce());
 
             loDetail.setBirthPlc(lsBrthPlc);
+//
+//            for(int x = 0; x < gocas.ApplicantInfo().getMobileNoQty(); x++) {
+//                loDetail.setMobileNo(
+//                        gocas.ApplicantInfo().getMobileNo(x),
+//                        gocas.ApplicantInfo().IsMobilePostpaid(x),
+//                        gocas.ApplicantInfo().getPostPaidYears(x));
+//            }
 
             for(int x = 0; x < gocas.ApplicantInfo().getMobileNoQty(); x++) {
-                loDetail.setMobileNo(
-                        gocas.ApplicantInfo().getMobileNo(x),
-                        gocas.ApplicantInfo().IsMobilePostpaid(x),
-                        gocas.ApplicantInfo().getPostPaidYears(x));
+//                JSONObject mobile = (JSONObject) loMobile.get(x);
+//                Log.d(TAG, "Postpaid Year: " + );
+//                long lnPostYr = (long) mobile.get("nPostYear");
+                MobileNo mobileNo = new MobileNo();
+                if(x == 0) {
+
+                    mobileNo.setMobileNo(gocas.ApplicantInfo().getMobileNo(x));
+                    mobileNo.setIsPostPd(Integer.parseInt(gocas.ApplicantInfo().IsMobilePostpaid(x)));
+                    mobileNo.setPostYear(gocas.ApplicantInfo().getPostPaidYears(x));
+                    loDetail.setMobileNo1(mobileNo);
+                }
+                if(x == 1) {
+                    mobileNo.setMobileNo(gocas.ApplicantInfo().getMobileNo(x));
+                    mobileNo.setIsPostPd(Integer.parseInt(gocas.ApplicantInfo().IsMobilePostpaid(x)));
+                    mobileNo.setPostYear(gocas.ApplicantInfo().getPostPaidYears(x));
+                    loDetail.setMobileNo2(mobileNo);
+                }
+                if(x == 2) {
+                    mobileNo.setMobileNo(gocas.ApplicantInfo().getMobileNo(x));
+                    mobileNo.setIsPostPd(Integer.parseInt(gocas.ApplicantInfo().IsMobilePostpaid(x)));
+                    mobileNo.setPostYear(gocas.ApplicantInfo().getPostPaidYears(x));
+                    loDetail.setMobileNo3(mobileNo);
+                }
             }
 
             loDetail.setEmailAdd(gocas.ApplicantInfo().getEmailAddress(0));
@@ -128,11 +154,11 @@ public class PersonalInfo implements CreditApp {
             // return 2 to indicate validation needs confirmation from user to update the
             // previous information being save.
 
-            if(!poDetail.isEqual(loDetail)){
-                return 2;
-            } else {
-                return 1;
-            }
+//            if(!poDetail.isEqual(loDetail)){
+//                return 2;
+//            } else {
+//                return 1;
+//            }
         }
 
         return 1;
@@ -165,13 +191,33 @@ public class PersonalInfo implements CreditApp {
             gocas.ApplicantInfo().setMaidenName(loDetail.getMotherNm());
             gocas.ApplicantInfo().setMobileNoQty(loDetail.getMobileNoQty());
 
-            for(int x = 0; x < loDetail.getMobileNoQty(); x++){
-                gocas.ApplicantInfo().setMobileNo(x, loDetail.getMobileNo(x));
-                gocas.ApplicantInfo().setPostPaidYears(x, loDetail.getPostYear(x));
-                if(loDetail.getPostPaid(x) != null){
-                    gocas.ApplicantInfo().IsMobilePostpaid(x, loDetail.getPostPaid(x));
-                }
+
+            gocas.ApplicantInfo().setMobileNoQty(1);
+            gocas.ApplicantInfo().setMobileNo(0, loDetail.getMobileNo1().getMobileNo());
+            gocas.ApplicantInfo().IsMobilePostpaid(0, loDetail.getMobileNo1().getIsPostPd());
+            gocas.ApplicantInfo().setPostPaidYears(0, loDetail.getMobileNo1().getPostYear());
+
+            if(loDetail.getMobileNo2() != null){
+                gocas.ApplicantInfo().setMobileNoQty(2);
+                gocas.ApplicantInfo().setMobileNo(1, loDetail.getMobileNo1().getMobileNo());
+                gocas.ApplicantInfo().IsMobilePostpaid(1, loDetail.getMobileNo1().getIsPostPd());
+                gocas.ApplicantInfo().setPostPaidYears(1, loDetail.getMobileNo1().getPostYear());
             }
+
+            if(loDetail.getMobileNo3() != null){
+                gocas.ApplicantInfo().setMobileNoQty(3);
+                gocas.ApplicantInfo().setMobileNo(2, loDetail.getMobileNo1().getMobileNo());
+                gocas.ApplicantInfo().IsMobilePostpaid(2, loDetail.getMobileNo1().getIsPostPd());
+                gocas.ApplicantInfo().setPostPaidYears(2, loDetail.getMobileNo1().getPostYear());
+            }
+
+//            for(int x = 0; x < loDetail.getMobileNoQty(); x++){
+//                gocas.ApplicantInfo().setMobileNo(x, loDetail.getMobileNo(x));
+//                gocas.ApplicantInfo().setPostPaidYears(x, loDetail.getPostYear(x));
+//                if(loDetail.getPostPaid(x) != null){
+//                    gocas.ApplicantInfo().IsMobilePostpaid(x, loDetail.getPostPaid(x));
+//                }
+//            }
 
             gocas.ApplicantInfo().setEmailAddQty(1);
             gocas.ApplicantInfo().setEmailAddress(0, loDetail.getEmailAdd());

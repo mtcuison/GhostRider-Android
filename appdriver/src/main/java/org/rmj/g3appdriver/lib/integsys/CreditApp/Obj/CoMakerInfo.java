@@ -18,6 +18,7 @@ import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.dev.Database.Repositories.RTown;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditApp;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.CoMaker;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.MobileNo;
 import org.rmj.gocas.base.GOCASApplication;
 
 import java.util.List;
@@ -68,10 +69,25 @@ public class CoMakerInfo implements CreditApp {
                 JSONObject mobile = (JSONObject) loMobile.get(x);
 //                Log.d(TAG, "Postpaid Year: " + );
                 long lnPostYr = (long) mobile.get("nPostYear");
-                loDetail.setMobileNo(
-                        (String) mobile.get("sMobileNo"),
-                        (String) mobile.get("cPostPaid"),
-                        (int) lnPostYr);
+                MobileNo mobileNo = new MobileNo();
+                if(x == 0) {
+                    mobileNo.setMobileNo((String) mobile.get("sMobileNo"));
+                    mobileNo.setIsPostPd((int) mobile.get("cPostPaid"));
+                    mobileNo.setPostYear((int)lnPostYr);
+                    loDetail.setMobileNo1(mobileNo);
+                }
+                if(x == 1) {
+                    mobileNo.setMobileNo((String) mobile.get("sMobileNo"));
+                    mobileNo.setIsPostPd((int) mobile.get("cPostPaid"));
+                    mobileNo.setPostYear((int)lnPostYr);
+                    loDetail.setMobileNo2(mobileNo);
+                }
+                if(x == 2) {
+                    mobileNo.setMobileNo((String) mobile.get("sMobileNo"));
+                    mobileNo.setIsPostPd((int) mobile.get("cPostPaid"));
+                    mobileNo.setPostYear((int)lnPostYr);
+                    loDetail.setMobileNo3(mobileNo);
+                }
             }
 
 //            for(int x = 0; x < gocas.CoMakerInfo().getMobileNoQty(); x++) {
@@ -142,12 +158,26 @@ public class CoMakerInfo implements CreditApp {
             gocas.CoMakerInfo().setBirthPlace(loDetail.getBrthPlce());
             gocas.CoMakerInfo().setIncomeSource(loDetail.getIncomexx());
             gocas.CoMakerInfo().setRelation(loDetail.getRelation());
-            for (int x = 0; x < loDetail.getMobileNoQty(); x++) {
-                gocas.CoMakerInfo().setMobileNoQty(x + 1);
-                gocas.CoMakerInfo().setMobileNo(x, loDetail.getMobileNo(x));
-                gocas.CoMakerInfo().IsMobilePostpaid(x, loDetail.getPostPaid(x));
-                gocas.CoMakerInfo().setPostPaidYears(x, loDetail.getPostYear(x));
+
+            gocas.CoMakerInfo().setMobileNoQty(1);
+            gocas.CoMakerInfo().setMobileNo(0, loDetail.getMobileNo1().getMobileNo());
+            gocas.CoMakerInfo().IsMobilePostpaid(0, loDetail.getMobileNo1().getIsPostPd());
+            gocas.CoMakerInfo().setPostPaidYears(0, loDetail.getMobileNo1().getPostYear());
+
+            if(loDetail.getMobileNo2() != null){
+                gocas.CoMakerInfo().setMobileNoQty(2);
+                gocas.CoMakerInfo().setMobileNo(1, loDetail.getMobileNo1().getMobileNo());
+                gocas.CoMakerInfo().IsMobilePostpaid(1, loDetail.getMobileNo1().getIsPostPd());
+                gocas.CoMakerInfo().setPostPaidYears(1, loDetail.getMobileNo1().getPostYear());
             }
+
+            if(loDetail.getMobileNo3() != null){
+                gocas.CoMakerInfo().setMobileNoQty(3);
+                gocas.CoMakerInfo().setMobileNo(2, loDetail.getMobileNo1().getMobileNo());
+                gocas.CoMakerInfo().IsMobilePostpaid(2, loDetail.getMobileNo1().getIsPostPd());
+                gocas.CoMakerInfo().setPostPaidYears(2, loDetail.getMobileNo1().getPostYear());
+            }
+
             gocas.CoMakerInfo().setFBAccount(loDetail.getFbAccntx());
             loApp.setComakerx(gocas.CoMakerInfo().toJSONString());
 

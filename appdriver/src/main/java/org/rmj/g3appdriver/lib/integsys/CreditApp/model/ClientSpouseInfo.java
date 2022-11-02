@@ -19,7 +19,11 @@ public class ClientSpouseInfo {
     private String CvlStats;
     private String Citizenx;
     private String CtznShip; //This holds the data for preview of citizenship
-    private final List<MobileNo> mobileNoList = new ArrayList<>();
+
+    private MobileNo mobileNo1;
+    private MobileNo mobileNo2;
+    private MobileNo mobileNo3;
+
     private String PhoneNox;
     private String EmailAdd;
     private String FbAccntx;
@@ -171,32 +175,29 @@ public class ClientSpouseInfo {
         Citizenx = citizenx;
     }
 
-    public int getMobileNoQty(){
-        return mobileNoList.size();
+
+    public MobileNo getMobileNo1(){
+        return mobileNo1;
     }
 
-    public String getMobileNo(int position){
-        return mobileNoList.get(position).getMobileNo();
+    public MobileNo getMobileNo2() {
+        return mobileNo2;
     }
 
-    public String getPostPaid(int position){
-        return mobileNoList.get(position).getIsPostPd();
+    public MobileNo getMobileNo3() {
+        return mobileNo3;
     }
 
-    public int getPostYear(int position){
-        return mobileNoList.get(position).getPostYear();
+    public void setMobileNo1(MobileNo mobileNo1) {
+        this.mobileNo1 = mobileNo1;
     }
 
-    public void setMobileNo(String MobileNo, String Postpaid, int PostYear){
-        MobileNo mobileNo = new MobileNo(MobileNo, Postpaid, PostYear);
-        mobileNoList.add(mobileNo);
+    public void setMobileNo2(MobileNo mobileNo2) {
+        this.mobileNo2 = mobileNo2;
     }
 
-    /**
-     * Clear List of Mobile No if Any Error Occurs to prevent mobile no duplicate.
-     */
-    public void clearMobileNo(){
-        mobileNoList.clear();
+    public void setMobileNo3(MobileNo mobileNo3) {
+        this.mobileNo3 = mobileNo3;
     }
 
     public String getPhoneNox() {
@@ -262,7 +263,7 @@ public class ClientSpouseInfo {
             return false;
         }
 
-        if (mobileNoList.size()> 0) {
+        if (mobileNo1 != null) {
             return isPrimaryContactValid() &&
                     isSecondaryContactValid() &&
                     isTertiaryContactValid();
@@ -273,70 +274,57 @@ public class ClientSpouseInfo {
     }
 
     private boolean isPrimaryContactValid(){
-        if(mobileNoList.get(0).getMobileNo().trim().isEmpty()){
+        if(mobileNo1 == null) {
             message = "Please enter primary contact number";
             return false;
         }
-        if(Integer.parseInt(mobileNoList.get(0).getIsPostPd()) < 0){
-            message = "Please select sim 1 card type";
-            return false;
-        }
-        if(!mobileNoList.get(0).getMobileNo().substring(0, 2).equalsIgnoreCase("09")){
-            message = "Contact number must start with '09'";
-            return false;
-        }
-        if(mobileNoList.get(0).getMobileNo().length() != 11){
-            message = "Please complete primary contact info";
+
+        if(!mobileNo1.isDataValid()){
+            message = mobileNo1.getMessage();
             return false;
         }
         return true;
     }
 
     private boolean isSecondaryContactValid(){
-        if(mobileNoList.size() >= 2) {
-            if (mobileNoList.get(1).getMobileNo().trim().isEmpty()) {
-                if(!mobileNoList.get(1).getMobileNo().substring(0, 2).equalsIgnoreCase("09")){
-                    message = "Contact number must start with '09'";
-                    return false;
-                }
-                if(mobileNoList.get(1).getMobileNo().length() != 11){
-                    message = "Please complete 2nd contact info";
-                    return false;
-                }
-                if(mobileNoList.get(1).getMobileNo().equalsIgnoreCase(mobileNoList.get(0).getMobileNo())
-                        || mobileNoList.get(1).getMobileNo().equalsIgnoreCase(mobileNoList.get(2).getMobileNo())){
+        if(mobileNo2 != null) {
+            if(!mobileNo2.isDataValid()){
+                message = mobileNo2.getMessage();
+                return false;
+            }
+
+            if (mobileNo2.getMobileNo().equalsIgnoreCase(mobileNo1.getMobileNo())) {
+                message = "Contact numbers are duplicated";
+                return false;
+            }
+
+            if(mobileNo3 != null) {
+                if (mobileNo2.getMobileNo().equalsIgnoreCase(mobileNo3.getMobileNo())) {
                     message = "Contact numbers are duplicated";
                     return false;
                 }
-            }
-            if(Integer.parseInt(mobileNoList.get(1).getIsPostPd()) < 0){
-                message = "Please select sim 2 card type";
-                return false;
             }
         }
         return true;
     }
 
     private boolean isTertiaryContactValid(){
-        if(mobileNoList.size() == 3) {
-            if (!mobileNoList.get(2).getMobileNo().trim().isEmpty()) {
-                if(!mobileNoList.get(2).getMobileNo().substring(0, 2).equalsIgnoreCase("09")){
-                    message = "Contact number must start with '09'";
-                    return false;
-                }
-                if(mobileNoList.get(2).getMobileNo().length() != 11){
-                    message = "Please complete 3rd contact info";
-                    return false;
-                }
-                if(mobileNoList.get(0).getMobileNo().equalsIgnoreCase(mobileNoList.get(2).getMobileNo())
-                        || mobileNoList.get(1).getMobileNo().equalsIgnoreCase(mobileNoList.get(2).getMobileNo())){
+        if(mobileNo3 != null) {
+            if(!mobileNo3.isDataValid()){
+                message = mobileNo3.getMessage();
+                return false;
+            }
+
+            if (mobileNo3.getMobileNo().equalsIgnoreCase(mobileNo1.getMobileNo())) {
+                message = "Contact numbers are duplicated";
+                return false;
+            }
+
+            if(mobileNo2 != null) {
+                if (mobileNo3.getMobileNo().equalsIgnoreCase(mobileNo2.getMobileNo())) {
                     message = "Contact numbers are duplicated";
                     return false;
                 }
-            }
-            if(Integer.parseInt(mobileNoList.get(2).getIsPostPd()) < 0){
-                message = "Please select sim 3 card type";
-                return false;
             }
         }
         return true;
@@ -373,17 +361,35 @@ public class ClientSpouseInfo {
             return false;
         } else if(!val.getVbrAccnt().equalsIgnoreCase(VbrAccnt)){
             return false;
-        } else if(val.getMobileNoQty() != mobileNoList.size()){
-            return false;
-        } else if(val.getMobileNoQty() != mobileNoList.size()){
-            for(int x = 0; x < val.getMobileNoQty(); x++){
-                if(!val.getMobileNo(x).equalsIgnoreCase(mobileNoList.get(x).getMobileNo())){
-                    return false;
-                } else if(!val.getPostPaid(x).equalsIgnoreCase(mobileNoList.get(x).getIsPostPd())){
-                    return false;
-                } else if(val.getPostYear(x) != (mobileNoList.get(x).getPostYear())){
-                    return false;
-                }
+        } else if(val.getMobileNo1() != null){
+            if(!val.getMobileNo1().getMobileNo().equalsIgnoreCase(mobileNo1.getMobileNo())){
+                return false;
+            }
+            if(val.getMobileNo1().getIsPostPd() != mobileNo1.getIsPostPd()){
+                return false;
+            }
+            if(val.getMobileNo1().getPostYear() != mobileNo1.getPostYear()){
+                return false;
+            }
+        } else if(val.getMobileNo2() != null){
+            if(!val.getMobileNo2().getMobileNo().equalsIgnoreCase(mobileNo2.getMobileNo())){
+                return false;
+            }
+            if(val.getMobileNo2().getIsPostPd() != mobileNo2.getIsPostPd()){
+                return false;
+            }
+            if(val.getMobileNo2().getPostYear() != mobileNo2.getPostYear()){
+                return false;
+            }
+        } else if(val.getMobileNo3() != null){
+            if(!val.getMobileNo3().getMobileNo().equalsIgnoreCase(mobileNo3.getMobileNo())){
+                return false;
+            }
+            if(val.getMobileNo3().getIsPostPd() != mobileNo3.getIsPostPd()){
+                return false;
+            }
+            if(val.getMobileNo3().getPostYear() != mobileNo3.getPostYear()){
+                return false;
             }
         }
 
