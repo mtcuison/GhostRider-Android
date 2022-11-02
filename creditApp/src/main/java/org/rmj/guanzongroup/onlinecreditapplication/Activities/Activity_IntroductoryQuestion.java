@@ -51,7 +51,6 @@ import java.util.Objects;
 public class Activity_IntroductoryQuestion extends AppCompatActivity {
     public static final String TAG = Activity_IntroductoryQuestion.class.getSimpleName();
     private VMIntroductoryQuestion mViewModel;
-    private LoanInfo poDetail;
     private MessageBox poMessage;
 
     private TextView lblBranchNm, lblBrandAdd, lblDate;
@@ -69,7 +68,6 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VMIntroductoryQuestion.class);
-        poDetail = new LoanInfo();
         poMessage = new MessageBox(Activity_IntroductoryQuestion.this);
         setContentView(R.layout.activity_introductory_question);
         initWidgets();
@@ -79,7 +77,7 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity {
                 lblBranchNm.setText(eBranchInfo.sBranchNm);
                 lblBrandAdd.setText(eBranchInfo.sAddressx);
                 txtBranchNm.setText(eBranchInfo.sBranchNm);
-                poDetail.setBranchCde(eBranchInfo.sBranchCd);
+                mViewModel.getModel().setBranchCde(eBranchInfo.sBranchCd);
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -91,13 +89,13 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity {
         mViewModel.GetApplicationType().observe(this, stringArrayAdapter -> {
             spnApplType.setAdapter(stringArrayAdapter);
             spnApplType.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
-            poDetail.setAppTypex(1);
+            mViewModel.getModel().setAppTypex(1);
         });
 
         mViewModel.GetCustomerType().observe(this, stringArrayAdapter -> {
             spnCustType.setAdapter(stringArrayAdapter);
             spnCustType.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
-            poDetail.setCustTypex(1);
+            mViewModel.getModel().setCustTypex(1);
         });
 
         mViewModel.GetInstallmentTerm().observe(this, stringArrayAdapter -> {
@@ -106,7 +104,7 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity {
 
             //Default value has been set here instead inside of the model in order
             // to calculate monthly amortization upon selection of model.
-            poDetail.setAccTermxx(0);
+            mViewModel.getModel().setAccTermxx(0);
         });
 
         txtDTarget.setText(new AppConstants().CURRENT_DATE_WORD);
@@ -119,7 +117,7 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity {
                 newDate.set(year, monthOfYear, dayOfMonth);
                 String lsDate = dateFormatter.format(newDate.getTime());
                 txtDTarget.setText(lsDate);
-                poDetail.setTargetDte(lsDate);
+                mViewModel.getModel().setTargetDte(lsDate);
             }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
             StartTime.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
             StartTime.show();
@@ -139,7 +137,7 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity {
                 txtBranchNm.setOnItemClickListener((adapterView, view, i, l) -> {
                     for(int x = 0; x < loList.size(); x++){
                         if(txtBranchNm.getText().toString().equalsIgnoreCase(loList.get(x).getBranchNm())){
-                            poDetail.setBranchCde(loList.get(x).getBranchCd());
+                            mViewModel.getModel().setBranchCde(loList.get(x).getBranchCd());
                             break;
                         }
                     }
@@ -164,7 +162,7 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity {
                     for(int x = 0; x < loList.size(); x++){
                         if(txtBrandNm.getText().toString().equalsIgnoreCase(loList.get(x).getBrandNme())){
                             mViewModel.setBrandID(loList.get(x).getBrandIDx());
-                            poDetail.setBrandIDxx(loList.get(x).getBrandIDx());
+                            mViewModel.getModel().setBrandIDxx(loList.get(x).getBrandIDx());
                             break;
                         }
                     }
@@ -189,7 +187,7 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity {
                     txtModelNm.setOnItemClickListener((adapterView, view, i, l) -> {
                         for(int x = 0; x < loList.size(); x++){
                             if(txtModelNm.getText().toString().equalsIgnoreCase(loList.get(x).getModelNme() +" "+ loList.get(x).getModelCde())){
-                                poDetail.setModelIDxx(loList.get(x).getModelIDx());
+                                mViewModel.getModel().setModelIDxx(loList.get(x).getModelIDx());
                                 mViewModel.setModelID(loList.get(x).getModelIDx());
                                 break;
                             }
@@ -204,8 +202,8 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity {
 
         mViewModel.GetModelID().observe(Activity_IntroductoryQuestion.this, modelID -> {
             try{
-                String lsModel = poDetail.getModelIDxx();
-                int lnTermxx = poDetail.getAccTermxx();
+                String lsModel = mViewModel.getModel().getModelIDxx();
+                int lnTermxx = mViewModel.getModel().getAccTermxx();
                 mViewModel.GetInstallmentPlanDetail(modelID).observe(Activity_IntroductoryQuestion.this, mcDPInfo -> {
                     try{
                         if(mViewModel.InitializeTermAndDownpayment(mcDPInfo)) {
@@ -215,11 +213,11 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity {
                                 mViewModel.setModelAmortization(mcAmortInfo);
 
                                 double lnMinDp = mViewModel.GetMinimumDownpayment();
-                                poDetail.setDownPaymt(lnMinDp);
+                                mViewModel.getModel().setDownPaymt(lnMinDp);
                                 txtDownPymnt.setText(String.valueOf(lnMinDp));
 
-                                double lnAmort = mViewModel.GetMonthlyPayment(poDetail.getAccTermxx());
-                                poDetail.setMonthlyAm(lnAmort);
+                                double lnAmort = mViewModel.GetMonthlyPayment(mViewModel.getModel().getAccTermxx());
+                                mViewModel.getModel().setMonthlyAm(lnAmort);
                                 txtAmort.setText(FormatUIText.getCurrencyUIFormat(String.valueOf(lnAmort)));
 
                             });
@@ -255,13 +253,13 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity {
 
                         Double lnInput = FormatUIText.getParseDouble(lsInput);
 
-                        poDetail.setDownPaymt(lnInput);
+                        mViewModel.getModel().setDownPaymt(lnInput);
 
-                        double lnVal = poDetail.getDownPaymt();
+                        double lnVal = mViewModel.getModel().getDownPaymt();
 
                         double lnMonthly = mViewModel.GetMonthlyPayment(lnVal);
 
-                        poDetail.setMonthlyAm(lnMonthly);
+                        mViewModel.getModel().setMonthlyAm(lnMonthly);
 
                         txtAmort.setText(FormatUIText.getCurrencyUIFormat(String.valueOf(lnMonthly)));
 
@@ -280,7 +278,7 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity {
         });
 
         btnCreate.setOnClickListener(view -> {
-            mViewModel.SaveData(poDetail, new OnSaveInfoListener() {
+            mViewModel.SaveData(new OnSaveInfoListener() {
                 @Override
                 public void OnSave(String args) {
                     Intent loIntent = new Intent(Activity_IntroductoryQuestion.this, Activity_PersonalInfo.class);
@@ -358,12 +356,12 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
             if(loView == spnApplType){
-                poDetail.setAppTypex(i);
+                mViewModel.getModel().setAppTypex(i);
             } else if(loView == spnCustType){
-                poDetail.setCustTypex(i);
+                mViewModel.getModel().setCustTypex(i);
             } else if(loView == spnAcctTerm){
-                poDetail.setAccTermxx(i);
-                double lnMonthly = mViewModel.GetMonthlyPayment(poDetail.getAccTermxx());
+                mViewModel.getModel().setAccTermxx(i);
+                double lnMonthly = mViewModel.GetMonthlyPayment(mViewModel.getModel().getAccTermxx());
 
                 txtAmort.setText(FormatUIText.getCurrencyUIFormat(String.valueOf(lnMonthly)));
             }

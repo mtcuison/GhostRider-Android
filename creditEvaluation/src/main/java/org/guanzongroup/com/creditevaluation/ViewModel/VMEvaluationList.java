@@ -48,7 +48,7 @@ public class VMEvaluationList extends AndroidViewModel {
 
     public void AddForCIApplication(String fsTransno, ViewModelCallback callback) {
         try{
-            new AddApplicationInfoTask(instance,fsTransno.trim(),callback).execute();
+            new AddApplicationInfoTask(instance, callback).execute(fsTransno.trim());
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -61,7 +61,7 @@ public class VMEvaluationList extends AndroidViewModel {
 
         private String message;
 
-        public AddApplicationInfoTask(Application application, String transNo,ViewModelCallback callback) {
+        public AddApplicationInfoTask(Application application, ViewModelCallback callback) {
             this.poConn = new ConnectionUtil(application);
             this.callback = callback;
         }

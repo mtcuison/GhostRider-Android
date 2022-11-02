@@ -61,6 +61,9 @@ public interface DCreditOnlineApplicationCI {
     @Query("SELECT sAsstFndg FROM Credit_Online_Application_CI WHERE sTransNox =:TransNox")
     String getAssetsForEvaluation(String TransNox);
 
+    @Query("SELECT sEmployID FROM User_Info_Master")
+    String GetEmployeeID();
+
     @Query("SELECT sIncmFndg FROM Credit_Online_Application_CI WHERE sTransNox =:TransNox")
     String getIncomeForEvaluation(String TransNox);
 

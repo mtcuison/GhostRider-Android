@@ -51,8 +51,8 @@ public class VMResidenceInfo extends AndroidViewModel implements CreditAppUI{
     }
 
     @Override
-    public void SaveData(Object args, OnSaveInfoListener listener) {
-        new SaveDetailTask(listener).execute((ClientResidence) args);
+    public void SaveData(OnSaveInfoListener listener) {
+//        new SaveDetailTask(listener).execute((ClientResidence) args);
     }
 
     private class ParseDataTask extends AsyncTask<ECreditApplicantInfo, Void, ClientResidence>{

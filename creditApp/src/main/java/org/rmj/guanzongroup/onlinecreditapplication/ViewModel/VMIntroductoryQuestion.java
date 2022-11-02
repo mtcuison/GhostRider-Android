@@ -28,6 +28,7 @@ public class VMIntroductoryQuestion extends AndroidViewModel implements CreditAp
     private static final String TAG = VMIntroductoryQuestion.class.getSimpleName();
 
     private final CreditOnlineApplication poApp;
+    private final LoanInfo poModel;
 
     private final MutableLiveData<String> psBrandID = new MutableLiveData<>();
     private final MutableLiveData<String> psModelID = new MutableLiveData<>();
@@ -38,6 +39,11 @@ public class VMIntroductoryQuestion extends AndroidViewModel implements CreditAp
     public VMIntroductoryQuestion(@NonNull Application instance) {
         super(instance);
         this.poApp = new CreditOnlineApplication(instance);
+        this.poModel = new LoanInfo();
+    }
+
+    public LoanInfo getModel() {
+        return poModel;
     }
 
     public void setBrandID(String args){
@@ -138,9 +144,8 @@ public class VMIntroductoryQuestion extends AndroidViewModel implements CreditAp
     }
 
     @Override
-    public void SaveData(Object args, OnSaveInfoListener listener) {
-        LoanInfo loDetail = (LoanInfo) args;
-        new CreateNewApplicationTask(listener).execute(loDetail);
+    public void SaveData(OnSaveInfoListener listener) {
+        new CreateNewApplicationTask(listener).execute(poModel);
     }
 
     private class CreateNewApplicationTask extends AsyncTask<LoanInfo, Void, String>{

@@ -42,7 +42,6 @@ public class Activity_PersonalInfo extends AppCompatActivity {
     private static final String TAG = Activity_PersonalInfo.class.getSimpleName();
 
     private VMPersonalInfo mViewModel;
-    private Personal poDetail;
     private MobileNo[] poMobile = new MobileNo[3];
 
     private MessageBox poMessage;
@@ -66,7 +65,6 @@ public class Activity_PersonalInfo extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VMPersonalInfo.class);
-        poDetail = new Personal();
         poMessage = new MessageBox(Activity_PersonalInfo.this);
         setContentView(R.layout.activity_personal_info);
         initWidgets();
@@ -74,7 +72,7 @@ public class Activity_PersonalInfo extends AppCompatActivity {
 
         mViewModel.GetApplication().observe(Activity_PersonalInfo.this, app -> {
             try{
-                poDetail.setTransNox(app.getTransNox());
+                mViewModel.getModel().setTransNox(app.getTransNox());
                 mViewModel.ParseData(app, new OnParseListener() {
                     @Override
                     public void OnParse(Object args) {
@@ -109,8 +107,8 @@ public class Activity_PersonalInfo extends AppCompatActivity {
                                 String lsLabel = loList.get(x).sTownName + ", " + loList.get(x).sProvName;
                                 String lsSlctd = txtTown.getText().toString().trim();
                                 if (lsSlctd.equalsIgnoreCase(lsLabel)) {
-                                    poDetail.setBrthPlce(loList.get(x).sTownIDxx);
-                                    poDetail.setBirthPlc(lsLabel);
+                                    mViewModel.getModel().setBrthPlce(loList.get(x).sTownIDxx);
+                                    mViewModel.getModel().setBirthPlc(lsLabel);
                                     break;
                                 }
                             }
@@ -143,8 +141,8 @@ public class Activity_PersonalInfo extends AppCompatActivity {
                                 String lsLabel = loList.get(x).getNational();
                                 String lsSlctd = txtCitizen.getText().toString().trim();
                                 if (lsSlctd.equalsIgnoreCase(lsLabel)) {
-                                    poDetail.setCitizenx(loList.get(x).getCntryCde());
-                                    poDetail.setCtznShip(loList.get(x).getNational());
+                                    mViewModel.getModel().setCitizenx(loList.get(x).getCntryCde());
+                                    mViewModel.getModel().setCtznShip(loList.get(x).getNational());
                                     break;
                                 }
                             }
@@ -201,13 +199,13 @@ public class Activity_PersonalInfo extends AppCompatActivity {
 
         rgGender.setOnCheckedChangeListener((radioGroup, i) -> {
             if (i == R.id.rb_male) {
-                poDetail.setGender("0");
+                mViewModel.getModel().setGender("0");
             }
             if (i == R.id.rb_female) {
-                poDetail.setGender("1");
+                mViewModel.getModel().setGender("1");
             }
             if (i == R.id.rb_lgbt) {
-                poDetail.setGender("2");
+                mViewModel.getModel().setGender("2");
             }
             SetupMaidenEntry();
         });
@@ -215,7 +213,7 @@ public class Activity_PersonalInfo extends AppCompatActivity {
         spnCivilStatus.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                poDetail.setCvlStats(String.valueOf(position));
+                mViewModel.getModel().setCvlStats(String.valueOf(position));
                 SetupMaidenEntry();
             }
         });
@@ -313,12 +311,12 @@ public class Activity_PersonalInfo extends AppCompatActivity {
     }
 
     private void SavePersonalInfo() {
-        poDetail.setLastName(Objects.requireNonNull(txtLastNm.getText()).toString());
-        poDetail.setFrstName(Objects.requireNonNull(txtFrstNm.getText()).toString());
-        poDetail.setMiddName(Objects.requireNonNull(txtMiddNm.getText()).toString());
-        poDetail.setSuffix(Objects.requireNonNull(txtSuffixx.getText()).toString());
-        poDetail.setNickName(Objects.requireNonNull(txtNickNm.getText()).toString());
-        poDetail.setMotherNm(Objects.requireNonNull(txtMothNm.getText()).toString());
+        mViewModel.getModel().setLastName(Objects.requireNonNull(txtLastNm.getText()).toString());
+        mViewModel.getModel().setFrstName(Objects.requireNonNull(txtFrstNm.getText()).toString());
+        mViewModel.getModel().setMiddName(Objects.requireNonNull(txtMiddNm.getText()).toString());
+        mViewModel.getModel().setSuffix(Objects.requireNonNull(txtSuffixx.getText()).toString());
+        mViewModel.getModel().setNickName(Objects.requireNonNull(txtNickNm.getText()).toString());
+        mViewModel.getModel().setMotherNm(Objects.requireNonNull(txtMothNm.getText()).toString());
 
         if (txtMobileNo[0] != null || !Objects.requireNonNull(txtMobileNo[0].getText()).toString().trim().isEmpty()) {
             poMobile[0] = new MobileNo();
@@ -327,7 +325,7 @@ public class Activity_PersonalInfo extends AppCompatActivity {
             if(poMobile[0].getIsPostPd().equalsIgnoreCase("1")) {
                 poMobile[0].setPostYear(Integer.parseInt(txtMobileYear[0].getText().toString()));
             }
-            poDetail.setMobileNo1(poMobile[0]);
+            mViewModel.getModel().setMobileNo1(poMobile[0]);
         }
         if (!Objects.requireNonNull(txtMobileNo[1].getText()).toString().trim().isEmpty()) {
             poMobile[1] = new MobileNo();
@@ -336,7 +334,7 @@ public class Activity_PersonalInfo extends AppCompatActivity {
             if(poMobile[1].getIsPostPd().equalsIgnoreCase("1")) {
                 poMobile[1].setPostYear(Integer.parseInt(txtMobileYear[1].getText().toString()));
             }
-            poDetail.setMobileNo2(poMobile[1]);
+            mViewModel.getModel().setMobileNo2(poMobile[1]);
         }
         if (!Objects.requireNonNull(txtMobileNo[2].getText()).toString().trim().isEmpty()) {
             poMobile[2] = new MobileNo();
@@ -345,14 +343,14 @@ public class Activity_PersonalInfo extends AppCompatActivity {
             if(poMobile[2].getIsPostPd().equalsIgnoreCase("1")) {
                 poMobile[2].setPostYear(Integer.parseInt(txtMobileYear[2].getText().toString()));
             }
-            poDetail.setMobileNo3(poMobile[2]);
+            mViewModel.getModel().setMobileNo3(poMobile[2]);
         }
 
-        poDetail.setPhoneNox(Objects.requireNonNull(txtTellNox.getText()).toString());
-        poDetail.setEmailAdd(Objects.requireNonNull(txtEmailAdd.getText()).toString());
-        poDetail.setFbAccntx(Objects.requireNonNull(txtFbAccount.getText()).toString());
-        poDetail.setVbrAccnt(Objects.requireNonNull(txtViberAccount.getText()).toString());
-        mViewModel.SaveData(poDetail, new OnSaveInfoListener() {
+        mViewModel.getModel().setPhoneNox(Objects.requireNonNull(txtTellNox.getText()).toString());
+        mViewModel.getModel().setEmailAdd(Objects.requireNonNull(txtEmailAdd.getText()).toString());
+        mViewModel.getModel().setFbAccntx(Objects.requireNonNull(txtFbAccount.getText()).toString());
+        mViewModel.getModel().setVbrAccnt(Objects.requireNonNull(txtViberAccount.getText()).toString());
+        mViewModel.SaveData(new OnSaveInfoListener() {
             @Override
             public void OnSave(String args) {
                 Intent loIntent = new Intent(Activity_PersonalInfo.this, Activity_ResidenceInfo.class);
@@ -409,7 +407,7 @@ public class Activity_PersonalInfo extends AppCompatActivity {
                     Date loDate = new SimpleDateFormat("MMMM dd, yyyy").parse(lsDate);
                     lsDate = new SimpleDateFormat("yyyy-MM-dd").format(loDate);
                     Log.d(TAG, "Save formatted time: " + lsDate);
-                    poDetail.setBrthDate(lsDate);
+                    mViewModel.getModel().setBrthDate(lsDate);
                 } catch (Exception e){
                     e.printStackTrace();
                 }
@@ -443,9 +441,9 @@ public class Activity_PersonalInfo extends AppCompatActivity {
     }
 
     private void SetupMaidenEntry(){
-        if(poDetail.getGender().equalsIgnoreCase("1")) {
-            if (poDetail.getCvlStats().equalsIgnoreCase("1") ||
-                    poDetail.getCvlStats().equalsIgnoreCase("3")) {
+        if(mViewModel.getModel().getGender().equalsIgnoreCase("1")) {
+            if (mViewModel.getModel().getCvlStats().equalsIgnoreCase("1") ||
+                    mViewModel.getModel().getCvlStats().equalsIgnoreCase("3")) {
                 tilMothNm.setVisibility(View.VISIBLE);
             } else {
                 tilMothNm.setVisibility(View.GONE);

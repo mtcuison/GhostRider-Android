@@ -133,11 +133,6 @@ public class Activity_CIEvaluationList extends AppCompatActivity  implements VME
         if (item.getItemId() == android.R.id.home) {
             finish();
         } else if (item.getItemId() == R.id.action_menu_add_application) {
-            poMessage.initDialog();
-            poMessage.setTitle("CI Evaluation");
-            poMessage.setMessage("No corresponding feature has been set.");
-            poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-            poMessage.show();
             try {
                 DialogAddApplication loDialog = new DialogAddApplication(Activity_CIEvaluationList.this);
                 loDialog.initDialog(new DialogAddApplication.OnDialogButtonClickListener() {

@@ -18,5 +18,5 @@ public interface CreditAppUI {
     LiveData<ECreditApplicantInfo> GetApplication();
     void ParseData(ECreditApplicantInfo args, OnParseListener listener);
     void Validate(Object args);
-    void SaveData(Object args, OnSaveInfoListener listener);
+    void SaveData(OnSaveInfoListener listener);
 }

@@ -806,13 +806,13 @@ public class WebApi {
 
     public String getUrlAddForEvaluation(boolean isBackUp) {
         if(isUnitTest) {
-            return LOCAL + URL_ADD_FOR_EVALUATION;
+            return LOCAL + URL_REQUEST_FOR_EVALUATIONS;
         } else if(isBackUp){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
         }
-        return LIVE + URL_ADD_FOR_EVALUATION;
+        return LIVE + URL_REQUEST_FOR_EVALUATIONS;
     }
 
     public String getUrlDownloadCreditAppForCI(boolean isBackUp) {

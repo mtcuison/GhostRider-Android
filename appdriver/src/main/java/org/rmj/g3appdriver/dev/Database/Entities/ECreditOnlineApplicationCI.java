@@ -66,6 +66,8 @@ public class ECreditOnlineApplicationCI {
     private String Uploaded = "0";
     @ColumnInfo(name = "cSendStat")
     private String SendStat = "0";
+    @ColumnInfo(name = "cTransfer")
+    private String Transfer = "0";
     @ColumnInfo(name = "sApproved")
     private String Approved;
     @ColumnInfo(name = "dApproved")
@@ -465,5 +467,13 @@ public class ECreditOnlineApplicationCI {
 
     public void setUploaded(String uploaded) {
         Uploaded = uploaded;
+    }
+
+    public String getTransfer() {
+        return Transfer;
+    }
+
+    public void setTransfer(String transfer) {
+        Transfer = transfer;
     }
 }

@@ -3,46 +3,45 @@ package org.rmj.guanzongroup.onlinecreditapplication.ViewModel;
 import android.app.Application;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.ECountryInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.EBarangayInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditApp;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditOnlineApplication;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditAppInstance;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditOnlineApplication;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Personal;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Business;
 
 import java.util.List;
 
-public class VMPersonalInfo extends AndroidViewModel implements CreditAppUI {
-    private static final String TAG = VMPersonalInfo.class.getSimpleName();
+public class VMBusinessInfo extends AndroidViewModel implements CreditAppUI {
+    private static final String TAG = VMBusinessInfo.class.getSimpleName();
 
     private final CreditApp poApp;
-    private final Personal poModel;
+    private final Business poModel;
 
     private String TransNox;
 
     private String message;
 
-    public VMPersonalInfo(@NonNull Application application) {
+    public VMBusinessInfo(@NonNull Application application) {
         super(application);
-        this.poApp = new CreditOnlineApplication(application).getInstance(CreditAppInstance.Client_Info);
-        this.poModel = new Personal();
+        this.poApp = new CreditOnlineApplication(application).getInstance(CreditAppInstance.Self_Employed_Info);
+        this.poModel = new Business();
     }
 
-    public Personal getModel(){
+    public Business getModel(){
         return poModel;
     }
 
     @Override
     public void InitializeApplication(Intent params) {
-        TransNox = params.getStringExtra("sTransNox");
+        this.TransNox = params.getStringExtra("sTransNox");
     }
 
     @Override
@@ -52,7 +51,7 @@ public class VMPersonalInfo extends AndroidViewModel implements CreditAppUI {
 
     @Override
     public void ParseData(ECreditApplicantInfo args, OnParseListener listener) {
-        new ParseDataTask(listener).execute(args);
+
     }
 
     @Override
@@ -62,62 +61,27 @@ public class VMPersonalInfo extends AndroidViewModel implements CreditAppUI {
 
     @Override
     public void SaveData(OnSaveInfoListener listener) {
-        new SaveDetailTask(listener).execute(poModel);
+        new SaveDataTask(listener).execute(poModel);
     }
 
     public LiveData<List<DTownInfo.TownProvinceInfo>> GetTownProvinceList(){
         return poApp.GetTownProvinceList();
     }
 
-    public LiveData<List<ECountryInfo>> GetCountryList(){
-        return poApp.GetCountryList();
+    public LiveData<List<EBarangayInfo>> GetBarangayList(String args){
+        return poApp.GetBarangayList(args);
     }
 
-    private class ParseDataTask extends AsyncTask<ECreditApplicantInfo, Void, Personal>{
-
-        private final OnParseListener listener;
-
-        public ParseDataTask(OnParseListener listener) {
-            this.listener = listener;
-        }
-
-        @Override
-        protected Personal doInBackground(ECreditApplicantInfo... app) {
-            try {
-                Personal loDetail = (Personal) poApp.Parse(app[0]);
-                if(loDetail == null){
-                    message = poApp.getMessage();
-                    return null;
-                }
-                return loDetail;
-            } catch (Exception e){
-                e.printStackTrace();
-                message = e.getMessage();
-                return null;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(Personal result) {
-            super.onPostExecute(result);
-            if(result == null){
-                Log.e(TAG, message);
-            } else {
-                listener.OnParse(result);
-            }
-        }
-    }
-
-    private class SaveDetailTask extends AsyncTask<Personal, Void, Boolean>{
+    private class SaveDataTask extends AsyncTask<Business, Void, Boolean>{
 
         private final OnSaveInfoListener listener;
 
-        public SaveDetailTask(OnSaveInfoListener listener) {
+        public SaveDataTask(OnSaveInfoListener listener) {
             this.listener = listener;
         }
 
         @Override
-        protected Boolean doInBackground(Personal... info) {
+        protected Boolean doInBackground(Business... info) {
             int lnResult = poApp.Validate(info[0]);
 
             if(lnResult != 1){
@@ -144,4 +108,7 @@ public class VMPersonalInfo extends AndroidViewModel implements CreditAppUI {
             }
         }
     }
+
+
+
 }

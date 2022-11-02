@@ -242,7 +242,7 @@ public class CITagging {
             JSONObject params = new JSONObject();
             params.put("sTransNox", TransNox);
             String lsResponse = WebClient.sendRequest(
-                    poApis.getUrlAddForEvaluation(poConfig.isBackUpServer()),
+                    poApis.getUrlDownloadCIApplications(poConfig.isBackUpServer()),
                     params.toString(),
                     poHeaders.getHeaders());
 
@@ -272,31 +272,57 @@ public class CITagging {
                 loApp.setAsstFndg(loJson.getString("sAsstFndg"));
                 loApp.setIncomexx(loJson.getString("sIncomexx"));
                 loApp.setIncmFndg(loJson.getString("sIncmFndg"));
-                loApp.setRcmdRcd1(new AppConstants().DATE_MODIFIED());
-                poDao.SaveApplicationInfo(loApp);
-            }
-            JSONArray loCredxx = loResponse.getJSONArray("credit_online");
-            for (int x = 0; x < loCredxx.length(); x++) {
-                JSONObject loJson = loCredxx.getJSONObject(x);
-                EBranchLoanApplication loanInfo = new EBranchLoanApplication();
-                loanInfo.setTransNox(loJson.getString("sTransNox"));
-                loanInfo.setBranchCD(loJson.getString("sBranchCd"));
-                loanInfo.setTransact(loJson.getString("dTransact"));
-                loanInfo.setCredInvx(loJson.getString("sCredInvx"));
-                loanInfo.setCompnyNm(loJson.getString("sCompnyNm"));
-                loanInfo.setSpouseNm(loJson.getString("sSpouseNm"));
-                loanInfo.setAddressx(loJson.getString("sAddressx"));
-                loanInfo.setMobileNo(loJson.getString("sMobileNo"));
-                loanInfo.setQMAppCde(loJson.getString("sQMAppCde"));
-                loanInfo.setModelNme(loJson.getString("sModelNme"));
-                loanInfo.setDownPaym(loJson.getString("nDownPaym"));
-                loanInfo.setAcctTerm(loJson.getString("nAcctTerm"));
-                loanInfo.setCreatedX(loJson.getString("sCreatedx"));
-                loanInfo.setTranStat(loJson.getString("cTranStat"));
-                loanInfo.setTimeStmp(loJson.getString("dTimeStmp"));
-                poDao.SaveCreditApplication(loanInfo);
-            }
+                if(loJson.getString("dRcmdRcd1").equalsIgnoreCase("null")){
+                    loApp.setRcmdRcd1(new AppConstants().DATE_MODIFIED());
+                } else if(loJson.getString("dRcmdRcd2").equalsIgnoreCase("null")) {
+                    loApp.setHasRecrd(loJson.getString("cHasRecrd"));
+                    loApp.setRecrdRem(loJson.getString("sRecrdRem"));
+                    loApp.setPrsnBrgy(loJson.getString("sPrsnBrgy"));
+                    loApp.setPrsnPstn(loJson.getString("sPrsnPstn"));
+                    loApp.setPrsnNmbr(loJson.getString("sPrsnNmbr"));
+                    loApp.setNeighBr1(loJson.getString("sNeighBr1"));
+                    loApp.setNeighBr2(loJson.getString("sNeighBr2"));
+                    loApp.setNeighBr3(loJson.getString("sNeighBr3"));
+                    loApp.setRcmdRcd1(loJson.getString("dRcmdRcd1"));
+                    loApp.setRcmdtnx1(loJson.getString("dRcmdtnx1"));
+                    loApp.setRcmdtnc1(loJson.getString("cRcmdtnx1"));
+                    loApp.setRcmdtns1(loJson.getString("sRcmdtnx1"));
+                    loApp.setRcmdRcd2(new AppConstants().DATE_MODIFIED());
+                    loApp.setRcmdtnx2(new AppConstants().DATE_MODIFIED());
+                    loApp.setTranStat(loJson.getString("cTranStat"));
+                } else {
+                    loApp.setHasRecrd(loJson.getString("cHasRecrd"));
+                    loApp.setRecrdRem(loJson.getString("sRecrdRem"));
+                    loApp.setPrsnBrgy(loJson.getString("sPrsnBrgy"));
+                    loApp.setPrsnPstn(loJson.getString("sPrsnPstn"));
+                    loApp.setPrsnNmbr(loJson.getString("sPrsnNmbr"));
+                    loApp.setNeighBr1(loJson.getString("sNeighBr1"));
+                    loApp.setNeighBr2(loJson.getString("sNeighBr2"));
+                    loApp.setNeighBr3(loJson.getString("sNeighBr3"));
+                    loApp.setRcmdRcd1(loJson.getString("dRcmdRcd1"));
+                    loApp.setRcmdtnx1(loJson.getString("dRcmdtnx1"));
+                    loApp.setRcmdtnc1(loJson.getString("cRcmdtnx1"));
+                    loApp.setRcmdtns1(loJson.getString("sRcmdtnx1"));
+                    loApp.setRcmdRcd2(loJson.getString("dRcmdRcd2"));
+                    loApp.setRcmdtnx2(loJson.getString("dRcmdtnx2"));
+                    loApp.setRcmdtnc2(loJson.getString("cRcmdtnx2"));
+                    loApp.setRcmdtns2(loJson.getString("sRcmdtnx2"));
+                    loApp.setTranStat(loJson.getString("cTranStat"));
+                    loApp.setUploaded("1");
+                    loApp.setSendStat("1");
+                }
 
+                poDao.SaveApplicationInfo(loApp);
+
+                Thread.sleep(1000);
+                Log.d(TAG, "Downloading application. Transaction number: " + loJson.getString("sTransNox"));
+                if(DownloadForCIApplicationDetails(loJson.getString("sTransNox"))){
+                    Log.d(TAG, "Credit app info successfully downloaded.");
+                } else {
+                    Log.d(TAG, "Failed to download credit app. " + message);
+                }
+                Thread.sleep(1000);
+            }
             return true;
         } catch (Exception e){
             e.printStackTrace();
@@ -428,11 +454,23 @@ public class CITagging {
         }
     }
 
-    public boolean SaveCIResult(String TransNox, String fsParnt, String fsKEyxx, String fsValue){
+    public boolean SaveCIResult(List<String> foList, String TransNox, String fsParnt, String fsKEyxx, String fsValue){
         try{
             String lsFndng;
             JSONObject loJson;
             JSONObject loDetail;
+            String lsEmployID = poDao.GetEmployeeID();
+            ECreditOnlineApplicationCI loCiApp = poDao.GetApplication(TransNox);
+
+            for(int x = 0;  x < foList.size(); x++){
+                if(fsKEyxx.equalsIgnoreCase(foList.get(x))){
+                    if(!lsEmployID.equalsIgnoreCase(loCiApp.getCredInvx())){
+                        message = "Unable to update already tag details.";
+                        return false;
+                    }
+                }
+            }
+
             if(fsParnt.isEmpty()){
                 lsFndng = poDao.getAssetsForEvaluation(TransNox);
                 loJson = new JSONObject(lsFndng);

@@ -43,6 +43,8 @@ import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.integsys.CreditInvestigator.BarangayRecord;
 import org.rmj.g3appdriver.lib.integsys.CreditInvestigator.CIImage;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -65,6 +67,7 @@ public class Activity_Evaluation extends AppCompatActivity {
     private CIImage poImage;
 
     private String psTransNo;
+    private List<String> poList = new ArrayList<>();
 
     private onEvaluate poAdLstnr;
 
@@ -74,12 +77,13 @@ public class Activity_Evaluation extends AppCompatActivity {
                 mViewModel.SaveAddressImage(poImage, new VMEvaluation.OnSaveAddressResult() {
                     @Override
                     public void OnSuccess(String args, String args1, String args2) {
-                        SaveCIResult(args, args1, args2);
+                        SaveCIResult(poList, args, args1, args2);
                         poAdLstnr.OnSetResult(true);
                     }
 
                     @Override
                     public void OnError(String message) {
+                        poAdLstnr.OnSetResult(true);
                         Toast.makeText(Activity_Evaluation.this, message, Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -443,7 +447,6 @@ public class Activity_Evaluation extends AppCompatActivity {
             this.mViewModel = viewModel;
         }
 
-
         @Override
         public void onCheckedChanged(RadioGroup group, int checkedId) {
             if(rbView.getId() == R.id.rg_ci_brgyRecord){
@@ -517,8 +520,8 @@ public class Activity_Evaluation extends AppCompatActivity {
         poMessage.show();
     }
 
-    private void SaveCIResult(String fsPar, String fsKey, String fsRes){
-        mViewModel.SaveCIResult(psTransNo, fsPar, fsKey, fsRes, new VMEvaluation.OnSaveCIResultListener() {
+    private void SaveCIResult(List<String> foList, String fsPar, String fsKey, String fsRes){
+        mViewModel.SaveCIResult(psTransNo, fsPar, fsKey, fsRes, foList, new VMEvaluation.OnSaveCIResultListener() {
             @Override
             public void OnSuccess() {
                 Toast.makeText(Activity_Evaluation.this, "Record save!", Toast.LENGTH_SHORT).show();
@@ -534,19 +537,23 @@ public class Activity_Evaluation extends AppCompatActivity {
     private void setupEvaluationAdapter(ECreditOnlineApplicationCI ci){
         try {
             JSONArray laEval = new JSONArray();
+            poList.clear();
             JSONObject loDetail = FindingsParser.scanForEvaluation(ci.getAddressx(), ci.getAddrFndg());
             if(loDetail.getJSONArray("detail").length() > 0){
                 laEval.put(FindingsParser.scanForEvaluation(ci.getAddressx(), ci.getAddrFndg()));
+                poList.addAll(FindingsParser.ScanForEvaluationTransferredApplication(ci.getAddressx(), ci.getAddrFndg()));
             }
 
             loDetail = FindingsParser.scanForEvaluation(ci.getIncomexx(), ci.getIncmFndg());
             if(loDetail.getJSONArray("detail").length() > 0){
                 laEval.put(FindingsParser.scanForEvaluation(ci.getIncomexx(), ci.getIncmFndg()));
+                poList.addAll(FindingsParser.ScanForEvaluationTransferredApplication(ci.getIncomexx(), ci.getIncmFndg()));
             }
 
             loDetail = FindingsParser.scanForEvaluation(ci.getAssetsxx(), ci.getAsstFndg());
             if(loDetail.getJSONArray("detail").length() > 0){
                 laEval.put(FindingsParser.scanForEvaluation(ci.getAssetsxx(), ci.getAsstFndg()));
+                poList.addAll(FindingsParser.ScanForEvaluationTransferredApplication(ci.getAssetsxx(), ci.getAsstFndg()));
             }
             Log.d(TAG, laEval.toString());
 
@@ -572,7 +579,7 @@ public class Activity_Evaluation extends AppCompatActivity {
                             poImage.setcResultxx(fsRes);
                             validateCameraPermissions();
                         } else {
-                            SaveCIResult(fsPar, fsKey, fsRes);
+                            SaveCIResult(poList, fsPar, fsKey, fsRes);
                             listener.OnSetResult(true);
                         }
                     }
@@ -592,7 +599,7 @@ public class Activity_Evaluation extends AppCompatActivity {
                             poImage.setcResultxx(fsRes);
                             validateCameraPermissions();
                         } else {
-                            SaveCIResult(fsPar, fsKey, fsRes);
+                            SaveCIResult(poList, fsPar, fsKey, fsRes);
                             listener.OnSetResult(true);
                         }
                     }

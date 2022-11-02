@@ -15,7 +15,6 @@ import org.rmj.g3appdriver.dev.Database.Entities.EOccupationInfo;
 import org.rmj.g3appdriver.dev.Database.Repositories.ROccupation;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.LocationRetriever;
-import org.rmj.g3appdriver.etc.SessionManager;
 import org.rmj.g3appdriver.lib.integsys.CreditInvestigator.BarangayRecord;
 import org.rmj.g3appdriver.lib.integsys.CreditInvestigator.CIImage;
 import org.rmj.g3appdriver.lib.integsys.CreditInvestigator.CITagging;
@@ -81,17 +80,19 @@ public class VMEvaluation extends AndroidViewModel {
         return poJob.getAllOccupationInfo();
     }
 
-    public void SaveCIResult(String args, String fsPar, String fsKey, String fsRes, OnSaveCIResultListener listener){
-        new SaveCIResult(listener).execute(args, fsPar, fsKey, fsRes);
+    public void SaveCIResult(String args, String fsPar, String fsKey, String fsRes, List<String> foList, OnSaveCIResultListener listener){
+        new SaveCIResult(foList, listener).execute(args, fsPar, fsKey, fsRes);
     }
 
     private class SaveCIResult extends AsyncTask<String, Void, Boolean>{
 
         private final OnSaveCIResultListener listener;
+        private final List<String> poList;
 
         private String message;
 
-        public SaveCIResult(OnSaveCIResultListener listener) {
+        public SaveCIResult(List<String> foList, OnSaveCIResultListener listener) {
+            this.poList = foList;
             this.listener = listener;
         }
 
@@ -103,7 +104,8 @@ public class VMEvaluation extends AndroidViewModel {
                 String KeyNamex = strings[2];
                 String Resultxx = strings[3];
 
-                if (!poSys.SaveCIResult(TransNox, Parentxx, KeyNamex, Resultxx)) {
+
+                if (!poSys.SaveCIResult(poList, TransNox, Parentxx, KeyNamex, Resultxx)) {
                     message = poSys.getMessage();
                     return false;
                 }
