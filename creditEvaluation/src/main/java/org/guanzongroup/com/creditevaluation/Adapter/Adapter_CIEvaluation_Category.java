@@ -57,6 +57,11 @@ public class Adapter_CIEvaluation_Category extends RecyclerView.Adapter<Adapter_
             JSONArray laDetail = loJson.getJSONArray(lsHeader);
             holder.recyclerView.setAdapter(new Adapter_CI_Evaluate(laDetail, poJob, cPreview, new onSelectResultListener() {
                 @Override
+                public void OnUpdate(String fsKey, onValidateListener listener) {
+                    mListener.OnUpdate(fsKey, listener);
+                }
+
+                @Override
                 public void OnCorrect(String fsPar, String fsKey, String fsRes, onEvaluate listener) {
                     mListener.OnCorrect(lsHeader, fsKey, fsRes, listener);
                 }

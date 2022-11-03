@@ -16,7 +16,7 @@ import java.util.List;
 @Dao
 public interface DCreditOnlineApplicationCI {
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert
     void SaveApplicationInfo(ECreditOnlineApplicationCI foCI);
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
@@ -145,7 +145,8 @@ public interface DCreditOnlineApplicationCI {
             "ON a.sTransNox = b.sTransNox " +
             "LEFT JOIN Branch_Info c " +
             "ON b.sBranchCd = c.sBranchCd " +
-            "WHERE a.cRcmdtnx1 isNull")
+            "WHERE a.cRcmdtnx1 isNull OR " +
+            "a.cRcmdtnx1 == '' OR a.cRcmdtnx1 == 'null'")
     LiveData<List<oDataEvaluationInfo>> getForEvaluationListData();
 
     @Query("SELECT a.sTransNox, " +

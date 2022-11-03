@@ -67,7 +67,7 @@ public class AppTokenManager {
                 loDetail.setDescript("Firebase token.");
                 loDetail.setGeneratd(new AppConstants().DATE_MODIFIED());
                 loDetail.setTimeStmp(new AppConstants().DATE_MODIFIED());
-                poDao.SaveToken(loDetail);
+                poDao.UpdateToken(loDetail);
                 Log.d(TAG, "Firebase token updated!");
             }
 

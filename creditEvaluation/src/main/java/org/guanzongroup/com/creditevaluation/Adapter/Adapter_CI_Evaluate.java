@@ -90,8 +90,12 @@ public class Adapter_CI_Evaluate extends RecyclerView.Adapter<Adapter_CI_Evaluat
 
             if(!cPreview) {
                 holder.btnEdit.setOnClickListener(v -> {
-                    holder.EnableRBs();
-                    holder.btnEdit.setVisibility(View.GONE);
+                    mListener.OnUpdate(finalLsKeyxx, isValid -> {
+                        if(isValid){
+                            holder.EnableRBs();
+                            holder.btnEdit.setVisibility(View.GONE);
+                        }
+                    });
                 });
 
                 holder.rbCor.setOnClickListener(v -> {

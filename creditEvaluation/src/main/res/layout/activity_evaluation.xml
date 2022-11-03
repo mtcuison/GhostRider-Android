@@ -469,7 +469,7 @@
                                         android:layout_weight="1.5"/>
 
                                     <Button
-                                        android:id="@+id/btnSaveAdditional"
+                                        android:id="@+id/btnSaveBrgyRecords"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="Save"
@@ -478,7 +478,7 @@
                                         style="@style/GhostRider_Button"/>
 
                                     <Button
-                                        android:id="@+id/btnEditAdditional"
+                                        android:id="@+id/btnEditBrgyRecords"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="Edit"

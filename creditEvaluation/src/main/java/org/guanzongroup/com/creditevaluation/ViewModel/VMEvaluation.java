@@ -33,6 +33,11 @@ public class VMEvaluation extends AndroidViewModel {
 
     private final ConnectionUtil poConn;
 
+    public interface OnValidateTaggingResult{
+        void OnValid();
+        void OnInvalid(String message);
+    }
+
     public interface OnSaveCIResultListener {
         void OnSuccess();
         void OnError(String message);
@@ -80,6 +85,45 @@ public class VMEvaluation extends AndroidViewModel {
         return poJob.getAllOccupationInfo();
     }
 
+    public void ValidateTagging(String TransNox, String fsKeyxx, List<String> foList, OnValidateTaggingResult listener){
+        new ValidateTaggingTask(TransNox, fsKeyxx, listener).execute(foList);
+    }
+
+    private class ValidateTaggingTask extends AsyncTask<List<String>, Void, Boolean>{
+
+        private final OnValidateTaggingResult mListener;
+        private final String TransNox;
+        private final String fsKeyxx;
+
+        private String message;
+
+        public ValidateTaggingTask(String TransNox, String fsKeyxx, OnValidateTaggingResult listener) {
+            this.TransNox = TransNox;
+            this.fsKeyxx = fsKeyxx;
+            this.mListener = listener;
+        }
+
+        @Override
+        protected Boolean doInBackground(List<String>... lists) {
+
+            if(!poSys.ValidateTagging(TransNox, fsKeyxx, lists[0])){
+                message = poSys.getMessage();
+                return false;
+            }
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean isSuccess) {
+            super.onPostExecute(isSuccess);
+            if(!isSuccess){
+                mListener.OnInvalid(message);
+            } else {
+                mListener.OnValid();
+            }
+        }
+    }
+
     public void SaveCIResult(String args, String fsPar, String fsKey, String fsRes, List<String> foList, OnSaveCIResultListener listener){
         new SaveCIResult(foList, listener).execute(args, fsPar, fsKey, fsRes);
     }
@@ -87,12 +131,10 @@ public class VMEvaluation extends AndroidViewModel {
     private class SaveCIResult extends AsyncTask<String, Void, Boolean>{
 
         private final OnSaveCIResultListener listener;
-        private final List<String> poList;
 
         private String message;
 
         public SaveCIResult(List<String> foList, OnSaveCIResultListener listener) {
-            this.poList = foList;
             this.listener = listener;
         }
 
@@ -105,7 +147,7 @@ public class VMEvaluation extends AndroidViewModel {
                 String Resultxx = strings[3];
 
 
-                if (!poSys.SaveCIResult(poList, TransNox, Parentxx, KeyNamex, Resultxx)) {
+                if (!poSys.SaveCIResult(TransNox, Parentxx, KeyNamex, Resultxx)) {
                     message = poSys.getMessage();
                     return false;
                 }

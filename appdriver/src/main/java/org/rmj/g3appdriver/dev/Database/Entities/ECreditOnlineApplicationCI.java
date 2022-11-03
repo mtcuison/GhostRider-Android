@@ -72,6 +72,8 @@ public class ECreditOnlineApplicationCI {
     private String Approved;
     @ColumnInfo(name = "dApproved")
     private String Dapprovd;
+    @ColumnInfo(name = "dTimeStmp", defaultValue = "CURRENT_TIMESTAMP")
+    private String TimeStmp;
 
     public ECreditOnlineApplicationCI() {
     }
@@ -475,5 +477,13 @@ public class ECreditOnlineApplicationCI {
 
     public void setTransfer(String transfer) {
         Transfer = transfer;
+    }
+
+    public String getTimeStmp() {
+        return TimeStmp;
+    }
+
+    public void setTimeStmp(String timeStmp) {
+        TimeStmp = timeStmp;
     }
 }

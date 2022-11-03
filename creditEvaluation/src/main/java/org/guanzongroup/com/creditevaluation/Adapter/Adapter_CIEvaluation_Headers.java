@@ -58,6 +58,11 @@ public class Adapter_CIEvaluation_Headers extends RecyclerView.Adapter<Adapter_C
             if(laDetail.getJSONObject(0).has("category")) {
                 holder.recyclerView.setAdapter(new Adapter_CIEvaluation_Category(mContext, laDetail, poJob, cPreview, new onSelectResultListener() {
                     @Override
+                    public void OnUpdate(String fsKey, onValidateListener listener) {
+                        mListener.OnUpdate(fsKey, listener);
+                    }
+
+                    @Override
                     public void OnCorrect(String fsPar, String fsKey, String fsRes, onEvaluate listener) {
                         mListener.OnCorrect(fsPar, fsKey, fsRes, listener);
                     }
@@ -69,6 +74,11 @@ public class Adapter_CIEvaluation_Headers extends RecyclerView.Adapter<Adapter_C
                 }));
             } else {
                 holder.recyclerView.setAdapter(new Adapter_CI_Evaluate(laDetail, poJob, cPreview, new onSelectResultListener() {
+                    @Override
+                    public void OnUpdate(String fsKey, onValidateListener listener) {
+
+                    }
+
                     @Override
                     public void OnCorrect(String fsPar, String fsKey, String fsRes, onEvaluate listener) {
                         mListener.OnCorrect(fsPar, fsKey, fsRes, listener);
