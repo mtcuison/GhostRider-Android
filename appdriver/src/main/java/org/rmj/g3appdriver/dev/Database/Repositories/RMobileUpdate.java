@@ -10,7 +10,7 @@ import org.rmj.g3appdriver.dev.Database.DataAccessObject.DMobileUpdate;
 import org.rmj.g3appdriver.dev.Database.Entities.EMobileUpdate;
 import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.etc.AppConstants;
-import org.rmj.g3appdriver.lib.integsys.Dcp.MobileUpdate;
+import org.rmj.g3appdriver.lib.integsys.Dcp.model.MobileUpdate;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

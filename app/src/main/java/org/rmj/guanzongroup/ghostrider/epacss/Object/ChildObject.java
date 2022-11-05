@@ -19,6 +19,7 @@ import org.guanzongroup.com.creditevaluation.Activity.Activity_EvaluationCIHisto
 import org.guanzongroup.com.itinerary.Activities.Activity_ItineraryEntry;
 import org.guanzongroup.com.itinerary.Activities.Activity_ItineraryLog;
 import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.guanzongroup.documentscanner.Activity_DocumentScan;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Application;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_AreaPerformance;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_CashCountLog;
@@ -68,9 +69,9 @@ public class ChildObject {
 //            case "branch application list":
 //                loIntent = new Intent(context, Activity_BranchApplications.class);
 //                break;
-//            case "document scanner":
-//                loIntent = new Intent(context, MainScanner.class);
-//                break;
+            case "document scan":
+                loIntent = new Intent(context, Activity_DocumentScan.class);
+                break;
 //            case "":
 //                loIntent = new Intent(context, DCPPhotoCapture.class);
 //                break;

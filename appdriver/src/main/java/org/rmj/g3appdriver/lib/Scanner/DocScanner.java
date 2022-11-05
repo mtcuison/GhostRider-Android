@@ -42,13 +42,13 @@ public class DocScanner {
                 },
                 (errorMessage) -> {
                     // an error happened
-                    Log.d("documentscannerlogs", errorMessage);
+                    Log.d(TAG, errorMessage);
                     listener.OnFailed(errorMessage);
                     return null;
                 },
                 () -> {
                     // user canceled document scan
-                    Log.d("documentscannerlogs", "User canceled document scan");
+                    Log.d(TAG, "User canceled document scan");
                     listener.OnCancelled();
                     return null;
                 },

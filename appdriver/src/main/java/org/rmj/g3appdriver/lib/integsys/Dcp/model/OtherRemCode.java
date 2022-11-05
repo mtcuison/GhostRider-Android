@@ -1,7 +1,8 @@
-package org.rmj.g3appdriver.lib.integsys.Dcp;
+package org.rmj.g3appdriver.lib.integsys.Dcp.model;
 
-public class CustomerNotAround {
-    private String Remarksx,
+public class OtherRemCode {
+    private String RemCodex,
+                    Remarksx,
                     AccntNox,
                     TransNox,
                     EntryNox,
@@ -11,7 +12,7 @@ public class CustomerNotAround {
                     longtude,
                     message;
 
-    public CustomerNotAround() {
+    public OtherRemCode() {
     }
 
     public String getMessage() {
@@ -24,6 +25,14 @@ public class CustomerNotAround {
 
     public void setEntryNox(String entryNox) {
         EntryNox = entryNox;
+    }
+
+    public String getRemCodex() {
+        return RemCodex;
+    }
+
+    public void setRemCodex(String remCodex) {
+        RemCodex = remCodex;
     }
 
     public String getRemarksx() {

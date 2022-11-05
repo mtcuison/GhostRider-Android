@@ -13,7 +13,6 @@ package org.rmj.g3appdriver.dev.Database.Repositories;
 
 import android.app.Application;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
@@ -56,9 +55,8 @@ public class RCreditApplicationDocument {
     }
 
     public LiveData<List<DCreditApplicationDocuments.ApplicationDocument>> getDocumentInfos(String TransNox){
-        return documentsDao.getDocumentInfo(TransNox);
+        return documentsDao.GetCreditAppDocuments(TransNox);
     }
-//    public Live
 
     public LiveData<List<EFileCode>> getDocumentInfoByFile(){
         return documentsDao.getDocumentInfoByFile();

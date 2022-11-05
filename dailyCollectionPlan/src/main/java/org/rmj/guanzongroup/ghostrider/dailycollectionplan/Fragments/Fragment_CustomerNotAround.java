@@ -16,7 +16,6 @@ import static android.app.Activity.RESULT_OK;
 import static androidx.core.content.ContextCompat.checkSelfPermission;
 
 import android.Manifest;
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -48,9 +47,9 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.lib.integsys.Dcp.AddressUpdate;
-import org.rmj.g3appdriver.lib.integsys.Dcp.CustomerNotAround;
-import org.rmj.g3appdriver.lib.integsys.Dcp.MobileUpdate;
+import org.rmj.g3appdriver.lib.integsys.Dcp.model.AddressUpdate;
+import org.rmj.g3appdriver.lib.integsys.Dcp.model.CustomerNotAround;
+import org.rmj.g3appdriver.lib.integsys.Dcp.model.MobileUpdate;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_Transaction;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter.AddressInfoAdapter;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter.MobileInfoAdapter;

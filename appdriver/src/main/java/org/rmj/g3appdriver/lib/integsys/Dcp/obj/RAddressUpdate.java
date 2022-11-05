@@ -1,4 +1,4 @@
-package org.rmj.g3appdriver.lib.integsys.Dcp;
+package org.rmj.g3appdriver.lib.integsys.Dcp.obj;
 
 import android.app.Application;
 import android.util.Log;
@@ -10,6 +10,7 @@ import org.rmj.g3appdriver.dev.Database.DataAccessObject.DAddressUpdate;
 import org.rmj.g3appdriver.dev.Database.Entities.EAddressUpdate;
 import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.lib.integsys.Dcp.model.AddressUpdate;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
