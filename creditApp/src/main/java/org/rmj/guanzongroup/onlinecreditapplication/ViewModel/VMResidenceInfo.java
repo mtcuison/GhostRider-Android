@@ -17,7 +17,6 @@ import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditOnlineApplication;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditAppInstance;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.ClientResidence;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Personal;
 
 import java.util.List;
 
@@ -37,7 +36,7 @@ public class VMResidenceInfo extends AndroidViewModel implements CreditAppUI{
         this.poModel = poModel;
     }
 
-    public ClientResidence getModel(){
+    public ClientResidence getModel() {
         return poModel;
     }
 
@@ -48,6 +47,7 @@ public class VMResidenceInfo extends AndroidViewModel implements CreditAppUI{
     public LiveData<List<EBarangayInfo>> GetBarangayList(String args){
         return poApp.GetBarangayList(args);
     }
+
 
     @Override
     public void InitializeApplication(Intent params) {

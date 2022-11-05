@@ -224,6 +224,12 @@ public class Activity_SpouseEmploymentInfo extends AppCompatActivity {
 
     }
 
+    @Override
+    public void finish(){
+        super.finish();
+        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
+    }
+
 
     private void initWidgets() {
         toolbar = findViewById(R.id.toolbar_SpouseEmploymentInfo);

@@ -64,7 +64,6 @@ public class Activity_ResidenceInfo extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mViewModel = new ViewModelProvider(Activity_ResidenceInfo.this).get(VMResidenceInfo.class);
-        poMessage = new MessageBox(Activity_ResidenceInfo.this);
         setContentView(R.layout.activity_residence_info);
         initWidgets();
         mViewModel.InitializeApplication(getIntent());
@@ -76,7 +75,7 @@ public class Activity_ResidenceInfo extends AppCompatActivity {
                     mViewModel.ParseData(app, new OnParseListener() {
                         @Override
                         public void OnParse(Object args) {
-                            ClientResidence loDetail = (ClientResidence) args;
+                            Financier loDetail = (Financier) args;
                         }
                     });
 
@@ -268,6 +267,95 @@ public class Activity_ResidenceInfo extends AppCompatActivity {
             }
         }
     }
+//
+//    public void setFieldDataFromLocalDB(ECreditApplicantInfo credits) throws JSONException {
+//        try {
+//            if (credits.getResidnce() != null) {
+//                cbOneAddress.setChecked(Boolean.parseBoolean(credits.getDetlInfo()));
+//                JSONObject residenceObj = new JSONObject(credits.getResidnce());
+//                JSONObject presentObj = new JSONObject(residenceObj.getString("present_address"));
+//                JSONObject permanentObj = new JSONObject(residenceObj.getString("permanent_address"));
+//
+//                mViewModel.getBrgyTownProvinceInfoWithID(permanentObj.getString("sBrgyIDxx")).observe(Activity_ResidenceInfo.this, townProvinceInfo -> {
+//                    txtPMunicipl.setText(townProvinceInfo.sTownName);
+//                    txtPProvince.setText(townProvinceInfo.sProvName);
+//                    txtPBarangay.setText(townProvinceInfo.sProvName);
+//                    mViewModel.setPermanentProvinceID(townProvinceInfo.sProvIDxx);
+//                    mViewModel.setPermanentTownID(townProvinceInfo.sTownIDxx);
+//                    mViewModel.setPermanentBarangayID(townProvinceInfo.sBrgyIDxx);
+//
+//                });
+//                mViewModel.getBrgyTownProvinceInfoWithID(presentObj.getString("sBrgyIDxx")).observe(Activity_ResidenceInfo.this, townProvinceInfo -> {
+//                    txtMunicipality.setText(townProvinceInfo.sTownName);
+//                    txtProvince.setText(townProvinceInfo.sProvName);
+//                    txtBarangay.setText(townProvinceInfo.sProvName);
+//                    mViewModel.setProvinceID(townProvinceInfo.sProvIDxx);
+//                    mViewModel.setTownID(townProvinceInfo.sTownIDxx);
+//                    mViewModel.setBarangayID(townProvinceInfo.sBrgyIDxx);
+//                });
+//                txtLandMark.setText(presentObj.getString("sLandMark"));
+//                txtHouseNox.setText(presentObj.getString("sHouseNox"));
+//                txtAddress1.setText(presentObj.getString("sAddress1"));
+//                txtAddress2.setText(presentObj.getString("sAddress2"));
+//
+//                txtPLandMark.setText(permanentObj.getString("sLandMark"));
+//                txtPHouseNox.setText(permanentObj.getString("sHouseNox"));
+//                txtPAddress1.setText(permanentObj.getString("sAddress1"));
+//                txtPAddress2.setText(permanentObj.getString("sAddress2"));
+//
+//                if (residenceObj.getString("cOwnershp").equalsIgnoreCase("0")) {
+//                    rgOwnsership.check(R.id.rb_owned);
+//                    infoModel.setHouseOwn("0");
+//                } else if (residenceObj.getString("cOwnershp").equalsIgnoreCase("1")) {
+//                    rgOwnsership.check(R.id.rb_rent);
+//                    infoModel.setHouseOwn("1");
+//                } else if (residenceObj.getString("cOwnershp").equalsIgnoreCase("2")) {
+//                    rgOwnsership.check(R.id.rb_careTaker);
+//                    infoModel.setHouseOwn("2");
+//                }
+//                if (residenceObj.getString("cGaragexx").equalsIgnoreCase("0")) {
+//                    rgGarage.check(R.id.rb_no);
+//                    infoModel.setHasGarage("0");
+//                } else {
+//                    rgGarage.check(R.id.rb_yes);
+//                    infoModel.setHasGarage("1");
+//                }
+//                infoModel.setHouseHold(residenceObj.getString("cOwnOther"));
+//                spnHouseHold.setText(CreditAppConstants.HOUSEHOLDS[Integer.parseInt(residenceObj.getString("cOwnOther"))]);
+//
+//                spnHouseType.setText(CreditAppConstants.HOUSE_TYPE[Integer.parseInt(residenceObj.getString("cHouseTyp"))]);
+//                infoModel.setHouseType(residenceObj.getString("cHouseTyp"));
+//
+//            } else {
+//                cbOneAddress.setChecked(false);
+//                txtLandMark.getText().clear();
+//                txtHouseNox.getText().clear();
+//                txtAddress1.getText().clear();
+//                txtAddress2.getText().clear();
+//                txtBarangay.getText().clear();
+//                txtMunicipality.getText().clear();
+//                txtProvince.getText().clear();
+//                txtRelationship.getText().clear();
+//                txtLgnthStay.getText().clear();
+//                txtMonthlyExp.getText().clear();
+//                txtPLandMark.getText().clear();
+//                txtPHouseNox.getText().clear();
+//                txtPAddress1.getText().clear();
+//                txtPAddress2.getText().clear();
+//                txtPBarangay.getText().clear();
+//                txtPMunicipl.getText().clear();
+//                txtPProvince.getText().clear();
+//                spnLgnthStay.getText().clear();
+//                spnHouseHold.getText().clear();
+//                spnHouseType.getText().clear();
+//                rgOwnsership.clearCheck();
+//                rgGarage.clearCheck();
+//            }
+//        } catch (NullPointerException e) {
+//            e.printStackTrace();
+//        }
+//    }
+//
 
     private void initWidgets() {
 
