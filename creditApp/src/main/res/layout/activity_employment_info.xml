@@ -80,27 +80,13 @@
                     android:layout_height="wrap_content"
                     android:text="@string/sLabelUniformPersonnel" />
 
-                <RadioGroup
-                    android:id="@+id/rg_uniformPersonel"
+                <CheckBox
+                    android:id="@+id/cb_UniformPersonnelYes"
+                    style="@style/Widget.AppCompat.CompoundButton.CheckBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <RadioButton
-                        android:id="@+id/rb_uniform_yes"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/sLabelYes" />
-
-                    <RadioButton
-                        android:id="@+id/rb_uniform_no"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/sLabelNo" />
-
-                </RadioGroup>
+                    android:layout_marginStart="16dp"
+                    android:text="Yes" />
 
                 <TextView
                     style="@style/HeaderLabelBlack"
@@ -108,27 +94,14 @@
                     android:layout_height="wrap_content"
                     android:text="@string/sLabelMilitaryPersonnel" />
 
-                <RadioGroup
-                    android:id="@+id/rg_militaryPersonal"
+                <CheckBox
+                    android:id="@+id/cb_MilitaryPersonalYes"
+                    style="@style/Widget.AppCompat.CompoundButton.CheckBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_marginStart="16dp"
+                    android:text="Yes" />
 
-                    <RadioButton
-                        android:id="@+id/rb_military_yes"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/sLabelYes" />
-
-                    <RadioButton
-                        android:id="@+id/rb_military_no"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/sLabelNo" />
-
-                </RadioGroup>
 
             </LinearLayout>
 
@@ -180,9 +153,9 @@
                     style="@style/AutoCompleteStyleTheme"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:imeOptions="actionDone"
                     android:inputType="textAutoComplete|textCapWords"
                     android:maxLength="50"
-                    android:imeOptions="actionDone"
                     android:nextFocusForward="@+id/spn_businessNature"
                     tools:ignore="LabelFor" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -291,6 +264,12 @@
                     </com.google.android.material.textfield.TextInputLayout>
 
                 </LinearLayout>
+
+                <TextView
+                    style="@style/HeaderLabelBlack"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sHeaderPosition" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/TextInputStyle"

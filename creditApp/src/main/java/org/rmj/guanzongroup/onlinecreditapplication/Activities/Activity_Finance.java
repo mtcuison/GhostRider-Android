@@ -2,28 +2,40 @@ package org.rmj.guanzongroup.onlinecreditapplication.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.rmj.g3appdriver.etc.MessageBox;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Financier;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Personal;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
+import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.OnParseListener;
+import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMFinancierInfo;
+import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMPersonalInfo;
 
 import java.util.Objects;
 
 public class Activity_Finance extends AppCompatActivity {
 
+    private VMFinancierInfo mViewModel ;
     private AutoCompleteTextView spnRelation;
     private String relationX = "-1";
     private TextInputEditText txtFNamex, txtFIncme, txtFMoble, txtFFacbk, txtFEmail;
-
+    private MessageBox poMessage;
     private AutoCompleteTextView txtFCntry;
 
     private Button btnNext, btnPrvs;
@@ -31,39 +43,64 @@ public class Activity_Finance extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        mViewModel = new ViewModelProvider(Activity_Finance.this).get(VMFinancierInfo.class);
+        poMessage = new MessageBox(Activity_Finance.this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_finance);
         initWidgets();
-        json();
+        mViewModel.InitializeApplication(getIntent());
+        mViewModel.GetApplication().observe(Activity_Finance.this, app -> {
+            try{
+                mViewModel.getModel().setTransNox(app.getTransNox());
+                mViewModel.ParseData(app, new OnParseListener() {
+                    @Override
+                    public void OnParse(Object args) {
+                        Financier loDetail = (Financier) args;
+                    }
+                });
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+
+        spnRelation.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                mViewModel.getModel().setFinancierRelation(String.valueOf(position));
+            }
+        });
+
+        btnNext.setOnClickListener(v -> SavePersonalInfo());
+
     }
 
-    private void json() {
-        Intent receiveIntent = getIntent();
-        String param = receiveIntent.getStringExtra("params");
-        try {
-            JSONObject object = new JSONObject(param);
-            object.put("stxtFNamex",txtFNamex.getText().toString().trim());
-            object.put("stxtFIncme",txtFIncme.getText().toString().trim());
-            object.put("stxtFCntry",txtFCntry.getText().toString().trim());
-            object.put("stxtFMoble",txtFMoble.getText().toString().trim());
-            object.put("stxtFFacbk",txtFFacbk.getText().toString().trim());
-            object.put("stxtFEmail",txtFEmail.getText().toString().trim());
+    private void SavePersonalInfo() {
 
-            btnNext.setOnClickListener(v -> {
-                Intent intent = new Intent(Activity_Finance.this, Activity_PensionInfo.class);
-                intent.putExtra("params",object.toString());
-                startActivity(intent);
-                finish();
-            });
-            btnPrvs.setOnClickListener(v -> {
-                Intent intent = new Intent(Activity_Finance.this, Activity_SelfEmployedInfo.class);
-                startActivity(intent);
-                finish();
-            });
+        mViewModel.getModel().setFinancierName(Objects.requireNonNull(txtFNamex.getText()).toString().trim());
+        mViewModel.getModel().setRangeOfIncome(Long.parseLong(Objects.requireNonNull(txtFIncme.getText()).toString().trim()));
+        mViewModel.getModel().setCountryName(Objects.requireNonNull(txtFCntry.getText()).toString().trim());
+        mViewModel.getModel().setMobileNo(Objects.requireNonNull(txtFMoble.getText()).toString().trim());
+        mViewModel.getModel().setFacebook(Objects.requireNonNull(txtFFacbk.getText()).toString().trim());
+        mViewModel.getModel().setEmail(Objects.requireNonNull(txtFEmail.getText()).toString().trim());
 
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        mViewModel.SaveData(new OnSaveInfoListener() {
+            @Override
+            public void OnSave(String args) {
+                Intent loIntent = new Intent(Activity_Finance.this, Activity_PensionInfo.class);
+                loIntent.putExtra("sTransNox", args);
+                startActivity(loIntent);
+            }
+
+            @Override
+            public void OnFailed(String message) {
+                poMessage.initDialog();
+                poMessage.setTitle("Credit Online Application");
+                poMessage.setMessage(message);
+                poMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
+                poMessage.show();
+            }
+        });
+
     }
 
     private void initWidgets() {

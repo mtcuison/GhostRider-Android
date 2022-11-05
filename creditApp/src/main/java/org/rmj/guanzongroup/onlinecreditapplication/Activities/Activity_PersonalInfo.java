@@ -92,8 +92,8 @@ public class Activity_PersonalInfo extends AppCompatActivity {
                 try{
                     ArrayList<String> strings = new ArrayList<>();
                     for(int x = 0; x < loList.size(); x++){
-                        String lsTown = loList.get(x).sTownName + ", " + loList.get(x).sProvName;
-                        strings.add(lsTown);
+                        String lsTowns = loList.get(x).sTownName + ", " + loList.get(x).sProvName;
+                        strings.add(lsTowns);
                     }
 
                     ArrayAdapter<String> adapter = new ArrayAdapter<>(Activity_PersonalInfo.this, android.R.layout.simple_spinner_dropdown_item, strings.toArray(new String[0]));

@@ -9,25 +9,44 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.EBarangayInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditApp;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditOnlineApplication;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditAppInstance;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.ClientResidence;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Personal;
+
+import java.util.List;
 
 public class VMResidenceInfo extends AndroidViewModel implements CreditAppUI{
     private static final String TAG = VMResidenceInfo.class.getSimpleName();
 
     private final CreditApp poApp;
+    private final ClientResidence poModel;
 
     private String TransNox;
     private String message;
 
 
-    public VMResidenceInfo(@NonNull Application application) {
+    public VMResidenceInfo(@NonNull Application application, ClientResidence poModel) {
         super(application);
         this.poApp = new CreditOnlineApplication(application).getInstance(CreditAppInstance.Residence_Info);
+        this.poModel = poModel;
+    }
+
+    public ClientResidence getModel(){
+        return poModel;
+    }
+
+    public LiveData<List<DTownInfo.TownProvinceInfo>> GetTownProvinceList(){
+        return poApp.GetTownProvinceList();
+    }
+
+    public LiveData<List<EBarangayInfo>> GetBarangayList(String args){
+        return poApp.GetBarangayList(args);
     }
 
     @Override

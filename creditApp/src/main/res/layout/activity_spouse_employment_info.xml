@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:theme="@style/GhostRiderMaterialTheme.WhiteBG"
-    tools:context=".Fragment.Fragment_SpouseEmploymentInfo">
+    tools:context=".Activities.Activity_SpouseEmploymentInfo">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -74,7 +74,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <TextView
                     style="@style/HeaderLabelBlack"
@@ -82,27 +82,13 @@
                     android:layout_height="wrap_content"
                     android:text="@string/sLabelUniformPersonnel" />
 
-                <RadioGroup
-                    android:id="@+id/rg_uniformPersonel"
+                <CheckBox
+                    android:id="@+id/cb_UniformPersonnelYes"
+                    style="@style/Widget.AppCompat.CompoundButton.CheckBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <RadioButton
-                        android:id="@+id/rb_uniform_yes"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/sLabelYes" />
-
-                    <RadioButton
-                        android:id="@+id/rb_uniform_no"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/sLabelNo" />
-
-                </RadioGroup>
+                    android:layout_marginStart="16dp"
+                    android:text="Yes" />
 
                 <TextView
                     style="@style/HeaderLabelBlack"
@@ -110,27 +96,13 @@
                     android:layout_height="wrap_content"
                     android:text="@string/sLabelMilitaryPersonnel" />
 
-                <RadioGroup
-                    android:id="@+id/rg_militaryPersonal"
+                <CheckBox
+                    android:id="@+id/cb_MilitaryPersonalYes"
+                    style="@style/Widget.AppCompat.CompoundButton.CheckBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <RadioButton
-                        android:id="@+id/rb_military_yes"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/sLabelYes" />
-
-                    <RadioButton
-                        android:id="@+id/rb_military_no"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/sLabelNo" />
-
-                </RadioGroup>
+                    android:layout_marginStart="16dp"
+                    android:text="Yes" />
 
             </LinearLayout>
 

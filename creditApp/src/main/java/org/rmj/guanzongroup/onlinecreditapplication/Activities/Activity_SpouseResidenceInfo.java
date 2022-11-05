@@ -2,22 +2,41 @@ package org.rmj.guanzongroup.onlinecreditapplication.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.EBarangayInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
+import org.rmj.g3appdriver.etc.MessageBox;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Personal;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.SpouseResidence;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
+import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.OnParseListener;
+import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMSpouseResidence;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Activity_SpouseResidenceInfo extends AppCompatActivity {
+
+    private VMSpouseResidence mViewModel;
+    private MessageBox poMessage;
 
     private CheckBox cbLivingWithSpouse;
     private TextInputEditText txtLandMark, txtHouseNox, txtAddress1, txtAddress2;
@@ -28,41 +47,122 @@ public class Activity_SpouseResidenceInfo extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        mViewModel = new ViewModelProvider(Activity_SpouseResidenceInfo.this).get(VMSpouseResidence.class);
+        poMessage = new MessageBox(Activity_SpouseResidenceInfo.this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_spouse_residence_info);
         initWidgets();
-        json();
+        mViewModel.InitializeApplication(getIntent());
+        mViewModel.GetApplication().observe(Activity_SpouseResidenceInfo.this, new Observer<ECreditApplicantInfo>() {
+            @Override
+            public void onChanged(ECreditApplicantInfo app) {
+                try{
+                    mViewModel.getModel().setTransNox(app.getTransNox());
+                    mViewModel.ParseData(app, new OnParseListener() {
+                        @Override
+                        public void OnParse(Object args) {
+                            SpouseResidence loDetail = (SpouseResidence) args;
+
+                        }
+                    });
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        mViewModel.GetTownProvinceList().observe(Activity_SpouseResidenceInfo.this, new Observer<List<DTownInfo.TownProvinceInfo>>() {
+            @Override
+            public void onChanged(List<DTownInfo.TownProvinceInfo> loList) {
+                try {
+                    ArrayList<String> strings = new ArrayList<>();
+                    for(int x = 0 ; x < loList.size(); x++){
+                        String lsTown = loList.get(x).sTownName + ", " + loList.get(x).sProvName;
+                        strings.add(lsTown);
+                    }
+
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(Activity_SpouseResidenceInfo.this,
+                            android.R.layout.simple_spinner_dropdown_item,strings.toArray(new String[0]));
+                    txtTown.setAdapter(adapter);
+                    txtTown.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+                    txtTown.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            for (int x = 0 ; x < loList.size() ; x++){
+                                String lsLabel = loList.get(x).sTownName + ", " + loList.get(x).sProvName;
+                                String lsSlctd = txtTown.getText().toString().trim();
+                                if( lsSlctd.equalsIgnoreCase(lsLabel)){
+                                    mViewModel.getModel().setMunicipalID(loList.get(x).sTownIDxx);
+                                    mViewModel.getModel().setMunicipalNm(lsLabel);
+                                }
+                            }
+
+                            mViewModel.GetBarangayList(mViewModel.getModel().getMunicipalID()).observe(Activity_SpouseResidenceInfo.this, new Observer<List<EBarangayInfo>>() {
+                                @Override
+                                public void onChanged(List<EBarangayInfo> BrgyList) {
+                                    ArrayList<String> string = new ArrayList<>();
+                                    for(int x = 0 ; x < BrgyList.size(); x++) {
+                                        String lsBrgy = BrgyList.get(x).getBrgyName();
+                                        string.add(lsBrgy);
+                                    }
+                                    ArrayAdapter<String> adapters = new ArrayAdapter<>(Activity_SpouseResidenceInfo.this,
+                                            android.R.layout.simple_spinner_dropdown_item,string.toArray(new String[0]));
+                                    txtBarangay.setAdapter(adapters);
+                                    txtBarangay.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+                                    txtBarangay.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                        @Override
+                                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                            for (int x = 0 ; x < BrgyList.size() ; x++){
+                                                String lsLabel = BrgyList.get(x).getBrgyName();
+                                                String lsSlctd = txtBarangay.getText().toString().trim();
+                                                if( lsSlctd.equalsIgnoreCase(lsLabel)){
+                                                    mViewModel.getModel().setBarangayID(BrgyList.get(x).getBrgyIDxx());
+                                                    mViewModel.getModel().setBarangayName(lsLabel);
+                                                }
+                                            }
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    });
+
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
+        btnNext.setOnClickListener(v -> SaveResidenceInfo());
     }
 
-    private void json() {
-        Intent receiveIntent = getIntent();
-        String param = receiveIntent.getStringExtra("params");
-        try {
-            JSONObject object = new JSONObject(param);
-            object.put("stxtLandMark",txtLandMark.getText().toString().trim());
-            object.put("stxtHouseNox",txtHouseNox.getText().toString().trim());
-            object.put("stxtAddress1",txtAddress1.getText().toString().trim());
-            object.put("stxtAddress2",txtAddress2.getText().toString().trim());
-            object.put("stxtProvince",txtProvince.getText().toString().trim());
-            object.put("stxtTown",txtTown);
-            object.put("stxtBarangay",txtBarangay);
+    private void SaveResidenceInfo() {
 
-            btnNext.setOnClickListener(v -> {
-                Intent intent = new Intent(Activity_SpouseResidenceInfo.this, Activity_SpouseEmploymentInfo.class);
-                intent.putExtra("params",object.toString());
-                startActivity(intent);
-                finish();
-            });
-            btnPrvs.setOnClickListener(v -> {
-                Intent intent = new Intent(Activity_SpouseResidenceInfo.this, Activity_SpouseInfo.class);
-                startActivity(intent);
-                finish();
-            });
+        mViewModel.getModel().setLandMark(Objects.requireNonNull(txtLandMark.getText()).toString().trim());
+        mViewModel.getModel().setHouseNox(Objects.requireNonNull(txtHouseNox.getText()).toString().trim());
+        mViewModel.getModel().setAddress1(Objects.requireNonNull(txtAddress1.getText()).toString().trim());
+        mViewModel.getModel().setAddress2(Objects.requireNonNull(txtAddress2.getText()).toString().trim());
 
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        mViewModel.SaveData(new OnSaveInfoListener() {
+            @Override
+            public void OnSave(String args) {
+                Intent loIntent = new Intent(Activity_SpouseResidenceInfo.this, Activity_SpouseEmploymentInfo.class);
+                loIntent.putExtra("sTransNox", args);
+                startActivity(loIntent);
+            }
+
+            @Override
+            public void OnFailed(String message) {
+                poMessage.initDialog();
+                poMessage.setTitle("Credit Online Application");
+                poMessage.setMessage(message);
+                poMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
+                poMessage.show();
+            }
+        });
     }
+
 
     private void initWidgets() {
         toolbar = findViewById(R.id.toolbar_SpouseResidenceInfo);
