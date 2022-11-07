@@ -11,12 +11,9 @@
 
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.ImageDecoder;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
@@ -29,7 +26,6 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
@@ -43,23 +39,13 @@ import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.LocationRetriever;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.lib.integsys.Dcp.LRDcp;
-import org.rmj.g3appdriver.lib.integsys.Dcp.LoanUnit;
-import org.rmj.g3appdriver.lib.integsys.Dcp.OtherRemCode;
-import org.rmj.g3appdriver.lib.integsys.Dcp.RClientUpdate;
+import org.rmj.g3appdriver.lib.integsys.Dcp.model.LoanUnit;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.LoanUnitModel;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.PromiseToPayModel;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
 
 import java.io.File;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 public class VMLoanUnit extends AndroidViewModel {
     private static final String TAG = VMLoanUnit.class.getSimpleName();

@@ -9,7 +9,7 @@
  * project file last modified : 4/24/21 3:18 PM
  */
 
-package org.rmj.g3appdriver.lib.integsys.Dcp;
+package org.rmj.g3appdriver.lib.integsys.Dcp.model;
 
 public class AddressUpdate {
     private String cReqstCDe;

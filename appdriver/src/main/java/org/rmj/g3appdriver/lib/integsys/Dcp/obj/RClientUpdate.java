@@ -9,7 +9,7 @@
  * project file last modified : 4/24/21 3:18 PM
  */
 
-package org.rmj.g3appdriver.lib.integsys.Dcp;
+package org.rmj.g3appdriver.lib.integsys.Dcp.obj;
 
 import android.app.Application;
 import android.os.AsyncTask;
@@ -22,6 +22,7 @@ import org.rmj.g3appdriver.dev.Database.DataAccessObject.DClientUpdate;
 import org.rmj.g3appdriver.dev.Database.Entities.EClientUpdate;
 import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.lib.integsys.Dcp.model.LoanUnit;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

@@ -103,6 +103,9 @@ public interface DImageInfo {
     @Query("SELECT * FROM Image_Information WHERE sSourceNo =:fsSource AND sDtlSrcNo =:fsDetail")
     EImageInfo CheckImageForCIExist(String fsSource, String fsDetail);
 
+    @Query("SELECT * FROM Image_Information WHERE sSourceNo =:fsSource AND sFileCode =:FileCode")
+    EImageInfo CheckCreditAppDocumentIfExist(String fsSource, String FileCode);
+
     /**
      *
      * @param oldTransNox pass the old SourceNo of Image_Information which is not sent to server

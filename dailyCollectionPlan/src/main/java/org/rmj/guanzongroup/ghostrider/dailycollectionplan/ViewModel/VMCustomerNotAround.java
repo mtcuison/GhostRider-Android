@@ -33,10 +33,10 @@ import org.rmj.g3appdriver.dev.Database.Repositories.RTown;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.LocationRetriever;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
-import org.rmj.g3appdriver.lib.integsys.Dcp.AddressUpdate;
-import org.rmj.g3appdriver.lib.integsys.Dcp.CustomerNotAround;
+import org.rmj.g3appdriver.lib.integsys.Dcp.model.AddressUpdate;
+import org.rmj.g3appdriver.lib.integsys.Dcp.model.CustomerNotAround;
 import org.rmj.g3appdriver.lib.integsys.Dcp.LRDcp;
-import org.rmj.g3appdriver.lib.integsys.Dcp.MobileUpdate;
+import org.rmj.g3appdriver.lib.integsys.Dcp.model.MobileUpdate;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
 import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
 

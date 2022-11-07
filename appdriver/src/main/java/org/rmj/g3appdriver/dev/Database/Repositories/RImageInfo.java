@@ -267,6 +267,60 @@ public class RImageInfo {
 
     /**
      *
+     * @param args Credit_Online_Application transaction no.
+     * @param args1 FileCode of the document scanned.
+     * @param args2 image file name
+     * @param args3 image file location
+     * @param args4 current device location (Latitude)
+     * @param args5 current device location (Longitude)
+     * @return transaction no. if operation success, else null if operation fails. Call getMessage() get error message.
+     */
+    public String SaveCreditAppDocumentsImage(String args, String args1, String args2, String args3, String args4, String args5){
+        try{
+            String lsTransNo;
+            EImageInfo loDetail = poDao.CheckCreditAppDocumentIfExist(args, args1);
+            if(loDetail == null) {
+                lsTransNo = CreateUniqueID();
+                EImageInfo loImage = new EImageInfo();
+                loImage.setTransNox(lsTransNo);
+                loImage.setDtlSrcNo(args);
+                loImage.setSourceNo(args);
+                loImage.setSourceCD("COAD");
+                loImage.setFileCode(args1);
+                loImage.setImageNme(args2);
+                loImage.setFileLoct(args3);
+                loImage.setLatitude(args4);
+                loImage.setLongitud(args5);
+                loImage.setMD5Hashx(WebFileServer.createMD5Hash(loImage.getFileLoct()));
+                loImage.setCaptured(new AppConstants().DATE_MODIFIED());
+                poDao.SaveImageInfo(loImage);
+                Log.d(TAG, "Document scan image has been saved.");
+                return lsTransNo;
+            }
+
+            loDetail.setDtlSrcNo(args);
+            loDetail.setSourceNo(args);
+            loDetail.setSourceCD("COAD");
+            loDetail.setFileCode(args1);
+            loDetail.setImageNme(args2);
+            loDetail.setFileLoct(args3);
+            loDetail.setLatitude(args4);
+            loDetail.setLongitud(args5);
+            loDetail.setMD5Hashx(WebFileServer.createMD5Hash(loDetail.getFileLoct()));
+            loDetail.setCaptured(new AppConstants().DATE_MODIFIED());
+            poDao.update(loDetail);
+            Log.d(TAG, "Document scan image has been updated.");
+            lsTransNo = loDetail.getTransNox();
+            return lsTransNo;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return null;
+        }
+    }
+
+    /**
+     *
      * @param fsVal transaction no of image needed to upload.
      * @return true if operation succeed, else false if operation fails. Call getMessage() to get error message.
      */

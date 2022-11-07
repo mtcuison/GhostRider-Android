@@ -4,14 +4,10 @@ import android.app.Application;
 import android.content.Intent;
 import android.util.Log;
 
-import androidx.lifecycle.LiveData;
-
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Database.Entities.EAddressUpdate;
 import org.rmj.g3appdriver.dev.Database.Entities.EClientUpdate;
 import org.rmj.g3appdriver.dev.Database.Entities.EDCPCollectionDetail;
-import org.rmj.g3appdriver.dev.Database.Entities.EDCPCollectionMaster;
 import org.rmj.g3appdriver.dev.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EMobileUpdate;
 import org.rmj.g3appdriver.dev.Database.Repositories.RCollectionUpdate;
@@ -24,7 +20,7 @@ import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.SessionManager;
 import org.rmj.g3appdriver.etc.WebFileServer;
-import org.rmj.g3appdriver.lib.integsys.Dcp.RClientUpdate;
+import org.rmj.g3appdriver.lib.integsys.Dcp.obj.RClientUpdate;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Core.Transaction.CustomerNotAround;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Core.Transaction.OthTransaction;
@@ -32,7 +28,6 @@ import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Core.Transaction.Paid
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Core.Transaction.PromiseToPay;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Service.GLocatorService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class DcpManager {

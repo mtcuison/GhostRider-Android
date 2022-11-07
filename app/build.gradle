@@ -103,22 +103,22 @@ dependencies {
     implementation 'commons-io:commons-io:2.6'
     implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
     implementation project(path: ':authLibrary')
-//    implementation project(path: ':creditApp')
+    implementation project(path: ':documentScanner')
     implementation project(path: ':ahMonitoring')
     implementation project(path: ':promotions')
     implementation project(path: ':samsungKnox')
     implementation project(path: ':approvalCode')
     implementation project(path: ':notifications')
     implementation project(path: ':imgCapture')
-    implementation project(path: ':griderScanner')
+//    implementation project(path: ':griderScanner')
     implementation project(path: ':dailyCollectionPlan')
     implementation project(path: ':dataChecker')
-    implementation project(path: ':griderScanner')
+
+//    implementation project(path: ':griderScanner')
     implementation project(path: ':itinerary')
     implementation project(path: ':appDriver')
     implementation project(':settings')
     implementation project(':creditApp')
     implementation project(':creditEvaluation')
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
-
 }

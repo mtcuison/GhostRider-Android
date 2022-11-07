@@ -1,4 +1,4 @@
-package org.rmj.g3appdriver.lib.integsys.Dcp;
+package org.rmj.g3appdriver.lib.integsys.Dcp.model;
 
 public class PromiseToPay {
 
