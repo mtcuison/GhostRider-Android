@@ -54,8 +54,8 @@ public class CreditAppDocuments {
         }
     }
 
-    public LiveData<List<DCreditApplicationDocuments.ApplicationDocument>> GetApplicantDocumentsList(){
-        return poDao.GetCreditAppDocuments(TransNox);
+    public LiveData<List<DCreditApplicationDocuments.ApplicationDocument>> GetApplicantDocumentsList(String args){
+        return poDao.GetCreditAppDocuments(args);
     }
 
     public String SaveDocumentInfo(CreditAppDocs args){

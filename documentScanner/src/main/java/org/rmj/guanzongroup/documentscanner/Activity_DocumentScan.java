@@ -2,14 +2,23 @@ package org.rmj.guanzongroup.documentscanner;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.Image;
 import android.os.Bundle;
+import android.os.Environment;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.etc.SessionManager;
 import org.rmj.g3appdriver.lib.Scanner.DocScanner;
+import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 
 public class Activity_DocumentScan extends AppCompatActivity {
 
@@ -23,7 +32,17 @@ public class Activity_DocumentScan extends AppCompatActivity {
         new DocScanner(Activity_DocumentScan.this).initScanner(new DocScanner.OnScanDocumentListener() {
             @Override
             public void OnScanned(Bitmap bitmap) {
-                imageView.setImageBitmap(bitmap);
+//                imageView.setImageBitmap(bitmap);
+
+                ImageFileCreator loImage = new ImageFileCreator(
+                        Activity_DocumentScan.this,
+                        AppConstants.SUB_FOLDER_CREDIT_APP_DOCUMENTS,
+                        new SessionManager(Activity_DocumentScan.this).getUserID());
+                if(loImage.SaveDocumentScan(bitmap)){
+                    finish();
+                } else {
+                    Toast.makeText(Activity_DocumentScan.this, loImage.getMessage(), Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
@@ -42,5 +61,13 @@ public class Activity_DocumentScan extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         setResult(RESULT_CANCELED);
+    }
+
+    private File createImageScanFile(String TransNox, int EntryNox, String FileCode) {
+        String root = Environment.getExternalStorageDirectory().toString();
+        File sd = new File(root + "/"+ Activity_DocumentScan.this.getPackageName() + "/" + "COAD" + "/");
+        String imageFileName = TransNox + "_" + EntryNox + "_" + FileCode + ".png";
+        File mypath = new File(sd, imageFileName);
+        return mypath;
     }
 }

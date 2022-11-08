@@ -34,7 +34,6 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
-    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 
@@ -92,9 +91,9 @@
             android:screenOrientation="userPortrait"
             android:exported="true" />
 
-        <!--            android:name=".Activity.Activity_SplashScreen"-->
+        <!--            android:name="org.rmj.guanzongroup.documentscanner.Activity_DocumentScan"-->
         <activity
-            android:name="org.rmj.guanzongroup.documentscanner.Activity_DocumentScan"
+            android:name=".Activity.Activity_SplashScreen"
             android:screenOrientation="userPortrait"
             android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan"

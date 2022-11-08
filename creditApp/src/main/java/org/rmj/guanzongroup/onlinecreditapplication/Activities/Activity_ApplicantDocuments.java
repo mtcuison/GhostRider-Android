@@ -5,7 +5,7 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,7 +14,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DCreditApplicationDocuments;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.CreditAppDocs;
@@ -23,11 +22,7 @@ import org.rmj.guanzongroup.onlinecreditapplication.Adapter.DocumentToScanAdapte
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMApplicantDocuments;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Activity_ApplicantDocuments extends AppCompatActivity {
-
 
     private VMApplicantDocuments mViewModel;
 
@@ -62,7 +57,7 @@ public class Activity_ApplicantDocuments extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         mViewModel = new ViewModelProvider(Activity_ApplicantDocuments.this).get(VMApplicantDocuments.class);
         setContentView(R.layout.activity_applicant_documents);
-
+        initWidgets();
         String TransNox = getIntent().getStringExtra("TransNox");
         lblTransNoxxx.setText("TransNox. :" + TransNox);
         lblClientName.setText(getIntent().getStringExtra("ClientNm"));
@@ -84,7 +79,7 @@ public class Activity_ApplicantDocuments extends AppCompatActivity {
             }
         });
 
-        mViewModel.GetCreditAppDocuments().observe(Activity_ApplicantDocuments.this, documents -> {
+        mViewModel.GetCreditAppDocuments(TransNox).observe(Activity_ApplicantDocuments.this, documents -> {
             try{
                 DocumentToScanAdapter loAdapter = new DocumentToScanAdapter(documents, new DocumentToScanAdapter.OnItemClickListener() {
                     @Override
@@ -103,6 +98,7 @@ public class Activity_ApplicantDocuments extends AppCompatActivity {
 
                     }
                 });
+                recyclerView.setAdapter(loAdapter);
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -112,9 +108,16 @@ public class Activity_ApplicantDocuments extends AppCompatActivity {
     public void initWidgets(){
         poDialogx = new LoadDialog(Activity_ApplicantDocuments.this);
         poMessage = new MessageBox(Activity_ApplicantDocuments.this);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("Applicant Documents");
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         recyclerView = findViewById(R.id.recyclerview_docScan);
         layoutManager = new LinearLayoutManager(Activity_ApplicantDocuments.this);
         layoutManager.setOrientation(RecyclerView.VERTICAL);
+        recyclerView.setLayoutManager(layoutManager);
 
         lblTransNoxxx = findViewById(R.id.lbl_list_transNox);
         lblClientName = findViewById(R.id.lbl_list_applicantName);

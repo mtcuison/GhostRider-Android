@@ -12,6 +12,7 @@ import org.rmj.g3appdriver.dev.Database.DataAccessObject.DCreditApplication;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DMcModel;
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.EBranchLoanApplication;
 import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplication;
 import org.rmj.g3appdriver.dev.Database.Entities.EMcBrand;
@@ -159,7 +160,7 @@ public class CreditOnlineApplication {
                     info.setDivision(loJson.getString("cDivision"));
                     info.setReceived(loJson.getString("dReceived"));
                     info.setTimeStmp(loJson.getString("dTimeStmp"));
-                    poDao.SaveApplication(info);
+                    poDao.Save(info);
                 } else {
                     Date ldDate1 = SQLUtil.toDate(loDetail.getTimeStmp(), SQLUtil.FORMAT_TIMESTAMP);
                     Date ldDate2 = SQLUtil.toDate((String) loJson.get("dTimeStmp"), SQLUtil.FORMAT_TIMESTAMP);
@@ -202,6 +203,74 @@ public class CreditOnlineApplication {
 
     public boolean DownloadBranchApplications(){
         try{
+            JSONObject params = new JSONObject();
+            params.put("bycode", true);
+            params.put("value", poSession.getBranchCode());
+
+            String lsResponse = WebClient.httpsPostJSon(
+                    poApi.getUrlBranchLoanApp(poConfig.isBackUpServer()),
+                    params.toString(),
+                    poHeaders.getHeaders());
+
+            if(lsResponse == null){
+                message = "Server no response.";
+                return false;
+            }
+
+            JSONObject loResponse = new JSONObject(lsResponse);
+            String lsResult = loResponse.getString("result");
+            if (lsResult.equalsIgnoreCase("error")) {
+                JSONObject loError = loResponse.getJSONObject("error");
+                message = loError.getString("message");
+                return false;
+            }
+
+            JSONArray laJson = loResponse.getJSONArray("detail");
+
+            for(int x= 0; x < laJson.length(); x++){
+                JSONObject loJson = laJson.getJSONObject(x);
+
+                EBranchLoanApplication loDetail = poDao.GetBranchApplication(loJson.getString("sTransNox"));
+
+                if(loDetail == null){
+                    EBranchLoanApplication loanInfo = new EBranchLoanApplication();
+                    loanInfo.setTransNox(loJson.getString("sTransNox"));
+                    loanInfo.setBranchCD(loJson.getString("sBranchCd"));
+                    loanInfo.setTransact(loJson.getString("dTransact"));
+                    loanInfo.setCredInvx(loJson.getString("sCredInvx"));
+                    loanInfo.setCompnyNm(loJson.getString("sCompnyNm"));
+                    loanInfo.setSpouseNm(loJson.getString("sSpouseNm"));
+                    loanInfo.setAddressx(loJson.getString("sAddressx"));
+                    loanInfo.setMobileNo(loJson.getString("sMobileNo"));
+                    loanInfo.setQMAppCde(loJson.getString("sQMAppCde"));
+                    loanInfo.setModelNme(loJson.getString("sModelNme"));
+                    loanInfo.setDownPaym(loJson.getString("nDownPaym"));
+                    loanInfo.setAcctTerm(loJson.getString("nAcctTerm"));
+                    loanInfo.setCreatedX(loJson.getString("sCreatedx"));
+                    loanInfo.setTranStat(loJson.getString("cTranStat"));
+                    loanInfo.setTimeStmp(loJson.getString("dTimeStmp"));
+                    poDao.Save(loanInfo);
+                    Log.d(TAG, "Branch loan application has been saved.");
+                } else {
+                    loDetail.setTransNox(loJson.getString("sTransNox"));
+                    loDetail.setBranchCD(loJson.getString("sBranchCd"));
+                    loDetail.setTransact(loJson.getString("dTransact"));
+                    loDetail.setCredInvx(loJson.getString("sCredInvx"));
+                    loDetail.setCompnyNm(loJson.getString("sCompnyNm"));
+                    loDetail.setSpouseNm(loJson.getString("sSpouseNm"));
+                    loDetail.setAddressx(loJson.getString("sAddressx"));
+                    loDetail.setMobileNo(loJson.getString("sMobileNo"));
+                    loDetail.setQMAppCde(loJson.getString("sQMAppCde"));
+                    loDetail.setModelNme(loJson.getString("sModelNme"));
+                    loDetail.setDownPaym(loJson.getString("nDownPaym"));
+                    loDetail.setAcctTerm(loJson.getString("nAcctTerm"));
+                    loDetail.setCreatedX(loJson.getString("sCreatedx"));
+                    loDetail.setTranStat(loJson.getString("cTranStat"));
+                    loDetail.setTimeStmp(loJson.getString("dTimeStmp"));
+                    poDao.Update(loDetail);
+                    Log.d(TAG, "Branch loan application has been updated.");
+                }
+            }
             return true;
         } catch (Exception e){
             e.printStackTrace();
@@ -248,13 +317,13 @@ public class CreditOnlineApplication {
             loDetail.setTransact(AppConstants.CURRENT_DATE);
             loDetail.setTimeStmp(new AppConstants().DATE_MODIFIED());
             loDetail.setSendStat("0");
-            poDao.SaveApplication(loDetail);
+            poDao.Save(loDetail);
 
             lsTransNo = CreateUniqueIDForApplicant();
             ECreditApplicantInfo loApp = new ECreditApplicantInfo();
             loApp.setTransNox(lsTransNo);
             loApp.setPurchase(loGocas.PurchaseInfo().toJSONString());
-            poDao.SaveApplication(loApp);
+            poDao.Save(loApp);
 
             Log.d(TAG, "New credit online application has been created.");
             return lsTransNo;
@@ -271,6 +340,10 @@ public class CreditOnlineApplication {
 
     public LiveData<List<EMcBrand>> getAllMcBrand(){
         return poBrand.getAllBrandInfo();
+    }
+
+    public LiveData<List<EBranchLoanApplication>> GetBranchApplications(){
+        return poDao.GetBranchApplications();
     }
 
     public LiveData<List<EMcModel>> getAllBrandModelInfo(String args){
