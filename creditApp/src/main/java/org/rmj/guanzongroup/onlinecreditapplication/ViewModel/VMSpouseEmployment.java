@@ -3,6 +3,7 @@ package org.rmj.guanzongroup.onlinecreditapplication.ViewModel;
 import android.app.Application;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -14,6 +15,7 @@ import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditApp;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditAppInstance;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditOnlineApplication;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.ClientSpouseInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Employment;
 
 import java.util.List;
@@ -50,7 +52,7 @@ public class VMSpouseEmployment extends AndroidViewModel implements CreditAppUI 
 
     @Override
     public void ParseData(ECreditApplicantInfo args, OnParseListener listener) {
-
+        new ParseDataTask(listener).execute(args);
     }
 
     @Override
@@ -65,6 +67,41 @@ public class VMSpouseEmployment extends AndroidViewModel implements CreditAppUI 
 
     public LiveData<List<DTownInfo.TownProvinceInfo>> GetTownProvinceList(){
         return poApp.GetTownProvinceList();
+    }
+
+    private class ParseDataTask extends AsyncTask<ECreditApplicantInfo, Void, Employment> {
+
+        private final OnParseListener listener;
+
+        public ParseDataTask(OnParseListener listener) {
+            this.listener = listener;
+        }
+
+        @Override
+        protected Employment doInBackground(ECreditApplicantInfo... app) {
+            try {
+                Employment loDetail = (Employment) poApp.Parse(app[0]);
+                if (loDetail == null) {
+                    message = poApp.getMessage();
+                    return null;
+                }
+                return loDetail;
+            } catch (Exception e) {
+                e.printStackTrace();
+                message = e.getMessage();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Employment result) {
+            super.onPostExecute(result);
+            if (result == null) {
+                Log.e(TAG, message);
+            } else {
+                listener.OnParse(result);
+            }
+        }
     }
 
     private class SaveDataTask extends AsyncTask<Employment, Void, Boolean>{

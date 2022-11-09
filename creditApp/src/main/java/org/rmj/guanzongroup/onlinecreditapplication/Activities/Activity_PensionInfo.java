@@ -15,25 +15,20 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.ClientResidence;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Financier;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Pension;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.OnParseListener;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMPensionInfo;
-import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMResidenceInfo;
 
 import java.util.Objects;
 
 public class Activity_PensionInfo extends AppCompatActivity {
 
-    private VMPensionInfo mViewModel ;
+    private VMPensionInfo mViewModel;
     private MessageBox poMessage;
 
     private AutoCompleteTextView spnSector;
@@ -62,7 +57,7 @@ public class Activity_PensionInfo extends AppCompatActivity {
                             Pension loDetail = (Pension) args;
                         }
                     });
-                }catch (Exception e ){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -75,10 +70,10 @@ public class Activity_PensionInfo extends AppCompatActivity {
             }
         });
 
-        btnNext.setOnClickListener(v -> SaveResidenceInfo());
+        btnNext.setOnClickListener(v -> SavePensionInfo());
     }
 
-    private void SaveResidenceInfo() {
+    private void SavePensionInfo() {
 
         mViewModel.getModel().setPensionIncomeRange(Long.parseLong(Objects.requireNonNull(txtRangxx.getText()).toString().trim()));
         mViewModel.getModel().setRetirementYear(Objects.requireNonNull(txtYearxx.getText()).toString().trim());
@@ -104,7 +99,7 @@ public class Activity_PensionInfo extends AppCompatActivity {
     }
 
     @Override
-    public void finish(){
+    public void finish() {
         super.finish();
         overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
     }
@@ -130,7 +125,6 @@ public class Activity_PensionInfo extends AppCompatActivity {
         spnSector.setAdapter(new ArrayAdapter<>(Activity_PensionInfo.this,
                 android.R.layout.simple_list_item_1, CreditAppConstants.PENSION_SECTOR));
         spnSector.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
-
 
 
     }

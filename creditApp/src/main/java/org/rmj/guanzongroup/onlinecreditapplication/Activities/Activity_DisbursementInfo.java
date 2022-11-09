@@ -9,7 +9,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.menu.MenuView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -49,7 +48,7 @@ public class Activity_DisbursementInfo extends AppCompatActivity {
         mViewModel.GetApplication().observe(Activity_DisbursementInfo.this, new Observer<ECreditApplicantInfo>() {
             @Override
             public void onChanged(ECreditApplicantInfo app) {
-                try{
+                try {
                     mViewModel.getModel().setTransNox(app.getTransNox());
                     mViewModel.ParseData(app, new OnParseListener() {
                         @Override
@@ -58,7 +57,7 @@ public class Activity_DisbursementInfo extends AppCompatActivity {
                         }
                     });
 
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -74,11 +73,11 @@ public class Activity_DisbursementInfo extends AppCompatActivity {
             }
         });
 
-        btnNext.setOnClickListener(v -> SavePersonalInfo());
+        btnNext.setOnClickListener(v -> SaveDisbursementInfo());
 
     }
 
-    private void SavePersonalInfo() {
+    private void SaveDisbursementInfo() {
         mViewModel.getModel().setElectric(Double.parseDouble(Objects.requireNonNull(tieElctx.getText()).toString().trim()));
         mViewModel.getModel().setWaterExp(Double.parseDouble(Objects.requireNonNull(tieWater.getText()).toString().trim()));
         mViewModel.getModel().setFoodExps(Double.parseDouble(Objects.requireNonNull(tieFoodx.getText()).toString().trim()));
@@ -92,7 +91,7 @@ public class Activity_DisbursementInfo extends AppCompatActivity {
         mViewModel.SaveData(new OnSaveInfoListener() {
             @Override
             public void OnSave(String args) {
-                Intent loIntent = new Intent(Activity_DisbursementInfo.this,Activity_Dependent.class);
+                Intent loIntent = new Intent(Activity_DisbursementInfo.this, Activity_Dependent.class);
                 loIntent.putExtra("sTransNox", args);
                 startActivity(loIntent);
             }
@@ -109,7 +108,7 @@ public class Activity_DisbursementInfo extends AppCompatActivity {
     }
 
     @Override
-    public void finish(){
+    public void finish() {
         super.finish();
         overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
     }

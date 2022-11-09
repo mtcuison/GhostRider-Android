@@ -1,6 +1,5 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -11,8 +10,6 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.textfield.TextInputEditText;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.TextFormatter;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
@@ -32,42 +29,9 @@ public class Activity_SpouseSelfEmploymentInfo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_spouse_self_employment_info);
         initWidgets();
-        json();
+
     }
 
-    private void json() {
-        Intent receiveIntent = getIntent();
-        String param = receiveIntent.getStringExtra("params");
-        try {
-            JSONObject object = new JSONObject(param);
-            object.put("sspnMonthOrYr",spnMonthOrYr.getText().toString().trim());
-            object.put("stxtBizName",txtBizName.getText().toString().trim());
-            object.put("stxtBizAddrss",txtBizAddrss.getText().toString().trim());
-            object.put("stxtBizLength",txtBizLength.getText().toString().trim());
-            object.put("stxtMonthlyInc",txtMonthlyInc.getText().toString().trim());
-            object.put("stxtMonthlyExp",txtMonthlyExp.getText().toString().trim());
-            object.put("sspnBizIndustry",spnBizIndustry.getText().toString().trim());
-            object.put("stxtProvince",txtProvince.getText().toString().trim());
-            object.put("stxtTown",txtTown.getText().toString().trim());
-            object.put("sspnBizType",spnBizType.getText().toString().trim());
-            object.put("sspnBizSize",spnBizSize.getText().toString().trim());
-
-            btnNext.setOnClickListener(v -> {
-                Intent intent = new Intent(Activity_SpouseSelfEmploymentInfo.this, Activity_SpousePensionInfo.class);
-                intent.putExtra("params",object.toString());
-                startActivity(intent);
-                finish();
-            });
-            btnPrvs.setOnClickListener(v -> {
-                Intent intent = new Intent(Activity_SpouseSelfEmploymentInfo.this, Activity_SpouseResidenceInfo.class);
-                startActivity(intent);
-                finish();
-            });
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
 
     private void initWidgets() {
         toolbar = findViewById(R.id.toolbar_SpouseSelfEmploymentInfo);
@@ -108,9 +72,6 @@ public class Activity_SpouseSelfEmploymentInfo extends AppCompatActivity {
         spnMonthOrYr.setAdapter(new ArrayAdapter<>(Activity_SpouseSelfEmploymentInfo.this,
                 android.R.layout.simple_list_item_1, CreditAppConstants.LENGTH_OF_STAY));
         spnMonthOrYr.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
-
-
-
 
 
     }

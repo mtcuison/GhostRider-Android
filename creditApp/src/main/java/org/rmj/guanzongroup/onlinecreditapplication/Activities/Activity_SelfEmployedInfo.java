@@ -1,6 +1,5 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -11,8 +10,6 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.textfield.TextInputEditText;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
@@ -22,11 +19,6 @@ import java.util.Objects;
 public class Activity_SelfEmployedInfo extends AppCompatActivity {
 
     private AutoCompleteTextView spnBussNtr, spnBussTyp, spnBussSze, spnLngSrvc;
-
-    private String bussNtrPosition = "-1",
-            bussTypPosition = "-1",
-            bussSzePosition = "-1",
-            lngSrvcPosition = "-1";
 
     private TextInputEditText txtBussName, txtBussAdds, txtLnghtSrv, txtMnthlyIn, txtMnthlyEx;
     private AutoCompleteTextView txtProvnc, txtTownxx;
@@ -39,46 +31,10 @@ public class Activity_SelfEmployedInfo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_self_employed_info);
         initWidgets();
-        json();
+
 
     }
 
-    private void json() {
-        Intent receiveIntent = getIntent();
-        String param = receiveIntent.getStringExtra("params");
-        try {
-            JSONObject object = new JSONObject(param);
-            object.put("sspnBussNtr" , spnBussNtr.getText().toString().trim());
-            object.put("sspnBussTyp" , spnBussTyp.getText().toString().trim());
-            object.put("sspnBussSze" , spnBussSze.getText().toString().trim());
-            object.put("sspnLngSrvc" , spnLngSrvc.getText().toString().trim());
-
-            object.put("stxtBussName" , txtBussName.getText().toString().trim());
-            object.put("stxtBussAdds" , txtBussAdds.getText().toString().trim());
-            object.put("stxtLnghtSrv" , txtLnghtSrv.getText().toString().trim());
-            object.put("stxtMnthlyIn" , txtMnthlyIn.getText().toString().trim());
-            object.put("stxtMnthlyEx" , txtMnthlyEx.getText().toString().trim());
-            object.put("stxtProvncx" , txtProvnc.getText().toString().trim());
-            object.put("stxtTownxx" , txtTownxx.getText().toString().trim());
-
-            //Button
-            btnNext.setOnClickListener(v -> {
-                Intent intent = new Intent(Activity_SelfEmployedInfo.this, Activity_Finance.class);
-                intent.putExtra("params", object.toString());
-                startActivity(intent);
-                finish();
-            });
-            btnPrvs.setOnClickListener(v -> {
-                Intent intent = new Intent(Activity_SelfEmployedInfo.this, Activity_EmploymentInfo.class);
-                startActivity(intent);
-                finish();
-            });
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-    }
 
     private void initWidgets() {
         toolbar = findViewById(R.id.toolbar_SelfEmployedInfo);
@@ -121,7 +77,6 @@ public class Activity_SelfEmployedInfo extends AppCompatActivity {
         spnLngSrvc.setAdapter(new ArrayAdapter<>(Activity_SelfEmployedInfo.this,
                 android.R.layout.simple_list_item_1, CreditAppConstants.LENGTH_OF_STAY));
         spnLngSrvc.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
-
 
 
     }

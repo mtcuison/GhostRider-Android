@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:theme="@style/GhostRiderMaterialTheme.WhiteBG"
-    tools:context=".Fragment.Fragment_SpousePensionInfo">
+    tools:context=".Activities.Activity_SpousePensionInfo">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"

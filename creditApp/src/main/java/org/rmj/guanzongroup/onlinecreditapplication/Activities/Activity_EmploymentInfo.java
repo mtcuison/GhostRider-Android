@@ -23,8 +23,8 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.EmploymentInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Employment;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.OnParseListener;
@@ -80,7 +80,7 @@ public class Activity_EmploymentInfo extends AppCompatActivity {
                 mViewModel.ParseData(app, new OnParseListener() {
                     @Override
                     public void OnParse(Object args) {
-                        EmploymentInfo loDetail = (EmploymentInfo) args;
+                        Employment loDetail = (Employment) args;
 
                     }
                 });
@@ -194,19 +194,20 @@ public class Activity_EmploymentInfo extends AppCompatActivity {
             }
         });
 
-        btnNext.setOnClickListener(v -> SavePersonalInfo());
+        btnNext.setOnClickListener(v -> SaveEmploymentInfo());
 
     }
 
-    private void SavePersonalInfo() {
-        mViewModel.getModel().setsCountryN(Objects.requireNonNull(txtLngthS.getText()).toString());
-        mViewModel.getModel().setCompanyName(Objects.requireNonNull(txtCompNm.getText()).toString());
-        mViewModel.getModel().setCompanyAddress(Objects.requireNonNull(txtCompAd.getText()).toString());
-        mViewModel.getModel().setJobTitle(Objects.requireNonNull(txtJobNme.getText()).toString());
-        mViewModel.getModel().setSpecificJob(Objects.requireNonNull(txtSpcfJb.getText()).toString());
-        mViewModel.getModel().setLengthOfService(Double.parseDouble(Objects.requireNonNull(txtLngthS.getText()).toString()));
-        mViewModel.getModel().setMonthlyIncome(Long.parseLong(Objects.requireNonNull(txtEsSlry.getText()).toString()));
-        mViewModel.getModel().setContact(Objects.requireNonNull(txtCompCn.getText()).toString());
+    private void SaveEmploymentInfo() {
+        mViewModel.getModel().setsCountryN((txtCntryx.getText()).toString());
+        mViewModel.getModel().setCompanyName(txtCompNm.getText().toString());
+        mViewModel.getModel().setCompanyAddress((txtCompAd.getText()).toString());
+
+        mViewModel.getModel().setJobTitle((txtJobNme.getText()).toString());
+        mViewModel.getModel().setSpecificJob((txtSpcfJb.getText()).toString());
+        mViewModel.getModel().setLengthOfService(Double.parseDouble((txtLngthS.getText()).toString()));
+        mViewModel.getModel().setMonthlyIncome(Long.parseLong((txtEsSlry.getText()).toString()));
+        mViewModel.getModel().setContact((txtCompCn.getText()).toString());
 
         mViewModel.SaveData(new OnSaveInfoListener() {
             @Override
@@ -229,7 +230,7 @@ public class Activity_EmploymentInfo extends AppCompatActivity {
     }
 
     @Override
-    public void finish(){
+    public void finish() {
         super.finish();
         overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
     }
@@ -252,7 +253,7 @@ public class Activity_EmploymentInfo extends AppCompatActivity {
         txtTownNm = findViewById(R.id.txt_town);
         txtJobNme = findViewById(R.id.txt_jobPosition);
 
-        txtCompNm = findViewById(R.id.txt_companyNme);
+        txtCompNm = findViewById(R.id.txt_CompanyNme);
         txtCompAd = findViewById(R.id.txt_companyAdd);
         txtSpcfJb = findViewById(R.id.txt_specificJob);
         txtLngthS = findViewById(R.id.txt_lenghtService);

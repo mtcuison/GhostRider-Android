@@ -3,6 +3,7 @@ package org.rmj.guanzongroup.onlinecreditapplication.ViewModel;
 import android.app.Application;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -14,6 +15,7 @@ import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditAppInstance;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditOnlineApplication;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Pension;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Personal;
 
 public class VMPensionInfo extends AndroidViewModel implements CreditAppUI {
     private static final String TAG = VMPensionInfo.class.getSimpleName();
@@ -47,7 +49,7 @@ public class VMPensionInfo extends AndroidViewModel implements CreditAppUI {
 
     @Override
     public void ParseData(ECreditApplicantInfo args, OnParseListener listener) {
-
+        new ParseDataTask(listener).execute(args);
     }
 
     @Override
@@ -58,6 +60,41 @@ public class VMPensionInfo extends AndroidViewModel implements CreditAppUI {
     @Override
     public void SaveData(OnSaveInfoListener listener) {
         new SaveDataTask(listener).execute(poModel);
+    }
+
+    private class ParseDataTask extends AsyncTask<ECreditApplicantInfo, Void, Pension>{
+
+        private final OnParseListener listener;
+
+        public ParseDataTask(OnParseListener listener) {
+            this.listener = listener;
+        }
+
+        @Override
+        protected Pension doInBackground(ECreditApplicantInfo... app) {
+            try {
+                Pension loDetail = (Pension) poApp.Parse(app[0]);
+                if(loDetail == null){
+                    message = poApp.getMessage();
+                    return null;
+                }
+                return loDetail;
+            } catch (Exception e){
+                e.printStackTrace();
+                message = e.getMessage();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Pension result) {
+            super.onPostExecute(result);
+            if(result == null){
+                Log.e(TAG, message);
+            } else {
+                listener.OnParse(result);
+            }
+        }
     }
 
     private class SaveDataTask extends AsyncTask<Pension, Void, Boolean>{

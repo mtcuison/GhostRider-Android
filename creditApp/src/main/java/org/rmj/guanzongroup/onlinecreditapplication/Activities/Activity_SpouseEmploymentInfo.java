@@ -22,11 +22,8 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.EmploymentInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Employment;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
@@ -54,7 +51,7 @@ public class Activity_SpouseEmploymentInfo extends AppCompatActivity {
 
     private CheckBox cbUniformYes, cbMilitaryYes;
     private TextView lblBizNature;
-    private RadioGroup rgSectorx ;
+    private RadioGroup rgSectorx;
     private Toolbar toolbar;
 
     @Override
@@ -189,11 +186,11 @@ public class Activity_SpouseEmploymentInfo extends AppCompatActivity {
             }
         });
 
-        btnNext.setOnClickListener(v -> SavePersonalInfo());
+        btnNext.setOnClickListener(v -> SaveSpouseEmploymentInfo());
 
     }
 
-    private void SavePersonalInfo() {
+    private void SaveSpouseEmploymentInfo() {
 
         mViewModel.getModel().setsCountryN(Objects.requireNonNull(txtLngthS.getText()).toString());
         mViewModel.getModel().setCompanyName(Objects.requireNonNull(txtCompNm.getText()).toString());
@@ -225,7 +222,7 @@ public class Activity_SpouseEmploymentInfo extends AppCompatActivity {
     }
 
     @Override
-    public void finish(){
+    public void finish() {
         super.finish();
         overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
     }

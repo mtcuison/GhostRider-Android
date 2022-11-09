@@ -16,14 +16,11 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EBarangayInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Personal;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.SpouseResidence;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.OnParseListener;
@@ -56,7 +53,7 @@ public class Activity_SpouseResidenceInfo extends AppCompatActivity {
         mViewModel.GetApplication().observe(Activity_SpouseResidenceInfo.this, new Observer<ECreditApplicantInfo>() {
             @Override
             public void onChanged(ECreditApplicantInfo app) {
-                try{
+                try {
                     mViewModel.getModel().setTransNox(app.getTransNox());
                     mViewModel.ParseData(app, new OnParseListener() {
                         @Override
@@ -65,7 +62,7 @@ public class Activity_SpouseResidenceInfo extends AppCompatActivity {
 
                         }
                     });
-                } catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -76,22 +73,22 @@ public class Activity_SpouseResidenceInfo extends AppCompatActivity {
             public void onChanged(List<DTownInfo.TownProvinceInfo> loList) {
                 try {
                     ArrayList<String> strings = new ArrayList<>();
-                    for(int x = 0 ; x < loList.size(); x++){
+                    for (int x = 0; x < loList.size(); x++) {
                         String lsTown = loList.get(x).sTownName + ", " + loList.get(x).sProvName;
                         strings.add(lsTown);
                     }
 
                     ArrayAdapter<String> adapter = new ArrayAdapter<>(Activity_SpouseResidenceInfo.this,
-                            android.R.layout.simple_spinner_dropdown_item,strings.toArray(new String[0]));
+                            android.R.layout.simple_spinner_dropdown_item, strings.toArray(new String[0]));
                     txtTown.setAdapter(adapter);
                     txtTown.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
                     txtTown.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            for (int x = 0 ; x < loList.size() ; x++){
+                            for (int x = 0; x < loList.size(); x++) {
                                 String lsLabel = loList.get(x).sTownName + ", " + loList.get(x).sProvName;
                                 String lsSlctd = txtTown.getText().toString().trim();
-                                if( lsSlctd.equalsIgnoreCase(lsLabel)){
+                                if (lsSlctd.equalsIgnoreCase(lsLabel)) {
                                     mViewModel.getModel().setMunicipalID(loList.get(x).sTownIDxx);
                                     mViewModel.getModel().setMunicipalNm(lsLabel);
                                 }
@@ -101,21 +98,21 @@ public class Activity_SpouseResidenceInfo extends AppCompatActivity {
                                 @Override
                                 public void onChanged(List<EBarangayInfo> BrgyList) {
                                     ArrayList<String> string = new ArrayList<>();
-                                    for(int x = 0 ; x < BrgyList.size(); x++) {
+                                    for (int x = 0; x < BrgyList.size(); x++) {
                                         String lsBrgy = BrgyList.get(x).getBrgyName();
                                         string.add(lsBrgy);
                                     }
                                     ArrayAdapter<String> adapters = new ArrayAdapter<>(Activity_SpouseResidenceInfo.this,
-                                            android.R.layout.simple_spinner_dropdown_item,string.toArray(new String[0]));
+                                            android.R.layout.simple_spinner_dropdown_item, string.toArray(new String[0]));
                                     txtBarangay.setAdapter(adapters);
                                     txtBarangay.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
                                     txtBarangay.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                         @Override
                                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                            for (int x = 0 ; x < BrgyList.size() ; x++){
+                                            for (int x = 0; x < BrgyList.size(); x++) {
                                                 String lsLabel = BrgyList.get(x).getBrgyName();
                                                 String lsSlctd = txtBarangay.getText().toString().trim();
-                                                if( lsSlctd.equalsIgnoreCase(lsLabel)){
+                                                if (lsSlctd.equalsIgnoreCase(lsLabel)) {
                                                     mViewModel.getModel().setBarangayID(BrgyList.get(x).getBrgyIDxx());
                                                     mViewModel.getModel().setBarangayName(lsLabel);
                                                 }
@@ -127,17 +124,17 @@ public class Activity_SpouseResidenceInfo extends AppCompatActivity {
                         }
                     });
 
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         });
 
 
-        btnNext.setOnClickListener(v -> SaveResidenceInfo());
+        btnNext.setOnClickListener(v -> SaveSpouseResidenceInfo());
     }
 
-    private void SaveResidenceInfo() {
+    private void SaveSpouseResidenceInfo() {
 
         mViewModel.getModel().setLandMark(Objects.requireNonNull(txtLandMark.getText()).toString().trim());
         mViewModel.getModel().setHouseNox(Objects.requireNonNull(txtHouseNox.getText()).toString().trim());
@@ -164,7 +161,7 @@ public class Activity_SpouseResidenceInfo extends AppCompatActivity {
     }
 
     @Override
-    public void finish(){
+    public void finish() {
         super.finish();
         overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
     }

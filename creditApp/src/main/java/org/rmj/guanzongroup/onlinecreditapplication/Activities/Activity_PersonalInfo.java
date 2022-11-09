@@ -58,13 +58,13 @@ public class Activity_PersonalInfo extends AppCompatActivity {
     private RadioGroup rgGender;
     private AutoCompleteTextView spnCivilStatus;
     private MaterialButton btnNext;
-    private CheckBox txtMobileType1 , txtMobileType2 , txtMobileType3;
+    private CheckBox txtMobileType1, txtMobileType2, txtMobileType3;
 
     private TextInputEditText[] txtMobileNo;
-    private AutoCompleteTextView[] txtMobileType;
     private TextInputEditText[] txtMobileYear;
     private TextInputLayout[] tilMobileYear;
     private Toolbar toolbar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +79,7 @@ public class Activity_PersonalInfo extends AppCompatActivity {
         mViewModel.InitializeApplication(getIntent());
 
         mViewModel.GetApplication().observe(Activity_PersonalInfo.this, app -> {
-            try{
+            try {
                 mViewModel.getModel().setTransNox(app.getTransNox());
                 mViewModel.ParseData(app, new OnParseListener() {
                     @Override
@@ -88,7 +88,7 @@ public class Activity_PersonalInfo extends AppCompatActivity {
 
                     }
                 });
-            } catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         });
@@ -97,9 +97,9 @@ public class Activity_PersonalInfo extends AppCompatActivity {
         mViewModel.GetTownProvinceList().observe(Activity_PersonalInfo.this, new Observer<List<DTownInfo.TownProvinceInfo>>() {
             @Override
             public void onChanged(List<DTownInfo.TownProvinceInfo> loList) {
-                try{
+                try {
                     ArrayList<String> strings = new ArrayList<>();
-                    for(int x = 0; x < loList.size(); x++){
+                    for (int x = 0; x < loList.size(); x++) {
                         String lsTown = loList.get(x).sTownName + ", " + loList.get(x).sProvName;
                         strings.add(lsTown);
                     }
@@ -123,7 +123,7 @@ public class Activity_PersonalInfo extends AppCompatActivity {
                         }
                     });
 
-                } catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -132,9 +132,9 @@ public class Activity_PersonalInfo extends AppCompatActivity {
         mViewModel.GetCountryList().observe(Activity_PersonalInfo.this, new Observer<List<ECountryInfo>>() {
             @Override
             public void onChanged(List<ECountryInfo> loList) {
-                try{
+                try {
                     ArrayList<String> strings = new ArrayList<>();
-                    for(int x = 0; x < loList.size(); x++){
+                    for (int x = 0; x < loList.size(); x++) {
                         strings.add(loList.get(x).getNational());
                     }
 
@@ -156,7 +156,7 @@ public class Activity_PersonalInfo extends AppCompatActivity {
                             }
                         }
                     });
-                } catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -167,13 +167,13 @@ public class Activity_PersonalInfo extends AppCompatActivity {
         spnCivilStatus.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
 
 
-            //TODO: Replace the spinner(dropdown list) for selection of mobile number type into check box with label 'PostPaid'
-            // The default value for mobile no type will be prepaid if not check.
+        //TODO: Replace the spinner(dropdown list) for selection of mobile number type into check box with label 'PostPaid'
+        // The default value for mobile no type will be prepaid if not check.
 //            pnMobile[0] = position;
         txtMobileType1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(txtMobileType1.isChecked()) {
+                if (txtMobileType1.isChecked()) {
                     poMobile[0].setIsPostPd(1);
                     LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
                             LinearLayout.LayoutParams.MATCH_PARENT,
@@ -203,7 +203,7 @@ public class Activity_PersonalInfo extends AppCompatActivity {
         txtMobileType2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(txtMobileType2.isChecked()) {
+                if (txtMobileType2.isChecked()) {
                     poMobile[1].setIsPostPd(1);
                     LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
                             LinearLayout.LayoutParams.MATCH_PARENT,
@@ -231,7 +231,7 @@ public class Activity_PersonalInfo extends AppCompatActivity {
         txtMobileType3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(txtMobileType3.isChecked()) {
+                if (txtMobileType3.isChecked()) {
                     poMobile[2].setIsPostPd(1);
                     LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
                             LinearLayout.LayoutParams.MATCH_PARENT,
@@ -288,7 +288,7 @@ public class Activity_PersonalInfo extends AppCompatActivity {
         if (txtMobileNo[0] != null || !Objects.requireNonNull(txtMobileNo[0].getText()).toString().trim().isEmpty()) {
             poMobile[0].setMobileNo(txtMobileNo[0].getText().toString());
 //            loMobile[1].setIsPostPd();
-            if(poMobile[0].getIsPostPd().equalsIgnoreCase("1")) {
+            if (poMobile[0].getIsPostPd().equalsIgnoreCase("1")) {
                 poMobile[0].setPostYear(Integer.parseInt(txtMobileYear[0].getText().toString()));
             }
             mViewModel.getModel().setMobileNo1(poMobile[0]);
@@ -296,7 +296,7 @@ public class Activity_PersonalInfo extends AppCompatActivity {
         if (!Objects.requireNonNull(txtMobileNo[1].getText()).toString().trim().isEmpty()) {
             poMobile[1].setMobileNo(txtMobileNo[1].getText().toString());
 //            loMobile[1].setIsPostPd();
-            if(poMobile[1].getIsPostPd().equalsIgnoreCase("1")) {
+            if (poMobile[1].getIsPostPd().equalsIgnoreCase("1")) {
                 poMobile[1].setPostYear(Integer.parseInt(txtMobileYear[1].getText().toString()));
             }
             mViewModel.getModel().setMobileNo2(poMobile[1]);
@@ -304,7 +304,7 @@ public class Activity_PersonalInfo extends AppCompatActivity {
         if (!Objects.requireNonNull(txtMobileNo[2].getText()).toString().trim().isEmpty()) {
             poMobile[2].setMobileNo(txtMobileNo[2].getText().toString());
 //            poMobile[2].setIsPostPd();
-            if(poMobile[2].getIsPostPd().equalsIgnoreCase("1")) {
+            if (poMobile[2].getIsPostPd().equalsIgnoreCase("1")) {
                 poMobile[2].setPostYear(Integer.parseInt(txtMobileYear[2].getText().toString()));
             }
             mViewModel.getModel().setMobileNo3(poMobile[2]);
@@ -369,7 +369,7 @@ public class Activity_PersonalInfo extends AppCompatActivity {
             final Calendar newCalendar = Calendar.getInstance();
             @SuppressLint("SimpleDateFormat") final SimpleDateFormat dateFormatter = new SimpleDateFormat("MMMM dd, yyyy");
             final DatePickerDialog StartTime = new DatePickerDialog(Activity_PersonalInfo.this,
-                    android.R.style.Theme_Holo_Dialog,  (view131, year, monthOfYear, dayOfMonth) -> {
+                    android.R.style.Theme_Holo_Dialog, (view131, year, monthOfYear, dayOfMonth) -> {
                 try {
                     Calendar newDate = Calendar.getInstance();
                     newDate.set(year, monthOfYear, dayOfMonth);
@@ -379,7 +379,7 @@ public class Activity_PersonalInfo extends AppCompatActivity {
                     lsDate = new SimpleDateFormat("yyyy-MM-dd").format(loDate);
                     Log.d(TAG, "Save formatted time: " + lsDate);
                     mViewModel.getModel().setBrthDate(lsDate);
-                } catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
@@ -409,8 +409,8 @@ public class Activity_PersonalInfo extends AppCompatActivity {
         txtMobileType3 = findViewById(R.id.cb_mobile3Type);
     }
 
-    private void SetupMaidenEntry(){
-        if(mViewModel.getModel().getGender().equalsIgnoreCase("1")) {
+    private void SetupMaidenEntry() {
+        if (mViewModel.getModel().getGender().equalsIgnoreCase("1")) {
             if (mViewModel.getModel().getCvlStats().equalsIgnoreCase("1") ||
                     mViewModel.getModel().getCvlStats().equalsIgnoreCase("3")) {
                 tilMothNm.setVisibility(View.VISIBLE);

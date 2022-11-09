@@ -10,28 +10,23 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Financier;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Personal;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.OnParseListener;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMFinancierInfo;
-import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMPersonalInfo;
 
 import java.util.Objects;
 
 public class Activity_Finance extends AppCompatActivity {
 
-    private VMFinancierInfo mViewModel ;
+    private VMFinancierInfo mViewModel;
     private AutoCompleteTextView spnRelation;
     private String relationX = "-1";
     private TextInputEditText txtFNamex, txtFIncme, txtFMoble, txtFFacbk, txtFEmail;
@@ -50,7 +45,7 @@ public class Activity_Finance extends AppCompatActivity {
         initWidgets();
         mViewModel.InitializeApplication(getIntent());
         mViewModel.GetApplication().observe(Activity_Finance.this, app -> {
-            try{
+            try {
                 mViewModel.getModel().setTransNox(app.getTransNox());
                 mViewModel.ParseData(app, new OnParseListener() {
                     @Override
@@ -58,7 +53,7 @@ public class Activity_Finance extends AppCompatActivity {
                         Financier loDetail = (Financier) args;
                     }
                 });
-            } catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         });
@@ -70,11 +65,11 @@ public class Activity_Finance extends AppCompatActivity {
             }
         });
 
-        btnNext.setOnClickListener(v -> SavePersonalInfo());
+        btnNext.setOnClickListener(v -> SaveFinanceInfo());
 
     }
 
-    private void SavePersonalInfo() {
+    private void SaveFinanceInfo() {
 
         mViewModel.getModel().setFinancierName(Objects.requireNonNull(txtFNamex.getText()).toString().trim());
         mViewModel.getModel().setRangeOfIncome(Long.parseLong(Objects.requireNonNull(txtFIncme.getText()).toString().trim()));
@@ -104,7 +99,7 @@ public class Activity_Finance extends AppCompatActivity {
     }
 
     @Override
-    public void finish(){
+    public void finish() {
         super.finish();
         overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
     }

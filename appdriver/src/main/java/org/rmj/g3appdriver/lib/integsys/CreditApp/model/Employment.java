@@ -345,11 +345,11 @@ public class Employment {
 
     private boolean isCompanyAddressValid(){
         if(sSectorxx.equalsIgnoreCase("0") || sSectorxx.equalsIgnoreCase("1")) {
-            if (sProvIDxx == null || sProvIDxx.equalsIgnoreCase("")) {
+            if (sProvName == null || sProvName.equalsIgnoreCase("")) {
                 message = "Please enter company province address";
                 return false;
             }
-            if (sTownIDxx == null || sTownIDxx.equalsIgnoreCase("")) {
+            if (sTownName == null || sTownName.equalsIgnoreCase("")) {
                 message = "Please enter company town address";
                 return false;
             }

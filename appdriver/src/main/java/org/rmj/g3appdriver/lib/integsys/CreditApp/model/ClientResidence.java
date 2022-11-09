@@ -422,8 +422,9 @@ public class ClientResidence {
     }
 
     private boolean isLengthOfStayValid(){
-        if(sHouseOwn.trim().equalsIgnoreCase("1") || sHouseOwn.trim().equalsIgnoreCase("1")) {
-            if (sLenghtSt == 0){
+        if(sHouseOwn.trim().equalsIgnoreCase("1") || sHouseOwn.trim().equalsIgnoreCase("2")) {
+            if (sLenghtSt == 0
+            ){
                 message = "Please enter length of stay";
                 return false;
             }

@@ -47,7 +47,7 @@ public class Activity_SpousePensionInfo extends AppCompatActivity {
 
             btnNext.setOnClickListener(v -> {
                 Intent intent = new Intent(Activity_SpousePensionInfo.this, Activity_DisbursementInfo.class);
-                intent.putExtra("params",object.toString());
+                intent.putExtra("params", object.toString());
                 startActivity(intent);
                 finish();
             });
@@ -85,14 +85,13 @@ public class Activity_SpousePensionInfo extends AppCompatActivity {
         rgPensionSector.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if (rbGovt.isChecked()){
+                if (rbGovt.isChecked()) {
                     sPenSector = "Government";
-                }else if (rbPrivate.isChecked()){
+                } else if (rbPrivate.isChecked()) {
                     sPenSector = "Private";
                 }
             }
         });
-
 
 
     }

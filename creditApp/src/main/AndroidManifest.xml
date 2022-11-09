@@ -3,7 +3,7 @@
 
     <application>
         <activity
-            android:name=".Activity_ApplicantDocuments"
+            android:name=".Activities.Activity_ApplicantDocuments"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

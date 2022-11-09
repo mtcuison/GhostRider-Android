@@ -94,7 +94,7 @@
 
         <!--            android:name=".Activity.Activity_SplashScreen"-->
         <activity
-            android:name="org.rmj.guanzongroup.documentscanner.Activity_DocumentScan"
+            android:name=".Activity.Activity_SplashScreen"
             android:screenOrientation="userPortrait"
             android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan"

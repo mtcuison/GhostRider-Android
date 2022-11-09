@@ -19,16 +19,11 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.ECountryInfo;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.SpouseInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.ClientSpouseInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.MobileNo;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Personal;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.OnParseListener;
@@ -38,7 +33,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Activity_SpouseInfo extends AppCompatActivity {
+public class
+Activity_SpouseInfo extends AppCompatActivity {
 
     private VMSpouseInfo mViewModel;
     private MobileNo[] poMobile = new MobileNo[3];
@@ -73,7 +69,7 @@ public class Activity_SpouseInfo extends AppCompatActivity {
         initWidgets();
         mViewModel.InitializeApplication(getIntent());
         mViewModel.GetApplication().observe(Activity_SpouseInfo.this, app -> {
-            try{
+            try {
                 mViewModel.getModel().setTransNox(app.getTransNox());
                 mViewModel.ParseData(app, new OnParseListener() {
                     @Override
@@ -82,7 +78,7 @@ public class Activity_SpouseInfo extends AppCompatActivity {
 
                     }
                 });
-            } catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         });
@@ -90,9 +86,9 @@ public class Activity_SpouseInfo extends AppCompatActivity {
         mViewModel.GetTownProvinceList().observe(Activity_SpouseInfo.this, new Observer<List<DTownInfo.TownProvinceInfo>>() {
             @Override
             public void onChanged(List<DTownInfo.TownProvinceInfo> loList) {
-                try{
+                try {
                     ArrayList<String> strings = new ArrayList<>();
-                    for(int x = 0; x < loList.size(); x++){
+                    for (int x = 0; x < loList.size(); x++) {
                         String lsTown = loList.get(x).sTownName + ", " + loList.get(x).sProvName;
                         strings.add(lsTown);
                     }
@@ -116,7 +112,7 @@ public class Activity_SpouseInfo extends AppCompatActivity {
                         }
                     });
 
-                } catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -132,7 +128,7 @@ public class Activity_SpouseInfo extends AppCompatActivity {
         cbMobile1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(cbMobile1.isChecked()) {
+                if (cbMobile1.isChecked()) {
                     poMobile[0].setIsPostPd(1);
                     LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
                             LinearLayout.LayoutParams.MATCH_PARENT,
@@ -161,7 +157,7 @@ public class Activity_SpouseInfo extends AppCompatActivity {
         cbMobile2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(cbMobile2.isChecked()) {
+                if (cbMobile2.isChecked()) {
                     poMobile[1].setIsPostPd(1);
                     LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
                             LinearLayout.LayoutParams.MATCH_PARENT,
@@ -189,7 +185,7 @@ public class Activity_SpouseInfo extends AppCompatActivity {
         cbMobile3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(cbMobile3.isChecked()) {
+                if (cbMobile3.isChecked()) {
                     poMobile[2].setIsPostPd(1);
                     LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
                             LinearLayout.LayoutParams.MATCH_PARENT,
@@ -225,7 +221,7 @@ public class Activity_SpouseInfo extends AppCompatActivity {
         if (txtPrimeCntc != null || !Objects.requireNonNull(txtPrimeCntc.getText()).toString().trim().isEmpty()) {
             poMobile[0].setMobileNo(txtPrimeCntc.getText().toString());
 //            loMobile[1].setIsPostPd();
-            if(poMobile[0].getIsPostPd().equalsIgnoreCase("1")) {
+            if (poMobile[0].getIsPostPd().equalsIgnoreCase("1")) {
                 poMobile[0].setPostYear(Integer.parseInt(txtPrimeCntcYr.getText().toString()));
             }
             mViewModel.getModel().setMobileNo1(poMobile[0]);
@@ -233,7 +229,7 @@ public class Activity_SpouseInfo extends AppCompatActivity {
         if (!Objects.requireNonNull(txtSecCntct.getText()).toString().trim().isEmpty()) {
             poMobile[1].setMobileNo(txtSecCntct.getText().toString());
 //            loMobile[1].setIsPostPd();
-            if(poMobile[1].getIsPostPd().equalsIgnoreCase("1")) {
+            if (poMobile[1].getIsPostPd().equalsIgnoreCase("1")) {
                 poMobile[1].setPostYear(Integer.parseInt(txtSecCntctYr.getText().toString()));
             }
             mViewModel.getModel().setMobileNo2(poMobile[1]);
@@ -241,7 +237,7 @@ public class Activity_SpouseInfo extends AppCompatActivity {
         if (!Objects.requireNonNull(txtThirCntct.getText()).toString().trim().isEmpty()) {
             poMobile[2].setMobileNo(txtThirCntct.getText().toString());
 //            poMobile[2].setIsPostPd();
-            if(poMobile[2].getIsPostPd().equalsIgnoreCase("1")) {
+            if (poMobile[2].getIsPostPd().equalsIgnoreCase("1")) {
                 poMobile[2].setPostYear(Integer.parseInt(txtThirCntctYr.getText().toString()));
             }
             mViewModel.getModel().setMobileNo3(poMobile[2]);
@@ -273,7 +269,7 @@ public class Activity_SpouseInfo extends AppCompatActivity {
     }
 
     @Override
-    public void finish(){
+    public void finish() {
         super.finish();
         overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
     }
