@@ -14,12 +14,11 @@ package org.rmj.g3appdriver.dev.Database.DataAccessObject;
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
-import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
-import androidx.room.RewriteQueriesToDropUnusedColumns;
 import androidx.room.RoomWarnings;
 import androidx.room.Update;
 
+import org.rmj.g3appdriver.dev.Database.Entities.EBranchLoanApplication;
 import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplication;
 
@@ -29,16 +28,22 @@ import java.util.List;
 public interface DCreditApplication {
 
     @Insert
-    void SaveApplication(ECreditApplication creditApplication);
+    void Save(ECreditApplication creditApplication);
 
     @Update
     void Update(ECreditApplication creditApplication);
 
     @Insert
-    void SaveApplication(ECreditApplicantInfo creditApplicantInfo);
+    void Save(ECreditApplicantInfo creditApplicantInfo);
 
     @Update
     void Update(ECreditApplicantInfo creditApplicantInfo);
+
+    @Insert
+    void Save(EBranchLoanApplication branchLoanApplication);
+
+    @Update
+    void Update(EBranchLoanApplication branchLoanApplication);
 
     @Query("SELECT * FROM Credit_Online_Application ORDER BY dTimeStmp DESC LIMIT 1")
     ECreditApplication GetLatestRecord();
@@ -71,7 +76,13 @@ public interface DCreditApplication {
     int GetRowsCountForUniqueID();
 
     @Query("SELECT * FROM Credit_Online_Application")
-    LiveData<List<ECreditApplication>> getAllCreditApplication();
+    LiveData<List<ECreditApplication>> GetAllCreditApplication();
+
+    @Query("SELECT * FROM Credit_Online_Application_List")
+    LiveData<List<EBranchLoanApplication>> GetBranchApplications();
+
+    @Query("SELECT * FROM Credit_Online_Application_List WHERE sTransNox =:args")
+    EBranchLoanApplication GetBranchApplication(String args);
 
     @Query("SELECT * FROM Credit_Online_Application WHERE sTransNox =:TransNox")
     ECreditApplication getLoanInfoOfTransNox(String TransNox);

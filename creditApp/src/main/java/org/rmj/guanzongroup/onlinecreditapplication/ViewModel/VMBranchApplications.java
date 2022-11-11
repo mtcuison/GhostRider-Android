@@ -5,8 +5,12 @@ import android.os.AsyncTask;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 
+import org.rmj.g3appdriver.dev.Database.Entities.EBranchLoanApplication;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditOnlineApplication;
+
+import java.util.List;
 
 public class VMBranchApplications extends AndroidViewModel {
     private static final String TAG = VMBranchApplications.class.getSimpleName();
@@ -21,7 +25,11 @@ public class VMBranchApplications extends AndroidViewModel {
     }
 
     public void ImportBranchApplications(OnDownloadApplicationsListener listener){
+        new ImportApplicationsTask(listener).execute();
+    }
 
+    public LiveData<List<EBranchLoanApplication>> GetBranchApplications(){
+        return poApp.GetBranchApplications();
     }
 
     private class ImportApplicationsTask extends AsyncTask<Void, Void, Boolean>{

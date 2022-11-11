@@ -3,8 +3,19 @@
 
     <application>
         <activity
+            android:name=".Activities.Activity_BranchApplications"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/GhostRiderMaterialTheme.WhiteBG" >
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".Activities.Activity_ApplicantDocuments"
-            android:exported="false">
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/GhostRiderMaterialTheme.WhiteBG" >
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />

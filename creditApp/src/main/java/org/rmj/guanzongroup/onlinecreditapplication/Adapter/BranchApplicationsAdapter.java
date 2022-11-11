@@ -62,14 +62,13 @@ public class BranchApplicationsAdapter extends RecyclerView.Adapter<BranchApplic
     public void onBindViewHolder(@NonNull ClientInfoViewHolder holder, int position) {
         BranchApplicationModel poLoan = plLoanApp.get(position);
 
-
-        holder.lblTransNoxxx.setText("Transaction No. :"+poLoan.getsTransNox());
+        holder.lblTransNoxxx.setText("Transaction No. :" + poLoan.getsTransNox());
         holder.lblClientName.setText(poLoan.getsCompnyNm());
         holder.lblAppltnDate.setText(poLoan.getdTransact());
         holder.lblStatus.setText(poLoan.getTransactionStatus());
-        holder.lblAccntTern.setText(poLoan.getnAcctTerm());
-        holder.lblModelName.setText(poLoan.getsModelNme());
-        holder.lblMobileNo.setText(poLoan.getsMobileNo());
+//        holder.lblAccntTern.setText(poLoan.getnAcctTerm());
+//        holder.lblModelName.setText(poLoan.getsModelNme());
+//        holder.lblMobileNo.setText(poLoan.getsMobileNo());
     }
 
     @Override
@@ -85,22 +84,22 @@ public class BranchApplicationsAdapter extends RecyclerView.Adapter<BranchApplic
         TextView lblTransNoxxx;
         TextView lblClientName;
         TextView lblAppltnDate;
-        TextView lblModelName;
-        TextView lblAccntTern;
-        TextView lblMobileNo;
+//        TextView lblModelName;
+//        TextView lblAccntTern;
+//        TextView lblMobileNo;
         TextView lblStatus;
         ImageButton btnVoid;
 
         public ClientInfoViewHolder(@NonNull View itemView, OnApplicationClickListener onApplicationClickListener) {
             super(itemView);
 
-            lblTransNoxxx = itemView.findViewById(R.id.lbl_list_transNox);
-            lblClientName = itemView.findViewById(R.id.lbl_list_applicantName);
-            lblAppltnDate = itemView.findViewById(R.id.lbl_list_applicationDate);
-            lblStatus = itemView.findViewById(R.id.lbl_list_applicationWithCI);
-            lblModelName = itemView.findViewById(R.id.lbl_modelName);
-            lblAccntTern = itemView.findViewById(R.id.lbl_accntTerm);
-            lblMobileNo = itemView.findViewById(R.id.lbl_mobileNo);
+            lblTransNoxxx = itemView.findViewById(R.id.lbl_listLog_applicationTransNo);
+            lblClientName = itemView.findViewById(R.id.lbl_listLog_applicantName);
+            lblAppltnDate = itemView.findViewById(R.id.lbl_listLog_applicationDate);
+            lblStatus = itemView.findViewById(R.id.lbl_listLog_applicationWithCI);
+//            lblModelName = itemView.findViewById(R.id.lbl_modelName);
+//            lblAccntTern = itemView.findViewById(R.id.lbl_accntTerm);
+//            lblMobileNo = itemView.findViewById(R.id.lbl_mobileNo);
 
 
             itemView.setOnClickListener(v12 -> {

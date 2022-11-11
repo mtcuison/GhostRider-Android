@@ -45,8 +45,8 @@ public class VMApplicantDocuments extends AndroidViewModel {
         new InitializeDocumentsTask(listener).execute(TransNox);
     }
 
-    public LiveData<List<DCreditApplicationDocuments.ApplicationDocument>> GetCreditAppDocuments(){
-        return poApp.GetApplicantDocumentsList();
+    public LiveData<List<DCreditApplicationDocuments.ApplicationDocument>> GetCreditAppDocuments(String args){
+        return poApp.GetApplicantDocumentsList(args);
     }
 
     public void SaveDocumentScan(CreditAppDocs args, OnSaveCreditAppDocument listener){

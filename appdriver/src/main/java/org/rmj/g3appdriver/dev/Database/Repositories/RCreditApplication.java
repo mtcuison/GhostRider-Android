@@ -12,7 +12,6 @@
 package org.rmj.g3appdriver.dev.Database.Repositories;
 
 import android.app.Application;
-import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 
@@ -33,11 +32,11 @@ public class RCreditApplication {
         this.app = application;
         GGC_GriderDB GGCGriderDB = GGC_GriderDB.getInstance(application);
         creditApplicationDao = GGCGriderDB.CreditApplicationDao();
-        allCreditApplication = creditApplicationDao.getAllCreditApplication();
+        allCreditApplication = creditApplicationDao.GetAllCreditApplication();
     }
 
     public void insertCreditApplication(ECreditApplication creditApplication){
-        creditApplicationDao.SaveApplication(creditApplication);
+        creditApplicationDao.Save(creditApplication);
     }
 
     public LiveData<List<ECreditApplicantInfo>> getAllCreditApp(){
