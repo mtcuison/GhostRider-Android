@@ -197,7 +197,7 @@ public class Fragment_LeaveApplication extends Fragment {
                             txtDateTo.setText("");
                             txtNoDays.setText("");
                             txtRemarks.setText("");
-                            requireActivity().finish();
+                            poLeave = new LeaveApplication();
                         });
                         poMessage.show();
                     }

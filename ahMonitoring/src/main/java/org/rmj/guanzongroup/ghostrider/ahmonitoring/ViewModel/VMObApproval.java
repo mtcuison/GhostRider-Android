@@ -136,7 +136,7 @@ public class VMObApproval extends AndroidViewModel {
     }
 
     public void confirmOBApplication(OBApprovalInfo infoModel, OnConfirmApplicationCallback callback){
-        new ConfirmApplicationTask(instance, callback).execute(infoModel);
+        new ConfirmApplicationTask(callback).execute(infoModel);
     }
 
     private class ConfirmApplicationTask extends AsyncTask<OBApprovalInfo, Void, Boolean>{
@@ -145,7 +145,7 @@ public class VMObApproval extends AndroidViewModel {
 
         private String message;
 
-        public ConfirmApplicationTask(Application instance, OnConfirmApplicationCallback callback){
+        public ConfirmApplicationTask(OnConfirmApplicationCallback callback){
             this.callback = callback;
         }
 
