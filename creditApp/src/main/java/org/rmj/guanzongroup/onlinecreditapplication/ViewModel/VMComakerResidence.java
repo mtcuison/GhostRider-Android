@@ -10,6 +10,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.EBarangayInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ECountryInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditApp;
@@ -68,6 +69,10 @@ public class VMComakerResidence extends AndroidViewModel implements CreditAppUI 
 
     public LiveData<List<DTownInfo.TownProvinceInfo>> GetTownProvinceList() {
         return poApp.GetTownProvinceList();
+    }
+
+    public LiveData<List<EBarangayInfo>> GetBarangayList(String args){
+        return poApp.GetBarangayList(args);
     }
 
     public LiveData<List<ECountryInfo>> GetCountryList() {

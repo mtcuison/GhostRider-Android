@@ -345,7 +345,7 @@ public class Employment {
 
     private boolean isCompanyAddressValid(){
         if(sSectorxx.equalsIgnoreCase("0") || sSectorxx.equalsIgnoreCase("1")) {
-            if (sProvName == null || sProvName.equalsIgnoreCase("")) {
+            if (sProvIDxx == null || sProvIDxx.equalsIgnoreCase("")) {
                 message = "Please enter company province address";
                 return false;
             }

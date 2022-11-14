@@ -12,6 +12,7 @@ import androidx.lifecycle.LiveData;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EBarangayInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.EProvinceInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditApp;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditOnlineApplication;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditAppInstance;
@@ -40,6 +41,8 @@ public class VMResidenceInfo extends AndroidViewModel implements CreditAppUI{
     public ClientResidence getModel() {
         return poModel;
     }
+
+
 
     public LiveData<List<DTownInfo.TownProvinceInfo>> GetTownProvinceList(){
         return poApp.GetTownProvinceList();

@@ -107,7 +107,6 @@ public class Activity_PersonalInfo extends AppCompatActivity {
                     ArrayAdapter<String> adapter = new ArrayAdapter<>(Activity_PersonalInfo.this, android.R.layout.simple_spinner_dropdown_item, strings.toArray(new String[0]));
                     txtTown.setAdapter(adapter);
                     txtTown.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
-
                     txtTown.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

@@ -1,6 +1,7 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Activities;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -13,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
@@ -31,8 +33,10 @@ import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.OnParseListener;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMEmploymentInfo;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 public class Activity_EmploymentInfo extends AppCompatActivity {
 
@@ -52,19 +56,13 @@ public class Activity_EmploymentInfo extends AppCompatActivity {
             lnGovInfo, lnEmpInfo;
     private Button
             btnNext, btnPrvs;
-    private String
-            Employed, SEmployd, Financex, Pensionx;
     private RadioGroup
-            rgSectorx, rgUniform, rgMiltary;
+            rgSectorx;
     private RadioButton
             rbPrivate, rbGovernment, rbOFW;
     private CheckBox
-            cbUniformYes,
-            cbMilitaryYes;
-    private String
-            sEmploymentInfo, sUniform, sMilitary;
-    private Toolbar
-            toolbar;
+            cbUniformYes, cbMilitaryYes;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,53 +88,51 @@ public class Activity_EmploymentInfo extends AppCompatActivity {
         });
 
 
-        spnCmpLvl.setAdapter(new ArrayAdapter<>(Activity_EmploymentInfo.this, android.R.layout.simple_list_item_1, CreditAppConstants.COMPANY_LEVEL));
+        spnCmpLvl.setAdapter(new ArrayAdapter<>(Activity_EmploymentInfo.this,
+                android.R.layout.simple_list_item_1, CreditAppConstants.COMPANY_LEVEL));
         spnCmpLvl.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
-        spnCmpLvl.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mViewModel.getModel().setCompanyLevel(String.valueOf(position));
-            }
-        });
+        spnCmpLvl.setOnItemClickListener((parent, view, position, id) ->
+                mViewModel.getModel().setCompanyLevel(String.valueOf(position)));
 
-        spnEmpLvl.setAdapter(new ArrayAdapter<>(Activity_EmploymentInfo.this, android.R.layout.simple_list_item_1, CreditAppConstants.EMPLOYEE_LEVEL));
+        spnEmpLvl.setAdapter(new ArrayAdapter<>(Activity_EmploymentInfo.this,
+                android.R.layout.simple_list_item_1, CreditAppConstants.EMPLOYEE_LEVEL));
         spnEmpLvl.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
-        spnEmpLvl.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mViewModel.getModel().setEmployeeLevel(String.valueOf(position));
-            }
-        });
+        spnEmpLvl.setOnItemClickListener((parent, view, position, id) ->
+                mViewModel.getModel().setEmployeeLevel(String.valueOf(position)));
 
-        spnBusNtr.setAdapter(new ArrayAdapter<>(Activity_EmploymentInfo.this, android.R.layout.simple_list_item_1, CreditAppConstants.BUSINESS_NATURE));
+        spnBusNtr.setAdapter(new ArrayAdapter<>(Activity_EmploymentInfo.this,
+                android.R.layout.simple_list_item_1, CreditAppConstants.BUSINESS_NATURE));
         spnBusNtr.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
-        spnBusNtr.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mViewModel.getModel().setBusinessNature(String.valueOf(position));
-            }
-        });
+        spnBusNtr.setOnItemClickListener((parent, view, position, id) ->
+                mViewModel.getModel().setBusinessNature(String.valueOf(position)));
 
-        spnEmpSts.setAdapter(new ArrayAdapter<>(Activity_EmploymentInfo.this, android.R.layout.simple_list_item_1, CreditAppConstants.EMPLOYMENT_STATUS));
+        spnEmpSts.setAdapter(new ArrayAdapter<>(Activity_EmploymentInfo.this,
+                android.R.layout.simple_list_item_1, CreditAppConstants.EMPLOYMENT_STATUS));
         spnEmpSts.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
-        spnEmpSts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mViewModel.getModel().setEmployeeStatus(String.valueOf(position));
-            }
-        });
+        spnEmpSts.setOnItemClickListener((parent, view, position, id) ->
+                mViewModel.getModel().setEmployeeStatus(String.valueOf(position)));
 
-//        spnServce.setAdapter(new ArrayAdapter<>(Activity_EmploymentInfo.this, android.R.layout.simple_list_item_1, CreditAppConstants.LENGTH_OF_STAY));
-//        spnServce.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+        spnServce.setAdapter(new ArrayAdapter<>(Activity_EmploymentInfo.this, android.R.layout.simple_list_item_1, CreditAppConstants.LENGTH_OF_STAY));
+        spnServce.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+        spnServce.setOnItemClickListener((parent, view, position, id) ->
+                mViewModel.getModel().setIsYear(String.valueOf(position)));
 
         mViewModel.GetTownProvinceList().observe(Activity_EmploymentInfo.this, new Observer<List<DTownInfo.TownProvinceInfo>>() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
-            public void onChanged(List<DTownInfo.TownProvinceInfo> loList) {
+            public void onChanged(List<DTownInfo.TownProvinceInfo> provList) {
                 try {
                     ArrayList<String> strings = new ArrayList<>();
-                    for (int x = 0; x < loList.size(); x++) {
-                        String lsProv = loList.get(x).sProvName;
+                    for (int x = 0; x < provList.size(); x++) {
+                        String lsProv = "" + provList.get(x).sProvName;
+//                        String lsTown =  loList.get(x).sProvName ;
                         strings.add(lsProv);
+
+                        Set<Object> set = new HashSet<>();
+                        strings.removeIf((String i) -> {
+                            return !set.add(i);
+                        });
+
                     }
 
                     ArrayAdapter<String> adapter = new ArrayAdapter<>(Activity_EmploymentInfo.this, android.R.layout.simple_spinner_dropdown_item, strings.toArray(new String[0]));
@@ -145,46 +141,56 @@ public class Activity_EmploymentInfo extends AppCompatActivity {
                     txtProvNm.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            for (int x = 0; x < loList.size(); x++) {
-                                String lsLabel = loList.get(x).sProvName;
+                            for (int x = 0; x < provList.size(); x++) {
+                                String lsLabel = provList.get(x).sProvName;
                                 String lsSlctd = txtProvNm.getText().toString().trim();
                                 if (lsSlctd.equalsIgnoreCase(lsLabel)) {
-                                    mViewModel.getModel().setProvinceID(loList.get(x).sProvIDxx);
+                                    mViewModel.getModel().setProvinceID(provList.get(x).sProvIDxx);
                                     mViewModel.getModel().setProvName(lsLabel);
                                     break;
                                 }
                             }
 
+
                             mViewModel.GetTownProvinceList().observe(Activity_EmploymentInfo.this, new Observer<List<DTownInfo.TownProvinceInfo>>() {
                                 @Override
-                                public void onChanged(List<DTownInfo.TownProvinceInfo> loList) {
-                                    ArrayList<String> strings = new ArrayList<>();
-                                    for (int x = 0; x < loList.size(); x++) {
-                                        String lsTown = loList.get(x).sTownName;
-                                        strings.add(lsTown);
-                                    }
+                                public void onChanged(List<DTownInfo.TownProvinceInfo> townList) {
+                                    try {
+                                        ArrayList<String> string = new ArrayList<>();
+                                        for (int x = 0; x < townList.size(); x++) {
+                                            String lsTown = townList.get(x).sTownName + "";
+//                        String lsTown =  loList.get(x).sProvName ;
+                                            string.add(lsTown);
+                                            Set<Object> set = new HashSet<>();
+                                            string.removeIf((String i) -> {
+                                                return !set.add(i);
+                                            });
 
-                                    ArrayAdapter<String> adapter = new ArrayAdapter<>(Activity_EmploymentInfo.this, android.R.layout.simple_spinner_dropdown_item, strings.toArray(new String[0]));
-                                    txtTownNm.setAdapter(adapter);
-                                    txtTownNm.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+                                        }
 
-                                    txtTownNm.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                        @Override
-                                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                            for (int x = 0; x < loList.size(); x++) {
-                                                String lsLabel = loList.get(x).sTownName;
-                                                String lsSlctd = txtTownNm.getText().toString().trim();
-                                                if (lsSlctd.equalsIgnoreCase(lsLabel)) {
-                                                    mViewModel.getModel().setTownID(loList.get(x).sTownIDxx);
-                                                    mViewModel.getModel().setTownName(lsLabel);
-                                                    break;
+                                        ArrayAdapter<String> adapters = new ArrayAdapter<>(Activity_EmploymentInfo.this, android.R.layout.simple_spinner_dropdown_item, string.toArray(new String[0]));
+                                        txtTownNm.setAdapter(adapters);
+                                        txtTownNm.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+                                        txtTownNm.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                            @Override
+                                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                                for (int x = 0; x < townList.size(); x++) {
+                                                    String lsLabel = townList.get(x).sTownName;
+                                                    String lsSlctd = txtTownNm.getText().toString().trim();
+                                                    if (lsSlctd.equalsIgnoreCase(lsLabel)) {
+                                                        mViewModel.getModel().setTownID(townList.get(x).sTownIDxx);
+                                                        mViewModel.getModel().setTownName(lsLabel);
+                                                        break;
+                                                    }
                                                 }
                                             }
-                                        }
-                                    });
+                                        });
+
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
                                 }
                             });
-
                         }
                     });
 
@@ -202,6 +208,9 @@ public class Activity_EmploymentInfo extends AppCompatActivity {
         mViewModel.getModel().setsCountryN((txtCntryx.getText()).toString());
         mViewModel.getModel().setCompanyName(txtCompNm.getText().toString());
         mViewModel.getModel().setCompanyAddress((txtCompAd.getText()).toString());
+
+//        mViewModel.getModel().setProvinceID(txtProvNm.getText().toString());
+//        mViewModel.getModel().setTownID(txtTownNm.getText().toString());
 
         mViewModel.getModel().setJobTitle((txtJobNme.getText()).toString());
         mViewModel.getModel().setSpecificJob((txtSpcfJb.getText()).toString());
@@ -229,6 +238,7 @@ public class Activity_EmploymentInfo extends AppCompatActivity {
 
     }
 
+
     @Override
     public void finish() {
         super.finish();
@@ -249,6 +259,7 @@ public class Activity_EmploymentInfo extends AppCompatActivity {
         spnEmpSts = findViewById(R.id.spn_employmentStatus);
         spnServce = findViewById(R.id.spn_lengthService);
 
+        txtProvNm = findViewById(R.id.txt_province);
         txtCntryx = findViewById(R.id.txt_countryNme);
         txtTownNm = findViewById(R.id.txt_town);
         txtJobNme = findViewById(R.id.txt_jobPosition);
@@ -299,25 +310,19 @@ public class Activity_EmploymentInfo extends AppCompatActivity {
             }
         });
 
-        cbUniformYes.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (cbUniformYes.isChecked()) {
-                    mViewModel.getModel().setUniformPersonal("1");
-                } else {
-                    mViewModel.getModel().setUniformPersonal("0");
-                }
+        cbUniformYes.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (cbUniformYes.isChecked()) {
+                mViewModel.getModel().setUniformPersonal("1");
+            } else {
+                mViewModel.getModel().setUniformPersonal("0");
             }
         });
 
-        cbMilitaryYes.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (cbMilitaryYes.isChecked()) {
-                    mViewModel.getModel().setUniformPersonal("1");
-                } else {
-                    mViewModel.getModel().setUniformPersonal("0");
-                }
+        cbMilitaryYes.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (cbMilitaryYes.isChecked()) {
+                mViewModel.getModel().setUniformPersonal("1");
+            } else {
+                mViewModel.getModel().setUniformPersonal("0");
             }
         });
 

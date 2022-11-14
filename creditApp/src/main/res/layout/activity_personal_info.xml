@@ -297,7 +297,7 @@
                         android:imeOptions="actionNext"
                         android:inputType="number|none"
                         android:maxLength="11"
-                        android:nextFocusForward="@+id/spn_mobile1Type" />
+                        android:nextFocusForward="@+id/cb_mobile1Type" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -311,7 +311,7 @@
                         android:text="Postpaid"
                         android:imeOptions="actionNext"
                         android:inputType="none"
-                        android:nextFocusForward="@+id/txt_mobileNo2"
+                        android:nextFocusForward="@+id/txt_mobileNo1Year"
                         android:padding="16dp" />
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -329,6 +329,7 @@
                         android:id="@+id/txt_mobileNo1Year"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:nextFocusForward="@id/txt_mobileNo2"
                         android:inputType="number|none"
                         android:maxLength="2" />
 
@@ -356,7 +357,7 @@
                         android:imeOptions="actionNext"
                         android:inputType="number|none"
                         android:maxLength="11"
-                        android:nextFocusForward="@+id/spn_mobile2Type" />
+                        android:nextFocusForward="@+id/cb_mobile2Type" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -369,14 +370,15 @@
                     android:text="Postpaid"
                     android:imeOptions="actionNext"
                     android:inputType="none"
-                    android:nextFocusForward="@+id/txt_mobileNo2"
+                    android:nextFocusForward="@+id/txt_mobileNo2Year"
                     android:padding="16dp" />
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/til_mobileNo2Year"
                     style="@style/TextInputStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="3"
+                    android:layout_weight="1.5"
                     android:hint="@string/sHintYear"
                     android:orientation="horizontal"
                     android:visibility="gone">
@@ -384,6 +386,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/txt_mobileNo2Year"
                         android:layout_width="match_parent"
+                        android:nextFocusForward="@id/txt_mobileNo3"
                         android:layout_height="wrap_content"
                         android:inputType="number|none"
                         android:maxLength="2" />
@@ -409,6 +412,7 @@
                         android:id="@+id/txt_mobileNo3"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:nextFocusForward="@id/cb_mobile3Type"
                         android:imeOptions="actionNext"
                         android:inputType="number|none"
                         android:maxLength="11" />
@@ -424,14 +428,15 @@
                     android:text="Postpaid"
                     android:imeOptions="actionNext"
                     android:inputType="none"
-                    android:nextFocusForward="@+id/txt_mobileNo2"
+                    android:nextFocusForward="@+id/txt_mobileNo3Year"
                     android:padding="16dp" />
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/til_mobileNo3Year"
                     style="@style/TextInputStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="3"
+                    android:layout_weight="1.5"
                     android:hint="@string/sHintYear"
                     android:orientation="horizontal"
                     android:visibility="gone">
@@ -440,6 +445,7 @@
                         android:id="@+id/txt_mobileNo3Year"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:nextFocusForward="@id/txt_telephoneNo"
                         android:inputType="number|none"
                         android:maxLength="2" />
 
@@ -514,24 +520,40 @@
                     android:nextFocusForward="@+id/btn_creditAppNext" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="300dp"
-                android:orientation="vertical"
                 android:gravity="end">
 
-                <com.google.android.material.button.MaterialButton
+                <Button
                     android:id="@+id/btn_creditAppNext"
                     style="@style/NavigationButton"
-
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
                     android:drawableEnd="@drawable/ic_nav_right"
                     android:drawableRight="@drawable/ic_nav_right"
-                    android:text="@string/sbtnNext" />
+                    android:text="@string/sbtnNext"
+                    tools:ignore="RelativeOverlap" />
 
-            </LinearLayout>
+                <Button
+                    android:id="@+id/btn_creditAppPrvs"
+                    style="@style/NavigationButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+
+                    android:drawableStart="@drawable/ic_nav_left"
+                    android:drawableLeft="@drawable/ic_nav_left"
+                    android:text="@string/sbtnPrvs"
+                    tools:ignore="RelativeOverlap" />
+
+            </RelativeLayout>
 
 
         </LinearLayout>
