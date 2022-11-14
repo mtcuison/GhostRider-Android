@@ -98,11 +98,11 @@ public class VMLeaveApplication extends AndroidViewModel {
 
                 if(!poSys.UploadApplication(lsTransNo)) {
                     message = poSys.getMessage();
-                    return true;
-                } else {
-                    message = poSys.getMessage();
                     return false;
                 }
+
+                message = poSys.getMessage();
+                return true;
 
             } catch (Exception e){
                 e.printStackTrace();

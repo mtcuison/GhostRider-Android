@@ -151,7 +151,7 @@ public class VMLeaveApproval extends AndroidViewModel {
     }
 
     public void confirmLeaveApplication(LeaveApprovalInfo infoModel, OnConfirmLeaveAppCallback callBack){
-        new ConfirmLeaveTask(infoModel, instance, callBack).execute();
+        new ConfirmLeaveTask(callBack).execute(infoModel);
     }
 
     private  class ConfirmLeaveTask extends AsyncTask<LeaveApprovalInfo, Void, Boolean> {
@@ -159,7 +159,7 @@ public class VMLeaveApproval extends AndroidViewModel {
 
         private String message;
 
-        public ConfirmLeaveTask(LeaveApprovalInfo infoModel, Application instance, OnConfirmLeaveAppCallback callback) {
+        public ConfirmLeaveTask(OnConfirmLeaveAppCallback callback) {
             this.callback = callback;
         }
 
