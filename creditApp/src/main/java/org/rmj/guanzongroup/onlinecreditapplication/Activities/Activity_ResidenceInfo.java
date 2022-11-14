@@ -3,6 +3,7 @@ package org.rmj.guanzongroup.onlinecreditapplication.Activities;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -13,6 +14,7 @@ import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -119,7 +121,6 @@ public class Activity_ResidenceInfo extends AppCompatActivity {
                                     break;
                                 }
                             }
-
 
                             mViewModel.GetTownProvinceList().observe(Activity_ResidenceInfo.this, new Observer<List<DTownInfo.TownProvinceInfo>>() {
                                 @Override
@@ -294,6 +295,7 @@ public class Activity_ResidenceInfo extends AppCompatActivity {
 
 
         btnNext.setOnClickListener(v -> SaveResidenceInfo());
+        btnPrvs.setOnClickListener(v -> finish());
 
     }
 
@@ -315,12 +317,19 @@ public class Activity_ResidenceInfo extends AppCompatActivity {
 //        mViewModel.getModel().setPermanentMunicipalNm(txtPMunicipl.getText().toString());
 //        mViewModel.getModel().setPermanentBarangayName(txtPBarangay.getText().toString());
 
+        if (mViewModel.getModel().getHouseOwn().equalsIgnoreCase("1") ||
+                mViewModel.getModel().getHouseOwn().equalsIgnoreCase("2")){
+            mViewModel.getModel().setLenghtOfStay(Double.parseDouble(txtLgnthStay.getText().toString().trim()));
+            mViewModel.getModel().setMonthlyExpenses(Double.parseDouble((txtMonthlyExp.getText().toString())));
+        }
+
         mViewModel.SaveData(new OnSaveInfoListener() {
             @Override
             public void OnSave(String args) {
-                Intent loIntent = new Intent(Activity_ResidenceInfo.this, Activity_EmploymentInfo.class);
+                Intent loIntent = new Intent(Activity_ResidenceInfo.this, Activity_MeansInfoSelection.class);
                 loIntent.putExtra("sTransNox", args);
                 startActivity(loIntent);
+                overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
             }
 
             @Override
@@ -379,13 +388,13 @@ public class Activity_ResidenceInfo extends AppCompatActivity {
                     lnOtherInfo.setVisibility(View.VISIBLE);
                     tilRelationship.setVisibility(View.GONE);
                     mViewModel.getModel().setHouseOwn("1");
-                    mViewModel.getModel().setLenghtOfStay(Double.parseDouble(Objects.requireNonNull(txtLgnthStay.getText()).toString().trim()));
                 }
                 if (i == R.id.rb_careTaker) {
                     lnOtherInfo.setVisibility(View.VISIBLE);
                     tilRelationship.setVisibility(View.VISIBLE);
                     mViewModel.getModel().setHouseOwn("2");
-                    mViewModel.getModel().setMonthlyExpenses(Double.parseDouble(Objects.requireNonNull(txtMonthlyExp.getText()).toString()));
+
+
 
                 }
             } else {
@@ -457,5 +466,30 @@ public class Activity_ResidenceInfo extends AppCompatActivity {
         btnNext = findViewById(R.id.btn_creditAppNext);
         btnPrvs = findViewById(R.id.btn_creditAppPrvs);
 
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == android.R.id.home){
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        getViewModelStore().clear();
+        super.onDestroy();
     }
 }

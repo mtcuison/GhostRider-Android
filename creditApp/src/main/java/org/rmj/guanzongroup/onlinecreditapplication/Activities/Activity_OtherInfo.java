@@ -2,11 +2,13 @@ package org.rmj.guanzongroup.onlinecreditapplication.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
@@ -42,41 +44,9 @@ public class Activity_OtherInfo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_other_info);
         initWidgets();
-        json();
-    }
 
-    private void json() {
-        Intent receiveIntent = getIntent();
-        String param = receiveIntent.getStringExtra("params");
-        try {
-            JSONObject object = new JSONObject(param);
-            object.put("sspnUnitPrps", spnUnitPrps.getText().toString().trim());
-            object.put("sspnUnitPayr", spnUnitPayr.getText().toString().trim());
-            object.put("sspnUnitUser", spnUnitUser.getText().toString().trim());
-            object.put("sspnOthrUser", spnOthrUser.getText().toString().trim());
-            object.put("sspnOthrPayr", spnOthrPayr.getText().toString().trim());
-            object.put("sspnSourcexx", spnSourcexx.getText().toString().trim());
-            object.put("stieOthrSrc", tieOthrSrc.getText().toString().trim());
-            object.put("stieRefName", tieRefName.getText().toString().trim());
-            object.put("stieRefCntc", tieRefCntc.getText().toString().trim());
-            object.put("stieRefAdd1", tieRefAdd1.getText().toString().trim());
-            object.put("stieAddProv", tieAddProv.getText().toString().trim());
-            object.put("stieAddTown", tieAddTown.getText().toString().trim());
 
-            btnNext.setOnClickListener(v -> {
-                Intent intent = new Intent(Activity_OtherInfo.this, Activity_CoMaker.class);
-                intent.putExtra("params", object.toString());
-                startActivity(intent);
-                finish();
-            });
-            btnPrevs.setOnClickListener(v -> {
-                Intent intent = new Intent(Activity_OtherInfo.this, Activity_Properties.class);
-                startActivity(intent);
-                finish();
-            });
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        btnPrevs.setOnClickListener(v -> finish());
 
     }
 
@@ -138,6 +108,30 @@ public class Activity_OtherInfo extends AppCompatActivity {
                 android.R.layout.simple_list_item_1, CreditAppConstants.UNIT_PAYER));
         spnSourcexx.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
 
+    }
 
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == android.R.id.home){
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        getViewModelStore().clear();
+        super.onDestroy();
     }
 }

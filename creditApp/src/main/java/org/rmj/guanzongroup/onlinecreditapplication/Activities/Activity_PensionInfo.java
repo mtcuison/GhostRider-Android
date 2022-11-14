@@ -2,12 +2,14 @@ package org.rmj.guanzongroup.onlinecreditapplication.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
@@ -63,6 +65,9 @@ public class Activity_PensionInfo extends AppCompatActivity {
             }
         });
 
+        spnSector.setAdapter(new ArrayAdapter<>(Activity_PensionInfo.this,
+                android.R.layout.simple_list_item_1, CreditAppConstants.PENSION_SECTOR));
+        spnSector.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         spnSector.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -71,13 +76,15 @@ public class Activity_PensionInfo extends AppCompatActivity {
         });
 
         btnNext.setOnClickListener(v -> SavePensionInfo());
+        btnPrvs.setOnClickListener(v -> finish());
     }
 
     private void SavePensionInfo() {
 
         mViewModel.getModel().setPensionIncomeRange(Long.parseLong(Objects.requireNonNull(txtRangxx.getText()).toString().trim()));
         mViewModel.getModel().setRetirementYear(Objects.requireNonNull(txtYearxx.getText()).toString().trim());
-        mViewModel.getModel().setNatureOfIncome(Objects.requireNonNull(txtRngInc.getText()).toString().trim());
+        mViewModel.getModel().setNatureOfIncome(Objects.requireNonNull(txtOthInc.getText()).toString().trim());
+        mViewModel.getModel().setRangeOfIncom(Long.parseLong(txtRngInc.getText().toString().trim()));
 
         mViewModel.SaveData(new OnSaveInfoListener() {
             @Override
@@ -85,6 +92,7 @@ public class Activity_PensionInfo extends AppCompatActivity {
                 Intent loIntent = new Intent(Activity_PensionInfo.this, Activity_SpouseInfo.class);
                 loIntent.putExtra("sTransNox", args);
                 startActivity(loIntent);
+                overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
             }
 
             @Override
@@ -97,13 +105,6 @@ public class Activity_PensionInfo extends AppCompatActivity {
             }
         });
     }
-
-    @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
-    }
-
 
     private void initWidgets() {
         toolbar = findViewById(R.id.toolbar_PensionInfo);
@@ -122,10 +123,30 @@ public class Activity_PensionInfo extends AppCompatActivity {
         btnPrvs = findViewById(R.id.btn_creditAppPrvs);
         btnNext = findViewById(R.id.btn_creditAppNext);
 
-        spnSector.setAdapter(new ArrayAdapter<>(Activity_PensionInfo.this,
-                android.R.layout.simple_list_item_1, CreditAppConstants.PENSION_SECTOR));
-        spnSector.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+    }
 
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == android.R.id.home){
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        getViewModelStore().clear();
+        super.onDestroy();
     }
 }

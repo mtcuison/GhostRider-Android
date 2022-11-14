@@ -38,27 +38,23 @@
                 android:layout_height="wrap_content"
                 android:text="@string/sLabelSpousePension" />
 
-            <RadioGroup
-                android:id="@+id/rg_sector"
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/CustomDropDownTilStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:hint="Pension Sector">
 
-                <RadioButton
-                    android:id="@+id/rb_government"
+                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                    android:id="@+id/spn_psnSector"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/sLabelGovernment" />
-
-                <RadioButton
-                    android:id="@+id/rb_private"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/sLabelPrivate" />
-
-            </RadioGroup>
+                    android:clickable="false"
+                    android:cursorVisible="false"
+                    android:focusable="false"
+                    android:inputType="none"
+                    android:padding="16dp"
+                    android:nextFocusForward="@+id/txt_psnIncRange"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/TextInputStyle"
@@ -144,7 +140,6 @@
                     android:layout_alignParentStart="true"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
-                    android:drawableStart="@drawable/ic_nav_left"
                     android:drawableLeft="@drawable/ic_nav_left"
                     android:text="@string/sbtnPrvs"
                     tools:ignore="RelativeOverlap" />

@@ -1,6 +1,7 @@
 package org.rmj.guanzongroup.onlinecreditapplication.ViewModel;
 
 import android.app.Application;
+import android.content.AsyncQueryHandler;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -15,25 +16,24 @@ import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditAppInstance;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditOnlineApplication;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Pension;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Personal;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.SpousePension;
 
-public class VMPensionInfo extends AndroidViewModel implements CreditAppUI {
-    private static final String TAG = VMPensionInfo.class.getSimpleName();
+public class VMSpousePensionInfo extends AndroidViewModel implements CreditAppUI{
+    private static final String TAG = VMSpousePensionInfo.class.getSimpleName();
 
     private final CreditApp poApp;
-    private final Pension poModel;
+    private final SpousePension poModel;
 
     private String TransNox;
-
     private String message;
 
-    public VMPensionInfo(@NonNull Application application) {
+    public VMSpousePensionInfo(@NonNull Application application) {
         super(application);
-        this.poApp = new CreditOnlineApplication(application).getInstance(CreditAppInstance.Pension_Info);
-        this.poModel = new Pension();
+        this.poApp = new CreditOnlineApplication(application).getInstance(CreditAppInstance.Spouse_Pension_Info);
+        this.poModel = new SpousePension();
     }
 
-    public Pension getModel() {
+    public SpousePension getModel(){
         return poModel;
     }
 
@@ -50,6 +50,7 @@ public class VMPensionInfo extends AndroidViewModel implements CreditAppUI {
     @Override
     public void ParseData(ECreditApplicantInfo args, OnParseListener listener) {
         new ParseDataTask(listener).execute(args);
+
     }
 
     @Override
@@ -60,20 +61,18 @@ public class VMPensionInfo extends AndroidViewModel implements CreditAppUI {
     @Override
     public void SaveData(OnSaveInfoListener listener) {
         new SaveDetailTask(listener).execute(poModel);
+
     }
 
-    private class ParseDataTask extends AsyncTask<ECreditApplicantInfo, Void, Pension>{
-
+    private class ParseDataTask extends AsyncTask<ECreditApplicantInfo, Void, SpousePension > {
         private final OnParseListener listener;
-
         public ParseDataTask(OnParseListener listener) {
             this.listener = listener;
         }
-
         @Override
-        protected Pension doInBackground(ECreditApplicantInfo... app) {
+        protected SpousePension doInBackground(ECreditApplicantInfo... app) {
             try {
-                Pension loDetail = (Pension) poApp.Parse(app[0]);
+                SpousePension loDetail = (SpousePension) poApp.Parse(app[0]);
                 if(loDetail == null){
                     message = poApp.getMessage();
                     return null;
@@ -85,9 +84,8 @@ public class VMPensionInfo extends AndroidViewModel implements CreditAppUI {
                 return null;
             }
         }
-
         @Override
-        protected void onPostExecute(Pension result) {
+        protected void onPostExecute(SpousePension result) {
             super.onPostExecute(result);
             if(result == null){
                 Log.e(TAG, message);
@@ -97,16 +95,14 @@ public class VMPensionInfo extends AndroidViewModel implements CreditAppUI {
         }
     }
 
-    private class SaveDetailTask extends AsyncTask<Pension, Void, Boolean>{
-
+    private class SaveDetailTask extends AsyncTask<SpousePension, Void, Boolean> {
         private final OnSaveInfoListener listener;
-
         public SaveDetailTask(OnSaveInfoListener listener) {
             this.listener = listener;
         }
 
         @Override
-        protected Boolean doInBackground(Pension... info) {
+        protected Boolean doInBackground(SpousePension... info) {
             int lnResult = poApp.Validate(info[0]);
 
             if(lnResult != 1){
@@ -120,9 +116,8 @@ public class VMPensionInfo extends AndroidViewModel implements CreditAppUI {
             }
 
             TransNox = info[0].getTransNox();
-            return true;
+            return null;
         }
-
         @Override
         protected void onPostExecute(Boolean isSuccess) {
             super.onPostExecute(isSuccess);

@@ -2,12 +2,14 @@ package org.rmj.guanzongroup.onlinecreditapplication.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
@@ -66,6 +68,7 @@ public class Activity_Finance extends AppCompatActivity {
         });
 
         btnNext.setOnClickListener(v -> SaveFinanceInfo());
+        btnPrvs.setOnClickListener(v -> finish());
 
     }
 
@@ -84,6 +87,7 @@ public class Activity_Finance extends AppCompatActivity {
                 Intent loIntent = new Intent(Activity_Finance.this, Activity_PensionInfo.class);
                 loIntent.putExtra("sTransNox", args);
                 startActivity(loIntent);
+                overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
             }
 
             @Override
@@ -96,12 +100,6 @@ public class Activity_Finance extends AppCompatActivity {
             }
         });
 
-    }
-
-    @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
     }
 
     private void initWidgets() {
@@ -126,7 +124,37 @@ public class Activity_Finance extends AppCompatActivity {
         spnRelation.setAdapter(new ArrayAdapter<>(Activity_Finance.this,
                 android.R.layout.simple_list_item_1, CreditAppConstants.FINANCE_SOURCE));
         spnRelation.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+        spnRelation.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                mViewModel.getModel().setFinancierRelation(String.valueOf(position));
+            }
+        });
 
+    }
 
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == android.R.id.home){
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        getViewModelStore().clear();
+        super.onDestroy();
     }
 }

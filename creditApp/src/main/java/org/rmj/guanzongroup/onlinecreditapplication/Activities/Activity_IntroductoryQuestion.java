@@ -284,6 +284,7 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity {
                     Intent loIntent = new Intent(Activity_IntroductoryQuestion.this, Activity_PersonalInfo.class);
                     loIntent.putExtra("sTransNox", args);
                     startActivity(loIntent);
+                    overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
                 }
 
                 @Override

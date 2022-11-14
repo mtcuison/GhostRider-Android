@@ -15,6 +15,7 @@ import org.rmj.g3appdriver.dev.Database.Entities.EOccupationInfo;
 import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditApp;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Pension;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.SpousePension;
 import org.rmj.gocas.base.GOCASApplication;
 
 import java.util.List;
@@ -62,6 +63,8 @@ public class SpousePensionInfo implements CreditApp {
             loDetail.setNatureOfIncome(gocas.SpouseMeansInfo().getOtherIncomeNature());
 //            loDetail.setRangeOfIncom(gocas.MeansInfo().getOtherIncomeAmount());
 
+
+
             poDetail = loDetail;
 
             return loDetail;
@@ -74,7 +77,7 @@ public class SpousePensionInfo implements CreditApp {
 
     @Override
     public int Validate(Object args) {
-        Pension loDetail = (Pension) args;
+        SpousePension loDetail = (SpousePension) args;
 
         if(poDetail == null){
 
@@ -102,7 +105,7 @@ public class SpousePensionInfo implements CreditApp {
     @Override
     public boolean Save(Object args) {
         try {
-            Pension loDetail = (Pension) args;
+            SpousePension loDetail = (SpousePension) args;
 
             ECreditApplicantInfo loApp = poDao.GetApplicantDetails(loDetail.getTransNox());
 

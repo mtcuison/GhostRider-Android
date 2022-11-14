@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -14,6 +15,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
@@ -219,6 +221,7 @@ public class Activity_CoMaker extends AppCompatActivity {
         });
 
         btnNext.setOnClickListener(v -> SaveCoMakerInfo());
+        btnPrvs.setOnClickListener(v -> finish());
 
     }
 
@@ -263,6 +266,7 @@ public class Activity_CoMaker extends AppCompatActivity {
                 Intent loIntent = new Intent(Activity_CoMaker.this, Activity_ComakerResidence.class);
                 loIntent.putExtra("sTransNox", args);
                 startActivity(loIntent);
+                overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
             }
 
             @Override
@@ -339,6 +343,30 @@ public class Activity_CoMaker extends AppCompatActivity {
         });
 
 
+    }
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == android.R.id.home){
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        getViewModelStore().clear();
+        super.onDestroy();
     }
 
 

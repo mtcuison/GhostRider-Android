@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -14,6 +15,7 @@ import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
@@ -57,7 +59,7 @@ public class Activity_PersonalInfo extends AppCompatActivity {
     private AutoCompleteTextView txtTown, txtCitizen;
     private RadioGroup rgGender;
     private AutoCompleteTextView spnCivilStatus;
-    private MaterialButton btnNext;
+    private MaterialButton btnNext, btnPrev;
     private CheckBox txtMobileType1, txtMobileType2, txtMobileType3;
 
     private TextInputEditText[] txtMobileNo;
@@ -274,6 +276,7 @@ public class Activity_PersonalInfo extends AppCompatActivity {
         });
 
         btnNext.setOnClickListener(v -> SavePersonalInfo());
+        btnPrev.setOnClickListener(v -> finish());
     }
 
     private void SavePersonalInfo() {
@@ -320,6 +323,8 @@ public class Activity_PersonalInfo extends AppCompatActivity {
                 Intent loIntent = new Intent(Activity_PersonalInfo.this, Activity_ResidenceInfo.class);
                 loIntent.putExtra("sTransNox", args);
                 startActivity(loIntent);
+                overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
+
             }
 
             @Override
@@ -333,11 +338,7 @@ public class Activity_PersonalInfo extends AppCompatActivity {
         });
     }
 
-    @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
-    }
+
 
     private void initWidgets() {
         toolbar = findViewById(R.id.toolbar_PersonalInfo);
@@ -387,6 +388,7 @@ public class Activity_PersonalInfo extends AppCompatActivity {
         });
 
         btnNext = findViewById(R.id.btn_creditAppNext);
+        btnPrev = findViewById(R.id.btn_creditAppPrvs);
 
         txtMobileNo = new TextInputEditText[]{
                 findViewById(R.id.txt_mobileNo1),
@@ -419,5 +421,29 @@ public class Activity_PersonalInfo extends AppCompatActivity {
         } else {
             tilMothNm.setVisibility(View.GONE);
         }
+    }
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == android.R.id.home){
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        getViewModelStore().clear();
+        super.onDestroy();
     }
 }

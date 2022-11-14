@@ -1,6 +1,8 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -10,6 +12,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
@@ -21,6 +24,7 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.etc.MessageBox;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Dependent;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
@@ -58,6 +62,7 @@ public class Activity_Dependent extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         mViewModel = new ViewModelProvider(Activity_Dependent.this).get(VMDependent.class);
         poMessage = new MessageBox(Activity_Dependent.this);
         setContentView(R.layout.activity_dependent);
@@ -81,6 +86,7 @@ public class Activity_Dependent extends AppCompatActivity {
         });
 
         btnNext.setOnClickListener(v -> SaveDependentInfo());
+        btnPrev.setOnClickListener(v -> finish());
 
 
     }
@@ -88,6 +94,21 @@ public class Activity_Dependent extends AppCompatActivity {
     private void SaveDependentInfo() {
         mViewModel.getModel().getDependentList().get(0).setFullName(Objects.requireNonNull(tieFullname.getText()).toString().trim());
 
+
+        mViewModel.SaveData(new OnSaveInfoListener() {
+            @Override
+            public void OnSave(String args) {
+                Intent loIntent = new Intent(Activity_Dependent.this, Activity_Properties.class);
+                loIntent.putExtra("sTransNox", args);
+                startActivity(loIntent);
+                overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
+            }
+
+            @Override
+            public void OnFailed(String message) {
+
+            }
+        });
     }
 
 
@@ -155,6 +176,31 @@ public class Activity_Dependent extends AppCompatActivity {
             actEmploymentType.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
 
         });
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == android.R.id.home){
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        getViewModelStore().clear();
+        super.onDestroy();
     }
 
 }

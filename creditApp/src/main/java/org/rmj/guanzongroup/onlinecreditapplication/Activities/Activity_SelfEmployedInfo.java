@@ -1,10 +1,12 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Activities;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -33,8 +35,8 @@ public class Activity_SelfEmployedInfo extends AppCompatActivity {
         initWidgets();
 
 
+        btnPrvs.setOnClickListener(v -> finish());
     }
-
 
     private void initWidgets() {
         toolbar = findViewById(R.id.toolbar_SelfEmployedInfo);
@@ -79,5 +81,30 @@ public class Activity_SelfEmployedInfo extends AppCompatActivity {
         spnLngSrvc.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
 
 
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == android.R.id.home){
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        getViewModelStore().clear();
+        super.onDestroy();
     }
 }

@@ -433,7 +433,7 @@ public class ClientResidence {
     }
 
     private boolean isMonthylyExpenseValid(){
-        if(sHouseOwn.trim().equalsIgnoreCase("1") || sHouseOwn.trim().equalsIgnoreCase("1")) {
+        if(sHouseOwn.trim().equalsIgnoreCase("1") || sHouseOwn.trim().equalsIgnoreCase("2")) {
             if (sExpenses == 0) {
                 message = "Please enter monthly rent expense";
                 return false;
