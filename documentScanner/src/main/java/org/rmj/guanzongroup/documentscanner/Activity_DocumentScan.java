@@ -2,10 +2,7 @@ package org.rmj.guanzongroup.documentscanner;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
-import android.media.Image;
 import android.os.Bundle;
 import android.os.Environment;
 import android.widget.ImageView;
@@ -14,11 +11,9 @@ import android.widget.Toast;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.SessionManager;
 import org.rmj.g3appdriver.lib.Scanner.DocScanner;
-import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
+import org.rmj.g3appdriver.etc.ImageFileCreator;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
 
 public class Activity_DocumentScan extends AppCompatActivity {
 
@@ -52,7 +47,8 @@ public class Activity_DocumentScan extends AppCompatActivity {
 
             @Override
             public void OnCancelled() {
-
+                setResult(RESULT_CANCELED);
+                finish();
             }
         });
     }

@@ -8,13 +8,13 @@
  * project file created : 4/24/21 3:19 PM
  * project file last modified : 4/24/21 3:18 PM
  */
-include ':imageMap'
-include ':map'
+//include ':imageMap'
+//include ':map'
 
 include ':settings'
 include ':dailyCollectionPlan'
 //include ':openCvLibrary_341'
-include ':imgCapture'
+//include ':imgCapture'
 //include ':CreditEvaluator'
 include ':approvalCode'
 include ':samsungKnox'

@@ -244,7 +244,6 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 try{
-
                     if (!Objects.requireNonNull(txtDownPymnt.getText()).toString().trim().isEmpty()) {
 
                         txtDownPymnt.removeTextChangedListener(this);

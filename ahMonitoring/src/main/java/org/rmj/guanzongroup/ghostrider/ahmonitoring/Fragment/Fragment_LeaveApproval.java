@@ -45,7 +45,6 @@ import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.g3appdriver.etc.GToast;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.lib.PetManager.Obj.EmployeeLeave;
 import org.rmj.g3appdriver.lib.PetManager.model.LeaveApprovalInfo;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Application;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
@@ -61,7 +60,7 @@ public class Fragment_LeaveApproval extends Fragment implements VMLeaveApproval.
     public static final String TAG = Fragment_LeaveApproval.class.getSimpleName();
     private VMLeaveApproval mViewModel;
 
-    private LeaveApprovalInfo infoModel;
+    private LeaveApprovalInfo poModel;
     private LoadDialog poDialogx;
     private MessageBox poMessage;
 
@@ -101,7 +100,7 @@ public class Fragment_LeaveApproval extends Fragment implements VMLeaveApproval.
                              @Nullable Bundle savedInstanceState) {
         mViewModel = new ViewModelProvider(this).get(VMLeaveApproval.class);
         View view = inflater.inflate(R.layout.fragment_leave_approval, container, false);
-        infoModel = new LeaveApprovalInfo();
+        poModel = new LeaveApprovalInfo();
         initWidgets(view);
 
         Typeface typeface = ResourcesCompat.getFont(requireActivity(), R.font.roboto_bold);
@@ -127,9 +126,9 @@ public class Fragment_LeaveApproval extends Fragment implements VMLeaveApproval.
                         if(eEmployeeLeave == null){
                             mViewModel.downloadLeaveApplication(TransNox, Fragment_LeaveApproval.this);
                         } else {
-                            infoModel.setTransNox(s);
-                            infoModel.setAppldFrx(eEmployeeLeave.getAppldFrx());
-                            infoModel.setAppldTox(eEmployeeLeave.getAppldTox());
+                            poModel.setTransNox(s);
+                            poModel.setAppldFrx(eEmployeeLeave.getAppldFrx());
+                            poModel.setAppldTox(eEmployeeLeave.getAppldTox());
                             lblTransNox.setText("Transaction No. : " + eEmployeeLeave.getTransNox());
                             lblEmployeNm.setText(eEmployeeLeave.getEmployID());
                             lblDeptName.setText(eEmployeeLeave.getDeptName());
@@ -150,6 +149,65 @@ public class Fragment_LeaveApproval extends Fragment implements VMLeaveApproval.
                             String lsDteTo = eEmployeeLeave.getAppldTox();
                             mViewModel.setCredits(pnCredits);
                             mViewModel.calculateLeavePay(lsFromx, lsDteTo);
+
+                            VMLeaveApproval.LeavePay loPay = mViewModel.CalculateLeavePay(
+                                    Integer.parseInt(eEmployeeLeave.getLeaveTyp()),
+                                    Integer.parseInt(eEmployeeLeave.getLveCredt()),
+                                    eEmployeeLeave.getAppldFrx(),
+                                    eEmployeeLeave.getAppldTox());
+
+                            tieWithPy.setText(loPay.getWithPay());
+                            tieWOPay.setText(loPay.getWithoutPay());
+
+                            tieWithPy.addTextChangedListener(new TextWatcher() {
+                                @Override
+                                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                                }
+
+                                @Override
+                                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                                    try{
+                                        if(!Objects.requireNonNull(tieWithPy.getText()).toString().trim().isEmpty()){
+                                            tieWithPy.removeTextChangedListener(this);
+
+                                            String lsInput = tieWithPy.getText().toString().trim();
+
+                                            int lnInput = Integer.parseInt(lsInput);
+
+
+                                        }
+                                    } catch (Exception e){
+                                        e.printStackTrace();
+                                    }
+                                }
+
+                                @Override
+                                public void afterTextChanged(Editable editable) {
+
+                                }
+                            });
+
+                            tieWOPay.addTextChangedListener(new TextWatcher() {
+                                @Override
+                                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                                }
+
+                                @Override
+                                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                                    try{
+
+                                    } catch (Exception e){
+                                        e.printStackTrace();
+                                    }
+                                }
+
+                                @Override
+                                public void afterTextChanged(Editable editable) {
+
+                                }
+                            });
                         }
                     } catch (Exception e){
                         e.printStackTrace();
@@ -160,28 +218,28 @@ public class Fragment_LeaveApproval extends Fragment implements VMLeaveApproval.
 
         mViewModel.getUserInfo().observe(requireActivity(), eEmployeeInfo -> {
             try{
-                infoModel.setApproved(AppConstants.CURRENT_DATE);
-                infoModel.setApprovex(eEmployeeInfo.sUserIDxx);
+                poModel.setApproved(AppConstants.CURRENT_DATE);
+                poModel.setApprovex(eEmployeeInfo.sUserIDxx);
             } catch (Exception e){
                 e.printStackTrace();
             }
         });
 
-        mViewModel.getWithPay().observe(getViewLifecycleOwner(), integer -> {
-            try{
-                tieWithPy.setText(String.valueOf(integer));
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-        });
+//        mViewModel.getWithPay().observe(getViewLifecycleOwner(), integer -> {
+//            try{
+//                tieWithPy.setText(String.valueOf(integer));
+//            } catch (Exception e){
+//                e.printStackTrace();
+//            }
+//        });
 
-        mViewModel.getWOPay().observe(getViewLifecycleOwner(), integer -> {
-            try{
-                tieWOPay.setText(String.valueOf(integer));
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-        });
+//        mViewModel.getWOPay().observe(getViewLifecycleOwner(), integer -> {
+//            try{
+//                tieWOPay.setText(String.valueOf(integer));
+//            } catch (Exception e){
+//                e.printStackTrace();
+//            }
+//        });
 
         mViewModel.getUserBranchInfo().observe(requireActivity(), eBranchInfo -> {
             try{
@@ -200,7 +258,7 @@ public class Fragment_LeaveApproval extends Fragment implements VMLeaveApproval.
             poMessage.setMessage("Approve " + lblEmployeNm.getText().toString() + "'s leave application?");
             poMessage.setPositiveButton("Approve", (view1, dialog) -> {
                 dialog.dismiss();
-                infoModel.setTranStat("1");
+                poModel.setTranStat("1");
                 sendLeaveUpdate();
             });
             poMessage.setNegativeButton("Cancel", (view1, dialog) -> dialog.dismiss());
@@ -213,7 +271,7 @@ public class Fragment_LeaveApproval extends Fragment implements VMLeaveApproval.
             poMessage.setMessage("Disapprove " + lblEmployeNm.getText().toString() + "'s leave application?");
             poMessage.setPositiveButton("Disapprove", (view1, dialog) -> {
                 dialog.dismiss();
-                infoModel.setTranStat("3");
+                poModel.setTranStat("3");
                 sendLeaveUpdate();
             });
             poMessage.setNegativeButton("Cancel", (view1, dialog) -> dialog.dismiss());
@@ -232,7 +290,7 @@ public class Fragment_LeaveApproval extends Fragment implements VMLeaveApproval.
                     Date dateTo = dataFormat.parse(Objects.requireNonNull(FormatUIText.formatTextToData(Objects.requireNonNull(tieDateThru.getText()).toString())));
                     Date dteFrm = newDate.getTime();
                     if(dteFrm.before(dateTo)) {
-                        infoModel.setAppldFrx(dataFormat.format(newDate.getTime()));
+                        poModel.setAppldFrx(dataFormat.format(newDate.getTime()));
                         tieDateFrom.setText(dateFormatter.format(newDate.getTime()));
                         mViewModel.calculateLeavePay(dataFormat.format(newDate.getTime()),
                                 FormatUIText.formatTextToData(Objects.requireNonNull(tieDateThru.getText()).toString()));
@@ -258,7 +316,7 @@ public class Fragment_LeaveApproval extends Fragment implements VMLeaveApproval.
                     Date dateFrmx = dataFormat.parse(Objects.requireNonNull(FormatUIText.formatTextToData(Objects.requireNonNull(tieDateFrom.getText()).toString())));
                     Date dateThru = newDate.getTime();
                     if (dateThru.after(dateFrmx)){
-                        infoModel.setAppldFrx(dataFormat.format(newDate.getTime()));
+                        poModel.setAppldFrx(dataFormat.format(newDate.getTime()));
                         tieDateThru.setText(dateFormatter.format(newDate.getTime()));
                         mViewModel.calculateLeavePay(FormatUIText.formatTextToData(Objects.requireNonNull(tieDateFrom.getText()).toString()),
                                 dataFormat.format(newDate.getTime()));
@@ -288,7 +346,7 @@ public class Fragment_LeaveApproval extends Fragment implements VMLeaveApproval.
             public void afterTextChanged(Editable s) {
                 tieWithPy.removeTextChangedListener(this);
                 try{
-                    if(infoModel.getTransNox() != null &&
+                    if(poModel.getTransNox() != null &&
                             tieWithPy.hasFocus()) {
                         int lnWthPay = Integer.parseInt(Objects.requireNonNull(s.toString()));
 //                        mViewModel.setWithPay(lnWthPay);
@@ -316,7 +374,7 @@ public class Fragment_LeaveApproval extends Fragment implements VMLeaveApproval.
             public void afterTextChanged(Editable s) {
                 tieWOPay.removeTextChangedListener(this);
                 try{
-                    if(infoModel.getTransNox() != null &&
+                    if(poModel.getTransNox() != null &&
                             tieWOPay.hasFocus()) {
                         int lnWOPay = Integer.parseInt(Objects.requireNonNull(s.toString()));
 //                        mViewModel.setWOPay(lnWOPay);
@@ -331,9 +389,9 @@ public class Fragment_LeaveApproval extends Fragment implements VMLeaveApproval.
         return view;
     }
     private void sendLeaveUpdate(){
-        infoModel.setWithPayx(Objects.requireNonNull(tieWithPy.getText()).toString());
-        infoModel.setWithOPay(Objects.requireNonNull(tieWOPay.getText()).toString());
-        mViewModel.confirmLeaveApplication(infoModel, new VMLeaveApproval.OnConfirmLeaveAppCallback() {
+        poModel.setWithPayx(Objects.requireNonNull(tieWithPy.getText()).toString());
+        poModel.setWithOPay(Objects.requireNonNull(tieWOPay.getText()).toString());
+        mViewModel.confirmLeaveApplication(poModel, new VMLeaveApproval.OnConfirmLeaveAppCallback() {
             @Override
             public void onConfirm() {
                 poDialogx.initDialog("Leave Application", "Confirming leave application. Please wait...", false);

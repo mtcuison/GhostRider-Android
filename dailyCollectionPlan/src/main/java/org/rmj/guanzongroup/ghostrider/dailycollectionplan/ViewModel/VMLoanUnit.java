@@ -42,7 +42,7 @@ import org.rmj.g3appdriver.lib.integsys.Dcp.LRDcp;
 import org.rmj.g3appdriver.lib.integsys.Dcp.model.LoanUnit;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
-import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
+import org.rmj.g3appdriver.etc.ImageFileCreator;
 
 import java.io.File;
 import java.util.List;

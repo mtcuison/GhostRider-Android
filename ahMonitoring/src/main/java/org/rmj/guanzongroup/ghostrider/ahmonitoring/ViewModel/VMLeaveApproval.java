@@ -237,6 +237,27 @@ public class VMLeaveApproval extends AndroidViewModel {
         }
     }
 
+    public String CalculateWithPay(int fnWthOPay, int fnCredit, int fnNoDays){
+        if(fnCredit == 0){
+            return "0";
+        }
+
+        if(fnWthOPay > fnNoDays){
+
+        }
+
+        if(fnCredit > 0) {
+            int lnWOPayx;
+            if (fnWthOPay <= fnNoDays) {
+                lnWOPayx = Math.abs(fnWthOPay - fnNoDays);
+                pnWOPay.setValue(lnWOPayx);
+            } else {
+                pnWithPay.setValue(fnNoDays);
+                calculateWithOPay(fnNoDays);
+            }
+        }
+    }
+
     public void calculateWithPay(int fnWithPay){
         int lnNoDays = pnNoDays.getValue();
         int lnCredt = pnCredit.getValue();
@@ -281,6 +302,62 @@ public class VMLeaveApproval extends AndroidViewModel {
         } else {
             pnWithPay.setValue((int) noOfDays);
             pnWOPay.setValue(0);
+        }
+    }
+
+    public LeavePay CalculateLeavePay(int fnLeaveTp, int fnCredit, String fsDateFrm, String fsDateTo) throws Exception{
+        @SuppressLint("SimpleDateFormat") final SimpleDateFormat loDate = new SimpleDateFormat("yyyy-MM-dd");
+        Date dateFrom = loDate.parse(Objects.requireNonNull(fsDateFrm));
+        Date dateTo = loDate.parse(Objects.requireNonNull(fsDateTo));
+        long diff = Objects.requireNonNull(dateTo).getTime() - Objects.requireNonNull(dateFrom).getTime();
+        long noOfDays = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS) + 1;
+
+        // check if leave type is Birthday leave.
+        // Birthday leave doesn't require leave credits to have leave with pay.
+        if(fnLeaveTp == 3){
+            return new LeavePay(1, 0);
+        }
+//        pnNoDays.setValue((int) noOfDays);
+
+        if(fnCredit == 0){
+            return new LeavePay(0, 0);
+        }
+
+        if(noOfDays > fnCredit){
+            int lnDiff = (int) (noOfDays - fnCredit);
+            return new LeavePay(fnCredit, lnDiff);
+        }
+
+        return new LeavePay((int) noOfDays, 0);
+//
+//        if(noOfDays > fnCredit && fnCredit != 0){
+//
+//            pnWOPay.setValue(lnDiff);
+//            pnWithPay.setValue(fnCredit);
+//        } else if(fnCredit == 0){
+//            pnWOPay.setValue((int) noOfDays);
+//            pnWithPay.setValue(0);
+//        } else {
+//            pnWithPay.setValue((int) noOfDays);
+//            pnWOPay.setValue(0);
+//        }
+    }
+
+    public static class LeavePay{
+        private final int lnWithPay;
+        private final int lnWthOPay;
+
+        public LeavePay(int lnWithPay, int lnWthOPay) {
+            this.lnWithPay = lnWithPay;
+            this.lnWthOPay = lnWthOPay;
+        }
+
+        public String getWithPay() {
+            return String.valueOf(lnWithPay);
+        }
+
+        public String getWithoutPay() {
+            return String.valueOf(lnWthOPay);
         }
     }
 }
