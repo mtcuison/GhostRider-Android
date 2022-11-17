@@ -64,7 +64,7 @@ public class Activity_Inventory extends AppCompatActivity {
         mViewModel.CheckBranchInventory(BranchCde, new VMInventory.OnCheckLocalRecords() {
             @Override
             public void OnCheck() {
-                poDialog.initDialog("Random Stock Inventory", "Saving entries. Please wait...", false);
+                poDialog.initDialog("Random Stock Inventory", "Checking entries. Please wait...", false);
                 poDialog.show();
             }
 

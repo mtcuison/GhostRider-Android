@@ -35,7 +35,7 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.5.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
-    implementation project(path: ':imgCapture')
+//    implementation project(path: ':imgCapture')
     implementation project(path: ':notifications')
     implementation project(path: ':appDriver')
     testImplementation 'junit:junit:4.13.2'

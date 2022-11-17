@@ -58,7 +58,7 @@ import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMHome;
 import org.rmj.guanzongroup.ghostrider.epacss.adapter.NewsEventsAdapter;
 import org.rmj.guanzongroup.ghostrider.epacss.adapter.NewsEventsModel;
-import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
+import org.rmj.g3appdriver.etc.ImageFileCreator;
 import org.rmj.guanzongroup.ghostrider.notifications.Activity.Activity_Container;
 import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_Settings;
 
@@ -97,7 +97,7 @@ public class Fragment_Home extends Fragment {
 
         mViewModel = new ViewModelProvider(this).get(VMHome.class);
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        poLocator = new GeoLocator(getActivity(), getActivity());
+        poLocator = new GeoLocator(requireActivity(), requireActivity());
         poFilexx = new ImageFileCreator(getActivity(), CAMERA_USAGE);
         imgProfile = view.findViewById(R.id.img_profile);
         newsList = new ArrayList<>();

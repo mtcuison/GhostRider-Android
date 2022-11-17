@@ -110,7 +110,7 @@ dependencies {
     implementation project(path: ':samsungKnox')
     implementation project(path: ':approvalCode')
     implementation project(path: ':notifications')
-    implementation project(path: ':imgCapture')
+//    implementation project(path: ':imgCapture')
 //    implementation project(path: ':griderScanner')
     implementation project(path: ':dailyCollectionPlan')
     implementation project(path: ':dataChecker')
