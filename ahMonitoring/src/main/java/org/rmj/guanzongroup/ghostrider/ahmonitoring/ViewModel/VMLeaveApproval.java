@@ -256,6 +256,7 @@ public class VMLeaveApproval extends AndroidViewModel {
                 calculateWithOPay(fnNoDays);
             }
         }
+        return "";
     }
 
     public void calculateWithPay(int fnWithPay){

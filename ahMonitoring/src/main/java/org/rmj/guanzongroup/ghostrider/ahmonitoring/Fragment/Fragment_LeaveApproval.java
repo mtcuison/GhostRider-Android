@@ -156,58 +156,58 @@ public class Fragment_LeaveApproval extends Fragment implements VMLeaveApproval.
                                     eEmployeeLeave.getAppldFrx(),
                                     eEmployeeLeave.getAppldTox());
 
-                            tieWithPy.setText(loPay.getWithPay());
-                            tieWOPay.setText(loPay.getWithoutPay());
+//                            tieWithPy.setText(loPay.getWithPay());
+//                            tieWOPay.setText(loPay.getWithoutPay());
 
-                            tieWithPy.addTextChangedListener(new TextWatcher() {
-                                @Override
-                                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                                }
-
-                                @Override
-                                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                                    try{
-                                        if(!Objects.requireNonNull(tieWithPy.getText()).toString().trim().isEmpty()){
-                                            tieWithPy.removeTextChangedListener(this);
-
-                                            String lsInput = tieWithPy.getText().toString().trim();
-
-                                            int lnInput = Integer.parseInt(lsInput);
-
-
-                                        }
-                                    } catch (Exception e){
-                                        e.printStackTrace();
-                                    }
-                                }
-
-                                @Override
-                                public void afterTextChanged(Editable editable) {
-
-                                }
-                            });
-
-                            tieWOPay.addTextChangedListener(new TextWatcher() {
-                                @Override
-                                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                                }
-
-                                @Override
-                                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                                    try{
-
-                                    } catch (Exception e){
-                                        e.printStackTrace();
-                                    }
-                                }
-
-                                @Override
-                                public void afterTextChanged(Editable editable) {
-
-                                }
-                            });
+//                            tieWithPy.addTextChangedListener(new TextWatcher() {
+//                                @Override
+//                                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//
+//                                }
+//
+//                                @Override
+//                                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//                                    try{
+//                                        if(!Objects.requireNonNull(tieWithPy.getText()).toString().trim().isEmpty()){
+//                                            tieWithPy.removeTextChangedListener(this);
+//
+//                                            String lsInput = tieWithPy.getText().toString().trim();
+//
+//                                            int lnInput = Integer.parseInt(lsInput);
+//
+//
+//                                        }
+//                                    } catch (Exception e){
+//                                        e.printStackTrace();
+//                                    }
+//                                }
+//
+//                                @Override
+//                                public void afterTextChanged(Editable editable) {
+//
+//                                }
+//                            });
+//
+//                            tieWOPay.addTextChangedListener(new TextWatcher() {
+//                                @Override
+//                                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//
+//                                }
+//
+//                                @Override
+//                                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//                                    try{
+//
+//                                    } catch (Exception e){
+//                                        e.printStackTrace();
+//                                    }
+//                                }
+//
+//                                @Override
+//                                public void afterTextChanged(Editable editable) {
+//
+//                                }
+//                            });
                         }
                     } catch (Exception e){
                         e.printStackTrace();
@@ -225,21 +225,21 @@ public class Fragment_LeaveApproval extends Fragment implements VMLeaveApproval.
             }
         });
 
-//        mViewModel.getWithPay().observe(getViewLifecycleOwner(), integer -> {
-//            try{
-//                tieWithPy.setText(String.valueOf(integer));
-//            } catch (Exception e){
-//                e.printStackTrace();
-//            }
-//        });
+        mViewModel.getWithPay().observe(getViewLifecycleOwner(), integer -> {
+            try{
+                tieWithPy.setText(String.valueOf(integer));
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
 
-//        mViewModel.getWOPay().observe(getViewLifecycleOwner(), integer -> {
-//            try{
-//                tieWOPay.setText(String.valueOf(integer));
-//            } catch (Exception e){
-//                e.printStackTrace();
-//            }
-//        });
+        mViewModel.getWOPay().observe(getViewLifecycleOwner(), integer -> {
+            try{
+                tieWOPay.setText(String.valueOf(integer));
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
 
         mViewModel.getUserBranchInfo().observe(requireActivity(), eBranchInfo -> {
             try{
