@@ -220,6 +220,7 @@ Activity_SpouseInfo extends AppCompatActivity {
         mViewModel.getModel().setMiddName(Objects.requireNonNull(txtMiddName.getText()).toString());
         mViewModel.getModel().setSuffix(Objects.requireNonNull(txtSuffix.getText()).toString());
         mViewModel.getModel().setNickName(Objects.requireNonNull(txtNickName.getText()).toString());
+        mViewModel.getModel().setBrthDate(Objects.requireNonNull(txtBDate.getText()).toString());
 
         if (txtPrimeCntc != null || !Objects.requireNonNull(txtPrimeCntc.getText()).toString().trim().isEmpty()) {
             poMobile[0].setMobileNo(txtPrimeCntc.getText().toString());

@@ -26,6 +26,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
+import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Employment;
@@ -268,6 +269,8 @@ public class Activity_EmploymentInfo extends AppCompatActivity {
         txtLngthS = findViewById(R.id.txt_lenghtService);
         txtEsSlry = findViewById(R.id.txt_monthlySalary);
         txtCompCn = findViewById(R.id.txt_companyContact);
+
+//        txtEsSlry.addTextChangedListener(new FormatUIText.CurrencyFormat(txtEsSlry));
 
         tilCntryx = findViewById(R.id.til_countryNme);
         tilCompNm = findViewById(R.id.til_companyNme);

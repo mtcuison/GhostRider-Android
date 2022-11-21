@@ -17,6 +17,8 @@ import org.rmj.g3appdriver.dev.Database.Repositories.RBarangay;
 import org.rmj.g3appdriver.dev.Database.Repositories.RTown;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditApp;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Business;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.SpouseBusiness;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.SpouseResidence;
 import org.rmj.gocas.base.GOCASApplication;
 
 import java.util.List;
@@ -27,7 +29,7 @@ public class SpouseBusinessInfo implements CreditApp {
     private final DCreditApplication poDao;
     private final RTown poTown;
 
-    private Business poDetail;
+    private SpouseBusiness poDetail;
 
     private String message;
 
@@ -50,7 +52,8 @@ public class SpouseBusinessInfo implements CreditApp {
             JSONObject joDetail = (JSONObject) loJson.parse(lsDetail);
             gocas.SpouseMeansInfo().SelfEmployedInfo().setData(joDetail);
 
-            Business loDetail = new Business();
+            SpouseBusiness loDetail = new SpouseBusiness();
+
             loDetail.setNatureOfBusiness(gocas.SpouseMeansInfo().SelfEmployedInfo().getNatureOfBusiness());
             loDetail.setNameOfBusiness(gocas.SpouseMeansInfo().SelfEmployedInfo().getNameOfBusiness());
             loDetail.setBusinessAddress(gocas.SpouseMeansInfo().SelfEmployedInfo().getBusinessAddress());
@@ -115,7 +118,7 @@ public class SpouseBusinessInfo implements CreditApp {
     @Override
     public boolean Save(Object args) {
         try{
-            Business loDetail = (Business) args;
+            SpouseBusiness loDetail = (SpouseBusiness) args;
 
             ECreditApplicantInfo loApp = poDao.GetApplicantDetails(loDetail.getTransNox());
 

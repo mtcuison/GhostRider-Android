@@ -69,7 +69,7 @@ public class SpouseInfo implements CreditApp {
 
             loDetail.setCtznShip(lsCtzen);
 
-            loDetail.setCvlStats(gocas.SpouseInfo().PersonalInfo().getCivilStatus());
+//            loDetail.setCvlStats(gocas.SpouseInfo().PersonalInfo().getCivilStatus());
 
             loDetail.setBrthPlce(gocas.SpouseInfo().PersonalInfo().getBirthPlace());
 
@@ -168,7 +168,7 @@ public class SpouseInfo implements CreditApp {
             gocas.SpouseInfo().PersonalInfo().setBirthdate(loDetail.getBrthDate());
             gocas.SpouseInfo().PersonalInfo().setBirthPlace(loDetail.getBrthPlce());
             gocas.SpouseInfo().PersonalInfo().setCitizenship(loDetail.getCitizenx());
-            gocas.SpouseInfo().PersonalInfo().setCivilStatus(loDetail.getCvlStats());
+//            gocas.SpouseInfo().PersonalInfo().setCivilStatus(loDetail.getCvlStats());
 //            gocas.SpouseInfo().PersonalInfo().setMobileNoQty(loDetail.getMobileNoQty());
 
             if(loDetail.getMobileNo2() != null){

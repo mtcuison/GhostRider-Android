@@ -85,7 +85,7 @@ public class Activity_SpouseEmploymentInfo extends AppCompatActivity {
         spnCmpLvl.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mViewModel.getModel().setCompanyLevel(String.valueOf(position));
+                mViewModel.getModel().setCompanyLvl(position);
             }
         });
 
@@ -95,7 +95,7 @@ public class Activity_SpouseEmploymentInfo extends AppCompatActivity {
         spnEmpLvl.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mViewModel.getModel().setEmployeeLevel(String.valueOf(position));
+                mViewModel.getModel().setEmployeeLvl(position);
             }
         });
 
@@ -105,7 +105,7 @@ public class Activity_SpouseEmploymentInfo extends AppCompatActivity {
         spnBusNtr.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mViewModel.getModel().setBusinessNature(String.valueOf(position));
+                mViewModel.getModel().setBizIndustry(String.valueOf(position));
             }
         });
 
@@ -115,7 +115,7 @@ public class Activity_SpouseEmploymentInfo extends AppCompatActivity {
         spnEmpSts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mViewModel.getModel().setEmployeeStatus(String.valueOf(position));
+                mViewModel.getModel().setEmploymentStat(String.valueOf(position));
             }
         });
 
@@ -143,8 +143,8 @@ public class Activity_SpouseEmploymentInfo extends AppCompatActivity {
                                 String lsLabel = loList.get(x).sProvName;
                                 String lsSlctd = txtProvNm.getText().toString().trim();
                                 if (lsSlctd.equalsIgnoreCase(lsLabel)) {
-                                    mViewModel.getModel().setProvinceID(loList.get(x).sProvIDxx);
-                                    mViewModel.getModel().setProvName(lsLabel);
+                                    mViewModel.getModel().setCompProvince(loList.get(x).sProvIDxx);
+                                    mViewModel.getModel().setCompProvince(lsLabel);
                                     break;
                                 }
                             }
@@ -169,8 +169,8 @@ public class Activity_SpouseEmploymentInfo extends AppCompatActivity {
                                                 String lsLabel = loList.get(x).sTownName;
                                                 String lsSlctd = txtTownNm.getText().toString().trim();
                                                 if (lsSlctd.equalsIgnoreCase(lsLabel)) {
-                                                    mViewModel.getModel().setTownID(loList.get(x).sTownIDxx);
-                                                    mViewModel.getModel().setTownName(lsLabel);
+                                                    mViewModel.getModel().setCompTown(loList.get(x).sTownIDxx);
+                                                    mViewModel.getModel().setCompTown(lsLabel);
                                                     break;
                                                 }
                                             }
@@ -195,14 +195,13 @@ public class Activity_SpouseEmploymentInfo extends AppCompatActivity {
 
     private void SaveSpouseEmploymentInfo() {
 
-        mViewModel.getModel().setsCountryN(Objects.requireNonNull(txtLngthS.getText()).toString());
         mViewModel.getModel().setCompanyName(Objects.requireNonNull(txtCompNm.getText()).toString());
-        mViewModel.getModel().setCompanyAddress(Objects.requireNonNull(txtCompAd.getText()).toString());
+        mViewModel.getModel().setCompAddress(Objects.requireNonNull(txtCompAd.getText()).toString());
         mViewModel.getModel().setJobTitle(Objects.requireNonNull(txtJobNme.getText()).toString());
-        mViewModel.getModel().setSpecificJob(Objects.requireNonNull(txtSpcfJb.getText()).toString());
-        mViewModel.getModel().setLengthOfService(Double.parseDouble(Objects.requireNonNull(txtLngthS.getText()).toString()));
-        mViewModel.getModel().setMonthlyIncome(Long.parseLong(Objects.requireNonNull(txtEsSlry.getText()).toString()));
-        mViewModel.getModel().setContact(Objects.requireNonNull(txtCompCn.getText()).toString());
+        mViewModel.getModel().setJobSpecific(Objects.requireNonNull(txtSpcfJb.getText()).toString());
+        mViewModel.getModel().setLengthOfService(String.valueOf(Double.parseDouble(Objects.requireNonNull(txtLngthS.getText()).toString())));
+        mViewModel.getModel().setGrossMonthly(String.valueOf(Long.parseLong(Objects.requireNonNull(txtEsSlry.getText()).toString())));
+        mViewModel.getModel().setCompTelNox(Objects.requireNonNull(txtCompCn.getText()).toString());
 
         mViewModel.SaveData(new OnSaveInfoListener() {
             @Override
@@ -280,44 +279,44 @@ public class Activity_SpouseEmploymentInfo extends AppCompatActivity {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if (rbGovernment.isChecked()) {
-                    mViewModel.getModel().setEmploymentSector("0");
+                    mViewModel.getModel().setSector(0);
                     lnGovInfo.setVisibility(View.VISIBLE);
                     tilCntryx.setVisibility(View.GONE);
 
                 } else if (rbPrivate.isChecked()) {
-                    mViewModel.getModel().setEmploymentSector("1");
+                    mViewModel.getModel().setSector(1);
                     lnGovInfo.setVisibility(View.GONE);
                     tilCntryx.setVisibility(View.GONE);
 
                 } else if (rbOFW.isChecked()) {
-                    mViewModel.getModel().setEmploymentSector("2");
+                    mViewModel.getModel().setSector(2);
                     lnGovInfo.setVisibility(View.GONE);
                     tilCntryx.setVisibility(View.VISIBLE);
                 }
             }
         });
 
-        cbUniformYes.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (cbUniformYes.isChecked()) {
-                    mViewModel.getModel().setUniformPersonal("1");
-                } else {
-                    mViewModel.getModel().setUniformPersonal("0");
-                }
-            }
-        });
-
-        cbMilitaryYes.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (cbMilitaryYes.isChecked()) {
-                    mViewModel.getModel().setUniformPersonal("1");
-                } else {
-                    mViewModel.getModel().setUniformPersonal("0");
-                }
-            }
-        });
+//        cbUniformYes.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                if (cbUniformYes.isChecked()) {
+//                    mViewModel.getModel().setUniformPersonal("1");
+//                } else {
+//                    mViewModel.getModel().setUniformPersonal("0");
+//                }
+//            }
+//        });
+//
+//        cbMilitaryYes.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                if (cbMilitaryYes.isChecked()) {
+//                    mViewModel.getModel().setUniformPersonal("1");
+//                } else {
+//                    mViewModel.getModel().setUniformPersonal("0");
+//                }
+//            }
+//        });
 
     }
 

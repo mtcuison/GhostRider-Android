@@ -92,7 +92,7 @@ public class Financier {
         return isFinancierRelationValid() &&
                 isFinancierNameValid() &&
                 isRangeOfIncomeValid() &&
-                isCountryValid() &&
+//                isCountryValid() &&
                 isMobileNoValid();
     }
 
@@ -119,13 +119,13 @@ public class Financier {
         return true;
     }
 
-    private boolean isCountryValid(){
-        if(sCountry == null || sCountry.trim().isEmpty()){
-            message = "Please select country";
-            return false;
-        }
-        return true;
-    }
+//    private boolean isCountryValid(){
+//        if(sCountry == null || sCountry.trim().isEmpty()){
+//            message = "Please select country";
+//            return false;
+//        }
+//        return true;
+//    }
 
     private boolean isMobileNoValid(){
         if(sFMoble.trim().isEmpty()){
