@@ -237,28 +237,6 @@ public class VMLeaveApproval extends AndroidViewModel {
         }
     }
 
-    public String CalculateWithPay(int fnWthOPay, int fnCredit, int fnNoDays){
-        if(fnCredit == 0){
-            return "0";
-        }
-
-        if(fnWthOPay > fnNoDays){
-
-        }
-
-        if(fnCredit > 0) {
-            int lnWOPayx;
-            if (fnWthOPay <= fnNoDays) {
-                lnWOPayx = Math.abs(fnWthOPay - fnNoDays);
-                pnWOPay.setValue(lnWOPayx);
-            } else {
-                pnWithPay.setValue(fnNoDays);
-                calculateWithOPay(fnNoDays);
-            }
-        }
-        return "";
-    }
-
     public void calculateWithPay(int fnWithPay){
         int lnNoDays = pnNoDays.getValue();
         int lnCredt = pnCredit.getValue();
@@ -285,7 +263,7 @@ public class VMLeaveApproval extends AndroidViewModel {
         return pnWOPay;
     }
 
-    public void calculateLeavePay(String fsDateFrm, String fsDateTo) throws ParseException {
+    public void calculateLeavePay(int fnLeaveTp, String fsDateFrm, String fsDateTo) throws ParseException {
         int lnCredt = pnCredit.getValue();
         @SuppressLint("SimpleDateFormat") final SimpleDateFormat loDate = new SimpleDateFormat("yyyy-MM-dd");
         Date dateFrom = loDate.parse(Objects.requireNonNull(fsDateFrm));
@@ -293,7 +271,10 @@ public class VMLeaveApproval extends AndroidViewModel {
         long diff = Objects.requireNonNull(dateTo).getTime() - Objects.requireNonNull(dateFrom).getTime();
         long noOfDays = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS) + 1;
         pnNoDays.setValue((int) noOfDays);
-        if(noOfDays > lnCredt && lnCredt != 0){
+        if(fnLeaveTp == 3){
+            pnWOPay.setValue(0);
+            pnWithPay.setValue((int) noOfDays);
+        } else if(noOfDays > lnCredt && lnCredt != 0){
             int lnDiff = (int) (noOfDays - lnCredt);
             pnWOPay.setValue(lnDiff);
             pnWithPay.setValue(lnCredt);
