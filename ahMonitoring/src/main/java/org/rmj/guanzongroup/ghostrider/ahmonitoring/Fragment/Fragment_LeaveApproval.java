@@ -64,7 +64,7 @@ public class Fragment_LeaveApproval extends Fragment implements VMLeaveApproval.
     private LoadDialog poDialogx;
     private MessageBox poMessage;
 
-    private int pnCredits, pnLeaveType;
+    private int pnCredits, pnLeaveTp;
 
     private LinearLayout lnSearch, lnApprvl;
     private MaterialButton btnCancel, bntConfirm;
@@ -133,7 +133,7 @@ public class Fragment_LeaveApproval extends Fragment implements VMLeaveApproval.
                             lblEmployeNm.setText(eEmployeeLeave.getEmployID());
                             lblDeptName.setText(eEmployeeLeave.getDeptName());
                             lblBranchNm.setText(eEmployeeLeave.getBranchNm());
-                            pnLeaveType = Integer.parseInt(eEmployeeLeave.getLeaveTyp());
+                            pnLeaveTp = Integer.parseInt(eEmployeeLeave.getLeaveTyp());
                             lblLeaveCrd.setText("Leave Credits : " + eEmployeeLeave.getLveCredt());
                             lblLeaveStx.setText(getLeaveStatus(eEmployeeLeave.getTranStat()));
                             lblDateAppr.setText(FormatUIText.formatGOCasBirthdate(AppConstants.CURRENT_DATE));
@@ -145,69 +145,11 @@ public class Fragment_LeaveApproval extends Fragment implements VMLeaveApproval.
                             tieDateThru.setText(FormatUIText.formatGOCasBirthdate(eEmployeeLeave.getAppldTox()));
                             txtPurpse.setText(eEmployeeLeave.getPurposex());
                             pnCredits = Integer.parseInt(eEmployeeLeave.getLveCredt());
+                            pnLeaveTp = Integer.parseInt(eEmployeeLeave.getLeaveTyp());
                             String lsFromx = eEmployeeLeave.getAppldFrx();
                             String lsDteTo = eEmployeeLeave.getAppldTox();
                             mViewModel.setCredits(pnCredits);
-                            mViewModel.calculateLeavePay(lsFromx, lsDteTo);
-
-                            VMLeaveApproval.LeavePay loPay = mViewModel.CalculateLeavePay(
-                                    Integer.parseInt(eEmployeeLeave.getLeaveTyp()),
-                                    Integer.parseInt(eEmployeeLeave.getLveCredt()),
-                                    eEmployeeLeave.getAppldFrx(),
-                                    eEmployeeLeave.getAppldTox());
-
-//                            tieWithPy.setText(loPay.getWithPay());
-//                            tieWOPay.setText(loPay.getWithoutPay());
-
-//                            tieWithPy.addTextChangedListener(new TextWatcher() {
-//                                @Override
-//                                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//
-//                                }
-//
-//                                @Override
-//                                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//                                    try{
-//                                        if(!Objects.requireNonNull(tieWithPy.getText()).toString().trim().isEmpty()){
-//                                            tieWithPy.removeTextChangedListener(this);
-//
-//                                            String lsInput = tieWithPy.getText().toString().trim();
-//
-//                                            int lnInput = Integer.parseInt(lsInput);
-//
-//
-//                                        }
-//                                    } catch (Exception e){
-//                                        e.printStackTrace();
-//                                    }
-//                                }
-//
-//                                @Override
-//                                public void afterTextChanged(Editable editable) {
-//
-//                                }
-//                            });
-//
-//                            tieWOPay.addTextChangedListener(new TextWatcher() {
-//                                @Override
-//                                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//
-//                                }
-//
-//                                @Override
-//                                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//                                    try{
-//
-//                                    } catch (Exception e){
-//                                        e.printStackTrace();
-//                                    }
-//                                }
-//
-//                                @Override
-//                                public void afterTextChanged(Editable editable) {
-//
-//                                }
-//                            });
+                            mViewModel.calculateLeavePay(pnLeaveTp, lsFromx, lsDteTo);
                         }
                     } catch (Exception e){
                         e.printStackTrace();
@@ -292,7 +234,7 @@ public class Fragment_LeaveApproval extends Fragment implements VMLeaveApproval.
                     if(dteFrm.before(dateTo)) {
                         poModel.setAppldFrx(dataFormat.format(newDate.getTime()));
                         tieDateFrom.setText(dateFormatter.format(newDate.getTime()));
-                        mViewModel.calculateLeavePay(dataFormat.format(newDate.getTime()),
+                        mViewModel.calculateLeavePay(pnLeaveTp, dataFormat.format(newDate.getTime()),
                                 FormatUIText.formatTextToData(Objects.requireNonNull(tieDateThru.getText()).toString()));
                     } else {
                         GToast.CreateMessage(requireActivity(), "Invalid date selected.", GToast.ERROR).show();
@@ -318,7 +260,7 @@ public class Fragment_LeaveApproval extends Fragment implements VMLeaveApproval.
                     if (dateThru.after(dateFrmx)){
                         poModel.setAppldFrx(dataFormat.format(newDate.getTime()));
                         tieDateThru.setText(dateFormatter.format(newDate.getTime()));
-                        mViewModel.calculateLeavePay(FormatUIText.formatTextToData(Objects.requireNonNull(tieDateFrom.getText()).toString()),
+                        mViewModel.calculateLeavePay(pnLeaveTp, FormatUIText.formatTextToData(Objects.requireNonNull(tieDateFrom.getText()).toString()),
                                 dataFormat.format(newDate.getTime()));
                     } else {
                         GToast.CreateMessage(requireActivity(), "Invalid date selected.", GToast.ERROR).show();

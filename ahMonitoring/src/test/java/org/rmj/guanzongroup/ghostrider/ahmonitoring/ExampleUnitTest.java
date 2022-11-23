@@ -43,4 +43,9 @@ public class ExampleUnitTest {
         lnVal = Integer.parseInt(lsVal.replace(",", ""));
         assertEquals(13470.75, lnVal);
     }
+
+    @Test
+    public void test01CalculateWithPay() {
+
+    }
 }
