@@ -115,7 +115,8 @@ public class Activity_EmploymentInfo extends AppCompatActivity {
         spnEmpSts.setOnItemClickListener((parent, view, position, id) ->
                 mViewModel.getModel().setEmployeeStatus(String.valueOf(position)));
 
-        spnServce.setAdapter(new ArrayAdapter<>(Activity_EmploymentInfo.this, android.R.layout.simple_list_item_1, CreditAppConstants.LENGTH_OF_STAY));
+        spnServce.setAdapter(new ArrayAdapter<>(Activity_EmploymentInfo.this,
+                android.R.layout.simple_list_item_1, CreditAppConstants.LENGTH_OF_STAY));
         spnServce.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         spnServce.setOnItemClickListener((parent, view, position, id) ->
                 mViewModel.getModel().setIsYear(String.valueOf(position)));

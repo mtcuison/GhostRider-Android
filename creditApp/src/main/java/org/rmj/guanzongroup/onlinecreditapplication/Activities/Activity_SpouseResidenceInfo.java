@@ -37,7 +37,7 @@ public class Activity_SpouseResidenceInfo extends AppCompatActivity {
     private VMSpouseResidence mViewModel;
     private MessageBox poMessage;
 
-    private CheckBox cbLivingWithSpouse;
+
     private TextInputEditText txtLandMark, txtHouseNox, txtAddress1, txtAddress2;
     private AutoCompleteTextView txtBarangay, txtTown, txtProvince;
     private Button btnNext, btnPrvs;

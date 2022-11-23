@@ -1,7 +1,10 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Activities;
 
+import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -22,6 +25,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.ECountryInfo;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.ClientSpouseInfo;
@@ -31,12 +35,15 @@ import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.OnParseListener;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMSpouseInfo;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-public class
-Activity_SpouseInfo extends AppCompatActivity {
+public class Activity_SpouseInfo extends AppCompatActivity {
+    private static final String TAG = Activity_SpouseInfo.class.getSimpleName();
 
     private VMSpouseInfo mViewModel;
     private MobileNo[] poMobile = new MobileNo[3];
@@ -209,6 +216,39 @@ Activity_SpouseInfo extends AppCompatActivity {
             }
         });
 
+        mViewModel.GetCountryList().observe(Activity_SpouseInfo.this, new Observer<List<ECountryInfo>>() {
+            @Override
+            public void onChanged(List<ECountryInfo> loList) {
+                try {
+                    ArrayList<String> strings = new ArrayList<>();
+                    for (int x = 0; x < loList.size(); x++) {
+                        strings.add(loList.get(x).getNational());
+                    }
+
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(Activity_SpouseInfo.this, android.R.layout.simple_spinner_dropdown_item, strings.toArray(new String[0]));
+                    txtCitizenx.setAdapter(adapter);
+                    txtCitizenx.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+
+                    txtCitizenx.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            for (int x = 0; x < loList.size(); x++) {
+                                String lsLabel = loList.get(x).getNational();
+                                String lsSlctd = txtCitizenx.getText().toString().trim();
+                                if (lsSlctd.equalsIgnoreCase(lsLabel)) {
+                                    mViewModel.getModel().setCitizenx(loList.get(x).getCntryCde());
+                                    mViewModel.getModel().setCtznShip(loList.get(x).getNational());
+                                    break;
+                                }
+                            }
+                        }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
         btnNext.setOnClickListener(v -> SaveSpouseInfo());
         btnPrvs.setOnClickListener(v -> finish());
     }
@@ -220,7 +260,6 @@ Activity_SpouseInfo extends AppCompatActivity {
         mViewModel.getModel().setMiddName(Objects.requireNonNull(txtMiddName.getText()).toString());
         mViewModel.getModel().setSuffix(Objects.requireNonNull(txtSuffix.getText()).toString());
         mViewModel.getModel().setNickName(Objects.requireNonNull(txtNickName.getText()).toString());
-        mViewModel.getModel().setBrthDate(Objects.requireNonNull(txtBDate.getText()).toString());
 
         if (txtPrimeCntc != null || !Objects.requireNonNull(txtPrimeCntc.getText()).toString().trim().isEmpty()) {
             poMobile[0].setMobileNo(txtPrimeCntc.getText().toString());
@@ -320,6 +359,28 @@ Activity_SpouseInfo extends AppCompatActivity {
 
         txtMobileYr3 = txtThirCntctYr;
         tilMobileYr3 = findViewById(R.id.til_mobileNo3Year);
+
+        txtBDate.setOnClickListener(v -> {
+            final Calendar newCalendar = Calendar.getInstance();
+            @SuppressLint("SimpleDateFormat") final SimpleDateFormat dateFormatter = new SimpleDateFormat("MMMM dd, yyyy");
+            final DatePickerDialog StartTime = new DatePickerDialog(Activity_SpouseInfo.this,
+                    android.R.style.Theme_Holo_Dialog, (view131, year, monthOfYear, dayOfMonth) -> {
+                try {
+                    Calendar newDate = Calendar.getInstance();
+                    newDate.set(year, monthOfYear, dayOfMonth);
+                    String lsDate = dateFormatter.format(newDate.getTime());
+                    txtBDate.setText(lsDate);
+                    Date loDate = new SimpleDateFormat("MMMM dd, yyyy").parse(lsDate);
+                    lsDate = new SimpleDateFormat("yyyy-MM-dd").format(loDate);
+                    Log.d(TAG, "Save formatted time: " + lsDate);
+                    mViewModel.getModel().setBrthDate(lsDate);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+            StartTime.getDatePicker().setMaxDate(new Date().getTime());
+            StartTime.show();
+        });
 
 
         btnNext = findViewById(R.id.btn_creditAppNext);

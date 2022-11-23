@@ -1,6 +1,7 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Activities;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
@@ -18,6 +20,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
 
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.g3appdriver.etc.MessageBox;
@@ -29,7 +32,11 @@ import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.OnParseListener;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMBusinessInfo;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 public class Activity_SelfEmployedInfo extends AppCompatActivity {
 
@@ -66,6 +73,91 @@ public class Activity_SelfEmployedInfo extends AppCompatActivity {
 
             }
         });
+
+
+        mViewModel.GetTownProvinceList().observe(Activity_SelfEmployedInfo.this, new Observer<List<DTownInfo.TownProvinceInfo>>() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onChanged(List<DTownInfo.TownProvinceInfo> provList) {
+                try {
+                    ArrayList<String> strings = new ArrayList<>();
+                    for (int x = 0; x < provList.size(); x++) {
+                        String lsProv = "" + provList.get(x).sProvName;
+//                        String lsTown =  loList.get(x).sProvName ;
+                        strings.add(lsProv);
+
+                        Set<Object> set = new HashSet<>();
+                        strings.removeIf((String i) -> {
+                            return !set.add(i);
+                        });
+
+                    }
+
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(Activity_SelfEmployedInfo.this, android.R.layout.simple_spinner_dropdown_item, strings.toArray(new String[0]));
+                    txtProvnc.setAdapter(adapter);
+                    txtProvnc.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+                    txtProvnc.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            for (int x = 0; x < provList.size(); x++) {
+                                String lsLabel = provList.get(x).sProvName;
+                                String lsSlctd = txtProvnc.getText().toString().trim();
+                                if (lsSlctd.equalsIgnoreCase(lsLabel)) {
+                                    mViewModel.getModel().setProvince(provList.get(x).sProvIDxx);
+                                    mViewModel.getModel().setProvince(lsLabel);
+                                    break;
+                                }
+                            }
+
+
+                            mViewModel.GetTownProvinceList().observe(Activity_SelfEmployedInfo.this, new Observer<List<DTownInfo.TownProvinceInfo>>() {
+                                @Override
+                                public void onChanged(List<DTownInfo.TownProvinceInfo> townList) {
+                                    try {
+                                        ArrayList<String> string = new ArrayList<>();
+                                        for (int x = 0; x < townList.size(); x++) {
+                                            String lsTown = townList.get(x).sTownName + "";
+//                        String lsTown =  loList.get(x).sProvName ;
+                                            string.add(lsTown);
+                                            Set<Object> set = new HashSet<>();
+                                            string.removeIf((String i) -> {
+                                                return !set.add(i);
+                                            });
+
+                                        }
+
+                                        ArrayAdapter<String> adapters = new ArrayAdapter<>(Activity_SelfEmployedInfo.this, android.R.layout.simple_spinner_dropdown_item, string.toArray(new String[0]));
+                                        txtTownxx.setAdapter(adapters);
+                                        txtTownxx.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+                                        txtTownxx.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                            @Override
+                                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                                for (int x = 0; x < townList.size(); x++) {
+                                                    String lsLabel = townList.get(x).sTownName;
+                                                    String lsSlctd = txtTownxx.getText().toString().trim();
+                                                    if (lsSlctd.equalsIgnoreCase(lsLabel)) {
+                                                        mViewModel.getModel().setTown(townList.get(x).sTownIDxx);
+                                                        mViewModel.getModel().setTown(lsLabel);
+                                                        break;
+                                                    }
+                                                }
+                                            }
+                                        });
+
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            });
+                        }
+                    });
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
 
         spnBussNtr.setAdapter(new ArrayAdapter<>(Activity_SelfEmployedInfo.this,
                 android.R.layout.simple_list_item_1, CreditAppConstants.BUSINESS_NATURE));
@@ -171,10 +263,6 @@ public class Activity_SelfEmployedInfo extends AppCompatActivity {
 
 //        txtMnthlyIn.addTextChangedListener(new FormatUIText.CurrencyFormat(txtMnthlyIn));
 //        txtMnthlyEx.addTextChangedListener(new FormatUIText.CurrencyFormat(txtMnthlyEx));
-
-// dropdown
-
-
 
     }
 

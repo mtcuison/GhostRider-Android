@@ -163,9 +163,17 @@ public class Activity_PersonalInfo extends AppCompatActivity {
             }
         });
 
-        ArrayAdapter<String> loAdapter = new ArrayAdapter<>(Activity_PersonalInfo.this, android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.CIVIL_STATUS);
+        ArrayAdapter<String> loAdapter = new ArrayAdapter<>(Activity_PersonalInfo.this,
+                android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.CIVIL_STATUS);
         spnCivilStatus.setAdapter(loAdapter);
         spnCivilStatus.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+        spnCivilStatus.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                mViewModel.getModel().setCvlStats(String.valueOf(position));
+                SetupMaidenEntry();
+            }
+        });
 
 
         //TODO: Replace the spinner(dropdown list) for selection of mobile number type into check box with label 'PostPaid'
@@ -267,13 +275,6 @@ public class Activity_PersonalInfo extends AppCompatActivity {
             SetupMaidenEntry();
         });
 
-        spnCivilStatus.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mViewModel.getModel().setCvlStats(String.valueOf(position));
-                SetupMaidenEntry();
-            }
-        });
 
         btnNext.setOnClickListener(v -> SavePersonalInfo());
         btnPrev.setOnClickListener(v -> finish());
@@ -337,7 +338,6 @@ public class Activity_PersonalInfo extends AppCompatActivity {
             }
         });
     }
-
 
 
     private void initWidgets() {
@@ -422,6 +422,7 @@ public class Activity_PersonalInfo extends AppCompatActivity {
             tilMothNm.setVisibility(View.GONE);
         }
     }
+
     @Override
     public void finish() {
         super.finish();
@@ -430,7 +431,7 @@ public class Activity_PersonalInfo extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() == android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             finish();
         }
         return super.onOptionsItemSelected(item);

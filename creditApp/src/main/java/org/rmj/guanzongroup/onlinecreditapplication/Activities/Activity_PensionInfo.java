@@ -25,12 +25,14 @@ import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.OnParseListener;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMPensionInfo;
+import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMPersonalInfo;
 
 import java.util.Objects;
 
 public class Activity_PensionInfo extends AppCompatActivity {
 
     private VMPensionInfo mViewModel;
+    private VMPersonalInfo mViewModerPersonal;
     private MessageBox poMessage;
 
     private AutoCompleteTextView spnSector;
@@ -44,6 +46,7 @@ public class Activity_PensionInfo extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mViewModel = new ViewModelProvider(Activity_PensionInfo.this).get(VMPensionInfo.class);
+        mViewModerPersonal = new ViewModelProvider(Activity_PensionInfo.this).get(VMPersonalInfo.class);
         setContentView(R.layout.activity_pension_info);
         poMessage = new MessageBox(Activity_PensionInfo.this);
         initWidgets();
@@ -89,10 +92,12 @@ public class Activity_PensionInfo extends AppCompatActivity {
         mViewModel.SaveData(new OnSaveInfoListener() {
             @Override
             public void OnSave(String args) {
+
                 Intent loIntent = new Intent(Activity_PensionInfo.this, Activity_SpouseInfo.class);
                 loIntent.putExtra("sTransNox", args);
                 startActivity(loIntent);
                 overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
+
             }
 
             @Override
@@ -133,7 +138,7 @@ public class Activity_PensionInfo extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() == android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             finish();
         }
         return super.onOptionsItemSelected(item);

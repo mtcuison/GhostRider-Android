@@ -18,6 +18,7 @@ import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.ClientSpouseInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Employment;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.SpouseEmployment;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.SpouseEmployments;
 
 import java.util.List;
 
@@ -25,7 +26,7 @@ public class VMSpouseEmployment extends AndroidViewModel implements CreditAppUI 
     private static final String TAG = VMSpouseEmployment.class.getSimpleName();
 
     private final CreditApp poApp;
-    private final SpouseEmployment poModel;
+    private final SpouseEmployments poModel;
 
     private String TransNox;
 
@@ -34,10 +35,10 @@ public class VMSpouseEmployment extends AndroidViewModel implements CreditAppUI 
     public VMSpouseEmployment(@NonNull Application application) {
         super(application);
         this.poApp = new CreditOnlineApplication(application).getInstance(CreditAppInstance.Spouse_Employment_Info);
-        this.poModel = new SpouseEmployment();
+        this.poModel = new SpouseEmployments();
     }
 
-    public SpouseEmployment getModel() {
+    public SpouseEmployments getModel() {
         return poModel;
     }
 
@@ -70,7 +71,7 @@ public class VMSpouseEmployment extends AndroidViewModel implements CreditAppUI 
         return poApp.GetTownProvinceList();
     }
 
-    private class ParseDataTask extends AsyncTask<ECreditApplicantInfo, Void, SpouseEmployment> {
+    private class ParseDataTask extends AsyncTask<ECreditApplicantInfo, Void, SpouseEmployments> {
 
         private final OnParseListener listener;
 
@@ -79,9 +80,9 @@ public class VMSpouseEmployment extends AndroidViewModel implements CreditAppUI 
         }
 
         @Override
-        protected SpouseEmployment doInBackground(ECreditApplicantInfo... app) {
+        protected SpouseEmployments doInBackground(ECreditApplicantInfo... app) {
             try {
-                SpouseEmployment loDetail = (SpouseEmployment) poApp.Parse(app[0]);
+                SpouseEmployments loDetail = (SpouseEmployments) poApp.Parse(app[0]);
                 if (loDetail == null) {
                     message = poApp.getMessage();
                     return null;
@@ -95,7 +96,7 @@ public class VMSpouseEmployment extends AndroidViewModel implements CreditAppUI 
         }
 
         @Override
-        protected void onPostExecute(SpouseEmployment result) {
+        protected void onPostExecute(SpouseEmployments result) {
             super.onPostExecute(result);
             if (result == null) {
                 Log.e(TAG, message);
@@ -105,7 +106,7 @@ public class VMSpouseEmployment extends AndroidViewModel implements CreditAppUI 
         }
     }
 
-    private class SaveDataTask extends AsyncTask<SpouseEmployment, Void, Boolean>{
+    private class SaveDataTask extends AsyncTask<SpouseEmployments, Void, Boolean>{
 
         private final OnSaveInfoListener listener;
 
@@ -114,7 +115,7 @@ public class VMSpouseEmployment extends AndroidViewModel implements CreditAppUI 
         }
 
         @Override
-        protected Boolean doInBackground(SpouseEmployment... info) {
+        protected Boolean doInBackground(SpouseEmployments... info) {
             int lnResult = poApp.Validate(info[0]);
 
             if(lnResult != 1){

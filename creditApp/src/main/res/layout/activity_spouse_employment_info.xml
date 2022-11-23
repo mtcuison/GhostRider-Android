@@ -74,7 +74,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="visible">
+                android:visibility="gone">
 
                 <TextView
                     style="@style/HeaderLabelBlack"
@@ -162,13 +162,6 @@
                     android:nextFocusForward="@+id/spn_businessNature"
                     tools:ignore="LabelFor" />
             </com.google.android.material.textfield.TextInputLayout>
-
-            <TextView
-                android:id="@+id/lbl_biz_nature"
-                style="@style/HeaderLabelBlack"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/sHintNatureBiz" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_bizNature"

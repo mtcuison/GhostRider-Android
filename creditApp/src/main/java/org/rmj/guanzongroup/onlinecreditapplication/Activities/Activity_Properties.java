@@ -29,8 +29,6 @@ public class Activity_Properties extends AppCompatActivity {
     private VMProperties mViewModel;
     private MessageBox poMessage;
 
-    private String TransNox;
-
     private TextInputEditText txtLot1, txtLot2, txtLot3;
     private CheckBox cb4Wheels, cb3Wheels, cb2Wheels, cbAircon, cbRefxx, cbTelevsn;
     private Button btnPrvs, btnNext;

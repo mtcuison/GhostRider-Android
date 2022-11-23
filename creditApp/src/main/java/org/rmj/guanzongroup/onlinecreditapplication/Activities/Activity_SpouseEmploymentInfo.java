@@ -1,6 +1,7 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Activities;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,6 +17,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
@@ -28,14 +30,17 @@ import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Employment;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.SpouseEmployments;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.OnParseListener;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMSpouseEmployment;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 public class Activity_SpouseEmploymentInfo extends AppCompatActivity {
 
@@ -70,7 +75,7 @@ public class Activity_SpouseEmploymentInfo extends AppCompatActivity {
                 mViewModel.ParseData(app, new OnParseListener() {
                     @Override
                     public void OnParse(Object args) {
-                        Employment loDetail = (Employment) args;
+                        SpouseEmployments loDetail = (SpouseEmployments) args;
 
                     }
                 });
@@ -85,7 +90,7 @@ public class Activity_SpouseEmploymentInfo extends AppCompatActivity {
         spnCmpLvl.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mViewModel.getModel().setCompanyLvl(position);
+                mViewModel.getModel().setCompanyLevel(String.valueOf(position));
             }
         });
 
@@ -95,7 +100,7 @@ public class Activity_SpouseEmploymentInfo extends AppCompatActivity {
         spnEmpLvl.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mViewModel.getModel().setEmployeeLvl(position);
+                mViewModel.getModel().setEmployeeLevel(String.valueOf(position));
             }
         });
 
@@ -105,7 +110,7 @@ public class Activity_SpouseEmploymentInfo extends AppCompatActivity {
         spnBusNtr.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mViewModel.getModel().setBizIndustry(String.valueOf(position));
+                mViewModel.getModel().setBusinessNature(String.valueOf(position));
             }
         });
 
@@ -115,22 +120,30 @@ public class Activity_SpouseEmploymentInfo extends AppCompatActivity {
         spnEmpSts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mViewModel.getModel().setEmploymentStat(String.valueOf(position));
+                mViewModel.getModel().setEmployeeStatus(String.valueOf(position));
             }
         });
 
-//        spnServce.setAdapter(new ArrayAdapter<>(Activity_SpouseEmploymentInfo.this,
-//                android.R.layout.simple_list_item_1, CreditAppConstants.LENGTH_OF_STAY));
-//        spnServce.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+        spnServce.setAdapter(new ArrayAdapter<>(Activity_SpouseEmploymentInfo.this,
+                android.R.layout.simple_list_item_1, CreditAppConstants.LENGTH_OF_STAY));
+        spnServce.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+        spnServce.setOnItemClickListener((parent, view, position, id) ->
+                mViewModel.getModel().setIsYear(String.valueOf(position)));
 
         mViewModel.GetTownProvinceList().observe(Activity_SpouseEmploymentInfo.this, new Observer<List<DTownInfo.TownProvinceInfo>>() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onChanged(List<DTownInfo.TownProvinceInfo> loList) {
                 try {
                     ArrayList<String> strings = new ArrayList<>();
                     for (int x = 0; x < loList.size(); x++) {
-                        String lsProv = loList.get(x).sProvName;
+                        String lsProv = "" + loList.get(x).sProvName;
                         strings.add(lsProv);
+
+                        Set<Object> set = new HashSet<>();
+                        strings.removeIf((String i) -> {
+                            return !set.add(i);
+                        });
                     }
 
                     ArrayAdapter<String> adapter = new ArrayAdapter<>(Activity_SpouseEmploymentInfo.this, android.R.layout.simple_spinner_dropdown_item, strings.toArray(new String[0]));
@@ -143,8 +156,8 @@ public class Activity_SpouseEmploymentInfo extends AppCompatActivity {
                                 String lsLabel = loList.get(x).sProvName;
                                 String lsSlctd = txtProvNm.getText().toString().trim();
                                 if (lsSlctd.equalsIgnoreCase(lsLabel)) {
-                                    mViewModel.getModel().setCompProvince(loList.get(x).sProvIDxx);
-                                    mViewModel.getModel().setCompProvince(lsLabel);
+                                    mViewModel.getModel().setProvinceID(loList.get(x).sProvIDxx);
+                                    mViewModel.getModel().setProvName(lsLabel);
                                     break;
                                 }
                             }
@@ -154,8 +167,13 @@ public class Activity_SpouseEmploymentInfo extends AppCompatActivity {
                                 public void onChanged(List<DTownInfo.TownProvinceInfo> loList) {
                                     ArrayList<String> strings = new ArrayList<>();
                                     for (int x = 0; x < loList.size(); x++) {
-                                        String lsTown = loList.get(x).sTownName;
+                                        String lsTown = loList.get(x).sTownName + "";
                                         strings.add(lsTown);
+
+                                        Set<Object> set = new HashSet<>();
+                                        strings.removeIf((String i) -> {
+                                            return !set.add(i);
+                                        });
                                     }
 
                                     ArrayAdapter<String> adapter = new ArrayAdapter<>(Activity_SpouseEmploymentInfo.this, android.R.layout.simple_spinner_dropdown_item, strings.toArray(new String[0]));
@@ -169,8 +187,8 @@ public class Activity_SpouseEmploymentInfo extends AppCompatActivity {
                                                 String lsLabel = loList.get(x).sTownName;
                                                 String lsSlctd = txtTownNm.getText().toString().trim();
                                                 if (lsSlctd.equalsIgnoreCase(lsLabel)) {
-                                                    mViewModel.getModel().setCompTown(loList.get(x).sTownIDxx);
-                                                    mViewModel.getModel().setCompTown(lsLabel);
+                                                    mViewModel.getModel().setTownID(loList.get(x).sTownIDxx);
+                                                    mViewModel.getModel().setTownName(lsLabel);
                                                     break;
                                                 }
                                             }
@@ -196,12 +214,13 @@ public class Activity_SpouseEmploymentInfo extends AppCompatActivity {
     private void SaveSpouseEmploymentInfo() {
 
         mViewModel.getModel().setCompanyName(Objects.requireNonNull(txtCompNm.getText()).toString());
-        mViewModel.getModel().setCompAddress(Objects.requireNonNull(txtCompAd.getText()).toString());
+        mViewModel.getModel().setsCountryN(Objects.requireNonNull(txtCntryx.getText()).toString());
+        mViewModel.getModel().setCompanyAddress(Objects.requireNonNull(txtCompAd.getText()).toString());
         mViewModel.getModel().setJobTitle(Objects.requireNonNull(txtJobNme.getText()).toString());
-        mViewModel.getModel().setJobSpecific(Objects.requireNonNull(txtSpcfJb.getText()).toString());
-        mViewModel.getModel().setLengthOfService(String.valueOf(Double.parseDouble(Objects.requireNonNull(txtLngthS.getText()).toString())));
-        mViewModel.getModel().setGrossMonthly(String.valueOf(Long.parseLong(Objects.requireNonNull(txtEsSlry.getText()).toString())));
-        mViewModel.getModel().setCompTelNox(Objects.requireNonNull(txtCompCn.getText()).toString());
+        mViewModel.getModel().setSpecificJob(Objects.requireNonNull(txtSpcfJb.getText()).toString());
+        mViewModel.getModel().setLengthOfService(Double.parseDouble(Objects.requireNonNull(txtLngthS.getText()).toString()));
+        mViewModel.getModel().setMonthlyIncome(Long.parseLong(Objects.requireNonNull(txtEsSlry.getText()).toString()));
+        mViewModel.getModel().setContact(Objects.requireNonNull(txtCompCn.getText()).toString());
 
         mViewModel.SaveData(new OnSaveInfoListener() {
             @Override
@@ -235,7 +254,6 @@ public class Activity_SpouseEmploymentInfo extends AppCompatActivity {
 
         rgSectorx = findViewById(R.id.rg_sector);
 
-        lblBizNature = findViewById(R.id.lbl_biz_nature);
 
         spnCmpLvl = findViewById(R.id.spn_employmentLevel);
         spnEmpLvl = findViewById(R.id.spn_employeeLevel);
@@ -279,17 +297,17 @@ public class Activity_SpouseEmploymentInfo extends AppCompatActivity {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if (rbGovernment.isChecked()) {
-                    mViewModel.getModel().setSector(0);
+                    mViewModel.getModel().setEmploymentSector("0");
                     lnGovInfo.setVisibility(View.VISIBLE);
                     tilCntryx.setVisibility(View.GONE);
 
                 } else if (rbPrivate.isChecked()) {
-                    mViewModel.getModel().setSector(1);
+                    mViewModel.getModel().setEmploymentSector("1");
                     lnGovInfo.setVisibility(View.GONE);
                     tilCntryx.setVisibility(View.GONE);
 
                 } else if (rbOFW.isChecked()) {
-                    mViewModel.getModel().setSector(2);
+                    mViewModel.getModel().setEmploymentSector("2");
                     lnGovInfo.setVisibility(View.GONE);
                     tilCntryx.setVisibility(View.VISIBLE);
                 }
