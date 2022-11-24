@@ -120,13 +120,13 @@ public class Disbursement {
         return true;
     }
     private boolean isCCBank(){
-        if(!CrdtBank.trim().isEmpty()){
+        if(!CrdtBank.trim().isEmpty() || CrdtBank.equalsIgnoreCase("")){
             return isAmount() && isYear();
         }
         return true;
     }
     private boolean isAmount(){
-        if(CrdtLimt == 0){
+        if(CrdtLimt == 0 ){
             message = "Please enter Amount";
             return false;
         }

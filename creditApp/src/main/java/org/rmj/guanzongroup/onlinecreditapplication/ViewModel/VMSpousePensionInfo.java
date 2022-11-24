@@ -1,7 +1,6 @@
 package org.rmj.guanzongroup.onlinecreditapplication.ViewModel;
 
 import android.app.Application;
-import android.content.AsyncQueryHandler;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -15,16 +14,17 @@ import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditApp;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditAppInstance;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditOnlineApplication;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Pension;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.SpousePension;
 
-public class VMSpousePensionInfo extends AndroidViewModel implements CreditAppUI{
-    private static final String TAG = VMSpousePensionInfo.class.getSimpleName();
+
+public class VMSpousePensionInfo extends AndroidViewModel implements CreditAppUI {
+    private static final String TAG = VMPensionInfo.class.getSimpleName();
 
     private final CreditApp poApp;
     private final SpousePension poModel;
 
     private String TransNox;
+
     private String message;
 
     public VMSpousePensionInfo(@NonNull Application application) {
@@ -33,7 +33,7 @@ public class VMSpousePensionInfo extends AndroidViewModel implements CreditAppUI
         this.poModel = new SpousePension();
     }
 
-    public SpousePension getModel(){
+    public SpousePension getModel() {
         return poModel;
     }
 
@@ -50,7 +50,6 @@ public class VMSpousePensionInfo extends AndroidViewModel implements CreditAppUI
     @Override
     public void ParseData(ECreditApplicantInfo args, OnParseListener listener) {
         new ParseDataTask(listener).execute(args);
-
     }
 
     @Override
@@ -61,14 +60,16 @@ public class VMSpousePensionInfo extends AndroidViewModel implements CreditAppUI
     @Override
     public void SaveData(OnSaveInfoListener listener) {
         new SaveDetailTask(listener).execute(poModel);
-
     }
 
-    private class ParseDataTask extends AsyncTask<ECreditApplicantInfo, Void, SpousePension > {
+    private class ParseDataTask extends AsyncTask<ECreditApplicantInfo, Void, SpousePension>{
+
         private final OnParseListener listener;
+
         public ParseDataTask(OnParseListener listener) {
             this.listener = listener;
         }
+
         @Override
         protected SpousePension doInBackground(ECreditApplicantInfo... app) {
             try {
@@ -84,6 +85,7 @@ public class VMSpousePensionInfo extends AndroidViewModel implements CreditAppUI
                 return null;
             }
         }
+
         @Override
         protected void onPostExecute(SpousePension result) {
             super.onPostExecute(result);
@@ -95,8 +97,10 @@ public class VMSpousePensionInfo extends AndroidViewModel implements CreditAppUI
         }
     }
 
-    private class SaveDetailTask extends AsyncTask<SpousePension, Void, Boolean> {
+    private class SaveDetailTask extends AsyncTask<SpousePension, Void, Boolean>{
+
         private final OnSaveInfoListener listener;
+
         public SaveDetailTask(OnSaveInfoListener listener) {
             this.listener = listener;
         }
@@ -116,9 +120,11 @@ public class VMSpousePensionInfo extends AndroidViewModel implements CreditAppUI
             }
 
             TransNox = info[0].getTransNox();
-            return null;
+            return true;
         }
+
         @Override
+
         protected void onPostExecute(Boolean isSuccess) {
             super.onPostExecute(isSuccess);
             if(!isSuccess){

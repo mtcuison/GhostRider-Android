@@ -15,7 +15,7 @@ import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditAppInstance;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditOnlineApplication;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Pension;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Personal;
+
 
 public class VMPensionInfo extends AndroidViewModel implements CreditAppUI {
     private static final String TAG = VMPensionInfo.class.getSimpleName();

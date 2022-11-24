@@ -16,7 +16,6 @@ import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.dev.Database.Repositories.RBarangay;
 import org.rmj.g3appdriver.dev.Database.Repositories.RTown;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditApp;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Business;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.SpouseBusiness;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.SpouseResidence;
 import org.rmj.gocas.base.GOCASApplication;
@@ -90,7 +89,7 @@ public class SpouseBusinessInfo implements CreditApp {
 
     @Override
     public int Validate(Object args) {
-        Business loDetail = (Business) args;
+        SpouseBusiness loDetail = (SpouseBusiness) args;
 
         if(poDetail == null){
 

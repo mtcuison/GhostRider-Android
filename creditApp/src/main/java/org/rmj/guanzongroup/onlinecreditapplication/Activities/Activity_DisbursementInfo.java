@@ -94,7 +94,7 @@ public class Activity_DisbursementInfo extends AppCompatActivity {
         mViewModel.SaveData(new OnSaveInfoListener() {
             @Override
             public void OnSave(String args) {
-                Intent loIntent = new Intent(Activity_DisbursementInfo.this, Activity_Dependent.class);
+                Intent loIntent = new Intent(Activity_DisbursementInfo.this, Activity_Properties.class);
                 loIntent.putExtra("sTransNox", args);
                 startActivity(loIntent);
                 overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
@@ -130,11 +130,11 @@ public class Activity_DisbursementInfo extends AppCompatActivity {
         tieLimit = findViewById(R.id.tie_cap_dbmCreditLimit);
         tieYearS = findViewById(R.id.tie_cap_dbmYearStarted);
 
-        tieElctx.addTextChangedListener(new FormatUIText.CurrencyFormat(tieElctx));
-        tieWater.addTextChangedListener(new FormatUIText.CurrencyFormat(tieWater));
-        tieFoodx.addTextChangedListener(new FormatUIText.CurrencyFormat(tieFoodx));
-        tieLoans.addTextChangedListener(new FormatUIText.CurrencyFormat(tieLoans));
-        tieLimit.addTextChangedListener(new FormatUIText.CurrencyFormat(tieLimit));
+//        tieElctx.addTextChangedListener(new FormatUIText.CurrencyFormat(tieElctx));
+//        tieWater.addTextChangedListener(new FormatUIText.CurrencyFormat(tieWater));
+//        tieFoodx.addTextChangedListener(new FormatUIText.CurrencyFormat(tieFoodx));
+//        tieLoans.addTextChangedListener(new FormatUIText.CurrencyFormat(tieLoans));
+//        tieLimit.addTextChangedListener(new FormatUIText.CurrencyFormat(tieLimit));
 
         btnNext = findViewById(R.id.btn_creditAppNext);
         btnPrev = findViewById(R.id.btn_creditAppPrvs);

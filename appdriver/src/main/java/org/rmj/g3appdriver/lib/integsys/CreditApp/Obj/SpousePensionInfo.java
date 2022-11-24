@@ -14,7 +14,7 @@ import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EOccupationInfo;
 import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditApp;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Pension;
+
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.SpousePension;
 import org.rmj.gocas.base.GOCASApplication;
 
@@ -25,7 +25,7 @@ public class SpousePensionInfo implements CreditApp {
 
     private final DCreditApplication poDao;
 
-    private Pension poDetail;
+    private SpousePension poDetail;
 
     private String message;
 
@@ -48,7 +48,7 @@ public class SpousePensionInfo implements CreditApp {
             JSONObject joDetail = (JSONObject) loJson.parse(lsDetail);
             gocas.SpouseMeansInfo().PensionerInfo().setData(joDetail);
 
-            Pension loDetail = new Pension();
+            SpousePension loDetail = new SpousePension();
 
             loDetail.setPensionSector(gocas.SpouseMeansInfo().PensionerInfo().getSource());
             loDetail.setPensionIncomeRange(gocas.SpouseMeansInfo().PensionerInfo().getAmount());

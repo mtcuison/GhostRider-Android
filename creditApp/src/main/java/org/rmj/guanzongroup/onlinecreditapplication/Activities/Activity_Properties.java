@@ -122,7 +122,7 @@ public class Activity_Properties extends AppCompatActivity {
         mViewModel.SaveData(new OnSaveInfoListener() {
             @Override
             public void OnSave(String args) {
-                Intent loIntent = new Intent(Activity_Properties.this, Activity_OtherInfo.class);
+                Intent loIntent = new Intent(Activity_Properties.this, Activity_CoMaker.class);
                 loIntent.putExtra("sTransNox", args);
                 startActivity(loIntent);
                 overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);

@@ -80,7 +80,7 @@ public class Activity_SpousePensionInfo extends AppCompatActivity {
         mViewModel.getModel().setPensionIncomeRange(Long.parseLong(Objects.requireNonNull(txtPensionAmt.getText()).toString().trim()));
         mViewModel.getModel().setRetirementYear(Objects.requireNonNull(txtRetirementYr.getText()).toString().trim());
         mViewModel.getModel().setNatureOfIncome(Objects.requireNonNull(txtOtherSrc.getText()).toString().trim());
-        mViewModel.getModel().setRangeOfIncom(Long.parseLong(txtOtherSrcInc.getText().toString().trim()));
+        mViewModel.getModel().setRangeOfIncom(Long.parseLong((Objects.requireNonNull(txtOtherSrcInc.getText()).toString().trim())));
 
         mViewModel.SaveData(new OnSaveInfoListener() {
             @Override
