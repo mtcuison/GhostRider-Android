@@ -80,8 +80,8 @@ public class EmployeeApplicationAdapter extends RecyclerView.Adapter<EmployeeApp
             holder.lblEmplName.setText(loLeave.getEmployID());
             holder.lblDeptName.setText(loLeave.getDeptName());
             holder.lblBrnchNme.setText(loLeave.getBranchNm());
-            holder.lblDateFrom.setText(FormatUIText.formatGOCasBirthdate(loLeave.getAppldFrx()));
-            holder.lblDateThru.setText(FormatUIText.formatGOCasBirthdate(loLeave.getAppldTox()));
+            holder.lblDateFrom.setText(FormatUIText.formatGOCasBirthdate(loLeave.getDateFrom()));
+            holder.lblDateThru.setText(FormatUIText.formatGOCasBirthdate(loLeave.getDateThru()));
             holder.lblAppStats.setText(AppConstants.getLeaveStatus(loLeave.getTranStat()));
             holder.lblLeaveTpe.setText("Leave Type : " + LEAVE_TYPE[Integer.parseInt(loLeave.getLeaveTyp())]);
             holder.txtPurpose.setText(loLeave.getPurposex());

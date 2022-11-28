@@ -61,7 +61,7 @@ dependencies {
     androidTestImplementation 'org.testng:testng:7.4.0'
     annotationProcessor 'androidx.room:room-compiler:2.4.3'
     implementation 'com.github.ybq:Android-SpinKit:1.4.0'
-    implementation 'com.google.android.gms:play-services-location:20.0.0'
+    implementation 'com.google.android.gms:play-services-location:21.0.1'
     implementation 'com.huawei.hms:maps:4.0.1.302'
     implementation 'com.huawei.hms:location:6.4.0.300'
     implementation 'com.huawei.hms:site:4.0.3.300'

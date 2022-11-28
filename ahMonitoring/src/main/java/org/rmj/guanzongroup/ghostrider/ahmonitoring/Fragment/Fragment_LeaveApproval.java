@@ -127,8 +127,8 @@ public class Fragment_LeaveApproval extends Fragment implements VMLeaveApproval.
                             mViewModel.downloadLeaveApplication(TransNox, Fragment_LeaveApproval.this);
                         } else {
                             poModel.setTransNox(s);
-                            poModel.setAppldFrx(eEmployeeLeave.getAppldFrx());
-                            poModel.setAppldTox(eEmployeeLeave.getAppldTox());
+                            poModel.setAppldFrx(eEmployeeLeave.getDateFrom());
+                            poModel.setAppldTox(eEmployeeLeave.getDateThru());
                             lblTransNox.setText("Transaction No. : " + eEmployeeLeave.getTransNox());
                             lblEmployeNm.setText(eEmployeeLeave.getEmployID());
                             lblDeptName.setText(eEmployeeLeave.getDeptName());
@@ -138,11 +138,11 @@ public class Fragment_LeaveApproval extends Fragment implements VMLeaveApproval.
                             lblLeaveStx.setText(getLeaveStatus(eEmployeeLeave.getTranStat()));
                             lblDateAppr.setText(FormatUIText.formatGOCasBirthdate(AppConstants.CURRENT_DATE));
                             lblDateAppl.setText(FormatUIText.formatGOCasBirthdate(eEmployeeLeave.getTransact()));
-                            lblDateFrom.setText(FormatUIText.formatGOCasBirthdate(eEmployeeLeave.getAppldFrx()));
-                            lblDateThru.setText(FormatUIText.formatGOCasBirthdate(eEmployeeLeave.getAppldTox()));
+                            lblDateFrom.setText(FormatUIText.formatGOCasBirthdate(eEmployeeLeave.getDateFrom()));
+                            lblDateThru.setText(FormatUIText.formatGOCasBirthdate(eEmployeeLeave.getDateThru()));
                             lblLeaveTpe.setText(LEAVE_TYPE[Integer.parseInt(eEmployeeLeave.getLeaveTyp())]);
-                            tieDateFrom.setText(FormatUIText.formatGOCasBirthdate(eEmployeeLeave.getAppldFrx()));
-                            tieDateThru.setText(FormatUIText.formatGOCasBirthdate(eEmployeeLeave.getAppldTox()));
+                            tieDateFrom.setText(FormatUIText.formatGOCasBirthdate(eEmployeeLeave.getDateFrom()));
+                            tieDateThru.setText(FormatUIText.formatGOCasBirthdate(eEmployeeLeave.getDateThru()));
                             txtPurpse.setText(eEmployeeLeave.getPurposex());
                             pnCredits = Integer.parseInt(eEmployeeLeave.getLveCredt());
                             pnLeaveTp = Integer.parseInt(eEmployeeLeave.getLeaveTyp());
