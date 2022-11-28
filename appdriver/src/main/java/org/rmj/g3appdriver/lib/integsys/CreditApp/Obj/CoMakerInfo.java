@@ -72,19 +72,19 @@ public class CoMakerInfo implements CreditApp {
                 MobileNo mobileNo = new MobileNo();
                 if(x == 0) {
                     mobileNo.setMobileNo((String) mobile.get("sMobileNo"));
-                    mobileNo.setIsPostPd((int) mobile.get("cPostPaid"));
+                    mobileNo.setIsPostPd((String) mobile.get("cPostPaid"));
                     mobileNo.setPostYear((int)lnPostYr);
                     loDetail.setMobileNo1(mobileNo);
                 }
                 if(x == 1) {
                     mobileNo.setMobileNo((String) mobile.get("sMobileNo"));
-                    mobileNo.setIsPostPd((int) mobile.get("cPostPaid"));
+                    mobileNo.setIsPostPd((String) mobile.get("cPostPaid"));
                     mobileNo.setPostYear((int)lnPostYr);
                     loDetail.setMobileNo2(mobileNo);
                 }
                 if(x == 2) {
                     mobileNo.setMobileNo((String) mobile.get("sMobileNo"));
-                    mobileNo.setIsPostPd((int) mobile.get("cPostPaid"));
+                    mobileNo.setIsPostPd((String) mobile.get("cPostPaid"));
                     mobileNo.setPostYear((int)lnPostYr);
                     loDetail.setMobileNo3(mobileNo);
                 }

@@ -205,9 +205,24 @@ public class Activity_SpouseSelfEmploymentInfo extends AppCompatActivity {
         mViewModel.getModel().setBusinessAddress(txtBizAddrss.getText().toString().trim());
         mViewModel.getModel().setProvince(txtProvince.getText().toString().trim());
         mViewModel.getModel().setTown(txtTown.getText().toString().trim());
-        mViewModel.getModel().setLengthOfService(Double.parseDouble(txtBizLength.getText().toString().trim()));
-        mViewModel.getModel().setMonthlyIncome(Long.parseLong(txtMonthlyInc.getText().toString().trim()));
-        mViewModel.getModel().setMonthlyExpense(Long.parseLong(txtMonthlyExp.getText().toString().trim()));
+        
+        if (txtBizLength.getText().toString().trim().isEmpty()){
+            mViewModel.getModel().setLengthOfService(0);
+        }else {
+            mViewModel.getModel().setLengthOfService(Double.parseDouble(txtBizLength.getText().toString().trim()));
+        }
+
+        if (txtMonthlyInc.getText().toString().trim().isEmpty()){
+            mViewModel.getModel().setMonthlyIncome(0);
+        }else{
+            mViewModel.getModel().setMonthlyIncome(Long.parseLong(txtMonthlyInc.getText().toString().trim()));
+        }
+
+        if (txtMonthlyExp.getText().toString().trim().isEmpty()){
+            mViewModel.getModel().setMonthlyExpense(0);
+        }else{
+            mViewModel.getModel().setMonthlyExpense(Long.parseLong(txtMonthlyExp.getText().toString().trim()));
+        }
 
         mViewModel.SaveData(new OnSaveInfoListener() {
             @Override

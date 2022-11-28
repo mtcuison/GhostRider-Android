@@ -443,7 +443,7 @@ public class ClientResidence {
     }
 
     private boolean isHouseHoldValid(){
-        if(sHouseHld == null || sHouseHld.trim().isEmpty()){
+        if(sHouseHld == null){
             message = "Please select customer household.";
             return false;
         }
@@ -451,7 +451,7 @@ public class ClientResidence {
     }
 
     private boolean isHouseTypeValid(){
-        if(sHouseTpe == null || sHouseTpe.trim().isEmpty()){
+        if(sHouseTpe == null){
             message = "Please select customer house type.";
             return false;
         }

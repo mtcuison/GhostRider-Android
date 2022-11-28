@@ -107,33 +107,33 @@ public class Disbursement {
                 isCCBank();
     }
     private boolean isBankN(){
-        if(!BankName.trim().isEmpty()){
+        if(!BankName.trim().isEmpty() || !BankName.equalsIgnoreCase("")){
             return  isTypeX();
         }
         return true;
     }
     private boolean isTypeX(){
-        if(AcctType.equalsIgnoreCase("")){
+        if(AcctType.trim().isEmpty() || AcctType.equalsIgnoreCase("" )){
             message = "Please select account type";
             return false;
         }
         return true;
     }
     private boolean isCCBank(){
-        if(!CrdtBank.trim().isEmpty() || CrdtBank.equalsIgnoreCase("")){
+        if(!CrdtBank.trim().isEmpty() || !CrdtBank.equalsIgnoreCase("")){
             return isAmount() && isYear();
         }
         return true;
     }
     private boolean isAmount(){
-        if(CrdtLimt == 0 ){
+        if(CrdtLimt == 0 || CrdtLimt == Double.parseDouble("")){
             message = "Please enter Amount";
             return false;
         }
         return true;
     }
     private boolean isYear(){
-        if(CrdtYear == 0){
+        if(CrdtYear == 0 || CrdtYear == Double.parseDouble("")){
             message = "Please enter Length of Use";
             return false;
         }

@@ -218,8 +218,19 @@ public class Activity_SpouseEmploymentInfo extends AppCompatActivity {
         mViewModel.getModel().setCompanyAddress(Objects.requireNonNull(txtCompAd.getText()).toString());
         mViewModel.getModel().setJobTitle(Objects.requireNonNull(txtJobNme.getText()).toString());
         mViewModel.getModel().setSpecificJob(Objects.requireNonNull(txtSpcfJb.getText()).toString());
-        mViewModel.getModel().setLengthOfService(Double.parseDouble(Objects.requireNonNull(txtLngthS.getText()).toString()));
-        mViewModel.getModel().setMonthlyIncome(Long.parseLong(Objects.requireNonNull(txtEsSlry.getText()).toString()));
+
+        if (txtLngthS.getText().toString().isEmpty()){
+            mViewModel.getModel().setLengthOfService(0);
+        }else{
+            mViewModel.getModel().setLengthOfService(Double.parseDouble(Objects.requireNonNull(txtLngthS.getText()).toString()));
+        }
+
+        if (txtEsSlry.getText().toString().isEmpty()){
+            mViewModel.getModel().setMonthlyIncome(0);
+        }else {
+            mViewModel.getModel().setMonthlyIncome(Long.parseLong(Objects.requireNonNull(txtEsSlry.getText()).toString()));
+        }
+
         mViewModel.getModel().setContact(Objects.requireNonNull(txtCompCn.getText()).toString());
 
         mViewModel.SaveData(new OnSaveInfoListener() {

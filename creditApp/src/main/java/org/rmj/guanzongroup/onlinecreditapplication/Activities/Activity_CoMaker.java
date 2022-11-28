@@ -149,7 +149,7 @@ public class Activity_CoMaker extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (cbPrmCntct.isChecked()) {
-                    poMobile[0].setIsPostPd(1);
+                    poMobile[0].setIsPostPd("1");
                     LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
                             LinearLayout.LayoutParams.MATCH_PARENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -164,7 +164,7 @@ public class Activity_CoMaker extends AppCompatActivity {
                             2.0f
                     );
                     cbPrmCntct.setLayoutParams(param);
-                    poMobile[0].setIsPostPd(0);
+                    poMobile[0].setIsPostPd("0");
                     tilPrmCntctPlan.setVisibility(View.GONE);
                 }
             }
@@ -174,7 +174,7 @@ public class Activity_CoMaker extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (cbScnCntct.isChecked()) {
-                    poMobile[1].setIsPostPd(1);
+                    poMobile[1].setIsPostPd("1");
                     LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
                             LinearLayout.LayoutParams.MATCH_PARENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -189,7 +189,7 @@ public class Activity_CoMaker extends AppCompatActivity {
                             2.0f
                     );
                     cbScnCntct.setLayoutParams(param);
-                    poMobile[1].setIsPostPd(0);
+                    poMobile[1].setIsPostPd("0");
                     tilScnCntctPlan.setVisibility(View.GONE);
                 }
             }
@@ -199,7 +199,7 @@ public class Activity_CoMaker extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (cbTrtCntct.isChecked()) {
-                    poMobile[2].setIsPostPd(1);
+                    poMobile[2].setIsPostPd("1");
                     LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
                             LinearLayout.LayoutParams.MATCH_PARENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -214,7 +214,7 @@ public class Activity_CoMaker extends AppCompatActivity {
                             2.0f
                     );
                     cbTrtCntct.setLayoutParams(param);
-                    poMobile[2].setIsPostPd(0);
+                    poMobile[2].setIsPostPd("0");
                     tilTrtCntctPlan.setVisibility(View.GONE);
                 }
             }
@@ -237,15 +237,24 @@ public class Activity_CoMaker extends AppCompatActivity {
             poMobile[0].setMobileNo(tiePrmCntct.getText().toString());
 //            loMobile[1].setIsPostPd();
             if (poMobile[0].getIsPostPd().equalsIgnoreCase("1")) {
-                poMobile[0].setPostYear(Integer.parseInt(tiePrmCntctPlan.getText().toString()));
+                if (tiePrmCntctPlan.getText().toString().isEmpty()) {
+                    poMobile[0].setPostYear(0);
+                } else {
+                    poMobile[0].setPostYear(Integer.parseInt(tiePrmCntctPlan.getText().toString()));
+                }
             }
             mViewModel.getModel().setMobileNo1(poMobile[0]);
         }
+
         if (!Objects.requireNonNull(tieScnCntct.getText()).toString().trim().isEmpty()) {
             poMobile[1].setMobileNo(tieScnCntct.getText().toString());
 //            loMobile[1].setIsPostPd();
             if (poMobile[1].getIsPostPd().equalsIgnoreCase("1")) {
-                poMobile[1].setPostYear(Integer.parseInt(tieScnCntctPlan.getText().toString()));
+                if (tieScnCntctPlan.getText().toString().isEmpty()){
+                    poMobile[1].setPostYear(0);
+                }else{
+                    poMobile[1].setPostYear(Integer.parseInt(tieScnCntctPlan.getText().toString()));
+                }
             }
             mViewModel.getModel().setMobileNo2(poMobile[1]);
         }
@@ -253,7 +262,11 @@ public class Activity_CoMaker extends AppCompatActivity {
             poMobile[2].setMobileNo(tieTrtCntct.getText().toString());
 //            poMobile[2].setIsPostPd();
             if (poMobile[2].getIsPostPd().equalsIgnoreCase("1")) {
-                poMobile[2].setPostYear(Integer.parseInt(tieTrtCntctPlan.getText().toString()));
+                if (tieTrtCntctPlan.getText().toString().isEmpty()){
+                    poMobile[2].setPostYear(0);
+                }else{
+                    poMobile[2].setPostYear(Integer.parseInt(tieTrtCntctPlan.getText().toString()));
+                }
             }
             mViewModel.getModel().setMobileNo3(poMobile[2]);
         }
@@ -344,6 +357,7 @@ public class Activity_CoMaker extends AppCompatActivity {
 
 
     }
+
     @Override
     public void finish() {
         super.finish();
@@ -352,7 +366,7 @@ public class Activity_CoMaker extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() == android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             finish();
         }
         return super.onOptionsItemSelected(item);

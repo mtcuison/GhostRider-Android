@@ -92,12 +92,12 @@ public class Financier {
         return isFinancierRelationValid() &&
                 isFinancierNameValid() &&
                 isRangeOfIncomeValid() &&
-//                isCountryValid() &&
+                isCountryValid() &&
                 isMobileNoValid();
     }
 
     private boolean isFinancierNameValid(){
-        if(sFNamex.trim().isEmpty()){
+        if(sFNamex.trim().isEmpty() || sFNamex.trim().equalsIgnoreCase("")){
             message = "Please enter financier name";
             return false;
         }
@@ -112,23 +112,23 @@ public class Financier {
     }
 
     private boolean isRangeOfIncomeValid(){
-        if(sFIncme == 0){
+        if(sFIncme == 0 || sFIncme == Long.parseLong("")){
             message = "Please enter atleast estimated range of income";
             return false;
         }
         return true;
     }
 
-//    private boolean isCountryValid(){
-//        if(sCountry == null || sCountry.trim().isEmpty()){
-//            message = "Please select country";
-//            return false;
-//        }
-//        return true;
-//    }
+    private boolean isCountryValid(){
+        if(sCountry == null || sCountry.trim().isEmpty()){
+            message = "Please select country";
+            return false;
+        }
+        return true;
+    }
 
     private boolean isMobileNoValid(){
-        if(sFMoble.trim().isEmpty()){
+        if(sFMoble.trim().isEmpty() || sFMoble.trim().equalsIgnoreCase("")){
             message = "Please enter financier mobile no";
             return false;
         }

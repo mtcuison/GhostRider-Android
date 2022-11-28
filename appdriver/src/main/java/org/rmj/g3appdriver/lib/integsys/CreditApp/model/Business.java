@@ -135,7 +135,7 @@ public class Business {
     }
 
     boolean isBusinessNatureValid(){
-        if(!sBussNtrx.isEmpty()) {
+        if(!sBussNtrx.isEmpty() || !sBussNtrx.equalsIgnoreCase("")) {
             return true;
         } else {
             message = "Please select business nature";
@@ -144,7 +144,7 @@ public class Business {
     }
 
     boolean isBusinessNameValid(){
-        if(sBussName.trim().isEmpty()){
+        if(sBussName.trim().isEmpty() || sBussName.trim().equalsIgnoreCase("") || sBussName == null){
             message = "Please enter name of business";
             return false;
         }
@@ -152,7 +152,7 @@ public class Business {
     }
 
     boolean isBusinessAddressValid(){
-        if(sBussAddx.trim().isEmpty()){
+        if(sBussAddx.trim().isEmpty() || sBussAddx.trim().equalsIgnoreCase("") || sBussAddx == null){
             message = "Please enter business address";
             return false;
         }
@@ -160,7 +160,7 @@ public class Business {
     }
 
     boolean isTownValid(){
-        if(sBussTown.trim().isEmpty()){
+        if(sBussTown.trim().isEmpty() || sBussTown.trim().equalsIgnoreCase( "") || sBussTown == null){
             message = "Please enter town or municipality";
             return false;
         }
@@ -184,7 +184,7 @@ public class Business {
     }
 
     boolean isLenghtOfServiceValid(){
-        if(sLenghtSv == 0){
+        if(sLenghtSv == 0 || sLenghtSv == Double.parseDouble("") ){
             message = "Please enter length of service";
             return false;
         }else {
@@ -200,7 +200,7 @@ public class Business {
     }
 
     boolean isMonthlyIncomeValid(){
-        if(sMnthlyIn == 0){
+        if(sMnthlyIn == 0 || sMnthlyIn == Long.parseLong("")){
             message = "Please enter monthly income";
             return false;
         }
@@ -208,7 +208,7 @@ public class Business {
     }
 
     boolean isMonthlyExpenseValid(){
-        if(sMnthlyEx == 0){
+        if(sMnthlyEx == 0 || sMnthlyEx == Long.parseLong("")){
             message = "Please enter monthly expense";
             return false;
         }

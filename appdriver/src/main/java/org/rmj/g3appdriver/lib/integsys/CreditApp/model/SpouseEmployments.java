@@ -408,7 +408,7 @@ public class SpouseEmployments {
 
     private boolean isMonthlySalaryValid(){
         if(sSectorxx.equalsIgnoreCase("0") || sSectorxx.equalsIgnoreCase("1")) {
-            if (sMonthlyx == 0) {
+            if (sMonthlyx == 0 || sMonthlyx == Long.parseLong("")) {
                 message = "Please enter estimated monthly income";
                 return false;
             }

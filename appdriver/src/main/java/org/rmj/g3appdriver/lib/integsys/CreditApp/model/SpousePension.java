@@ -85,7 +85,7 @@ public class SpousePension {
     }
 
     private boolean isPensionIncomeValid() {
-        if (sRangexx == 0) {
+        if (sRangexx == 0 || sRangexx == Long.parseLong("")) {
             message = "Please enter at least estimated income";
             return false;
         }
@@ -93,7 +93,7 @@ public class SpousePension {
     }
 
     private boolean isRetirementYearValid() {
-        if (sRtrYear.trim().isEmpty()) {
+        if (sRtrYear.trim().isEmpty() || sRtrYear.equalsIgnoreCase("") ) {
             message = "Please enter retirement year";
             return false;
         }
@@ -101,8 +101,8 @@ public class SpousePension {
     }
 
     private boolean isOtherIncomeValid() {
-        if (!sNtrIncm.trim().isEmpty()) {
-            if (sRngIncm == 0) {
+        if (!sNtrIncm.trim().isEmpty() || !sNtrIncm.equalsIgnoreCase("")) {
+            if (sRngIncm == 0 || sRngIncm == Long.parseLong("")) {
                 message = "Please enter at least estimated amount in other source of income";
                 return false;
             }

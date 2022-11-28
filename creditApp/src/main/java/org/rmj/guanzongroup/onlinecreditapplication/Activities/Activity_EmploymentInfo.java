@@ -10,7 +10,6 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -26,7 +25,6 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
-import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Employment;
@@ -214,13 +212,21 @@ public class Activity_EmploymentInfo extends AppCompatActivity {
         mViewModel.getModel().setCompanyName(txtCompNm.getText().toString());
         mViewModel.getModel().setCompanyAddress((txtCompAd.getText()).toString());
 
-//        mViewModel.getModel().setProvinceID(txtProvNm.getText().toString());
-//        mViewModel.getModel().setTownID(txtTownNm.getText().toString());
-
         mViewModel.getModel().setJobTitle((txtJobNme.getText()).toString());
         mViewModel.getModel().setSpecificJob((txtSpcfJb.getText()).toString());
-        mViewModel.getModel().setLengthOfService(Double.parseDouble((txtLngthS.getText()).toString()));
-        mViewModel.getModel().setMonthlyIncome(Long.parseLong((txtEsSlry.getText()).toString()));
+
+        if (txtLngthS.getText().toString().isEmpty()) {
+            mViewModel.getModel().setLengthOfService(0);
+        } else {
+            mViewModel.getModel().setLengthOfService(Double.parseDouble(txtLngthS.getText().toString()));
+        }
+
+        if (txtEsSlry.getText().toString().isEmpty()) {
+            mViewModel.getModel().setMonthlyIncome(0);
+        } else {
+            mViewModel.getModel().setMonthlyIncome(Long.parseLong(txtEsSlry.getText().toString()));
+        }
+
         mViewModel.getModel().setContact((txtCompCn.getText()).toString());
 
         mViewModel.SaveData(new OnSaveInfoListener() {
@@ -338,7 +344,7 @@ public class Activity_EmploymentInfo extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() == android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             finish();
         }
         return super.onOptionsItemSelected(item);

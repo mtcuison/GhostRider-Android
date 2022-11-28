@@ -183,7 +183,7 @@ public class Activity_PersonalInfo extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (txtMobileType1.isChecked()) {
-                    poMobile[0].setIsPostPd(1);
+                    poMobile[0].setIsPostPd("1");
                     LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
                             LinearLayout.LayoutParams.MATCH_PARENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -198,7 +198,7 @@ public class Activity_PersonalInfo extends AppCompatActivity {
                             2.0f
                     );
                     txtMobileType1.setLayoutParams(param);
-                    poMobile[0].setIsPostPd(0);
+                    poMobile[0].setIsPostPd("0");
                     tilMobileYear[0].setVisibility(View.GONE);
                 }
             }
@@ -213,7 +213,7 @@ public class Activity_PersonalInfo extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (txtMobileType2.isChecked()) {
-                    poMobile[1].setIsPostPd(1);
+                    poMobile[1].setIsPostPd("1");
                     LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
                             LinearLayout.LayoutParams.MATCH_PARENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -228,7 +228,7 @@ public class Activity_PersonalInfo extends AppCompatActivity {
                             2.0f
                     );
                     txtMobileType2.setLayoutParams(param);
-                    poMobile[1].setIsPostPd(0);
+                    poMobile[1].setIsPostPd("0");
                     tilMobileYear[1].setVisibility(View.GONE);
                 }
             }
@@ -241,7 +241,7 @@ public class Activity_PersonalInfo extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (txtMobileType3.isChecked()) {
-                    poMobile[2].setIsPostPd(1);
+                    poMobile[2].setIsPostPd("1");
                     LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
                             LinearLayout.LayoutParams.MATCH_PARENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -256,7 +256,7 @@ public class Activity_PersonalInfo extends AppCompatActivity {
                             2.0f
                     );
                     txtMobileType3.setLayoutParams(param);
-                    poMobile[2].setIsPostPd(0);
+                    poMobile[2].setIsPostPd("0");
                     tilMobileYear[2].setVisibility(View.GONE);
                 }
             }
@@ -281,62 +281,79 @@ public class Activity_PersonalInfo extends AppCompatActivity {
     }
 
     private void SavePersonalInfo() {
-        mViewModel.getModel().setLastName(Objects.requireNonNull(txtLastNm.getText()).toString());
-        mViewModel.getModel().setFrstName(Objects.requireNonNull(txtFrstNm.getText()).toString());
-        mViewModel.getModel().setMiddName(Objects.requireNonNull(txtMiddNm.getText()).toString());
-        mViewModel.getModel().setSuffix(Objects.requireNonNull(txtSuffixx.getText()).toString());
-        mViewModel.getModel().setNickName(Objects.requireNonNull(txtNickNm.getText()).toString());
-        mViewModel.getModel().setMotherNm(Objects.requireNonNull(txtMothNm.getText()).toString());
+        try{
+            mViewModel.getModel().setLastName(Objects.requireNonNull(txtLastNm.getText()).toString());
+            mViewModel.getModel().setFrstName(Objects.requireNonNull(txtFrstNm.getText()).toString());
+            mViewModel.getModel().setMiddName(Objects.requireNonNull(txtMiddNm.getText()).toString());
+            mViewModel.getModel().setSuffix(Objects.requireNonNull(txtSuffixx.getText()).toString());
+            mViewModel.getModel().setNickName(Objects.requireNonNull(txtNickNm.getText()).toString());
+            mViewModel.getModel().setMotherNm(Objects.requireNonNull(txtMothNm.getText()).toString());
 
-        if (txtMobileNo[0] != null || !Objects.requireNonNull(txtMobileNo[0].getText()).toString().trim().isEmpty()) {
-            poMobile[0].setMobileNo(txtMobileNo[0].getText().toString());
+            if (txtMobileNo[0] != null || !Objects.requireNonNull(txtMobileNo[0].getText()).toString().trim().isEmpty()) {
+                poMobile[0].setMobileNo(txtMobileNo[0].getText().toString());
 //            loMobile[1].setIsPostPd();
-            if (poMobile[0].getIsPostPd().equalsIgnoreCase("1")) {
-                poMobile[0].setPostYear(Integer.parseInt(txtMobileYear[0].getText().toString()));
+                if (poMobile[0].getIsPostPd().equalsIgnoreCase("1")) {
+                    if (txtMobileYear[0].getText().toString().trim().isEmpty())
+                        poMobile[0].setPostYear(0);
+                    else {
+                        poMobile[0].setPostYear(Integer.parseInt(txtMobileYear[0].getText().toString().trim()));
+                    }
+                }
+                mViewModel.getModel().setMobileNo1(poMobile[0]);
             }
-            mViewModel.getModel().setMobileNo1(poMobile[0]);
-        }
-        if (!Objects.requireNonNull(txtMobileNo[1].getText()).toString().trim().isEmpty()) {
-            poMobile[1].setMobileNo(txtMobileNo[1].getText().toString());
+            if (!Objects.requireNonNull(txtMobileNo[1].getText()).toString().trim().isEmpty()) {
+                poMobile[1].setMobileNo(txtMobileNo[1].getText().toString());
 //            loMobile[1].setIsPostPd();
-            if (poMobile[1].getIsPostPd().equalsIgnoreCase("1")) {
-                poMobile[1].setPostYear(Integer.parseInt(txtMobileYear[1].getText().toString()));
+                if (poMobile[1].getIsPostPd().equalsIgnoreCase("1")) {
+                    if (txtMobileYear[1].getText().toString().trim().isEmpty()){
+                        poMobile[1].setPostYear(0);
+                    }else {
+
+                        poMobile[1].setPostYear(Integer.parseInt(txtMobileYear[1].getText().toString().trim()));
+                    }
+                }
+                mViewModel.getModel().setMobileNo2(poMobile[1]);
             }
-            mViewModel.getModel().setMobileNo2(poMobile[1]);
-        }
-        if (!Objects.requireNonNull(txtMobileNo[2].getText()).toString().trim().isEmpty()) {
-            poMobile[2].setMobileNo(txtMobileNo[2].getText().toString());
+            if (!Objects.requireNonNull(txtMobileNo[2].getText()).toString().trim().isEmpty()) {
+                poMobile[2].setMobileNo(txtMobileNo[2].getText().toString());
 //            poMobile[2].setIsPostPd();
-            if (poMobile[2].getIsPostPd().equalsIgnoreCase("1")) {
-                poMobile[2].setPostYear(Integer.parseInt(txtMobileYear[2].getText().toString()));
+                if (poMobile[2].getIsPostPd().equalsIgnoreCase("1")) {
+                    if (txtMobileYear[2].getText().toString().trim().isEmpty()){
+                        poMobile[2].setPostYear(0);
+                    }else {
+                        poMobile[1].setPostYear(Integer.parseInt(txtMobileYear[1].getText().toString().trim()));
+                    }
+                }
             }
-            mViewModel.getModel().setMobileNo3(poMobile[2]);
+
+            mViewModel.getModel().setPhoneNox(Objects.requireNonNull(txtTellNox.getText()).toString());
+            mViewModel.getModel().setEmailAdd(Objects.requireNonNull(txtEmailAdd.getText()).toString());
+            mViewModel.getModel().setFbAccntx(Objects.requireNonNull(txtFbAccount.getText()).toString());
+            mViewModel.getModel().setVbrAccnt(Objects.requireNonNull(txtViberAccount.getText()).toString());
+
+            mViewModel.SaveData(new OnSaveInfoListener() {
+                @Override
+                public void OnSave(String args) {
+                    Intent loIntent = new Intent(Activity_PersonalInfo.this, Activity_ResidenceInfo.class);
+                    loIntent.putExtra("sTransNox", args);
+                    startActivity(loIntent);
+                    overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
+
+                }
+
+                @Override
+                public void OnFailed(String message) {
+                    poMessage.initDialog();
+                    poMessage.setTitle("Credit Online Application");
+                    poMessage.setMessage(message);
+                    poMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
+                    poMessage.show();
+                }
+            });
+
+        }catch (Exception e ){
+            e.printStackTrace();
         }
-
-        mViewModel.getModel().setPhoneNox(Objects.requireNonNull(txtTellNox.getText()).toString());
-        mViewModel.getModel().setEmailAdd(Objects.requireNonNull(txtEmailAdd.getText()).toString());
-        mViewModel.getModel().setFbAccntx(Objects.requireNonNull(txtFbAccount.getText()).toString());
-        mViewModel.getModel().setVbrAccnt(Objects.requireNonNull(txtViberAccount.getText()).toString());
-
-        mViewModel.SaveData(new OnSaveInfoListener() {
-            @Override
-            public void OnSave(String args) {
-                Intent loIntent = new Intent(Activity_PersonalInfo.this, Activity_ResidenceInfo.class);
-                loIntent.putExtra("sTransNox", args);
-                startActivity(loIntent);
-                overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
-
-            }
-
-            @Override
-            public void OnFailed(String message) {
-                poMessage.initDialog();
-                poMessage.setTitle("Credit Online Application");
-                poMessage.setMessage(message);
-                poMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
-                poMessage.show();
-            }
-        });
     }
 
 

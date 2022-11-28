@@ -502,7 +502,7 @@
                     android:layout_weight="1"
                     android:hint="@string/sHintProvince">
 
-                    <AutoCompleteTextView
+                    <androidx.appcompat.widget.AppCompatAutoCompleteTextView
                         android:id="@+id/txt_perm_province"
                         style="@style/AutoCompleteStyleTheme"
                         android:layout_width="match_parent"

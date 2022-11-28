@@ -66,6 +66,10 @@ public class VMFinancierInfo extends AndroidViewModel implements CreditAppUI {
         new SaveDataTask(listener).execute(poModel);
     }
 
+    public LiveData<List<ECountryInfo>> GetCountryList(){
+        return poApp.GetCountryList();
+    }
+
     private class ParseDataTask extends AsyncTask<ECreditApplicantInfo, Void, Financier>{
 
         private final OnParseListener listener;

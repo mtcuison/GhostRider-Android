@@ -222,13 +222,14 @@ public class Employment {
         this.sMonthlyx = sMonthlyx;
     }
 
+    public void setContact(String sContactx) {
+        this.sContactx = sContactx;
+    }
     public String getContact() {
         return sContactx;
     }
 
-    public void setContact(String sContactx) {
-        this.sContactx = sContactx;
-    }
+
 
     public boolean isDataValid(){
         return isUniformPersonalValid() &&
@@ -260,7 +261,7 @@ public class Employment {
 
     private boolean isMilitaryPersonalValid(){
         if(sSectorxx.equalsIgnoreCase("0")){
-            if(cMilitary == null || cMilitary.equalsIgnoreCase("")){
+            if(cMilitary == null ){
                 message = "Please select if military personnel";
                 return false;
             }
@@ -270,17 +271,17 @@ public class Employment {
 
     private boolean isCompanyLevelValid(){
         if(sSectorxx.equalsIgnoreCase("0")){
-            if (cCompLevl == null || Integer.parseInt(cCompLevl) < 0) {
+            if (cCompLevl == null ) {
                 message = "Please select government level";
                 return false;
             }
         } else if(sSectorxx.equalsIgnoreCase("1")){
-            if(cCompLevl == null || Integer.parseInt(cCompLevl)< 0){
+            if(cCompLevl == null ){
                 message = "Please select company level";
                 return false;
             }
         } else {
-            if(cCompLevl == null || Integer.parseInt(cCompLevl)< 0){
+            if(cCompLevl == null ){
                 message = "Please select ofw region";
                 return false;
             }
@@ -290,17 +291,17 @@ public class Employment {
 
     private boolean isEmployeeLevelValid(){
         if(sSectorxx.equalsIgnoreCase("0")){
-            if(cEmpLevel == null || Integer.parseInt(cEmpLevel)< 0){
+            if(cEmpLevel == null ){
                 message = "Please select government level";
                 return false;
             }
         } else if(sSectorxx.equalsIgnoreCase("1")){
-            if(cEmpLevel == null || Integer.parseInt(cEmpLevel)< 0){
+            if(cEmpLevel == null ){
                 message = "Please select employee level";
                 return false;
             }
         } else {
-            if(cEmpLevel == null || Integer.parseInt(cEmpLevel)< 0){
+            if(cEmpLevel == null ){
                 message = "Please select ofw region";
                 return false;
             }
@@ -418,7 +419,7 @@ public class Employment {
 
     private boolean isCompanyContactValid(){
         if(sSectorxx.equalsIgnoreCase("0") || sSectorxx.equalsIgnoreCase("1")) {
-            if (sContactx == null || sContactx.equalsIgnoreCase("")) {
+            if (sContactx == null || cStatusxx.equalsIgnoreCase("")) {
                 message = "Please enter company contact no.";
                 return false;
             }

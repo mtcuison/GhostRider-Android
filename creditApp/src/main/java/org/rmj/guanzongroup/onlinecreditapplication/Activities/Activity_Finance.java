@@ -12,10 +12,12 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
 
+import org.rmj.g3appdriver.dev.Database.Entities.ECountryInfo;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Financier;
@@ -24,6 +26,8 @@ import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.OnParseListener;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMFinancierInfo;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Activity_Finance extends AppCompatActivity {
@@ -67,6 +71,41 @@ public class Activity_Finance extends AppCompatActivity {
             }
         });
 
+
+        mViewModel.GetCountryList().observe(Activity_Finance.this, new Observer<List<ECountryInfo>>() {
+            @Override
+            public void onChanged(List<ECountryInfo> loList) {
+                try {
+                    ArrayList<String> strings = new ArrayList<>();
+                    for (int x = 0; x < loList.size(); x++) {
+                        strings.add(loList.get(x).getNational());
+                    }
+
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(Activity_Finance.this,
+                            android.R.layout.simple_spinner_dropdown_item, strings.toArray(new String[0]));
+                    txtFCntry.setAdapter(adapter);
+                    txtFCntry.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+
+                    txtFCntry.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            for (int x = 0; x < loList.size(); x++) {
+                                String lsLabel = loList.get(x).getNational();
+                                String lsSlctd = txtFCntry.getText().toString().trim();
+                                if (lsSlctd.equalsIgnoreCase(lsLabel)) {
+                                    mViewModel.getModel().setCountry(loList.get(x).getCntryNme());
+                                    mViewModel.getModel().setCountryName(lsLabel);
+                                    break;
+                                }
+                            }
+                        }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
         btnNext.setOnClickListener(v -> SaveFinanceInfo());
         btnPrvs.setOnClickListener(v -> finish());
 
@@ -76,7 +115,9 @@ public class Activity_Finance extends AppCompatActivity {
 
         mViewModel.getModel().setFinancierName(Objects.requireNonNull(txtFNamex.getText()).toString().trim());
         mViewModel.getModel().setRangeOfIncome(Long.parseLong(Objects.requireNonNull(txtFIncme.getText()).toString().trim()));
-        mViewModel.getModel().setCountryName(Objects.requireNonNull(txtFCntry.getText()).toString().trim());
+
+//        mViewModel.getModel().setCountryName(Objects.requireNonNull(txtFCntry.getText()).toString().trim());
+
         mViewModel.getModel().setMobileNo(Objects.requireNonNull(txtFMoble.getText()).toString().trim());
         mViewModel.getModel().setFacebook(Objects.requireNonNull(txtFFacbk.getText()).toString().trim());
         mViewModel.getModel().setEmail(Objects.requireNonNull(txtFEmail.getText()).toString().trim());
@@ -99,7 +140,6 @@ public class Activity_Finance extends AppCompatActivity {
                 poMessage.show();
             }
         });
-
     }
 
     private void initWidgets() {

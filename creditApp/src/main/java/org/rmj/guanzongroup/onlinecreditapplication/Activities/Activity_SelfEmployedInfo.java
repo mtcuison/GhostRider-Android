@@ -70,10 +70,8 @@ public class Activity_SelfEmployedInfo extends AppCompatActivity {
                         Business loDetail = (Business) args;
                     }
                 });
-
             }
         });
-
 
         mViewModel.GetTownProvinceList().observe(Activity_SelfEmployedInfo.this, new Observer<List<DTownInfo.TownProvinceInfo>>() {
             @RequiresApi(api = Build.VERSION_CODES.N)
@@ -109,7 +107,6 @@ public class Activity_SelfEmployedInfo extends AppCompatActivity {
                                 }
                             }
 
-
                             mViewModel.GetTownProvinceList().observe(Activity_SelfEmployedInfo.this, new Observer<List<DTownInfo.TownProvinceInfo>>() {
                                 @Override
                                 public void onChanged(List<DTownInfo.TownProvinceInfo> townList) {
@@ -123,7 +120,6 @@ public class Activity_SelfEmployedInfo extends AppCompatActivity {
                                             string.removeIf((String i) -> {
                                                 return !set.add(i);
                                             });
-
                                         }
 
                                         ArrayAdapter<String> adapters = new ArrayAdapter<>(Activity_SelfEmployedInfo.this, android.R.layout.simple_spinner_dropdown_item, string.toArray(new String[0]));
@@ -211,12 +207,26 @@ public class Activity_SelfEmployedInfo extends AppCompatActivity {
     private void SaveSelfEmploymentInfo() {
         mViewModel.getModel().setNameOfBusiness(txtBussName.getText().toString().trim());
         mViewModel.getModel().setBusinessAddress(txtBussAdds.getText().toString().trim());
-        mViewModel.getModel().setProvince(txtProvnc.getText().toString().trim());
-        mViewModel.getModel().setTown(txtTownxx.getText().toString().trim());
-        mViewModel.getModel().setLengthOfService(Double.parseDouble(txtLnghtSrv.getText().toString().trim()));
-        mViewModel.getModel().setMonthlyIncome(Long.parseLong(String.valueOf(txtMnthlyIn.getText())));
-        mViewModel.getModel().setMonthlyExpense(Long.parseLong(String.valueOf(txtMnthlyEx.getText())));
+//        mViewModel.getModel().setProvince(txtProvnc.getText().toString().trim());
+//        mViewModel.getModel().setTown(txtTownxx.getText().toString().trim());
 
+        if (txtLnghtSrv.getText().toString().trim().isEmpty()){
+            mViewModel.getModel().setLengthOfService(0);
+        }else {
+            mViewModel.getModel().setLengthOfService(Double.parseDouble(txtLnghtSrv.getText().toString().trim()));
+        }
+
+        if (txtMnthlyIn.getText().toString().trim().isEmpty()){
+            mViewModel.getModel().setMonthlyIncome(0);
+        }else {
+            mViewModel.getModel().setMonthlyIncome(Long.parseLong(txtMnthlyIn.getText().toString()));
+        }
+
+        if (txtMnthlyEx.getText().toString().isEmpty()){
+            mViewModel.getModel().setMonthlyExpense(0);
+        }else{
+            mViewModel.getModel().setMonthlyExpense(Long.parseLong(txtMnthlyEx.getText().toString()));
+        }
 
         mViewModel.SaveData(new OnSaveInfoListener() {
             @Override

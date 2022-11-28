@@ -106,19 +106,19 @@ public class PersonalInfo implements CreditApp {
                 if(x == 0) {
 
                     mobileNo.setMobileNo(gocas.ApplicantInfo().getMobileNo(x));
-                    mobileNo.setIsPostPd(Integer.parseInt(gocas.ApplicantInfo().IsMobilePostpaid(x)));
+                    mobileNo.setIsPostPd((gocas.ApplicantInfo().IsMobilePostpaid(x)));
                     mobileNo.setPostYear(gocas.ApplicantInfo().getPostPaidYears(x));
                     loDetail.setMobileNo1(mobileNo);
                 }
                 if(x == 1) {
                     mobileNo.setMobileNo(gocas.ApplicantInfo().getMobileNo(x));
-                    mobileNo.setIsPostPd(Integer.parseInt(gocas.ApplicantInfo().IsMobilePostpaid(x)));
+                    mobileNo.setIsPostPd((gocas.ApplicantInfo().IsMobilePostpaid(x)));
                     mobileNo.setPostYear(gocas.ApplicantInfo().getPostPaidYears(x));
                     loDetail.setMobileNo2(mobileNo);
                 }
                 if(x == 2) {
                     mobileNo.setMobileNo(gocas.ApplicantInfo().getMobileNo(x));
-                    mobileNo.setIsPostPd(Integer.parseInt(gocas.ApplicantInfo().IsMobilePostpaid(x)));
+                    mobileNo.setIsPostPd((gocas.ApplicantInfo().IsMobilePostpaid(x)));
                     mobileNo.setPostYear(gocas.ApplicantInfo().getPostPaidYears(x));
                     loDetail.setMobileNo3(mobileNo);
                 }

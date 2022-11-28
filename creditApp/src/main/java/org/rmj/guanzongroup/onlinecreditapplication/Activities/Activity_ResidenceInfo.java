@@ -25,6 +25,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.EBarangayInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
@@ -58,7 +59,6 @@ public class Activity_ResidenceInfo extends AppCompatActivity {
     private Button btnPrvs;
     private RadioGroup rgOwnsership, rgGarage;
 
-    private String TransNox = "";
 
     private Toolbar toolbar;
 
@@ -103,9 +103,7 @@ public class Activity_ResidenceInfo extends AppCompatActivity {
                         strings.removeIf((String i) -> {
                             return !set.add(i);
                         });
-
                     }
-
                     ArrayAdapter<String> adapter = new ArrayAdapter<>(Activity_ResidenceInfo.this, android.R.layout.simple_spinner_dropdown_item, strings.toArray(new String[0]));
                     txtProvince.setAdapter(adapter);
                     txtProvince.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
@@ -121,7 +119,6 @@ public class Activity_ResidenceInfo extends AppCompatActivity {
                                     break;
                                 }
                             }
-
                             mViewModel.GetTownProvinceList().observe(Activity_ResidenceInfo.this, new Observer<List<DTownInfo.TownProvinceInfo>>() {
                                 @Override
                                 public void onChanged(List<DTownInfo.TownProvinceInfo> townList) {
@@ -135,9 +132,7 @@ public class Activity_ResidenceInfo extends AppCompatActivity {
                                             string.removeIf((String i) -> {
                                                 return !set.add(i);
                                             });
-
                                         }
-
                                         ArrayAdapter<String> adapters = new ArrayAdapter<>(Activity_ResidenceInfo.this, android.R.layout.simple_spinner_dropdown_item, string.toArray(new String[0]));
                                         txtMunicipality.setAdapter(adapters);
                                         txtMunicipality.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
@@ -152,7 +147,37 @@ public class Activity_ResidenceInfo extends AppCompatActivity {
                                                         mViewModel.getModel().setMunicipalNm(lsLabel);
                                                         break;
                                                     }
+
                                                 }
+
+                                                mViewModel.GetBarangayList(mViewModel.getModel().getMunicipalID()).observe(Activity_ResidenceInfo.this, new Observer<List<EBarangayInfo>>() {
+                                                @Override
+                                                public void onChanged(List<EBarangayInfo> BrgyList) {
+                                                    ArrayList<String> string = new ArrayList<>();
+                                                    for (int x = 0; x < BrgyList.size(); x++) {
+                                                        String lsBrgy = BrgyList.get(x).getBrgyName();
+                                                        string.add(lsBrgy);
+                                                    }
+                                                    ArrayAdapter<String> adapters = new ArrayAdapter<>(Activity_ResidenceInfo.this,
+                                                            android.R.layout.simple_spinner_dropdown_item, string.toArray(new String[0]));
+                                                    txtBarangay.setAdapter(adapters);
+                                                    txtBarangay.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+                                                    txtBarangay.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                                        @Override
+                                                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                                            for (int x = 0; x < BrgyList.size(); x++) {
+                                                                String lsLabel = BrgyList.get(x).getBrgyName();
+                                                                String lsSlctd = txtBarangay.getText().toString().trim();
+                                                                if (lsSlctd.equalsIgnoreCase(lsLabel)) {
+                                                                    mViewModel.getModel().setBarangayID(BrgyList.get(x).getBrgyIDxx());
+                                                                    mViewModel.getModel().setBarangayName(lsLabel);
+                                                                }
+                                                            }
+                                                        }
+                                                    });
+                                                }
+                                            });
+
                                             }
                                         });
 
@@ -170,6 +195,110 @@ public class Activity_ResidenceInfo extends AppCompatActivity {
             }
         });
 
+
+        mViewModel.GetTownProvinceList().observe(Activity_ResidenceInfo.this, new Observer<List<DTownInfo.TownProvinceInfo>>() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onChanged(List<DTownInfo.TownProvinceInfo> provList) {
+                try {
+                    ArrayList<String> strings = new ArrayList<>();
+                    for (int x = 0; x < provList.size(); x++) {
+                        String lsProv = "" + provList.get(x).sProvName;
+//                        String lsTown =  loList.get(x).sProvName ;
+                        strings.add(lsProv);
+
+                        Set<Object> set = new HashSet<>();
+                        strings.removeIf((String i) -> {
+                            return !set.add(i);
+                        });
+                    }
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(Activity_ResidenceInfo.this, android.R.layout.simple_spinner_dropdown_item, strings.toArray(new String[0]));
+                    txtPProvince.setAdapter(adapter);
+                    txtPProvince.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+                    txtPProvince.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            for (int x = 0; x < provList.size(); x++) {
+                                String lsLabel = provList.get(x).sProvName;
+                                String lsSlctd = txtPProvince.getText().toString().trim();
+                                if (lsSlctd.equalsIgnoreCase(lsLabel)) {
+                                    mViewModel.getModel().setPermanentProvinceID(provList.get(x).sProvIDxx);
+                                    mViewModel.getModel().setPermanentProvinceNm(lsLabel);
+                                    break;
+                                }
+                            }
+                            mViewModel.GetTownProvinceList().observe(Activity_ResidenceInfo.this, new Observer<List<DTownInfo.TownProvinceInfo>>() {
+                                @Override
+                                public void onChanged(List<DTownInfo.TownProvinceInfo> townList) {
+                                    try {
+                                        ArrayList<String> string = new ArrayList<>();
+                                        for (int x = 0; x < townList.size(); x++) {
+                                            String lsTown = townList.get(x).sTownName + "";
+//                        String lsTown =  loList.get(x).sProvName ;
+                                            string.add(lsTown);
+                                            Set<Object> set = new HashSet<>();
+                                            string.removeIf((String i) -> {
+                                                return !set.add(i);
+                                            });
+                                        }
+                                        ArrayAdapter<String> adapters = new ArrayAdapter<>(Activity_ResidenceInfo.this, android.R.layout.simple_spinner_dropdown_item, string.toArray(new String[0]));
+                                        txtPMunicipl.setAdapter(adapters);
+                                        txtPMunicipl.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+                                        txtPMunicipl.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                            @Override
+                                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                                for (int x = 0; x < townList.size(); x++) {
+                                                    String lsLabel = townList.get(x).sTownName;
+                                                    String lsSlctd = txtPMunicipl.getText().toString().trim();
+                                                    if (lsSlctd.equalsIgnoreCase(lsLabel)) {
+                                                        mViewModel.getModel().setPermanentMunicipalID(townList.get(x).sTownIDxx);
+                                                        mViewModel.getModel().setPermanentMunicipalNm(lsLabel);
+                                                        break;
+                                                    }
+                                                }
+                                                mViewModel.GetBarangayList(mViewModel.getModel().getMunicipalID()).observe(Activity_ResidenceInfo.this, new Observer<List<EBarangayInfo>>() {
+                                                @Override
+                                                public void onChanged(List<EBarangayInfo> BrgyList) {
+                                                    ArrayList<String> string = new ArrayList<>();
+                                                    for (int x = 0; x < BrgyList.size(); x++) {
+                                                        String lsBrgy = BrgyList.get(x).getBrgyName();
+                                                        string.add(lsBrgy);
+                                                    }
+                                                    ArrayAdapter<String> adapters = new ArrayAdapter<>(Activity_ResidenceInfo.this,
+                                                            android.R.layout.simple_spinner_dropdown_item, string.toArray(new String[0]));
+                                                    txtPBarangay.setAdapter(adapters);
+                                                    txtPBarangay.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+                                                    txtPBarangay.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                                        @Override
+                                                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                                            for (int x = 0; x < BrgyList.size(); x++) {
+                                                                String lsLabel = BrgyList.get(x).getBrgyName();
+                                                                String lsSlctd = txtPBarangay.getText().toString().trim();
+                                                                if (lsSlctd.equalsIgnoreCase(lsLabel)) {
+                                                                    mViewModel.getModel().setPermanentBarangayID(BrgyList.get(x).getBrgyIDxx());
+                                                                    mViewModel.getModel().setPermanentBarangayName(lsLabel);
+                                                                }
+                                                            }
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                            }
+                                        });
+
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            });
+                        }
+                    });
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
 //        mViewModel.GetTownProvinceList().observe(Activity_ResidenceInfo.this, new Observer<List<DTownInfo.TownProvinceInfo>>() {
 //            @Override
@@ -302,25 +431,31 @@ public class Activity_ResidenceInfo extends AppCompatActivity {
     private void SaveResidenceInfo() {
 
         mViewModel.getModel().setOneAddress(cbOneAddress.isChecked());
-        mViewModel.getModel().setLandMark(Objects.requireNonNull(txtLandMark.getText()).toString());
-        mViewModel.getModel().setHouseNox(Objects.requireNonNull(txtHouseNox.getText()).toString());
-        mViewModel.getModel().setAddress1(Objects.requireNonNull(txtAddress1.getText()).toString());
-        mViewModel.getModel().setAddress2(Objects.requireNonNull(txtAddress2.getText()).toString());
-        mViewModel.getModel().setOwnerRelation(Objects.requireNonNull(txtRelationship.getText()).toString());
-//        mViewModel.getModel().setLenghtOfStay(Double.parseDouble(txtLgnthStay.getText().toString()));
-//        mViewModel.getModel().setMonthlyExpenses(Double.parseDouble(txtMonthlyExp.getText().toString()));
-        mViewModel.getModel().setPermanentLandMark(Objects.requireNonNull(txtPLandMark.getText()).toString());
-        mViewModel.getModel().setPermanentHouseNo(Objects.requireNonNull(txtPHouseNox.getText()).toString());
-        mViewModel.getModel().setPermanentAddress1(Objects.requireNonNull(txtPAddress1.getText()).toString());
-        mViewModel.getModel().setPermanentAddress2(Objects.requireNonNull(txtPAddress2.getText()).toString());
-//        mViewModel.getModel().setPermanentProvinceNm(txtPProvince.getText().toString());
-//        mViewModel.getModel().setPermanentMunicipalNm(txtPMunicipl.getText().toString());
-//        mViewModel.getModel().setPermanentBarangayName(txtPBarangay.getText().toString());
+
+        mViewModel.getModel().setLandMark((txtLandMark.getText()).toString());
+        mViewModel.getModel().setHouseNox((txtHouseNox.getText()).toString());
+        mViewModel.getModel().setAddress1((txtAddress1.getText()).toString());
+        mViewModel.getModel().setAddress2((txtAddress2.getText()).toString());
+        mViewModel.getModel().setOwnerRelation((txtRelationship.getText()).toString());
+
+        mViewModel.getModel().setPermanentLandMark((txtPLandMark.getText()).toString());
+        mViewModel.getModel().setPermanentHouseNo((txtPHouseNox.getText()).toString());
+        mViewModel.getModel().setPermanentAddress1((txtPAddress1.getText()).toString());
+        mViewModel.getModel().setPermanentAddress2((txtPAddress2.getText()).toString());
+
 
         if (mViewModel.getModel().getHouseOwn().equalsIgnoreCase("1") ||
                 mViewModel.getModel().getHouseOwn().equalsIgnoreCase("2")){
-            mViewModel.getModel().setLenghtOfStay(Double.parseDouble(txtLgnthStay.getText().toString().trim()));
-            mViewModel.getModel().setMonthlyExpenses(Double.parseDouble((txtMonthlyExp.getText().toString())));
+            if (txtLgnthStay.getText().toString().isEmpty()){
+                mViewModel.getModel().setLenghtOfStay(0);
+            }else {
+                mViewModel.getModel().setLenghtOfStay(Double.parseDouble(txtLgnthStay.getText().toString()));
+            }
+            if (txtMonthlyExp.getText().toString().isEmpty()){
+                mViewModel.getModel().setMonthlyExpenses(0);
+            }else {
+                mViewModel.getModel().setMonthlyExpenses(Double.parseDouble(txtMonthlyExp.getText().toString()));
+            }
         }
 
         mViewModel.SaveData(new OnSaveInfoListener() {
