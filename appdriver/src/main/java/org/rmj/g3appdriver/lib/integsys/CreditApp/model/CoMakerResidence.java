@@ -272,7 +272,7 @@ public class CoMakerResidence {
     }
 
     private boolean isLengthOfStayValid(){
-        if(sHouseOwn.trim().equalsIgnoreCase("1") || sHouseOwn.trim().equalsIgnoreCase("1")) {
+        if(sHouseOwn.trim().equalsIgnoreCase("1") || sHouseOwn.trim().equalsIgnoreCase("2")) {
             if (sLenghtSt == 0){
                 message = "Please enter length of stay";
                 return false;
@@ -282,7 +282,7 @@ public class CoMakerResidence {
     }
 
     private boolean isMonthylyExpenseValid(){
-        if(sHouseOwn.trim().equalsIgnoreCase("1") || sHouseOwn.trim().equalsIgnoreCase("1")) {
+        if(sHouseOwn.trim().equalsIgnoreCase("1") || sHouseOwn.trim().equalsIgnoreCase("2")) {
             if (sExpenses == 0) {
                 message = "Please enter monthly rent expense";
                 return false;

@@ -231,7 +231,8 @@ public class SpouseEmployments {
     }
 
     public boolean isDataValid(){
-        return isUniformPersonalValid() &&
+        return isEmploymentSectorValid() &&
+                isUniformPersonalValid() &&
                 isMilitaryPersonalValid() &&
                 isCompanyLevelValid() &&
                 isEmployeeLevelValid() &&
@@ -246,6 +247,14 @@ public class SpouseEmployments {
                 isSpnLengthOfServiceValid() &&
                 isMonthlySalaryValid() &&
                 isCompanyContactValid();
+    }
+
+    private boolean isEmploymentSectorValid(){
+        if(sSectorxx.trim().isEmpty() || sSectorxx.equalsIgnoreCase("")){
+            message = "Please select Employment Sector";
+            return false;
+        }
+        return true;
     }
 
     private boolean isUniformPersonalValid(){
@@ -270,17 +279,17 @@ public class SpouseEmployments {
 
     private boolean isCompanyLevelValid(){
         if(sSectorxx.equalsIgnoreCase("0")){
-            if (cCompLevl == null || Integer.parseInt(cCompLevl) < 0) {
+            if (cCompLevl == null || cCompLevl.trim().equalsIgnoreCase("")) {
                 message = "Please select government level";
                 return false;
             }
         } else if(sSectorxx.equalsIgnoreCase("1")){
-            if(cCompLevl == null || Integer.parseInt(cCompLevl)< 0){
+            if(cCompLevl == null || cCompLevl.trim().equalsIgnoreCase("")){
                 message = "Please select company level";
                 return false;
             }
-        } else {
-            if(cCompLevl == null || Integer.parseInt(cCompLevl)< 0){
+        } else if(sSectorxx.equalsIgnoreCase("2")){
+            if(cCompLevl == null || cCompLevl.trim().equalsIgnoreCase("")){
                 message = "Please select ofw region";
                 return false;
             }
@@ -290,17 +299,17 @@ public class SpouseEmployments {
 
     private boolean isEmployeeLevelValid(){
         if(sSectorxx.equalsIgnoreCase("0")){
-            if(cEmpLevel == null || Integer.parseInt(cEmpLevel)< 0){
+            if(cEmpLevel == null || cEmpLevel.trim().equalsIgnoreCase("")){
                 message = "Please select government level";
                 return false;
             }
         } else if(sSectorxx.equalsIgnoreCase("1")){
-            if(cEmpLevel == null || Integer.parseInt(cEmpLevel)< 0){
+            if(cEmpLevel == null ||cEmpLevel.trim().equalsIgnoreCase("")){
                 message = "Please select employee level";
                 return false;
             }
-        } else {
-            if(cEmpLevel == null || Integer.parseInt(cEmpLevel)< 0){
+        } else if(sSectorxx.equalsIgnoreCase("2")){
+            if(cEmpLevel == null || cEmpLevel.trim().equalsIgnoreCase("")){
                 message = "Please select ofw region";
                 return false;
             }
@@ -320,7 +329,7 @@ public class SpouseEmployments {
 
     private boolean isBusinessNatureValid(){
         if(sSectorxx.equalsIgnoreCase("1")){
-            if(sBusiness == null || sBusiness.equalsIgnoreCase("-1")){
+            if(sBusiness == null || sBusiness.equalsIgnoreCase("")){
                 message = "Please select business nature";
                 return false;
             }
@@ -398,7 +407,7 @@ public class SpouseEmployments {
     }
     private boolean isSpnLengthOfServiceValid(){
         if(sSectorxx.equalsIgnoreCase("1") || sSectorxx.equalsIgnoreCase("0")) {
-            if (cIsYearxx == null || cIsYearxx.isEmpty()) {
+            if (cIsYearxx == null || cIsYearxx.trim().isEmpty()) {
                 message = "Please enter length of service\n Month/Year";
                 return false;
             }
@@ -408,7 +417,7 @@ public class SpouseEmployments {
 
     private boolean isMonthlySalaryValid(){
         if(sSectorxx.equalsIgnoreCase("0") || sSectorxx.equalsIgnoreCase("1")) {
-            if (sMonthlyx == 0 || sMonthlyx == Long.parseLong("")) {
+            if (sMonthlyx == 0) {
                 message = "Please enter estimated monthly income";
                 return false;
             }

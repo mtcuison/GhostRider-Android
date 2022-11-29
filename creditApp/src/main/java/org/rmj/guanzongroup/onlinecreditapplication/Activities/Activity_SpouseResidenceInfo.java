@@ -8,7 +8,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.CheckBox;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -42,7 +41,7 @@ public class Activity_SpouseResidenceInfo extends AppCompatActivity {
     private AutoCompleteTextView txtBarangay, txtTown, txtProvince;
     private Button btnNext, btnPrvs;
     private Toolbar toolbar;
-    private String transnox;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,10 +138,10 @@ public class Activity_SpouseResidenceInfo extends AppCompatActivity {
 
     private void SaveSpouseResidenceInfo() {
 
-        mViewModel.getModel().setLandMark(Objects.requireNonNull(txtLandMark.getText()).toString().trim());
-        mViewModel.getModel().setHouseNox(Objects.requireNonNull(txtHouseNox.getText()).toString().trim());
-        mViewModel.getModel().setAddress1(Objects.requireNonNull(txtAddress1.getText()).toString().trim());
-        mViewModel.getModel().setAddress2(Objects.requireNonNull(txtAddress2.getText()).toString().trim());
+        mViewModel.getModel().setLandMark((txtLandMark.getText()).toString().trim());
+        mViewModel.getModel().setHouseNox((txtHouseNox.getText()).toString().trim());
+        mViewModel.getModel().setAddress1((txtAddress1.getText()).toString().trim());
+        mViewModel.getModel().setAddress2((txtAddress2.getText()).toString().trim());
 
         mViewModel.SaveData(new OnSaveInfoListener() {
             @Override
@@ -184,6 +183,7 @@ public class Activity_SpouseResidenceInfo extends AppCompatActivity {
         btnPrvs = findViewById(R.id.btn_creditAppPrvs);
 
     }
+
     @Override
     public void finish() {
         super.finish();
@@ -192,7 +192,7 @@ public class Activity_SpouseResidenceInfo extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() == android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             finish();
         }
         return super.onOptionsItemSelected(item);

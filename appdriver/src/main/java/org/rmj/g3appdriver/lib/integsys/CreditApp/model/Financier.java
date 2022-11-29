@@ -104,7 +104,7 @@ public class Financier {
         return true;
     }
     private boolean isFinancierRelationValid(){
-        if(Integer.parseInt(sFRltnx) < 0){
+        if(sFRltnx.trim().isEmpty() || sFRltnx.trim().equalsIgnoreCase("") ){
             message = "Please select financier relationship";
             return false;
         }
@@ -112,7 +112,7 @@ public class Financier {
     }
 
     private boolean isRangeOfIncomeValid(){
-        if(sFIncme == 0 || sFIncme == Long.parseLong("")){
+        if(sFIncme == 0){
             message = "Please enter atleast estimated range of income";
             return false;
         }

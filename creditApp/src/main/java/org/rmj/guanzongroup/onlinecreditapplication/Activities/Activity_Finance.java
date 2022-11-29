@@ -78,7 +78,7 @@ public class Activity_Finance extends AppCompatActivity {
                 try {
                     ArrayList<String> strings = new ArrayList<>();
                     for (int x = 0; x < loList.size(); x++) {
-                        strings.add(loList.get(x).getNational());
+                        strings.add(loList.get(x).getCntryNme());
                     }
 
                     ArrayAdapter<String> adapter = new ArrayAdapter<>(Activity_Finance.this,
@@ -90,10 +90,10 @@ public class Activity_Finance extends AppCompatActivity {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                             for (int x = 0; x < loList.size(); x++) {
-                                String lsLabel = loList.get(x).getNational();
+                                String lsLabel = loList.get(x).getCntryNme();
                                 String lsSlctd = txtFCntry.getText().toString().trim();
                                 if (lsSlctd.equalsIgnoreCase(lsLabel)) {
-                                    mViewModel.getModel().setCountry(loList.get(x).getCntryNme());
+                                    mViewModel.getModel().setCountry(loList.get(x).getCntryCde());
                                     mViewModel.getModel().setCountryName(lsLabel);
                                     break;
                                 }
@@ -114,7 +114,13 @@ public class Activity_Finance extends AppCompatActivity {
     private void SaveFinanceInfo() {
 
         mViewModel.getModel().setFinancierName(Objects.requireNonNull(txtFNamex.getText()).toString().trim());
-        mViewModel.getModel().setRangeOfIncome(Long.parseLong(Objects.requireNonNull(txtFIncme.getText()).toString().trim()));
+
+        if (txtFIncme.getText().toString().trim().isEmpty()){
+            mViewModel.getModel().setRangeOfIncome(0);
+        }else{
+            mViewModel.getModel().setRangeOfIncome(Long.parseLong((txtFIncme.getText()).toString().trim()));
+        }
+
 
 //        mViewModel.getModel().setCountryName(Objects.requireNonNull(txtFCntry.getText()).toString().trim());
 

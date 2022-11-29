@@ -232,7 +232,8 @@ public class Employment {
 
 
     public boolean isDataValid(){
-        return isUniformPersonalValid() &&
+        return  isEmploymentSectorValid() &&
+                isUniformPersonalValid() &&
                 isMilitaryPersonalValid() &&
                 isCompanyLevelValid() &&
                 isEmployeeLevelValid() &&
@@ -249,6 +250,14 @@ public class Employment {
                 isCompanyContactValid();
     }
 
+    private boolean isEmploymentSectorValid(){
+        if(sSectorxx.trim().isEmpty() || sSectorxx.equalsIgnoreCase("")){
+                message = "Please select Employment Sector";
+                return false;
+        }
+        return true;
+    }
+
     private boolean isUniformPersonalValid(){
         if(sSectorxx.equalsIgnoreCase("0")){
             if(cUniformP == null || cUniformP.equalsIgnoreCase("")){
@@ -261,7 +270,7 @@ public class Employment {
 
     private boolean isMilitaryPersonalValid(){
         if(sSectorxx.equalsIgnoreCase("0")){
-            if(cMilitary == null ){
+            if(cMilitary == null || cMilitary.trim().equalsIgnoreCase("")){
                 message = "Please select if military personnel";
                 return false;
             }
@@ -271,17 +280,17 @@ public class Employment {
 
     private boolean isCompanyLevelValid(){
         if(sSectorxx.equalsIgnoreCase("0")){
-            if (cCompLevl == null ) {
+            if (cCompLevl == null || cCompLevl.trim().equalsIgnoreCase("")) {
                 message = "Please select government level";
                 return false;
             }
         } else if(sSectorxx.equalsIgnoreCase("1")){
-            if(cCompLevl == null ){
+            if(cCompLevl == null || cCompLevl.trim().equalsIgnoreCase("")){
                 message = "Please select company level";
                 return false;
             }
-        } else {
-            if(cCompLevl == null ){
+        } else if (sSectorxx.equalsIgnoreCase("2")){
+            if(cCompLevl == null || cCompLevl.trim().equalsIgnoreCase("")){
                 message = "Please select ofw region";
                 return false;
             }
@@ -291,17 +300,17 @@ public class Employment {
 
     private boolean isEmployeeLevelValid(){
         if(sSectorxx.equalsIgnoreCase("0")){
-            if(cEmpLevel == null ){
+            if(cEmpLevel == null || cEmpLevel.trim().equalsIgnoreCase("")){
                 message = "Please select government level";
                 return false;
             }
         } else if(sSectorxx.equalsIgnoreCase("1")){
-            if(cEmpLevel == null ){
+            if(cEmpLevel == null || cEmpLevel.trim().equalsIgnoreCase("")){
                 message = "Please select employee level";
                 return false;
             }
-        } else {
-            if(cEmpLevel == null ){
+        } else if (sSectorxx.equalsIgnoreCase("2")){
+            if(cEmpLevel == null || cEmpLevel.trim().equalsIgnoreCase("")){
                 message = "Please select ofw region";
                 return false;
             }
@@ -321,7 +330,7 @@ public class Employment {
 
     private boolean isBusinessNatureValid(){
         if(sSectorxx.equalsIgnoreCase("1")){
-            if(sBusiness == null || sBusiness.equalsIgnoreCase("-1")){
+            if(sBusiness == null || sBusiness.equalsIgnoreCase("")){
                 message = "Please select business nature";
                 return false;
             }
@@ -419,7 +428,7 @@ public class Employment {
 
     private boolean isCompanyContactValid(){
         if(sSectorxx.equalsIgnoreCase("0") || sSectorxx.equalsIgnoreCase("1")) {
-            if (sContactx == null || cStatusxx.equalsIgnoreCase("")) {
+            if (sContactx == null || sContactx.equalsIgnoreCase("")) {
                 message = "Please enter company contact no.";
                 return false;
             }

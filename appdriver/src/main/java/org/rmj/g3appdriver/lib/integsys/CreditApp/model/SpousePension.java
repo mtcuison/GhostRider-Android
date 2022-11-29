@@ -77,7 +77,7 @@ public class SpousePension {
     }
 
     private boolean isSectorValid() {
-        if (sSectorx.equalsIgnoreCase("-1")) {
+        if (sSectorx.trim().isEmpty() || sSectorx.equalsIgnoreCase("")) {
             message = "Please select sector";
             return false;
         }
@@ -85,7 +85,7 @@ public class SpousePension {
     }
 
     private boolean isPensionIncomeValid() {
-        if (sRangexx == 0 || sRangexx == Long.parseLong("")) {
+        if (sRangexx == 0 ) {
             message = "Please enter at least estimated income";
             return false;
         }
@@ -102,7 +102,7 @@ public class SpousePension {
 
     private boolean isOtherIncomeValid() {
         if (!sNtrIncm.trim().isEmpty() || !sNtrIncm.equalsIgnoreCase("")) {
-            if (sRngIncm == 0 || sRngIncm == Long.parseLong("")) {
+            if (sRngIncm == 0 ) {
                 message = "Please enter at least estimated amount in other source of income";
                 return false;
             }

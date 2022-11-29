@@ -199,7 +199,8 @@ public class Activity_ComakerResidence extends AppCompatActivity {
         spnHouseHold.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mViewModel.getModel().setHouseHold(String.valueOf(position));
+//                mViewModel.getModel().setHouseHold(String.valueOf(position));
+                mViewModel.getModel().setHouseHold(spnHouseHold.getText().toString().trim());
             }
         });
 
@@ -209,7 +210,8 @@ public class Activity_ComakerResidence extends AppCompatActivity {
         spnHouseType.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mViewModel.getModel().setHouseType(String.valueOf(position));
+//                mViewModel.getModel().setHouseType(String.valueOf(position));
+                mViewModel.getModel().setHouseType(spnHouseType.getText().toString().trim());
             }
         });
 

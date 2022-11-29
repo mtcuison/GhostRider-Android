@@ -125,7 +125,7 @@ public class SpouseResidence {
     }
 
     private boolean isLandmarkValid(){
-        if(sLandMark.trim().isEmpty()){
+        if(sLandMark.trim().isEmpty() || sLandMark.trim().equalsIgnoreCase("")){
             message = "Please provide Landmark.";
             return false;
         }

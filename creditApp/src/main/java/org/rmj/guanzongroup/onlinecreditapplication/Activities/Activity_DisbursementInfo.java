@@ -90,26 +90,39 @@ public class Activity_DisbursementInfo extends AppCompatActivity {
         if(tieWater.getText().toString().trim().isEmpty()){
             mViewModel.getModel().setWaterExp(0);
         }else {
-            mViewModel.getModel().setWaterExp(Double.parseDouble(Objects.requireNonNull(tieWater.getText()).toString().trim()));
+            mViewModel.getModel().setWaterExp(Double.parseDouble(
+                    Objects.requireNonNull(tieWater.getText()).toString().trim()));
         }
 
         if(tieFoodx.getText().toString().trim().isEmpty()){
             mViewModel.getModel().setFoodExps(0);
         }else {
-            mViewModel.getModel().setFoodExps(Double.parseDouble(Objects.requireNonNull(tieFoodx.getText()).toString().trim()));
+            mViewModel.getModel().setFoodExps(Double.parseDouble(
+                    Objects.requireNonNull(tieFoodx.getText()).toString().trim()));
         }
 
         if(tieLoans.getText().toString().trim().isEmpty()){
             mViewModel.getModel().setLoanExps(0);
         }else {
-            mViewModel.getModel().setLoanExps(Double.parseDouble(Objects.requireNonNull(tieLoans.getText()).toString().trim()));
+            mViewModel.getModel().setLoanExps(Double.parseDouble(
+                    Objects.requireNonNull(tieLoans.getText()).toString().trim()));
         }
 
         mViewModel.getModel().setBankName(Objects.requireNonNull(tieBankN.getText()).toString().trim());
-
         mViewModel.getModel().setCrdtBank(Objects.requireNonNull(tieCCBnk.getText()).toString().trim());
-        mViewModel.getModel().setCrdtLimt(Double.parseDouble(Objects.requireNonNull(tieLimit.getText()).toString().trim()));
-        mViewModel.getModel().setCrdtYear(Integer.parseInt(Objects.requireNonNull(tieYearS.getText()).toString().trim()));
+
+        if(tieLimit.getText().toString().trim().isEmpty()){
+            mViewModel.getModel().setCrdtLimt(0);
+        }else {
+            mViewModel.getModel().setCrdtLimt(Double.parseDouble(
+                    Objects.requireNonNull(tieLimit.getText()).toString().trim()));
+        }
+        if(tieYearS.getText().toString().trim().isEmpty()){
+            mViewModel.getModel().setCrdtYear(0);
+        }else{
+            mViewModel.getModel().setCrdtYear(Integer.parseInt(
+                    Objects.requireNonNull(tieYearS.getText()).toString().trim()));
+        }
 
         mViewModel.SaveData(new OnSaveInfoListener() {
             @Override

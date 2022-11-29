@@ -126,14 +126,14 @@ public class Disbursement {
         return true;
     }
     private boolean isAmount(){
-        if(CrdtLimt == 0 || CrdtLimt == Double.parseDouble("")){
+        if(CrdtLimt == 0 ){
             message = "Please enter Amount";
             return false;
         }
         return true;
     }
     private boolean isYear(){
-        if(CrdtYear == 0 || CrdtYear == Double.parseDouble("")){
+        if(CrdtYear == 0 ){
             message = "Please enter Length of Use";
             return false;
         }

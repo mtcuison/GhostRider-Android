@@ -163,6 +163,7 @@ public class Activity_EmploymentInfo extends AppCompatActivity {
                                             String lsTown = townList.get(x).sTownName + "";
 //                        String lsTown =  loList.get(x).sProvName ;
                                             string.add(lsTown);
+
                                             Set<Object> set = new HashSet<>();
                                             string.removeIf((String i) -> {
                                                 return !set.add(i);

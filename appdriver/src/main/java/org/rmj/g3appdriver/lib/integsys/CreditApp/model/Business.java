@@ -168,7 +168,7 @@ public class Business {
     }
 
     boolean isBusinessTypeValid(){
-        if(Integer.parseInt(sBussType) < 0){
+        if(sBussType.trim().isEmpty() || sBussType.trim().equalsIgnoreCase("")){
             message = "Please select type of business";
             return false;
         }
@@ -176,7 +176,7 @@ public class Business {
     }
 
     boolean isBusinessSizeValid(){
-        if(Integer.parseInt(sBussSize) < 0){
+        if(sBussSize.trim().isEmpty() || sBussSize.trim().equalsIgnoreCase("")){
             message = "Please select size of business";
             return false;
         }
@@ -184,7 +184,7 @@ public class Business {
     }
 
     boolean isLenghtOfServiceValid(){
-        if(sLenghtSv == 0 || sLenghtSv == Double.parseDouble("") ){
+        if(sLenghtSv == 0 ){
             message = "Please enter length of service";
             return false;
         }else {
@@ -192,7 +192,7 @@ public class Business {
         }
     }
     boolean isLenghtOfServiceSpinnerValid(){
-        if(Integer.parseInt(cIsYearxx) < 0){
+        if(cIsYearxx.trim().isEmpty() || cIsYearxx.trim().equalsIgnoreCase("")){
             message = "Please enter length of service in Month/Year";
             return false;
         }
@@ -200,7 +200,7 @@ public class Business {
     }
 
     boolean isMonthlyIncomeValid(){
-        if(sMnthlyIn == 0 || sMnthlyIn == Long.parseLong("")){
+        if(sMnthlyIn == 0){
             message = "Please enter monthly income";
             return false;
         }
@@ -208,7 +208,7 @@ public class Business {
     }
 
     boolean isMonthlyExpenseValid(){
-        if(sMnthlyEx == 0 || sMnthlyEx == Long.parseLong("")){
+        if(sMnthlyEx == 0){
             message = "Please enter monthly expense";
             return false;
         }

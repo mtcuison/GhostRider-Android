@@ -273,6 +273,7 @@ public class Activity_CoMaker extends AppCompatActivity {
 
         mViewModel.getModel().setFbAccntx(tieFbAcctxx.getText().toString().trim());
 
+
         mViewModel.SaveData(new OnSaveInfoListener() {
             @Override
             public void OnSave(String args) {
@@ -329,7 +330,6 @@ public class Activity_CoMaker extends AppCompatActivity {
         cbScnCntct = findViewById(R.id.cb_cap_cmrSecondaryCntctStats);
         cbTrtCntct = findViewById(R.id.cb_cap_cmrTertiaryCntctStats);
 
-        tieBrthDate.addTextChangedListener(new OnDateSetListener(tieBrthDate));
         btnNext = findViewById(R.id.btn_creditAppNext);
         btnPrvs = findViewById(R.id.btn_creditAppPrvs);
 

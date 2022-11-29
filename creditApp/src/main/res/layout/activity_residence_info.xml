@@ -227,7 +227,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="visible">
+                android:visibility="gone">
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/til_relationship"
@@ -272,7 +272,7 @@
                         android:hint="Lenght of Stay">
 
                         <androidx.appcompat.widget.AppCompatAutoCompleteTextView
-                            android:id="@+id/spn_lenghtStay"
+                            android:id="@+id/spn_lenghtStayx"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:clickable="false"
@@ -322,7 +322,7 @@
                         android:hint="Households (Required)">
 
                         <androidx.appcompat.widget.AppCompatAutoCompleteTextView
-                            android:id="@+id/spn_houseHold"
+                            android:id="@+id/spn_houseHoldx"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:clickable="false"
@@ -343,7 +343,7 @@
                         android:hint="House Type (Required)">
 
                         <androidx.appcompat.widget.AppCompatAutoCompleteTextView
-                            android:id="@+id/spn_houseType"
+                            android:id="@+id/spn_houseTypex"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:clickable="false"
