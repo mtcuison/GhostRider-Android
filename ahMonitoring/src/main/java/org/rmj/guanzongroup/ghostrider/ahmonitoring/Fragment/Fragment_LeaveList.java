@@ -55,17 +55,9 @@ public class Fragment_LeaveList extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        mViewModel = new ViewModelProvider(this).get(VMLeaveList.class);
         View v = inflater.inflate(R.layout.fragment_leave_list, container, false);
         setupWidgets(v);
-
-        return v;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(VMLeaveList.class);
-
         forViewing = requireActivity().getIntent().getBooleanExtra("type", false);
 
         if(forViewing) {
@@ -73,6 +65,8 @@ public class Fragment_LeaveList extends Fragment {
         } else {
             mViewModel.getForApprovalList().observe(getViewLifecycleOwner(), this::setupList);
         }
+
+        return v;
     }
 
     private void setupList(List<EEmployeeLeave> fsList){

@@ -32,7 +32,9 @@ import com.google.android.material.tabs.TabLayout;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_Approval;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_BusinessTripList;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_Employee_Applications;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_LeaveList;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMEmployeeApplications;
@@ -43,8 +45,9 @@ public class Activity_Employee_Applications extends AppCompatActivity implements
 
     private VMEmployeeApplications mViewModel;
 
-    private final String[] tabHeaders = {"Leave Application \nList",
-                                    "Business Trip Application \nList"};
+    private final String[] tabHeaders = {"Leave",
+                                    "Business Trip",
+                                    "History"};
 
     private TextView lblBrnchNm, lblBrnchAd, lblHeaderx;
     private Toolbar toolbar;

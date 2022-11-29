@@ -50,6 +50,7 @@ public class Fragment_Approval extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        mViewModel = new ViewModelProvider(this).get(VMFragmentApproval.class);
         view = inflater.inflate(R.layout.fragment_approval, container, false);
         setupWidgets();
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -71,12 +72,6 @@ public class Fragment_Approval extends Fragment {
         return view;
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(VMFragmentApproval.class);
-        // TODO: Use the ViewModel
-    }
     private void setupWidgets(){
         viewPager = view.findViewById(R.id.viewpager_leave_ob_fragment_view);
         tabLayout = view.findViewById(R.id.tabLayout_leave_ob_fragment_indicator);
@@ -84,6 +79,7 @@ public class Fragment_Approval extends Fragment {
         ActivityFragmentAdapter adapter = new ActivityFragmentAdapter(getChildFragmentManager());
         adapter.addFragment(new Fragment_LeaveApproval());
         adapter.addFragment(new Fragment_BusinessTripApproval());
+        adapter.addFragment(new Fragment_Employee_Applications());
         viewPager.setAdapter(adapter);
 
         tabLayout.setupWithViewPager(viewPager);

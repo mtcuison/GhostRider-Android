@@ -196,8 +196,9 @@ public class AppConstants {
             case "0":
                 return "OPEN";
             case "1":
-            case "2":
                 return "APPROVE/POSTED";
+            case "2":
+                return "HR APPROVED";
         }
         return "CANCELED";
     }

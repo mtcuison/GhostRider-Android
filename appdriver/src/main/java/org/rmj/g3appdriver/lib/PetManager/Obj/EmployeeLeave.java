@@ -102,14 +102,20 @@ public class EmployeeLeave implements iPM {
                     leave.setBranchNm(loJson.getString("sBranchNm"));
                     leave.setDeptName(loJson.getString("sDeptName"));
                     leave.setPositnNm(loJson.getString("sPositnNm"));
-                    leave.setAppldFrx(loJson.getString("dAppldFrx"));
-                    leave.setAppldTox(loJson.getString("dAppldTox"));
+                    leave.setDateFrom(loJson.getString("dAppldFrx"));
+                    leave.setDateThru(loJson.getString("dAppldTox"));
                     leave.setNoDaysxx(loJson.getString("nNoDaysxx"));
                     leave.setPurposex(loJson.getString("sPurposex"));
                     leave.setLeaveTyp(loJson.getString("cLeaveTyp"));
                     leave.setLveCredt(loJson.getString("nLveCredt"));
+                    leave.setSentStat("1");
                     leave.setTranStat(loJson.getString("cTranStat"));
                     leave.setTimeStmp(loJson.getString("dTimeStmp"));
+                    if(!leave.getTranStat().equalsIgnoreCase("0")){
+                        leave.setAppvSent("1");
+                    } else {
+                        leave.setAppvSent("0");
+                    }
                     poDao.insertApplication(leave);
                     Log.d(TAG, "New leave application save!");
                 } else {
@@ -130,6 +136,14 @@ public class EmployeeLeave implements iPM {
                         loDetail.setLeaveTyp(loJson.getString("cLeaveTyp"));
                         loDetail.setLveCredt(loJson.getString("nLveCredt"));
                         loDetail.setTranStat(loJson.getString("cTranStat"));
+                        loDetail.setSentStat("1");
+                        loDetail.setTranStat(loJson.getString("cTranStat"));
+                        loDetail.setTimeStmp(loJson.getString("dTimeStmp"));
+                        if(!loDetail.getTranStat().equalsIgnoreCase("0")){
+                            loDetail.setAppvSent("1");
+                        } else {
+                            loDetail.setAppvSent("0");
+                        }
                         loDetail.setTimeStmp(loJson.getString("dTimeStmp"));
                         poDao.updateApplication(loDetail);
                         Log.d(TAG, "Leave application record has been updated.");

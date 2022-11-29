@@ -25,6 +25,8 @@ public class EEmployeeLeave {
     private String TransNox = "";
     @ColumnInfo(name = "dTransact")
     private String Transact = "";
+    @ColumnInfo(name = "sEmployNm")
+    private String EmployNm = "";
     @ColumnInfo(name = "sEmployID")
     private String EmployID = "";
     @ColumnInfo(name = "sBranchNm")
@@ -63,6 +65,8 @@ public class EEmployeeLeave {
     private String DApproved = "";
     @ColumnInfo(name = "cSentStat")
     private String SentStat = "";
+    @ColumnInfo(name = "cAppvSent")
+    private String AppvSent = "";
     @ColumnInfo(name = "dSendDate")
     private String SendDate = "";
     @ColumnInfo(name = "nLveCredt")
@@ -284,5 +288,21 @@ public class EEmployeeLeave {
 
     public void setTimeStmp(String timeStmp) {
         TimeStmp = timeStmp;
+    }
+
+    public String getEmployNm() {
+        return EmployNm;
+    }
+
+    public void setEmployNm(String employNm) {
+        EmployNm = employNm;
+    }
+
+    public String getAppvSent() {
+        return AppvSent;
+    }
+
+    public void setAppvSent(String appvSent) {
+        AppvSent = appvSent;
     }
 }

@@ -46,10 +46,10 @@ public interface DEmployeeLeave {
     @Query("UPDATE Employee_Leave SET sTransNox =:newTransNox, cSentStat = '1', dSendDate =:DateSent WHERE sTransNox =:TransNox")
     void updateSendStatus(String DateSent, String TransNox, String newTransNox);
 
-    @Query("UPDATE Employee_Leave SET cSentStat = '1' WHERE sTransNox =:TransNox")
+    @Query("UPDATE Employee_Leave SET cAppvSent = '1' WHERE sTransNox =:TransNox")
     void updatePostedApproval(String TransNox);
 
-    @Query("SELECT * FROM Employee_Leave WHERE sApproved == '' AND dApproved == '' ORDER BY dTransact DESC")
+    @Query("SELECT * FROM Employee_Leave WHERE cTranStat == '0' ORDER BY dTransact DESC")
     LiveData<List<EEmployeeLeave>> getEmployeeLeaveForApprovalList();
 
     @Query("SELECT * FROM Employee_Leave " +
