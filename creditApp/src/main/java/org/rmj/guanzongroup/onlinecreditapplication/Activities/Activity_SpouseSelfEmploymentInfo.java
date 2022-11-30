@@ -1,7 +1,6 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Activities;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -10,7 +9,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatAutoCompleteTextView;
 import androidx.appcompat.widget.Toolbar;
@@ -25,16 +23,13 @@ import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.SpouseBusiness;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
-import org.rmj.guanzongroup.onlinecreditapplication.Etc.TextFormatter;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.OnParseListener;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMSpouseBusiness;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 public class Activity_SpouseSelfEmploymentInfo extends AppCompatActivity {
 
@@ -57,13 +52,17 @@ public class Activity_SpouseSelfEmploymentInfo extends AppCompatActivity {
         mViewModel.GetApplication().observe(Activity_SpouseSelfEmploymentInfo.this, new Observer<ECreditApplicantInfo>() {
             @Override
             public void onChanged(ECreditApplicantInfo app) {
-                mViewModel.getModel().setTransNox(app.getTransNox());
-                mViewModel.ParseData(app, new OnParseListener() {
-                    @Override
-                    public void OnParse(Object args) {
-                        SpouseBusiness loDetail = (SpouseBusiness) args;
-                    }
-                });
+                try {
+                    mViewModel.getModel().setTransNox(app.getTransNox());
+                    mViewModel.ParseData(app, new OnParseListener() {
+                        @Override
+                        public void OnParse(Object args) {
+                            SpouseBusiness loDetail = (SpouseBusiness) args;
+                        }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -87,7 +86,7 @@ public class Activity_SpouseSelfEmploymentInfo extends AppCompatActivity {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                             for (int x = 0; x < loList.size(); x++) {
-                                String lsLabel = loList.get(x).sTownName + ", " + loList.get(x).sProvName ;
+                                String lsLabel = loList.get(x).sTownName + ", " + loList.get(x).sProvName;
                                 String lsSlctd = txtTown.getText().toString().trim();
                                 if (lsSlctd.equalsIgnoreCase(lsLabel)) {
                                     mViewModel.getModel().setTown(loList.get(x).sTownIDxx);
@@ -186,7 +185,6 @@ public class Activity_SpouseSelfEmploymentInfo extends AppCompatActivity {
 //        });
 
 
-
         spnBizIndustry.setAdapter(new ArrayAdapter<>(Activity_SpouseSelfEmploymentInfo.this,
                 android.R.layout.simple_list_item_1, CreditAppConstants.BUSINESS_NATURE));
         spnBizIndustry.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
@@ -242,22 +240,22 @@ public class Activity_SpouseSelfEmploymentInfo extends AppCompatActivity {
         mViewModel.getModel().setBusinessAddress(txtBizAddrss.getText().toString().trim());
 //        mViewModel.getModel().setProvince(txtProvince.getText().toString().trim());
 //        mViewModel.getModel().setTown(txtTown.getText().toString().trim());
-        
-        if (txtBizLength.getText().toString().trim().isEmpty()){
+
+        if (txtBizLength.getText().toString().trim().isEmpty()) {
             mViewModel.getModel().setLengthOfService(0);
-        }else {
+        } else {
             mViewModel.getModel().setLengthOfService(Double.parseDouble(txtBizLength.getText().toString().trim()));
         }
 
-        if (txtMonthlyInc.getText().toString().trim().isEmpty()){
+        if (txtMonthlyInc.getText().toString().trim().isEmpty()) {
             mViewModel.getModel().setMonthlyIncome(0);
-        }else{
+        } else {
             mViewModel.getModel().setMonthlyIncome(Long.parseLong(txtMonthlyInc.getText().toString().trim()));
         }
 
-        if (txtMonthlyExp.getText().toString().trim().isEmpty()){
+        if (txtMonthlyExp.getText().toString().trim().isEmpty()) {
             mViewModel.getModel().setMonthlyExpense(0);
-        }else{
+        } else {
             mViewModel.getModel().setMonthlyExpense(Long.parseLong(txtMonthlyExp.getText().toString().trim()));
         }
 
@@ -321,7 +319,7 @@ public class Activity_SpouseSelfEmploymentInfo extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() == android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             finish();
         }
         return super.onOptionsItemSelected(item);

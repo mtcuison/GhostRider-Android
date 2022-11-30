@@ -1,7 +1,6 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Activities;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,7 +11,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
@@ -22,21 +20,17 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
-import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Business;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.SpouseBusiness;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.OnParseListener;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMBusinessInfo;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 public class Activity_SelfEmployedInfo extends AppCompatActivity {
 
@@ -63,13 +57,17 @@ public class Activity_SelfEmployedInfo extends AppCompatActivity {
         mViewModel.GetApplication().observe(Activity_SelfEmployedInfo.this, new Observer<ECreditApplicantInfo>() {
             @Override
             public void onChanged(ECreditApplicantInfo app) {
-                mViewModel.getModel().setTransNox(app.getTransNox());
-                mViewModel.ParseData(app, new OnParseListener() {
-                    @Override
-                    public void OnParse(Object args) {
-                        Business loDetail = (Business) args;
-                    }
-                });
+                try {
+                    mViewModel.getModel().setTransNox(app.getTransNox());
+                    mViewModel.ParseData(app, new OnParseListener() {
+                        @Override
+                        public void OnParse(Object args) {
+                            Business loDetail = (Business) args;
+                        }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -245,21 +243,21 @@ public class Activity_SelfEmployedInfo extends AppCompatActivity {
 //        mViewModel.getModel().setProvince(txtProvnc.getText().toString().trim());
 //        mViewModel.getModel().setTown(txtTownxx.getText().toString().trim());
 
-        if (txtLnghtSrv.getText().toString().trim().isEmpty()){
+        if (txtLnghtSrv.getText().toString().trim().isEmpty()) {
             mViewModel.getModel().setLengthOfService(0);
-        }else {
+        } else {
             mViewModel.getModel().setLengthOfService(Double.parseDouble(txtLnghtSrv.getText().toString().trim()));
         }
 
-        if (txtMnthlyIn.getText().toString().trim().isEmpty()){
+        if (txtMnthlyIn.getText().toString().trim().isEmpty()) {
             mViewModel.getModel().setMonthlyIncome(0);
-        }else {
+        } else {
             mViewModel.getModel().setMonthlyIncome(Long.parseLong(txtMnthlyIn.getText().toString()));
         }
 
-        if (txtMnthlyEx.getText().toString().isEmpty()){
+        if (txtMnthlyEx.getText().toString().isEmpty()) {
             mViewModel.getModel().setMonthlyExpense(0);
-        }else{
+        } else {
             mViewModel.getModel().setMonthlyExpense(Long.parseLong(txtMnthlyEx.getText().toString()));
         }
 
@@ -319,7 +317,7 @@ public class Activity_SelfEmployedInfo extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() == android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             finish();
         }
         return super.onOptionsItemSelected(item);

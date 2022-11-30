@@ -163,6 +163,7 @@ public class Activity_Properties extends AppCompatActivity {
         btnPrvs = findViewById(R.id.btn_creditAppPrvs);
         btnNext = findViewById(R.id.btn_creditAppNext);
     }
+
     @Override
     public void finish() {
         super.finish();
@@ -171,7 +172,7 @@ public class Activity_Properties extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() == android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             finish();
         }
         return super.onOptionsItemSelected(item);

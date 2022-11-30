@@ -71,17 +71,18 @@ public class Activity_Dependent extends AppCompatActivity {
         mViewModel.GetApplication().observe(Activity_Dependent.this, new Observer<ECreditApplicantInfo>() {
             @Override
             public void onChanged(ECreditApplicantInfo app) {
-                mViewModel.getModel().setTransNox(app.getTransNox());
-                mViewModel.ParseData(app, new OnParseListener() {
-                    @Override
-                    public void OnParse(Object args) {
-                        try {
+                try {
+                    mViewModel.getModel().setTransNox(app.getTransNox());
+                    mViewModel.ParseData(app, new OnParseListener() {
+                        @Override
+                        public void OnParse(Object args) {
                             Dependent loDetail = (Dependent) args;
-                        } catch (Exception e) {
-                            e.printStackTrace();
                         }
-                    }
-                });
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
             }
         });
 
@@ -186,7 +187,7 @@ public class Activity_Dependent extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() == android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             finish();
         }
         return super.onOptionsItemSelected(item);

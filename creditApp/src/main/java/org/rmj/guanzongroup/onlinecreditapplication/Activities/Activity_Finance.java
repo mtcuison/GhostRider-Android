@@ -115,9 +115,9 @@ public class Activity_Finance extends AppCompatActivity {
 
         mViewModel.getModel().setFinancierName(Objects.requireNonNull(txtFNamex.getText()).toString().trim());
 
-        if (txtFIncme.getText().toString().trim().isEmpty()){
+        if (txtFIncme.getText().toString().trim().isEmpty()) {
             mViewModel.getModel().setRangeOfIncome(0);
-        }else{
+        } else {
             mViewModel.getModel().setRangeOfIncome(Long.parseLong((txtFIncme.getText()).toString().trim()));
         }
 
@@ -187,7 +187,7 @@ public class Activity_Finance extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() == android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             finish();
         }
         return super.onOptionsItemSelected(item);

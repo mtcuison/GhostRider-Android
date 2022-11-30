@@ -1,7 +1,6 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Activities;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,7 +14,6 @@ import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
@@ -36,10 +34,8 @@ import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.OnParseListener;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMResidenceInfo;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 public class Activity_ResidenceInfo extends AppCompatActivity {
 
@@ -81,7 +77,6 @@ public class Activity_ResidenceInfo extends AppCompatActivity {
                             ClientResidence loDetail = (ClientResidence) args;
                         }
                     });
-
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -334,11 +329,6 @@ public class Activity_ResidenceInfo extends AppCompatActivity {
         });
 
 
-
-
-
-
-
         spnHouseHold.setAdapter(new ArrayAdapter<>(Activity_ResidenceInfo.this,
                 android.R.layout.simple_list_item_1, CreditAppConstants.HOUSEHOLDS));
         spnHouseHold.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
@@ -358,11 +348,6 @@ public class Activity_ResidenceInfo extends AppCompatActivity {
         spnLgnthStay.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         spnLgnthStay.setOnItemClickListener((parent, view, position, id) ->
                 mViewModel.getModel().setIsYear(position));
-
-
-
-
-
 
 
         btnNext.setOnClickListener(v -> SaveResidenceInfo());
@@ -387,15 +372,15 @@ public class Activity_ResidenceInfo extends AppCompatActivity {
 
 
         if (mViewModel.getModel().getHouseOwn().equalsIgnoreCase("1") ||
-                mViewModel.getModel().getHouseOwn().equalsIgnoreCase("2")){
-            if (txtLgnthStay.getText().toString().isEmpty()){
+                mViewModel.getModel().getHouseOwn().equalsIgnoreCase("2")) {
+            if (txtLgnthStay.getText().toString().isEmpty()) {
                 mViewModel.getModel().setLenghtOfStay(0);
-            }else {
+            } else {
                 mViewModel.getModel().setLenghtOfStay(Double.parseDouble(txtLgnthStay.getText().toString()));
             }
-            if (txtMonthlyExp.getText().toString().isEmpty()){
+            if (txtMonthlyExp.getText().toString().isEmpty()) {
                 mViewModel.getModel().setMonthlyExpenses(0);
-            }else {
+            } else {
                 mViewModel.getModel().setMonthlyExpenses(Double.parseDouble(txtMonthlyExp.getText().toString()));
             }
         }
@@ -470,7 +455,6 @@ public class Activity_ResidenceInfo extends AppCompatActivity {
                     lnOtherInfo.setVisibility(View.VISIBLE);
                     tilRelationship.setVisibility(View.VISIBLE);
                     mViewModel.getModel().setHouseOwn("2");
-
 
 
                 }
@@ -553,7 +537,7 @@ public class Activity_ResidenceInfo extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() == android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             finish();
         }
         return super.onOptionsItemSelected(item);

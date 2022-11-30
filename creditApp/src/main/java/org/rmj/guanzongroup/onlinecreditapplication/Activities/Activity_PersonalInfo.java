@@ -87,7 +87,6 @@ public class Activity_PersonalInfo extends AppCompatActivity {
                     @Override
                     public void OnParse(Object args) {
                         Personal loDetail = (Personal) args;
-
                     }
                 });
             } catch (Exception e) {
@@ -281,7 +280,7 @@ public class Activity_PersonalInfo extends AppCompatActivity {
     }
 
     private void SavePersonalInfo() {
-        try{
+        try {
             mViewModel.getModel().setLastName(Objects.requireNonNull(txtLastNm.getText()).toString());
             mViewModel.getModel().setFrstName(Objects.requireNonNull(txtFrstNm.getText()).toString());
             mViewModel.getModel().setMiddName(Objects.requireNonNull(txtMiddNm.getText()).toString());
@@ -305,9 +304,9 @@ public class Activity_PersonalInfo extends AppCompatActivity {
                 poMobile[1].setMobileNo(txtMobileNo[1].getText().toString());
 //            loMobile[1].setIsPostPd();
                 if (poMobile[1].getIsPostPd().equalsIgnoreCase("1")) {
-                    if (txtMobileYear[1].getText().toString().trim().isEmpty()){
+                    if (txtMobileYear[1].getText().toString().trim().isEmpty()) {
                         poMobile[1].setPostYear(0);
-                    }else {
+                    } else {
 
                         poMobile[1].setPostYear(Integer.parseInt(txtMobileYear[1].getText().toString().trim()));
                     }
@@ -318,9 +317,9 @@ public class Activity_PersonalInfo extends AppCompatActivity {
                 poMobile[2].setMobileNo(txtMobileNo[2].getText().toString());
 //            poMobile[2].setIsPostPd();
                 if (poMobile[2].getIsPostPd().equalsIgnoreCase("1")) {
-                    if (txtMobileYear[2].getText().toString().trim().isEmpty()){
+                    if (txtMobileYear[2].getText().toString().trim().isEmpty()) {
                         poMobile[2].setPostYear(0);
-                    }else {
+                    } else {
                         poMobile[1].setPostYear(Integer.parseInt(txtMobileYear[1].getText().toString().trim()));
                     }
                 }
@@ -351,7 +350,7 @@ public class Activity_PersonalInfo extends AppCompatActivity {
                 }
             });
 
-        }catch (Exception e ){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

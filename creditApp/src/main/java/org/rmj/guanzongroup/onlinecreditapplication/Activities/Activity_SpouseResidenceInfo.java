@@ -45,9 +45,9 @@ public class Activity_SpouseResidenceInfo extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         mViewModel = new ViewModelProvider(Activity_SpouseResidenceInfo.this).get(VMSpouseResidence.class);
         poMessage = new MessageBox(Activity_SpouseResidenceInfo.this);
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_spouse_residence_info);
         initWidgets();
         mViewModel.InitializeApplication(getIntent());
@@ -60,7 +60,6 @@ public class Activity_SpouseResidenceInfo extends AppCompatActivity {
                         @Override
                         public void OnParse(Object args) {
                             SpouseResidence loDetail = (SpouseResidence) args;
-
                         }
                     });
                 } catch (Exception e) {
@@ -68,7 +67,6 @@ public class Activity_SpouseResidenceInfo extends AppCompatActivity {
                 }
             }
         });
-
 
 
         mViewModel.GetTownProvinceList().observe(Activity_SpouseResidenceInfo.this, new Observer<List<DTownInfo.TownProvinceInfo>>() {
@@ -140,10 +138,10 @@ public class Activity_SpouseResidenceInfo extends AppCompatActivity {
 
     private void SaveSpouseResidenceInfo() {
 
-        mViewModel.getModel().setLandMark((txtLandMark.getText()).toString().trim());
-        mViewModel.getModel().setHouseNox((txtHouseNox.getText()).toString().trim());
-        mViewModel.getModel().setAddress1((txtAddress1.getText()).toString().trim());
-        mViewModel.getModel().setAddress2((txtAddress2.getText()).toString().trim());
+        mViewModel.getModel().setLandMark(txtLandMark.getText().toString().trim());
+        mViewModel.getModel().setHouseNox(txtHouseNox.getText().toString().trim());
+        mViewModel.getModel().setAddress1(txtAddress1.getText().toString().trim());
+        mViewModel.getModel().setAddress2(txtAddress2.getText().toString().trim());
 
         mViewModel.SaveData(new OnSaveInfoListener() {
             @Override

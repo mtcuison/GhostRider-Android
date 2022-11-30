@@ -27,7 +27,6 @@ import com.google.android.material.textfield.TextInputLayout;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.etc.OnDateSetListener;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.CoMaker;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.MobileNo;
@@ -74,18 +73,17 @@ public class Activity_CoMaker extends AppCompatActivity {
         mViewModel.GetApplication().observe(Activity_CoMaker.this, new Observer<ECreditApplicantInfo>() {
             @Override
             public void onChanged(ECreditApplicantInfo app) {
-                mViewModel.getModel().setTransNox(app.getTransNox());
-                mViewModel.ParseData(app, new OnParseListener() {
-                    @Override
-                    public void OnParse(Object args) {
-                        try {
+                try {
+                    mViewModel.getModel().setTransNox(app.getTransNox());
+                    mViewModel.ParseData(app, new OnParseListener() {
+                        @Override
+                        public void OnParse(Object args) {
                             CoMaker loDetail = (CoMaker) args;
-                        } catch (Exception e) {
-                            e.printStackTrace();
                         }
-
-                    }
-                });
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -250,9 +248,9 @@ public class Activity_CoMaker extends AppCompatActivity {
             poMobile[1].setMobileNo(tieScnCntct.getText().toString());
 //            loMobile[1].setIsPostPd();
             if (poMobile[1].getIsPostPd().equalsIgnoreCase("1")) {
-                if (tieScnCntctPlan.getText().toString().isEmpty()){
+                if (tieScnCntctPlan.getText().toString().isEmpty()) {
                     poMobile[1].setPostYear(0);
-                }else{
+                } else {
                     poMobile[1].setPostYear(Integer.parseInt(tieScnCntctPlan.getText().toString()));
                 }
             }
@@ -262,9 +260,9 @@ public class Activity_CoMaker extends AppCompatActivity {
             poMobile[2].setMobileNo(tieTrtCntct.getText().toString());
 //            poMobile[2].setIsPostPd();
             if (poMobile[2].getIsPostPd().equalsIgnoreCase("1")) {
-                if (tieTrtCntctPlan.getText().toString().isEmpty()){
+                if (tieTrtCntctPlan.getText().toString().isEmpty()) {
                     poMobile[2].setPostYear(0);
-                }else{
+                } else {
                     poMobile[2].setPostYear(Integer.parseInt(tieTrtCntctPlan.getText().toString()));
                 }
             }

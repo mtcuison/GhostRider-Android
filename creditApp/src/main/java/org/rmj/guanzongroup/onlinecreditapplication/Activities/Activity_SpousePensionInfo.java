@@ -11,7 +11,6 @@ import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.menu.MenuView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -76,9 +75,9 @@ public class Activity_SpousePensionInfo extends AppCompatActivity {
     }
 
     private void SaveSpousePensionInfo() {
-        if(txtPensionAmt.getText().toString().isEmpty()){
+        if (txtPensionAmt.getText().toString().isEmpty()) {
             mViewModel.getModel().setPensionIncomeRange(0);
-        }else{
+        } else {
             mViewModel.getModel().setPensionIncomeRange(Long.parseLong(
                     Objects.requireNonNull(txtPensionAmt.getText()).toString().trim()));
         }
@@ -86,9 +85,9 @@ public class Activity_SpousePensionInfo extends AppCompatActivity {
         mViewModel.getModel().setRetirementYear(Objects.requireNonNull(txtRetirementYr.getText()).toString().trim());
         mViewModel.getModel().setNatureOfIncome(Objects.requireNonNull(txtOtherSrc.getText()).toString().trim());
 
-        if(txtOtherSrcInc.getText().toString().trim().isEmpty()){
+        if (txtOtherSrcInc.getText().toString().trim().isEmpty()) {
             mViewModel.getModel().setRangeOfIncom(0);
-        }else{
+        } else {
             mViewModel.getModel().setRangeOfIncom(Long.parseLong((Objects.requireNonNull(txtOtherSrcInc.getText()).toString().trim())));
 
         }
@@ -132,6 +131,7 @@ public class Activity_SpousePensionInfo extends AppCompatActivity {
 
 
     }
+
     @Override
     public void finish() {
         super.finish();
@@ -140,7 +140,7 @@ public class Activity_SpousePensionInfo extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() == android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             finish();
         }
         return super.onOptionsItemSelected(item);

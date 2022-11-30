@@ -18,7 +18,6 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
-import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Disbursement;
@@ -58,7 +57,6 @@ public class Activity_DisbursementInfo extends AppCompatActivity {
                             Disbursement loDetail = (Disbursement) args;
                         }
                     });
-
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -81,41 +79,41 @@ public class Activity_DisbursementInfo extends AppCompatActivity {
     }
 
     private void SaveDisbursementInfo() {
-        if(tieElctx.getText().toString().trim().isEmpty()){
+        if (tieElctx.getText().toString().trim().isEmpty()) {
             mViewModel.getModel().setElectric(0);
-        }else {
+        } else {
             mViewModel.getModel().setElectric(Double.parseDouble(tieElctx.getText().toString().trim()));
         }
 
-        if(tieWater.getText().toString().trim().isEmpty()){
+        if (tieWater.getText().toString().trim().isEmpty()) {
             mViewModel.getModel().setWaterExp(0);
-        }else {
+        } else {
             mViewModel.getModel().setWaterExp(Double.parseDouble(tieWater.getText().toString().trim()));
         }
 
-        if(tieFoodx.getText().toString().trim().isEmpty()){
+        if (tieFoodx.getText().toString().trim().isEmpty()) {
             mViewModel.getModel().setFoodExps(0);
-        }else {
+        } else {
             mViewModel.getModel().setFoodExps(Double.parseDouble((tieFoodx.getText()).toString().trim()));
         }
 
-        if(tieLoans.getText().toString().trim().isEmpty()){
+        if (tieLoans.getText().toString().trim().isEmpty()) {
             mViewModel.getModel().setLoanExps(0);
-        }else {
+        } else {
             mViewModel.getModel().setLoanExps(Double.parseDouble(tieLoans.getText().toString().trim()));
         }
 
         mViewModel.getModel().setBankName(tieBankN.getText().toString().trim());
         mViewModel.getModel().setCrdtBank(tieCCBnk.getText().toString().trim());
 
-        if(tieLimit.getText().toString().trim().isEmpty()){
+        if (tieLimit.getText().toString().trim().isEmpty()) {
             mViewModel.getModel().setCrdtLimt(0);
-        }else {
+        } else {
             mViewModel.getModel().setCrdtLimt(Double.parseDouble(tieLimit.getText().toString().trim()));
         }
-        if(tieYearS.getText().toString().trim().isEmpty()){
+        if (tieYearS.getText().toString().trim().isEmpty()) {
             mViewModel.getModel().setCrdtYear(0);
-        }else{
+        } else {
             mViewModel.getModel().setCrdtYear(Integer.parseInt(tieYearS.getText().toString().trim()));
         }
 
@@ -177,7 +175,7 @@ public class Activity_DisbursementInfo extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() == android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             finish();
         }
         return super.onOptionsItemSelected(item);

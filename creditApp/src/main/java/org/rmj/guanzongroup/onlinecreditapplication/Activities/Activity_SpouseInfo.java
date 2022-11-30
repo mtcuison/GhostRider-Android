@@ -84,7 +84,6 @@ public class Activity_SpouseInfo extends AppCompatActivity {
                     @Override
                     public void OnParse(Object args) {
                         ClientSpouseInfo loDetail = (ClientSpouseInfo) args;
-
                     }
                 });
             } catch (Exception e) {
@@ -265,9 +264,9 @@ public class Activity_SpouseInfo extends AppCompatActivity {
             poMobile[0].setMobileNo(txtPrimeCntc.getText().toString());
 //            loMobile[1].setIsPostPd();
             if (poMobile[0].getIsPostPd().equalsIgnoreCase("1")) {
-                if (txtPrimeCntcYr.getText().toString().isEmpty()){
+                if (txtPrimeCntcYr.getText().toString().isEmpty()) {
                     poMobile[0].setPostYear(0);
-                }else {
+                } else {
                     poMobile[0].setPostYear(Integer.parseInt(txtPrimeCntcYr.getText().toString()));
                 }
 
@@ -278,9 +277,9 @@ public class Activity_SpouseInfo extends AppCompatActivity {
             poMobile[1].setMobileNo(txtSecCntct.getText().toString());
 //            loMobile[1].setIsPostPd();
             if (poMobile[1].getIsPostPd().equalsIgnoreCase("1")) {
-                if (txtSecCntctYr.getText().toString().isEmpty()){
+                if (txtSecCntctYr.getText().toString().isEmpty()) {
                     poMobile[1].setPostYear(0);
-                }else {
+                } else {
                     poMobile[1].setPostYear(Integer.parseInt(txtSecCntctYr.getText().toString()));
                 }
             }
@@ -290,9 +289,9 @@ public class Activity_SpouseInfo extends AppCompatActivity {
             poMobile[2].setMobileNo(txtThirCntct.getText().toString());
 //            poMobile[2].setIsPostPd();
             if (poMobile[2].getIsPostPd().equalsIgnoreCase("1")) {
-                if (txtThirCntctYr.getText().toString().isEmpty()){
+                if (txtThirCntctYr.getText().toString().isEmpty()) {
                     poMobile[2].setPostYear(0);
-                }else {
+                } else {
                     poMobile[2].setPostYear(Integer.parseInt(txtThirCntctYr.getText().toString()));
                 }
             }
@@ -324,7 +323,6 @@ public class Activity_SpouseInfo extends AppCompatActivity {
         });
 
     }
-
 
 
     private void initWidgets() {
@@ -410,7 +408,7 @@ public class Activity_SpouseInfo extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() == android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             finish();
         }
         return super.onOptionsItemSelected(item);

@@ -93,9 +93,9 @@ public class Activity_PensionInfo extends AppCompatActivity {
         mViewModel.getModel().setRetirementYear(Objects.requireNonNull(txtYearxx.getText()).toString().trim());
         mViewModel.getModel().setNatureOfIncome(Objects.requireNonNull(txtOthInc.getText()).toString().trim());
 
-        if (txtRngInc.getText().toString().trim().isEmpty()){
+        if (txtRngInc.getText().toString().trim().isEmpty()) {
             mViewModel.getModel().setRangeOfIncom(0);
-        }else{
+        } else {
             mViewModel.getModel().setRangeOfIncom(Long.parseLong(txtRngInc.getText().toString().trim()));
         }
         mViewModel.SaveData(new OnSaveInfoListener() {

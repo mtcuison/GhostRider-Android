@@ -2,7 +2,6 @@ package org.rmj.guanzongroup.onlinecreditapplication.Activities;
 
 import android.app.AlertDialog;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,7 +13,6 @@ import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
@@ -35,10 +33,8 @@ import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.OnParseListener;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMComakerResidence;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 public class Activity_ComakerResidence extends AppCompatActivity {
 
@@ -68,13 +64,17 @@ public class Activity_ComakerResidence extends AppCompatActivity {
         mViewModel.GetApplication().observe(Activity_ComakerResidence.this, new Observer<ECreditApplicantInfo>() {
             @Override
             public void onChanged(ECreditApplicantInfo app) {
-                mViewModel.getModel().setTransNox(app.getTransNox());
-                mViewModel.ParseData(app, new OnParseListener() {
-                    @Override
-                    public void OnParse(Object args) {
-                        CoMakerResidence loDetail = (CoMakerResidence) args;
-                    }
-                });
+                try {
+                    mViewModel.getModel().setTransNox(app.getTransNox());
+                    mViewModel.ParseData(app, new OnParseListener() {
+                        @Override
+                        public void OnParse(Object args) {
+                            CoMakerResidence loDetail = (CoMakerResidence) args;
+                        }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -211,7 +211,7 @@ public class Activity_ComakerResidence extends AppCompatActivity {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                             for (int x = 0; x < loList.size(); x++) {
-                                String lsLabel = loList.get(x).sTownName + ", " +loList.get(x).sProvName;
+                                String lsLabel = loList.get(x).sTownName + ", " + loList.get(x).sProvName;
                                 String lsSlctd = txtMunicipality.getText().toString().trim();
                                 if (lsSlctd.equalsIgnoreCase(lsLabel)) {
                                     mViewModel.getModel().setMunicipalID(loList.get(x).sTownIDxx);
