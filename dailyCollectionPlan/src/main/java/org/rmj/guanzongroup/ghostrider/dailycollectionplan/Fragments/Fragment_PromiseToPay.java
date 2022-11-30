@@ -92,7 +92,7 @@ public class Fragment_PromiseToPay extends Fragment {
                     @Override
                     public void OnSuccessResult() {
                         poMessage.initDialog();
-                        poMessage.setTitle("Selfie Login");
+                        poMessage.setTitle("Promise To Pay");
                         poMessage.setMessage("Promise to pay has been save.");
                         poMessage.setPositiveButton("Okay", (view, dialog) -> {
                             dialog.dismiss();
@@ -104,7 +104,7 @@ public class Fragment_PromiseToPay extends Fragment {
                     @Override
                     public void OnFailedResult(String message) {
                         poMessage.initDialog();
-                        poMessage.setTitle("Selfie Login");
+                        poMessage.setTitle("Promise To Pay");
                         poMessage.setMessage(message);
                         poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
                         poMessage.show();
@@ -138,6 +138,7 @@ public class Fragment_PromiseToPay extends Fragment {
                 txtBranch.setText(user.sBranchNm);
                 lblBranch.setText(user.sBranchNm);
                 lblAddress.setText(user.sAddressx);
+                poPtp.setBranchCd(user.sBranchCd);
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -238,7 +239,6 @@ public class Fragment_PromiseToPay extends Fragment {
                 } else {
                     tilBranchName.setVisibility(View.GONE);
                     appointment = "0";
-                    poPtp.setBranchCd("");
                 }
                 poPtp.setPaymntxx(appointment);
             }
@@ -247,14 +247,14 @@ public class Fragment_PromiseToPay extends Fragment {
 
     private void InitializeCamera(){
         poMessage.initDialog();
-        poMessage.setTitle("Daily Collection Plan");
+        poMessage.setTitle("Promise To Pay");
         poMessage.setMessage("Please take a selfie with the customer or within the area of the customer.");
         poMessage.setPositiveButton("Okay", (view, dialog) -> {
             dialog.dismiss();
             mViewModel.InitCameraLaunch(requireActivity(), transNox, new OnInitializeCameraCallback() {
                 @Override
                 public void OnInit() {
-                    poDialog.initDialog("Daily Collection Plan", "Initializing camera. Please wait...", false);
+                    poDialog.initDialog("Promise To Pay", "Initializing camera. Please wait...", false);
                     poDialog.show();
                 }
 
@@ -263,8 +263,8 @@ public class Fragment_PromiseToPay extends Fragment {
                     poDialog.dismiss();
                     poPtp.setFilePath(args[0]);
                     poPtp.setFileName(args[1]);
-                    poPtp.setLatitude(args[2]);
-                    poPtp.setLongtude(args[3]);
+                    poPtp.setLatitude(Double.parseDouble(args[2]));
+                    poPtp.setLongtude(Double.parseDouble(args[3]));
                     poCamera.launch(intent);
                 }
 
@@ -272,14 +272,14 @@ public class Fragment_PromiseToPay extends Fragment {
                 public void OnFailed(String message, Intent intent, String[] args) {
                     poDialog.dismiss();
                     poMessage.initDialog();
-                    poMessage.setTitle("Daily Collection Plan");
+                    poMessage.setTitle("Promise To Pay");
                     poMessage.setMessage(message + "\n Proceed taking selfie?");
                     poMessage.setPositiveButton("Continue", (view, dialog) -> {
                         dialog.dismiss();
                         poPtp.setFilePath(args[0]);
                         poPtp.setFileName(args[1]);
-                        poPtp.setLatitude(args[2]);
-                        poPtp.setLongtude(args[3]);
+                        poPtp.setLatitude(Double.parseDouble(args[2]));
+                        poPtp.setLongtude(Double.parseDouble(args[3]));
                         poCamera.launch(intent);
                     });
                     poMessage.setNegativeButton("Cancel", (view1, dialog) -> dialog.dismiss());

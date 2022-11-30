@@ -32,11 +32,11 @@ public class EDCPCollectionDetail {
     @ColumnInfo(name = "sPRNoxxxx")
     private String PRNoxxxx = "";
     @ColumnInfo(name = "nTranAmtx")
-    private String TranAmtx = "0";
+    private Double TranAmtx = 0.00;
     @ColumnInfo(name = "nDiscount")
-    private String Discount = "0";
+    private Double Discount = 0.00;
     @ColumnInfo(name = "nOthersxx")
-    private String Othersxx = "0";
+    private Double Othersxx = 0.00;
     @ColumnInfo(name = "sRemarksx")
     private String Remarksx = "";
     @ColumnInfo(name = "sBankIDxx")
@@ -54,7 +54,7 @@ public class EDCPCollectionDetail {
     @ColumnInfo(name = "cTranType")
     private String TranType = "";
     @ColumnInfo(name = "nTranTotl")
-    private String TranTotl = "0";
+    private Double TranTotl = 0.00;
     @ColumnInfo(name = "sReferNox")
     private String ReferNox = "";
     @ColumnInfo(name = "cPaymForm")
@@ -74,9 +74,9 @@ public class EDCPCollectionDetail {
     @ColumnInfo(name = "dPurchase")
     private String Purchase = "";
     @ColumnInfo(name = "nMonAmort")
-    private String MonAmort = "0";
+    private Double MonAmort = 0.00;
     @ColumnInfo(name = "nAmtDuexx")
-    private String AmtDuexx = "";
+    private Double AmtDuexx = 0.00;
     @ColumnInfo(name = "cApntUnit")
     private String ApntUnit = "";
     @ColumnInfo(name = "sBranchCd")
@@ -86,9 +86,9 @@ public class EDCPCollectionDetail {
     @ColumnInfo(name = "sImageNme")
     private String ImageNme = "";
     @ColumnInfo(name = "nLongitud")
-    private String Longitud = "";
+    private Double Longitud = 0.00;
     @ColumnInfo(name = "nLatitude")
-    private String Latitude = "";
+    private Double Latitude = 0.00;
     @ColumnInfo(name = "sClientID")
     private String ClientID = "";
     @ColumnInfo(name = "sSerialID")
@@ -96,13 +96,13 @@ public class EDCPCollectionDetail {
     @ColumnInfo(name = "sSerialNo")
     private String SerialNo = "";
     @ColumnInfo(name = "nLastPaym")
-    private String LastPaym = "0";
+    private Double LastPaym = 0.00;
     @ColumnInfo(name = "dLastPaym")
     private String LastPaid = "0";
     @ColumnInfo(name = "nABalance")
     private String ABalance = "0";
     @ColumnInfo(name = "nDelayAvg")
-    private String DelayAvg = "0";
+    private Double DelayAvg = 0.00;
     @ColumnInfo(name = "cTranStat")
     private String TranStat = "0";
     @ColumnInfo(name = "cSendStat")
@@ -156,27 +156,27 @@ public class EDCPCollectionDetail {
         this.PRNoxxxx = PRNoxxxx;
     }
 
-    public String getTranAmtx() {
+    public double getTranAmtx() {
         return TranAmtx;
     }
 
-    public void setTranAmtx(String tranAmtx) {
+    public void setTranAmtx(double tranAmtx) {
         TranAmtx = tranAmtx;
     }
 
-    public String getDiscount() {
+    public double getDiscount() {
         return Discount;
     }
 
-    public void setDiscount(String discount) {
+    public void setDiscount(double discount) {
         Discount = discount;
     }
 
-    public String getOthersxx() {
+    public double getOthersxx() {
         return Othersxx;
     }
 
-    public void setOthersxx(String othersxx) {
+    public void setOthersxx(double othersxx) {
         Othersxx = othersxx;
     }
 
@@ -244,11 +244,11 @@ public class EDCPCollectionDetail {
         TranType = tranType;
     }
 
-    public String getTranTotl() {
+    public double getTranTotl() {
         return TranTotl;
     }
 
-    public void setTranTotl(String tranTotl) {
+    public void setTranTotl(double tranTotl) {
         TranTotl = tranTotl;
     }
 
@@ -324,19 +324,19 @@ public class EDCPCollectionDetail {
         Purchase = purchase;
     }
 
-    public String getMonAmort() {
+    public double getMonAmort() {
         return MonAmort;
     }
 
-    public void setMonAmort(String monAmort) {
+    public void setMonAmort(double monAmort) {
         MonAmort = monAmort;
     }
 
-    public String getAmtDuexx() {
+    public double getAmtDuexx() {
         return AmtDuexx;
     }
 
-    public void setAmtDuexx(String amtDuexx) {
+    public void setAmtDuexx(double amtDuexx) {
         AmtDuexx = amtDuexx;
     }
 
@@ -372,19 +372,19 @@ public class EDCPCollectionDetail {
         DueDatex = dueDatex;
     }
 
-    public String getLongitud() {
+    public double getLongitud() {
         return Longitud;
     }
 
-    public void setLongitud(String longitud) {
+    public void setLongitud(double longitud) {
         Longitud = longitud;
     }
 
-    public String getLatitude() {
+    public double getLatitude() {
         return Latitude;
     }
 
-    public void setLatitude(String latitude) {
+    public void setLatitude(double latitude) {
         Latitude = latitude;
     }
 
@@ -412,11 +412,11 @@ public class EDCPCollectionDetail {
         SerialNo = serialNo;
     }
 
-    public String getLastPaym() {
+    public double getLastPaym() {
         return LastPaym;
     }
 
-    public void setLastPaym(String lastPaym) {
+    public void setLastPaym(double lastPaym) {
         LastPaym = lastPaym;
     }
 
@@ -436,11 +436,11 @@ public class EDCPCollectionDetail {
         this.ABalance = ABalance;
     }
 
-    public String getDelayAvg() {
+    public double getDelayAvg() {
         return DelayAvg;
     }
 
-    public void setDelayAvg(String delayAvg) {
+    public void setDelayAvg(double delayAvg) {
         DelayAvg = delayAvg;
     }
 

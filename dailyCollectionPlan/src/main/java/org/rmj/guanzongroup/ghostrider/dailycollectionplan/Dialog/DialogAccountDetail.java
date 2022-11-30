@@ -140,11 +140,11 @@ public class DialogAccountDetail {
         lblClientN.setText(foDetail.getFullName());
         lblAccntNo.setText(foDetail.getAcctNmbr());
         lblSerialx.setText(foDetail.getSerialNo());
-        lblAmountx.setText(FormatUIText.getCurrencyUIFormat(foDetail.getAmtDuexx()));
+        lblAmountx.setText(FormatUIText.getCurrencyUIFormat(String.valueOf(foDetail.getAmtDuexx())));
         lblDueDate.setText(FormatUIText.formatGOCasBirthdate(foDetail.getDueDatex()));
         lblBalnce.setText(FormatUIText.getCurrencyUIFormat(foDetail.getABalance()));
-        lblDelayx.setText(foDetail.getDelayAvg());
-        lblLastPy.setText(FormatUIText.getCurrencyUIFormat(foDetail.getLastPaym()));
+        lblDelayx.setText(String.valueOf(foDetail.getDelayAvg()));
+        lblLastPy.setText(FormatUIText.getCurrencyUIFormat(String.valueOf(foDetail.getLastPaym())));
         lblLastPd.setText(FormatUIText.formatGOCasBirthdate(foDetail.getLastPaid()));
         btnConfirm.setOnClickListener(view1 -> {
             listener.OnClick(poDialogx, spnTransact.getSelectedItem().toString());

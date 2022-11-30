@@ -7,7 +7,7 @@ public class Remittance {
     private String sCompnyNm = "";
     private String sBankAcct = "";
     private String sReferNox = "";
-    private String nAmountxx = "";
+    private double nAmountxx = 0.00;
 
     private String message;
 
@@ -66,22 +66,16 @@ public class Remittance {
         this.sReferNox = sReferNox;
     }
 
-    public String getnAmountxx() {
+    public double getnAmountxx() {
         return nAmountxx;
     }
 
-    public void setnAmountxx(String nAmountxx) {
+    public void setnAmountxx(double nAmountxx) {
         this.nAmountxx = nAmountxx;
     }
 
     public boolean isDataValid(){
-        if(nAmountxx.trim().isEmpty()){
-            message = "Please enter remittance amount.";
-            return false;
-        } else if(nAmountxx.equalsIgnoreCase("0")){
-            message = "Invalid remittance amount.";
-            return false;
-        } else if(nAmountxx.equalsIgnoreCase("0.0")){
+        if(nAmountxx == 0){
             message = "Invalid remittance amount.";
             return false;
         }
@@ -89,10 +83,6 @@ public class Remittance {
             case "0":
                 if(sCompnyNm.trim().isEmpty()){
                     message = "Please select branch.";
-                    return false;
-                }
-                if(nAmountxx.trim().isEmpty()){
-                    message = "Please enter remittance amount.";
                     return false;
                 }
                 break;

@@ -293,7 +293,7 @@ public class Activity_CollectionRemittance extends AppCompatActivity {
                     break;
             }
 
-            poRemit.setnAmountxx(Objects.requireNonNull(txtAmount.getText()).toString().replace(",", ""));
+            poRemit.setnAmountxx(FormatUIText.getParseDouble(Objects.requireNonNull(txtAmount.getText()).toString().replace(",", "")));
             mViewModel.RemitCollection(poRemit, new VMCollectionRemittance.OnRemitCollectionCallback() {
                 @Override
                 public void OnRemit() {

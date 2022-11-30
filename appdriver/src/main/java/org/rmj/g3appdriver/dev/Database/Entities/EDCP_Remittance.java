@@ -26,7 +26,7 @@ public class EDCP_Remittance {
 
     @NonNull
     @ColumnInfo(name = "nEntryNox")
-    private String EntryNox;
+    private Integer EntryNox;
     @ColumnInfo(name = "dTransact")
     private String Transact = new AppConstants().CURRENT_DATE;
     @ColumnInfo(name = "cPaymForm")
@@ -40,7 +40,7 @@ public class EDCP_Remittance {
     @ColumnInfo(name = "sReferNox")
     private String ReferNox = "";
     @ColumnInfo(name = "nAmountxx")
-    private String Amountxx = "0";
+    private double Amountxx = 0.00;
     @ColumnInfo(name = "cSendStat")
     private String SendStat = "0";
     @ColumnInfo(name = "dDateSent")
@@ -59,11 +59,11 @@ public class EDCP_Remittance {
         TransNox = transNox;
     }
 
-    public String getEntryNox() {
+    public int getEntryNox() {
         return EntryNox;
     }
 
-    public void setEntryNox(String entryNox) {
+    public void setEntryNox(int entryNox) {
         EntryNox = entryNox;
     }
 
@@ -128,11 +128,11 @@ public class EDCP_Remittance {
         ReferNox = referNox;
     }
 
-    public String getAmountxx() {
+    public double getAmountxx() {
         return Amountxx;
     }
 
-    public void setAmountxx(String amountxx) {
+    public void setAmountxx(double amountxx) {
         Amountxx = amountxx;
     }
 

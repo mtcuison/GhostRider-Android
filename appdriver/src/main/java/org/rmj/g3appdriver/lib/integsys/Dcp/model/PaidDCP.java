@@ -7,10 +7,10 @@ public class PaidDCP {
     private String PrNoxxx;
     private String Payment;
     private String Remarks;
-    private String Amountx;
-    private String Dscount;
-    private String Othersx;
-    private String TotAmnt;
+    private double Amountx = 0.00;
+    private double Dscount = 0.00;
+    private double Othersx = 0.00;
+    private double TotAmnt = 0.00;
 
     private String BankNme;
     private String CheckDt;
@@ -66,11 +66,11 @@ public class PaidDCP {
         Remarks = remarks;
     }
 
-    public String getAmountx() {
+    public double getAmountx() {
         return Amountx;
     }
 
-    public void setAmountx(String amountx) {
+    public void setAmountx(double amountx) {
         Amountx = amountx;
     }
 
@@ -106,33 +106,27 @@ public class PaidDCP {
         AccntNo = accntNo;
     }
 
-    public String getDscount() {
-        if(Dscount == null || Dscount.trim().isEmpty()){
-            return "0";
-        }
+    public double getDscount() {
         return Dscount;
     }
 
-    public void setDscount(String dscount) {
+    public void setDscount(double dscount) {
         Dscount = dscount;
     }
 
-    public String getOthersx() {
-        if(Othersx == null || Othersx.trim().isEmpty()){
-            return "0";
-        }
+    public double getOthersx() {
         return Othersx;
     }
 
-    public void setOthersx(String othersx) {
+    public void setOthersx(double othersx) {
         Othersx = othersx;
     }
 
-    public String getTotAmnt() {
+    public double getTotAmnt() {
         return TotAmnt;
     }
 
-    public void setTotAmnt(String totAmnt) {
+    public void setTotAmnt(double totAmnt) {
         TotAmnt = totAmnt;
     }
 
@@ -157,7 +151,7 @@ public class PaidDCP {
     }
 
     private boolean isAmountValid(){
-        if(Amountx.trim().isEmpty()){
+        if(Amountx == 0.00){
             message = "Please enter amount";
             return false;
         }
