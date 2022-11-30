@@ -330,7 +330,7 @@ public class ClientResidence {
 
     public boolean isDataValid() {
         return isLandMarkValid() &&
-                isProvinceValid() &&
+//                isProvinceValid() &&
                 isTownValid() &&
                 isBarangayValid() &&
                 isOwnershipValid() &&
@@ -355,19 +355,19 @@ public class ClientResidence {
         return true;
     }
 
-    private boolean isProvinceValid() {
-        if (sProvncID == null || sProvncID.trim().isEmpty()) {
-            message = "Please enter province";
-            return false;
-        }
-        if (!oneAddress) {
-            if (sPProvncD == null || sPProvncD.trim().isEmpty()) {
-                message = "Please enter permanent address province";
-                return false;
-            }
-        }
-        return true;
-    }
+//    private boolean isProvinceValid() {
+//        if (sProvncID == null || sProvncID.trim().isEmpty()) {
+//            message = "Please enter province";
+//            return false;
+//        }
+//        if (!oneAddress) {
+//            if (sPProvncD == null || sPProvncD.trim().isEmpty()) {
+//                message = "Please enter permanent address province";
+//                return false;
+//            }
+//        }
+//        return true;
+//    }
 
     private boolean isTownValid() {
         if (sMuncplID == null || sMuncplID.trim().isEmpty()) {

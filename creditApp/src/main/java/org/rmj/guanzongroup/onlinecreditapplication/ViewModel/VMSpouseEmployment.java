@@ -15,9 +15,6 @@ import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditApp;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditAppInstance;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditOnlineApplication;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.ClientSpouseInfo;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Employment;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.SpouseEmployment;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.SpouseEmployments;
 
 import java.util.List;
@@ -67,7 +64,7 @@ public class VMSpouseEmployment extends AndroidViewModel implements CreditAppUI 
         new SaveDataTask(listener).execute(poModel);
     }
 
-    public LiveData<List<DTownInfo.TownProvinceInfo>> GetTownProvinceList(){
+    public LiveData<List<DTownInfo.TownProvinceInfo>> GetTownProvinceList() {
         return poApp.GetTownProvinceList();
     }
 
@@ -106,7 +103,7 @@ public class VMSpouseEmployment extends AndroidViewModel implements CreditAppUI 
         }
     }
 
-    private class SaveDataTask extends AsyncTask<SpouseEmployments, Void, Boolean>{
+    private class SaveDataTask extends AsyncTask<SpouseEmployments, Void, Boolean> {
 
         private final OnSaveInfoListener listener;
 
@@ -118,12 +115,12 @@ public class VMSpouseEmployment extends AndroidViewModel implements CreditAppUI 
         protected Boolean doInBackground(SpouseEmployments... info) {
             int lnResult = poApp.Validate(info[0]);
 
-            if(lnResult != 1){
+            if (lnResult != 1) {
                 message = poApp.getMessage();
                 return false;
             }
 
-            if(!poApp.Save(info[0])){
+            if (!poApp.Save(info[0])) {
                 message = poApp.getMessage();
                 return false;
             }
@@ -135,7 +132,7 @@ public class VMSpouseEmployment extends AndroidViewModel implements CreditAppUI 
         @Override
         protected void onPostExecute(Boolean isSuccess) {
             super.onPostExecute(isSuccess);
-            if(!isSuccess){
+            if (!isSuccess) {
                 listener.OnFailed(message);
             } else {
                 listener.OnSave(TransNox);

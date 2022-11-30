@@ -292,10 +292,6 @@ public class Personal {
             }
         }
 
-//        if(CvlStats == null || Integer.parseInt(CvlStats) < 0){
-//            message = "Please select civil status";
-//            return false;
-//        }
 
         if(CvlStats == null || CvlStats.trim().isEmpty()){
             message = "Please select civil status";

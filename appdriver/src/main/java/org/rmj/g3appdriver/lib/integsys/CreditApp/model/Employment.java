@@ -355,12 +355,12 @@ public class Employment {
 
     private boolean isCompanyAddressValid(){
         if(sSectorxx.equalsIgnoreCase("0") || sSectorxx.equalsIgnoreCase("1")) {
-            if (sProvIDxx == null || sProvIDxx.equalsIgnoreCase("")) {
-                message = "Please enter company province address";
-                return false;
-            }
+//            if (sProvIDxx == null || sProvIDxx.equalsIgnoreCase("")) {
+//                message = "Please enter company province address";
+//                return false;
+//            }
             if (sTownName == null || sTownName.equalsIgnoreCase("")) {
-                message = "Please enter company town address";
+                message = "Please enter company Municipality address";
                 return false;
             }
         }
@@ -430,6 +430,14 @@ public class Employment {
         if(sSectorxx.equalsIgnoreCase("0") || sSectorxx.equalsIgnoreCase("1")) {
             if (sContactx == null || sContactx.equalsIgnoreCase("")) {
                 message = "Please enter company contact no.";
+                return false;
+            }
+            if(sContactx.length() != 11){
+                message = "Please enter complete company contact no.";
+                return false;
+            }
+            if(!sContactx.substring(0, 2).equalsIgnoreCase("09")){
+                message = "Contact number must start with '09'";
                 return false;
             }
         }

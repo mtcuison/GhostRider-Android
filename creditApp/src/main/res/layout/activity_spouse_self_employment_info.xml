@@ -92,7 +92,7 @@
                     android:imeOptions="actionNext"
                     android:inputType="textCapWords"
                     android:maxLength="150"
-                    android:nextFocusForward="@id/txt_province" />
+                    android:nextFocusForward="@id/txt_town" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout
@@ -101,23 +101,23 @@
                 android:baselineAligned="false"
                 android:orientation="horizontal">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    style="@style/TextInputStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:hint="@string/sHintProvince">
+<!--                <com.google.android.material.textfield.TextInputLayout-->
+<!--                    style="@style/TextInputStyle"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:hint="@string/sHintProvince">-->
 
-                    <androidx.appcompat.widget.AppCompatAutoCompleteTextView
-                        android:id="@+id/txt_province"
-                        style="@style/AutoCompleteStyleTheme"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:imeOptions="actionNext"
-                        android:inputType="textCapWords"
-                        android:maxLength="50"
-                        android:nextFocusForward="@id/txt_town" />
-                </com.google.android.material.textfield.TextInputLayout>
+<!--                    <androidx.appcompat.widget.AppCompatAutoCompleteTextView-->
+<!--                        android:id="@+id/txt_province"-->
+<!--                        style="@style/AutoCompleteStyleTheme"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:imeOptions="actionNext"-->
+<!--                        android:inputType="textCapWords"-->
+<!--                        android:maxLength="50"-->
+<!--                        android:nextFocusForward="@id/txt_town" />-->
+<!--                </com.google.android.material.textfield.TextInputLayout>-->
 
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/TextInputStyle"

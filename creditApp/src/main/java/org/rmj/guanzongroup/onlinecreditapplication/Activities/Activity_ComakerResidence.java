@@ -78,104 +78,172 @@ public class Activity_ComakerResidence extends AppCompatActivity {
             }
         });
 
-        mViewModel.GetTownProvinceList().observe(Activity_ComakerResidence.this, new Observer<List<DTownInfo.TownProvinceInfo>>() {
-            @RequiresApi(api = Build.VERSION_CODES.N)
-            @Override
-            public void onChanged(List<DTownInfo.TownProvinceInfo> provList) {
-                try {
-                    ArrayList<String> strings = new ArrayList<>();
-                    for (int x = 0; x < provList.size(); x++) {
-                        String lsProv = "" + provList.get(x).sProvName;
-//                        String lsTown =  loList.get(x).sProvName ;
-                        strings.add(lsProv);
+//        mViewModel.GetTownProvinceList().observe(Activity_ComakerResidence.this, new Observer<List<DTownInfo.TownProvinceInfo>>() {
+//            @RequiresApi(api = Build.VERSION_CODES.N)
+//            @Override
+//            public void onChanged(List<DTownInfo.TownProvinceInfo> provList) {
+//                try {
+//                    ArrayList<String> strings = new ArrayList<>();
+//                    for (int x = 0; x < provList.size(); x++) {
+//                        String lsProv = "" + provList.get(x).sProvName;
+////                        String lsTown =  loList.get(x).sProvName ;
+//                        strings.add(lsProv);
+//
+//                        Set<Object> set = new HashSet<>();
+//                        strings.removeIf((String i) -> {
+//                            return !set.add(i);
+//                        });
+//                    }
+//
+//                    ArrayAdapter<String> adapter = new ArrayAdapter<>(Activity_ComakerResidence.this, android.R.layout.simple_spinner_dropdown_item, strings.toArray(new String[0]));
+//                    txtProvince.setAdapter(adapter);
+//                    txtProvince.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+//                    txtProvince.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                        @Override
+//                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                            for (int x = 0; x < provList.size(); x++) {
+//                                String lsLabel = provList.get(x).sProvName;
+//                                String lsSlctd = txtProvince.getText().toString().trim();
+//                                if (lsSlctd.equalsIgnoreCase(lsLabel)) {
+//                                    mViewModel.getModel().setProvinceID(provList.get(x).sProvIDxx);
+//                                    mViewModel.getModel().setProvinceNm(lsLabel);
+//                                    break;
+//                                }
+//                            }
+//
+//
+//                            mViewModel.GetTownProvinceList().observe(Activity_ComakerResidence.this, new Observer<List<DTownInfo.TownProvinceInfo>>() {
+//                                @Override
+//                                public void onChanged(List<DTownInfo.TownProvinceInfo> townList) {
+//                                    try {
+//                                        ArrayList<String> string = new ArrayList<>();
+//                                        for (int x = 0; x < townList.size(); x++) {
+//                                            String lsTown = townList.get(x).sTownName + "";
+////                        String lsTown =  loList.get(x).sProvName ;
+//                                            string.add(lsTown);
+//                                            Set<Object> set = new HashSet<>();
+//                                            string.removeIf((String i) -> {
+//                                                return !set.add(i);
+//                                            });
+//
+//                                        }
+//
+//                                        ArrayAdapter<String> adapters = new ArrayAdapter<>(Activity_ComakerResidence.this, android.R.layout.simple_spinner_dropdown_item, string.toArray(new String[0]));
+//                                        txtMunicipality.setAdapter(adapters);
+//                                        txtMunicipality.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+//                                        txtMunicipality.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                                            @Override
+//                                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                                                for (int x = 0; x < townList.size(); x++) {
+//                                                    String lsLabel = townList.get(x).sTownName;
+//                                                    String lsSlctd = txtMunicipality.getText().toString().trim();
+//                                                    if (lsSlctd.equalsIgnoreCase(lsLabel)) {
+//                                                        mViewModel.getModel().setMunicipalID(townList.get(x).sTownIDxx);
+//                                                        mViewModel.getModel().setMunicipalNm(lsLabel);
+//                                                        break;
+//                                                    }
+//                                                }
+//
+//                                                mViewModel.GetBarangayList(mViewModel.getModel().getMunicipalID()).observe(Activity_ComakerResidence.this, new Observer<List<EBarangayInfo>>() {
+//                                                    @Override
+//                                                    public void onChanged(List<EBarangayInfo> BrgyList) {
+//                                                        try {
+//                                                            ArrayList<String> string = new ArrayList<>();
+//                                                            for (int x = 0; x < BrgyList.size(); x++) {
+//                                                                String lsBrgy = BrgyList.get(x).getBrgyName();
+//                                                                string.add(lsBrgy);
+//                                                            }
+//                                                            ArrayAdapter<String> adapters = new ArrayAdapter<>(Activity_ComakerResidence.this,
+//                                                                    android.R.layout.simple_spinner_dropdown_item, string.toArray(new String[0]));
+//                                                            txtBarangay.setAdapter(adapters);
+//                                                            txtBarangay.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+//                                                            txtBarangay.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                                                                @Override
+//                                                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                                                                    for (int x = 0; x < BrgyList.size(); x++) {
+//                                                                        String lsLabel = BrgyList.get(x).getBrgyName();
+//                                                                        String lsSlctd = txtBarangay.getText().toString().trim();
+//                                                                        if (lsSlctd.equalsIgnoreCase(lsLabel)) {
+//                                                                            mViewModel.getModel().setBarangayID(BrgyList.get(x).getBrgyIDxx());
+//                                                                            mViewModel.getModel().setBarangayName(lsLabel);
+//                                                                        }
+//                                                                    }
+//                                                                }
+//                                                            });
+//
+//                                                        } catch (Exception e) {
+//                                                            e.printStackTrace();
+//                                                        }
+//                                                    }
+//                                                });
+//                                            }
+//                                        });
+//
+//                                    } catch (Exception e) {
+//                                        e.printStackTrace();
+//                                    }
+//                                }
+//                            });
+//                        }
+//                    });
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });e
 
-                        Set<Object> set = new HashSet<>();
-                        strings.removeIf((String i) -> {
-                            return !set.add(i);
-                        });
+        mViewModel.GetTownProvinceList().observe(Activity_ComakerResidence.this, new Observer<List<DTownInfo.TownProvinceInfo>>() {
+            @Override
+            public void onChanged(List<DTownInfo.TownProvinceInfo> loList) {
+                try {
+                    ArrayList<String> string = new ArrayList<>();
+                    for (int x = 0; x < loList.size(); x++) {
+                        String lsTown = loList.get(x).sTownName + ", " + loList.get(x).sProvName;
+//                        String lsTown =  loList.get(x).sProvName ;
+                        string.add(lsTown);
+
                     }
 
-                    ArrayAdapter<String> adapter = new ArrayAdapter<>(Activity_ComakerResidence.this, android.R.layout.simple_spinner_dropdown_item, strings.toArray(new String[0]));
-                    txtProvince.setAdapter(adapter);
-                    txtProvince.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
-                    txtProvince.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    ArrayAdapter<String> adapters = new ArrayAdapter<>(Activity_ComakerResidence.this, android.R.layout.simple_spinner_dropdown_item, string.toArray(new String[0]));
+                    txtMunicipality.setAdapter(adapters);
+                    txtMunicipality.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+                    txtMunicipality.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            for (int x = 0; x < provList.size(); x++) {
-                                String lsLabel = provList.get(x).sProvName;
-                                String lsSlctd = txtProvince.getText().toString().trim();
+                            for (int x = 0; x < loList.size(); x++) {
+                                String lsLabel = loList.get(x).sTownName + ", " +loList.get(x).sProvName;
+                                String lsSlctd = txtMunicipality.getText().toString().trim();
                                 if (lsSlctd.equalsIgnoreCase(lsLabel)) {
-                                    mViewModel.getModel().setProvinceID(provList.get(x).sProvIDxx);
-                                    mViewModel.getModel().setProvinceNm(lsLabel);
+                                    mViewModel.getModel().setMunicipalID(loList.get(x).sTownIDxx);
+                                    mViewModel.getModel().setMunicipalNm(lsLabel);
                                     break;
                                 }
                             }
 
-
-                            mViewModel.GetTownProvinceList().observe(Activity_ComakerResidence.this, new Observer<List<DTownInfo.TownProvinceInfo>>() {
+                            mViewModel.GetBarangayList(mViewModel.getModel().getMunicipalID()).observe(Activity_ComakerResidence.this, new Observer<List<EBarangayInfo>>() {
                                 @Override
-                                public void onChanged(List<DTownInfo.TownProvinceInfo> townList) {
+                                public void onChanged(List<EBarangayInfo> BrgyList) {
                                     try {
                                         ArrayList<String> string = new ArrayList<>();
-                                        for (int x = 0; x < townList.size(); x++) {
-                                            String lsTown = townList.get(x).sTownName + "";
-//                        String lsTown =  loList.get(x).sProvName ;
-                                            string.add(lsTown);
-                                            Set<Object> set = new HashSet<>();
-                                            string.removeIf((String i) -> {
-                                                return !set.add(i);
-                                            });
-
+                                        for (int x = 0; x < BrgyList.size(); x++) {
+                                            String lsBrgy = BrgyList.get(x).getBrgyName();
+                                            string.add(lsBrgy);
                                         }
-
-                                        ArrayAdapter<String> adapters = new ArrayAdapter<>(Activity_ComakerResidence.this, android.R.layout.simple_spinner_dropdown_item, string.toArray(new String[0]));
-                                        txtMunicipality.setAdapter(adapters);
-                                        txtMunicipality.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
-                                        txtMunicipality.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                        ArrayAdapter<String> adapters = new ArrayAdapter<>(Activity_ComakerResidence.this,
+                                                android.R.layout.simple_spinner_dropdown_item, string.toArray(new String[0]));
+                                        txtBarangay.setAdapter(adapters);
+                                        txtBarangay.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+                                        txtBarangay.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                             @Override
                                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                                for (int x = 0; x < townList.size(); x++) {
-                                                    String lsLabel = townList.get(x).sTownName;
-                                                    String lsSlctd = txtMunicipality.getText().toString().trim();
+                                                for (int x = 0; x < BrgyList.size(); x++) {
+                                                    String lsLabel = BrgyList.get(x).getBrgyName();
+                                                    String lsSlctd = txtBarangay.getText().toString().trim();
                                                     if (lsSlctd.equalsIgnoreCase(lsLabel)) {
-                                                        mViewModel.getModel().setMunicipalID(townList.get(x).sTownIDxx);
-                                                        mViewModel.getModel().setMunicipalNm(lsLabel);
-                                                        break;
+                                                        mViewModel.getModel().setBarangayID(BrgyList.get(x).getBrgyIDxx());
+                                                        mViewModel.getModel().setBarangayName(lsLabel);
                                                     }
                                                 }
-
-                                                mViewModel.GetBarangayList(mViewModel.getModel().getMunicipalID()).observe(Activity_ComakerResidence.this, new Observer<List<EBarangayInfo>>() {
-                                                    @Override
-                                                    public void onChanged(List<EBarangayInfo> BrgyList) {
-                                                        try {
-                                                            ArrayList<String> string = new ArrayList<>();
-                                                            for (int x = 0; x < BrgyList.size(); x++) {
-                                                                String lsBrgy = BrgyList.get(x).getBrgyName();
-                                                                string.add(lsBrgy);
-                                                            }
-                                                            ArrayAdapter<String> adapters = new ArrayAdapter<>(Activity_ComakerResidence.this,
-                                                                    android.R.layout.simple_spinner_dropdown_item, string.toArray(new String[0]));
-                                                            txtBarangay.setAdapter(adapters);
-                                                            txtBarangay.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
-                                                            txtBarangay.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                                                @Override
-                                                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                                                    for (int x = 0; x < BrgyList.size(); x++) {
-                                                                        String lsLabel = BrgyList.get(x).getBrgyName();
-                                                                        String lsSlctd = txtBarangay.getText().toString().trim();
-                                                                        if (lsSlctd.equalsIgnoreCase(lsLabel)) {
-                                                                            mViewModel.getModel().setBarangayID(BrgyList.get(x).getBrgyIDxx());
-                                                                            mViewModel.getModel().setBarangayName(lsLabel);
-                                                                        }
-                                                                    }
-                                                                }
-                                                            });
-
-                                                        } catch (Exception e) {
-                                                            e.printStackTrace();
-                                                        }
-                                                    }
-                                                });
                                             }
                                         });
 
@@ -186,6 +254,7 @@ public class Activity_ComakerResidence extends AppCompatActivity {
                             });
                         }
                     });
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -199,8 +268,8 @@ public class Activity_ComakerResidence extends AppCompatActivity {
         spnHouseHold.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                mViewModel.getModel().setHouseHold(String.valueOf(position));
-                mViewModel.getModel().setHouseHold(spnHouseHold.getText().toString().trim());
+                mViewModel.getModel().setHouseHold(String.valueOf(position));
+//                mViewModel.getModel().setHouseHold(spnHouseHold.getText().toString().trim());
             }
         });
 
@@ -210,8 +279,8 @@ public class Activity_ComakerResidence extends AppCompatActivity {
         spnHouseType.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                mViewModel.getModel().setHouseType(String.valueOf(position));
-                mViewModel.getModel().setHouseType(spnHouseType.getText().toString().trim());
+                mViewModel.getModel().setHouseType(String.valueOf(position));
+//                mViewModel.getModel().setHouseType(spnHouseType.getText().toString().trim());
             }
         });
 
@@ -270,7 +339,7 @@ public class Activity_ComakerResidence extends AppCompatActivity {
         txtAddress2 = findViewById(R.id.txt_address2);
         txtBarangay = findViewById(R.id.txt_barangay);
         txtMunicipality = findViewById(R.id.txt_town);
-        txtProvince = findViewById(R.id.txt_province);
+//        txtProvince = findViewById(R.id.txt_province);
         txtRelationship = findViewById(R.id.txt_relationship);
         txtLgnthStay = findViewById(R.id.txt_lenghtStay);
         txtMonthlyExp = findViewById(R.id.txt_monthlyExp);

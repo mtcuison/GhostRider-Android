@@ -201,7 +201,7 @@ public class CoMakerResidence {
 
     public boolean isDataValid(){
         return isLandMarkValid() &&
-                isProvinceValid() &&
+//                isProvinceValid() &&
                 isTownValid() &&
                 isBarangayValid() &&
                 isOwnershipValid() &&
@@ -221,17 +221,17 @@ public class CoMakerResidence {
         return true;
     }
 
-    private boolean isProvinceValid(){
-        if(sProvncID == null || sProvncID.trim().isEmpty()){
-            message = "Please enter province";
-            return false;
-        }
-        return true;
-    }
+//    private boolean isProvinceValid(){
+//        if(sProvncID == null || sProvncID.trim().isEmpty()){
+//            message = "Please enter province";
+//            return false;
+//        }
+//        return true;
+//    }
 
     private boolean isTownValid(){
         if(sMuncplID == null || sMuncplID.trim().isEmpty()){
-            message = "Please enter town";
+            message = "Please enter Municipality address";
             return false;
         }
         return true;

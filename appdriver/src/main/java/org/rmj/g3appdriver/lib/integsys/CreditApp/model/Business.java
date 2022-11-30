@@ -161,7 +161,7 @@ public class Business {
 
     boolean isTownValid(){
         if(sBussTown.trim().isEmpty() || sBussTown.trim().equalsIgnoreCase( "") || sBussTown == null){
-            message = "Please enter town or municipality";
+            message = "Please enter municipality address";
             return false;
         }
         return true;

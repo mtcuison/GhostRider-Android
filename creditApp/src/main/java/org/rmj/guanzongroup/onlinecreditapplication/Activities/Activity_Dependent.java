@@ -123,7 +123,7 @@ public class Activity_Dependent extends AppCompatActivity {
         tieCompName = findViewById(R.id.tie_cap_dpdCompanyName);
         tieSchoolNm = findViewById(R.id.tie_cap_dpdSchoolName);
         tieSchlAddx = findViewById(R.id.tie_cap_dpdSchoolAddress);
-        tieSchlProv = findViewById(R.id.tie_cap_dpdSchoolProv);
+//        tieSchlProv = findViewById(R.id.tie_cap_dpdSchoolProv);
         tieSchlTown = findViewById(R.id.tie_cap_dpdSchoolTown);
 
         actRelationx = findViewById(R.id.spinner_cap_dpdRelation);

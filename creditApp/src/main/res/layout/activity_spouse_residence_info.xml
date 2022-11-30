@@ -132,7 +132,7 @@
                         android:imeOptions="actionNext"
                         android:inputType="textCapWords"
                         android:maxLength="50"
-                        android:nextFocusForward="@id/txt_province" />
+                        android:nextFocusForward="@id/txt_town" />
                 </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>

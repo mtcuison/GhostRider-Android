@@ -72,7 +72,7 @@ public class Activity_OtherInfo extends AppCompatActivity {
         tieRefName = findViewById(R.id.tie_cap_referenceName);
         tieRefCntc = findViewById(R.id.tie_cap_refereceContact);
         tieRefAdd1 = findViewById(R.id.tie_cap_refereceAddress);
-        tieAddProv = findViewById(R.id.tie_cap_referenceAddProv);
+//        tieAddProv = findViewById(R.id.tie_cap_referenceAddProv);
         tieAddTown = findViewById(R.id.tie_cap_referenceAddTown);
 
         recyclerView = findViewById(R.id.recyclerview_references);

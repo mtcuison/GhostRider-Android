@@ -69,6 +69,8 @@ public class Activity_SpouseResidenceInfo extends AppCompatActivity {
             }
         });
 
+
+
         mViewModel.GetTownProvinceList().observe(Activity_SpouseResidenceInfo.this, new Observer<List<DTownInfo.TownProvinceInfo>>() {
             @Override
             public void onChanged(List<DTownInfo.TownProvinceInfo> loList) {
@@ -175,7 +177,7 @@ public class Activity_SpouseResidenceInfo extends AppCompatActivity {
         txtHouseNox = findViewById(R.id.txt_houseNox);
         txtAddress1 = findViewById(R.id.txt_address);
         txtAddress2 = findViewById(R.id.txt_address2);
-        txtProvince = findViewById(R.id.txt_province);
+//        txtProvince = findViewById(R.id.txt_province);
         txtTown = findViewById(R.id.txt_town);
         txtBarangay = findViewById(R.id.txt_barangay);
 

@@ -57,9 +57,9 @@
                         android:id="@+id/txt_lastname"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:imeOptions="actionNext"
                         android:inputType="textCapWords|textPersonName"
                         android:maxLength="50"
+                        android:imeOptions="actionNext"
                         android:nextFocusForward="@+id/xt_firstname" />
                 </com.google.android.material.textfield.TextInputLayout>
 

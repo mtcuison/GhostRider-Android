@@ -119,81 +119,116 @@ public class Activity_EmploymentInfo extends AppCompatActivity {
         spnServce.setOnItemClickListener((parent, view, position, id) ->
                 mViewModel.getModel().setIsYear(String.valueOf(position)));
 
+//        mViewModel.GetTownProvinceList().observe(Activity_EmploymentInfo.this, new Observer<List<DTownInfo.TownProvinceInfo>>() {
+//            @RequiresApi(api = Build.VERSION_CODES.N)
+//            @Override
+//            public void onChanged(List<DTownInfo.TownProvinceInfo> provList) {
+//                try {
+//                    ArrayList<String> strings = new ArrayList<>();
+//                    for (int x = 0; x < provList.size(); x++) {
+//                        String lsProv = "" + provList.get(x).sProvName;
+////                        String lsTown =  loList.get(x).sProvName ;
+//                        strings.add(lsProv);
+//
+//                        Set<Object> set = new HashSet<>();
+//                        strings.removeIf((String i) -> {
+//                            return !set.add(i);
+//                        });
+//
+//                    }
+//
+//                    ArrayAdapter<String> adapter = new ArrayAdapter<>(Activity_EmploymentInfo.this, android.R.layout.simple_spinner_dropdown_item, strings.toArray(new String[0]));
+//                    txtProvNm.setAdapter(adapter);
+//                    txtProvNm.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+//                    txtProvNm.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                        @Override
+//                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                            for (int x = 0; x < provList.size(); x++) {
+//                                String lsLabel = provList.get(x).sProvName;
+//                                String lsSlctd = txtProvNm.getText().toString().trim();
+//                                if (lsSlctd.equalsIgnoreCase(lsLabel)) {
+//                                    mViewModel.getModel().setProvinceID(provList.get(x).sProvIDxx);
+//                                    mViewModel.getModel().setProvName(lsLabel);
+//                                    break;
+//                                }
+//                            }
+//
+//
+//                            mViewModel.GetTownProvinceList().observe(Activity_EmploymentInfo.this, new Observer<List<DTownInfo.TownProvinceInfo>>() {
+//                                @Override
+//                                public void onChanged(List<DTownInfo.TownProvinceInfo> townList) {
+//                                    try {
+//                                        ArrayList<String> string = new ArrayList<>();
+//                                        for (int x = 0; x < townList.size(); x++) {
+//                                            String lsTown = townList.get(x).sTownName + "";
+////                        String lsTown =  loList.get(x).sProvName ;
+//                                            string.add(lsTown);
+//
+//                                            Set<Object> set = new HashSet<>();
+//                                            string.removeIf((String i) -> {
+//                                                return !set.add(i);
+//                                            });
+//
+//                                        }
+//
+//                                        ArrayAdapter<String> adapters = new ArrayAdapter<>(Activity_EmploymentInfo.this, android.R.layout.simple_spinner_dropdown_item, string.toArray(new String[0]));
+//                                        txtTownNm.setAdapter(adapters);
+//                                        txtTownNm.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+//                                        txtTownNm.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                                            @Override
+//                                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                                                for (int x = 0; x < townList.size(); x++) {
+//                                                    String lsLabel = townList.get(x).sTownName;
+//                                                    String lsSlctd = txtTownNm.getText().toString().trim();
+//                                                    if (lsSlctd.equalsIgnoreCase(lsLabel)) {
+//                                                        mViewModel.getModel().setTownID(townList.get(x).sTownIDxx);
+//                                                        mViewModel.getModel().setTownName(lsLabel);
+//                                                        break;
+//                                                    }
+//                                                }
+//                                            }
+//                                        });
+//
+//                                    } catch (Exception e) {
+//                                        e.printStackTrace();
+//                                    }
+//                                }
+//                            });
+//                        }
+//                    });
+//
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
+
         mViewModel.GetTownProvinceList().observe(Activity_EmploymentInfo.this, new Observer<List<DTownInfo.TownProvinceInfo>>() {
-            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
-            public void onChanged(List<DTownInfo.TownProvinceInfo> provList) {
+            public void onChanged(List<DTownInfo.TownProvinceInfo> loList) {
                 try {
-                    ArrayList<String> strings = new ArrayList<>();
-                    for (int x = 0; x < provList.size(); x++) {
-                        String lsProv = "" + provList.get(x).sProvName;
+                    ArrayList<String> string = new ArrayList<>();
+                    for (int x = 0; x < loList.size(); x++) {
+                        String lsTown = loList.get(x).sTownName + ", " + loList.get(x).sProvName;
 //                        String lsTown =  loList.get(x).sProvName ;
-                        strings.add(lsProv);
-
-                        Set<Object> set = new HashSet<>();
-                        strings.removeIf((String i) -> {
-                            return !set.add(i);
-                        });
-
+                        string.add(lsTown);
                     }
 
-                    ArrayAdapter<String> adapter = new ArrayAdapter<>(Activity_EmploymentInfo.this, android.R.layout.simple_spinner_dropdown_item, strings.toArray(new String[0]));
-                    txtProvNm.setAdapter(adapter);
-                    txtProvNm.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
-                    txtProvNm.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    ArrayAdapter<String> adapters = new ArrayAdapter<>(Activity_EmploymentInfo.this, android.R.layout.simple_spinner_dropdown_item, string.toArray(new String[0]));
+                    txtTownNm.setAdapter(adapters);
+                    txtTownNm.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+                    txtTownNm.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            for (int x = 0; x < provList.size(); x++) {
-                                String lsLabel = provList.get(x).sProvName;
-                                String lsSlctd = txtProvNm.getText().toString().trim();
+                            for (int x = 0; x < loList.size(); x++) {
+                                String lsLabel = loList.get(x).sTownName + ", " + loList.get(x).sProvName;
+                                String lsSlctd = txtTownNm.getText().toString().trim();
                                 if (lsSlctd.equalsIgnoreCase(lsLabel)) {
-                                    mViewModel.getModel().setProvinceID(provList.get(x).sProvIDxx);
-                                    mViewModel.getModel().setProvName(lsLabel);
+                                    mViewModel.getModel().setTownID(loList.get(x).sTownIDxx);
+                                    mViewModel.getModel().setTownName(lsLabel);
                                     break;
                                 }
                             }
-
-
-                            mViewModel.GetTownProvinceList().observe(Activity_EmploymentInfo.this, new Observer<List<DTownInfo.TownProvinceInfo>>() {
-                                @Override
-                                public void onChanged(List<DTownInfo.TownProvinceInfo> townList) {
-                                    try {
-                                        ArrayList<String> string = new ArrayList<>();
-                                        for (int x = 0; x < townList.size(); x++) {
-                                            String lsTown = townList.get(x).sTownName + "";
-//                        String lsTown =  loList.get(x).sProvName ;
-                                            string.add(lsTown);
-
-                                            Set<Object> set = new HashSet<>();
-                                            string.removeIf((String i) -> {
-                                                return !set.add(i);
-                                            });
-
-                                        }
-
-                                        ArrayAdapter<String> adapters = new ArrayAdapter<>(Activity_EmploymentInfo.this, android.R.layout.simple_spinner_dropdown_item, string.toArray(new String[0]));
-                                        txtTownNm.setAdapter(adapters);
-                                        txtTownNm.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
-                                        txtTownNm.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                            @Override
-                                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                                for (int x = 0; x < townList.size(); x++) {
-                                                    String lsLabel = townList.get(x).sTownName;
-                                                    String lsSlctd = txtTownNm.getText().toString().trim();
-                                                    if (lsSlctd.equalsIgnoreCase(lsLabel)) {
-                                                        mViewModel.getModel().setTownID(townList.get(x).sTownIDxx);
-                                                        mViewModel.getModel().setTownName(lsLabel);
-                                                        break;
-                                                    }
-                                                }
-                                            }
-                                        });
-
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            });
                         }
                     });
 
@@ -202,6 +237,7 @@ public class Activity_EmploymentInfo extends AppCompatActivity {
                 }
             }
         });
+
 
         btnNext.setOnClickListener(v -> SaveEmploymentInfo());
         btnPrvs.setOnClickListener(v -> finish());
@@ -266,7 +302,7 @@ public class Activity_EmploymentInfo extends AppCompatActivity {
         spnEmpSts = findViewById(R.id.spn_employmentStatus);
         spnServce = findViewById(R.id.spn_lengthService);
 
-        txtProvNm = findViewById(R.id.txt_province);
+//        txtProvNm = findViewById(R.id.txt_province);
         txtCntryx = findViewById(R.id.txt_countryNme);
         txtTownNm = findViewById(R.id.txt_town);
         txtJobNme = findViewById(R.id.txt_jobPosition);

@@ -130,73 +130,108 @@ public class Activity_SpouseEmploymentInfo extends AppCompatActivity {
         spnServce.setOnItemClickListener((parent, view, position, id) ->
                 mViewModel.getModel().setIsYear(String.valueOf(position)));
 
+//        mViewModel.GetTownProvinceList().observe(Activity_SpouseEmploymentInfo.this, new Observer<List<DTownInfo.TownProvinceInfo>>() {
+//            @RequiresApi(api = Build.VERSION_CODES.N)
+//            @Override
+//            public void onChanged(List<DTownInfo.TownProvinceInfo> loList) {
+//                try {
+//                    ArrayList<String> strings = new ArrayList<>();
+//                    for (int x = 0; x < loList.size(); x++) {
+//                        String lsProv = "" + loList.get(x).sProvName;
+//                        strings.add(lsProv);
+//
+//                        Set<Object> set = new HashSet<>();
+//                        strings.removeIf((String i) -> {
+//                            return !set.add(i);
+//                        });
+//                    }
+//
+//                    ArrayAdapter<String> adapter = new ArrayAdapter<>(Activity_SpouseEmploymentInfo.this, android.R.layout.simple_spinner_dropdown_item, strings.toArray(new String[0]));
+//                    txtProvNm.setAdapter(adapter);
+//                    txtProvNm.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+//                    txtProvNm.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                        @Override
+//                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                            for (int x = 0; x < loList.size(); x++) {
+//                                String lsLabel = loList.get(x).sProvName;
+//                                String lsSlctd = txtProvNm.getText().toString().trim();
+//                                if (lsSlctd.equalsIgnoreCase(lsLabel)) {
+//                                    mViewModel.getModel().setProvinceID(loList.get(x).sProvIDxx);
+//                                    mViewModel.getModel().setProvName(lsLabel);
+//                                    break;
+//                                }
+//                            }
+//
+//                            mViewModel.GetTownProvinceList().observe(Activity_SpouseEmploymentInfo.this, new Observer<List<DTownInfo.TownProvinceInfo>>() {
+//                                @Override
+//                                public void onChanged(List<DTownInfo.TownProvinceInfo> loList) {
+//                                    ArrayList<String> strings = new ArrayList<>();
+//                                    for (int x = 0; x < loList.size(); x++) {
+//                                        String lsTown = loList.get(x).sTownName + "";
+//                                        strings.add(lsTown);
+//
+//                                        Set<Object> set = new HashSet<>();
+//                                        strings.removeIf((String i) -> {
+//                                            return !set.add(i);
+//                                        });
+//                                    }
+//
+//                                    ArrayAdapter<String> adapter = new ArrayAdapter<>(Activity_SpouseEmploymentInfo.this, android.R.layout.simple_spinner_dropdown_item, strings.toArray(new String[0]));
+//                                    txtTownNm.setAdapter(adapter);
+//                                    txtTownNm.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+//
+//                                    txtTownNm.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                                        @Override
+//                                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                                            for (int x = 0; x < loList.size(); x++) {
+//                                                String lsLabel = loList.get(x).sTownName;
+//                                                String lsSlctd = txtTownNm.getText().toString().trim();
+//                                                if (lsSlctd.equalsIgnoreCase(lsLabel)) {
+//                                                    mViewModel.getModel().setTownID(loList.get(x).sTownIDxx);
+//                                                    mViewModel.getModel().setTownName(lsLabel);
+//                                                    break;
+//                                                }
+//                                            }
+//                                        }
+//                                    });
+//                                }
+//                            });
+//
+//                        }
+//                    });
+//
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
+
         mViewModel.GetTownProvinceList().observe(Activity_SpouseEmploymentInfo.this, new Observer<List<DTownInfo.TownProvinceInfo>>() {
-            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onChanged(List<DTownInfo.TownProvinceInfo> loList) {
                 try {
                     ArrayList<String> strings = new ArrayList<>();
                     for (int x = 0; x < loList.size(); x++) {
-                        String lsProv = "" + loList.get(x).sProvName;
+                        String lsProv = loList.get(x).sTownName + ", " + loList.get(x).sProvName;
                         strings.add(lsProv);
 
-                        Set<Object> set = new HashSet<>();
-                        strings.removeIf((String i) -> {
-                            return !set.add(i);
-                        });
                     }
 
                     ArrayAdapter<String> adapter = new ArrayAdapter<>(Activity_SpouseEmploymentInfo.this, android.R.layout.simple_spinner_dropdown_item, strings.toArray(new String[0]));
-                    txtProvNm.setAdapter(adapter);
-                    txtProvNm.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
-                    txtProvNm.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    txtTownNm.setAdapter(adapter);
+                    txtTownNm.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+                    txtTownNm.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                             for (int x = 0; x < loList.size(); x++) {
-                                String lsLabel = loList.get(x).sProvName;
-                                String lsSlctd = txtProvNm.getText().toString().trim();
+                                String lsLabel = loList.get(x).sTownName + ", " + loList.get(x).sProvName;
+                                String lsSlctd = txtTownNm.getText().toString().trim();
                                 if (lsSlctd.equalsIgnoreCase(lsLabel)) {
-                                    mViewModel.getModel().setProvinceID(loList.get(x).sProvIDxx);
-                                    mViewModel.getModel().setProvName(lsLabel);
+                                    mViewModel.getModel().setTownID(loList.get(x).sTownIDxx);
+                                    mViewModel.getModel().setTownName(lsLabel);
                                     break;
                                 }
                             }
-
-                            mViewModel.GetTownProvinceList().observe(Activity_SpouseEmploymentInfo.this, new Observer<List<DTownInfo.TownProvinceInfo>>() {
-                                @Override
-                                public void onChanged(List<DTownInfo.TownProvinceInfo> loList) {
-                                    ArrayList<String> strings = new ArrayList<>();
-                                    for (int x = 0; x < loList.size(); x++) {
-                                        String lsTown = loList.get(x).sTownName + "";
-                                        strings.add(lsTown);
-
-                                        Set<Object> set = new HashSet<>();
-                                        strings.removeIf((String i) -> {
-                                            return !set.add(i);
-                                        });
-                                    }
-
-                                    ArrayAdapter<String> adapter = new ArrayAdapter<>(Activity_SpouseEmploymentInfo.this, android.R.layout.simple_spinner_dropdown_item, strings.toArray(new String[0]));
-                                    txtTownNm.setAdapter(adapter);
-                                    txtTownNm.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
-
-                                    txtTownNm.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                        @Override
-                                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                            for (int x = 0; x < loList.size(); x++) {
-                                                String lsLabel = loList.get(x).sTownName;
-                                                String lsSlctd = txtTownNm.getText().toString().trim();
-                                                if (lsSlctd.equalsIgnoreCase(lsLabel)) {
-                                                    mViewModel.getModel().setTownID(loList.get(x).sTownIDxx);
-                                                    mViewModel.getModel().setTownName(lsLabel);
-                                                    break;
-                                                }
-                                            }
-                                        }
-                                    });
-                                }
-                            });
-
                         }
                     });
 
@@ -205,6 +240,8 @@ public class Activity_SpouseEmploymentInfo extends AppCompatActivity {
                 }
             }
         });
+
+
 
         btnNext.setOnClickListener(v -> SaveSpouseEmploymentInfo());
         btnPrvs.setOnClickListener(v -> finish());
@@ -273,7 +310,7 @@ public class Activity_SpouseEmploymentInfo extends AppCompatActivity {
         spnServce = findViewById(R.id.spn_lengthService);
 
         txtCntryx = findViewById(R.id.txt_countryNme);
-        txtProvNm = findViewById(R.id.txt_province);
+//        txtProvNm = findViewById(R.id.txt_province);
         txtTownNm = findViewById(R.id.txt_town);
         txtJobNme = findViewById(R.id.txt_jobPosition);
 
