@@ -115,7 +115,7 @@ public class VMPaidTransaction extends AndroidViewModel {
 
     public void setRebate(Double fnDiscount){
         try {
-            if(!loDetail.getDelayAvg().equalsIgnoreCase("0")){
+            if(loDetail.getDelayAvg() != 0.00){
                 psMssage.setValue("Unable to calculate rebate for delay account.");
 
                 double lnPnalty = pnPenlty.getValue();
@@ -170,7 +170,7 @@ public class VMPaidTransaction extends AndroidViewModel {
 
     private void calculateRebate(){
         try {
-            if(!loDetail.getDelayAvg().equalsIgnoreCase("0")){
+            if(loDetail.getDelayAvg() != 0.00){
                 psMssage.setValue("Unable to calculate rebate for delay account.");
 
                 double lnPnalty = pnPenlty.getValue();
@@ -179,8 +179,8 @@ public class VMPaidTransaction extends AndroidViewModel {
             } else {
                 double reb = Double.parseDouble(poConfig.getDCP_CustomerRebate());
 
-                double lnAmortx = Double.parseDouble(loDetail.getMonAmort());
-                double lnAmtDue = Double.parseDouble(loDetail.getAmtDuexx());
+                double lnAmortx = loDetail.getMonAmort();
+                double lnAmtDue = loDetail.getAmtDuexx();
 
                 double lnRebate = poSys.CalculateRebate(pnAmount, lnAmortx, lnAmtDue, reb);
                 pnRebate.setValue(lnRebate);
@@ -210,7 +210,7 @@ public class VMPaidTransaction extends AndroidViewModel {
                 DateFormat loFormat = new SimpleDateFormat("yyyy-MM-dd");
                 Date ldPurchase = loFormat.parse(loDetail.getPurchase());
                 Date ldDueDatex = loFormat.parse(lsDueDate);
-                double lnMonAmort = Double.parseDouble(loDetail.getMonAmort());
+                double lnMonAmort = loDetail.getMonAmort();
                 double lnABalance = Double.parseDouble(loDetail.getABalance());
                 double lnPenalty = poSys.CalculatePenalty(ldPurchase, ldDueDatex, lnMonAmort, lnABalance, pnAmount);
                 pnPenlty.setValue(lnPenalty);

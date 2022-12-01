@@ -74,8 +74,8 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
             }else{
                 holder.lblStatus.setText(DCP_Constants.getRemarksDescription(collection.getRemCodex()));
             }
-            holder.lblMnthAm.setText(FormatUIText.getCurrencyUIFormat(collection.getMonAmort()));
-            holder.lblAmount.setText(FormatUIText.getCurrencyUIFormat(collection.getAmtDuexx()));
+            holder.lblMnthAm.setText(FormatUIText.getCurrencyUIFormat(String.valueOf(collection.getMonAmort())));
+            holder.lblAmount.setText(FormatUIText.getCurrencyUIFormat(String.valueOf(collection.getAmtDuexx())));
         } catch (Exception e){
             e.printStackTrace();
         }

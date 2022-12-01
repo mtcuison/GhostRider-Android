@@ -152,19 +152,19 @@ public class LRDcp {
                 dcpDetail.setBrgyName(joDetail.getString("sBrgyName"));
                 dcpDetail.setTownName(joDetail.getString("sTownName"));
                 dcpDetail.setPurchase(joDetail.getString("dPurchase"));
-                dcpDetail.setAmtDuexx(joDetail.getString("nAmtDuexx"));
+                dcpDetail.setAmtDuexx(joDetail.getDouble("nAmtDuexx"));
                 dcpDetail.setApntUnit(joDetail.getString("cApntUnit"));
                 dcpDetail.setDueDatex(joDetail.getString("dDueDatex"));
-                dcpDetail.setLongitud(joDetail.getString("nLongitud"));
-                dcpDetail.setLatitude(joDetail.getString("nLatitude"));
+                dcpDetail.setLongitud(joDetail.getDouble("nLongitud"));
+                dcpDetail.setLatitude(joDetail.getDouble("nLatitude"));
                 dcpDetail.setClientID(joDetail.getString("sClientID"));
                 dcpDetail.setSerialID(joDetail.getString("sSerialID"));
                 dcpDetail.setSerialNo(joDetail.getString("sSerialNo"));
-                dcpDetail.setLastPaym(joDetail.getString("nLastPaym"));
+                dcpDetail.setLastPaym(joDetail.getDouble("nLastPaym"));
                 dcpDetail.setLastPaid(joDetail.getString("dLastPaym"));
                 dcpDetail.setABalance(joDetail.getString("nABalance"));
-                dcpDetail.setDelayAvg(joDetail.getString("nDelayAvg"));
-                dcpDetail.setMonAmort(joDetail.getString("nMonAmort"));
+                dcpDetail.setDelayAvg(joDetail.getDouble("nDelayAvg"));
+                dcpDetail.setMonAmort(joDetail.getDouble("nMonAmort"));
                 poDao.SaveDcpDetail(dcpDetail);
                 Log.d(TAG, "DCP account no. " +dcpDetail.getAcctNmbr() + " has been saved.");
             }
@@ -266,19 +266,19 @@ public class LRDcp {
                 dcpDetail.setBrgyName(joDetail.getString("sBrgyName"));
                 dcpDetail.setTownName(joDetail.getString("sTownName"));
                 dcpDetail.setPurchase(joDetail.getString("dPurchase"));
-                dcpDetail.setAmtDuexx(joDetail.getString("nAmtDuexx"));
+                dcpDetail.setAmtDuexx(joDetail.getDouble("nAmtDuexx"));
                 dcpDetail.setApntUnit(joDetail.getString("cApntUnit"));
                 dcpDetail.setDueDatex(joDetail.getString("dDueDatex"));
-                dcpDetail.setLongitud(joDetail.getString("nLongitud"));
-                dcpDetail.setLatitude(joDetail.getString("nLatitude"));
+                dcpDetail.setLongitud(joDetail.getDouble("nLongitud"));
+                dcpDetail.setLatitude(joDetail.getDouble("nLatitude"));
                 dcpDetail.setClientID(joDetail.getString("sClientID"));
                 dcpDetail.setSerialID(joDetail.getString("sSerialID"));
                 dcpDetail.setSerialNo(joDetail.getString("sSerialNo"));
-                dcpDetail.setLastPaym(joDetail.getString("nLastPaym"));
+                dcpDetail.setLastPaym(joDetail.getDouble("nLastPaym"));
                 dcpDetail.setLastPaid(joDetail.getString("dLastPaym"));
                 dcpDetail.setABalance(joDetail.getString("nABalance"));
-                dcpDetail.setDelayAvg(joDetail.getString("nDelayAvg"));
-                dcpDetail.setMonAmort(joDetail.getString("nMonAmort"));
+                dcpDetail.setDelayAvg(joDetail.getDouble("nDelayAvg"));
+                dcpDetail.setMonAmort(joDetail.getDouble("nMonAmort"));
                 poDao.SaveDcpDetail(dcpDetail);
                 Log.d(TAG, "DCP account no. " +dcpDetail.getAcctNmbr() + " has been saved.");
             }
@@ -362,15 +362,15 @@ public class LRDcp {
                 loDetail.setClientID(loJson.getString("sClientID"));
                 loDetail.setSerialID(loJson.getString("sSerialID"));
                 loDetail.setSerialNo(loJson.getString("sSerialNo"));
-                loDetail.setLongitud(loJson.getString("nLongitud"));
-                loDetail.setLatitude(loJson.getString("nLatitude"));
+                loDetail.setLongitud(loJson.getDouble("nLongitud"));
+                loDetail.setLatitude(loJson.getDouble("nLatitude"));
                 loDetail.setDueDatex(loJson.getString("dDueDatex"));
-                loDetail.setMonAmort(loJson.getString("nMonAmort"));
-                loDetail.setLastPaym(loJson.getString("nLastPaym"));
+                loDetail.setMonAmort(loJson.getDouble("nMonAmort"));
+                loDetail.setLastPaym(loJson.getDouble("nLastPaym"));
                 loDetail.setLastPaid(loJson.getString("dLastPaym"));
-                loDetail.setAmtDuexx(loJson.getString("nAmtDuexx"));
+                loDetail.setAmtDuexx(loJson.getDouble("nAmtDuexx"));
                 loDetail.setABalance(loJson.getString("nABalance"));
-                loDetail.setDelayAvg(loJson.getString("nDelayAvg"));
+                loDetail.setDelayAvg(loJson.getDouble("nDelayAvg"));
                 loList.add(loDetail);
             }
 
@@ -438,10 +438,10 @@ public class LRDcp {
             loDetail.setRemCodex("PAY");
             loDetail.setTranType(foVal.getPayment());
             loDetail.setPRNoxxxx(foVal.getPrNoxxx());
-            loDetail.setTranAmtx(foVal.getAmountx().replace(",", ""));
-            loDetail.setDiscount(foVal.getDscount().replace(",", ""));
-            loDetail.setOthersxx(foVal.getOthersx().replace(",", ""));
-            loDetail.setTranTotl(foVal.getTotAmnt().replace(",", ""));
+            loDetail.setTranAmtx(foVal.getAmountx());
+            loDetail.setDiscount(foVal.getDscount());
+            loDetail.setOthersxx(foVal.getOthersx());
+            loDetail.setTranTotl(foVal.getTotAmnt());
             loDetail.setRemarksx(foVal.getRemarks());
             loDetail.setTranStat("2");
             loDetail.setModified(new AppConstants().DATE_MODIFIED());
@@ -566,8 +566,8 @@ public class LRDcp {
                     foVal.getTransNox(),
                     foVal.getFileName(),
                     foVal.getFilePath(),
-                    foVal.getLatitude(),
-                    foVal.getLongtude());
+                    String.valueOf(foVal.getLatitude()),
+                    String.valueOf(foVal.getLongtude()));
 
             if(lsImageID == null){
                 message = poImage.getMessage();

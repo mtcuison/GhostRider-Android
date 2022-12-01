@@ -89,7 +89,7 @@ public class RCollectionRemittance {
 
             EDCP_Remittance loDetail = new EDCP_Remittance();
             loDetail.setTransNox(foVal.getsTransNox());
-            loDetail.setEntryNox(lsEntryNo);
+            loDetail.setEntryNox(Integer.parseInt(lsEntryNo));
             loDetail.setTransact(AppConstants.CURRENT_DATE);
             loDetail.setPaymForm(foVal.getcPaymForm());
             loDetail.setRemitTyp(foVal.getcRemitTyp());
@@ -132,7 +132,7 @@ public class RCollectionRemittance {
             param.put("sBankAcct", loDetail.getBankAcct());
             param.put("sReferNox", loDetail.getReferNox());
             param.put("cPaymType", loDetail.getPaymForm());
-            param.put("nAmountxx", Double.parseDouble(loDetail.getAmountxx()));
+            param.put("nAmountxx", loDetail.getAmountxx());
 
             String lsResponse = WebClient.sendRequest(
                     poApi.getUrlDcpRemittance(poConfig.isBackUpServer()),

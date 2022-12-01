@@ -11,9 +11,9 @@ public class PromiseToPay {
                     TransNox,
                     EntryNox,
                     FileName,
-                    FilePath,
-                    latitude,
-                    longtude;
+                    FilePath;
+
+    private double latitude, longtude;
 
     private String message;
 
@@ -105,19 +105,19 @@ public class PromiseToPay {
         FilePath = filePath;
     }
 
-    public String getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(String latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
-    public String getLongtude() {
+    public double getLongtude() {
         return longtude;
     }
 
-    public void setLongtude(String longtude) {
+    public void setLongtude(double longtude) {
         this.longtude = longtude;
     }
 

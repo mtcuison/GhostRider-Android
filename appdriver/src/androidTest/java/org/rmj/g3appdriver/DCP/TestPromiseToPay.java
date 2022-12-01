@@ -83,8 +83,8 @@ public class TestPromiseToPay {
         loPtp.setTransact("2022-10-01");
         loPtp.setFileName("Sample");
         loPtp.setFilePath("Sample");
-        loPtp.setLongtude("121.0000");
-        loPtp.setLongtude("-13.0988");
+        loPtp.setLongtude(121.0000);
+        loPtp.setLongtude(-13.0988);
 
         if(!loSys.SavePTP(loPtp)){
             message = loSys.getMessage();

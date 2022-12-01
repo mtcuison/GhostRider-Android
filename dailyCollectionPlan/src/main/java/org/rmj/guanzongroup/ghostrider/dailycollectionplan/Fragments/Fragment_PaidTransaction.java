@@ -115,8 +115,8 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
 
                 mViewModel.InitPurchaseInfo(detail);
 
-                btnAmort.setText("Amortization : " + FormatUIText.getCurrencyUIFormat(detail.getMonAmort()));
-                btnRBlnce.setText("Amount Due : " + FormatUIText.getCurrencyUIFormat(detail.getAmtDuexx()));
+                btnAmort.setText("Amortization : " + FormatUIText.getCurrencyUIFormat(String.valueOf(detail.getMonAmort())));
+                btnRBlnce.setText("Amount Due : " + FormatUIText.getCurrencyUIFormat(String.valueOf(detail.getAmtDuexx())));
                 SimpleDateFormat loFormatter = new SimpleDateFormat("yyyy-MM-dd");
 
                 String lsDayDuex = detail.getDueDatex().split("-")[2];
@@ -155,12 +155,12 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
 
                 btnAmort.setOnClickListener(v -> {
                     mViewModel.setAmount(Double.valueOf(detail.getMonAmort()));
-                    txtAmount.setText(detail.getMonAmort());
+                    txtAmount.setText(String.valueOf(detail.getMonAmort()));
                 });
 
                 btnRBlnce.setOnClickListener(v -> {
                     mViewModel.setAmount(Double.valueOf(detail.getAmtDuexx()));
-                    txtAmount.setText(detail.getAmtDuexx());
+                    txtAmount.setText(String.valueOf(detail.getAmtDuexx()));
                 });
 
                 btnClear.setOnClickListener(v -> {
@@ -265,10 +265,10 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
             poPaid.setPayment(String.valueOf(spnType.getSelectedItemPosition()));
             poPaid.setPrNoxxx(Objects.requireNonNull(txtPrNoxx.getText()).toString());
             poPaid.setRemarks(Objects.requireNonNull(txtRemarks.getText()).toString());
-            poPaid.setAmountx(Objects.requireNonNull(txtAmount.getText()).toString());
-            poPaid.setDscount(Objects.requireNonNull(txtRebate.getText()).toString());
-            poPaid.setOthersx(Objects.requireNonNull(txtOthers.getText()).toString());
-            poPaid.setTotAmnt(Objects.requireNonNull(txtTotAmnt.getText()).toString());
+            poPaid.setAmountx(FormatUIText.getParseDouble(Objects.requireNonNull(txtAmount.getText()).toString()));
+            poPaid.setDscount(FormatUIText.getParseDouble(Objects.requireNonNull(txtRebate.getText()).toString()));
+            poPaid.setOthersx(FormatUIText.getParseDouble(Objects.requireNonNull(txtOthers.getText()).toString()));
+            poPaid.setTotAmnt(FormatUIText.getParseDouble(Objects.requireNonNull(txtTotAmnt.getText()).toString()));
             mViewModel.SavePaymentInfo(poPaid, Fragment_PaidTransaction.this);
         });
 
