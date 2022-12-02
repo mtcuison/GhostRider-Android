@@ -266,7 +266,7 @@ public class ApprovalCode {
                 case "026": //mis
                     break;
                 case "015": //sales
-                    if (lsPostion.equals("091") || lsPostion.equals("299")){
+                    if (lsPostion.equals("091") || lsPostion.equals("299") || lsPostion.equals("298")){
                         //field specialist
                         lsCondition = "sSCACodex = 'CA'";
                     } else {

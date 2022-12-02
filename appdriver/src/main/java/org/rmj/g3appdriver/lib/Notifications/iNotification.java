@@ -18,6 +18,8 @@ public interface iNotification {
      */
     boolean SendResponse(String val);
 
+
+
     boolean CreateNotification(String title, String message);
 
     LiveData<List<NotificationItemList>> GetNotificationList();
