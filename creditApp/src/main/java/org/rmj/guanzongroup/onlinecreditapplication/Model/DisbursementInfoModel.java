@@ -153,6 +153,4 @@ public class DisbursementInfoModel {
         }
         return true;
     }
-
-
 }

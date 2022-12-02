@@ -16,15 +16,15 @@ plugins {
 }
 
 android {
-    compileSdkVersion 32
+    compileSdkVersion 33
     buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "org.rmj.guanzongroup.ghostrider.epacss"
         minSdkVersion 21
-        targetSdkVersion 32
-        versionCode 33
-        versionName "GhostRider Build v.1.1.33"
+        targetSdkVersion 33
+        versionCode 34
+        versionName "Build Version v.1.10.034 b"
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

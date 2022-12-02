@@ -89,8 +89,7 @@ public class VMSplashScreen extends AndroidViewModel {
                 Manifest.permission.GET_ACCOUNTS,
                 Manifest.permission.CAMERA,
                 Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.REQUEST_INSTALL_PACKAGES});
+                Manifest.permission.ACCESS_COARSE_LOCATION});
         pbGranted.setValue(hasPermissions(application.getApplicationContext(), paPermisions.getValue()));
         this.psVersion.setValue(poConfigx.getVersionInfo());
         this.poLocator = poDcp.getDCP_COH_StatusForTracking();

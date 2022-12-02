@@ -1,15 +1,6 @@
 package org.guanzongroup.com.creditevaluation.Core;
 
-import android.os.Build;
-
-import androidx.annotation.RequiresApi;
-
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.List;
 
 public class CIResultHandler {
 

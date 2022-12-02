@@ -368,6 +368,7 @@ public class Activity_Evaluation extends AppCompatActivity {
             findViewById(R.id.btnSaveNeighbor3).setVisibility(View.VISIBLE);
         });
     }
+
     private void initIntentData(){
         lblTransNox.setText("Transaction No.: " + getIntent().getStringExtra("transno"));
         lblClientName.setText(getIntent().getStringExtra("ClientNm"));

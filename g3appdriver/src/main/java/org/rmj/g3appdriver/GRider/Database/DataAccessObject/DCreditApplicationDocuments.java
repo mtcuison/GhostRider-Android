@@ -54,7 +54,7 @@ import java.util.List;
 
     @Query("INSERT INTO Credit_Online_Application_Documents (sTransNox, sFileCode, nEntryNox) " +
             "SELECT a.sTransNox, b.sFileCode, b.nEntryNox FROM Credit_Online_Application_List a LEFT JOIN EDocSys_File b " +
-            "WHERE a.sTransNox =:TransNox AND b.sFileCode !='0021' AND b.sFileCode !='0020' ")
+            "WHERE a.sTransNox =:TransNox AND b.sFileCode !='0021' AND b.sFileCode !='0020'")
         void insertDocumentByTransNox(String TransNox);
 
     @Query("SELECT * FROM Credit_Online_Application_Documents WHERE sTransNox =:TransNox")

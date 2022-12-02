@@ -194,7 +194,11 @@ public class VMEmployeeApplications extends AndroidViewModel {
         protected void onPostExecute(Boolean isSuccess) {
             super.onPostExecute(isSuccess);
             try{
-
+                if(isSuccess){
+                    mListener.OnDownloadSuccess();
+                } else {
+                    mListener.OnDownloadFailed("");
+                }
             } catch (Exception e){
                 e.printStackTrace();
             }

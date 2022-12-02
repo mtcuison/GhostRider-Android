@@ -29,8 +29,6 @@ public class PensionInfoModel{
         return message;
     }
 
-
-
     public void setPensionSector(String sSectorx) {
         this.sSectorx = sSectorx;
     }

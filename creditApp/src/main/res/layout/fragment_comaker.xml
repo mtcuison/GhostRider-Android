@@ -29,7 +29,6 @@
             android:gravity="center"
             android:orientation="vertical">
 
-
             <TextView
                 style="@style/HeaderLabelBlack"
                 android:layout_width="match_parent"

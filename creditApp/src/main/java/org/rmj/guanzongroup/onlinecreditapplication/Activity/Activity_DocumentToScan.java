@@ -64,7 +64,6 @@ public class Activity_DocumentToScan extends AppCompatActivity {
     private VMDocumentToScan mViewModel;
     private VMMainScanner sViewModel;
 
-
     TextView lblTransNoxxx;
     TextView lblClientName;
     TextView lblAppltnDate;
