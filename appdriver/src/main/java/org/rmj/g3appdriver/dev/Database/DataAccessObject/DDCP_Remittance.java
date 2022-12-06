@@ -79,4 +79,8 @@ public interface DDCP_Remittance {
     @Query("SELECT * FROM LR_DCP_Remittance WHERE sTransNox=:TransNo AND nEntryNox =:EntryNo")
     EDCP_Remittance GetCollectionRemittance(String TransNo, String EntryNo);
 
+    @Query("SELECT (SELECT SUM(nTranTotl) FROM LR_DCP_Collection_Detail WHERE sTransNox =:args) - " +
+            "IFNULL((SELECT SUM(nAmountxx) FROM LR_DCP_Remittance WHERE sTransNox =:args), 0.00) " +
+            "AS RMN_Collection")
+    double ValidateRemittanceEntry(String args);
 }

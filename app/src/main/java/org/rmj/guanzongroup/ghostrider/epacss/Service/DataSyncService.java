@@ -24,6 +24,8 @@ import org.rmj.g3appdriver.lib.ApprovalCode.ApprovalCode;
 import org.rmj.g3appdriver.lib.Itinerary.EmployeeItinerary;
 import org.rmj.g3appdriver.lib.PetManager.Obj.EmployeeLeave;
 import org.rmj.g3appdriver.lib.PetManager.Obj.EmployeeOB;
+import org.rmj.g3appdriver.lib.PetManager.PetManager;
+import org.rmj.g3appdriver.lib.PetManager.iPM;
 import org.rmj.g3appdriver.lib.SelfieLog.SelfieLog;
 import org.rmj.g3appdriver.lib.integsys.CashCount.CashCount;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
@@ -76,7 +78,7 @@ public class DataSyncService extends BroadcastReceiver {
                 }
                 Thread.sleep(1000);
 
-                EmployeeLeave loLeave = new EmployeeLeave(instance);
+                iPM loLeave = new PetManager(instance).GetInstance(PetManager.ePetManager.LEAVE_APPLICATION);
                 if(loLeave.UploadApplications()){
                     publishProgress("Leave application/s uploaded successfully");
                 } else {
@@ -85,7 +87,7 @@ public class DataSyncService extends BroadcastReceiver {
                 }
                 Thread.sleep(1000);
 
-                EmployeeOB loBustrp = new EmployeeOB(instance);
+                iPM loBustrp = new PetManager(instance).GetInstance(PetManager.ePetManager.BUSINESS_TRIP_APPLICATION);
                 if(loBustrp.UploadApplications()){
                     publishProgress("Business trip application/s uploaded successfully");
                 } else {

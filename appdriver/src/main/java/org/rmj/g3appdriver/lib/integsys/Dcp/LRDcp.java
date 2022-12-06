@@ -1214,6 +1214,11 @@ public class LRDcp {
             return null;
         }
 
+        if(!poRemit.HasUnremitCollectedPayments(foVal.getsTransNox())){
+            message = poRemit.getMessage();
+            return null;
+        }
+
         JSONObject params = poRemit.SaveRemittance(foVal);
         if(params == null){
             message = poRemit.getMessage();
