@@ -36,7 +36,7 @@ import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.g3appdriver.utils.WebClient;
 import org.rmj.guanzongroup.ghostrider.notifications.Etc.RemoteMessageParser;
-import org.rmj.guanzongroup.ghostrider.notifications.Object.GNotifBuilder;
+import org.rmj.guanzongroup.ghostrider.notifications.Obj.GNotifBuilder;
 
 import java.util.Date;
 import java.util.Objects;

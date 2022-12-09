@@ -337,12 +337,12 @@ public class LRDcp {
             String lsFileNme = loMaster.getTransNox() + "-mob.txt";
 
             File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
-            File newDir = new File(path + "/" + lsFileNme);
+            File newDir = new File(path + "/" + "DCP Exports");
             try{
                 if (!newDir.exists()) {
                     newDir.mkdir();
                 }
-                FileOutputStream writer = new FileOutputStream(new File(path, lsFileNme));
+                FileOutputStream writer = new FileOutputStream(new File(path + "/" + "DCP Exports", lsFileNme));
                 writer.write(loArray.toString().getBytes());
                 writer.close();
                 Log.e("TAG", "Wrote to file: "+lsFileNme);

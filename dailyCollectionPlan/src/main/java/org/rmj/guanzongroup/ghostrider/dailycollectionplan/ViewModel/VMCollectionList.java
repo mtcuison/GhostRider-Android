@@ -283,15 +283,16 @@ public class VMCollectionList extends AndroidViewModel {
 
         @Override
         protected Boolean doInBackground(String... strings) {
+            if(!poSys.ExportToFile()){
+                message = poSys.getMessage();
+                Log.e(TAG, message);
+            }
+
             if(!poConn.isDeviceConnected()){
                 message = poConn.getMessage();
                 return false;
             }
 
-            if(!poSys.ExportToFile()){
-                message = poSys.getMessage();
-                Log.e(TAG, message);
-            }
 
             String lsResult = poSys.PostCollection(strings[0]);
             if(lsResult == null){

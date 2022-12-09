@@ -32,7 +32,7 @@ import android.widget.RelativeLayout;
 import org.rmj.g3appdriver.etc.GToast;
 import org.rmj.guanzongroup.ghostrider.notifications.Activity.Activity_Notifications;
 import org.rmj.guanzongroup.ghostrider.notifications.Adapter.NotificationListAdapter;
-import org.rmj.guanzongroup.ghostrider.notifications.Object.NotificationItemList;
+import org.rmj.guanzongroup.ghostrider.notifications.Obj.NotificationItemList;
 import org.rmj.guanzongroup.ghostrider.notifications.R;
 import org.rmj.guanzongroup.ghostrider.notifications.ViewModel.VMNotificationList;
 
