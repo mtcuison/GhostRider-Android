@@ -9,7 +9,7 @@
  * project file last modified : 4/24/21 3:18 PM
  */
 
-package org.rmj.guanzongroup.ghostrider.notifications.Object;
+package org.rmj.guanzongroup.ghostrider.notifications.Obj;
 
 import org.rmj.g3appdriver.etc.FormatUIText;
 

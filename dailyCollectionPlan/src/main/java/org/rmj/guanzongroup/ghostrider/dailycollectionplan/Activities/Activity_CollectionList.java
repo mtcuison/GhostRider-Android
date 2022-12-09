@@ -368,6 +368,7 @@ public class Activity_CollectionList extends AppCompatActivity {
 
                         @Override
                         public void OnSuccessDownload(List<EDCPCollectionDetail> detail) {
+                            poDialogx.dismiss();
                             Dialog_ClientSearch loClient = new Dialog_ClientSearch(Activity_CollectionList.this);
                             loClient.initDialog(detail, new Dialog_ClientSearch.OnClientSelectListener() {
                                 @Override
@@ -424,7 +425,12 @@ public class Activity_CollectionList extends AppCompatActivity {
 
                         @Override
                         public void OnFailedDownload(String message) {
-
+                            poDialogx.dismiss();
+                            poMessage.initDialog();
+                            poMessage.setTitle("Daily Collection Plan");
+                            poMessage.setMessage(message);
+                            poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                            poMessage.show();
                         }
                     });
                 }

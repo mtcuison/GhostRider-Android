@@ -13,6 +13,7 @@ package org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel;
 
 import android.app.Application;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -193,7 +194,7 @@ public class VMCollectionList extends AndroidViewModel {
                 message = poSys.getMessage();
                 return false;
             }
-            return null;
+            return true;
         }
 
         @Override
@@ -282,10 +283,16 @@ public class VMCollectionList extends AndroidViewModel {
 
         @Override
         protected Boolean doInBackground(String... strings) {
+            if(!poSys.ExportToFile()){
+                message = poSys.getMessage();
+                Log.e(TAG, message);
+            }
+
             if(!poConn.isDeviceConnected()){
                 message = poConn.getMessage();
                 return false;
             }
+
 
             String lsResult = poSys.PostCollection(strings[0]);
             if(lsResult == null){

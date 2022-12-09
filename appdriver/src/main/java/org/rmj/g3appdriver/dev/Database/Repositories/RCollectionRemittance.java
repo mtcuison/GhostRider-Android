@@ -165,4 +165,14 @@ public class RCollectionRemittance {
             return false;
         }
     }
+
+    public boolean HasUnremitCollectedPayments(String args){
+        double lnRmCllct =  poDao.ValidateRemittanceEntry(args);
+        if(lnRmCllct > 0){
+            return true;
+        } else {
+            message = "No collected payments to remit.";
+            return false;
+        }
+    }
 }

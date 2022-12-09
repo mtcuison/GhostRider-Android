@@ -145,6 +145,7 @@ public class Activity_CollectionRemittance extends AppCompatActivity {
                     try{
                         lblOHCashxx.setText("Cash-On-Hand: " + FormatUIText.getCurrencyUIFormat(s));
                         psCltCashx = s;
+                        poRemit.setnCollectd(Double.parseDouble(psCltCashx));
                         btnRemitAll.setText("Total Cash-On-Hand" + FormatUIText.getCurrencyUIFormat(psCltCashx));
                     } catch (Exception e){
                         e.printStackTrace();
@@ -171,6 +172,7 @@ public class Activity_CollectionRemittance extends AppCompatActivity {
             if(checkedId == R.id.rb_remitCash){
                 isCheck = false;
                 poRemit.setcPaymForm("0");
+                poRemit.setnCollectd(Double.parseDouble(psCltCashx));
                 txtAmount.setText("");
                 if(psCltCashx != null) {
                     if (!psCltCashx.isEmpty()) {
@@ -184,6 +186,7 @@ public class Activity_CollectionRemittance extends AppCompatActivity {
             } else if(checkedId == R.id.rb_remitCheck){
                 isCheck = true;
                 poRemit.setcPaymForm("1");
+                poRemit.setnCollectd(Double.parseDouble(psCltCheck));
                 txtAmount.setText("");
                 if(psCltCheck != null) {
                     if (!psCltCheck.isEmpty()) {

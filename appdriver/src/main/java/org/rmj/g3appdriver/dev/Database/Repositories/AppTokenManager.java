@@ -133,6 +133,7 @@ public class AppTokenManager {
                 loToken.setTimeStmp(new AppConstants().DATE_MODIFIED());
                 poDao.SaveToken(loToken);
                 Log.d(TAG, "New client token has been saved.");
+                return loToken.getTokenInf();
             }
 
             //Check here if client token is still valid...
@@ -213,6 +214,7 @@ public class AppTokenManager {
                 loToken.setTimeStmp(new AppConstants().DATE_MODIFIED());
                 poDao.SaveToken(loToken);
                 Log.d(TAG, "New access token has been saved.");
+                return loToken.getTokenInf();
             }
 
             //Check here if client token is still valid...

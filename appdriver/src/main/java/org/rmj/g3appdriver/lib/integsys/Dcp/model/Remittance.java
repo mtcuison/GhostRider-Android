@@ -7,6 +7,7 @@ public class Remittance {
     private String sCompnyNm = "";
     private String sBankAcct = "";
     private String sReferNox = "";
+    private double nCollectd = 0.00;
     private double nAmountxx = 0.00;
 
     private String message;
@@ -74,11 +75,25 @@ public class Remittance {
         this.nAmountxx = nAmountxx;
     }
 
+    public double getnCollectd() {
+        return nCollectd;
+    }
+
+    public void setnCollectd(double nCollectd) {
+        this.nCollectd = nCollectd;
+    }
+
     public boolean isDataValid(){
         if(nAmountxx == 0){
             message = "Invalid remittance amount.";
             return false;
         }
+
+        if(nAmountxx > nCollectd){
+            message = "Unable to remit amount more than the collected amount";
+            return false;
+        }
+
         switch (cRemitTyp){
             case "0":
                 if(sCompnyNm.trim().isEmpty()){
