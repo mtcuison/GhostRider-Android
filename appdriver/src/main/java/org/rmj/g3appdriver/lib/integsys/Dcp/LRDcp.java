@@ -1,12 +1,16 @@
 package org.rmj.g3appdriver.lib.integsys.Dcp;
 
 import android.app.Application;
+import android.content.Context;
 import android.net.Uri;
+import android.os.Environment;
+import android.os.ParcelFileDescriptor;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.rmj.apprdiver.util.LRUtil;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DAddressUpdate;
@@ -43,12 +47,17 @@ import org.rmj.g3appdriver.lib.integsys.Dcp.obj.RClientUpdate;
 import org.rmj.g3appdriver.lib.integsys.Dcp.obj.RMobileUpdate;
 import org.rmj.g3appdriver.utils.WebApi;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class LRDcp {
     private static final String TAG = LRDcp.class.getSimpleName();
+
+    private final Application instance;
 
     private final DLRDcp poDao;
 
@@ -69,6 +78,7 @@ public class LRDcp {
     private String message;
 
     public LRDcp(Application instance) {
+        this.instance = instance;
         this.poDao = GGC_GriderDB.getInstance(instance).DcpDao();
         this.poUser = new EmployeeMaster(instance);
         this.poConfig = AppConfigPreference.getInstance(instance);
@@ -180,6 +190,177 @@ public class LRDcp {
 
     public boolean ExportToFile(){
         try{
+            EDCPCollectionMaster loMaster = poDao.GetColletionMasterForPosting();
+
+            List<EDCPCollectionDetail> laCollDetl = poDao.GetCollectionDetailForPosting(loMaster.getTransNox());
+
+            JSONArray loArray = new JSONArray();
+            JSONObject params = new JSONObject();
+
+            for(int x = 0; x < laCollDetl.size(); x++){
+                EDCPCollectionDetail detail = laCollDetl.get(x);
+
+                JSONObject loData = new JSONObject();
+
+                String lsRemCode = detail.getRemCodex();
+
+                EImageInfo loImage;
+
+                switch (lsRemCode) {
+                    case "PAY":
+                        loData.put("sPRNoxxxx", detail.getPRNoxxxx());
+                        loData.put("nTranAmtx", detail.getTranAmtx());
+                        loData.put("nDiscount", detail.getDiscount());
+                        loData.put("nOthersxx", detail.getOthersxx());
+                        loData.put("cTranType", detail.getTranType());
+                        loData.put("nTranTotl", detail.getTranTotl());
+                        loData.put("sRemarksx", detail.getRemarksx());
+                        params.put("sRemCodex", detail.getRemCodex());
+                        params.put("dModified", detail.getModified());
+                        break;
+
+                    case "CNA":
+                        String lsClientID = detail.getClientID();
+
+                        JSONObject address = poAddress.GetAddressDetailForPosting(lsClientID);
+                        if(address == null){
+                            message = poAddress.getMessage();
+                            Log.e(TAG, message);
+                        } else {
+                            loData.put("Address", address);
+                        }
+
+                        JSONObject mobile = poMobile.GetMobileDetailForPosting(lsClientID);
+                        if(mobile == null){
+                            message = poMobile.getMessage();
+                            Log.e(TAG, message);
+                        } else {
+                            loData.put("Mobile", mobile);
+                        }
+
+                        break;
+
+                    case "PTP":
+                        loData.put("cApntUnit", detail.getApntUnit());
+                        loData.put("sBranchCd", detail.getBranchCd());
+                        loData.put("dPromised", detail.getPromised());
+                        params.put("sRemCodex", detail.getRemCodex());
+                        params.put("dModified", detail.getModified());
+
+                        loImage = poDao.GetDcpImageForPosting(
+                                detail.getTransNox(),
+                                detail.getAcctNmbr());
+
+                        if(loImage != null){
+
+                            if(!poConfig.getTestStatus()){
+                                loData.put("sImageNme", loImage.getImageNme());
+                                loData.put("sSourceCD", loImage.getSourceCD());
+                                loData.put("nLongitud", loImage.getLongitud());
+                                loData.put("nLatitude", loImage.getLatitude());
+
+                                if(!poImage.UploadImage(loImage.getTransNox())){
+                                    Log.e(TAG, poImage.getMessage());
+                                }
+                            }
+                        }
+                        break;
+
+                    case "LUn":
+                    case "TA":
+                    case "FO":
+                        EClientUpdate loClient = poClient.getClientUpdateInfoForPosting(loMaster.getTransNox(), detail.getAcctNmbr());
+
+                        loData.put("sLastName", loClient.getLastName());
+                        loData.put("sFrstName", loClient.getFrstName());
+                        loData.put("sMiddName", loClient.getMiddName());
+                        loData.put("sSuffixNm", loClient.getSuffixNm());
+                        loData.put("sHouseNox", loClient.getHouseNox());
+                        loData.put("sAddressx", loClient.getAddressx());
+                        loData.put("sTownIDxx", loClient.getTownIDxx());
+                        loData.put("cGenderxx", loClient.getGenderxx());
+                        loData.put("cCivlStat", loClient.getCivlStat());
+                        loData.put("dBirthDte", loClient.getBirthDte());
+                        loData.put("dBirthPlc", loClient.getBirthPlc());
+                        loData.put("sLandline", loClient.getLandline());
+                        loData.put("sMobileNo", loClient.getMobileNo());
+                        loData.put("sEmailAdd", loClient.getEmailAdd());
+
+                        loImage = poImage.getDCPImageInfoForPosting(loMaster.getTransNox(), detail.getAcctNmbr());
+                        if(loImage != null || loImage.getImageNme() != null) {
+                            if(!poConfig.getTestStatus()) {
+                                loData.put("sImageNme", loImage.getImageNme());
+                                loData.put("sSourceCD", loImage.getSourceCD());
+                                loData.put("nLongitud", loImage.getLongitud());
+                                loData.put("nLatitude", loImage.getLatitude());
+                            }
+                        }
+                        break;
+
+                    default:
+                        loImage = poDao.GetDcpImageForPosting(
+                                detail.getTransNox(),
+                                detail.getAcctNmbr());
+
+                        if(loImage != null){
+                            Log.d(TAG, "Not visited image found.");
+                            if(!poConfig.getTestStatus()){
+                                loData.put("sImageNme", loImage.getImageNme());
+                                loData.put("sSourceCD", loImage.getSourceCD());
+                                loData.put("nLongitud", loImage.getLongitud());
+                                loData.put("nLatitude", loImage.getLatitude());
+
+                                if(!poImage.UploadImage(loImage.getTransNox())){
+                                    Log.e(TAG, poImage.getMessage());
+                                }
+                            }
+                        } else {
+                            Log.e(TAG, "Not visited image not found.");
+                        }
+                }
+                loData.put("sRemarksx", detail.getRemarksx());
+                params.put("sRemCodex", detail.getRemCodex());
+                params.put("dModified", detail.getModified());
+
+                params.put("sTransNox", detail.getTransNox());
+                params.put("nEntryNox", detail.getEntryNox());
+                params.put("sAcctNmbr", detail.getAcctNmbr());
+
+                params.put("sJsonData", loData);
+                params.put("dReceived", "");
+                params.put("sUserIDxx", poSession.getUserID());
+                params.put("sDeviceID", poDevice.getDeviceID());
+                Log.d(TAG, "DCP posting data: " + params);
+                loArray.put(params);
+            }
+
+            String lsFileNme = loMaster.getTransNox() + "-mob.txt";
+
+            File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
+            File newDir = new File(path + "/" + lsFileNme);
+            try{
+                if (!newDir.exists()) {
+                    newDir.mkdir();
+                }
+                FileOutputStream writer = new FileOutputStream(new File(path, lsFileNme));
+                writer.write(loArray.toString().getBytes());
+                writer.close();
+                Log.e("TAG", "Wrote to file: "+lsFileNme);
+            } catch (IOException e) {
+                e.printStackTrace();
+                message = e.getMessage();
+                return false;
+            }
+
+//
+//            ParcelFileDescriptor pfd = instance.getContentResolver().
+//                    openFileDescriptor(uri, "w");
+//            FileOutputStream fileOutputStream =
+//                    new FileOutputStream(pfd.getFileDescriptor());
+//            fileOutputStream.write(loArray.toString().getBytes());
+//            // Let the document provider know you're done by closing the stream.
+//            fileOutputStream.close();
+//            pfd.close();
 
             return true;
         } catch (Exception e){
