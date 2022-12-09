@@ -85,6 +85,10 @@ public class Activity_SplashScreen extends AppCompatActivity {
         lblVrsion = findViewById(R.id.lbl_versionInfo);
         lblVrsion.setText(BuildConfig.VERSION_NAME);
 
+
+        startService(new Intent(Activity_SplashScreen.this, GMessagingService.class));
+        Log.e(TAG, "Firebase messaging service started.");
+
         CheckPermissions();
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(task -> {
@@ -99,8 +103,6 @@ public class Activity_SplashScreen extends AppCompatActivity {
                     mViewModel.SaveFirebaseToken(token);
                     AppConfigPreference.getInstance(Activity_SplashScreen.this).setAppToken(token);
                 });
-
-        startService(new Intent(Activity_SplashScreen.this, GMessagingService.class));
 
         AppDirectoryCreator loCreator = new AppDirectoryCreator();
         if(loCreator.createAppDirectory(Activity_SplashScreen.this)){
@@ -138,6 +140,11 @@ public class Activity_SplashScreen extends AppCompatActivity {
         }
         if(ActivityCompat.checkSelfPermission(Activity_SplashScreen.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
             lsPermissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if(ActivityCompat.checkSelfPermission(Activity_SplashScreen.this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED){
+                lsPermissions.add(Manifest.permission.POST_NOTIFICATIONS);
+            }
         }
         poRequest.launch(lsPermissions.toArray(new String[0]));
     }

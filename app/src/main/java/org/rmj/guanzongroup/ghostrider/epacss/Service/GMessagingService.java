@@ -11,6 +11,8 @@
 
 package org.rmj.guanzongroup.ghostrider.epacss.Service;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -19,7 +21,12 @@ import com.google.firebase.messaging.RemoteMessage;
 import org.rmj.g3appdriver.dev.Database.Entities.ETokenInfo;
 import org.rmj.g3appdriver.dev.Database.Repositories.AppTokenManager;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.guanzongroup.ghostrider.notifications.Function.AndroidNotificationManager;
+import org.rmj.g3appdriver.lib.Notifications.NMM;
+import org.rmj.g3appdriver.lib.Notifications.NOTIFICATION_STATUS;
+import org.rmj.g3appdriver.lib.Notifications.iNotification;
+import org.rmj.guanzongroup.ghostrider.notifications.Etc.NotificationUI;
+import org.rmj.guanzongroup.ghostrider.notifications.Etc.iNotificationUI;
+//import org.rmj.guanzongroup.ghostrider.notifications.Function.AndroidNotificationManager;
 
 public class GMessagingService extends FirebaseMessagingService {
     private static final String TAG = GMessagingService.class.getSimpleName();
@@ -33,8 +40,24 @@ public class GMessagingService extends FirebaseMessagingService {
     }
 
     @Override
-    public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
-        super.onMessageReceived(remoteMessage);
-        new AndroidNotificationManager(getApplication()).DoAction(remoteMessage);
+    public void onMessageReceived(@NonNull RemoteMessage message) {
+        super.onMessageReceived(message);
+        Log.d(TAG, "Message Received!");
+//        new AndroidNotificationManager(getApplication()).DoAction(remoteMessage);
+        iNotification loSys = new NMM(getApplication()).getInstance(message);
+
+        String lsResult = loSys.Save(message);
+        if(lsResult == null){
+            Log.e(TAG, loSys.getMessage());
+            return;
+        }
+
+        if(!loSys.SendResponse(lsResult, NOTIFICATION_STATUS.RECEIVED)){
+            Log.e(TAG, loSys.getMessage());
+            return;
+        }
+
+        iNotificationUI loUI = new NotificationUI(GMessagingService.this).getInstance(message);
+        loUI.CreateNotification();
     }
 }

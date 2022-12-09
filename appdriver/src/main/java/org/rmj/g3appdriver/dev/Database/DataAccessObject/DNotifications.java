@@ -51,6 +51,15 @@ public interface DNotifications {
     @Query("SELECT COUNT(*) FROM Notification_Info_Recepient a LEFT JOIN Notification_Info_Master b ON a.sTransNox = b.sMesgIDxx WHERE b.sMesgIDxx =:MessageID")
     int getNotificationIfExist(String MessageID);
 
+    @Query("SELECT COUNT(*) FROM Notification_Info_Master WHERE sMesgIDxx=:TransNox")
+    int CheckNotificationIfExist(String TransNox);
+
+    @Query("SELECT * FROM Notification_User WHERE sUserIDxx=:fsVal")
+    ENotificationUser CheckIfUserExist(String fsVal);
+
+    @Query("SELECT COUNT(*) FROM Notification_Info_Master")
+    int GetNotificationCountForID();
+
     @Query("UPDATE Notification_Info_Recepient SET " +
             "dLastUpdt =:DateTime, " +
             "cMesgStat = '2', " +
@@ -210,6 +219,14 @@ public interface DNotifications {
             "WHERE sTransNox =(SELECT sMesgIDxx FROM Notification_Info_Master WHERE sCreatrID=:SenderID) " +
             "AND cMesgStat == '2'")
     void updateMessageReadStatus(String SenderID, String DateTime);
+
+    @Query("UPDATE Notification_Info_Recepient SET " +
+            "dLastUpdt =:dateTime, " +
+            "dReceived =:dateTime, " +
+            "cMesgStat =:Status, " +
+            "cStatSent = '1' " +
+            "WHERE sTransNox =:MessageID")
+    void UpdateSentResponseStatus(String MessageID, String Status, String dateTime);
 
     class ClientNotificationInfo{
         public String MesgIDxx;
