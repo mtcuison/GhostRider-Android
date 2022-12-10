@@ -9,7 +9,7 @@
  * project file last modified : 5/18/21 9:37 AM
  */
 
-package org.rmj.guanzongroup.ghostrider.notifications.Object;
+package org.rmj.guanzongroup.ghostrider.notifications.Obj;
 
 public class EmployeeSearchItem {
 

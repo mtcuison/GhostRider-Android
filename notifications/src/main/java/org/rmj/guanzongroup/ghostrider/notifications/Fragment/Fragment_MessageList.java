@@ -34,8 +34,8 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import org.rmj.guanzongroup.ghostrider.notifications.Activity.Activity_Notifications;
 import org.rmj.guanzongroup.ghostrider.notifications.Adapter.MessageListAdapter;
-import org.rmj.guanzongroup.ghostrider.notifications.Object.EmployeeSearchItem;
-import org.rmj.guanzongroup.ghostrider.notifications.Object.MessageItemList;
+import org.rmj.guanzongroup.ghostrider.notifications.Obj.EmployeeSearchItem;
+import org.rmj.guanzongroup.ghostrider.notifications.Obj.MessageItemList;
 import org.rmj.guanzongroup.ghostrider.notifications.R;
 import org.rmj.guanzongroup.ghostrider.notifications.ViewModel.VMMessageList;
 

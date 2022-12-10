@@ -131,9 +131,9 @@ public class HttpHeaders {
     }
 
     public HashMap<String, String> getHeaders(){
-//        if(!poConfigx.getTestStatus()) {
-//            return (HashMap<String, String>) initHttpHeaders();
-//        }
+        if(!poConfigx.getTestStatus()) {
+            return (HashMap<String, String>) initHttpHeaders();
+        }
         return (HashMap<String, String>) initTestHeaders();
     }
 }

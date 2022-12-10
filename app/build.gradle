@@ -24,7 +24,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 33
         versionCode 33
-        versionName "GhostRider Build v.1.1.33"
+        versionName "Build Version v.1.10.34 b"
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -65,7 +65,7 @@ allprojects {
 dependencies {
 
     implementation 'androidx.appcompat:appcompat:1.5.1'
-    implementation 'com.google.android.material:material:1.7.0'
+    implementation 'com.google.android.material:material:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.navigation:navigation-fragment:2.5.3'
     implementation 'androidx.navigation:navigation-ui:2.5.3'
@@ -76,10 +76,11 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.google.android.gms:play-services-location:21.0.1'
-    implementation 'com.google.android.gms:play-services-auth:20.3.0'
+    implementation 'com.google.android.gms:play-services-auth:20.4.0'
     implementation 'com.google.firebase:firebase-crashlytics:18.3.2'
     implementation 'com.google.firebase:firebase-analytics:21.2.0'
 
+    implementation 'com.google.firebase:firebase-messaging:23.1.0'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.4'
@@ -98,8 +99,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging'
     implementation 'com.google.firebase:firebase-core:21.1.1'
     implementation("com.google.firebase:firebase-inappmessaging-display-ktx:20.2.0")
-    implementation("io.grpc:grpc-okhttp:1.44.1")
-    implementation 'androidx.work:work-runtime:2.8.0-beta02'
+    implementation("io.grpc:grpc-okhttp:1.48.1")
+    implementation 'androidx.work:work-runtime:2.8.0-rc01'
 
     implementation 'commons-io:commons-io:2.6'
     implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
