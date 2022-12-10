@@ -1,8 +1,11 @@
 package org.rmj.g3appdriver.lib.integsys.CreditApp.model;
 
+import static java.lang.Integer.parseInt;
+import static java.lang.String.*;
+
 public class MobileNo {
     private String MobileNo = "";
-    private int isPostPd = 0;
+    private String isPostPd = "";
     private int PostYear = 0;
 
     private String message;
@@ -18,7 +21,7 @@ public class MobileNo {
         MobileNo = mobileNo;
     }
 
-    public void setIsPostPd(int isPostPd) {
+    public void setIsPostPd(String isPostPd) {
         this.isPostPd = isPostPd;
     }
 
@@ -31,7 +34,7 @@ public class MobileNo {
     }
 
     public String getIsPostPd() {
-        return String.valueOf(isPostPd);
+        return isPostPd;
     }
 
     public int getPostYear() {
@@ -53,7 +56,7 @@ public class MobileNo {
             return false;
         }
 
-        if(isPostPd == 1 && PostYear == 0){
+        if(isPostPd.equalsIgnoreCase("1") && PostYear == 0 ){
             message = "Please enter postpaid plan year.";
             return false;
         }

@@ -95,6 +95,7 @@
             android:text="Previous"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
+            android:drawableLeft="@drawable/ic_nav_left"
             android:layout_marginTop="15dp"
             android:layout_alignParentStart="true" />
 
@@ -106,6 +107,7 @@
             android:text="Save"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:drawableRight="@drawable/ic_application_export"
             android:layout_marginTop="15dp"
             android:layout_alignParentEnd="true" />
 

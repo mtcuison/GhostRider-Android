@@ -2,6 +2,7 @@ package org.rmj.guanzongroup.onlinecreditapplication.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -11,21 +12,31 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
+import org.rmj.g3appdriver.etc.MessageBox;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Dependent;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
+import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.OnParseListener;
+import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMDependent;
 
 import java.util.Objects;
 
 public class Activity_Dependent extends AppCompatActivity {
+
+    private VMDependent mViewModel;
+    private MessageBox poMessage;
 
     private TextInputEditText tieFullname, tieDpdAgexx, tieSchoolNm, tieSchlAddx;
     private AutoCompleteTextView tieSchlProv, tieSchlTown;
@@ -41,66 +52,66 @@ public class Activity_Dependent extends AppCompatActivity {
     private MaterialButton btnAddDependent;
     private CheckBox cbScholarxx, cbDependent, cbHouseHold;
     private CheckBox cbIsMarried;
-    private String sDepStud = "", sDepEmp = "";
     private Button btnPrev, btnNext;
     private Toolbar toolbar;
-    private String scbDependent, scbHouseHold, scbIsMarried, scbScholarxx;
 
-    private int mRelationPosition = -1;
-    private int mEducLvlPosition = 0;
 
     public String Employment = "";
-    private String IsStudentx = "-1", IsEmployed = "-1", Dependentx = "0", HouseHoldx = "0", IsMarriedx = "0", IsScholarx = "0", IsPrivatex = "0";
-    private String actRelationshipX = "-1";
-
-    private static String dpdSchoolType = "", dpdSchoolLvl = "", dpdEmpType = "", dpdRelationX = "", TownID = "";
-//    private DependentAdapter adapter;
+    //    private DependentAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mViewModel = new ViewModelProvider(Activity_Dependent.this).get(VMDependent.class);
+        poMessage = new MessageBox(Activity_Dependent.this);
         setContentView(R.layout.activity_dependent);
         initWidgets();
-        json();
+        mViewModel.InitializeApplication(getIntent());
+        mViewModel.GetApplication().observe(Activity_Dependent.this, new Observer<ECreditApplicantInfo>() {
+            @Override
+            public void onChanged(ECreditApplicantInfo app) {
+                try {
+                    mViewModel.getModel().setTransNox(app.getTransNox());
+                    mViewModel.ParseData(app, new OnParseListener() {
+                        @Override
+                        public void OnParse(Object args) {
+                            Dependent loDetail = (Dependent) args;
+                        }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+
+        btnNext.setOnClickListener(v -> SaveDependentInfo());
+        btnPrev.setOnClickListener(v -> finish());
+
 
     }
 
-    private void json() {
-        Intent receiveIntent = getIntent();
-        String param = receiveIntent.getStringExtra("params");
-        try {
-            JSONObject object = new JSONObject(param);
-            object.put("stieFullname", tieFullname.getText().toString().trim());
-            object.put("stieDpdAgexx", tieDpdAgexx.getText().toString().trim());
-            object.put("stieCompName", tieCompName.getText().toString().trim());
-            object.put("stieSchoolNm", tieSchoolNm.getText().toString().trim());
-            object.put("stieSchlAddx", tieSchlAddx.getText().toString().trim());
-            object.put("stieSchlProv", tieSchlProv.getText().toString().trim());
-            object.put("stieSchlTown", tieSchlTown.getText().toString().trim());
-            object.put("sactRelationx", actRelationx.getText().toString().trim());
-            object.put("ssDepStud", sDepStud);
-            object.put("ssDepEmp", sDepEmp);
-            object.put("scbDependent", scbDependent);
-            object.put("scbHouseHold", scbHouseHold);
-            object.put("scbIsMarried", scbIsMarried);
-            object.put("scbScholarxx", scbScholarxx);
+    private void SaveDependentInfo() {
+        mViewModel.getModel().getDependentList().get(0).setFullName(Objects.requireNonNull(tieFullname.getText()).toString().trim());
 
-            btnNext.setOnClickListener(v -> {
-                Intent intent = new Intent(Activity_Dependent.this, Activity_Properties.class);
-                intent.putExtra("params", object.toString());
-                startActivity(intent);
-                finish();
-            });
-            btnPrev.setOnClickListener(v -> {
-                Intent intent = new Intent(Activity_Dependent.this, Activity_DisbursementInfo.class);
-                startActivity(intent);
-                finish();
-            });
 
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        mViewModel.SaveData(new OnSaveInfoListener() {
+            @Override
+            public void OnSave(String args) {
+                Intent loIntent = new Intent(Activity_Dependent.this, Activity_Properties.class);
+                loIntent.putExtra("sTransNox", args);
+                startActivity(loIntent);
+                overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
+            }
+
+            @Override
+            public void OnFailed(String message) {
+
+            }
+        });
     }
+
 
     private void initWidgets() {
         toolbar = findViewById(R.id.toolbar_Dependent);
@@ -113,7 +124,7 @@ public class Activity_Dependent extends AppCompatActivity {
         tieCompName = findViewById(R.id.tie_cap_dpdCompanyName);
         tieSchoolNm = findViewById(R.id.tie_cap_dpdSchoolName);
         tieSchlAddx = findViewById(R.id.tie_cap_dpdSchoolAddress);
-        tieSchlProv = findViewById(R.id.tie_cap_dpdSchoolProv);
+//        tieSchlProv = findViewById(R.id.tie_cap_dpdSchoolProv);
         tieSchlTown = findViewById(R.id.tie_cap_dpdSchoolTown);
 
         actRelationx = findViewById(R.id.spinner_cap_dpdRelation);
@@ -148,76 +159,49 @@ public class Activity_Dependent extends AppCompatActivity {
         cbDependent.setOnClickListener(v -> {
             boolean checked = ((CheckBox) v).isChecked();
 
-            if (checked) {
-                scbDependent = "yes";
-            } else {
-                scbDependent = "no";
-            }
-        });
-        cbHouseHold.setOnClickListener(v -> {
-            boolean checked = ((CheckBox) v).isChecked();
-            if (checked) {
-                scbHouseHold = "yes";
-            } else {
-                scbHouseHold = "no";
-            }
+
+            actRelationx.setAdapter(new ArrayAdapter<>(Activity_Dependent.this,
+                    android.R.layout.simple_list_item_1, CreditAppConstants.DEPENDENT_RELATIONSHIP));
+            actRelationx.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+
+            actSchoolType.setAdapter(new ArrayAdapter<>(Activity_Dependent.this,
+                    android.R.layout.simple_list_item_1, CreditAppConstants.SCHOOL_TYPE));
+            actRelationx.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+
+            actSchoolLvl.setAdapter(new ArrayAdapter<>(Activity_Dependent.this,
+                    android.R.layout.simple_list_item_1, CreditAppConstants.SCHOOL_LEVEL));
+            actSchoolLvl.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+
+            actEmploymentType.setAdapter(new ArrayAdapter<>(Activity_Dependent.this,
+                    android.R.layout.simple_list_item_1, CreditAppConstants.EMPLOYMENT_SECTOR));
+            actEmploymentType.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
 
         });
-        cbIsMarried.setOnClickListener(v -> {
-            boolean checked = ((CheckBox) v).isChecked();
-            if (checked) {
-                scbIsMarried = "yes";
-            } else {
-                scbIsMarried = "no";
-            }
-        });
-        cbScholarxx.setOnClickListener(v -> {
-            boolean checked = ((CheckBox) v).isChecked();
-            if (checked) {
-                scbScholarxx = "yes";
-            } else {
-                scbScholarxx = "no";
-            }
-        });
-
-        rgDpdStudent.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if (rbDpdStudentYes.isChecked()) {
-                    sDepStud = "Yes";
-                } else if (rbDpdStudentNo.isChecked()) {
-                    sDepStud = "No";
-                }
-            }
-        });
-
-        rgDpdEmployd.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if (rbDpdEmploydYes.isChecked()) {
-                    sDepEmp = "Yes";
-                } else if (rbDpdEmploydNo.isChecked()) {
-                    sDepEmp = "No";
-                }
-            }
-        });
-
-        actRelationx.setAdapter(new ArrayAdapter<>(Activity_Dependent.this,
-                android.R.layout.simple_list_item_1, CreditAppConstants.DEPENDENT_RELATIONSHIP));
-        actRelationx.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
-
-        actSchoolType.setAdapter(new ArrayAdapter<>(Activity_Dependent.this,
-                android.R.layout.simple_list_item_1, CreditAppConstants.SCHOOL_TYPE));
-        actRelationx.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
-
-        actSchoolLvl.setAdapter(new ArrayAdapter<>(Activity_Dependent.this,
-                android.R.layout.simple_list_item_1, CreditAppConstants.SCHOOL_LEVEL));
-        actSchoolLvl.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
-
-        actEmploymentType.setAdapter(new ArrayAdapter<>(Activity_Dependent.this,
-                android.R.layout.simple_list_item_1, CreditAppConstants.EMPLOYMENT_SECTOR));
-        actEmploymentType.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
-
-
     }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        getViewModelStore().clear();
+        super.onDestroy();
+    }
+
 }

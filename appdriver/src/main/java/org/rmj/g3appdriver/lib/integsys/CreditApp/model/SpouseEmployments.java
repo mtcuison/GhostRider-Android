@@ -1,6 +1,6 @@
 package org.rmj.g3appdriver.lib.integsys.CreditApp.model;
 
-public class Employment {
+public class SpouseEmployments {
 
     private String sTransNox = "";
     private String sSectorxx = "";
@@ -29,7 +29,7 @@ public class Employment {
 
     private String message;
 
-    public Employment() {
+    public SpouseEmployments() {
     }
 
     public String getMessage() {
@@ -222,17 +222,16 @@ public class Employment {
         this.sMonthlyx = sMonthlyx;
     }
 
-    public void setContact(String sContactx) {
-        this.sContactx = sContactx;
-    }
     public String getContact() {
         return sContactx;
     }
 
-
+    public void setContact(String sContactx) {
+        this.sContactx = sContactx;
+    }
 
     public boolean isDataValid(){
-        return  isEmploymentSectorValid() &&
+        return isEmploymentSectorValid() &&
                 isUniformPersonalValid() &&
                 isMilitaryPersonalValid() &&
                 isCompanyLevelValid() &&
@@ -252,8 +251,8 @@ public class Employment {
 
     private boolean isEmploymentSectorValid(){
         if(sSectorxx.trim().isEmpty() || sSectorxx.equalsIgnoreCase("")){
-                message = "Please select Employment Sector";
-                return false;
+            message = "Please select Employment Sector";
+            return false;
         }
         return true;
     }
@@ -270,7 +269,7 @@ public class Employment {
 
     private boolean isMilitaryPersonalValid(){
         if(sSectorxx.equalsIgnoreCase("0")){
-            if(cMilitary == null || cMilitary.trim().equalsIgnoreCase("")){
+            if(cMilitary == null || cMilitary.equalsIgnoreCase("")){
                 message = "Please select if military personnel";
                 return false;
             }
@@ -289,7 +288,7 @@ public class Employment {
                 message = "Please select company level";
                 return false;
             }
-        } else if (sSectorxx.equalsIgnoreCase("2")){
+        } else if(sSectorxx.equalsIgnoreCase("2")){
             if(cCompLevl == null || cCompLevl.trim().equalsIgnoreCase("")){
                 message = "Please select ofw region";
                 return false;
@@ -305,11 +304,11 @@ public class Employment {
                 return false;
             }
         } else if(sSectorxx.equalsIgnoreCase("1")){
-            if(cEmpLevel == null || cEmpLevel.trim().equalsIgnoreCase("")){
+            if(cEmpLevel == null ||cEmpLevel.trim().equalsIgnoreCase("")){
                 message = "Please select employee level";
                 return false;
             }
-        } else if (sSectorxx.equalsIgnoreCase("2")){
+        } else if(sSectorxx.equalsIgnoreCase("2")){
             if(cEmpLevel == null || cEmpLevel.trim().equalsIgnoreCase("")){
                 message = "Please select ofw region";
                 return false;
@@ -360,7 +359,7 @@ public class Employment {
 //                return false;
 //            }
             if (sTownName == null || sTownName.equalsIgnoreCase("")) {
-                message = "Please enter company Municipality address";
+                message = "Please enter company municipality address";
                 return false;
             }
         }
@@ -408,7 +407,7 @@ public class Employment {
     }
     private boolean isSpnLengthOfServiceValid(){
         if(sSectorxx.equalsIgnoreCase("1") || sSectorxx.equalsIgnoreCase("0")) {
-            if (cIsYearxx == null || cIsYearxx.isEmpty()) {
+            if (cIsYearxx == null || cIsYearxx.trim().isEmpty()) {
                 message = "Please enter length of service\n Month/Year";
                 return false;
             }

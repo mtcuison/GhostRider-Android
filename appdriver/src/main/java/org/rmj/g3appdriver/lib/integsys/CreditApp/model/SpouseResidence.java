@@ -114,9 +114,9 @@ public class SpouseResidence {
     }
 
     public boolean isDataValid() {
-        if(isLandmarkValid() || !sHouseNox.trim().isEmpty() || !sAddress1.trim().isEmpty() || !sAddress2.trim().isEmpty() || isProvinceValid() || isTownValid() || isBarangayValid()) {
+        if(isLandmarkValid() || !sHouseNox.trim().isEmpty() || !sAddress1.trim().isEmpty() || !sAddress2.trim().isEmpty() || isTownValid() || isBarangayValid()) {
             return isLandmarkValid() &&
-                    isProvinceValid() &&
+//                    isProvinceValid() &&
                     isTownValid() &&
                     isBarangayValid();
         } else {
@@ -125,20 +125,20 @@ public class SpouseResidence {
     }
 
     private boolean isLandmarkValid(){
-        if(sLandMark.trim().isEmpty()){
+        if(sLandMark == null || sLandMark.trim().isEmpty()){
             message = "Please provide Landmark.";
             return false;
         }
         return true;
     }
 
-    private boolean isProvinceValid(){
-        if(sProvncID == null || sProvncID.trim().isEmpty()){
-            message = "Please provide Province.";
-            return false;
-        }
-        return true;
-    }
+//    private boolean isProvinceValid(){
+//        if(sProvncID == null || sProvncID.trim().isEmpty()){
+//            message = "Please provide Province.";
+//            return false;
+//        }
+//        return true;
+//    }
 
     private boolean isTownValid(){
         if(sMuncplID == null || sMuncplID.trim().isEmpty()){

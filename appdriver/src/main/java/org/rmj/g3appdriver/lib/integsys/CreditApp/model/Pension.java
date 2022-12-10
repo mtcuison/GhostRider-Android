@@ -77,7 +77,7 @@ public class Pension {
     }
 
     private boolean isSectorValid(){
-        if(sSectorx.equalsIgnoreCase("-1")){
+        if(sSectorx.trim().isEmpty() || sSectorx.equalsIgnoreCase("" )){
             message = "Please select sector";
             return false;
         }
@@ -93,7 +93,7 @@ public class Pension {
     }
 
     private boolean isRetirementYearValid(){
-        if(sRtrYear.trim().isEmpty()){
+        if(sRtrYear.trim().isEmpty() || sRtrYear.trim().equalsIgnoreCase("")){
             message = "Please enter retirement year";
             return false;
         }
@@ -101,7 +101,7 @@ public class Pension {
     }
 
     private boolean isOtherIncomeValid(){
-        if(!sNtrIncm.trim().isEmpty()){
+        if(!sNtrIncm.trim().isEmpty() || !sNtrIncm.equalsIgnoreCase("")){
             if(sRngIncm == 0){
                 message = "Please enter at least estimated amount in other source of income";
                 return false;

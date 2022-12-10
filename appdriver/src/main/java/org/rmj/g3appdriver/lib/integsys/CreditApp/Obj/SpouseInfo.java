@@ -69,7 +69,7 @@ public class SpouseInfo implements CreditApp {
 
             loDetail.setCtznShip(lsCtzen);
 
-            loDetail.setCvlStats(gocas.SpouseInfo().PersonalInfo().getCivilStatus());
+//            loDetail.setCvlStats(gocas.SpouseInfo().PersonalInfo().getCivilStatus());
 
             loDetail.setBrthPlce(gocas.SpouseInfo().PersonalInfo().getBirthPlace());
 
@@ -87,19 +87,19 @@ public class SpouseInfo implements CreditApp {
                 if(x == 0) {
 
                     mobileNo.setMobileNo(gocas.SpouseInfo().PersonalInfo().getMobileNo(x));
-                    mobileNo.setIsPostPd(Integer.parseInt(gocas.SpouseInfo().PersonalInfo().IsMobilePostpaid(x)));
+                    mobileNo.setIsPostPd((gocas.SpouseInfo().PersonalInfo().IsMobilePostpaid(x)));
                     mobileNo.setPostYear(gocas.SpouseInfo().PersonalInfo().getPostPaidYears(x));
                     loDetail.setMobileNo1(mobileNo);
                 }
                 if(x == 1) {
                     mobileNo.setMobileNo(gocas.SpouseInfo().PersonalInfo().getMobileNo(x));
-                    mobileNo.setIsPostPd(Integer.parseInt(gocas.SpouseInfo().PersonalInfo().IsMobilePostpaid(x)));
+                    mobileNo.setIsPostPd((gocas.SpouseInfo().PersonalInfo().IsMobilePostpaid(x)));
                     mobileNo.setPostYear(gocas.SpouseInfo().PersonalInfo().getPostPaidYears(x));
                     loDetail.setMobileNo2(mobileNo);
                 }
                 if(x == 2) {
                     mobileNo.setMobileNo(gocas.SpouseInfo().PersonalInfo().getMobileNo(x));
-                    mobileNo.setIsPostPd(Integer.parseInt(gocas.SpouseInfo().PersonalInfo().IsMobilePostpaid(x)));
+                    mobileNo.setIsPostPd((gocas.SpouseInfo().PersonalInfo().IsMobilePostpaid(x)));
                     mobileNo.setPostYear(gocas.SpouseInfo().PersonalInfo().getPostPaidYears(x));
                     loDetail.setMobileNo3(mobileNo);
                 }
@@ -168,7 +168,7 @@ public class SpouseInfo implements CreditApp {
             gocas.SpouseInfo().PersonalInfo().setBirthdate(loDetail.getBrthDate());
             gocas.SpouseInfo().PersonalInfo().setBirthPlace(loDetail.getBrthPlce());
             gocas.SpouseInfo().PersonalInfo().setCitizenship(loDetail.getCitizenx());
-            gocas.SpouseInfo().PersonalInfo().setCivilStatus(loDetail.getCvlStats());
+//            gocas.SpouseInfo().PersonalInfo().setCivilStatus(loDetail.getCvlStats());
 //            gocas.SpouseInfo().PersonalInfo().setMobileNoQty(loDetail.getMobileNoQty());
 
             if(loDetail.getMobileNo2() != null){

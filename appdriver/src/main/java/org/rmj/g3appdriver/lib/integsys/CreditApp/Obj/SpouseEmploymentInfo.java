@@ -19,6 +19,7 @@ import org.rmj.g3appdriver.dev.Database.Repositories.ROccupation;
 import org.rmj.g3appdriver.dev.Database.Repositories.RTown;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditApp;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Employment;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.SpouseEmployments;
 import org.rmj.gocas.base.GOCASApplication;
 
 import java.util.List;
@@ -31,7 +32,7 @@ public class SpouseEmploymentInfo implements CreditApp {
     private final RCountry poCountry;
     private final ROccupation poPosition;
 
-    private Employment poDetail;
+    private SpouseEmployments poDetail;
 
     private String message;
 
@@ -56,7 +57,7 @@ public class SpouseEmploymentInfo implements CreditApp {
             JSONObject joDetail = (JSONObject) loJson.parse(lsDetail);
             gocas.SpouseMeansInfo().EmployedInfo().setData(joDetail);
 
-            Employment loDetail = new Employment();
+            SpouseEmployments loDetail = new SpouseEmployments();
             loDetail.setEmploymentSector(gocas.SpouseMeansInfo().EmployedInfo().getEmploymentSector());
             loDetail.setUniformPersonal(gocas.SpouseMeansInfo().EmployedInfo().IsUniformedPersonel());
             loDetail.setMilitaryPersonal(gocas.SpouseMeansInfo().EmployedInfo().IsMilitaryPersonel());
@@ -112,7 +113,7 @@ public class SpouseEmploymentInfo implements CreditApp {
 
     @Override
     public int Validate(Object args) {
-        Employment loDetail = (Employment) args;
+        SpouseEmployments loDetail = (SpouseEmployments) args;
 
         if(poDetail == null){
 
@@ -140,7 +141,7 @@ public class SpouseEmploymentInfo implements CreditApp {
     @Override
     public boolean Save(Object args) {
         try{
-            Employment loDetail = (Employment) args;
+            SpouseEmployments loDetail = (SpouseEmployments) args;
 
             ECreditApplicantInfo loApp = poDao.GetApplicantDetails(loDetail.getTransNox());
 

@@ -172,7 +172,7 @@ public class ClientResidence {
     }
 
     public String getPermanentLandMark() {
-        if(oneAddress){
+        if (oneAddress) {
             return sLandMark;
         }
         return sPLndMark.trim();
@@ -183,7 +183,7 @@ public class ClientResidence {
     }
 
     public String getPermanentHouseNo() {
-        if(oneAddress){
+        if (oneAddress) {
             return sHouseNox;
         }
         return sPHouseNo.trim();
@@ -194,7 +194,7 @@ public class ClientResidence {
     }
 
     public String getPermanentAddress1() {
-        if(oneAddress){
+        if (oneAddress) {
             return sAddress1;
         }
         return sPAddrss1.trim();
@@ -205,7 +205,7 @@ public class ClientResidence {
     }
 
     public String getPermanentAddress2() {
-        if(oneAddress){
+        if (oneAddress) {
             return sAddress2;
         }
         return sPAddrss2.trim();
@@ -216,7 +216,7 @@ public class ClientResidence {
     }
 
     public String getPermanentProvinceNm() {
-        if(oneAddress){
+        if (oneAddress) {
             return sProvncNm;
         }
         return sPPrvncNm;
@@ -227,7 +227,7 @@ public class ClientResidence {
     }
 
     public String getPermanentProvinceID() {
-        if(oneAddress){
+        if (oneAddress) {
             return sProvncID;
         }
         return sPProvncD;
@@ -238,7 +238,7 @@ public class ClientResidence {
     }
 
     public String getPermanentMunicipalNm() {
-        if(oneAddress){
+        if (oneAddress) {
             return sMuncplNm;
         }
         return sPMncplNm;
@@ -249,7 +249,7 @@ public class ClientResidence {
     }
 
     public String getPermanentMunicipalID() {
-        if(oneAddress){
+        if (oneAddress) {
             return sMuncplID;
         }
         return sPMuncplD;
@@ -260,7 +260,7 @@ public class ClientResidence {
     }
 
     public String getPermanentBarangayName() {
-        if(oneAddress){
+        if (oneAddress) {
             return sBrgyName;
         }
         return sPBrgyNme;
@@ -271,7 +271,7 @@ public class ClientResidence {
     }
 
     public String getPermanentBarangayID() {
-        if(oneAddress){
+        if (oneAddress) {
             return sBrgyIDxx;
         }
         return sPBrgyIDx;
@@ -282,7 +282,7 @@ public class ClientResidence {
     }
 
     public String getOwnerRelation() {
-        if(sHouseOwn.equalsIgnoreCase("1") || sHouseOwn.equalsIgnoreCase("2")) {
+        if (sHouseOwn.equalsIgnoreCase("1") || sHouseOwn.equalsIgnoreCase("2")) {
             return sRelation;
         }
         return "";
@@ -293,14 +293,14 @@ public class ClientResidence {
     }
 
     public double getLenghtofStay() {
-        try{
-            if(cIsYearxx == 0) {
+        try {
+            if (cIsYearxx == 0) {
                 double ldValue = sLenghtSt;
                 return ldValue / 12;
             } else {
                 return sLenghtSt;
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return 0;
         }
@@ -315,7 +315,7 @@ public class ClientResidence {
     }
 
     public double getMonthlyExpenses() {
-        if(sHouseOwn.equalsIgnoreCase("1") || sHouseOwn.equalsIgnoreCase("2")) {
+        if (sHouseOwn.equalsIgnoreCase("1") || sHouseOwn.equalsIgnoreCase("2")) {
             if (sExpenses == 0) {
                 return 0;
             }
@@ -328,26 +328,26 @@ public class ClientResidence {
         this.sExpenses = sExpenses;
     }
 
-    public boolean isDataValid(){
+    public boolean isDataValid() {
         return isLandMarkValid() &&
-                isProvinceValid() &&
+//                isProvinceValid() &&
                 isTownValid() &&
                 isBarangayValid() &&
                 isOwnershipValid() &&
-                isGarageValid() &&
                 isRelationValid() &&
                 isLengthOfStayValid() &&
                 isMonthylyExpenseValid() &&
+                isHouseTypeValid() &&
                 isHouseHoldValid() &&
-                isHouseTypeValid();
+                isGarageValid();
     }
 
-    private boolean isLandMarkValid(){
-        if(sLandMark == null || sLandMark.trim().isEmpty()){
+    private boolean isLandMarkValid() {
+        if (sLandMark == null || sLandMark.trim().isEmpty()) {
             message = "Please provide landmark";
             return false;
-        } else if(!oneAddress){
-            if(sPLndMark == null || sPLndMark.trim().isEmpty()){
+        } else if (!oneAddress) {
+            if (sPLndMark == null || sPLndMark.trim().isEmpty()) {
                 message = "Please provide permanent address landmark";
                 return false;
             }
@@ -355,26 +355,27 @@ public class ClientResidence {
         return true;
     }
 
-    private boolean isProvinceValid(){
-        if(sProvncID == null || sProvncID.trim().isEmpty()){
-            message = "Please enter province";
-            return false;
-        }
-        if(!oneAddress){
-            if(sPProvncD == null || sPProvncD.trim().isEmpty()) {
-                message = "Please enter permanent address province";
-                return false;
-            }
-        }
-        return true;
-    }
+//    private boolean isProvinceValid() {
+//        if (sProvncID == null || sProvncID.trim().isEmpty()) {
+//            message = "Please enter province";
+//            return false;
+//        }
+//        if (!oneAddress) {
+//            if (sPProvncD == null || sPProvncD.trim().isEmpty()) {
+//                message = "Please enter permanent address province";
+//                return false;
+//            }
+//        }
+//        return true;
+//    }
 
-    private boolean isTownValid(){
-        if(sMuncplID == null || sMuncplID.trim().isEmpty()){
+    private boolean isTownValid() {
+        if (sMuncplID == null || sMuncplID.trim().isEmpty()) {
             message = "Please enter town";
             return false;
-        } if(!oneAddress){
-            if(sPMuncplD == null || sPMuncplD.trim().isEmpty()) {
+        }
+        if (!oneAddress) {
+            if (sPMuncplD == null || sPMuncplD.trim().isEmpty()) {
                 message = "Please enter permanent address town";
                 return false;
             }
@@ -382,12 +383,13 @@ public class ClientResidence {
         return true;
     }
 
-    private boolean isBarangayValid(){
-        if(sBrgyIDxx == null || sBrgyIDxx.trim().isEmpty()){
+    private boolean isBarangayValid() {
+        if (sBrgyIDxx == null || sBrgyIDxx.trim().isEmpty()) {
             message = "Please enter barangay";
             return false;
-        } if(!oneAddress){
-            if(!oneAddress && sPBrgyIDx == null || sPBrgyIDx.trim().isEmpty()){
+        }
+        if (!oneAddress) {
+            if (!oneAddress && sPBrgyIDx == null || sPBrgyIDx.trim().isEmpty()) {
                 message = "Please enter barangay";
                 return false;
             }
@@ -403,17 +405,10 @@ public class ClientResidence {
         return true;
     }
 
-    private boolean isGarageValid(){
-        if(sHasGarge == null || sHasGarge.trim().isEmpty()){
-            message = "Please select if customer has garage";
-            return false;
-        }
-        return true;
-    }
 
-    private boolean isRelationValid(){
-        if(sHouseOwn.trim().equalsIgnoreCase("2")){
-            if(sRelation.trim().isEmpty()){
+    private boolean isRelationValid() {
+        if (sHouseOwn.trim().equalsIgnoreCase("2")) {
+            if (sRelation.trim().isEmpty()) {
                 message = "Please enter house owner relation";
                 return false;
             }
@@ -421,9 +416,9 @@ public class ClientResidence {
         return true;
     }
 
-    private boolean isLengthOfStayValid(){
-        if(sHouseOwn.trim().equalsIgnoreCase("1") || sHouseOwn.trim().equalsIgnoreCase("1")) {
-            if (sLenghtSt == 0){
+    private boolean isLengthOfStayValid() {
+        if (sHouseOwn.trim().equalsIgnoreCase("1") || sHouseOwn.trim().equalsIgnoreCase("2")) {
+            if (sLenghtSt == 0) {
                 message = "Please enter length of stay";
                 return false;
             }
@@ -431,8 +426,8 @@ public class ClientResidence {
         return true;
     }
 
-    private boolean isMonthylyExpenseValid(){
-        if(sHouseOwn.trim().equalsIgnoreCase("1") || sHouseOwn.trim().equalsIgnoreCase("1")) {
+    private boolean isMonthylyExpenseValid() {
+        if (sHouseOwn.trim().equalsIgnoreCase("1") || sHouseOwn.trim().equalsIgnoreCase("2")) {
             if (sExpenses == 0) {
                 message = "Please enter monthly rent expense";
                 return false;
@@ -441,17 +436,25 @@ public class ClientResidence {
         return true;
     }
 
-    private boolean isHouseHoldValid(){
-        if(sHouseHld == null || sHouseHld.trim().isEmpty()){
+    private boolean isHouseHoldValid() {
+        if (sHouseHld == null ||sHouseHld.trim().isEmpty() ) {
             message = "Please select customer household.";
             return false;
         }
         return true;
     }
 
-    private boolean isHouseTypeValid(){
-        if(sHouseTpe == null || sHouseTpe.trim().isEmpty()){
-            message = "Please select customer house type.";
+    private boolean isHouseTypeValid() {
+        if (sHouseTpe == null || sHouseTpe.trim().isEmpty()) {
+            message = "Please select customer house type. ";
+            return false;
+        }
+        return true;
+    }
+
+    private boolean isGarageValid() {
+        if (sHasGarge == null || sHasGarge.trim().equalsIgnoreCase("")) {
+            message = "Please select if customer has garage";
             return false;
         }
         return true;

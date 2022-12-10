@@ -10,48 +10,35 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.EBarangayInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.ECountryInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.EProvinceInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditApp;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditOnlineApplication;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditAppInstance;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditOnlineApplication;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.ClientResidence;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Personal;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.CoMaker;
 
 import java.util.List;
 
-public class VMResidenceInfo extends AndroidViewModel implements CreditAppUI{
-    private static final String TAG = VMResidenceInfo.class.getSimpleName();
+public class VMCoMaker extends AndroidViewModel implements CreditAppUI {
+    private static final String TAG = VMCoMaker.class.getSimpleName();
 
     private final CreditApp poApp;
-    private final ClientResidence poModel;
+    private final CoMaker poModel;
 
     private String TransNox;
+
     private String message;
 
-
-    public VMResidenceInfo(@NonNull Application application) {
+    public VMCoMaker(@NonNull Application application) {
         super(application);
-        this.poApp = new CreditOnlineApplication(application).getInstance(CreditAppInstance.Residence_Info);
-        this.poModel = new ClientResidence();
+        this.poApp = new CreditOnlineApplication(application).getInstance(CreditAppInstance.CoMaker_Info);
+        this.poModel = new CoMaker();
     }
 
-    public ClientResidence getModel() {
+    public CoMaker getModel(){
         return poModel;
     }
-
-
-
-    public LiveData<List<DTownInfo.TownProvinceInfo>> GetTownProvinceList(){
-        return poApp.GetTownProvinceList();
-    }
-
-    public LiveData<List<EBarangayInfo>> GetBarangayList(String args){
-        return poApp.GetBarangayList(args);
-    }
-
 
     @Override
     public void InitializeApplication(Intent params) {
@@ -78,7 +65,15 @@ public class VMResidenceInfo extends AndroidViewModel implements CreditAppUI{
         new SaveDetailTask(listener).execute(poModel);
     }
 
-    private class ParseDataTask extends AsyncTask<ECreditApplicantInfo, Void, ClientResidence>{
+    public LiveData<List<DTownInfo.TownProvinceInfo>> GetTownProvinceList(){
+        return poApp.GetTownProvinceList();
+    }
+
+    public LiveData<List<ECountryInfo>> GetCountryList(){
+        return poApp.GetCountryList();
+    }
+
+    private class ParseDataTask extends AsyncTask<ECreditApplicantInfo, Void, CoMaker> {
 
         private final OnParseListener listener;
 
@@ -87,11 +82,10 @@ public class VMResidenceInfo extends AndroidViewModel implements CreditAppUI{
         }
 
         @Override
-        protected ClientResidence doInBackground(ECreditApplicantInfo... app) {
+        protected CoMaker doInBackground(ECreditApplicantInfo... app) {
             try {
-                ClientResidence loDetail = (ClientResidence) poApp.Parse(app[0]);
-
-                if(loDetail == null) {
+                CoMaker loDetail = (CoMaker) poApp.Parse(app[0]);
+                if(loDetail == null){
                     message = poApp.getMessage();
                     return null;
                 }
@@ -104,7 +98,7 @@ public class VMResidenceInfo extends AndroidViewModel implements CreditAppUI{
         }
 
         @Override
-        protected void onPostExecute(ClientResidence result) {
+        protected void onPostExecute(CoMaker result) {
             super.onPostExecute(result);
             if(result == null){
                 Log.e(TAG, message);
@@ -114,7 +108,7 @@ public class VMResidenceInfo extends AndroidViewModel implements CreditAppUI{
         }
     }
 
-    private class SaveDetailTask extends AsyncTask<ClientResidence, Void, Boolean>{
+    private class SaveDetailTask extends AsyncTask<CoMaker, Void, Boolean>{
 
         private final OnSaveInfoListener listener;
 
@@ -123,7 +117,7 @@ public class VMResidenceInfo extends AndroidViewModel implements CreditAppUI{
         }
 
         @Override
-        protected Boolean doInBackground(ClientResidence... info) {
+        protected Boolean doInBackground(CoMaker... info) {
             int lnResult = poApp.Validate(info[0]);
 
             if(lnResult != 1){

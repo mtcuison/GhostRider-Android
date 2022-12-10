@@ -2,89 +2,202 @@ package org.rmj.guanzongroup.onlinecreditapplication.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
+import org.rmj.g3appdriver.etc.MessageBox;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Employment;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
+import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.OnParseListener;
+import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMEmploymentInfo;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Activity_EmploymentInfo extends AppCompatActivity {
 
-    private AutoCompleteTextView spnCmpLvl, spnEmpLvl, spnBusNtr, spnEmpSts, spnServce, txtCntryx, txtProvNm, txtTownNm, txtJobNme;
-    private TextInputLayout tilCntryx, tilCompNm, tilBizNatr;
-    private TextInputEditText txtCompNm, txtCompAd, txtSpcfJb, txtLngthS, txtEsSlry, txtCompCn;
-    private LinearLayout lnGovInfo, lnEmpInfo;
-    //    private JSONObject object;
-    private Button btnNext, btnPrvs;
-    private String Employed, SEmployd, Financex, Pensionx;
-    private RadioGroup rgSectorx, rgUniform, rgMiltary;
-    private RadioButton rbPrivate, rbGovernment, rbOFW, rbUniformYes, rbUniformNo, rbMilitaryYes, rbMilitaryNo;
-    private String sEmploymentInfo, sUniform, sMilitary;
+
+    private VMEmploymentInfo
+            mViewModel;
+    private MessageBox
+            poMessage;
+    private AutoCompleteTextView
+            spnCmpLvl, spnEmpLvl, spnBusNtr, spnEmpSts, spnServce,
+            txtCntryx, txtProvNm, txtTownNm, txtJobNme;
+    private TextInputLayout
+            tilCntryx, tilCompNm, tilBizNatr, tilEmpLevel, tilEmpntLevel;
+    private TextInputEditText
+            txtCompNm, txtCompAd, txtSpcfJb, txtLngthS, txtEsSlry, txtCompCn;
+    private LinearLayout
+            lnGovInfo, lnEmpInfo;
+    private Button
+            btnNext, btnPrvs;
+    private RadioGroup
+            rgSectorx;
+    private RadioButton
+            rbPrivate, rbGovernment, rbOFW;
+    private CheckBox
+            cbUniformYes, cbMilitaryYes;
     private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mViewModel = new ViewModelProvider(Activity_EmploymentInfo.this).get(VMEmploymentInfo.class);
+        poMessage = new MessageBox(Activity_EmploymentInfo.this);
         setContentView(R.layout.activity_employment_info);
         initWidgets();
-        json();
+        mViewModel.InitializeApplication(getIntent());
+        mViewModel.GetApplication().observe(Activity_EmploymentInfo.this, app -> {
+            try {
+                mViewModel.getModel().setTransNox(app.getTransNox());
+                mViewModel.ParseData(app, new OnParseListener() {
+                    @Override
+                    public void OnParse(Object args) {
+                        Employment loDetail = (Employment) args;
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+
+        spnCmpLvl.setAdapter(new ArrayAdapter<>(Activity_EmploymentInfo.this,
+                android.R.layout.simple_list_item_1, CreditAppConstants.COMPANY_LEVEL));
+        spnCmpLvl.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+        spnCmpLvl.setOnItemClickListener((parent, view, position, id) ->
+                mViewModel.getModel().setCompanyLevel(String.valueOf(position)));
+
+        spnEmpLvl.setAdapter(new ArrayAdapter<>(Activity_EmploymentInfo.this,
+                android.R.layout.simple_list_item_1, CreditAppConstants.EMPLOYEE_LEVEL));
+        spnEmpLvl.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+        spnEmpLvl.setOnItemClickListener((parent, view, position, id) ->
+                mViewModel.getModel().setEmployeeLevel(String.valueOf(position)));
+
+        spnBusNtr.setAdapter(new ArrayAdapter<>(Activity_EmploymentInfo.this,
+                android.R.layout.simple_list_item_1, CreditAppConstants.BUSINESS_NATURE));
+        spnBusNtr.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+        spnBusNtr.setOnItemClickListener((parent, view, position, id) ->
+                mViewModel.getModel().setBusinessNature(String.valueOf(position)));
+
+        spnEmpSts.setAdapter(new ArrayAdapter<>(Activity_EmploymentInfo.this,
+                android.R.layout.simple_list_item_1, CreditAppConstants.EMPLOYMENT_STATUS));
+        spnEmpSts.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+        spnEmpSts.setOnItemClickListener((parent, view, position, id) ->
+                mViewModel.getModel().setEmployeeStatus(String.valueOf(position)));
+
+        spnServce.setAdapter(new ArrayAdapter<>(Activity_EmploymentInfo.this,
+                android.R.layout.simple_list_item_1, CreditAppConstants.LENGTH_OF_STAY));
+        spnServce.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+        spnServce.setOnItemClickListener((parent, view, position, id) ->
+                mViewModel.getModel().setIsYear(String.valueOf(position)));
+
+        mViewModel.GetTownProvinceList().observe(Activity_EmploymentInfo.this, new Observer<List<DTownInfo.TownProvinceInfo>>() {
+            @Override
+            public void onChanged(List<DTownInfo.TownProvinceInfo> loList) {
+                try {
+                    ArrayList<String> string = new ArrayList<>();
+                    for (int x = 0; x < loList.size(); x++) {
+                        String lsTown = loList.get(x).sTownName + ", " + loList.get(x).sProvName;
+//                        String lsTown =  loList.get(x).sProvName ;
+                        string.add(lsTown);
+                    }
+
+                    ArrayAdapter<String> adapters = new ArrayAdapter<>(Activity_EmploymentInfo.this, android.R.layout.simple_spinner_dropdown_item, string.toArray(new String[0]));
+                    txtTownNm.setAdapter(adapters);
+                    txtTownNm.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+                    txtTownNm.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            for (int x = 0; x < loList.size(); x++) {
+                                String lsLabel = loList.get(x).sTownName + ", " + loList.get(x).sProvName;
+                                String lsSlctd = txtTownNm.getText().toString().trim();
+                                if (lsSlctd.equalsIgnoreCase(lsLabel)) {
+                                    mViewModel.getModel().setTownID(loList.get(x).sTownIDxx);
+                                    mViewModel.getModel().setTownName(lsLabel);
+                                    break;
+                                }
+                            }
+                        }
+                    });
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
+        btnNext.setOnClickListener(v -> SaveEmploymentInfo());
+        btnPrvs.setOnClickListener(v -> finish());
 
     }
-    private void json() {
-        try {
-            Intent receiveIntent = getIntent();
-            String param = receiveIntent.getStringExtra("params");
-            JSONObject object = new JSONObject(param);
-            object.put("sEmplyInfo", sEmploymentInfo);
-            object.put("sUniform", sUniform);
-            object.put("sMilitary", sMilitary);
 
-            object.put("sspnCmpLvl", spnCmpLvl.getText().toString().trim());
-            object.put("sspnEmpLvl", spnEmpLvl.getText().toString().trim());
-            object.put("sspnBusNtr", spnBusNtr.getText().toString().trim());
-            object.put("sspnEmpSts", spnEmpSts.getText().toString().trim());
-            object.put("sspnServce", spnServce.getText().toString().trim());
+    private void SaveEmploymentInfo() {
+        mViewModel.getModel().setsCountryN((txtCntryx.getText()).toString());
+        mViewModel.getModel().setCompanyName(txtCompNm.getText().toString());
+        mViewModel.getModel().setCompanyAddress((txtCompAd.getText()).toString());
 
-            object.put("stxtCntryx", txtCntryx.getText().toString().trim());
-            object.put("stxtProvNm", txtProvNm.getText().toString().trim());
-            object.put("stxtTownNm", txtTownNm.getText().toString().trim());
-            object.put("stxtJobNme", txtJobNme.getText().toString().trim());
-            object.put("stxtCompNm", txtCompNm.getText().toString().trim());
-            object.put("stxtCompAd", txtCompAd.getText().toString().trim());
-            object.put("stxtSpcfJb", txtSpcfJb.getText().toString().trim());
-            object.put("stxtLngthS", txtLngthS.getText().toString().trim());
-            object.put("stxtEsSlry", txtEsSlry.getText().toString().trim());
-            object.put("stxtCompCn", txtCompCn.getText().toString().trim());
 
-            btnNext.setOnClickListener(v -> {
-                Intent intent = new Intent(Activity_EmploymentInfo.this, Activity_SelfEmployedInfo.class);
-                intent.putExtra("params", object.toString());
-                startActivity(intent);
-                finish();
-            });
-            btnPrvs.setOnClickListener(v -> {
-                Intent intent = new Intent(Activity_EmploymentInfo.this, Activity_MeansInfoSelection.class);
-                startActivity(intent);
-                finish();
-            });
-        } catch (JSONException e) {
-            e.printStackTrace();
+        mViewModel.getModel().setJobTitle((txtJobNme.getText()).toString());
+        mViewModel.getModel().setSpecificJob((txtSpcfJb.getText()).toString());
+
+        if (txtLngthS.getText().toString().isEmpty()) {
+            mViewModel.getModel().setLengthOfService(0);
+        } else {
+            mViewModel.getModel().setLengthOfService(Double.parseDouble(txtLngthS.getText().toString()));
         }
+
+        if (txtEsSlry.getText().toString().isEmpty()) {
+            mViewModel.getModel().setMonthlyIncome(0);
+        } else {
+            mViewModel.getModel().setMonthlyIncome(Long.parseLong(txtEsSlry.getText().toString()));
+        }
+
+        mViewModel.getModel().setContact((txtCompCn.getText()).toString());
+
+        mViewModel.SaveData(new OnSaveInfoListener() {
+            @Override
+            public void OnSave(String args) {
+                Intent loIntent = new Intent(Activity_EmploymentInfo.this, Activity_SelfEmployedInfo.class);
+                loIntent.putExtra("sTransNox", args);
+                startActivity(loIntent);
+                overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
+            }
+
+            @Override
+            public void OnFailed(String message) {
+                poMessage.initDialog();
+                poMessage.setTitle("Credit Online Application");
+                poMessage.setMessage(message);
+                poMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
+                poMessage.show();
+            }
+        });
     }
+
 
     private void initWidgets() {
         toolbar = findViewById(R.id.toolbar_EmploymentInfo);
@@ -93,8 +206,6 @@ public class Activity_EmploymentInfo extends AppCompatActivity {
         getSupportActionBar().setTitle("Employment Info");
 
         rgSectorx = findViewById(R.id.rg_sector);
-        rgUniform = findViewById(R.id.rg_uniformPersonel);
-        rgMiltary = findViewById(R.id.rg_militaryPersonal);
 
         spnCmpLvl = findViewById(R.id.spn_employmentLevel);
         spnEmpLvl = findViewById(R.id.spn_employeeLevel);
@@ -102,21 +213,25 @@ public class Activity_EmploymentInfo extends AppCompatActivity {
         spnEmpSts = findViewById(R.id.spn_employmentStatus);
         spnServce = findViewById(R.id.spn_lengthService);
 
+//        txtProvNm = findViewById(R.id.txt_province);
         txtCntryx = findViewById(R.id.txt_countryNme);
-        txtProvNm = findViewById(R.id.txt_province);
         txtTownNm = findViewById(R.id.txt_town);
         txtJobNme = findViewById(R.id.txt_jobPosition);
 
-        txtCompNm = findViewById(R.id.txt_companyNme);
+        txtCompNm = findViewById(R.id.txt_CompanyNme);
         txtCompAd = findViewById(R.id.txt_companyAdd);
         txtSpcfJb = findViewById(R.id.txt_specificJob);
         txtLngthS = findViewById(R.id.txt_lenghtService);
         txtEsSlry = findViewById(R.id.txt_monthlySalary);
         txtCompCn = findViewById(R.id.txt_companyContact);
 
+//        txtEsSlry.addTextChangedListener(new FormatUIText.CurrencyFormat(txtEsSlry));
+
         tilCntryx = findViewById(R.id.til_countryNme);
         tilCompNm = findViewById(R.id.til_companyNme);
         tilBizNatr = findViewById(R.id.til_bizNature);
+        tilEmpntLevel = findViewById(R.id.til_employmentLevel);
+        tilEmpLevel = findViewById(R.id.til_employeeLevel);
 
         lnGovInfo = findViewById(R.id.linear_governmentSector);
         lnEmpInfo = findViewById(R.id.linear_employmentInfo);
@@ -128,62 +243,92 @@ public class Activity_EmploymentInfo extends AppCompatActivity {
         rbGovernment = findViewById(R.id.rb_government);
         rbOFW = findViewById(R.id.rb_ofw);
 
-        rbUniformYes = findViewById(R.id.rb_uniform_yes);
-        rbUniformNo = findViewById(R.id.rb_uniform_no);
-
-        rbMilitaryYes = findViewById(R.id.rb_military_yes);
-        rbMilitaryNo = findViewById(R.id.rb_military_no);
+        cbUniformYes = findViewById(R.id.cb_UniformPersonnelYes);
+        cbMilitaryYes = findViewById(R.id.cb_MilitaryPersonalYes);
 
 
         rgSectorx.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if (rbPrivate.isChecked()) {
-                    sEmploymentInfo = "Private";
-                } else if (rbGovernment.isChecked()) {
-                    sEmploymentInfo = "Government";
+                if (rbGovernment.isChecked()) {
+                    mViewModel.getModel().setEmploymentSector("0");
+                    lnGovInfo.setVisibility(View.VISIBLE);
+                    tilCntryx.setVisibility(View.GONE);
+                    tilEmpntLevel.setHint("Government Level (Required)");
+                    spnCmpLvl.setText("");
+                    spnCmpLvl.setAdapter(new ArrayAdapter<>(Activity_EmploymentInfo.this,
+                            android.R.layout.simple_list_item_1, CreditAppConstants.GOVERMENT_LEVEL));
+                    spnCmpLvl.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+                    spnCmpLvl.setOnItemClickListener((parent, view, position, id) ->
+                            mViewModel.getModel().setCompanyLevel(String.valueOf(position)));
+
+                } else if (rbPrivate.isChecked()) {
+                    mViewModel.getModel().setEmploymentSector("1");
+                    lnGovInfo.setVisibility(View.GONE);
+                    tilCntryx.setVisibility(View.GONE);
+                    tilEmpntLevel.setHint("Company Level (Required)");
+                    spnCmpLvl.setText("");
+                    spnCmpLvl.setAdapter(new ArrayAdapter<>(Activity_EmploymentInfo.this,
+                            android.R.layout.simple_list_item_1, CreditAppConstants.COMPANY_LEVEL));
+                    spnCmpLvl.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+                    spnCmpLvl.setOnItemClickListener((parent, view, position, id) ->
+                            mViewModel.getModel().setCompanyLevel(String.valueOf(position)));
+
                 } else if (rbOFW.isChecked()) {
-                    sEmploymentInfo = "OFW";
+                    mViewModel.getModel().setEmploymentSector("2");
+                    lnGovInfo.setVisibility(View.GONE);
+                    tilCntryx.setVisibility(View.VISIBLE);
+                    tilEmpntLevel.setHint("OFW Region (Required)");
+                    spnCmpLvl.setText("");
+                    spnCmpLvl.setAdapter(new ArrayAdapter<>(Activity_EmploymentInfo.this,
+                            android.R.layout.simple_list_item_1, CreditAppConstants.OFW_REGION));
+                    spnCmpLvl.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+                    spnCmpLvl.setOnItemClickListener((parent, view, position, id) ->
+                            mViewModel.getModel().setCompanyLevel(String.valueOf(position)));
                 }
             }
         });
 
-        rgUniform.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if (rbUniformYes.isChecked()) {
-                    sUniform = "yes";
-                } else if (rbUniformNo.isChecked()) {
-                    sUniform = "no";
-                }
+        cbUniformYes.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (cbUniformYes.isChecked()) {
+                mViewModel.getModel().setUniformPersonal("1");
+            } else {
+                mViewModel.getModel().setUniformPersonal("0");
             }
         });
 
-        rgMiltary.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if (rbMilitaryYes.isChecked()) {
-                    sMilitary = "yes";
-                } else if (rbMilitaryNo.isChecked()) {
-                    sMilitary = "no";
-                }
+        cbMilitaryYes.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (cbMilitaryYes.isChecked()) {
+                mViewModel.getModel().setMilitaryPersonal("1");
+            } else {
+                mViewModel.getModel().setMilitaryPersonal("0");
             }
         });
 
-        spnCmpLvl.setAdapter(new ArrayAdapter<>(Activity_EmploymentInfo.this, android.R.layout.simple_list_item_1, CreditAppConstants.COMPANY_LEVEL));
-        spnCmpLvl.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+    }
 
-        spnEmpLvl.setAdapter(new ArrayAdapter<>(Activity_EmploymentInfo.this, android.R.layout.simple_list_item_1, CreditAppConstants.EMPLOYEE_LEVEL));
-        spnEmpLvl.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
+    }
 
-        spnBusNtr.setAdapter(new ArrayAdapter<>(Activity_EmploymentInfo.this, android.R.layout.simple_list_item_1, CreditAppConstants.BUSINESS_NATURE));
-        spnBusNtr.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
-        spnEmpSts.setAdapter(new ArrayAdapter<>(Activity_EmploymentInfo.this, android.R.layout.simple_list_item_1, CreditAppConstants.EMPLOYMENT_STATUS));
-        spnEmpSts.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
 
-        spnServce.setAdapter(new ArrayAdapter<>(Activity_EmploymentInfo.this, android.R.layout.simple_list_item_1, CreditAppConstants.LENGTH_OF_STAY));
-        spnServce.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
-
+    @Override
+    protected void onDestroy() {
+        getViewModelStore().clear();
+        super.onDestroy();
     }
 }

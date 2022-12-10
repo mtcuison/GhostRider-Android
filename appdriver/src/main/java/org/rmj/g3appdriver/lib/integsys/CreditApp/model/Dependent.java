@@ -240,7 +240,7 @@ public class Dependent {
                     isDpdEducLevel() &&
                     isDpdSchoolName() &&
                     isDpdSchoolAddress() &&
-                    isDpdSchoolProv() &&
+//                    isDpdSchoolProv() &&
                     isDpdSchoolTown();
         }
         private boolean isDPDRelationship(){
@@ -285,16 +285,16 @@ public class Dependent {
             }
             return true;
         }
-        private boolean isDpdSchoolProv(){
-            if(sSchlProv.trim().isEmpty()){
-                message = "Please enter Dependent School Province!";
-                return false;
-            }
-            return true;
-        }
+//        private boolean isDpdSchoolProv(){
+//            if(sSchlProv.trim().isEmpty()){
+//                message = "Please enter Dependent School Province!";
+//                return false;
+//            }
+//            return true;
+//        }
         private boolean isDpdSchoolTown(){
             if(sSchlTown.trim().isEmpty()){
-                message = "Please enter Dependent School Town!";
+                message = "Please enter Dependent School Municipality address!";
                 return false;
             }
             return true;

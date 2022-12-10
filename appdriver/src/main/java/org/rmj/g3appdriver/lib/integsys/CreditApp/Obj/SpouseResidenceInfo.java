@@ -101,7 +101,7 @@ public class SpouseResidenceInfo implements CreditApp {
     @Override
     public boolean Save(Object args) {
         try{
-            ClientResidence loDetail = (ClientResidence) args;
+            SpouseResidence loDetail = (SpouseResidence) args;
 
             ECreditApplicantInfo loApp = poDao.GetApplicantDetails(loDetail.getTransNox());
 

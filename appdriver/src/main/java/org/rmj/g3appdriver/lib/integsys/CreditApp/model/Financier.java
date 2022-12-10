@@ -97,14 +97,14 @@ public class Financier {
     }
 
     private boolean isFinancierNameValid(){
-        if(sFNamex.trim().isEmpty()){
+        if(sFNamex.trim().isEmpty() || sFNamex.trim().equalsIgnoreCase("")){
             message = "Please enter financier name";
             return false;
         }
         return true;
     }
     private boolean isFinancierRelationValid(){
-        if(Integer.parseInt(sFRltnx) < 0){
+        if(sFRltnx.trim().isEmpty() || sFRltnx.trim().equalsIgnoreCase("") ){
             message = "Please select financier relationship";
             return false;
         }
@@ -128,7 +128,7 @@ public class Financier {
     }
 
     private boolean isMobileNoValid(){
-        if(sFMoble.trim().isEmpty()){
+        if(sFMoble.trim().isEmpty() || sFMoble.trim().equalsIgnoreCase("")){
             message = "Please enter financier mobile no";
             return false;
         }

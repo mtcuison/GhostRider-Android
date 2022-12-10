@@ -204,17 +204,17 @@ public class CoMaker {
     }
 
     public boolean isDataValid(){
-        if(LastName.trim().isEmpty()){
+        if(LastName.trim().isEmpty() || LastName.trim().equalsIgnoreCase("")){
             message = "Please enter last name";
             return false;
         }
 
-        if(FrstName.trim().isEmpty()){
+        if(FrstName.trim().isEmpty() || FrstName.trim().equalsIgnoreCase("")){
             message = "Please enter first name";
             return false;
         }
 
-        if(BrthDate.trim().isEmpty()){
+        if(BrthDate.trim().isEmpty() || BrthDate.trim().equalsIgnoreCase("")){
             message = "Please enter birth date";
             return false;
         }

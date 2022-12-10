@@ -2,6 +2,7 @@ package org.rmj.guanzongroup.onlinecreditapplication.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -17,7 +19,6 @@ import org.json.JSONObject;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class Activity_ReviewLoanApp extends AppCompatActivity {
@@ -37,36 +38,17 @@ public class Activity_ReviewLoanApp extends AppCompatActivity {
 //    private MessageBox poMessage;
 
     private Toolbar toolbar;
-    ArrayAdapter<String> adapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review_loan_app);
         initWidgets();
-        json();
-    }
 
-    private void json() {
-        Intent receiveIntent = getIntent();
-        String param = receiveIntent.getStringExtra("params");
-        try {
-            JSONObject object = new JSONObject(param);
 
-            ArrayList<String> items = new ArrayList<>();
-            items.add(object.getString("sEmployedx") + " " + object.getString("sSEmploydx"));
-            items.add(object.getString("sPensionxx"));
-            items.add(object.getString("sFinancexx"));
-            items.add(object.getString("sPensionxx"));
-            items.add(object.getString("sPensionxx"));
-            items.add(object.getString("sPensionxx"));
 
-            adapter = new ArrayAdapter<>(this, android.R.layout.simple_expandable_list_item_1, items);
-            recyclerView.setAdapter(adapter);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        btnPrvs.setOnClickListener(v -> finish());
     }
 
     private void initWidgets() {
@@ -108,5 +90,30 @@ public class Activity_ReviewLoanApp extends AppCompatActivity {
             finish();
         });
 
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == android.R.id.home){
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        getViewModelStore().clear();
+        super.onDestroy();
     }
 }

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:theme="@style/GhostRiderMaterialTheme.WhiteBG"
-    tools:context=".Fragment.Fragment_ResidenceInfo">
+    tools:context=".Activities.Activity_ResidenceInfo">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -127,29 +127,29 @@
                         android:imeOptions="actionNext"
                         android:inputType="textCapWords"
                         android:maxLength="50"
-                        android:nextFocusForward="@id/txt_province" />
+                        android:nextFocusForward="@id/txt_town" />
                 </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/TextInputStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="@string/sHintProvince">
+<!--            <com.google.android.material.textfield.TextInputLayout-->
+<!--                style="@style/TextInputStyle"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:hint="@string/sHintProvince">-->
 
-                <AutoCompleteTextView
-                    android:id="@+id/txt_province"
-                    style="@style/AutoCompleteStyleTheme"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:imeOptions="actionNext"
-                    android:inputType="textCapWords|textAutoComplete"
-                    android:maxLength="50"
-                    android:nextFocusForward="@id/txt_town"
-                    tools:ignore="LabelFor" />
-            </com.google.android.material.textfield.TextInputLayout>
+<!--                <AutoCompleteTextView-->
+<!--                    android:id="@+id/txt_province"-->
+<!--                    style="@style/AutoCompleteStyleTheme"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:imeOptions="actionNext"-->
+<!--                    android:inputType="textCapWords|textAutoComplete"-->
+<!--                    android:maxLength="50"-->
+<!--                    android:nextFocusForward="@id/txt_town"-->
+<!--                    tools:ignore="LabelFor" />-->
+<!--            </com.google.android.material.textfield.TextInputLayout>-->
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/TextInputStyle"
@@ -227,7 +227,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="visible">
+                android:visibility="gone">
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/til_relationship"
@@ -272,7 +272,7 @@
                         android:hint="Lenght of Stay">
 
                         <androidx.appcompat.widget.AppCompatAutoCompleteTextView
-                            android:id="@+id/spn_lenghtStay"
+                            android:id="@+id/spn_lenghtStayx"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:clickable="false"
@@ -322,7 +322,7 @@
                         android:hint="Households (Required)">
 
                         <androidx.appcompat.widget.AppCompatAutoCompleteTextView
-                            android:id="@+id/spn_houseHold"
+                            android:id="@+id/spn_houseHoldx"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:clickable="false"
@@ -343,7 +343,7 @@
                         android:hint="House Type (Required)">
 
                         <androidx.appcompat.widget.AppCompatAutoCompleteTextView
-                            android:id="@+id/spn_houseType"
+                            android:id="@+id/spn_houseTypex"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:clickable="false"
@@ -490,29 +490,29 @@
                             android:imeOptions="actionNext"
                             android:inputType="textCapWords"
                             android:maxLength="50"
-                            android:nextFocusForward="@id/txt_perm_province" />
+                            android:nextFocusForward="@id/txt_perm_town" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                 </LinearLayout>
 
-                <com.google.android.material.textfield.TextInputLayout
-                    style="@style/TextInputStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:hint="@string/sHintProvince">
+<!--                <com.google.android.material.textfield.TextInputLayout-->
+<!--                    style="@style/TextInputStyle"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:hint="@string/sHintProvince">-->
 
-                    <AutoCompleteTextView
-                        android:id="@+id/txt_perm_province"
-                        style="@style/AutoCompleteStyleTheme"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:imeOptions="actionNext"
-                        android:inputType="textCapWords|textAutoComplete"
-                        android:maxLength="50"
-                        android:nextFocusForward="@id/txt_perm_town"
-                        tools:ignore="LabelFor" />
-                </com.google.android.material.textfield.TextInputLayout>
+<!--                    <androidx.appcompat.widget.AppCompatAutoCompleteTextView-->
+<!--                        android:id="@+id/txt_perm_province"-->
+<!--                        style="@style/AutoCompleteStyleTheme"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:imeOptions="actionNext"-->
+<!--                        android:inputType="textCapWords|textAutoComplete"-->
+<!--                        android:maxLength="50"-->
+<!--                        android:nextFocusForward="@id/txt_perm_town"-->
+<!--                        tools:ignore="LabelFor" />-->
+<!--                </com.google.android.material.textfield.TextInputLayout>-->
 
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/TextInputStyle"
@@ -567,7 +567,6 @@
                     android:layout_alignParentStart="true"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
-                    android:drawableStart="@drawable/ic_nav_left"
                     android:drawableLeft="@drawable/ic_nav_left"
                     android:text="@string/sbtnPrvs"
                     tools:ignore="RelativeOverlap" />

@@ -48,7 +48,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:checked="true"
                     android:text="@string/sLabelPrivate" />
 
                 <RadioButton
@@ -69,10 +68,10 @@
             <!--        Government Sector-->
             <LinearLayout
                 android:id="@+id/linear_governmentSector"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="55dp"
+                android:layout_height="73dp"
                 android:orientation="vertical"
-                android:visibility="visible">
+                android:visibility="gone">
 
                 <TextView
                     style="@style/HeaderLabelBlack"
@@ -80,27 +79,13 @@
                     android:layout_height="wrap_content"
                     android:text="@string/sLabelUniformPersonnel" />
 
-                <RadioGroup
-                    android:id="@+id/rg_uniformPersonel"
+                <CheckBox
+                    android:id="@+id/cb_UniformPersonnelYes"
+                    style="@style/Widget.AppCompat.CompoundButton.CheckBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <RadioButton
-                        android:id="@+id/rb_uniform_yes"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/sLabelYes" />
-
-                    <RadioButton
-                        android:id="@+id/rb_uniform_no"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/sLabelNo" />
-
-                </RadioGroup>
+                    android:layout_marginStart="16dp"
+                    android:text="Yes" />
 
                 <TextView
                     style="@style/HeaderLabelBlack"
@@ -108,32 +93,21 @@
                     android:layout_height="wrap_content"
                     android:text="@string/sLabelMilitaryPersonnel" />
 
-                <RadioGroup
-                    android:id="@+id/rg_militaryPersonal"
+                <CheckBox
+                    android:id="@+id/cb_MilitaryPersonalYes"
+                    style="@style/Widget.AppCompat.CompoundButton.CheckBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_marginStart="16dp"
+                    android:text="Yes" />
 
-                    <RadioButton
-                        android:id="@+id/rb_military_yes"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/sLabelYes" />
-
-                    <RadioButton
-                        android:id="@+id/rb_military_no"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/sLabelNo" />
-
-                </RadioGroup>
 
             </LinearLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_employmentLevel"
                 style="@style/CustomDropDownTilStyle"
+                android:hint="Company Level (Required)"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -144,13 +118,14 @@
                     android:clickable="false"
                     android:cursorVisible="false"
                     android:focusable="false"
-                    android:hint="Company Level (Required)"
                     android:inputType="none"
                     android:padding="16dp" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_employeeLevel"
                 style="@style/CustomDropDownTilStyle"
+                android:hint="Employee Level (Required)"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -161,7 +136,6 @@
                     android:clickable="false"
                     android:cursorVisible="false"
                     android:focusable="false"
-                    android:hint="Employee Level (Required)"
                     android:inputType="none"
                     android:padding="16dp" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -173,16 +147,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/sHintCountryNm"
-                android:visibility="visible">
+                android:visibility="gone">
 
                 <AutoCompleteTextView
                     android:id="@+id/txt_countryNme"
                     style="@style/AutoCompleteStyleTheme"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:imeOptions="actionDone"
                     android:inputType="textAutoComplete|textCapWords"
                     android:maxLength="50"
-                    android:imeOptions="actionDone"
                     android:nextFocusForward="@+id/spn_businessNature"
                     tools:ignore="LabelFor" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -190,6 +164,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_bizNature"
                 style="@style/CustomDropDownTilStyle"
+                android:hint="Nature of Business (Required)"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -200,7 +175,6 @@
                     android:clickable="false"
                     android:cursorVisible="false"
                     android:focusable="false"
-                    android:hint="Nature of Business (Required)"
                     android:inputType="none"
                     android:padding="16dp" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -242,7 +216,7 @@
                         android:imeOptions="actionNext"
                         android:inputType="textCapWords"
                         android:maxLength="150"
-                        android:nextFocusForward="@+id/txt_province" />
+                        android:nextFocusForward="@+id/txt_town" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <LinearLayout
@@ -251,25 +225,25 @@
                     android:baselineAligned="false"
                     android:orientation="horizontal">
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        style="@style/TextInputStyle"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:hint="@string/sHintProvince">
+<!--                    <com.google.android.material.textfield.TextInputLayout-->
+<!--                        style="@style/TextInputStyle"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_weight="1"-->
+<!--                        android:hint="@string/sHintProvince">-->
 
-                        <androidx.appcompat.widget.AppCompatAutoCompleteTextView
-                            android:id="@+id/txt_province"
-                            style="@style/AutoCompleteStyleTheme"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:imeOptions="actionNext"
-                            android:inputType="textAutoComplete|textCapWords"
-                            android:maxLength="50"
-                            android:nextFocusForward="@+id/txt_town"
-                            tools:ignore="LabelFor" />
+<!--                        <androidx.appcompat.widget.AppCompatAutoCompleteTextView-->
+<!--                            android:id="@+id/txt_province"-->
+<!--                            style="@style/AutoCompleteStyleTheme"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:imeOptions="actionNext"-->
+<!--                            android:inputType="textAutoComplete|textCapWords"-->
+<!--                            android:maxLength="50"-->
+<!--                            android:nextFocusForward="@+id/txt_town"-->
+<!--                            tools:ignore="LabelFor" />-->
 
-                    </com.google.android.material.textfield.TextInputLayout>
+<!--                    </com.google.android.material.textfield.TextInputLayout>-->
 
                     <com.google.android.material.textfield.TextInputLayout
                         style="@style/TextInputStyle"
@@ -291,6 +265,12 @@
                     </com.google.android.material.textfield.TextInputLayout>
 
                 </LinearLayout>
+
+                <TextView
+                    style="@style/HeaderLabelBlack"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sHeaderPosition" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/TextInputStyle"
@@ -435,7 +415,6 @@
                     android:layout_alignParentStart="true"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
-                    android:drawableStart="@drawable/ic_nav_left"
                     android:drawableLeft="@drawable/ic_nav_left"
                     android:text="@string/sbtnPrvs" />
 
