@@ -46,7 +46,7 @@ public class Activity_EmploymentInfo extends AppCompatActivity {
             spnCmpLvl, spnEmpLvl, spnBusNtr, spnEmpSts, spnServce,
             txtCntryx, txtProvNm, txtTownNm, txtJobNme;
     private TextInputLayout
-            tilCntryx, tilCompNm, tilBizNatr;
+            tilCntryx, tilCompNm, tilBizNatr, tilEmpLevel, tilEmpntLevel;
     private TextInputEditText
             txtCompNm, txtCompAd, txtSpcfJb, txtLngthS, txtEsSlry, txtCompCn;
     private LinearLayout
@@ -114,90 +114,6 @@ public class Activity_EmploymentInfo extends AppCompatActivity {
         spnServce.setOnItemClickListener((parent, view, position, id) ->
                 mViewModel.getModel().setIsYear(String.valueOf(position)));
 
-//        mViewModel.GetTownProvinceList().observe(Activity_EmploymentInfo.this, new Observer<List<DTownInfo.TownProvinceInfo>>() {
-//            @RequiresApi(api = Build.VERSION_CODES.N)
-//            @Override
-//            public void onChanged(List<DTownInfo.TownProvinceInfo> provList) {
-//                try {
-//                    ArrayList<String> strings = new ArrayList<>();
-//                    for (int x = 0; x < provList.size(); x++) {
-//                        String lsProv = "" + provList.get(x).sProvName;
-////                        String lsTown =  loList.get(x).sProvName ;
-//                        strings.add(lsProv);
-//
-//                        Set<Object> set = new HashSet<>();
-//                        strings.removeIf((String i) -> {
-//                            return !set.add(i);
-//                        });
-//
-//                    }
-//
-//                    ArrayAdapter<String> adapter = new ArrayAdapter<>(Activity_EmploymentInfo.this, android.R.layout.simple_spinner_dropdown_item, strings.toArray(new String[0]));
-//                    txtProvNm.setAdapter(adapter);
-//                    txtProvNm.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
-//                    txtProvNm.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                        @Override
-//                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                            for (int x = 0; x < provList.size(); x++) {
-//                                String lsLabel = provList.get(x).sProvName;
-//                                String lsSlctd = txtProvNm.getText().toString().trim();
-//                                if (lsSlctd.equalsIgnoreCase(lsLabel)) {
-//                                    mViewModel.getModel().setProvinceID(provList.get(x).sProvIDxx);
-//                                    mViewModel.getModel().setProvName(lsLabel);
-//                                    break;
-//                                }
-//                            }
-//
-//
-//                            mViewModel.GetTownProvinceList().observe(Activity_EmploymentInfo.this, new Observer<List<DTownInfo.TownProvinceInfo>>() {
-//                                @Override
-//                                public void onChanged(List<DTownInfo.TownProvinceInfo> townList) {
-//                                    try {
-//                                        ArrayList<String> string = new ArrayList<>();
-//                                        for (int x = 0; x < townList.size(); x++) {
-//                                            String lsTown = townList.get(x).sTownName + "";
-////                        String lsTown =  loList.get(x).sProvName ;
-//                                            string.add(lsTown);
-//
-//                                            Set<Object> set = new HashSet<>();
-//                                            string.removeIf((String i) -> {
-//                                                return !set.add(i);
-//                                            });
-//
-//                                        }
-//
-//                                        ArrayAdapter<String> adapters = new ArrayAdapter<>(Activity_EmploymentInfo.this, android.R.layout.simple_spinner_dropdown_item, string.toArray(new String[0]));
-//                                        txtTownNm.setAdapter(adapters);
-//                                        txtTownNm.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
-//                                        txtTownNm.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                                            @Override
-//                                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                                                for (int x = 0; x < townList.size(); x++) {
-//                                                    String lsLabel = townList.get(x).sTownName;
-//                                                    String lsSlctd = txtTownNm.getText().toString().trim();
-//                                                    if (lsSlctd.equalsIgnoreCase(lsLabel)) {
-//                                                        mViewModel.getModel().setTownID(townList.get(x).sTownIDxx);
-//                                                        mViewModel.getModel().setTownName(lsLabel);
-//                                                        break;
-//                                                    }
-//                                                }
-//                                            }
-//                                        });
-//
-//                                    } catch (Exception e) {
-//                                        e.printStackTrace();
-//                                    }
-//                                }
-//                            });
-//                        }
-//                    });
-//
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        });
-
         mViewModel.GetTownProvinceList().observe(Activity_EmploymentInfo.this, new Observer<List<DTownInfo.TownProvinceInfo>>() {
             @Override
             public void onChanged(List<DTownInfo.TownProvinceInfo> loList) {
@@ -244,6 +160,7 @@ public class Activity_EmploymentInfo extends AppCompatActivity {
         mViewModel.getModel().setCompanyName(txtCompNm.getText().toString());
         mViewModel.getModel().setCompanyAddress((txtCompAd.getText()).toString());
 
+
         mViewModel.getModel().setJobTitle((txtJobNme.getText()).toString());
         mViewModel.getModel().setSpecificJob((txtSpcfJb.getText()).toString());
 
@@ -279,7 +196,6 @@ public class Activity_EmploymentInfo extends AppCompatActivity {
                 poMessage.show();
             }
         });
-
     }
 
 
@@ -314,6 +230,8 @@ public class Activity_EmploymentInfo extends AppCompatActivity {
         tilCntryx = findViewById(R.id.til_countryNme);
         tilCompNm = findViewById(R.id.til_companyNme);
         tilBizNatr = findViewById(R.id.til_bizNature);
+        tilEmpntLevel = findViewById(R.id.til_employmentLevel);
+        tilEmpLevel = findViewById(R.id.til_employeeLevel);
 
         lnGovInfo = findViewById(R.id.linear_governmentSector);
         lnEmpInfo = findViewById(R.id.linear_employmentInfo);
@@ -336,16 +254,37 @@ public class Activity_EmploymentInfo extends AppCompatActivity {
                     mViewModel.getModel().setEmploymentSector("0");
                     lnGovInfo.setVisibility(View.VISIBLE);
                     tilCntryx.setVisibility(View.GONE);
+                    tilEmpntLevel.setHint("Government Level (Required)");
+                    spnCmpLvl.setText("");
+                    spnCmpLvl.setAdapter(new ArrayAdapter<>(Activity_EmploymentInfo.this,
+                            android.R.layout.simple_list_item_1, CreditAppConstants.GOVERMENT_LEVEL));
+                    spnCmpLvl.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+                    spnCmpLvl.setOnItemClickListener((parent, view, position, id) ->
+                            mViewModel.getModel().setCompanyLevel(String.valueOf(position)));
 
                 } else if (rbPrivate.isChecked()) {
                     mViewModel.getModel().setEmploymentSector("1");
                     lnGovInfo.setVisibility(View.GONE);
                     tilCntryx.setVisibility(View.GONE);
+                    tilEmpntLevel.setHint("Company Level (Required)");
+                    spnCmpLvl.setText("");
+                    spnCmpLvl.setAdapter(new ArrayAdapter<>(Activity_EmploymentInfo.this,
+                            android.R.layout.simple_list_item_1, CreditAppConstants.COMPANY_LEVEL));
+                    spnCmpLvl.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+                    spnCmpLvl.setOnItemClickListener((parent, view, position, id) ->
+                            mViewModel.getModel().setCompanyLevel(String.valueOf(position)));
 
                 } else if (rbOFW.isChecked()) {
                     mViewModel.getModel().setEmploymentSector("2");
                     lnGovInfo.setVisibility(View.GONE);
                     tilCntryx.setVisibility(View.VISIBLE);
+                    tilEmpntLevel.setHint("OFW Region (Required)");
+                    spnCmpLvl.setText("");
+                    spnCmpLvl.setAdapter(new ArrayAdapter<>(Activity_EmploymentInfo.this,
+                            android.R.layout.simple_list_item_1, CreditAppConstants.OFW_REGION));
+                    spnCmpLvl.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+                    spnCmpLvl.setOnItemClickListener((parent, view, position, id) ->
+                            mViewModel.getModel().setCompanyLevel(String.valueOf(position)));
                 }
             }
         });
@@ -360,9 +299,9 @@ public class Activity_EmploymentInfo extends AppCompatActivity {
 
         cbMilitaryYes.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (cbMilitaryYes.isChecked()) {
-                mViewModel.getModel().setUniformPersonal("1");
+                mViewModel.getModel().setMilitaryPersonal("1");
             } else {
-                mViewModel.getModel().setUniformPersonal("0");
+                mViewModel.getModel().setMilitaryPersonal("0");
             }
         });
 

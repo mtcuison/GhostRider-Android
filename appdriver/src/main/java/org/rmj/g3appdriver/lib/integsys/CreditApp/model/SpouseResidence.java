@@ -114,14 +114,14 @@ public class SpouseResidence {
     }
 
     public boolean isDataValid() {
-//        if(isLandmarkValid() || !sHouseNox.trim().isEmpty() || !sAddress1.trim().isEmpty() || !sAddress2.trim().isEmpty() || isProvinceValid() || isTownValid() || isBarangayValid()) {
+        if(isLandmarkValid() || !sHouseNox.trim().isEmpty() || !sAddress1.trim().isEmpty() || !sAddress2.trim().isEmpty() || isTownValid() || isBarangayValid()) {
             return isLandmarkValid() &&
 //                    isProvinceValid() &&
                     isTownValid() &&
                     isBarangayValid();
-//        } else {
-//            return true;
-//        }
+        } else {
+            return true;
+        }
     }
 
     private boolean isLandmarkValid(){

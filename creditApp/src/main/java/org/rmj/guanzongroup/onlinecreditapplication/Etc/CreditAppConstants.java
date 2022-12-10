@@ -111,7 +111,7 @@ public class CreditAppConstants {
             "Others"};
 
     public static String[] GOVERMENT_LEVEL = {
-            "Select Government Level (Required)",
+//            "Select Government Level (Required)",
             "LGU",
             "Provincial",
             "National"};
@@ -127,13 +127,13 @@ public class CreditAppConstants {
             "Managerial"};
 
     public static String[] OFW_CATEGORY = {
-            "Select Work Category (Required)",
+//            "Select Work Category (Required)",
             "Household Services",
             "Non-Technical",
             "Skilled/Professional"};
 
     public static String[] OFW_REGION = {
-            "Select Region (Required)",
+//            "Select Region (Required)",
             "America",
             "Europe",
             "Oceania",
