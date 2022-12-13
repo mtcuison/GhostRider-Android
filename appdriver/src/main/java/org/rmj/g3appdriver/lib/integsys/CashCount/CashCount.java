@@ -293,6 +293,14 @@ public class CashCount {
                 return 3;
             }
 
+            String lsAreaCd = poDao.GetBranchAreaCode(fsVal);
+            String lsUserCd = poDao.GetUserAreaCode();
+
+            if(!lsUserCd.equalsIgnoreCase(lsAreaCd)){
+                message = "User is not authorize to create cash count entry for branches not included in area.";
+                return 3;
+            }
+
             ECashCount loDetail = poDao.GetCashCountForBranch(fsVal, AppConstants.CURRENT_DATE);
 
             if(loDetail == null){

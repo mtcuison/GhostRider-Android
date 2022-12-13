@@ -17,6 +17,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ECashCount;
 
 import java.util.List;
@@ -59,6 +60,12 @@ public interface DCashCount {
 
     @Query("SELECT * FROM Cash_Count_Master WHERE sBranchCd =:BranchCd AND dTransact=:Transact")
     ECashCount GetCashCountForBranch(String BranchCd, String Transact);
+
+    @Query("SELECT sAreaCode FROM Branch_Info WHERE sBranchCd =:BranchCd")
+    String GetBranchAreaCode(String BranchCd);
+
+    @Query("SELECT sAreaCode FROM Branch_Info WHERE sBranchCd = (SELECT sBranchCd FROM User_Info_Master)")
+    String GetUserAreaCode();
 
     @Query("SELECT sEmpLevID FROM User_Info_Master")
     String GetEmployeeLevel();
