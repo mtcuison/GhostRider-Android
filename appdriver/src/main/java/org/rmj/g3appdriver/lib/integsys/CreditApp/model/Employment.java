@@ -1,8 +1,12 @@
 package org.rmj.g3appdriver.lib.integsys.CreditApp.model;
 
+import android.util.Log;
+
 public class Employment {
 
     private String sTransNox = "";
+
+    private String cMeanInfo = "";
     private String sSectorxx = "";
     private String cUniformP = "";
     private String cMilitary = "";
@@ -35,6 +39,15 @@ public class Employment {
     public String getMessage() {
         return message;
     }
+
+    public String getcMeanInfo() {
+        return cMeanInfo;
+    }
+
+    public void setcMeanInfo(String cMeanInfo) {
+        this.cMeanInfo = cMeanInfo;
+    }
+
 
     public String getTransNox() {
         return sTransNox;
@@ -248,6 +261,15 @@ public class Employment {
                 isSpnLengthOfServiceValid() &&
                 isMonthlySalaryValid() &&
                 isCompanyContactValid();
+    }
+
+    public boolean isPrimary(){
+        Log.e("means = ", cMeanInfo);
+       if (!cMeanInfo.equalsIgnoreCase("0")){
+           return false;
+       }
+       return true;
+
     }
 
     private boolean isEmploymentSectorValid(){

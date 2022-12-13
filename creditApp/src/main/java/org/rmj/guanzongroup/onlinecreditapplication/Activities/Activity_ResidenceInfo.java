@@ -388,7 +388,8 @@ public class Activity_ResidenceInfo extends AppCompatActivity {
         mViewModel.SaveData(new OnSaveInfoListener() {
             @Override
             public void OnSave(String args) {
-                Intent loIntent = new Intent(Activity_ResidenceInfo.this, Activity_EmploymentInfo.class);
+//                Intent loIntent = new Intent(Activity_ResidenceInfo.this, Activity_EmploymentInfo.class);
+                Intent loIntent = new Intent(Activity_ResidenceInfo.this, Activity_MeansInfoSelection.class);
                 loIntent.putExtra("sTransNox", args);
                 startActivity(loIntent);
                 overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);

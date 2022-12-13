@@ -56,6 +56,7 @@ public class Activity_PensionInfo extends AppCompatActivity {
             public void onChanged(ECreditApplicantInfo app) {
                 try {
                     mViewModel.getModel().setTransNox(app.getTransNox());
+                    mViewModel.getModel().setcMeanInfo(app.getAppMeans());
                     mViewModel.ParseData(app, new OnParseListener() {
                         @Override
                         public void OnParse(Object args) {

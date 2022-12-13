@@ -33,6 +33,7 @@ import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_L
 import org.rmj.guanzongroup.ghostrider.samsungknox.Activity_Knox;
 import org.rmj.guanzongroup.onlinecreditapplication.Activities.Activity_BranchApplications;
 import org.rmj.guanzongroup.onlinecreditapplication.Activities.Activity_IntroductoryQuestion;
+import org.rmj.guanzongroup.onlinecreditapplication.Activities.Activity_MeansInfoSelection;
 
 public class ChildObject {
 
@@ -59,7 +60,9 @@ public class ChildObject {
                 loIntent.putExtra("syscode", "2");
                 break;
             case "loan application":
-                loIntent = new Intent(context, Activity_IntroductoryQuestion.class);
+                loIntent = new Intent(context, Activity_MeansInfoSelection.class);
+                loIntent.putExtra("sTransNox","MX012200001");
+//                loIntent = new Intent(context, Activity_IntroductoryQuestion.class);
 //                loIntent = new Intent(context, Activity_CreditAppHome.class);
                 break;
 //            case "user application list":

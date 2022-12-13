@@ -2,6 +2,7 @@ package org.rmj.guanzongroup.onlinecreditapplication.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -72,6 +73,9 @@ public class Activity_EmploymentInfo extends AppCompatActivity {
         mViewModel.GetApplication().observe(Activity_EmploymentInfo.this, app -> {
             try {
                 mViewModel.getModel().setTransNox(app.getTransNox());
+
+                mViewModel.getModel().setcMeanInfo(app.getAppMeans());
+                Log.e("means infos = ", app.getAppMeans());
                 mViewModel.ParseData(app, new OnParseListener() {
                     @Override
                     public void OnParse(Object args) {

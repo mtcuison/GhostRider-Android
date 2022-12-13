@@ -75,20 +75,28 @@ public class FinancierInfo implements CreditApp {
     @Override
     public int Validate(Object args) {
         Financier loDetail = (Financier) args;
-
         if(poDetail == null){
-
-            if(!loDetail.isDataValid()){
-                message = loDetail.getMessage();
-                return 0;
+            if(loDetail.isPrimary()){
+                if(!loDetail.isDataValid()){
+                    message = loDetail.getMessage();
+                    return 0;
+                }
+            }else{
+                return 1;
             }
-
         } else {
 
             //TODO: if all information inside each old object and new object is not the same,
             // return 2 to indicate validation needs confirmation from user to update the
             // previous information being save.
-
+            if(loDetail.isPrimary()){
+                if(!loDetail.isDataValid()){
+                    message = loDetail.getMessage();
+                    return 0;
+                }
+            }else{
+                return 1;
+            }
 //            if(!poDetail.isEqual(loDetail)){
 //                return 2;
 //            } else {

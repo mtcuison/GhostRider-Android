@@ -34,6 +34,7 @@ import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.DependentsInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.DisbursementInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.EmploymentInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.FinancierInfo;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.MeansSelectionInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.OtherInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.PensionInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.PersonalInfo;
@@ -461,6 +462,8 @@ public class CreditOnlineApplication {
                 return new CoMakerResidenceInfo(instance);
             case Application_Info:
                 return new ApplicationInfo(instance);
+            case Means_Info:
+                return new MeansSelectionInfo(instance);
             default:
                 return null;
         }

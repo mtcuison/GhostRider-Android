@@ -18,6 +18,7 @@ import org.rmj.g3appdriver.dev.Database.Repositories.ROccupation;
 import org.rmj.g3appdriver.dev.Database.Repositories.RTown;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditApp;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Employment;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Means;
 import org.rmj.gocas.base.GOCASApplication;
 
 import java.util.List;
@@ -31,6 +32,7 @@ public class EmploymentInfo implements CreditApp {
     private final ROccupation poPosition;
 
     private Employment poDetail;
+    private MeansSelectionInfo poMeans;
 
     private String message;
 
@@ -39,6 +41,7 @@ public class EmploymentInfo implements CreditApp {
         this.poTown = new RTown(instance);
         this.poCountry = new RCountry(instance);
         this.poPosition = new ROccupation(instance);
+        this.poMeans = new MeansSelectionInfo(instance);
     }
 
     @Override
@@ -112,19 +115,28 @@ public class EmploymentInfo implements CreditApp {
     @Override
     public int Validate(Object args) {
         Employment loDetail = (Employment) args;
-
         if(poDetail == null){
-
-            if(!loDetail.isDataValid()){
-                message = loDetail.getMessage();
-                return 0;
+            if(loDetail.isPrimary()){
+                if(!loDetail.isDataValid()){
+                    message = loDetail.getMessage();
+                    return 0;
+                }
+            }else{
+                return 1;
             }
         } else {
 
             //TODO: if all information inside each old object and new object is not the same,
             // return 2 to indicate validation needs confirmation from user to update the
             // previous information being save.
-
+            if(loDetail.isPrimary()){
+                if(!loDetail.isDataValid()){
+                    message = loDetail.getMessage();
+                    return 0;
+                }
+            }else{
+                return 1;
+            }
 //            if(!poDetail.isEqual(loDetail)){
 //                return 2;
 //            } else {

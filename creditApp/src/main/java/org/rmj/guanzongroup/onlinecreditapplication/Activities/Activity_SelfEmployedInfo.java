@@ -59,6 +59,8 @@ public class Activity_SelfEmployedInfo extends AppCompatActivity {
             public void onChanged(ECreditApplicantInfo app) {
                 try {
                     mViewModel.getModel().setTransNox(app.getTransNox());
+                    mViewModel.getModel().setMeanInfo(app.getAppMeans());
+
                     mViewModel.ParseData(app, new OnParseListener() {
                         @Override
                         public void OnParse(Object args) {

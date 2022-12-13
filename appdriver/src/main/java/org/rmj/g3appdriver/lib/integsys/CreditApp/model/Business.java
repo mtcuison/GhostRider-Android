@@ -1,5 +1,7 @@
 package org.rmj.g3appdriver.lib.integsys.CreditApp.model;
 
+import android.util.Log;
+
 public class Business {
 
     private String sTransNox = "";
@@ -14,16 +16,25 @@ public class Business {
     private String cIsYearxx = "";
     private long sMnthlyIn = 0;
     private long sMnthlyEx = 0;
+    private String cMeanInfo = "";
 
     private String message;
 
     public Business() {
 
     }
-
     public String getMessage() {
         return message;
     }
+
+    public String getMeanInfo() {
+        return cMeanInfo;
+    }
+
+    public void setMeanInfo(String cMeanInfo) {
+        this.cMeanInfo = cMeanInfo;
+    }
+
 
     public String getTransNox() {
         return sTransNox;
@@ -120,6 +131,14 @@ public class Business {
 
     public void setMonthlyExpense(long sMnthlyEx) {
         this.sMnthlyEx = sMnthlyEx;
+    }
+
+    public boolean isPrimary(){
+        if (!cMeanInfo.equalsIgnoreCase("1")){
+            return false;
+        }
+        return true;
+
     }
 
     public boolean isDataValid(){

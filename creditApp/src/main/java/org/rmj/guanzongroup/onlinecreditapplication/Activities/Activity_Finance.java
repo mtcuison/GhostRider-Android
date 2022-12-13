@@ -53,6 +53,7 @@ public class Activity_Finance extends AppCompatActivity {
         mViewModel.GetApplication().observe(Activity_Finance.this, app -> {
             try {
                 mViewModel.getModel().setTransNox(app.getTransNox());
+                mViewModel.getModel().setcMeanInfo(app.getAppMeans());
                 mViewModel.ParseData(app, new OnParseListener() {
                     @Override
                     public void OnParse(Object args) {
