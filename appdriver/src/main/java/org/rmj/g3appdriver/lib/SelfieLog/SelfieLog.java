@@ -214,6 +214,7 @@ public class SelfieLog {
             params.put("nLatitude", loDetail.getLatitude());
             params.put("nLongitud", loDetail.getLongitud());
             params.put("sBranchCd", loDetail.getBranchCd());
+            params.put("sRemarksx", loDetail.getRemarksx());
 
             String lsResponse = WebClient.sendRequest(
                     poApi.getUrlPostSelfielog(poConfig.isBackUpServer()),
@@ -279,6 +280,7 @@ public class SelfieLog {
                 params.put("nLatitude", loDetail.getLatitude());
                 params.put("nLongitud", loDetail.getLongitud());
                 params.put("sBranchCd", loDetail.getBranchCd());
+                params.put("sRemarksx", loDetail.getRemarksx());
 
                 String lsResponse = WebClient.sendRequest(
                         poApi.getUrlPostSelfielog(poConfig.isBackUpServer()),

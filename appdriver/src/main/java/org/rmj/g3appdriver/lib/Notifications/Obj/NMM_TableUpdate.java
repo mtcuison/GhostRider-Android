@@ -3,11 +3,13 @@ package org.rmj.g3appdriver.lib.Notifications.Obj;
 import android.app.Application;
 
 import androidx.lifecycle.LiveData;
+import androidx.sqlite.db.SimpleSQLiteQuery;
 
 import com.google.firebase.messaging.RemoteMessage;
 
 import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DNotifications;
+import org.rmj.g3appdriver.dev.Database.Entities.EBranchOpenMonitor;
 import org.rmj.g3appdriver.dev.Database.Entities.ENotificationMaster;
 import org.rmj.g3appdriver.dev.Database.Entities.ENotificationRecipient;
 import org.rmj.g3appdriver.dev.Database.Entities.ENotificationUser;
@@ -82,6 +84,23 @@ public class NMM_TableUpdate implements iNotification {
                 if(poDao.CheckIfUserExist(loParser.getValueOf("srceid")) == null){
                     poDao.insert(loUser);
                 }
+
+                String lsData = loParser.getValueOf("infox");
+
+                JSONObject loJson = new JSONObject(lsData);
+
+                String lsModule = loJson.getString("module");
+
+                switch (lsModule){
+                    case "00001":
+                        SaveTableUpdate(lsData);
+                        break;
+                    case "00002":
+                        SaveBranchOpening(lsData);
+                        break;
+                    default:
+                        break;
+                }
             }
             return lsMesgIDx;
         } catch (Exception e){
@@ -92,7 +111,7 @@ public class NMM_TableUpdate implements iNotification {
     }
 
     @Override
-    public boolean SendResponse(String mesgID, NOTIFICATION_STATUS status) {
+    public ENotificationMaster SendResponse(String mesgID, NOTIFICATION_STATUS status) {
         try{
             WebApi loApis = new WebApi(poConfig.getTestStatus());
 
@@ -128,7 +147,7 @@ public class NMM_TableUpdate implements iNotification {
                     poHeaders.getHeaders());
             if(lsResponse == null){
                 message = "Server no response while sending response.";
-                return false;
+                return null;
             }
 
             JSONObject loResponse = new JSONObject(lsResponse);
@@ -136,15 +155,15 @@ public class NMM_TableUpdate implements iNotification {
             if (!lsResult.equalsIgnoreCase("success")) {
                 JSONObject loError = loResponse.getJSONObject("error");
                 message = loError.getString("message");
-                return false;
+                return null;
             }
 
             poDao.UpdateSentResponseStatus(mesgID, lsTranStat, new AppConstants().DATE_MODIFIED);
-            return true;
+            return poDao.CheckIfMasterExist(mesgID);
         } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();
-            return false;
+            return null;
         }
     }
 
@@ -186,5 +205,38 @@ public class NMM_TableUpdate implements iNotification {
             e.printStackTrace();
         }
         return lsUniqIDx;
+    }
+
+    private boolean SaveTableUpdate(String args){
+        try{
+            JSONObject loJson = new JSONObject(args);
+            JSONObject loData = loJson.getJSONObject("data");
+            String lsTblUpdte = loData.getString("");
+            SimpleSQLiteQuery query = new SimpleSQLiteQuery(lsTblUpdte);
+            poDao.ExecuteTableUpdateQuery(query);
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
+    }
+
+    private boolean SaveBranchOpening(String args){
+        try{
+            JSONObject loJson = new JSONObject(args);
+            JSONObject loData = loJson.getJSONObject("data");
+            EBranchOpenMonitor loDetail = new EBranchOpenMonitor();
+            loDetail.setBranchCD(loData.getString("sBranchCD"));
+            loDetail.setTransact(loData.getString("dTransact"));
+            loDetail.setTimeOpen(loData.getString("sTimeOpen"));
+            loDetail.setOpenNowx(loData.getString("sOpenNowx"));
+            poDao.SaveBranchOpening(loDetail);
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
     }
 }

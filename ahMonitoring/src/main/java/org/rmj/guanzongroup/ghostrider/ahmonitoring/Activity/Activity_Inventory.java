@@ -47,8 +47,6 @@ public class Activity_Inventory extends AppCompatActivity {
     private LoadDialog poDialog;
     private MessageBox poMessage;
 
-    private String Transnox;
-
     private String BranchCde = "";
     private boolean cancelable = true;
 
@@ -179,7 +177,7 @@ public class Activity_Inventory extends AppCompatActivity {
         });
 
         btnPost.setOnClickListener(v -> {
-            new DialogPostInventory(Activity_Inventory.this).initDialog(Remarks -> mViewModel.PostInventory(Transnox, Remarks, new VMInventory.OnSaveInventoryMaster() {
+            new DialogPostInventory(Activity_Inventory.this).initDialog(Remarks -> mViewModel.PostInventory(BranchCde, Remarks, new VMInventory.OnSaveInventoryMaster() {
                 @Override
                 public void OnSave() {
                     poDialog.initDialog("Random Stock Inventory", "Saving entries. Please wait...", false);

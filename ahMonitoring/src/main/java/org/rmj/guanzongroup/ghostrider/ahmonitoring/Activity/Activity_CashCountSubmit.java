@@ -159,6 +159,8 @@ public class Activity_CashCountSubmit extends AppCompatActivity {
                             loIntent.putExtra("BranchCd", BranchCd);
                             startActivity(loIntent);
                             dialog.dismiss();
+                            Activity_CashCounter.getInstance().finish();
+                            finish();
                         });
                         poMessage.show();
                     }

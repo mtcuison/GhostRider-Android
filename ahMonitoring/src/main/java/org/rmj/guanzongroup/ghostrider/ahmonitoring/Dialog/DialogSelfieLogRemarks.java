@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -44,6 +45,11 @@ public class DialogSelfieLogRemarks {
         btnConfirm.setOnClickListener(v -> {
             poDialog.dismiss();
             String lsRemarks = Objects.requireNonNull(txtRemarks.getText()).toString();
+            if(lsRemarks.isEmpty()){
+                Toast.makeText(mContext, "Please enter remarks", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             callback.OnConfirm(lsRemarks);
         });
 

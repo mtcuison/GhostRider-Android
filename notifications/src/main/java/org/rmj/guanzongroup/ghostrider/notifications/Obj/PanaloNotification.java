@@ -14,6 +14,7 @@ import androidx.core.app.NotificationCompat;
 import com.google.firebase.messaging.RemoteMessage;
 
 import org.json.JSONObject;
+import org.rmj.g3appdriver.dev.Database.Entities.ENotificationMaster;
 import org.rmj.g3appdriver.lib.Notifications.RemoteMessageParser;
 import org.rmj.guanzongroup.ghostrider.notifications.Etc.iNotificationUI;
 import org.rmj.guanzongroup.ghostrider.notifications.R;
@@ -22,18 +23,16 @@ public class PanaloNotification implements iNotificationUI {
     private static final String TAG = PanaloNotification.class.getSimpleName();
 
     private final Context mContext;
-    private final RemoteMessage poMessage;
+    private final ENotificationMaster poMessage;
     private NotificationManager loManager;
-    private final RemoteMessageParser poParser;
 
     public static final String NotificationID = "org.rmj.guanconnect.guanzonpanalo";
     private static final String CHANNEL_NAME = "Guanzon Panalo";
     private static final String CHANNEL_DESC = "Guanzon connect rewards notification for panalo participants.";
 
-    public PanaloNotification(Context context, RemoteMessage message) {
+    public PanaloNotification(Context context, ENotificationMaster message) {
         this.mContext = context;
         this.poMessage = message;
-        this.poParser = new RemoteMessageParser(poMessage);
     }
 
     @Override
@@ -46,7 +45,7 @@ public class PanaloNotification implements iNotificationUI {
 
             Intent loIntent = new Intent(mContext, Class.forName("org.rmj.guanzongroup.guanzonapp.Activity.Activity_SplashScreen"));
 
-            String lsDataxx = poParser.getValueOf("infox");
+            String lsDataxx = poMessage.getDataSndx();
             JSONObject loJson = new JSONObject(lsDataxx);
             JSONObject loPromo = loJson.getJSONObject("data");
             String lsUrlLinkx = loPromo.getString("sReferNox");
@@ -75,8 +74,8 @@ public class PanaloNotification implements iNotificationUI {
                         mContext, 0, loIntent, PendingIntent.FLAG_UPDATE_CURRENT);
             }
 
-            String lsTitlexx = poParser.getDataValueOf("title");
-            String lsMessage = poParser.getDataValueOf("message");
+            String lsTitlexx = poMessage.getMsgTitle();
+            String lsMessage = poMessage.getMessagex();
 
             //Retrieve a resource drawable and convert it to bitmap.
             //retrieving a resource drawable in panalo notification must be base on

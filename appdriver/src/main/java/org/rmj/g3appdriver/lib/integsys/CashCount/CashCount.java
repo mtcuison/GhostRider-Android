@@ -179,6 +179,7 @@ public class CashCount {
             params.put("dEntryDte", loCash.getEntryDte());
             params.put("sReqstdBy", loCash.getReqstdBy());
 
+            Log.d(TAG, params.toString());
             String lsResponse = WebClient.sendRequest(
                     poApi.getUrlSubmitCashcount(poConfig.isBackUpServer()),
                     params.toString(),
@@ -189,6 +190,7 @@ public class CashCount {
                 return false;
             }
 
+            Log.d(TAG, lsResponse);
             JSONObject loResponse = new JSONObject(lsResponse);
             String lsResult = loResponse.getString("result");
             if(lsResult.equalsIgnoreCase("error")){
