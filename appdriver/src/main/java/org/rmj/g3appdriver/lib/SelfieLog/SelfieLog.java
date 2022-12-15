@@ -107,11 +107,12 @@ public class SelfieLog {
      *
      * @param args pass the branch code of the selected branch for taking selfie
      * @return return
-     *      0 if an error occure during the validation
+     *      0 if an error occurred during the validation
      *      1 if user is not area manager and does not require remarks for the default branch code
      *      2 if selected branch is not included on branches in area. Require remarks.
      *      3 if all conditions are not met. proceed selfie log without remarks.
      *      4. if the selected branch is duplicate. proceed selfie log without remarks.
+     *      5. if the branch isn't selected. proceed selfie log without remarks.
      */
     public int ValidateSelfieBranch(String args){
         try{
@@ -121,6 +122,17 @@ public class SelfieLog {
             if(!poUser.getUserNonLiveData().getEmpLevID().equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER))){
                 message = "User is not Area Manager. Proceed Selfie Log without remarks";
                 return 1;
+            }
+
+            //Validate if args is empty or null return a value of
+            if(args == null){
+                message = "Branch isn't selected. Proceed Selfie Log with remarks";
+                return 5;
+            }
+
+            if(args.isEmpty()){
+                message = "Branch isn't selected. Proceed Selfie Log with remarks";
+                return 5;
             }
 
             ESelfieLog loSelfie = poDao.CheckSelfieLogIfExist(args, new AppConstants().CURRENT_DATE);
@@ -146,20 +158,9 @@ public class SelfieLog {
 
     public String SaveSelfieLog(SelfieLogDetail foVal){
         try{
-            if(foVal.getBranchCode() == null){
-                String lsBranchCd = poSession.getBranchCode();
-                foVal.setBranchCode(lsBranchCd);
-            }
-
-            if(foVal.getBranchCode().isEmpty()){
-                String lsBranchCd = poSession.getBranchCode();
-                foVal.setBranchCode(lsBranchCd);
-            }
-
             ESelfieLog loSelfie = new ESelfieLog();
             String lsTransNo = CreateUniqueID();
             loSelfie.setTransNox(lsTransNo);
-            loSelfie.setBranchCd(foVal.getBranchCode());
             loSelfie.setLatitude(foVal.getLatitude());
             loSelfie.setLongitud(foVal.getLongitude());
             loSelfie.setRemarksx(foVal.getRemarksx());
@@ -167,6 +168,14 @@ public class SelfieLog {
             loSelfie.setEmployID(poSession.getEmployeeID());
             loSelfie.setLogTimex(new AppConstants().DATE_MODIFIED());
             loSelfie.setSendStat("0");
+
+            if(foVal.getBranchCode().isEmpty()){
+                String lsBranchCd = poSession.getBranchCode();
+                loSelfie.setBranchCd(lsBranchCd);
+                loSelfie.setReqCCntx("2");
+            } else {
+                loSelfie.setBranchCd(foVal.getBranchCode());
+            }
 
             String lsImageID = poImage.SaveSelfieLogImage(
                     foVal.getFileName(),

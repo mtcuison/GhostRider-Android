@@ -286,12 +286,32 @@ public class CashCount {
         }
     }
 
+    /**
+     *
+     * @param fsVal pass the branch code for the cash count entry basis
+     * @return method returns an integer value which will indicate the result of validation
+     *  0. if an error occurred during the validation of entry
+     *  1. if no cash count entries. Which will make the user to proceed on cash count entry
+     *  2. if a cash count entry has already exist. This must warned the user and user must have an option to proceed or cancel.
+     *  3. if the current user is not authorized to create cash count entry.
+     *  3. if no branch is selected for new entry.
+     */
     public int ValidateCashCount(String fsVal){
         try{
             String lsEmpLvl = poDao.GetEmployeeLevel();
 
             if(!lsEmpLvl.equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER))){
                 message = "User is not authorize to create cash count entry.";
+                return 3;
+            }
+
+            if(fsVal == null){
+                message = "No branch code basis for new cash count entry.";
+                return 3;
+            }
+
+            if(fsVal.isEmpty()){
+                message = "No branch code basis for new cash count entry.";
                 return 3;
             }
 
