@@ -53,16 +53,10 @@ public class Fragment_MainContainer extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        mViewModel = new ViewModelProvider(this).get(VMMainContainer.class);
         View view = inflater.inflate(R.layout.fragment_main_container, container, false);
         instance = this;
         viewPager = view.findViewById(R.id.viewpager_mainContainer);
-        return view;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(VMMainContainer.class);
 
         mViewModel.getEmployeeInfo().observe(getViewLifecycleOwner(), eEmployeeInfo -> {
             try {
@@ -71,5 +65,6 @@ public class Fragment_MainContainer extends Fragment {
                 e.printStackTrace();
             }
         });
+        return view;
     }
 }

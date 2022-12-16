@@ -10,62 +10,51 @@
   ~ project file last modified : 4/24/21 3:17 PM
   -->
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="#dbdbdb"
     tools:context=".ui.HomeContainer.Fragment_HomeContainer">
 
-    <LinearLayout
+    <ImageView
+        android:id="@+id/img_dashboard_header"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:scaleType="centerInside"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/img_ah_header" />
+
+    <org.rmj.guanzongroup.ghostrider.epacss.ui.etc.NonSwipeableViewPager
+        android:id="@+id/viewpager_home"
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:orientation="vertical"
-        android:layout_above="@id/appbar_home">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ImageView
-                android:id="@+id/img_dashboard_header"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:srcCompat ="@drawable/img_ah_header"
-                android:scaleType="center"/>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/img_dashboard_header"
-                android:layout_marginHorizontal="5dp"
-                android:layout_marginTop="-230dp">
-
-                <org.rmj.guanzongroup.ghostrider.epacss.ui.etc.NonSwipeableViewPager
-                    android:id="@+id/viewpager_home"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-
-            </RelativeLayout>
-
-        </RelativeLayout>
-
-    </LinearLayout>
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar_home"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone"
         android:background="@drawable/bg_gradient_light"
-        android:layout_alignParentBottom="true">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_home"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:tabIconTint="@color/material_black"/>
+            app:tabIconTint="@color/material_black" />
     </com.google.android.material.appbar.AppBarLayout>
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
