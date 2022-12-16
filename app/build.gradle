@@ -24,7 +24,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 33
         versionCode 33
-        versionName "Build Version v.2.13.35 a"
+        versionName "Build Version v.2.13.035 a"
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

@@ -15,7 +15,7 @@ public interface iPM {
     String SaveApplication(Object foVal);
     boolean UploadApplication(String args);
     String SaveApproval(Object foVal);
-    boolean UploadApproval(String args);
+    boolean UploadApproval(Object args);
     boolean UploadApplications();
     boolean UploadApprovals();
     LiveData<List<EEmployeeLeave>> GetLeaveApplicationList();

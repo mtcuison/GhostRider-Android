@@ -177,20 +177,22 @@ public class VMLeaveApproval extends AndroidViewModel {
                     return false;
                 }
 
+                if(!poConn.isDeviceConnected()){
+                    message = poConn.getMessage() + " Your approval will be automatically send if device is reconnected to internet.";
+                    return false;
+                }
+
+                if(!poSys.UploadApproval(infos[0])){
+                    message = poSys.getMessage();
+                    return false;
+                }
+
                 String lsTransNox = poSys.SaveApproval(infos[0]);
                 if(lsTransNox == null){
                     message = poSys.getMessage();
                     return false;
                 }
 
-                if(!poConn.isDeviceConnected()){
-                    message = poConn.getMessage() + " Your approval will be automatically send if device is reconnected to internet.";
-                    return false;
-                }
-                if(!poSys.UploadApproval(lsTransNox)){
-                    message = poSys.getMessage();
-                    return false;
-                }
                 return true;
             } catch (Exception e) {
                 e.printStackTrace();
