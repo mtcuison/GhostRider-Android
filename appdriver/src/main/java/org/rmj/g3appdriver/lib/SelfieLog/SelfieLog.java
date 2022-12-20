@@ -78,10 +78,6 @@ public class SelfieLog {
         return poDao.getAllEmployeeTimeLog(fsVal);
     }
 
-    public int checkBranchCodeIfExist(String BranchCd, String Transact){
-        return poDao.checkBranchCodeIfExist(BranchCd, Transact);
-    }
-
     public boolean ValidateExistingBranch(String args){
         try{
             if(poSession.getEmployeeLevel().equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER))){

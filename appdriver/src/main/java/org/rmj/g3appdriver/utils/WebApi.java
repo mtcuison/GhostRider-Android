@@ -15,7 +15,7 @@ public class WebApi {
 
     private boolean isUnitTest = false;
 
-    private static final String LOCAL = "http://192.168.10.141/";
+    private static final String LOCAL = "http://192.168.10.15/";
     private String LIVE = "";
 
     private static final String PRIMARY_LIVE = "https://restgk.guanzongroup.com.ph/";
