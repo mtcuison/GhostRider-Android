@@ -1,6 +1,7 @@
 package org.rmj.g3appdriver.lib.integsys.CreditApp.Obj;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
@@ -43,28 +44,35 @@ public class FinancierInfo implements CreditApp {
     @Override
     public Object Parse(ECreditApplicantInfo args) {
         try{
-            String lsDetail = args.getFinancex();
-            GOCASApplication gocas = new GOCASApplication();
-            JSONParser loJson = new JSONParser();
-            JSONObject joDetail = (JSONObject) loJson.parse(lsDetail);
-            gocas.MeansInfo().FinancerInfo().setData(joDetail);
-
             Financier loDetail = new Financier();
-            loDetail.setFinancierRelation(gocas.MeansInfo().FinancerInfo().getSource());
-            loDetail.setFinancierName(gocas.MeansInfo().FinancerInfo().getFinancerName());
-            loDetail.setRangeOfIncome(gocas.MeansInfo().FinancerInfo().getAmount());
-            loDetail.setEmail(gocas.MeansInfo().FinancerInfo().getEmailAddress());
-            loDetail.setFacebook(gocas.MeansInfo().FinancerInfo().getFBAccount());
-            loDetail.setMobileNo(gocas.MeansInfo().FinancerInfo().getMobileNo());
+            if(args.getFinancex() != null){
+                String lsDetail = args.getFinancex();
+                GOCASApplication gocas = new GOCASApplication();
+                JSONParser loJson = new JSONParser();
+                JSONObject joDetail = (JSONObject) loJson.parse(lsDetail);
+                gocas.MeansInfo().FinancerInfo().setData(joDetail);
 
-            String lsCountry = gocas.MeansInfo().FinancerInfo().getCountry();
-            loDetail.setCountry(lsCountry);
+                loDetail.setFinancierRelation(gocas.MeansInfo().FinancerInfo().getSource());
+                loDetail.setFinancierName(gocas.MeansInfo().FinancerInfo().getFinancerName());
+                loDetail.setRangeOfIncome(gocas.MeansInfo().FinancerInfo().getAmount());
+                loDetail.setEmail(gocas.MeansInfo().FinancerInfo().getEmailAddress());
+                loDetail.setFacebook(gocas.MeansInfo().FinancerInfo().getFBAccount());
+                loDetail.setMobileNo(gocas.MeansInfo().FinancerInfo().getMobileNo());
 
-            String lsCName = poCountry.getCountryInfo(lsCountry).getCntryNme();
-            loDetail.setCountryName(lsCName);
+                String lsCountry = gocas.MeansInfo().FinancerInfo().getCountry();
+                loDetail.setCountry(lsCountry);
+                if(!lsCountry.isEmpty()){
+                    String lsCName = poCountry.getCountryInfo(lsCountry).getCntryNme();
+                    loDetail.setCountryName(lsCName);
 
-            poDetail = loDetail;
+                }
+                poDetail = loDetail;
+            }
             return loDetail;
+        } catch (NullPointerException e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return null;
         } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();

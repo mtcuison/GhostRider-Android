@@ -40,29 +40,29 @@ public class PensionInfo implements CreditApp {
     @Override
     public Object Parse(ECreditApplicantInfo args) {
         try{
-            String lsDetail = args.getPensionx();
-            GOCASApplication gocas = new GOCASApplication();
-            JSONParser loJson = new JSONParser();
-            JSONObject joDetail = (JSONObject) loJson.parse(lsDetail);
-            gocas.MeansInfo().PensionerInfo().setData(joDetail);
-
             Pension loDetail = new Pension();
+            if(args.getPensionx() != null){
+                String lsDetail = args.getPensionx();
+                GOCASApplication gocas = new GOCASApplication();
+                JSONParser loJson = new JSONParser();
+                JSONObject joDetail = (JSONObject) loJson.parse(lsDetail);
+                gocas.MeansInfo().PensionerInfo().setData(joDetail);
 
-            loDetail.setPensionSector(gocas.MeansInfo().PensionerInfo().getSource());
-            loDetail.setPensionIncomeRange(gocas.MeansInfo().PensionerInfo().getAmount());
+                loDetail.setPensionSector(gocas.MeansInfo().PensionerInfo().getSource());
+                loDetail.setPensionIncomeRange(gocas.MeansInfo().PensionerInfo().getAmount());
 //            loDetail.setRetirementYear(gocas.MeansInfo().PensionerInfo().get);
 
-            lsDetail = args.getOtherInc();
-            gocas = new GOCASApplication();
-            loJson = new JSONParser();
-            joDetail = (JSONObject) loJson.parse(lsDetail);
-            gocas.MeansInfo().setData(joDetail);
+                lsDetail = args.getOtherInc();
+                gocas = new GOCASApplication();
+                loJson = new JSONParser();
+                joDetail = (JSONObject) loJson.parse(lsDetail);
+                gocas.MeansInfo().setData(joDetail);
 
-            loDetail.setNatureOfIncome(gocas.MeansInfo().getOtherIncomeNature());
+                loDetail.setNatureOfIncome(gocas.MeansInfo().getOtherIncomeNature());
 //            loDetail.setRangeOfIncom(gocas.MeansInfo().getOtherIncomeAmount());
 
-            poDetail = loDetail;
-
+                poDetail = loDetail;
+            }
             return loDetail;
         } catch (Exception e){
             e.printStackTrace();

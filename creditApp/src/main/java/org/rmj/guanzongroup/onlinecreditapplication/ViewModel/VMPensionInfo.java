@@ -15,6 +15,7 @@ import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditAppInstance;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditOnlineApplication;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Pension;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Personal;
 
 
 public class VMPensionInfo extends AndroidViewModel implements CreditAppUI {
@@ -22,6 +23,7 @@ public class VMPensionInfo extends AndroidViewModel implements CreditAppUI {
 
     private final CreditApp poApp;
     private final Pension poModel;
+    private  String cvlStatus;
 
     private String TransNox;
 
@@ -36,6 +38,14 @@ public class VMPensionInfo extends AndroidViewModel implements CreditAppUI {
     public Pension getModel() {
         return poModel;
     }
+    public String getCvlStatus() {
+        return cvlStatus;
+    }
+
+    public void setCvlStatus(String args) {
+        this.cvlStatus = args;
+    }
+
 
     @Override
     public void InitializeApplication(Intent params) {

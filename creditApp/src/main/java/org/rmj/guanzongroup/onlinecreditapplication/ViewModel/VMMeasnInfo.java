@@ -93,6 +93,10 @@ public class VMMeasnInfo extends AndroidViewModel implements CreditAppUI {
                     return null;
                 }
                 return loDetail;
+            } catch (NullPointerException e){
+                e.printStackTrace();
+                message = e.getMessage();
+                return null;
             } catch (Exception e){
                 e.printStackTrace();
                 message = e.getMessage();

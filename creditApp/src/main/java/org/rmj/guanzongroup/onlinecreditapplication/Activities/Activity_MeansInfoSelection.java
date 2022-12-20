@@ -19,8 +19,11 @@ import androidx.lifecycle.ViewModelProvider;
 
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Employment;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Means;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.RadioGridGroup;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
+import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.OnParseListener;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMMeasnInfo;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMPersonalInfo;
 
@@ -44,7 +47,30 @@ public class Activity_MeansInfoSelection extends AppCompatActivity  {
         mViewModel = new ViewModelProvider(Activity_MeansInfoSelection.this).get(VMMeasnInfo.class);
         poMessage = new MessageBox(Activity_MeansInfoSelection.this);
         mViewModel.InitializeApplication(getIntent());
+        mViewModel.GetApplication().observe(Activity_MeansInfoSelection.this, app -> {
+            try {
+                mViewModel.getModel().setTransNox(app.getTransNox());
 
+                mViewModel.getModel().setIncmeSrc(app.getAppMeans());
+                if(app.getAppMeans().equalsIgnoreCase("0")){
+                    rbEmployed.setChecked(true);
+                }else if(app.getAppMeans().equalsIgnoreCase("1")){
+                    rbSEmployd.setChecked(true);
+                }else if(app.getAppMeans().equalsIgnoreCase("2")){
+                    rbFinancex.setChecked(true);
+                }else if(app.getAppMeans().equalsIgnoreCase("3")){
+                    rbPensionx.setChecked(true);
+                }
+                mViewModel.ParseData(app, new OnParseListener() {
+                    @Override
+                    public void OnParse(Object args) {
+                        Means loDetail = (Means) args;
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
         btnNext.setOnClickListener(v -> SaveMeansInfo());
         btnPrvs.setOnClickListener(v -> finish());
 
@@ -73,7 +99,6 @@ public class Activity_MeansInfoSelection extends AppCompatActivity  {
             }else if (checkedId == R.id.rb_pension){
                 mViewModel.getModel().setIncmeSrc("3");
             }
-            Log.e("index = ",mViewModel.getModel().getIncmeSrc());
         });
 
     }

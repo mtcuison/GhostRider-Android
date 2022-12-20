@@ -1,6 +1,7 @@
 package org.rmj.g3appdriver.lib.integsys.CreditApp.Obj;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
@@ -43,40 +44,49 @@ public class BusinessInfo implements CreditApp {
     @Override
     public Object Parse(ECreditApplicantInfo args) {
         try{
-            String lsDetail = args.getBusnInfo();
-            GOCASApplication gocas = new GOCASApplication();
-            JSONParser loJson = new JSONParser();
-            JSONObject joDetail = (JSONObject) loJson.parse(lsDetail);
-            gocas.MeansInfo().SelfEmployedInfo().setData(joDetail);
 
             Business loDetail = new Business();
+            if(args.getBusnInfo() != null){
+                String lsDetail = args.getBusnInfo();
+//            Log.e("busnInfo",lsDetail.toString());
+                GOCASApplication gocas = new GOCASApplication();
+                JSONParser loJson = new JSONParser();
+                JSONObject joDetail = (JSONObject) loJson.parse(lsDetail);
+                gocas.MeansInfo().SelfEmployedInfo().setData(joDetail);
 
-            loDetail.setNatureOfBusiness(gocas.MeansInfo().SelfEmployedInfo().getNatureOfBusiness());
-            loDetail.setNameOfBusiness(gocas.MeansInfo().SelfEmployedInfo().getNameOfBusiness());
-            loDetail.setBusinessAddress(gocas.MeansInfo().SelfEmployedInfo().getBusinessAddress());
 
-            String lsTown = gocas.MeansInfo().SelfEmployedInfo().getBusinessTown();
+                loDetail.setNatureOfBusiness(gocas.MeansInfo().SelfEmployedInfo().getNatureOfBusiness());
+                loDetail.setNameOfBusiness(gocas.MeansInfo().SelfEmployedInfo().getNameOfBusiness());
+                loDetail.setBusinessAddress(gocas.MeansInfo().SelfEmployedInfo().getBusinessAddress());
 
-            DTownInfo.TownProvinceName loTown = poTown.getTownProvinceName(lsTown);
+                String lsTown = gocas.MeansInfo().SelfEmployedInfo().getBusinessTown();
 
-            loDetail.setTown(lsTown);
-            loDetail.setTypeOfBusiness(gocas.MeansInfo().SelfEmployedInfo().getBusinessType());
-            loDetail.setSizeOfBusiness(gocas.MeansInfo().SelfEmployedInfo().getOwnershipSize());
+                DTownInfo.TownProvinceName loTown = poTown.getTownProvinceName(lsTown);
 
-            double lnLength = gocas.MeansInfo().SelfEmployedInfo().getBusinessLength();
+                loDetail.setTown(lsTown);
+                loDetail.setTypeOfBusiness(gocas.MeansInfo().SelfEmployedInfo().getBusinessType());
+                loDetail.setSizeOfBusiness(gocas.MeansInfo().SelfEmployedInfo().getOwnershipSize());
 
-            if(lnLength % 1 == 0){
-                loDetail.setIsYear("1");
-            } else {
-                loDetail.setIsYear("0");
+                double lnLength = gocas.MeansInfo().SelfEmployedInfo().getBusinessLength();
+
+                if(lnLength % 1 == 0){
+                    loDetail.setIsYear("1");
+                } else {
+                    loDetail.setIsYear("0");
+                }
+
+                loDetail.setLengthOfService(gocas.MeansInfo().SelfEmployedInfo().getBusinessLength());
+                loDetail.setMonthlyExpense(gocas.MeansInfo().SelfEmployedInfo().getMonthlyExpense());
+                loDetail.setMonthlyIncome(gocas.MeansInfo().SelfEmployedInfo().getIncome());
+
+                poDetail = loDetail;
             }
 
-            loDetail.setLengthOfService(gocas.MeansInfo().SelfEmployedInfo().getBusinessLength());
-            loDetail.setMonthlyExpense(gocas.MeansInfo().SelfEmployedInfo().getMonthlyExpense());
-            loDetail.setMonthlyIncome(gocas.MeansInfo().SelfEmployedInfo().getIncome());
-
-            poDetail = loDetail;
             return loDetail;
+        }catch (NullPointerException e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return null;
         } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();

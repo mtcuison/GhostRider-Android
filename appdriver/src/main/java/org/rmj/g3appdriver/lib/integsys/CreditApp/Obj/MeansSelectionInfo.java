@@ -47,6 +47,7 @@ public class MeansSelectionInfo implements CreditApp {
     @Override
     public Object Parse(ECreditApplicantInfo args) {
         try{
+
             String lsDetail = args.getAppMeans();
             if(lsDetail == null){
                 message = "No source of income been set yet.";
@@ -58,18 +59,20 @@ public class MeansSelectionInfo implements CreditApp {
                 return null;
             }
             GOCASApplication gocas = new GOCASApplication();
-            JSONParser loJson = new JSONParser();
-            JSONObject joDetail = (JSONObject) loJson.parse(lsDetail);
-            Log.e("object",joDetail.toJSONString());
-            gocas.MeansInfo().setIncomeSource(joDetail.get("cIncmeSrc").toString());
+//            JSONParser loJson = new JSONParser();
+//            JSONObject joDetail = (JSONObject) loJson.parse(lsDetail);
+            gocas.MeansInfo().setIncomeSource(lsDetail);
 
             Means loDetail = new Means();
 
             loDetail.setIncmeSrc(gocas.MeansInfo().getIncomeSource());
 
-            Log.e("income = ",gocas.MeansInfo().getIncomeSource());
             poDetail = loDetail;
             return loDetail;
+        } catch (NullPointerException e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return null;
         } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();

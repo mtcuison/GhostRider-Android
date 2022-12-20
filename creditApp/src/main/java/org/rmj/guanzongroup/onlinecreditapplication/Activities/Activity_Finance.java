@@ -1,7 +1,9 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -17,6 +19,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Database.Entities.ECountryInfo;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
@@ -52,12 +56,19 @@ public class Activity_Finance extends AppCompatActivity {
         mViewModel.InitializeApplication(getIntent());
         mViewModel.GetApplication().observe(Activity_Finance.this, app -> {
             try {
+
+//                Log.e("lsDetail = ", app.getFinancex());
                 mViewModel.getModel().setTransNox(app.getTransNox());
                 mViewModel.getModel().setcMeanInfo(app.getAppMeans());
                 mViewModel.ParseData(app, new OnParseListener() {
                     @Override
                     public void OnParse(Object args) {
                         Financier loDetail = (Financier) args;
+                        try {
+                            setUpFieldsFromLocalDB(loDetail);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 });
             } catch (Exception e) {
@@ -180,6 +191,38 @@ public class Activity_Finance extends AppCompatActivity {
 
     }
 
+    @SuppressLint("NewApi")
+    public void setUpFieldsFromLocalDB(Financier infoModel) throws JSONException {
+        if (infoModel != null){
+            if(!infoModel.getFinancierRelation().isEmpty()){
+                spnRelation.setText(CreditAppConstants.FINANCE_SOURCE[Integer.parseInt(infoModel.getFinancierRelation())], false);
+                spnRelation.setSelection(Integer.parseInt(infoModel.getFinancierRelation()));
+            }
+            relationX = infoModel.getFinancierRelation();
+
+            txtFNamex.setText(infoModel.getFinancierName());
+            txtFIncme.setText(String.valueOf(infoModel.getRangeOfIncome()));
+            txtFMoble.setText(infoModel.getMobileNo());
+            txtFEmail.setText(infoModel.getEmail());
+            txtFFacbk.setText(infoModel.getFacebook());
+            txtFCntry.setText(infoModel.getCountryName());
+//            txtFCntry.setText(countryInfos.get(x).getCntryNme());
+//            infoModel.setCountryName(countryInfos.get(x).getCntryCde());
+//            mViewModel.getModel().setCountry(infoModel.getCountry());
+//            mViewModel.GetCountryList().observe(Activity_Finance.this, countryInfos -> {
+//                String sCountryCode = infoModel.getCountry();
+//                if(!sCountryCode.isEmpty()){
+//                    for(int x = 0; x < countryInfos.size(); x++){
+//                        if(sCountryCode.equalsIgnoreCase(countryInfos.get(x).getCntryCde())){
+//                            txtFCntry.setText(countryInfos.get(x).getCntryNme());
+//                            infoModel.setCountryName(countryInfos.get(x).getCntryCde());
+//                            break;
+//                        }
+//                    }
+//                }
+//            });
+        }
+    }
     @Override
     public void finish() {
         super.finish();

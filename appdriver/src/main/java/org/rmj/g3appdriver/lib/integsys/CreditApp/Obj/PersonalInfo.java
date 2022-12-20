@@ -227,6 +227,7 @@ public class PersonalInfo implements CreditApp {
             gocas.ApplicantInfo().setViberAccount(loDetail.getVbrAccnt());
 
             loApp.setApplInfo(gocas.ApplicantInfo().toJSONString());
+            loApp.setIsSpouse(loDetail.getCvlStats());
             poDao.Update(loApp);
             return true;
         } catch (Exception e){
