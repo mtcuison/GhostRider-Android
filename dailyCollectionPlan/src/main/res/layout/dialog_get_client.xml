@@ -54,36 +54,12 @@
             android:layout_marginTop="15dp"
             android:gravity="center"/>
 
-
-<!--        <RadioGroup-->
-<!--            android:id="@+id/rg_collection_tp"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:orientation="horizontal"-->
-<!--            android:layout_marginTop="10dp">-->
-
-<!--            <RadioButton-->
-<!--                android:id="@+id/rb_ar_client"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_weight="1"-->
-<!--                android:text="@string/sLabelArClient"/>-->
-
-<!--            <RadioButton-->
-<!--                android:id="@+id/rb_insurance_client"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_weight="1"-->
-<!--                android:text="@string/sLabelInsuranceClient"/>-->
-
-<!--        </RadioGroup>-->
-
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_dcpParameter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/TextInputStyle"
-            android:hint="Account Number"
+            android:hint="Client Name"
             android:layout_marginTop="5dp">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -98,6 +74,14 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="NOTE: Last Name, First Name, Middle Name"
+            android:textColor="@color/cross_red"
+            android:fontFamily="@font/roboto_regular"
+            android:layout_marginTop="15dp"
+            android:gravity="center"/>
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"

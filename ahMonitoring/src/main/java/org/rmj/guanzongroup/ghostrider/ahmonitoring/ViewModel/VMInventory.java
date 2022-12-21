@@ -148,7 +148,7 @@ public class VMInventory extends AndroidViewModel {
                 return false;
             }
 
-            if(poSys.ImportInventory(strings[0])){
+            if(!poSys.ImportInventory(strings[0])){
                 message = poSys.getMessage();
                 return false;
             }

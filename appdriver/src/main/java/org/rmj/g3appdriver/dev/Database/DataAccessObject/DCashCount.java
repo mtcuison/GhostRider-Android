@@ -17,6 +17,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ECashCount;
 
 import java.util.List;
@@ -43,11 +44,13 @@ public interface DCashCount {
     List<ECashCount> getDuplicateTransNox(String TransNox);
 
     @Query("UPDATE Cash_Count_Master SET " +
-            "sSendStat = 1 " +
+            "sTransNox =:transNox, " +
+            "sSendStat = 1," +
+            "dModified =:dateTime " +
             "WHERE sTransNox =:fsVal ")
-    void UpdateUploadedCashCount(String fsVal);
+    void UpdateUploadedCashCount(String transNox, String fsVal, String dateTime);
 
-    @Query("SELECT * FROM Cash_Count_Master WHERE sSendStat <> '1'")
+    @Query("SELECT * FROM Cash_Count_Master WHERE sSendStat == 0")
     List<ECashCount> GetUnsentCashCountEntries();
 
     @Query("SELECT a.*, " +
@@ -59,6 +62,12 @@ public interface DCashCount {
 
     @Query("SELECT * FROM Cash_Count_Master WHERE sBranchCd =:BranchCd AND dTransact=:Transact")
     ECashCount GetCashCountForBranch(String BranchCd, String Transact);
+
+    @Query("SELECT sAreaCode FROM Branch_Info WHERE sBranchCd =:BranchCd")
+    String GetBranchAreaCode(String BranchCd);
+
+    @Query("SELECT sAreaCode FROM Branch_Info WHERE sBranchCd = (SELECT sBranchCd FROM User_Info_Master)")
+    String GetUserAreaCode();
 
     @Query("SELECT sEmpLevID FROM User_Info_Master")
     String GetEmployeeLevel();

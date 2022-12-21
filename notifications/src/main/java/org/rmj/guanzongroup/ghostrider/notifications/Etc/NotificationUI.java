@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.google.firebase.messaging.RemoteMessage;
 
+import org.rmj.g3appdriver.dev.Database.Entities.ENotificationMaster;
 import org.rmj.g3appdriver.lib.Notifications.RemoteMessageParser;
 import org.rmj.guanzongroup.ghostrider.notifications.Obj.CustomerServiceNotification;
 import org.rmj.guanzongroup.ghostrider.notifications.Obj.EventNotification;
@@ -14,6 +15,7 @@ import org.rmj.guanzongroup.ghostrider.notifications.Obj.PanaloNotification;
 import org.rmj.guanzongroup.ghostrider.notifications.Obj.PromoNotification;
 import org.rmj.guanzongroup.ghostrider.notifications.Obj.RegularNotification;
 import org.rmj.guanzongroup.ghostrider.notifications.Obj.ReviewNotification;
+import org.rmj.guanzongroup.ghostrider.notifications.Obj.TableUpdateNotification;
 
 public class NotificationUI {
     private static final String TAG = NotificationUI.class.getSimpleName();
@@ -24,12 +26,15 @@ public class NotificationUI {
         this.mContext = context;
     }
 
-    public iNotificationUI getInstance(RemoteMessage foVal){
-        String lsSysMon = new RemoteMessageParser(foVal).getValueOf("msgmon");
+    public iNotificationUI getInstance(ENotificationMaster foVal){
+        String lsSysMon = foVal.getMsgTypex();
         switch (lsSysMon){
                 case "00000":
                     Log.d(TAG, "Regular message");
                     return new RegularNotification(mContext, foVal);
+                case "00001":
+                    Log.d(TAG, "Table Update notification");
+                    return new TableUpdateNotification(mContext, foVal);
                 case "00002":
                     Log.d(TAG, "Marketplace order status notification");
                     return new MPOrderNotification(mContext, foVal);

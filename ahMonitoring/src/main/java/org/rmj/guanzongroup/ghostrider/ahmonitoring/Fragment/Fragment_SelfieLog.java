@@ -53,6 +53,7 @@ import org.rmj.g3appdriver.lib.SelfieLog.SelfieLog;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_CashCounter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.TimeLogAdapter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Dialog.DialogBranchSelection;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Dialog.DialogSelfieLogRemarks;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.OnInitializeCameraCallback;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMSelfieLog;
@@ -133,7 +134,7 @@ public class Fragment_SelfieLog extends Fragment {
                 } else if(Boolean.FALSE.equals(coarseL)){
                     Toast.makeText(requireActivity(), "Please allow permission to get device location.", Toast.LENGTH_SHORT).show();
                 } else {
-                    initCamera();
+                    validateSelfieLog();
                 }
             } else {
                 if(checkSelfPermission(requireActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
@@ -143,7 +144,7 @@ public class Fragment_SelfieLog extends Fragment {
                 } else if(checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
                     Toast.makeText(requireActivity(), "Please allow permission to get device location.", Toast.LENGTH_SHORT).show();
                 } else {
-                    initCamera();
+                    validateSelfieLog();
                 }
             }
         }
@@ -179,7 +180,12 @@ public class Fragment_SelfieLog extends Fragment {
                     SetupDialogForBranchList();
                 }
                 lblBranch.setText(eEmployeeInfo.sBranchNm);
-                poSelfie.setBranchCode(eEmployeeInfo.sBranchCd);
+
+                // this setter code has been disable for the adjustment of selfie log.
+                // condition if the user is AH and no branch was selected on branch list.
+                // proceed selfie log without branch code but set the reporting branch
+                // as default branch code on saving record
+//                poSelfie.setBranchCode(eEmployeeInfo.sBranchCd);
             } catch (NullPointerException e){
                 e.printStackTrace();
             }
@@ -220,13 +226,22 @@ public class Fragment_SelfieLog extends Fragment {
             }
         });
 
-
         btnBranch.setOnClickListener(v -> mViewModel.CheckBranchList(new VMSelfieLog.OnBranchCheckListener() {
             @Override
+            public void OnCheck() {
+                poLoad.initDialog("Selfie Log", "Initializing branch list. Please wait...", false);
+                poLoad.show();
+            }
+
+            @Override
             public void OnCheck(List<EBranchInfo> area, List<EBranchInfo> all) {
+                poLoad.dismiss();
+//                Prompt a dialog which will display list of branch per area or all branch
                 new DialogBranchSelection(requireActivity(), area, all).initDialog(true, new DialogBranchSelection.OnBranchSelectedCallback() {
                     @Override
                     public void OnSelect(String BranchCode, AlertDialog dialog) {
+
+//                        Upon selection of branch code validate or check if the selected branch code has already exist
                         mViewModel.checkIfAlreadyLog(BranchCode, new VMSelfieLog.OnBranchSelectedCallback() {
                             @Override
                             public void OnLoad() {
@@ -262,13 +277,14 @@ public class Fragment_SelfieLog extends Fragment {
 
                     @Override
                     public void OnCancel() {
+
                     }
                 });
             }
 
             @Override
             public void OnFailed(String message) {
-
+                poLoad.dismiss();
             }
         }));
 
@@ -282,7 +298,7 @@ public class Fragment_SelfieLog extends Fragment {
                         Manifest.permission.CAMERA
                 });
             } else {
-                initCamera();
+                validateSelfieLog();
             }
         });
         return view;
@@ -302,45 +318,52 @@ public class Fragment_SelfieLog extends Fragment {
     }
 
     @SuppressLint("MissingPermission")
-    private void initCamera(){
+    private void validateSelfieLog(){
         try {
             if(checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
             checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
             checkSelfPermission(requireActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
                 poRequest.launch(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION});
             } else {
-                mViewModel.InitCameraLaunch(requireActivity(), new OnInitializeCameraCallback() {
+                mViewModel.ValidateSelfieBranch(poSelfie.getBranchCode(), new VMSelfieLog.OnValidateSelfieBranch() {
                     @Override
-                    public void OnInit() {
-                        poLoad.initDialog("Selfie Log", "Initializing camera. Please wait...", false);
+                    public void OnValidate() {
+                        poLoad.initDialog("Selfie Log", "Validating entry. Please wait...", false);
                         poLoad.show();
                     }
 
                     @Override
-                    public void OnSuccess(Intent intent, String[] args) {
+                    public void OnSuccess() {
                         poLoad.dismiss();
-                        poSelfie.setLocation(args[0]);
-                        poSelfie.setFileName(args[1]);
-                        poSelfie.setLatitude(args[2]);
-                        poSelfie.setLongitude(args[3]);
-                        poCamera.launch(intent);
+                        InitCamera("");
                     }
 
                     @Override
-                    public void OnFailed(String message, Intent intent, String[] args) {
+                    public void OnRequireRemarks() {
+                        poLoad.dismiss();
+                        new DialogSelfieLogRemarks(requireActivity()).initDialog(new DialogSelfieLogRemarks.OnDialogRemarksEntry() {
+                            @Override
+                            public void OnConfirm(String args) {
+                                InitCamera(args);
+                            }
+
+                            @Override
+                            public void OnCancel() {
+
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void OnFailed(String message) {
                         poLoad.dismiss();
                         poMessage.initDialog();
                         poMessage.setTitle("Selfie Login");
-                        poMessage.setMessage(message + "\n Proceed taking selfie log?");
-                        poMessage.setPositiveButton("Continue", (view, dialog) -> {
+                        poMessage.setMessage(message);
+                        poMessage.setPositiveButton("Okay", (view, dialog) -> {
                             dialog.dismiss();
-                            poSelfie.setLocation(args[0]);
-                            poSelfie.setFileName(args[1]);
-                            poSelfie.setLatitude(args[2]);
-                            poSelfie.setLongitude(args[3]);
-                            poCamera.launch(intent);
+                            requireActivity().finish();
                         });
-                        poMessage.setNegativeButton("Cancel", (view1, dialog) -> dialog.dismiss());
                         poMessage.show();
                     }
                 });
@@ -348,6 +371,45 @@ public class Fragment_SelfieLog extends Fragment {
         } catch(RuntimeException e) {
             e.printStackTrace();
         }
+    }
+
+    private void InitCamera(String args){
+        poSelfie.setRemarksx(args);
+        mViewModel.InitCameraLaunch(requireActivity(), new OnInitializeCameraCallback() {
+            @Override
+            public void OnInit() {
+                poLoad.initDialog("Selfie Log", "Initializing camera. Please wait...", false);
+                poLoad.show();
+            }
+
+            @Override
+            public void OnSuccess(Intent intent, String[] args) {
+                poLoad.dismiss();
+                poSelfie.setLocation(args[0]);
+                poSelfie.setFileName(args[1]);
+                poSelfie.setLatitude(args[2]);
+                poSelfie.setLongitude(args[3]);
+                poCamera.launch(intent);
+            }
+
+            @Override
+            public void OnFailed(String message, Intent intent, String[] args) {
+                poLoad.dismiss();
+                poMessage.initDialog();
+                poMessage.setTitle("Selfie Login");
+                poMessage.setMessage(message + "\n Proceed taking selfie log?");
+                poMessage.setPositiveButton("Continue", (view, dialog) -> {
+                    dialog.dismiss();
+                    poSelfie.setLocation(args[0]);
+                    poSelfie.setFileName(args[1]);
+                    poSelfie.setLatitude(args[2]);
+                    poSelfie.setLongitude(args[3]);
+                    poCamera.launch(intent);
+                });
+                poMessage.setNegativeButton("Cancel", (view1, dialog) -> dialog.dismiss());
+                poMessage.show();
+            }
+        });
     }
 
     private void requestLocationEnabled(){
@@ -435,8 +497,16 @@ public class Fragment_SelfieLog extends Fragment {
 
     private void SetupDialogForBranchList(){
         mViewModel.CheckBranchList(new VMSelfieLog.OnBranchCheckListener() {
+
+            @Override
+            public void OnCheck() {
+                poLoad.initDialog("Selfie Log", "Initializing branch list. Please wait...", false);
+                poLoad.show();
+            }
+
             @Override
             public void OnCheck(List<EBranchInfo> area, List<EBranchInfo> all) {
+                poLoad.dismiss();
                 new DialogBranchSelection(requireActivity(), area, all).initDialog(true, new DialogBranchSelection.OnBranchSelectedCallback() {
                     @Override
                     public void OnSelect(String BranchCode, AlertDialog dialog) {
@@ -482,7 +552,7 @@ public class Fragment_SelfieLog extends Fragment {
 
             @Override
             public void OnFailed(String message) {
-
+                poLoad.dismiss();
             }
         });
     }

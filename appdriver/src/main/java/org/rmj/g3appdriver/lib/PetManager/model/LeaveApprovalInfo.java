@@ -4,8 +4,8 @@ public class LeaveApprovalInfo {
     private String TransNox = "";
     private String AppldFrx = "";
     private String AppldTox = "";
-    private String WithPayx = "";
-    private String WithOPay = "";
+    private int WithPayx = 0;
+    private int WithOPay = 0;
     private String Approved = "";
     private String Approvex = "";
     private String TranStat = "";
@@ -44,19 +44,19 @@ public class LeaveApprovalInfo {
         AppldTox = appldTox;
     }
 
-    public String getWithPayx() {
+    public int getWithPayx() {
         return WithPayx;
     }
 
-    public void setWithPayx(String withPayx) {
+    public void setWithPayx(int withPayx) {
         WithPayx = withPayx;
     }
 
-    public String getWithOPay() {
+    public int getWithOPay() {
         return WithOPay;
     }
 
-    public void setWithOPay(String withOPay) {
+    public void setWithOPay(int withOPay) {
         WithOPay = withOPay;
     }
 
@@ -73,6 +73,8 @@ public class LeaveApprovalInfo {
     }
 
     public void setApproved(String approved) {
+
+
         Approved = approved;
     }
 
@@ -88,16 +90,10 @@ public class LeaveApprovalInfo {
         if(TransNox.isEmpty()){
             message = "No leave to approve or cancel";
             return false;
-        } else if(WithPayx == null || WithPayx.isEmpty()){
-            message = "With pay value is invalid.";
-            return false;
-        } else if(WithOPay == null || WithOPay.isEmpty()){
-            message = "Without pay value is invalid.";
-            return false;
-        } else if (Integer.parseInt(WithPayx) < 0){
+        } else if (WithPayx < 0){
             message = "Negative numbers are not allowed";
             return false;
-        } else if(Integer.parseInt(WithOPay) < 0){
+        } else if(WithOPay < 0){
             message = "Negative numbers are not allowed";
             return false;
         }
