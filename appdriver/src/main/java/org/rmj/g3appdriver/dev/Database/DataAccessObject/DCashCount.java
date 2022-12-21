@@ -50,7 +50,7 @@ public interface DCashCount {
             "WHERE sTransNox =:fsVal ")
     void UpdateUploadedCashCount(String transNox, String fsVal, String dateTime);
 
-    @Query("SELECT * FROM Cash_Count_Master WHERE sSendStat <> '1'")
+    @Query("SELECT * FROM Cash_Count_Master WHERE sSendStat == 0")
     List<ECashCount> GetUnsentCashCountEntries();
 
     @Query("SELECT a.*, " +

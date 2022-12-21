@@ -88,7 +88,6 @@ public class CashCount {
             loCash.setPRNoxNPt(foVal.getString("sPRNoxNPt"));
             loCash.setDRNoxxxx(foVal.getString("sDRNoxxxx"));
             loCash.setPettyAmt(foVal.getDouble("nPettyAmt"));
-            loCash.setSendStat("0");
             poDao.SaveCashCount(loCash);
             return lsTransNo;
         } catch (Exception e){

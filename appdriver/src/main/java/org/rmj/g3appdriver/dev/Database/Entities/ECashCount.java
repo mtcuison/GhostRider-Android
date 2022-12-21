@@ -105,16 +105,8 @@ public class ECashCount {
     @ColumnInfo(name = "dModified")
     private String Modified;
 
-    public String getSendStat() {
-        return SendStat;
-    }
-
-    public void setSendStat(String sendStat) {
-        SendStat = sendStat;
-    }
-
     @ColumnInfo(name = "sSendStat")
-    private String SendStat = "0";
+    private Integer SendStat = 0;
 
     public ECashCount() {
     }
@@ -343,5 +335,13 @@ public class ECashCount {
 
     public void setDRNoxxxx(String DRNoxxxx) {
         this.DRNoxxxx = DRNoxxxx;
+    }
+
+    public int getSendStat() {
+        return SendStat;
+    }
+
+    public void setSendStat(int sendStat) {
+        SendStat = sendStat;
     }
 }
