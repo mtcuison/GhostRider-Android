@@ -44,9 +44,11 @@ public interface DCashCount {
     List<ECashCount> getDuplicateTransNox(String TransNox);
 
     @Query("UPDATE Cash_Count_Master SET " +
-            "sSendStat = 1 " +
+            "sTransNox =:transNox, " +
+            "sSendStat = 1," +
+            "dModified =:dateTime " +
             "WHERE sTransNox =:fsVal ")
-    void UpdateUploadedCashCount(String fsVal);
+    void UpdateUploadedCashCount(String transNox, String fsVal, String dateTime);
 
     @Query("SELECT * FROM Cash_Count_Master WHERE sSendStat <> '1'")
     List<ECashCount> GetUnsentCashCountEntries();

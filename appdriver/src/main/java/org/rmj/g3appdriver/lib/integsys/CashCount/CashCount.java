@@ -64,20 +64,20 @@ public class CashCount {
             loCash.setTransNox(lsTransNo);
             loCash.setBranchCd(foVal.getString("sBranchCd"));
             loCash.setTransact(new AppConstants().CURRENT_DATE);
-            loCash.setCn0001cx(foVal.getString("nCn0001cx"));
-            loCash.setCn0005cx(foVal.getString("nCn0005cx"));
-            loCash.setCn0010cx(foVal.getString("nCn0010cx"));
-            loCash.setCn0025cx(foVal.getString("nCn0025cx"));
-            loCash.setCn0050cx(foVal.getString("nCn0050cx"));
-            loCash.setCn0001px(foVal.getString("nCn0001px"));
-            loCash.setCn0005px(foVal.getString("nCn0005px"));
-            loCash.setCn0010px(foVal.getString("nCn0010px"));
-            loCash.setNte0020p(foVal.getString("nNte0020p"));
-            loCash.setNte0050p(foVal.getString("nNte0050p"));
-            loCash.setNte0100p(foVal.getString("nNte0100p"));
-            loCash.setNte0200p(foVal.getString("nNte0200p"));
-            loCash.setNte0500p(foVal.getString("nNte0500p"));
-            loCash.setNte1000p(foVal.getString("nNte1000p"));
+            loCash.setCn0001cx(foVal.getInt("nCn0001cx"));
+            loCash.setCn0005cx(foVal.getInt("nCn0005cx"));
+            loCash.setCn0010cx(foVal.getInt("nCn0010cx"));
+            loCash.setCn0025cx(foVal.getInt("nCn0025cx"));
+            loCash.setCn0050cx(foVal.getInt("nCn0050cx"));
+            loCash.setCn0001px(foVal.getInt("nCn0001px"));
+            loCash.setCn0005px(foVal.getInt("nCn0005px"));
+            loCash.setCn0010px(foVal.getInt("nCn0010px"));
+            loCash.setNte0020p(foVal.getInt("nNte0020p"));
+            loCash.setNte0050p(foVal.getInt("nNte0050p"));
+            loCash.setNte0100p(foVal.getInt("nNte0100p"));
+            loCash.setNte0200p(foVal.getInt("nNte0200p"));
+            loCash.setNte0500p(foVal.getInt("nNte0500p"));
+            loCash.setNte1000p(foVal.getInt("nNte1000p"));
             loCash.setORNoxxxx(foVal.getString("sORNoxxxx"));
             loCash.setSINoxxxx(foVal.getString("sSINoxxxx"));
             loCash.setPRNoxxxx(foVal.getString("sPRNoxxxx"));
@@ -87,7 +87,7 @@ public class CashCount {
             loCash.setORNoxNPt(foVal.getString("sORNoxNPt"));
             loCash.setPRNoxNPt(foVal.getString("sPRNoxNPt"));
             loCash.setDRNoxxxx(foVal.getString("sDRNoxxxx"));
-            loCash.setPettyAmt(foVal.getString("nPettyAmt"));
+            loCash.setPettyAmt(foVal.getDouble("nPettyAmt"));
             loCash.setSendStat("0");
             poDao.SaveCashCount(loCash);
             return lsTransNo;
@@ -199,7 +199,10 @@ public class CashCount {
                 return false;
             }
 
-            poDao.UpdateUploadedCashCount(loCash.getTransNox());
+            String lsTransNo = loResponse.getString("realnox");
+            String lsRecvedx = loResponse.getString("received");
+
+            poDao.UpdateUploadedCashCount(lsTransNo, loCash.getTransNox(), lsRecvedx);
             Log.d(TAG, "Cash count uploaded successfully");
             return true;
         } catch (Exception e){
@@ -274,7 +277,10 @@ public class CashCount {
                     continue;
                 }
 
-                poDao.UpdateUploadedCashCount(loCash.getTransNox());
+                String lsTransNo = loResponse.getString("realnox");
+                String lsRecvedx = loResponse.getString("received");
+
+                poDao.UpdateUploadedCashCount(lsTransNo, loCash.getTransNox(), lsRecvedx);
                 Log.d(TAG, "Cash count uploaded successfully");
                 Thread.sleep(1000);
             }
