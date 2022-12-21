@@ -15,25 +15,18 @@ import android.view.ViewGroup;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMAreaManager;
 
-public class Fragment_AreaManager extends Fragment {
+public class Fragment_AreaManagerHome extends Fragment {
 
     private VMAreaManager mViewModel;
 
-    public static Fragment_AreaManager newInstance() {
-        return new Fragment_AreaManager();
+    public static Fragment_AreaManagerHome newInstance() {
+        return new Fragment_AreaManagerHome();
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_area_manager, container, false);
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VMAreaManager.class);
-        // TODO: Use the ViewModel
+        return inflater.inflate(R.layout.fragment_area_manager_home, container, false);
     }
-
 }

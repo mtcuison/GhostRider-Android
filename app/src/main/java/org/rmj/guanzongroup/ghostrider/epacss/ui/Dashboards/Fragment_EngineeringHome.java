@@ -13,27 +13,20 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.rmj.guanzongroup.ghostrider.epacss.R;
-import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMDeptHead;
+import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMEngineeringHome;
 
-public class Fragment_DeptHead extends Fragment {
+public class Fragment_EngineeringHome extends Fragment {
 
-    private VMDeptHead mViewModel;
+    private VMEngineeringHome mViewModel;
 
-    public static Fragment_DeptHead newInstance() {
-        return new Fragment_DeptHead();
+    public static Fragment_EngineeringHome newInstance() {
+        return new Fragment_EngineeringHome();
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_dept_head, container, false);
+        mViewModel = new ViewModelProvider(this).get(VMEngineeringHome.class);
+        return inflater.inflate(R.layout.fragment_engineering_home, container, false);
     }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(VMDeptHead.class);
-        // TODO: Use the ViewModel
-    }
-
 }

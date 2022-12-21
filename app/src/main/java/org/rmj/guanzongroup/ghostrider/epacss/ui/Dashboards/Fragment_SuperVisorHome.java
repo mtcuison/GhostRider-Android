@@ -15,25 +15,18 @@ import android.view.ViewGroup;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMSuperVisor;
 
-public class Fragment_SuperVisor extends Fragment {
+public class Fragment_SuperVisorHome extends Fragment {
 
     private VMSuperVisor mViewModel;
 
-    public static Fragment_SuperVisor newInstance() {
-        return new Fragment_SuperVisor();
+    public static Fragment_SuperVisorHome newInstance() {
+        return new Fragment_SuperVisorHome();
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_super_visor, container, false);
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VMSuperVisor.class);
-        // TODO: Use the ViewModel
+        return inflater.inflate(R.layout.fragment_super_visor_home, container, false);
     }
-
 }

@@ -15,25 +15,18 @@ import android.view.ViewGroup;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMGeneralManager;
 
-public class Fragment_GeneralManager extends Fragment {
+public class Fragment_GeneralManagerHome extends Fragment {
 
     private VMGeneralManager mViewModel;
 
-    public static Fragment_GeneralManager newInstance() {
-        return new Fragment_GeneralManager();
+    public static Fragment_GeneralManagerHome newInstance() {
+        return new Fragment_GeneralManagerHome();
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_general_manager, container, false);
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VMGeneralManager.class);
-        // TODO: Use the ViewModel
+        return inflater.inflate(R.layout.fragment_general_manager_home, container, false);
     }
-
 }

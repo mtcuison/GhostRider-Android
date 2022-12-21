@@ -15,25 +15,18 @@ import android.view.ViewGroup;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMRankFile;
 
-public class Fragment_RankFile extends Fragment {
+public class Fragment_RankFileHome extends Fragment {
 
     private VMRankFile mViewModel;
 
-    public static Fragment_RankFile newInstance() {
-        return new Fragment_RankFile();
+    public static Fragment_RankFileHome newInstance() {
+        return new Fragment_RankFileHome();
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_rank_file, container, false);
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VMRankFile.class);
-        // TODO: Use the ViewModel
+        return inflater.inflate(R.layout.fragment_rank_file_home, container, false);
     }
-
 }
