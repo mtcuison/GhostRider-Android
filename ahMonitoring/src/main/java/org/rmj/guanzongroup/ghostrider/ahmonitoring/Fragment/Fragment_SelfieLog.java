@@ -176,15 +176,15 @@ public class Fragment_SelfieLog extends Fragment {
             try {
                 lblUsername.setText(eEmployeeInfo.sUserName);
                 lblPosition.setText(DeptCode.getDepartmentName(eEmployeeInfo.sDeptIDxx));
-                if (eEmployeeInfo.sEmpLevID.equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER))) {
-                    SetupDialogForBranchList();
-                }
                 lblBranch.setText(eEmployeeInfo.sBranchNm);
 
                 // this setter code has been disable for the adjustment of selfie log.
                 // condition if the user is AH and no branch was selected on branch list.
                 // proceed selfie log without branch code but set the reporting branch
                 // as default branch code on saving record
+//                if (eEmployeeInfo.sEmpLevID.equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER))) {
+//                    SetupDialogForBranchList();
+//                }
 //                poSelfie.setBranchCode(eEmployeeInfo.sBranchCd);
             } catch (NullPointerException e){
                 e.printStackTrace();

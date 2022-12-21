@@ -108,7 +108,7 @@ public class SelfieLog {
      *      2 if selected branch is not included on branches in area. Require remarks.
      *      3 if all conditions are not met. proceed selfie log without remarks.
      *      4. if the selected branch is duplicate. proceed selfie log without remarks.
-     *      5. if the branch isn't selected. proceed selfie log without remarks.
+     *      5. if the branch isn't selected. proceed selfie log with remarks.
      */
     public int ValidateSelfieBranch(String args){
         try{

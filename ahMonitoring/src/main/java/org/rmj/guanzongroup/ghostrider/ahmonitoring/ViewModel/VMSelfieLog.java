@@ -168,11 +168,13 @@ public class VMSelfieLog extends AndroidViewModel {
                     listener.OnFailed(message);
                     break;
                 case 2:
+                case 5:
                     listener.OnRequireRemarks();
                     break;
-                default:
+                case 3:
+                case 4:
+                case 1:
                     listener.OnSuccess();
-                    break;
             }
         }
     }
@@ -367,7 +369,7 @@ public class VMSelfieLog extends AndroidViewModel {
 
                 if(!poConn.isDeviceConnected()){
                     message = "Your selfie log has been save to local.";
-                    return false;
+                    return true;
                 }
 
                 if (!poSys.UploadSelfieLog(lsTransNo)) {
