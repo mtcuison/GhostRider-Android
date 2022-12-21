@@ -166,6 +166,23 @@ public class Activity_CashCountSubmit extends AppCompatActivity {
                     }
 
                     @Override
+                    public void OnSaveToLocal(String message) {
+                        poDialogx.dismiss();
+                        poMessage.initDialog();
+                        poMessage.setTitle("Cast Count");
+                        poMessage.setMessage("Cash count has been saved successfully.");
+                        poMessage.setPositiveButton("Okay", (view, dialog) ->{
+                            Intent loIntent = new Intent(Activity_CashCountSubmit.this, Activity_Inventory.class);
+                            loIntent.putExtra("BranchCd", BranchCd);
+                            startActivity(loIntent);
+                            dialog.dismiss();
+                            Activity_CashCounter.getInstance().finish();
+                            finish();
+                        });
+                        poMessage.show();
+                    }
+
+                    @Override
                     public void OnFailed(String message) {
                         poDialogx.dismiss();
                         poMessage.initDialog();

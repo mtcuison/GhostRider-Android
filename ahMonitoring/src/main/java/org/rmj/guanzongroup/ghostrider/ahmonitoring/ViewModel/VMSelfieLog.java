@@ -51,6 +51,7 @@ public class VMSelfieLog extends AndroidViewModel {
     public interface OnLoginTimekeeperListener{
         void OnLogin();
         void OnSuccess(String args);
+        void SaveOffline(String args);
         void OnFailed(String message);
     }
 
@@ -337,7 +338,7 @@ public class VMSelfieLog extends AndroidViewModel {
         new TimeInTask(instance, callback).execute(foVal);
     }
 
-    public static class TimeInTask extends AsyncTask<SelfieLog.SelfieLogDetail, Void, Boolean>{
+    public static class TimeInTask extends AsyncTask<SelfieLog.SelfieLogDetail, Void, Integer>{
 
         private final SelfieLog poSys;
         private final OnLoginTimekeeperListener callback;
@@ -359,43 +360,51 @@ public class VMSelfieLog extends AndroidViewModel {
         }
 
         @Override
-        protected Boolean doInBackground(SelfieLog.SelfieLogDetail... selfieLogs) {
+        protected Integer doInBackground(SelfieLog.SelfieLogDetail... selfieLogs) {
             try{
                 String lsTransNo = poSys.SaveSelfieLog(selfieLogs[0]);
                 if(lsTransNo == null){
                     message = poSys.getMessage();
-                    return false;
+                    return 0;
                 }
 
                 if(!poConn.isDeviceConnected()){
                     message = "Your selfie log has been save to local.";
-                    return true;
+                    return 2;
                 }
 
                 if (!poSys.UploadSelfieLog(lsTransNo)) {
                     message = poSys.getMessage();
-                    return false;
+                    return 3;
                 }
 
                 //Usually message is only use for storing and error message.
                 // this time message value will be branch code which will be pass for cash count entry.
                 message = selfieLogs[0].getBranchCode();
-                return true;
+                return 1;
             } catch (Exception e){
                 e.printStackTrace();
                 message = e.getMessage();
-                return false;
+                return 0;
             }
         }
 
         @Override
-        protected void onPostExecute(Boolean isSuccess) {
-            super.onPostExecute(isSuccess);
-            if(!isSuccess){
-                callback.OnFailed(message);
-            } else {
-                callback.OnSuccess(message);
+        protected void onPostExecute(Integer result) {
+            super.onPostExecute(result);
+            switch (result){
+                case 0:
+                case 3:
+                    callback.OnFailed(message);
+                    break;
+                case 1:
+                    callback.OnSuccess(message);
+                    break;
+                case 2:
+                    callback.SaveOffline(message);
+                    break;
             }
+
         }
     }
 

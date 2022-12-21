@@ -92,6 +92,7 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
 
         mViewModel.getEmployeeInfo().observe(this, eEmployeeInfo -> {
             try{
+                AppConfigPreference.getInstance(Activity_Main.this).setIsAppFirstLaunch(false);
                 imgDept.setImageResource(AppDeptIcon.getIcon(eEmployeeInfo.getDeptIDxx()));
                 lblDept.setText(DeptCode.getDepartmentName(eEmployeeInfo.getDeptIDxx()));
                 cSlfiex = eEmployeeInfo.getSlfieLog().equalsIgnoreCase("1");
@@ -244,7 +245,6 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(poNetRecvr);
-        AppConfigPreference.getInstance(Activity_Main.this).setIsAppFirstLaunch(false);
         Log.e(TAG, "Internet status receiver has been unregistered.");
     }
 
