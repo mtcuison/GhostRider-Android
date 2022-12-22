@@ -259,7 +259,8 @@ public class LRDcp {
                                 loData.put("nLongitud", loImage.getLongitud());
                                 loData.put("nLatitude", loImage.getLatitude());
 
-                                if(!poImage.UploadImage(loImage.getTransNox())){
+                                String lsImageID = poImage.UploadImage(loImage.getTransNox());
+                                if(lsImageID == null){
                                     Log.e(TAG, poImage.getMessage());
                                 }
                             }
@@ -310,7 +311,8 @@ public class LRDcp {
                                 loData.put("nLongitud", loImage.getLongitud());
                                 loData.put("nLatitude", loImage.getLatitude());
 
-                                if(!poImage.UploadImage(loImage.getTransNox())){
+                                String lsImageID = poImage.UploadImage(loImage.getTransNox());
+                                if(lsImageID == null){
                                     Log.e(TAG, poImage.getMessage());
                                 }
                             }
@@ -1186,7 +1188,8 @@ public class LRDcp {
                                 loData.put("nLongitud", loImage.getLongitud());
                                 loData.put("nLatitude", loImage.getLatitude());
 
-                                if(!poImage.UploadImage(loImage.getTransNox())){
+                                String lsImageID = poImage.UploadImage(loImage.getTransNox());
+                                if(lsImageID == null){
                                     Log.e(TAG, poImage.getMessage());
                                 }
                             }
@@ -1237,7 +1240,8 @@ public class LRDcp {
                                 loData.put("nLongitud", loImage.getLongitud());
                                 loData.put("nLatitude", loImage.getLatitude());
 
-                                if(!poImage.UploadImage(loImage.getTransNox())){
+                                String lsImageID = poImage.UploadImage(loImage.getTransNox());
+                                if(lsImageID == null){
                                     Log.e(TAG, poImage.getMessage());
                                 }
                             }

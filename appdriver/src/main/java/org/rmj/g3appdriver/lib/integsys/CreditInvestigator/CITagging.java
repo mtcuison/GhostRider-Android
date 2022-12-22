@@ -619,7 +619,8 @@ public class CITagging {
                 for(int x = 0; x < loImages.size(); x++){
                     String lsImageID = loImages.get(x).getTransNox();
 
-                    if(!poImage.UploadImage(lsImageID)){
+                    lsImageID = poImage.UploadImage(lsImageID);
+                    if(lsImageID == null){
                         message = poImage.getMessage();
                         Log.e(TAG, message);
                         Thread.sleep(1000);

@@ -108,7 +108,7 @@ public class SelfieLog {
      *      2 if selected branch is not included on branches in area. Require remarks.
      *      3 if all conditions are not met. proceed selfie log without remarks.
      *      4. if the selected branch is duplicate. proceed selfie log without remarks.
-     *      5. if the branch isn't selected. proceed selfie log without remarks.
+     *      5. if the branch isn't selected. proceed selfie log with remarks.
      */
     public int ValidateSelfieBranch(String args){
         try{
@@ -206,7 +206,8 @@ public class SelfieLog {
 
             String lsImageID = loDetail.getImageIDx();
 
-            if(!poImage.UploadImage(lsImageID)){
+            lsImageID = poImage.UploadImage(lsImageID);
+            if(lsImageID == null){
                 message = poImage.getMessage();
                 return false;
             }
@@ -242,6 +243,7 @@ public class SelfieLog {
             poDao.updateEmployeeLogStat(
                     loResponse.getString("sTransNox"),
                     fsVal,
+                    lsImageID,
                     new AppConstants().DATE_MODIFIED());
 
             return true;
@@ -266,16 +268,19 @@ public class SelfieLog {
                 return false;
             }
 
+            boolean isSuccess = true;
             for(int x = 0; x < loSelfies.size(); x++){
                 ESelfieLog loDetail = loSelfies.get(x);
 
                 String lsImageID = loDetail.getImageIDx();
 
-                if(!poImage.UploadImage(lsImageID)){
+                lsImageID = poImage.UploadImage(lsImageID);
+                if(lsImageID == null){
                     message = poImage.getMessage();
-                    Log.e(TAG, message);
-                    return false;
+                    isSuccess = false;
+                    continue;
                 }
+
 
                 Thread.sleep(1000);
 
@@ -296,6 +301,7 @@ public class SelfieLog {
                     message = "Server no response";
                     Log.e(TAG, message);
                     Thread.sleep(1000);
+                    isSuccess = false;
                     continue;
                 }
 
@@ -306,6 +312,7 @@ public class SelfieLog {
                     message = loError.getString("message");
                     Log.e(TAG, message);
                     Thread.sleep(1000);
+                    isSuccess = false;
                     continue;
                 }
 
@@ -314,11 +321,16 @@ public class SelfieLog {
                 poDao.updateEmployeeLogStat(
                         loResponse.getString("sTransNox"),
                         lsTransNo,
+                        lsImageID,
                         new AppConstants().DATE_MODIFIED());
                 Log.d(TAG, "Selfie log image uploaded successfully");
                 Thread.sleep(1000);
             }
 
+            if(!isSuccess){
+                message = "Failed to upload Selfie Log/s";
+                return false;
+            }
             return true;
         } catch (Exception e){
             e.printStackTrace();
