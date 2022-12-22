@@ -86,7 +86,8 @@ public class CreditAppDocuments {
 
     public boolean UploadDocument(String args){
         try{
-            if(!poImage.UploadImage(args)){
+            String lsImageID = poImage.UploadImage(args);
+            if(lsImageID == null){
                 message = poImage.getMessage();
                 return false;
             }
