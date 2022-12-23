@@ -146,7 +146,7 @@ public class Fragment_Login extends Fragment implements LoginCallback{
         dialog.dismiss();
         MessageBox loMessage = new MessageBox(requireActivity());
         loMessage.initDialog();
-        loMessage.setTitle("GhostRider");
+        loMessage.setTitle("Guanzon Circle");
         loMessage.setMessage(message);
         loMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
         loMessage.show();

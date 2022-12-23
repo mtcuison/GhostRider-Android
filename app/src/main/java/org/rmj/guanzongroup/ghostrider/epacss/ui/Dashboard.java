@@ -3,6 +3,8 @@ package org.rmj.guanzongroup.ghostrider.epacss.ui;
 import androidx.fragment.app.Fragment;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
+import org.rmj.g3appdriver.dev.DeptCode;
+import org.rmj.g3appdriver.dev.PositionCode;
 import org.rmj.guanzongroup.ghostrider.epacss.ui.Dashboards.Fragment_AreaManagerHome;
 import org.rmj.guanzongroup.ghostrider.epacss.ui.Dashboards.Fragment_BranchHeadHome;
 import org.rmj.guanzongroup.ghostrider.epacss.ui.Dashboards.Fragment_DeptHeadHome;
@@ -13,9 +15,18 @@ import org.rmj.guanzongroup.ghostrider.epacss.ui.Dashboards.Fragment_SuperVisorH
 public class Dashboard {
 
     public Fragment InitializeDashboard(EEmployeeInfo args){
+        String lsEmpRole = args.getPositnID();
         switch (args.getEmpLevID()){
             case "0":
-                return new Fragment_RankFileHome();
+                if(lsEmpRole.equalsIgnoreCase(PositionCode.Code_Collector)){
+                    return new Fragment_RankFileHome();
+                } else if(lsEmpRole.equalsIgnoreCase(PositionCode.Code_Collection_Staff)){
+                    return new Fragment_RankFileHome();
+                } else if(lsEmpRole.equalsIgnoreCase(PositionCode.Code_Junior_Programmer)){
+                    return new Fragment_RankFileHome();
+                } else {
+                    return new Fragment_RankFileHome();
+                }
             case "1":
                 return new Fragment_SuperVisorHome();
             case "2":

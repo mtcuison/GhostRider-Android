@@ -137,7 +137,7 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
                             loIntent = poParentLst.get(groupPosition).getIntent(Activity_Main.this);
                             if(loIntent == null){
                                 loMessage.initDialog();
-                                loMessage.setTitle("Dashboard");
+                                loMessage.setTitle("Guanzon Circle");
                                 loMessage.setMessage("No corresponding feature has been set.");
                                 loMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
                                 loMessage.show();
@@ -202,7 +202,7 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
             loImport.RefreshEmployeeRole(new ImportEmployeeRole.OnImportEmployeeRoleCallback() {
                 @Override
                 public void OnRequest() {
-                    poDialog.initDialog("GhostRider", "Refreshing employee access. Please wait...", false);
+                    poDialog.initDialog("Guanzon Circle", "Refreshing employee access. Please wait...", false);
                     poDialog.show();
                 }
 
@@ -215,7 +215,7 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
                 public void OnFailed(String message) {
                     poDialog.dismiss();
                     loMessage.initDialog();
-                    loMessage.setTitle("GhostRider");
+                    loMessage.setTitle("Guanzon Circle");
                     loMessage.setMessage(message);
                     loMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
                     loMessage.show();
@@ -268,8 +268,8 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
 //                AppConfigPreference.getInstance(Activity_Main.this).setIsAppFirstLaunch(false);
             });
             loMessage.setNegativeButton("No", (view, dialog) -> dialog.dismiss());
-            loMessage.setTitle("GhostRider");
-            loMessage.setMessage("Exit Ghostrider app?");
+            loMessage.setTitle("Guanzon Circle");
+            loMessage.setMessage("Exit Guanzon Circle?");
             loMessage.show();
         }
     }

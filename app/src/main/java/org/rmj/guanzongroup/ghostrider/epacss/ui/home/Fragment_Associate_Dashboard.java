@@ -115,7 +115,7 @@ public class Fragment_Associate_Dashboard extends Fragment {
                         AppConfigPreference.getInstance(getActivity()).setIsAppFirstLaunch(false);
                         startActivity(new Intent(getActivity(), Activity_SplashScreen.class));
                     });
-                    loMessage.setTitle("GhostRider Dev Mode");
+                    loMessage.setTitle("Guanzon Circle Dev Mode");
                     loMessage.setMessage("Test mode changes connection of this app \n From LIVE (240) to LOCAL(192.168.10.141) \n NOTE: Features that requires taking images will still be require but images will not be uploaded. \n Requires re-login account.");
                     loMessage.show();
                 } else {
