@@ -1,5 +1,6 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -22,12 +23,15 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EBarangayInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.ClientResidence;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Properties;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.OnParseListener;
@@ -75,6 +79,11 @@ public class Activity_ResidenceInfo extends AppCompatActivity {
                         @Override
                         public void OnParse(Object args) {
                             ClientResidence loDetail = (ClientResidence) args;
+                            try {
+                                setUpFieldsFromLocalDB(loDetail);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
                     });
                 } catch (Exception e) {
@@ -527,6 +536,121 @@ public class Activity_ResidenceInfo extends AppCompatActivity {
 
         btnNext = findViewById(R.id.btn_creditAppNext);
         btnPrvs = findViewById(R.id.btn_creditAppPrvs);
+
+    }
+
+    @SuppressLint("NewApi")
+    public void setUpFieldsFromLocalDB(ClientResidence infoModel) throws JSONException {
+        if(infoModel != null) {
+
+            if(infoModel.isOneAddress()){
+                cbOneAddress.setChecked(true);
+                mViewModel.getModel().setOneAddress(infoModel.isOneAddress());
+            }
+            if(!"".equalsIgnoreCase(infoModel.getPermanentAddress1())){
+                txtPAddress1.setText(infoModel.getPermanentAddress1());
+            }
+            if(!"".equalsIgnoreCase(infoModel.getPermanentAddress2())){
+                txtPAddress2.setText(infoModel.getPermanentAddress2());
+            }
+            if(!"".equalsIgnoreCase(infoModel.getPermanentLandMark())){
+                txtPLandMark.setText(infoModel.getPermanentLandMark());
+            }
+            if(!"".equalsIgnoreCase(infoModel.getPermanentHouseNo())){
+                txtPHouseNox.setText(infoModel.getHouseNox());
+            }
+
+            if(!"".equalsIgnoreCase(infoModel.getPermanentMunicipalID())) {
+                txtPMunicipl.setText(infoModel.getPermanentMunicipalNm());
+                mViewModel.getModel().setPermanentMunicipalID(infoModel.getPermanentMunicipalID());
+                mViewModel.getModel().setPermanentMunicipalNm(infoModel.getPermanentMunicipalNm());
+            }
+
+            if(!"".equalsIgnoreCase(infoModel.getPermanentBarangayID())) {
+                txtPBarangay.setText(infoModel.getPermanentBarangayName());
+                mViewModel.getModel().setPermanentBarangayID(infoModel.getPermanentBarangayID());
+                mViewModel.getModel().setPermanentBarangayName(infoModel.getPermanentBarangayName());
+            }
+
+            if(!"".equalsIgnoreCase(infoModel.getAddress1())){
+                txtAddress1.setText(infoModel.getAddress1());
+
+            }
+            if(!"".equalsIgnoreCase(infoModel.getAddress2())){
+                txtAddress2.setText(infoModel.getAddress2());
+            }
+            if(!"".equalsIgnoreCase(infoModel.getLandMark())){
+                txtLandMark.setText(infoModel.getLandMark());
+            }
+            if(!"".equalsIgnoreCase(infoModel.getHouseNox())){
+                txtHouseNox.setText(infoModel.getHouseNox());
+            }
+
+            if(!"".equalsIgnoreCase(infoModel.getMunicipalID())) {
+                txtMunicipality.setText(infoModel.getMunicipalNm());
+                mViewModel.getModel().setMunicipalID(infoModel.getMunicipalID());
+                mViewModel.getModel().setMunicipalNm(infoModel.getMunicipalNm());
+            }
+
+            if(!"".equalsIgnoreCase(infoModel.getBarangayID())) {
+                txtBarangay.setText(infoModel.getBarangayName());
+                mViewModel.getModel().setBarangayID(infoModel.getBarangayID());
+                mViewModel.getModel().setBarangayName(infoModel.getBarangayName());
+            }
+
+            if (infoModel.getHouseOwn().equalsIgnoreCase("0")) {
+                rgOwnsership.check(R.id.rb_owned);
+                mViewModel.getModel().setHouseOwn("0");
+            } else if (infoModel.getHouseOwn().equalsIgnoreCase("1")) {
+                rgOwnsership.check(R.id.rb_rent);
+                mViewModel.getModel().setHouseOwn("1");
+            } else if (infoModel.getHouseOwn().equalsIgnoreCase("2")) {
+                rgOwnsership.check(R.id.rb_careTaker);
+                mViewModel.getModel().setHouseOwn("2");
+            }
+
+            if (infoModel.getHasGarage().equalsIgnoreCase("0")){
+                rgGarage.check(R.id.rb_no);
+                mViewModel.getModel().setHasGarage("0");
+            }else {
+                rgGarage.check(R.id.rb_yes);
+                mViewModel.getModel().setHasGarage("1");
+            }
+            if(!"".equalsIgnoreCase(infoModel.getHouseHold())){
+                mViewModel.getModel().setHouseHold(infoModel.getHouseHold());
+                spnHouseHold.setText(CreditAppConstants.HOUSEHOLDS[Integer.parseInt(infoModel.getHouseHold())]);
+            }
+
+            spnHouseType.setText(CreditAppConstants.HOUSE_TYPE[Integer.parseInt(infoModel.getHouseType())]);
+            mViewModel.getModel().setHouseType(infoModel.getHouseType());
+
+            txtMonthlyExp.setText( !"".equalsIgnoreCase(String.valueOf(infoModel.getMonthlyExpenses())) ? String.valueOf(infoModel.getMonthlyExpenses()) : "");
+
+        }else{
+            cbOneAddress.setChecked(false);
+            txtLandMark.getText().clear();
+            txtHouseNox.getText().clear();
+            txtAddress1.getText().clear();
+            txtAddress2.getText().clear();
+            txtBarangay.getText().clear();
+            txtMunicipality.getText().clear();
+            txtProvince.getText().clear();
+            txtRelationship.getText().clear();
+            txtLgnthStay.getText().clear();
+            txtMonthlyExp.getText().clear();
+            txtPLandMark.getText().clear();
+            txtPHouseNox.getText().clear();
+            txtPAddress1.getText().clear();
+            txtPAddress2.getText().clear();
+            txtPBarangay.getText().clear();
+            txtPMunicipl.getText().clear();
+            txtPProvince.getText().clear();
+            spnLgnthStay.getText().clear();
+            spnHouseHold.getText().clear();
+            spnHouseType.getText().clear();
+            rgOwnsership.clearCheck();
+            rgGarage .clearCheck();
+        }
 
     }
 

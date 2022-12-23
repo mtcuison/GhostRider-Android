@@ -205,7 +205,11 @@ public class Activity_Finance extends AppCompatActivity {
             txtFMoble.setText(infoModel.getMobileNo());
             txtFEmail.setText(infoModel.getEmail());
             txtFFacbk.setText(infoModel.getFacebook());
-            txtFCntry.setText(infoModel.getCountryName());
+            if(!"".equalsIgnoreCase(infoModel.getCountry())){
+                txtFCntry.setText(infoModel.getCountryName());
+                mViewModel.getModel().setCountry(infoModel.getCountry());
+                mViewModel.getModel().setCountryName(infoModel.getCountryName());
+            }
 //            txtFCntry.setText(countryInfos.get(x).getCntryNme());
 //            infoModel.setCountryName(countryInfos.get(x).getCntryCde());
 //            mViewModel.getModel().setCountry(infoModel.getCountry());

@@ -68,6 +68,11 @@ public class Activity_SelfEmployedInfo extends AppCompatActivity {
                         @Override
                         public void OnParse(Object args) {
                             Business loDetail = (Business) args;
+                            try {
+                                setUpFieldsFromLocalDB(loDetail);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
                     });
                 } catch (Exception e) {

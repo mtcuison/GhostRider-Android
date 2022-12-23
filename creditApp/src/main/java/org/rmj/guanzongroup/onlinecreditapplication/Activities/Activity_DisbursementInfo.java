@@ -1,5 +1,6 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -17,9 +18,11 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
 
+import org.json.JSONException;
 import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.ClientResidence;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Disbursement;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
@@ -55,6 +58,11 @@ public class Activity_DisbursementInfo extends AppCompatActivity {
                         @Override
                         public void OnParse(Object args) {
                             Disbursement loDetail = (Disbursement) args;
+                            try {
+                                setUpFieldsFromLocalDB(loDetail);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
                     });
                 } catch (Exception e) {
@@ -167,6 +175,48 @@ public class Activity_DisbursementInfo extends AppCompatActivity {
 
     }
 
+    @SuppressLint("NewApi")
+    public void setUpFieldsFromLocalDB(Disbursement infoModel) throws JSONException {
+        if(infoModel != null) {
+            tieElctx.setText(String.valueOf(infoModel.getElectric()));
+            tieWater.setText(String.valueOf(infoModel.getWaterExp()));
+            tieFoodx.setText(String.valueOf(infoModel.getFoodExps()));
+            tieLoans.setText(String.valueOf(infoModel.getLoanExps()));
+
+            //Bank Account
+            tieBankN.setText(infoModel.getBankName());
+            if(infoModel.getAcctType() != null) {
+                if(!infoModel.getAcctType().equalsIgnoreCase("")) {
+                    spnTypex.setText(CreditAppConstants.ACCOUNT_TYPE[Integer.parseInt(infoModel.getAcctType())]);
+                    spnTypex.setSelection(Integer.parseInt(infoModel.getAcctType()));
+                    mViewModel.getModel().setAcctType(infoModel.getAcctType());
+                }
+            }
+
+            typeX = infoModel.getCrdtBank();
+            //Credit Card Account
+            tieCCBnk.setText(infoModel.getCrdtBank());
+            tieLimit.setText(String.valueOf(infoModel.getCrdtLimt()));
+            tieYearS.setText(String.valueOf(infoModel.getCrdtYear()));
+
+
+        } else {
+            tieElctx.setText("");
+            tieWater.setText("");
+            tieFoodx.setText("");
+            tieLoans.setText("");
+
+            //Bank Account
+            tieBankN.setText("");
+            spnTypex.getText().clear();
+            spnTypex.getText().clear();
+            //Credit Card Account
+            tieCCBnk.setText("");
+            tieLimit.setText("");
+            tieYearS.setText("");
+        }
+
+    }
     @Override
     public void finish() {
         super.finish();

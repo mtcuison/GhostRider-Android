@@ -79,7 +79,11 @@ public class VMSpousePensionInfo extends AndroidViewModel implements CreditAppUI
                     return null;
                 }
                 return loDetail;
-            } catch (Exception e){
+            } catch (NullPointerException e){
+                e.printStackTrace();
+                message = e.getMessage();
+                return null;
+            }catch (Exception e){
                 e.printStackTrace();
                 message = e.getMessage();
                 return null;

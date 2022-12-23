@@ -51,59 +51,66 @@ public class SpouseEmploymentInfo implements CreditApp {
     @Override
     public Object Parse(ECreditApplicantInfo args) {
         try{
-            String lsDetail = args.getSpsEmplx();
-            GOCASApplication gocas = new GOCASApplication();
-            JSONParser loJson = new JSONParser();
-            JSONObject joDetail = (JSONObject) loJson.parse(lsDetail);
-            gocas.SpouseMeansInfo().EmployedInfo().setData(joDetail);
-
             SpouseEmployments loDetail = new SpouseEmployments();
-            loDetail.setEmploymentSector(gocas.SpouseMeansInfo().EmployedInfo().getEmploymentSector());
-            loDetail.setUniformPersonal(gocas.SpouseMeansInfo().EmployedInfo().IsUniformedPersonel());
-            loDetail.setMilitaryPersonal(gocas.SpouseMeansInfo().EmployedInfo().IsMilitaryPersonel());
+            if (args.getSpsEmplx() != null){
+
+                String lsDetail = args.getSpsEmplx();
+                GOCASApplication gocas = new GOCASApplication();
+                JSONParser loJson = new JSONParser();
+                JSONObject joDetail = (JSONObject) loJson.parse(lsDetail);
+                gocas.SpouseMeansInfo().EmployedInfo().setData(joDetail);
+
+                loDetail.setEmploymentSector(gocas.SpouseMeansInfo().EmployedInfo().getEmploymentSector());
+                loDetail.setUniformPersonal(gocas.SpouseMeansInfo().EmployedInfo().IsUniformedPersonel());
+                loDetail.setMilitaryPersonal(gocas.SpouseMeansInfo().EmployedInfo().IsMilitaryPersonel());
 //            loDetail.setOfwRegion("");
-            loDetail.setCompanyLevel(gocas.SpouseMeansInfo().EmployedInfo().getCompanyLevel());
-            loDetail.setEmployeeLevel(gocas.SpouseMeansInfo().EmployedInfo().getEmployeeLevel());
+                loDetail.setCompanyLevel(gocas.SpouseMeansInfo().EmployedInfo().getCompanyLevel());
+                loDetail.setEmployeeLevel(gocas.SpouseMeansInfo().EmployedInfo().getEmployeeLevel());
 //            loDetail.setOfwWorkCategory("");
-            loDetail.setCountry(gocas.SpouseMeansInfo().EmployedInfo().getOFWNation());
+                loDetail.setCountry(gocas.SpouseMeansInfo().EmployedInfo().getOFWNation());
 
-            String lsCountryID = gocas.SpouseMeansInfo().EmployedInfo().getOFWNation();
-            if(!lsCountryID.isEmpty()) {
-                String lsCountryNm = poCountry.getCountryInfo(lsCountryID).getCntryNme();
-                loDetail.setCountry(lsCountryID);
-                loDetail.setsCountryN(lsCountryNm);
+                String lsCountryID = gocas.SpouseMeansInfo().EmployedInfo().getOFWNation();
+                if(!lsCountryID.isEmpty()) {
+                    String lsCountryNm = poCountry.getCountryInfo(lsCountryID).getCntryNme();
+                    loDetail.setCountry(lsCountryID);
+                    loDetail.setsCountryN(lsCountryNm);
+                }
+                loDetail.setBusinessNature(gocas.SpouseMeansInfo().EmployedInfo().getNatureofBusiness());
+                loDetail.setCompanyName(gocas.SpouseMeansInfo().EmployedInfo().getCompanyName());
+                loDetail.setCompanyAddress(gocas.SpouseMeansInfo().EmployedInfo().getCompanyAddress());
+                loDetail.setTownID(gocas.SpouseMeansInfo().EmployedInfo().getCompanyTown());
+
+                String lsTown = gocas.SpouseMeansInfo().EmployedInfo().getCompanyTown();
+                DTownInfo.TownProvinceName loTown = poTown.getTownProvinceName(lsTown);
+
+                loDetail.setProvName(loTown.sProvName);
+                loDetail.setTownName(loTown.sTownName);
+                loDetail.setJobTitle(gocas.SpouseMeansInfo().EmployedInfo().getPosition());
+
+                String lsJobID = gocas.SpouseMeansInfo().EmployedInfo().getPosition();
+                String lsJobNm = poPosition.getOccupationName(lsJobID);
+
+                loDetail.setJobTitle(lsJobID);
+                loDetail.setsJobName(lsJobNm);
+
+                loDetail.setSpecificJob(gocas.SpouseMeansInfo().EmployedInfo().getJobDescription());
+                loDetail.setEmployeeStatus(gocas.SpouseMeansInfo().EmployedInfo().getEmployeeStatus());
+                double lnLength = gocas.SpouseMeansInfo().EmployedInfo().getLengthOfService();
+                if(lnLength % 1 == 0){
+                    loDetail.setIsYear("1");
+                } else {
+                    loDetail.setIsYear("0");
+                }
+                loDetail.setLengthOfService(gocas.SpouseMeansInfo().EmployedInfo().getLengthOfService());
+                loDetail.setMonthlyIncome(gocas.SpouseMeansInfo().EmployedInfo().getSalary());
+                loDetail.setContact(gocas.SpouseMeansInfo().EmployedInfo().getCompanyNo());
+                poDetail = loDetail;
             }
-            loDetail.setBusinessNature(gocas.SpouseMeansInfo().EmployedInfo().getNatureofBusiness());
-            loDetail.setCompanyName(gocas.SpouseMeansInfo().EmployedInfo().getCompanyName());
-            loDetail.setCompanyAddress(gocas.SpouseMeansInfo().EmployedInfo().getCompanyAddress());
-            loDetail.setTownID(gocas.SpouseMeansInfo().EmployedInfo().getCompanyTown());
-
-            String lsTown = gocas.SpouseMeansInfo().EmployedInfo().getCompanyTown();
-            DTownInfo.TownProvinceName loTown = poTown.getTownProvinceName(lsTown);
-
-            loDetail.setProvName(loTown.sProvName);
-            loDetail.setTownName(loTown.sTownName);
-            loDetail.setJobTitle(gocas.SpouseMeansInfo().EmployedInfo().getPosition());
-
-            String lsJobID = gocas.SpouseMeansInfo().EmployedInfo().getPosition();
-            String lsJobNm = poPosition.getOccupationName(lsJobID);
-
-            loDetail.setJobTitle(lsJobID);
-            loDetail.setsJobName(lsJobNm);
-
-            loDetail.setSpecificJob(gocas.SpouseMeansInfo().EmployedInfo().getJobDescription());
-            loDetail.setEmployeeStatus(gocas.SpouseMeansInfo().EmployedInfo().getEmployeeStatus());
-            double lnLength = gocas.SpouseMeansInfo().EmployedInfo().getLengthOfService();
-            if(lnLength % 1 == 0){
-                loDetail.setIsYear("1");
-            } else {
-                loDetail.setIsYear("0");
-            }
-            loDetail.setLengthOfService(gocas.SpouseMeansInfo().EmployedInfo().getLengthOfService());
-            loDetail.setMonthlyIncome(gocas.SpouseMeansInfo().EmployedInfo().getSalary());
-            loDetail.setContact(gocas.SpouseMeansInfo().EmployedInfo().getCompanyNo());
-            poDetail = loDetail;
             return loDetail;
+        } catch (NullPointerException e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return null;
         } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();

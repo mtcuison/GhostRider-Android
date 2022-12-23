@@ -46,49 +46,50 @@ public class CoMakerInfo implements CreditApp {
     @Override
     public Object Parse(ECreditApplicantInfo args) {
         try{
-            String lsDetail = args.getComakerx();
-            GOCASApplication gocas = new GOCASApplication();
-            JSONParser loJson = new JSONParser();
-            JSONObject joDetail = (JSONObject) loJson.parse(lsDetail);
-            gocas.CoMakerInfo().setData(joDetail);
-
             CoMaker loDetail = new CoMaker();
-            loDetail.setLastName(gocas.CoMakerInfo().getLastName());
-            loDetail.setFrstName(gocas.CoMakerInfo().getFirstName());
-            loDetail.setMiddName(gocas.CoMakerInfo().getMiddleName());
-            loDetail.setSuffix(gocas.CoMakerInfo().getSuffixName());
-            loDetail.setNickName(gocas.CoMakerInfo().getNickName());
-            loDetail.setBrthDate(gocas.CoMakerInfo().getBirthdate());
-            loDetail.setBrthPlce(gocas.CoMakerInfo().getBirthPlace());
-            loDetail.setIncomexx(gocas.CoMakerInfo().getIncomeSource());
-            loDetail.setRelation(gocas.CoMakerInfo().getRelation());
+            if(args.getComakerx() != null){
+                String lsDetail = args.getComakerx();
+                GOCASApplication gocas = new GOCASApplication();
+                JSONParser loJson = new JSONParser();
+                JSONObject joDetail = (JSONObject) loJson.parse(lsDetail);
+                gocas.CoMakerInfo().setData(joDetail);
 
-            JSONArray loMobile = (JSONArray) joDetail.get("mobile_number");
+                loDetail.setLastName(gocas.CoMakerInfo().getLastName());
+                loDetail.setFrstName(gocas.CoMakerInfo().getFirstName());
+                loDetail.setMiddName(gocas.CoMakerInfo().getMiddleName());
+                loDetail.setSuffix(gocas.CoMakerInfo().getSuffixName());
+                loDetail.setNickName(gocas.CoMakerInfo().getNickName());
+                loDetail.setBrthDate(gocas.CoMakerInfo().getBirthdate());
+                loDetail.setBrthPlce(gocas.CoMakerInfo().getBirthPlace());
+                loDetail.setIncomexx(gocas.CoMakerInfo().getIncomeSource());
+                loDetail.setRelation(gocas.CoMakerInfo().getRelation());
 
-            for(int x = 0; x < loMobile.size(); x++) {
-                JSONObject mobile = (JSONObject) loMobile.get(x);
+                JSONArray loMobile = (JSONArray) joDetail.get("mobile_number");
+
+                for(int x = 0; x < loMobile.size(); x++) {
+                    JSONObject mobile = (JSONObject) loMobile.get(x);
 //                Log.d(TAG, "Postpaid Year: " + );
-                long lnPostYr = (long) mobile.get("nPostYear");
-                MobileNo mobileNo = new MobileNo();
-                if(x == 0) {
-                    mobileNo.setMobileNo((String) mobile.get("sMobileNo"));
-                    mobileNo.setIsPostPd((String) mobile.get("cPostPaid"));
-                    mobileNo.setPostYear((int)lnPostYr);
-                    loDetail.setMobileNo1(mobileNo);
+                    long lnPostYr = (long) mobile.get("nPostYear");
+                    MobileNo mobileNo = new MobileNo();
+                    if(x == 0) {
+                        mobileNo.setMobileNo((String) mobile.get("sMobileNo"));
+                        mobileNo.setIsPostPd((String) mobile.get("cPostPaid"));
+                        mobileNo.setPostYear((int)lnPostYr);
+                        loDetail.setMobileNo1(mobileNo);
+                    }
+                    if(x == 1) {
+                        mobileNo.setMobileNo((String) mobile.get("sMobileNo"));
+                        mobileNo.setIsPostPd((String) mobile.get("cPostPaid"));
+                        mobileNo.setPostYear((int)lnPostYr);
+                        loDetail.setMobileNo2(mobileNo);
+                    }
+                    if(x == 2) {
+                        mobileNo.setMobileNo((String) mobile.get("sMobileNo"));
+                        mobileNo.setIsPostPd((String) mobile.get("cPostPaid"));
+                        mobileNo.setPostYear((int)lnPostYr);
+                        loDetail.setMobileNo3(mobileNo);
+                    }
                 }
-                if(x == 1) {
-                    mobileNo.setMobileNo((String) mobile.get("sMobileNo"));
-                    mobileNo.setIsPostPd((String) mobile.get("cPostPaid"));
-                    mobileNo.setPostYear((int)lnPostYr);
-                    loDetail.setMobileNo2(mobileNo);
-                }
-                if(x == 2) {
-                    mobileNo.setMobileNo((String) mobile.get("sMobileNo"));
-                    mobileNo.setIsPostPd((String) mobile.get("cPostPaid"));
-                    mobileNo.setPostYear((int)lnPostYr);
-                    loDetail.setMobileNo3(mobileNo);
-                }
-            }
 
 //            for(int x = 0; x < gocas.CoMakerInfo().getMobileNoQty(); x++) {
 //                loDetail.setMobileNo(
@@ -97,10 +98,16 @@ public class CoMakerInfo implements CreditApp {
 //                        gocas.CoMakerInfo().getPostPaidYears(x));
 //            }
 
-            loDetail.setFbAccntx(gocas.CoMakerInfo().getFBAccount());
-            poDetail = loDetail;
+                loDetail.setFbAccntx(gocas.CoMakerInfo().getFBAccount());
+                poDetail = loDetail;
+
+            }
 
             return loDetail;
+        }  catch (NullPointerException e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return null;
         } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();

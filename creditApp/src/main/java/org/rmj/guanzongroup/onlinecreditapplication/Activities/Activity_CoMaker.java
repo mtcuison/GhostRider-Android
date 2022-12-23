@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,12 +25,14 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import org.json.JSONException;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.CoMaker;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.MobileNo;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Personal;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.OnParseListener;
@@ -79,6 +82,11 @@ public class Activity_CoMaker extends AppCompatActivity {
                         @Override
                         public void OnParse(Object args) {
                             CoMaker loDetail = (CoMaker) args;
+                            try {
+                                setUpFieldsFromLocalDB(loDetail);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
                     });
                 } catch (Exception e) {
@@ -356,6 +364,63 @@ public class Activity_CoMaker extends AppCompatActivity {
 
     }
 
+    @SuppressLint("NewApi")
+    public void setUpFieldsFromLocalDB(CoMaker infoModel) throws JSONException {
+        if(infoModel != null) {
+            if(!"".equalsIgnoreCase(infoModel.getRelation())){
+                spnBrwrRltn.setText(CreditAppConstants.CO_MAKER_RELATIONSHIP[Integer.parseInt(infoModel.getRelation())]);
+                spnBrwrRltn.setSelection(Integer.parseInt(infoModel.getRelation()));
+                mViewModel.getModel().setRelation(infoModel.getRelation());
+            }
+            tieLastname.setText(infoModel.getLastName());
+            tieFrstname.setText(infoModel.getFrstName());
+            tieFrstname.setText(infoModel.getMiddName());
+            tieSuffixxx.setText(infoModel.getSuffix());
+            tieNickname.setText(infoModel.getNickName());
+            tieBrthDate.setText(!"".equalsIgnoreCase(String.valueOf(infoModel.getBirthDte())) ? String.valueOf(infoModel.getBirthDte()) : "");
+
+            if(!"".equalsIgnoreCase(infoModel.getBrthPlce())) {
+                tieBrthTown.setText(infoModel.getBrthPlce());
+                mViewModel.getModel().setBirthPlc(infoModel.getBirthPlc());
+                mViewModel.getModel().setBrthPlce(infoModel.getBrthPlce());
+            }
+            if(infoModel.getMobileNo1() != null){
+                MobileNo info = infoModel.getMobileNo1();
+                tiePrmCntct.setText(info.getMobileNo());
+                if(info.getIsPostPd().equalsIgnoreCase("0")){
+                    tilPrmCntctPlan.setVisibility(View.GONE);
+                    cbPrmCntct.setChecked(false);
+                }else{
+                    tilPrmCntctPlan.setVisibility(View.VISIBLE);
+                    cbPrmCntct.setChecked(false);
+                }
+            }
+            if(infoModel.getMobileNo2() != null){
+                MobileNo info = infoModel.getMobileNo2();
+                tieScnCntct.setText(info.getMobileNo());
+                if(info.getIsPostPd().equalsIgnoreCase("0")){
+                    tilScnCntctPlan.setVisibility(View.GONE);
+                    cbScnCntct.setChecked(false);
+                }else{
+                    tilScnCntctPlan.setVisibility(View.VISIBLE);
+                    cbScnCntct.setChecked(true);
+                }
+            }
+            if(infoModel.getMobileNo3() != null){
+                MobileNo info = infoModel.getMobileNo3();
+                tieTrtCntct.setText(info.getMobileNo());
+                if(info.getIsPostPd().equalsIgnoreCase("0")){
+                    tilTrtCntctPlan.setVisibility(View.GONE);
+                    cbTrtCntct.setChecked(false);
+                }else{
+                    tilTrtCntctPlan.setVisibility(View.VISIBLE);
+                    cbTrtCntct.setChecked(true);
+                }
+            }
+
+            tieFbAcctxx.setText(infoModel.getFbAccntx());
+        }
+    }
     @Override
     public void finish() {
         super.finish();

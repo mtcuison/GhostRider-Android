@@ -1,5 +1,6 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -23,9 +24,12 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Dependent;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.SpouseEmployments;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
@@ -70,6 +74,11 @@ public class Activity_SpouseEmploymentInfo extends AppCompatActivity {
                     @Override
                     public void OnParse(Object args) {
                         SpouseEmployments loDetail = (SpouseEmployments) args;
+                        try {
+                            setUpFieldsFromLocalDB(loDetail);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 });
             } catch (Exception e) {
@@ -302,6 +311,103 @@ public class Activity_SpouseEmploymentInfo extends AppCompatActivity {
 
     }
 
+
+    @SuppressLint("NewApi")
+    public void setUpFieldsFromLocalDB(SpouseEmployments infoModel) throws JSONException {
+        if (infoModel != null){
+
+            if (infoModel.getEmploymentSector().equalsIgnoreCase("0")) {
+                rgSectorx.check(R.id.rb_government);
+                mViewModel.getModel().setEmploymentSector("0");
+                lnGovInfo.setVisibility(View.VISIBLE);
+                lnEmpInfo.setVisibility(View.VISIBLE);
+                tilCntryx.setVisibility(View.GONE);
+                tilCompNm.setHint("Government Level");
+                spnBusNtr.setVisibility(View.GONE);
+                tilBizNature.setVisibility(View.GONE);
+            } else if (infoModel.getEmploymentSector().equalsIgnoreCase("1")) {
+                rgSectorx.check(R.id.rb_private);
+                lnGovInfo.setVisibility(View.GONE);
+                lnEmpInfo.setVisibility(View.VISIBLE);
+                tilCntryx.setVisibility(View.GONE);
+                tilCompNm.setHint("Company Name");
+                spnBusNtr.setVisibility(View.VISIBLE);
+                tilBizNature.setVisibility(View.VISIBLE);
+                mViewModel.getModel().setEmploymentSector("1");
+            } else if (infoModel.getEmploymentSector().equalsIgnoreCase("2")) {
+                rgSectorx.check(R.id.rb_ofw);
+                mViewModel.getModel().setEmploymentSector("2");
+                lnGovInfo.setVisibility(View.GONE);
+                lnEmpInfo.setVisibility(View.GONE);
+                tilCntryx.setVisibility(View.VISIBLE);
+                spnBusNtr.setVisibility(View.GONE);
+                tilBizNature.setVisibility(View.GONE);
+            }
+            if(!"".equalsIgnoreCase(infoModel.getCompanyLevel())) {
+                spnCmpLvl.setText(CreditAppConstants.COMPANY_LEVEL[Integer.parseInt(infoModel.getCompanyLevel())], false);
+                spnCmpLvl.setSelection(Integer.parseInt(infoModel.getCompanyLevel()));
+                mViewModel.getModel().setCompanyLevel(infoModel.getCompanyLevel());
+            }
+
+            if(!"".equalsIgnoreCase(infoModel.getEmployeeLevel())) {
+                spnEmpLvl.setText(CreditAppConstants.EMPLOYEE_LEVEL[Integer.parseInt(infoModel.getEmployeeLevel())], false);
+                spnEmpLvl.setSelection(Integer.parseInt(infoModel.getEmployeeLevel()));
+                mViewModel.getModel().setEmployeeLevel(infoModel.getEmployeeLevel());
+            }
+
+            if(!"".equalsIgnoreCase(infoModel.getBusinessNature())) {
+                spnBusNtr.setText(CreditAppConstants.BUSINESS_NATURE[Integer.parseInt(infoModel.getBusinessNature())], false);
+                mViewModel.getModel().setBusinessNature(infoModel.getBusinessNature());
+            }
+
+            if(!"".equalsIgnoreCase(infoModel.getTownID())) {
+                txtTownNm.setText(infoModel.getsTownName());
+                mViewModel.getModel().setTownID(infoModel.getTownID());
+                mViewModel.getModel().setTownName(infoModel.getsTownName());
+            }
+
+            txtCompNm.setText(infoModel.getCompanyName());
+            txtJobNme.setText(infoModel.getJobTitle());
+            mViewModel.getModel().setJobTitle(infoModel.getJobTitle());
+            txtCompAd.setText(infoModel.getCompanyAddress());
+            txtSpcfJb.setText(infoModel.getSpecificJob());
+            if(infoModel.getEmployeeStatus().equalsIgnoreCase("0")){
+                spnEmpSts.setText(CreditAppConstants.EMPLOYMENT_STATUS[0], false);
+                spnEmpSts.setSelection(0);
+                mViewModel.getModel().setEmployeeStatus("0");
+            }else if (infoModel.getEmployeeStatus().equalsIgnoreCase("1")){
+                spnEmpSts.setText(CreditAppConstants.EMPLOYMENT_STATUS[1], false);
+                spnEmpSts.setSelection(1);
+                mViewModel.getModel().setEmployeeStatus("1");
+            }else if (infoModel.getEmployeeStatus().equalsIgnoreCase("2")){
+                spnEmpSts.setText(CreditAppConstants.EMPLOYMENT_STATUS[2], false);
+                spnEmpSts.setSelection(2);
+                mViewModel.getModel().setEmployeeStatus("2");
+            }else if (infoModel.getEmployeeStatus().equalsIgnoreCase("3")){
+                spnEmpSts.setText(CreditAppConstants.EMPLOYMENT_STATUS[3], false);
+                spnEmpSts.setSelection(3);
+                mViewModel.getModel().setEmployeeStatus("3");
+            }
+
+            int nlength = (int)(infoModel.getLengthOfService() * 12);
+            if (nlength < 12){
+                txtLngthS.setText(String.valueOf(nlength));
+                spnServce.setText(CreditAppConstants.LENGTH_OF_STAY[0], false);
+                mViewModel.getModel().setIsYear(String.valueOf(0));
+                mViewModel.getModel().setLengthOfService(nlength);
+            }else{
+                txtLngthS.setText(String.valueOf(infoModel.getLengthOfService()));
+                spnServce.setText(CreditAppConstants.LENGTH_OF_STAY[1], false);
+                mViewModel.getModel().setIsYear(String.valueOf(1));
+                mViewModel.getModel().setLengthOfService(infoModel.getLengthOfService());
+            }
+            txtEsSlry.setText( !"".equalsIgnoreCase(String.valueOf(infoModel.getMonthlyIncome())) ? String.valueOf(infoModel.getMonthlyIncome()) : "");
+            txtCompCn.setText( !"".equalsIgnoreCase(infoModel.getContact()) ? infoModel.getContact() : "");
+
+//            infoModel.setIsYear(String.valueOf(i));
+        }
+
+    }
     @Override
     public void finish() {
         super.finish();

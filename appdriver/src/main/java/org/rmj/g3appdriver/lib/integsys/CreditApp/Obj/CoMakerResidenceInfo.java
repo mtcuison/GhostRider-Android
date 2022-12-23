@@ -48,45 +48,51 @@ public class CoMakerResidenceInfo implements CreditApp {
     @Override
     public Object Parse(ECreditApplicantInfo args) {
         try{
-            String lsDetail = args.getCmResidx();
-            GOCASApplication gocas = new GOCASApplication();
-            JSONParser loJson = new JSONParser();
-            JSONObject joDetail = (JSONObject) loJson.parse(lsDetail);
-            gocas.CoMakerInfo().ResidenceInfo().setData(joDetail);
-
             CoMakerResidence loDetail = new CoMakerResidence();
-            loDetail.setLandMark(gocas.CoMakerInfo().ResidenceInfo().PresentAddress().getLandMark());
-            loDetail.setHouseNox(gocas.CoMakerInfo().ResidenceInfo().PresentAddress().getHouseNo());
-            loDetail.setAddress1(gocas.CoMakerInfo().ResidenceInfo().PresentAddress().getAddress1());
-            loDetail.setAddress2(gocas.CoMakerInfo().ResidenceInfo().PresentAddress().getAddress2());
+            if(args.getCmResidx() != null){
+                String lsDetail = args.getCmResidx();
+                GOCASApplication gocas = new GOCASApplication();
+                JSONParser loJson = new JSONParser();
+                JSONObject joDetail = (JSONObject) loJson.parse(lsDetail);
+                gocas.CoMakerInfo().ResidenceInfo().setData(joDetail);
 
-            String lsBrgy = gocas.CoMakerInfo().ResidenceInfo().PresentAddress().getBarangay();
-            DBarangayInfo.BrgyTownProvNames loBrgy = poBrgy.getBrgyTownProvName(lsBrgy);
+                loDetail.setLandMark(gocas.CoMakerInfo().ResidenceInfo().PresentAddress().getLandMark());
+                loDetail.setHouseNox(gocas.CoMakerInfo().ResidenceInfo().PresentAddress().getHouseNo());
+                loDetail.setAddress1(gocas.CoMakerInfo().ResidenceInfo().PresentAddress().getAddress1());
+                loDetail.setAddress2(gocas.CoMakerInfo().ResidenceInfo().PresentAddress().getAddress2());
 
-            loDetail.setMunicipalID(gocas.CoMakerInfo().ResidenceInfo().PresentAddress().getTownCity());
-            loDetail.setBarangayID(lsBrgy);
+                String lsBrgy = gocas.CoMakerInfo().ResidenceInfo().PresentAddress().getBarangay();
+                DBarangayInfo.BrgyTownProvNames loBrgy = poBrgy.getBrgyTownProvName(lsBrgy);
 
-            loDetail.setProvinceNm(loBrgy.sProvName);
-            loDetail.setMunicipalNm(loBrgy.sTownName);
-            loDetail.setBarangayName(loBrgy.sBrgyName);
+                loDetail.setMunicipalID(gocas.CoMakerInfo().ResidenceInfo().PresentAddress().getTownCity());
+                loDetail.setBarangayID(lsBrgy);
 
-            loDetail.setOwnerRelation(gocas.CoMakerInfo().ResidenceInfo().getOwnership());
-            loDetail.setLenghtOfStay(gocas.CoMakerInfo().ResidenceInfo().getRentNoYears());
-            loDetail.setMonthlyExpenses(gocas.CoMakerInfo().ResidenceInfo().getRentExpenses());
+                loDetail.setProvinceNm(loBrgy.sProvName);
+                loDetail.setMunicipalNm(loBrgy.sTownName);
+                loDetail.setBarangayName(loBrgy.sBrgyName);
 
-            //TODO: make a validation of value for length of stay which
-            // will display if the applicant stays for a year or only for a month
-            double lnLength = gocas.CoMakerInfo().ResidenceInfo().getRentNoYears();
+                loDetail.setOwnerRelation(gocas.CoMakerInfo().ResidenceInfo().getOwnership());
+                loDetail.setLenghtOfStay(gocas.CoMakerInfo().ResidenceInfo().getRentNoYears());
+                loDetail.setMonthlyExpenses(gocas.CoMakerInfo().ResidenceInfo().getRentExpenses());
 
-            if(lnLength % 1 == 0){
-                loDetail.setIsYear(1);
-            } else {
-                loDetail.setIsYear(0);
+                //TODO: make a validation of value for length of stay which
+                // will display if the applicant stays for a year or only for a month
+                double lnLength = gocas.CoMakerInfo().ResidenceInfo().getRentNoYears();
+
+                if(lnLength % 1 == 0){
+                    loDetail.setIsYear(1);
+                } else {
+                    loDetail.setIsYear(0);
+                }
+
+                poDetail = loDetail;
             }
-
-            poDetail = loDetail;
             return loDetail;
-        } catch (Exception e){
+        } catch (NullPointerException e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return null;
+        }catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();
             return null;

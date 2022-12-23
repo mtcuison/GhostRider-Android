@@ -40,25 +40,31 @@ public class PropertiesInfo implements CreditApp {
     @Override
     public Object Parse(ECreditApplicantInfo args) {
         try{
-            String lsDetail = args.getFinancex();
-            GOCASApplication gocas = new GOCASApplication();
-            JSONParser loJson = new JSONParser();
-            JSONObject joDetail = (JSONObject) loJson.parse(lsDetail);
-            gocas.DisbursementInfo().PropertiesInfo().setData(joDetail);
-
             Properties loDetail = new Properties();
-            loDetail.setPsLot1Addx(gocas.DisbursementInfo().PropertiesInfo().getLotName1());
-            loDetail.setPsLot2Addx(gocas.DisbursementInfo().PropertiesInfo().getLotName2());
-            loDetail.setPsLot3Addx(gocas.DisbursementInfo().PropertiesInfo().getLotName3());
-            loDetail.setPs4Wheelsx(gocas.DisbursementInfo().PropertiesInfo().Has4Wheels());
-            loDetail.setPs3Wheelsx(gocas.DisbursementInfo().PropertiesInfo().Has3Wheels());
-            loDetail.setPs4Wheelsx(gocas.DisbursementInfo().PropertiesInfo().Has2Wheels());
-            loDetail.setPsAirConxx(gocas.DisbursementInfo().PropertiesInfo().WithAirCon());
-            loDetail.setPsFridgexx(gocas.DisbursementInfo().PropertiesInfo().WithRefrigerator());
-            loDetail.setPsTelevsnx(gocas.DisbursementInfo().PropertiesInfo().WithTelevision());
+            if (args.getFinancex() != null){
+                String lsDetail = args.getFinancex();
+                GOCASApplication gocas = new GOCASApplication();
+                JSONParser loJson = new JSONParser();
+                JSONObject joDetail = (JSONObject) loJson.parse(lsDetail);
+                gocas.DisbursementInfo().PropertiesInfo().setData(joDetail);
 
-            poDetail = loDetail;
+                loDetail.setPsLot1Addx(gocas.DisbursementInfo().PropertiesInfo().getLotName1());
+                loDetail.setPsLot2Addx(gocas.DisbursementInfo().PropertiesInfo().getLotName2());
+                loDetail.setPsLot3Addx(gocas.DisbursementInfo().PropertiesInfo().getLotName3());
+                loDetail.setPs4Wheelsx(gocas.DisbursementInfo().PropertiesInfo().Has4Wheels());
+                loDetail.setPs3Wheelsx(gocas.DisbursementInfo().PropertiesInfo().Has3Wheels());
+                loDetail.setPs4Wheelsx(gocas.DisbursementInfo().PropertiesInfo().Has2Wheels());
+                loDetail.setPsAirConxx(gocas.DisbursementInfo().PropertiesInfo().WithAirCon());
+                loDetail.setPsFridgexx(gocas.DisbursementInfo().PropertiesInfo().WithRefrigerator());
+                loDetail.setPsTelevsnx(gocas.DisbursementInfo().PropertiesInfo().WithTelevision());
+
+                poDetail = loDetail;
+            }
             return loDetail;
+        } catch (NullPointerException e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return null;
         } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();

@@ -162,14 +162,14 @@ public class Activity_PensionInfo extends AppCompatActivity {
             if(!foDetail.getPensionSector().isEmpty()){
                 spnSector.setText(CreditAppConstants.PENSION_SECTOR[Integer.parseInt(foDetail.getPensionSector())], false);
                 spnSector.setSelection(Integer.parseInt(foDetail.getPensionSector()));
+                sectorPosition = foDetail.getPensionSector();
+                mViewModel.getModel().setPensionSector(foDetail.getPensionSector());
             }
 
-            sectorPosition = foDetail.getPensionSector();
-            mViewModel.getModel().setPensionSector(foDetail.getPensionSector());
-            txtRangxx.setText( !"".equalsIgnoreCase(String.valueOf(foDetail.getPensionIncomeRange())) ? String.valueOf(foDetail.getPensionIncomeRange()) : "");
-            txtYearxx.setText( !"".equalsIgnoreCase(String.valueOf(foDetail.getRetirementYear())) ? String.valueOf(foDetail.getRetirementYear()) : "");
-            txtOthInc.setText( !"".equalsIgnoreCase(String.valueOf(foDetail.getNatureOfIncome())) ? String.valueOf(foDetail.getNatureOfIncome()) : "");
-            txtRngInc.setText( !"".equalsIgnoreCase(String.valueOf(foDetail.getRangeOfIncome())) ? String.valueOf(foDetail.getRangeOfIncome()) : "");
+            txtRangxx.setText(!"".equalsIgnoreCase(String.valueOf(foDetail.getPensionIncomeRange())) ? String.valueOf(foDetail.getPensionIncomeRange()) : "");
+            txtYearxx.setText(!"".equalsIgnoreCase(String.valueOf(foDetail.getRetirementYear())) ? String.valueOf(foDetail.getRetirementYear()) : "");
+            txtOthInc.setText(!"".equalsIgnoreCase(String.valueOf(foDetail.getNatureOfIncome())) ? String.valueOf(foDetail.getNatureOfIncome()) : "");
+            txtRngInc.setText(!"".equalsIgnoreCase(String.valueOf(foDetail.getRangeOfIncome())) ? String.valueOf(foDetail.getRangeOfIncome()) : "");
 
 
         }

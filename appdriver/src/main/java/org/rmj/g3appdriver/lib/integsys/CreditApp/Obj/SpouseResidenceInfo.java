@@ -47,23 +47,29 @@ public class SpouseResidenceInfo implements CreditApp {
     @Override
     public Object Parse(ECreditApplicantInfo args) {
         try{
-            String lsDetail = args.getResidnce();
-            GOCASApplication gocas = new GOCASApplication();
-            JSONParser loJson = new JSONParser();
-            JSONObject joDetail = (JSONObject) loJson.parse(lsDetail);
-            gocas.ResidenceInfo().setData(joDetail);
-
             SpouseResidence loDetail = new SpouseResidence();
-            loDetail.setLandMark(gocas.SpouseInfo().ResidenceInfo().PresentAddress().getLandMark());
-            loDetail.setHouseNox(gocas.SpouseInfo().ResidenceInfo().PresentAddress().getHouseNo());
-            loDetail.setAddress1(gocas.SpouseInfo().ResidenceInfo().PresentAddress().getAddress1());
-            loDetail.setAddress2(gocas.SpouseInfo().ResidenceInfo().PresentAddress().getAddress2());
-            loDetail.setMunicipalID(gocas.SpouseInfo().ResidenceInfo().PresentAddress().getTownCity());
-            loDetail.setBarangayID(gocas.SpouseInfo().ResidenceInfo().PresentAddress().getBarangay());
+            if (args.getResidnce() != null){
+                String lsDetail = args.getResidnce();
+                GOCASApplication gocas = new GOCASApplication();
+                JSONParser loJson = new JSONParser();
+                JSONObject joDetail = (JSONObject) loJson.parse(lsDetail);
+                gocas.ResidenceInfo().setData(joDetail);
 
-            poDetail = loDetail;
+                loDetail.setLandMark(gocas.SpouseInfo().ResidenceInfo().PresentAddress().getLandMark());
+                loDetail.setHouseNox(gocas.SpouseInfo().ResidenceInfo().PresentAddress().getHouseNo());
+                loDetail.setAddress1(gocas.SpouseInfo().ResidenceInfo().PresentAddress().getAddress1());
+                loDetail.setAddress2(gocas.SpouseInfo().ResidenceInfo().PresentAddress().getAddress2());
+                loDetail.setMunicipalID(gocas.SpouseInfo().ResidenceInfo().PresentAddress().getTownCity());
+                loDetail.setBarangayID(gocas.SpouseInfo().ResidenceInfo().PresentAddress().getBarangay());
+
+                poDetail = loDetail;
+            }
 
             return loDetail;
+        } catch (NullPointerException e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return null;
         } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();

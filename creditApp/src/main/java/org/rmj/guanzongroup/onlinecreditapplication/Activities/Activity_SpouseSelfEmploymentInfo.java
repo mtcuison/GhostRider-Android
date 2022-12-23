@@ -1,5 +1,6 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -17,10 +18,12 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
 
+import org.json.JSONException;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Business;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.SpouseBusiness;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
@@ -58,6 +61,11 @@ public class Activity_SpouseSelfEmploymentInfo extends AppCompatActivity {
                         @Override
                         public void OnParse(Object args) {
                             SpouseBusiness loDetail = (SpouseBusiness) args;
+                            try {
+                                setUpFieldsFromLocalDB(loDetail);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
                     });
                 } catch (Exception e) {
@@ -310,6 +318,61 @@ public class Activity_SpouseSelfEmploymentInfo extends AppCompatActivity {
         spnMonthOrYr.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
 
     }
+
+
+    @SuppressLint("NewApi")
+    public void setUpFieldsFromLocalDB(SpouseBusiness infoModel) throws JSONException {
+        if (infoModel != null){
+
+            if(!"".equalsIgnoreCase(infoModel.getNatureOfBusiness())) {
+                spnBizIndustry.setText(CreditAppConstants.BUSINESS_NATURE[Integer.parseInt(infoModel.getNatureOfBusiness())], false);
+                spnBizIndustry.setSelection(Integer.parseInt(infoModel.getNatureOfBusiness()));
+                mViewModel.getModel().setNatureOfBusiness(infoModel.getNatureOfBusiness());
+            }
+
+            if(!"".equalsIgnoreCase(infoModel.getTypeOfBusiness())) {
+                spnBizType.setText(CreditAppConstants.BUSINESS_TYPE[Integer.parseInt(infoModel.getTypeOfBusiness())], false);
+                spnBizType.setSelection(Integer.parseInt(infoModel.getTypeOfBusiness()));
+                mViewModel.getModel().setTypeOfBusiness(infoModel.getTypeOfBusiness());
+            }
+
+
+            if(!"".equalsIgnoreCase(infoModel.getSizeOfBusiness())) {
+                spnBizSize.setText(CreditAppConstants.BUSINESS_SIZE[Integer.parseInt(infoModel.getSizeOfBusiness())], false);
+                spnBizType.setSelection(Integer.parseInt(infoModel.getSizeOfBusiness()));
+                mViewModel.getModel().setSizeOfBusiness(infoModel.getSizeOfBusiness());
+            }
+            int nlength = (int)(infoModel.getLenghtOfService() * 12);
+            if (nlength < 12){
+                txtBizLength.setText(String.valueOf(nlength));
+                spnMonthOrYr.setText(CreditAppConstants.LENGTH_OF_STAY[0], false);
+                mViewModel.getModel().setIsYear(String.valueOf(0));
+                mViewModel.getModel().setLengthOfService(nlength);
+            }else{
+                txtBizLength.setText(String.valueOf(infoModel.getLenghtOfService()));
+                spnMonthOrYr.setText(CreditAppConstants.LENGTH_OF_STAY[1], false);
+                mViewModel.getModel().setIsYear(String.valueOf(1));
+                mViewModel.getModel().setLengthOfService(infoModel.getLenghtOfService());
+            }
+
+            if(!"".equalsIgnoreCase(infoModel.getBusinessAddress())) {
+                txtBizAddrss.setText(infoModel.getBusinessAddress());
+                mViewModel.getModel().setBusinessAddress(infoModel.getBusinessAddress());
+            }
+
+            if(!"".equalsIgnoreCase(infoModel.getTown())) {
+                txtTown.setText(infoModel.getBusinessAddress());
+                mViewModel.getModel().setBusinessAddress(infoModel.getBusinessAddress());
+                mViewModel.getModel().setTown(infoModel.getTown());
+            }
+            txtBizName.setText(!"".equalsIgnoreCase(String.valueOf(infoModel.getNameOfBusiness())) ? String.valueOf(infoModel.getNameOfBusiness()) : "");
+            txtMonthlyInc.setText( !"".equalsIgnoreCase(String.valueOf(infoModel.getMonthlyIncome())) ? String.valueOf(infoModel.getMonthlyIncome()) : "");
+            txtMonthlyExp.setText( !"".equalsIgnoreCase(String.valueOf(infoModel.getMonthlyExpense())) ? String.valueOf(infoModel.getMonthlyExpense()) : "");
+
+//            infoModel.setIsYear(String.valueOf(i));
+        }
+    }
+
 
     @Override
     public void finish() {

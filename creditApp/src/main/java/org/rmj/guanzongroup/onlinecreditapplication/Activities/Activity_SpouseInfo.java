@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,12 +25,14 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import org.json.JSONException;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ECountryInfo;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.ClientSpouseInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.MobileNo;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Personal;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.OnParseListener;
@@ -84,6 +87,11 @@ public class Activity_SpouseInfo extends AppCompatActivity {
                     @Override
                     public void OnParse(Object args) {
                         ClientSpouseInfo loDetail = (ClientSpouseInfo) args;
+                        try {
+                            setUpFieldsFromLocalDB(loDetail);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 });
             } catch (Exception e) {
@@ -398,6 +406,67 @@ public class Activity_SpouseInfo extends AppCompatActivity {
         btnPrvs = findViewById(R.id.btn_creditAppPrvs);
 
 
+    }
+
+
+    @SuppressLint("NewApi")
+    public void setUpFieldsFromLocalDB(ClientSpouseInfo infoModel) throws JSONException {
+        if(infoModel != null) {
+            txtLastName.setText(infoModel.getLastName());
+            txtFirstName.setText(infoModel.getFrstName());
+            txtMiddName.setText(infoModel.getMiddName());
+            txtSuffix.setText(infoModel.getSuffix());
+            txtNickName.setText(infoModel.getNickName());
+            txtBDate.setText(infoModel.getBirthDte());
+            if(!"".equalsIgnoreCase(infoModel.getBrthPlce())) {
+                txtTownxx.setText(infoModel.getBrthPlce());
+                mViewModel.getModel().setBirthPlc(infoModel.getBirthPlc());
+                mViewModel.getModel().setBrthPlce(infoModel.getBrthPlce());
+            }
+            if(!"".equalsIgnoreCase(infoModel.getCitizenx())) {
+                txtCitizenx.setText(infoModel.getCtznShip());
+                mViewModel.getModel().setCitizenx(infoModel.getCitizenx());
+                mViewModel.getModel().setCtznShip(infoModel.getCtznShip());
+            }
+            if(infoModel.getMobileNo1() != null){
+                MobileNo info = infoModel.getMobileNo1();
+                txtPrimeCntc.setText(info.getMobileNo());
+                if(info.getIsPostPd().equalsIgnoreCase("0")){
+                    txtPrimeCntcYr.setVisibility(View.GONE);
+                    cbMobile1.setChecked(false);
+                }else{
+                    txtMobileYr1.setVisibility(View.VISIBLE);
+                    cbMobile1.setChecked(true);
+                }
+            }
+            if(infoModel.getMobileNo2() != null){
+                MobileNo info = infoModel.getMobileNo2();
+                txtSecCntct.setText(info.getMobileNo());
+                if(info.getIsPostPd().equalsIgnoreCase("0")){
+                    txtSecCntctYr.setVisibility(View.GONE);
+                    cbMobile2.setChecked(false);
+                }else{
+                    txtSecCntctYr.setVisibility(View.VISIBLE);
+                    cbMobile2.setChecked(true);
+                }
+            }
+            if(infoModel.getMobileNo3() != null){
+                MobileNo info = infoModel.getMobileNo3();
+                txtThirCntct.setText(info.getMobileNo());
+                if(info.getIsPostPd().equalsIgnoreCase("0")){
+                    txtThirCntctYr.setVisibility(View.GONE);
+                    cbMobile3.setChecked(false);
+                }else{
+                    txtThirCntctYr.setVisibility(View.VISIBLE);
+                    cbMobile3.setChecked(true);
+                }
+            }
+
+            txtEmailAdd.setText(infoModel.getEmailAdd());
+            txtFbAcct.setText(infoModel.getFbAccntx());
+            txtTelNox.setText(infoModel.getPhoneNox());
+            txtViberAcct.setText(infoModel.getVbrAccnt());
+        }
     }
 
     @Override

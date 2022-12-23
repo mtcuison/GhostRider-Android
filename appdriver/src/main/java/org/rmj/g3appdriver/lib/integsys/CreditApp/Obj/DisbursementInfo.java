@@ -103,8 +103,7 @@ public class DisbursementInfo implements CreditApp {
 
     @Override
     public boolean Save(Object args) {
-        try{
-            Disbursement loDetail = (Disbursement) args;
+        try{Disbursement loDetail = (Disbursement) args;
 
             ECreditApplicantInfo loApp = poDao.GetApplicantDetails(loDetail.getTransNox());
 
@@ -126,6 +125,10 @@ public class DisbursementInfo implements CreditApp {
             loApp.setDisbrsmt(gocas.DisbursementInfo().toJSONString());
             poDao.Update(loApp);
             return true;
+        } catch (NullPointerException e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
         } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();
