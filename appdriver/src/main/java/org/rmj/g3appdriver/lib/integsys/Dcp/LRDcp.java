@@ -590,6 +590,15 @@ public class LRDcp {
         return LRUtil.getRebate(args, args, args, args);
     }
 
+    /**
+     *
+     * @param args Date Purchase
+     * @param args1 Due Date
+     * @param args2 Monthly Amortization
+     * @param args3 Balance
+     * @param args4 Amount Paid
+     * @return Calculated penalty
+     */
     public double CalculatePenalty(Date args, Date args1, double args2, double args3, double args4){
         return LRUtil.getPenalty(args, args1, args2, args3, args4);
     }
