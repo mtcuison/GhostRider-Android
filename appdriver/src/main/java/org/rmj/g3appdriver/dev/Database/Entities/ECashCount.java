@@ -102,6 +102,9 @@ public class ECashCount {
     @ColumnInfo(name = "sReqstdBy")
     private String ReqstdBy;
 
+    @ColumnInfo(name = "sRemarksx")
+    private String Remarksx;
+
     @ColumnInfo(name = "dModified")
     private String Modified;
 
@@ -343,5 +346,13 @@ public class ECashCount {
 
     public void setSendStat(int sendStat) {
         SendStat = sendStat;
+    }
+
+    public String getRemarksx() {
+        return Remarksx;
+    }
+
+    public void setRemarksx(String remarksx) {
+        Remarksx = remarksx;
     }
 }
