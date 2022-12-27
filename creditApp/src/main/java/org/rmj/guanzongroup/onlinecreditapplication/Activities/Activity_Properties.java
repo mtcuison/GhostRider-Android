@@ -181,22 +181,28 @@ public class Activity_Properties extends AppCompatActivity {
             txtLot2.setText(!"".equalsIgnoreCase(String.valueOf(infoModel.getPsLot2Addx())) ? String.valueOf(infoModel.getPsLot2Addx()) : "");
             txtLot3.setText(!"".equalsIgnoreCase(String.valueOf(infoModel.getPsLot3Addx())) ? String.valueOf(infoModel.getPsLot3Addx()) : "");
             if(infoModel.getPs4Wheelsx().equalsIgnoreCase("1")) {
+                mViewModel.getModel().setPs4Wheelsx("1");
                 cb4Wheels.setChecked(true);
             }
             if(infoModel.getPs3Wheelsx().equalsIgnoreCase("1")) {
+                mViewModel.getModel().setPs3Wheelsx("1");
                 cb3Wheels.setChecked(true);
             }
             if(infoModel.getPs2Wheelsx().equalsIgnoreCase("1")) {
+                mViewModel.getModel().setPs2Wheelsx("1");
                 cb2Wheels.setChecked(true);
             }
             if(infoModel.getPsAirConxx().equalsIgnoreCase("1")){
+                mViewModel.getModel().setPsAirConxx("1");
                 cbAircon.setChecked(true);
             }
 
             if(infoModel.getPsFridgexx().equalsIgnoreCase("1")){
+                mViewModel.getModel().setPsFridgexx("1");
                 cbRefxx.setChecked(true);
             }
             if(infoModel.getPsTelevsnx().equalsIgnoreCase("1")){
+                mViewModel.getModel().setPsTelevsnx("1");
                 cbTelevsn.setChecked(true);
             }
 //

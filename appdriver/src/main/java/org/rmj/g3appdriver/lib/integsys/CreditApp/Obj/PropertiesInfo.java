@@ -53,7 +53,7 @@ public class PropertiesInfo implements CreditApp {
                 loDetail.setPsLot3Addx(gocas.DisbursementInfo().PropertiesInfo().getLotName3());
                 loDetail.setPs4Wheelsx(gocas.DisbursementInfo().PropertiesInfo().Has4Wheels());
                 loDetail.setPs3Wheelsx(gocas.DisbursementInfo().PropertiesInfo().Has3Wheels());
-                loDetail.setPs4Wheelsx(gocas.DisbursementInfo().PropertiesInfo().Has2Wheels());
+                loDetail.setPs2Wheelsx(gocas.DisbursementInfo().PropertiesInfo().Has2Wheels());
                 loDetail.setPsAirConxx(gocas.DisbursementInfo().PropertiesInfo().WithAirCon());
                 loDetail.setPsFridgexx(gocas.DisbursementInfo().PropertiesInfo().WithRefrigerator());
                 loDetail.setPsTelevsnx(gocas.DisbursementInfo().PropertiesInfo().WithTelevision());
