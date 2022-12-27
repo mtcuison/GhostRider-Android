@@ -41,8 +41,8 @@ public class PropertiesInfo implements CreditApp {
     public Object Parse(ECreditApplicantInfo args) {
         try{
             Properties loDetail = new Properties();
-            if (args.getFinancex() != null){
-                String lsDetail = args.getFinancex();
+            if (args.getProperty() != null){
+                String lsDetail = args.getProperty();
                 GOCASApplication gocas = new GOCASApplication();
                 JSONParser loJson = new JSONParser();
                 JSONObject joDetail = (JSONObject) loJson.parse(lsDetail);

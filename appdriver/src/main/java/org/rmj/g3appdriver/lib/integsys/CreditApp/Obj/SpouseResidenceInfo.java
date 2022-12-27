@@ -48,8 +48,8 @@ public class SpouseResidenceInfo implements CreditApp {
     public Object Parse(ECreditApplicantInfo args) {
         try{
             SpouseResidence loDetail = new SpouseResidence();
-            if (args.getResidnce() != null){
-                String lsDetail = args.getResidnce();
+            if (args.getSpsResdx() != null){
+                String lsDetail = args.getSpsResdx();
                 GOCASApplication gocas = new GOCASApplication();
                 JSONParser loJson = new JSONParser();
                 JSONObject joDetail = (JSONObject) loJson.parse(lsDetail);

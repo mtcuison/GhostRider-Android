@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.RecyclerView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,7 +26,8 @@ public class Activity_ReviewLoanApp extends AppCompatActivity {
 
     private String TransNox;
     private TextView lblClientNm;
-    private ListView recyclerView;
+//    private ListView recyclerView;
+    private RecyclerView recyclerView;
     private ImageView imgClient;
     private ImageButton btnCamera;
     private Button btnSave, btnPrvs;

@@ -28,6 +28,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import org.json.JSONException;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
+import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.CoMaker;
@@ -72,6 +73,9 @@ public class Activity_CoMaker extends AppCompatActivity {
         poMobile[2] = new MobileNo();
         setContentView(R.layout.activity_co_maker);
         initWidgets();
+
+//
+//        initSpinner();
         mViewModel.InitializeApplication(getIntent());
         mViewModel.GetApplication().observe(Activity_CoMaker.this, new Observer<ECreditApplicantInfo>() {
             @Override
@@ -84,6 +88,9 @@ public class Activity_CoMaker extends AppCompatActivity {
                             CoMaker loDetail = (CoMaker) args;
                             try {
                                 setUpFieldsFromLocalDB(loDetail);
+
+
+                                initSpinner();
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -130,25 +137,7 @@ public class Activity_CoMaker extends AppCompatActivity {
             }
         });
 
-        spnIncmSrce.setAdapter(new ArrayAdapter<>(Activity_CoMaker.this,
-                android.R.layout.simple_list_item_1, CreditAppConstants.CO_MAKER_INCOME_SOURCE));
-        spnIncmSrce.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
-        spnIncmSrce.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mViewModel.getModel().setIncomexx(String.valueOf(position));
-            }
-        });
 
-        spnBrwrRltn.setAdapter(new ArrayAdapter<>(Activity_CoMaker.this,
-                android.R.layout.simple_list_item_1, CreditAppConstants.CO_MAKER_RELATIONSHIP));
-        spnBrwrRltn.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
-        spnBrwrRltn.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mViewModel.getModel().setRelation(String.valueOf(position));
-            }
-        });
 
 
         cbPrmCntct.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -225,12 +214,24 @@ public class Activity_CoMaker extends AppCompatActivity {
                 }
             }
         });
-
         btnNext.setOnClickListener(v -> SaveCoMakerInfo());
         btnPrvs.setOnClickListener(v -> finish());
 
     }
+    private void initSpinner(){
+        spnIncmSrce.setAdapter(new ArrayAdapter<>(Activity_CoMaker.this,
+                android.R.layout.simple_list_item_1, CreditAppConstants.CO_MAKER_INCOME_SOURCE));
+        spnIncmSrce.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+        spnIncmSrce.setOnItemClickListener((parent, view, position, id) ->
+                mViewModel.getModel().setIncomexx(String.valueOf(position)));
 
+        spnBrwrRltn.setAdapter(new ArrayAdapter<>(Activity_CoMaker.this,
+                android.R.layout.simple_list_item_1, CreditAppConstants.CO_MAKER_RELATIONSHIP));
+        spnBrwrRltn.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+        spnBrwrRltn.setOnItemClickListener((parent, view, position, id) ->
+                mViewModel.getModel().setRelation(String.valueOf(position)));
+
+    }
     private void SaveCoMakerInfo() {
 
         mViewModel.getModel().setLastName(tieLastname.getText().toString().trim());
@@ -374,30 +375,48 @@ public class Activity_CoMaker extends AppCompatActivity {
             }
             tieLastname.setText(infoModel.getLastName());
             tieFrstname.setText(infoModel.getFrstName());
-            tieFrstname.setText(infoModel.getMiddName());
+            tieMiddname.setText(infoModel.getMiddName());
             tieSuffixxx.setText(infoModel.getSuffix());
             tieNickname.setText(infoModel.getNickName());
-            tieBrthDate.setText(!"".equalsIgnoreCase(String.valueOf(infoModel.getBirthDte())) ? String.valueOf(infoModel.getBirthDte()) : "");
 
+            if(!"".equalsIgnoreCase(infoModel.getBirthDte())){
+                tieBrthDate.setText(FormatUIText.formatGOCasBirthdate(infoModel.getBirthDte()));
+                mViewModel.getModel().setBrthDate(infoModel.getBirthDte());
+            }
+            if(!"".equalsIgnoreCase(infoModel.getIncomexx())){
+                spnIncmSrce .setText(CreditAppConstants.CO_MAKER_INCOME_SOURCE[Integer.parseInt(infoModel.getIncomexx())]);
+                spnIncmSrce.setSelection(Integer.parseInt(infoModel.getIncomexx()));
+                mViewModel.getModel().setIncomexx(infoModel.getIncomexx());
+            }
             if(!"".equalsIgnoreCase(infoModel.getBrthPlce())) {
-                tieBrthTown.setText(infoModel.getBrthPlce());
+                tieBrthTown.setText(infoModel.getBirthPlc());
                 mViewModel.getModel().setBirthPlc(infoModel.getBirthPlc());
                 mViewModel.getModel().setBrthPlce(infoModel.getBrthPlce());
             }
             if(infoModel.getMobileNo1() != null){
                 MobileNo info = infoModel.getMobileNo1();
+                mViewModel.getModel().setMobileNo1(info);
                 tiePrmCntct.setText(info.getMobileNo());
-                if(info.getIsPostPd().equalsIgnoreCase("0")){
-                    tilPrmCntctPlan.setVisibility(View.GONE);
+                poMobile[0].setMobileNo(info.getMobileNo());
+                poMobile[0].setIsPostPd(info.getIsPostPd());
+                poMobile[0].setPostYear(info.getPostYear());
+                if(info.getIsPostPd().equalsIgnoreCase("1")){
+                    Log.e("getIsPostPd","visible");
+                    tilPrmCntctPlan.setVisibility(View.VISIBLE);
                     cbPrmCntct.setChecked(false);
                 }else{
-                    tilPrmCntctPlan.setVisibility(View.VISIBLE);
+                    Log.e("getIsPostPd","gone");
+                    tilPrmCntctPlan.setVisibility(View.GONE);
                     cbPrmCntct.setChecked(false);
                 }
             }
             if(infoModel.getMobileNo2() != null){
                 MobileNo info = infoModel.getMobileNo2();
                 tieScnCntct.setText(info.getMobileNo());
+                mViewModel.getModel().setMobileNo2(info);
+                poMobile[1].setMobileNo(info.getMobileNo());
+                poMobile[1].setIsPostPd(info.getIsPostPd());
+                poMobile[1].setPostYear(info.getPostYear());
                 if(info.getIsPostPd().equalsIgnoreCase("0")){
                     tilScnCntctPlan.setVisibility(View.GONE);
                     cbScnCntct.setChecked(false);
@@ -409,6 +428,10 @@ public class Activity_CoMaker extends AppCompatActivity {
             if(infoModel.getMobileNo3() != null){
                 MobileNo info = infoModel.getMobileNo3();
                 tieTrtCntct.setText(info.getMobileNo());
+                poMobile[2].setMobileNo(info.getMobileNo());
+                poMobile[2].setIsPostPd(info.getIsPostPd());
+                poMobile[2].setPostYear(info.getPostYear());
+                mViewModel.getModel().setMobileNo3(info);
                 if(info.getIsPostPd().equalsIgnoreCase("0")){
                     tilTrtCntctPlan.setVisibility(View.GONE);
                     cbTrtCntct.setChecked(false);

@@ -53,14 +53,21 @@ public class CoMakerInfo implements CreditApp {
                 JSONParser loJson = new JSONParser();
                 JSONObject joDetail = (JSONObject) loJson.parse(lsDetail);
                 gocas.CoMakerInfo().setData(joDetail);
-
                 loDetail.setLastName(gocas.CoMakerInfo().getLastName());
                 loDetail.setFrstName(gocas.CoMakerInfo().getFirstName());
                 loDetail.setMiddName(gocas.CoMakerInfo().getMiddleName());
                 loDetail.setSuffix(gocas.CoMakerInfo().getSuffixName());
                 loDetail.setNickName(gocas.CoMakerInfo().getNickName());
                 loDetail.setBrthDate(gocas.CoMakerInfo().getBirthdate());
+
                 loDetail.setBrthPlce(gocas.CoMakerInfo().getBirthPlace());
+
+                //Get Town, Province names and set to model class to be displayed on UI.
+                String lsBrthPlc = poDao.GetBirthPlace(loDetail.getBrthPlce());
+
+                loDetail.setBirthPlc(lsBrthPlc);
+//
+//
                 loDetail.setIncomexx(gocas.CoMakerInfo().getIncomeSource());
                 loDetail.setRelation(gocas.CoMakerInfo().getRelation());
 

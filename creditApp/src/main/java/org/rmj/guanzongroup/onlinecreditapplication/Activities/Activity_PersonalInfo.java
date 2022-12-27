@@ -31,6 +31,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ECountryInfo;
+import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.MobileNo;
@@ -457,30 +458,17 @@ public class Activity_PersonalInfo extends AppCompatActivity {
             txtMiddNm.setText(infoModel.getMiddName());
             txtSuffixx.setText(infoModel.getSuffix());
             txtNickNm.setText(infoModel.getNickName());
-            txtBirthDt.setText(infoModel.getBirthDte());
-//                txtMothNm.setText(appInfo.getString("sLastName"));
-//                txtMobileNo1.setText(appInfo.getString("sLastName"));
-//                txtMobileNo2.setText(appInfo.getString("sLastName"));
-//                txtMobileNo3.setText(appInfo.getString("sLastName"));
-//                txtMobileYr1.setText(appInfo.getString("sLastName"));
-//                tilMobileYr1.setText(appInfo.getString("sLastName"));
-//                txtMobileYr2.setText(appInfo.getString("sLastName"));
-//                tilMobileYr2.setText(appInfo.getString("sLastName"));
-//                txtMobileYr3.setText(appInfo.getString("sLastName"));
-//                tilMobileYr3.setText(appInfo.getString("sLastName"));
-//
-//                txtTellNox.setText(appInfo.getString("sLastName"));;
-//                txtFbAccount.setText(appInfo.getString("sLastName"));
-//                txtViberAccount.setText(appInfo.getString("sLastName"));
-//                txtProvince.setText(appInfo.getString("sLastName"));
-//                txtTown.setText(appInfo.getString("sLastName"));
-//                mViewModel.getProvinceNameFromProvID(appInfo.getString("sCitizenx"));
-
-            spnCivilStatus.setText(CreditAppConstants.CIVIL_STATUS[Integer.parseInt(infoModel.getCvlStats())], false);
-            spnCivilStatus.setSelection(Integer.parseInt(infoModel.getCvlStats()));
-            mViewModel.getModel().setCvlStats(infoModel.getCvlStats());
+            if(!"".equalsIgnoreCase(infoModel.getBirthDte())){
+                txtBirthDt.setText(FormatUIText.formatGOCasBirthdate(infoModel.getBirthDte()));
+                mViewModel.getModel().setBrthDate(infoModel.getBirthDte());
+            }
+            if(!"".equalsIgnoreCase(infoModel.getCvlStats())){
+                spnCivilStatus.setText(CreditAppConstants.CIVIL_STATUS[Integer.parseInt(infoModel.getCvlStats())], false);
+                spnCivilStatus.setSelection(Integer.parseInt(infoModel.getCvlStats()));
+                mViewModel.getModel().setCvlStats(infoModel.getCvlStats());
+            }
             if(!"".equalsIgnoreCase(infoModel.getBrthPlce())) {
-                txtTown.setText(infoModel.getBrthPlce());
+                txtTown.setText(infoModel.getBirthPlc());
                 mViewModel.getModel().setBirthPlc(infoModel.getBirthPlc());
                 mViewModel.getModel().setBrthPlce(infoModel.getBrthPlce());
             }

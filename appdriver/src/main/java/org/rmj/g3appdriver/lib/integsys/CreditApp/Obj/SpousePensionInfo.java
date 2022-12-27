@@ -43,8 +43,8 @@ public class SpousePensionInfo implements CreditApp {
     public Object Parse(ECreditApplicantInfo args) {
         try{
             SpousePension loDetail = new SpousePension();
-            if (args.getPensionx() != null){
-                String lsDetail = args.getPensionx();
+            if (args.getSpsPensn() != null){
+                String lsDetail = args.getSpsPensn();
                 GOCASApplication gocas = new GOCASApplication();
                 JSONParser loJson = new JSONParser();
                 JSONObject joDetail = (JSONObject) loJson.parse(lsDetail);

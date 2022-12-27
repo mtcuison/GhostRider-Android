@@ -177,48 +177,71 @@ public class Activity_Properties extends AppCompatActivity {
     @SuppressLint("NewApi")
     public void setUpFieldsFromLocalDB(Properties infoModel) throws JSONException {
         if(infoModel != null) {
-            if(infoModel.getPsLot1Addx() != null){
-                txtLot1.setText(!"".equalsIgnoreCase(String.valueOf(infoModel.getPsLot1Addx())) ? String.valueOf(infoModel.getPsLot1Addx()) : "");
+            txtLot1.setText(!"".equalsIgnoreCase(String.valueOf(infoModel.getPsLot1Addx())) ? String.valueOf(infoModel.getPsLot1Addx()) : "");
+            txtLot2.setText(!"".equalsIgnoreCase(String.valueOf(infoModel.getPsLot2Addx())) ? String.valueOf(infoModel.getPsLot2Addx()) : "");
+            txtLot3.setText(!"".equalsIgnoreCase(String.valueOf(infoModel.getPsLot3Addx())) ? String.valueOf(infoModel.getPsLot3Addx()) : "");
+            if(infoModel.getPs4Wheelsx().equalsIgnoreCase("1")) {
+                cb4Wheels.setChecked(true);
             }
-            if(infoModel.getPsLot2Addx() != null){
-                txtLot2.setText(!"".equalsIgnoreCase(String.valueOf(infoModel.getPsLot2Addx())) ? String.valueOf(infoModel.getPsLot2Addx()) : "");
+            if(infoModel.getPs3Wheelsx().equalsIgnoreCase("1")) {
+                cb3Wheels.setChecked(true);
             }
-            if(infoModel.getPsLot3Addx() != null){
-                txtLot3.setText(!"".equalsIgnoreCase(String.valueOf(infoModel.getPsLot3Addx())) ? String.valueOf(infoModel.getPsLot3Addx()) : "");
+            if(infoModel.getPs2Wheelsx().equalsIgnoreCase("1")) {
+                cb2Wheels.setChecked(true);
             }
-            if(infoModel.getPs4Wheelsx() != null){
-                if(infoModel.getPs4Wheelsx().equalsIgnoreCase("1")) {
-                    cb4Wheels.setChecked(true);
-                }
-            }
-            if(infoModel.getPs3Wheelsx() != null){
-                if(infoModel.getPs3Wheelsx().equalsIgnoreCase("1")) {
-                    cb3Wheels.setChecked(true);
-                }
-            }
-            if(infoModel.getPs2Wheelsx() != null){
-                if(infoModel.getPs2Wheelsx().equalsIgnoreCase("1")) {
-                    cb2Wheels.setChecked(true);
-                }
+            if(infoModel.getPsAirConxx().equalsIgnoreCase("1")){
+                cbAircon.setChecked(true);
             }
 
-            if(infoModel.getPsAirConxx() != null){
-                if(infoModel.getPsAirConxx().equalsIgnoreCase("1")){
-                    cbAircon.setChecked(true);
-                }
+            if(infoModel.getPsFridgexx().equalsIgnoreCase("1")){
+                cbRefxx.setChecked(true);
             }
-            if(infoModel.getPsFridgexx() != null){
-                if(infoModel.getPsFridgexx().equalsIgnoreCase("1")){
-                    cbRefxx.setChecked(true);
-                }
+            if(infoModel.getPsTelevsnx().equalsIgnoreCase("1")){
+                cbTelevsn.setChecked(true);
             }
-
-            if(infoModel.getPsTelevsnx() != null){
-
-                if(infoModel.getPsTelevsnx().equalsIgnoreCase("1")){
-                    cbTelevsn.setChecked(true);
-                }
-            }
+//
+//            if(infoModel.getPsLot1Addx() != null){
+//                txtLot1.setText(!"".equalsIgnoreCase(String.valueOf(infoModel.getPsLot1Addx())) ? String.valueOf(infoModel.getPsLot1Addx()) : "");
+//            }
+//            if(infoModel.getPsLot2Addx() != null){
+//                txtLot2.setText(!"".equalsIgnoreCase(String.valueOf(infoModel.getPsLot2Addx())) ? String.valueOf(infoModel.getPsLot2Addx()) : "");
+//            }
+//            if(infoModel.getPsLot3Addx() != null){
+//                txtLot3.setText(!"".equalsIgnoreCase(String.valueOf(infoModel.getPsLot3Addx())) ? String.valueOf(infoModel.getPsLot3Addx()) : "");
+//            }
+//            if(infoModel.getPs4Wheelsx() != null){
+//                if(infoModel.getPs4Wheelsx().equalsIgnoreCase("1")) {
+//                    cb4Wheels.setChecked(true);
+//                }
+//            }
+//            if(infoModel.getPs3Wheelsx() != null){
+//                if(infoModel.getPs3Wheelsx().equalsIgnoreCase("1")) {
+//                    cb3Wheels.setChecked(true);
+//                }
+//            }
+//            if(infoModel.getPs2Wheelsx() != null){
+//                if(infoModel.getPs2Wheelsx().equalsIgnoreCase("1")) {
+//                    cb2Wheels.setChecked(true);
+//                }
+//            }
+//
+//            if(infoModel.getPsAirConxx() != null){
+//                if(infoModel.getPsAirConxx().equalsIgnoreCase("1")){
+//                    cbAircon.setChecked(true);
+//                }
+//            }
+//            if(infoModel.getPsFridgexx() != null){
+//                if(infoModel.getPsFridgexx().equalsIgnoreCase("1")){
+//                    cbRefxx.setChecked(true);
+//                }
+//            }
+//
+//            if(infoModel.getPsTelevsnx() != null){
+//
+//                if(infoModel.getPsTelevsnx().equalsIgnoreCase("1")){
+//                    cbTelevsn.setChecked(true);
+//                }
+//            }
 
         } else {
             txtLot1.getText().clear();

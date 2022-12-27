@@ -92,12 +92,12 @@ public class Personal {
      * @return Use this get method to retrieve the UI preview of birthdate.
      */
     public String getBirthDte() {
-        if(!BrthDate.isEmpty()){
-            return  FormatUIText.formatGOCasBirthdate(BrthDate);
-        }else {
-            return "";
-        }
-
+//        if(!BrthDate.isEmpty()){
+//            return  FormatUIText.formatGOCasBirthdate(BrthDate);
+//        }else {
+//            return "";
+//        }
+        return BrthDate;
     }
     public void setBrthDate(String brthDate) {
         BrthDate = brthDate;

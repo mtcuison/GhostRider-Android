@@ -1,6 +1,7 @@
 package org.rmj.g3appdriver.lib.integsys.CreditApp.Obj;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
@@ -71,9 +72,24 @@ public class CoMakerResidenceInfo implements CreditApp {
                 loDetail.setMunicipalNm(loBrgy.sTownName);
                 loDetail.setBarangayName(loBrgy.sBrgyName);
 
-                loDetail.setOwnerRelation(gocas.CoMakerInfo().ResidenceInfo().getOwnership());
+                Log.d(TAG, "House Ownership: " + gocas.CoMakerInfo().ResidenceInfo().getOwnership());
+                loDetail.setOwnerRelation(gocas.CoMakerInfo().ResidenceInfo().getCareTakerRelation());
+
+                Log.d(TAG, "Length Of Stay: " + gocas.CoMakerInfo().ResidenceInfo().getRentNoYears());
                 loDetail.setLenghtOfStay(gocas.CoMakerInfo().ResidenceInfo().getRentNoYears());
+
+                Log.d(TAG, "Monthly Expense: " + gocas.CoMakerInfo().ResidenceInfo().getRentExpenses());
                 loDetail.setMonthlyExpenses(gocas.CoMakerInfo().ResidenceInfo().getRentExpenses());
+
+                loDetail.setHouseOwn(gocas.CoMakerInfo().ResidenceInfo().getOwnership());
+
+                loDetail.setHouseHold(gocas.CoMakerInfo().ResidenceInfo().getOwnedResidenceInfo());
+                loDetail.setHouseType(gocas.CoMakerInfo().ResidenceInfo().getHouseType());
+                loDetail.setHasGarage(gocas.CoMakerInfo().ResidenceInfo().hasGarage());
+
+//                loDetail.setOwnerRelation(gocas.CoMakerInfo().ResidenceInfo().getOwnership());
+//                loDetail.setLenghtOfStay(gocas.CoMakerInfo().ResidenceInfo().getRentNoYears());
+//                loDetail.setMonthlyExpenses(gocas.CoMakerInfo().ResidenceInfo().getRentExpenses());
 
                 //TODO: make a validation of value for length of stay which
                 // will display if the applicant stays for a year or only for a month

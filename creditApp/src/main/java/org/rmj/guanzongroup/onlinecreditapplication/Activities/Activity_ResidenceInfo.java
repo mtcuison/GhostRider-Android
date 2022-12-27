@@ -574,7 +574,6 @@ public class Activity_ResidenceInfo extends AppCompatActivity {
 
             if(!"".equalsIgnoreCase(infoModel.getAddress1())){
                 txtAddress1.setText(infoModel.getAddress1());
-
             }
             if(!"".equalsIgnoreCase(infoModel.getAddress2())){
                 txtAddress2.setText(infoModel.getAddress2());
@@ -616,15 +615,18 @@ public class Activity_ResidenceInfo extends AppCompatActivity {
                 rgGarage.check(R.id.rb_yes);
                 mViewModel.getModel().setHasGarage("1");
             }
-            if(!"".equalsIgnoreCase(infoModel.getHouseHold())){
-                mViewModel.getModel().setHouseHold(infoModel.getHouseHold());
-                spnHouseHold.setText(CreditAppConstants.HOUSEHOLDS[Integer.parseInt(infoModel.getHouseHold())]);
+            if(!"".equalsIgnoreCase(infoModel.getHouseOwn())){
+                spnHouseHold.setText(CreditAppConstants.HOUSEHOLDS[Integer.parseInt(infoModel.getHouseOwn())]);
+                spnHouseHold.setSelection(Integer.parseInt(infoModel.getHouseOwn()));
+                mViewModel.getModel().setHouseHold(infoModel.getHouseOwn());
             }
 
-            spnHouseType.setText(CreditAppConstants.HOUSE_TYPE[Integer.parseInt(infoModel.getHouseType())]);
-            mViewModel.getModel().setHouseType(infoModel.getHouseType());
-
-            txtMonthlyExp.setText( !"".equalsIgnoreCase(String.valueOf(infoModel.getMonthlyExpenses())) ? String.valueOf(infoModel.getMonthlyExpenses()) : "");
+            if(!"".equalsIgnoreCase(infoModel.getHouseType())){
+                spnHouseType.setText(CreditAppConstants.HOUSE_TYPE[Integer.parseInt(infoModel.getHouseType())]);
+                spnHouseType.setSelection(Integer.parseInt(infoModel.getHouseType()));
+                mViewModel.getModel().setHouseType(infoModel.getHouseType());
+            }
+            txtMonthlyExp.setText(!"".equalsIgnoreCase(String.valueOf(infoModel.getMonthlyExpenses())) ? String.valueOf(infoModel.getMonthlyExpenses()) : "");
 
         }else{
             cbOneAddress.setChecked(false);
