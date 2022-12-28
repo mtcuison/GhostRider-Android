@@ -486,10 +486,14 @@ public class Activity_PersonalInfo extends AppCompatActivity {
             if(infoModel.getMobileNo1() != null){
                 MobileNo info = infoModel.getMobileNo1();
                 txtMobileNo[0].setText(info.getMobileNo());
+                poMobile[0].setMobileNo(info.getMobileNo());
+                poMobile[0].setIsPostPd(info.getIsPostPd());
+                poMobile[0].setPostYear(info.getPostYear());
+                mViewModel.getModel().setMobileNo3(info);
                 if(info.getIsPostPd().equalsIgnoreCase("0")){
                     tilMobileYear[0].setVisibility(View.GONE);
                     txtMobileType1.setChecked(false);
-                }else{
+                }else if(info.getIsPostPd().equalsIgnoreCase("1")){
                     tilMobileYear[0].setVisibility(View.VISIBLE);
                     txtMobileType1.setChecked(true);
                 }
@@ -497,10 +501,14 @@ public class Activity_PersonalInfo extends AppCompatActivity {
             if(infoModel.getMobileNo2() != null){
                 MobileNo info = infoModel.getMobileNo2();
                 txtMobileNo[1].setText(info.getMobileNo());
+                poMobile[1].setMobileNo(info.getMobileNo());
+                poMobile[1].setIsPostPd(info.getIsPostPd());
+                poMobile[1].setPostYear(info.getPostYear());
+                mViewModel.getModel().setMobileNo3(info);
                 if(info.getIsPostPd().equalsIgnoreCase("0")){
                     tilMobileYear[1].setVisibility(View.GONE);
                     txtMobileType2.setChecked(false);
-                }else{
+                }else if(info.getIsPostPd().equalsIgnoreCase("1")){
                     tilMobileYear[1].setVisibility(View.VISIBLE);
                     txtMobileType2.setChecked(true);
                 }
@@ -508,10 +516,14 @@ public class Activity_PersonalInfo extends AppCompatActivity {
             if(infoModel.getMobileNo3() != null){
                 MobileNo info = infoModel.getMobileNo3();
                 txtMobileNo[2].setText(info.getMobileNo());
+                poMobile[2].setMobileNo(info.getMobileNo());
+                poMobile[2].setIsPostPd(info.getIsPostPd());
+                poMobile[2].setPostYear(info.getPostYear());
+                mViewModel.getModel().setMobileNo3(info);
                 if(info.getIsPostPd().equalsIgnoreCase("0")){
                     tilMobileYear[2].setVisibility(View.GONE);
                     txtMobileType3.setChecked(false);
-                }else{
+                }else if(info.getIsPostPd().equalsIgnoreCase("1")){
                     tilMobileYear[2].setVisibility(View.VISIBLE);
                     txtMobileType3.setChecked(true);
                 }

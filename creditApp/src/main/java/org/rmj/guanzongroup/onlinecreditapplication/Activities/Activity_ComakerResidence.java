@@ -26,6 +26,7 @@ import org.json.JSONException;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EBarangayInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
+import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.ClientResidence;
@@ -336,6 +337,13 @@ public class Activity_ComakerResidence extends AppCompatActivity {
 //                mViewModel.getModel().setHouseType(spnHouseType.getText().toString().trim());
             }
         });
+
+        spnLgnthStay.setAdapter(new ArrayAdapter<>(Activity_ComakerResidence.this,
+                android.R.layout.simple_list_item_1, CreditAppConstants.LENGTH_OF_STAY));
+        spnLgnthStay.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+        spnLgnthStay.setOnItemClickListener((parent, view, position, id) ->
+                mViewModel.getModel().setIsYear(position));
+
     }
 
     private void initWidgets() {
@@ -402,19 +410,43 @@ public class Activity_ComakerResidence extends AppCompatActivity {
                 mViewModel.getModel().setBarangayID(infoModel.getBarangayID());
                 mViewModel.getModel().setBarangayName(infoModel.getBarangayName());
             }
-
-
             if (infoModel.getHouseOwn().equalsIgnoreCase("0")) {
                 rgOwnsership.check(R.id.rb_owned);
                 mViewModel.getModel().setHouseOwn("0");
-            } else if (infoModel.getHouseOwn().equalsIgnoreCase("1")) {
-                rgOwnsership.check(R.id.rb_rent);
-                mViewModel.getModel().setHouseOwn("1");
-            } else if (infoModel.getHouseOwn().equalsIgnoreCase("2")) {
-                rgOwnsership.check(R.id.rb_careTaker);
-                mViewModel.getModel().setHouseOwn("2");
-            }
+            } else if (infoModel.getHouseOwn().equalsIgnoreCase("1") ||
+                    infoModel.getHouseOwn().equalsIgnoreCase("2")) {
 
+                if (infoModel.getHouseOwn().equalsIgnoreCase("1")) {
+                    lnOtherInfo.setVisibility(View.VISIBLE);
+                    tilRelationship.setVisibility(View.GONE);
+                    rgOwnsership.check(R.id.rb_rent);
+                    mViewModel.getModel().setHouseOwn("1");
+                } else {
+                    lnOtherInfo.setVisibility(View.VISIBLE);
+                    tilRelationship.setVisibility(View.VISIBLE);
+                    rgOwnsership.check(R.id.rb_careTaker);
+                    mViewModel.getModel().setHouseOwn("2");
+                    if(!"".equalsIgnoreCase(infoModel.getOwnerRelation())){
+                        txtRelationship.setText(infoModel.getOwnerRelation());
+                    }
+                }
+                if (infoModel.getMonthlyExpenses() > 0) {
+                    txtMonthlyExp.setText(FormatUIText.getCurrencyUIFormat(String.valueOf(infoModel.getMonthlyExpenses())));
+                }
+
+                int nlength = (int) (infoModel.getLenghtofStay() * 12);
+                if (nlength < 12) {
+                    txtLgnthStay.setText(String.valueOf(nlength));
+                    spnLgnthStay.setText(CreditAppConstants.LENGTH_OF_STAY[0], false);
+                    mViewModel.getModel().setIsYear(0);
+                    mViewModel.getModel().setLenghtOfStay(nlength);
+                } else {
+                    txtLgnthStay.setText(String.valueOf(infoModel.getLenghtofStay()));
+                    spnLgnthStay.setText(CreditAppConstants.LENGTH_OF_STAY[1], false);
+                    mViewModel.getModel().setIsYear(1);
+                    mViewModel.getModel().setLenghtOfStay(infoModel.getLenghtofStay());
+                }
+            }
             if (infoModel.getHasGarage().equalsIgnoreCase("0")){
                 rgGarage.check(R.id.rb_no);
                 mViewModel.getModel().setHasGarage("0");
