@@ -427,9 +427,9 @@
                                     android:digits="@string/free_text_restriction"
                                     android:textStyle="normal"
                                     android:inputType="text"
-                                    android:lines="3"
+                                    android:lines="5"
                                     android:imeOptions="flagNoExtractUi"
-                                    android:maxLength="10"/>
+                                    android:maxLength="1024"/>
                             </com.google.android.material.textfield.TextInputLayout>
 
                         </LinearLayout>
