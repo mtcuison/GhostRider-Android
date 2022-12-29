@@ -477,10 +477,12 @@ public class Activity_PersonalInfo extends AppCompatActivity {
                 mViewModel.getModel().setCitizenx(infoModel.getCitizenx());
                 mViewModel.getModel().setCtznShip(infoModel.getCtznShip());
             }
-            for(int i = 0; i < rgGender.getChildCount(); i++){
-                if (i == Integer.parseInt(infoModel.getGender())){
-                    mViewModel.getModel().setGender(infoModel.getGender());
-                    ((RadioButton)rgGender.getChildAt(i)).setChecked(true);
+            if(!"".equalsIgnoreCase(infoModel.getGender())){
+                for(int i = 0; i < rgGender.getChildCount(); i++){
+                    if (i == Integer.parseInt(infoModel.getGender())){
+                        mViewModel.getModel().setGender(infoModel.getGender());
+                        ((RadioButton)rgGender.getChildAt(i)).setChecked(true);
+                    }
                 }
             }
             if(infoModel.getMobileNo1() != null){

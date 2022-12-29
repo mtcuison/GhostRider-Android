@@ -202,11 +202,13 @@ public class Employment {
     public double getLengthOfService() {
         if(!sSectorxx.equalsIgnoreCase("2")) {
             try {
-                if (Integer.parseInt(cIsYearxx) == 0) {
-                    double ldValue = sLengthxx;
-                    return ldValue / 12;
-                } else {
-                    return sLengthxx;
+                if(!"".equalsIgnoreCase(cIsYearxx)){
+                    if (Integer.parseInt(cIsYearxx) == 0) {
+                        double ldValue = sLengthxx;
+                        return ldValue / 12;
+                    } else {
+                        return sLengthxx;
+                    }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
