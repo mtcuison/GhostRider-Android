@@ -2,16 +2,16 @@ package org.rmj.g3appdriver.lib.integsys.Dcp.model;
 
 public class PromiseToPay {
 
-    private String Remarksx,
-                    Transact,
-                    Paymntxx,
-                    CollctNm,
-                    BranchCd,
-                    AccntNox,
-                    TransNox,
-                    EntryNox,
-                    FileName,
-                    FilePath;
+    private String Remarksx = "",
+                    Transact = "",
+                    Paymntxx = "0",
+                    CollctNm = "",
+                    BranchCd = "",
+                    AccntNox = "",
+                    TransNox = "",
+                    EntryNox = "",
+                    FileName = "",
+                    FilePath = "";
 
     private double latitude, longtude;
 
@@ -122,7 +122,7 @@ public class PromiseToPay {
     }
 
     public boolean isDataValid(){
-        if (Transact == null || Transact.trim().isEmpty()){
+        if (Transact.trim().isEmpty()){
             message = "Please select Payment Date.";
             return false;
         }
@@ -134,7 +134,7 @@ public class PromiseToPay {
             message = "Please enter remarks.";
             return false;
         }
-        if (BranchCd == null || BranchCd.trim().isEmpty()){
+        if (BranchCd.trim().isEmpty()){
             message = "Please enter branch.";
             return false;
         }

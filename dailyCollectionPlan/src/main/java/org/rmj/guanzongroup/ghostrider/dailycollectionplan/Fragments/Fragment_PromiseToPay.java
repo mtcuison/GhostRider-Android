@@ -28,6 +28,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -189,15 +190,19 @@ public class Fragment_PromiseToPay extends Fragment {
 
         btnPtp.setOnClickListener( v -> {
             poPtp.setRemarks(Objects.requireNonNull(txtRemarks.getText()).toString().trim());
-            if(checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                    checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                    checkSelfPermission(requireActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
-                poRequest.launch(new String[]{
-                        Manifest.permission.ACCESS_COARSE_LOCATION,
-                        Manifest.permission.ACCESS_FINE_LOCATION,
-                        Manifest.permission.CAMERA});
+            if(!poPtp.isDataValid()){
+                Toast.makeText(requireActivity(), poPtp.getMessage(), Toast.LENGTH_SHORT).show();
             } else {
-                InitializeCamera();
+                if (checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                        checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                        checkSelfPermission(requireActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                    poRequest.launch(new String[]{
+                            Manifest.permission.ACCESS_COARSE_LOCATION,
+                            Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.CAMERA});
+                } else {
+                    InitializeCamera();
+                }
             }
         });
 
@@ -236,8 +241,10 @@ public class Fragment_PromiseToPay extends Fragment {
                 if(checkedId == R.id.rb_ptpBranch) {
                     appointment = "1";
                     tilBranchName.setVisibility(View.VISIBLE);
+                    txtCollct.setVisibility(View.GONE);
                 } else {
                     tilBranchName.setVisibility(View.GONE);
+                    txtCollct.setVisibility(View.VISIBLE);
                     appointment = "0";
                 }
                 poPtp.setPaymntxx(appointment);
