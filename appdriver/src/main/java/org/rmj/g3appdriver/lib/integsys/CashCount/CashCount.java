@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 public class CashCount {
     private static final String TAG = CashCount.class.getSimpleName();
@@ -88,6 +89,7 @@ public class CashCount {
             loCash.setPRNoxNPt(foVal.getString("sPRNoxNPt"));
             loCash.setDRNoxxxx(foVal.getString("sDRNoxxxx"));
             loCash.setPettyAmt(foVal.getDouble("nPettyAmt"));
+            loCash.setRemarksx(foVal.getString("sRemarksx"));
             poDao.SaveCashCount(loCash);
             return lsTransNo;
         } catch (Exception e){
@@ -177,6 +179,7 @@ public class CashCount {
             params.put("dTransact", loCash.getTransact());
             params.put("dEntryDte", loCash.getEntryDte());
             params.put("sReqstdBy", loCash.getReqstdBy());
+            params.put("sRemarksx", loCash.getRemarksx());
 
             Log.d(TAG, params.toString());
             String lsResponse = WebClient.sendRequest(
@@ -256,6 +259,7 @@ public class CashCount {
                 params.put("dEntryDte", loCash.getEntryDte());
                 params.put("sReqstdBy", loCash.getReqstdBy());
 
+                Log.d(TAG, params.toString());
                 String lsResponse = WebClient.sendRequest(
                         poApi.getUrlSubmitCashcount(poConfig.isBackUpServer()),
                         params.toString(),
