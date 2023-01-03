@@ -20,7 +20,7 @@ import org.rmj.g3appdriver.dev.Database.Entities.EMcModel;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditOnlineApplication;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.LoanInfo;
-import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditAppConstants;
 
 import java.util.List;
 

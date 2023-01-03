@@ -9,7 +9,7 @@
  * project file last modified : 4/24/21 3:17 PM
  */
 
-package org.rmj.guanzongroup.onlinecreditapplication.Etc;
+package org.rmj.g3appdriver.lib.integsys.CreditApp;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -23,7 +23,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 
-import org.rmj.guanzongroup.onlinecreditapplication.R;
+import org.rmj.g3appdriver.R;
+
 
 public class CreditAppConstants {
 

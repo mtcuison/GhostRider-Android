@@ -3,7 +3,6 @@ package org.rmj.guanzongroup.onlinecreditapplication.Activities;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -17,13 +16,10 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Business;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Properties;
-import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.OnParseListener;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMProperties;
@@ -133,7 +129,7 @@ public class Activity_Properties extends AppCompatActivity {
         mViewModel.SaveData(new OnSaveInfoListener() {
             @Override
             public void OnSave(String args) {
-                Intent loIntent = new Intent(Activity_Properties.this, Activity_CoMaker.class);
+                Intent loIntent = new Intent(Activity_Properties.this, Activity_OtherInfo.class);
                 loIntent.putExtra("sTransNox", args);
                 startActivity(loIntent);
                 overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
