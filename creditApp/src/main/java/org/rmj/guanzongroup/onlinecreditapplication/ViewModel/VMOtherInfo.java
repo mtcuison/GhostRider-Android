@@ -52,6 +52,12 @@ public class VMOtherInfo extends AndroidViewModel implements CreditAppUI {
     public LiveData<List<DTownInfo.TownProvinceInfo>> GetTownProvinceList(){
         return poApp.GetTownProvinceList();
     }
+    public void setListOfReference(List<Reference> foList){
+        loList.getValue().clear();
+        loList.setValue(foList);
+//        Objects.requireNonNull(loList).getValue().clear();
+//        Objects.requireNonNull(loList).setValue(foList);
+    }
     public LiveData<List<Reference>> getReferenceList(){
         return loList;
     }

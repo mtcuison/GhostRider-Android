@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -24,7 +25,9 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.g3appdriver.etc.GToast;
@@ -124,6 +127,7 @@ public class Activity_OtherInfo extends AppCompatActivity {
 
         mViewModel.getModel().setCompanyInfoSource(Objects.requireNonNull(tieOthrSrc.getText()).toString());
         mViewModel.getReferenceList().observe(Activity_OtherInfo.this, loList->{
+            mViewModel.getModel().clear();
             for(int x = 0; x < loList.size(); x++){
                 Reference info = loList.get(x);
                 mViewModel.getModel().AddReference(info);
@@ -352,8 +356,8 @@ public class Activity_OtherInfo extends AppCompatActivity {
                 mViewModel.getModel().setsPurposex(infoModel.getsPurposex());
             }
             if(infoModel.getsUnitPayr() != null) {
-                spnUnitPrps.setText(CreditAppConstants.UNIT_USER[Integer.parseInt(infoModel.getsUnitPayr())], false);
-                spnUnitPrps.setSelection(Integer.parseInt(infoModel.getsUnitPayr()));
+                spnUnitPayr.setText(CreditAppConstants.UNIT_USER[Integer.parseInt(infoModel.getsUnitPayr())], false);
+                spnUnitPayr.setSelection(Integer.parseInt(infoModel.getsUnitPayr()));
                 mViewModel.getModel().setsUnitPayr(infoModel.getsUnitPayr());
             }
 
@@ -363,24 +367,8 @@ public class Activity_OtherInfo extends AppCompatActivity {
                 mViewModel.getModel().setSource(infoModel.getSource());
             }
             if(infoModel.getReferences() != null){
-                adapter = new ReferencesAdapter(infoModel.getReferences(), new ReferencesAdapter.OnAdapterClick() {
-                    @Override
-                    public void onRemove(int position) {
-//                        mViewModel.removeReference(position);
-                        infoModel.getReferences().remove(position);
-                        GToast.CreateMessage(Activity_OtherInfo.this, "Reference removed from list.", GToast.INFORMATION).show();
-                        adapter.notifyDataSetChanged();
-                    }
-
-                    @Override
-                    public void onCallMobile(String fsMobileN) {
-                        Intent mobileIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", fsMobileN, null));
-                        startActivityForResult(mobileIntent, MOBILE_DIALER);
-                    }
-                });
-                recyclerView.setLayoutManager(new LinearLayoutManager(Activity_OtherInfo.this));
-                recyclerView.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
+//                mViewModel.getReferenceList().getValue().clear();
+                mViewModel.setListOfReference(infoModel.getReferences());
             }
         }
     }

@@ -567,8 +567,11 @@ public class ReviewLoanInfo implements CreditApp {
                 loListDetl.add(new ReviewAppDetail(false, "", "Fullname ", loExp.get("sRefrNmex").toString()));
                 loListDetl.add(new ReviewAppDetail(false, "", "Mobile No. ", loExp.get("sRefrMPNx").toString()));
                 String rfBirthPlace = loExp.get("sRefrTown").toString();
+
+                DTownInfo.TownProvinceName loTown = poTown.getTownProvinceName(loExp.get("sRefrTown").toString());
+                String lsTown = loTown.sTownName + ", " + loTown.sProvName;
                 loListDetl.add(new ReviewAppDetail(false, "", "Address ", loExp.get("sRefrAddx").toString()));
-                loListDetl.add(new ReviewAppDetail(false, "", "Town ", loExp.get("sRefrTown").toString()));
+                loListDetl.add(new ReviewAppDetail(false, "", "Town ", lsTown));
             }
 
 //                CO-MAKER
@@ -582,9 +585,9 @@ public class ReviewLoanInfo implements CreditApp {
             String coBirthDate = FormatUIText.formatGOCasBirthdate(coDisb.get("dBirthDte").toString());
             loListDetl.add(new ReviewAppDetail(false, "", "Birth Date", coBirthDate));
 
-//                DTownInfo.TownProvinceName coBPlace = poTown.getTownProvinceName(coDisb.get("sBirthPlc").toString());
-//                String coBirthPlace = coBPlace.sTownName + ", " + coBPlace.sProvName;
-            loListDetl.add(new ReviewAppDetail(false, "", "Birth Place", coDisb.get("sBirthPlc").toString()));
+                DTownInfo.TownProvinceName coBPlace = poTown.getTownProvinceName(coDisb.get("sBirthPlc").toString());
+                String coBirthPlace = coBPlace.sTownName + ", " + coBPlace.sProvName;
+            loListDetl.add(new ReviewAppDetail(false, "", "Birth Place", coBirthPlace));
             loListDetl.add(new ReviewAppDetail(false, "", "Source of Income", parseCoMakerSrcIncom(coDisb.get("cIncmeSrc").toString())));
 
             org.json.JSONArray loCmContactArr = coDisb.getJSONArray("mobile_number");

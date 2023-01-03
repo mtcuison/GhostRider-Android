@@ -69,9 +69,9 @@ public class OtherInfo implements CreditApp {
                     JSONObject joRef = (JSONObject) reference.get(x);
                     loDetail.AddReference(new Reference(
                             (String) joRef.get("sRefrNmex"),
-                            (String) joRef.get("sRefrMPNx"),
                             (String) joRef.get("sRefrAddx"),
-                            (String) joRef.get("sRefrTown")));
+                            (String) joRef.get("sRefrTown"),
+                            (String) joRef.get("sRefrMPNx")));
                 }
 
                 poDetail = loDetail;
