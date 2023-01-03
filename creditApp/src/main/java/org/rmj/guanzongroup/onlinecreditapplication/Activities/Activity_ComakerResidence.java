@@ -1,5 +1,6 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Activities;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,13 +22,15 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import org.json.JSONException;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EBarangayInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
+import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.CoMakerResidence;
-import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.OnParseListener;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMComakerResidence;
@@ -70,6 +73,12 @@ public class Activity_ComakerResidence extends AppCompatActivity {
                         @Override
                         public void OnParse(Object args) {
                             CoMakerResidence loDetail = (CoMakerResidence) args;
+                            try {
+                                setUpFieldsFromLocalDB(loDetail);
+                                initSpinner();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
                     });
                 } catch (Exception e) {
@@ -262,28 +271,6 @@ public class Activity_ComakerResidence extends AppCompatActivity {
         });
 
 
-        spnHouseHold.setAdapter(new ArrayAdapter<>(Activity_ComakerResidence.this,
-                android.R.layout.simple_list_item_1, CreditAppConstants.HOUSEHOLDS));
-        spnHouseHold.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
-        spnHouseHold.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mViewModel.getModel().setHouseHold(String.valueOf(position));
-//                mViewModel.getModel().setHouseHold(spnHouseHold.getText().toString().trim());
-            }
-        });
-
-        spnHouseType.setAdapter(new ArrayAdapter<>(Activity_ComakerResidence.this,
-                android.R.layout.simple_list_item_1, CreditAppConstants.HOUSE_TYPE));
-        spnHouseType.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
-        spnHouseType.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mViewModel.getModel().setHouseType(String.valueOf(position));
-//                mViewModel.getModel().setHouseType(spnHouseType.getText().toString().trim());
-            }
-        });
-
 
         btnNext.setOnClickListener(v -> SaveComakerResidenceInfo());
         btnPrvs.setOnClickListener(v -> finish());
@@ -325,7 +312,38 @@ public class Activity_ComakerResidence extends AppCompatActivity {
 
 
     }
+    private void initSpinner(){
 
+
+        spnHouseHold.setAdapter(new ArrayAdapter<>(Activity_ComakerResidence.this,
+                android.R.layout.simple_list_item_1, CreditAppConstants.HOUSEHOLDS));
+        spnHouseHold.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+        spnHouseHold.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                mViewModel.getModel().setHouseHold(String.valueOf(position));
+//                mViewModel.getModel().setHouseHold(spnHouseHold.getText().toString().trim());
+            }
+        });
+
+        spnHouseType.setAdapter(new ArrayAdapter<>(Activity_ComakerResidence.this,
+                android.R.layout.simple_list_item_1, CreditAppConstants.HOUSE_TYPE));
+        spnHouseType.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+        spnHouseType.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                mViewModel.getModel().setHouseType(String.valueOf(position));
+//                mViewModel.getModel().setHouseType(spnHouseType.getText().toString().trim());
+            }
+        });
+
+        spnLgnthStay.setAdapter(new ArrayAdapter<>(Activity_ComakerResidence.this,
+                android.R.layout.simple_list_item_1, CreditAppConstants.LENGTH_OF_STAY));
+        spnLgnthStay.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+        spnLgnthStay.setOnItemClickListener((parent, view, position, id) ->
+                mViewModel.getModel().setIsYear(position));
+
+    }
 
     private void initWidgets() {
         toolbar = findViewById(R.id.toolbar_CoMakerResidence);
@@ -362,6 +380,112 @@ public class Activity_ComakerResidence extends AppCompatActivity {
 
     }
 
+    @SuppressLint("NewApi")
+    public void setUpFieldsFromLocalDB(CoMakerResidence infoModel) throws JSONException {
+        if(infoModel != null) {
+
+            if(!"".equalsIgnoreCase(infoModel.getAddress1())){
+                txtAddress1.setText(infoModel.getAddress1());
+
+            }
+            if(!"".equalsIgnoreCase(infoModel.getAddress2())){
+                txtAddress2.setText(infoModel.getAddress2());
+            }
+            if(!"".equalsIgnoreCase(infoModel.getLandMark())){
+                txtLandMark.setText(infoModel.getLandMark());
+            }
+            if(!"".equalsIgnoreCase(infoModel.getHouseNox())){
+                txtHouseNox.setText(infoModel.getHouseNox());
+            }
+
+            if(!"".equalsIgnoreCase(infoModel.getMunicipalID())) {
+                txtMunicipality.setText(infoModel.getMunicipalNm());
+                mViewModel.getModel().setMunicipalID(infoModel.getMunicipalID());
+                mViewModel.getModel().setMunicipalNm(infoModel.getMunicipalNm());
+            }
+
+            if(!"".equalsIgnoreCase(infoModel.getBarangayID())) {
+                txtBarangay.setText(infoModel.getBarangayName());
+                mViewModel.getModel().setBarangayID(infoModel.getBarangayID());
+                mViewModel.getModel().setBarangayName(infoModel.getBarangayName());
+            }
+            if (infoModel.getHouseOwn().equalsIgnoreCase("0")) {
+                rgOwnsership.check(R.id.rb_owned);
+                mViewModel.getModel().setHouseOwn("0");
+            } else if (infoModel.getHouseOwn().equalsIgnoreCase("1") ||
+                    infoModel.getHouseOwn().equalsIgnoreCase("2")) {
+
+                if (infoModel.getHouseOwn().equalsIgnoreCase("1")) {
+                    lnOtherInfo.setVisibility(View.VISIBLE);
+                    tilRelationship.setVisibility(View.GONE);
+                    rgOwnsership.check(R.id.rb_rent);
+                    mViewModel.getModel().setHouseOwn("1");
+                } else {
+                    lnOtherInfo.setVisibility(View.VISIBLE);
+                    tilRelationship.setVisibility(View.VISIBLE);
+                    rgOwnsership.check(R.id.rb_careTaker);
+                    mViewModel.getModel().setHouseOwn("2");
+                    if(!"".equalsIgnoreCase(infoModel.getOwnerRelation())){
+                        txtRelationship.setText(infoModel.getOwnerRelation());
+                    }
+                }
+                if (infoModel.getMonthlyExpenses() > 0) {
+                    txtMonthlyExp.setText(FormatUIText.getCurrencyUIFormat(String.valueOf(infoModel.getMonthlyExpenses())));
+                }
+
+                int nlength = (int) (infoModel.getLenghtofStay() * 12);
+                if (nlength < 12) {
+                    txtLgnthStay.setText(String.valueOf(nlength));
+                    spnLgnthStay.setText(CreditAppConstants.LENGTH_OF_STAY[0], false);
+                    mViewModel.getModel().setIsYear(0);
+                    mViewModel.getModel().setLenghtOfStay(nlength);
+                } else {
+                    txtLgnthStay.setText(String.valueOf(infoModel.getLenghtofStay()));
+                    spnLgnthStay.setText(CreditAppConstants.LENGTH_OF_STAY[1], false);
+                    mViewModel.getModel().setIsYear(1);
+                    mViewModel.getModel().setLenghtOfStay(infoModel.getLenghtofStay());
+                }
+            }
+            if (infoModel.getHasGarage().equalsIgnoreCase("0")){
+                rgGarage.check(R.id.rb_no);
+                mViewModel.getModel().setHasGarage("0");
+            }else {
+                rgGarage.check(R.id.rb_yes);
+                mViewModel.getModel().setHasGarage("1");
+            }
+            if(!"".equalsIgnoreCase(infoModel.getHouseHold())){
+                spnHouseHold.setText(CreditAppConstants.HOUSEHOLDS[Integer.parseInt(infoModel.getHouseHold())]);
+                spnHouseHold.setSelection(Integer.parseInt(infoModel.getHouseHold()));
+                mViewModel.getModel().setHouseHold(infoModel.getHouseHold());
+            }
+
+            if(!"".equalsIgnoreCase(infoModel.getHouseType())){
+                spnHouseType.setText(CreditAppConstants.HOUSE_TYPE[Integer.parseInt(infoModel.getHouseType())]);
+                spnHouseType.setSelection(Integer.parseInt(infoModel.getHouseType()));
+                mViewModel.getModel().setHouseType(infoModel.getHouseType());
+            }
+
+            txtMonthlyExp.setText(!"".equalsIgnoreCase(String.valueOf(infoModel.getMonthlyExpenses())) ? String.valueOf(infoModel.getMonthlyExpenses()) : "");
+
+        }else{
+            txtLandMark.getText().clear();
+            txtHouseNox.getText().clear();
+            txtAddress1.getText().clear();
+            txtAddress2.getText().clear();
+            txtBarangay.getText().clear();
+            txtMunicipality.getText().clear();
+            txtProvince.getText().clear();
+            txtRelationship.getText().clear();
+            txtLgnthStay.getText().clear();
+            txtMonthlyExp.getText().clear();
+            spnLgnthStay.getText().clear();
+            spnHouseHold.getText().clear();
+            spnHouseType.getText().clear();
+            rgOwnsership.clearCheck();
+            rgGarage .clearCheck();
+        }
+
+    }
     private class OnHouseOwnershipSelectListener implements RadioGroup.OnCheckedChangeListener {
 
         @Override
@@ -375,13 +499,13 @@ public class Activity_ComakerResidence extends AppCompatActivity {
                     lnOtherInfo.setVisibility(View.VISIBLE);
                     tilRelationship.setVisibility(View.GONE);
                     mViewModel.getModel().setHouseOwn("1");
-                    mViewModel.getModel().setLenghtOfStay(Double.parseDouble(Objects.requireNonNull(txtLgnthStay.getText()).toString().trim()));
+//                    mViewModel.getModel().setLenghtOfStay(Double.parseDouble(Objects.requireNonNull(txtLgnthStay.getText()).toString().trim()));
                 }
                 if (i == R.id.rb_careTaker) {
                     lnOtherInfo.setVisibility(View.VISIBLE);
                     tilRelationship.setVisibility(View.VISIBLE);
                     mViewModel.getModel().setHouseOwn("2");
-                    mViewModel.getModel().setMonthlyExpenses(Double.parseDouble(Objects.requireNonNull(txtMonthlyExp.getText()).toString()));
+//                    mViewModel.getModel().setMonthlyExpenses(Double.parseDouble(Objects.requireNonNull(txtMonthlyExp.getText()).toString()));
 
                 }
             } else {

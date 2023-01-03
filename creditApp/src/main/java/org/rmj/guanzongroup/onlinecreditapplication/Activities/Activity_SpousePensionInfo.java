@@ -1,5 +1,6 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -17,11 +18,12 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
 
+import org.json.JSONException;
 import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.SpousePension;
-import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.OnParseListener;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMSpousePensionInfo;
@@ -54,6 +56,11 @@ public class Activity_SpousePensionInfo extends AppCompatActivity {
                     @Override
                     public void OnParse(Object args) {
                         SpousePension loDetail = (SpousePension) args;
+                        try {
+                            setUpFieldsFromLocalDB(loDetail);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 });
             }
@@ -131,6 +138,26 @@ public class Activity_SpousePensionInfo extends AppCompatActivity {
 
 
     }
+
+    @SuppressLint("NewApi")
+    public void setUpFieldsFromLocalDB(SpousePension foDetail) throws JSONException {
+        if (foDetail != null){
+            if(!foDetail.getPensionSector().isEmpty()){
+                spnSector.setText(CreditAppConstants.PENSION_SECTOR[Integer.parseInt(foDetail.getPensionSector())], false);
+                spnSector.setSelection(Integer.parseInt(foDetail.getPensionSector()));
+                mViewModel.getModel().setPensionSector(foDetail.getPensionSector());
+            }
+
+            txtPensionAmt.setText( !"".equalsIgnoreCase(String.valueOf(foDetail.getPensionIncomeRange())) ? String.valueOf(foDetail.getPensionIncomeRange()) : "");
+            txtRetirementYr.setText( !"".equalsIgnoreCase(String.valueOf(foDetail.getRetirementYear())) ? String.valueOf(foDetail.getRetirementYear()) : "");
+            txtOtherSrc.setText( !"".equalsIgnoreCase(String.valueOf(foDetail.getNatureOfIncome())) ? String.valueOf(foDetail.getNatureOfIncome()) : "");
+            txtOtherSrcInc.setText( !"".equalsIgnoreCase(String.valueOf(foDetail.getRangeOfIncome())) ? String.valueOf(foDetail.getRangeOfIncome()) : "");
+
+
+        }
+
+    }
+
 
     @Override
     public void finish() {

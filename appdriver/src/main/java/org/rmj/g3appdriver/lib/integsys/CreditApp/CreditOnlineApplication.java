@@ -34,11 +34,13 @@ import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.DependentsInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.DisbursementInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.EmploymentInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.FinancierInfo;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.MeansSelectionInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.OtherInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.PensionInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.PersonalInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.PropertiesInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.ResidenceInfo;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.ReviewLoanInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.SpouseBusinessInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.SpouseEmploymentInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.SpouseInfo;
@@ -461,6 +463,10 @@ public class CreditOnlineApplication {
                 return new CoMakerResidenceInfo(instance);
             case Application_Info:
                 return new ApplicationInfo(instance);
+            case Means_Info:
+                return new MeansSelectionInfo(instance);
+            case ReviewLoanInfo:
+                return new ReviewLoanInfo(instance);
             default:
                 return null;
         }

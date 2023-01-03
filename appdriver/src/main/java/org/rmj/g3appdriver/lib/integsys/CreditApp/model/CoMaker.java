@@ -113,7 +113,7 @@ public class CoMaker {
      * @return Use this get method to retrieve the UI preview of birthdate.
      */
     public String getBirthDte() {
-        return FormatUIText.formatGOCasBirthdate(BrthDate);
+        return BrthDate;
     }
 
     public void setBrthDate(String brthDate) {

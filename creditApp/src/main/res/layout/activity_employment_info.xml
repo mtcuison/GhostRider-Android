@@ -68,38 +68,52 @@
             <!--        Government Sector-->
             <LinearLayout
                 android:id="@+id/linear_governmentSector"
-                android:layout_width="55dp"
-                android:layout_height="73dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="gone">
+                android:visibility="visible">
 
-                <TextView
-                    style="@style/HeaderLabelBlack"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/sLabelUniformPersonnel" />
+                    android:orientation="horizontal">
+                    <TextView
+                        style="@style/HeaderLabelBlack1"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".5"
+                        android:text="@string/sLabelUniformPersonnel" />
 
-                <CheckBox
-                    android:id="@+id/cb_UniformPersonnelYes"
-                    style="@style/Widget.AppCompat.CompoundButton.CheckBox"
+                    <CheckBox
+                        android:id="@+id/cb_UniformPersonnelYes"
+                        style="@style/Widget.AppCompat.CompoundButton.CheckBox"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_weight="1.5"
+                        android:text="Yes" />
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:text="Yes" />
+                    android:orientation="horizontal">
+                    <TextView
+                        style="@style/HeaderLabelBlack1"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".5"
+                        android:text="@string/sLabelMilitaryPersonnel" />
 
-                <TextView
-                    style="@style/HeaderLabelBlack"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/sLabelMilitaryPersonnel" />
-
-                <CheckBox
-                    android:id="@+id/cb_MilitaryPersonalYes"
-                    style="@style/Widget.AppCompat.CompoundButton.CheckBox"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:text="Yes" />
+                    <CheckBox
+                        android:id="@+id/cb_MilitaryPersonalYes"
+                        style="@style/Widget.AppCompat.CompoundButton.CheckBox"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_weight="1.5"
+                        android:text="Yes" />
+                </LinearLayout>
 
 
             </LinearLayout>

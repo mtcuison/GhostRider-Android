@@ -1,5 +1,6 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -17,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
 
+import org.json.JSONException;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EBarangayInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
@@ -60,6 +62,11 @@ public class Activity_SpouseResidenceInfo extends AppCompatActivity {
                         @Override
                         public void OnParse(Object args) {
                             SpouseResidence loDetail = (SpouseResidence) args;
+                            try {
+                                setUpFieldsFromLocalDB(loDetail);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
                     });
                 } catch (Exception e) {
@@ -181,6 +188,50 @@ public class Activity_SpouseResidenceInfo extends AppCompatActivity {
 
         btnNext = findViewById(R.id.btn_creditAppNext);
         btnPrvs = findViewById(R.id.btn_creditAppPrvs);
+
+    }
+
+    @SuppressLint("NewApi")
+    public void setUpFieldsFromLocalDB(SpouseResidence infoModel) throws JSONException {
+        if(infoModel != null) {
+
+            if(!"".equalsIgnoreCase(infoModel.getLandMark())){
+                txtLandMark.setText(infoModel.getLandMark());
+            }
+            if(!"".equalsIgnoreCase(infoModel.getHouseNox())){
+                txtHouseNox.setText(infoModel.getHouseNox());
+            }
+
+            if(!"".equalsIgnoreCase(infoModel.getAddress1())){
+                txtAddress1.setText(infoModel.getAddress1());
+
+            }
+            if(!"".equalsIgnoreCase(infoModel.getAddress2())){
+                txtAddress2.setText(infoModel.getAddress2());
+            }
+
+            if(!"".equalsIgnoreCase(infoModel.getMunicipalID())) {
+                txtTown.setText(infoModel.getMunicipalNm());
+                mViewModel.getModel().setMunicipalID(infoModel.getMunicipalID());
+                mViewModel.getModel().setMunicipalNm(infoModel.getMunicipalNm());
+            }
+
+            if(!"".equalsIgnoreCase(infoModel.getBarangayID())) {
+                txtBarangay.setText(infoModel.getBarangayName());
+                mViewModel.getModel().setBarangayID(infoModel.getBarangayID());
+                mViewModel.getModel().setBarangayName(infoModel.getBarangayName());
+            }
+
+
+        }else{
+            txtLandMark.getText().clear();
+            txtHouseNox.getText().clear();
+            txtAddress1.getText().clear();
+            txtAddress2.getText().clear();
+            txtBarangay.getText().clear();
+            txtTown.getText().clear();
+
+        }
 
     }
 

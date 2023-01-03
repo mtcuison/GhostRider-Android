@@ -47,34 +47,40 @@ public class OtherInfo implements CreditApp {
     @Override
     public Object Parse(ECreditApplicantInfo args) {
         try{
-            String lsDetail = args.getOthrInfo();
-            GOCASApplication gocas = new GOCASApplication();
-            JSONParser loJson = new JSONParser();
-            JSONObject joDetail = (JSONObject) loJson.parse(lsDetail);
-            gocas.OtherInfo().setData(joDetail);
-
             OtherReference loDetail = new OtherReference();
-            loDetail.setSource(gocas.OtherInfo().getSourceInfo());
-            loDetail.setsUnitUser(gocas.OtherInfo().getUnitUser());
-            loDetail.setsUsr2Buyr(gocas.OtherInfo().getOtherUser());
-            loDetail.setsUnitPayr(gocas.OtherInfo().getUnitPayor());
-            loDetail.setsPyr2Buyr(gocas.OtherInfo().getPayorRelation());
-            loDetail.setsPurposex(gocas.OtherInfo().getPurpose());
-            loDetail.setSource(gocas.OtherInfo().getSourceInfo());
+            if (args.getOthrInfo() != null){
+                String lsDetail = args.getOthrInfo();
+                GOCASApplication gocas = new GOCASApplication();
+                JSONParser loJson = new JSONParser();
+                JSONObject joDetail = (JSONObject) loJson.parse(lsDetail);
+                gocas.OtherInfo().setData(joDetail);
 
-            JSONArray reference = (JSONArray) joDetail.get("personal_reference");
+                loDetail.setSource(gocas.OtherInfo().getSourceInfo());
+                loDetail.setsUnitUser(gocas.OtherInfo().getUnitUser());
+                loDetail.setsUsr2Buyr(gocas.OtherInfo().getOtherUser());
+                loDetail.setsUnitPayr(gocas.OtherInfo().getUnitPayor());
+                loDetail.setsPyr2Buyr(gocas.OtherInfo().getPayorRelation());
+                loDetail.setsPurposex(gocas.OtherInfo().getPurpose());
+                loDetail.setSource(gocas.OtherInfo().getSourceInfo());
 
-            for(int x = 0; x < reference.size(); x++){
-                JSONObject joRef = (JSONObject) reference.get(x);
-                loDetail.AddReference(new Reference(
-                        (String) joRef.get("sRefrNmex"),
-                        (String) joRef.get("sRefrMPNx"),
-                        (String) joRef.get("sRefrAddx"),
-                        (String) joRef.get("sRefrTown")));
+                JSONArray reference = (JSONArray) joDetail.get("personal_reference");
+
+                for(int x = 0; x < reference.size(); x++){
+                    JSONObject joRef = (JSONObject) reference.get(x);
+                    loDetail.AddReference(new Reference(
+                            (String) joRef.get("sRefrNmex"),
+                            (String) joRef.get("sRefrAddx"),
+                            (String) joRef.get("sRefrTown"),
+                            (String) joRef.get("sRefrMPNx")));
+                }
+
+                poDetail = loDetail;
             }
-
-            poDetail = loDetail;
             return loDetail;
+        } catch (NullPointerException e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return null;
         } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();

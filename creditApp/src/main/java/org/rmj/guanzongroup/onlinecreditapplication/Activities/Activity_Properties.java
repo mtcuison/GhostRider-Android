@@ -1,5 +1,6 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -14,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
 
+import org.json.JSONException;
 import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
@@ -51,6 +53,11 @@ public class Activity_Properties extends AppCompatActivity {
                         @Override
                         public void OnParse(Object args) {
                             Properties loDetail = (Properties) args;
+                            try {
+                                setUpFieldsFromLocalDB(loDetail);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
                     });
                 } catch (Exception e) {
@@ -122,7 +129,7 @@ public class Activity_Properties extends AppCompatActivity {
         mViewModel.SaveData(new OnSaveInfoListener() {
             @Override
             public void OnSave(String args) {
-                Intent loIntent = new Intent(Activity_Properties.this, Activity_CoMaker.class);
+                Intent loIntent = new Intent(Activity_Properties.this, Activity_OtherInfo.class);
                 loIntent.putExtra("sTransNox", args);
                 startActivity(loIntent);
                 overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
@@ -148,7 +155,6 @@ public class Activity_Properties extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Properties Info");
 
-
         txtLot1 = findViewById(R.id.tie_cap_propertyLot1);
         txtLot2 = findViewById(R.id.tie_cap_propertyLot2);
         txtLot3 = findViewById(R.id.tie_cap_propertyLot3);
@@ -163,6 +169,96 @@ public class Activity_Properties extends AppCompatActivity {
         btnPrvs = findViewById(R.id.btn_creditAppPrvs);
         btnNext = findViewById(R.id.btn_creditAppNext);
     }
+
+    @SuppressLint("NewApi")
+    public void setUpFieldsFromLocalDB(Properties infoModel) throws JSONException {
+        if(infoModel != null) {
+            txtLot1.setText(!"".equalsIgnoreCase(String.valueOf(infoModel.getPsLot1Addx())) ? String.valueOf(infoModel.getPsLot1Addx()) : "");
+            txtLot2.setText(!"".equalsIgnoreCase(String.valueOf(infoModel.getPsLot2Addx())) ? String.valueOf(infoModel.getPsLot2Addx()) : "");
+            txtLot3.setText(!"".equalsIgnoreCase(String.valueOf(infoModel.getPsLot3Addx())) ? String.valueOf(infoModel.getPsLot3Addx()) : "");
+            if(infoModel.getPs4Wheelsx().equalsIgnoreCase("1")) {
+                mViewModel.getModel().setPs4Wheelsx("1");
+                cb4Wheels.setChecked(true);
+            }
+            if(infoModel.getPs3Wheelsx().equalsIgnoreCase("1")) {
+                mViewModel.getModel().setPs3Wheelsx("1");
+                cb3Wheels.setChecked(true);
+            }
+            if(infoModel.getPs2Wheelsx().equalsIgnoreCase("1")) {
+                mViewModel.getModel().setPs2Wheelsx("1");
+                cb2Wheels.setChecked(true);
+            }
+            if(infoModel.getPsAirConxx().equalsIgnoreCase("1")){
+                mViewModel.getModel().setPsAirConxx("1");
+                cbAircon.setChecked(true);
+            }
+
+            if(infoModel.getPsFridgexx().equalsIgnoreCase("1")){
+                mViewModel.getModel().setPsFridgexx("1");
+                cbRefxx.setChecked(true);
+            }
+            if(infoModel.getPsTelevsnx().equalsIgnoreCase("1")){
+                mViewModel.getModel().setPsTelevsnx("1");
+                cbTelevsn.setChecked(true);
+            }
+//
+//            if(infoModel.getPsLot1Addx() != null){
+//                txtLot1.setText(!"".equalsIgnoreCase(String.valueOf(infoModel.getPsLot1Addx())) ? String.valueOf(infoModel.getPsLot1Addx()) : "");
+//            }
+//            if(infoModel.getPsLot2Addx() != null){
+//                txtLot2.setText(!"".equalsIgnoreCase(String.valueOf(infoModel.getPsLot2Addx())) ? String.valueOf(infoModel.getPsLot2Addx()) : "");
+//            }
+//            if(infoModel.getPsLot3Addx() != null){
+//                txtLot3.setText(!"".equalsIgnoreCase(String.valueOf(infoModel.getPsLot3Addx())) ? String.valueOf(infoModel.getPsLot3Addx()) : "");
+//            }
+//            if(infoModel.getPs4Wheelsx() != null){
+//                if(infoModel.getPs4Wheelsx().equalsIgnoreCase("1")) {
+//                    cb4Wheels.setChecked(true);
+//                }
+//            }
+//            if(infoModel.getPs3Wheelsx() != null){
+//                if(infoModel.getPs3Wheelsx().equalsIgnoreCase("1")) {
+//                    cb3Wheels.setChecked(true);
+//                }
+//            }
+//            if(infoModel.getPs2Wheelsx() != null){
+//                if(infoModel.getPs2Wheelsx().equalsIgnoreCase("1")) {
+//                    cb2Wheels.setChecked(true);
+//                }
+//            }
+//
+//            if(infoModel.getPsAirConxx() != null){
+//                if(infoModel.getPsAirConxx().equalsIgnoreCase("1")){
+//                    cbAircon.setChecked(true);
+//                }
+//            }
+//            if(infoModel.getPsFridgexx() != null){
+//                if(infoModel.getPsFridgexx().equalsIgnoreCase("1")){
+//                    cbRefxx.setChecked(true);
+//                }
+//            }
+//
+//            if(infoModel.getPsTelevsnx() != null){
+//
+//                if(infoModel.getPsTelevsnx().equalsIgnoreCase("1")){
+//                    cbTelevsn.setChecked(true);
+//                }
+//            }
+
+        } else {
+            txtLot1.getText().clear();
+            txtLot2.getText().clear();
+            txtLot3.getText().clear();
+            cb4Wheels.setChecked(false);
+            cb3Wheels.setChecked(false);
+            cb2Wheels.setChecked(false);
+            cbAircon.setChecked(false);
+            cbRefxx.setChecked(false);
+            cbTelevsn.setChecked(false);
+        }
+
+    }
+
 
     @Override
     public void finish() {

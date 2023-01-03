@@ -1,5 +1,6 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -17,11 +18,12 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
 
+import org.json.JSONException;
 import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Pension;
-import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.OnParseListener;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMPensionInfo;
@@ -56,10 +58,17 @@ public class Activity_PensionInfo extends AppCompatActivity {
             public void onChanged(ECreditApplicantInfo app) {
                 try {
                     mViewModel.getModel().setTransNox(app.getTransNox());
+                    mViewModel.getModel().setcMeanInfo(app.getAppMeans());
+                    mViewModel.setCvlStatus(app.getIsSpouse());
                     mViewModel.ParseData(app, new OnParseListener() {
                         @Override
                         public void OnParse(Object args) {
                             Pension loDetail = (Pension) args;
+                            try {
+                                setUpFieldsFromLocalDB(loDetail);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
                     });
                 } catch (Exception e) {
@@ -101,8 +110,13 @@ public class Activity_PensionInfo extends AppCompatActivity {
         mViewModel.SaveData(new OnSaveInfoListener() {
             @Override
             public void OnSave(String args) {
-
-                Intent loIntent = new Intent(Activity_PensionInfo.this, Activity_SpouseInfo.class);
+                Intent loIntent;
+                if(mViewModel.getCvlStatus().equalsIgnoreCase("1") ||
+                        mViewModel.getCvlStatus().equalsIgnoreCase("5")){
+                    loIntent = new Intent(Activity_PensionInfo.this, Activity_SpouseInfo.class);
+                }else{
+                    loIntent = new Intent(Activity_PensionInfo.this, Activity_DisbursementInfo.class);
+                }
                 loIntent.putExtra("sTransNox", args);
                 startActivity(loIntent);
                 overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
@@ -136,6 +150,26 @@ public class Activity_PensionInfo extends AppCompatActivity {
 
         btnPrvs = findViewById(R.id.btn_creditAppPrvs);
         btnNext = findViewById(R.id.btn_creditAppNext);
+
+    }
+
+    @SuppressLint("NewApi")
+    public void setUpFieldsFromLocalDB(Pension foDetail) throws JSONException {
+        if (foDetail != null){
+            if(!foDetail.getPensionSector().isEmpty()){
+                spnSector.setText(CreditAppConstants.PENSION_SECTOR[Integer.parseInt(foDetail.getPensionSector())], false);
+                spnSector.setSelection(Integer.parseInt(foDetail.getPensionSector()));
+                sectorPosition = foDetail.getPensionSector();
+                mViewModel.getModel().setPensionSector(foDetail.getPensionSector());
+            }
+
+            txtRangxx.setText(!"".equalsIgnoreCase(String.valueOf(foDetail.getPensionIncomeRange())) ? String.valueOf(foDetail.getPensionIncomeRange()) : "");
+            txtYearxx.setText(!"".equalsIgnoreCase(String.valueOf(foDetail.getRetirementYear())) ? String.valueOf(foDetail.getRetirementYear()) : "");
+            txtOthInc.setText(!"".equalsIgnoreCase(String.valueOf(foDetail.getNatureOfIncome())) ? String.valueOf(foDetail.getNatureOfIncome()) : "");
+            txtRngInc.setText(!"".equalsIgnoreCase(String.valueOf(foDetail.getRangeOfIncome())) ? String.valueOf(foDetail.getRangeOfIncome()) : "");
+
+
+        }
 
     }
 

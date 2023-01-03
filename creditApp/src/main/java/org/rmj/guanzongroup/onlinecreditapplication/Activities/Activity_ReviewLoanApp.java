@@ -1,31 +1,50 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.rmj.g3appdriver.etc.FormatUIText;
+import org.rmj.g3appdriver.etc.MessageBox;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditAppConstants;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.MobileNo;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Personal;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.ReviewAppDetail;
+import org.rmj.guanzongroup.onlinecreditapplication.Adapter.LoanAppDetailReviewAdapter;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
+import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.OnParseListener;
+import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMComakerResidence;
+import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMPersonalInfo;
+import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMReviewLoanApp;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Activity_ReviewLoanApp extends AppCompatActivity {
 
     private String TransNox;
     private TextView lblClientNm;
-    private ListView recyclerView;
+//    private ListView recyclerView;
+    private RecyclerView recyclerView;
     private ImageView imgClient;
     private ImageButton btnCamera;
     private Button btnSave, btnPrvs;
@@ -35,21 +54,45 @@ public class Activity_ReviewLoanApp extends AppCompatActivity {
 //    private ImageFileCreator poCamera;
 //    private EImageInfo poImage;
 //    private LoadDialog poDialogx;
-//    private MessageBox poMessage;
+    private MessageBox poMessage;
 
+    private VMReviewLoanApp mViewModel;
     private Toolbar toolbar;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mViewModel = new ViewModelProvider(Activity_ReviewLoanApp.this).get(VMReviewLoanApp.class);
+        poMessage = new MessageBox(Activity_ReviewLoanApp.this);
         setContentView(R.layout.activity_review_loan_app);
         initWidgets();
+        mViewModel.InitializeApplication(getIntent());
+
+        mViewModel.GetApplication().observe(Activity_ReviewLoanApp.this, app -> {
+            try {
+                mViewModel.getModel().GetApplication(app.getTransNox());
+                mViewModel.ParseData(app, new OnParseListener() {
+                    @Override
+                    public void OnParse(Object args) {
+                        List<ReviewAppDetail> loDetail =  (List<ReviewAppDetail>) args;
+                        try {
+                            setUpFieldsFromLocalDB(loDetail);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
 
 
 
         btnPrvs.setOnClickListener(v -> finish());
     }
+
 
     private void initWidgets() {
         toolbar = findViewById(R.id.toolbar_ReviewLoanApp);
@@ -89,6 +132,19 @@ public class Activity_ReviewLoanApp extends AppCompatActivity {
             startActivity(intent);
             finish();
         });
+
+    }
+
+
+    @SuppressLint("NewApi")
+    public void setUpFieldsFromLocalDB(List<ReviewAppDetail> infoList) throws JSONException {
+        LoanAppDetailReviewAdapter loAdapter = new LoanAppDetailReviewAdapter(infoList, () -> {
+
+        });
+        LinearLayoutManager loManager = new LinearLayoutManager(Activity_ReviewLoanApp.this);
+        loManager.setOrientation(RecyclerView.VERTICAL);
+        recyclerView.setLayoutManager(loManager);
+        recyclerView.setAdapter(loAdapter);
 
     }
 

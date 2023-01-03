@@ -94,6 +94,10 @@ public class VMEmploymentInfo extends AndroidViewModel implements CreditAppUI {
                 }
 
                 return loDetail;
+            } catch (NullPointerException e){
+                e.printStackTrace();
+                message = e.getMessage();
+                return null;
             } catch (Exception e){
                 e.printStackTrace();
                 message = e.getMessage();

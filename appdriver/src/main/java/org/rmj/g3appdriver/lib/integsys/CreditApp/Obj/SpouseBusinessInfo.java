@@ -45,40 +45,42 @@ public class SpouseBusinessInfo implements CreditApp {
     @Override
     public Object Parse(ECreditApplicantInfo args) {
         try{
-            String lsDetail = args.getSpsBusnx();
-            GOCASApplication gocas = new GOCASApplication();
-            JSONParser loJson = new JSONParser();
-            JSONObject joDetail = (JSONObject) loJson.parse(lsDetail);
-            gocas.SpouseMeansInfo().SelfEmployedInfo().setData(joDetail);
-
             SpouseBusiness loDetail = new SpouseBusiness();
+            if(args.getSpsBusnx() != null){
+                String lsDetail = args.getSpsBusnx();
+                GOCASApplication gocas = new GOCASApplication();
+                JSONParser loJson = new JSONParser();
+                JSONObject joDetail = (JSONObject) loJson.parse(lsDetail);
+                gocas.SpouseMeansInfo().SelfEmployedInfo().setData(joDetail);
 
-            loDetail.setNatureOfBusiness(gocas.SpouseMeansInfo().SelfEmployedInfo().getNatureOfBusiness());
-            loDetail.setNameOfBusiness(gocas.SpouseMeansInfo().SelfEmployedInfo().getNameOfBusiness());
-            loDetail.setBusinessAddress(gocas.SpouseMeansInfo().SelfEmployedInfo().getBusinessAddress());
 
-            String lsTown = gocas.SpouseMeansInfo().SelfEmployedInfo().getBusinessTown();
+                loDetail.setNatureOfBusiness(gocas.SpouseMeansInfo().SelfEmployedInfo().getNatureOfBusiness());
+                loDetail.setNameOfBusiness(gocas.SpouseMeansInfo().SelfEmployedInfo().getNameOfBusiness());
+                loDetail.setBusinessAddress(gocas.SpouseMeansInfo().SelfEmployedInfo().getBusinessAddress());
 
-            DTownInfo.TownProvinceName loTown = poTown.getTownProvinceName(lsTown);
+                String lsTown = gocas.SpouseMeansInfo().SelfEmployedInfo().getBusinessTown();
 
-            loDetail.setTown(lsTown);
-            loDetail.setTypeOfBusiness(gocas.SpouseMeansInfo().SelfEmployedInfo().getBusinessType());
-            loDetail.setSizeOfBusiness(gocas.SpouseMeansInfo().SelfEmployedInfo().getOwnershipSize());
+                DTownInfo.TownProvinceName loTown = poTown.getTownProvinceName(lsTown);
 
-            double lnLength = gocas.SpouseMeansInfo().SelfEmployedInfo().getBusinessLength();
+                loDetail.setTown(lsTown);
+                loDetail.setTypeOfBusiness(gocas.SpouseMeansInfo().SelfEmployedInfo().getBusinessType());
+                loDetail.setSizeOfBusiness(gocas.SpouseMeansInfo().SelfEmployedInfo().getOwnershipSize());
 
-            if(lnLength % 1 == 0){
-                loDetail.setIsYear("1");
-            } else {
-                loDetail.setIsYear("0");
+                double lnLength = gocas.SpouseMeansInfo().SelfEmployedInfo().getBusinessLength();
+
+                if(lnLength % 1 == 0){
+                    loDetail.setIsYear("1");
+                } else {
+                    loDetail.setIsYear("0");
+                }
+
+                loDetail.setLengthOfService(gocas.SpouseMeansInfo().SelfEmployedInfo().getBusinessLength());
+                loDetail.setMonthlyExpense(gocas.SpouseMeansInfo().SelfEmployedInfo().getMonthlyExpense());
+                loDetail.setMonthlyIncome(gocas.SpouseMeansInfo().SelfEmployedInfo().getIncome());
+
+                poDetail = loDetail;
+
             }
-
-            loDetail.setLengthOfService(gocas.SpouseMeansInfo().SelfEmployedInfo().getBusinessLength());
-            loDetail.setMonthlyExpense(gocas.SpouseMeansInfo().SelfEmployedInfo().getMonthlyExpense());
-            loDetail.setMonthlyIncome(gocas.SpouseMeansInfo().SelfEmployedInfo().getIncome());
-
-            poDetail = loDetail;
-
             return loDetail;
         } catch (Exception e){
             e.printStackTrace();

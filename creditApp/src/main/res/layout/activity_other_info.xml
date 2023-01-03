@@ -271,65 +271,22 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <LinearLayout
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_cap_referenceAddTown"
+                    style="@style/TextInputStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    tools:ignore="DisableBaselineAlignment">
+                    android:hint="@string/sHintTown">
 
-<!--                    <com.google.android.material.textfield.TextInputLayout-->
-<!--                        android:id="@+id/til_cap_referenceAddProv"-->
-<!--                        style="@style/TextInputStyle"-->
-<!--                        android:layout_width="0dp"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_weight=".5"-->
-<!--                        android:hint="@string/sHintProvince"-->
-<!--                        android:textColorHint="@color/guanzon_dark_grey"-->
-<!--                        tools:ignore="HardcodedText">-->
-
-<!--                        <AutoCompleteTextView-->
-<!--                            android:id="@+id/tie_cap_referenceAddProv"-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:imeOptions="actionNext"-->
-<!--                            android:inputType="textAutoComplete|textAutoCorrect|textCapWords"-->
-<!--                            android:maxLength="20"-->
-<!--                            android:nextFocusForward="@id/tie_cap_referenceAddTown"-->
-<!--                            android:paddingStart="10dp"-->
-<!--                            android:paddingLeft="10dp"-->
-<!--                            android:paddingTop="10dp"-->
-<!--                            android:paddingBottom="10dp"-->
-<!--                            android:textColor="@color/material_black"-->
-<!--                            tools:ignore="LabelFor,RtlSymmetry" />-->
-
-<!--                    </com.google.android.material.textfield.TextInputLayout>-->
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/til_cap_referenceAddTown"
-                        style="@style/TextInputStyle"
-                        android:layout_width="0dp"
+                    <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                        android:id="@+id/tie_cap_referenceAddTown"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight=".5"
-                        android:hint="@string/sHintTown"
-                        android:textColorHint="@color/guanzon_dark_grey"
-                        tools:ignore="HardcodedText">
-
-                        <AutoCompleteTextView
-                            android:id="@+id/tie_cap_referenceAddTown"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:imeOptions="actionDone"
-                            android:inputType="textAutoComplete|textAutoCorrect|textCapWords"
-                            android:maxLength="20"
-                            android:paddingStart="10dp"
-                            android:paddingLeft="10dp"
-                            android:paddingTop="10dp"
-                            android:paddingBottom="10dp"
-                            android:textColor="@color/material_black"
-                            tools:ignore="LabelFor,RtlSymmetry" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                </LinearLayout>
+                        android:imeOptions="actionDone"
+                        android:inputType="textPersonName|textCapWords"
+                        android:maxLength="100"
+                        android:padding="16dp" />
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_fragment_others_addReference"

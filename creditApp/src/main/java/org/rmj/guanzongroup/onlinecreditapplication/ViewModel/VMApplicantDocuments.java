@@ -70,10 +70,14 @@ public class VMApplicantDocuments extends AndroidViewModel {
                 }
 
                 return true;
-            } catch (Exception e){
+            } catch (NullPointerException e){
                 e.printStackTrace();
                 message = e.getMessage();
-                return false;
+                return null;
+            }catch (Exception e){
+                e.printStackTrace();
+                message = e.getMessage();
+                return null;
             }
         }
 

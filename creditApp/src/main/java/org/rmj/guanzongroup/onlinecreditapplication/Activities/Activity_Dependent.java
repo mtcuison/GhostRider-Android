@@ -1,5 +1,6 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -22,15 +23,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
+import org.json.JSONException;
 import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Dependent;
-import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.OnParseListener;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMDependent;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Activity_Dependent extends AppCompatActivity {
@@ -77,6 +81,11 @@ public class Activity_Dependent extends AppCompatActivity {
                         @Override
                         public void OnParse(Object args) {
                             Dependent loDetail = (Dependent) args;
+                            try {
+                                setUpFieldsFromLocalDB(loDetail);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
                     });
                 } catch (Exception e) {
@@ -177,6 +186,26 @@ public class Activity_Dependent extends AppCompatActivity {
             actEmploymentType.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
 
         });
+    }
+
+
+    @SuppressLint("NewApi")
+    public void setUpFieldsFromLocalDB(Dependent infoModel) throws JSONException {
+        if(infoModel != null) {
+            if(infoModel.getDependentList().size() > 0) {
+                List<Dependent.DependentInfo> poDependnt = new ArrayList<>();
+                for (int x = 0; x < infoModel.getDependentList().size(); x++) {
+                    Dependent.DependentInfo loDependnt = infoModel.getDependentList().get(x);
+                    if (!loDependnt.isDataValid()) {
+                        poDependnt.remove(x);
+                    } else {
+                        poDependnt.add(loDependnt);
+                    }
+                    ;
+                }
+            }
+        }
+
     }
 
     @Override

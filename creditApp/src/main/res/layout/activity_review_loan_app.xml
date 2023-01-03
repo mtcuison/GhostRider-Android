@@ -40,8 +40,8 @@
             <ImageView
                 android:id="@+id/img_loanApplicant"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-<!--            android:src="@drawable/ic_user_profile"-->
+                android:layout_height="wrap_content"
+            android:src="@drawable/ic_user_profile"/>
 
             <ImageButton
                 android:id="@+id/btn_camera"
@@ -54,8 +54,8 @@
                 android:layout_marginEnd="-24dp"
                 android:layout_marginRight="-24dp"
                 android:layout_marginBottom="-1dp"
+                android:src="@drawable/ic_camera_black_24"
                 app:tint="@color/guanzon_orange" />
-<!--            android:src="@drawable/ic_camera"-->
 
         </RelativeLayout>
 
