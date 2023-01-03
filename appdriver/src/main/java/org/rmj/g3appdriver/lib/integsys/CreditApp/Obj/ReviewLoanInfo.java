@@ -557,7 +557,7 @@ public class ReviewLoanInfo implements CreditApp {
             loListDetl.add(new ReviewAppDetail(false, "", "Unit User", parseUnitUser(loDisb.get("sUnitUser").toString())));
             loListDetl.add(new ReviewAppDetail(false, "", "Unit Payer", parseUnitPayor(loDisb.get("sUnitPayr").toString())));
             loListDetl.add(new ReviewAppDetail(false, "", "Purpose ", parseUnitPurpose(loDisb.get("sPurposex").toString())));
-            loListDetl.add(new ReviewAppDetail(false, "", "Source Info", loDisb.get("sSrceInfo").toString()));
+            loListDetl.add(new ReviewAppDetail(false, "", "Source Info",  parseUnitUser(loDisb.get("sSrceInfo").toString())));
 
             loListDetl.add(new ReviewAppDetail(true, "Personal References", "", ""));
             for (int x = 0; x < loArray.length(); x++) {
@@ -826,6 +826,7 @@ public class ReviewLoanInfo implements CreditApp {
     String parseUnitPurpose(String value){
         return CreditAppConstants.UNIT_PURPOSE[Integer.parseInt(value)];
     }
+
     String parseDpdntRelationship(String value){
         return CreditAppConstants.DEPENDENT_RELATIONSHIP[Integer.parseInt(value)];
     }
