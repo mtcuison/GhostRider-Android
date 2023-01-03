@@ -213,7 +213,10 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
         txtRebate.setOnFocusChangeListener((v, hasFocus) -> {
             if(!hasFocus) {
                 if (!Objects.requireNonNull(txtRebate.getText()).toString().isEmpty()) {
-                    mViewModel.setRebate(Double.valueOf(txtRebate.getText().toString().replace(",", "")));
+                    double lnInput = Double.valueOf(txtRebate.getText().toString().replace(",", ""));
+                    if(!mViewModel.setRebate(lnInput)){
+                        txtRebate.setText("0.0");
+                    }
                 } else {
                     mViewModel.setRebate(0.00);
                 }

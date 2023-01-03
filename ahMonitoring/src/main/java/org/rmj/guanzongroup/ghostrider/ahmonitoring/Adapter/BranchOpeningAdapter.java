@@ -64,7 +64,7 @@ public class BranchOpeningAdapter extends RecyclerView.Adapter<BranchOpeningAdap
         holder.lblTimeOpened.setText(loMonitor.sOpenNowx);
 
         DateTimeFormatter format = new DateTimeFormatterBuilder()
-                .appendPattern("hh:mm:ss a")
+                .appendPattern("HH:mm a")
                 .parseCaseInsensitive()
                 .parseLenient()
                 .toFormatter();

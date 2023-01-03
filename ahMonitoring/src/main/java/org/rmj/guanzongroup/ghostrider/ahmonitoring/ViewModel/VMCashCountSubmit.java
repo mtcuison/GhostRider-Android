@@ -55,6 +55,7 @@ public class VMCashCountSubmit extends AndroidViewModel {
     public interface OnSaveCashCountCallBack{
         void OnSaving();
         void OnSuccess();
+        void OnSaveToLocal(String message);
         void OnFailed(String message);
     }
 
@@ -117,23 +118,9 @@ public class VMCashCountSubmit extends AndroidViewModel {
 
     public void SaveCashCount(JSONObject foVal, OnSaveCashCountCallBack callback) {
         new SaveCashCountTask(callback).execute(foVal);
-//        try {
-//
-//            new UpdateTask(poCashCount, infoModel, jsonObject,callback).execute();
-//            return true;
-//        } catch (NullPointerException e) {
-//            e.printStackTrace();
-////            callback.OnFailedResult(e.getMessage());
-//            callback.onSaveCashCountFailed("NullPointerException error");
-//            return false;
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            callback.onSaveCashCountFailed("Exception error");
-//            return false;
-//        }
     }
 
-    private class SaveCashCountTask extends AsyncTask<JSONObject, Void, Boolean>{
+    private class SaveCashCountTask extends AsyncTask<JSONObject, Void, Integer>{
 
         private final OnSaveCashCountCallBack callBack;
 
@@ -150,33 +137,39 @@ public class VMCashCountSubmit extends AndroidViewModel {
         }
 
         @Override
-        protected Boolean doInBackground(JSONObject... entries) {
+        protected Integer doInBackground(JSONObject... entries) {
             String lsResult = poSys.SaveCashCount(entries[0]);
             if (lsResult == null){
                 message = poSys.getMessage();
-                return false;
+                return 0;
             }
 
             if(!poConn.isDeviceConnected()){
                 message = "Cash count entry has been save to local device.";
-                return false;
+                return 2;
             }
 
             if(!poSys.UploadCashCount(lsResult)){
                 message = poSys.getMessage();
-                return false;
+                return 0;
             }
 
-            return true;
+            return 1;
         }
 
         @Override
-        protected void onPostExecute(Boolean isSuccess) {
-            super.onPostExecute(isSuccess);
-            if(!isSuccess){
-                callBack.OnFailed(message);
-            } else {
-                callBack.OnSuccess();
+        protected void onPostExecute(Integer result) {
+            super.onPostExecute(result);
+            switch (result){
+                case 0:
+                    callBack.OnFailed(message);
+                    break;
+                case 1:
+                    callBack.OnSuccess();
+                    break;
+                case 2:
+                    callBack.OnSaveToLocal(message);
+                    break;
             }
         }
     }

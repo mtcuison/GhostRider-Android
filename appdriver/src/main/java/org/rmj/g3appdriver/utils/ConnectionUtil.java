@@ -38,7 +38,7 @@ public class ConnectionUtil {
     private final Context context;
     private String message;
 
-    private static final String LOCAL = "http://192.168.10.141/";
+    private static final String LOCAL = "http://192.168.10.15/";
     private static final String PRIMARY_LIVE = "https://restgk.guanzongroup.com.ph/";
     private static final String SECONDARY_LIVE = "https://restgk1.guanzongroup.com.ph/";
 
@@ -55,7 +55,7 @@ public class ConnectionUtil {
             message = "Please enable wifi or data to connect.";
             return false;
         } else {
-            String lsAddress = "";
+            String lsAddress;
             AppConfigPreference loConfig = AppConfigPreference.getInstance(context);
             boolean isTestCase = loConfig.getTestStatus();
             if(isTestCase){
@@ -122,10 +122,11 @@ public class ConnectionUtil {
         try
         {
             HttpURLConnection httpUrlConnection = (HttpURLConnection) new URL(
-                    lsAddress).openConnection();
+                    lsAddress).
+                    openConnection();
             httpUrlConnection.setRequestProperty("Connection", "close");
             httpUrlConnection.setRequestMethod("HEAD");
-            httpUrlConnection.setConnectTimeout(5000);
+            httpUrlConnection.setConnectTimeout(7000);
             int responseCode = httpUrlConnection.getResponseCode();
 
             return responseCode == HttpURLConnection.HTTP_OK;

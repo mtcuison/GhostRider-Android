@@ -16,6 +16,7 @@ import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
+import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DImageInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ETokenInfo;
@@ -324,17 +325,22 @@ public class RImageInfo {
      * @param fsVal transaction no of image needed to upload.
      * @return true if operation succeed, else false if operation fails. Call getMessage() to get error message.
      */
-    public boolean UploadImage(String fsVal){
+    public String UploadImage(String fsVal){
         try{
             if(poConfig.getTestStatus()){
                 message = "This feature is not available for testing...";
-                return true;
+                return "";
             }
 
             EImageInfo loDetail = poDao.GetImageInfo(fsVal);
             if(loDetail == null){
                 message = "Unable to find image to upload.";
-                return false;
+                return null;
+            }
+
+            if(loDetail.getSendStat() != null){
+                message = "Image is already uploaded.";
+                return fsVal;
             }
 
             String lsClient = poToken.GetClientToken();
@@ -342,7 +348,7 @@ public class RImageInfo {
             if(lsClient == null){
                 Log.e(TAG, poToken.getMessage());
                 message = "No generated client token to upload image.";
-                return false;
+                return null;
             }
 
             String lsAccess = poToken.GetAccessToken(lsClient);
@@ -350,7 +356,7 @@ public class RImageInfo {
             if(lsAccess == null){
                 Log.e(TAG, message);
                 message = "No generated access token to upload image.";
-                return false;
+                return null;
             }
 
             org.json.simple.JSONObject loUpload = WebFileServer.UploadFile(
@@ -366,22 +372,36 @@ public class RImageInfo {
 
             if (loUpload == null) {
                 message = "Server no response.";
-                return false;
+                return null;
             }
 
-            String lsImgResult = (String) loUpload.get("result");
-            if (lsImgResult.equalsIgnoreCase("error")) {
-                message = "Failed to upload image.";
-                return false;
+            JSONObject loResult = new JSONObject(loUpload.toJSONString());
+            if(loResult.has("result")){
+                String lsImgResult = (String) loUpload.get("result");
+                Log.e(TAG, loUpload.toJSONString());
+                if (lsImgResult.equalsIgnoreCase("error")) {
+                    JSONObject loError = loResult.getJSONObject("error");
+                    message = loError.getString("message");
+                    return null;
+                }
+            } else {
+                String lsImgResult = (String) loUpload.get("rhsult");
+                Log.e(TAG, loUpload.toJSONString());
+                if (lsImgResult.equalsIgnoreCase("error")) {
+                    JSONObject loError = loResult.getJSONObject("error");
+                    message = loError.getString("message");
+                    return null;
+                }
             }
+
 
             String lsTransnox = (String) loUpload.get("sTransNox");
             poDao.updateImageInfo(lsTransnox, new AppConstants().DATE_MODIFIED(), loDetail.getTransNox());
-            return true;
+            return lsTransnox;
         } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();
-            return false;
+            return null;
         }
     }
 

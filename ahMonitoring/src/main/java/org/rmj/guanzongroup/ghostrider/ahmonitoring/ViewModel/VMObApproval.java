@@ -159,18 +159,18 @@ public class VMObApproval extends AndroidViewModel {
         @Override
         protected Boolean doInBackground(OBApprovalInfo... obApprovalInfos) {
             try{
-                String lsTransNox = poSys.SaveApproval(obApprovalInfos[0]);
-                if(lsTransNox == null){
-                    message = poSys.getMessage();
-                    return false;
-                }
-
                 if(!poConn.isDeviceConnected()) {
                     message = poConn.getMessage() + " Your approval will be automatically send if device is reconnected to internet.";
                     return false;
                 }
 
-                if(!poSys.UploadApproval(lsTransNox)){
+                if(!poSys.UploadApproval(obApprovalInfos[0])){
+                    message = poSys.getMessage();
+                    return false;
+                }
+
+                String lsTransNox = poSys.SaveApproval(obApprovalInfos[0]);
+                if(lsTransNox == null){
                     message = poSys.getMessage();
                     return false;
                 }

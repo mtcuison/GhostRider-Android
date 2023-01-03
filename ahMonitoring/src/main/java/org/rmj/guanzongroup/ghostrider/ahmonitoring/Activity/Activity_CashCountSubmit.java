@@ -55,7 +55,8 @@ public class Activity_CashCountSubmit extends AppCompatActivity {
             txtDeliveryRcpt,
             txtPettyCashxxx,
             txtTotalSalesxx,
-            txtTransNox;
+            txtTransNox,
+            txtRemarksx;
     private Button btnSendToServer;
 
     private TextView lblBranch, lblAddxx;
@@ -140,6 +141,7 @@ public class Activity_CashCountSubmit extends AppCompatActivity {
                 params.put("dTransact", AppConstants.CURRENT_DATE);
                 params.put("dEntryDte", new AppConstants().DATE_MODIFIED);
                 params.put("sReqstdBy", EmployID);
+                params.put("sRemarksx", Objects.requireNonNull(txtRemarksx.getText()).toString());
                 
                 mViewModel.SaveCashCount(params, new VMCashCountSubmit.OnSaveCashCountCallBack() {
                     @Override
@@ -159,6 +161,25 @@ public class Activity_CashCountSubmit extends AppCompatActivity {
                             loIntent.putExtra("BranchCd", BranchCd);
                             startActivity(loIntent);
                             dialog.dismiss();
+                            Activity_CashCounter.getInstance().finish();
+                            finish();
+                        });
+                        poMessage.show();
+                    }
+
+                    @Override
+                    public void OnSaveToLocal(String message) {
+                        poDialogx.dismiss();
+                        poMessage.initDialog();
+                        poMessage.setTitle("Cast Count");
+                        poMessage.setMessage("Cash count has been saved successfully.");
+                        poMessage.setPositiveButton("Okay", (view, dialog) ->{
+                            Intent loIntent = new Intent(Activity_CashCountSubmit.this, Activity_Inventory.class);
+                            loIntent.putExtra("BranchCd", BranchCd);
+                            startActivity(loIntent);
+                            dialog.dismiss();
+                            Activity_CashCounter.getInstance().finish();
+                            finish();
                         });
                         poMessage.show();
                     }
@@ -201,6 +222,7 @@ public class Activity_CashCountSubmit extends AppCompatActivity {
         txtPettyCashxxx = findViewById(R.id.txtPettyCash);
         txtTotalSalesxx = findViewById(R.id.txtTotalSales);
         txtTransNox = findViewById(R.id.txtTransNox);
+        txtRemarksx = findViewById(R.id.txtccRemarks);
         btnSendToServer = findViewById(R.id.btnSendToServer);
         txtCurr_DateTime = findViewById(R.id.txtCurrentDateTime);
         txtRequestID = findViewById(R.id.txt_nameSearch);

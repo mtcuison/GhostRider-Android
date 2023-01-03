@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -14,23 +15,24 @@ import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 
 import java.util.Objects;
 
-public class DialogPostInventory {
-    private static final String TAG = DialogPostInventory.class.getSimpleName();
+public class DialogSelfieLogRemarks {
+    private static final String TAG = DialogSelfieLogRemarks.class.getSimpleName();
 
     private final Context mContext;
     private AlertDialog poDialog;
 
-    public DialogPostInventory(Context mContext) {
-        this.mContext = mContext;
+    public interface OnDialogRemarksEntry{
+        void OnConfirm(String args);
+        void OnCancel();
     }
 
-    public interface RemarksEntryCallback{
-        void OnConfirm(String Remarks);
+    public DialogSelfieLogRemarks(Context context) {
+        this.mContext = context;
     }
 
-    public void initDialog(RemarksEntryCallback callback){
+    public void initDialog(OnDialogRemarksEntry callback){
         AlertDialog.Builder poBuilder = new AlertDialog.Builder(mContext);
-        View view = LayoutInflater.from(mContext).inflate(R.layout.dialog_inventory_master_remarks, null);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.dialog_selfie_log_remarks, null);
         poBuilder.setCancelable(false)
                 .setView(view);
         poDialog = poBuilder.create();
@@ -40,10 +42,14 @@ public class DialogPostInventory {
         MaterialButton btnConfirm = view.findViewById(R.id.btn_confirm);
         MaterialButton btnCancel = view.findViewById(R.id.btn_cancel);
 
-
         btnConfirm.setOnClickListener(v -> {
             poDialog.dismiss();
             String lsRemarks = Objects.requireNonNull(txtRemarks.getText()).toString();
+            if(lsRemarks.isEmpty()){
+                Toast.makeText(mContext, "Please enter remarks", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             callback.OnConfirm(lsRemarks);
         });
 
