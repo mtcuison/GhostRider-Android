@@ -8,7 +8,9 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditApp;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditAppInstance;
@@ -16,6 +18,9 @@ import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditOnlineApplication;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Dependent;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Personal;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class VMDependent extends AndroidViewModel implements CreditAppUI {
     private static final String TAG = VMDependent.class.getSimpleName();
@@ -25,16 +30,51 @@ public class VMDependent extends AndroidViewModel implements CreditAppUI {
 
     private String TransNox;
 
+    private final MutableLiveData<List<Dependent.DependentInfo>> poList = new MutableLiveData<>();
+
     private String message;
+
+    public interface OnAddDependetListener{
+        void OnAdd(String args);
+        void OnFailed(String message);
+    }
 
     public VMDependent(@NonNull Application application) {
         super(application);
         this.poApp = new CreditOnlineApplication(application).getInstance(CreditAppInstance.Dependent_Info);
         this.poModel = new Dependent();
+        this.poList.setValue(new ArrayList<>());
     }
 
     public Dependent getModel() {
         return poModel;
+    }
+
+    public LiveData<List<Dependent.DependentInfo>> GetDependents(){
+        return poList;
+    }
+
+    public void addDependent(Dependent.DependentInfo args, OnAddDependetListener listener){
+        try{
+            if(!args.isDataValid()){
+                listener.OnFailed(args.getMessage());
+                return;
+            }
+
+            List<Dependent.DependentInfo> loList = poList.getValue();
+            loList.add(args);
+            poList.setValue(loList);
+            listener.OnAdd("Dependent Added!");
+        } catch (Exception e){
+            e.printStackTrace();
+            listener.OnFailed(e.getMessage());
+        }
+    }
+
+    public void removeDependent(int args){
+        List<Dependent.DependentInfo> loList = poList.getValue();
+        loList.remove(args);
+        poList.setValue(loList);
     }
 
     @Override
@@ -136,5 +176,9 @@ public class VMDependent extends AndroidViewModel implements CreditAppUI {
                 listener.OnSave(TransNox);
             }
         }
+    }
+
+    public LiveData<List<DTownInfo.TownProvinceInfo>> GetTownProvince(){
+        return poApp.GetTownProvinceList();
     }
 }

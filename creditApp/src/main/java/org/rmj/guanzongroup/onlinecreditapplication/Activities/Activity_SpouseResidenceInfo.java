@@ -44,6 +44,8 @@ public class Activity_SpouseResidenceInfo extends AppCompatActivity {
     private Button btnNext, btnPrvs;
     private Toolbar toolbar;
 
+    private String TransNox;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +59,7 @@ public class Activity_SpouseResidenceInfo extends AppCompatActivity {
             @Override
             public void onChanged(ECreditApplicantInfo app) {
                 try {
+                    TransNox = app.getTransNox();
                     mViewModel.getModel().setTransNox(app.getTransNox());
                     mViewModel.ParseData(app, new OnParseListener() {
                         @Override
@@ -140,7 +143,9 @@ public class Activity_SpouseResidenceInfo extends AppCompatActivity {
 
 
         btnNext.setOnClickListener(v -> SaveSpouseResidenceInfo());
-        btnPrvs.setOnClickListener(v -> finish());
+        btnPrvs.setOnClickListener(v -> {
+            returnPrevious();
+        });
     }
 
     private void SaveSpouseResidenceInfo() {
@@ -157,6 +162,7 @@ public class Activity_SpouseResidenceInfo extends AppCompatActivity {
                 loIntent.putExtra("sTransNox", args);
                 startActivity(loIntent);
                 overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
+                finish();
             }
 
             @Override
@@ -236,28 +242,30 @@ public class Activity_SpouseResidenceInfo extends AppCompatActivity {
     }
 
     @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
-    }
-
-    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            finish();
+            returnPrevious();
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onBackPressed() {
-        finish();
+        returnPrevious();
     }
 
     @Override
     protected void onDestroy() {
         getViewModelStore().clear();
         super.onDestroy();
+    }
+
+    private void returnPrevious(){
+        Intent loIntent = new Intent(Activity_SpouseResidenceInfo.this, Activity_SpouseInfo.class);
+        loIntent.putExtra("sTransNox", TransNox);
+        startActivity(loIntent);
+        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
+        finish();
     }
 
 }

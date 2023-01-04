@@ -26,6 +26,8 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import org.json.JSONException;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.ECountryInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.EOccupationInfo;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Employment;
@@ -64,6 +66,8 @@ public class Activity_EmploymentInfo extends AppCompatActivity {
             cbUniformYes, cbMilitaryYes;
     private Toolbar toolbar;
 
+    private String TransNox;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +78,7 @@ public class Activity_EmploymentInfo extends AppCompatActivity {
         mViewModel.InitializeApplication(getIntent());
         mViewModel.GetApplication().observe(Activity_EmploymentInfo.this, app -> {
             try {
+                TransNox = app.getTransNox();
                 mViewModel.getModel().setTransNox(app.getTransNox());
 
                 mViewModel.getModel().setcMeanInfo(app.getAppMeans());
@@ -102,7 +107,13 @@ public class Activity_EmploymentInfo extends AppCompatActivity {
 
 
         btnNext.setOnClickListener(v -> SaveEmploymentInfo());
-        btnPrvs.setOnClickListener(v -> finish());
+        btnPrvs.setOnClickListener(v -> {
+            Intent loIntent = new Intent(Activity_EmploymentInfo.this, Activity_MeansInfoSelection.class);
+            loIntent.putExtra("sTransNox", TransNox);
+            startActivity(loIntent);
+            overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
+            finish();
+        });
 
     }
 
@@ -136,6 +147,7 @@ public class Activity_EmploymentInfo extends AppCompatActivity {
                 loIntent.putExtra("sTransNox", args);
                 startActivity(loIntent);
                 overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
+                finish();
             }
 
             @Override
@@ -237,7 +249,6 @@ public class Activity_EmploymentInfo extends AppCompatActivity {
                     ArrayList<String> string = new ArrayList<>();
                     for (int x = 0; x < loList.size(); x++) {
                         String lsTown = loList.get(x).sTownName + ", " + loList.get(x).sProvName;
-//                        String lsTown =  loList.get(x).sProvName ;
                         string.add(lsTown);
                     }
 
@@ -262,6 +273,60 @@ public class Activity_EmploymentInfo extends AppCompatActivity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+            }
+        });
+
+        mViewModel.GetCountryList().observe(Activity_EmploymentInfo.this, loList -> {
+            try{
+                ArrayList<String> string = new ArrayList<>();
+                for (int x = 0; x < loList.size(); x++) {
+                    string.add(loList.get(x).getCntryNme());
+                }
+
+                ArrayAdapter<String> adapters = new ArrayAdapter<>(Activity_EmploymentInfo.this, android.R.layout.simple_spinner_dropdown_item, string.toArray(new String[0]));
+                txtCntryx.setAdapter(adapters);
+                txtCntryx.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+
+                txtCntryx.setOnItemClickListener((parent, view, position, id) -> {
+                    for (int x = 0; x < loList.size(); x++) {
+                        String lsLabel = loList.get(x).getCntryNme();
+                        String lsSlctd = txtCntryx.getText().toString().trim();
+                        if (lsSlctd.equalsIgnoreCase(lsLabel)) {
+                            mViewModel.getModel().setCountry(loList.get(x).getCntryCde());
+                            mViewModel.getModel().setsCountryN(lsLabel);
+                            break;
+                        }
+                    }
+                });
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+
+        mViewModel.GetOccupations().observe(Activity_EmploymentInfo.this, loList -> {
+            try{
+                ArrayList<String> string = new ArrayList<>();
+                for (int x = 0; x < loList.size(); x++) {
+                    string.add(loList.get(x).getOccptnNm());
+                }
+
+                ArrayAdapter<String> adapters = new ArrayAdapter<>(Activity_EmploymentInfo.this, android.R.layout.simple_spinner_dropdown_item, string.toArray(new String[0]));
+                txtJobNme.setAdapter(adapters);
+                txtJobNme.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+
+                txtJobNme.setOnItemClickListener((parent, view, position, id) -> {
+                    for (int x = 0; x < loList.size(); x++) {
+                        String lsLabel = loList.get(x).getOccptnNm();
+                        String lsSlctd = txtJobNme.getText().toString().trim();
+                        if (lsSlctd.equalsIgnoreCase(lsLabel)) {
+                            mViewModel.getModel().setCountry(loList.get(x).getOccptnID());
+                            mViewModel.getModel().setsCountryN(lsLabel);
+                            break;
+                        }
+                    }
+                });
+            } catch (Exception e){
+                e.printStackTrace();
             }
         });
 
@@ -430,14 +495,12 @@ public class Activity_EmploymentInfo extends AppCompatActivity {
     }
 
     @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
-    }
-
-    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
+            Intent loIntent = new Intent(Activity_EmploymentInfo.this, Activity_MeansInfoSelection.class);
+            loIntent.putExtra("sTransNox", TransNox);
+            startActivity(loIntent);
+            overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
             finish();
         }
         return super.onOptionsItemSelected(item);
@@ -445,6 +508,10 @@ public class Activity_EmploymentInfo extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        Intent loIntent = new Intent(Activity_EmploymentInfo.this, Activity_MeansInfoSelection.class);
+        loIntent.putExtra("sTransNox", TransNox);
+        startActivity(loIntent);
+        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
         finish();
     }
 

@@ -23,7 +23,7 @@ public class VMPensionInfo extends AndroidViewModel implements CreditAppUI {
 
     private final CreditApp poApp;
     private final Pension poModel;
-    private  String cvlStatus;
+    private String cvlStatus;
 
     private String TransNox;
 

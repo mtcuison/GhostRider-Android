@@ -106,7 +106,6 @@ public class PersonalInfo implements CreditApp {
 //                long lnPostYr = (long) mobile.get("nPostYear");
                     MobileNo mobileNo = new MobileNo();
                     if(x == 0) {
-
                         mobileNo.setMobileNo(gocas.ApplicantInfo().getMobileNo(x));
                         mobileNo.setIsPostPd((gocas.ApplicantInfo().IsMobilePostpaid(x)));
                         mobileNo.setPostYear(gocas.ApplicantInfo().getPostPaidYears(x));
@@ -194,24 +193,31 @@ public class PersonalInfo implements CreditApp {
             gocas.ApplicantInfo().setMaidenName(loDetail.getMotherNm());
             gocas.ApplicantInfo().setMobileNoQty(loDetail.getMobileNoQty());
 
-
-            gocas.ApplicantInfo().setMobileNoQty(1);
+            int lnMobQty = 1;
+            gocas.ApplicantInfo().setMobileNoQty(lnMobQty);
             gocas.ApplicantInfo().setMobileNo(0, loDetail.getMobileNo1().getMobileNo());
             gocas.ApplicantInfo().IsMobilePostpaid(0, loDetail.getMobileNo1().getIsPostPd());
             gocas.ApplicantInfo().setPostPaidYears(0, loDetail.getMobileNo1().getPostYear());
 
             if(loDetail.getMobileNo2() != null){
-                gocas.ApplicantInfo().setMobileNoQty(2);
-                gocas.ApplicantInfo().setMobileNo(1, loDetail.getMobileNo1().getMobileNo());
-                gocas.ApplicantInfo().IsMobilePostpaid(1, loDetail.getMobileNo1().getIsPostPd());
-                gocas.ApplicantInfo().setPostPaidYears(1, loDetail.getMobileNo1().getPostYear());
+                lnMobQty++;
             }
 
             if(loDetail.getMobileNo3() != null){
-                gocas.ApplicantInfo().setMobileNoQty(3);
-                gocas.ApplicantInfo().setMobileNo(2, loDetail.getMobileNo1().getMobileNo());
-                gocas.ApplicantInfo().IsMobilePostpaid(2, loDetail.getMobileNo1().getIsPostPd());
-                gocas.ApplicantInfo().setPostPaidYears(2, loDetail.getMobileNo1().getPostYear());
+                lnMobQty++;
+            }
+            gocas.ApplicantInfo().setMobileNoQty(lnMobQty);
+
+            if(loDetail.getMobileNo2() != null){
+                gocas.ApplicantInfo().setMobileNo(1, loDetail.getMobileNo2().getMobileNo());
+                gocas.ApplicantInfo().IsMobilePostpaid(1, loDetail.getMobileNo2().getIsPostPd());
+                gocas.ApplicantInfo().setPostPaidYears(1, loDetail.getMobileNo2().getPostYear());
+            }
+
+            if(loDetail.getMobileNo3() != null){
+                gocas.ApplicantInfo().setMobileNo(2, loDetail.getMobileNo3().getMobileNo());
+                gocas.ApplicantInfo().IsMobilePostpaid(2, loDetail.getMobileNo3().getIsPostPd());
+                gocas.ApplicantInfo().setPostPaidYears(2, loDetail.getMobileNo3().getPostYear());
             }
 
 //            for(int x = 0; x < loDetail.getMobileNoQty(); x++){
@@ -229,6 +235,8 @@ public class PersonalInfo implements CreditApp {
             gocas.ApplicantInfo().setFBAccount(loDetail.getFbAccntx());
             gocas.ApplicantInfo().setViberAccount(loDetail.getVbrAccnt());
 
+            loApp.setClientNm(gocas.ApplicantInfo().getClientName());
+            loApp.setBranchCd(gocas.PurchaseInfo().getPreferedBranch());
             loApp.setApplInfo(gocas.ApplicantInfo().toJSONString());
             loApp.setIsSpouse(loDetail.getCvlStats());
             poDao.Update(loApp);

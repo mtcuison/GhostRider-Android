@@ -48,13 +48,14 @@ public class Activity_ComakerResidence extends AppCompatActivity {
     private AutoCompleteTextView txtBarangay, txtMunicipality, txtProvince;
     private AutoCompleteTextView spnLgnthStay, spnHouseHold, spnHouseType;
 
-
     private RadioGroup rgOwnsership, rgGarage;
 
     private TextInputLayout tilRelationship;
     private LinearLayout lnOtherInfo;
     private Button btnNext, btnPrvs;
     private Toolbar toolbar;
+
+    private String TransNox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,142 +65,26 @@ public class Activity_ComakerResidence extends AppCompatActivity {
         setContentView(R.layout.activity_comaker_residence);
         initWidgets();
         mViewModel.InitializeApplication(getIntent());
-        mViewModel.GetApplication().observe(Activity_ComakerResidence.this, new Observer<ECreditApplicantInfo>() {
-            @Override
-            public void onChanged(ECreditApplicantInfo app) {
-                try {
-                    mViewModel.getModel().setTransNox(app.getTransNox());
-                    mViewModel.ParseData(app, new OnParseListener() {
-                        @Override
-                        public void OnParse(Object args) {
-                            CoMakerResidence loDetail = (CoMakerResidence) args;
-                            try {
-                                setUpFieldsFromLocalDB(loDetail);
-                                initSpinner();
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
+        mViewModel.GetApplication().observe(Activity_ComakerResidence.this, app -> {
+            try {
+                TransNox = app.getTransNox();
+                mViewModel.getModel().setTransNox(app.getTransNox());
+                mViewModel.ParseData(app, new OnParseListener() {
+                    @Override
+                    public void OnParse(Object args) {
+                        CoMakerResidence loDetail = (CoMakerResidence) args;
+                        try {
+                            setUpFieldsFromLocalDB(loDetail);
+                            initSpinner();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                    });
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         });
-
-//        mViewModel.GetTownProvinceList().observe(Activity_ComakerResidence.this, new Observer<List<DTownInfo.TownProvinceInfo>>() {
-//            @RequiresApi(api = Build.VERSION_CODES.N)
-//            @Override
-//            public void onChanged(List<DTownInfo.TownProvinceInfo> provList) {
-//                try {
-//                    ArrayList<String> strings = new ArrayList<>();
-//                    for (int x = 0; x < provList.size(); x++) {
-//                        String lsProv = "" + provList.get(x).sProvName;
-////                        String lsTown =  loList.get(x).sProvName ;
-//                        strings.add(lsProv);
-//
-//                        Set<Object> set = new HashSet<>();
-//                        strings.removeIf((String i) -> {
-//                            return !set.add(i);
-//                        });
-//                    }
-//
-//                    ArrayAdapter<String> adapter = new ArrayAdapter<>(Activity_ComakerResidence.this, android.R.layout.simple_spinner_dropdown_item, strings.toArray(new String[0]));
-//                    txtProvince.setAdapter(adapter);
-//                    txtProvince.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
-//                    txtProvince.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                        @Override
-//                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                            for (int x = 0; x < provList.size(); x++) {
-//                                String lsLabel = provList.get(x).sProvName;
-//                                String lsSlctd = txtProvince.getText().toString().trim();
-//                                if (lsSlctd.equalsIgnoreCase(lsLabel)) {
-//                                    mViewModel.getModel().setProvinceID(provList.get(x).sProvIDxx);
-//                                    mViewModel.getModel().setProvinceNm(lsLabel);
-//                                    break;
-//                                }
-//                            }
-//
-//
-//                            mViewModel.GetTownProvinceList().observe(Activity_ComakerResidence.this, new Observer<List<DTownInfo.TownProvinceInfo>>() {
-//                                @Override
-//                                public void onChanged(List<DTownInfo.TownProvinceInfo> townList) {
-//                                    try {
-//                                        ArrayList<String> string = new ArrayList<>();
-//                                        for (int x = 0; x < townList.size(); x++) {
-//                                            String lsTown = townList.get(x).sTownName + "";
-////                        String lsTown =  loList.get(x).sProvName ;
-//                                            string.add(lsTown);
-//                                            Set<Object> set = new HashSet<>();
-//                                            string.removeIf((String i) -> {
-//                                                return !set.add(i);
-//                                            });
-//
-//                                        }
-//
-//                                        ArrayAdapter<String> adapters = new ArrayAdapter<>(Activity_ComakerResidence.this, android.R.layout.simple_spinner_dropdown_item, string.toArray(new String[0]));
-//                                        txtMunicipality.setAdapter(adapters);
-//                                        txtMunicipality.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
-//                                        txtMunicipality.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                                            @Override
-//                                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                                                for (int x = 0; x < townList.size(); x++) {
-//                                                    String lsLabel = townList.get(x).sTownName;
-//                                                    String lsSlctd = txtMunicipality.getText().toString().trim();
-//                                                    if (lsSlctd.equalsIgnoreCase(lsLabel)) {
-//                                                        mViewModel.getModel().setMunicipalID(townList.get(x).sTownIDxx);
-//                                                        mViewModel.getModel().setMunicipalNm(lsLabel);
-//                                                        break;
-//                                                    }
-//                                                }
-//
-//                                                mViewModel.GetBarangayList(mViewModel.getModel().getMunicipalID()).observe(Activity_ComakerResidence.this, new Observer<List<EBarangayInfo>>() {
-//                                                    @Override
-//                                                    public void onChanged(List<EBarangayInfo> BrgyList) {
-//                                                        try {
-//                                                            ArrayList<String> string = new ArrayList<>();
-//                                                            for (int x = 0; x < BrgyList.size(); x++) {
-//                                                                String lsBrgy = BrgyList.get(x).getBrgyName();
-//                                                                string.add(lsBrgy);
-//                                                            }
-//                                                            ArrayAdapter<String> adapters = new ArrayAdapter<>(Activity_ComakerResidence.this,
-//                                                                    android.R.layout.simple_spinner_dropdown_item, string.toArray(new String[0]));
-//                                                            txtBarangay.setAdapter(adapters);
-//                                                            txtBarangay.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
-//                                                            txtBarangay.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                                                                @Override
-//                                                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                                                                    for (int x = 0; x < BrgyList.size(); x++) {
-//                                                                        String lsLabel = BrgyList.get(x).getBrgyName();
-//                                                                        String lsSlctd = txtBarangay.getText().toString().trim();
-//                                                                        if (lsSlctd.equalsIgnoreCase(lsLabel)) {
-//                                                                            mViewModel.getModel().setBarangayID(BrgyList.get(x).getBrgyIDxx());
-//                                                                            mViewModel.getModel().setBarangayName(lsLabel);
-//                                                                        }
-//                                                                    }
-//                                                                }
-//                                                            });
-//
-//                                                        } catch (Exception e) {
-//                                                            e.printStackTrace();
-//                                                        }
-//                                                    }
-//                                                });
-//                                            }
-//                                        });
-//
-//                                    } catch (Exception e) {
-//                                        e.printStackTrace();
-//                                    }
-//                                }
-//                            });
-//                        }
-//                    });
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        });e
 
         mViewModel.GetTownProvinceList().observe(Activity_ComakerResidence.this, new Observer<List<DTownInfo.TownProvinceInfo>>() {
             @Override
@@ -270,10 +155,10 @@ public class Activity_ComakerResidence extends AppCompatActivity {
             }
         });
 
-
-
         btnNext.setOnClickListener(v -> SaveComakerResidenceInfo());
-        btnPrvs.setOnClickListener(v -> finish());
+        btnPrvs.setOnClickListener(v -> {
+            returnPrevious();
+        });
     }
 
     private void SaveComakerResidenceInfo() {
@@ -292,6 +177,7 @@ public class Activity_ComakerResidence extends AppCompatActivity {
                 loIntent.putExtra("sTransNox", args);
                 startActivity(loIntent);
                 overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
+                finish();
             }
 
             @Override
@@ -520,27 +406,29 @@ public class Activity_ComakerResidence extends AppCompatActivity {
     }
 
     @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
-    }
-
-    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            finish();
+            returnPrevious();
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onBackPressed() {
-        finish();
+        returnPrevious();
     }
 
     @Override
     protected void onDestroy() {
         getViewModelStore().clear();
         super.onDestroy();
+    }
+
+    private void returnPrevious(){
+        Intent loIntent = new Intent(Activity_ComakerResidence.this, Activity_CoMaker.class);
+        loIntent.putExtra("sTransNox", TransNox);
+        startActivity(loIntent);
+        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
+        finish();
     }
 }

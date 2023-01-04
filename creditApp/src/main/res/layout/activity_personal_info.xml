@@ -301,7 +301,6 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
-
                     <CheckBox
                         android:id="@+id/cb_mobile1Type"
                         android:layout_width="match_parent"
@@ -312,7 +311,7 @@
                         android:imeOptions="actionNext"
                         android:inputType="none"
                         android:nextFocusForward="@+id/txt_mobileNo1Year"
-                        android:padding="16dp" />
+                        android:paddingVertical="15dp" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/til_mobileNo1Year"
@@ -371,7 +370,7 @@
                     android:imeOptions="actionNext"
                     android:inputType="none"
                     android:nextFocusForward="@+id/txt_mobileNo2Year"
-                    android:padding="16dp" />
+                    android:paddingVertical="15dp" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/til_mobileNo2Year"
@@ -429,7 +428,7 @@
                     android:imeOptions="actionNext"
                     android:inputType="none"
                     android:nextFocusForward="@+id/txt_mobileNo3Year"
-                    android:padding="16dp" />
+                    android:paddingVertical="15dp" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/til_mobileNo3Year"
