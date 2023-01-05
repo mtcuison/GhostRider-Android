@@ -22,7 +22,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
@@ -114,7 +113,10 @@ public class Activity_CashCounter extends AppCompatActivity {
                     poMessage.initDialog();
                     poMessage.setTitle("Cash Count");
                     poMessage.setMessage(message);
-                    poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                    poMessage.setPositiveButton("Okay", (view, dialog) -> {
+                        dialog.dismiss();
+                        finish();
+                    });
                     poMessage.show();
                 }
             });

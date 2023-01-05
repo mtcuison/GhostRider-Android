@@ -157,9 +157,11 @@ public class Activity_CashCountSubmit extends AppCompatActivity {
                         poMessage.setTitle("Cast Count");
                         poMessage.setMessage("Cash count has been saved successfully.");
                         poMessage.setPositiveButton("Okay", (view, dialog) ->{
-                            Intent loIntent = new Intent(Activity_CashCountSubmit.this, Activity_Inventory.class);
-                            loIntent.putExtra("BranchCd", BranchCd);
-                            startActivity(loIntent);
+                            if(BranchCd.charAt(0) == 'M') {
+                                Intent loIntent = new Intent(Activity_CashCountSubmit.this, Activity_Inventory.class);
+                                loIntent.putExtra("BranchCd", BranchCd);
+                                startActivity(loIntent);
+                            }
                             dialog.dismiss();
                             Activity_CashCounter.getInstance().finish();
                             finish();
@@ -174,9 +176,11 @@ public class Activity_CashCountSubmit extends AppCompatActivity {
                         poMessage.setTitle("Cast Count");
                         poMessage.setMessage("Cash count has been saved successfully.");
                         poMessage.setPositiveButton("Okay", (view, dialog) ->{
-                            Intent loIntent = new Intent(Activity_CashCountSubmit.this, Activity_Inventory.class);
-                            loIntent.putExtra("BranchCd", BranchCd);
-                            startActivity(loIntent);
+                            if(BranchCd.charAt(0) == 'M') {
+                                Intent loIntent = new Intent(Activity_CashCountSubmit.this, Activity_Inventory.class);
+                                loIntent.putExtra("BranchCd", BranchCd);
+                                startActivity(loIntent);
+                            }
                             dialog.dismiss();
                             Activity_CashCounter.getInstance().finish();
                             finish();
