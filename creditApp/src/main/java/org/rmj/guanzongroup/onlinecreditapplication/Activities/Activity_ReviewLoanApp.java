@@ -25,6 +25,7 @@ import org.json.JSONObject;
 import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditAppConstants;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.MobileNo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Personal;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.ReviewAppDetail;
@@ -71,7 +72,8 @@ public class Activity_ReviewLoanApp extends AppCompatActivity {
 
         mViewModel.GetApplication().observe(Activity_ReviewLoanApp.this, app -> {
             try {
-                mViewModel.getModel().GetApplication(app.getTransNox());
+                TransNox = app.getTransNox();
+                mViewModel.setInfo(app);
                 mViewModel.ParseData(app, new OnParseListener() {
                     @Override
                     public void OnParse(Object args) {
@@ -123,13 +125,26 @@ public class Activity_ReviewLoanApp extends AppCompatActivity {
         btnPrvs = findViewById(R.id.btn_creditAppPrvs);
 
         btnSave.setOnClickListener(v -> {
-            Intent intent = new Intent(Activity_ReviewLoanApp.this, Activity_PersonalInfo.class);
-            startActivity(intent);
-            finish();
+            mViewModel.SaveData(new OnSaveInfoListener() {
+                @Override
+                public void OnSave(String args) {
+                    finish();
+                }
+
+                @Override
+                public void OnFailed(String message) {
+                    poMessage.initDialog();
+                    poMessage.setTitle("Credit Online Application");
+                    poMessage.setMessage(message);
+                    poMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
+                    poMessage.show();
+                }
+            });
         });
         btnPrvs.setOnClickListener(v -> {
-            Intent intent = new Intent(Activity_ReviewLoanApp.this, Activity_ComakerResidence.class);
-            startActivity(intent);
+            Intent loIntent = new Intent(Activity_ReviewLoanApp.this, Activity_ReviewLoanApp.class);
+            loIntent.putExtra("sTransNox", TransNox);
+            startActivity(loIntent);
             finish();
         });
 
@@ -157,6 +172,9 @@ public class Activity_ReviewLoanApp extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == android.R.id.home){
+            Intent loIntent = new Intent(Activity_ReviewLoanApp.this, Activity_ReviewLoanApp.class);
+            loIntent.putExtra("sTransNox", TransNox);
+            startActivity(loIntent);
             finish();
         }
         return super.onOptionsItemSelected(item);
@@ -164,6 +182,9 @@ public class Activity_ReviewLoanApp extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        Intent loIntent = new Intent(Activity_ReviewLoanApp.this, Activity_ReviewLoanApp.class);
+        loIntent.putExtra("sTransNox", TransNox);
+        startActivity(loIntent);
         finish();
     }
 

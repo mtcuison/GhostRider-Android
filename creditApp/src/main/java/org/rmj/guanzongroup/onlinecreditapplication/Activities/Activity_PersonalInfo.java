@@ -55,10 +55,9 @@ public class Activity_PersonalInfo extends AppCompatActivity {
     private MessageBox poMessage;
 
     private TextInputEditText txtLastNm, txtFrstNm, txtMiddNm, txtSuffixx, txtNickNm, txtBirthDt,
-            txtMothNm, txtMobileNo1, txtMobileNo2, txtMobileNo3, txtMobileYr1, txtMobileYr2,
-            txtMobileYr3, txtTellNox, txtEmailAdd, txtFbAccount, txtViberAccount;
+            txtMothNm, txtTellNox, txtEmailAdd, txtFbAccount, txtViberAccount;
 
-    private TextInputLayout tilMothNm, tilMobileYr1, tilMobileYr2, tilMobileYr3;
+    private TextInputLayout tilMothNm;
     private AutoCompleteTextView txtTown, txtCitizen;
     private RadioGroup rgGender;
     private AutoCompleteTextView spnCivilStatus;
@@ -76,8 +75,6 @@ public class Activity_PersonalInfo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         mViewModel = new ViewModelProvider(Activity_PersonalInfo.this).get(VMPersonalInfo.class);
         poMobile[0] = new MobileNo();
-        poMobile[1] = new MobileNo();
-        poMobile[2] = new MobileNo();
         poMessage = new MessageBox(Activity_PersonalInfo.this);
         setContentView(R.layout.activity_personal_info);
         initWidgets();
@@ -296,7 +293,7 @@ public class Activity_PersonalInfo extends AppCompatActivity {
             mViewModel.getModel().setNickName(Objects.requireNonNull(txtNickNm.getText()).toString());
             mViewModel.getModel().setMotherNm(Objects.requireNonNull(txtMothNm.getText()).toString());
 
-            if (txtMobileNo[0] != null || !Objects.requireNonNull(txtMobileNo[0].getText()).toString().trim().isEmpty()) {
+            if (!Objects.requireNonNull(txtMobileNo[0].getText()).toString().trim().isEmpty()) {
                 poMobile[0].setMobileNo(txtMobileNo[0].getText().toString());
 //            loMobile[1].setIsPostPd();
                 if (poMobile[0].getIsPostPd().equalsIgnoreCase("1")) {
@@ -309,6 +306,7 @@ public class Activity_PersonalInfo extends AppCompatActivity {
                 mViewModel.getModel().setMobileNo1(poMobile[0]);
             }
             if (!Objects.requireNonNull(txtMobileNo[1].getText()).toString().trim().isEmpty()) {
+                poMobile[1] = new MobileNo();
                 poMobile[1].setMobileNo(txtMobileNo[1].getText().toString());
 //            loMobile[1].setIsPostPd();
                 if (poMobile[1].getIsPostPd().equalsIgnoreCase("1")) {
@@ -322,8 +320,8 @@ public class Activity_PersonalInfo extends AppCompatActivity {
                 mViewModel.getModel().setMobileNo2(poMobile[1]);
             }
             if (!Objects.requireNonNull(txtMobileNo[2].getText()).toString().trim().isEmpty()) {
+                poMobile[2] = new MobileNo();
                 poMobile[2].setMobileNo(txtMobileNo[2].getText().toString());
-//            poMobile[2].setIsPostPd();
                 if (poMobile[2].getIsPostPd().equalsIgnoreCase("1")) {
                     if (txtMobileYear[2].getText().toString().trim().isEmpty()) {
                         poMobile[2].setPostYear(0);
@@ -331,6 +329,7 @@ public class Activity_PersonalInfo extends AppCompatActivity {
                         poMobile[1].setPostYear(Integer.parseInt(txtMobileYear[1].getText().toString().trim()));
                     }
                 }
+                mViewModel.getModel().setMobileNo3(poMobile[2]);
             }
 
             mViewModel.getModel().setPhoneNox(Objects.requireNonNull(txtTellNox.getText()).toString());
@@ -345,7 +344,7 @@ public class Activity_PersonalInfo extends AppCompatActivity {
                     loIntent.putExtra("sTransNox", args);
                     startActivity(loIntent);
                     overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
-
+                    finish();
                 }
 
                 @Override
@@ -488,7 +487,7 @@ public class Activity_PersonalInfo extends AppCompatActivity {
                 poMobile[0].setMobileNo(info.getMobileNo());
                 poMobile[0].setIsPostPd(info.getIsPostPd());
                 poMobile[0].setPostYear(info.getPostYear());
-                mViewModel.getModel().setMobileNo3(info);
+                mViewModel.getModel().setMobileNo1(info);
                 if(info.getIsPostPd().equalsIgnoreCase("0")){
                     tilMobileYear[0].setVisibility(View.GONE);
                     txtMobileType1.setChecked(false);
@@ -534,12 +533,6 @@ public class Activity_PersonalInfo extends AppCompatActivity {
             txtTellNox.setText(infoModel.getPhoneNox());
             txtViberAccount.setText(infoModel.getVbrAccnt());
         }
-    }
-
-    @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
     }
 
     @Override

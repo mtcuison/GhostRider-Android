@@ -9,8 +9,10 @@ import org.rmj.g3appdriver.dev.Database.DataAccessObject.DBarangayInfo;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DCreditApplication;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EBarangayInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.EBranchLoanApplication;
 import org.rmj.g3appdriver.dev.Database.Entities.ECountryInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplication;
 import org.rmj.g3appdriver.dev.Database.Entities.EMcModel;
 import org.rmj.g3appdriver.dev.Database.Entities.EOccupationInfo;
 import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
@@ -19,6 +21,7 @@ import org.rmj.g3appdriver.dev.Database.Repositories.RCountry;
 import org.rmj.g3appdriver.dev.Database.Repositories.RMcModel;
 import org.rmj.g3appdriver.dev.Database.Repositories.ROccupation;
 import org.rmj.g3appdriver.dev.Database.Repositories.RTown;
+import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditApp;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditAppConstants;
@@ -26,8 +29,11 @@ import org.rmj.g3appdriver.lib.integsys.CreditApp.GoCasBuilder;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.ReviewAppDetail;
 import org.rmj.gocas.base.GOCASApplication;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class ReviewLoanInfo implements CreditApp {
     private static final String TAG = ReviewLoanInfo.class.getSimpleName();
@@ -645,15 +651,33 @@ public class ReviewLoanInfo implements CreditApp {
 
     @Override
     public boolean Save(Object args){
-            try {
+        try {
+            ECreditApplicantInfo loInfo = (ECreditApplicantInfo) args;
 
-                return true;
-            } catch (Exception e) {
-                e.printStackTrace();
-                message = e.getMessage();
-                return false;
-            }
+            String lsTransNo = CreateUniqueID();
+            ECreditApplication loDetail = new ECreditApplication();
+            GoCasBuilder loModel = new GoCasBuilder(loInfo);
+            GOCASApplication loGOCas = new GOCASApplication();
+            loGOCas.setData(loModel.getConstructedDetailedInfo());
+            loDetail.setTransNox(lsTransNo);
+            loDetail.setBranchCd(loInfo.getBranchCd());
+            loDetail.setClientNm(loInfo.getClientNm());
+            loDetail.setUnitAppl(loInfo.getAppliedx());
+            loDetail.setSourceCD("APP");
+            loDetail.setDetlInfo(loModel.getConstructedDetailedInfo());
+            loDetail.setDownPaym(loInfo.getDownPaym());
+            loDetail.setCreatedx(loInfo.getCreatedx());
+            loDetail.setTransact(loInfo.getTransact());
+            loDetail.setTimeStmp(new AppConstants().DATE_MODIFIED);
+            loDetail.setSendStat("0");
+            poDao.Save(loDetail);
 
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
     }
 
     @Override
@@ -680,7 +704,6 @@ public class ReviewLoanInfo implements CreditApp {
     public LiveData<List<EOccupationInfo>> GetOccupations() {
         return null;
     }
-
 
 
     String parseGender(String value){
@@ -843,6 +866,26 @@ public class ReviewLoanInfo implements CreditApp {
     }
     String parseCoMakerSrcIncom(String value){
         return CreditAppConstants.CO_MAKER_INCOME_SOURCE[Integer.parseInt(value)];
+    }
+
+    private String CreateUniqueID(){
+        String lsUniqIDx = "";
+        try{
+            String lsBranchCd = "MX01";
+            String lsCrrYear = new SimpleDateFormat("yy", Locale.getDefault()).format(new Date());
+            StringBuilder loBuilder = new StringBuilder(lsBranchCd);
+            loBuilder.append(lsCrrYear);
+
+            int lnLocalID = poDao.GetRowsCountForID() + 1;
+            String lsPadNumx = String.format("%05d", lnLocalID);
+            loBuilder.append(lsPadNumx);
+            lsUniqIDx = loBuilder.toString();
+        } catch (Exception e){
+            e.printStackTrace();
+            Log.e(TAG, e.getMessage());
+        }
+        Log.d(TAG, lsUniqIDx);
+        return lsUniqIDx;
     }
 }
 

@@ -67,6 +67,8 @@ public class Activity_SpouseInfo extends AppCompatActivity {
     private Button btnNext, btnPrvs;
     private Toolbar toolbar;
 
+    private String TransNox;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +82,7 @@ public class Activity_SpouseInfo extends AppCompatActivity {
         mViewModel.InitializeApplication(getIntent());
         mViewModel.GetApplication().observe(Activity_SpouseInfo.this, app -> {
             try {
+                TransNox = app.getTransNox();
                 mViewModel.getModel().setTransNox(app.getTransNox());
                 mViewModel.ParseData(app, new OnParseListener() {
                     @Override
@@ -255,7 +258,12 @@ public class Activity_SpouseInfo extends AppCompatActivity {
         });
 
         btnNext.setOnClickListener(v -> SaveSpouseInfo());
-        btnPrvs.setOnClickListener(v -> finish());
+        btnPrvs.setOnClickListener(v -> {
+            Intent loIntent = new Intent(Activity_SpouseInfo.this, Activity_Finance.class);
+            loIntent.putExtra("sTransNox", TransNox);
+            startActivity(loIntent);
+            finish();
+        });
     }
 
     private void SaveSpouseInfo() {
@@ -316,6 +324,7 @@ public class Activity_SpouseInfo extends AppCompatActivity {
                 loIntent.putExtra("sTransNox", args);
                 startActivity(loIntent);
                 overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
+                finish();
             }
 
             @Override

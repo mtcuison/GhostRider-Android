@@ -44,6 +44,8 @@ public class Activity_Finance extends AppCompatActivity {
     private Button btnNext, btnPrvs;
     private Toolbar toolbar;
 
+    private String TransNox;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         mViewModel = new ViewModelProvider(Activity_Finance.this).get(VMFinancierInfo.class);
@@ -54,8 +56,7 @@ public class Activity_Finance extends AppCompatActivity {
         mViewModel.InitializeApplication(getIntent());
         mViewModel.GetApplication().observe(Activity_Finance.this, app -> {
             try {
-
-//                Log.e("lsDetail = ", app.getFinancex());
+                TransNox = app.getTransNox();
                 mViewModel.getModel().setTransNox(app.getTransNox());
                 mViewModel.getModel().setcMeanInfo(app.getAppMeans());
                 mViewModel.ParseData(app, new OnParseListener() {
@@ -117,7 +118,13 @@ public class Activity_Finance extends AppCompatActivity {
         });
 
         btnNext.setOnClickListener(v -> SaveFinanceInfo());
-        btnPrvs.setOnClickListener(v -> finish());
+        btnPrvs.setOnClickListener(v -> {
+            Intent loIntent = new Intent(Activity_Finance.this, Activity_SelfEmployedInfo.class);
+            loIntent.putExtra("sTransNox", TransNox);
+            startActivity(loIntent);
+            overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
+            finish();
+        });
 
     }
 
@@ -145,6 +152,7 @@ public class Activity_Finance extends AppCompatActivity {
                 loIntent.putExtra("sTransNox", args);
                 startActivity(loIntent);
                 overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
+                finish();
             }
 
             @Override
@@ -225,15 +233,14 @@ public class Activity_Finance extends AppCompatActivity {
 //            });
         }
     }
-    @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
-    }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
+            Intent loIntent = new Intent(Activity_Finance.this, Activity_SelfEmployedInfo.class);
+            loIntent.putExtra("sTransNox", TransNox);
+            startActivity(loIntent);
+            overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
             finish();
         }
         return super.onOptionsItemSelected(item);
@@ -241,6 +248,10 @@ public class Activity_Finance extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        Intent loIntent = new Intent(Activity_Finance.this, Activity_SelfEmployedInfo.class);
+        loIntent.putExtra("sTransNox", TransNox);
+        startActivity(loIntent);
+        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
         finish();
     }
 

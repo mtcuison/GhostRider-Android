@@ -208,8 +208,8 @@ public class AppTokenManager {
             // if result is more than 0 current date is after the due date
             if (lnResult >= 0) {
 
-                // Client token might be expired already so we generate another client token...
-                String lsAccess = refreshAccessToken();
+                // Access token might be expired already so we generate another access token...
+                String lsAccess = refreshAccessToken(fsVal);
                 return lsAccess;
             }
 
@@ -257,27 +257,25 @@ public class AppTokenManager {
         }
     }
 
-    public String refreshAccessToken(){
+    public String refreshAccessToken(String fsVal){
         try{
             ETokenInfo loAccessx = poDao.GetAccessToken();
 
-            String lsClient = WebFileServer.RequestClientToken(poConfig.ProducID(),
-                    poDao.GetClientID(),
-                    poDao.GetUserID());
+            String lsAccess = WebFileServer.RequestAccessToken(fsVal);
 
-            if(lsClient == null){
-                message = "Unable to generate client token.";
+            if(lsAccess == null){
+                message = "Unable to generate access token.";
                 return null;
             }
 
-            if(lsClient.isEmpty()){
-                message = "Unable to generate client token.";
+            if(lsAccess.isEmpty()){
+                message = "Unable to generate access token.";
                 return null;
             }
 
             String lsExpiryx = TokenExpiry();
 
-            loAccessx.setTokenInf(lsClient);
+            loAccessx.setTokenInf(lsAccess);
             loAccessx.setGeneratd(new AppConstants().DATE_MODIFIED());
             loAccessx.setExpirexx(lsExpiryx);
             loAccessx.setModified(new AppConstants().DATE_MODIFIED());
@@ -285,7 +283,7 @@ public class AppTokenManager {
             poDao.UpdateToken(loAccessx);
             Log.d(TAG, "Client token has been updated.");
 
-            return lsClient;
+            return lsAccess;
         } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();

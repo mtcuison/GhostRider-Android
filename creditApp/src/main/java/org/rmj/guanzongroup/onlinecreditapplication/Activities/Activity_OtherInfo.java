@@ -70,6 +70,8 @@ public class Activity_OtherInfo extends AppCompatActivity {
     private Toolbar toolbar;
     private MaterialButton btnAddReference;
 
+    private String TransNox;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +82,7 @@ public class Activity_OtherInfo extends AppCompatActivity {
         mViewModel.InitializeApplication(getIntent());
         mViewModel.GetApplication().observe(Activity_OtherInfo.this, app -> {
             try {
+                TransNox = app.getTransNox();
                 mViewModel.getModel().setTransNox(app.getTransNox());
                 mViewModel.ParseData(app, new OnParseListener() {
                     @Override
@@ -100,7 +103,6 @@ public class Activity_OtherInfo extends AppCompatActivity {
             adapter = new ReferencesAdapter(loList, new ReferencesAdapter.OnAdapterClick() {
                 @Override
                 public void onRemove(int position) {
-//                        mViewModel.removeReference(position);
                     mViewModel.removeReference(position);
                     GToast.CreateMessage(Activity_OtherInfo.this, "Reference removed from list.", GToast.INFORMATION).show();
                     adapter.notifyDataSetChanged();
@@ -118,7 +120,9 @@ public class Activity_OtherInfo extends AppCompatActivity {
         });
         btnAddReference.setOnClickListener(v -> addReference());
 
-        btnPrevs.setOnClickListener(v -> finish());
+        btnPrevs.setOnClickListener(v -> {
+            returnPrevious();
+        });
         btnNext.setOnClickListener(v -> SaveOtherInfo());
 
     }
@@ -140,6 +144,7 @@ public class Activity_OtherInfo extends AppCompatActivity {
                 loIntent.putExtra("sTransNox", args);
                 startActivity(loIntent);
                 overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
+                finish();
 
             }
 
@@ -327,7 +332,6 @@ public class Activity_OtherInfo extends AppCompatActivity {
                     @Override
                     public void onFailed(String message) {
                         GToast.CreateMessage(Activity_OtherInfo.this, message, GToast.ERROR).show();
-
                     }
                 });
 
@@ -362,8 +366,8 @@ public class Activity_OtherInfo extends AppCompatActivity {
             }
 
             if(infoModel.getSource() != null) {
-                spnSourcexx.setText(CreditAppConstants.UNIT_PAYER[Integer.parseInt(infoModel.getSource())], false);
-                spnSourcexx.setSelection(Integer.parseInt(infoModel.getSource()));
+                spnSourcexx.setText(infoModel.getSource(), false);
+//                spnSourcexx.setSelection(Integer.parseInt(infoModel.getSource()));
                 mViewModel.getModel().setSource(infoModel.getSource());
             }
             if(infoModel.getReferences() != null){
@@ -374,27 +378,29 @@ public class Activity_OtherInfo extends AppCompatActivity {
     }
 
     @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
-    }
-
-    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == android.R.id.home){
-            finish();
+            returnPrevious();
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onBackPressed() {
-        finish();
+        returnPrevious();
     }
 
     @Override
     protected void onDestroy() {
         getViewModelStore().clear();
         super.onDestroy();
+    }
+
+    private void returnPrevious(){
+        Intent loIntent = new Intent(Activity_OtherInfo.this, Activity_Properties.class);
+        loIntent.putExtra("sTransNox", TransNox);
+        startActivity(loIntent);
+        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
+        finish();
     }
 }

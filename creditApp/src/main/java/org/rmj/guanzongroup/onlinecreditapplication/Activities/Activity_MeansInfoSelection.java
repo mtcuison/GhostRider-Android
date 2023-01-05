@@ -39,6 +39,8 @@ public class Activity_MeansInfoSelection extends AppCompatActivity  {
 
     private MessageBox poMessage;
 
+    private String TransNox;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +51,7 @@ public class Activity_MeansInfoSelection extends AppCompatActivity  {
         mViewModel.InitializeApplication(getIntent());
         mViewModel.GetApplication().observe(Activity_MeansInfoSelection.this, app -> {
             try {
+                TransNox = app.getTransNox();
                 mViewModel.getModel().setTransNox(app.getTransNox());
 
                 mViewModel.getModel().setIncmeSrc(app.getAppMeans());
@@ -72,7 +75,12 @@ public class Activity_MeansInfoSelection extends AppCompatActivity  {
             }
         });
         btnNext.setOnClickListener(v -> SaveMeansInfo());
-        btnPrvs.setOnClickListener(v -> finish());
+        btnPrvs.setOnClickListener(v -> {
+            Intent loIntent = new Intent(Activity_MeansInfoSelection.this, Activity_ResidenceInfo.class);
+            loIntent.putExtra("sTransNox", TransNox);
+            startActivity(loIntent);
+            finish();
+        });
 
     }
 
@@ -107,11 +115,11 @@ public class Activity_MeansInfoSelection extends AppCompatActivity  {
         mViewModel.SaveData(new OnSaveInfoListener() {
             @Override
             public void OnSave(String args) {
-//                Intent loIntent = new Intent(Activity_ResidenceInfo.this, Activity_EmploymentInfo.class);
                 Intent loIntent = new Intent(Activity_MeansInfoSelection.this, Activity_EmploymentInfo.class);
                 loIntent.putExtra("sTransNox", args);
                 startActivity(loIntent);
                 overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
+                finish();
             }
 
             @Override
@@ -126,15 +134,14 @@ public class Activity_MeansInfoSelection extends AppCompatActivity  {
 
 
     }
-    @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
-    }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == android.R.id.home){
+            Intent loIntent = new Intent(Activity_MeansInfoSelection.this, Activity_ResidenceInfo.class);
+            loIntent.putExtra("sTransNox", TransNox);
+            startActivity(loIntent);
+            overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
             finish();
         }
         return super.onOptionsItemSelected(item);
@@ -142,6 +149,9 @@ public class Activity_MeansInfoSelection extends AppCompatActivity  {
 
     @Override
     public void onBackPressed() {
+        Intent loIntent = new Intent(Activity_MeansInfoSelection.this, Activity_ResidenceInfo.class);
+        loIntent.putExtra("sTransNox", TransNox);
+        startActivity(loIntent);
         finish();
     }
 

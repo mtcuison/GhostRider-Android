@@ -57,9 +57,9 @@ public class Activity_ResidenceInfo extends AppCompatActivity {
     private Button btnNext;
     private Button btnPrvs;
     private RadioGroup rgOwnsership, rgGarage;
-
-
     private Toolbar toolbar;
+
+    private String TransNox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +73,7 @@ public class Activity_ResidenceInfo extends AppCompatActivity {
             @Override
             public void onChanged(ECreditApplicantInfo app) {
                 try {
+                    TransNox = app.getTransNox();
                     mViewModel.getModel().setTransNox(app.getTransNox());
                     mViewModel.ParseData(app, new OnParseListener() {
                         @Override
@@ -90,113 +91,6 @@ public class Activity_ResidenceInfo extends AppCompatActivity {
                 }
             }
         });
-
-//        mViewModel.GetTownProvinceList().observe(Activity_ResidenceInfo.this, new Observer<List<DTownInfo.TownProvinceInfo>>() {
-//            @RequiresApi(api = Build.VERSION_CODES.N)
-//            @Override
-//            public void onChanged(List<DTownInfo.TownProvinceInfo> provList) {
-//                try {
-//                    ArrayList<String> strings = new ArrayList<>();
-//                    for (int x = 0; x < provList.size(); x++) {
-//                        String lsProv = "" + provList.get(x).sProvName;
-////                        String lsTown =  loList.get(x).sProvName ;
-//                        strings.add(lsProv);
-//
-//                        Set<Object> set = new HashSet<>();
-//                        strings.removeIf((String i) -> {
-//                            return !set.add(i);
-//                        });
-//                    }
-//                    ArrayAdapter<String> adapter = new ArrayAdapter<>(Activity_ResidenceInfo.this, android.R.layout.simple_spinner_dropdown_item, strings.toArray(new String[0]));
-//                    txtProvince.setAdapter(adapter);
-//                    txtProvince.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
-//                    txtProvince.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                        @Override
-//                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                            for (int x = 0; x < provList.size(); x++) {
-//                                String lsLabel = provList.get(x).sProvName;
-//                                String lsSlctd = txtProvince.getText().toString().trim();
-//                                if (lsSlctd.equalsIgnoreCase(lsLabel)) {
-//                                    mViewModel.getModel().setProvinceID(provList.get(x).sProvIDxx);
-//                                    mViewModel.getModel().setProvinceNm(lsLabel);
-//                                    break;
-//                                }
-//                            }
-//                            mViewModel.GetTownProvinceList().observe(Activity_ResidenceInfo.this, new Observer<List<DTownInfo.TownProvinceInfo>>() {
-//                                @Override
-//                                public void onChanged(List<DTownInfo.TownProvinceInfo> townList) {
-//                                    try {
-//                                        ArrayList<String> string = new ArrayList<>();
-//                                        for (int x = 0; x < townList.size(); x++) {
-//                                            String lsTown = townList.get(x).sTownName + "";
-////                        String lsTown =  loList.get(x).sProvName ;
-//                                            string.add(lsTown);
-//                                            Set<Object> set = new HashSet<>();
-//                                            string.removeIf((String i) -> {
-//                                                return !set.add(i);
-//                                            });
-//                                        }
-//                                        ArrayAdapter<String> adapters = new ArrayAdapter<>(Activity_ResidenceInfo.this, android.R.layout.simple_spinner_dropdown_item, string.toArray(new String[0]));
-//                                        txtMunicipality.setAdapter(adapters);
-//                                        txtMunicipality.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
-//                                        txtMunicipality.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                                            @Override
-//                                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                                                for (int x = 0; x < townList.size(); x++) {
-//                                                    String lsLabel = townList.get(x).sTownName;
-//                                                    String lsSlctd = txtMunicipality.getText().toString().trim();
-//                                                    if (lsSlctd.equalsIgnoreCase(lsLabel)) {
-//                                                        mViewModel.getModel().setMunicipalID(townList.get(x).sTownIDxx);
-//                                                        mViewModel.getModel().setMunicipalNm(lsLabel);
-//                                                        break;
-//                                                    }
-//
-//                                                }
-//
-//                                                mViewModel.GetBarangayList(mViewModel.getModel().getMunicipalID()).observe(Activity_ResidenceInfo.this, new Observer<List<EBarangayInfo>>() {
-//                                                @Override
-//                                                public void onChanged(List<EBarangayInfo> BrgyList) {
-//                                                    ArrayList<String> string = new ArrayList<>();
-//                                                    for (int x = 0; x < BrgyList.size(); x++) {
-//                                                        String lsBrgy = BrgyList.get(x).getBrgyName();
-//                                                        string.add(lsBrgy);
-//                                                    }
-//                                                    ArrayAdapter<String> adapters = new ArrayAdapter<>(Activity_ResidenceInfo.this,
-//                                                            android.R.layout.simple_spinner_dropdown_item, string.toArray(new String[0]));
-//                                                    txtBarangay.setAdapter(adapters);
-//                                                    txtBarangay.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
-//                                                    txtBarangay.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                                                        @Override
-//                                                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                                                            for (int x = 0; x < BrgyList.size(); x++) {
-//                                                                String lsLabel = BrgyList.get(x).getBrgyName();
-//                                                                String lsSlctd = txtBarangay.getText().toString().trim();
-//                                                                if (lsSlctd.equalsIgnoreCase(lsLabel)) {
-//                                                                    mViewModel.getModel().setBarangayID(BrgyList.get(x).getBrgyIDxx());
-//                                                                    mViewModel.getModel().setBarangayName(lsLabel);
-//                                                                }
-//                                                            }
-//                                                        }
-//                                                    });
-//                                                }
-//                                            });
-//
-//                                            }
-//                                        });
-//
-//                                    } catch (Exception e) {
-//                                        e.printStackTrace();
-//                                    }
-//                                }
-//                            });
-//                        }
-//                    });
-//
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        });
 
         /**
          * CLIENT RESIDENCE
@@ -280,54 +174,49 @@ public class Activity_ResidenceInfo extends AppCompatActivity {
                         String lsTown = loList.get(x).sTownName + ", " + loList.get(x).sProvName;
 //                        String lsTown =  loList.get(x).sProvName ;
                         string.add(lsTown);
-
                     }
                     ArrayAdapter<String> adapters = new ArrayAdapter<>(Activity_ResidenceInfo.this, android.R.layout.simple_spinner_dropdown_item, string.toArray(new String[0]));
                     txtPMunicipl.setAdapter(adapters);
                     txtPMunicipl.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
-                    txtPMunicipl.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            for (int x = 0; x < loList.size(); x++) {
-                                String lsLabel = loList.get(x).sTownName + ", " + loList.get(x).sProvName;
-                                String lsSlctd = txtPMunicipl.getText().toString().trim();
-                                if (lsSlctd.equalsIgnoreCase(lsLabel)) {
-                                    mViewModel.getModel().setPermanentMunicipalID(loList.get(x).sTownIDxx);
-                                    mViewModel.getModel().setPermanentMunicipalNm(lsLabel);
-                                    break;
-                                }
-
+                    txtPMunicipl.setOnItemClickListener((parent, view, position, id) -> {
+                        for (int x = 0; x < loList.size(); x++) {
+                            String lsLabel = loList.get(x).sTownName + ", " + loList.get(x).sProvName;
+                            String lsSlctd = txtPMunicipl.getText().toString().trim();
+                            if (lsSlctd.equalsIgnoreCase(lsLabel)) {
+                                mViewModel.getModel().setPermanentMunicipalID(loList.get(x).sTownIDxx);
+                                mViewModel.getModel().setPermanentMunicipalNm(lsLabel);
+                                break;
                             }
+                        }
 
-                            mViewModel.GetBarangayList(mViewModel.getModel().getMunicipalID()).observe(Activity_ResidenceInfo.this, new Observer<List<EBarangayInfo>>() {
-                                @Override
-                                public void onChanged(List<EBarangayInfo> BrgyList) {
-                                    ArrayList<String> string = new ArrayList<>();
-                                    for (int x = 0; x < BrgyList.size(); x++) {
-                                        String lsBrgy = BrgyList.get(x).getBrgyName();
-                                        string.add(lsBrgy);
-                                    }
-                                    ArrayAdapter<String> adapters = new ArrayAdapter<>(Activity_ResidenceInfo.this,
-                                            android.R.layout.simple_spinner_dropdown_item, string.toArray(new String[0]));
-                                    txtPBarangay.setAdapter(adapters);
-                                    txtPBarangay.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
-                                    txtPBarangay.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                        @Override
-                                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                            for (int x = 0; x < BrgyList.size(); x++) {
-                                                String lsLabel = BrgyList.get(x).getBrgyName();
-                                                String lsSlctd = txtPBarangay.getText().toString().trim();
-                                                if (lsSlctd.equalsIgnoreCase(lsLabel)) {
-                                                    mViewModel.getModel().setPermanentBarangayID(BrgyList.get(x).getBrgyIDxx());
-                                                    mViewModel.getModel().setPermanentBarangayName(lsLabel);
-                                                }
+                        mViewModel.GetBarangayList(mViewModel.getModel().getMunicipalID()).observe(Activity_ResidenceInfo.this, new Observer<List<EBarangayInfo>>() {
+                            @Override
+                            public void onChanged(List<EBarangayInfo> BrgyList) {
+                                ArrayList<String> string1 = new ArrayList<>();
+                                for (int x = 0; x < BrgyList.size(); x++) {
+                                    String lsBrgy = BrgyList.get(x).getBrgyName();
+                                    string1.add(lsBrgy);
+                                }
+                                ArrayAdapter<String> adapters1 = new ArrayAdapter<>(Activity_ResidenceInfo.this,
+                                        android.R.layout.simple_spinner_dropdown_item, string1.toArray(new String[0]));
+                                txtPBarangay.setAdapter(adapters1);
+                                txtPBarangay.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+                                txtPBarangay.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                        for (int x = 0; x < BrgyList.size(); x++) {
+                                            String lsLabel = BrgyList.get(x).getBrgyName();
+                                            String lsSlctd = txtPBarangay.getText().toString().trim();
+                                            if (lsSlctd.equalsIgnoreCase(lsLabel)) {
+                                                mViewModel.getModel().setPermanentBarangayID(BrgyList.get(x).getBrgyIDxx());
+                                                mViewModel.getModel().setPermanentBarangayName(lsLabel);
                                             }
                                         }
-                                    });
-                                }
-                            });
+                                    }
+                                });
+                            }
+                        });
 
-                        }
                     });
 
                 } catch (Exception e) {
@@ -359,7 +248,13 @@ public class Activity_ResidenceInfo extends AppCompatActivity {
 
 
         btnNext.setOnClickListener(v -> SaveResidenceInfo());
-        btnPrvs.setOnClickListener(v -> finish());
+        btnPrvs.setOnClickListener(v -> {
+            Intent loIntent = new Intent(Activity_ResidenceInfo.this, Activity_PersonalInfo.class);
+            loIntent.putExtra("sTransNox", TransNox);
+            startActivity(loIntent);
+            overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
+            finish();
+        });
 
     }
 
@@ -396,11 +291,11 @@ public class Activity_ResidenceInfo extends AppCompatActivity {
         mViewModel.SaveData(new OnSaveInfoListener() {
             @Override
             public void OnSave(String args) {
-//                Intent loIntent = new Intent(Activity_ResidenceInfo.this, Activity_EmploymentInfo.class);
                 Intent loIntent = new Intent(Activity_ResidenceInfo.this, Activity_MeansInfoSelection.class);
                 loIntent.putExtra("sTransNox", args);
                 startActivity(loIntent);
                 overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
+                finish();
             }
 
             @Override
@@ -415,36 +310,6 @@ public class Activity_ResidenceInfo extends AppCompatActivity {
 
 
     }
-
-
-//    public void onFailedResult(String message) {
-//        GToast.CreateMessage(Activity_ResidenceInfo.this, message, GToast.ERROR).show();
-//    }
-//
-//    class OnItemClickListener implements AdapterView.OnItemClickListener {
-//        AutoCompleteTextView poView;
-//
-//        public OnItemClickListener(AutoCompleteTextView view) {
-//            this.poView = view;
-//        }
-//
-//        @Override
-//        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//            if (spnHouseHold.equals(poView)) {
-//                spnHouseHoldPosition = String.valueOf(i);
-//                mViewModel.getModel().setHouseHold(String.valueOf(i));
-//            }
-//            if (spnHouseType.equals(poView)) {
-//                spnHouseTypePosition = String.valueOf(i);
-//                mViewModel.getModel().setHouseType(spnHouseTypePosition);
-//            }
-//            if (spnLgnthStay.equals(poView)) {
-//                spnLgnthStayPosition = String.valueOf(i);
-//            }
-//
-//        }
-//    }
-
 
     private class OnHouseOwnershipSelectListener implements RadioGroup.OnCheckedChangeListener {
 
@@ -684,14 +549,11 @@ public class Activity_ResidenceInfo extends AppCompatActivity {
     }
 
     @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
-    }
-
-    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
+            Intent loIntent = new Intent(Activity_ResidenceInfo.this, Activity_PersonalInfo.class);
+            loIntent.putExtra("sTransNox", TransNox);
+            startActivity(loIntent);
             finish();
         }
         return super.onOptionsItemSelected(item);
@@ -699,6 +561,9 @@ public class Activity_ResidenceInfo extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        Intent loIntent = new Intent(Activity_ResidenceInfo.this, Activity_PersonalInfo.class);
+        loIntent.putExtra("sTransNox", TransNox);
+        startActivity(loIntent);
         finish();
     }
 

@@ -34,7 +34,6 @@ import java.util.Objects;
 public class Activity_PensionInfo extends AppCompatActivity {
 
     private VMPensionInfo mViewModel;
-    private VMPersonalInfo mViewModerPersonal;
     private MessageBox poMessage;
 
     private AutoCompleteTextView spnSector;
@@ -43,12 +42,12 @@ public class Activity_PensionInfo extends AppCompatActivity {
     private Button btnPrvs, btnNext;
     private Toolbar toolbar;
 
+    private String TransNox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mViewModel = new ViewModelProvider(Activity_PensionInfo.this).get(VMPensionInfo.class);
-        mViewModerPersonal = new ViewModelProvider(Activity_PensionInfo.this).get(VMPersonalInfo.class);
         setContentView(R.layout.activity_pension_info);
         poMessage = new MessageBox(Activity_PensionInfo.this);
         initWidgets();
@@ -57,6 +56,7 @@ public class Activity_PensionInfo extends AppCompatActivity {
             @Override
             public void onChanged(ECreditApplicantInfo app) {
                 try {
+                    TransNox = app.getTransNox();
                     mViewModel.getModel().setTransNox(app.getTransNox());
                     mViewModel.getModel().setcMeanInfo(app.getAppMeans());
                     mViewModel.setCvlStatus(app.getIsSpouse());
@@ -88,11 +88,16 @@ public class Activity_PensionInfo extends AppCompatActivity {
         });
 
         btnNext.setOnClickListener(v -> SavePensionInfo());
-        btnPrvs.setOnClickListener(v -> finish());
+        btnPrvs.setOnClickListener(v -> {
+            Intent loIntent = new Intent(Activity_PensionInfo.this, Activity_Finance.class);
+            loIntent.putExtra("sTransNox", TransNox);
+            startActivity(loIntent);
+            overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
+            finish();
+        });
     }
 
     private void SavePensionInfo() {
-
         if (txtRangxx.getText().toString().trim().isEmpty()) {
             mViewModel.getModel().setPensionIncomeRange(0);
         } else {
@@ -120,6 +125,7 @@ public class Activity_PensionInfo extends AppCompatActivity {
                 loIntent.putExtra("sTransNox", args);
                 startActivity(loIntent);
                 overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
+                finish();
 
             }
 
@@ -174,14 +180,12 @@ public class Activity_PensionInfo extends AppCompatActivity {
     }
 
     @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
-    }
-
-    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
+            Intent loIntent = new Intent(Activity_PensionInfo.this, Activity_Finance.class);
+            loIntent.putExtra("sTransNox", TransNox);
+            startActivity(loIntent);
+            overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
             finish();
         }
         return super.onOptionsItemSelected(item);
@@ -189,6 +193,10 @@ public class Activity_PensionInfo extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        Intent loIntent = new Intent(Activity_PensionInfo.this, Activity_Finance.class);
+        loIntent.putExtra("sTransNox", TransNox);
+        startActivity(loIntent);
+        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
         finish();
     }
 

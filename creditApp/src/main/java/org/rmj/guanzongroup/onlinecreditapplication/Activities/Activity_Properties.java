@@ -36,6 +36,8 @@ public class Activity_Properties extends AppCompatActivity {
     private Button btnPrvs, btnNext;
     private Toolbar toolbar;
 
+    private String TransNox;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,27 +46,25 @@ public class Activity_Properties extends AppCompatActivity {
         setContentView(R.layout.activity_properties);
         initWidgets();
         mViewModel.InitializeApplication(getIntent());
-        mViewModel.GetApplication().observe(Activity_Properties.this, new Observer<ECreditApplicantInfo>() {
-            @Override
-            public void onChanged(ECreditApplicantInfo app) {
-                try {
-                    mViewModel.getModel().setTransNox(app.getTransNox());
-                    mViewModel.ParseData(app, new OnParseListener() {
-                        @Override
-                        public void OnParse(Object args) {
-                            Properties loDetail = (Properties) args;
-                            try {
-                                setUpFieldsFromLocalDB(loDetail);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
+        mViewModel.GetApplication().observe(Activity_Properties.this, app -> {
+            try {
+                TransNox = app.getTransNox();
+                mViewModel.getModel().setTransNox(app.getTransNox());
+                mViewModel.ParseData(app, new OnParseListener() {
+                    @Override
+                    public void OnParse(Object args) {
+                        Properties loDetail = (Properties) args;
+                        try {
+                            setUpFieldsFromLocalDB(loDetail);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                    });
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+
         });
 
         cb4Wheels.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -117,7 +117,9 @@ public class Activity_Properties extends AppCompatActivity {
 
 
         btnNext.setOnClickListener(v -> SavePropertiesInfo());
-        btnPrvs.setOnClickListener(v -> finish());
+        btnPrvs.setOnClickListener(v -> {
+            returnPrevious();
+        });
 
     }
 
@@ -133,6 +135,7 @@ public class Activity_Properties extends AppCompatActivity {
                 loIntent.putExtra("sTransNox", args);
                 startActivity(loIntent);
                 overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
+                finish();
             }
 
             @Override
@@ -201,49 +204,6 @@ public class Activity_Properties extends AppCompatActivity {
                 mViewModel.getModel().setPsTelevsnx("1");
                 cbTelevsn.setChecked(true);
             }
-//
-//            if(infoModel.getPsLot1Addx() != null){
-//                txtLot1.setText(!"".equalsIgnoreCase(String.valueOf(infoModel.getPsLot1Addx())) ? String.valueOf(infoModel.getPsLot1Addx()) : "");
-//            }
-//            if(infoModel.getPsLot2Addx() != null){
-//                txtLot2.setText(!"".equalsIgnoreCase(String.valueOf(infoModel.getPsLot2Addx())) ? String.valueOf(infoModel.getPsLot2Addx()) : "");
-//            }
-//            if(infoModel.getPsLot3Addx() != null){
-//                txtLot3.setText(!"".equalsIgnoreCase(String.valueOf(infoModel.getPsLot3Addx())) ? String.valueOf(infoModel.getPsLot3Addx()) : "");
-//            }
-//            if(infoModel.getPs4Wheelsx() != null){
-//                if(infoModel.getPs4Wheelsx().equalsIgnoreCase("1")) {
-//                    cb4Wheels.setChecked(true);
-//                }
-//            }
-//            if(infoModel.getPs3Wheelsx() != null){
-//                if(infoModel.getPs3Wheelsx().equalsIgnoreCase("1")) {
-//                    cb3Wheels.setChecked(true);
-//                }
-//            }
-//            if(infoModel.getPs2Wheelsx() != null){
-//                if(infoModel.getPs2Wheelsx().equalsIgnoreCase("1")) {
-//                    cb2Wheels.setChecked(true);
-//                }
-//            }
-//
-//            if(infoModel.getPsAirConxx() != null){
-//                if(infoModel.getPsAirConxx().equalsIgnoreCase("1")){
-//                    cbAircon.setChecked(true);
-//                }
-//            }
-//            if(infoModel.getPsFridgexx() != null){
-//                if(infoModel.getPsFridgexx().equalsIgnoreCase("1")){
-//                    cbRefxx.setChecked(true);
-//                }
-//            }
-//
-//            if(infoModel.getPsTelevsnx() != null){
-//
-//                if(infoModel.getPsTelevsnx().equalsIgnoreCase("1")){
-//                    cbTelevsn.setChecked(true);
-//                }
-//            }
 
         } else {
             txtLot1.getText().clear();
@@ -256,19 +216,14 @@ public class Activity_Properties extends AppCompatActivity {
             cbRefxx.setChecked(false);
             cbTelevsn.setChecked(false);
         }
-
-    }
-
-
-    @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
+            Intent loIntent = new Intent(Activity_Properties.this, Activity_DisbursementInfo.class);
+            loIntent.putExtra("sTransNox", TransNox);
+            startActivity(loIntent);
             finish();
         }
         return super.onOptionsItemSelected(item);
@@ -276,12 +231,20 @@ public class Activity_Properties extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        finish();
+        returnPrevious();
     }
 
     @Override
     protected void onDestroy() {
         getViewModelStore().clear();
         super.onDestroy();
+    }
+
+    private void returnPrevious(){
+        Intent loIntent = new Intent(Activity_Properties.this, Activity_Dependent.class);
+        loIntent.putExtra("sTransNox", TransNox);
+        startActivity(loIntent);
+        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
+        finish();
     }
 }

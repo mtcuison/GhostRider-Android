@@ -258,6 +258,7 @@ public class CashCount {
                 params.put("dTransact", loCash.getTransact());
                 params.put("dEntryDte", loCash.getEntryDte());
                 params.put("sReqstdBy", loCash.getReqstdBy());
+                params.put("sRemarksx", loCash.getRemarksx());
 
                 Log.d(TAG, params.toString());
                 String lsResponse = WebClient.sendRequest(

@@ -215,7 +215,7 @@ public class EmploymentInfo implements CreditApp {
 
     @Override
     public LiveData<List<ECountryInfo>> GetCountryList() {
-        return null;
+        return poCountry.getAllCountryInfo();
     }
 
     @Override

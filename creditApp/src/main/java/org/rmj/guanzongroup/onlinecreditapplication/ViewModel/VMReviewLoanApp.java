@@ -46,7 +46,8 @@ public class VMReviewLoanApp  extends AndroidViewModel implements CreditAppUI {
     private static final String TAG = VMReviewLoanApp.class.getSimpleName();
 
     private final CreditApp poApp;
-    private final ReviewLoanInfo poModel;
+
+    private ECreditApplicantInfo poInfo;
 
     private String TransNox;
 
@@ -58,14 +59,12 @@ public class VMReviewLoanApp  extends AndroidViewModel implements CreditAppUI {
     public VMReviewLoanApp(@NonNull Application application) {
         super(application);
         this.poApp = new CreditOnlineApplication(application).getInstance(CreditAppInstance.ReviewLoanInfo);
-        this.poModel = new ReviewLoanInfo(application);
         this.plAppDetail.setValue(new ArrayList<>());
     }
 
-    public ReviewLoanInfo getModel(){
-        return poModel;
+    public void setInfo(ECreditApplicantInfo poInfo) {
+        this.poInfo = poInfo;
     }
-
 
     @Override
     public void InitializeApplication(Intent params) {
@@ -90,8 +89,9 @@ public class VMReviewLoanApp  extends AndroidViewModel implements CreditAppUI {
 
     @Override
     public void SaveData(OnSaveInfoListener listener) {
-
+        new SaveDetailTask(listener).execute(poInfo);
     }
+
     private class ParseDataTask extends AsyncTask<ECreditApplicantInfo, Void, List<ReviewAppDetail>>{
 
         private final OnParseListener listener;
@@ -127,6 +127,36 @@ public class VMReviewLoanApp  extends AndroidViewModel implements CreditAppUI {
                 Log.e(TAG, message);
             } else {
                 listener.OnParse(result);
+            }
+        }
+    }
+
+    private class SaveDetailTask extends AsyncTask<ECreditApplicantInfo, Void, Boolean>{
+
+        private final OnSaveInfoListener listener;
+
+        private String message;
+
+        public SaveDetailTask(OnSaveInfoListener listener) {
+            this.listener = listener;
+        }
+
+        @Override
+        protected Boolean doInBackground(ECreditApplicantInfo... eCreditApplicantInfos) {
+            if(!poApp.Save(eCreditApplicantInfos[0])){
+                message = poApp.getMessage();
+                return false;
+            }
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean isSuccess) {
+            super.onPostExecute(isSuccess);
+            if(!isSuccess){
+                listener.OnFailed(message);
+            } else {
+                listener.OnSave("");
             }
         }
     }

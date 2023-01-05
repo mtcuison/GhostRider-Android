@@ -7,6 +7,8 @@ public class Dependent {
 
     private String sTransNox = "";
 
+    private String message;
+
     private List<DependentInfo> loList;
 
     public Dependent() {
@@ -21,8 +23,24 @@ public class Dependent {
         this.sTransNox = sTransNox;
     }
 
-    public void Add(DependentInfo args){
-        loList.add(args);
+    public String getMessage() {
+        return message;
+    }
+
+    public boolean Add(DependentInfo args){
+        try{
+            if(!args.isDataValid()){
+                message = args.getMessage();
+                return false;
+            }
+
+            loList.add(args);
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
     }
 
     public void clear(){

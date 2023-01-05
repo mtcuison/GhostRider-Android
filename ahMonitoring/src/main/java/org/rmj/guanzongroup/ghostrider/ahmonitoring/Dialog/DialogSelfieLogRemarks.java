@@ -43,13 +43,13 @@ public class DialogSelfieLogRemarks {
         MaterialButton btnCancel = view.findViewById(R.id.btn_cancel);
 
         btnConfirm.setOnClickListener(v -> {
-            poDialog.dismiss();
             String lsRemarks = Objects.requireNonNull(txtRemarks.getText()).toString();
             if(lsRemarks.isEmpty()){
                 Toast.makeText(mContext, "Please enter remarks", Toast.LENGTH_SHORT).show();
                 return;
             }
 
+            poDialog.dismiss();
             callback.OnConfirm(lsRemarks);
         });
 

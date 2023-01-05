@@ -288,7 +288,7 @@ public class CreditOnlineApplication {
                 return null;
             }
 
-            String lsTransNo = CreateUniqueID();
+            String lsTransNo = CreateUniqueIDForApplicant();
 
             if(lsTransNo.isEmpty()){
                 message = "Failed to generate unique id please restart the app and try again.";
@@ -306,20 +306,6 @@ public class CreditOnlineApplication {
             loGocas.PurchaseInfo().setAccountTerm(foVal.getAccTermxx());
             loGocas.PurchaseInfo().setDateApplied(new AppConstants().DATE_MODIFIED());
             loGocas.PurchaseInfo().setMonthlyAmortization(foVal.getMonthlyAm());
-
-            ECreditApplication loDetail = new ECreditApplication();
-            loDetail.setTransNox(lsTransNo);
-            loDetail.setBranchCd(foVal.getBranchCde());
-            loDetail.setClientNm(loGocas.ApplicantInfo().getClientName());
-            loDetail.setUnitAppl(loGocas.PurchaseInfo().getAppliedFor());
-            loDetail.setSourceCD("APP");
-            loDetail.setDetlInfo(loGocas.toJSONString());
-            loDetail.setDownPaym(loGocas.PurchaseInfo().getDownPayment());
-            loDetail.setCreatedx(loGocas.PurchaseInfo().getDateApplied());
-            loDetail.setTransact(AppConstants.CURRENT_DATE);
-            loDetail.setTimeStmp(new AppConstants().DATE_MODIFIED());
-            loDetail.setSendStat("0");
-            poDao.Save(loDetail);
 
             lsTransNo = CreateUniqueIDForApplicant();
             ECreditApplicantInfo loApp = new ECreditApplicantInfo();
@@ -470,26 +456,6 @@ public class CreditOnlineApplication {
             default:
                 return null;
         }
-    }
-
-    private String CreateUniqueID(){
-        String lsUniqIDx = "";
-        try{
-            String lsBranchCd = "MX01";
-            String lsCrrYear = new SimpleDateFormat("yy", Locale.getDefault()).format(new Date());
-            StringBuilder loBuilder = new StringBuilder(lsBranchCd);
-            loBuilder.append(lsCrrYear);
-
-            int lnLocalID = poDao.GetRowsCountForID() + 1;
-            String lsPadNumx = String.format("%05d", lnLocalID);
-            loBuilder.append(lsPadNumx);
-            lsUniqIDx = loBuilder.toString();
-        } catch (Exception e){
-            e.printStackTrace();
-            Log.e(TAG, e.getMessage());
-        }
-        Log.d(TAG, lsUniqIDx);
-        return lsUniqIDx;
     }
 
     private String CreateUniqueIDForApplicant(){
