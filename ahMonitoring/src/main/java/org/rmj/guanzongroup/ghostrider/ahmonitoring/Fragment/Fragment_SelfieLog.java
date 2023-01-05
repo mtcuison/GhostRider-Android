@@ -431,7 +431,6 @@ public class Fragment_SelfieLog extends Fragment {
                 poLoad.dismiss();
                 Intent loIntent = new Intent(requireActivity(), Activity_CashCounter.class);
                 loIntent.putExtra("BranchCd", poSelfie.getBranchCode());
-                loIntent.putExtra("cancelable", false);
                 requireActivity().startActivity(loIntent);
                 requireActivity().finish();
             }
@@ -445,7 +444,6 @@ public class Fragment_SelfieLog extends Fragment {
                 poMessage.setPositiveButton("Create", (view, dialog) -> {
                     Intent loIntent = new Intent(requireActivity(), Activity_CashCounter.class);
                     loIntent.putExtra("BranchCd", poSelfie.getBranchCode());
-                    loIntent.putExtra("cancelable", false);
                     requireActivity().startActivity(loIntent);
                     requireActivity().finish();
                 });
