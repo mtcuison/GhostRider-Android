@@ -14,6 +14,7 @@ package org.rmj.guanzongroup.ghostrider.settings.Activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.app.Activity;
@@ -29,6 +30,7 @@ import android.widget.TextView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
+import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.guanzongroup.ghostrider.settings.R;
 import org.rmj.guanzongroup.ghostrider.settings.ViewModel.VMDevMode;
@@ -42,8 +44,8 @@ public class Activity_Developer extends AppCompatActivity {
     private SwitchMaterial poSwitch;
     private Spinner spnLevl;
     private MaterialButton btnSave, btnRestore;
-    private RelativeLayout rtlProgress;
-    private TextView lblProgress;
+
+    private EEmployeeInfo poInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,28 +57,30 @@ public class Activity_Developer extends AppCompatActivity {
         spnLevl = findViewById(R.id.spn_employeeLevel);
         btnRestore = findViewById(R.id.btn_restoreDefault);
         btnSave = findViewById(R.id.btn_Save);
-        lblProgress = findViewById(R.id.lbl_progressUpdate);
-        rtlProgress = findViewById(R.id.linear_downloadProgress);
-        rtlProgress.setVisibility(View.GONE);
 
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         spnLevl.setAdapter(new ArrayAdapter<>(Activity_Developer.this, android.R.layout.simple_dropdown_item_1line, DeptCode.Employee_Levels));
 
-        poSwitch.setChecked(mViewModel.getIsDebugMode());
+        mViewModel.GetUserInfo().observe(Activity_Developer.this, info -> {
+            try{
+                poInfo = info;
+                for(int x = 0; x < DeptCode.Employee_Levels.length; x++){
+                    if(DeptCode.parseUserLevel(info.getEmpLevID()).equalsIgnoreCase(DeptCode.Employee_Levels[x])){
+                        spnLevl.setSelection(x);
+                        break;
+                    }
+                }
 
-        for(int x = 0; x < DeptCode.Employee_Levels.length; x++){
-            if(DeptCode.parseUserLevel(Integer.parseInt(mViewModel.getEmployeeLevel())).equalsIgnoreCase(DeptCode.Employee_Levels[x])){
-                spnLevl.setSelection(x);
-                break;
+            } catch (Exception e){
+                e.printStackTrace();
             }
-        }
-        poSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> mViewModel.setDebugMode(isChecked));
+        });
 
         spnLevl.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                mViewModel.setEmployeeLevel(DeptCode.getUserLevelCode(spnLevl.getSelectedItem().toString()));
+                poInfo.setEmpLevID(spnLevl.getSelectedItemPosition());
             }
 
             @Override
@@ -84,7 +88,6 @@ public class Activity_Developer extends AppCompatActivity {
 
             }
         });
-
         btnSave.setOnClickListener(v -> {
             setResult(Activity.RESULT_OK);
             finish();
