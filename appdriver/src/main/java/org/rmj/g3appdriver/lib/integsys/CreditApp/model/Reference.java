@@ -5,14 +5,16 @@ public class Reference {
     private  String Fullname = "";
     private  String Address1 = "";
     private  String TownCity = "";
+    private  String TownName = "";
     private  String ContactN = "";
     public Reference(){
 
     }
-    public Reference(String fullname, String address1, String townCity, String contactN) {
+    public Reference(String fullname, String address1, String townCity, String townName, String contactN) {
         Fullname = fullname;
         Address1 = address1;
         TownCity = townCity;
+        TownName = townName;
         ContactN = contactN;
     }
 
@@ -44,6 +46,15 @@ public class Reference {
 
     public void setTownCity(String townCity) {
         TownCity = townCity;
+    }
+
+
+    public String getTownName() {
+        return TownName;
+    }
+
+    public void setTownName(String townName) {
+        TownName = townName;
     }
 
     public String getContactN() {

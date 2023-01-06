@@ -64,12 +64,12 @@ public class Dependent {
         private String sSchlTown = "";
         private String cEmpSctor = "";
         private String sCompName = "";
-        private String cEmployed = "";
-        private String cDependnt = "";
-        private String cHouseHld = "";
-        private String cMarriedx = "";
-        private String cStudentx = "";
-        private String cSchoolar = "";
+        private String cEmployed = "0";
+        private String cDependnt = "0";
+        private String cHouseHld = "0";
+        private String cMarriedx = "0";
+        private String cStudentx = "0";
+        private String cSchoolar = "0";
 
         private String message;
 

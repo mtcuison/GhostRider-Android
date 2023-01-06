@@ -71,6 +71,7 @@ public class OtherInfo implements CreditApp {
                             (String) joRef.get("sRefrNmex"),
                             (String) joRef.get("sRefrAddx"),
                             (String) joRef.get("sRefrTown"),
+                            (String) joRef.get("sTownName"),
                             (String) joRef.get("sRefrMPNx")));
                 }
 
@@ -151,6 +152,7 @@ public class OtherInfo implements CreditApp {
                 Reference loInfo = loList.get(x);
                 jsonObject.put("sRefrNmex", loInfo.getFullname());
                 jsonObject.put("sRefrTown", loInfo.getTownCity());
+                jsonObject.put("sTownName", loInfo.getTownName());
                 jsonObject.put("sRefrMPNx", loInfo.getContactN());
                 jsonObject.put("sRefrAddx", loInfo.getAddress1());
                 reference.add(x,jsonObject);

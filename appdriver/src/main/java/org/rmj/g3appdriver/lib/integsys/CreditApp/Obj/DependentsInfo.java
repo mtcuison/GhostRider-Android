@@ -58,7 +58,7 @@ public class DependentsInfo implements CreditApp {
                         JSONObject loChildren = (JSONObject) loList.get(x);
                         Dependent.DependentInfo loInfo = new Dependent.DependentInfo();
                         loInfo.setFullName((String) loChildren.get("sFullName"));
-                        loInfo.setRelation((String) loChildren.get("sRelatnCD"));
+                        loInfo.setRelation((String) loChildren.get("sReltnCde"));
                         long lnAge = (long) loChildren.get("nDepdAgex");
                         loInfo.setDpdntAge((int) lnAge);
                         loInfo.setStudentx((String) loChildren.get("cIsPupilx"));
@@ -74,6 +74,7 @@ public class DependentsInfo implements CreditApp {
                         loInfo.setHouseHld((String) loChildren.get("cHouseHld"));
                         loInfo.setDependnt((String) loChildren.get("cDependnt"));
                         loInfo.setMarriedx((String) loChildren.get("cIsMarrdx"));
+                        loDetail.Add(loInfo);
                     }
                 }
 
@@ -97,7 +98,7 @@ public class DependentsInfo implements CreditApp {
         Dependent loDetail = (Dependent) args;
 
         if(poDetail == null){
-
+            message = loDetail.getMessage();
 //            if(!loDetail.isDataValid()){
 //                message = loDetail.getMessage();
 //                return 0;

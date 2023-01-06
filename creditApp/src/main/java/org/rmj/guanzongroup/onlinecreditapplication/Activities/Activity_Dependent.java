@@ -3,6 +3,7 @@ package org.rmj.guanzongroup.onlinecreditapplication.Activities;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -34,6 +35,7 @@ import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Dependent;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditAppConstants;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Reference;
 import org.rmj.guanzongroup.onlinecreditapplication.Adapter.DependentAdapter;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.OnParseListener;
@@ -128,9 +130,10 @@ public class Activity_Dependent extends AppCompatActivity {
     private void AddDependent(){
         poDpndt.setFullName(tieFullname.getText().toString());
         poDpndt.setDpdntAge(Integer.parseInt(tieDpdAgexx.getText().toString()));
+        poDpndt.setCompName(tieCompName.getText().toString());
+
         poDpndt.setSchoolNm(tieSchoolNm.getText().toString());
         poDpndt.setSchlAddx(tieSchlAddx.getText().toString());
-        poDpndt.setCompName(tieCompName.getText().toString());
         mViewModel.addDependent(poDpndt, new VMDependent.OnAddDependetListener() {
             @Override
             public void OnAdd(String args) {
@@ -146,11 +149,7 @@ public class Activity_Dependent extends AppCompatActivity {
                 actSchoolLvl.setText("");
                 cbStudent.setChecked(false);
                 cbEmployee.setChecked(false);
-                rbScPblc.setChecked(false);
-                rbScPrvt.setChecked(false);
-                rbEmPblc.setChecked(false);
-                rbEmPrvt.setChecked(false);
-                rbEmOFW.setChecked(false);
+                rgEmpSctr.clearCheck();
                 cbDependent.setChecked(false);
                 cbHouseHold.setChecked(false);
                 cbIsMarried.setChecked(false);
@@ -164,6 +163,13 @@ public class Activity_Dependent extends AppCompatActivity {
     }
 
     private void SaveDependentInfo() {
+        mViewModel.GetDependents().observe(Activity_Dependent.this, loList->{
+            mViewModel.getModel().clear();
+            for(int x = 0; x < loList.size(); x++){
+                Dependent.DependentInfo info = loList.get(x);
+                mViewModel.getModel().Add(info);
+            }
+        });
         mViewModel.SaveData(new OnSaveInfoListener() {
             @Override
             public void OnSave(String args) {
@@ -226,7 +232,6 @@ public class Activity_Dependent extends AppCompatActivity {
         btnAddDependent = findViewById(R.id.btn_dpd_add);
         btnNext = findViewById(R.id.btn_creditAppNext);
         btnPrev = findViewById(R.id.btn_creditAppPrvs);
-
         cbStudent.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if(isChecked) {
                 findViewById(R.id.linearStudent).setVisibility(View.VISIBLE);
@@ -364,18 +369,11 @@ public class Activity_Dependent extends AppCompatActivity {
         });
     }
 
+    @SuppressLint("NewApi")
     public void setUpFieldsFromLocalDB(Dependent infoModel) throws JSONException {
         if(infoModel != null) {
             if(infoModel.getDependentList().size() > 0) {
-                List<Dependent.DependentInfo> poDependnt = new ArrayList<>();
-                for (int x = 0; x < infoModel.getDependentList().size(); x++) {
-                    Dependent.DependentInfo loDependnt = infoModel.getDependentList().get(x);
-                    if (!loDependnt.isDataValid()) {
-                        poDependnt.remove(x);
-                    } else {
-                        poDependnt.add(loDependnt);
-                    }
-                }
+                mViewModel.setDependents(infoModel.getDependentList());
             }
         }
     }

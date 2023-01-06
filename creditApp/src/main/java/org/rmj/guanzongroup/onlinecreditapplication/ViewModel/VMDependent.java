@@ -18,6 +18,7 @@ import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditOnlineApplication;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Dependent;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Personal;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Reference;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +49,13 @@ public class VMDependent extends AndroidViewModel implements CreditAppUI {
 
     public Dependent getModel() {
         return poModel;
+    }
+
+    public void setDependents(List<Dependent.DependentInfo> foList){
+        poList.getValue().clear();
+        poList.setValue(foList);
+//        Objects.requireNonNull(loList).getValue().clear();
+//        Objects.requireNonNull(loList).setValue(foList);
     }
 
     public LiveData<List<Dependent.DependentInfo>> GetDependents(){

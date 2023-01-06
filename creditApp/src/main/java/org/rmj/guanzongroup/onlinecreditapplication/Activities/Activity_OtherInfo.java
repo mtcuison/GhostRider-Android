@@ -241,13 +241,11 @@ public class Activity_OtherInfo extends AppCompatActivity {
                             for (int x = 0; x < loList.size(); x++) {
                                 String lsLabel = loList.get(x).sTownName + ", " + loList.get(x).sProvName;
                                 String lsSlctd = tieAddTown.getText().toString().trim();
-                                reference.setTownCity(loList.get(x).sTownIDxx);
-//                                if (lsSlctd.equalsIgnoreCase(lsLabel)) {
-//                                    mViewModel.getModel().getR
-//                                    mViewModel.getModel().setBirthPlc(lsLabel);
-
-//                                    break;
-//                                }
+                                if (lsSlctd.equalsIgnoreCase(lsLabel)) {
+                                    reference.setTownCity(loList.get(x).sTownIDxx);
+                                    reference.setTownName(lsLabel);
+                                    break;
+                                }
                             }
                         }
                     });

@@ -362,7 +362,6 @@ public class GoCasBuilder {
     private void setupDependentInfo() throws Exception {
         if(poInfo.getDependnt() != null) {
             JSONObject loDependent = new JSONObject(poInfo.getDependnt());
-            Log.e(TAG, poInfo.getDependnt());
             JSONArray loDpd = loDependent.getJSONArray("children");
             for (int x = 0; x < loDpd.length(); x++) {
                 JSONObject dpd = loDpd.getJSONObject(x);
@@ -408,13 +407,14 @@ public class GoCasBuilder {
         poGOCas.OtherInfo().setUnitPayor(loOther.getString("sPurposex"));
         poGOCas.OtherInfo().setUnitPayor(loOther.getString("sUnitPayr"));
         try {
-            poGOCas.OtherInfo().setPayorRelation(loOther.getString("sPyr2Buyr"));
+            if(loOther.getString("sUnitPayr").equalsIgnoreCase("1")){
+                poGOCas.OtherInfo().setPayorRelation(loOther.getString("sPyr2Buyr"));
+            }
         } catch (Exception e){
             e.printStackTrace();
         }
         poGOCas.OtherInfo().setUnitUser(loOther.getString("sUnitUser"));
         poGOCas.OtherInfo().setPurpose(loOther.getString("sPurposex"));
-        poGOCas.OtherInfo().setSourceInfo(loOther.getString("sSrceInfo"));
         poGOCas.OtherInfo().setSourceInfo(loOther.getString("sSrceInfo"));
 
         JSONArray loRef = loOther.getJSONArray("personal_reference");
@@ -425,7 +425,6 @@ public class GoCasBuilder {
             poGOCas.OtherInfo().setPRTownCity(x, reference.getString("sRefrTown"));
             poGOCas.OtherInfo().setPRMobileNo(x, reference.getString("sRefrMPNx"));
             poGOCas.OtherInfo().setPRAddress(x, reference.getString("sRefrAddx"));
-            Log.e(TAG, "Count = " + x);
         }
     }
 

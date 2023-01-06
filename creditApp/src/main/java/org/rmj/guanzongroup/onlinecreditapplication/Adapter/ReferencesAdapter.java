@@ -22,6 +22,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Reference;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 
@@ -49,12 +50,12 @@ public class ReferencesAdapter extends RecyclerView.Adapter<ReferencesAdapter.It
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
         Reference reference = referenceInfoModels.get(position);
-        Reference poRef = new Reference(reference.getFullname(),reference.getAddress1(),reference.getTownCity(),reference.getContactN());
+        Reference poRef = new Reference(reference.getFullname(),reference.getAddress1(),reference.getTownCity(),reference.getTownName(),reference.getContactN());
         String lsRefNoxx = String.valueOf(position+1);
 
         holder.lblReferenceNo.setText("Reference No. " + lsRefNoxx);
         holder.lblRefName.setText(reference.getFullname());
-        holder.lblRefTown.setText(reference.getAddress1() + ", " + reference.getTownCity());
+        holder.lblRefTown.setText(reference.getAddress1() + ", " + reference.getTownName());
         holder.lblRefContact.setText(reference.getContactN());
 //        if (poRef.isDataValid()){
 //            holder.lblReferenceNo.setText("Reference No. " + lsRefNoxx);
