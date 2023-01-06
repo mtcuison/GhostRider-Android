@@ -17,7 +17,7 @@ public class Dashboard {
     public Fragment InitializeDashboard(EEmployeeInfo args){
         String lsEmpRole = args.getPositnID();
         switch (args.getEmpLevID()){
-            case "0":
+            case 0:
                 if(lsEmpRole.equalsIgnoreCase(PositionCode.Code_Collector)){
                     return new Fragment_RankFileHome();
                 } else if(lsEmpRole.equalsIgnoreCase(PositionCode.Code_Collection_Staff)){
@@ -27,13 +27,13 @@ public class Dashboard {
                 } else {
                     return new Fragment_RankFileHome();
                 }
-            case "1":
+            case 1:
                 return new Fragment_SuperVisorHome();
-            case "2":
+            case 2:
                 return new Fragment_DeptHeadHome();
-            case "3":
+            case 3:
                 return new Fragment_BranchHeadHome();
-            case "4":
+            case 4:
                 return new Fragment_AreaManagerHome();
             default:
                 return new Fragment_GeneralManagerHome();
