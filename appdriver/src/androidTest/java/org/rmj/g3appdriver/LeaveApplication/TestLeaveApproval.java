@@ -70,8 +70,8 @@ public class TestLeaveApproval {
         loDetail.setTranStat("3");
         loDetail.setAppldFrx("2022-09-20");
         loDetail.setAppldTox("2022-09-20");
-        loDetail.setWithOPay("0");
-        loDetail.setWithPayx("1");
+        loDetail.setWithOPay(0);
+        loDetail.setWithPayx(1);
         loDetail.setApproved("M00119001131");
         String lsTransNox = poSys.SaveApproval(loDetail);
         if(lsTransNox == null){

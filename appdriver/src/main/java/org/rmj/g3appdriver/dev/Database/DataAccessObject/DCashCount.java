@@ -17,6 +17,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ECashCount;
 
 import java.util.List;
@@ -39,15 +40,27 @@ public interface DCashCount {
     @Query("SELECT * FROM Cash_Count_Master WHERE sTransNox =:TransNox")
     LiveData<ECashCount> getCashCounDetetail(String TransNox);
 
-    @Query("SELECT * FROM Cash_Count_Master WHERE sTransNox =:TransNox")
-    List<ECashCount> getDuplicateTransNox(String TransNox);
+    @Query("SELECT * FROM Branch_Info WHERE sBranchCd =:args")
+    LiveData<EBranchInfo> GetBranchForCashCount(String args);
+
+    @Query("SELECT COUNT(*) FROM Employee_Log_Selfie WHERE dTransact =:args")
+    int CheckIfHasSelfieLog(String args);
+
+    @Query("SELECT b.* FROM Employee_Log_Selfie a " +
+            "LEFT JOIN Branch_Info b " +
+            "ON a.sBranchCd = b.sBranchCd " +
+            "LEFT JOIN Cash_Count_Master c ON b.sBranchCd = c.sBranchCd " +
+            "WHERE c.sBranchCd IS NULL")
+    List<EBranchInfo> GetBranchesForCashCount();
 
     @Query("UPDATE Cash_Count_Master SET " +
-            "sSendStat = 1 " +
+            "sTransNox =:transNox, " +
+            "sSendStat = 1," +
+            "dModified =:dateTime " +
             "WHERE sTransNox =:fsVal ")
-    void UpdateUploadedCashCount(String fsVal);
+    void UpdateUploadedCashCount(String transNox, String fsVal, String dateTime);
 
-    @Query("SELECT * FROM Cash_Count_Master WHERE sSendStat <> '1'")
+    @Query("SELECT * FROM Cash_Count_Master WHERE sSendStat == 0")
     List<ECashCount> GetUnsentCashCountEntries();
 
     @Query("SELECT a.*, " +
@@ -60,8 +73,14 @@ public interface DCashCount {
     @Query("SELECT * FROM Cash_Count_Master WHERE sBranchCd =:BranchCd AND dTransact=:Transact")
     ECashCount GetCashCountForBranch(String BranchCd, String Transact);
 
+    @Query("SELECT sAreaCode FROM Branch_Info WHERE sBranchCd =:BranchCd")
+    String GetBranchAreaCode(String BranchCd);
+
+    @Query("SELECT sAreaCode FROM Branch_Info WHERE sBranchCd = (SELECT sBranchCd FROM User_Info_Master)")
+    String GetUserAreaCode();
+
     @Query("SELECT sEmpLevID FROM User_Info_Master")
-    String GetEmployeeLevel();
+    int GetEmployeeLevel();
 
     class CashCountLog{
         public String sTransNox;

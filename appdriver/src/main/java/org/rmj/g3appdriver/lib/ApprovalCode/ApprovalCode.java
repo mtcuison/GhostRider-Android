@@ -241,11 +241,11 @@ public class ApprovalCode {
                 " ORDER BY sSCATitle";
 
         String lsCondition = "";
-        String lsEmpLvID = loUser.getEmpLevID();
+        int lsEmpLvID = loUser.getEmpLevID();
         String lsDeptIDx = loUser.getDeptIDxx();
         String lsPostion = loUser.getPositnID();
 
-        if (lsEmpLvID.equals("4")){
+        if (lsEmpLvID == 4){
             lsCondition  = "cAreaHead = '1'";
         } else{
             switch (lsDeptIDx){
@@ -264,9 +264,15 @@ public class ApprovalCode {
                 case "024": //scm
                     lsCondition = "cSCMDeptx = '1'"; break;
                 case "026": //mis
+
+
+
                     break;
                 case "015": //sales
-                    if (lsPostion.equals("091") || lsPostion.equals("299") || lsPostion.equals("298")){
+                    if (lsPostion.equals("091") ||
+                            lsPostion.equals("056") ||
+                            lsPostion.equals("299") ||
+                            lsPostion.equals("298")){
                         //field specialist
                         lsCondition = "sSCACodex = 'CA'";
                     } else {

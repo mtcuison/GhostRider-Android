@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:grid="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:theme="@style/GhostRiderMaterialTheme.WhiteBG"
     tools:context=".Activities.Activity_MeansInfoSelection">
@@ -52,58 +53,47 @@
             android:text="Please select the source of income of client. If client doesn't have any source of income you can skip this area."
             android:textColor="@color/black"
             tools:ignore="HardcodedText" />
-
-        <LinearLayout
+        <org.rmj.guanzongroup.onlinecreditapplication.Etc.RadioGridGroup
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="10dp">
-
-            <CheckBox
-                android:id="@+id/cb_employed"
-                android:layout_width="match_parent"
+            android:id="@+id/rgMeans"
+            grid:columnCount="2"
+            grid:useDefaultMargins="true"
+            >
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:id="@+id/rb_employed"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
-                android:layout_weight="1"
                 android:fontFamily="@font/roboto_medium"
-                android:text="Employed" />
+                android:text="Employed"
+                grid:layout_columnWeight="1"/>
 
-            <CheckBox
-                android:id="@+id/cb_finance"
-                android:layout_width="match_parent"
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:id="@+id/rb_finance"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
-                android:layout_weight="1"
+                grid:layout_columnWeight="1"
                 android:fontFamily="@font/roboto_medium"
                 android:text="Finance" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="10dp">
-
-            <CheckBox
-                android:id="@+id/cb_sEmployed"
-                android:layout_width="match_parent"
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:id="@+id/rb_sEmployed"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
-                android:layout_weight="1"
+                grid:layout_columnWeight="1"
                 android:fontFamily="@font/roboto_medium"
                 android:text="Self Employed" />
-
-            <CheckBox
-                android:id="@+id/cb_pension"
-                android:layout_width="match_parent"
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:id="@+id/rb_pension"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
-                android:layout_weight="1"
+                grid:layout_columnWeight="1"
                 android:fontFamily="@font/roboto_medium"
                 android:text="Pension" />
-
-        </LinearLayout>
+        </org.rmj.guanzongroup.onlinecreditapplication.Etc.RadioGridGroup>
 
         <RelativeLayout
             android:layout_width="match_parent"

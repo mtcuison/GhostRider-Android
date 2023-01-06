@@ -42,33 +42,38 @@ public class SpousePensionInfo implements CreditApp {
     @Override
     public Object Parse(ECreditApplicantInfo args) {
         try{
-            String lsDetail = args.getPensionx();
-            GOCASApplication gocas = new GOCASApplication();
-            JSONParser loJson = new JSONParser();
-            JSONObject joDetail = (JSONObject) loJson.parse(lsDetail);
-            gocas.SpouseMeansInfo().PensionerInfo().setData(joDetail);
-
             SpousePension loDetail = new SpousePension();
+            if (args.getSpsPensn() != null){
+                String lsDetail = args.getSpsPensn();
+                GOCASApplication gocas = new GOCASApplication();
+                JSONParser loJson = new JSONParser();
+                JSONObject joDetail = (JSONObject) loJson.parse(lsDetail);
+                gocas.SpouseMeansInfo().PensionerInfo().setData(joDetail);
 
-            loDetail.setPensionSector(gocas.SpouseMeansInfo().PensionerInfo().getSource());
-            loDetail.setPensionIncomeRange(gocas.SpouseMeansInfo().PensionerInfo().getAmount());
+                loDetail.setPensionSector(gocas.SpouseMeansInfo().PensionerInfo().getSource());
+                loDetail.setPensionIncomeRange(gocas.SpouseMeansInfo().PensionerInfo().getAmount());
 //            loDetail.setRetirementYear(gocas.MeansInfo().PensionerInfo().get);
 
-            lsDetail = args.getSpOthInc();
-            gocas = new GOCASApplication();
-            loJson = new JSONParser();
-            joDetail = (JSONObject) loJson.parse(lsDetail);
-            gocas.SpouseMeansInfo().setData(joDetail);
+                lsDetail = args.getSpOthInc();
+                gocas = new GOCASApplication();
+                loJson = new JSONParser();
+                joDetail = (JSONObject) loJson.parse(lsDetail);
+                gocas.SpouseMeansInfo().setData(joDetail);
 
-            loDetail.setNatureOfIncome(gocas.SpouseMeansInfo().getOtherIncomeNature());
+                loDetail.setNatureOfIncome(gocas.SpouseMeansInfo().getOtherIncomeNature());
 //            loDetail.setRangeOfIncom(gocas.MeansInfo().getOtherIncomeAmount());
 
 
 
-            poDetail = loDetail;
+                poDetail = loDetail;
 
+            }
             return loDetail;
-        } catch (Exception e){
+        } catch (NullPointerException e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return null;
+        }catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();
             return null;

@@ -32,7 +32,12 @@ import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_C
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_LogCollection;
 import org.rmj.guanzongroup.ghostrider.samsungknox.Activity_Knox;
 import org.rmj.guanzongroup.onlinecreditapplication.Activities.Activity_BranchApplications;
+import org.rmj.guanzongroup.onlinecreditapplication.Activities.Activity_ComakerResidence;
+import org.rmj.guanzongroup.onlinecreditapplication.Activities.Activity_DisbursementInfo;
 import org.rmj.guanzongroup.onlinecreditapplication.Activities.Activity_IntroductoryQuestion;
+import org.rmj.guanzongroup.onlinecreditapplication.Activities.Activity_MeansInfoSelection;
+import org.rmj.guanzongroup.onlinecreditapplication.Activities.Activity_PersonalInfo;
+import org.rmj.guanzongroup.onlinecreditapplication.Activities.Activity_Properties;
 
 public class ChildObject {
 
@@ -59,6 +64,8 @@ public class ChildObject {
                 loIntent.putExtra("syscode", "2");
                 break;
             case "loan application":
+//                loIntent = new Intent(context, Activity_PersonalInfo.class);
+//                loIntent.putExtra("sTransNox","MX012300004");
                 loIntent = new Intent(context, Activity_IntroductoryQuestion.class);
 //                loIntent = new Intent(context, Activity_CreditAppHome.class);
                 break;

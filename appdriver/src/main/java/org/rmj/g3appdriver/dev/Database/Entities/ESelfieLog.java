@@ -37,6 +37,8 @@ public class ESelfieLog {
     private String Longitud;
     @ColumnInfo(name = "sImageIDx")
     private String ImageIDx;
+    @ColumnInfo(name = "sRemarksx")
+    private String Remarksx;
     @ColumnInfo(name = "cSendStat")
     private String SendStat = "0";
     @ColumnInfo(name = "dSendDate")
@@ -144,5 +146,13 @@ public class ESelfieLog {
 
     public void setImageIDx(String imageIDx) {
         ImageIDx = imageIDx;
+    }
+
+    public String getRemarksx() {
+        return Remarksx;
+    }
+
+    public void setRemarksx(String remarksx) {
+        Remarksx = remarksx;
     }
 }

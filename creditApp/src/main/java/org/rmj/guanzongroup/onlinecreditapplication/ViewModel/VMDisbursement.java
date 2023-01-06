@@ -22,6 +22,7 @@ public class VMDisbursement extends AndroidViewModel implements CreditAppUI {
 
     private final CreditApp poApp;
     private final Disbursement poModel;
+    private String cvlStatus;
 
     private String TransNox;
 
@@ -35,6 +36,13 @@ public class VMDisbursement extends AndroidViewModel implements CreditAppUI {
 
     public Disbursement getModel() {
         return poModel;
+    }
+    public String getCvlStatus() {
+        return cvlStatus;
+    }
+
+    public void setCvlStatus(String args) {
+        this.cvlStatus = args;
     }
 
     @Override
@@ -79,6 +87,10 @@ public class VMDisbursement extends AndroidViewModel implements CreditAppUI {
                     return null;
                 }
                 return loDetail;
+            } catch (NullPointerException e){
+                e.printStackTrace();
+                message = e.getMessage();
+                return null;
             } catch (Exception e){
                 e.printStackTrace();
                 message = e.getMessage();

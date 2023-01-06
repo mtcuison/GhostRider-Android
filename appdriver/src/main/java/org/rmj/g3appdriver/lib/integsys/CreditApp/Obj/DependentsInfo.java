@@ -45,42 +45,46 @@ public class DependentsInfo implements CreditApp {
     @Override
     public Object Parse(ECreditApplicantInfo args) {
         try{
-            String lsDetail = args.getDependnt();
-            GOCASApplication gocas = new GOCASApplication();
-            JSONParser loJson = new JSONParser();
-            JSONObject joDetail = (JSONObject) loJson.parse(lsDetail);
-            gocas.DisbursementInfo().DependentInfo().setData(joDetail);
-
             Dependent loDetail = new Dependent();
-
-            JSONArray loList = (JSONArray) joDetail.get("children");
-            if(loList.size() > 0){
-                for(int x = 0; x < loList.size(); x++){
-                    JSONObject loChildren = (JSONObject) loList.get(x);
-                    Dependent.DependentInfo loInfo = new Dependent.DependentInfo();
-                    loInfo.setFullName((String) loChildren.get("sFullName"));
-                    loInfo.setRelation((String) loChildren.get("sRelatnCD"));
-                    long lnAge = (long) loChildren.get("nDepdAgex");
-                    loInfo.setDpdntAge((int) lnAge);
-                    loInfo.setStudentx((String) loChildren.get("cIsPupilx"));
-                    loInfo.setSchoolNm((String) loChildren.get("sSchlName"));
-                    loInfo.setSchlAddx((String) loChildren.get("sSchlAddr"));
-                    loInfo.setSchlTown((String) loChildren.get("sSchlTown"));
-                    loInfo.setSchoolTp((String) loChildren.get("cIsPrivte"));
-                    loInfo.setEduLevel((String) loChildren.get("sEducLevl"));
-                    loInfo.setSchoolar((String) loChildren.get("cIsSchlrx"));
-                    loInfo.setEmployed((String) loChildren.get("cHasWorkx"));
-                    loInfo.setEmpSctor((String) loChildren.get("cWorkType"));
-                    loInfo.setCompName((String) loChildren.get("sCompanyx"));
-                    loInfo.setHouseHld((String) loChildren.get("cHouseHld"));
-                    loInfo.setDependnt((String) loChildren.get("cDependnt"));
-                    loInfo.setMarriedx((String) loChildren.get("cIsMarrdx"));
+            if(args.getDependnt() != null){
+                String lsDetail = args.getDependnt();
+                GOCASApplication gocas = new GOCASApplication();
+                JSONParser loJson = new JSONParser();
+                JSONObject joDetail = (JSONObject) loJson.parse(lsDetail);
+                gocas.DisbursementInfo().DependentInfo().setData(joDetail);
+                JSONArray loList = (JSONArray) joDetail.get("children");
+                if(loList.size() > 0){
+                    for(int x = 0; x < loList.size(); x++){
+                        JSONObject loChildren = (JSONObject) loList.get(x);
+                        Dependent.DependentInfo loInfo = new Dependent.DependentInfo();
+                        loInfo.setFullName((String) loChildren.get("sFullName"));
+                        loInfo.setRelation((String) loChildren.get("sRelatnCD"));
+                        long lnAge = (long) loChildren.get("nDepdAgex");
+                        loInfo.setDpdntAge((int) lnAge);
+                        loInfo.setStudentx((String) loChildren.get("cIsPupilx"));
+                        loInfo.setSchoolNm((String) loChildren.get("sSchlName"));
+                        loInfo.setSchlAddx((String) loChildren.get("sSchlAddr"));
+                        loInfo.setSchlTown((String) loChildren.get("sSchlTown"));
+                        loInfo.setSchoolTp((String) loChildren.get("cIsPrivte"));
+                        loInfo.setEduLevel((String) loChildren.get("sEducLevl"));
+                        loInfo.setSchoolar((String) loChildren.get("cIsSchlrx"));
+                        loInfo.setEmployed((String) loChildren.get("cHasWorkx"));
+                        loInfo.setEmpSctor((String) loChildren.get("cWorkType"));
+                        loInfo.setCompName((String) loChildren.get("sCompanyx"));
+                        loInfo.setHouseHld((String) loChildren.get("cHouseHld"));
+                        loInfo.setDependnt((String) loChildren.get("cDependnt"));
+                        loInfo.setMarriedx((String) loChildren.get("cIsMarrdx"));
+                    }
                 }
+
+                poDetail = loDetail;
+
             }
-
-            poDetail = loDetail;
-
             return loDetail;
+        } catch (NullPointerException e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return null;
         } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();

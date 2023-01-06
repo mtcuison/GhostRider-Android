@@ -91,10 +91,11 @@ public class VMCreateAccount extends AndroidViewModel{
                 AppConfigPreference poConfig = AppConfigPreference.getInstance(instance);
                 webApi = new WebApi(poConfig.getTestStatus());
                 headers = HttpHeaders.getInstance(instance);
-                if (poConn.isDeviceConnected()) {response = WebClient.httpsPostJSon(webApi.getUrlCreateAccount(poConfig.isBackUpServer()), jsonObjects[0].toString(), (HashMap<String, String>) headers.getHeaders());
+                if (poConn.isDeviceConnected()) {
+                    response = WebClient.httpsPostJSon(webApi.getUrlCreateAccount(poConfig.isBackUpServer()), jsonObjects[0].toString(), (HashMap<String, String>) headers.getHeaders());
                     Log.e(TAG, response);
                 } else {
-                    callBack.OnFailedRegistration(AppConstants.LOCAL_EXCEPTION_ERROR("Unable to connect. Please check your internet connection."));
+                    response = AppConstants.LOCAL_EXCEPTION_ERROR("Unable to connect. Please check your internet connection.");
                 }
             } catch (IOException e) {
                 e.printStackTrace();

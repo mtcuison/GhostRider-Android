@@ -238,7 +238,7 @@ public class Fragment_Settings  extends PreferenceFragmentCompat {
                 debugMode.setVisible(true);
             }
             debugMode.setOnPreferenceClickListener(preference -> {
-                startActivityForResult(new Intent(getActivity(), Activity_Developer.class), DEV_MODE);
+                startActivity(new Intent(getActivity(), Activity_Developer.class));
                 requireActivity().overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
                 return false;
             });

@@ -6,6 +6,7 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
+import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EInventoryMaster;
 
 import java.util.List;
@@ -27,4 +28,11 @@ public interface DInventoryMaster {
 
     @Query("UPDATE Inventory_Count_Master SET cTranStat = '2' WHERE sTransNox=:TransNox")
     void UpdateInventoryMasterPostedStatus(String TransNox);
+
+    @Query("SELECT b.* FROM Employee_Log_Selfie a " +
+            "LEFT JOIN Branch_Info b " +
+            "ON a.sBranchCd = b.sBranchCd " +
+            "LEFT JOIN Inventory_Count_Master c ON b.sBranchCd = c.sBranchCd " +
+            "WHERE c.sBranchCd IS NULL OR c.cTranStat = '0'")
+    List<EBranchInfo> GetBranchesForInventory();
 }

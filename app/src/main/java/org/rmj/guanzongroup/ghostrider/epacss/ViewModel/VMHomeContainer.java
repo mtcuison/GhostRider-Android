@@ -57,7 +57,7 @@ public class VMHomeContainer extends AndroidViewModel {
         return poUser.GetEmployeeInfo();
     }
 
-    public String getEmployeeLevel(){
-        return poSession.getEmployeeLevel();
-    }
+//    public String getEmployeeLevel(){
+//        return poSession.getEmployeeLevel();
+//    }
 }

@@ -12,7 +12,6 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Activities;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -38,8 +37,7 @@ import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.LoanInfo;
-import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMIntroductoryQuestion;
 

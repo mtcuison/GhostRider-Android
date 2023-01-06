@@ -16,8 +16,11 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.RawQuery;
 import androidx.room.Update;
+import androidx.sqlite.db.SupportSQLiteQuery;
 
+import org.rmj.g3appdriver.dev.Database.Entities.EBranchOpenMonitor;
 import org.rmj.g3appdriver.dev.Database.Entities.ENotificationMaster;
 import org.rmj.g3appdriver.dev.Database.Entities.ENotificationRecipient;
 import org.rmj.g3appdriver.dev.Database.Entities.ENotificationUser;
@@ -227,6 +230,15 @@ public interface DNotifications {
             "cStatSent = '1' " +
             "WHERE sTransNox =:MessageID")
     void UpdateSentResponseStatus(String MessageID, String Status, String dateTime);
+
+    @Query("SELECT * FROM Notification_Info_Master WHERE sMesgIDxx=:fsVal")
+    ENotificationMaster CheckIfMasterExist(String fsVal);
+
+    @Insert
+    void SaveBranchOpening(EBranchOpenMonitor foVal);
+
+    @RawQuery
+    String ExecuteTableUpdateQuery(SupportSQLiteQuery query);
 
     class ClientNotificationInfo{
         public String MesgIDxx;

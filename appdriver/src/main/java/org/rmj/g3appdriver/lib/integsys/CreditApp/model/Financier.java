@@ -1,5 +1,7 @@
 package org.rmj.g3appdriver.lib.integsys.CreditApp.model;
 
+import android.util.Log;
+
 public class Financier {
 
     private String TransNox = "";
@@ -11,6 +13,7 @@ public class Financier {
     private String sFMoble = "";
     private String sFFcbkx = "";
     private String sFEmlx = "";
+    private String cMeanInfo = "";
 
     private String message;
 
@@ -20,6 +23,15 @@ public class Financier {
     public String getMessage(){
         return message;
     }
+
+    public String getcMeanInfo() {
+        return cMeanInfo;
+    }
+
+    public void setcMeanInfo(String cMeanInfo) {
+        this.cMeanInfo = cMeanInfo;
+    }
+
 
     public String getTransNox() {
         return TransNox;
@@ -86,6 +98,15 @@ public class Financier {
 
     public void setEmail(String sFEmlx) {
         this.sFEmlx = sFEmlx;
+    }
+
+    public boolean isPrimary(){
+        Log.e("means = ", cMeanInfo);
+        if (!cMeanInfo.equalsIgnoreCase("2")){
+            return false;
+        }
+        return true;
+
     }
 
     public boolean isDataValid(){

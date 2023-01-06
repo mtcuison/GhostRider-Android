@@ -1,5 +1,6 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Activities;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,13 +22,15 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import org.json.JSONException;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EBarangayInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
+import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.CoMakerResidence;
-import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.OnParseListener;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMComakerResidence;
@@ -45,13 +48,14 @@ public class Activity_ComakerResidence extends AppCompatActivity {
     private AutoCompleteTextView txtBarangay, txtMunicipality, txtProvince;
     private AutoCompleteTextView spnLgnthStay, spnHouseHold, spnHouseType;
 
-
     private RadioGroup rgOwnsership, rgGarage;
 
     private TextInputLayout tilRelationship;
     private LinearLayout lnOtherInfo;
     private Button btnNext, btnPrvs;
     private Toolbar toolbar;
+
+    private String TransNox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,136 +65,26 @@ public class Activity_ComakerResidence extends AppCompatActivity {
         setContentView(R.layout.activity_comaker_residence);
         initWidgets();
         mViewModel.InitializeApplication(getIntent());
-        mViewModel.GetApplication().observe(Activity_ComakerResidence.this, new Observer<ECreditApplicantInfo>() {
-            @Override
-            public void onChanged(ECreditApplicantInfo app) {
-                try {
-                    mViewModel.getModel().setTransNox(app.getTransNox());
-                    mViewModel.ParseData(app, new OnParseListener() {
-                        @Override
-                        public void OnParse(Object args) {
-                            CoMakerResidence loDetail = (CoMakerResidence) args;
+        mViewModel.GetApplication().observe(Activity_ComakerResidence.this, app -> {
+            try {
+                TransNox = app.getTransNox();
+                mViewModel.getModel().setTransNox(app.getTransNox());
+                mViewModel.ParseData(app, new OnParseListener() {
+                    @Override
+                    public void OnParse(Object args) {
+                        CoMakerResidence loDetail = (CoMakerResidence) args;
+                        try {
+                            setUpFieldsFromLocalDB(loDetail);
+                            initSpinner();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                    });
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         });
-
-//        mViewModel.GetTownProvinceList().observe(Activity_ComakerResidence.this, new Observer<List<DTownInfo.TownProvinceInfo>>() {
-//            @RequiresApi(api = Build.VERSION_CODES.N)
-//            @Override
-//            public void onChanged(List<DTownInfo.TownProvinceInfo> provList) {
-//                try {
-//                    ArrayList<String> strings = new ArrayList<>();
-//                    for (int x = 0; x < provList.size(); x++) {
-//                        String lsProv = "" + provList.get(x).sProvName;
-////                        String lsTown =  loList.get(x).sProvName ;
-//                        strings.add(lsProv);
-//
-//                        Set<Object> set = new HashSet<>();
-//                        strings.removeIf((String i) -> {
-//                            return !set.add(i);
-//                        });
-//                    }
-//
-//                    ArrayAdapter<String> adapter = new ArrayAdapter<>(Activity_ComakerResidence.this, android.R.layout.simple_spinner_dropdown_item, strings.toArray(new String[0]));
-//                    txtProvince.setAdapter(adapter);
-//                    txtProvince.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
-//                    txtProvince.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                        @Override
-//                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                            for (int x = 0; x < provList.size(); x++) {
-//                                String lsLabel = provList.get(x).sProvName;
-//                                String lsSlctd = txtProvince.getText().toString().trim();
-//                                if (lsSlctd.equalsIgnoreCase(lsLabel)) {
-//                                    mViewModel.getModel().setProvinceID(provList.get(x).sProvIDxx);
-//                                    mViewModel.getModel().setProvinceNm(lsLabel);
-//                                    break;
-//                                }
-//                            }
-//
-//
-//                            mViewModel.GetTownProvinceList().observe(Activity_ComakerResidence.this, new Observer<List<DTownInfo.TownProvinceInfo>>() {
-//                                @Override
-//                                public void onChanged(List<DTownInfo.TownProvinceInfo> townList) {
-//                                    try {
-//                                        ArrayList<String> string = new ArrayList<>();
-//                                        for (int x = 0; x < townList.size(); x++) {
-//                                            String lsTown = townList.get(x).sTownName + "";
-////                        String lsTown =  loList.get(x).sProvName ;
-//                                            string.add(lsTown);
-//                                            Set<Object> set = new HashSet<>();
-//                                            string.removeIf((String i) -> {
-//                                                return !set.add(i);
-//                                            });
-//
-//                                        }
-//
-//                                        ArrayAdapter<String> adapters = new ArrayAdapter<>(Activity_ComakerResidence.this, android.R.layout.simple_spinner_dropdown_item, string.toArray(new String[0]));
-//                                        txtMunicipality.setAdapter(adapters);
-//                                        txtMunicipality.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
-//                                        txtMunicipality.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                                            @Override
-//                                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                                                for (int x = 0; x < townList.size(); x++) {
-//                                                    String lsLabel = townList.get(x).sTownName;
-//                                                    String lsSlctd = txtMunicipality.getText().toString().trim();
-//                                                    if (lsSlctd.equalsIgnoreCase(lsLabel)) {
-//                                                        mViewModel.getModel().setMunicipalID(townList.get(x).sTownIDxx);
-//                                                        mViewModel.getModel().setMunicipalNm(lsLabel);
-//                                                        break;
-//                                                    }
-//                                                }
-//
-//                                                mViewModel.GetBarangayList(mViewModel.getModel().getMunicipalID()).observe(Activity_ComakerResidence.this, new Observer<List<EBarangayInfo>>() {
-//                                                    @Override
-//                                                    public void onChanged(List<EBarangayInfo> BrgyList) {
-//                                                        try {
-//                                                            ArrayList<String> string = new ArrayList<>();
-//                                                            for (int x = 0; x < BrgyList.size(); x++) {
-//                                                                String lsBrgy = BrgyList.get(x).getBrgyName();
-//                                                                string.add(lsBrgy);
-//                                                            }
-//                                                            ArrayAdapter<String> adapters = new ArrayAdapter<>(Activity_ComakerResidence.this,
-//                                                                    android.R.layout.simple_spinner_dropdown_item, string.toArray(new String[0]));
-//                                                            txtBarangay.setAdapter(adapters);
-//                                                            txtBarangay.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
-//                                                            txtBarangay.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                                                                @Override
-//                                                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                                                                    for (int x = 0; x < BrgyList.size(); x++) {
-//                                                                        String lsLabel = BrgyList.get(x).getBrgyName();
-//                                                                        String lsSlctd = txtBarangay.getText().toString().trim();
-//                                                                        if (lsSlctd.equalsIgnoreCase(lsLabel)) {
-//                                                                            mViewModel.getModel().setBarangayID(BrgyList.get(x).getBrgyIDxx());
-//                                                                            mViewModel.getModel().setBarangayName(lsLabel);
-//                                                                        }
-//                                                                    }
-//                                                                }
-//                                                            });
-//
-//                                                        } catch (Exception e) {
-//                                                            e.printStackTrace();
-//                                                        }
-//                                                    }
-//                                                });
-//                                            }
-//                                        });
-//
-//                                    } catch (Exception e) {
-//                                        e.printStackTrace();
-//                                    }
-//                                }
-//                            });
-//                        }
-//                    });
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        });e
 
         mViewModel.GetTownProvinceList().observe(Activity_ComakerResidence.this, new Observer<List<DTownInfo.TownProvinceInfo>>() {
             @Override
@@ -261,6 +155,51 @@ public class Activity_ComakerResidence extends AppCompatActivity {
             }
         });
 
+        btnNext.setOnClickListener(v -> SaveComakerResidenceInfo());
+        btnPrvs.setOnClickListener(v -> {
+            returnPrevious();
+        });
+    }
+
+    private void SaveComakerResidenceInfo() {
+
+        mViewModel.getModel().setLandMark(txtLandMark.getText().toString().trim());
+        mViewModel.getModel().setHouseNox(txtHouseNox.getText().toString().trim());
+        mViewModel.getModel().setAddress1(txtAddress1.getText().toString().trim());
+        mViewModel.getModel().setAddress2(txtAddress2.getText().toString().trim());
+
+        mViewModel.getModel().setOwnerRelation(Objects.requireNonNull(txtRelationship.getText()).toString());
+
+        mViewModel.SaveData(new OnSaveInfoListener() {
+            @Override
+            public void OnSave(String args) {
+                Intent loIntent = new Intent(Activity_ComakerResidence.this, Activity_ReviewLoanApp.class);
+                loIntent.putExtra("sTransNox", args);
+                startActivity(loIntent);
+                overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
+                finish();
+            }
+
+            @Override
+            public void OnFailed(String message) {
+                poMessage.initDialog();
+                poMessage.setTitle("Credit Online Application");
+                poMessage.setMessage(message);
+                poMessage.setPositiveButton("Okay", new MessageBox.DialogButton() {
+                    @Override
+                    public void OnButtonClick(View view, AlertDialog dialog) {
+                        dialog.dismiss();
+                    }
+                });
+                poMessage.show();
+
+            }
+        });
+
+
+    }
+    private void initSpinner(){
+
 
         spnHouseHold.setAdapter(new ArrayAdapter<>(Activity_ComakerResidence.this,
                 android.R.layout.simple_list_item_1, CreditAppConstants.HOUSEHOLDS));
@@ -284,48 +223,13 @@ public class Activity_ComakerResidence extends AppCompatActivity {
             }
         });
 
-
-        btnNext.setOnClickListener(v -> SaveComakerResidenceInfo());
-        btnPrvs.setOnClickListener(v -> finish());
-    }
-
-    private void SaveComakerResidenceInfo() {
-
-        mViewModel.getModel().setLandMark(txtLandMark.getText().toString().trim());
-        mViewModel.getModel().setHouseNox(txtHouseNox.getText().toString().trim());
-        mViewModel.getModel().setAddress1(txtAddress1.getText().toString().trim());
-        mViewModel.getModel().setAddress2(txtAddress2.getText().toString().trim());
-
-        mViewModel.getModel().setOwnerRelation(Objects.requireNonNull(txtRelationship.getText()).toString());
-
-        mViewModel.SaveData(new OnSaveInfoListener() {
-            @Override
-            public void OnSave(String args) {
-                Intent loIntent = new Intent(Activity_ComakerResidence.this, Activity_ReviewLoanApp.class);
-                loIntent.putExtra("sTransNox", args);
-                startActivity(loIntent);
-                overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
-            }
-
-            @Override
-            public void OnFailed(String message) {
-                poMessage.initDialog();
-                poMessage.setTitle("Credit Online Application");
-                poMessage.setMessage(message);
-                poMessage.setPositiveButton("Okay", new MessageBox.DialogButton() {
-                    @Override
-                    public void OnButtonClick(View view, AlertDialog dialog) {
-                        dialog.dismiss();
-                    }
-                });
-                poMessage.show();
-
-            }
-        });
-
+        spnLgnthStay.setAdapter(new ArrayAdapter<>(Activity_ComakerResidence.this,
+                android.R.layout.simple_list_item_1, CreditAppConstants.LENGTH_OF_STAY));
+        spnLgnthStay.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+        spnLgnthStay.setOnItemClickListener((parent, view, position, id) ->
+                mViewModel.getModel().setIsYear(position));
 
     }
-
 
     private void initWidgets() {
         toolbar = findViewById(R.id.toolbar_CoMakerResidence);
@@ -362,6 +266,112 @@ public class Activity_ComakerResidence extends AppCompatActivity {
 
     }
 
+    @SuppressLint("NewApi")
+    public void setUpFieldsFromLocalDB(CoMakerResidence infoModel) throws JSONException {
+        if(infoModel != null) {
+
+            if(!"".equalsIgnoreCase(infoModel.getAddress1())){
+                txtAddress1.setText(infoModel.getAddress1());
+
+            }
+            if(!"".equalsIgnoreCase(infoModel.getAddress2())){
+                txtAddress2.setText(infoModel.getAddress2());
+            }
+            if(!"".equalsIgnoreCase(infoModel.getLandMark())){
+                txtLandMark.setText(infoModel.getLandMark());
+            }
+            if(!"".equalsIgnoreCase(infoModel.getHouseNox())){
+                txtHouseNox.setText(infoModel.getHouseNox());
+            }
+
+            if(!"".equalsIgnoreCase(infoModel.getMunicipalID())) {
+                txtMunicipality.setText(infoModel.getMunicipalNm());
+                mViewModel.getModel().setMunicipalID(infoModel.getMunicipalID());
+                mViewModel.getModel().setMunicipalNm(infoModel.getMunicipalNm());
+            }
+
+            if(!"".equalsIgnoreCase(infoModel.getBarangayID())) {
+                txtBarangay.setText(infoModel.getBarangayName());
+                mViewModel.getModel().setBarangayID(infoModel.getBarangayID());
+                mViewModel.getModel().setBarangayName(infoModel.getBarangayName());
+            }
+            if (infoModel.getHouseOwn().equalsIgnoreCase("0")) {
+                rgOwnsership.check(R.id.rb_owned);
+                mViewModel.getModel().setHouseOwn("0");
+            } else if (infoModel.getHouseOwn().equalsIgnoreCase("1") ||
+                    infoModel.getHouseOwn().equalsIgnoreCase("2")) {
+
+                if (infoModel.getHouseOwn().equalsIgnoreCase("1")) {
+                    lnOtherInfo.setVisibility(View.VISIBLE);
+                    tilRelationship.setVisibility(View.GONE);
+                    rgOwnsership.check(R.id.rb_rent);
+                    mViewModel.getModel().setHouseOwn("1");
+                } else {
+                    lnOtherInfo.setVisibility(View.VISIBLE);
+                    tilRelationship.setVisibility(View.VISIBLE);
+                    rgOwnsership.check(R.id.rb_careTaker);
+                    mViewModel.getModel().setHouseOwn("2");
+                    if(!"".equalsIgnoreCase(infoModel.getOwnerRelation())){
+                        txtRelationship.setText(infoModel.getOwnerRelation());
+                    }
+                }
+                if (infoModel.getMonthlyExpenses() > 0) {
+                    txtMonthlyExp.setText(FormatUIText.getCurrencyUIFormat(String.valueOf(infoModel.getMonthlyExpenses())));
+                }
+
+                int nlength = (int) (infoModel.getLenghtofStay() * 12);
+                if (nlength < 12) {
+                    txtLgnthStay.setText(String.valueOf(nlength));
+                    spnLgnthStay.setText(CreditAppConstants.LENGTH_OF_STAY[0], false);
+                    mViewModel.getModel().setIsYear(0);
+                    mViewModel.getModel().setLenghtOfStay(nlength);
+                } else {
+                    txtLgnthStay.setText(String.valueOf(infoModel.getLenghtofStay()));
+                    spnLgnthStay.setText(CreditAppConstants.LENGTH_OF_STAY[1], false);
+                    mViewModel.getModel().setIsYear(1);
+                    mViewModel.getModel().setLenghtOfStay(infoModel.getLenghtofStay());
+                }
+            }
+            if (infoModel.getHasGarage().equalsIgnoreCase("0")){
+                rgGarage.check(R.id.rb_no);
+                mViewModel.getModel().setHasGarage("0");
+            }else {
+                rgGarage.check(R.id.rb_yes);
+                mViewModel.getModel().setHasGarage("1");
+            }
+            if(!"".equalsIgnoreCase(infoModel.getHouseHold())){
+                spnHouseHold.setText(CreditAppConstants.HOUSEHOLDS[Integer.parseInt(infoModel.getHouseHold())]);
+                spnHouseHold.setSelection(Integer.parseInt(infoModel.getHouseHold()));
+                mViewModel.getModel().setHouseHold(infoModel.getHouseHold());
+            }
+
+            if(!"".equalsIgnoreCase(infoModel.getHouseType())){
+                spnHouseType.setText(CreditAppConstants.HOUSE_TYPE[Integer.parseInt(infoModel.getHouseType())]);
+                spnHouseType.setSelection(Integer.parseInt(infoModel.getHouseType()));
+                mViewModel.getModel().setHouseType(infoModel.getHouseType());
+            }
+
+            txtMonthlyExp.setText(!"".equalsIgnoreCase(String.valueOf(infoModel.getMonthlyExpenses())) ? String.valueOf(infoModel.getMonthlyExpenses()) : "");
+
+        }else{
+            txtLandMark.getText().clear();
+            txtHouseNox.getText().clear();
+            txtAddress1.getText().clear();
+            txtAddress2.getText().clear();
+            txtBarangay.getText().clear();
+            txtMunicipality.getText().clear();
+            txtProvince.getText().clear();
+            txtRelationship.getText().clear();
+            txtLgnthStay.getText().clear();
+            txtMonthlyExp.getText().clear();
+            spnLgnthStay.getText().clear();
+            spnHouseHold.getText().clear();
+            spnHouseType.getText().clear();
+            rgOwnsership.clearCheck();
+            rgGarage .clearCheck();
+        }
+
+    }
     private class OnHouseOwnershipSelectListener implements RadioGroup.OnCheckedChangeListener {
 
         @Override
@@ -375,13 +385,13 @@ public class Activity_ComakerResidence extends AppCompatActivity {
                     lnOtherInfo.setVisibility(View.VISIBLE);
                     tilRelationship.setVisibility(View.GONE);
                     mViewModel.getModel().setHouseOwn("1");
-                    mViewModel.getModel().setLenghtOfStay(Double.parseDouble(Objects.requireNonNull(txtLgnthStay.getText()).toString().trim()));
+//                    mViewModel.getModel().setLenghtOfStay(Double.parseDouble(Objects.requireNonNull(txtLgnthStay.getText()).toString().trim()));
                 }
                 if (i == R.id.rb_careTaker) {
                     lnOtherInfo.setVisibility(View.VISIBLE);
                     tilRelationship.setVisibility(View.VISIBLE);
                     mViewModel.getModel().setHouseOwn("2");
-                    mViewModel.getModel().setMonthlyExpenses(Double.parseDouble(Objects.requireNonNull(txtMonthlyExp.getText()).toString()));
+//                    mViewModel.getModel().setMonthlyExpenses(Double.parseDouble(Objects.requireNonNull(txtMonthlyExp.getText()).toString()));
 
                 }
             } else {
@@ -396,27 +406,29 @@ public class Activity_ComakerResidence extends AppCompatActivity {
     }
 
     @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
-    }
-
-    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            finish();
+            returnPrevious();
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onBackPressed() {
-        finish();
+        returnPrevious();
     }
 
     @Override
     protected void onDestroy() {
         getViewModelStore().clear();
         super.onDestroy();
+    }
+
+    private void returnPrevious(){
+        Intent loIntent = new Intent(Activity_ComakerResidence.this, Activity_CoMaker.class);
+        loIntent.putExtra("sTransNox", TransNox);
+        startActivity(loIntent);
+        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
+        finish();
     }
 }

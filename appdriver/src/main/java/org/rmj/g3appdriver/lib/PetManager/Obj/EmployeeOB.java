@@ -232,6 +232,7 @@ public class EmployeeOB implements iPM {
             loDetail.setApproved(foVal.getApproved());
             loDetail.setDapprove(foVal.getDateAppv());
             loDetail.setTranStat(foVal.getTranStat());
+            loDetail.setSendStat("1");
             poDao.update(loDetail);
             return loDetail.getTransNox();
         } catch (Exception e){
@@ -242,21 +243,22 @@ public class EmployeeOB implements iPM {
     }
 
     @Override
-    public boolean UploadApproval(String fsVal) {
+    public boolean UploadApproval(Object fsVal) {
         try{
-            EEmployeeBusinessTrip loDetail = poDao.GetEmployeeBusinessTrip(fsVal);
+            OBApprovalInfo foVal = (OBApprovalInfo) fsVal;
+            EEmployeeBusinessTrip loDetail = poDao.GetEmployeeBusinessTrip(foVal.getTransNox());
             if(loDetail == null){
                 message = "No business trip application found.";
                 return false;
             }
 
             JSONObject param = new JSONObject();
-            param.put("sTransNox", loDetail.getTransNox());
-            param.put("dAppldFrx", loDetail.getAppldFrx());
-            param.put("dAppldTox", loDetail.getAppldTox());
-            param.put("sApproved", loDetail.getApproved());
-            param.put("dApproved", loDetail.getDapprove());
-            param.put("cTranStat", loDetail.getTranStat());
+            param.put("sTransNox", foVal.getTransNox());
+            param.put("dAppldFrx", foVal.getAppldFrx());
+            param.put("dAppldTox", foVal.getAppldTox());
+            param.put("sApproved", foVal.getApproved());
+            param.put("dApproved", foVal.getDateAppv());
+            param.put("cTranStat", foVal.getTranStat());
             String lsResponse = WebClient.sendRequest(
                     poApi.getUrlConfirmObApplication(poConfig.isBackUpServer()),
                     param.toString(), poHeaders.getHeaders());
@@ -268,7 +270,6 @@ public class EmployeeOB implements iPM {
             JSONObject loResponse = new JSONObject(lsResponse);
             String result = loResponse.getString("result");
             if (result.equalsIgnoreCase("success")) {
-                poDao.updateObApprovalPostedStatus(fsVal);
                 if (loDetail.getTranStat().equalsIgnoreCase("1")) {
                     message = "Business trip has been approve successfully.";
                 } else {
@@ -342,7 +343,6 @@ public class EmployeeOB implements iPM {
                     message = loError.getString("message");
                     Log.e(TAG, message);
                     Thread.sleep(1000);
-                    continue;
                 }
             }
             return true;
@@ -478,8 +478,6 @@ public class EmployeeOB implements iPM {
             detail.setDateThru(foVal.getDateThru());
             detail.setRemarksx(foVal.getRemarksx());
             detail.setDestinat(foVal.getDestinat());
-            detail.setApproved(loUser.getUserIDxx());
-            detail.setDapprove(AppConstants.CURRENT_DATE);
             detail.setAppldFrx(null);
             detail.setAppldTox(null);
             detail.setTranStat("0");

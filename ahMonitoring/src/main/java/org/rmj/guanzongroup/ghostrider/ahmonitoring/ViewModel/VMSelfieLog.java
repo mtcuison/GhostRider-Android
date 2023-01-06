@@ -51,6 +51,7 @@ public class VMSelfieLog extends AndroidViewModel {
     public interface OnLoginTimekeeperListener{
         void OnLogin();
         void OnSuccess(String args);
+        void SaveOffline(String args);
         void OnFailed(String message);
     }
 
@@ -65,6 +66,13 @@ public class VMSelfieLog extends AndroidViewModel {
     public interface OnBranchSelectedCallback {
         void OnLoad();
         void OnSuccess();
+        void OnFailed(String message);
+    }
+
+    public interface OnValidateSelfieBranch{
+        void OnValidate();
+        void OnSuccess();
+        void OnRequireRemarks();
         void OnFailed(String message);
     }
 
@@ -103,6 +111,7 @@ public class VMSelfieLog extends AndroidViewModel {
     }
 
     public interface OnBranchCheckListener{
+        void OnCheck();
         void OnCheck(List<EBranchInfo> area, List<EBranchInfo> all);
         void OnFailed(String message);
     }
@@ -113,6 +122,62 @@ public class VMSelfieLog extends AndroidViewModel {
 
     public void InitCameraLaunch(Activity activity, OnInitializeCameraCallback callback){
         new InitializeCameraTask(activity, instance, callback).execute();
+    }
+
+    /**
+     *
+     */
+    public void ValidateSelfieBranch(String args, OnValidateSelfieBranch listener){
+        new ValidateSelfieBranch(instance, listener).execute(args);
+    }
+
+    private static class ValidateSelfieBranch extends AsyncTask<String, Void, Integer>{
+
+        private final Application instance;
+        private final OnValidateSelfieBranch listener;
+
+        private final SelfieLog poSys;
+
+        private String message;
+
+        public ValidateSelfieBranch(Application instance, OnValidateSelfieBranch listener) {
+            this.instance = instance;
+            this.listener = listener;
+            this.poSys = new SelfieLog(instance);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            listener.OnValidate();
+        }
+
+        @Override
+        protected Integer doInBackground(String... strings) {
+            int lnResult = poSys.ValidateSelfieBranch(strings[0]);
+            if(lnResult != 3){
+                message = poSys.getMessage();
+            }
+            return lnResult;
+        }
+
+        @Override
+        protected void onPostExecute(Integer result) {
+            super.onPostExecute(result);
+            switch (result){
+                case 0:
+                    listener.OnFailed(message);
+                    break;
+                case 2:
+                case 5:
+                    listener.OnRequireRemarks();
+                    break;
+                case 3:
+                case 4:
+                case 1:
+                    listener.OnSuccess();
+            }
+        }
     }
 
     private static class InitializeCameraTask extends AsyncTask<String, Void, Boolean>{
@@ -191,6 +256,12 @@ public class VMSelfieLog extends AndroidViewModel {
         }
 
         @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mListener.OnCheck();
+        }
+
+        @Override
         protected Boolean doInBackground(String... strings) {
             try{
                 area = poBranch.getAreaBranchesList();
@@ -223,14 +294,16 @@ public class VMSelfieLog extends AndroidViewModel {
         new OnBranchCheckTask(instance, callback).execute(BranchCde);
     }
 
-    private static class OnBranchCheckTask extends AsyncTask<String, Void, String>{
+    private static class OnBranchCheckTask extends AsyncTask<String, Void, Boolean>{
 
         private final OnBranchSelectedCallback callback;
-        private final SelfieLog poLog;
+        private final SelfieLog poSys;
+
+        private String message;
 
         public OnBranchCheckTask(Application instance, OnBranchSelectedCallback callback) {
             this.callback = callback;
-            this.poLog = new SelfieLog(instance);
+            this.poSys = new SelfieLog(instance);
         }
 
         @Override
@@ -240,37 +313,23 @@ public class VMSelfieLog extends AndroidViewModel {
         }
 
         @Override
-        protected String doInBackground(String... strings) {
+        protected Boolean doInBackground(String... strings) {
             String BranchCD = strings[0];
-            if(poLog.checkBranchCodeIfExist(BranchCD, AppConstants.CURRENT_DATE) == 2){
-                return AppConstants.LOCAL_EXCEPTION_ERROR("Only 2 Selfie log per branch is allowed.");
-            } else {
-                try {
-                    return AppConstants.APPROVAL_CODE_GENERATED("Branch selected.");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    return AppConstants.LOCAL_EXCEPTION_ERROR(e.getMessage());
-                }
+            if(!poSys.ValidateExistingBranch(BranchCD)){
+                message = poSys.getMessage();
+                return false;
             }
+
+            return true;
         }
 
         @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            try {
-                JSONObject loJson = new JSONObject(s);
-                Log.e(TAG, loJson.getString("result"));
-                String lsResult = loJson.getString("result");
-                if(lsResult.equalsIgnoreCase("success")){
-                    callback.OnSuccess();
-                } else {
-                    JSONObject loError = loJson.getJSONObject("error");
-                    String message = loError.getString("message");
-                    callback.OnFailed(message);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                callback.OnFailed(e.getMessage());
+        protected void onPostExecute(Boolean isSuccess) {
+            super.onPostExecute(isSuccess);
+            if(!isSuccess){
+                callback.OnFailed(message);
+            } else {
+                callback.OnSuccess();
             }
         }
     }
@@ -279,7 +338,7 @@ public class VMSelfieLog extends AndroidViewModel {
         new TimeInTask(instance, callback).execute(foVal);
     }
 
-    public static class TimeInTask extends AsyncTask<SelfieLog.SelfieLogDetail, Void, Boolean>{
+    public static class TimeInTask extends AsyncTask<SelfieLog.SelfieLogDetail, Void, Integer>{
 
         private final SelfieLog poSys;
         private final OnLoginTimekeeperListener callback;
@@ -301,43 +360,51 @@ public class VMSelfieLog extends AndroidViewModel {
         }
 
         @Override
-        protected Boolean doInBackground(SelfieLog.SelfieLogDetail... selfieLogs) {
+        protected Integer doInBackground(SelfieLog.SelfieLogDetail... selfieLogs) {
             try{
                 String lsTransNo = poSys.SaveSelfieLog(selfieLogs[0]);
                 if(lsTransNo == null){
                     message = poSys.getMessage();
-                    return false;
+                    return 0;
                 }
 
                 if(!poConn.isDeviceConnected()){
                     message = "Your selfie log has been save to local.";
-                    return false;
+                    return 2;
                 }
 
                 if (!poSys.UploadSelfieLog(lsTransNo)) {
                     message = poSys.getMessage();
-                    return false;
+                    return 3;
                 }
 
                 //Usually message is only use for storing and error message.
                 // this time message value will be branch code which will be pass for cash count entry.
                 message = selfieLogs[0].getBranchCode();
-                return true;
+                return 1;
             } catch (Exception e){
                 e.printStackTrace();
                 message = e.getMessage();
-                return false;
+                return 0;
             }
         }
 
         @Override
-        protected void onPostExecute(Boolean isSuccess) {
-            super.onPostExecute(isSuccess);
-            if(!isSuccess){
-                callback.OnFailed(message);
-            } else {
-                callback.OnSuccess(message);
+        protected void onPostExecute(Integer result) {
+            super.onPostExecute(result);
+            switch (result){
+                case 0:
+                case 3:
+                    callback.OnFailed(message);
+                    break;
+                case 1:
+                    callback.OnSuccess(message);
+                    break;
+                case 2:
+                    callback.SaveOffline(message);
+                    break;
             }
+
         }
     }
 

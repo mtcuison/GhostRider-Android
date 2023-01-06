@@ -1,5 +1,7 @@
 package org.rmj.g3appdriver.lib.integsys.CreditApp.model;
 
+import android.util.Log;
+
 public class Pension {
 
     private String TransNox = "";
@@ -8,6 +10,8 @@ public class Pension {
     private String sRtrYear = "";
     private String sNtrIncm = "";
     private long sRngIncm = 0;
+    private String cMeanInfo = "";
+
 
     private String message;
 
@@ -17,6 +21,15 @@ public class Pension {
     public String getTransNox() {
         return TransNox;
     }
+
+    public String getcMeanInfo() {
+        return cMeanInfo;
+    }
+
+    public void setcMeanInfo(String cMeanInfo) {
+        this.cMeanInfo = cMeanInfo;
+    }
+
 
     public void setTransNox(String transNox) {
         TransNox = transNox;
@@ -67,6 +80,15 @@ public class Pension {
 
     public void setRangeOfIncom(long sRngIncm) {
         this.sRngIncm = sRngIncm;
+    }
+
+    public boolean isPrimary(){
+        Log.e("means = ", cMeanInfo);
+        if (!cMeanInfo.equalsIgnoreCase("3")){
+            return false;
+        }
+        return true;
+
     }
 
     public boolean isDataValid(){

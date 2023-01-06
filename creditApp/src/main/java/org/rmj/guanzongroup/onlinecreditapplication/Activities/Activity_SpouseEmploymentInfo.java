@@ -1,5 +1,6 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -23,11 +24,12 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import org.json.JSONException;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.SpouseEmployments;
-import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.OnParseListener;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMSpouseEmployment;
@@ -55,6 +57,8 @@ public class Activity_SpouseEmploymentInfo extends AppCompatActivity {
     private RadioGroup rgSectorx;
     private Toolbar toolbar;
 
+    private String TransNox;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         mViewModel = new ViewModelProvider(Activity_SpouseEmploymentInfo.this).get(VMSpouseEmployment.class);
@@ -65,11 +69,17 @@ public class Activity_SpouseEmploymentInfo extends AppCompatActivity {
         mViewModel.InitializeApplication(getIntent());
         mViewModel.GetApplication().observe(Activity_SpouseEmploymentInfo.this, app -> {
             try {
+                TransNox = app.getTransNox();
                 mViewModel.getModel().setTransNox(app.getTransNox());
                 mViewModel.ParseData(app, new OnParseListener() {
                     @Override
                     public void OnParse(Object args) {
                         SpouseEmployments loDetail = (SpouseEmployments) args;
+                        try {
+                            setUpFieldsFromLocalDB(loDetail);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 });
             } catch (Exception e) {
@@ -161,7 +171,9 @@ public class Activity_SpouseEmploymentInfo extends AppCompatActivity {
 
 
         btnNext.setOnClickListener(v -> SaveSpouseEmploymentInfo());
-        btnPrvs.setOnClickListener(v -> finish());
+        btnPrvs.setOnClickListener(v -> {
+            returnPrevious();
+        });
 
     }
 
@@ -194,6 +206,7 @@ public class Activity_SpouseEmploymentInfo extends AppCompatActivity {
                 loIntent.putExtra("sTransNox", args);
                 startActivity(loIntent);
                 overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
+                finish();
             }
 
             @Override
@@ -277,53 +290,130 @@ public class Activity_SpouseEmploymentInfo extends AppCompatActivity {
                 }
             }
         });
-
-//        cbUniformYes.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                if (cbUniformYes.isChecked()) {
-//                    mViewModel.getModel().setUniformPersonal("1");
-//                } else {
-//                    mViewModel.getModel().setUniformPersonal("0");
-//                }
-//            }
-//        });
-//
-//        cbMilitaryYes.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                if (cbMilitaryYes.isChecked()) {
-//                    mViewModel.getModel().setUniformPersonal("1");
-//                } else {
-//                    mViewModel.getModel().setUniformPersonal("0");
-//                }
-//            }
-//        });
-
     }
 
-    @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
+
+    @SuppressLint("NewApi")
+    public void setUpFieldsFromLocalDB(SpouseEmployments infoModel) throws JSONException {
+        if (infoModel != null){
+
+            if (infoModel.getEmploymentSector().equalsIgnoreCase("0")) {
+                rgSectorx.check(R.id.rb_government);
+                mViewModel.getModel().setEmploymentSector("0");
+                lnGovInfo.setVisibility(View.VISIBLE);
+                lnEmpInfo.setVisibility(View.VISIBLE);
+                tilCntryx.setVisibility(View.GONE);
+                tilCompNm.setHint("Government Level");
+                spnBusNtr.setVisibility(View.GONE);
+                tilBizNature.setVisibility(View.GONE);
+            } else if (infoModel.getEmploymentSector().equalsIgnoreCase("1")) {
+                rgSectorx.check(R.id.rb_private);
+                lnGovInfo.setVisibility(View.GONE);
+                lnEmpInfo.setVisibility(View.VISIBLE);
+                tilCntryx.setVisibility(View.GONE);
+                tilCompNm.setHint("Company Name");
+                spnBusNtr.setVisibility(View.VISIBLE);
+                tilBizNature.setVisibility(View.VISIBLE);
+                mViewModel.getModel().setEmploymentSector("1");
+            } else if (infoModel.getEmploymentSector().equalsIgnoreCase("2")) {
+                rgSectorx.check(R.id.rb_ofw);
+                mViewModel.getModel().setEmploymentSector("2");
+                lnGovInfo.setVisibility(View.GONE);
+                lnEmpInfo.setVisibility(View.GONE);
+                tilCntryx.setVisibility(View.VISIBLE);
+                spnBusNtr.setVisibility(View.GONE);
+                tilBizNature.setVisibility(View.GONE);
+            }
+            if(!"".equalsIgnoreCase(infoModel.getCompanyLevel())) {
+                spnCmpLvl.setText(CreditAppConstants.COMPANY_LEVEL[Integer.parseInt(infoModel.getCompanyLevel())], false);
+                spnCmpLvl.setSelection(Integer.parseInt(infoModel.getCompanyLevel()));
+                mViewModel.getModel().setCompanyLevel(infoModel.getCompanyLevel());
+            }
+
+            if(!"".equalsIgnoreCase(infoModel.getEmployeeLevel())) {
+                spnEmpLvl.setText(CreditAppConstants.EMPLOYEE_LEVEL[Integer.parseInt(infoModel.getEmployeeLevel())], false);
+                spnEmpLvl.setSelection(Integer.parseInt(infoModel.getEmployeeLevel()));
+                mViewModel.getModel().setEmployeeLevel(infoModel.getEmployeeLevel());
+            }
+
+            if(!"".equalsIgnoreCase(infoModel.getBusinessNature())) {
+                spnBusNtr.setText(CreditAppConstants.BUSINESS_NATURE[Integer.parseInt(infoModel.getBusinessNature())], false);
+                mViewModel.getModel().setBusinessNature(infoModel.getBusinessNature());
+            }
+
+            if(!"".equalsIgnoreCase(infoModel.getTownID())) {
+                txtTownNm.setText(infoModel.getsTownName());
+                mViewModel.getModel().setTownID(infoModel.getTownID());
+                mViewModel.getModel().setTownName(infoModel.getsTownName());
+            }
+
+            txtCompNm.setText(infoModel.getCompanyName());
+            txtJobNme.setText(infoModel.getJobTitle());
+            mViewModel.getModel().setJobTitle(infoModel.getJobTitle());
+            txtCompAd.setText(infoModel.getCompanyAddress());
+            txtSpcfJb.setText(infoModel.getSpecificJob());
+            if(infoModel.getEmployeeStatus().equalsIgnoreCase("0")){
+                spnEmpSts.setText(CreditAppConstants.EMPLOYMENT_STATUS[0], false);
+                spnEmpSts.setSelection(0);
+                mViewModel.getModel().setEmployeeStatus("0");
+            }else if (infoModel.getEmployeeStatus().equalsIgnoreCase("1")){
+                spnEmpSts.setText(CreditAppConstants.EMPLOYMENT_STATUS[1], false);
+                spnEmpSts.setSelection(1);
+                mViewModel.getModel().setEmployeeStatus("1");
+            }else if (infoModel.getEmployeeStatus().equalsIgnoreCase("2")){
+                spnEmpSts.setText(CreditAppConstants.EMPLOYMENT_STATUS[2], false);
+                spnEmpSts.setSelection(2);
+                mViewModel.getModel().setEmployeeStatus("2");
+            }else if (infoModel.getEmployeeStatus().equalsIgnoreCase("3")){
+                spnEmpSts.setText(CreditAppConstants.EMPLOYMENT_STATUS[3], false);
+                spnEmpSts.setSelection(3);
+                mViewModel.getModel().setEmployeeStatus("3");
+            }
+
+            int nlength = (int)(infoModel.getLengthOfService() * 12);
+            if (nlength < 12){
+                txtLngthS.setText(String.valueOf(nlength));
+                spnServce.setText(CreditAppConstants.LENGTH_OF_STAY[0], false);
+                mViewModel.getModel().setIsYear(String.valueOf(0));
+                mViewModel.getModel().setLengthOfService(nlength);
+            }else{
+                txtLngthS.setText(String.valueOf(infoModel.getLengthOfService()));
+                spnServce.setText(CreditAppConstants.LENGTH_OF_STAY[1], false);
+                mViewModel.getModel().setIsYear(String.valueOf(1));
+                mViewModel.getModel().setLengthOfService(infoModel.getLengthOfService());
+            }
+            txtEsSlry.setText( !"".equalsIgnoreCase(String.valueOf(infoModel.getMonthlyIncome())) ? String.valueOf(infoModel.getMonthlyIncome()) : "");
+            txtCompCn.setText( !"".equalsIgnoreCase(infoModel.getContact()) ? infoModel.getContact() : "");
+
+//            infoModel.setIsYear(String.valueOf(i));
+        }
+
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            finish();
+            returnPrevious();
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onBackPressed() {
-        finish();
+        returnPrevious();
     }
 
     @Override
     protected void onDestroy() {
         getViewModelStore().clear();
         super.onDestroy();
+    }
+
+    private void returnPrevious(){
+        Intent loIntent = new Intent(Activity_SpouseEmploymentInfo.this, Activity_SpouseResidenceInfo.class);
+        loIntent.putExtra("sTransNox", TransNox);
+        startActivity(loIntent);
+        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
+        finish();
     }
 }

@@ -1,5 +1,6 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -17,11 +18,12 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
 
+import org.json.JSONException;
 import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.SpousePension;
-import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.OnParseListener;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMSpousePensionInfo;
@@ -38,6 +40,8 @@ public class Activity_SpousePensionInfo extends AppCompatActivity {
     private Button btnNext, btnPrvs;
     private Toolbar toolbar;
 
+    private String TransNox;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,17 +50,20 @@ public class Activity_SpousePensionInfo extends AppCompatActivity {
         setContentView(R.layout.activity_spouse_pension_info);
         initWidgets();
         mViewModel.InitializeApplication(getIntent());
-        mViewModel.GetApplication().observe(Activity_SpousePensionInfo.this, new Observer<ECreditApplicantInfo>() {
-            @Override
-            public void onChanged(ECreditApplicantInfo app) {
-                mViewModel.getModel().setTransNox(app.getTransNox());
-                mViewModel.ParseData(app, new OnParseListener() {
-                    @Override
-                    public void OnParse(Object args) {
-                        SpousePension loDetail = (SpousePension) args;
+        mViewModel.GetApplication().observe(Activity_SpousePensionInfo.this, app -> {
+            TransNox = app.getTransNox();
+            mViewModel.getModel().setTransNox(app.getTransNox());
+            mViewModel.ParseData(app, new OnParseListener() {
+                @Override
+                public void OnParse(Object args) {
+                    SpousePension loDetail = (SpousePension) args;
+                    try {
+                        setUpFieldsFromLocalDB(loDetail);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                });
-            }
+                }
+            });
         });
 
 
@@ -71,7 +78,9 @@ public class Activity_SpousePensionInfo extends AppCompatActivity {
         });
 
         btnNext.setOnClickListener(v -> SaveSpousePensionInfo());
-        btnPrvs.setOnClickListener(v -> finish());
+        btnPrvs.setOnClickListener(v -> {
+            returnPrevious();
+        });
     }
 
     private void SaveSpousePensionInfo() {
@@ -89,7 +98,6 @@ public class Activity_SpousePensionInfo extends AppCompatActivity {
             mViewModel.getModel().setRangeOfIncom(0);
         } else {
             mViewModel.getModel().setRangeOfIncom(Long.parseLong((Objects.requireNonNull(txtOtherSrcInc.getText()).toString().trim())));
-
         }
 
         mViewModel.SaveData(new OnSaveInfoListener() {
@@ -99,6 +107,7 @@ public class Activity_SpousePensionInfo extends AppCompatActivity {
                 loIntent.putExtra("sTransNox", args);
                 startActivity(loIntent);
                 overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
+                finish();
             }
 
             @Override
@@ -132,28 +141,47 @@ public class Activity_SpousePensionInfo extends AppCompatActivity {
 
     }
 
-    @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
+    @SuppressLint("NewApi")
+    public void setUpFieldsFromLocalDB(SpousePension foDetail) throws JSONException {
+        if (foDetail != null){
+            if(!foDetail.getPensionSector().isEmpty()){
+                spnSector.setText(CreditAppConstants.PENSION_SECTOR[Integer.parseInt(foDetail.getPensionSector())], false);
+                spnSector.setSelection(Integer.parseInt(foDetail.getPensionSector()));
+                mViewModel.getModel().setPensionSector(foDetail.getPensionSector());
+            }
+
+            txtPensionAmt.setText( !"".equalsIgnoreCase(String.valueOf(foDetail.getPensionIncomeRange())) ? String.valueOf(foDetail.getPensionIncomeRange()) : "");
+            txtRetirementYr.setText( !"".equalsIgnoreCase(String.valueOf(foDetail.getRetirementYear())) ? String.valueOf(foDetail.getRetirementYear()) : "");
+            txtOtherSrc.setText( !"".equalsIgnoreCase(String.valueOf(foDetail.getNatureOfIncome())) ? String.valueOf(foDetail.getNatureOfIncome()) : "");
+            txtOtherSrcInc.setText( !"".equalsIgnoreCase(String.valueOf(foDetail.getRangeOfIncome())) ? String.valueOf(foDetail.getRangeOfIncome()) : "");
+        }
+
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            finish();
+            returnPrevious();
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onBackPressed() {
-        finish();
+        returnPrevious();
     }
 
     @Override
     protected void onDestroy() {
         getViewModelStore().clear();
         super.onDestroy();
+    }
+
+    private void returnPrevious(){
+        Intent loIntent = new Intent(Activity_SpousePensionInfo.this, Activity_SpouseSelfEmploymentInfo.class);
+        loIntent.putExtra("sTransNox", TransNox);
+        startActivity(loIntent);
+        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
+        finish();
     }
 }

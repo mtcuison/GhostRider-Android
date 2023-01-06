@@ -9,6 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DInventoryDao;
+import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EInventoryDetail;
 import org.rmj.g3appdriver.dev.Database.Entities.EInventoryMaster;
 import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
@@ -48,6 +49,32 @@ public class RandomStockInventory {
 
     public LiveData<DEmployeeInfo.EmployeeBranch> GetUserInfo(){
         return poUser.GetEmployeeBranch();
+    }
+
+    public List<EBranchInfo> GetBranchesForInventory(){
+        try{
+            int lnLogsxx = poDao.CheckIfHasSelfieLog(AppConstants.CURRENT_DATE);
+            if(lnLogsxx == 0){
+                message = "No selfie log record found for this day.";
+                return null;
+            }
+
+            List<EBranchInfo> loList = poDao.GetBranchesForInventory();
+            if(loList.size() == 0){
+                message = "All branches on selfie log has cash count record.";
+                return null;
+            }
+
+            return loList;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return null;
+        }
+    }
+
+    public LiveData<EBranchInfo> GetBranchInfo(String args){
+        return poDao.GetBranchInfo(args);
     }
 
     public Boolean CheckInventoryRecord(String fsVal){

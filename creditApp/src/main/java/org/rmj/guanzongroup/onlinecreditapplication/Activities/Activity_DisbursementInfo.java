@@ -1,5 +1,6 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -17,11 +18,12 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
 
+import org.json.JSONException;
 import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Disbursement;
-import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.OnParseListener;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMDisbursement;
@@ -38,6 +40,9 @@ public class Activity_DisbursementInfo extends AppCompatActivity {
     private Button btnPrev, btnNext;
     private Toolbar toolbar;
 
+
+    private String TransNox;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         mViewModel = new ViewModelProvider(Activity_DisbursementInfo.this).get(VMDisbursement.class);
@@ -50,11 +55,18 @@ public class Activity_DisbursementInfo extends AppCompatActivity {
             @Override
             public void onChanged(ECreditApplicantInfo app) {
                 try {
+                    TransNox = app.getTransNox();
                     mViewModel.getModel().setTransNox(app.getTransNox());
+                    mViewModel.setCvlStatus(app.getIsSpouse());
                     mViewModel.ParseData(app, new OnParseListener() {
                         @Override
                         public void OnParse(Object args) {
                             Disbursement loDetail = (Disbursement) args;
+                            try {
+                                setUpFieldsFromLocalDB(loDetail);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
                     });
                 } catch (Exception e) {
@@ -74,7 +86,9 @@ public class Activity_DisbursementInfo extends AppCompatActivity {
         });
 
         btnNext.setOnClickListener(v -> SaveDisbursementInfo());
-        btnPrev.setOnClickListener(v -> finish());
+        btnPrev.setOnClickListener(v -> {
+            returnPrevious();
+        });
 
     }
 
@@ -120,10 +134,11 @@ public class Activity_DisbursementInfo extends AppCompatActivity {
         mViewModel.SaveData(new OnSaveInfoListener() {
             @Override
             public void OnSave(String args) {
-                Intent loIntent = new Intent(Activity_DisbursementInfo.this, Activity_Properties.class);
+                Intent loIntent = new Intent(Activity_DisbursementInfo.this, Activity_Dependent.class);
                 loIntent.putExtra("sTransNox", args);
                 startActivity(loIntent);
                 overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
+                finish();
             }
 
             @Override
@@ -156,39 +171,84 @@ public class Activity_DisbursementInfo extends AppCompatActivity {
         tieLimit = findViewById(R.id.tie_cap_dbmCreditLimit);
         tieYearS = findViewById(R.id.tie_cap_dbmYearStarted);
 
-//        tieElctx.addTextChangedListener(new FormatUIText.CurrencyFormat(tieElctx));
-//        tieWater.addTextChangedListener(new FormatUIText.CurrencyFormat(tieWater));
-//        tieFoodx.addTextChangedListener(new FormatUIText.CurrencyFormat(tieFoodx));
-//        tieLoans.addTextChangedListener(new FormatUIText.CurrencyFormat(tieLoans));
-//        tieLimit.addTextChangedListener(new FormatUIText.CurrencyFormat(tieLimit));
-
         btnNext = findViewById(R.id.btn_creditAppNext);
         btnPrev = findViewById(R.id.btn_creditAppPrvs);
 
     }
 
-    @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
+    @SuppressLint("NewApi")
+    public void setUpFieldsFromLocalDB(Disbursement infoModel) throws JSONException {
+        if(infoModel != null) {
+            tieElctx.setText(String.valueOf(infoModel.getElectric()));
+            tieWater.setText(String.valueOf(infoModel.getWaterExp()));
+            tieFoodx.setText(String.valueOf(infoModel.getFoodExps()));
+            tieLoans.setText(String.valueOf(infoModel.getLoanExps()));
+
+            //Bank Account
+            tieBankN.setText(infoModel.getBankName());
+            if(infoModel.getAcctType() != null) {
+                if(!infoModel.getAcctType().equalsIgnoreCase("")) {
+                    spnTypex.setText(CreditAppConstants.ACCOUNT_TYPE[Integer.parseInt(infoModel.getAcctType())]);
+                    spnTypex.setSelection(Integer.parseInt(infoModel.getAcctType()));
+                    mViewModel.getModel().setAcctType(infoModel.getAcctType());
+                }
+            }
+
+            typeX = infoModel.getCrdtBank();
+            //Credit Card Account
+            tieCCBnk.setText(infoModel.getCrdtBank());
+            tieLimit.setText(String.valueOf(infoModel.getCrdtLimt()));
+            tieYearS.setText(String.valueOf(infoModel.getCrdtYear()));
+
+
+        } else {
+            tieElctx.setText("");
+            tieWater.setText("");
+            tieFoodx.setText("");
+            tieLoans.setText("");
+
+            //Bank Account
+            tieBankN.setText("");
+            spnTypex.getText().clear();
+            spnTypex.getText().clear();
+            //Credit Card Account
+            tieCCBnk.setText("");
+            tieLimit.setText("");
+            tieYearS.setText("");
+        }
+
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            finish();
+            returnPrevious();
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onBackPressed() {
-        finish();
+        returnPrevious();
     }
 
     @Override
     protected void onDestroy() {
         getViewModelStore().clear();
         super.onDestroy();
+    }
+
+    private void returnPrevious(){
+        Intent loIntent;
+        if(mViewModel.getCvlStatus().equalsIgnoreCase("1") ||
+                mViewModel.getCvlStatus().equalsIgnoreCase("5")){
+            loIntent = new Intent(Activity_DisbursementInfo.this, Activity_SpousePensionInfo.class);
+        }else{
+            loIntent = new Intent(Activity_DisbursementInfo.this, Activity_PensionInfo.class);
+        }
+        loIntent.putExtra("sTransNox", TransNox);
+        startActivity(loIntent);
+        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
+        finish();
     }
 }

@@ -1,5 +1,6 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -14,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
 
+import org.json.JSONException;
 import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
@@ -34,6 +36,8 @@ public class Activity_Properties extends AppCompatActivity {
     private Button btnPrvs, btnNext;
     private Toolbar toolbar;
 
+    private String TransNox;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,22 +46,25 @@ public class Activity_Properties extends AppCompatActivity {
         setContentView(R.layout.activity_properties);
         initWidgets();
         mViewModel.InitializeApplication(getIntent());
-        mViewModel.GetApplication().observe(Activity_Properties.this, new Observer<ECreditApplicantInfo>() {
-            @Override
-            public void onChanged(ECreditApplicantInfo app) {
-                try {
-                    mViewModel.getModel().setTransNox(app.getTransNox());
-                    mViewModel.ParseData(app, new OnParseListener() {
-                        @Override
-                        public void OnParse(Object args) {
-                            Properties loDetail = (Properties) args;
+        mViewModel.GetApplication().observe(Activity_Properties.this, app -> {
+            try {
+                TransNox = app.getTransNox();
+                mViewModel.getModel().setTransNox(app.getTransNox());
+                mViewModel.ParseData(app, new OnParseListener() {
+                    @Override
+                    public void OnParse(Object args) {
+                        Properties loDetail = (Properties) args;
+                        try {
+                            setUpFieldsFromLocalDB(loDetail);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                    });
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+
         });
 
         cb4Wheels.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -110,7 +117,9 @@ public class Activity_Properties extends AppCompatActivity {
 
 
         btnNext.setOnClickListener(v -> SavePropertiesInfo());
-        btnPrvs.setOnClickListener(v -> finish());
+        btnPrvs.setOnClickListener(v -> {
+            returnPrevious();
+        });
 
     }
 
@@ -122,10 +131,11 @@ public class Activity_Properties extends AppCompatActivity {
         mViewModel.SaveData(new OnSaveInfoListener() {
             @Override
             public void OnSave(String args) {
-                Intent loIntent = new Intent(Activity_Properties.this, Activity_CoMaker.class);
+                Intent loIntent = new Intent(Activity_Properties.this, Activity_OtherInfo.class);
                 loIntent.putExtra("sTransNox", args);
                 startActivity(loIntent);
                 overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
+                finish();
             }
 
             @Override
@@ -148,7 +158,6 @@ public class Activity_Properties extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Properties Info");
 
-
         txtLot1 = findViewById(R.id.tie_cap_propertyLot1);
         txtLot2 = findViewById(R.id.tie_cap_propertyLot2);
         txtLot3 = findViewById(R.id.tie_cap_propertyLot3);
@@ -164,15 +173,57 @@ public class Activity_Properties extends AppCompatActivity {
         btnNext = findViewById(R.id.btn_creditAppNext);
     }
 
-    @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
+    @SuppressLint("NewApi")
+    public void setUpFieldsFromLocalDB(Properties infoModel) throws JSONException {
+        if(infoModel != null) {
+            txtLot1.setText(!"".equalsIgnoreCase(String.valueOf(infoModel.getPsLot1Addx())) ? String.valueOf(infoModel.getPsLot1Addx()) : "");
+            txtLot2.setText(!"".equalsIgnoreCase(String.valueOf(infoModel.getPsLot2Addx())) ? String.valueOf(infoModel.getPsLot2Addx()) : "");
+            txtLot3.setText(!"".equalsIgnoreCase(String.valueOf(infoModel.getPsLot3Addx())) ? String.valueOf(infoModel.getPsLot3Addx()) : "");
+            if(infoModel.getPs4Wheelsx().equalsIgnoreCase("1")) {
+                mViewModel.getModel().setPs4Wheelsx("1");
+                cb4Wheels.setChecked(true);
+            }
+            if(infoModel.getPs3Wheelsx().equalsIgnoreCase("1")) {
+                mViewModel.getModel().setPs3Wheelsx("1");
+                cb3Wheels.setChecked(true);
+            }
+            if(infoModel.getPs2Wheelsx().equalsIgnoreCase("1")) {
+                mViewModel.getModel().setPs2Wheelsx("1");
+                cb2Wheels.setChecked(true);
+            }
+            if(infoModel.getPsAirConxx().equalsIgnoreCase("1")){
+                mViewModel.getModel().setPsAirConxx("1");
+                cbAircon.setChecked(true);
+            }
+
+            if(infoModel.getPsFridgexx().equalsIgnoreCase("1")){
+                mViewModel.getModel().setPsFridgexx("1");
+                cbRefxx.setChecked(true);
+            }
+            if(infoModel.getPsTelevsnx().equalsIgnoreCase("1")){
+                mViewModel.getModel().setPsTelevsnx("1");
+                cbTelevsn.setChecked(true);
+            }
+
+        } else {
+            txtLot1.getText().clear();
+            txtLot2.getText().clear();
+            txtLot3.getText().clear();
+            cb4Wheels.setChecked(false);
+            cb3Wheels.setChecked(false);
+            cb2Wheels.setChecked(false);
+            cbAircon.setChecked(false);
+            cbRefxx.setChecked(false);
+            cbTelevsn.setChecked(false);
+        }
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
+            Intent loIntent = new Intent(Activity_Properties.this, Activity_DisbursementInfo.class);
+            loIntent.putExtra("sTransNox", TransNox);
+            startActivity(loIntent);
             finish();
         }
         return super.onOptionsItemSelected(item);
@@ -180,12 +231,20 @@ public class Activity_Properties extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        finish();
+        returnPrevious();
     }
 
     @Override
     protected void onDestroy() {
         getViewModelStore().clear();
         super.onDestroy();
+    }
+
+    private void returnPrevious(){
+        Intent loIntent = new Intent(Activity_Properties.this, Activity_Dependent.class);
+        loIntent.putExtra("sTransNox", TransNox);
+        startActivity(loIntent);
+        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
+        finish();
     }
 }

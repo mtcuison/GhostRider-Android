@@ -40,29 +40,29 @@ public class PensionInfo implements CreditApp {
     @Override
     public Object Parse(ECreditApplicantInfo args) {
         try{
-            String lsDetail = args.getPensionx();
-            GOCASApplication gocas = new GOCASApplication();
-            JSONParser loJson = new JSONParser();
-            JSONObject joDetail = (JSONObject) loJson.parse(lsDetail);
-            gocas.MeansInfo().PensionerInfo().setData(joDetail);
-
             Pension loDetail = new Pension();
+            if(args.getPensionx() != null){
+                String lsDetail = args.getPensionx();
+                GOCASApplication gocas = new GOCASApplication();
+                JSONParser loJson = new JSONParser();
+                JSONObject joDetail = (JSONObject) loJson.parse(lsDetail);
+                gocas.MeansInfo().PensionerInfo().setData(joDetail);
 
-            loDetail.setPensionSector(gocas.MeansInfo().PensionerInfo().getSource());
-            loDetail.setPensionIncomeRange(gocas.MeansInfo().PensionerInfo().getAmount());
+                loDetail.setPensionSector(gocas.MeansInfo().PensionerInfo().getSource());
+                loDetail.setPensionIncomeRange(gocas.MeansInfo().PensionerInfo().getAmount());
 //            loDetail.setRetirementYear(gocas.MeansInfo().PensionerInfo().get);
 
-            lsDetail = args.getOtherInc();
-            gocas = new GOCASApplication();
-            loJson = new JSONParser();
-            joDetail = (JSONObject) loJson.parse(lsDetail);
-            gocas.MeansInfo().setData(joDetail);
+                lsDetail = args.getOtherInc();
+                gocas = new GOCASApplication();
+                loJson = new JSONParser();
+                joDetail = (JSONObject) loJson.parse(lsDetail);
+                gocas.MeansInfo().setData(joDetail);
 
-            loDetail.setNatureOfIncome(gocas.MeansInfo().getOtherIncomeNature());
+                loDetail.setNatureOfIncome(gocas.MeansInfo().getOtherIncomeNature());
 //            loDetail.setRangeOfIncom(gocas.MeansInfo().getOtherIncomeAmount());
 
-            poDetail = loDetail;
-
+                poDetail = loDetail;
+            }
             return loDetail;
         } catch (Exception e){
             e.printStackTrace();
@@ -74,20 +74,29 @@ public class PensionInfo implements CreditApp {
     @Override
     public int Validate(Object args) {
         Pension loDetail = (Pension) args;
-
         if(poDetail == null){
+            if(loDetail.isPrimary()){
 
-            if(!loDetail.isDataValid()){
-                message = loDetail.getMessage();
-                return 0;
+                if(!loDetail.isDataValid()){
+                    message = loDetail.getMessage();
+                    return 0;
+                }
+            }else{
+                return 1;
             }
-
         } else {
 
             //TODO: if all information inside each old object and new object is not the same,
             // return 2 to indicate validation needs confirmation from user to update the
             // previous information being save.
-
+            if(loDetail.isPrimary()){
+                if(!loDetail.isDataValid()){
+                    message = loDetail.getMessage();
+                    return 0;
+                }
+            }else{
+                return 1;
+            }
 //            if(!poDetail.isEqual(loDetail)){
 //                return 2;
 //            } else {
@@ -122,7 +131,6 @@ public class PensionInfo implements CreditApp {
             loApp.setPensionx(gocas.MeansInfo().PensionerInfo().toJSONString());
             loApp.setOtherInc(gocas.MeansInfo().toJSONString());
             poDao.Update(loApp);
-
 
             return true;
         } catch (Exception e){
