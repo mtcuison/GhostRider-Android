@@ -140,7 +140,7 @@ public class RBranchPerformance {
 
     public boolean ImportData(){
         try{
-            String lsUserLvl = poDao.GetUserLevel();
+            int lsUserLvl = poDao.GetUserLevel();
             String lsDeptIDx = poDao.GetUserDepartment();
 
             if(!lsDeptIDx.equalsIgnoreCase(DeptCode.SALES) ||
@@ -149,8 +149,8 @@ public class RBranchPerformance {
                 return false;
             }
 
-            if(!lsUserLvl.equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER)) ||
-                    !lsUserLvl.equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_BRANCH_HEAD))){
+            if(lsUserLvl != DeptCode.LEVEL_AREA_MANAGER ||
+                    lsUserLvl != DeptCode.LEVEL_BRANCH_HEAD){
                 message = "Your user level is not authorize to download area/branch performance";
                 return false;
             }

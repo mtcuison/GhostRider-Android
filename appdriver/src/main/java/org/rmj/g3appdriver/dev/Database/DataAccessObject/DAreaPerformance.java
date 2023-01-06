@@ -36,7 +36,7 @@ public interface DAreaPerformance {
     void update(EAreaPerformance areaPerformance);
 
     @Query("SELECT sEmpLevID FROM User_Info_Master")
-    String GetUserLevel();
+    int GetUserLevel();
 
     @Query("SELECT sDeptIDxx FROM User_Info_Master")
     String GetUserDepartment();

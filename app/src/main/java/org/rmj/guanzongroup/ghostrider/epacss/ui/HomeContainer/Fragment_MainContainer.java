@@ -60,7 +60,7 @@ public class Fragment_MainContainer extends Fragment {
 
         mViewModel.getEmployeeInfo().observe(getViewLifecycleOwner(), eEmployeeInfo -> {
             try {
-                viewPager.setAdapter(new FragmentAdapter(getParentFragmentManager(), appConstants.getHomePages(Integer.parseInt(eEmployeeInfo.getEmpLevID()))));
+                viewPager.setAdapter(new FragmentAdapter(getParentFragmentManager(), appConstants.getHomePages(eEmployeeInfo.getEmpLevID())));
             } catch (Exception e){
                 e.printStackTrace();
             }

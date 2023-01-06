@@ -12,42 +12,25 @@
 package org.rmj.guanzongroup.ghostrider.settings.ViewModel;
 
 import android.app.Application;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Environment;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.FileProvider;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.dev.DevTools;
-import org.rmj.g3appdriver.dev.HttpHeaders;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.SessionManager;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
-import org.rmj.g3appdriver.utils.ConnectionUtil;
-import org.rmj.g3appdriver.utils.WebApi;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 public class VMDevMode extends AndroidViewModel {
 
     private final Application instance;
     private final DevTools poTool;
 
-    public interface OnRestoreCallback{
-        void OnRestore();
+    public interface OnChangeListener {
+        void OnChanged(String args);
     }
 
     public VMDevMode(@NonNull Application application) {
@@ -60,40 +43,71 @@ public class VMDevMode extends AndroidViewModel {
         return poTool.GetUserInfo();
     }
 
-    public void SaveChanges(EEmployeeInfo args, OnRestoreCallback callback){
-
+    public void SaveChanges(EEmployeeInfo args, OnChangeListener callback){
+        new SaveChangesTask(callback).execute(args);
     }
 
-    public void RestoreDefault(OnRestoreCallback callback){
-        new RestoreSessionInfoTask(instance, callback).execute();
-    }
+    private class SaveChangesTask extends AsyncTask<EEmployeeInfo, Void, Boolean>{
 
-    private static class RestoreSessionInfoTask extends AsyncTask<Void, Void, Void>{
+        private final OnChangeListener callback;
 
-        private final SessionManager poSession;
-        private final AppConfigPreference poConfig;
-        private final EmployeeMaster poEmployee;
-        private final OnRestoreCallback callback;
+        private String message;
 
-        public RestoreSessionInfoTask(Application application, OnRestoreCallback callback){
-            poSession = new SessionManager(application);
-            poConfig = AppConfigPreference.getInstance(application);
-            poEmployee = new EmployeeMaster(application);
+        public SaveChangesTask(OnChangeListener callback) {
             this.callback = callback;
         }
 
         @Override
-        protected Void doInBackground(Void... voids) {
-            EEmployeeInfo loEmployee = poEmployee.getUserNonLiveData();
-            poSession.setEmployeeLevel(loEmployee.getEmpLevID());
-            poSession.setDepartment(loEmployee.getDeptIDxx());
-            return null;
+        protected Boolean doInBackground(EEmployeeInfo... eEmployeeInfos) {
+            if(!poTool.Update(eEmployeeInfos[0])){
+                message = poTool.getMessage();
+                return false;
+            }
+            return true;
         }
 
         @Override
-        protected void onPostExecute(Void aVoid) {
-            callback.OnRestore();
-            super.onPostExecute(aVoid);
+        protected void onPostExecute(Boolean isSuccess) {
+            super.onPostExecute(isSuccess);
+            if(!isSuccess){
+                callback.OnChanged(message);
+            } else {
+                callback.OnChanged("Changes Saved!");
+            }
+        }
+    }
+
+    public void RestoreDefault(OnChangeListener callback){
+        new RestoreSessionInfoTask(callback).execute();
+    }
+
+    private class RestoreSessionInfoTask extends AsyncTask<Void, Void, Boolean>{
+
+        private final OnChangeListener callback;
+
+        private String message;
+
+        public RestoreSessionInfoTask(OnChangeListener callback){
+            this.callback = callback;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            if(!poTool.SetDefault()){
+                message = poTool.getMessage();
+                return false;
+            }
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean isSuccess) {
+            super.onPostExecute(isSuccess);
+            if(!isSuccess){
+                callback.OnChanged(message);
+            } else {
+                callback.OnChanged("Account restored to default.");
+            }
         }
     }
 }

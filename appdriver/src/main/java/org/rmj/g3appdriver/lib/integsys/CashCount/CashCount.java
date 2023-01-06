@@ -334,9 +334,9 @@ public class CashCount {
      */
     public int ValidateCashCount(String fsVal){
         try{
-            String lsEmpLvl = poDao.GetEmployeeLevel();
+            int lsEmpLvl = poDao.GetEmployeeLevel();
 
-            if(!lsEmpLvl.equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER))){
+            if(lsEmpLvl != DeptCode.LEVEL_AREA_MANAGER){
                 message = "User is not authorize to create cash count entry.";
                 return 3;
             }

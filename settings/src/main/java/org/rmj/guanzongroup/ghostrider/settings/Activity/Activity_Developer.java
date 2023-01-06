@@ -11,6 +11,9 @@
 
 package org.rmj.guanzongroup.ghostrider.settings.Activity;
 
+import static org.rmj.g3appdriver.dev.DeptCode.Departments;
+import static org.rmj.g3appdriver.dev.PositionCode.Positions;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -23,15 +26,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.dev.DeptCode;
+import org.rmj.g3appdriver.dev.PositionCode;
 import org.rmj.guanzongroup.ghostrider.settings.R;
 import org.rmj.guanzongroup.ghostrider.settings.ViewModel.VMDevMode;
 
@@ -41,8 +47,8 @@ public class Activity_Developer extends AppCompatActivity {
 
     private VMDevMode mViewModel;
     private Toolbar toolbar;
-    private SwitchMaterial poSwitch;
     private Spinner spnLevl;
+    private AutoCompleteTextView txtDept, txtPost;
     private MaterialButton btnSave, btnRestore;
 
     private EEmployeeInfo poInfo;
@@ -50,12 +56,13 @@ public class Activity_Developer extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_developer);
         mViewModel = new ViewModelProvider(this).get(VMDevMode.class);
+        setContentView(R.layout.activity_developer);
         toolbar = findViewById(R.id.toolbar_deveMode);
-        poSwitch = findViewById(R.id.sm_dcpTest);
         spnLevl = findViewById(R.id.spn_employeeLevel);
         btnRestore = findViewById(R.id.btn_restoreDefault);
+        txtDept = findViewById(R.id.txt_department);
+        txtPost = findViewById(R.id.txt_position);
         btnSave = findViewById(R.id.btn_Save);
 
         setSupportActionBar(toolbar);
@@ -72,10 +79,19 @@ public class Activity_Developer extends AppCompatActivity {
                     }
                 }
 
+                txtDept.setText(DeptCode.getDepartmentName(info.getDeptIDxx()));
+                txtPost.setText(PositionCode.getPositionName(info.getPositnID()));
+
             } catch (Exception e){
                 e.printStackTrace();
             }
         });
+
+        txtDept.setAdapter(new ArrayAdapter<>(Activity_Developer.this, android.R.layout.simple_spinner_dropdown_item, Departments));
+        txtPost.setAdapter(new ArrayAdapter<>(Activity_Developer.this, android.R.layout.simple_spinner_dropdown_item, Positions));
+
+        txtDept.setOnItemClickListener((parent, view, position, id) -> poInfo.setDeptIDxx(DeptCode.getDepartmentCode(txtDept.getText().toString())));
+        txtPost.setOnItemClickListener((parent, view, position, id) -> poInfo.setPositnID(PositionCode.getPositionCode(txtPost.getText().toString())));
 
         spnLevl.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -88,15 +104,9 @@ public class Activity_Developer extends AppCompatActivity {
 
             }
         });
-        btnSave.setOnClickListener(v -> {
-            setResult(Activity.RESULT_OK);
-            finish();
-        });
+        btnSave.setOnClickListener(v -> mViewModel.SaveChanges(poInfo, args -> Toast.makeText(Activity_Developer.this, args, Toast.LENGTH_SHORT).show()));
 
-        btnRestore.setOnClickListener(v -> mViewModel.RestoreDefault(() -> {
-            setResult(Activity.RESULT_OK);
-            finish();
-        }));
+        btnRestore.setOnClickListener(v -> mViewModel.RestoreDefault(args -> Toast.makeText(Activity_Developer.this, args, Toast.LENGTH_SHORT).show()));
     }
 
     @Override

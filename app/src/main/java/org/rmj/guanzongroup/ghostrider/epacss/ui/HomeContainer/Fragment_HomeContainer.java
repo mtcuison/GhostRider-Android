@@ -69,12 +69,12 @@ public class Fragment_HomeContainer extends Fragment {
 
         mViewModel.getEmployeeInfo().observe(getViewLifecycleOwner(), eEmployeeInfo -> {
             try {
-                if(eEmployeeInfo.getEmpLevID().equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_RANK_FILE)) ||
-                        eEmployeeInfo.getEmpLevID().equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_SUPERVISOR))){
+                if(eEmployeeInfo.getEmpLevID() == DeptCode.LEVEL_RANK_FILE ||
+                        eEmployeeInfo.getEmpLevID() == DeptCode.LEVEL_SUPERVISOR){
                     fragment = new Fragment[]{new Fragment_Associate_Dashboard(), new Fragment_NotificationList()};
                     appBarHome.setVisibility(View.VISIBLE);
                     imgHeader.setImageResource(R.drawable.img_associate);
-                }  else if(eEmployeeInfo.getEmpLevID().equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_BRANCH_HEAD))) {
+                }  else if(eEmployeeInfo.getEmpLevID() == DeptCode.LEVEL_BRANCH_HEAD) {
                     fragment = new Fragment[]{new Fragment_BH_Dashboard(), new Fragment_NotificationList()};
                     appBarHome.setVisibility(View.VISIBLE);
                     imgHeader.setImageResource(R.drawable.img_bh_header);

@@ -144,7 +144,7 @@ public class Fragment_Home extends Fragment {
         mViewModel.getEmployeeInfo().observe(getViewLifecycleOwner(), eEmployeeInfo -> {
             try {
                 lblEmail.setText(eEmployeeInfo.getEmailAdd());
-                lblUserLvl.setText(DeptCode.parseUserLevel(Integer.parseInt(eEmployeeInfo.getEmpLevID())));
+                lblUserLvl.setText(DeptCode.parseUserLevel(eEmployeeInfo.getEmpLevID()));
                 lblFullNme.setText(eEmployeeInfo.getUserName());
                 lblDept.setText(DeptCode.getDepartmentName(eEmployeeInfo.getDeptIDxx()));
                 mViewModel.setIntUserLvl(4);

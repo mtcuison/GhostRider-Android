@@ -47,9 +47,10 @@ public class DevTools {
     public boolean SetDefault(){
         try{
             EEmployeeInfo loDetail = poDao.GetUser();
-
-
-
+            loDetail.setPositnID(poSession.getPositionID());
+            loDetail.setEmpLevID(Integer.parseInt(poSession.getEmployeeLevel()));
+            loDetail.setDeptIDxx(poSession.getDeptID());
+            poDao.Update(loDetail);
             return true;
         } catch (Exception e){
             e.printStackTrace();

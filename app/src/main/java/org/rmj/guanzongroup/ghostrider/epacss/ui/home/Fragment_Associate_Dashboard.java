@@ -177,7 +177,7 @@ public class Fragment_Associate_Dashboard extends Fragment {
             try {
                 lblFullNme.setText(eEmployeeInfo.getUserName());
                 lblEmail.setText(eEmployeeInfo.getEmailAdd());
-                lblUserLvl.setText(DeptCode.parseUserLevel(Integer.parseInt(eEmployeeInfo.getEmpLevID())));
+                lblUserLvl.setText(DeptCode.parseUserLevel(eEmployeeInfo.getEmpLevID()));
                 lblDept.setText(DeptCode.getDepartmentName(eEmployeeInfo.getDeptIDxx()));
 //                imgUser.setImageResource(AppConstants.getUserIcon(eEmployeeInfo.getUserLevl()));
                 if(eEmployeeInfo.getDeptIDxx().equalsIgnoreCase(DeptCode.MANAGEMENT_INFORMATION_SYSTEM)){
