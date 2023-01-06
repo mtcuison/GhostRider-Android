@@ -6,6 +6,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EInventoryDetail;
 import org.rmj.g3appdriver.dev.Database.Entities.EInventoryMaster;
 
@@ -55,4 +56,17 @@ public interface DInventoryDao {
 
     @Query("SELECT * FROM Inventory_Count_Master WHERE cTranStat != '2'")
     List<EInventoryMaster> GetMasterInventoryForUpload();
+
+    @Query("SELECT b.* FROM Employee_Log_Selfie a " +
+            "LEFT JOIN Branch_Info b " +
+            "ON a.sBranchCd = b.sBranchCd " +
+            "LEFT JOIN Inventory_Count_Master c ON b.sBranchCd = c.sBranchCd " +
+            "WHERE c.sBranchCd IS NULL OR c.cTranStat = '0'")
+    List<EBranchInfo> GetBranchesForInventory();
+
+    @Query("SELECT * FROM Branch_Info WHERE sBranchCd =:args")
+    LiveData<EBranchInfo> GetBranchInfo(String args);
+
+    @Query("SELECT COUNT(*) FROM Employee_Log_Selfie WHERE dTransact =:args")
+    int CheckIfHasSelfieLog(String args);
 }

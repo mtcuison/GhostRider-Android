@@ -9,6 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DCashCount;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEmployeeInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ECashCount;
 import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.etc.AppConstants;
@@ -25,7 +26,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 
 public class CashCount {
     private static final String TAG = CashCount.class.getSimpleName();
@@ -56,6 +56,32 @@ public class CashCount {
 
     public LiveData<DEmployeeInfo.EmployeeBranch> GetUserInfo(){
         return poUser.GetEmployeeBranch();
+    }
+
+    public LiveData<EBranchInfo> GetBranchForCashCount(String args){
+        return poDao.GetBranchForCashCount(args);
+    }
+
+    public List<EBranchInfo> GetBranchesForCashCount(){
+        try{
+            int lnLogsxx = poDao.CheckIfHasSelfieLog(AppConstants.CURRENT_DATE);
+            if(lnLogsxx == 0){
+                message = "No selfie log record found for this day.";
+                return null;
+            }
+
+            List<EBranchInfo> loList = poDao.GetBranchesForCashCount();
+            if(loList.size() == 0 ){
+                message = "All branches on selfie log has cash count record.";
+                return null;
+            }
+
+            return loList;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return null;
+        }
     }
 
     public String SaveCashCount(JSONObject foVal){

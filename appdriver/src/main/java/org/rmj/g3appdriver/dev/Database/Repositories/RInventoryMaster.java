@@ -5,8 +5,11 @@ import android.app.Application;
 import androidx.lifecycle.LiveData;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DInventoryMaster;
+import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EInventoryMaster;
 import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
+
+import java.util.List;
 
 public class RInventoryMaster implements DInventoryMaster {
     private static final String TAG = RInventoryMaster.class.getSimpleName();
@@ -42,6 +45,11 @@ public class RInventoryMaster implements DInventoryMaster {
     @Override
     public void UpdateInventoryMasterPostedStatus(String TransNox) {
         poDao.UpdateInventoryMasterPostedStatus(TransNox);
+    }
+
+    @Override
+    public List<EBranchInfo> GetBranchesForInventory() {
+        return null;
     }
 
 
