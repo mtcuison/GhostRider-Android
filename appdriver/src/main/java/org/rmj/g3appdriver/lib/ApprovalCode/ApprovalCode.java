@@ -241,11 +241,11 @@ public class ApprovalCode {
                 " ORDER BY sSCATitle";
 
         String lsCondition = "";
-        String lsEmpLvID = loUser.getEmpLevID();
+        int lsEmpLvID = loUser.getEmpLevID();
         String lsDeptIDx = loUser.getDeptIDxx();
         String lsPostion = loUser.getPositnID();
 
-        if (lsEmpLvID.equals("4")){
+        if (lsEmpLvID == 4){
             lsCondition  = "cAreaHead = '1'";
         } else{
             switch (lsDeptIDx){

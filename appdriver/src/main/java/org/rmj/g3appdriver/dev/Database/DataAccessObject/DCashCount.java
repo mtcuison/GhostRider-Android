@@ -80,7 +80,7 @@ public interface DCashCount {
     String GetUserAreaCode();
 
     @Query("SELECT sEmpLevID FROM User_Info_Master")
-    String GetEmployeeLevel();
+    int GetEmployeeLevel();
 
     class CashCountLog{
         public String sTransNox;

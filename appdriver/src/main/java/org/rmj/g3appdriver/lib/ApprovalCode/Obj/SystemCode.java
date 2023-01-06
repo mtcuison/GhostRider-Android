@@ -72,7 +72,7 @@ public class SystemCode implements SCA {
 
             RequestApproval loApp = new RequestApproval(lsPackage);
             loApp.setDeptIDxx(loUser.getDeptIDxx());
-            loApp.setEmpLevID(loUser.getEmpLevID());
+            loApp.setEmpLevID(String.valueOf(loUser.getEmpLevID()));
             loApp.setEmployID(loUser.getEmployID());
             loApp.setRemarks(foVal.getRemarks());
 

@@ -78,6 +78,7 @@ import org.rmj.g3appdriver.dev.Database.DataAccessObject.DSysConfig;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DToken;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DUncapturedClient;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DevTool;
 import org.rmj.g3appdriver.dev.Database.Entities.EAddressUpdate;
 import org.rmj.g3appdriver.dev.Database.Entities.EAppConfig;
 import org.rmj.g3appdriver.dev.Database.Entities.EAreaPerformance;
@@ -247,6 +248,7 @@ public abstract class GGC_GriderDB extends RoomDatabase {
     public abstract DCreditOnlineApplicationCI creditEvaluationDao();
     public abstract DItinerary itineraryDao();
     public abstract DToken dToken();
+    public abstract DevTool devTool();
     public abstract DNotificationMaster nMasterDao();
     public abstract DNotificationDetail nDetailDao();
     public abstract DNotificationUser nUserDao();

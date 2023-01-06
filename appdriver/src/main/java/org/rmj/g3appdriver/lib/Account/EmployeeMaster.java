@@ -153,7 +153,7 @@ public class EmployeeMaster {
                     employeeInfo.setSlfieLog(loResponse.getString("cSlfieLog"));
                     employeeInfo.setDeptIDxx(loResponse.getString("sDeptIDxx"));
                     employeeInfo.setPositnID(loResponse.getString("sPositnID"));
-                    employeeInfo.setEmpLevID(loResponse.getString("sEmpLevID"));
+                    employeeInfo.setEmpLevID(loResponse.getInt("sEmpLevID"));
                     employeeInfo.setAllowUpd(loResponse.getString("cAllowUpd"));
                     employeeInfo.setEmployID(loResponse.getString("sEmployID"));
                     employeeInfo.setDeviceID(poDevID.getDeviceID());

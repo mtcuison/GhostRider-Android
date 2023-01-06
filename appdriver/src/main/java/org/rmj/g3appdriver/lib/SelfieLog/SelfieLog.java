@@ -115,7 +115,7 @@ public class SelfieLog {
             //if current user is not area manager
             // return a value which will continue the selfie log
             // to save but not requiring a remarks if user has a default branch code
-            if(!poUser.getUserNonLiveData().getEmpLevID().equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER))){
+            if(poUser.getUserNonLiveData().getEmpLevID() != DeptCode.LEVEL_AREA_MANAGER){
                 message = "User is not Area Manager. Proceed Selfie Log without remarks";
                 return 1;
             }
