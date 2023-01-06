@@ -40,8 +40,18 @@ public interface DCashCount {
     @Query("SELECT * FROM Cash_Count_Master WHERE sTransNox =:TransNox")
     LiveData<ECashCount> getCashCounDetetail(String TransNox);
 
-    @Query("SELECT * FROM Cash_Count_Master WHERE sTransNox =:TransNox")
-    List<ECashCount> getDuplicateTransNox(String TransNox);
+    @Query("SELECT * FROM Branch_Info WHERE sBranchCd =:args")
+    LiveData<EBranchInfo> GetBranchForCashCount(String args);
+
+    @Query("SELECT COUNT(*) FROM Employee_Log_Selfie WHERE dTransact =:args")
+    int CheckIfHasSelfieLog(String args);
+
+    @Query("SELECT b.* FROM Employee_Log_Selfie a " +
+            "LEFT JOIN Branch_Info b " +
+            "ON a.sBranchCd = b.sBranchCd " +
+            "LEFT JOIN Cash_Count_Master c ON b.sBranchCd = c.sBranchCd " +
+            "WHERE c.sBranchCd IS NULL")
+    List<EBranchInfo> GetBranchesForCashCount();
 
     @Query("UPDATE Cash_Count_Master SET " +
             "sTransNox =:transNox, " +

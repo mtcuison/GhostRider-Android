@@ -25,12 +25,14 @@ import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.dev.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.lib.integsys.CashCount.CashCount;
 
+import java.util.List;
+
 public class VMCashCounter extends AndroidViewModel {
     private static final String TAG = VMCashCounter.class.getSimpleName();
 
     private final CashCount poSys;
 
-    private final RBranch poBranch;
+    private final MutableLiveData<String> psBranch = new MutableLiveData<>();
 
     private final MutableLiveData<Double> p1000 = new MutableLiveData<>();
     private final MutableLiveData<Double> p500 = new MutableLiveData<>();
@@ -71,7 +73,6 @@ public class VMCashCounter extends AndroidViewModel {
     public VMCashCounter(@NonNull Application application) {
         super(application);
         this.poSys = new CashCount(application);
-        this.poBranch = new RBranch(application);
         this.p1000.setValue((double) 0);
         this.p500.setValue((double) 0);
         this.p200.setValue((double) 0);
@@ -106,15 +107,21 @@ public class VMCashCounter extends AndroidViewModel {
         this.pnTotalx.setValue((double) 0);
         this.cnTotalx.setValue((double) 0);
         this.grandTotalx.setValue((double) 0);
+        this.psBranch.setValue("");
     }
 
-    public LiveData<EBranchInfo> getUserBranchInfo(){
-        return poBranch.getUserBranchInfo();
+    public void setBranchCd(String val){
+        this.psBranch.setValue(val);
     }
 
-    public LiveData<EBranchInfo> getSelfieLogBranchInfo(){
-        return poBranch.getSelfieLogBranchInfo();
+    public LiveData<String> GetBranchCd(){
+        return psBranch;
     }
+
+    public LiveData<EBranchInfo> GetBranchForCashCount(String args){
+        return poSys.GetBranchForCashCount(args);
+    }
+
     //Added by Jonathan 2021/06/08
     //Computation for all peso bill
     private void calculatePesoTotal(){
@@ -261,49 +268,50 @@ public class VMCashCounter extends AndroidViewModel {
         return param;
     }
 
-    public interface OnCheckCashCountCallback{
+    public interface OnGetBranchesList{
         void OnLoad();
-        void Success();
+        void OnRetrieve(List<EBranchInfo> list);
         void OnFailed(String message);
     }
 
-//    public void CheckIfCashCountExist(String fsVal, OnCheckCashCountCallback callback){
-//        new CheckCashCountTask(callback).execute(fsVal);
-//    }
-//
-//    private class CheckCashCountTask extends AsyncTask<String, Void, Boolean>{
-//
-//        private final OnCheckCashCountCallback callback;
-//
-//        private String message;
-//
-//        public CheckCashCountTask(OnCheckCashCountCallback callback) {
-//            this.callback = callback;
-//        }
-//
-//        @Override
-//        protected void onPreExecute() {
-//            super.onPreExecute();
-//            callback.OnLoad();
-//        }
-//
-//        @Override
-//        protected Boolean doInBackground(String... strings) {
-//            if(poSys.IsCashCountAlreadyExist(strings[0])){
-//                message = poSys.getMessage();
-//                return true;
-//            }
-//            return false;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(Boolean ifExist) {
-//            super.onPostExecute(ifExist);
-//            if(!ifExist){
-//                callback.Success();
-//            } else {
-//                callback.OnFailed(message);
-//            }
-//        }
-//    }
+    public void GetBranchesList(OnGetBranchesList listener){
+        new GetBranchesTask(listener).execute();
+    }
+
+    private class GetBranchesTask extends AsyncTask<Void, Void, List<EBranchInfo>>{
+
+        private final OnGetBranchesList listener;
+
+        private String message;
+
+        public GetBranchesTask(OnGetBranchesList listener) {
+            this.listener = listener;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            listener.OnLoad();
+        }
+
+        @Override
+        protected List<EBranchInfo> doInBackground(Void... voids) {
+            List<EBranchInfo> loList = poSys.GetBranchesForCashCount();
+            if(loList == null){
+                message = poSys.getMessage();
+                return null;
+            }
+            return loList;
+        }
+
+        @Override
+        protected void onPostExecute(List<EBranchInfo> eBranchInfos) {
+            super.onPostExecute(eBranchInfos);
+            if(eBranchInfos == null){
+                listener.OnFailed(message);
+            } else {
+                listener.OnRetrieve(eBranchInfos);
+            }
+        }
+    }
 }
