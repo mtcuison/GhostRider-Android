@@ -155,7 +155,7 @@ public class EmploymentInfo implements CreditApp {
     }
 
     @Override
-    public boolean Save(Object args) {
+    public String Save(Object args) {
         try{
             Employment loDetail = (Employment) args;
 
@@ -163,7 +163,7 @@ public class EmploymentInfo implements CreditApp {
 
             if(loApp == null){
                 message = "Unable to find record for update. Please restart credit app and try again.";
-                return false;
+                return null;
             }
 
             GOCASApplication gocas = new GOCASApplication();
@@ -190,11 +190,11 @@ public class EmploymentInfo implements CreditApp {
 
             loApp.setEmplymnt(gocas.MeansInfo().EmployedInfo().toJSONString());
             poDao.Update(loApp);
-            return true;
+            return loDetail.getTransNox();
         } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();
-            return false;
+            return null;
         }
     }
 

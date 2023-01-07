@@ -135,7 +135,8 @@ public class VMComakerResidence extends AndroidViewModel implements CreditAppUI 
                 return false;
             }
 
-            if (!poApp.Save(info[0])) {
+            String lsResult = poApp.Save(info[0]);
+            if(lsResult == null){
                 message = poApp.getMessage();
                 return false;
             }

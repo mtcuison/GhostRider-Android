@@ -111,7 +111,8 @@ public class VMProperties extends AndroidViewModel implements CreditAppUI {
         @Override
         protected Boolean doInBackground(Properties... info) {
 
-            if (!poApp.Save(info[0])) {
+            String lsResult = poApp.Save(info[0]);
+            if(lsResult == null){
                 message = poApp.getMessage();
                 return false;
             }

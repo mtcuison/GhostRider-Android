@@ -119,11 +119,7 @@ public class Activity_Finance extends AppCompatActivity {
 
         btnNext.setOnClickListener(v -> SaveFinanceInfo());
         btnPrvs.setOnClickListener(v -> {
-            Intent loIntent = new Intent(Activity_Finance.this, Activity_SelfEmployedInfo.class);
-            loIntent.putExtra("sTransNox", TransNox);
-            startActivity(loIntent);
-            overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
-            finish();
+            returnPrevious();
         });
 
     }
@@ -137,9 +133,6 @@ public class Activity_Finance extends AppCompatActivity {
         } else {
             mViewModel.getModel().setRangeOfIncome(Long.parseLong((txtFIncme.getText()).toString().trim()));
         }
-
-
-//        mViewModel.getModel().setCountryName(Objects.requireNonNull(txtFCntry.getText()).toString().trim());
 
         mViewModel.getModel().setMobileNo(Objects.requireNonNull(txtFMoble.getText()).toString().trim());
         mViewModel.getModel().setFacebook(Objects.requireNonNull(txtFFacbk.getText()).toString().trim());
@@ -203,6 +196,7 @@ public class Activity_Finance extends AppCompatActivity {
             if(!infoModel.getFinancierRelation().isEmpty()){
                 spnRelation.setText(CreditAppConstants.FINANCE_SOURCE[Integer.parseInt(infoModel.getFinancierRelation())], false);
                 spnRelation.setSelection(Integer.parseInt(infoModel.getFinancierRelation()));
+                mViewModel.getModel().setFinancierRelation(infoModel.getFinancierRelation());
             }
             relationX = infoModel.getFinancierRelation();
 
@@ -216,48 +210,33 @@ public class Activity_Finance extends AppCompatActivity {
                 mViewModel.getModel().setCountry(infoModel.getCountry());
                 mViewModel.getModel().setCountryName(infoModel.getCountryName());
             }
-//            txtFCntry.setText(countryInfos.get(x).getCntryNme());
-//            infoModel.setCountryName(countryInfos.get(x).getCntryCde());
-//            mViewModel.getModel().setCountry(infoModel.getCountry());
-//            mViewModel.GetCountryList().observe(Activity_Finance.this, countryInfos -> {
-//                String sCountryCode = infoModel.getCountry();
-//                if(!sCountryCode.isEmpty()){
-//                    for(int x = 0; x < countryInfos.size(); x++){
-//                        if(sCountryCode.equalsIgnoreCase(countryInfos.get(x).getCntryCde())){
-//                            txtFCntry.setText(countryInfos.get(x).getCntryNme());
-//                            infoModel.setCountryName(countryInfos.get(x).getCntryCde());
-//                            break;
-//                        }
-//                    }
-//                }
-//            });
         }
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            Intent loIntent = new Intent(Activity_Finance.this, Activity_SelfEmployedInfo.class);
-            loIntent.putExtra("sTransNox", TransNox);
-            startActivity(loIntent);
-            overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
-            finish();
+            returnPrevious();
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onBackPressed() {
-        Intent loIntent = new Intent(Activity_Finance.this, Activity_SelfEmployedInfo.class);
-        loIntent.putExtra("sTransNox", TransNox);
-        startActivity(loIntent);
-        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
-        finish();
+        returnPrevious();
     }
 
     @Override
     protected void onDestroy() {
         getViewModelStore().clear();
         super.onDestroy();
+    }
+
+    private void returnPrevious(){
+        Intent loIntent = new Intent(Activity_Finance.this, Activity_SelfEmployedInfo.class);
+        loIntent.putExtra("sTransNox", TransNox);
+        startActivity(loIntent);
+        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
+        finish();
     }
 }

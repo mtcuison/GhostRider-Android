@@ -154,7 +154,7 @@ public class SpouseInfo implements CreditApp {
     }
 
     @Override
-    public boolean Save(Object args) {
+    public String Save(Object args) {
         try{
             ClientSpouseInfo loDetail = (ClientSpouseInfo) args;
 
@@ -162,7 +162,7 @@ public class SpouseInfo implements CreditApp {
 
             if(loApp == null){
                 message = "Unable to find record for update. Please restart credit app and try again.";
-                return false;
+                return null;
             }
 
             GOCASApplication gocas = new GOCASApplication();
@@ -178,27 +178,33 @@ public class SpouseInfo implements CreditApp {
 //            gocas.SpouseInfo().PersonalInfo().setCivilStatus(loDetail.getCvlStats());
 //            gocas.SpouseInfo().PersonalInfo().setMobileNoQty(loDetail.getMobileNoQty());
 
+            int lnMobQty = 1;
+            gocas.SpouseInfo().PersonalInfo().setMobileNoQty(lnMobQty);
+            gocas.SpouseInfo().PersonalInfo().setMobileNo(0, loDetail.getMobileNo1().getMobileNo());
+            gocas.SpouseInfo().PersonalInfo().IsMobilePostpaid(0, loDetail.getMobileNo1().getIsPostPd());
+            gocas.SpouseInfo().PersonalInfo().setPostPaidYears(0, loDetail.getMobileNo1().getPostYear());
+
             if(loDetail.getMobileNo2() != null){
-                gocas.SpouseInfo().PersonalInfo().setMobileNoQty(2);
-                gocas.SpouseInfo().PersonalInfo().setMobileNo(1, loDetail.getMobileNo1().getMobileNo());
-                gocas.SpouseInfo().PersonalInfo().IsMobilePostpaid(1, loDetail.getMobileNo1().getIsPostPd());
-                gocas.SpouseInfo().PersonalInfo().setPostPaidYears(1, loDetail.getMobileNo1().getPostYear());
+                lnMobQty++;
             }
 
             if(loDetail.getMobileNo3() != null){
-                gocas.SpouseInfo().PersonalInfo().setMobileNoQty(3);
-                gocas.SpouseInfo().PersonalInfo().setMobileNo(2, loDetail.getMobileNo1().getMobileNo());
-                gocas.SpouseInfo().PersonalInfo().IsMobilePostpaid(2, loDetail.getMobileNo1().getIsPostPd());
-                gocas.SpouseInfo().PersonalInfo().setPostPaidYears(2, loDetail.getMobileNo1().getPostYear());
+                lnMobQty++;
             }
 
-//            for(int x = 0; x < loDetail.getMobileNoQty(); x++){
-//                gocas.SpouseInfo().PersonalInfo().setMobileNo(x, loDetail.getMobileNo(x));
-//                gocas.SpouseInfo().PersonalInfo().setPostPaidYears(x, loDetail.getPostYear(x));
-//                if(loDetail.getPostPaid(x) != null){
-//                    gocas.SpouseInfo().PersonalInfo().IsMobilePostpaid(x, loDetail.getPostPaid(x));
-//                }
-//            }
+            gocas.SpouseInfo().PersonalInfo().setMobileNoQty(lnMobQty);
+
+            if(loDetail.getMobileNo2() != null){
+                gocas.SpouseInfo().PersonalInfo().setMobileNo(1, loDetail.getMobileNo2().getMobileNo());
+                gocas.SpouseInfo().PersonalInfo().IsMobilePostpaid(1, loDetail.getMobileNo2().getIsPostPd());
+                gocas.SpouseInfo().PersonalInfo().setPostPaidYears(1, loDetail.getMobileNo2().getPostYear());
+            }
+
+            if(loDetail.getMobileNo3() != null){
+                gocas.SpouseInfo().PersonalInfo().setMobileNo(2, loDetail.getMobileNo3().getMobileNo());
+                gocas.SpouseInfo().PersonalInfo().IsMobilePostpaid(2, loDetail.getMobileNo3().getIsPostPd());
+                gocas.SpouseInfo().PersonalInfo().setPostPaidYears(2, loDetail.getMobileNo3().getPostYear());
+            }
 
             gocas.SpouseInfo().PersonalInfo().setEmailAddQty(1);
             gocas.SpouseInfo().PersonalInfo().setEmailAddress(0, loDetail.getEmailAdd());
@@ -209,11 +215,11 @@ public class SpouseInfo implements CreditApp {
 
             loApp.setSpousexx(gocas.SpouseInfo().PersonalInfo().toJSONString());
             poDao.Update(loApp);
-            return true;
+            return loDetail.getTransNox();
         } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();
-            return false;
+            return null;
         }
     }
 

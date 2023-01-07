@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DBarangayInfo;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DCreditApplication;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EBarangayInfo;
@@ -47,23 +48,64 @@ public class SpouseResidenceInfo implements CreditApp {
     @Override
     public Object Parse(ECreditApplicantInfo args) {
         try{
-            SpouseResidence loDetail = new SpouseResidence();
+            oResidence loDetail = new oResidence();
+            SpouseResidence loSpouse = new SpouseResidence();
+            ClientResidence loAppl = new ClientResidence();
+
+            GOCASApplication gocas;
+            JSONParser loJson;
+            JSONObject joDetail;
+            String lsDetail;
             if (args.getSpsResdx() != null){
-                String lsDetail = args.getSpsResdx();
-                GOCASApplication gocas = new GOCASApplication();
-                JSONParser loJson = new JSONParser();
-                JSONObject joDetail = (JSONObject) loJson.parse(lsDetail);
-                gocas.ResidenceInfo().setData(joDetail);
 
-                loDetail.setLandMark(gocas.SpouseInfo().ResidenceInfo().PresentAddress().getLandMark());
-                loDetail.setHouseNox(gocas.SpouseInfo().ResidenceInfo().PresentAddress().getHouseNo());
-                loDetail.setAddress1(gocas.SpouseInfo().ResidenceInfo().PresentAddress().getAddress1());
-                loDetail.setAddress2(gocas.SpouseInfo().ResidenceInfo().PresentAddress().getAddress2());
-                loDetail.setMunicipalID(gocas.SpouseInfo().ResidenceInfo().PresentAddress().getTownCity());
-                loDetail.setBarangayID(gocas.SpouseInfo().ResidenceInfo().PresentAddress().getBarangay());
+                lsDetail = args.getSpsResdx();
+                gocas = new GOCASApplication();
+                loJson = new JSONParser();
+                joDetail = (JSONObject) loJson.parse(lsDetail);
+                gocas.SpouseInfo().ResidenceInfo().setData(joDetail);
 
-                poDetail = loDetail;
+                loSpouse.setLandMark(gocas.SpouseInfo().ResidenceInfo().PresentAddress().getLandMark());
+                loSpouse.setHouseNox(gocas.SpouseInfo().ResidenceInfo().PresentAddress().getHouseNo());
+                loSpouse.setAddress1(gocas.SpouseInfo().ResidenceInfo().PresentAddress().getAddress1());
+                loSpouse.setAddress2(gocas.SpouseInfo().ResidenceInfo().PresentAddress().getAddress2());
+                loSpouse.setMunicipalID(gocas.SpouseInfo().ResidenceInfo().PresentAddress().getTownCity());
+                loSpouse.setBarangayID(gocas.SpouseInfo().ResidenceInfo().PresentAddress().getBarangay());
+
+                String lsBrgy = gocas.SpouseInfo().ResidenceInfo().PresentAddress().getBarangay();
+                DBarangayInfo.BrgyTownProvNames loBrgy = poBrgy.getBrgyTownProvName(lsBrgy);
+
+                loSpouse.setMunicipalID(gocas.SpouseInfo().ResidenceInfo().PresentAddress().getTownCity());
+                loSpouse.setBarangayID(lsBrgy);
+
+                loSpouse.setMunicipalNm(loBrgy.sTownName + ", " + loBrgy.sProvName);
+                loSpouse.setBarangayName(loBrgy.sBrgyName);
+                poDetail = loSpouse;
             }
+
+            lsDetail = args.getResidnce();
+            gocas = new GOCASApplication();
+            loJson = new JSONParser();
+            joDetail = (JSONObject) loJson.parse(lsDetail);
+
+            gocas.ResidenceInfo().setData(joDetail);
+
+            loAppl.setLandMark(gocas.ResidenceInfo().PresentAddress().getLandMark());
+            loAppl.setHouseNox(gocas.ResidenceInfo().PresentAddress().getHouseNo());
+            loAppl.setAddress1(gocas.ResidenceInfo().PresentAddress().getAddress1());
+            loAppl.setAddress2(gocas.ResidenceInfo().PresentAddress().getAddress2());
+
+            String lsBrgy = gocas.ResidenceInfo().PresentAddress().getBarangay();
+            DBarangayInfo.BrgyTownProvNames loBrgy = poBrgy.getBrgyTownProvName(lsBrgy);
+
+            loAppl.setMunicipalID(gocas.ResidenceInfo().PresentAddress().getTownCity());
+            loAppl.setBarangayID(lsBrgy);
+
+            loAppl.setProvinceNm(loBrgy.sProvName);
+            loAppl.setMunicipalNm(loBrgy.sTownName);
+            loAppl.setBarangayName(loBrgy.sBrgyName);
+
+            loDetail.setSpouseResidence(loSpouse);
+            loDetail.setApplResidence(loAppl);
 
             return loDetail;
         } catch (NullPointerException e){
@@ -105,7 +147,7 @@ public class SpouseResidenceInfo implements CreditApp {
     }
 
     @Override
-    public boolean Save(Object args) {
+    public String Save(Object args) {
         try{
             SpouseResidence loDetail = (SpouseResidence) args;
 
@@ -113,7 +155,7 @@ public class SpouseResidenceInfo implements CreditApp {
 
             if(loApp == null){
                 message = "Unable to find record for update. Please restart credit app and try again.";
-                return false;
+                return null;
             }
 
             GOCASApplication gocas = new GOCASApplication();
@@ -127,11 +169,11 @@ public class SpouseResidenceInfo implements CreditApp {
 
             loApp.setSpsResdx(gocas.SpouseInfo().ResidenceInfo().toJSONString());
             poDao.Update(loApp);
-            return true;
+            return loDetail.getTransNox();
         } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();
-            return false;
+            return null;
         }
     }
 
@@ -158,5 +200,29 @@ public class SpouseResidenceInfo implements CreditApp {
     @Override
     public LiveData<List<EOccupationInfo>> GetOccupations() {
         return null;
+    }
+
+    public class oResidence{
+        private SpouseResidence spouseResidence = new SpouseResidence();
+        private ClientResidence applResidence = new ClientResidence();
+
+        public oResidence() {
+        }
+
+        public SpouseResidence getSpouseResidence() {
+            return spouseResidence;
+        }
+
+        public void setSpouseResidence(SpouseResidence spouseResidence) {
+            this.spouseResidence = spouseResidence;
+        }
+
+        public ClientResidence getApplResidence() {
+            return applResidence;
+        }
+
+        public void setApplResidence(ClientResidence applResidence) {
+            this.applResidence = applResidence;
+        }
     }
 }

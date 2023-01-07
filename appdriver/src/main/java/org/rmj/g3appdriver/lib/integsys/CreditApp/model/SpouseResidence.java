@@ -7,8 +7,6 @@ public class SpouseResidence {
     private String sHouseNox = "";
     private String sAddress1 = "";
     private String sAddress2 = "";
-    private String sProvncNm = "";
-    private String sProvncID = "";
     private String sMuncplNm = "";
     private String sMuncplID = "";
     private String sBrgyName = "";
@@ -63,22 +61,6 @@ public class SpouseResidence {
 
     public void setAddress2(String sAddress2) {
         this.sAddress2 = sAddress2;
-    }
-
-    public String getProvinceNm() {
-        return sProvncNm;
-    }
-
-    public void setProvinceNm(String sProvncNm) {
-        this.sProvncNm = sProvncNm;
-    }
-
-    public String getProvinceID() {
-        return sProvncID;
-    }
-
-    public void setProvinceID(String sProvncID) {
-        this.sProvncID = sProvncID;
     }
 
     public String getMunicipalNm() {

@@ -307,8 +307,6 @@ public class Activity_ResidenceInfo extends AppCompatActivity {
                 poMessage.show();
             }
         });
-
-
     }
 
     private class OnHouseOwnershipSelectListener implements RadioGroup.OnCheckedChangeListener {

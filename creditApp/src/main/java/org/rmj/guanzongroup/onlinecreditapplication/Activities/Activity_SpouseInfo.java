@@ -84,15 +84,12 @@ public class Activity_SpouseInfo extends AppCompatActivity {
             try {
                 TransNox = app.getTransNox();
                 mViewModel.getModel().setTransNox(app.getTransNox());
-                mViewModel.ParseData(app, new OnParseListener() {
-                    @Override
-                    public void OnParse(Object args) {
-                        ClientSpouseInfo loDetail = (ClientSpouseInfo) args;
-                        try {
-                            setUpFieldsFromLocalDB(loDetail);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                mViewModel.ParseData(app, args -> {
+                    ClientSpouseInfo loDetail = (ClientSpouseInfo) args;
+                    try {
+                        setUpFieldsFromLocalDB(loDetail);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
                 });
             } catch (Exception e) {
@@ -259,15 +256,11 @@ public class Activity_SpouseInfo extends AppCompatActivity {
 
         btnNext.setOnClickListener(v -> SaveSpouseInfo());
         btnPrvs.setOnClickListener(v -> {
-            Intent loIntent = new Intent(Activity_SpouseInfo.this, Activity_Finance.class);
-            loIntent.putExtra("sTransNox", TransNox);
-            startActivity(loIntent);
-            finish();
+            returnPrevious();
         });
     }
 
     private void SaveSpouseInfo() {
-
         mViewModel.getModel().setLastName(Objects.requireNonNull(txtLastName.getText()).toString());
         mViewModel.getModel().setFrstName(Objects.requireNonNull(txtFirstName.getText()).toString());
         mViewModel.getModel().setMiddName(Objects.requireNonNull(txtMiddName.getText()).toString());
@@ -408,11 +401,8 @@ public class Activity_SpouseInfo extends AppCompatActivity {
             StartTime.show();
         });
 
-
         btnNext = findViewById(R.id.btn_creditAppNext);
         btnPrvs = findViewById(R.id.btn_creditAppPrvs);
-
-
     }
 
 
@@ -438,6 +428,10 @@ public class Activity_SpouseInfo extends AppCompatActivity {
             if(infoModel.getMobileNo1() != null){
                 MobileNo info = infoModel.getMobileNo1();
                 txtPrimeCntc.setText(info.getMobileNo());
+                poMobile[0].setMobileNo(info.getMobileNo());
+                poMobile[0].setIsPostPd(info.getIsPostPd());
+                poMobile[0].setPostYear(info.getPostYear());
+                mViewModel.getModel().setMobileNo1(info);
                 if(info.getIsPostPd().equalsIgnoreCase("0")){
                     txtPrimeCntcYr.setVisibility(View.GONE);
                     cbMobile1.setChecked(false);
@@ -449,6 +443,10 @@ public class Activity_SpouseInfo extends AppCompatActivity {
             if(infoModel.getMobileNo2() != null){
                 MobileNo info = infoModel.getMobileNo2();
                 txtSecCntct.setText(info.getMobileNo());
+                poMobile[1].setMobileNo(info.getMobileNo());
+                poMobile[1].setIsPostPd(info.getIsPostPd());
+                poMobile[1].setPostYear(info.getPostYear());
+                mViewModel.getModel().setMobileNo3(info);
                 if(info.getIsPostPd().equalsIgnoreCase("0")){
                     txtSecCntctYr.setVisibility(View.GONE);
                     cbMobile2.setChecked(false);
@@ -460,6 +458,10 @@ public class Activity_SpouseInfo extends AppCompatActivity {
             if(infoModel.getMobileNo3() != null){
                 MobileNo info = infoModel.getMobileNo3();
                 txtThirCntct.setText(info.getMobileNo());
+                poMobile[2].setMobileNo(info.getMobileNo());
+                poMobile[2].setIsPostPd(info.getIsPostPd());
+                poMobile[2].setPostYear(info.getPostYear());
+                mViewModel.getModel().setMobileNo3(info);
                 if(info.getIsPostPd().equalsIgnoreCase("0")){
                     txtThirCntctYr.setVisibility(View.GONE);
                     cbMobile3.setChecked(false);
@@ -477,27 +479,29 @@ public class Activity_SpouseInfo extends AppCompatActivity {
     }
 
     @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
-    }
-
-    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            finish();
+            returnPrevious();
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onBackPressed() {
-        finish();
+        returnPrevious();
     }
 
     @Override
     protected void onDestroy() {
         getViewModelStore().clear();
         super.onDestroy();
+    }
+
+    private void returnPrevious(){
+        Intent loIntent = new Intent(Activity_SpouseInfo.this, Activity_PensionInfo.class);
+        loIntent.putExtra("sTransNox", TransNox);
+        startActivity(loIntent);
+        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
+        finish();
     }
 }

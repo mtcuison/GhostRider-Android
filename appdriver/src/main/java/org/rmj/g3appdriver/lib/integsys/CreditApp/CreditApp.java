@@ -14,7 +14,7 @@ public interface CreditApp {
     LiveData<ECreditApplicantInfo> GetApplication(String args);
     Object Parse(ECreditApplicantInfo args);
     int Validate(Object args);
-    boolean Save(Object args);
+    String Save(Object args);
     String getMessage();
 
 

@@ -38,6 +38,7 @@ import org.rmj.guanzongroup.onlinecreditapplication.Activities.Activity_Introduc
 import org.rmj.guanzongroup.onlinecreditapplication.Activities.Activity_MeansInfoSelection;
 import org.rmj.guanzongroup.onlinecreditapplication.Activities.Activity_PersonalInfo;
 import org.rmj.guanzongroup.onlinecreditapplication.Activities.Activity_Properties;
+import org.rmj.guanzongroup.onlinecreditapplication.Activities.Activity_SpouseInfo;
 
 public class ChildObject {
 
@@ -64,9 +65,9 @@ public class ChildObject {
                 loIntent.putExtra("syscode", "2");
                 break;
             case "loan application":
-//                loIntent = new Intent(context, Activity_PersonalInfo.class);
-//                loIntent.putExtra("sTransNox","MX012300004");
-                loIntent = new Intent(context, Activity_IntroductoryQuestion.class);
+                loIntent = new Intent(context, Activity_SpouseInfo.class);
+                loIntent.putExtra("sTransNox","MX012300001");
+//                loIntent = new Intent(context, Activity_IntroductoryQuestion.class);
 //                loIntent = new Intent(context, Activity_CreditAppHome.class);
                 break;
 //            case "user application list":

@@ -15,6 +15,7 @@ import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditApp;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditAppInstance;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditOnlineApplication;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.SpouseResidenceInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.SpouseResidence;
 
@@ -73,7 +74,7 @@ public class VMSpouseResidence extends AndroidViewModel implements CreditAppUI {
         return poApp.GetBarangayList(args);
     }
 
-    private class ParseDataTask extends AsyncTask<ECreditApplicantInfo, Void, SpouseResidence>{
+    private class ParseDataTask extends AsyncTask<ECreditApplicantInfo, Void, SpouseResidenceInfo.oResidence>{
 
         private final OnParseListener listener;
 
@@ -82,9 +83,9 @@ public class VMSpouseResidence extends AndroidViewModel implements CreditAppUI {
         }
 
         @Override
-        protected SpouseResidence doInBackground(ECreditApplicantInfo... app) {
+        protected SpouseResidenceInfo.oResidence doInBackground(ECreditApplicantInfo... app) {
             try {
-                SpouseResidence loDetail = (SpouseResidence) poApp.Parse(app[0]);
+                SpouseResidenceInfo.oResidence loDetail = (SpouseResidenceInfo.oResidence) poApp.Parse(app[0]);
                 if(loDetail == null){
                     message = poApp.getMessage();
                     return null;
@@ -102,7 +103,7 @@ public class VMSpouseResidence extends AndroidViewModel implements CreditAppUI {
         }
 
         @Override
-        protected void onPostExecute(SpouseResidence result) {
+        protected void onPostExecute(SpouseResidenceInfo.oResidence result) {
             super.onPostExecute(result);
             if(result == null){
                 Log.e(TAG, message);
@@ -129,7 +130,8 @@ public class VMSpouseResidence extends AndroidViewModel implements CreditAppUI {
                 return false;
             }
 
-            if(!poApp.Save(info[0])){
+            String lsResult = poApp.Save(info[0]);
+            if(lsResult == null){
                 message = poApp.getMessage();
                 return false;
             }

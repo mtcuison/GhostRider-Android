@@ -27,6 +27,7 @@ import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditApp;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditAppConstants;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.GoCasBuilder;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.ReviewAppDetail;
+import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.gocas.base.GOCASApplication;
 
 import java.text.SimpleDateFormat;
@@ -40,7 +41,6 @@ public class ReviewLoanInfo implements CreditApp {
 
     private final DCreditApplication poDao;
     private final RTown poTown;
-
     private final RMcModel poModel;
     private final RBarangay poBarangay;
     private final RCountry poCountry;
@@ -650,7 +650,7 @@ public class ReviewLoanInfo implements CreditApp {
     }
 
     @Override
-    public boolean Save(Object args){
+    public String Save(Object args){
         try {
             ECreditApplicantInfo loInfo = (ECreditApplicantInfo) args;
 
@@ -672,11 +672,11 @@ public class ReviewLoanInfo implements CreditApp {
             loDetail.setSendStat("0");
             poDao.Save(loDetail);
 
-            return true;
+            return lsTransNo;
         } catch (Exception e) {
             e.printStackTrace();
             message = e.getMessage();
-            return false;
+            return null;
         }
     }
 
@@ -704,7 +704,6 @@ public class ReviewLoanInfo implements CreditApp {
     public LiveData<List<EOccupationInfo>> GetOccupations() {
         return null;
     }
-
 
     String parseGender(String value){
         if(value.equalsIgnoreCase("0")){

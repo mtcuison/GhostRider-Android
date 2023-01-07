@@ -322,6 +322,103 @@ public class CreditOnlineApplication {
         }
     }
 
+    public boolean UploadApplication(String args){
+        try {
+            ECreditApplication loApp = poDao.GetCreditOnlineApplication(args);
+
+            if(loApp == null){
+                message = "Unable to find application to upload.";
+                return false;
+            }
+
+            JSONObject params = new JSONObject(loApp.getDetlInfo());
+            params.put("dCreatedx", loApp.getCreatedx());
+
+            String lsResponse = WebClient.httpsPostJSon(
+                    poApi.getUrlSubmitOnlineApplication(poConfig.isBackUpServer()),
+                    params.toString(),
+                    poHeaders.getHeaders());
+
+            if(lsResponse == null){
+                message = "Server no response.";
+                return false;
+            }
+
+            JSONObject loResponse = new JSONObject(lsResponse);
+            String lsResult = loResponse.getString("result");
+            if(lsResult.equalsIgnoreCase("error")){
+                JSONObject loError = loResponse.getJSONObject("error");
+                message = loError.getString("message");
+                return false;
+            }
+
+            String lsTransNox = loResponse.getString("sTransNox");
+            poDao.updateSentLoanAppl(loApp.getTransNox(), lsTransNox, new AppConstants().DATE_MODIFIED);
+
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
+    }
+
+    public boolean UploadApplications(){
+        try{
+            List<ECreditApplication> loApps = poDao.GetApplicationsForUpload();
+
+            if(loApps == null){
+                message = "No credit online application to upload.";
+                return false;
+            }
+
+            if(loApps.size() == 0){
+                message = "No credit online application to upload.";
+                return false;
+            }
+
+            for(int x = 0; x < loApps.size(); x++){
+                ECreditApplication loApp = loApps.get(x);
+
+                JSONObject params = new JSONObject(loApp.getDetlInfo());
+                params.put("dCreatedx", loApp.getCreatedx());
+
+                String lsResponse = WebClient.httpsPostJSon(
+                        poApi.getUrlSubmitOnlineApplication(poConfig.isBackUpServer()),
+                        params.toString(),
+                        poHeaders.getHeaders());
+
+                if(lsResponse == null){
+                    message = "Server no response.";
+                    Log.e(TAG, message);
+                    Thread.sleep(1000);
+                    continue;
+                }
+
+                JSONObject loResponse = new JSONObject(lsResponse);
+                String lsResult = loResponse.getString("result");
+                if(lsResult.equalsIgnoreCase("error")){
+                    JSONObject loError = loResponse.getJSONObject("error");
+                    message = loError.getString("message");
+                    Log.e(TAG, message);
+                    Thread.sleep(1000);
+                    continue;
+                }
+
+                String lsTransNox = loResponse.getString("sTransNox");
+                poDao.updateSentLoanAppl(loApp.getTransNox(), lsTransNox, new AppConstants().DATE_MODIFIED);
+                Log.d(TAG, "Credit online application uploaded successfully.");
+                Thread.sleep(1000);
+            }
+
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
+    }
+
     public LiveData<List<EBranchInfo>> getAllBranchInfo(){
         return poBranch.getAllMcBranchInfo();
     }

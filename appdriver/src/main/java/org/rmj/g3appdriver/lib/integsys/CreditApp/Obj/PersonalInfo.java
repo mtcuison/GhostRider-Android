@@ -167,7 +167,7 @@ public class PersonalInfo implements CreditApp {
     }
 
     @Override
-    public boolean Save(Object args) {
+    public String Save(Object args) {
         try{
             Personal loDetail = (Personal) args;
 
@@ -175,7 +175,7 @@ public class PersonalInfo implements CreditApp {
 
             if(loApp == null){
                 message = "Unable to find record for update. Please restart credit app and try again.";
-                return false;
+                return null;
             }
 
             GOCASApplication gocas = new GOCASApplication();
@@ -220,14 +220,6 @@ public class PersonalInfo implements CreditApp {
                 gocas.ApplicantInfo().setPostPaidYears(2, loDetail.getMobileNo3().getPostYear());
             }
 
-//            for(int x = 0; x < loDetail.getMobileNoQty(); x++){
-//                gocas.ApplicantInfo().setMobileNo(x, loDetail.getMobileNo(x));
-//                gocas.ApplicantInfo().setPostPaidYears(x, loDetail.getPostYear(x));
-//                if(loDetail.getPostPaid(x) != null){
-//                    gocas.ApplicantInfo().IsMobilePostpaid(x, loDetail.getPostPaid(x));
-//                }
-//            }
-
             gocas.ApplicantInfo().setEmailAddQty(1);
             gocas.ApplicantInfo().setEmailAddress(0, loDetail.getEmailAdd());
             gocas.ApplicantInfo().setPhoneNoQty(1);
@@ -240,11 +232,11 @@ public class PersonalInfo implements CreditApp {
             loApp.setApplInfo(gocas.ApplicantInfo().toJSONString());
             loApp.setIsSpouse(loDetail.getCvlStats());
             poDao.Update(loApp);
-            return true;
+            return loDetail.getTransNox();
         } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();
-            return false;
+            return null;
         }
     }
 

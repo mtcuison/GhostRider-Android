@@ -87,6 +87,9 @@ public interface DCreditApplication {
     @Query("SELECT * FROM Credit_Online_Application WHERE sTransNox =:TransNox")
     ECreditApplication getLoanInfoOfTransNox(String TransNox);
 
+    @Query("SELECT * FROM Credit_Online_Application WHERE cSendStat = '0'")
+    List<ECreditApplication> GetApplicationsForUpload();
+
     @Query("UPDATE Credit_Online_Application SET " +
             "sTransNox =:TransNox, " +
             "cSendStat = '1', " +

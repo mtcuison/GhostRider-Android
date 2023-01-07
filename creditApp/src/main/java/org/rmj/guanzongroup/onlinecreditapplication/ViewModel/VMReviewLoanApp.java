@@ -38,6 +38,7 @@ import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Personal;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.SpouseBusiness;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.ReviewAppDetail;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditAppConstants;
+import org.rmj.g3appdriver.utils.ConnectionUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +47,8 @@ public class VMReviewLoanApp  extends AndroidViewModel implements CreditAppUI {
     private static final String TAG = VMReviewLoanApp.class.getSimpleName();
 
     private final CreditApp poApp;
+    private final CreditOnlineApplication poCredt;
+    private final ConnectionUtil poConn;
 
     private ECreditApplicantInfo poInfo;
 
@@ -53,13 +56,11 @@ public class VMReviewLoanApp  extends AndroidViewModel implements CreditAppUI {
 
     private String message;
 
-
-    private final MutableLiveData<List<ReviewAppDetail>> plAppDetail = new MutableLiveData<>();
-
     public VMReviewLoanApp(@NonNull Application application) {
         super(application);
         this.poApp = new CreditOnlineApplication(application).getInstance(CreditAppInstance.ReviewLoanInfo);
-        this.plAppDetail.setValue(new ArrayList<>());
+        this.poCredt = new CreditOnlineApplication(application);
+        this.poConn = new ConnectionUtil(application);
     }
 
     public void setInfo(ECreditApplicantInfo poInfo) {
@@ -143,10 +144,22 @@ public class VMReviewLoanApp  extends AndroidViewModel implements CreditAppUI {
 
         @Override
         protected Boolean doInBackground(ECreditApplicantInfo... eCreditApplicantInfos) {
-            if(!poApp.Save(eCreditApplicantInfos[0])){
+            String lsResult = poApp.Save(eCreditApplicantInfos[0]);
+            if(lsResult == null){
                 message = poApp.getMessage();
                 return false;
             }
+
+            if(!poConn.isDeviceConnected()){
+                message = "Credit application has been save to local.";
+                return true;
+            }
+
+            if(!poCredt.UploadApplication(lsResult)){
+                message = poCredt.getMessage();
+                return false;
+            }
+            message = "Credit application saved!";
             return true;
         }
 
@@ -156,7 +169,7 @@ public class VMReviewLoanApp  extends AndroidViewModel implements CreditAppUI {
             if(!isSuccess){
                 listener.OnFailed(message);
             } else {
-                listener.OnSave("");
+                listener.OnSave(message);
             }
         }
     }

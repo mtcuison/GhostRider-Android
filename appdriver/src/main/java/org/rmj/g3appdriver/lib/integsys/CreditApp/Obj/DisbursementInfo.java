@@ -102,14 +102,14 @@ public class DisbursementInfo implements CreditApp {
     }
 
     @Override
-    public boolean Save(Object args) {
+    public String Save(Object args) {
         try{Disbursement loDetail = (Disbursement) args;
 
             ECreditApplicantInfo loApp = poDao.GetApplicantDetails(loDetail.getTransNox());
 
             if(loApp == null){
                 message = "Unable to find record for update. Please restart credit app and try again.";
-                return false;
+                return null;
             }
 
             GOCASApplication gocas = new GOCASApplication();
@@ -124,15 +124,11 @@ public class DisbursementInfo implements CreditApp {
             gocas.DisbursementInfo().CreditCard().setMemberSince(loDetail.getCrdtYear());
             loApp.setDisbrsmt(gocas.DisbursementInfo().toJSONString());
             poDao.Update(loApp);
-            return true;
-        } catch (NullPointerException e){
-            e.printStackTrace();
-            message = e.getMessage();
-            return false;
+            return loDetail.getTransNox();
         } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();
-            return false;
+            return null;
         }
     }
 

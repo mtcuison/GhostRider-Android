@@ -66,7 +66,7 @@ public class ECreditApplication {
     @ColumnInfo(name = "dCreatedx")
     private String DateCreatedx;
     @ColumnInfo(name = "cSendStat")
-    private String SendStat;
+    private String SendStat = "0";
     @ColumnInfo(name = "sVerified")
     private String Verified;
     @ColumnInfo(name = "dVerified")
