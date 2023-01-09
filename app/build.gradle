@@ -23,7 +23,7 @@ android {
         applicationId "org.rmj.guanzongroup.ghostrider.epacss"
         minSdkVersion 21
         targetSdkVersion 33
-        versionCode 35
+        versionCode 37
         versionName "Build Version v.2.13.037 b"
         multiDexEnabled true
 
