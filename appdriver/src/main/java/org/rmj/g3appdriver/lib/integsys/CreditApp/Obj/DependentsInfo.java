@@ -61,19 +61,19 @@ public class DependentsInfo implements CreditApp {
                         loInfo.setRelation((String) loChildren.get("sRelatnCD"));
                         long lnAge = (long) loChildren.get("nDepdAgex");
                         loInfo.setDpdntAge((int) lnAge);
-                        loInfo.setStudentx((String) loChildren.get("cIsPupilx"));
+                        loInfo.setStudentx((int) loChildren.get("cIsPupilx"));
                         loInfo.setSchoolNm((String) loChildren.get("sSchlName"));
                         loInfo.setSchlAddx((String) loChildren.get("sSchlAddr"));
                         loInfo.setSchlTown((String) loChildren.get("sSchlTown"));
-                        loInfo.setSchoolTp((String) loChildren.get("cIsPrivte"));
-                        loInfo.setEduLevel((String) loChildren.get("sEducLevl"));
-                        loInfo.setSchoolar((String) loChildren.get("cIsSchlrx"));
-                        loInfo.setEmployed((String) loChildren.get("cHasWorkx"));
-                        loInfo.setEmpSctor((String) loChildren.get("cWorkType"));
+                        loInfo.setSchoolTp((int) loChildren.get("cIsPrivte"));
+                        loInfo.setEduLevel((int) loChildren.get("sEducLevl"));
+                        loInfo.setSchoolar((int) loChildren.get("cIsSchlrx"));
+                        loInfo.setEmployed((int) loChildren.get("cHasWorkx"));
+                        loInfo.setEmpSctor((int) loChildren.get("cWorkType"));
                         loInfo.setCompName((String) loChildren.get("sCompanyx"));
-                        loInfo.setHouseHld((String) loChildren.get("cHouseHld"));
-                        loInfo.setDependnt((String) loChildren.get("cDependnt"));
-                        loInfo.setMarriedx((String) loChildren.get("cIsMarrdx"));
+                        loInfo.setHouseHld((int) loChildren.get("cHouseHld"));
+                        loInfo.setDependnt((int) loChildren.get("cDependnt"));
+                        loInfo.setMarriedx((int) loChildren.get("cIsMarrdx"));
                     }
                 }
 
@@ -139,21 +139,21 @@ public class DependentsInfo implements CreditApp {
                 Dependent.DependentInfo loInfo = loList.get(x);
                 gocas.DisbursementInfo().DependentInfo().addDependent();
                 gocas.DisbursementInfo().DependentInfo().setFullName(x, loInfo.getFullName());
-                gocas.DisbursementInfo().DependentInfo().setRelation(x, loInfo.getRelation());
+                gocas.DisbursementInfo().DependentInfo().setRelation(x, String.valueOf(loInfo.getRelation()));
                 gocas.DisbursementInfo().DependentInfo().setAge(x, loInfo.getDpdntAge());
-                gocas.DisbursementInfo().DependentInfo().IsStudent(x, loInfo.getStudentx());
-                gocas.DisbursementInfo().DependentInfo().IsWorking(x, loInfo.getEmployed());
-                gocas.DisbursementInfo().DependentInfo().IsDependent(x, loInfo.getDependnt());
-                gocas.DisbursementInfo().DependentInfo().IsHouseHold(x, loInfo.getHouseHld());
-                gocas.DisbursementInfo().DependentInfo().IsMarried(x, loInfo.getMarriedx());
+                gocas.DisbursementInfo().DependentInfo().IsStudent(x, String.valueOf(loInfo.getStudentx()));
+                gocas.DisbursementInfo().DependentInfo().IsWorking(x, String.valueOf(loInfo.getEmployed()));
+                gocas.DisbursementInfo().DependentInfo().IsDependent(x, String.valueOf(loInfo.getDependnt()));
+                gocas.DisbursementInfo().DependentInfo().IsHouseHold(x, String.valueOf(loInfo.getHouseHld()));
+                gocas.DisbursementInfo().DependentInfo().IsMarried(x, String.valueOf(loInfo.getMarriedx()));
                 gocas.DisbursementInfo().DependentInfo().setSchoolName(x, loInfo.getSchoolNm());
                 gocas.DisbursementInfo().DependentInfo().setSchoolAddress(x, loInfo.getSchlAddx());
                 gocas.DisbursementInfo().DependentInfo().setSchoolTown(x, loInfo.getSchlTown());
-                gocas.DisbursementInfo().DependentInfo().setEducationalLevel(x, loInfo.getEduLevel());
-                gocas.DisbursementInfo().DependentInfo().IsPrivateSchool(x, loInfo.getSchoolTp());
-                gocas.DisbursementInfo().DependentInfo().IsScholar(x, loInfo.getSchoolar());
-                gocas.DisbursementInfo().DependentInfo().IsWorking(x, loInfo.getEmployed());
-                gocas.DisbursementInfo().DependentInfo().setWorkType(x, loInfo.getEmpSctor());
+                gocas.DisbursementInfo().DependentInfo().setEducationalLevel(x, String.valueOf(loInfo.getEduLevel()));
+                gocas.DisbursementInfo().DependentInfo().IsPrivateSchool(x, String.valueOf(loInfo.getSchoolTp()));
+                gocas.DisbursementInfo().DependentInfo().IsScholar(x, String.valueOf(loInfo.getSchoolar()));
+                gocas.DisbursementInfo().DependentInfo().IsWorking(x, String.valueOf(loInfo.getEmployed()));
+                gocas.DisbursementInfo().DependentInfo().setWorkType(x, String.valueOf(loInfo.getEmpSctor()));
                 gocas.DisbursementInfo().DependentInfo().setCompany(x, loInfo.getCompName());
             }
 

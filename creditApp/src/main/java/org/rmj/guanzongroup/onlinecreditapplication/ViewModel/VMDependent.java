@@ -151,6 +151,7 @@ public class VMDependent extends AndroidViewModel implements CreditAppUI {
 
         @Override
         protected Boolean doInBackground(Dependent... info) {
+            info[0].setDependentList(poList.getValue());
             int lnResult = poApp.Validate(info[0]);
 
             if(lnResult != 1){

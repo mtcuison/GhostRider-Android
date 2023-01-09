@@ -265,9 +265,9 @@ public class Activity_Dependent extends AppCompatActivity {
 
         rgSchoolTpe.setOnCheckedChangeListener((group, checkedId) -> {
             if(checkedId == R.id.rb_public){
-                poDpndt.setSchoolTp("0");
+                poDpndt.setSchoolTp(0);
             } else {
-                poDpndt.setSchoolTp("1");
+                poDpndt.setSchoolTp(1);
             }
         });
 
@@ -277,62 +277,62 @@ public class Activity_Dependent extends AppCompatActivity {
         actSchoolLvl.setOnItemClickListener((parent, view, position, id) -> {
             switch (position){
                 case 0:
-                    poDpndt.setEduLevel("0");
+                    poDpndt.setEduLevel(0);
                     break;
                 case 1:
-                    poDpndt.setEduLevel("1");
+                    poDpndt.setEduLevel(1);
                     break;
                 case 2:
-                    poDpndt.setEduLevel("2");
+                    poDpndt.setEduLevel(2);
                     break;
                 case 3:
-                    poDpndt.setEduLevel("3");
+                    poDpndt.setEduLevel(3);
                     break;
                 case 4:
-                    poDpndt.setEduLevel("4");
+                    poDpndt.setEduLevel(4);
                     break;
             }
         });
 
         rgEmpSctr.setOnCheckedChangeListener((group, checkedId) -> {
             if(checkedId == R.id.rb_empPublic){
-                poDpndt.setEmpSctor("0");
+                poDpndt.setEmpSctor(0);
             } else if(checkedId == R.id.rb_private){
-                poDpndt.setEmpSctor("1");
+                poDpndt.setEmpSctor(1);
             } else {
-                poDpndt.setEmpSctor("2");
+                poDpndt.setEmpSctor(2);
             }
         });
 
         cbDependent.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if(isChecked){
-                poDpndt.setDependnt("1");
+                poDpndt.setDependnt(1);
             } else {
-                poDpndt.setDependnt("0");
+                poDpndt.setDependnt(0);
             }
         });
 
         cbHouseHold.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if(!isChecked){
-                poDpndt.setHouseHld("0");
+                poDpndt.setHouseHld(0);
             } else {
-                poDpndt.setHouseHld("1");
+                poDpndt.setHouseHld(1);
             }
         });
 
         cbScholarxx.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if(!isChecked){
-                poDpndt.setSchoolar("0");
+                poDpndt.setSchoolar(0);
             } else {
-                poDpndt.setSchoolar("1");
+                poDpndt.setSchoolar(1);
             }
         });
 
         cbIsMarried.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if(!isChecked){
-                poDpndt.setMarriedx("0");
+                poDpndt.setMarriedx(0);
             } else {
-                poDpndt.setMarriedx("1");
+                poDpndt.setMarriedx(1);
             }
         });
 
