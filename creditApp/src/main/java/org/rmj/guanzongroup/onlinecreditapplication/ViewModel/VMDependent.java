@@ -54,6 +54,10 @@ public class VMDependent extends AndroidViewModel implements CreditAppUI {
         return poList;
     }
 
+    public void setDependent(List<Dependent.DependentInfo> val){
+        poList.setValue(val);
+    }
+
     public void addDependent(Dependent.DependentInfo args, OnAddDependetListener listener){
         try{
             if(!args.isDataValid()){

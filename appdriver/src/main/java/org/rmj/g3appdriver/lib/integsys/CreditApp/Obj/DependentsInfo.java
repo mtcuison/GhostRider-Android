@@ -20,6 +20,7 @@ import org.rmj.g3appdriver.lib.integsys.CreditApp.model.CoMakerResidence;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Dependent;
 import org.rmj.gocas.base.GOCASApplication;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DependentsInfo implements CreditApp {
@@ -53,6 +54,7 @@ public class DependentsInfo implements CreditApp {
                 JSONObject joDetail = (JSONObject) loJson.parse(lsDetail);
                 gocas.DisbursementInfo().DependentInfo().setData(joDetail);
                 JSONArray loList = (JSONArray) joDetail.get("children");
+                List<Dependent.DependentInfo> loDpds = new ArrayList<>();
                 if(loList.size() > 0){
                     for(int x = 0; x < loList.size(); x++){
                         JSONObject loChildren = (JSONObject) loList.get(x);
@@ -74,9 +76,11 @@ public class DependentsInfo implements CreditApp {
                         loInfo.setHouseHld((int) loChildren.get("cHouseHld"));
                         loInfo.setDependnt((int) loChildren.get("cDependnt"));
                         loInfo.setMarriedx((int) loChildren.get("cIsMarrdx"));
+                        loDpds.add(loInfo);
                     }
                 }
 
+                loDetail.setDependentList(loDpds);
                 poDetail = loDetail;
 
             }
