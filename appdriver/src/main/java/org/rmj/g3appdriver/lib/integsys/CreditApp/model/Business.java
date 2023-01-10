@@ -8,7 +8,7 @@ public class Business {
     private String sBussNtrx = "";
     private String sBussName = "";
     private String sBussAddx = "";
-    private String sBussProv = "";
+    private String sTownName = "";
     private String sBussTown = "";
     private String sBussType = "";
     private String sBussSize = "";
@@ -68,12 +68,12 @@ public class Business {
         this.sBussAddx = sBussAddx;
     }
 
-    public String getProvince() {
-        return sBussProv;
+    public String getTownName() {
+        return sTownName;
     }
 
-    public void setProvince(String sBussProv) {
-        this.sBussProv = sBussProv;
+    public void setTownName(String sBussProv) {
+        this.sTownName = sBussProv;
     }
 
     public String getTown() {

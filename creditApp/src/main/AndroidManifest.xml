@@ -3,10 +3,20 @@
 
     <application>
         <activity
+            android:name=".Activities.Activity_CreditApplications"
+            android:exported="false"
+            android:label="Credit Online Application"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".Activities.Activity_BranchApplications"
             android:exported="false"
+            android:label="Credit Online Application"
             android:screenOrientation="portrait"
-            android:theme="@style/GhostRiderMaterialTheme.WhiteBG" >
+            android:theme="@style/GhostRiderMaterialTheme.WhiteBG">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -14,8 +24,9 @@
         <activity
             android:name=".Activities.Activity_ApplicantDocuments"
             android:exported="false"
+            android:label="Credit Online Application"
             android:screenOrientation="portrait"
-            android:theme="@style/GhostRiderMaterialTheme.WhiteBG" >
+            android:theme="@style/GhostRiderMaterialTheme.WhiteBG">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -23,101 +34,121 @@
         <activity
             android:name=".Activities.Activity_IntroductoryQuestion"
             android:exported="false"
+            android:label="Credit Online Application"
             android:screenOrientation="portrait"
             android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
         <activity
             android:name=".Activities.Activity_PersonalInfo"
             android:exported="false"
+            android:label="Credit Online Application"
             android:screenOrientation="portrait"
             android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
         <activity
             android:name=".Activities.Activity_ResidenceInfo"
             android:exported="false"
+            android:label="Credit Online Application"
             android:screenOrientation="portrait"
             android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
         <activity
             android:name=".Activities.Activity_MeansInfoSelection"
             android:exported="false"
+            android:label="Credit Online Application"
             android:screenOrientation="portrait"
             android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
         <activity
             android:name=".Activities.Activity_EmploymentInfo"
             android:exported="false"
+            android:label="Credit Online Application"
             android:screenOrientation="portrait"
             android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
         <activity
             android:name=".Activities.Activity_SelfEmployedInfo"
             android:exported="false"
+            android:label="Credit Online Application"
             android:screenOrientation="portrait"
             android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
         <activity
             android:name=".Activities.Activity_Finance"
             android:exported="false"
+            android:label="Credit Online Application"
             android:screenOrientation="portrait"
             android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
         <activity
             android:name=".Activities.Activity_PensionInfo"
             android:exported="false"
+            android:label="Credit Online Application"
             android:screenOrientation="portrait"
             android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
         <activity
             android:name=".Activities.Activity_SpouseInfo"
             android:exported="false"
+            android:label="Credit Online Application"
             android:screenOrientation="portrait"
             android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
         <activity
             android:name=".Activities.Activity_SpouseResidenceInfo"
             android:exported="false"
+            android:label="Credit Online Application"
             android:screenOrientation="portrait"
             android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
         <activity
             android:name=".Activities.Activity_SpouseEmploymentInfo"
             android:exported="false"
+            android:label="Credit Online Application"
             android:screenOrientation="portrait"
             android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
         <activity
             android:name=".Activities.Activity_SpouseSelfEmploymentInfo"
             android:exported="false"
+            android:label="Credit Online Application"
             android:screenOrientation="portrait"
             android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
         <activity
             android:name=".Activities.Activity_SpousePensionInfo"
             android:exported="false"
+            android:label="Credit Online Application"
             android:screenOrientation="portrait"
             android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
         <activity
             android:name=".Activities.Activity_DisbursementInfo"
             android:exported="false"
+            android:label="Credit Online Application"
             android:screenOrientation="portrait"
             android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
         <activity
             android:name=".Activities.Activity_Dependent"
             android:exported="false"
+            android:label="Credit Online Application"
             android:screenOrientation="portrait"
             android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
         <activity
             android:name=".Activities.Activity_Properties"
             android:exported="false"
+            android:label="Credit Online Application"
             android:screenOrientation="portrait"
             android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
         <activity
             android:name=".Activities.Activity_OtherInfo"
             android:exported="false"
+            android:label="Credit Online Application"
             android:screenOrientation="portrait"
             android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
         <activity
             android:name=".Activities.Activity_CoMaker"
             android:exported="false"
+            android:label="Credit Online Application"
             android:screenOrientation="portrait"
             android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
         <activity
             android:name=".Activities.Activity_ComakerResidence"
             android:exported="false"
+            android:label="Credit Online Application"
             android:screenOrientation="portrait"
             android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
         <activity
             android:name=".Activities.Activity_ReviewLoanApp"
             android:exported="false"
+            android:label="Credit Online Application"
             android:screenOrientation="portrait"
             android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
     </application>

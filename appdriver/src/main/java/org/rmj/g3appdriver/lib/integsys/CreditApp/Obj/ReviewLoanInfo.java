@@ -657,8 +657,6 @@ public class ReviewLoanInfo implements CreditApp {
             String lsTransNo = CreateUniqueID();
             ECreditApplication loDetail = new ECreditApplication();
             GoCasBuilder loModel = new GoCasBuilder(loInfo);
-            GOCASApplication loGOCas = new GOCASApplication();
-            loGOCas.setData(loModel.getConstructedDetailedInfo());
             loDetail.setTransNox(lsTransNo);
             loDetail.setBranchCd(loInfo.getBranchCd());
             loDetail.setClientNm(loInfo.getClientNm());
@@ -849,6 +847,9 @@ public class ReviewLoanInfo implements CreditApp {
         return CreditAppConstants.UNIT_PURPOSE[Integer.parseInt(value)];
     }
     String parseDpdntRelationship(String value){
+        if(value.isEmpty()){
+            return "";
+        }
         return CreditAppConstants.DEPENDENT_RELATIONSHIP[Integer.parseInt(value)];
     }
     String parseDpdntSchoolType(String value){

@@ -203,6 +203,10 @@ public class CreditOnlineApplication {
         }
     }
 
+    public LiveData<List<ECreditApplication>> GetCreditApplications(){
+        return poDao.GetAllCreditApplication();
+    }
+
     public boolean DownloadBranchApplications(){
         try{
             JSONObject params = new JSONObject();
@@ -281,6 +285,10 @@ public class CreditOnlineApplication {
         }
     }
 
+    public LiveData<List<EBranchLoanApplication>> GetBranchApplications(){
+        return poDao.GetBranchApplications();
+    }
+
     public String CreateApplication(LoanInfo foVal){
         try{
             if(!foVal.isDataValid()){
@@ -311,6 +319,12 @@ public class CreditOnlineApplication {
             ECreditApplicantInfo loApp = new ECreditApplicantInfo();
             loApp.setTransNox(lsTransNo);
             loApp.setPurchase(loGocas.PurchaseInfo().toJSONString());
+            loApp.setBranchCd(loGocas.PurchaseInfo().getPreferedBranch());
+            loApp.setAppliedx(loGocas.PurchaseInfo().getAppliedFor());
+            loApp.setDownPaym(loGocas.PurchaseInfo().getDownPayment());
+            loApp.setCreatedx(new AppConstants().DATE_MODIFIED);
+            loApp.setTransact(AppConstants.CURRENT_DATE);
+            loApp.setTranStat("0");
             poDao.Save(loApp);
 
             Log.d(TAG, "New credit online application has been created.");
@@ -425,10 +439,6 @@ public class CreditOnlineApplication {
 
     public LiveData<List<EMcBrand>> getAllMcBrand(){
         return poBrand.getAllBrandInfo();
-    }
-
-    public LiveData<List<EBranchLoanApplication>> GetBranchApplications(){
-        return poDao.GetBranchApplications();
     }
 
     public LiveData<List<EMcModel>> getAllBrandModelInfo(String args){

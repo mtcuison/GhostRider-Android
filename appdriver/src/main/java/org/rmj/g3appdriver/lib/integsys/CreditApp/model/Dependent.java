@@ -44,20 +44,19 @@ public class Dependent {
         private String sFullName = "";
         private String cRelation = "";
         private int nDpdntAge = 0;
-        private int cSchoolTp = 0;
-        private int cEduLevel = 0;
+        private String cSchoolTp = "";
+        private String cEduLevel = "";
         private String sSchoolNm = "";
         private String sSchlAddx = "";
-        private String sSchlProv = "";
         private String sSchlTown = "";
-        private int cEmpSctor = 0;
+        private String cEmpSctor = "";
         private String sCompName = "";
-        private int cEmployed = 0;
-        private int cDependnt = 0;
-        private int cHouseHld = 0;
-        private int cMarriedx = 0;
-        private int cStudentx = 0;
-        private int cSchoolar = 0;
+        private String cEmployed = "0";
+        private String cDependnt = "0";
+        private String cHouseHld = "0";
+        private String cMarriedx = "0";
+        private String cStudentx = "0";
+        private String cSchoolar = "0";
 
         private String message;
 
@@ -92,19 +91,19 @@ public class Dependent {
             this.nDpdntAge = nDpdntAge;
         }
 
-        public int getSchoolTp() {
+        public String getSchoolTp() {
             return cSchoolTp;
         }
 
-        public void setSchoolTp(int cSchoolTp) {
+        public void setSchoolTp(String cSchoolTp) {
             this.cSchoolTp = cSchoolTp;
         }
 
-        public int getEduLevel() {
+        public String getEduLevel() {
             return cEduLevel;
         }
 
-        public void setEduLevel(int cEduLevel) {
+        public void setEduLevel(String cEduLevel) {
             this.cEduLevel = cEduLevel;
         }
 
@@ -124,14 +123,6 @@ public class Dependent {
             this.sSchlAddx = sSchlAddx;
         }
 
-        public String getSchlProv() {
-            return sSchlProv;
-        }
-
-        public void setSchlProv(String sSchlProv) {
-            this.sSchlProv = sSchlProv;
-        }
-
         public String getSchlTown() {
             return sSchlTown;
         }
@@ -140,11 +131,11 @@ public class Dependent {
             this.sSchlTown = sSchlTown;
         }
 
-        public int getEmpSctor() {
+        public String getEmpSctor() {
             return cEmpSctor;
         }
 
-        public void setEmpSctor(int cEmpSctor) {
+        public void setEmpSctor(String cEmpSctor) {
             this.cEmpSctor = cEmpSctor;
         }
 
@@ -156,121 +147,107 @@ public class Dependent {
             this.sCompName = sCompName;
         }
 
-        public int getEmployed() {
+        public String getEmployed() {
             return cEmployed;
         }
 
-        public void setEmployed(int cEmployed) {
+        public void setEmployed(String cEmployed) {
             this.cEmployed = cEmployed;
         }
 
-        public int getDependnt() {
+        public String getDependnt() {
             return cDependnt;
         }
 
-        public void setDependnt(int cDependnt) {
+        public void setDependnt(String cDependnt) {
             this.cDependnt = cDependnt;
         }
 
-        public int getHouseHld() {
+        public String getHouseHld() {
             return cHouseHld;
         }
 
-        public void setHouseHld(int cHouseHld) {
+        public void setHouseHld(String cHouseHld) {
             this.cHouseHld = cHouseHld;
         }
 
-        public int getMarriedx() {
+        public String getMarriedx() {
             return cMarriedx;
         }
 
-        public void setMarriedx(int cMarriedx) {
+        public void setMarriedx(String cMarriedx) {
             this.cMarriedx = cMarriedx;
         }
 
-        public int getStudentx() {
+        public String getStudentx() {
             return cStudentx;
         }
 
-        public void setStudentx(int cStudentx) {
+        public void setStudentx(String cStudentx) {
             this.cStudentx = cStudentx;
         }
 
-        public int getSchoolar() {
+        public String getSchoolar() {
             return cSchoolar;
         }
 
-        public void setSchoolar(int cSchoolar) {
+        public void setSchoolar(String cSchoolar) {
             this.cSchoolar = cSchoolar;
         }
 
-
         public boolean isDataValid(){
-            if(!isFullName()){
-                return false;
-            }
-            if(!isDpndentAge()){
-                return false;
-            }
-//            if(!isDPDRelationship()){
-//                return false;
-//            }
-            return true;
-        }
-        private boolean isFullName(){
             if(sFullName.trim().isEmpty()){
-                message = "Please enter Dependent Full Name";
+                message = "Please enter Dependent Full Name!";
                 return false;
             }
-            return true;
-        }
-        private boolean isStudent(){
-            return isDpdSchoolName() &&
-                    isDpdSchoolAddress() &&
-//                    isDpdSchoolProv() &&
-                    isDpdSchoolTown();
-        }
-//        private boolean isDPDRelationship(){
-//            if(cRelation) < 0){
-//                message = "Please enter Dependent Relationship!";
-//                return false;
-//            }
-//            return true;
-//        }
-        private boolean isDpndentAge(){
             if(nDpdntAge == 0){
                 message = "Please enter Dependent Age!";
                 return false;
             }
+            if(cRelation.isEmpty()){
+                message = "Please select dependent relation.";
+                return false;
+            }
+            if(cStudentx.equalsIgnoreCase("1")){
+                return isStudent();
+            }
+            if(cEmployed.equalsIgnoreCase("1")){
+                return isEmployed();
+            }
             return true;
         }
-        private boolean isDpdSchoolName(){
+
+        private boolean isStudent(){
+            if(cSchoolTp.trim().isEmpty()){
+                message = "Please select school type!";
+                return false;
+            }
+            if(cEduLevel.trim().isEmpty()){
+                message = "Please select education level!";
+                return false;
+            }
             if(sSchoolNm.trim().isEmpty()){
-                message = "Please enter School Type!";
+                message = "Please enter school name!";
                 return false;
             }
-            return true;
-        }
-        private boolean isDpdSchoolAddress(){
             if(sSchlAddx.trim().isEmpty()){
-                message = "Please enter Dependent School Address!";
+                message = "Please enter school address!";
                 return false;
             }
-            return true;
-        }
-        private boolean isDpdSchoolTown(){
             if(sSchlTown.trim().isEmpty()){
-                message = "Please enter Dependent School Municipality address!";
+                message = "Please enter school town.";
                 return false;
             }
             return true;
         }
+
         private boolean isEmployed(){
-            return isDpdCompanyName();
-        }
-        private boolean isDpdCompanyName(){
+            if(cEmpSctor.trim().isEmpty()){
+                message = "Please select employment sector!";
+                return false;
+            }
             if(sCompName.trim().isEmpty()){
-                message = "Please enter Company Name!";
+                message = "Please enter company name!";
                 return false;
             }
             return true;

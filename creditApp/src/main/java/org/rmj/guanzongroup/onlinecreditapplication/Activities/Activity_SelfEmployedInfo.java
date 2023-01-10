@@ -83,39 +83,35 @@ public class Activity_SelfEmployedInfo extends AppCompatActivity {
             }
         });
 
-        mViewModel.GetTownProvinceList().observe(Activity_SelfEmployedInfo.this, new Observer<List<DTownInfo.TownProvinceInfo>>() {
-            @Override
-            public void onChanged(List<DTownInfo.TownProvinceInfo> loList) {
-                try {
-                    ArrayList<String> string = new ArrayList<>();
-                    for (int x = 0; x < loList.size(); x++) {
-                        String lsTown = loList.get(x).sTownName + ", " + loList.get(x).sProvName;
+        mViewModel.GetTownProvinceList().observe(Activity_SelfEmployedInfo.this, loList -> {
+            try {
+                ArrayList<String> string = new ArrayList<>();
+                for (int x = 0; x < loList.size(); x++) {
+                    String lsTown = loList.get(x).sTownName + ", " + loList.get(x).sProvName;
 //                        String lsTown =  loList.get(x).sProvName ;
-                        string.add(lsTown);
+                    string.add(lsTown);
+                }
 
-                    }
-
-                    ArrayAdapter<String> adapters = new ArrayAdapter<>(Activity_SelfEmployedInfo.this, android.R.layout.simple_spinner_dropdown_item, string.toArray(new String[0]));
-                    txtTownxx.setAdapter(adapters);
-                    txtTownxx.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
-                    txtTownxx.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            for (int x = 0; x < loList.size(); x++) {
-                                String lsLabel = loList.get(x).sTownName + ", " + loList.get(x).sProvName;
-                                String lsSlctd = txtTownxx.getText().toString().trim();
-                                if (lsSlctd.equalsIgnoreCase(lsLabel)) {
-                                    mViewModel.getModel().setTown(loList.get(x).sTownIDxx);
-                                    mViewModel.getModel().setTown(lsLabel);
-                                    break;
-                                }
+                ArrayAdapter<String> adapters = new ArrayAdapter<>(Activity_SelfEmployedInfo.this, android.R.layout.simple_spinner_dropdown_item, string.toArray(new String[0]));
+                txtTownxx.setAdapter(adapters);
+                txtTownxx.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+                txtTownxx.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        for (int x = 0; x < loList.size(); x++) {
+                            String lsLabel = loList.get(x).sTownName + ", " + loList.get(x).sProvName;
+                            String lsSlctd = txtTownxx.getText().toString().trim();
+                            if (lsSlctd.equalsIgnoreCase(lsLabel)) {
+                                mViewModel.getModel().setTown(loList.get(x).sTownIDxx);
+                                mViewModel.getModel().setTownName(lsLabel);
+                                break;
                             }
                         }
-                    });
+                    }
+                });
 
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         });
 
