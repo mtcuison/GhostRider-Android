@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DCreditApplication;
 import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplication;
 import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
@@ -19,15 +20,15 @@ import java.util.List;
 
 public class CreditApplicationsAdapter extends RecyclerView.Adapter<CreditApplicationsAdapter.VHApplication> {
 
-    private final List<ECreditApplication> poList;
+    private final List<DCreditApplication.ApplicationLog> poList;
     private final OnItemActionClickListener listener;
 
     public interface OnItemActionClickListener{
-        void Resend(ECreditApplication creditapp);
-        void OnPreview(ECreditApplication creditapp);
+        void Resend(DCreditApplication.ApplicationLog creditapp);
+        void OnPreview(DCreditApplication.ApplicationLog creditapp);
     }
 
-    public CreditApplicationsAdapter(List<ECreditApplication> poList, OnItemActionClickListener listener) {
+    public CreditApplicationsAdapter(List<DCreditApplication.ApplicationLog> poList, OnItemActionClickListener listener) {
         this.poList = poList;
         this.listener = listener;
     }
@@ -41,10 +42,10 @@ public class CreditApplicationsAdapter extends RecyclerView.Adapter<CreditApplic
 
     @Override
     public void onBindViewHolder(@NonNull VHApplication holder, int position) {
-        ECreditApplication loApp = poList.get(position);
-        holder.lblName.setText(loApp.getClientNm());
-        holder.lblDate.setText("Date created: " + FormatUIText.getParseDateTime(loApp.getDateCreatedx()));
-        if(loApp.getSendStat().equalsIgnoreCase("0")) {
+        DCreditApplication.ApplicationLog loApp = poList.get(position);
+        holder.lblName.setText(loApp.sClientNm);
+        holder.lblDate.setText("Date created: " + FormatUIText.getParseDateTime(loApp.dCreatedx));
+        if(loApp.cSendStat.equalsIgnoreCase("0")) {
             holder.btnSubmit.setVisibility(View.VISIBLE);
             holder.lblStat.setText("");
         } else {

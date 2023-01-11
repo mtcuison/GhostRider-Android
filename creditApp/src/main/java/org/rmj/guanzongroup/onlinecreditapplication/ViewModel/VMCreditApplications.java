@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DCreditApplication;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplication;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditOnlineApplication;
@@ -42,7 +43,7 @@ public class VMCreditApplications extends AndroidViewModel {
         return poApp.GetUserInfo();
     }
 
-    public LiveData<List<ECreditApplication>> GetApplicationList(){
+    public LiveData<List<DCreditApplication.ApplicationLog>> GetApplicationList(){
         return poApp.GetCreditApplications();
     }
 

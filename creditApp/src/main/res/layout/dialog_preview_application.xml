@@ -12,12 +12,14 @@
 
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardUseCompatPadding="true"
     app:cardPreventCornerOverlap="true"
     app:cardMaxElevation="5dp"
+    app:cardCornerRadius="15dp"
     android:background="@drawable/bg_gradient_light"
     app:cardElevation="3dp"
     android:theme="@style/GhostRiderMaterialTheme">
@@ -32,7 +34,7 @@
             android:id="@+id/dialogTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Credit Online Application"
+            android:text="Application Info"
             android:textSize="20sp"
             android:textAlignment="center"
             android:textColor="@color/textColor_Black"
@@ -65,15 +67,233 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                android:id="@+id/textview1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/roboto_regular"
+                android:text="Transaction No:"
+                android:textColor="@color/black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lbl_applicantName" />
+
+            <TextView
+                android:id="@+id/lbl_TransNox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
+                android:text="MX0112345678910"
+                android:textColor="@color/black"
+                android:layout_marginTop="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lbl_applicantName" />
+
+            <TextView
+                android:id="@+id/textview2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/roboto_regular"
+                android:text="Date Applied:"
+                android:textColor="@color/black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textview1" />
+
+            <TextView
                 android:id="@+id/lbl_dateCreated"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_regular"
-                android:text="Date Applied: January 1, 2023"
+                android:text="January 1, 2023"
                 android:textColor="@color/black"
                 android:layout_marginTop="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lbl_TransNox" />
+
+            <TextView
+                android:id="@+id/textview3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/roboto_regular"
+                android:text="GOCas No:"
+                android:textColor="@color/black"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lbl_applicantName" />
+                app:layout_constraintTop_toBottomOf="@+id/textview2" />
+
+            <TextView
+                android:id="@+id/textview4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/roboto_regular"
+                android:text="Date Sent:"
+                android:textColor="@color/black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textview3" />
+
+            <TextView
+                android:id="@+id/lbl_gocasNox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
+                android:text="MX0112345678910"
+                android:textColor="@color/black"
+                android:layout_marginTop="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lbl_dateCreated" />
+
+            <TextView
+                android:id="@+id/textview5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/roboto_regular"
+                android:text="Status"
+                android:textColor="@color/black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textview4" />
+
+            <TextView
+                android:id="@+id/lbl_dateSent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:text="January 1, 2023"
+                android:textColor="@color/black"
+                android:layout_marginTop="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lbl_gocasNox" />
+
+            <TextView
+                android:id="@+id/textview6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/roboto_regular"
+                android:text="Date Approved:"
+                android:textColor="@color/black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textview5" />
+
+            <TextView
+                android:id="@+id/lbl_applStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
+                android:text="Approve With CI"
+                android:textColor="@color/black"
+                android:layout_marginTop="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lbl_dateSent" />
+
+            <TextView
+                android:id="@+id/lbl_dateApproved"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:text="January 1, 2023"
+                android:textColor="@color/black"
+                android:layout_marginTop="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lbl_applStatus" />
+
+<!--            <View-->
+<!--                android:id="@+id/divider1"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="1dp"-->
+<!--                android:background="@color/guanzon_orange"-->
+<!--                android:layout_marginTop="5dp"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/lbl_dateApproved"-->
+<!--                android:layout_marginBottom="10dp"-->
+<!--                android:layout_marginHorizontal="5dp"/>-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/textview7"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="5dp"-->
+<!--                android:fontFamily="@font/roboto_regular"-->
+<!--                android:text="Unit:"-->
+<!--                android:textColor="@color/black"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/divider1" />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/lbl_appMcModel"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:fontFamily="@font/roboto_regular"-->
+<!--                android:text="Unit: Sniper 155 R"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:layout_marginTop="5dp"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/divider1" />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/textview8"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="5dp"-->
+<!--                android:fontFamily="@font/roboto_regular"-->
+<!--                android:text="Unit Price:"-->
+<!--                android:textColor="@color/black"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/textview7" />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/lbl_McPrice"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:fontFamily="@font/roboto_regular"-->
+<!--                android:text="Unit Price: Php. 145,000.00"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:layout_marginTop="5dp"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/lbl_appMcModel" />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/textview9"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="5dp"-->
+<!--                android:fontFamily="@font/roboto_regular"-->
+<!--                android:text="Downpayment:"-->
+<!--                android:textColor="@color/black"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/textview8" />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/lbl_appDownPaym"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:fontFamily="@font/roboto_regular"-->
+<!--                android:text="Downpayment: Php. 54,000.00"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:layout_marginTop="5dp"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/lbl_McPrice" />-->
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_docScan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Scan Documents"
+                android:layout_marginTop="10dp"
+                style="@style/MaterialButtonAccent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textview6" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Close"
+                style="@style/MaterialButtonAccent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btn_docScan" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

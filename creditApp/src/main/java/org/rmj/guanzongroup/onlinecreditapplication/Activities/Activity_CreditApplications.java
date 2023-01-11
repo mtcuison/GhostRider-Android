@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 
 import com.google.android.material.textfield.TextInputEditText;
 
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DCreditApplication;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplication;
 import org.rmj.g3appdriver.etc.LoadDialog;
@@ -23,6 +24,7 @@ import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.guanzongroup.onlinecreditapplication.Adapter.CreditApplicationsAdapter;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMCreditApplications;
+import org.rmj.guanzongroup.onlinecreditapplication.dialog.DialogPreviewApplication;
 
 import java.util.List;
 import java.util.Objects;
@@ -85,13 +87,20 @@ public class Activity_CreditApplications extends AppCompatActivity {
                 recyclerView.setLayoutManager(loLayout);
                 recyclerView.setAdapter(new CreditApplicationsAdapter(eCreditApplications, new CreditApplicationsAdapter.OnItemActionClickListener() {
                     @Override
-                    public void Resend(ECreditApplication creditapp) {
+                    public void Resend(DCreditApplication.ApplicationLog creditapp) {
 
                     }
 
                     @Override
-                    public void OnPreview(ECreditApplication creditapp) {
+                    public void OnPreview(DCreditApplication.ApplicationLog creditapp) {
+                        DialogPreviewApplication loDialog = new DialogPreviewApplication(Activity_CreditApplications.this);
+                        loDialog.initDialog(creditapp, new DialogPreviewApplication.OnDialogActionClickListener() {
+                            @Override
+                            public void DocumentScan(DCreditApplication.ApplicationLog creditApp) {
 
+                            }
+                        });
+                        loDialog.show();
                     }
                 }));
             } catch (Exception e){

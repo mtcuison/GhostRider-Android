@@ -203,8 +203,8 @@ public class CreditOnlineApplication {
         }
     }
 
-    public LiveData<List<ECreditApplication>> GetCreditApplications(){
-        return poDao.GetAllCreditApplication();
+    public LiveData<List<DCreditApplication.ApplicationLog>> GetCreditApplications(){
+        return poDao.getApplicationHistory();
     }
 
     public boolean DownloadBranchApplications(){
