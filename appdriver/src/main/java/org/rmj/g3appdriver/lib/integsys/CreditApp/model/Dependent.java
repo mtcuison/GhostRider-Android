@@ -27,24 +27,12 @@ public class Dependent {
         return message;
     }
 
-    public boolean Add(DependentInfo args){
-        try{
-            if(!args.isDataValid()){
-                message = args.getMessage();
-                return false;
-            }
-
-            loList.add(args);
-            return true;
-        } catch (Exception e){
-            e.printStackTrace();
-            message = e.getMessage();
-            return false;
-        }
-    }
-
     public void clear(){
         loList.clear();
+    }
+
+    public void setDependentList(List<DependentInfo> val){
+        this.loList = val;
     }
 
     public List<DependentInfo> getDependentList(){
@@ -60,16 +48,15 @@ public class Dependent {
         private String cEduLevel = "";
         private String sSchoolNm = "";
         private String sSchlAddx = "";
-        private String sSchlProv = "";
         private String sSchlTown = "";
         private String cEmpSctor = "";
         private String sCompName = "";
-        private String cEmployed = "";
-        private String cDependnt = "";
-        private String cHouseHld = "";
-        private String cMarriedx = "";
-        private String cStudentx = "";
-        private String cSchoolar = "";
+        private String cEmployed = "0";
+        private String cDependnt = "0";
+        private String cHouseHld = "0";
+        private String cMarriedx = "0";
+        private String cStudentx = "0";
+        private String cSchoolar = "0";
 
         private String message;
 
@@ -134,14 +121,6 @@ public class Dependent {
 
         public void setSchlAddx(String sSchlAddx) {
             this.sSchlAddx = sSchlAddx;
-        }
-
-        public String getSchlProv() {
-            return sSchlProv;
-        }
-
-        public void setSchlProv(String sSchlProv) {
-            this.sSchlProv = sSchlProv;
         }
 
         public String getSchlTown() {
@@ -216,122 +195,59 @@ public class Dependent {
             this.cSchoolar = cSchoolar;
         }
 
-
         public boolean isDataValid(){
-            if(!isFullName()){
-                return false;
-            }
-            if(!isDpndentAge()){
-                return false;
-            }
-            if(!isDPDRelationship()){
-                return false;
-            }
-
-            if(cStudentx.equalsIgnoreCase("1")){
-                return isStudent();
-            }
-            if(Integer.parseInt(cStudentx) < 0){
-                message = "Please select dependent if student!";
-                return false;
-            }
-
-
-            if(cEmployed.equalsIgnoreCase("1")){
-                return isEmployed();
-            }
-            if(Integer.parseInt(cEmployed) < 0){
-                message = "Please select dependent if employed!";
-                return false;
-            }
-            return true;
-        }
-        private boolean isFullName(){
             if(sFullName.trim().isEmpty()){
-                message = "Please enter Dependent Full Name";
+                message = "Please enter Dependent Full Name!";
                 return false;
             }
-            return true;
-        }
-        private boolean isStudent(){
-            return isSchoolType() &&
-                    isDpdEducLevel() &&
-                    isDpdSchoolName() &&
-                    isDpdSchoolAddress() &&
-//                    isDpdSchoolProv() &&
-                    isDpdSchoolTown();
-        }
-        private boolean isDPDRelationship(){
-            if(Integer.parseInt(cRelation) < 0){
-                message = "Please enter Dependent Relationship!";
-                return false;
-            }
-            return true;
-        }
-        private boolean isDpndentAge(){
             if(nDpdntAge == 0){
                 message = "Please enter Dependent Age!";
                 return false;
             }
-            return true;
-        }
-        private boolean isSchoolType(){
-            if(Integer.parseInt(cSchoolTp) < 0){
-                message = "Please select School Type!";
+            if(cRelation.isEmpty()){
+                message = "Please select dependent relation.";
                 return false;
+            }
+            if(cStudentx.equalsIgnoreCase("1")){
+                return isStudent();
+            }
+            if(cEmployed.equalsIgnoreCase("1")){
+                return isEmployed();
             }
             return true;
         }
-        private boolean isDpdEducLevel(){
-            if(Integer.parseInt(cEduLevel) < 0){
-                message = "Please select Educational Level!";
-                return false;
-            }
-            return true;
-        }
-        private boolean isDpdSchoolName(){
-            if(sSchoolNm.trim().isEmpty()){
-                message = "Please enter School Type!";
-                return false;
-            }
-            return true;
-        }
-        private boolean isDpdSchoolAddress(){
-            if(sSchlAddx.trim().isEmpty()){
-                message = "Please enter Dependent School Address!";
-                return false;
-            }
-            return true;
-        }
-//        private boolean isDpdSchoolProv(){
-//            if(sSchlProv.trim().isEmpty()){
-//                message = "Please enter Dependent School Province!";
-//                return false;
-//            }
-//            return true;
-//        }
-        private boolean isDpdSchoolTown(){
-            if(sSchlTown.trim().isEmpty()){
-                message = "Please enter Dependent School Municipality address!";
-                return false;
-            }
-            return true;
-        }
-        private boolean isEmployed(){
 
-            return isDpdEmployedSector() &&
-                    isDpdCompanyName();
-        }
-        private boolean isDpdEmployedSector(){
-            if(Integer.parseInt(cEmpSctor) < 0){
-                message = "Please select Employment Sector!";
+        private boolean isStudent(){
+            if(cSchoolTp.trim().isEmpty()){
+                message = "Please select school type!";
+                return false;
+            }
+            if(cEduLevel.trim().isEmpty()){
+                message = "Please select education level!";
+                return false;
+            }
+            if(sSchoolNm.trim().isEmpty()){
+                message = "Please enter school name!";
+                return false;
+            }
+            if(sSchlAddx.trim().isEmpty()){
+                message = "Please enter school address!";
+                return false;
+            }
+            if(sSchlTown.trim().isEmpty()){
+                message = "Please enter school town.";
                 return false;
             }
             return true;
         }
-        private boolean isDpdCompanyName(){
+
+        private boolean isEmployed(){
+            if(cEmpSctor.trim().isEmpty()){
+                message = "Please select employment sector!";
+                return false;
+            }
             if(sCompName.trim().isEmpty()){
-                message = "Please enter Company Name!";
+                message = "Please enter company name!";
                 return false;
             }
             return true;

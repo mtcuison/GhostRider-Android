@@ -54,6 +54,10 @@ public class VMDependent extends AndroidViewModel implements CreditAppUI {
         return poList;
     }
 
+    public void setDependent(List<Dependent.DependentInfo> val){
+        poList.setValue(val);
+    }
+
     public void addDependent(Dependent.DependentInfo args, OnAddDependetListener listener){
         try{
             if(!args.isDataValid()){
@@ -151,6 +155,7 @@ public class VMDependent extends AndroidViewModel implements CreditAppUI {
 
         @Override
         protected Boolean doInBackground(Dependent... info) {
+            info[0].setDependentList(poList.getValue());
             int lnResult = poApp.Validate(info[0]);
 
             if(lnResult != 1){
@@ -158,7 +163,8 @@ public class VMDependent extends AndroidViewModel implements CreditAppUI {
                 return false;
             }
 
-            if(!poApp.Save(info[0])){
+            String lsResult = poApp.Save(info[0]);
+            if(lsResult == null){
                 message = poApp.getMessage();
                 return false;
             }

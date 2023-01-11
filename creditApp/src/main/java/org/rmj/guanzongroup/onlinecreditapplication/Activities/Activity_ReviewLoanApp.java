@@ -1,6 +1,7 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Activities;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -23,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.etc.FormatUIText;
+import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditAppConstants;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
@@ -50,11 +52,7 @@ public class Activity_ReviewLoanApp extends AppCompatActivity {
     private ImageButton btnCamera;
     private Button btnSave, btnPrvs;
 
-//    private List<ReviewAppDetail> plDetail;
-//    private ECreditApplicantInfo poInfo;
-//    private ImageFileCreator poCamera;
-//    private EImageInfo poImage;
-//    private LoadDialog poDialogx;
+    private LoadDialog poDialogx;
     private MessageBox poMessage;
 
     private VMReviewLoanApp mViewModel;
@@ -66,6 +64,7 @@ public class Activity_ReviewLoanApp extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         mViewModel = new ViewModelProvider(Activity_ReviewLoanApp.this).get(VMReviewLoanApp.class);
         poMessage = new MessageBox(Activity_ReviewLoanApp.this);
+        poDialogx = new LoadDialog(Activity_ReviewLoanApp.this);
         setContentView(R.layout.activity_review_loan_app);
         initWidgets();
         mViewModel.InitializeApplication(getIntent());
@@ -114,39 +113,54 @@ public class Activity_ReviewLoanApp extends AppCompatActivity {
 
         btnPrvs = findViewById(R.id.btn_creditAppPrvs);
 
-//        plDetail = new ArrayList<>();
-        String lsImageNme = TransNox;
-//        poCamera = new ImageFileCreator(this, AppConstants.SUB_FOLDER_CREDIT_APP, lsImageNme);
-//        poImage = new EImageInfo();
-//        poImage.setImageNme(lsImageNme);
-//        poDialogx = new LoadDialog(this);
-//        poMessage = new MessageBox(this);
-
         btnPrvs = findViewById(R.id.btn_creditAppPrvs);
 
-        btnSave.setOnClickListener(v -> {
-            mViewModel.SaveData(new OnSaveInfoListener() {
-                @Override
-                public void OnSave(String args) {
-                    finish();
-                }
+        btnSave.setOnClickListener(v -> mViewModel.SaveData(new VMReviewLoanApp.OnSaveCreditAppListener() {
+            @Override
+            public void OnSave() {
+                poDialogx.initDialog("Credit Online Application", "Saving application. Please wait...", false);
+                poDialogx.show();
+            }
 
-                @Override
-                public void OnFailed(String message) {
-                    poMessage.initDialog();
-                    poMessage.setTitle("Credit Online Application");
-                    poMessage.setMessage(message);
-                    poMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
-                    poMessage.show();
-                }
-            });
-        });
-        btnPrvs.setOnClickListener(v -> {
-            Intent loIntent = new Intent(Activity_ReviewLoanApp.this, Activity_ReviewLoanApp.class);
-            loIntent.putExtra("sTransNox", TransNox);
-            startActivity(loIntent);
-            finish();
-        });
+            @Override
+            public void OnSuccess(String args) {
+                poDialogx.dismiss();
+                poMessage.initDialog();
+                poMessage.setTitle("Credit Online Application");
+                poMessage.setMessage(args);
+                poMessage.setPositiveButton("Okay", (view, dialog) -> {
+                    dialog.dismiss();
+                    startActivity(new Intent(Activity_ReviewLoanApp.this, Activity_CreditApplications.class));
+                    finish();
+                });
+                poMessage.show();
+            }
+
+            @Override
+            public void OnSaveLocal(String message) {
+                poDialogx.dismiss();
+                poMessage.initDialog();
+                poMessage.setTitle("Credit Online Application");
+                poMessage.setMessage(message);
+                poMessage.setPositiveButton("Okay", (view, dialog) -> {
+                    dialog.dismiss();
+                    startActivity(new Intent(Activity_ReviewLoanApp.this, Activity_CreditApplications.class));
+                    finish();
+                });
+                poMessage.show();
+            }
+
+            @Override
+            public void OnFailed(String message) {
+                poDialogx.dismiss();
+                poMessage.initDialog();
+                poMessage.setTitle("Credit Online Application");
+                poMessage.setMessage(message);
+                poMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
+                poMessage.show();
+            }
+        }));
+        btnPrvs.setOnClickListener(v -> returnPrevious());
 
     }
 
@@ -166,31 +180,32 @@ public class Activity_ReviewLoanApp extends AppCompatActivity {
     @Override
     public void finish() {
         super.finish();
-        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == android.R.id.home){
-            Intent loIntent = new Intent(Activity_ReviewLoanApp.this, Activity_ReviewLoanApp.class);
-            loIntent.putExtra("sTransNox", TransNox);
-            startActivity(loIntent);
-            finish();
+            returnPrevious();
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onBackPressed() {
-        Intent loIntent = new Intent(Activity_ReviewLoanApp.this, Activity_ReviewLoanApp.class);
-        loIntent.putExtra("sTransNox", TransNox);
-        startActivity(loIntent);
-        finish();
+        returnPrevious();
     }
 
     @Override
     protected void onDestroy() {
         getViewModelStore().clear();
         super.onDestroy();
+    }
+
+    private void returnPrevious(){
+        Intent loIntent = new Intent(Activity_ReviewLoanApp.this, Activity_ComakerResidence.class);
+        loIntent.putExtra("sTransNox", TransNox);
+        startActivity(loIntent);
+        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
+        finish();
     }
 }

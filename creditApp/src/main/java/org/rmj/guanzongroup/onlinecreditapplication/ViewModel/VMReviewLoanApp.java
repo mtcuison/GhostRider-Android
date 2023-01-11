@@ -38,14 +38,17 @@ import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Personal;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.SpouseBusiness;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.ReviewAppDetail;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditAppConstants;
+import org.rmj.g3appdriver.utils.ConnectionUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class VMReviewLoanApp  extends AndroidViewModel implements CreditAppUI {
+public class VMReviewLoanApp  extends AndroidViewModel {
     private static final String TAG = VMReviewLoanApp.class.getSimpleName();
 
     private final CreditApp poApp;
+    private final CreditOnlineApplication poCredt;
+    private final ConnectionUtil poConn;
 
     private ECreditApplicantInfo poInfo;
 
@@ -53,42 +56,41 @@ public class VMReviewLoanApp  extends AndroidViewModel implements CreditAppUI {
 
     private String message;
 
-
-    private final MutableLiveData<List<ReviewAppDetail>> plAppDetail = new MutableLiveData<>();
+    public interface OnSaveCreditAppListener{
+        void OnSave();
+        void OnSuccess(String args);
+        void OnSaveLocal(String message);
+        void OnFailed(String message);
+    }
 
     public VMReviewLoanApp(@NonNull Application application) {
         super(application);
         this.poApp = new CreditOnlineApplication(application).getInstance(CreditAppInstance.ReviewLoanInfo);
-        this.plAppDetail.setValue(new ArrayList<>());
+        this.poCredt = new CreditOnlineApplication(application);
+        this.poConn = new ConnectionUtil(application);
     }
 
     public void setInfo(ECreditApplicantInfo poInfo) {
         this.poInfo = poInfo;
     }
 
-    @Override
     public void InitializeApplication(Intent params) {
         this.TransNox = params.getStringExtra("sTransNox");
     }
 
-    @Override
     public LiveData<ECreditApplicantInfo> GetApplication() {
         return poApp.GetApplication(TransNox);
     }
 
-    @Override
     public void ParseData(ECreditApplicantInfo args, OnParseListener listener) {
         new ParseDataTask(listener).execute(args);
     }
 
-    @Override
     public void Validate(Object args) {
 
     }
 
-
-    @Override
-    public void SaveData(OnSaveInfoListener listener) {
+    public void SaveData(OnSaveCreditAppListener listener) {
         new SaveDetailTask(listener).execute(poInfo);
     }
 
@@ -131,32 +133,56 @@ public class VMReviewLoanApp  extends AndroidViewModel implements CreditAppUI {
         }
     }
 
-    private class SaveDetailTask extends AsyncTask<ECreditApplicantInfo, Void, Boolean>{
+    private class SaveDetailTask extends AsyncTask<ECreditApplicantInfo, Void, Integer>{
 
-        private final OnSaveInfoListener listener;
+        private final OnSaveCreditAppListener listener;
 
         private String message;
 
-        public SaveDetailTask(OnSaveInfoListener listener) {
+        public SaveDetailTask(OnSaveCreditAppListener listener) {
             this.listener = listener;
         }
 
         @Override
-        protected Boolean doInBackground(ECreditApplicantInfo... eCreditApplicantInfos) {
-            if(!poApp.Save(eCreditApplicantInfos[0])){
-                message = poApp.getMessage();
-                return false;
-            }
-            return true;
+        protected void onPreExecute() {
+            super.onPreExecute();
+            listener.OnSave();
         }
 
         @Override
-        protected void onPostExecute(Boolean isSuccess) {
-            super.onPostExecute(isSuccess);
-            if(!isSuccess){
-                listener.OnFailed(message);
-            } else {
-                listener.OnSave("");
+        protected Integer doInBackground(ECreditApplicantInfo... eCreditApplicantInfos) {
+            String lsResult = poApp.Save(eCreditApplicantInfos[0]);
+            if(lsResult == null){
+                message = poApp.getMessage();
+                return 0;
+            }
+
+            if(!poConn.isDeviceConnected()){
+                message = "Credit application has been save to local.";
+                return 2;
+            }
+
+            if(!poCredt.UploadApplication(lsResult)){
+                message = poCredt.getMessage();
+                return 0;
+            }
+            message = "Credit application saved!";
+            return 1;
+        }
+
+        @Override
+        protected void onPostExecute(Integer result) {
+            super.onPostExecute(result);
+            switch (result){
+                case 1:
+                    listener.OnSuccess(message);
+                    break;
+                case 2:
+                    listener.OnSaveLocal(message);
+                    break;
+                default:
+                    listener.OnFailed(message);
+                    break;
             }
         }
     }

@@ -407,10 +407,8 @@ public class GoCasBuilder {
         JSONObject loOther = new JSONObject(poInfo.getOthrInfo());
         poGOCas.OtherInfo().setUnitPayor(loOther.getString("sPurposex"));
         poGOCas.OtherInfo().setUnitPayor(loOther.getString("sUnitPayr"));
-        try {
+        if(loOther.has("sPyr2Buyr")) {
             poGOCas.OtherInfo().setPayorRelation(loOther.getString("sPyr2Buyr"));
-        } catch (Exception e){
-            e.printStackTrace();
         }
         poGOCas.OtherInfo().setUnitUser(loOther.getString("sUnitUser"));
         poGOCas.OtherInfo().setPurpose(loOther.getString("sPurposex"));

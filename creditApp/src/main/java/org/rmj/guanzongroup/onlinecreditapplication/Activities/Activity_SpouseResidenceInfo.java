@@ -9,6 +9,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,7 +25,9 @@ import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EBarangayInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.etc.MessageBox;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.SpouseResidenceInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.ClientResidence;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.SpouseResidence;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.OnParseListener;
@@ -38,9 +42,9 @@ public class Activity_SpouseResidenceInfo extends AppCompatActivity {
     private VMSpouseResidence mViewModel;
     private MessageBox poMessage;
 
-
     private TextInputEditText txtLandMark, txtHouseNox, txtAddress1, txtAddress2;
-    private AutoCompleteTextView txtBarangay, txtTown, txtProvince;
+    private AutoCompleteTextView txtBarangay, txtTown;
+    private CheckBox cbSameAdd;
     private Button btnNext, btnPrvs;
     private Toolbar toolbar;
 
@@ -55,26 +59,52 @@ public class Activity_SpouseResidenceInfo extends AppCompatActivity {
         setContentView(R.layout.activity_spouse_residence_info);
         initWidgets();
         mViewModel.InitializeApplication(getIntent());
-        mViewModel.GetApplication().observe(Activity_SpouseResidenceInfo.this, new Observer<ECreditApplicantInfo>() {
-            @Override
-            public void onChanged(ECreditApplicantInfo app) {
-                try {
-                    TransNox = app.getTransNox();
-                    mViewModel.getModel().setTransNox(app.getTransNox());
-                    mViewModel.ParseData(app, new OnParseListener() {
-                        @Override
-                        public void OnParse(Object args) {
-                            SpouseResidence loDetail = (SpouseResidence) args;
-                            try {
-                                setUpFieldsFromLocalDB(loDetail);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+        mViewModel.GetApplication().observe(Activity_SpouseResidenceInfo.this, app -> {
+            try {
+                TransNox = app.getTransNox();
+                mViewModel.getModel().setTransNox(app.getTransNox());
+                mViewModel.ParseData(app, args -> {
+                    SpouseResidenceInfo.oResidence loDetail = (SpouseResidenceInfo.oResidence) args;
+                    try {
+                        setUpFieldsFromLocalDB(loDetail.getSpouseResidence());
+
+                        cbSameAdd.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                            @Override
+                            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                ClientResidence loClient = loDetail.getApplResidence();
+                                if(isChecked){
+                                    mViewModel.getModel().setAddress1(loClient.getAddress1());
+                                    mViewModel.getModel().setAddress2(loClient.getAddress2());
+                                    mViewModel.getModel().setBarangayID(loClient.getBarangayID());
+                                    mViewModel.getModel().setBarangayName(loClient.getBarangayName());
+                                    mViewModel.getModel().setMunicipalID(loClient.getMunicipalID());
+                                    mViewModel.getModel().setMunicipalNm(loClient.getMunicipalNm());
+                                    mViewModel.getModel().setHouseNox(loClient.getHouseNox());
+                                    mViewModel.getModel().setLandMark(loClient.getLandMark());
+                                    txtLandMark.setText(loClient.getLandMark());
+                                    txtHouseNox.setText(loClient.getHouseNox());
+                                    txtAddress1.setText(loClient.getAddress1());
+                                    txtAddress2.setText(loClient.getAddress2());
+                                    txtTown.setText(loClient.getMunicipalNm());
+                                    txtBarangay.setText(loClient.getBarangayName());
+                                } else {
+                                    mViewModel.getModel().setAddress1("");
+                                    mViewModel.getModel().setAddress2("");
+                                    mViewModel.getModel().setBarangayID("");
+                                    mViewModel.getModel().setBarangayName("");
+                                    mViewModel.getModel().setMunicipalID("");
+                                    mViewModel.getModel().setMunicipalNm("");
+                                    mViewModel.getModel().setHouseNox("");
+                                    mViewModel.getModel().setLandMark("");
+                                }
                             }
-                        }
-                    });
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                        });
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         });
 
@@ -117,16 +147,13 @@ public class Activity_SpouseResidenceInfo extends AppCompatActivity {
                                             android.R.layout.simple_spinner_dropdown_item, string.toArray(new String[0]));
                                     txtBarangay.setAdapter(adapters);
                                     txtBarangay.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
-                                    txtBarangay.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                        @Override
-                                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                            for (int x = 0; x < BrgyList.size(); x++) {
-                                                String lsLabel = BrgyList.get(x).getBrgyName();
-                                                String lsSlctd = txtBarangay.getText().toString().trim();
-                                                if (lsSlctd.equalsIgnoreCase(lsLabel)) {
-                                                    mViewModel.getModel().setBarangayID(BrgyList.get(x).getBrgyIDxx());
-                                                    mViewModel.getModel().setBarangayName(lsLabel);
-                                                }
+                                    txtBarangay.setOnItemClickListener((parent1, view1, position1, id1) -> {
+                                        for (int x = 0; x < BrgyList.size(); x++) {
+                                            String lsLabel = BrgyList.get(x).getBrgyName();
+                                            String lsSlctd = txtBarangay.getText().toString().trim();
+                                            if (lsSlctd.equalsIgnoreCase(lsLabel)) {
+                                                mViewModel.getModel().setBarangayID(BrgyList.get(x).getBrgyIDxx());
+                                                mViewModel.getModel().setBarangayName(lsLabel);
                                             }
                                         }
                                     });
@@ -183,18 +210,16 @@ public class Activity_SpouseResidenceInfo extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Spouse Residence Info");
 
-
         txtLandMark = findViewById(R.id.txt_landmark);
         txtHouseNox = findViewById(R.id.txt_houseNox);
         txtAddress1 = findViewById(R.id.txt_address);
         txtAddress2 = findViewById(R.id.txt_address2);
-//        txtProvince = findViewById(R.id.txt_province);
         txtTown = findViewById(R.id.txt_town);
         txtBarangay = findViewById(R.id.txt_barangay);
+        cbSameAdd = findViewById(R.id.cb_sameAdd);
 
         btnNext = findViewById(R.id.btn_creditAppNext);
         btnPrvs = findViewById(R.id.btn_creditAppPrvs);
-
     }
 
     @SuppressLint("NewApi")

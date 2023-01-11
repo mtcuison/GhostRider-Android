@@ -116,7 +116,7 @@ public class OtherInfo implements CreditApp {
     }
 
     @Override
-    public boolean Save(Object args) {
+    public String Save(Object args) {
         try{
             OtherReference loDetail = (OtherReference) args;
 
@@ -124,7 +124,7 @@ public class OtherInfo implements CreditApp {
 
             if(loApp == null){
                 message = "Unable to find record for update. Please restart credit app and try again.";
-                return false;
+                return null;
             }
 
             GOCASApplication gocas = new GOCASApplication();
@@ -132,40 +132,54 @@ public class OtherInfo implements CreditApp {
             JSONObject loJson = new JSONObject();
 
             if (loDetail.getSource().equalsIgnoreCase("Others")){
-                loJson.put("sSrceInfo", loDetail.getCompanyInfoSource());
+//                loJson.put("sSrceInfo", loDetail.getCompanyInfoSource());
+                gocas.OtherInfo().setSourceInfo(loDetail.getCompanyInfoSource());
             }else{
-                loJson.put("sSrceInfo", loDetail.getSource());
+//                loJson.put("sSrceInfo", loDetail.getSource());
+                gocas.OtherInfo().setSourceInfo(loDetail.getSource());
             }
 
             JSONArray reference = new JSONArray();
 
-            loJson.put("sUnitUser", loDetail.getsUnitUser());
-            loJson.put("sUsr2Buyr", loDetail.getsUsr2Buyr());
-            loJson.put("sUnitPayr", loDetail.getsUnitPayr());
-            loJson.put("sPyr2Buyr", loDetail.getsPyr2Buyr());
-            loJson.put("sPurposex", loDetail.getsPurposex());
+            gocas.OtherInfo().setUnitUser(loDetail.getsUnitUser());
+            gocas.OtherInfo().setOtherUser(loDetail.getsUsr2Buyr());
+            gocas.OtherInfo().setUnitPayor(loDetail.getsUnitPayr());
+            gocas.OtherInfo().setPayorRelation(loDetail.getsPyr2Buyr());
+            gocas.OtherInfo().setPurpose(loDetail.getsPurposex());
+
+//            loJson.put("sUnitUser", loDetail.getsUnitUser());
+//            loJson.put("sUsr2Buyr", loDetail.getsUsr2Buyr());
+//            loJson.put("sUnitPayr", loDetail.getsUnitPayr());
+//            loJson.put("sPyr2Buyr", loDetail.getsPyr2Buyr());
+//            loJson.put("sPurposex", loDetail.getsPurposex());
 
             List<Reference> loList = loDetail.getReferences();
             for(int x = 0; x < loList.size(); x++){
-                JSONObject jsonObject = new JSONObject();
                 Reference loInfo = loList.get(x);
-                jsonObject.put("sRefrNmex", loInfo.getFullname());
-                jsonObject.put("sRefrTown", loInfo.getTownCity());
-                jsonObject.put("sRefrMPNx", loInfo.getContactN());
-                jsonObject.put("sRefrAddx", loInfo.getAddress1());
-                reference.add(x,jsonObject);
+                gocas.OtherInfo().addReference();
+                gocas.OtherInfo().setPRName(x, loInfo.getFullname());
+                gocas.OtherInfo().setPRMobileNo(x, loInfo.getContactN());
+                gocas.OtherInfo().setPRAddress(x, loInfo.getAddress1());
+                gocas.OtherInfo().setPRTownCity(x, loInfo.getTownCity());
+
+//                JSONObject jsonObject = new JSONObject();
+//                jsonObject.put("sRefrNmex", loInfo.getFullname());
+//                jsonObject.put("sRefrTown", loInfo.getTownCity());
+//                jsonObject.put("sRefrMPNx", loInfo.getContactN());
+//                jsonObject.put("sRefrAddx", loInfo.getAddress1());
+//                reference.add(x,jsonObject);
 
             }
-            loJson.put("personal_reference", reference);
-            gocas.OtherInfo().setData(loJson);
+//            loJson.put("personal_reference", reference);
+//            gocas.OtherInfo().setData(loJson);
             loApp.setOthrInfo(gocas.OtherInfo().toJSONString());
 
             poDao.Update(loApp);
-            return true;
+            return loDetail.getTransNox();
         } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();
-            return false;
+            return null;
         }
     }
 

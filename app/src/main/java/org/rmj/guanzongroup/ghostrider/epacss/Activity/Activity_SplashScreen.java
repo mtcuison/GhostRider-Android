@@ -11,7 +11,7 @@
 
 package org.rmj.guanzongroup.ghostrider.epacss.Activity;
 
-import static org.rmj.g3appdriver.utils.ServiceScheduler.EIGHT_HOUR_PERIODIC;
+import static org.rmj.g3appdriver.utils.ServiceScheduler.FIFTEEN_MINUTE_PERIODIC;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -66,7 +66,7 @@ public class Activity_SplashScreen extends AppCompatActivity {
     private final ActivityResultLauncher<Intent> poLogin = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
         if (result.getResultCode() == RESULT_OK) {
             startActivity(new Intent(Activity_SplashScreen.this, Activity_Main.class));
-            ServiceScheduler.scheduleJob(Activity_SplashScreen.this, DataDownloadService.class, EIGHT_HOUR_PERIODIC, AppConstants.DataServiceID);
+            ServiceScheduler.scheduleJob(Activity_SplashScreen.this, DataDownloadService.class, FIFTEEN_MINUTE_PERIODIC, AppConstants.DataServiceID);
             finish();
         } else if (result.getResultCode() == RESULT_CANCELED) {
             finish();

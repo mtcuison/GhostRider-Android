@@ -20,6 +20,7 @@ import org.rmj.g3appdriver.lib.integsys.CreditApp.model.CoMakerResidence;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Dependent;
 import org.rmj.gocas.base.GOCASApplication;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DependentsInfo implements CreditApp {
@@ -53,6 +54,7 @@ public class DependentsInfo implements CreditApp {
                 JSONObject joDetail = (JSONObject) loJson.parse(lsDetail);
                 gocas.DisbursementInfo().DependentInfo().setData(joDetail);
                 JSONArray loList = (JSONArray) joDetail.get("children");
+                List<Dependent.DependentInfo> loDpds = new ArrayList<>();
                 if(loList.size() > 0){
                     for(int x = 0; x < loList.size(); x++){
                         JSONObject loChildren = (JSONObject) loList.get(x);
@@ -74,9 +76,11 @@ public class DependentsInfo implements CreditApp {
                         loInfo.setHouseHld((String) loChildren.get("cHouseHld"));
                         loInfo.setDependnt((String) loChildren.get("cDependnt"));
                         loInfo.setMarriedx((String) loChildren.get("cIsMarrdx"));
+                        loDpds.add(loInfo);
                     }
                 }
 
+                loDetail.setDependentList(loDpds);
                 poDetail = loDetail;
 
             }
@@ -120,7 +124,7 @@ public class DependentsInfo implements CreditApp {
     }
 
     @Override
-    public boolean Save(Object args) {
+    public String Save(Object args) {
         try{
             Dependent loDetail = (Dependent) args;
 
@@ -128,7 +132,7 @@ public class DependentsInfo implements CreditApp {
 
             if(loApp == null){
                 message = "Unable to find record for update. Please restart credit app and try again.";
-                return false;
+                return null;
             }
 
             GOCASApplication gocas = new GOCASApplication();
@@ -159,11 +163,11 @@ public class DependentsInfo implements CreditApp {
 
             loApp.setDependnt(gocas.DisbursementInfo().DependentInfo().toJSONString());
             poDao.Update(loApp);
-            return true;
+            return loDetail.getTransNox();
         } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();
-            return false;
+            return null;
         }
     }
 

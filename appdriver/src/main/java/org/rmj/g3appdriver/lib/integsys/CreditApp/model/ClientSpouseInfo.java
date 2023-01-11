@@ -7,32 +7,32 @@ import java.util.List;
 
 public class ClientSpouseInfo {
 
-    private String TransNox;
-    private String LastName;
-    private String FrstName;
-    private String MiddName;
-    private String Suffix;
-    private String NickName;
-    private String BrthDate;
-    private String BrthPlce;
+    private String TransNox = "";
+    private String LastName = "";
+    private String FrstName = "";
+    private String MiddName = "";
+    private String Suffix = "";
+    private String NickName = "";
+    private String BrthDate = "";
+    private String BrthPlce = "";
     private String BirthPlc; //This holds the data for preview of Town, Province names.
 //    private String CvlStats;
-    private String Citizenx;
-    private String CtznShip; //This holds the data for preview of citizenship
+    private String Citizenx = "";
+    private String CtznShip = ""; //This holds the data for preview of citizenship
 
     private MobileNo mobileNo1;
     private MobileNo mobileNo2;
     private MobileNo mobileNo3;
 
-    private String PhoneNox;
-    private String EmailAdd;
-    private String FbAccntx;
-    private String VbrAccnt;
+    private String PhoneNox = "";
+    private String EmailAdd = "";
+    private String FbAccntx = "";
+    private String VbrAccnt = "";
     private String ImgPath;
 
     //for save instance state
-    private String ProvNme;
-    private String TownNme;
+    private String ProvNme = "";
+    private String TownNme = "";
 
     private String message;
 

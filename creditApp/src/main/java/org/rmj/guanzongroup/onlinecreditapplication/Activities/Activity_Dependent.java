@@ -127,7 +127,11 @@ public class Activity_Dependent extends AppCompatActivity {
 
     private void AddDependent(){
         poDpndt.setFullName(tieFullname.getText().toString());
-        poDpndt.setDpdntAge(Integer.parseInt(tieDpdAgexx.getText().toString()));
+        int lnInptAge = 0;
+        if(!tieDpdAgexx.getText().toString().trim().isEmpty()){
+            lnInptAge = Integer.parseInt(tieDpdAgexx.getText().toString());
+        }
+        poDpndt.setDpdntAge(lnInptAge);
         poDpndt.setSchoolNm(tieSchoolNm.getText().toString());
         poDpndt.setSchlAddx(tieSchlAddx.getText().toString());
         poDpndt.setCompName(tieCompName.getText().toString());
@@ -367,15 +371,16 @@ public class Activity_Dependent extends AppCompatActivity {
     public void setUpFieldsFromLocalDB(Dependent infoModel) throws JSONException {
         if(infoModel != null) {
             if(infoModel.getDependentList().size() > 0) {
+                mViewModel.setDependent(infoModel.getDependentList());
                 List<Dependent.DependentInfo> poDependnt = new ArrayList<>();
-                for (int x = 0; x < infoModel.getDependentList().size(); x++) {
-                    Dependent.DependentInfo loDependnt = infoModel.getDependentList().get(x);
-                    if (!loDependnt.isDataValid()) {
-                        poDependnt.remove(x);
-                    } else {
-                        poDependnt.add(loDependnt);
-                    }
-                }
+//                for (int x = 0; x < infoModel.getDependentList().size(); x++) {
+//                    Dependent.DependentInfo loDependnt = infoModel.getDependentList().get(x);
+//                    if (!loDependnt.isDataValid()) {
+//                        poDependnt.remove(x);
+//                    } else {
+//                        poDependnt.add(loDependnt);
+//                    }
+//                }
             }
         }
     }
