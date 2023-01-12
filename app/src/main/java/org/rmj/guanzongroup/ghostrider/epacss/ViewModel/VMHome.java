@@ -21,28 +21,27 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DBranchOpeningMonitor;
-import org.rmj.g3appdriver.GRider.Database.Entities.EAreaPerformance;
-import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.EBranchOpenMonitor;
-import org.rmj.g3appdriver.GRider.Database.Entities.EBranchPerformance;
-import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RAreaPerformance;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchOpeningMonitor;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchPerformance;
-import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RNotificationInfo;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DBranchOpeningMonitor;
+import org.rmj.g3appdriver.dev.Database.Entities.EAreaPerformance;
+import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.EBranchPerformance;
+import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
+import org.rmj.g3appdriver.dev.Database.Repositories.RAreaPerformance;
+import org.rmj.g3appdriver.dev.Database.Repositories.RBranch;
+import org.rmj.g3appdriver.lib.Notifications.BranchOpeningMonitor;
+import org.rmj.g3appdriver.dev.Database.Repositories.RBranchPerformance;
+import org.rmj.g3appdriver.dev.Database.Repositories.RNotificationInfo;
 import org.rmj.g3appdriver.dev.Telephony;
-import org.rmj.g3appdriver.GRider.Etc.SessionManager;
+import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.etc.SessionManager;
+import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 
 import java.util.List;
 
 public class VMHome extends AndroidViewModel {
 
     private final SessionManager poSession;
-    private final REmployee poEmploye;
+    private final EmployeeMaster poEmploye;
     private MutableLiveData<String> psEmailxx = new MutableLiveData<>();
     private MutableLiveData<String> psUserNme = new MutableLiveData<>();
     private MutableLiveData<String> psBranchx = new MutableLiveData<>();
@@ -52,7 +51,7 @@ public class VMHome extends AndroidViewModel {
     private final MutableLiveData<Integer> userLvl = new MutableLiveData<>();
     private final RAreaPerformance poDatabse;
     private final RNotificationInfo poNotification;
-    private final RBranchOpeningMonitor poOpening;
+    private final BranchOpeningMonitor poOpening;
     private final RBranch poBrInfo;
     private final RBranchPerformance poBranch;
 
@@ -60,18 +59,18 @@ public class VMHome extends AndroidViewModel {
     public VMHome(@NonNull Application application) {
         super(application);
         poSession = new SessionManager(application);
-        poEmploye = new REmployee(application);
+        poEmploye = new EmployeeMaster(application);
         psMobleNo.setValue(new Telephony(application).getMobilNumbers());
         poDatabse = new RAreaPerformance(application);
         this.poNotification = new RNotificationInfo(application);
         this.cv_ahMonitoring.setValue(View.GONE);
-        this.poOpening = new RBranchOpeningMonitor(application);
+        this.poOpening = new BranchOpeningMonitor(application);
         this.poBrInfo = new RBranch(application);
         this.poBranch = new RBranchPerformance(application);
     }
 
     public LiveData<EEmployeeInfo> getEmployeeInfo(){
-        return poEmploye.getEmployeeInfo();
+        return poEmploye.GetEmployeeInfo();
     }
 
     public LiveData<String> getMobileNo() {

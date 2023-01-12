@@ -11,15 +11,13 @@
 
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment;
 
-import static org.rmj.g3appdriver.GRider.Constants.AppConstants.LEAVE_TYPE;
-import static org.rmj.g3appdriver.GRider.Constants.AppConstants.getLeaveStatus;
+import static org.rmj.g3appdriver.etc.AppConstants.LEAVE_TYPE;
+import static org.rmj.g3appdriver.etc.AppConstants.getLeaveStatus;
 
 import androidx.core.content.res.ResourcesCompat;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -42,13 +40,13 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
-import org.rmj.g3appdriver.GRider.Etc.GToast;
-import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
-import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.etc.FormatUIText;
+import org.rmj.g3appdriver.etc.GToast;
+import org.rmj.g3appdriver.etc.LoadDialog;
+import org.rmj.g3appdriver.etc.MessageBox;
+import org.rmj.g3appdriver.lib.PetManager.model.LeaveApprovalInfo;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Application;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.LeaveApprovalInfo;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMLeaveApproval;
 
@@ -57,17 +55,16 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 
 public class Fragment_LeaveApproval extends Fragment implements VMLeaveApproval.OnDownloadLeaveAppInfo {
     public static final String TAG = Fragment_LeaveApproval.class.getSimpleName();
     private VMLeaveApproval mViewModel;
 
-    private LeaveApprovalInfo infoModel;
+    private LeaveApprovalInfo poModel;
     private LoadDialog poDialogx;
     private MessageBox poMessage;
 
-    private int pnCredits;
+    private int pnCredits, pnLeaveTp;
 
     private LinearLayout lnSearch, lnApprvl;
     private MaterialButton btnCancel, bntConfirm;
@@ -101,17 +98,11 @@ public class Fragment_LeaveApproval extends Fragment implements VMLeaveApproval.
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_leave_approval, container, false);
-        infoModel = new LeaveApprovalInfo();
-        initWidgets(view);
-        return view;
-    }
-
-    @SuppressLint({"ResourceAsColor", "SetTextI18n"})
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VMLeaveApproval.class);
+        View view = inflater.inflate(R.layout.fragment_leave_approval, container, false);
+        poModel = new LeaveApprovalInfo();
+        initWidgets(view);
+
         Typeface typeface = ResourcesCompat.getFont(requireActivity(), R.font.roboto_bold);
         tilRemarks.setTypeface(typeface);
         String TransNox = Activity_Application.getInstance().getTransNox();
@@ -135,28 +126,30 @@ public class Fragment_LeaveApproval extends Fragment implements VMLeaveApproval.
                         if(eEmployeeLeave == null){
                             mViewModel.downloadLeaveApplication(TransNox, Fragment_LeaveApproval.this);
                         } else {
-                            infoModel.setTransNox(s);
-                            infoModel.setAppldFrx(eEmployeeLeave.getAppldFrx());
-                            infoModel.setAppldTox(eEmployeeLeave.getAppldTox());
+                            poModel.setTransNox(s);
+                            poModel.setAppldFrx(eEmployeeLeave.getDateFrom());
+                            poModel.setAppldTox(eEmployeeLeave.getDateThru());
                             lblTransNox.setText("Transaction No. : " + eEmployeeLeave.getTransNox());
                             lblEmployeNm.setText(eEmployeeLeave.getEmployID());
                             lblDeptName.setText(eEmployeeLeave.getDeptName());
                             lblBranchNm.setText(eEmployeeLeave.getBranchNm());
+                            pnLeaveTp = Integer.parseInt(eEmployeeLeave.getLeaveTyp());
                             lblLeaveCrd.setText("Leave Credits : " + eEmployeeLeave.getLveCredt());
                             lblLeaveStx.setText(getLeaveStatus(eEmployeeLeave.getTranStat()));
                             lblDateAppr.setText(FormatUIText.formatGOCasBirthdate(AppConstants.CURRENT_DATE));
                             lblDateAppl.setText(FormatUIText.formatGOCasBirthdate(eEmployeeLeave.getTransact()));
-                            lblDateFrom.setText(FormatUIText.formatGOCasBirthdate(eEmployeeLeave.getAppldFrx()));
-                            lblDateThru.setText(FormatUIText.formatGOCasBirthdate(eEmployeeLeave.getAppldTox()));
+                            lblDateFrom.setText(FormatUIText.formatGOCasBirthdate(eEmployeeLeave.getDateFrom()));
+                            lblDateThru.setText(FormatUIText.formatGOCasBirthdate(eEmployeeLeave.getDateThru()));
                             lblLeaveTpe.setText(LEAVE_TYPE[Integer.parseInt(eEmployeeLeave.getLeaveTyp())]);
-                            tieDateFrom.setText(FormatUIText.formatGOCasBirthdate(eEmployeeLeave.getAppldFrx()));
-                            tieDateThru.setText(FormatUIText.formatGOCasBirthdate(eEmployeeLeave.getAppldTox()));
+                            tieDateFrom.setText(FormatUIText.formatGOCasBirthdate(eEmployeeLeave.getDateFrom()));
+                            tieDateThru.setText(FormatUIText.formatGOCasBirthdate(eEmployeeLeave.getDateThru()));
                             txtPurpse.setText(eEmployeeLeave.getPurposex());
-                            pnCredits = Integer.parseInt(eEmployeeLeave.getLveCredt());
-                            String lsFromx = eEmployeeLeave.getAppldFrx();
-                            String lsDteTo = eEmployeeLeave.getAppldTox();
+                            pnCredits = eEmployeeLeave.getLveCredt();
+                            pnLeaveTp = Integer.parseInt(eEmployeeLeave.getLeaveTyp());
+                            String lsFromx = eEmployeeLeave.getDateFrom();
+                            String lsDteTo = eEmployeeLeave.getDateThru();
                             mViewModel.setCredits(pnCredits);
-                            mViewModel.calculateLeavePay(lsFromx, lsDteTo);
+                            mViewModel.calculateLeavePay(pnLeaveTp, lsFromx, lsDteTo);
                         }
                     } catch (Exception e){
                         e.printStackTrace();
@@ -167,8 +160,8 @@ public class Fragment_LeaveApproval extends Fragment implements VMLeaveApproval.
 
         mViewModel.getUserInfo().observe(requireActivity(), eEmployeeInfo -> {
             try{
-                infoModel.setApproved(AppConstants.CURRENT_DATE);
-                infoModel.setApprovex(eEmployeeInfo.getUserIDxx());
+                poModel.setApproved(AppConstants.CURRENT_DATE);
+                poModel.setApprovex(eEmployeeInfo.sUserIDxx);
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -205,12 +198,12 @@ public class Fragment_LeaveApproval extends Fragment implements VMLeaveApproval.
             poMessage.initDialog();
             poMessage.setTitle("Leave Approval");
             poMessage.setMessage("Approve " + lblEmployeNm.getText().toString() + "'s leave application?");
-            poMessage.setPositiveButton("Approve", (view, dialog) -> {
+            poMessage.setPositiveButton("Approve", (view1, dialog) -> {
                 dialog.dismiss();
-                infoModel.setTranStat("1");
+                poModel.setTranStat("1");
                 sendLeaveUpdate();
             });
-            poMessage.setNegativeButton("Cancel", (view, dialog) -> dialog.dismiss());
+            poMessage.setNegativeButton("Cancel", (view1, dialog) -> dialog.dismiss());
             poMessage.show();
         });
 
@@ -218,12 +211,12 @@ public class Fragment_LeaveApproval extends Fragment implements VMLeaveApproval.
             poMessage.initDialog();
             poMessage.setTitle("Leave Approval");
             poMessage.setMessage("Disapprove " + lblEmployeNm.getText().toString() + "'s leave application?");
-            poMessage.setPositiveButton("Disapprove", (view, dialog) -> {
+            poMessage.setPositiveButton("Disapprove", (view1, dialog) -> {
                 dialog.dismiss();
-                infoModel.setTranStat("3");
+                poModel.setTranStat("3");
                 sendLeaveUpdate();
             });
-            poMessage.setNegativeButton("Cancel", (view, dialog) -> dialog.dismiss());
+            poMessage.setNegativeButton("Cancel", (view1, dialog) -> dialog.dismiss());
             poMessage.show();
         });
 
@@ -232,16 +225,16 @@ public class Fragment_LeaveApproval extends Fragment implements VMLeaveApproval.
             final Calendar newCalendar = Calendar.getInstance();
             @SuppressLint("SimpleDateFormat") final SimpleDateFormat dateFormatter = new SimpleDateFormat("MMMM dd, yyyy");
             @SuppressLint("SimpleDateFormat") final SimpleDateFormat dataFormat = new SimpleDateFormat("yyyy-MM-dd");
-            final DatePickerDialog dateFrom = new DatePickerDialog(getActivity(), (view, year, month, dayOfMonth) -> {
+            final DatePickerDialog dateFrom = new DatePickerDialog(getActivity(), (view1, year, month, dayOfMonth) -> {
                 Calendar newDate = Calendar.getInstance();
                 newDate.set(year, month, dayOfMonth);
                 try {
                     Date dateTo = dataFormat.parse(Objects.requireNonNull(FormatUIText.formatTextToData(Objects.requireNonNull(tieDateThru.getText()).toString())));
                     Date dteFrm = newDate.getTime();
                     if(dteFrm.before(dateTo)) {
-                        infoModel.setAppldFrx(dataFormat.format(newDate.getTime()));
+                        poModel.setAppldFrx(dataFormat.format(newDate.getTime()));
                         tieDateFrom.setText(dateFormatter.format(newDate.getTime()));
-                        mViewModel.calculateLeavePay(dataFormat.format(newDate.getTime()),
+                        mViewModel.calculateLeavePay(pnLeaveTp, dataFormat.format(newDate.getTime()),
                                 FormatUIText.formatTextToData(Objects.requireNonNull(tieDateThru.getText()).toString()));
                     } else {
                         GToast.CreateMessage(requireActivity(), "Invalid date selected.", GToast.ERROR).show();
@@ -258,16 +251,16 @@ public class Fragment_LeaveApproval extends Fragment implements VMLeaveApproval.
             final Calendar newCalendar = Calendar.getInstance();
             @SuppressLint("SimpleDateFormat") final SimpleDateFormat dateFormatter = new SimpleDateFormat("MMMM dd, yyyy");
             @SuppressLint("SimpleDateFormat") final SimpleDateFormat dataFormat = new SimpleDateFormat("yyyy-MM-dd");
-            final DatePickerDialog dateFrom = new DatePickerDialog(getActivity(), (view, year, month, dayOfMonth) -> {
+            final DatePickerDialog dateFrom = new DatePickerDialog(getActivity(), (view1, year, month, dayOfMonth) -> {
                 Calendar newDate = Calendar.getInstance();
                 newDate.set(year, month, dayOfMonth);
                 try {
                     Date dateFrmx = dataFormat.parse(Objects.requireNonNull(FormatUIText.formatTextToData(Objects.requireNonNull(tieDateFrom.getText()).toString())));
                     Date dateThru = newDate.getTime();
                     if (dateThru.after(dateFrmx)){
-                        infoModel.setAppldFrx(dataFormat.format(newDate.getTime()));
+                        poModel.setAppldFrx(dataFormat.format(newDate.getTime()));
                         tieDateThru.setText(dateFormatter.format(newDate.getTime()));
-                        mViewModel.calculateLeavePay(FormatUIText.formatTextToData(Objects.requireNonNull(tieDateFrom.getText()).toString()),
+                        mViewModel.calculateLeavePay(pnLeaveTp, FormatUIText.formatTextToData(Objects.requireNonNull(tieDateFrom.getText()).toString()),
                                 dataFormat.format(newDate.getTime()));
                     } else {
                         GToast.CreateMessage(requireActivity(), "Invalid date selected.", GToast.ERROR).show();
@@ -295,7 +288,7 @@ public class Fragment_LeaveApproval extends Fragment implements VMLeaveApproval.
             public void afterTextChanged(Editable s) {
                 tieWithPy.removeTextChangedListener(this);
                 try{
-                    if(infoModel.getTransNox() != null &&
+                    if(poModel.getTransNox() != null &&
                             tieWithPy.hasFocus()) {
                         int lnWthPay = Integer.parseInt(Objects.requireNonNull(s.toString()));
 //                        mViewModel.setWithPay(lnWthPay);
@@ -323,7 +316,7 @@ public class Fragment_LeaveApproval extends Fragment implements VMLeaveApproval.
             public void afterTextChanged(Editable s) {
                 tieWOPay.removeTextChangedListener(this);
                 try{
-                    if(infoModel.getTransNox() != null &&
+                    if(poModel.getTransNox() != null &&
                             tieWOPay.hasFocus()) {
                         int lnWOPay = Integer.parseInt(Objects.requireNonNull(s.toString()));
 //                        mViewModel.setWOPay(lnWOPay);
@@ -335,12 +328,12 @@ public class Fragment_LeaveApproval extends Fragment implements VMLeaveApproval.
                 tieWOPay.addTextChangedListener(this);
             }
         });
+        return view;
     }
-
     private void sendLeaveUpdate(){
-        infoModel.setWithPayx(Objects.requireNonNull(tieWithPy.getText()).toString());
-        infoModel.setWithOPay(Objects.requireNonNull(tieWOPay.getText()).toString());
-        mViewModel.confirmLeaveApplication(infoModel, new VMLeaveApproval.OnConfirmLeaveAppCallback() {
+        poModel.setWithPayx(Integer.parseInt(tieWithPy.getText().toString()));
+        poModel.setWithOPay(Integer.parseInt(tieWOPay.getText().toString()));
+        mViewModel.confirmLeaveApplication(poModel, new VMLeaveApproval.OnConfirmLeaveAppCallback() {
             @Override
             public void onConfirm() {
                 poDialogx.initDialog("Leave Application", "Confirming leave application. Please wait...", false);

@@ -22,7 +22,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
-import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.notifications.Adapter.FragmentAdapter;
 import org.rmj.guanzongroup.ghostrider.notifications.Fragment.Fragment_ViewMessages;
 import org.rmj.guanzongroup.ghostrider.notifications.Fragment.Fragment_ViewNotification;

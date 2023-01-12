@@ -11,8 +11,6 @@
 
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter;
 
-import static org.rmj.g3appdriver.GRider.Etc.BranchPerformancePeriod.parseDateLabel;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,8 +20,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.g3appdriver.GRider.Database.Entities.EAreaPerformance;
-import org.rmj.g3appdriver.GRider.Database.Entities.EBranchPerformance;
+import org.rmj.g3appdriver.dev.Database.Entities.EBranchPerformance;
+import org.rmj.g3appdriver.etc.BranchPerformancePeriod;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 
 import java.text.DecimalFormat;
@@ -55,7 +53,7 @@ public class BranchInfoBarChartAdapter extends RecyclerView.Adapter<BranchInfoBa
     @Override
     public void onBindViewHolder(@NonNull ChartViewHolder holder, int position) {
         EBranchPerformance area = branchPerformances.get(position);
-        holder.txtPeriod.setText(parseDateLabel(area.getPeriodxx()));
+        holder.txtPeriod.setText(BranchPerformancePeriod.parseDateLabel(area.getPeriodxx()));
         holder.eArea = branchPerformances.get(position);
 
         if("MC".equalsIgnoreCase(psType)) {

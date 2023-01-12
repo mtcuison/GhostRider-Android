@@ -27,7 +27,7 @@ import androidx.appcompat.app.AlertDialog;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.guanzongroup.com.creditevaluation.R;
-import org.rmj.g3appdriver.GRider.Etc.GToast;
+import org.rmj.g3appdriver.etc.GToast;
 
 public class DialogCIReason {
     Context mContex;

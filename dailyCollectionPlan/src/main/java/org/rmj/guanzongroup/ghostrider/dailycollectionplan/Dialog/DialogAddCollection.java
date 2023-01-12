@@ -19,13 +19,10 @@ import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-
 
 import com.google.android.material.textfield.TextInputEditText;
 
-import org.rmj.g3appdriver.GRider.Etc.GToast;
+import org.rmj.g3appdriver.etc.GToast;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 
 import java.util.Objects;
@@ -50,13 +47,13 @@ public class DialogAddCollection {
         poDialogx.setCancelable(false);
 
         TextInputEditText txtAccntNo = view.findViewById(R.id.txt_dcpParameter);
-        RadioGroup rgColllect = view.findViewById(R.id.rg_collection_tp);
-        RadioButton rbArClient = view.findViewById(R.id.rb_ar_client);
-        RadioButton rbInsrnce = view.findViewById(R.id.rb_insurance_client);
-        rgColllect.setOnCheckedChangeListener(new OnRadioButtonSelectListener());
+//        RadioGroup rgColllect = view.findViewById(R.id.rg_collection_tp);
+//        RadioButton rbArClient = view.findViewById(R.id.rb_ar_client);
+//        RadioButton rbInsrnce = view.findViewById(R.id.rb_insurance_client);
+//        rgColllect.setOnCheckedChangeListener(new OnRadioButtonSelectListener());
 
         /** Hide radio button to use DCPManager class **/
-        rgColllect.setVisibility(View.GONE);
+//        rgColllect.setVisibility(View.GONE);
 
         Button btnDownLoad = view.findViewById(R.id.btn_dcpDownload);
         Button btnCancel = view.findViewById(R.id.btn_cancel);
@@ -88,18 +85,18 @@ public class DialogAddCollection {
         }
     }
 
-    private class OnRadioButtonSelectListener implements RadioGroup.OnCheckedChangeListener{
-        @Override
-        public void onCheckedChanged(RadioGroup radioGroup, int i) {
-            if(radioGroup.getId() == R.id.rg_collection_tp){
-                if (i == R.id.rb_ar_client) {
-                    psType = "0";
-                } else if (i == R.id.rb_insurance_client) {
-                    psType = "1";
-                }
-            }
-        }
-    }
+//    private class OnRadioButtonSelectListener implements RadioGroup.OnCheckedChangeListener{
+//        @Override
+//        public void onCheckedChanged(RadioGroup radioGroup, int i) {
+//            if(radioGroup.getId() == R.id.rg_collection_tp){
+//                if (i == R.id.rb_ar_client) {
+//                    psType = "0";
+//                } else if (i == R.id.rb_insurance_client) {
+//                    psType = "1";
+//                }
+//            }
+//        }
+//    }
 
     public interface OnDialogButtonClickListener{
         void OnDownloadClick(Dialog Dialog, String args, String fsType);

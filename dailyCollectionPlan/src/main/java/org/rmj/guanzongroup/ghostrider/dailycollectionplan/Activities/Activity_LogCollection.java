@@ -28,6 +28,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -36,11 +37,11 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
-import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
-import org.rmj.g3appdriver.GRider.Etc.SessionManager;
+import org.rmj.g3appdriver.dev.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.etc.FormatUIText;
+import org.rmj.g3appdriver.etc.SessionManager;
 import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.DayCheck;
@@ -131,122 +132,136 @@ public class Activity_LogCollection extends AppCompatActivity {
             StartTime.show();
         });
 
-        mViewModel.getDateTransact().observe(Activity_LogCollection.this, s -> mViewModel.getCollectionDetailForDate(s).observe(Activity_LogCollection.this, collectionDetails -> {
-            try{
-                if(collectionDetails.size() > 0) {
-                    lnEmptyList.setVisibility(View.GONE);
-                    recyclerView.setVisibility(View.VISIBLE);
-                    tilSearch.setVisibility(View.VISIBLE);
-                    txtSearch.setText("");
-                    linearCashInfo.setVisibility(View.VISIBLE);
-
-                    filteredCollectionDetlx.clear();
-                    filteredCollectionDetlx.addAll(collectionDetails);
-
-                    CollectionLogAdapter poAdapter = new CollectionLogAdapter(filteredCollectionDetlx, position -> {
-                        Intent loIntent = new Intent(Activity_LogCollection.this, Activity_TransactionDetail.class);
-                        loIntent.putExtra("sTransNox", filteredCollectionDetlx.get(position).getTransNox());
-                        loIntent.putExtra("entryNox",filteredCollectionDetlx.get(position).getEntryNox());
-                        loIntent.putExtra("acctNox",filteredCollectionDetlx.get(position).getAcctNmbr());
-                        loIntent.putExtra("fullNme", filteredCollectionDetlx.get(position).getFullName());
-                        loIntent.putExtra("remCodex", filteredCollectionDetlx.get(position).getRemCodex());
-                        loIntent.putExtra("imgNme", filteredCollectionDetlx.get(position).getImageNme());
-                        loIntent.putExtra("sClientID", filteredCollectionDetlx.get(position).getClientID());
-                        loIntent.putExtra("sAddressx", filteredCollectionDetlx.get(position).getAddressx());
-                        loIntent.putExtra("sRemarksx", filteredCollectionDetlx.get(position).getRemarksx());
-                        loIntent.putExtra("nLongitud", filteredCollectionDetlx.get(position).getLongitud());
-                        loIntent.putExtra("nLatitude", filteredCollectionDetlx.get(position).getLatitude());
-                        startActivity(loIntent);
-
-                    });
-
-
-                    poManager = new LinearLayoutManager(Activity_LogCollection.this);
-                    poManager.setOrientation(RecyclerView.VERTICAL);
-                    recyclerView.setLayoutManager(poManager);
-                    recyclerView.setAdapter(poAdapter);
-                    recyclerView.getRecycledViewPool().clear();
-                    poAdapter.notifyDataSetChanged();
-
-                    txtSearch.addTextChangedListener(new TextWatcher() {
-                        @Override
-                        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                        }
-
-                        @Override
-                        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                            if(!charSequence.toString().trim().isEmpty()) {
-                                poAdapter.getCollectionFilter().filter(charSequence.toString().toLowerCase());
-                                poAdapter.notifyDataSetChanged();
-                                if(poAdapter.getItemCount() == 0) {
-                                    txtNoName.setVisibility(View.VISIBLE);
-                                    recyclerView.setVisibility(View.GONE);
-                                } else {
-                                    txtNoName.setVisibility(View.GONE);
-                                    recyclerView.setVisibility(View.VISIBLE);
-                                }
-                            } else {
-                                poAdapter.getCollectionFilter().filter(charSequence.toString().toLowerCase());
-                                poAdapter.notifyDataSetChanged();
-                                txtNoName.setVisibility(View.GONE);
-                                recyclerView.setVisibility(View.VISIBLE);
-                            }
-                        }
-
-                        @Override
-                        public void afterTextChanged(Editable editable) {
-
-                        }
-                    });
-
-                    mViewModel.getCollectedTotal(s).observe(this, value -> {
-                        try {
-                            mViewModel.setnTotCollt(Double.parseDouble(value));
-                            lblTotalClt.setText("Total Collection : " + FormatUIText.getCurrencyUIFormat(value));
-                        } catch (Exception e){
-                            e.printStackTrace();
-                        }
-                    });
-
-                    mViewModel.getTotalRemittedCollection(s).observe(this, value -> {
-                        try {
-                            lblTotRemit.setText("Total Remitted : " + FormatUIText.getCurrencyUIFormat(value));
-                            mViewModel.setnTotRemit(Double.parseDouble(value));
-                        } catch (Exception e){
-                            e.printStackTrace();
-                        }
-                    });
-
-                    mViewModel.getCashOnHand().observe(this, s1 -> lblCashOH.setText("Cash-On-Hand : " + FormatUIText.getCurrencyUIFormat(s1)));
-                    mViewModel.getTotalCollectedCash().observe(this, val -> {
-                        try {
-                            mViewModel.Calculate_COH_Remitted(result -> lblCashOH.setText("Cash-On-Hand : " + FormatUIText.getCurrencyUIFormat(result)));
-                        } catch (Exception e){
-                            e.printStackTrace();
-                        }
-                    });
-
-                    mViewModel.getTotalCollectedCheck().observe(this, val -> {
-                        try {
-                            mViewModel.Calculate_Check_Remitted(result -> lblCheckOH.setText("Check-On-Hand : " + FormatUIText.getCurrencyUIFormat(result)));
-                        } catch (Exception e){
-                            e.printStackTrace();
-                        }
-                    });
-                    mViewModel.Calculate_Check_Remitted(s, result -> psCltCheck = result);
-
-                    mViewModel.Calculate_COH_Remitted(s, result -> psCltCashx = result);
-
-                    // Remove Old DCP Transaction Image
-                    deleteOldImageSchedule();
-
-                } else {
+        mViewModel.getDateTransact().observe(Activity_LogCollection.this, s -> mViewModel.GetCollectionMaster(s).observe(Activity_LogCollection.this, master -> {
+            try {
+                if(master == null){
                     lnEmptyList.setVisibility(View.VISIBLE);
                     txtNoName.setVisibility(View.GONE);
                     recyclerView.setVisibility(View.GONE);
                     tilSearch.setVisibility(View.GONE);
                     linearCashInfo.setVisibility(View.GONE);
+
+                    lblTotalClt.setText("Total Collection: 0.0");
+                    lblTotRemit.setText("Total Remitted: 0.0");
+                    lblCashOH.setText("Cash-On-Hand: 0.0");
+                    lblCheckOH.setText("Check-On-Hand: 0.0");
+                } else {
+                    mViewModel.GetTotalCollection(master.getTransNox()).observe(Activity_LogCollection.this, value -> {
+                        try {
+                            lblTotalClt.setText("Total Collection: " + FormatUIText.getCurrencyUIFormat(value));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            lblTotalClt.setText("Total Collection: 0.0");
+                        }
+                    });
+
+                    mViewModel.GetTotalRemittance(master.getTransNox()).observe(Activity_LogCollection.this, value -> {
+                        try {
+                            lblTotRemit.setText("Total Remitted: " + FormatUIText.getCurrencyUIFormat(value));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            lblTotRemit.setText("Total Remitted: 0.0");
+                        }
+                    });
+
+                    mViewModel.GetCashOnHand(master.getTransNox()).observe(Activity_LogCollection.this, s1 -> {
+                        try {
+                            lblCashOH.setText("Cash-On-Hand: " + FormatUIText.getCurrencyUIFormat(s1));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            lblCashOH.setText("Cash-On-Hand: 0.0");
+                        }
+                    });
+
+                    mViewModel.GetCheckOnHand(master.getTransNox()).observe(Activity_LogCollection.this, s12 -> {
+                        try {
+                            lblCheckOH.setText("Check-On-Hand: " + FormatUIText.getCurrencyUIFormat(s12));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            lblCheckOH.setText("Check-On-Hand: 0.0");
+                        }
+                    });
+
+                    // Remove Old DCP Transaction Image
+                    deleteOldImageSchedule();
+
+                    mViewModel.GetCollectionDetail(master.getTransNox()).observe(Activity_LogCollection.this, collectionDetails -> {
+                        try {
+                            if (collectionDetails.size() > 0) {
+                                lnEmptyList.setVisibility(View.GONE);
+                                recyclerView.setVisibility(View.VISIBLE);
+                                tilSearch.setVisibility(View.VISIBLE);
+                                txtSearch.setText("");
+                                linearCashInfo.setVisibility(View.VISIBLE);
+
+                                filteredCollectionDetlx.clear();
+                                filteredCollectionDetlx.addAll(collectionDetails);
+
+                                CollectionLogAdapter poAdapter = new CollectionLogAdapter(filteredCollectionDetlx, position -> {
+                                    Intent loIntent = new Intent(Activity_LogCollection.this, Activity_TransactionDetail.class);
+                                    loIntent.putExtra("sTransNox", filteredCollectionDetlx.get(position).getTransNox());
+                                    loIntent.putExtra("entryNox", filteredCollectionDetlx.get(position).getEntryNox());
+                                    loIntent.putExtra("acctNox", filteredCollectionDetlx.get(position).getAcctNmbr());
+                                    loIntent.putExtra("fullNme", filteredCollectionDetlx.get(position).getFullName());
+                                    loIntent.putExtra("remCodex", filteredCollectionDetlx.get(position).getRemCodex());
+                                    loIntent.putExtra("imgNme", filteredCollectionDetlx.get(position).getImageNme());
+                                    loIntent.putExtra("sClientID", filteredCollectionDetlx.get(position).getClientID());
+                                    loIntent.putExtra("sAddressx", filteredCollectionDetlx.get(position).getAddressx());
+                                    loIntent.putExtra("sRemarksx", filteredCollectionDetlx.get(position).getRemarksx());
+                                    loIntent.putExtra("nLongitud", filteredCollectionDetlx.get(position).getLongitud());
+                                    loIntent.putExtra("nLatitude", filteredCollectionDetlx.get(position).getLatitude());
+                                    startActivity(loIntent);
+                                });
+
+                                poManager = new LinearLayoutManager(Activity_LogCollection.this);
+                                poManager.setOrientation(RecyclerView.VERTICAL);
+                                recyclerView.setLayoutManager(poManager);
+                                recyclerView.setAdapter(poAdapter);
+                                recyclerView.getRecycledViewPool().clear();
+
+                                txtSearch.addTextChangedListener(new TextWatcher() {
+                                    @Override
+                                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                                    }
+
+                                    @Override
+                                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                                        if (!charSequence.toString().trim().isEmpty()) {
+                                            poAdapter.getCollectionFilter().filter(charSequence.toString().toLowerCase());
+                                            poAdapter.notifyDataSetChanged();
+                                            if (poAdapter.getItemCount() == 0) {
+                                                txtNoName.setVisibility(View.VISIBLE);
+                                                recyclerView.setVisibility(View.GONE);
+                                            } else {
+                                                txtNoName.setVisibility(View.GONE);
+                                                recyclerView.setVisibility(View.VISIBLE);
+                                            }
+                                        } else {
+                                            poAdapter.getCollectionFilter().filter(charSequence.toString().toLowerCase());
+                                            poAdapter.notifyDataSetChanged();
+                                            txtNoName.setVisibility(View.GONE);
+                                            recyclerView.setVisibility(View.VISIBLE);
+                                        }
+                                    }
+
+                                    @Override
+                                    public void afterTextChanged(Editable editable) {
+
+                                    }
+                                });
+
+                            } else {
+                                lnEmptyList.setVisibility(View.VISIBLE);
+                                txtNoName.setVisibility(View.GONE);
+                                recyclerView.setVisibility(View.GONE);
+                                tilSearch.setVisibility(View.GONE);
+                                linearCashInfo.setVisibility(View.GONE);
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    });
                 }
             } catch (Exception e){
                 e.printStackTrace();
@@ -270,6 +285,7 @@ public class Activity_LogCollection extends AppCompatActivity {
 
     private void initWidgets(){
         Toolbar toolbar = findViewById(R.id.toolbar_collectionLog);
+        toolbar.setTitle("Daily Collection Plan");
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
@@ -305,7 +321,6 @@ public class Activity_LogCollection extends AppCompatActivity {
                 @SuppressLint("SimpleDateFormat") SimpleDateFormat loFormatter = new SimpleDateFormat("yyyy-MM-dd");
                 loIntent.putExtra("dTransact", loFormatter.format(Objects.requireNonNull(loDate)));
                 startActivity(loIntent);
-                finish();
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -383,13 +398,13 @@ public class Activity_LogCollection extends AppCompatActivity {
                                     continue;
                                 } else {
                                     loFile.mkdirs();
-                                    org.json.simple.JSONObject loDownload = WebFileServer.DownloadFile(lsAccess,
-                                            "0020",
-                                            loDcpList.get(x).getAcctNmbr(),
-                                            loDcpList.get(x).getImageNme(),
-                                            "DCPa",
-                                            loDcpList.get(x).getTransNox(),
-                                            "");
+//                                    org.json.simple.JSONObject loDownload = WebFileServer.DownloadFile(lsAccess,
+//                                            "0020",
+//                                            loDcpList.get(x).getAcctNmbr(),
+//                                            loDcpList.get(x).getImageNme(),
+//                                            "DCPa",
+//                                            loDcpList.get(x).getTransNox(),
+//                                            "");
 
 //                                    String lsResponse = (String) loDownload.get("result");
 //                                    if (Objects.requireNonNull(lsResponse).equalsIgnoreCase("success")) {

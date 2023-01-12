@@ -18,7 +18,8 @@ import org.guanzongroup.com.creditevaluation.Activity.Activity_CIEvaluationList;
 import org.guanzongroup.com.creditevaluation.Activity.Activity_EvaluationCIHistory;
 import org.guanzongroup.com.itinerary.Activities.Activity_ItineraryEntry;
 import org.guanzongroup.com.itinerary.Activities.Activity_ItineraryLog;
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
+import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.guanzongroup.documentscanner.Activity_DocumentScan;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Application;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_AreaPerformance;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_CashCountLog;
@@ -30,9 +31,16 @@ import org.rmj.guanzongroup.ghostrider.approvalcode.Activity.Activity_ApprovalSe
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_CollectionList;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_LogCollection;
 import org.rmj.guanzongroup.ghostrider.samsungknox.Activity_Knox;
-import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_ApplicationHistory;
-import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_BranchApplications;
-import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_IntroductoryQuestion;
+import org.rmj.guanzongroup.onlinecreditapplication.Activities.Activity_BranchApplications;
+import org.rmj.guanzongroup.onlinecreditapplication.Activities.Activity_ComakerResidence;
+import org.rmj.guanzongroup.onlinecreditapplication.Activities.Activity_CreditApplications;
+import org.rmj.guanzongroup.onlinecreditapplication.Activities.Activity_DisbursementInfo;
+import org.rmj.guanzongroup.onlinecreditapplication.Activities.Activity_IntroductoryQuestion;
+import org.rmj.guanzongroup.onlinecreditapplication.Activities.Activity_MeansInfoSelection;
+import org.rmj.guanzongroup.onlinecreditapplication.Activities.Activity_PersonalInfo;
+import org.rmj.guanzongroup.onlinecreditapplication.Activities.Activity_Properties;
+import org.rmj.guanzongroup.onlinecreditapplication.Activities.Activity_ReviewLoanApp;
+import org.rmj.guanzongroup.onlinecreditapplication.Activities.Activity_SpouseInfo;
 
 public class ChildObject {
 
@@ -63,16 +71,16 @@ public class ChildObject {
 //                loIntent = new Intent(context, Activity_CreditAppHome.class);
                 break;
             case "user application list":
-                loIntent = new Intent(context, Activity_ApplicationHistory.class);
+                loIntent = new Intent(context, Activity_CreditApplications.class);
 //                loIntent.putExtra("app", AppConstants.INTENT_OB_APPLICATION);
                 break;
 
             case "branch application list":
                 loIntent = new Intent(context, Activity_BranchApplications.class);
                 break;
-//            case "document scanner":
-//                loIntent = new Intent(context, MainScanner.class);
-//                break;
+            case "document scan":
+                loIntent = new Intent(context, Activity_DocumentScan.class);
+                break;
 //            case "":
 //                loIntent = new Intent(context, DCPPhotoCapture.class);
 //                break;
@@ -83,10 +91,12 @@ public class ChildObject {
 
             case "ci evaluation history":
                 loIntent = new Intent(context, Activity_EvaluationCIHistory.class);
+                loIntent.putExtra("cPreviewx", true);
                 break;
 
             case "bh approval":
                 loIntent = new Intent(context, Activity_EvaluationCIHistory.class);
+                loIntent.putExtra("cPreviewx", false);
                 break;
 
             case "leave application":

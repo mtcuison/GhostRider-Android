@@ -31,10 +31,10 @@ import android.widget.TextView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
-import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
-import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.etc.MessageBox;
+import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_Main;
 import org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_SplashScreen;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
@@ -42,7 +42,7 @@ import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMAHDashboard;
 import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_Settings;
 
 import static android.app.Activity.RESULT_OK;
-import static org.rmj.g3appdriver.GRider.Constants.AppConstants.SETTINGS;
+import static org.rmj.g3appdriver.etc.AppConstants.SETTINGS;
 
 public class Fragment_Associate_Dashboard extends Fragment {
 
@@ -111,7 +111,7 @@ public class Fragment_Associate_Dashboard extends Fragment {
                         dialog.dismiss();
                         poConfig.setTestCase(switchOn);
                         requireActivity().finish();
-                        new REmployee(requireActivity().getApplication()).LogoutUserSession();
+                        new EmployeeMaster(requireActivity().getApplication()).LogoutUserSession();
                         AppConfigPreference.getInstance(getActivity()).setIsAppFirstLaunch(false);
                         startActivity(new Intent(getActivity(), Activity_SplashScreen.class));
                     });
@@ -129,7 +129,7 @@ public class Fragment_Associate_Dashboard extends Fragment {
                         dialog.dismiss();
                         poConfig.setTestCase(switchOn);
                         requireActivity().finish();
-                        new REmployee(requireActivity().getApplication()).LogoutUserSession();
+                        new EmployeeMaster(requireActivity().getApplication()).LogoutUserSession();
                         AppConfigPreference.getInstance(getActivity()).setIsAppFirstLaunch(false);
                         startActivity(new Intent(getActivity(), Activity_SplashScreen.class));
                     });
@@ -153,7 +153,7 @@ public class Fragment_Associate_Dashboard extends Fragment {
             loMessage.setPositiveButton("Yes", (view1, dialog) -> {
                 dialog.dismiss();
                 requireActivity().finish();
-                new REmployee(requireActivity().getApplication()).LogoutUserSession();
+                new EmployeeMaster(requireActivity().getApplication()).LogoutUserSession();
                 AppConfigPreference.getInstance(getActivity()).setIsAppFirstLaunch(false);
                 startActivity(new Intent(getActivity(), Activity_SplashScreen.class));
             });
@@ -177,7 +177,7 @@ public class Fragment_Associate_Dashboard extends Fragment {
             try {
                 lblFullNme.setText(eEmployeeInfo.getUserName());
                 lblEmail.setText(eEmployeeInfo.getEmailAdd());
-                lblUserLvl.setText(DeptCode.parseUserLevel(Integer.parseInt(eEmployeeInfo.getEmpLevID())));
+                lblUserLvl.setText(DeptCode.parseUserLevel(eEmployeeInfo.getEmpLevID()));
                 lblDept.setText(DeptCode.getDepartmentName(eEmployeeInfo.getDeptIDxx()));
 //                imgUser.setImageResource(AppConstants.getUserIcon(eEmployeeInfo.getUserLevl()));
                 if(eEmployeeInfo.getDeptIDxx().equalsIgnoreCase(DeptCode.MANAGEMENT_INFORMATION_SYSTEM)){

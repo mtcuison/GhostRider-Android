@@ -4,10 +4,10 @@
     <application android:usesCleartextTraffic="true">
         <activity
             android:name=".Activity.Activity_EvaluationCIHistoryInfo"
+            android:screenOrientation="portrait"
+            android:theme="@style/GhostRiderMaterialTheme.WhiteBG"
             android:exported="false" />
-        <activity
-            android:name=".Activity.Activity_CIHistoryPreview"
-            android:exported="false" />
+
         <activity
             android:name=".Activity.Activity_CIEvaluationList"
             android:screenOrientation="portrait"

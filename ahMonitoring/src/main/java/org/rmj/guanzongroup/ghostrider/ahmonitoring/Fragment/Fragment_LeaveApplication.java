@@ -30,11 +30,12 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
-import org.rmj.g3appdriver.GRider.Etc.GToast;
-import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
-import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.dev.DeptCode;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.LeaveApplication;
+import org.rmj.g3appdriver.etc.GToast;
+import org.rmj.g3appdriver.etc.LoadDialog;
+import org.rmj.g3appdriver.etc.MessageBox;
+import org.rmj.g3appdriver.lib.PetManager.Obj.EmployeeLeave;
+import org.rmj.g3appdriver.lib.PetManager.model.LeaveApplication;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMLeaveApplication;
 
@@ -66,6 +67,7 @@ public class Fragment_LeaveApplication extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        mViewModel = new ViewModelProvider(this).get(VMLeaveApplication.class);
         View view = inflater.inflate(R.layout.fragment_leave_application, container, false);
 
         lblUsername = view.findViewById(R.id.lbl_username);
@@ -83,28 +85,21 @@ public class Fragment_LeaveApplication extends Fragment {
         poProgress = new LoadDialog(getActivity());
         poMessage = new MessageBox(getActivity());
 
-        mViewModel = new ViewModelProvider(this).get(VMLeaveApplication.class);
         poLeave = new LeaveApplication();
-        mViewModel.getUserInfo().observe(getViewLifecycleOwner(), eEmployeeInfo -> {
+        mViewModel.GetUserInfo().observe(getViewLifecycleOwner(), eEmployeeInfo -> {
             try{
-                lblUsername.setText(eEmployeeInfo.getUserName());
-                lblPosition.setText(DeptCode.getDepartmentName(eEmployeeInfo.getDeptIDxx()));
-                poLeave.setEmploName(eEmployeeInfo.getUserName());
+                lblUsername.setText(eEmployeeInfo.sUserName);
+                lblPosition.setText(DeptCode.getDepartmentName(eEmployeeInfo.sDeptIDxx));
+                poLeave.setEmploName(eEmployeeInfo.sUserName);
+
+                lblBranch.setText(eEmployeeInfo.sBranchNm);
+                poLeave.setBranchNme(eEmployeeInfo.sBranchNm);
             } catch (Exception e){
                 e.printStackTrace();
             }
         });
 
         mViewModel.getLeaveTypeList().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnType.setAdapter(stringArrayAdapter));
-
-        mViewModel.getUserBranchInfo().observe(getViewLifecycleOwner(), eBranchInfo -> {
-            try{
-                lblBranch.setText(eBranchInfo.getBranchNm());
-                poLeave.setBranchNme(eBranchInfo.getBranchNm());
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-        });
 
         txtDateFrom.setOnClickListener(v -> {
             final Calendar newCalendar = Calendar.getInstance();
@@ -190,11 +185,11 @@ public class Fragment_LeaveApplication extends Fragment {
                     }
 
                     @Override
-                    public void OnSuccess() {
+                    public void OnSuccess(String message) {
                         poProgress.dismiss();
                         poMessage.initDialog();
                         poMessage.setTitle("Leave Application");
-                        poMessage.setMessage("Your leave application has been submitted.");
+                        poMessage.setMessage(message);
                         poMessage.setPositiveButton("Okay", (view, dialog) -> {
                             dialog.dismiss();
                             spnType.setSelection(0);
@@ -202,7 +197,7 @@ public class Fragment_LeaveApplication extends Fragment {
                             txtDateTo.setText("");
                             txtNoDays.setText("");
                             txtRemarks.setText("");
-                            requireActivity().finish();
+                            poLeave = new LeaveApplication();
                         });
                         poMessage.show();
                     }

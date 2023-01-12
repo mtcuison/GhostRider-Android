@@ -13,57 +13,42 @@ package org.rmj.guanzongroup.ghostrider.approvalcode.ViewModel;
 
 import android.app.Application;
 import android.os.AsyncTask;
-import android.os.Build;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.lifecycle.AndroidViewModel;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
-import org.rmj.g3appdriver.GRider.Http.WebClient;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.lib.ApprovalCode.ApprovalCode;
+import org.rmj.g3appdriver.lib.ApprovalCode.SCA;
+import org.rmj.g3appdriver.lib.ApprovalCode.model.CreditAppInfo;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
-import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.guanzongroup.ghostrider.approvalcode.Etc.ViewModelCallback;
-import org.rmj.guanzongroup.ghostrider.approvalcode.Model.CreditApp;
-
-import java.io.IOException;
+import org.rmj.g3appdriver.lib.ApprovalCode.model.CreditApp;
 
 public class VMCreditAppApproval extends AndroidViewModel {
-    private final Application instance;
     private final ConnectionUtil poConn;
-    private final HttpHeaders poHeaders;
+    private final SCA poSys;
 
     public VMCreditAppApproval(@NonNull Application application) {
         super(application);
-        this.instance = application;
-        poConn = new ConnectionUtil(application);
-        poHeaders = HttpHeaders.getInstance(application);
+        this.poConn = new ConnectionUtil(application);
+        this.poSys = new ApprovalCode(application).getInstance(ApprovalCode.eSCA.CREDIT_APP);
     }
 
-    public void LoadApplication(CreditApp params, OnLoadApplicationListener listener){
-        new LoadApplicationTask(instance, listener).execute(params);
+    public void LoadApplication(String args, String args1, String args2, OnLoadApplicationListener listener){
+        new LoadApplicationTask(listener).execute(args, args1, args2);
     }
 
     public void ApproveApplication(CreditApp.Application foParams, ViewModelCallback listener){
-        new ApproveRequestTask(instance, listener).execute(foParams);
+        new ApproveRequestTask(listener).execute(foParams);
     }
 
-    private static class LoadApplicationTask extends AsyncTask<CreditApp, Void, String>{
-        private final ConnectionUtil loConn;
-        private final HttpHeaders loHeaders;
-        private final WebApi poApi;
-        private final AppConfigPreference loConfig;
+    private class LoadApplicationTask extends AsyncTask<String, Void, CreditAppInfo>{
+
         private final OnLoadApplicationListener listener;
 
-        public LoadApplicationTask(Application instance, OnLoadApplicationListener listener) {
-            this.loConn = new ConnectionUtil(instance);
-            this.loHeaders = HttpHeaders.getInstance(instance);
-            this.loConfig = AppConfigPreference.getInstance(instance);
-            this.poApi = new WebApi(loConfig.getTestStatus());
+        private String message;
+
+        public LoadApplicationTask(OnLoadApplicationListener listener) {
             this.listener = listener;
         }
 
@@ -73,75 +58,57 @@ public class VMCreditAppApproval extends AndroidViewModel {
             listener.OnLoad("Approval Code", "Loading Credit Application. Please wait...");
         }
 
-        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         @Override
-        protected String doInBackground(CreditApp... CreditApp) {
-            String lsResponse = "";
+        protected CreditAppInfo doInBackground(String... args) {
             try {
-                if (CreditApp[0].isDataValid()) {
-                    if (loConn.isDeviceConnected()) {
-                        JSONObject loJson = new JSONObject();
-                        loJson.put("systemcd", CreditApp[0].getSystemCD());
-                        loJson.put("branchcd", CreditApp[0].getBranchCD());
-                        loJson.put("transnox", CreditApp[0].getTransNox());
-                        lsResponse = WebClient.sendRequest(poApi.getUrlLoadApplicationApproval(loConfig.isBackUpServer()), loJson.toString(), loHeaders.getHeaders());
-                        if(lsResponse == null){
-                            lsResponse = AppConstants.SERVER_NO_RESPONSE();
-                        }
-                    } else {
-                        lsResponse = AppConstants.NO_INTERNET();
-                    }
-                } else {
-                    lsResponse = AppConstants.APPROVAL_CODE_EMPTY(CreditApp[0].getMessage());
+                if(!poConn.isDeviceConnected()){
+                    message = poConn.getMessage();
+                    return null;
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
+
+                String
+                sSystemCD = args[0],
+                lsTransNo = args[1],
+                lsBrnchCd = args[2];
+
+                CreditAppInfo loApp = poSys.LoadApplication(sSystemCD, lsBrnchCd, lsTransNo);
+                if(loApp == null){
+                    message = poSys.getMessage();
+                    return null;
+                }
+
+                return loApp;
             } catch (Exception e) {
                 e.printStackTrace();
+                message = e.getMessage();
+                return null;
             }
-            return lsResponse;
         }
 
         @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            try {
-                JSONObject loJson = new JSONObject(s);
-                String lsResult = loJson.getString("result");
-                if(lsResult.equalsIgnoreCase("success")){
-                    listener.OnLoadSuccess(loJson.getString("detail"));
-                } else {
-                    JSONObject loError = loJson.getJSONObject("error");
-                    String lsError = loError.getString("message");
-                    listener.OnLoadFailed(lsError);
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
+        protected void onPostExecute(CreditAppInfo result) {
+            super.onPostExecute(result);
+            if(result == null){
+                listener.OnLoadFailed(message);
+            } else {
+                listener.OnLoadSuccess(result);
             }
-
         }
     }
 
     public interface OnLoadApplicationListener{
         void OnLoad(String Title, String Message);
-        void OnLoadSuccess(String args);
+        void OnLoadSuccess(CreditAppInfo args);
         void OnLoadFailed(String message);
     }
 
-    private static class ApproveRequestTask extends AsyncTask<CreditApp.Application, Void, String>{
-        private final ConnectionUtil loConn;
-        private final HttpHeaders loHeaders;
-        private final WebApi poApi;
-        private final AppConfigPreference loConfig;
+    private class ApproveRequestTask extends AsyncTask<CreditApp.Application, Void, String>{
+
         private final ViewModelCallback listener;
 
-        public ApproveRequestTask(Application instance, ViewModelCallback listener) {
-            this.loConn = new ConnectionUtil(instance);
-            this.loHeaders = HttpHeaders.getInstance(instance);
-            this.loConfig = AppConfigPreference.getInstance(instance);
-            this.poApi = new WebApi(loConfig.getTestStatus());
+        private String message;
+
+        public ApproveRequestTask(ViewModelCallback listener) {
             this.listener = listener;
         }
 
@@ -151,49 +118,41 @@ public class VMCreditAppApproval extends AndroidViewModel {
             listener.OnLoadData("Approval Code", "Sending approval request. Please wait...");
         }
 
-        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         @Override
         protected String doInBackground(CreditApp.Application... params) {
-            String lsResponse = "";
-            try {
-                if(params[0].isDataValid()) {
-                        if (loConn.isDeviceConnected()) {
-                            JSONObject loJson = new JSONObject();
-                            loJson.put("transnox", params[0].getTransNox());
-                            loJson.put("reasonxx", params[0].getReasonxx());
-                            loJson.put("approved", params[0].getApproved());
-                            lsResponse = WebClient.sendRequest(poApi.getUrlApplicationApprove(loConfig.isBackUpServer()), loJson.toString(), loHeaders.getHeaders());
-                            if(lsResponse == null){
-                                lsResponse = AppConstants.SERVER_NO_RESPONSE();
-                            }
-                        } else {
-                            lsResponse = AppConstants.NO_INTERNET();
-                        }
-                } else{
-                    lsResponse = AppConstants.APPROVAL_CODE_EMPTY(params[0].getMessage());
+            try{
+                if(!params[0].isDataValid()){
+                    message = params[0].getMessage();
+                    return null;
                 }
-            } catch (JSONException e) {
+
+                if(!poConn.isDeviceConnected()){
+                    message = poConn.getMessage();
+                    return null;
+                }
+
+                String lsCode = poSys.GenerateCode(params[0]);
+
+                if(lsCode == null){
+                    message = poSys.getMessage();
+                    return null;
+                }
+
+                return lsCode;
+            } catch (Exception e){
                 e.printStackTrace();
-            } catch (Exception e) {
-                e.printStackTrace();
+                message = e.getMessage();
+                return null;
             }
-            return lsResponse;
         }
 
         @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            try{
-                JSONObject loJson = new JSONObject(s);
-                String lsResult = loJson.getString("result");
-                if(lsResult.equalsIgnoreCase("success")){
-                    listener.OnSuccessResult(loJson.getString("apprcode"));
-                } else {
-                    JSONObject loError = loJson.getJSONObject("error");
-                    listener.OnFailedResult(loError.getString("message"));
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            if(result == null){
+                listener.OnFailedResult(message);
+            } else {
+                listener.OnSuccessResult(result);
             }
         }
     }

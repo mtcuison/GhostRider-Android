@@ -38,11 +38,11 @@ import android.widget.Toast;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
-import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
-import org.rmj.g3appdriver.GRider.Etc.MessageBox;
-import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.dev.DeptCode;
+import org.rmj.g3appdriver.etc.FormatUIText;
+import org.rmj.g3appdriver.etc.LoadDialog;
+import org.rmj.g3appdriver.etc.MessageBox;
+import org.rmj.g3appdriver.etc.SessionManager;
 import org.rmj.guanzongroup.ghostrider.notifications.Activity.Activity_Notifications;
 import org.rmj.guanzongroup.ghostrider.notifications.Dialog.Dialog_ReplyNotification;
 import org.rmj.guanzongroup.ghostrider.notifications.R;
@@ -68,20 +68,14 @@ public class Fragment_ViewNotification extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        MessageID = Activity_Notifications.getInstance().getMessageID();
+        mViewModel = new ViewModelProvider(this).get(VMViewNotification.class);
         View view = inflater.inflate(R.layout.fragment_view_message, container, false);
         poProgress = new LoadDialog(requireActivity());
         loMessage = new MessageBox(requireActivity());
         poSession = new SessionManager(requireActivity());
         setWidgets(view);
-        return view;
-    }
 
-    @SuppressLint("SetTextI18n")
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        MessageID = Activity_Notifications.getInstance().getMessageID();
-        mViewModel = new ViewModelProvider(this).get(VMViewNotification.class);
         poMsgBox = new MessageBox(getActivity());
 
         mViewModel.UpdateMessageStatus(Activity_Notifications.getInstance().getMessageID());
@@ -134,6 +128,7 @@ public class Fragment_ViewNotification extends Fragment {
             }
         });
 
+        return view;
     }
 
     private void setWidgets(View v) {

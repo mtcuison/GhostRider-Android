@@ -17,21 +17,21 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RAreaPerformance;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchPerformance;
-import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
+import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
+import org.rmj.g3appdriver.dev.Database.Repositories.RAreaPerformance;
+import org.rmj.g3appdriver.dev.Database.Repositories.RBranchPerformance;
+import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 
 public class VMMonitoring extends AndroidViewModel {
     private static final String TAG = VMMonitoring.class.getSimpleName();
 
-    private final REmployee poUser;
+    private final EmployeeMaster poUser;
     private final RAreaPerformance poAreaPrfm;
     private final RBranchPerformance poBranchPrfm;
 
     public VMMonitoring(@NonNull Application application) {
         super(application);
-        this.poUser = new REmployee(application);
+        this.poUser = new EmployeeMaster(application);
         this.poBranchPrfm = new RBranchPerformance(application);
         this.poAreaPrfm = new RAreaPerformance(application);
     }

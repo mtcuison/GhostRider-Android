@@ -11,29 +11,35 @@
 
 package org.guanzongroup.com.creditevaluation.Activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.material.button.MaterialButton;
 
+import org.guanzongroup.com.creditevaluation.Adapter.Adapter_CIEvaluation_Headers;
 import org.guanzongroup.com.creditevaluation.Adapter.EvaluationCIHistoryInfoAdapter;
-import org.guanzongroup.com.creditevaluation.Core.PreviewParser;
+import org.guanzongroup.com.creditevaluation.Core.FindingsParser;
 import org.guanzongroup.com.creditevaluation.Dialog.DialogCIReason;
 import org.guanzongroup.com.creditevaluation.R;
 import org.guanzongroup.com.creditevaluation.ViewModel.VMEvaluationCIHistoryInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.ECreditOnlineApplicationCI;
-import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
-import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.rmj.g3appdriver.dev.Database.Entities.ECreditOnlineApplicationCI;
+import org.rmj.g3appdriver.etc.FormatUIText;
+import org.rmj.g3appdriver.etc.LoadDialog;
+import org.rmj.g3appdriver.etc.MessageBox;
 
+import java.util.List;
 import java.util.Objects;
 
 public class Activity_EvaluationCIHistoryInfo extends AppCompatActivity {
@@ -43,12 +49,14 @@ public class Activity_EvaluationCIHistoryInfo extends AppCompatActivity {
     private LinearLayoutManager layoutManager;
     private RecyclerView recyclerView;
     private MaterialButton btnApprove;
-    private TextView txtClient, txtTransD, txtBranch;
+    private TextView txtClient, txtTransD, txtBranch, lblCIRcmnd, lblBHRcmnd;
 
     private String psTransNo = "";
     private String psClientN = "";
     private String dTransact = "";
     private String psBranchx = "";
+
+    private boolean cPreviewx = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,30 +87,32 @@ public class Activity_EvaluationCIHistoryInfo extends AppCompatActivity {
         layoutManager.setOrientation(RecyclerView.VERTICAL);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("C.I Result");
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         txtClient = findViewById(R.id.txt_client_name);
         txtTransD = findViewById(R.id.txt_transaction_date);
         txtBranch = findViewById(R.id.txt_branch);
+        lblCIRcmnd = findViewById(R.id.txt_ci_rcmnd);
+        lblBHRcmnd = findViewById(R.id.txt_bh_rcmnd);
         recyclerView = findViewById(R.id.recyclerview);
         btnApprove = findViewById(R.id.btn_approve);
     }
 
     private void getExtras() {
         psTransNo = Objects.requireNonNull(getIntent().getStringExtra("sTransNox"));
-//        psClientN = Objects.requireNonNull(getIntent().getStringExtra("sClientNm"));
-//        dTransact = Objects.requireNonNull(getIntent().getStringExtra("dTransact"));
-//        psBranchx = Objects.requireNonNull(getIntent().getStringExtra("sBranchxx"));
+        psClientN = Objects.requireNonNull(getIntent().getStringExtra("sClientNm"));
+        dTransact = Objects.requireNonNull(getIntent().getStringExtra("dTransact"));
+        psBranchx = Objects.requireNonNull(getIntent().getStringExtra("sBranchxx"));
+        cPreviewx = getIntent().getBooleanExtra("cPreviewx", true);
     }
 
     private void displayData() {
         setHeaderData();
         mViewModel.RetrieveApplicationData(psTransNo).observe(Activity_EvaluationCIHistoryInfo.this, ciDetails -> {
             try {
-                if(ciDetails != null) {
-                    setAdapterValue(ciDetails);
-                }
+                setupEvaluationAdapter(ciDetails);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -111,15 +121,8 @@ public class Activity_EvaluationCIHistoryInfo extends AppCompatActivity {
 
     private void setHeaderData() {
         txtClient.setText(psClientN);
-        txtTransD.setText(dTransact);
+        txtTransD.setText(FormatUIText.formatGOCasBirthdate(dTransact));
         txtBranch.setText(psBranchx);
-    }
-
-    private void setAdapterValue(ECreditOnlineApplicationCI foCiDetlx) {
-        poAdapter = new EvaluationCIHistoryInfoAdapter(PreviewParser.getCIResultPreview(foCiDetlx));
-        poAdapter.notifyDataSetChanged();
-        recyclerView.setAdapter(poAdapter);
-        recyclerView.setLayoutManager(layoutManager);
     }
 
     private class OnApproveListener implements View.OnClickListener {
@@ -168,4 +171,71 @@ public class Activity_EvaluationCIHistoryInfo extends AppCompatActivity {
         }
     }
 
+    private void setupEvaluationAdapter(ECreditOnlineApplicationCI ci){
+        try {
+            JSONArray laEval = new JSONArray();
+            JSONObject loDetail = FindingsParser.scanForEvaluation(ci.getAddressx(), ci.getAddrFndg());
+            if(!loDetail.getJSONArray("detail").getJSONObject(0).toString().equalsIgnoreCase("{}")){
+                laEval.put(FindingsParser.scanForEvaluation(ci.getAddressx(), ci.getAddrFndg()));
+            }
+
+            loDetail = FindingsParser.scanForEvaluation(ci.getIncomexx(), ci.getIncmFndg());
+            if(!loDetail.getJSONArray("detail").getJSONObject(0).toString().equalsIgnoreCase("{}")){
+                laEval.put(FindingsParser.scanForEvaluation(ci.getIncomexx(), ci.getIncmFndg()));
+            }
+
+            loDetail = FindingsParser.scanForEvaluation(ci.getAssetsxx(), ci.getAsstFndg());
+            if(!loDetail.getJSONArray("detail").getJSONObject(0).toString().equalsIgnoreCase("{}")){
+                laEval.put(FindingsParser.scanForEvaluation(ci.getAssetsxx(), ci.getAsstFndg()));
+            }
+
+            mViewModel.GetOccupationList().observe(Activity_EvaluationCIHistoryInfo.this, eOccupationInfos -> {
+
+                Adapter_CIEvaluation_Headers loAdapter = new Adapter_CIEvaluation_Headers(
+                        Activity_EvaluationCIHistoryInfo.this,
+                        laEval,
+                        eOccupationInfos,
+                        true,
+                        null);
+
+                LinearLayoutManager loManager = new LinearLayoutManager(Activity_EvaluationCIHistoryInfo.this);
+                loManager.setOrientation(RecyclerView.VERTICAL);
+                recyclerView.setLayoutManager(loManager);
+                recyclerView.setAdapter(loAdapter);
+
+                if(cPreviewx){
+                    btnApprove.setVisibility(View.GONE);
+                    findViewById(R.id.linear_recommendations).setVisibility(View.VISIBLE);
+                    if(ci.getRcmdtnc1().equalsIgnoreCase("null")){
+                        lblCIRcmnd.setText("N/A");
+                    } else if(ci.getRcmdtnc1().equalsIgnoreCase("1")){
+                        lblCIRcmnd.setText("Approved");
+                    } else {
+                        lblCIRcmnd.setText("Disapproved");
+                    }
+
+                    if(ci.getRcmdtnc2() == null){
+                        lblBHRcmnd.setText("N/A");
+                    } else if(ci.getRcmdtnc2().equalsIgnoreCase("null")){
+                        lblBHRcmnd.setText("N/A");
+                    } else if(ci.getRcmdtnc2().equalsIgnoreCase("1")){
+                        lblBHRcmnd.setText("Approved");
+                    } else {
+                        lblBHRcmnd.setText("Disapproved");
+                    }
+                } else {
+                    if(ci.getRcmdtnc2() == null) {
+                        btnApprove.setVisibility(View.VISIBLE);
+                        findViewById(R.id.linear_recommendations).setVisibility(View.GONE);
+                    } else {
+                        btnApprove.setVisibility(View.GONE);
+                        findViewById(R.id.linear_recommendations).setVisibility(View.GONE);
+                    }
+                }
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

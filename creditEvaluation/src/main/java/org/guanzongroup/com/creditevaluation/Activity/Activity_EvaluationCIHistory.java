@@ -11,6 +11,16 @@
 
 package org.guanzongroup.com.creditevaluation.Activity;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -18,68 +28,71 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
 
 import org.guanzongroup.com.creditevaluation.Adapter.CreditEvaluationListAdapter;
 import org.guanzongroup.com.creditevaluation.R;
 import org.guanzongroup.com.creditevaluation.ViewModel.VMEvaluationHistory;
-import org.guanzongroup.com.creditevaluation.ViewModel.VMEvaluationList;
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditOnlineApplicationCI;
-import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
-import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DCreditOnlineApplicationCI;
+import org.rmj.g3appdriver.etc.LoadDialog;
+import org.rmj.g3appdriver.etc.MessageBox;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Activity_EvaluationCIHistory extends AppCompatActivity implements VMEvaluationHistory.OnImportCallBack{
+public class Activity_EvaluationCIHistory extends AppCompatActivity {
     private static final String TAG = Activity_EvaluationCIHistory.class.getSimpleName();
     private RecyclerView recyclerViewClient;
     private VMEvaluationHistory mViewModel;
     private LinearLayoutManager layoutManager;
     private CreditEvaluationListAdapter adapter;
     private LinearLayout loading;
-    private List<DCreditOnlineApplicationCI.oDataEvaluationInfo> ciEvaluationList;
     private LoadDialog poDialogx;
     private MessageBox poMessage;
-    private String userBranch;
     private TextInputEditText txtSearch;
     private TextView layoutNoRecord;
     private TextView lblBranch,lblAddress;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mViewModel = new ViewModelProvider(Activity_EvaluationCIHistory.this).get(VMEvaluationHistory.class);
         setContentView(R.layout.activity_evaluation_cihistory);
         initWidgets();
-        mViewModel = new ViewModelProvider(Activity_EvaluationCIHistory.this).get(VMEvaluationHistory.class);
-//        mViewModel.importApplicationInfo(Activity_EvaluationCIHistory.this);
-        downloadApplicationsForBHApproval();
-        mViewModel.getUserBranchInfo().observe(this, eBranchInfo -> {
+        mViewModel.GetUserInfo().observe(this, user -> {
             try {
-                lblBranch.setText(eBranchInfo.getBranchNm());
-                lblAddress.setText(eBranchInfo.getAddressx());
+                lblBranch.setText(user.sBranchNm);
+                lblAddress.setText(user.sAddressx);
             } catch (Exception e){
                 e.printStackTrace();
+            }
+        });
+
+        mViewModel.DownloadApplicationsForBHApproval(new VMEvaluationHistory.OnTransactionCallback() {
+            @Override
+            public void onSuccess(String message) {
+                poDialogx.dismiss();
+            }
+
+            @Override
+            public void onFailed(String message) {
+                poDialogx.dismiss();
+                Log.e(Activity_EvaluationCIHistory.class.getSimpleName(), message);
+            }
+
+            @Override
+            public void onLoad() {
+                poDialogx.initDialog("CI Evaluation", "CI Evaluation downloading.. Please wait.", true);
+                poDialogx.show();
             }
         });
         initData();
 
     }
     private void initWidgets() {
-
         Toolbar toolbar = findViewById(R.id.toolbar_creditEvalutionList);
+        toolbar.setTitle("C.I Results");
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         poDialogx = new LoadDialog(Activity_EvaluationCIHistory.this);
@@ -96,28 +109,6 @@ public class Activity_EvaluationCIHistory extends AppCompatActivity implements V
     }
 
     @Override
-    public void onStartImport() {
-        poDialogx.initDialog("CI Evaluation List", "Importing latest data. Please wait...", false);
-        poDialogx.show();
-//        initData();
-    }
-
-    @Override
-    public void onSuccessImport() {
-        poDialogx.dismiss();
-    }
-
-    @Override
-    public void onImportFailed(String message) {
-        poDialogx.dismiss();
-        poMessage.initDialog();
-        poMessage.setTitle("CI Evaluation List");
-        poMessage.setMessage(message);
-        poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-        poMessage.show();
-    }
-
-    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             finish();
@@ -131,50 +122,19 @@ public class Activity_EvaluationCIHistory extends AppCompatActivity implements V
             try {
                 if (ciList.size() > 0) {
                     loading.setVisibility(View.GONE);
-                    ciEvaluationList = new ArrayList<>();
-                    for (int x = 0; x < ciList.size(); x++) {
-                        DCreditOnlineApplicationCI.oDataEvaluationInfo loan = new DCreditOnlineApplicationCI.oDataEvaluationInfo();
-                        loan.sTransNox = (ciList.get(x).sTransNox);
-                        loan.dTransact = (ciList.get(x).dTransact);
-                        loan.sCredInvx = (ciList.get(x).sCredInvx);
-                        loan.sClientNm = (ciList.get(x).sClientNm);
-                        loan.nAcctTerm = (ciList.get(x).nAcctTerm);
-                        loan.nDownPaym = (ciList.get(x).nDownPaym);
-                        loan.sAddressx = (ciList.get(x).sAddressx);
-                        loan.sAddrFndg = (ciList.get(x).sAddrFndg);
-                        loan.sAssetsxx = (ciList.get(x).sAssetsxx);
-                        loan.sAsstFndg = (ciList.get(x).sAsstFndg);
-                        loan.sIncomexx = (ciList.get(x).sIncmFndg);
-                        loan.cHasRecrd = (ciList.get(x).cHasRecrd);
-                        loan.sBranchNm = (ciList.get(x).sBranchNm);
-                        loan.sRecrdRem = (ciList.get(x).sRecrdRem);
-                        loan.sRcmdtnx1 = (ciList.get(x).sRcmdtnx1);
 
-                        Log.e("sRcmdtnx1 ", ciList.get(x).sRcmdtnx1);
-                        ciEvaluationList.add(loan);
-                        continue;
-                    }
-
-
-                    String json = new Gson().toJson(ciEvaluationList);
-
-                    adapter = new CreditEvaluationListAdapter(ciEvaluationList, "CI Evaluation History", new CreditEvaluationListAdapter.OnApplicationClickListener() {
+                    adapter = new CreditEvaluationListAdapter(ciList, "CI Evaluation History", new CreditEvaluationListAdapter.OnApplicationClickListener() {
                         @Override
                         public void OnClick(int position, List<DCreditOnlineApplicationCI.oDataEvaluationInfo> ciEvaluationLists) {
-//                            poMessage.initDialog();
-//                            poMessage.setTitle("CI Evaluation History");
-//                            poMessage.setMessage("No corresponding feature has been set.");
-//                            poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-//                            poMessage.show();
-//
                             Intent loIntent = new Intent(Activity_EvaluationCIHistory.this, Activity_EvaluationCIHistoryInfo.class);
                             loIntent.putExtra("sTransNox", ciEvaluationLists.get(position).sTransNox);
                             loIntent.putExtra("sClientNm", ciEvaluationLists.get(position).sClientNm);
                             loIntent.putExtra("dTransact", ciEvaluationLists.get(position).dTransact);
                             loIntent.putExtra("sBranchxx", ciEvaluationLists.get(position).sBranchNm);
+                            if(getIntent().hasExtra("cPreviewx")){
+                                loIntent.putExtra("cPreviewx", getIntent().getBooleanExtra("cPreviewx", true));
+                            }
                             startActivity(loIntent);
-
-
                         }
 
                     });
@@ -215,11 +175,8 @@ public class Activity_EvaluationCIHistory extends AppCompatActivity implements V
                         }
                     });
                 } else {
-//                    mViewModel.ImportCIApplications(Activity_EvaluationCIHistory.this);
                     layoutNoRecord.setVisibility(View.VISIBLE);
                 }
-            } catch (NullPointerException e) {
-                e.printStackTrace();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -232,27 +189,4 @@ public class Activity_EvaluationCIHistory extends AppCompatActivity implements V
         super.finish();
         overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
     }
-
-    private void downloadApplicationsForBHApproval() {
-        LoadDialog loDialog = new LoadDialog(Activity_EvaluationCIHistory.this);
-        mViewModel.DownloadApplicationsForBHApproval(new VMEvaluationHistory.OnTransactionCallback() {
-            @Override
-            public void onSuccess(String message) {
-                loDialog.dismiss();
-            }
-
-            @Override
-            public void onFailed(String message) {
-                loDialog.dismiss();
-                Log.e(Activity_EvaluationCIHistory.class.getSimpleName(), message);
-            }
-
-            @Override
-            public void onLoad() {
-                loDialog.initDialog("CI Evaluation", "CI Evaluation downlading.. Please wait.", true);
-                loDialog.show();
-            }
-        });
-    }
-
 }

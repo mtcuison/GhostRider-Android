@@ -21,9 +21,9 @@ import androidx.annotation.RequiresApi;
 import androidx.lifecycle.AndroidViewModel;
 
 import org.json.JSONObject;
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
+import org.rmj.g3appdriver.dev.HttpHeaders;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.g3appdriver.utils.WebClient;
@@ -91,10 +91,11 @@ public class VMCreateAccount extends AndroidViewModel{
                 AppConfigPreference poConfig = AppConfigPreference.getInstance(instance);
                 webApi = new WebApi(poConfig.getTestStatus());
                 headers = HttpHeaders.getInstance(instance);
-                if (poConn.isDeviceConnected()) {response = WebClient.httpsPostJSon(webApi.getUrlCreateAccount(poConfig.isBackUpServer()), jsonObjects[0].toString(), (HashMap<String, String>) headers.getHeaders());
+                if (poConn.isDeviceConnected()) {
+                    response = WebClient.httpsPostJSon(webApi.getUrlCreateAccount(poConfig.isBackUpServer()), jsonObjects[0].toString(), (HashMap<String, String>) headers.getHeaders());
                     Log.e(TAG, response);
                 } else {
-                    callBack.OnFailedRegistration(AppConstants.LOCAL_EXCEPTION_ERROR("Unable to connect. Please check your internet connection."));
+                    response = AppConstants.LOCAL_EXCEPTION_ERROR("Unable to connect. Please check your internet connection.");
                 }
             } catch (IOException e) {
                 e.printStackTrace();

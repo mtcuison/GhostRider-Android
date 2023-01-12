@@ -1,297 +1,151 @@
-/*
- * Created by Android Team MIS-SEG Year 2021
- * Copyright (c) 2021. Guanzon Central Office
- * Guanzon Bldg., Perez Blvd., Dagupan City, Pangasinan 2400
- * Project name : GhostRider_Android
- * Module : GhostRider_Android.creditApp
- * Electronic Personnel Access Control Security System
- * project file created : 4/24/21 3:19 PM
- * project file last modified : 4/24/21 3:17 PM
- */
-
 package org.rmj.guanzongroup.onlinecreditapplication.ViewModel;
 
 import android.app.Application;
+import android.content.Intent;
 import android.os.AsyncTask;
-import android.view.View;
-import android.widget.ArrayAdapter;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DTownInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.ECountryInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.EProvinceInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.ETownInfo;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchLoanApplication;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RCountry;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplicant;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplication;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RProvince;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RTown;
-import org.rmj.gocas.base.GOCASApplication;
-import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
-import org.rmj.guanzongroup.onlinecreditapplication.Model.CoMakerModel;
-import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.ECountryInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditApp;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditAppInstance;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditOnlineApplication;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.CoMaker;
 
 import java.util.List;
 
-public class VMCoMaker extends AndroidViewModel {
+public class VMCoMaker extends AndroidViewModel implements CreditAppUI {
     private static final String TAG = VMCoMaker.class.getSimpleName();
-    public MutableLiveData<String> psTranNo = new MutableLiveData<>();
 
-    private final MutableLiveData<String> spnCMakerRelation = new MutableLiveData<>();
-    private final MutableLiveData<String> spnCMakeIncomeSource = new MutableLiveData<>();
-    private final MutableLiveData<String> spnCMakeNetworkStats = new MutableLiveData<>();
-    private final MutableLiveData<String> primaryContact = new MutableLiveData<>();
-    private final MutableLiveData<String> secondaryContact = new MutableLiveData<>();
-    private final MutableLiveData<String> tertiaryContact = new MutableLiveData<>();
+    private final CreditApp poApp;
+    private final CoMaker poModel;
 
-    private final MutableLiveData<Integer> cmrTertiaryCntctPlan = new MutableLiveData<>();
-    private final MutableLiveData<Integer> cmrSecondaryCntctPlan = new MutableLiveData<>();
-    private final MutableLiveData<Integer> cmrPrimaryCntctPlan = new MutableLiveData<>();
+    private String TransNox;
 
-    private final MutableLiveData<String> lsProvID = new MutableLiveData<>();
-    private final MutableLiveData<String> lsBPlace = new MutableLiveData<>();
-
-    private final Application instance;
-    private final GOCASApplication poGoCas;
-    private final RCreditApplicant poApplcnt;
-    private final RCreditApplication poCreditApp;
-    private final RProvince RProvince;
-    private final RTown RTown;
-    private final RCountry RCountry;
-    private ECreditApplicantInfo poInfo;
-    private final RBranchLoanApplication poLoan;
-    private final LiveData<List<EProvinceInfo>> provinceInfoList;
+    private String message;
 
     public VMCoMaker(@NonNull Application application) {
         super(application);
-        this.instance = application;
-        this.poApplcnt = new RCreditApplicant(application);
-        this.poCreditApp = new RCreditApplication(application);
-        RProvince = new RProvince(application);
-        RTown = new RTown(application);
-        RCountry = new RCountry(application);
-        provinceInfoList = RProvince.getAllProvinceInfo();
-        poGoCas = new GOCASApplication();
-        this.cmrPrimaryCntctPlan.setValue(View.GONE);
-        this.cmrSecondaryCntctPlan.setValue(View.GONE);
-        this.cmrTertiaryCntctPlan.setValue(View.GONE);
-        this.poLoan = new RBranchLoanApplication(application);
+        this.poApp = new CreditOnlineApplication(application).getInstance(CreditAppInstance.CoMaker_Info);
+        this.poModel = new CoMaker();
     }
 
-    public void setTransNox(String transNox){
-        this.psTranNo.setValue(transNox);
+    public CoMaker getModel(){
+        return poModel;
     }
 
-    public LiveData<ECreditApplicantInfo> getCreditApplicationInfo(){
-        return poApplcnt.getCreditApplicantInfoLiveData(psTranNo.getValue());
+    @Override
+    public void InitializeApplication(Intent params) {
+        TransNox = params.getStringExtra("sTransNox");
     }
 
-    public void setCreditApplicantInfo(ECreditApplicantInfo applicantInfo){
-        try{
-            poInfo = applicantInfo;
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-    public LiveData<List<EProvinceInfo>> getProvinceInfoList(){
-        return provinceInfoList;
+    @Override
+    public LiveData<ECreditApplicantInfo> GetApplication() {
+        return poApp.GetApplication(TransNox);
     }
 
-    public LiveData<List<ETownInfo>> getTownInfoList(){
-        return RTown.getTownInfoFromProvince(lsProvID.getValue());
+    @Override
+    public void ParseData(ECreditApplicantInfo args, OnParseListener listener) {
+        new ParseDataTask(listener).execute(args);
     }
 
-    public LiveData<List<ECountryInfo>> getCountryInfoList(){
-        return RCountry.getAllCountryInfo();
-    }
-
-    public LiveData<String[]> getProvinceNameList(){
-        return RProvince.getAllProvinceNames();
-    }
-
-    public LiveData<String[]> getAllTownNames(){
-        return RTown.getTownNamesFromProvince(lsProvID.getValue());
-    }
-
-    public LiveData<DTownInfo.TownProvinceInfo> getTownProvinceByTownName(String TownNm)  {
-        return RTown.getTownProvinceByTownName(TownNm);
-    }
-
-    public void setProvID(String ProvID) { this.lsProvID.setValue(ProvID); }
-    public void setTownID(String townID){
-        this.lsBPlace.setValue(townID);
+    @Override
+    public void Validate(Object args) {
 
     }
 
-    //Contact Number Setter
-    public void setPrimaryContact(String primaryContact){
-        try {
-            if(primaryContact.equalsIgnoreCase("1")){
-                this.cmrPrimaryCntctPlan.setValue(View.VISIBLE);
-            } else {
-                this.cmrPrimaryCntctPlan.setValue(View.GONE);
-            }
-        } catch (NullPointerException e){
-            e.printStackTrace();
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-        this.primaryContact.setValue(primaryContact);
-    }
-    public void setSecondaryContact(String secondaryContact){
-        try {
-            if(secondaryContact.equalsIgnoreCase("1")){
-                this.cmrSecondaryCntctPlan.setValue(View.VISIBLE);
-            } else {
-                this.cmrSecondaryCntctPlan.setValue(View.GONE);
-            }
-        } catch (NullPointerException e){
-            e.printStackTrace();
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-        this.secondaryContact.setValue(secondaryContact);
-    }
-    public void setTertiaryContact(String tertiaryContact){
-        try {
-            if(tertiaryContact.equalsIgnoreCase("1")){
-                this.cmrTertiaryCntctPlan.setValue(View.VISIBLE);
-            } else {
-                this.cmrTertiaryCntctPlan.setValue(View.GONE);
-            }
-        } catch (NullPointerException e){
-            e.printStackTrace();
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-        this.tertiaryContact.setValue(tertiaryContact);
+    @Override
+    public void SaveData(OnSaveInfoListener listener) {
+        new SaveDetailTask(listener).execute(poModel);
     }
 
-    //Spinner Setter
-    public void setSpnCMakerRelation(String type)
-    {
-        this.spnCMakerRelation.setValue(type);
-    }
-    public void setSpnCMakeIncomeSource(String type)
-    {
-        this.spnCMakeIncomeSource.setValue(type);
+    public LiveData<List<DTownInfo.TownProvinceInfo>> GetTownProvinceList(){
+        return poApp.GetTownProvinceList();
     }
 
-    public LiveData<String> getCMakerRelation(){
-        return this.spnCMakerRelation;
-    }
-    public LiveData<String> getCMakeIncomeSource(){
-        return this.spnCMakeIncomeSource;
+    public LiveData<List<ECountryInfo>> GetCountryList(){
+        return poApp.GetCountryList();
     }
 
-    //Spinner Getter
-    public LiveData<ArrayAdapter<String>> getSpnCMakerRelation(){
-        MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
-        liveData.setValue(CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.CO_MAKER_RELATIONSHIP));
-        return liveData;
-    }
-    public LiveData<ArrayAdapter<String>> getSpnCMakerIncomeSource(){
-        MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
-        liveData.setValue(CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.CO_MAKER_INCOME_SOURCE));
-        return liveData;
-    }
+    private class ParseDataTask extends AsyncTask<ECreditApplicantInfo, Void, CoMaker> {
 
-    public LiveData<ArrayAdapter<String>> getMobileNoType(){
-        MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
-        liveData.setValue(CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.MOBILE_NO_TYPE));
-        return liveData;
-    }
+        private final OnParseListener listener;
 
-    public LiveData<Integer> getCmrTertiaryCntctPlan(){
-        return cmrTertiaryCntctPlan;
-    }
-    public LiveData<Integer> getCmrSecondaryCntctPlan(){
-        return cmrSecondaryCntctPlan;
-    }
-    public LiveData<Integer> getCmrPrimaryCntctPlan(){
-        return cmrPrimaryCntctPlan;
-    }
-
-    public LiveData<String> getPrimaryContact(){
-        return this.primaryContact;
-    }
-    public LiveData<String> getSecondaryContact(){
-        return this.secondaryContact;
-    }
-    public LiveData<String> getTertiaryContact(){return this.tertiaryContact;}
-
-    public boolean SubmitComaker(CoMakerModel infoModel, ViewModelCallBack callBack) {
-        try {
-            new UpdateTask(poApplcnt, infoModel, callBack).execute();
-            return true;
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-            callBack.onFailedResult("NullPointerException error");
-            return false;
-        } catch (Exception e) {
-            e.printStackTrace();
-            callBack.onFailedResult("Exception error");
-            return false;
-        }
-    }
-    private class UpdateTask extends AsyncTask<RCreditApplicant, Void, String> {
-        private final RCreditApplicant poDcp;
-        private final CoMakerModel infoModel;
-        private final ViewModelCallBack callback;
-
-        public UpdateTask(RCreditApplicant poDcp, CoMakerModel infoModel, ViewModelCallBack callback) {
-            this.poDcp = poDcp;
-            this.infoModel = infoModel;
-            this.callback = callback;
+        public ParseDataTask(OnParseListener listener) {
+            this.listener = listener;
         }
 
         @Override
-        protected String doInBackground(RCreditApplicant... rApplicant) {
-            try{
-                if(infoModel.isCoMakerInfoValid() ) {
-                    poGoCas.CoMakerInfo().setLastName(infoModel.getCoLastName());
-                    poGoCas.CoMakerInfo().setFirstName(infoModel.getCoFrstName());
-                    poGoCas.CoMakerInfo().setMiddleName(infoModel.getCoMiddName());
-                    poGoCas.CoMakerInfo().setSuffixName(infoModel.getCoSuffix());
-                    poGoCas.CoMakerInfo().setNickName(infoModel.getCoNickName());
-                    poGoCas.CoMakerInfo().setBirthdate(infoModel.getCoBrthDate());
-                    poGoCas.CoMakerInfo().setBirthPlace(infoModel.getCoBrthPlce());
-                    poGoCas.CoMakerInfo().setIncomeSource(infoModel.getCoIncomeSource());
-                    poGoCas.CoMakerInfo().setRelation(infoModel.getCoBorrowerRel());
-                    for (int x = 0; x < infoModel.getCoMobileNoQty(); x++) {
-                        poGoCas.CoMakerInfo().setMobileNoQty(x + 1);
-                        poGoCas.CoMakerInfo().setMobileNo(x, infoModel.getCoMobileNo(x));
-                        poGoCas.CoMakerInfo().IsMobilePostpaid(x, infoModel.getCoPostPaid(x));
-                        poGoCas.CoMakerInfo().setPostPaidYears(x, infoModel.getCoPostYear(x));
-                    }
-                    poGoCas.CoMakerInfo().setFBAccount(infoModel.getCoFbAccntx());
-                    poInfo.setComakerx(poGoCas.CoMakerInfo().toJSONString());
-                    poDcp.updateGOCasData(poInfo);
-                    return "success";
-                } else if(!infoModel.isCoMakerInfoValid() && poInfo.getIsComakr().equalsIgnoreCase("1")){
-                    return "no_comaker";
-                } else {
-                    return infoModel.getMessage();
+        protected CoMaker doInBackground(ECreditApplicantInfo... app) {
+            try {
+                CoMaker loDetail = (CoMaker) poApp.Parse(app[0]);
+                if(loDetail == null){
+                    message = poApp.getMessage();
+                    return null;
                 }
+                return loDetail;
+            } catch (NullPointerException e){
+                e.printStackTrace();
+                message = e.getMessage();
+                return null;
             } catch (Exception e){
                 e.printStackTrace();
-                return e.getMessage();
+                message = e.getMessage();
+                return null;
             }
         }
 
         @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            if(s.equalsIgnoreCase("success")){
-                callback.onSaveSuccessResult(psTranNo.getValue());
+        protected void onPostExecute(CoMaker result) {
+            super.onPostExecute(result);
+            if(result == null){
+                Log.e(TAG, message);
             } else {
-                callback.onFailedResult(s);
+                listener.OnParse(result);
+            }
+        }
+    }
+
+    private class SaveDetailTask extends AsyncTask<CoMaker, Void, Boolean>{
+
+        private final OnSaveInfoListener listener;
+
+        public SaveDetailTask(OnSaveInfoListener listener) {
+            this.listener = listener;
+        }
+
+        @Override
+        protected Boolean doInBackground(CoMaker... info) {
+            int lnResult = poApp.Validate(info[0]);
+
+            if(lnResult != 1){
+                message = poApp.getMessage();
+                return false;
+            }
+
+            String lsResult = poApp.Save(info[0]);
+            if(lsResult == null){
+                message = poApp.getMessage();
+                return false;
+            }
+
+            TransNox = info[0].getTransNox();
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean isSuccess) {
+            super.onPostExecute(isSuccess);
+            if(!isSuccess){
+                listener.OnFailed(message);
+            } else {
+                listener.OnSave(TransNox);
             }
         }
     }

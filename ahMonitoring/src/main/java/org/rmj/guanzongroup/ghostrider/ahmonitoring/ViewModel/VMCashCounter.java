@@ -12,6 +12,7 @@
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel;
 
 import android.app.Application;
+import android.os.AsyncTask;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -20,21 +21,18 @@ import androidx.lifecycle.MutableLiveData;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
-import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RLogSelfie;
+import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
+import org.rmj.g3appdriver.dev.Database.Repositories.RBranch;
+import org.rmj.g3appdriver.lib.integsys.CashCount.CashCount;
+
+import java.util.List;
 
 public class VMCashCounter extends AndroidViewModel {
-
     private static final String TAG = VMCashCounter.class.getSimpleName();
-    private final Application instance;
-    private final REmployee poEmploye;
-    private final RBranch poBranch;
-    private final RLogSelfie poSelfie;
 
-    private String SelfieLogTransNox = "";
+    private final CashCount poSys;
+
+    private final MutableLiveData<String> psBranch = new MutableLiveData<>();
 
     private final MutableLiveData<Double> p1000 = new MutableLiveData<>();
     private final MutableLiveData<Double> p500 = new MutableLiveData<>();
@@ -74,10 +72,7 @@ public class VMCashCounter extends AndroidViewModel {
 
     public VMCashCounter(@NonNull Application application) {
         super(application);
-        this.instance = application;
-        this.poEmploye = new REmployee(application);
-        this.poBranch = new RBranch(application);
-        this.poSelfie = new RLogSelfie(application);
+        this.poSys = new CashCount(application);
         this.p1000.setValue((double) 0);
         this.p500.setValue((double) 0);
         this.p200.setValue((double) 0);
@@ -112,17 +107,21 @@ public class VMCashCounter extends AndroidViewModel {
         this.pnTotalx.setValue((double) 0);
         this.cnTotalx.setValue((double) 0);
         this.grandTotalx.setValue((double) 0);
-    }
-    public LiveData<EEmployeeInfo> getEmplopyeInfo(){
-        return this.poEmploye.getEmployeeInfo();
-    }
-    public LiveData<EBranchInfo> getUserBranchInfo(){
-        return poBranch.getUserBranchInfo();
+        this.psBranch.setValue("");
     }
 
-    public LiveData<EBranchInfo> getSelfieLogBranchInfo(){
-        return poBranch.getSelfieLogBranchInfo();
+    public void setBranchCd(String val){
+        this.psBranch.setValue(val);
     }
+
+    public LiveData<String> GetBranchCd(){
+        return psBranch;
+    }
+
+    public LiveData<EBranchInfo> GetBranchForCashCount(String args){
+        return poSys.GetBranchForCashCount(args);
+    }
+
     //Added by Jonathan 2021/06/08
     //Computation for all peso bill
     private void calculatePesoTotal(){
@@ -267,5 +266,52 @@ public class VMCashCounter extends AndroidViewModel {
         }
         jsonData.setValue(param);
         return param;
+    }
+
+    public interface OnGetBranchesList{
+        void OnLoad();
+        void OnRetrieve(List<EBranchInfo> list);
+        void OnFailed(String message);
+    }
+
+    public void GetBranchesList(OnGetBranchesList listener){
+        new GetBranchesTask(listener).execute();
+    }
+
+    private class GetBranchesTask extends AsyncTask<Void, Void, List<EBranchInfo>>{
+
+        private final OnGetBranchesList listener;
+
+        private String message;
+
+        public GetBranchesTask(OnGetBranchesList listener) {
+            this.listener = listener;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            listener.OnLoad();
+        }
+
+        @Override
+        protected List<EBranchInfo> doInBackground(Void... voids) {
+            List<EBranchInfo> loList = poSys.GetBranchesForCashCount();
+            if(loList == null){
+                message = poSys.getMessage();
+                return null;
+            }
+            return loList;
+        }
+
+        @Override
+        protected void onPostExecute(List<EBranchInfo> eBranchInfos) {
+            super.onPostExecute(eBranchInfos);
+            if(eBranchInfos == null){
+                listener.OnFailed(message);
+            } else {
+                listener.OnRetrieve(eBranchInfos);
+            }
+        }
     }
 }

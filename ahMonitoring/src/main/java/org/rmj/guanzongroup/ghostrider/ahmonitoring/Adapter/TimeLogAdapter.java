@@ -22,14 +22,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.g3appdriver.GRider.Database.Entities.ELog_Selfie;
+import org.rmj.g3appdriver.dev.Database.Entities.ESelfieLog;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 
 import java.util.List;
 
 public class TimeLogAdapter extends RecyclerView.Adapter<TimeLogAdapter.TimeLogViewHolder> {
 
-    private final List<ELog_Selfie> selfieLogList;
+    private final List<ESelfieLog> selfieLogList;
 
     private final OnTimeLogActionListener mListener;
 
@@ -37,7 +37,7 @@ public class TimeLogAdapter extends RecyclerView.Adapter<TimeLogAdapter.TimeLogV
         void OnImagePreview(String sTransNox);
     }
 
-    public TimeLogAdapter(List<ELog_Selfie> selfieLogList, OnTimeLogActionListener listener) {
+    public TimeLogAdapter(List<ESelfieLog> selfieLogList, OnTimeLogActionListener listener) {
         this.selfieLogList = selfieLogList;
         this.mListener = listener;
     }
@@ -64,7 +64,7 @@ public class TimeLogAdapter extends RecyclerView.Adapter<TimeLogAdapter.TimeLogV
             }
             if (selfieLogList.get(position).getSendStat().equalsIgnoreCase("1")) {
                 holder.lblStatusx.setText("Uploaded");
-                holder.lblStatusx.setTextColor(Color.parseColor("008000"));
+                holder.lblStatusx.setTextColor(Color.parseColor("#008000"));
             } else {
                 holder.lblStatusx.setText("Sending");
                 holder.lblStatusx.setTextColor(Color.RED);
@@ -81,7 +81,7 @@ public class TimeLogAdapter extends RecyclerView.Adapter<TimeLogAdapter.TimeLogV
 
     public static class TimeLogViewHolder extends RecyclerView.ViewHolder {
 
-        ELog_Selfie logSelfie;
+        ESelfieLog logSelfie;
         TextView lblBranchCD;
         TextView lblTimeLog;
         TextView lblDateLog;

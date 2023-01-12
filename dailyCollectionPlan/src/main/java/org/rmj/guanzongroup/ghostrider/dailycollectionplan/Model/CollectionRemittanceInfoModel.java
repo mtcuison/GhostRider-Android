@@ -13,8 +13,7 @@ package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model;
 
 import androidx.annotation.NonNull;
 
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Etc.GToast;
+import org.rmj.g3appdriver.etc.AppConstants;
 
 import java.util.Objects;
 

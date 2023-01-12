@@ -44,7 +44,7 @@ public class VMBusinessTripListTest {
 
     @Test
     public void testGetBusinessTripList() {
-        mViewModel.getBusinessTripList().observeForever(new Observer<List<EEmployeeBusinessTrip>>() {
+        mViewModel.getForApprovalList().observeForever(new Observer<List<EEmployeeBusinessTrip>>() {
             @Override
             public void onChanged(List<EEmployeeBusinessTrip> eEmployeeBusinessTrips) {
                 Assert.assertNotNull(eEmployeeBusinessTrips);

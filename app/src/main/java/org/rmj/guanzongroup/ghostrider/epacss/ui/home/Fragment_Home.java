@@ -12,8 +12,9 @@
 package org.rmj.guanzongroup.ghostrider.epacss.ui.home;
 
 import static android.app.Activity.RESULT_OK;
-import static org.rmj.g3appdriver.GRider.Constants.AppConstants.INTENT_BRANCH_OPENING;
-import static org.rmj.g3appdriver.GRider.Constants.AppConstants.SETTINGS;
+
+import static org.rmj.g3appdriver.etc.AppConstants.INTENT_BRANCH_OPENING;
+import static org.rmj.g3appdriver.etc.AppConstants.SETTINGS;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -39,14 +40,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.EBranchPerformance;
-import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
-import org.rmj.g3appdriver.GRider.Etc.GeoLocator;
-import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.EBranchPerformance;
 import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.etc.GeoLocator;
+import org.rmj.g3appdriver.etc.MessageBox;
+import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Application;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_AreaPerformance;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.BranchMonitoringAdapter;
@@ -57,7 +58,7 @@ import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMHome;
 import org.rmj.guanzongroup.ghostrider.epacss.adapter.NewsEventsAdapter;
 import org.rmj.guanzongroup.ghostrider.epacss.adapter.NewsEventsModel;
-import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
+import org.rmj.g3appdriver.etc.ImageFileCreator;
 import org.rmj.guanzongroup.ghostrider.notifications.Activity.Activity_Container;
 import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_Settings;
 
@@ -96,7 +97,7 @@ public class Fragment_Home extends Fragment {
 
         mViewModel = new ViewModelProvider(this).get(VMHome.class);
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        poLocator = new GeoLocator(getActivity(), getActivity());
+        poLocator = new GeoLocator(requireActivity(), requireActivity());
         poFilexx = new ImageFileCreator(getActivity(), CAMERA_USAGE);
         imgProfile = view.findViewById(R.id.img_profile);
         newsList = new ArrayList<>();
@@ -143,7 +144,7 @@ public class Fragment_Home extends Fragment {
         mViewModel.getEmployeeInfo().observe(getViewLifecycleOwner(), eEmployeeInfo -> {
             try {
                 lblEmail.setText(eEmployeeInfo.getEmailAdd());
-                lblUserLvl.setText(DeptCode.parseUserLevel(Integer.parseInt(eEmployeeInfo.getEmpLevID())));
+                lblUserLvl.setText(DeptCode.parseUserLevel(eEmployeeInfo.getEmpLevID()));
                 lblFullNme.setText(eEmployeeInfo.getUserName());
                 lblDept.setText(DeptCode.getDepartmentName(eEmployeeInfo.getDeptIDxx()));
                 mViewModel.setIntUserLvl(4);
@@ -236,7 +237,7 @@ public class Fragment_Home extends Fragment {
         loMessage.setPositiveButton("Yes", (view, dialog) -> {
             dialog.dismiss();
             requireActivity().finish();
-            new REmployee(requireActivity().getApplication()).LogoutUserSession();
+            new EmployeeMaster(requireActivity().getApplication()).LogoutUserSession();
             AppConfigPreference.getInstance(getActivity()).setIsAppFirstLaunch(false);
             startActivity(new Intent(getActivity(), Activity_SplashScreen.class));
         });

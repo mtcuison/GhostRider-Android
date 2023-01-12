@@ -16,16 +16,10 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ExpandableListView;
-import android.widget.Toast;
 
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
+import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_Help;
-import org.rmj.guanzongroup.ghostrider.settings.Model.SettingsModel;
 import org.rmj.guanzongroup.ghostrider.settings.adapter.ExpandableListHelpAdapter;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 import static org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_HelpList.expHelpView;
 import static org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_HelpList.helpAdapter;

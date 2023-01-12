@@ -19,13 +19,12 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DBranchOpeningMonitor;
-import org.rmj.g3appdriver.GRider.Database.Entities.EBranchOpenMonitor;
-import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchOpeningMonitor;
-import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
-import org.rmj.g3appdriver.GRider.Etc.SessionManager;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DBranchOpeningMonitor;
+import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
+import org.rmj.g3appdriver.lib.Notifications.BranchOpeningMonitor;
+import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.etc.SessionManager;
+import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -36,9 +35,9 @@ import java.util.Objects;
 public class VMBranchOpening extends AndroidViewModel {
 
     private final Application instance;
-    private final RBranchOpeningMonitor poOpening;
+    private final BranchOpeningMonitor poOpening;
     private final SessionManager poSession;
-    private final REmployee poUser;
+    private final EmployeeMaster poUser;
 
     private final MutableLiveData<String> psDateSelected = new MutableLiveData<>();
 
@@ -46,9 +45,9 @@ public class VMBranchOpening extends AndroidViewModel {
         super(application);
         this.instance = application;
         this.poSession = new SessionManager(instance);
-        this.poOpening = new RBranchOpeningMonitor(instance);
+        this.poOpening = new BranchOpeningMonitor(instance);
         psDateSelected.setValue(new AppConstants().CURRENT_DATE);
-        this.poUser = new REmployee(instance);
+        this.poUser = new EmployeeMaster(instance);
     }
 
     public LiveData<EEmployeeInfo> getUserInfo(){

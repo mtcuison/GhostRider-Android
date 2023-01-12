@@ -31,7 +31,6 @@ import java.util.List;
 @RunWith(AndroidJUnit4.class)
 public class AddCollectionTest {
 
-
     private static final String LOCAL_LOGIN = "http://192.168.10.141/security/mlogin.php";
 
     private Application instance;

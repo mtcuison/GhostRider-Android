@@ -25,7 +25,7 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import org.guanzongroup.com.creditevaluation.Model.AdditionalInfoModel;
 import org.guanzongroup.com.creditevaluation.R;
-import org.rmj.g3appdriver.GRider.Etc.GToast;
+import org.rmj.g3appdriver.etc.GToast;
 
 public class DialogAddApplication {
     private static final String TAG = DialogAddApplication.class.getSimpleName();

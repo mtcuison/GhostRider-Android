@@ -11,7 +11,7 @@
 
 package org.rmj.guanzongroup.ghostrider.epacss.ui.home;
 
-import static org.rmj.g3appdriver.GRider.Constants.AppConstants.SETTINGS;
+import static org.rmj.g3appdriver.etc.AppConstants.SETTINGS;
 import static org.rmj.guanzongroup.ghostrider.epacss.ui.home.VMBHDashboard.MC_SALES;
 import static org.rmj.guanzongroup.ghostrider.epacss.ui.home.VMBHDashboard.SP_SALES;
 
@@ -48,14 +48,13 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.google.android.material.button.MaterialButton;
 
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DBranchPerformance;
-import org.rmj.g3appdriver.GRider.Database.Entities.EBranchPerformance;
-import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
-import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
-import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DBranchPerformance;
 import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.etc.FormatUIText;
+import org.rmj.g3appdriver.etc.MessageBox;
+import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_BranchPerformance;
 import org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_Main;
 import org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_SplashScreen;
@@ -149,7 +148,7 @@ public class Fragment_BH_Dashboard extends Fragment {
             loMessage.setPositiveButton("Yes", (view1, dialog) -> {
                 dialog.dismiss();
                 requireActivity().finish();
-                new REmployee(requireActivity().getApplication()).LogoutUserSession();
+                new EmployeeMaster(requireActivity().getApplication()).LogoutUserSession();
                 AppConfigPreference.getInstance(getActivity()).setIsAppFirstLaunch(false);
                 startActivity(new Intent(getActivity(), Activity_SplashScreen.class));
             });
@@ -169,7 +168,7 @@ public class Fragment_BH_Dashboard extends Fragment {
         mViewModel.getUserInfo().observe(getViewLifecycleOwner(), eEmployeeInfo -> {
             try{
                 lblUserName.setText(eEmployeeInfo.getUserName());
-                lblUserPost.setText(DeptCode.parseUserLevel(Integer.parseInt(eEmployeeInfo.getEmpLevID())));
+                lblUserPost.setText(DeptCode.parseUserLevel(eEmployeeInfo.getEmpLevID()));
                 lblUserDept.setText(DeptCode.getDepartmentName(eEmployeeInfo.getDeptIDxx()));
                 BranchCd = eEmployeeInfo.getBranchCD();
             } catch (Exception e){
@@ -194,7 +193,7 @@ public class Fragment_BH_Dashboard extends Fragment {
 
         mViewModel.getPeriodRange().observe(getViewLifecycleOwner(), periodRange -> {
             try{
-                lblPrdRnge.setText("Periodic Performance Chart from "+FormatUIText.dbPeriodToUI(periodRange.Start) + " to " + FormatUIText.dbPeriodToUI(periodRange.Current));
+                lblPrdRnge.setText("Periodic Performance Chart from "+ FormatUIText.dbPeriodToUI(periodRange.Start) + " to " + FormatUIText.dbPeriodToUI(periodRange.Current));
             } catch (Exception e){
                 e.printStackTrace();
             }

@@ -26,9 +26,8 @@ import android.view.View;
 
 import com.google.android.material.button.MaterialButton;
 
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DRawDao;
-import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
-import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+import org.rmj.g3appdriver.etc.LoadDialog;
+import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.settings.Objects.AdapterLocalData;
 import org.rmj.guanzongroup.ghostrider.settings.Objects.LocalData;
 import org.rmj.guanzongroup.ghostrider.settings.R;

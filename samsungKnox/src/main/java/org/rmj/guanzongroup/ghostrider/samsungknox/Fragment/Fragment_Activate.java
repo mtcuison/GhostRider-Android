@@ -28,8 +28,8 @@ import android.widget.Toast;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
-import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
-import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+import org.rmj.g3appdriver.etc.LoadDialog;
+import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.samsungknox.Etc.ViewModelCallBack;
 import org.rmj.guanzongroup.ghostrider.samsungknox.Model.ActivationModel;
 import org.rmj.guanzongroup.ghostrider.samsungknox.R;
@@ -52,6 +52,7 @@ public class Fragment_Activate extends Fragment implements ViewModelCallBack {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        mViewModel = new ViewModelProvider(this).get(VMActivate.class);
         View v = inflater.inflate(R.layout.fragment_activate, container, false);
         dialog = new LoadDialog(getActivity());
         loMessage = new MessageBox(getActivity());
@@ -59,19 +60,13 @@ public class Fragment_Activate extends Fragment implements ViewModelCallBack {
         txtRemrks = v.findViewById(R.id.txt_knoxRemarks);
         btnActivate = v.findViewById(R.id.btn_knoxActivate);
 
-        return v;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(VMActivate.class);
         btnActivate.setOnClickListener(view -> {
             String lsDevcID = Objects.requireNonNull(txtImei.getText()).toString().trim();
             String lsRemrks = Objects.requireNonNull(txtRemrks.getText()).toString().trim();
             ActivationModel model = new ActivationModel(lsDevcID, lsRemrks);
             mViewModel.ActivateDevice(model, Fragment_Activate.this);
         });
+        return v;
     }
 
     @Override
@@ -91,7 +86,7 @@ public class Fragment_Activate extends Fragment implements ViewModelCallBack {
         dialog.dismiss();
         loMessage.initDialog();
         loMessage.setMessage(message);
-        loMessage.setTitle("Unlock Device");
+        loMessage.setTitle("Activate Device");
         loMessage.setPositiveButton("Okay", (view, msgDialog) -> msgDialog.dismiss());
         loMessage.show();
     }

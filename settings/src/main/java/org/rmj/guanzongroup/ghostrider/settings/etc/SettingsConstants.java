@@ -12,11 +12,8 @@
 package org.rmj.guanzongroup.ghostrider.settings.etc;
 
 import android.content.Context;
-import android.util.Log;
 
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.etc.AppAssistantConfig;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.guanzongroup.ghostrider.settings.R;
 
 public class SettingsConstants {

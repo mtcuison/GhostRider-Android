@@ -2,9 +2,11 @@ package org.guanzongroup.com.itinerary.Activities;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,17 +20,22 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
+import org.guanzongroup.com.itinerary.Adapter.AdapterEmployees;
 import org.guanzongroup.com.itinerary.Adapter.AdapterItineraries;
+import org.guanzongroup.com.itinerary.Dialog.DialogDateSelection;
+import org.guanzongroup.com.itinerary.Dialog.DialogEntryDetail;
 import org.guanzongroup.com.itinerary.R;
 import org.guanzongroup.com.itinerary.ViewModel.VMItinerary;
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
-import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.DeptCode;
+import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.etc.LoadDialog;
+import org.rmj.g3appdriver.etc.MessageBox;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 public class Activity_ItineraryLog extends AppCompatActivity {
@@ -44,10 +51,9 @@ public class Activity_ItineraryLog extends AppCompatActivity {
     private RecyclerView recyclerView;
     private MaterialButton btnFilter;
 
-    private String psFrom, psThru;
+    private String psFrom = AppConstants.CURRENT_DATE, psThru = AppConstants.CURRENT_DATE;
 
     public boolean isFiltered = false;
-    public boolean isClicked = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,16 +78,84 @@ public class Activity_ItineraryLog extends AppCompatActivity {
         recyclerView.setLayoutManager(loManager);
         btnFilter = findViewById(R.id.btn_filter);
 
-        mViewModel.getUserInfo().observe(Activity_ItineraryLog.this, eEmployeeInfo -> {
+        mViewModel.GetUserInfo().observe(Activity_ItineraryLog.this, user -> {
             try {
-                lblUser.setText(eEmployeeInfo.getUserName());
-                lblDept.setText(DeptCode.getDepartmentName(eEmployeeInfo.getDeptIDxx()));
+                lblUser.setText(user.sUserName);
+                lblDept.setText(DeptCode.getDepartmentName(user.sDeptIDxx));
+
+                int lnUserLvl = Integer.parseInt(user.nUserLevl);
+
+                if(lnUserLvl == DeptCode.LEVEL_DEPARTMENT_HEAD){
+                    mViewModel.ImportUsers(new VMItinerary.OnImportUsersListener() {
+                        @Override
+                        public void OnImport(String title, String message) {
+                            poLoad.initDialog(title, message, false);
+                            poLoad.show();
+                        }
+
+                        @Override
+                        public void OnSuccess(List<JSONObject> args) {
+                            poLoad.dismiss();
+                            InitEmployeeList(args);
+                        }
+
+                        @Override
+                        public void OnFailed(String message) {
+                            poLoad.dismiss();
+                            poDialog.initDialog();
+                            poDialog.setTitle("Employee Itinerary");
+                            poDialog.setMessage(message);
+                            poDialog.setPositiveButton("Okay", (view, dialog) -> {
+                                dialog.dismiss();
+                            });
+                            poDialog.show();
+                        }
+                    });
+                    findViewById(R.id.cl_dateFilter).setVisibility(View.GONE);
+                } else if(lnUserLvl == DeptCode.LEVEL_GENERAL_MANAGER){
+                    findViewById(R.id.cl_dateFilter).setVisibility(View.GONE);
+                } else {
+                    findViewById(R.id.cl_dateFilter).setVisibility(View.VISIBLE);
+                    mViewModel.DownloadItinerary(psFrom, psThru, new VMItinerary.OnActionCallback() {
+                        @Override
+                        public void OnLoad(String title, String message) {
+                            poLoad.initDialog(title, message, false);
+                            poLoad.show();
+                        }
+
+                        @Override
+                        public void OnSuccess(String args) {
+                            poLoad.dismiss();
+                            poDialog.initDialog();
+                            poDialog.setTitle("Employee Itinerary");
+                            poDialog.setMessage(args);
+                            poDialog.setPositiveButton("Okay", (view, dialog) -> {
+                                dialog.dismiss();
+                            });
+                            poDialog.show();
+                        }
+
+                        @Override
+                        public void OnFailed(String message) {
+                            poLoad.dismiss();
+                            poDialog.initDialog();
+                            poDialog.setTitle("Employee Itinerary");
+                            poDialog.setMessage(message);
+                            poDialog.setPositiveButton("Okay", (view, dialog) -> {
+                                dialog.dismiss();
+                            });
+                            poDialog.show();
+                        }
+                    });
+                    previewItinerary();
+                }
             } catch (NullPointerException e){
                 e.printStackTrace();
             }
         });
 
         txtFrom.setText(new AppConstants().CURRENT_DATE_WORD);
+        txtThru.setText(new AppConstants().CURRENT_DATE_WORD);
 
         txtFrom.setOnClickListener(v -> {
             if(txtThru.getText().toString().trim().isEmpty()) {
@@ -191,7 +265,7 @@ public class Activity_ItineraryLog extends AppCompatActivity {
                 mViewModel.GetItineraryForFilteredDate(psFrom, psThru).observe(Activity_ItineraryLog.this, eItineraries -> {
                     try {
                         isFiltered = true;
-                        recyclerView.setAdapter(new AdapterItineraries(eItineraries));
+                        recyclerView.setAdapter(new AdapterItineraries(eItineraries, args -> new DialogEntryDetail(Activity_ItineraryLog.this).showDialog(args)));
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -199,45 +273,12 @@ public class Activity_ItineraryLog extends AppCompatActivity {
                 btnFilter.setText("Clear Filter");
             } else {
                 isFiltered = false;
-                previewIntinerary();
+                previewItinerary();
                 txtFrom.setText(new AppConstants().CURRENT_DATE_WORD);
-                txtThru.setText("");
+                txtThru.setText(new AppConstants().CURRENT_DATE_WORD);
                 btnFilter.setText("Filter Records");
             }
         });
-
-        mViewModel.DownloadItinerary(psFrom, psThru, new VMItinerary.OnActionCallback() {
-            @Override
-            public void OnLoad(String title, String message) {
-                poLoad.initDialog(title, message, false);
-                poLoad.show();
-            }
-
-            @Override
-            public void OnSuccess(String args) {
-                poLoad.dismiss();
-                poDialog.initDialog();
-                poDialog.setTitle("Employee Itinerary");
-                poDialog.setMessage(args);
-                poDialog.setPositiveButton("Okay", (view, dialog) -> {
-                    dialog.dismiss();
-                });
-                poDialog.show();
-            }
-
-            @Override
-            public void OnFailed(String message) {
-                poLoad.dismiss();
-                poDialog.initDialog();
-                poDialog.setTitle("Employee Itinerary");
-                poDialog.setMessage(message);
-                poDialog.setPositiveButton("Okay", (view, dialog) -> {
-                    dialog.dismiss();
-                });
-                poDialog.show();
-            }
-        });
-        previewIntinerary();
     }
 
     @Override
@@ -248,15 +289,33 @@ public class Activity_ItineraryLog extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void previewIntinerary(){
+    private void previewItinerary(){
         if(!isFiltered) {
             mViewModel.GetItineraryListForCurrentDay().observe(Activity_ItineraryLog.this, eItineraries -> {
                 try {
-                    recyclerView.setAdapter(new AdapterItineraries(eItineraries));
+                    recyclerView.setAdapter(new AdapterItineraries(eItineraries, args -> new DialogEntryDetail(Activity_ItineraryLog.this).showDialog(args)));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             });
+        }
+    }
+
+    private void InitEmployeeList(List<JSONObject> foVal) {
+        try {
+            recyclerView.setAdapter(new AdapterEmployees(foVal, (args, args1, args2) -> {
+                new DialogDateSelection(Activity_ItineraryLog.this).showDialog((args3, args4) -> {
+                    Intent loIntent = new Intent(Activity_ItineraryLog.this, Activity_UsersItineraries.class);
+                    loIntent.putExtra("sEmployID", args);
+                    loIntent.putExtra("sUserName", args1);
+                    loIntent.putExtra("sDeptIDxx", args2);
+                    loIntent.putExtra("dDateFrom", args3);
+                    loIntent.putExtra("dDateThru", args4);
+                    startActivity(loIntent);
+                });
+            }));
+        } catch (Exception e){
+            e.printStackTrace();
         }
     }
 }

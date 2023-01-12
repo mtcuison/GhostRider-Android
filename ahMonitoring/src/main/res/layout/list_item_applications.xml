@@ -68,10 +68,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawablePadding="5dp"
-            android:fontFamily="@font/roboto_bold"
+            android:fontFamily="@font/roboto_regular"
             android:gravity="center_vertical"
             android:layout_marginTop="10dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="@color/textColor_Black" />
 
         <LinearLayout
@@ -85,25 +84,22 @@
             <TextView
                 android:id="@+id/lbl_leaveType"
                 android:layout_width="0dp"
-                android:layout_height="fill_parent"
-                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.2"
                 android:gravity="start|center_vertical"
-                android:drawablePadding="5dp"
-                android:fontFamily="@font/roboto_bold"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:fontFamily="@font/roboto_medium"
                 android:textColor="@color/textColor_Black"/>
 
             <TextView
                 android:id="@+id/lbl_leaveStatus"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight=".8"
                 android:textColor="@color/material_white"
                 android:paddingVertical="3dp"
-                android:fontFamily="@font/roboto_bold"
+                android:fontFamily="@font/roboto_medium"
                 android:gravity="center"
-                android:background="@drawable/bg_leavecredits"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
+                android:background="@drawable/bg_leavecredits"/>
         </LinearLayout>
 
 
@@ -119,7 +115,7 @@
                 android:layout_weight=".9"
                 android:text="Applied date from :"
                 android:textColor="@color/textColor_Black"
-                android:fontFamily="@font/roboto_bold"
+                android:fontFamily="@font/roboto_medium"
                 android:drawablePadding="5dp"
                 android:gravity="center_vertical"
                 app:drawableStartCompat="@android:drawable/ic_menu_my_calendar"
@@ -148,7 +144,7 @@
                 android:layout_weight=".9"
                 android:text="Applied date thru :"
                 android:textColor="@color/textColor_Black"
-                android:fontFamily="@font/roboto_bold"
+                android:fontFamily="@font/roboto_medium"
                 android:drawablePadding="5dp"
                 android:gravity="center_vertical"
                 app:drawableStartCompat="@android:drawable/ic_menu_my_calendar"
