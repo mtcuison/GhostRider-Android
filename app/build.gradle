@@ -23,8 +23,8 @@ android {
         applicationId "org.rmj.guanzongroup.ghostrider.epacss"
         minSdkVersion 21
         targetSdkVersion 33
-        versionCode 45
-        versionName "Build Version v.2.13.045 b"
+        versionCode 46
+        versionName "Build Version v.2.13.046 b"
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -78,7 +78,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-crashlytics:18.3.2'
     implementation 'com.google.firebase:firebase-analytics:21.2.0'
 
-    implementation 'com.google.firebase:firebase-messaging:23.1.0'
+    implementation 'com.google.firebase:firebase-messaging:23.1.1'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.4'
