@@ -148,11 +148,11 @@ public class EEmployeeLeave {
         DateThru = dateThru;
     }
 
-    public int getNoDaysxx() {
+    public Integer getNoDaysxx() {
         return NoDaysxx;
     }
 
-    public void setNoDaysxx(int noDaysxx) {
+    public void setNoDaysxx(Integer noDaysxx) {
         NoDaysxx = noDaysxx;
     }
 
@@ -204,19 +204,19 @@ public class EEmployeeLeave {
         EntryDte = entryDte;
     }
 
-    public int getWithOPay() {
+    public Integer getWithOPay() {
         return WithOPay;
     }
 
-    public void setWithOPay(int withOPay) {
+    public void setWithOPay(Integer withOPay) {
         WithOPay = withOPay;
     }
 
-    public double getEqualHrs() {
+    public Double getEqualHrs() {
         return EqualHrs;
     }
 
-    public void setEqualHrs(double equalHrs) {
+    public void setEqualHrs(Double equalHrs) {
         EqualHrs = equalHrs;
     }
 
@@ -252,11 +252,11 @@ public class EEmployeeLeave {
         SendDate = sendDate;
     }
 
-    public int getLveCredt() {
+    public Integer getLveCredt() {
         return LveCredt;
     }
 
-    public void setLveCredt(int lveCredt) {
+    public void setLveCredt(Integer lveCredt) {
         LveCredt = lveCredt;
     }
 
@@ -276,11 +276,11 @@ public class EEmployeeLeave {
         Modified = modified;
     }
 
-    public int getWithPayx() {
+    public Integer getWithPayx() {
         return WithPayx;
     }
 
-    public void setWithPayx(int withPayx) {
+    public void setWithPayx(Integer withPayx) {
         WithPayx = withPayx;
     }
 
