@@ -75,7 +75,7 @@ public class LocationRetriever {
     @SuppressLint("MissingPermission")
     public boolean HasLocation(){
         try {
-            String lsCompx = android.os.Build.MANUFACTURER;
+            String lsCompx = android.os.Build.MANUFACTURER.toLowerCase();
             iLocationRetriever location;
             if (!lsCompx.equalsIgnoreCase("huawei")) {
                 location = new GmsLocationRetriever();

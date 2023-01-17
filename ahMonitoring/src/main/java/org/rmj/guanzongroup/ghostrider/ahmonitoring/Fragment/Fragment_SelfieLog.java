@@ -79,8 +79,6 @@ public class Fragment_SelfieLog extends Fragment {
     private LoadDialog poLoad;
     private MessageBox poMessage;
 
-    private static boolean isDialogShown;
-
     private final ActivityResultLauncher<Intent> poCamera = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
         public void onActivityResult(ActivityResult result) {
@@ -184,14 +182,6 @@ public class Fragment_SelfieLog extends Fragment {
                 lblPosition.setText(DeptCode.getDepartmentName(eEmployeeInfo.sDeptIDxx));
                 lblBranch.setText(eEmployeeInfo.sBranchNm);
 
-                // this setter code has been disable for the adjustment of selfie log.
-                // condition if the user is AH and no branch was selected on branch list.
-                // proceed selfie log without branch code but set the reporting branch
-                // as default branch code on saving record
-//                if (eEmployeeInfo.sEmpLevID.equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER))) {
-//                    SetupDialogForBranchList();
-//                }
-//                poSelfie.setBranchCode(eEmployeeInfo.sBranchCd);
             } catch (NullPointerException e){
                 e.printStackTrace();
             }

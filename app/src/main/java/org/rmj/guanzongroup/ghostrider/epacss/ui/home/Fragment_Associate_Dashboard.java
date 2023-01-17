@@ -110,9 +110,9 @@ public class Fragment_Associate_Dashboard extends Fragment {
                     loMessage.setPositiveButton("Continue", (view1, dialog) -> {
                         dialog.dismiss();
                         poConfig.setTestCase(switchOn);
-                        requireActivity().finish();
                         new EmployeeMaster(requireActivity().getApplication()).LogoutUserSession();
                         AppConfigPreference.getInstance(getActivity()).setIsAppFirstLaunch(false);
+                        requireActivity().finish();
                         startActivity(new Intent(getActivity(), Activity_SplashScreen.class));
                     });
                     loMessage.setTitle("GhostRider Dev Mode");
@@ -128,9 +128,9 @@ public class Fragment_Associate_Dashboard extends Fragment {
                     loMessage.setPositiveButton("Continue", (view1, dialog) -> {
                         dialog.dismiss();
                         poConfig.setTestCase(switchOn);
-                        requireActivity().finish();
                         new EmployeeMaster(requireActivity().getApplication()).LogoutUserSession();
                         AppConfigPreference.getInstance(getActivity()).setIsAppFirstLaunch(false);
+                        requireActivity().finish();
                         startActivity(new Intent(getActivity(), Activity_SplashScreen.class));
                     });
                     loMessage.setTitle("GhostRider Dev Mode");
@@ -152,9 +152,9 @@ public class Fragment_Associate_Dashboard extends Fragment {
             loMessage.setNegativeButton("No", (view1, dialog) -> dialog.dismiss());
             loMessage.setPositiveButton("Yes", (view1, dialog) -> {
                 dialog.dismiss();
-                requireActivity().finish();
                 new EmployeeMaster(requireActivity().getApplication()).LogoutUserSession();
                 AppConfigPreference.getInstance(getActivity()).setIsAppFirstLaunch(false);
+                requireActivity().finish();
                 startActivity(new Intent(getActivity(), Activity_SplashScreen.class));
             });
             loMessage.setTitle("GhostRider Session");
