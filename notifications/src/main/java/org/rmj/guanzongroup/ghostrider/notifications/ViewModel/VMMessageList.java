@@ -21,16 +21,16 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import org.json.JSONObject;
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DNotifications;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RNotificationInfo;
-import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
-import org.rmj.g3appdriver.GRider.Http.WebClient;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DNotifications;
+import org.rmj.g3appdriver.dev.Database.Repositories.RNotificationInfo;
+import org.rmj.g3appdriver.dev.HttpHeaders;
+import org.rmj.g3appdriver.dev.WebClient;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
-import org.rmj.guanzongroup.ghostrider.notifications.Object.EmployeeSearchItem;
-import org.rmj.guanzongroup.ghostrider.notifications.Object.MessageItemList;
+import org.rmj.guanzongroup.ghostrider.notifications.Obj.EmployeeSearchItem;
+import org.rmj.guanzongroup.ghostrider.notifications.Obj.MessageItemList;
 
 import java.util.List;
 
@@ -71,13 +71,15 @@ public class VMMessageList extends AndroidViewModel {
         private final HttpHeaders poHeaders;
         private final ConnectionUtil poConn;
         private final WebApi poApi;
+        private final AppConfigPreference loConfig;
 
         public SearchEmployeeTask(Application application, OnEmloyeeSearchListener listener) {
             this.instance = application;
             this.mListener = listener;
             this.poHeaders = HttpHeaders.getInstance(instance);
             this.poConn = new ConnectionUtil(instance);
-            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
+            this.loConfig = AppConfigPreference.getInstance(instance);
+            this.poApi = new WebApi(loConfig.getTestStatus());
         }
 
         @SuppressLint("NewApi")
@@ -90,7 +92,7 @@ public class VMMessageList extends AndroidViewModel {
                     loJson.put("reqstdnm", strings[0]);
                     loJson.put("bsearch", true);
 
-                    lsResult = WebClient.sendRequest(poApi.getUrlKwiksearch(), loJson.toString(), poHeaders.getHeaders());
+                    lsResult = WebClient.sendRequest(poApi.getUrlKwiksearch(loConfig.isBackUpServer()), loJson.toString(), poHeaders.getHeaders());
 
                 } else {
                     lsResult = AppConstants.NO_INTERNET();

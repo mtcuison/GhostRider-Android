@@ -121,7 +121,7 @@ public class EvaluationCoreTest {
         loImage.setLatitude("0.0");
         loImage.setLongitud("0.0");
 
-        poSystem.SaveSelfieImage("CI5UV2200018", loImage, true, new EvaluatorManager.OnActionCallback() {
+        poSystem.SaveImageInfo("CI5UV2200018", loImage, true, new EvaluatorManager.OnActionCallback() {
             @Override
             public void OnSuccess(String args) {
 

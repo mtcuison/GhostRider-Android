@@ -15,24 +15,21 @@ import android.app.Application;
 import android.app.job.JobParameters;
 import android.app.job.JobService;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.util.Log;
-
-import androidx.annotation.RequiresApi;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RAreaPerformance;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchPerformance;
-import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
-import org.rmj.g3appdriver.GRider.Etc.BranchPerformancePeriod;
-import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
-import org.rmj.g3appdriver.GRider.ImportData.ImportDataCallback;
-import org.rmj.g3appdriver.GRider.ImportData.ImportInstance;
-import org.rmj.g3appdriver.GRider.ImportData.Import_AreaPerformance;
-import org.rmj.g3appdriver.GRider.ImportData.Import_BranchPerformance;
+import org.rmj.g3appdriver.dev.Database.Repositories.RAreaPerformance;
+import org.rmj.g3appdriver.dev.Database.Repositories.RBranchPerformance;
+import org.rmj.g3appdriver.dev.HttpHeaders;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.etc.BranchPerformancePeriod;
+import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
+import org.rmj.g3appdriver.lib.ImportData.ImportDataCallback;
+import org.rmj.g3appdriver.lib.ImportData.ImportInstance;
+import org.rmj.g3appdriver.lib.ImportData.Import_AreaPerformance;
+import org.rmj.g3appdriver.lib.ImportData.Import_BranchPerformance;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.g3appdriver.utils.WebClient;
@@ -40,7 +37,7 @@ import org.rmj.g3appdriver.utils.WebClient;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+
 public class PerformanceImportService extends JobService {
     public static final String TAG = PerformanceImportService.class.getSimpleName();
 
@@ -94,18 +91,20 @@ public class PerformanceImportService extends JobService {
 
         private final RAreaPerformance poArea;
         private final RBranchPerformance poBranch;
-        private final REmployee poUser;
+        private final EmployeeMaster poUser;
         private final ConnectionUtil poConn;
         private final HttpHeaders poHeaders;
         private final WebApi poApi;
+        private final AppConfigPreference loConfig;
 
         public DownloadAreaBranchesPerformanceTask(Application instance) {
             this.poArea = new RAreaPerformance(instance);
             this.poBranch = new RBranchPerformance(instance);
             this.poConn = new ConnectionUtil(instance);
-            this.poUser = new REmployee(instance);
+            this.poUser = new EmployeeMaster(instance);
             this.poHeaders = HttpHeaders.getInstance(instance);
-            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
+            this.loConfig = AppConfigPreference.getInstance(instance);
+            this.poApi = new WebApi(loConfig.getTestStatus());
         }
 
         @Override
@@ -125,7 +124,7 @@ public class PerformanceImportService extends JobService {
                             JSONObject loJSon = new JSONObject();
                             loJSon.put("period", lsPeriod.get(x));
                             loJSon.put("areacd", poUser.getUserAreaCode());
-                            response = WebClient.httpsPostJSon(poApi.getImportAreaPerformance(), loJSon.toString(), poHeaders.getHeaders());
+                            response = WebClient.httpsPostJSon(poApi.getImportAreaPerformance(loConfig.isBackUpServer()), loJSon.toString(), poHeaders.getHeaders());
                             JSONObject loJson = new JSONObject(response);
                             Log.e(TAG, loJson.getString("result"));
                             String lsResult = loJson.getString("result");

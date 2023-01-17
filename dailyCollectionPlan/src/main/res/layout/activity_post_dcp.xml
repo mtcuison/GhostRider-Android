@@ -78,6 +78,7 @@
                 android:id="@+id/lbl_headerAddress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="Local data is not sync"
                 android:fontFamily="@font/roboto_light"
                 android:textColor="@color/textColor_White"
                 android:textSize="15sp" />

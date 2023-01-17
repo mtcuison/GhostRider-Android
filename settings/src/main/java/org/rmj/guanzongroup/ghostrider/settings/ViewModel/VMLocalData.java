@@ -34,27 +34,27 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DRawDao;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RRawData;
-import org.rmj.g3appdriver.GRider.ImportData.ImportBarangay;
-import org.rmj.g3appdriver.GRider.ImportData.ImportBranch;
-import org.rmj.g3appdriver.GRider.ImportData.ImportBrand;
-import org.rmj.g3appdriver.GRider.ImportData.ImportBrandModel;
-import org.rmj.g3appdriver.GRider.ImportData.ImportCategory;
-import org.rmj.g3appdriver.GRider.ImportData.ImportCountry;
-import org.rmj.g3appdriver.GRider.ImportData.ImportDataCallback;
-import org.rmj.g3appdriver.GRider.ImportData.ImportFileCode;
-import org.rmj.g3appdriver.GRider.ImportData.ImportInstance;
-import org.rmj.g3appdriver.GRider.ImportData.ImportMcModelPrice;
-import org.rmj.g3appdriver.GRider.ImportData.ImportMcTermCategory;
-import org.rmj.g3appdriver.GRider.ImportData.ImportProvinces;
-import org.rmj.g3appdriver.GRider.ImportData.ImportTown;
-import org.rmj.g3appdriver.GRider.ImportData.Import_BankList;
-import org.rmj.g3appdriver.GRider.ImportData.Import_Occupations;
-import org.rmj.g3appdriver.GRider.ImportData.Import_Relation;
-import org.rmj.g3appdriver.GRider.ImportData.Import_SCARequest;
-import org.rmj.g3appdriver.GRider.ImportData.Import_SysConfig;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DRawDao;
+import org.rmj.g3appdriver.dev.Database.Repositories.RRawData;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.lib.ImportData.ImportBarangay;
+import org.rmj.g3appdriver.lib.ImportData.ImportBranch;
+import org.rmj.g3appdriver.lib.ImportData.ImportBrand;
+import org.rmj.g3appdriver.lib.ImportData.ImportBrandModel;
+import org.rmj.g3appdriver.lib.ImportData.ImportCategory;
+import org.rmj.g3appdriver.lib.ImportData.ImportCountry;
+import org.rmj.g3appdriver.lib.ImportData.ImportDataCallback;
+import org.rmj.g3appdriver.lib.ImportData.ImportFileCode;
+import org.rmj.g3appdriver.lib.ImportData.ImportInstance;
+import org.rmj.g3appdriver.lib.ImportData.ImportMcModelPrice;
+import org.rmj.g3appdriver.lib.ImportData.ImportMcTermCategory;
+import org.rmj.g3appdriver.lib.ImportData.ImportProvinces;
+import org.rmj.g3appdriver.lib.ImportData.ImportTown;
+import org.rmj.g3appdriver.lib.ImportData.Import_BankList;
+import org.rmj.g3appdriver.lib.ImportData.Import_Occupations;
+import org.rmj.g3appdriver.lib.ImportData.Import_Relation;
+import org.rmj.g3appdriver.lib.ImportData.Import_SCARequest;
+import org.rmj.g3appdriver.lib.ImportData.Import_SysConfig;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.guanzongroup.ghostrider.settings.Objects.LocalData;
 import org.rmj.guanzongroup.ghostrider.settings.utils.DatabaseExport;
@@ -68,6 +68,7 @@ public class VMLocalData extends AndroidViewModel {
     private final RRawData poData;
     private List<LocalData> dataList = new ArrayList<>();
     private final WebApi poApi;
+    private final AppConfigPreference loConfig;
     private final MutableLiveData<List<LocalData>> loDataList = new MutableLiveData<>();
 
     private DRawDao.AppLocalData poAppData = new DRawDao.AppLocalData();
@@ -87,7 +88,8 @@ public class VMLocalData extends AndroidViewModel {
         super(application);
         this.instance = application;
         this.poData = new RRawData(application);
-        this.poApi = new WebApi(AppConfigPreference.getInstance(application).getTestStatus());
+        this.loConfig = AppConfigPreference.getInstance(instance);
+        this.poApi = new WebApi(loConfig.getTestStatus());
     }
 
     public LiveData<DRawDao.AppLocalData> getAppLocalData(){
@@ -98,23 +100,23 @@ public class VMLocalData extends AndroidViewModel {
         poAppData = localData;
         dataList.clear();
         loDataList.setValue(dataList);
-        dataList.add(new LocalData("Approval Code Data", poAppData.Approval_Code, poApi.getUrlScaRequest()));
-        dataList.add(new LocalData("Branch Data", poAppData.Branch_Data, poApi.getUrlImportBranches()));
-        dataList.add(new LocalData("Mc Brand", poAppData.Mc_Brand, poApi.getUrlImportBrand()));
-        dataList.add(new LocalData("Mc Model", poAppData.Mc_Model, poApi.getUrlImportMcModel()));
-        dataList.add(new LocalData("Mc Category", poAppData.Mc_Category, poApi.getUrlImportMcCategory()));
-        dataList.add(new LocalData("Mc Model Price", poAppData.Mc_Model_Price, poApi.getUrlImportMcModelPrice()));
-        dataList.add(new LocalData("Mc Term Category", poAppData.Mc_Term_Category, poApi.getUrlImportTermCategory()));
-        dataList.add(new LocalData("Occupation Data", poAppData.Occupation_Data, poApi.getUrlImportOccupations()));
-        dataList.add(new LocalData("Raffle Basis", poAppData.Raffle_Basis, poApi.getUrlImportRaffleBasis()));
-        dataList.add(new LocalData("File Code", poAppData.File_Code, poApi.getUrlImportFileCode()));
-        dataList.add(new LocalData("Bank Data", poAppData.Bank_Data, poApi.getUrlDownloadBankInfo()));
-        dataList.add(new LocalData("Remittance Data", poAppData.Remittance_Data, poApi.getUrlBranchRemittanceAcc()));
-        dataList.add(new LocalData("Barangay Data", poAppData.Barangay_Data, poApi.getUrlImportBarangay()));
-        dataList.add(new LocalData("Town Data", poAppData.Town_Data, poApi.getUrlImportTown()));
-        dataList.add(new LocalData("Province Data", poAppData.Province_Data, poApi.getUrlImportProvince()));
-        dataList.add(new LocalData("Country Data", poAppData.Country_Data, poApi.getUrlImportCountry()));
-        dataList.add(new LocalData("Relation Data", poAppData.Relation_Data, poApi.getUrlDownloadRelation()));
+        dataList.add(new LocalData("Approval Code Data", poAppData.Approval_Code, poApi.getUrlScaRequest(loConfig.isBackUpServer())));
+        dataList.add(new LocalData("Branch Data", poAppData.Branch_Data, poApi.getUrlImportBranches(loConfig.isBackUpServer())));
+        dataList.add(new LocalData("Mc Brand", poAppData.Mc_Brand, poApi.getUrlImportBrand(loConfig.isBackUpServer())));
+        dataList.add(new LocalData("Mc Model", poAppData.Mc_Model, poApi.getUrlImportMcModel(loConfig.isBackUpServer())));
+        dataList.add(new LocalData("Mc Category", poAppData.Mc_Category, poApi.getUrlImportMcCategory(loConfig.isBackUpServer())));
+        dataList.add(new LocalData("Mc Model Price", poAppData.Mc_Model_Price, poApi.getUrlImportMcModelPrice(loConfig.isBackUpServer())));
+        dataList.add(new LocalData("Mc Term Category", poAppData.Mc_Term_Category, poApi.getUrlImportTermCategory(loConfig.isBackUpServer())));
+        dataList.add(new LocalData("Occupation Data", poAppData.Occupation_Data, poApi.getUrlImportOccupations(loConfig.isBackUpServer())));
+        dataList.add(new LocalData("Raffle Basis", poAppData.Raffle_Basis, poApi.getUrlImportRaffleBasis(loConfig.isBackUpServer())));
+        dataList.add(new LocalData("File Code", poAppData.File_Code, poApi.getUrlImportFileCode(loConfig.isBackUpServer())));
+        dataList.add(new LocalData("Bank Data", poAppData.Bank_Data, poApi.getUrlDownloadBankInfo(loConfig.isBackUpServer())));
+        dataList.add(new LocalData("Remittance Data", poAppData.Remittance_Data, poApi.getUrlBranchRemittanceAcc(loConfig.isBackUpServer())));
+        dataList.add(new LocalData("Barangay Data", poAppData.Barangay_Data, poApi.getUrlImportBarangay(loConfig.isBackUpServer())));
+        dataList.add(new LocalData("Town Data", poAppData.Town_Data, poApi.getUrlImportTown(loConfig.isBackUpServer())));
+        dataList.add(new LocalData("Province Data", poAppData.Province_Data, poApi.getUrlImportProvince(loConfig.isBackUpServer())));
+        dataList.add(new LocalData("Country Data", poAppData.Country_Data, poApi.getUrlImportCountry(loConfig.isBackUpServer())));
+        dataList.add(new LocalData("Relation Data", poAppData.Relation_Data, poApi.getUrlDownloadRelation(loConfig.isBackUpServer())));
         loDataList.setValue(dataList);
     }
 

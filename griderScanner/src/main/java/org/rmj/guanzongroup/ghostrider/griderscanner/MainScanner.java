@@ -28,8 +28,8 @@ import android.widget.LinearLayout;
 
 import com.google.android.material.textfield.TextInputEditText;
 
-import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
-import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+import org.rmj.g3appdriver.etc.LoadDialog;
+import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.griderscanner.adapter.ClientInfoAdapter;
 import org.rmj.guanzongroup.ghostrider.griderscanner.adapter.LoanApplication;
 import org.rmj.guanzongroup.ghostrider.griderscanner.viewModel.VMMainScanner;
@@ -63,14 +63,14 @@ public class MainScanner extends AppCompatActivity implements VMMainScanner.OnIm
         mViewModel.ImportRBranchApplications(MainScanner.this);
         initData();
 
-    }
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() == android.R.id.home){
-            finish();
         }
-        return super.onOptionsItemSelected(item);
-    }
+        @Override
+        public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+            if(item.getItemId() == android.R.id.home){
+                finish();
+            }
+            return super.onOptionsItemSelected(item);
+        }
 
 
 

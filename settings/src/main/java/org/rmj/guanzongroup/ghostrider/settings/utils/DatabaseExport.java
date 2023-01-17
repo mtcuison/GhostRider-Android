@@ -11,9 +11,10 @@
 
 package org.rmj.guanzongroup.ghostrider.settings.utils;
 
+import static org.rmj.g3appdriver.etc.AppConstants.SUB_FOLDER_EXPORTS;
+
 import android.app.Application;
 import android.content.Context;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
@@ -22,14 +23,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.nio.channels.FileChannel;
-import java.nio.file.Files;
 import java.util.Calendar;
 import java.util.TimeZone;
-
-import static org.rmj.g3appdriver.GRider.Constants.AppConstants.SUB_FOLDER_EXPORTS;
 
 import androidx.annotation.NonNull;
 
@@ -37,14 +34,12 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
-import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
-import org.rmj.g3appdriver.GRider.Etc.MessageBox;
-import org.rmj.g3appdriver.GRider.Etc.SessionManager;
-import org.rmj.guanzongroup.ghostrider.notifications.Function.GRiderErrorReport;
+import org.rmj.g3appdriver.etc.LoadDialog;
+import org.rmj.g3appdriver.etc.MessageBox;
+import org.rmj.g3appdriver.etc.SessionManager;
 
 public class DatabaseExport {
     private static final String TAG = DatabaseExport.class.getSimpleName();
@@ -52,7 +47,6 @@ public class DatabaseExport {
     private final SessionManager poSession;
     private final FirebaseStorage storage = FirebaseStorage.getInstance();
     private final StorageReference poRefrnce = storage.getReference().child("database");
-    private final GRiderErrorReport poReportx;
     private final LoadDialog poDiaLoad;
     private final MessageBox poMessage;
     private final String FILE_FOLDER;
@@ -61,7 +55,6 @@ public class DatabaseExport {
     public DatabaseExport(Context context, String usage, String dataName) {
         Log.e(TAG, "Initialized.");
         this.context = context;
-        this.poReportx = new GRiderErrorReport((Application) context.getApplicationContext());
         this.poSession = new SessionManager(context);
         this.poDiaLoad = new LoadDialog(context);
         this.poMessage = new MessageBox(context);
@@ -181,16 +174,6 @@ public class DatabaseExport {
         }
     }
 
-    private void sendDownloadLink(String fsUrl, DownloadLinkListener foCallBck) {
-        try {
-            new SendDownloadLinkAsync(poReportx, foCallBck).execute(fsUrl);
-        } catch(NullPointerException e) {
-            e.printStackTrace();
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     private void showExportDialog(boolean isSuccess, String message){
         poMessage.initDialog();
         poMessage.setNegativeButton("Okay", (view, dialog) -> dialog.dismiss());
@@ -205,29 +188,6 @@ public class DatabaseExport {
             poMessage.setMessage(message);
             poMessage.show();
         }
-    }
-
-    private static class SendDownloadLinkAsync extends AsyncTask<String, Void, Boolean> {
-
-        private final GRiderErrorReport poReportx;
-        private final DownloadLinkListener callBack;
-
-        SendDownloadLinkAsync(GRiderErrorReport foReportx, DownloadLinkListener fsCallBck) {
-            this.poReportx = foReportx;
-            this.callBack = fsCallBck;
-        }
-
-        @Override
-        protected Boolean doInBackground(String... strings) {
-            return poReportx.SendErrorReport("Database Export", "Database download link: \n \n" + "[" + strings[0] + "]");
-        }
-
-        @Override
-        protected void onPostExecute(Boolean aBoolean) {
-            super.onPostExecute(aBoolean);
-            callBack.onSent(aBoolean);
-        }
-
     }
 
     private interface DownloadLinkListener {

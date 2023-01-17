@@ -35,54 +35,32 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <TextView
-        android:id="@+id/lblTest"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/error_red"
-        android:fontFamily="@font/roboto_medium"
-        android:textSize="15sp"
-        android:paddingHorizontal="10dp"
-        android:layout_marginTop="30dp"
-        android:text="Test mode changes connection of this app \n From LIVE (240) to LOCAL(192.168.10.141)"
-        app:layout_constraintTop_toBottomOf="@+id/appbarlayout"/>
-
-
-    <TextView
-        android:id="@+id/lblTest1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/error_red"
-        android:fontFamily="@font/roboto_medium"
-        android:textSize="15sp"
-        android:paddingHorizontal="10dp"
-        android:text="NOTE: Features that requires taking images will \n still be require but images will not be uploaded."
-        app:layout_constraintTop_toBottomOf="@+id/lblTest"/>
-
     <LinearLayout
         android:id="@+id/linear_layout1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:gravity="center_vertical"
+        android:orientation="horizontal"
         android:padding="10dp"
-        app:layout_constraintTop_toBottomOf="@+id/lblTest1">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appbarlayout">
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textColor="@color/textColor_Black"
             android:fontFamily="@font/roboto_medium"
-            android:textSize="15sp"
-            android:text="Test Mode"/>
+            android:text="Test Mode"
+            android:textColor="@color/textColor_Black"
+            android:textSize="15sp" />
 
         <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/sm_dcpTest"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".2"
-            android:gravity="center"/>
+            android:gravity="center" />
 
     </LinearLayout>
 
@@ -110,40 +88,66 @@
 
     </LinearLayout>
 
-    <RelativeLayout
-        android:id="@+id/linear_downloadProgress"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/btn_Save"
+        android:orientation="vertical"
+        android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:orientation="vertical"
-        android:padding="10dp">
+        app:layout_constraintTop_toBottomOf="@+id/linear_layout3">
 
         <TextView
-            android:id="@+id/text"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Downloading update..."
-            android:layout_marginBottom="15dp"
-            android:textColor="@color/black"
-            android:fontFamily="@font/roboto_regular" />
+            android:textColor="@color/textColor_Black"
+            android:fontFamily="@font/roboto_medium"
+            android:textSize="15sp"
+            android:paddingVertical="10dp"
+            android:text="Change department to"/>
 
-        <ProgressBar
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_below="@id/text"
-            android:layout_centerInParent="true"/>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout"
+            style="@style/TextInputStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Department">
+
+            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                android:id="@+id/txt_department"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionDone"
+                android:inputType="textPersonName|textCapWords"
+                android:maxLength="100"
+                android:padding="16dp" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
-            android:id="@+id/lbl_progressUpdate"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:textColor="@color/black"
-            android:fontFamily="@font/roboto_regular"
-            android:layout_centerInParent="true" />
-    </RelativeLayout>
+            android:textColor="@color/textColor_Black"
+            android:fontFamily="@font/roboto_medium"
+            android:textSize="15sp"
+            android:paddingVertical="10dp"
+            android:text="Change position to"/>
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/TextInputStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Position">
+
+            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                android:id="@+id/txt_position"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionDone"
+                android:inputType="textPersonName|textCapWords"
+                android:maxLength="100"
+                android:padding="16dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_restoreDefault"

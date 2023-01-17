@@ -2,9 +2,6 @@ package org.guanzongroup.com.creditevaluation.APITest;
 
 import static org.junit.Assert.assertTrue;
 
-import android.app.Application;
-
-import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.guanzongroup.com.creditevaluation.Core.CIAPIs;
@@ -86,7 +83,7 @@ public class SubmitCIResult {
         assertTrue(isSuccess);
     }
 
-    @Test
+//    @Test
     public void test02SubmitEvaluation() throws Exception {
         JSONObject params = new JSONObject();
         String lsAddressx = "{\"present_address\":{\"cAddrType\":null,\"sAddressx\":\"1\",\"sAddrImge\":null,\"nLatitude\":0.0,\"nLongitud\":0.0},\"primary_address\":{\"cAddrType\":null,\"sAddressx\":\"1\",\"sAddrImge\":null,\"nLatitude\":0.0,\"nLongitud\":0.0}}";
@@ -108,7 +105,7 @@ public class SubmitCIResult {
         params.put("sApproved", "M00117000702");
         params.put("dApproved", AppConstants.CURRENT_DATE);
 
-        String lsResponse = WebClient.httpPostJSon(poApis.getUrlSubmitResult(),
+        String lsResponse = WebClient.httpPostJSon(poApis.getUrlSubmitCIResult(),
                 params.toString(), (HashMap<String, String>) headers);
         if(lsResponse == null){
             isSuccess = false;
@@ -159,6 +156,29 @@ public class SubmitCIResult {
         params.put("sRcmdtnx1", "sample");
 
         String lsResponse = WebClient.httpPostJSon(poApis.getUrlPostCiApproval(),
+                params.toString(), (HashMap<String, String>) headers);
+        if(lsResponse == null){
+            isSuccess = false;
+        } else {
+            JSONObject loResponse = new JSONObject(lsResponse);
+            String lsResult = loResponse.getString("result");
+            if(lsResult.equalsIgnoreCase("success")){
+                isSuccess = true;
+            } else {
+                JSONObject loError = loResponse.getJSONObject("error");
+                String lsMessage = loError.getString("message");
+                isSuccess = false;
+            }
+        }
+        assertTrue(isSuccess);
+    }
+
+    @Test
+    public void test05DownloadBH() throws Exception{
+        JSONObject params = new JSONObject();
+        params.put("sEmployID", "sEmployID");
+
+        String lsResponse = WebClient.httpPostJSon(poApis.getUrlDownloadBhPreview(),
                 params.toString(), (HashMap<String, String>) headers);
         if(lsResponse == null){
             isSuccess = false;

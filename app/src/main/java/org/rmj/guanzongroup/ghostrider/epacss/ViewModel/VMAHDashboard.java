@@ -18,38 +18,38 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.ELog_Selfie;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
-import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RLogSelfie;
+import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.ESelfieLog;
+import org.rmj.g3appdriver.dev.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
+import org.rmj.g3appdriver.lib.SelfieLog.SelfieLog;
 
 import java.util.List;
 
 public class VMAHDashboard extends AndroidViewModel {
     private static final String TAG =  VMAHDashboard.class.getSimpleName();
 
-    private final REmployee poEmployee;
+    private final EmployeeMaster poEmployee;
     private final RBranch pobranch;
-    private final RLogSelfie poLog;
+    private final SelfieLog poLog;
     private final AppConfigPreference poConfigx;
 
     private final MutableLiveData<String> psVersion = new MutableLiveData<>();
 
     public VMAHDashboard(@NonNull Application application) {
         super(application);
-        this.poEmployee = new REmployee(application);
+        this.poEmployee = new EmployeeMaster(application);
         this.pobranch = new RBranch(application);
-        poLog = new RLogSelfie(application);
+        poLog = new SelfieLog(application);
         this.poConfigx = AppConfigPreference.getInstance(application);
         this.psVersion.setValue(poConfigx.getVersionInfo());
     }
 
     public LiveData<EEmployeeInfo> getEmployeeInfo(){
-        return poEmployee.getEmployeeInfo();
+        return poEmployee.GetEmployeeInfo();
     }
 
     public LiveData<String> getVersionInfo(){
@@ -60,7 +60,7 @@ public class VMAHDashboard extends AndroidViewModel {
         return pobranch.getUserBranchInfo();
     }
 
-    public LiveData<List<ELog_Selfie>> getCurrentLogTimeIfExist(){
+    public LiveData<List<ESelfieLog>> getCurrentLogTimeIfExist(){
         return poLog.getCurrentLogTimeIfExist(new AppConstants().CURRENT_DATE);
     }
 }

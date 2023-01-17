@@ -1,326 +1,331 @@
 package org.guanzongroup.com.creditevaluation.ViewModel;
 
+import android.app.Activity;
 import android.app.Application;
+import android.content.Intent;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
-import org.guanzongroup.com.creditevaluation.Core.EvaluatorManager;
-import org.guanzongroup.com.creditevaluation.Core.oChildFndg;
-import org.guanzongroup.com.creditevaluation.Core.oParentFndg;
-import org.guanzongroup.com.creditevaluation.Model.AdditionalInfoModel;
-import org.json.JSONObject;
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.Entities.ECIEvaluation;
-import org.rmj.g3appdriver.GRider.Database.Entities.ECreditOnlineApplicationCI;
-import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RCIEvaluation;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditOnlineApplicationCI;
-import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
-import org.rmj.g3appdriver.GRider.Http.WebClient;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEmployeeInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.ECreditOnlineApplicationCI;
+import org.rmj.g3appdriver.dev.Database.Entities.EOccupationInfo;
+import org.rmj.g3appdriver.dev.Database.Repositories.ROccupation;
+import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.etc.LocationRetriever;
+import org.rmj.g3appdriver.lib.integsys.CreditInvestigator.BarangayRecord;
+import org.rmj.g3appdriver.lib.integsys.CreditInvestigator.CIImage;
+import org.rmj.g3appdriver.lib.integsys.CreditInvestigator.CITagging;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
-import org.rmj.g3appdriver.utils.WebApi;
+import org.rmj.g3appdriver.etc.ImageFileCreator;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class VMEvaluation extends AndroidViewModel {
     private static final String TAG = VMEvaluation.class.getSimpleName();
-    private final Application app;
-    private final REmployee poUser;
-    private final EvaluatorManager foManager;
-    private MutableLiveData<HashMap<oParentFndg, List<oChildFndg>>> poEvaluate = new MutableLiveData<>();
-    private MutableLiveData<ECreditOnlineApplicationCI> poData = new MutableLiveData<>();
-    private MutableLiveData<String> TransNox = new MutableLiveData<>();
-    private MutableLiveData<String> records = new MutableLiveData<>();
-    private MutableLiveData<String> recordRemarks = new MutableLiveData<>();
-    private MutableLiveData<ECreditOnlineApplicationCI> evaluationCI = new MutableLiveData<>();
-    private MutableLiveData<HashMap<oParentFndg, List<oChildFndg>>> foEvaluate = new MutableLiveData<>();
 
-    private List<EImageInfo> imgInfo = new ArrayList<>();
-    private final RImageInfo poImage;
+    private final Application instance;
+
+    private final CITagging poSys;
+    private final ROccupation poJob;
+
+    private final ConnectionUtil poConn;
+
+    public interface OnValidateTaggingResult{
+        void OnValid();
+        void OnInvalid(String message);
+    }
+
+    public interface OnSaveCIResultListener {
+        void OnSuccess();
+        void OnError(String message);
+    }
+
+    public interface OnSaveAddressResult {
+        void OnSuccess(String args, String args1, String args2);
+        void OnError(String message);
+    }
+
+    public interface OnUpdateOtherDetail{
+        void OnSuccess();
+        void OnError(String message);
+    }
+
+    public interface OnUploadResultListener{
+        void OnUpload();
+        void OnSuccess();
+        void OnFailed(String message);
+    }
+
+    public interface OnPostRecommendationCallback{
+        void OnPost();
+        void OnSuccess();
+        void OnFailed(String message);
+    }
+
     public VMEvaluation(@NonNull Application application) {
         super(application);
-        this.app = application;
-        this.poUser = new REmployee(application);
-        this.poImage = new RImageInfo(application);
-        this.foManager = new EvaluatorManager(application);
-        this.records.setValue("-1");
-        this.recordRemarks.setValue("");
-    }
-    public void setRecords(String record){
-        this.records.setValue(record);
-    }
-    public LiveData<String> getRecord(){
-        return records;
-    }
-    public void setRecordRemarks(String val){
-        this.recordRemarks.setValue(val);
-    }
-    public void setTransNox(String transNox){
-        this.TransNox.setValue(transNox);
-    }
-    public String getTransNox(){
-        return this.TransNox.getValue();
-    }
-    public interface onSaveAdditionalInfo {
-        void OnSuccessResult(String args,String message);
-        void OnFailedResult(String message);
-    }
-    public interface onPostCIEvaluation {
-        void OnPost();
-        void OnSuccessPost(String args);
-        void OnFailedPost(String message);
+        this.instance = application;
+        this.poSys = new CITagging(application);
+        this.poJob = new ROccupation(application);
+        this.poConn = new ConnectionUtil(application);
     }
 
-    public LiveData<ECreditOnlineApplicationCI> getCIEvaluation(String transNox){
-        return foManager.getApplications(transNox);
+    public LiveData<DEmployeeInfo.EmployeeBranch> GetUserInfo(){
+        return poSys.GetUserInfo();
     }
 
-    public interface ORetrieveCallBack{
-        void onRetrieveSuccess(HashMap<oParentFndg, List<oChildFndg>> foEvaluate, ECreditOnlineApplicationCI foData);
-        void onRetrieveFailed(String message);
-    }
-    public void parseToEvaluationData(ECreditOnlineApplicationCI eCI) throws Exception {
-        foEvaluate.setValue(foManager.parseToEvaluationData(eCI));
-    }
-    public LiveData<HashMap<oParentFndg, List<oChildFndg>>> getParsedEvaluationData(){
-        return foEvaluate;
-    }
-    //    public HashMap<oParentFndg, List<oChildFndg>> parseToEvaluationData(ECreditOnlineApplicationCI eCI){
-//        try {
-//            return foManager.parseToEvaluationData(eCI);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return null;
-//    }
-    public void saveResidenceImageInfo(EImageInfo foImage) {
-        try {
-            boolean isImgExist = false;
-            String tansNo = "";
-            if(poImage.getAllImageInfo().getValue() != null){
-                for (int i = 0; i < poImage.getAllImageInfo().getValue().size(); i++) {
-                    if (foImage.getSourceNo().equalsIgnoreCase(imgInfo.get(i).getSourceNo())
-                            && foImage.getDtlSrcNo().equalsIgnoreCase(imgInfo.get(i).getDtlSrcNo())) {
-                        tansNo = imgInfo.get(i).getTransNox();
-                        isImgExist = true;
-                    }
-                }
-                if (isImgExist) {
-                    foImage.setTransNox(tansNo);
-                    poImage.updateImageInfo(foImage);
-                } else {
-                    foImage.setTransNox(poImage.getImageNextCode());
-                    poImage.insertImageInfo(foImage);
-
-                }
-            }else{
-                foImage.setTransNox(poImage.getImageNextCode());
-                poImage.insertImageInfo(foImage);
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public LiveData<ECreditOnlineApplicationCI> GetApplicationDetail(String fsVal){
+        return poSys.GetApplicationDetail(fsVal);
     }
 
-    public void saveAdditionalInfo(AdditionalInfoModel infoModel,String value, onSaveAdditionalInfo callback){
-        new UpdateTask(app,foManager,infoModel,value, callback).execute(TransNox.getValue());
+    public LiveData<List<EOccupationInfo>> GetOccupationList(){
+        return poJob.getAllOccupationInfo();
     }
 
-    public void UploadEvaluationResult(onPostCIEvaluation callback){
-        new  UploadEvaluationResultTask(app,foManager, callback).execute(TransNox.getValue());
+    public void ValidateTagging(String TransNox, String fsKeyxx, List<String> foList, OnValidateTaggingResult listener){
+        new ValidateTaggingTask(TransNox, fsKeyxx, listener).execute(foList);
     }
 
-    public void saveDataEvaluation(oParentFndg parentFndg,oChildFndg childFndg, onSaveAdditionalInfo callback){
-        new UpdateDataEvaluationTask(app,foManager,parentFndg,childFndg, callback).execute(TransNox.getValue());
-    }
-    public void postCIEvaluation(onPostCIEvaluation callback){
-        new  PostEvaluationResultTask(app,foManager, callback).execute(TransNox.getValue());
-    }
-    private  class UpdateTask extends AsyncTask<String, Void, String> {
-        private final EvaluatorManager poCIEvaluation;
-        private final AdditionalInfoModel infoModel;
-        private final onSaveAdditionalInfo callback;
-        private final String btnText;
-        private final ConnectionUtil poConn;
-        public UpdateTask(Application app,EvaluatorManager poCIEvaluation, AdditionalInfoModel infoModel,String btnText,onSaveAdditionalInfo callback) {
-            this.poCIEvaluation = poCIEvaluation;
-            this.infoModel = infoModel;
-            this.callback = callback;
-            this.btnText = btnText;
-            this.poConn = new ConnectionUtil(app);
+    private class ValidateTaggingTask extends AsyncTask<List<String>, Void, Boolean>{
+
+        private final OnValidateTaggingResult mListener;
+        private final String TransNox;
+        private final String fsKeyxx;
+
+        private String message;
+
+        public ValidateTaggingTask(String TransNox, String fsKeyxx, OnValidateTaggingResult listener) {
+            this.TransNox = TransNox;
+            this.fsKeyxx = fsKeyxx;
+            this.mListener = listener;
         }
 
         @Override
-        protected String doInBackground(String... transNox) {
-            try {
-                final String[] response = {""};
-                if(btnText.equalsIgnoreCase("Neighbor1")){
-                    if (!infoModel.isNeighbr1()) {
-                        response[0] = infoModel.getMessage();
-                    } else {
-                        poCIEvaluation.UpdateNeighbor1(transNox[0],infoModel.getNeighbr1());
-                        response[0] = infoModel.getMessage();
-                    }
-                }else if(btnText.equalsIgnoreCase("Neighbor2")){
-                    if (!infoModel.isNeighbr2()) {
-                        response[0] = infoModel.getMessage();
-                    } else {
-                        poCIEvaluation.UpdateNeighbor2(transNox[0],infoModel.getNeighbr2());
-                        response[0] = infoModel.getMessage();
-                    }
-                }else if(btnText.equalsIgnoreCase("Neighbor3")){
-                    if (!infoModel.isNeighbr3()) {
-                        response[0] = infoModel.getMessage();
-                    } else {
-                        poCIEvaluation.UpdateNeighbor3(transNox[0],infoModel.getNeighbr3());
-                        response[0] = infoModel.getMessage();
-                    }
-                }
-                else if(btnText.equalsIgnoreCase("Personnel")){
-                    if (!infoModel.isPersonnel()){
-                    response[0] = infoModel.getMessage();
-                    }else {
-                        response[0] = infoModel.getMessage();
-                        poCIEvaluation.UpdatePresentBarangay(transNox[0],infoModel.getAsstPersonnel());
-                    }
-                }
-                else if(btnText.equalsIgnoreCase("Position")){
-                    if (!infoModel.isPosition()){
-                        response[0] = infoModel.getMessage();
-                    }else {
-                        response[0] = infoModel.getMessage();
-                        poCIEvaluation.UpdatePosition(transNox[0],infoModel.getAsstPosition());
-                    }
-                }
-                else if(btnText.equalsIgnoreCase("PhoneNo")){
-                    if (!infoModel.isMobileNo()){
-                        response[0] = infoModel.getMessage();
-                    }else {
-                        response[0] = infoModel.getMessage();
-                        poCIEvaluation.UpdateContact(transNox[0],infoModel.getMobileNo());
-                    }
-                }
-                else if(btnText.equalsIgnoreCase("Record")){
-                    if (!infoModel.isHasRecord()){
-                        response[0] = infoModel.getMessage();
-                    }else {
-                        response[0] = infoModel.getMessage();
-                        poCIEvaluation.UpdateRecordInfo(transNox[0],infoModel.getHasRecrd());
-                        poCIEvaluation.UpdateRecordRemarks(transNox[0],infoModel.getRemRecrd());
+        protected Boolean doInBackground(List<String>... lists) {
 
-                    }
-                }
-                else if(btnText.equalsIgnoreCase("Approval")){
-                    poCIEvaluation.SaveCIApproval(transNox[0], infoModel.getTranstat(), infoModel.getsRemarks(), new EvaluatorManager.OnActionCallback() {
-                        @Override
-                        public void OnSuccess(String args) {
-
-                            response[0] = "success";
-                        }
-
-                        @Override
-                        public void OnFailed(String message) {
-                            response[0] = message;
-                        }
-                    });
-                    Thread.sleep(1000);
-
-                }
-                return response[0];
-
-            } catch (NullPointerException e){
-                e.printStackTrace();
-                return e.getMessage();
-            }catch (Exception e){
-                e.printStackTrace();
-                return e.getMessage();
+            if(!poSys.ValidateTagging(TransNox, fsKeyxx, lists[0])){
+                message = poSys.getMessage();
+                return false;
             }
+            return true;
         }
 
-
         @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            if(s.equalsIgnoreCase("success")){
-                callback.OnSuccessResult(btnText,infoModel.getMessage());
+        protected void onPostExecute(Boolean isSuccess) {
+            super.onPostExecute(isSuccess);
+            if(!isSuccess){
+                mListener.OnInvalid(message);
             } else {
-                callback.OnFailedResult(s);
+                mListener.OnValid();
             }
         }
     }
-    private  class UpdateDataEvaluationTask extends AsyncTask<String, Void, String> {
-        private final EvaluatorManager poCIEvaluation;
-        private final oParentFndg parentFndg;
-        private final onSaveAdditionalInfo callback;
-        private final oChildFndg childFndg;
-        private final ConnectionUtil poConn;
-        public UpdateDataEvaluationTask(Application app, EvaluatorManager poCIEvaluation, oParentFndg parentFndg,oChildFndg childFndg,onSaveAdditionalInfo callback) {
-            this.poCIEvaluation = poCIEvaluation;
-            this.parentFndg = parentFndg;
-            this.callback = callback;
-            this.childFndg = childFndg;
-            this.poConn = new ConnectionUtil(app);
+
+    public void SaveCIResult(String args, String fsPar, String fsKey, String fsRes, List<String> foList, OnSaveCIResultListener listener){
+        new SaveCIResult(foList, listener).execute(args, fsPar, fsKey, fsRes);
+    }
+
+    private class SaveCIResult extends AsyncTask<String, Void, Boolean>{
+
+        private final OnSaveCIResultListener listener;
+
+        private String message;
+
+        public SaveCIResult(List<String> foList, OnSaveCIResultListener listener) {
+            this.listener = listener;
         }
 
         @Override
-        protected String doInBackground(String... transNox) {
-            try {
-                final String[] response = {""};
-                poCIEvaluation.UpdateConfirmInfos(transNox[0], parentFndg, childFndg, new EvaluatorManager.OnActionCallback() {
-                    @Override
-                    public void OnSuccess(String args) {
-                        response[0] = "success";
-                        Log.e("save success", args);
-                    }
+        protected Boolean doInBackground(String... strings) {
+            try{
+                String TransNox = strings[0];
+                String Parentxx = strings[1];
+                String KeyNamex = strings[2];
+                String Resultxx = strings[3];
 
-                    @Override
-                    public void OnFailed(String message) {
-                        response[0] = message;
-                        Log.e("save failed", message);
 
-                    }
-                });
+                if (!poSys.SaveCIResult(TransNox, Parentxx, KeyNamex, Resultxx)) {
+                    message = poSys.getMessage();
+                    return false;
+                }
 
-                return response[0];
-
-            } catch (NullPointerException e){
+                return true;
+            } catch (Exception e){
                 e.printStackTrace();
-                return e.getMessage();
-            }catch (Exception e){
-                e.printStackTrace();
-                return e.getMessage();
+                message = e.getMessage();
+                return false;
             }
         }
 
-
         @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            if(s.equalsIgnoreCase("success")){
-                callback.OnSuccessResult(s,s);
+        protected void onPostExecute(Boolean isSuccess) {
+            super.onPostExecute(isSuccess);
+            if(!isSuccess){
+                listener.OnError(message);
             } else {
-                callback.OnFailedResult(s);
+                listener.OnSuccess();
             }
         }
     }
 
-    private  class UploadEvaluationResultTask extends AsyncTask<String, Void, String> {
-        private final EvaluatorManager poCIEvaluation;
-        private final onPostCIEvaluation callback;
-        private final ConnectionUtil poConn;
-        public UploadEvaluationResultTask(Application app, EvaluatorManager poCIEvaluation,onPostCIEvaluation callback) {
-            this.poCIEvaluation = poCIEvaluation;
+    public void SaveBarangayRecord(BarangayRecord foVal, OnUpdateOtherDetail callback){
+        new SaveBarangayRecordCallback(callback).execute(foVal);
+    }
+
+    private class SaveBarangayRecordCallback extends AsyncTask<BarangayRecord, Void, Boolean>{
+
+        private final OnUpdateOtherDetail callback;
+
+        private String message;
+
+        public SaveBarangayRecordCallback(OnUpdateOtherDetail callback) {
             this.callback = callback;
-            this.poConn = new ConnectionUtil(app);
+        }
+
+        @Override
+        protected Boolean doInBackground(BarangayRecord... record) {
+            try{
+                if(!poSys.UpdateBarangayRecord(record[0])){
+                    message = poSys.getMessage();
+                    return false;
+                }
+
+                return true;
+            } catch (Exception e){
+                e.printStackTrace();
+                message = e.getMessage();
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Boolean isSuccess) {
+            super.onPostExecute(isSuccess);
+            if(!isSuccess){
+                callback.OnError(message);
+            } else {
+                callback.OnSuccess();
+            }
+        }
+    }
+
+    public void UpdateOtherDetail(String args, String args1, String args2, OnUpdateOtherDetail callback){
+        new UpdateOtherDetailTask(callback).execute(args, args1, args2);
+    }
+
+    private class UpdateOtherDetailTask extends AsyncTask<String, Void, Boolean>{
+
+        private final OnUpdateOtherDetail callback;
+
+        private String message;
+
+        public UpdateOtherDetailTask(OnUpdateOtherDetail callback) {
+            this.callback = callback;
+        }
+
+        @Override
+        protected Boolean doInBackground(String... args) {
+            try {
+                String lsTransN = args[0];
+                String lsUpdate = args[1];
+                String lsValuex = args[2];
+                switch (lsUpdate) {
+                    case "n1":
+                        poSys.UpdateNeighbor1(lsTransN, lsValuex);
+                        break;
+                    case "n2":
+                        poSys.UpdateNeighbor2(lsTransN, lsValuex);
+                        break;
+                    case "n3":
+                        poSys.UpdateNeighbor3(lsTransN, lsValuex);
+                        break;
+                }
+                return true;
+            } catch (Exception e){
+                e.printStackTrace();
+                message = e.getMessage();
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Boolean isSuccess) {
+            super.onPostExecute(isSuccess);
+            if(!isSuccess){
+                callback.OnError(message);
+            } else {
+                callback.OnSuccess();
+            }
+        }
+    }
+
+    public void UploadResult(String args, OnUploadResultListener listener){
+        new UploadResultTask(listener).execute(args);
+    }
+
+    private class UploadResultTask extends AsyncTask<String, Void, Boolean>{
+
+        private final OnUploadResultListener listener;
+
+        private String message;
+
+        public UploadResultTask(OnUploadResultListener listener) {
+            this.listener = listener;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            listener.OnUpload();
+        }
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            try{
+                if(!poConn.isDeviceConnected()){
+                    message = poConn.getMessage();
+                    return false;
+                }
+
+                if(!poSys.UploadEvaluationResult(strings[0])){
+                    message = poSys.getMessage();
+                    return false;
+                }
+
+                return true;
+            } catch (Exception e){
+                e.printStackTrace();
+                message = e.getMessage();
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Boolean isSuccess) {
+            super.onPostExecute(isSuccess);
+            if(!isSuccess){
+                listener.OnFailed(message);
+            } else {
+                listener.OnSuccess();
+            }
+        }
+    }
+
+    public void SaveRecommendation(String args, String args1, String args2, OnPostRecommendationCallback callback){
+        new PostRecommendationTask(callback).execute(args, args1, args2);
+    }
+
+    private class PostRecommendationTask extends AsyncTask<String, Void, Boolean>{
+
+        private final OnPostRecommendationCallback callback;
+
+        private String message;
+
+        public PostRecommendationTask(OnPostRecommendationCallback callback) {
+            this.callback = callback;
         }
 
         @Override
@@ -328,111 +333,153 @@ public class VMEvaluation extends AndroidViewModel {
             super.onPreExecute();
             callback.OnPost();
         }
+
         @Override
-        protected String doInBackground(String... transNox) {
-            try {
-                final String[] response = {""};
-                if (!poConn.isDeviceConnected()) {
-                    response[0] = AppConstants.NO_INTERNET();
-                } else {
-                    poCIEvaluation.UploadEvaluationResult(transNox[0], new EvaluatorManager.OnActionCallback() {
-                        @Override
-                        public void OnSuccess(String args) {
-                            response[0] = "success";
-                            Log.e("upload success upload", args);
-                        }
-
-                        @Override
-                        public void OnFailed(String message) {
-                            response[0] =  message;
-                            Log.e("upload failed upload", message);
-                        }
-                    });
-
+        protected Boolean doInBackground(String... args) {
+            try{
+                String TransNox = args[0];
+                String cApprove = args[1];
+                String sRemarks = args[2];
+                if(!poSys.SaveCIApproval(TransNox, cApprove, sRemarks)){
+                    message = poSys.getMessage();
+                    return false;
                 }
-                Thread.sleep(1000);
-                return response[0];
 
-            } catch (NullPointerException e){
+                if(!poConn.isDeviceConnected()){
+                    message = poConn.getMessage();
+                    return false;
+                }
+
+                if(!poSys.PostCIApproval(args[0])){
+                    message = poSys.getMessage();
+                    return false;
+                }
+                return true;
+            } catch (Exception e){
                 e.printStackTrace();
-                return e.getMessage();
-            }catch (Exception e){
-                e.printStackTrace();
-                return e.getMessage();
+                message = e.getMessage();
+                return false;
             }
         }
 
-
         @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            if(s.equalsIgnoreCase("success")){
-                callback.OnSuccessPost("Credit evaluation has been posted successfully");
+        protected void onPostExecute(Boolean isSuccess) {
+            super.onPostExecute(isSuccess);
+            if(!isSuccess){
+                callback.OnFailed(message);
             } else {
-                callback.OnFailedPost(s);
+                callback.OnSuccess();
             }
         }
     }
 
-    private  class PostEvaluationResultTask extends AsyncTask<String, Void, String> {
-        private final EvaluatorManager poCIEvaluation;
-        private final onPostCIEvaluation callback;
-        private final ConnectionUtil poConn;
-        public PostEvaluationResultTask(Application app, EvaluatorManager poCIEvaluation,onPostCIEvaluation callback) {
-            this.poCIEvaluation = poCIEvaluation;
+    public void InitCameraLaunch(Activity activity, String TransNox, OnInitializeCameraCallback callback){
+        new InitializeCameraTask(activity, TransNox, instance, callback).execute();
+    }
+
+    private static class InitializeCameraTask extends AsyncTask<String, Void, Boolean>{
+
+        private final Activity activity;
+        private final Application instance;
+        private final OnInitializeCameraCallback callback;
+        private final ImageFileCreator loImage;
+
+        private Intent loIntent;
+        private String[] args = new String[4];
+        private String message;
+
+        public InitializeCameraTask(Activity activity, String TransNox, Application instance, OnInitializeCameraCallback callback){
+            this.activity = activity;
+            this.instance = instance;
             this.callback = callback;
-            this.poConn = new ConnectionUtil(app);
+            this.loImage = new ImageFileCreator(instance, AppConstants.SUB_FOLDER_CI_ADDRESS, TransNox);
         }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            callback.OnPost();
+            callback.OnInit();
         }
+
         @Override
-        protected String doInBackground(String... transNox) {
-            try {
-                final String[] response = {""};
-                if (!poConn.isDeviceConnected()) {
-                    response[0] = AppConstants.NO_INTERNET();
+        protected Boolean doInBackground(String... strings) {
+            if(!loImage.IsFileCreated(false)){
+                message = loImage.getMessage();
+                return false;
+            } else {
+                LocationRetriever loLrt = new LocationRetriever(instance, activity);
+                if(loLrt.HasLocation()){
+                    args[0] = loImage.getFilePath();
+                    args[1] = loImage.getFileName();
+                    args[2] = loLrt.getLatitude();
+                    args[3] = loLrt.getLongitude();
+                    loIntent = loImage.getCameraIntent();
+                    return true;
                 } else {
-                    poCIEvaluation.PostCIApproval(transNox[0], new EvaluatorManager.OnActionCallback() {
-                        @Override
-                        public void OnSuccess(String args) {
-                            response[0] = "success";
-                            Log.e("upload success upload", args);
-                        }
-
-                        @Override
-                        public void OnFailed(String message) {
-                            response[0] =  message;
-                            Log.e("upload failed upload", message);
-                        }
-                    });
-
+                    args[0] = loImage.getFilePath();
+                    args[1] = loImage.getFileName();
+                    args[2] = loLrt.getLatitude();
+                    args[3] = loLrt.getLongitude();
+                    loIntent = loImage.getCameraIntent();
+                    message = loLrt.getMessage();
+                    return false;
                 }
-                Thread.sleep(1000);
-                return response[0];
-
-            } catch (NullPointerException e){
-                e.printStackTrace();
-                return e.getMessage();
-            }catch (Exception e){
-                e.printStackTrace();
-                return e.getMessage();
             }
         }
 
-
         @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            if(s.equalsIgnoreCase("success")){
-                callback.OnSuccessPost("Approval sent successfully.");
+        protected void onPostExecute(Boolean isSuccess) {
+            super.onPostExecute(isSuccess);
+            if(isSuccess){
+                callback.OnSuccess(loIntent, args);
             } else {
-                callback.OnFailedPost(s);
+                callback.OnFailed(message, loIntent, args);
             }
         }
     }
 
+    public void SaveAddressImage(CIImage foVal, OnSaveAddressResult listener){
+        new SaveAddressImageTask(listener).execute(foVal);
+    }
+
+    private class SaveAddressImageTask extends AsyncTask<CIImage, Void, Boolean>{
+
+        private final OnSaveAddressResult listener;
+
+        private String message;
+
+        private String args, args1, args2;
+
+        public SaveAddressImageTask(OnSaveAddressResult listener) {
+            this.listener = listener;
+        }
+
+        @Override
+        protected Boolean doInBackground(CIImage... ciImages) {
+            try{
+                if(!poSys.SaveImageInfo(ciImages[0])){
+                    message = poSys.getMessage();
+                    return false;
+                }
+                args = ciImages[0].getsParentxx();
+                args1 = ciImages[0].getsKeyNamex();
+                args2 = ciImages[0].getcResultxx();
+                return true;
+            } catch (Exception e){
+                e.printStackTrace();
+                message = e.getMessage();
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Boolean isSuccess) {
+            super.onPostExecute(isSuccess);
+            if(!isSuccess){
+                listener.OnError(message);
+            } else {
+                listener.OnSuccess(args, args1, args2);
+            }
+        }
+    }
 }

@@ -25,11 +25,11 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import org.json.JSONObject;
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DNotifications;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RNotificationInfo;
-import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DNotifications;
+import org.rmj.g3appdriver.dev.Database.Repositories.RNotificationInfo;
+import org.rmj.g3appdriver.dev.HttpHeaders;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.g3appdriver.utils.WebClient;
@@ -83,13 +83,15 @@ public class VMViewNotification extends AndroidViewModel {
         private final HttpHeaders poHeaders;
         private final RNotificationInfo poNotif;
         private final WebApi poApi;
+        private final AppConfigPreference loConfig;
 
         public UpdateToReadTask(Application application) {
             this.instance = application;
             this.loConn = new ConnectionUtil(instance);
             this.poHeaders = HttpHeaders.getInstance(instance);
             this.poNotif = new RNotificationInfo(instance);
-            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
+            this.loConfig = AppConfigPreference.getInstance(instance);
+            this.poApi = new WebApi(loConfig.getTestStatus());
         }
 
         @SuppressLint("NewApi")
@@ -108,7 +110,7 @@ public class VMViewNotification extends AndroidViewModel {
                     params.put("stamp", lsDateReadx);
                     params.put("infox", "");
 
-                    String response = WebClient.httpsPostJSon(poApi.getUrlSendResponse(), params.toString(), poHeaders.getHeaders());
+                    String response = WebClient.httpsPostJSon(poApi.getUrlSendResponse(loConfig.isBackUpServer()), params.toString(), poHeaders.getHeaders());
                     JSONObject loJson = new JSONObject(Objects.requireNonNull(response));
                     String result = loJson.getString("result");
                     if (result.equalsIgnoreCase("success")) {
@@ -192,7 +194,8 @@ public class VMViewNotification extends AndroidViewModel {
             this.poConn = new ConnectionUtil(application);
             this.poHeaders = HttpHeaders.getInstance(application);
             PATH = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/";
-            this.poApi = new WebApi(AppConfigPreference.getInstance(application).getTestStatus());
+            AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
+            this.poApi = new WebApi(loConfig.getTestStatus());
         }
 
         @Override

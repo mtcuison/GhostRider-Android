@@ -18,23 +18,22 @@ import android.os.AsyncTask;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
-import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplication;
-import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicationDocuments;
-import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
-import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.ELog_Selfie;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchLoanApplication;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplication;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplicationDocument;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RLogSelfie;
+import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplication;
+import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicationDocuments;
+import org.rmj.g3appdriver.dev.Database.Entities.EDCPCollectionDetail;
+import org.rmj.g3appdriver.dev.Database.Entities.EImageInfo;
+import org.rmj.g3appdriver.dev.Database.Repositories.RBranchLoanApplication;
+import org.rmj.g3appdriver.dev.Database.Repositories.RCreditApplication;
+import org.rmj.g3appdriver.dev.Database.Repositories.RCreditApplicationDocument;
+import org.rmj.g3appdriver.dev.Database.Repositories.RDailyCollectionPlan;
+import org.rmj.g3appdriver.dev.Database.Repositories.RImageInfo;
+import org.rmj.g3appdriver.lib.SelfieLog.SelfieLog;
 
 import java.util.List;
 
 public class VMDataManager extends AndroidViewModel {
 
-    private final RLogSelfie poLog;
+    private final SelfieLog poLog;
     private final RImageInfo poImage;
     private final RDailyCollectionPlan poDcp;
     private final RCreditApplication poCreditApp;
@@ -51,7 +50,7 @@ public class VMDataManager extends AndroidViewModel {
         super(instance);
         this.poImage = new RImageInfo(instance);
         this.poDcp = new RDailyCollectionPlan(instance);
-        this.poLog = new RLogSelfie(instance);
+        this.poLog = new SelfieLog(instance);
         this.poCreditApp = new RCreditApplication(instance);
         this.poLoan = new RBranchLoanApplication(instance);
         this.poDocs = new RCreditApplicationDocument(instance);
@@ -80,13 +79,6 @@ public class VMDataManager extends AndroidViewModel {
         protected Boolean doInBackground(String... strings) {
             boolean hasData = false;
             try{
-
-                List<ELog_Selfie> loginDetails = poLog.getUnsentSelfieLogin();
-                if(loginDetails.size() > 0){
-                    hasData = true;
-                }
-                publishProgress(1);
-
                 List<EImageInfo> loginImageInfo = poImage.getUnsentSelfieLogImageList();
                 if(loginImageInfo.size() > 0){
                     hasData = true;

@@ -18,11 +18,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DNotifications;
-import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DNotifications;
+import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.guanzongroup.ghostrider.notifications.R;
 
 import java.util.List;
@@ -81,4 +80,5 @@ public class MessagesViewAdapter extends RecyclerView.Adapter<MessagesViewAdapte
             });
         }
     }
+
 }

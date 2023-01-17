@@ -11,7 +11,14 @@
 
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -20,18 +27,14 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.TextView;
-
 import com.google.android.material.tabs.TabLayout;
 
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
-import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.etc.LoadDialog;
+import org.rmj.g3appdriver.etc.MessageBox;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_Approval;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_BusinessTripList;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_Employee_Applications;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_LeaveList;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMEmployeeApplications;
@@ -42,10 +45,9 @@ public class Activity_Employee_Applications extends AppCompatActivity implements
 
     private VMEmployeeApplications mViewModel;
 
-    private final String[] tabHeaders = {"Leave Application \nList",
-                                    "Business Trip Application \nList"};
-    private final int[] tabIcons = {R.drawable.ic_application_leave,
-                                R.drawable.ic_application_business_trip};
+    private final String[] tabHeaders = {"Leave",
+                                    "Business Trip",
+                                    "History"};
 
     private TextView lblBrnchNm, lblBrnchAd, lblHeaderx;
     private Toolbar toolbar;
@@ -105,12 +107,10 @@ public class Activity_Employee_Applications extends AppCompatActivity implements
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 lblHeaderx.setText(tabHeaders[tab.getPosition()]);
-                Objects.requireNonNull(tabLayout.getTabAt(tab.getPosition())).setIcon(tabIcons[tab.getPosition()]);
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-                Objects.requireNonNull(tabLayout.getTabAt(tab.getPosition())).setIcon(tabIcons[tab.getPosition()]);
             }
 
             @Override
@@ -118,9 +118,6 @@ public class Activity_Employee_Applications extends AppCompatActivity implements
 
             }
         });
-
-        Objects.requireNonNull(tabLayout.getTabAt(0)).setIcon(tabIcons[0]);
-        Objects.requireNonNull(tabLayout.getTabAt(1)).setIcon(tabIcons[1]);
     }
 
     @Override
@@ -136,6 +133,11 @@ public class Activity_Employee_Applications extends AppCompatActivity implements
         } else if(item.getItemId() == R.id.action_menu_search_ob){
             loIntent = new Intent(Activity_Employee_Applications.this, Activity_Application.class);
             loIntent.putExtra("app", AppConstants.INTENT_OB_APPROVAL);
+            loIntent.putExtra("sTransNox", "");
+            startActivity(loIntent);
+        } else {
+            loIntent = new Intent(Activity_Employee_Applications.this, Activity_Application.class);
+            loIntent.putExtra("app", AppConstants.INTENT_APPROVAL_HISTORY);
             loIntent.putExtra("sTransNox", "");
             startActivity(loIntent);
         }
@@ -175,6 +177,7 @@ public class Activity_Employee_Applications extends AppCompatActivity implements
 
         private final Fragment[] fragments = {new Fragment_LeaveList(),
                                         new Fragment_BusinessTripList()};
+        private final String[] titles = {"Leave", "Business Trip"};
 
         public ApplicationsPageAdapter(@NonNull FragmentManager fm) {
             super(fm);
@@ -189,6 +192,12 @@ public class Activity_Employee_Applications extends AppCompatActivity implements
         @Override
         public int getCount() {
             return fragments.length;
+        }
+
+        @Nullable
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return titles[position];
         }
     }
 

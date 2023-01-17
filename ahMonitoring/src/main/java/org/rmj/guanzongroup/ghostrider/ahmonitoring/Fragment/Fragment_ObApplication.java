@@ -11,19 +11,10 @@
 
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment;
 
-import androidx.lifecycle.ViewModelProvider;
-
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
-import android.text.format.DateFormat;
-import android.util.Log;
+import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,20 +22,24 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
 
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
-import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
-import org.rmj.g3appdriver.GRider.Etc.GToast;
-import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
-import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.dev.DeptCode;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.OBApplication;
+import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.etc.FormatUIText;
+import org.rmj.g3appdriver.etc.GToast;
+import org.rmj.g3appdriver.etc.LoadDialog;
+import org.rmj.g3appdriver.etc.MessageBox;
+import org.rmj.g3appdriver.lib.PetManager.Obj.EmployeeOB;
+import org.rmj.g3appdriver.lib.PetManager.model.OBApplication;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMObApplication;
 
@@ -72,6 +67,8 @@ public class Fragment_ObApplication extends Fragment {
     private LoadDialog poProgress;
     private MessageBox loMessage;
 
+    private long mLastClickTime = 0;
+
     public static Fragment_ObApplication newInstance() {
         return new Fragment_ObApplication();
     }
@@ -96,20 +93,14 @@ public class Fragment_ObApplication extends Fragment {
 
         poProgress = new LoadDialog(getActivity());
         loMessage = new MessageBox(getActivity());
-        return view;
-    }
 
-    @SuppressLint("NewApi")
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VMObApplication.class);
 
         mViewModel.getUserInfo().observe(getViewLifecycleOwner(), eEmployeeInfo -> {
             try{
-                lblUsername.setText(eEmployeeInfo.getUserName());
-                lblPosition.setText(DeptCode.getDepartmentName(eEmployeeInfo.getDeptIDxx()));
-                infoModel.setEmployID(eEmployeeInfo.getEmployID());
+                lblUsername.setText(eEmployeeInfo.sUserName);
+                lblPosition.setText(DeptCode.getDepartmentName(eEmployeeInfo.sDeptIDxx));
+                infoModel.setEmployID(eEmployeeInfo.sEmployID);
                 infoModel.setTransact(AppConstants.CURRENT_DATE);
             } catch (Exception e){
                 e.printStackTrace();
@@ -128,7 +119,7 @@ public class Fragment_ObApplication extends Fragment {
         txtDateFrom.setOnClickListener(v -> {
             final Calendar newCalendar = Calendar.getInstance();
             @SuppressLint("SimpleDateFormat") final SimpleDateFormat dateFormatter = new SimpleDateFormat("MMMM dd, yyyy");
-            final DatePickerDialog dateFrom = new DatePickerDialog(getActivity(), (view, year, month, dayOfMonth) -> {
+            final DatePickerDialog dateFrom = new DatePickerDialog(getActivity(), (viewx, year, month, dayOfMonth) -> {
                 try {
                     Calendar newDate = Calendar.getInstance();
                     newDate.set(year, month, dayOfMonth);
@@ -159,7 +150,7 @@ public class Fragment_ObApplication extends Fragment {
             if(!Objects.requireNonNull(txtDateFrom.getText()).toString().isEmpty()) {
                 final Calendar newCalendar = Calendar.getInstance();
                 @SuppressLint("SimpleDateFormat") final SimpleDateFormat dateFormatter = new SimpleDateFormat("MMMM dd, yyyy");
-                @SuppressLint("SetTextI18n") final DatePickerDialog dateFrom = new DatePickerDialog(getActivity(), (view, year, month, dayOfMonth) -> {
+                @SuppressLint("SetTextI18n") final DatePickerDialog dateFrom = new DatePickerDialog(getActivity(), (viewx, year, month, dayOfMonth) -> {
                     Calendar newDate = Calendar.getInstance();
                     newDate.set(year, month, dayOfMonth);
                     try {
@@ -190,7 +181,7 @@ public class Fragment_ObApplication extends Fragment {
             txtBranchDestination.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
 
-        txtBranchDestination.setOnItemClickListener((adapterView, view, i, l) -> mViewModel.getAllBranchInfo().observe(getViewLifecycleOwner(), eBranchInfos -> {
+        txtBranchDestination.setOnItemClickListener((adapterView, viewx, i, l) -> mViewModel.getAllBranchInfo().observe(getViewLifecycleOwner(), eBranchInfos -> {
             for(int x = 0; x < eBranchInfos.size(); x++){
                 if(txtBranchDestination.getText().toString().equalsIgnoreCase(eBranchInfos.get(x).getBranchNm())){
                     infoModel.setDestinat(eBranchInfos.get(x).getBranchCd());
@@ -198,38 +189,47 @@ public class Fragment_ObApplication extends Fragment {
                 }
             }
         }));
-        btnSubmit.setOnClickListener(v->{
-            infoModel.setDateFrom(FormatUIText.formatTextToData(Objects.requireNonNull(txtDateFrom.getText()).toString()));
-            infoModel.setDateThru(FormatUIText.formatTextToData(Objects.requireNonNull(txtDateTo.getText()).toString()));
-            infoModel.setRemarksx(Objects.requireNonNull(txtRemarks.getText()).toString());
-            mViewModel.saveObLeave(infoModel, new VMObApplication.OnSubmitOBLeaveListener() {
-                @Override
-                public void onSuccess() {
-                    poProgress.dismiss();
-                    loMessage.initDialog();
-                    loMessage.setPositiveButton("Okay", (v, dialog) ->{
-                        dialog.dismiss();
-                        txtBranchDestination.setText("");
-                        txtDateFrom.setText("");
-                        txtDateTo.setText("");
-                        txtNoDays.setText("");
-                        txtRemarks.setText("");
-                    });
-                    loMessage.setTitle("PET Manager");
-                    loMessage.setMessage("Your business trip application has been submitted.");
-                    loMessage.show();
-                }
 
-                @Override
-                public void onFailed(String message) {
-                    poProgress.dismiss();
-                    loMessage.initDialog();
-                    loMessage.setPositiveButton("Okay", (v, dialog) -> dialog.dismiss());
-                    loMessage.setTitle("PET Manager");
-                    loMessage.setMessage(message);
-                    loMessage.show();
-                }
-            });
+        btnSubmit.setOnClickListener(v->{
+            long time = SystemClock.elapsedRealtime() - mLastClickTime;
+            if(time < 5000){
+                Toast.makeText(requireContext(), "Please wait...", Toast.LENGTH_LONG).show();
+            } else {
+                mLastClickTime = SystemClock.elapsedRealtime();
+                infoModel.setDateFrom(FormatUIText.formatTextToData(Objects.requireNonNull(txtDateFrom.getText()).toString()));
+                infoModel.setDateThru(FormatUIText.formatTextToData(Objects.requireNonNull(txtDateTo.getText()).toString()));
+                infoModel.setRemarksx(Objects.requireNonNull(txtRemarks.getText()).toString());
+                mViewModel.saveObLeave(infoModel, new VMObApplication.OnSubmitOBLeaveListener() {
+                    @Override
+                    public void onSuccess() {
+                        poProgress.dismiss();
+                        loMessage.initDialog();
+                        loMessage.setPositiveButton("Okay", (v, dialog) -> {
+                            dialog.dismiss();
+                            txtBranchDestination.setText("");
+                            txtDateFrom.setText("");
+                            txtDateTo.setText("");
+                            txtNoDays.setText("");
+                            txtRemarks.setText("");
+                            requireActivity().finish();
+                        });
+                        loMessage.setTitle("PET Manager");
+                        loMessage.setMessage("Your business trip application has been submitted.");
+                        loMessage.show();
+                    }
+
+                    @Override
+                    public void onFailed(String message) {
+                        poProgress.dismiss();
+                        loMessage.initDialog();
+                        loMessage.setPositiveButton("Okay", (v, dialog) -> dialog.dismiss());
+                        loMessage.setTitle("PET Manager");
+                        loMessage.setMessage(message);
+                        loMessage.show();
+                    }
+                });
+            }
         });
+        return view;
     }
 }

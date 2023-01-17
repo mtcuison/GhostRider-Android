@@ -27,9 +27,9 @@ import android.widget.TextView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
-import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
-import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.etc.LoadDialog;
+import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.guanzongroup.authlibrary.R;
 
 import java.util.Objects;
@@ -52,6 +52,7 @@ public class Fragment_CreateAccount extends Fragment implements CreateAccountCal
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        mViewModel = new ViewModelProvider(this).get(VMCreateAccount.class);
         View v = inflater.inflate(R.layout.fragment_create_account, container, false);
         loMessage = new MessageBox(getActivity());
         dialog = new LoadDialog(getActivity());
@@ -67,31 +68,21 @@ public class Fragment_CreateAccount extends Fragment implements CreateAccountCal
         tieMobileno = v.findViewById(R.id.tie_ca_mobileNumber);
         lblVersion = v.findViewById(R.id.lbl_versionInfo);
         btnSubmit = v.findViewById(R.id.btn_createAccount);
-        return v;
-    }
 
-    @SuppressLint("SetTextI18n")
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        try {
-            mViewModel = new ViewModelProvider(this).get(VMCreateAccount.class);
-            lblVersion.setText(poConfigx.getVersionInfo());
-            btnSubmit.setOnClickListener(view -> {
-                AccountInfo accountInfo = new AccountInfo();
-                accountInfo.setLastName(Objects.requireNonNull(tieLastname.getText()).toString());
-                accountInfo.setFrstName(Objects.requireNonNull(tieFirstname.getText()).toString());
-                accountInfo.setMiddName(Objects.requireNonNull(tieMiddname.getText()).toString());
-                accountInfo.setSuffix(Objects.requireNonNull(tieSuffix.getText()).toString());
-                accountInfo.setEmail(Objects.requireNonNull(tieEmail.getText()).toString());
-                accountInfo.setPassword(Objects.requireNonNull(tiePassword.getText()).toString());
-                accountInfo.setcPasswrd(Objects.requireNonNull(tiecPassword.getText()).toString());
-                accountInfo.setMobileNo(Objects.requireNonNull(tieMobileno.getText()).toString());
-                mViewModel.SubmitInfo(accountInfo, Fragment_CreateAccount.this);
-            });
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+        lblVersion.setText(poConfigx.getVersionInfo());
+        btnSubmit.setOnClickListener(view -> {
+            AccountInfo accountInfo = new AccountInfo();
+            accountInfo.setLastName(Objects.requireNonNull(tieLastname.getText()).toString());
+            accountInfo.setFrstName(Objects.requireNonNull(tieFirstname.getText()).toString());
+            accountInfo.setMiddName(Objects.requireNonNull(tieMiddname.getText()).toString());
+            accountInfo.setSuffix(Objects.requireNonNull(tieSuffix.getText()).toString());
+            accountInfo.setEmail(Objects.requireNonNull(tieEmail.getText()).toString());
+            accountInfo.setPassword(Objects.requireNonNull(tiePassword.getText()).toString());
+            accountInfo.setcPasswrd(Objects.requireNonNull(tiecPassword.getText()).toString());
+            accountInfo.setMobileNo(Objects.requireNonNull(tieMobileno.getText()).toString());
+            mViewModel.SubmitInfo(accountInfo, Fragment_CreateAccount.this);
+        });
+        return v;
     }
 
     @Override

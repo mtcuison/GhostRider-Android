@@ -14,35 +14,29 @@ package org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel;
 import android.annotation.SuppressLint;
 import android.app.Application;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeBusinessTrip;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
-import org.rmj.g3appdriver.GRider.Database.Repositories.REmployeeBusinessTrip;
-import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeBusinessTrip;
+import org.rmj.g3appdriver.dev.Database.Repositories.RBranch;
+import org.rmj.g3appdriver.lib.PetManager.Obj.EmployeeOB;
+import org.rmj.g3appdriver.lib.PetManager.PetManager;
+import org.rmj.g3appdriver.lib.PetManager.iPM;
+import org.rmj.g3appdriver.lib.PetManager.model.OBApprovalInfo;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
-import org.rmj.g3appdriver.utils.WebApi;
-import org.rmj.g3appdriver.utils.WebClient;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.OBApprovalInfo;
 
 public class VMObApproval extends AndroidViewModel {
     private static final String TAG = VMObApproval.class.getSimpleName();
 
     private final Application instance;
 
-    private final REmployeeBusinessTrip poBusTrip;
+    private final iPM poSys;
     private final RBranch poBranch;
+    private final ConnectionUtil poConn;
 
     private final MutableLiveData<String> TransNox = new MutableLiveData<>();
 
@@ -61,8 +55,9 @@ public class VMObApproval extends AndroidViewModel {
     public VMObApproval(@NonNull Application application) {
         super(application);
         this.instance = application;
-        this.poBusTrip = new REmployeeBusinessTrip(application);
-        this.poBranch = new RBranch(application);
+        this.poSys = new PetManager(instance).GetInstance(PetManager.ePetManager.BUSINESS_TRIP_APPLICATION);
+        this.poBranch = new RBranch(instance);
+        this.poConn = new ConnectionUtil(instance);
         this.TransNox.setValue("");
     }
 
@@ -79,33 +74,48 @@ public class VMObApproval extends AndroidViewModel {
     }
 
     public LiveData<EEmployeeBusinessTrip> getBusinessTripInfo(String TransNox){
-        return poBusTrip.getBusinessTripInfo(TransNox);
+        return poSys.GetOBApplicationInfo(TransNox);
     }
 
     public void downloadBusinessTrip(String TransNox, OnDownloadBusinessTripCallback callback){
-        try{
-            new DownloadBusinessTripTask(instance, TransNox, callback).execute();
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+        new DownloadBusinessTripTask(instance, callback).execute(TransNox);
     }
 
-    private static class DownloadBusinessTripTask extends AsyncTask<String, Void, String>{
+    private static class DownloadBusinessTripTask extends AsyncTask<String, Void, Boolean>{
 
-        private final REmployeeBusinessTrip poBusTrip;
+        private final EmployeeOB poSys;
         private final ConnectionUtil poConn;
-        private final HttpHeaders poHeaders;
-        private final String TransNox;
-        private final WebApi poApi;
         private final OnDownloadBusinessTripCallback callback;
 
-        public DownloadBusinessTripTask(Application instance, String TransNox, OnDownloadBusinessTripCallback callback) {
-            this.poBusTrip = new REmployeeBusinessTrip(instance);
+        private String transno, message;
+
+        public DownloadBusinessTripTask(Application instance, OnDownloadBusinessTripCallback callback) {
+            this.poSys = new EmployeeOB(instance);
             this.poConn = new ConnectionUtil(instance);
-            this.poHeaders = HttpHeaders.getInstance(instance);
-            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
-            this.TransNox = TransNox;
             this.callback = callback;
+        }
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            try{
+                if(!poConn.isDeviceConnected()){
+                    message = poConn.getMessage();
+                    return false;
+                }
+
+                if(!poSys.DownloadApplication(strings[0])){
+                    message = poSys.getMessage();
+                    return false;
+                }
+
+                transno = strings[0];
+                return true;
+
+            } catch (Exception e){
+                e.printStackTrace();
+                message = e.getMessage();
+                return false;
+            }
         }
 
         @Override
@@ -114,91 +124,29 @@ public class VMObApproval extends AndroidViewModel {
             callback.OnDownload("PET Manager", "Downloading business trip. Please wait...");
         }
 
-        @SuppressLint("NewApi")
         @Override
-        protected String doInBackground(String... strings) {
-            String lsResult;
-            try{
-                JSONObject params = new JSONObject();
-                params.put("sTransNox", TransNox);
-                if(!poConn.isDeviceConnected()){
-                    lsResult = AppConstants.NO_INTERNET();
-                } else {
-                    lsResult = WebClient.httpsPostJSon(poApi.getUrlGetObApplication(), params.toString(), poHeaders.getHeaders());
-                    if (lsResult == null) {
-                        lsResult = AppConstants.SERVER_NO_RESPONSE();
-                    } else {
-                        JSONObject loResponse = new JSONObject(lsResult);
-                        String result = loResponse.getString("result");
-                        if (result.equalsIgnoreCase("success")) {
-                            JSONArray jsonA = loResponse.getJSONArray("payload");
-                            JSONObject loJson = jsonA.getJSONObject(0);
-                            if (poBusTrip.getOBIfExist(loJson.getString("sTransNox")).size() > 0) {
-                                Log.d(TAG, "OB application already exist.");
-                            } else {
-                                EEmployeeBusinessTrip loOB = new EEmployeeBusinessTrip();
-                                loOB.setTransNox(loJson.getString("sTransNox"));
-                                loOB.setTransact(loJson.getString("dTransact"));
-                                loOB.setEmployee(loJson.getString("sCompnyNm"));
-                                loOB.setBranchNm(loJson.getString("sBranchNm"));
-                                loOB.setDeptName(loJson.getString("sDeptName"));
-                                loOB.setDateFrom(loJson.getString("dDateFrom"));
-                                loOB.setDateThru(loJson.getString("dDateThru"));
-                                loOB.setRemarksx(loJson.getString("sRemarksx"));
-                                loOB.setTranStat(loJson.getString("cTranStat"));
-                                poBusTrip.insert(loOB);
-                            }
-                        }
-                    }
-                }
-            } catch (Exception e){
-                e.printStackTrace();
-                lsResult = AppConstants.LOCAL_EXCEPTION_ERROR(e.getMessage());
-            }
-            return lsResult;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            try {
-                JSONObject loJson = new JSONObject(s);
-                String lsResult = loJson.getString("result");
-                if(lsResult.equalsIgnoreCase("success")){
-                    callback.OnSuccessDownload(TransNox);
-                } else {
-                    JSONObject loError = loJson.getJSONObject("error");
-                    String message = loError.getString("message");
-                    callback.OnFailedDownload(message);
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-                callback.OnFailedDownload(e.getMessage());
-            } catch (Exception e) {
-                e.printStackTrace();
-                callback.OnFailedDownload(e.getMessage());
+        protected void onPostExecute(Boolean isSuccess) {
+            super.onPostExecute(isSuccess);
+            if(isSuccess){
+                callback.OnSuccessDownload(transno);
+            } else {
+                callback.OnFailedDownload(message);
             }
         }
     }
 
     public void confirmOBApplication(OBApprovalInfo infoModel, OnConfirmApplicationCallback callback){
-        new ConfirmApplicationTask(instance, callback).execute(infoModel);
+        new ConfirmApplicationTask(callback).execute(infoModel);
     }
 
-    private static class ConfirmApplicationTask extends AsyncTask<OBApprovalInfo, Void, String>{
+    private class ConfirmApplicationTask extends AsyncTask<OBApprovalInfo, Void, Boolean>{
 
-        private final REmployeeBusinessTrip poBusTrip;
-        private final ConnectionUtil poConn;
-        private final HttpHeaders poHeaders;
-        private final WebApi poApi;
         private final OnConfirmApplicationCallback callback;
 
-        public ConfirmApplicationTask(Application instance, OnConfirmApplicationCallback callback){
-            this.poConn = new ConnectionUtil(instance);
-            this.poHeaders = HttpHeaders.getInstance(instance);
-            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
+        private String message;
+
+        public ConfirmApplicationTask(OnConfirmApplicationCallback callback){
             this.callback = callback;
-            this.poBusTrip = new REmployeeBusinessTrip(instance);
         }
 
         @Override
@@ -209,60 +157,42 @@ public class VMObApproval extends AndroidViewModel {
 
         @SuppressLint("NewApi")
         @Override
-        protected String doInBackground(OBApprovalInfo... obApprovalInfos) {
-            String lsResult;
+        protected Boolean doInBackground(OBApprovalInfo... obApprovalInfos) {
             try{
-                OBApprovalInfo loApp = obApprovalInfos[0];
                 if(!poConn.isDeviceConnected()) {
-                    lsResult = AppConstants.NO_INTERNET();
-                } else {
-                    JSONObject param = new JSONObject();
-                    param.put("sTransNox", loApp.getTransNox());
-                    param.put("dAppldFrx", loApp.getAppldFrx());
-                    param.put("dAppldTox", loApp.getAppldTox());
-                    param.put("sApproved", loApp.getApproved());
-                    param.put("dApproved", loApp.getDateAppv());
-                    param.put("cTranStat", loApp.getTranStat());
-                    lsResult = WebClient.httpsPostJSon(poApi.getUrlConfirmObApplication(), param.toString(), poHeaders.getHeaders());
-                    if (lsResult != null) {
-                        JSONObject jsonResponse = new JSONObject(lsResult);
-                        String result = jsonResponse.getString("result");
-                        if(result.equalsIgnoreCase("success")){
-                            poBusTrip.updateOBApproval(loApp.getTranStat(), loApp.getTransNox(), new AppConstants().DATE_MODIFIED);
-                            if(loApp.getTranStat().equalsIgnoreCase("1")) {
-                                lsResult = AppConstants.APPROVAL_CODE_GENERATED("Business trip has been approve successfully.");
-                            } else {
-                                lsResult = AppConstants.APPROVAL_CODE_GENERATED("Business trip has been disapprove successfully.");
-                            }
-                        }
-                        Log.e(TAG, lsResult);
-                    } else {
-                        lsResult = AppConstants.SERVER_NO_RESPONSE();
-                    }
+                    message = poConn.getMessage() + " Your approval will be automatically send if device is reconnected to internet.";
+                    return false;
                 }
+
+                if(!poSys.UploadApproval(obApprovalInfos[0])){
+                    message = poSys.getMessage();
+                    return false;
+                }
+
+                String lsTransNox = poSys.SaveApproval(obApprovalInfos[0]);
+                if(lsTransNox == null){
+                    message = poSys.getMessage();
+                    return false;
+                }
+
+                message = poSys.getMessage();
+                return true;
             } catch (Exception e){
                 e.printStackTrace();
-                lsResult = AppConstants.LOCAL_EXCEPTION_ERROR(e.getMessage());
+                message = e.getMessage();
+                return false;
             }
-            return lsResult;
         }
 
         @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
+        protected void onPostExecute(Boolean isSuccess) {
+            super.onPostExecute(isSuccess);
             try {
-                JSONObject loJson = new JSONObject(s);
-                String lsResult = loJson.getString("result");
-                if(lsResult.equalsIgnoreCase("success")){
-                    callback.OnSuccess(loJson.getString("code"));
+                if(isSuccess){
+                    callback.OnSuccess(message);
                 } else {
-                    JSONObject loError = loJson.getJSONObject("error");
-                    String message = loError.getString("message");
                     callback.OnFailed(message);
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
-                callback.OnFailed(e.getMessage());
             } catch (Exception e) {
                 e.printStackTrace();
                 callback.OnFailed(e.getMessage());

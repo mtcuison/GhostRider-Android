@@ -11,13 +11,6 @@
 
 package org.guanzongroup.com.creditevaluation.Activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -30,6 +23,13 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
 
@@ -38,9 +38,9 @@ import org.guanzongroup.com.creditevaluation.Dialog.DialogAddApplication;
 import org.guanzongroup.com.creditevaluation.R;
 import org.guanzongroup.com.creditevaluation.ViewModel.VMEvaluationList;
 import org.guanzongroup.com.creditevaluation.ViewModel.ViewModelCallback;
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditOnlineApplicationCI;
-import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
-import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DCreditOnlineApplicationCI;
+import org.rmj.g3appdriver.etc.LoadDialog;
+import org.rmj.g3appdriver.etc.MessageBox;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,19 +64,20 @@ public class Activity_CIEvaluationList extends AppCompatActivity  implements VME
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mViewModel = new ViewModelProvider(Activity_CIEvaluationList.this).get(VMEvaluationList.class);
         setContentView(R.layout.activity_cievaluation_list);
         initWidgets();
-        mViewModel = new ViewModelProvider(Activity_CIEvaluationList.this).get(VMEvaluationList.class);
-        mViewModel.DownloadCreditApplications(Activity_CIEvaluationList.this);
-        mViewModel.getUserBranch().observe(this, eBranchInfo -> {
+        mViewModel.DownloadForCIApplications(Activity_CIEvaluationList.this);
+
+        mViewModel.GetUserInfo().observe(this, eBranchInfo -> {
             try {
-                lblBranch.setText(eBranchInfo.getBranchNm());
-                lblAddress.setText(eBranchInfo.getAddressx());
+                lblBranch.setText(eBranchInfo.sBranchNm);
+                lblAddress.setText(eBranchInfo.sAddressx);
             } catch (Exception e){
                 e.printStackTrace();
             }
         });
-
+        initData();
     }
 
     @Override
@@ -87,8 +88,8 @@ public class Activity_CIEvaluationList extends AppCompatActivity  implements VME
     }
 
     private void initWidgets() {
-
         Toolbar toolbar = findViewById(R.id.toolbar_creditEvalutionList);
+        toolbar.setTitle("Credit Investigator");
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         poDialogx = new LoadDialog(Activity_CIEvaluationList.this);
@@ -115,7 +116,6 @@ public class Activity_CIEvaluationList extends AppCompatActivity  implements VME
     @Override
     public void onSuccessImport() {
         poDialogx.dismiss();
-        initData();
     }
 
     @Override
@@ -133,17 +133,12 @@ public class Activity_CIEvaluationList extends AppCompatActivity  implements VME
         if (item.getItemId() == android.R.id.home) {
             finish();
         } else if (item.getItemId() == R.id.action_menu_add_application) {
-            poMessage.initDialog();
-            poMessage.setTitle("CI Evaluation");
-            poMessage.setMessage("No corresponding feature has been set.");
-            poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-            poMessage.show();
             try {
                 DialogAddApplication loDialog = new DialogAddApplication(Activity_CIEvaluationList.this);
                 loDialog.initDialog(new DialogAddApplication.OnDialogButtonClickListener() {
                     @Override
                     public void OnDownloadClick(Dialog Dialog, String args) {
-                        mViewModel.importApplicationInfo(args, new ViewModelCallback() {
+                        mViewModel.AddForCIApplication(args, new ViewModelCallback() {
                             @Override
                             public void OnStartSaving() {
                                 poDialogx.initDialog("Add Application", "Downloading client info. Please wait...", false);
@@ -191,6 +186,7 @@ public class Activity_CIEvaluationList extends AppCompatActivity  implements VME
             Log.e("size", String.valueOf(ciList.size()));
             try {
                 if (ciList.size() > 0) {
+                    layoutNoRecord.setVisibility(View.GONE);
                     loading.setVisibility(View.GONE);
                     ciEvaluationList = new ArrayList<>();
                     for (int x = 0; x < ciList.size(); x++) {
@@ -211,9 +207,7 @@ public class Activity_CIEvaluationList extends AppCompatActivity  implements VME
                         loan.sRecrdRem = (ciList.get(x).sRecrdRem);
                         loan.sRcmdtnx1 = (ciList.get(x).sRcmdtnx1);
                         ciEvaluationList.add(loan);
-                        continue;
                     }
-
 
                     String json = new Gson().toJson(ciEvaluationList);
                     adapter = new CreditEvaluationListAdapter(ciEvaluationList, "CI Evaluation List", new CreditEvaluationListAdapter.OnApplicationClickListener() {
@@ -240,7 +234,6 @@ public class Activity_CIEvaluationList extends AppCompatActivity  implements VME
                         @Override
                         public void onTextChanged(CharSequence s, int start, int before, int count) {
                             try {
-
                                 adapter.getFilter().filter(s.toString());
                                 if (adapter.getItemCount() == 0) {
                                     layoutNoRecord.setVisibility(View.VISIBLE);
@@ -264,7 +257,6 @@ public class Activity_CIEvaluationList extends AppCompatActivity  implements VME
                         }
                     });
                 } else {
-//                    mViewModel.ImportCIApplications(Activity_CIEvaluationList.this);
                     layoutNoRecord.setVisibility(View.VISIBLE);
                 }
             } catch (NullPointerException e) {

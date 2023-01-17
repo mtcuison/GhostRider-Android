@@ -17,10 +17,10 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeLeave;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
-import org.rmj.g3appdriver.GRider.Database.Repositories.REmployeeLeave;
+import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeLeave;
+import org.rmj.g3appdriver.dev.Database.Repositories.RBranch;
+import org.rmj.g3appdriver.lib.PetManager.Obj.EmployeeLeave;
 
 import java.util.List;
 
@@ -28,22 +28,22 @@ public class VMLeaveList extends AndroidViewModel {
    private static final String TAG = VMLeaveList.class.getSimpleName();
 
     private final Application instance;
-    private final REmployeeLeave poLeave;
+    private final EmployeeLeave poLeave;
     private final RBranch poBranch;
 
     public VMLeaveList(@NonNull Application application) {
         super(application);
         this.instance = application;
-        this.poLeave = new REmployeeLeave(instance);
+        this.poLeave = new EmployeeLeave(instance);
         this.poBranch = new RBranch(instance);
     }
 
-    public LiveData<List<EEmployeeLeave>> getEmployeeLeaveForApprovalList(){
-        return poLeave.getEmployeeLeaveForApprovalList();
+    public LiveData<List<EEmployeeLeave>> getForApprovalList(){
+        return poLeave.GetLeaveApplicationsForApproval();
     }
 
-    public LiveData<List<EEmployeeLeave>> getEmployeeLeaveList(){
-        return poLeave.getEmployeeLeaveList();
+    public LiveData<List<EEmployeeLeave>> getForPreviewList(){
+        return poLeave.GetLeaveApplicationList();
     }
 
     public LiveData<EBranchInfo> getUserBranchInfo(){

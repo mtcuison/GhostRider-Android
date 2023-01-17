@@ -42,7 +42,7 @@
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="0dp"
         android:layout_height="2dp"
-        android:max="100"
+        android:max="4"
         android:progress="0"
         android:progressTint="@color/guanzon_digital_orange"
         android:progressBackgroundTint="@color/black"

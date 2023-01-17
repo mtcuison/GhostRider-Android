@@ -11,6 +11,9 @@
 
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity;
 
+import android.os.Bundle;
+import android.view.MenuItem;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -19,20 +22,16 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import android.os.Bundle;
-import android.view.MenuItem;
-
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
+import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_Approval;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_BranchOpening;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_BusinessTripApproval;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_BusinessTripList;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_Employee_Applications;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_LeaveApplication;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_LeaveApproval;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_LeaveList;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_ObApplication;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_Reimbursement;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_SelfieLogin;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_SelfieLog;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 
 import java.util.ArrayList;
@@ -69,7 +68,7 @@ public class Activity_Application extends AppCompatActivity {
         } else if(application == AppConstants.INTENT_LEAVE_APPLICATION){
             viewPager.setAdapter(new ApplicationPageAdapter(getSupportFragmentManager(), new Fragment_LeaveApplication()));
         } else if(application == AppConstants.INTENT_SELFIE_LOGIN){
-            viewPager.setAdapter(new ApplicationPageAdapter(getSupportFragmentManager(), new Fragment_SelfieLogin()));
+            viewPager.setAdapter(new ApplicationPageAdapter(getSupportFragmentManager(), new Fragment_SelfieLog()));
         } else if(application == AppConstants.INTENT_REIMBURSEMENT){
             viewPager.setAdapter(new ApplicationPageAdapter(getSupportFragmentManager(), new Fragment_Reimbursement()));
         } else if(application == AppConstants.INTENT_APPLICATION_APPROVAL){
@@ -80,6 +79,9 @@ public class Activity_Application extends AppCompatActivity {
         } else if(application == AppConstants.INTENT_OB_APPROVAL){
             sTransNox = getIntent().getStringExtra("sTransNox");
             viewPager.setAdapter(new ApplicationPageAdapter(getSupportFragmentManager(), new Fragment_BusinessTripApproval()));
+        } else if(application == AppConstants.INTENT_APPROVAL_HISTORY){
+            viewPager.setAdapter(new ApplicationPageAdapter(getSupportFragmentManager(), new Fragment_Employee_Applications()));
+            toolbar.setTitle("Approval History");
         } else {
             viewPager.setAdapter(new ApplicationPageAdapter(getSupportFragmentManager(), new Fragment_BranchOpening()));
             toolbar.setTitle("Branch Opening Monitor");

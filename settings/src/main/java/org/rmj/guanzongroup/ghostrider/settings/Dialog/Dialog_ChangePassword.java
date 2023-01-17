@@ -21,7 +21,7 @@ import android.widget.Button;
 
 import com.google.android.material.textfield.TextInputEditText;
 
-import org.rmj.g3appdriver.GRider.Etc.GToast;
+import org.rmj.g3appdriver.etc.GToast;
 import org.rmj.guanzongroup.ghostrider.settings.R;
 
 public class Dialog_ChangePassword {

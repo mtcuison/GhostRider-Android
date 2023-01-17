@@ -11,6 +11,11 @@
 
 package org.rmj.guanzongroup.ghostrider.epacss.ui.home;
 
+import static android.app.Activity.RESULT_OK;
+
+import static org.rmj.g3appdriver.etc.AppConstants.INTENT_BRANCH_OPENING;
+import static org.rmj.g3appdriver.etc.AppConstants.SETTINGS;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -27,6 +32,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -34,34 +40,30 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.Entities.EBranchPerformance;
-import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
-import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.EBranchPerformance;
+import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.etc.GeoLocator;
+import org.rmj.g3appdriver.etc.MessageBox;
+import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Application;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_AreaPerformance;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.BranchMonitoringAdapter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.BranchOpeningAdapter;
 import org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_Main;
 import org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_SplashScreen;
+import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMHome;
 import org.rmj.guanzongroup.ghostrider.epacss.adapter.NewsEventsAdapter;
 import org.rmj.guanzongroup.ghostrider.epacss.adapter.NewsEventsModel;
-import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
-
-import org.rmj.g3appdriver.GRider.Etc.GeoLocator;
-import org.rmj.g3appdriver.dev.DeptCode;
-import org.rmj.guanzongroup.ghostrider.epacss.R;
+import org.rmj.g3appdriver.etc.ImageFileCreator;
 import org.rmj.guanzongroup.ghostrider.notifications.Activity.Activity_Container;
 import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_Settings;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static android.app.Activity.RESULT_OK;
-import static org.rmj.g3appdriver.GRider.Constants.AppConstants.INTENT_BRANCH_OPENING;
-import static org.rmj.g3appdriver.GRider.Constants.AppConstants.SETTINGS;
 
 public class Fragment_Home extends Fragment {
 
@@ -78,7 +80,7 @@ public class Fragment_Home extends Fragment {
             lblUserLvl,
             lblDept,
             lblAreaNme,
-            lblBranch;
+            lblSyncStat;
     private String photoPath;
     private double latitude, longitude;
     private List<NewsEventsModel> newsList;
@@ -92,8 +94,10 @@ public class Fragment_Home extends Fragment {
     @SuppressLint("NonConstantResourceId")
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
+        mViewModel = new ViewModelProvider(this).get(VMHome.class);
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        poLocator = new GeoLocator(getActivity(), getActivity());
+        poLocator = new GeoLocator(requireActivity(), requireActivity());
         poFilexx = new ImageFileCreator(getActivity(), CAMERA_USAGE);
         imgProfile = view.findViewById(R.id.img_profile);
         newsList = new ArrayList<>();
@@ -103,7 +107,7 @@ public class Fragment_Home extends Fragment {
         lblEmail = view.findViewById(R.id.lbl_userEmail);
         lblUserLvl = view.findViewById(R.id.lbl_userLevel);
         lblDept = view.findViewById(R.id.lbl_userDepartment);
-        lblBranch = view.findViewById(R.id.lbl_userBranch);
+        lblSyncStat = view.findViewById(R.id.lbl_syncStatus);
         lblAreaNme = view.findViewById(R.id.lbl_areaName);
         recyclerView = view.findViewById(R.id.recyclerview_monitoring);
         recyclerViewOpening = view.findViewById(R.id.recyclerview_openings);
@@ -136,25 +140,32 @@ public class Fragment_Home extends Fragment {
             }
             return false;
         });
-        return view;
-    }
-
-    @SuppressLint("SetTextI18n")
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(VMHome.class);
 
         mViewModel.getEmployeeInfo().observe(getViewLifecycleOwner(), eEmployeeInfo -> {
             try {
                 lblEmail.setText(eEmployeeInfo.getEmailAdd());
-                lblUserLvl.setText(DeptCode.parseUserLevel(Integer.parseInt(eEmployeeInfo.getEmpLevID())));
+                lblUserLvl.setText(DeptCode.parseUserLevel(eEmployeeInfo.getEmpLevID()));
                 lblFullNme.setText(eEmployeeInfo.getUserName());
                 lblDept.setText(DeptCode.getDepartmentName(eEmployeeInfo.getDeptIDxx()));
                 mViewModel.setIntUserLvl(4);
 
             } catch (Exception e){
                 e.printStackTrace();
+            }
+        });
+
+        mViewModel.GetUserBranchInfo().observe(getViewLifecycleOwner(), new Observer<EBranchInfo>() {
+            @Override
+            public void onChanged(EBranchInfo eBranchInfo) {
+                try{
+                    if(eBranchInfo == null){
+                        lblSyncStat.setVisibility(View.VISIBLE);
+                    } else {
+                        lblSyncStat.setVisibility(View.GONE);
+                    }
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -217,6 +228,7 @@ public class Fragment_Home extends Fragment {
         });
 
         adapter.notifyDataSetChanged();
+        return view;
     }
 
     public void showDialog(){
@@ -225,7 +237,7 @@ public class Fragment_Home extends Fragment {
         loMessage.setPositiveButton("Yes", (view, dialog) -> {
             dialog.dismiss();
             requireActivity().finish();
-            new REmployee(requireActivity().getApplication()).LogoutUserSession();
+            new EmployeeMaster(requireActivity().getApplication()).LogoutUserSession();
             AppConfigPreference.getInstance(getActivity()).setIsAppFirstLaunch(false);
             startActivity(new Intent(getActivity(), Activity_SplashScreen.class));
         });

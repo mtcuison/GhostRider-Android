@@ -11,7 +11,7 @@
 
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment;
 
-import static org.rmj.g3appdriver.GRider.Constants.AppConstants.CHART_MONTH_LABEL;
+import static org.rmj.g3appdriver.etc.AppConstants.CHART_MONTH_LABEL;
 
 import androidx.lifecycle.ViewModelProvider;
 
@@ -36,7 +36,6 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
-import org.rmj.g3appdriver.GRider.Database.Entities.EBranchPerformance;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Monitoring;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMBranchMonitor;

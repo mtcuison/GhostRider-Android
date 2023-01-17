@@ -10,9 +10,9 @@
   ~ project file last modified : 4/24/21 3:17 PM
   -->
 
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.rmj.guanzongroup.authlibrary">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <application>
         <activity
             android:name=".Activity.Activity_Authenticate"

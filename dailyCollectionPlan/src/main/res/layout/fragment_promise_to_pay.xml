@@ -178,7 +178,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-
                 <RadioButton
                     android:id="@+id/rb_ptpBranch"
                     android:layout_width="0dp"
@@ -186,17 +185,16 @@
                     android:layout_weight=".7"
                     android:fontFamily="@font/roboto_regular"
                     android:text="Branch"
-                    android:buttonTint="@color/guanzon_orange"
-                    tools:targetApi="jelly_bean" />
+                    android:buttonTint="@color/guanzon_orange" />
 
                 <RadioButton
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight=".7"
                     android:text="Collector"
+                    android:checked="true"
                     android:buttonTint="@color/guanzon_orange"
-                    android:fontFamily="@font/roboto_regular"
-                    tools:targetApi="jelly_bean"/>
+                    android:fontFamily="@font/roboto_regular" />
             </RadioGroup>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -260,61 +258,6 @@
                     android:focusedByDefault="false"
                     android:maxLength="50" />
             </com.google.android.material.textfield.TextInputLayout>
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:orientation="horizontal"-->
-<!--                android:gravity="center"-->
-<!--                android:layout_marginBottom="10dp"-->
-<!--                android:background="@color/guanzon_orange">-->
-
-<!--                <TextView-->
-<!--                    android:layout_width="fill_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_weight=".6"-->
-<!--                    android:background="@color/guanzon_orange"-->
-<!--                    android:paddingLeft="10dp"-->
-<!--                    android:paddingTop="15dp"-->
-<!--                    android:paddingBottom="15dp"-->
-<!--                    android:text="Customer Picture"-->
-<!--                    android:textSize="17sp"-->
-<!--                    android:textColor="@color/white"-->
-<!--                    android:textStyle="bold" />-->
-
-<!--                <LinearLayout-->
-<!--                    android:layout_width="fill_parent"-->
-<!--                    android:layout_height="fill_parent"-->
-<!--                    android:orientation="vertical"-->
-<!--                    android:layout_weight="1.4"-->
-<!--                    android:gravity="right"-->
-<!--                    >-->
-<!--                    <ImageView-->
-<!--                        android:id="@+id/imgPtpCamera"-->
-<!--                        android:layout_width="60dp"-->
-<!--                        android:layout_height="match_parent"-->
-<!--                        android:src="@android:drawable/ic_menu_camera"-->
-<!--                        android:scaleType="fitXY"/>-->
-<!--                </LinearLayout>-->
-
-<!--            </LinearLayout>-->
-<!--            <com.google.android.material.button.MaterialButton-->
-<!--                style="@style/GhostRider_Button"-->
-<!--                android:id="@+id/btn_ptp_camera"-->
-<!--                android:layout_width="fill_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="Take Picture (Required)"-->
-<!--                android:layout_marginTop="20dp"-->
-<!--                android:layout_marginBottom="10dp"/>-->
-            <TextView
-                android:id="@+id/tvImgPath"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:fontFamily="@font/roboto_medium"
-                android:textColor="@color/textColor_Black"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:visibility="gone"/>
 
             <com.google.android.material.button.MaterialButton
                 style="@style/GhostRider_Button"

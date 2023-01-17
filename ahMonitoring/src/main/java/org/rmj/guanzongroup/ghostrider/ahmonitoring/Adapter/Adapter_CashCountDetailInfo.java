@@ -10,8 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
-import org.rmj.g3appdriver.GRider.Etc.CashFormatter;
+import org.rmj.g3appdriver.etc.CashFormatter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.CashCountDetailedInfo;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 

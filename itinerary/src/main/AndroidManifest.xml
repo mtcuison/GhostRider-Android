@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.guanzongroup.com.itinerary">
+
+    <application>
+        <activity
+            android:name=".Activities.Activity_UsersItineraries"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.Activity_ItineraryLog"
+            android:exported="false"
+            android:screenOrientation="userPortrait" />
+        <activity
+            android:name=".Activities.Activity_ItineraryEntry"
+            android:exported="false"
+            android:screenOrientation="userPortrait" />
+    </application>
+
+</manifest>

@@ -26,10 +26,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeBusinessTrip;
-import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
-import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeBusinessTrip;
+import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.etc.LoadDialog;
+import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Application;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.EmployeeApplicationAdapter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
@@ -55,24 +55,19 @@ public class Fragment_BusinessTripList extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        mViewModel = new ViewModelProvider(this).get(VMBusinessTripList.class);
         View view = inflater.inflate(R.layout.fragment_business_trip_list, container, false);
 
         setupWidgets(view);
 
-        return view;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(VMBusinessTripList.class);
-
         boolean forViewing = requireActivity().getIntent().getBooleanExtra("type", false);
         if (forViewing) {
-            mViewModel.getOBList().observe(getViewLifecycleOwner(), this::setupList);
+            mViewModel.getForPreviewList().observe(getViewLifecycleOwner(), this::setupList);
         } else {
-            mViewModel.getBusinessTripList().observe(getViewLifecycleOwner(), this::setupList);
+            mViewModel.getForApprovalList().observe(getViewLifecycleOwner(), this::setupList);
         }
+
+        return view;
     }
 
     private void setupList(List<EEmployeeBusinessTrip> fsList){

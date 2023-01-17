@@ -8,13 +8,13 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DBranchPerformance;
-import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.EBranchPerformance;
-import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchPerformance;
-import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DBranchPerformance;
+import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.EBranchPerformance;
+import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
+import org.rmj.g3appdriver.dev.Database.Repositories.RBranch;
+import org.rmj.g3appdriver.dev.Database.Repositories.RBranchPerformance;
+import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ public class VMBHDashboard extends AndroidViewModel {
 
     private final RBranchPerformance poPerFormance;
     private final RBranch poBranch;
-    private final REmployee poUser;
+    private final EmployeeMaster poUser;
 
     private final MutableLiveData<String> psSales = new MutableLiveData<>();
 
@@ -34,7 +34,7 @@ public class VMBHDashboard extends AndroidViewModel {
         psSales.setValue("MC");
         this.poPerFormance = new RBranchPerformance(application);
         this.poBranch = new RBranch(application);
-        this.poUser = new REmployee(application);
+        this.poUser = new EmployeeMaster(application);
     }
 
     public LiveData<EBranchInfo> getUserBranchInfo(){

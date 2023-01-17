@@ -33,7 +33,7 @@
                 android:id="@+id/img_dashboard_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@drawable/img_ah_header"
+                app:srcCompat ="@drawable/img_ah_header"
                 android:scaleType="center"/>
 
             <RelativeLayout

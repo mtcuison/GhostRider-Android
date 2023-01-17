@@ -96,7 +96,6 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/roboto_medium"
-                        android:text="GMC Dagupan Honda"
                         android:padding="10dp"
                         android:textColor="@color/material_black"/>
 

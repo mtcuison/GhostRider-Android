@@ -21,8 +21,9 @@ import androidx.annotation.RequiresApi;
 import androidx.lifecycle.AndroidViewModel;
 
 import org.json.JSONObject;
-import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
+import org.rmj.g3appdriver.dev.HttpHeaders;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.g3appdriver.utils.WebClient;
@@ -32,13 +33,16 @@ import java.util.HashMap;
 
 public class VMCreateAccount extends AndroidViewModel{
     public static final String TAG = VMCreateAccount.class.getSimpleName();
+    private final Application instance;
     private WebApi webApi;
     private HttpHeaders headers;
     private ConnectionUtil conn;
 
     public VMCreateAccount(@NonNull Application application) {
         super(application);
-        webApi = new WebApi(AppConfigPreference.getInstance(application).getTestStatus());
+        this.instance = application;
+        AppConfigPreference loConfig = AppConfigPreference.getInstance(application);
+        this.webApi = new WebApi(loConfig.getTestStatus());
         headers = HttpHeaders.getInstance(application);
         conn = new ConnectionUtil(application);
     }
@@ -54,26 +58,23 @@ public class VMCreateAccount extends AndroidViewModel{
             } catch (Exception e){
                 e.printStackTrace();
             }
-
-            if (conn.isDeviceConnected()) {
-                new CreateAccountTask(webApi, headers, callBack).execute(params);
-            } else {
-                callBack.OnFailedRegistration("Unable to connect. Please check your internet connection.");
-            }
+            new CreateAccountTask(instance, callBack).execute(params);
         } else {
             callBack.OnFailedRegistration(accountInfo.getMessage());
         }
     }
 
     private static class CreateAccountTask extends AsyncTask<JSONObject, Void, String>{
+        private final Application instance;
         private WebApi webApi;
         private HttpHeaders headers;
+        private ConnectionUtil poConn;
         private CreateAccountCallBack callBack;
 
-        public CreateAccountTask(WebApi webApi, HttpHeaders headers, CreateAccountCallBack callBack){
-            this.webApi = webApi;
-            this.headers = headers;
+        public CreateAccountTask(Application instance, CreateAccountCallBack callBack){
+            this.instance = instance;
             this.callBack = callBack;
+            this.poConn = new ConnectionUtil(instance);
         }
 
         @Override
@@ -87,8 +88,15 @@ public class VMCreateAccount extends AndroidViewModel{
         protected String doInBackground(JSONObject... jsonObjects) {
             String response = "";
             try {
-                response = WebClient.httpsPostJSon(webApi.getUrlCreateAccount(), jsonObjects[0].toString(), (HashMap<String, String>) headers.getHeaders());
-                Log.e(TAG, response);
+                AppConfigPreference poConfig = AppConfigPreference.getInstance(instance);
+                webApi = new WebApi(poConfig.getTestStatus());
+                headers = HttpHeaders.getInstance(instance);
+                if (poConn.isDeviceConnected()) {
+                    response = WebClient.httpsPostJSon(webApi.getUrlCreateAccount(poConfig.isBackUpServer()), jsonObjects[0].toString(), (HashMap<String, String>) headers.getHeaders());
+                    Log.e(TAG, response);
+                } else {
+                    response = AppConstants.LOCAL_EXCEPTION_ERROR("Unable to connect. Please check your internet connection.");
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }

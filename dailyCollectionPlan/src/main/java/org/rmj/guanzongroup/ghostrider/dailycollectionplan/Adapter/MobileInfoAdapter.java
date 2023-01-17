@@ -20,7 +20,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.g3appdriver.GRider.Database.Entities.EMobileUpdate;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DMobileUpdate;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ import java.util.List;
 
 public class MobileInfoAdapter extends RecyclerView.Adapter<MobileInfoAdapter.MobilenoxHolder> {
 
-    private List<EMobileUpdate> mobileUpdates = new ArrayList<>();
+    private List<DMobileUpdate.MobileUpdateInfo> mobileUpdates = new ArrayList<>();
     private final OnItemInfoClickListener mListener;
 
     public MobileInfoAdapter(OnItemInfoClickListener mListener) {
@@ -45,12 +45,12 @@ public class MobileInfoAdapter extends RecyclerView.Adapter<MobileInfoAdapter.Mo
 
     @Override
     public void onBindViewHolder(@NonNull MobilenoxHolder holder, int position) {
-        EMobileUpdate current = mobileUpdates.get(position);
-        if(current.getPrimaryx().equalsIgnoreCase("1")) {
+        DMobileUpdate.MobileUpdateInfo current = mobileUpdates.get(position);
+        if(current.cPrimaryx.equalsIgnoreCase("1")) {
             holder.tvPrimary.setVisibility(View.VISIBLE);
             holder.tvPrimary.setText("Primary");
         }
-        holder.tvDetails.setText(current.getMobileNo());
+        holder.tvDetails.setText(current.sMobileNo);
 
 
     }
@@ -60,7 +60,7 @@ public class MobileInfoAdapter extends RecyclerView.Adapter<MobileInfoAdapter.Mo
         return mobileUpdates.size();
     }
 
-    public void setMobileNox(List<EMobileUpdate> mobileUpdates) {
+    public void setMobileNox(List<DMobileUpdate.MobileUpdateInfo> mobileUpdates) {
         this.mobileUpdates = mobileUpdates;
         notifyDataSetChanged();
     }

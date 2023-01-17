@@ -21,9 +21,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
-import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
-import org.rmj.g3appdriver.GRider.Etc.SingleClickListener;
+import org.rmj.g3appdriver.dev.Database.Entities.EDCPCollectionDetail;
+import org.rmj.g3appdriver.etc.FormatUIText;
+import org.rmj.g3appdriver.etc.SingleClickListener;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 
@@ -74,8 +74,8 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
             }else{
                 holder.lblStatus.setText(DCP_Constants.getRemarksDescription(collection.getRemCodex()));
             }
-            holder.lblMnthAm.setText(FormatUIText.getCurrencyUIFormat(collection.getMonAmort()));
-            holder.lblAmount.setText(FormatUIText.getCurrencyUIFormat(collection.getAmtDuexx()));
+            holder.lblMnthAm.setText(FormatUIText.getCurrencyUIFormat(String.valueOf(collection.getMonAmort())));
+            holder.lblAmount.setText(FormatUIText.getCurrencyUIFormat(String.valueOf(collection.getAmtDuexx())));
         } catch (Exception e){
             e.printStackTrace();
         }

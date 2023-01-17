@@ -30,7 +30,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 
-import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.settings.Fragment.Fragment_Settings;
 import org.rmj.guanzongroup.ghostrider.settings.R;
 import org.rmj.guanzongroup.ghostrider.settings.ViewModel.VMSettings;
@@ -41,9 +41,9 @@ import java.lang.annotation.RetentionPolicy;
 import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.READ_PHONE_STATE;
-import static org.rmj.g3appdriver.GRider.Constants.AppConstants.*;
-import static org.rmj.g3appdriver.GRider.Constants.AppConstants.CAMERA_REQUEST;
-import static org.rmj.g3appdriver.GRider.Constants.AppConstants.CONTACT_REQUEST;
+import static org.rmj.g3appdriver.etc.AppConstants.CAMERA_REQUEST;
+import static org.rmj.g3appdriver.etc.AppConstants.CONTACT_REQUEST;
+import static org.rmj.g3appdriver.etc.AppConstants.STORAGE_REQUEST;
 
 public class Activity_Settings extends AppCompatActivity {
     Fragment_Settings fragment_settings;

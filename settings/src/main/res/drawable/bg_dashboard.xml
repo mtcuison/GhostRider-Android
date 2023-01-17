@@ -1,0 +1,46 @@
+<!--
+  ~ Created by Android Team MIS-SEG Year 2021
+  ~ Copyright (c) 2021. Guanzon Central Office
+  ~ Guanzon Bldg., Perez Blvd., Dagupan City, Pangasinan 2400
+  ~ Project name : GhostRider_Android
+  ~ Module : GhostRider_Android.g3appdriver
+  ~ Electronic Personnel Access Control Security System
+  ~ project file created : 5/5/21 9:49 AM
+  ~ project file last modified : 5/5/21 9:49 AM
+  -->
+
+<vector android:height="378dp" android:viewportHeight="630"
+    android:viewportWidth="2000" android:width="1200dp"
+    xmlns:aapt="http://schemas.android.com/aapt" xmlns:android="http://schemas.android.com/apk/res/android">
+    <path android:pathData="M0.02,0l2000,0l0,629.44l-2000,0z">
+        <aapt:attr name="android:fillColor">
+            <gradient android:endX="1075.0526" android:endY="508.65817"
+                android:startX="1075.0526" android:startY="209.44876" android:type="linear">
+                <item android:color="#FFFF8200" android:offset="0"/>
+                <item android:color="#FFFFA548" android:offset="1"/>
+            </gradient>
+        </aapt:attr>
+    </path>
+    <group>
+        <clip-path android:pathData="M0.02,0l2000,0l0,629.44l-2000,0z"/>
+        <path android:pathData="M-442.88,463.1C-442.88,463.1 105.85,68.82 832.16,215.1C1746.42,399.24 2413.22,394.16 2704.57,174.78C2977.28,-30.57 3050.94,482.73 2900.33,739.36C2749.74,995.98 -949.9,982.38 -442.88,463.1Z">
+            <aapt:attr name="android:fillColor">
+                <gradient android:endX="1251.4199"
+                    android:endY="445.0542" android:startX="1251.4199"
+                    android:startY="146.29185" android:type="linear">
+                    <item android:color="#33FFFFFF" android:offset="0"/>
+                    <item android:color="#00FFFFFF" android:offset="1"/>
+                </gradient>
+            </aapt:attr>
+        </path>
+        <path android:pathData="M3057.83,463.1C3057.83,463.1 2457.45,48.76 1731.45,196.6C911.67,363.53 246.72,321.42 -89.62,174.78C-425.95,28.13 -435.99,482.73 -285.38,739.36C-134.79,995.98 3564.85,982.38 3057.83,463.1Z">
+            <aapt:attr name="android:fillColor">
+                <gradient android:endX="1363.53" android:endY="445.0542"
+                    android:startX="1363.53" android:startY="146.29185" android:type="linear">
+                    <item android:color="#33FFFFFF" android:offset="0"/>
+                    <item android:color="#00FFFFFF" android:offset="1"/>
+                </gradient>
+            </aapt:attr>
+        </path>
+    </group>
+</vector>

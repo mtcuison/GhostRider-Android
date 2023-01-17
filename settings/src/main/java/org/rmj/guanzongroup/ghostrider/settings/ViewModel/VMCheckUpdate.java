@@ -27,10 +27,9 @@ import androidx.lifecycle.MutableLiveData;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
-import org.rmj.g3appdriver.GRider.Http.WebClient;
+import org.rmj.g3appdriver.dev.HttpHeaders;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 
@@ -88,7 +87,8 @@ public class VMCheckUpdate extends AndroidViewModel {
             this.callback = callback;
             this.poConn = new ConnectionUtil(application);
             this.poHeaders = HttpHeaders.getInstance(application);
-            this.poApi = new WebApi(AppConfigPreference.getInstance(application).getTestStatus());
+            AppConfigPreference loConfig = AppConfigPreference.getInstance(application);
+            this.poApi = new WebApi(loConfig.getTestStatus());
         }
 
         @Override
@@ -106,7 +106,8 @@ public class VMCheckUpdate extends AndroidViewModel {
                 if(!poConn.isDeviceConnected()){
                     lsResult = AppConstants.NO_INTERNET();
                 } else {
-                    lsResult = WebClient.sendRequest(poApi.getUrlCheckUpdate(), param.toString(), poHeaders.getHeaders());
+//                    lsResult = WebClient.sendRequest(poApi.getUrlCheckUpdate(), param.toString(), poHeaders.getHeaders());
+                    lsResult = "";
                     if(lsResult == null){
                         lsResult = AppConstants.SERVER_NO_RESPONSE();
                     }
@@ -160,7 +161,8 @@ public class VMCheckUpdate extends AndroidViewModel {
             this.poConn = new ConnectionUtil(application);
             this.poHeaders = HttpHeaders.getInstance(application);
             PATH = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/";
-            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
+            AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
+            this.poApi = new WebApi(loConfig.getTestStatus());
         }
 
         @Override

@@ -25,22 +25,20 @@ import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
-import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
-import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
-import org.rmj.g3appdriver.GRider.Etc.MessageBox;
-import org.rmj.g3appdriver.GRider.Etc.SessionManager;
+import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.etc.FormatUIText;
+import org.rmj.g3appdriver.etc.LoadDialog;
+import org.rmj.g3appdriver.etc.MessageBox;
+import org.rmj.g3appdriver.etc.SessionManager;
+import org.rmj.g3appdriver.lib.PetManager.Obj.EmployeeOB;
+import org.rmj.g3appdriver.lib.PetManager.model.OBApprovalInfo;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Application;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.LeaveApprovalInfo;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.OBApprovalInfo;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMObApproval;
 
@@ -83,15 +81,9 @@ public class Fragment_BusinessTripApproval extends Fragment implements VMObAppro
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        mViewModel = new ViewModelProvider(this).get(VMObApproval.class);
         View view = inflater.inflate(R.layout.fragment_business_trip_approval, container, false);
         initWidgets(view);
-        return view;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(VMObApproval.class);
         Typeface typeface = ResourcesCompat.getFont(requireActivity(), R.font.roboto_bold);
         tilRemarks.setTypeface(typeface);
         TransNox = Activity_Application.getInstance().getTransNox();
@@ -120,7 +112,7 @@ public class Fragment_BusinessTripApproval extends Fragment implements VMObAppro
                             lblTransNox.setText(eEmployeeBusinessTrip.getTransNox());
                             lblDateAppd.setText(FormatUIText.formatGOCasBirthdate(eEmployeeBusinessTrip.getTransact()));
                             lblDateAppx.setText(FormatUIText.formatGOCasBirthdate(AppConstants.CURRENT_DATE));
-                            lblEmployeNm.setText(eEmployeeBusinessTrip.getEmployee());
+                            lblEmployeNm.setText(eEmployeeBusinessTrip.getFullName());
                             lblDateFrom.setText(FormatUIText.formatGOCasBirthdate(eEmployeeBusinessTrip.getDateFrom()));
                             lblDateThru.setText(FormatUIText.formatGOCasBirthdate(eEmployeeBusinessTrip.getDateThru()));
                             tieDateFrom.setText(FormatUIText.formatGOCasBirthdate(eEmployeeBusinessTrip.getDateFrom()));
@@ -148,12 +140,12 @@ public class Fragment_BusinessTripApproval extends Fragment implements VMObAppro
             poMessage.initDialog();
             poMessage.setTitle("Leave Approval");
             poMessage.setMessage("Approve " + lblEmployeNm.getText().toString() + "'s business trip application?");
-            poMessage.setPositiveButton("Approve", (view, dialog) -> {
+            poMessage.setPositiveButton("Approve", (view1, dialog) -> {
                 dialog.dismiss();
                 poModel.setTranStat("1");
                 mViewModel.confirmOBApplication(poModel, Fragment_BusinessTripApproval.this);
             });
-            poMessage.setNegativeButton("Cancel", (view, dialog) -> dialog.dismiss());
+            poMessage.setNegativeButton("Cancel", (view1, dialog) -> dialog.dismiss());
             poMessage.show();
         });
 
@@ -161,15 +153,17 @@ public class Fragment_BusinessTripApproval extends Fragment implements VMObAppro
             poMessage.initDialog();
             poMessage.setTitle("Leave Approval");
             poMessage.setMessage("Disapprove " + lblEmployeNm.getText().toString() + "'s business trip application?");
-            poMessage.setPositiveButton("Disapprove", (view, dialog) -> {
+            poMessage.setPositiveButton("Disapprove", (view1, dialog) -> {
                 dialog.dismiss();
                 poModel.setTranStat("3");
                 mViewModel.confirmOBApplication(poModel, Fragment_BusinessTripApproval.this);
             });
-            poMessage.setNegativeButton("Cancel", (view, dialog) -> dialog.dismiss());
+            poMessage.setNegativeButton("Cancel", (view1, dialog) -> dialog.dismiss());
             poMessage.show();
         });
+        return view;
     }
+
     public void initWidgets(View view){
         poDialogx = new LoadDialog(getActivity());
         poMessage = new MessageBox(getActivity());

@@ -29,8 +29,8 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONObject;
-import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
-import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+import org.rmj.g3appdriver.etc.LoadDialog;
+import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.samsungknox.Etc.ViewModelCallBack;
 import org.rmj.guanzongroup.ghostrider.samsungknox.R;
 import org.rmj.guanzongroup.ghostrider.samsungknox.ViewModel.VMGetStatus;
@@ -44,12 +44,12 @@ public class Fragment_GetStatus extends Fragment implements ViewModelCallBack {
     private VMGetStatus mViewModel;
 
     private MessageBox loMessage;
+    private LoadDialog dialog;
 
     private TextView lblDeviceID, lblStatus, lblDetails, lblLastUpdate;
     private TextInputEditText txtDeviceID;
     private MaterialButton btnCheck;
     private ConstraintLayout consStatus;
-    private LoadDialog dialog;
 
     public static Fragment_GetStatus newInstance() {
         return new Fragment_GetStatus();

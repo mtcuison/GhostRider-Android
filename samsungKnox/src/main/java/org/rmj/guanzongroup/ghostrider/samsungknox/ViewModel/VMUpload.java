@@ -21,10 +21,10 @@ import androidx.annotation.RequiresApi;
 import androidx.lifecycle.AndroidViewModel;
 
 import org.json.JSONObject;
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
-import org.rmj.g3appdriver.GRider.Http.WebClient;
+import org.rmj.g3appdriver.dev.HttpHeaders;
+import org.rmj.g3appdriver.dev.WebClient;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.guanzongroup.ghostrider.samsungknox.Etc.ViewModelCallBack;
@@ -50,12 +50,14 @@ public class VMUpload extends AndroidViewModel {
         private final ConnectionUtil conn;
         private final HttpHeaders headers;
         private final WebApi poApi;
+        private final AppConfigPreference loConfig;
         private final ViewModelCallBack callBack;
 
         public UploadTask(Application instance, ViewModelCallBack callBack) {
             this.conn = new ConnectionUtil(instance);
             this.headers = HttpHeaders.getInstance(instance);
-            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
+            this.loConfig = AppConfigPreference.getInstance(instance);
+            this.poApi = new WebApi(loConfig.getTestStatus());
             this.callBack = callBack;
         }
 
@@ -66,7 +68,7 @@ public class VMUpload extends AndroidViewModel {
             try {
                 if (conn.isDeviceConnected()) {
                     JSONObject loJSon = new JSONObject();
-                    response = WebClient.sendRequest(poApi.getUrlKnox(), loJSon.toString(), headers.getHeaders());
+                    response = WebClient.sendRequest(poApi.getUrlKnox(loConfig.isBackUpServer()), loJSon.toString(), headers.getHeaders());
                 } else {
                     response = AppConstants.NO_INTERNET();
                 }

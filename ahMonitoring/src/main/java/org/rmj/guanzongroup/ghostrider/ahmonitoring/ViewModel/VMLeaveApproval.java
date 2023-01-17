@@ -14,31 +14,23 @@ package org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel;
 import android.annotation.SuppressLint;
 import android.app.Application;
 import android.os.AsyncTask;
-import android.os.Build;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeLeave;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
-import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
-import org.rmj.g3appdriver.GRider.Database.Repositories.REmployeeLeave;
-import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
-import org.rmj.g3appdriver.GRider.Http.WebClient;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEmployeeInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeLeave;
+import org.rmj.g3appdriver.dev.Database.Repositories.RBranch;
+import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
+import org.rmj.g3appdriver.lib.PetManager.Obj.EmployeeLeave;
+import org.rmj.g3appdriver.lib.PetManager.PetManager;
+import org.rmj.g3appdriver.lib.PetManager.iPM;
+import org.rmj.g3appdriver.lib.PetManager.model.LeaveApprovalInfo;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
-import org.rmj.g3appdriver.utils.WebApi;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.LeaveApprovalInfo;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -51,8 +43,9 @@ public class VMLeaveApproval extends AndroidViewModel {
     public static final String TAG = VMLeaveApproval.class.getSimpleName();
     private final Application instance;
     private final RBranch pobranch;
-    private final REmployee poUser;
-    private final REmployeeLeave poLeave;
+    private final iPM poSys;
+    private final ConnectionUtil poConn;
+
 
     private final MutableLiveData<String> TransNox = new MutableLiveData<>();
     private final MutableLiveData<Integer> pnCredit = new MutableLiveData<>();
@@ -64,8 +57,8 @@ public class VMLeaveApproval extends AndroidViewModel {
         super(application);
         this.instance = application;
         this.pobranch = new RBranch(instance);
-        this.poUser = new REmployee(instance);
-        this.poLeave = new REmployeeLeave(instance);
+        this.poSys = new PetManager(instance).GetInstance(PetManager.ePetManager.LEAVE_APPLICATION);
+        this.poConn = new ConnectionUtil(instance);
         this.TransNox.setValue("");
     }
 
@@ -90,11 +83,11 @@ public class VMLeaveApproval extends AndroidViewModel {
     }
 
     public LiveData<EEmployeeLeave> getEmployeeLeaveInfo(String TransNox){
-        return poLeave.getEmployeeLeaveInfo(TransNox);
+        return poSys.GetLeaveApplicationInfo(TransNox);
     }
 
-    public LiveData<EEmployeeInfo> getUserInfo(){
-        return poUser.getEmployeeInfo();
+    public LiveData<DEmployeeInfo.EmployeeBranch> getUserInfo(){
+        return poSys.GetUserInfo();
     }
 
     public LiveData<EBranchInfo> getUserBranchInfo(){
@@ -102,39 +95,20 @@ public class VMLeaveApproval extends AndroidViewModel {
     }
 
     public void downloadLeaveApplication(String transNox, OnDownloadLeaveAppInfo callBack){
-        JSONObject loJson = new JSONObject();
-        try {
-            if(transNox.isEmpty()){
-                callBack.OnFailedDownload("Please enter leave transaction no.");
-            } else {
-                loJson.put("sTransNox", transNox);
-                new DownloadLeaveAppTask(instance, callBack).execute(loJson);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-            callBack.OnFailedDownload(e.getMessage());
-        }
+        new DownloadLeaveAppTask(instance, callBack).execute(transNox);
     }
 
-    private static class DownloadLeaveAppTask extends AsyncTask<JSONObject, Void, String> {
-        private final HttpHeaders headers;
+    private static class DownloadLeaveAppTask extends AsyncTask<String, Void, Boolean> {
         private final ConnectionUtil conn;
-        private final REmployeeLeave poLeave;
+        private final EmployeeLeave poLeave;
         private final OnDownloadLeaveAppInfo callback;
-        private String TransNox;
-        private WebApi poApi;
 
-        @Override
-        protected void onProgressUpdate(Void... values) {
-            super.onProgressUpdate(values);
-        }
+        private String transno, message;
 
         public DownloadLeaveAppTask(Application instance, OnDownloadLeaveAppInfo callback) {
-            this.headers = HttpHeaders.getInstance(instance);
             this.conn = new ConnectionUtil(instance);
-            this.poLeave = new REmployeeLeave(instance);
+            this.poLeave = new EmployeeLeave(instance);
             this.callback = callback;
-            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
         }
 
         @Override
@@ -143,139 +117,50 @@ public class VMLeaveApproval extends AndroidViewModel {
             callback.OnDownload();
         }
 
-        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         @Override
-        protected String doInBackground(JSONObject... strings) {
-            String response = "";
+        protected Boolean doInBackground(String... strings) {
             try{
-                if(conn.isDeviceConnected()) {
-                    response = WebClient.sendRequest(poApi.getUrlGetLeaveApplication(), strings[0].toString(), headers.getHeaders());
-                    JSONObject loResponse = new JSONObject(response);
-                    String lsResult = loResponse.getString("result");
-                    if (lsResult.equalsIgnoreCase("success")) {
-                        JSONArray jsonA = loResponse.getJSONArray("payload");
-                        JSONObject loJson = jsonA.getJSONObject(0);
-                        TransNox = loJson.getString("sTransNox");
-                        if(poLeave.getTransnoxIfExist(loJson.getString("sTransNox"), loJson.getString("cTranStat")).size() > 0){
-                            Log.d(TAG, "Leave application already exist.");
-                        } else {
-                            EEmployeeLeave loLeave = new EEmployeeLeave();
-                            loLeave.setTransNox(loJson.getString("sTransNox"));
-                            loLeave.setTransact(loJson.getString("dTransact"));
-                            loLeave.setEmployID(loJson.getString("xEmployee"));
-                            loLeave.setBranchNm(loJson.getString("sBranchNm"));
-                            loLeave.setDeptName(loJson.getString("sDeptName"));
-                            loLeave.setPositnNm(loJson.getString("sPositnNm"));
-                            loLeave.setAppldFrx(loJson.getString("dAppldFrx"));
-                            loLeave.setAppldTox(loJson.getString("dAppldTox"));
-                            loLeave.setNoDaysxx(loJson.getString("nNoDaysxx"));
-                            loLeave.setPurposex(loJson.getString("sPurposex"));
-                            loLeave.setLeaveTyp(loJson.getString("cLeaveTyp"));
-                            loLeave.setLveCredt(loJson.getString("nLveCredt"));
-                            loLeave.setTranStat(loJson.getString("cTranStat"));
-                            poLeave.insertApplication(loLeave);
-                        }
-                    }
-                } else {
-                    response = AppConstants.SERVER_NO_RESPONSE();
+                if(!conn.isDeviceConnected()) {
+                    message = conn.getMessage();
+                    return false;
                 }
-            } catch (NullPointerException e){
+
+                if(!poLeave.DownloadApplication(strings[0])){
+                    message = poLeave.getMessage();
+                    return false;
+                }
+
+                transno = strings[0];
+                return true;
+            } catch (Exception e){
                 e.printStackTrace();
-                response = AppConstants.LOCAL_EXCEPTION_ERROR(e.getMessage());
-            }catch (Exception e){
-                e.printStackTrace();
-                response = AppConstants.LOCAL_EXCEPTION_ERROR(e.getMessage());
+                message = e.getMessage();
+                return false;
             }
-            return response;
         }
 
         @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            try {
-                JSONObject loJson = new JSONObject(s);
-                String lsResult = loJson.getString("result");
-                if(lsResult.equalsIgnoreCase("success")){
-                    callback.OnSuccessDownload(TransNox);
-                } else {
-                    JSONObject loError = loJson.getJSONObject("error");
-                    String message = loError.getString("message");
-                    callback.OnFailedDownload(message);
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-                callback.OnFailedDownload(e.getMessage());
-            } catch (Exception e) {
-                e.printStackTrace();
-                callback.OnFailedDownload(e.getMessage());
+        protected void onPostExecute(Boolean isSuccess) {
+            super.onPostExecute(isSuccess);
+            if(isSuccess){
+                callback.OnSuccessDownload(transno);
+            } else {
+                callback.OnFailedDownload(message);
             }
         }
     }
 
     public void confirmLeaveApplication(LeaveApprovalInfo infoModel, OnConfirmLeaveAppCallback callBack){
-        new ConfirmLeaveTask(infoModel, instance, callBack).execute();
+        new ConfirmLeaveTask(callBack).execute(infoModel);
     }
 
-    private static class ConfirmLeaveTask extends AsyncTask<Void, Void, String> {
-
-        private final LeaveApprovalInfo infoModel;
+    private  class ConfirmLeaveTask extends AsyncTask<LeaveApprovalInfo, Void, Boolean> {
         private final OnConfirmLeaveAppCallback callback;
 
-        private final HttpHeaders poHeaders;
-        private final ConnectionUtil poConn;
-        private final REmployeeLeave poLeave;
-        private final WebApi poApi;
+        private String message;
 
-        public ConfirmLeaveTask(LeaveApprovalInfo infoModel, Application instance, OnConfirmLeaveAppCallback callback) {
-            this.infoModel = infoModel;
+        public ConfirmLeaveTask(OnConfirmLeaveAppCallback callback) {
             this.callback = callback;
-            this.poHeaders = HttpHeaders.getInstance(instance);
-            this.poConn = new ConnectionUtil(instance);
-            this.poLeave = new REmployeeLeave(instance);
-            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
-        }
-
-        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-        @Override
-        protected String doInBackground(Void... voids) {
-            String lsResponse;
-            try{
-                JSONObject loJson = new JSONObject();
-                loJson.put("sTransNox", infoModel.getTransNox());
-                loJson.put("dTransact", AppConstants.CURRENT_DATE);
-                loJson.put("dAppldFrx", infoModel.getAppldFrx());
-                loJson.put("dAppldTox", infoModel.getAppldTox());
-                loJson.put("cTranStat", infoModel.getTranStat());
-                loJson.put("nWithPayx", infoModel.getWithPayx());
-                loJson.put("nWithOPay", infoModel.getWithOPay());
-                loJson.put("sApproved", infoModel.getApprovex());
-                loJson.put("dApproved", infoModel.getApproved());
-
-                if(poConn.isDeviceConnected()) {
-                    lsResponse = WebClient.sendRequest(poApi.getUrlConfirmLeaveApplication(), loJson.toString(), poHeaders.getHeaders());
-                    if(lsResponse == null) {
-                        lsResponse = AppConstants.SERVER_NO_RESPONSE();
-                    } else {
-                        JSONObject jsonResponse = new JSONObject(lsResponse);
-                        String lsResult = jsonResponse.getString("result");
-                        if(lsResult.equalsIgnoreCase("success")){
-                            poLeave.updateLeaveApproval(infoModel.getTranStat(), infoModel.getTransNox(), new AppConstants().DATE_MODIFIED);
-                        }
-                        Log.e(TAG, lsResponse);
-                    }
-                } else {
-                    lsResponse = AppConstants.SERVER_NO_RESPONSE();
-                    Log.e(TAG, "else " + lsResponse);
-                }
-
-            } catch (NullPointerException e){
-                e.printStackTrace();
-                lsResponse = AppConstants.LOCAL_EXCEPTION_ERROR(e.getMessage());
-            }catch (Exception e){
-                e.printStackTrace();
-                lsResponse = AppConstants.LOCAL_EXCEPTION_ERROR(e.getMessage());
-            }
-            return lsResponse;
         }
 
         @Override
@@ -285,26 +170,46 @@ public class VMLeaveApproval extends AndroidViewModel {
         }
 
         @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
+        protected Boolean doInBackground(LeaveApprovalInfo... infos) {
+            try{
+                if(!infos[0].isDataValid()){
+                    message = infos[0].getMessage();
+                    return false;
+                }
+
+                if(!poConn.isDeviceConnected()){
+                    message = poConn.getMessage() + " Your approval will be automatically send if device is reconnected to internet.";
+                    return false;
+                }
+
+                if(!poSys.UploadApproval(infos[0])){
+                    message = poSys.getMessage();
+                    return false;
+                }
+
+                String lsTransNox = poSys.SaveApproval(infos[0]);
+                if(lsTransNox == null){
+                    message = poSys.getMessage();
+                    return false;
+                }
+
+                return true;
+            } catch (Exception e) {
+                e.printStackTrace();
+                message = e.getMessage();
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Boolean isSuccess) {
+            super.onPostExecute(isSuccess);
             try {
-                JSONObject loJson = new JSONObject(s);
-                Log.e(TAG, loJson.getString("result"));
-                String lsResult = loJson.getString("result");
-                if(lsResult.equalsIgnoreCase("success")){
-                    if(infoModel.getTranStat().equalsIgnoreCase("1")) {
-                        callback.onSuccess("Leave Application has been approved.");
-                    } else {
-                        callback.onSuccess("Leave Application has been disapproved.");
-                    }
+                if (isSuccess){
+                    callback.onSuccess(message);
                 } else {
-                    JSONObject loError = loJson.getJSONObject("error");
-                    String message = loError.getString("message");
                     callback.onFailed(message);
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
-                callback.onFailed(e.getMessage());
             } catch (Exception e) {
                 e.printStackTrace();
                 callback.onFailed(e.getMessage());
@@ -360,7 +265,7 @@ public class VMLeaveApproval extends AndroidViewModel {
         return pnWOPay;
     }
 
-    public void calculateLeavePay(String fsDateFrm, String fsDateTo) throws ParseException {
+    public void calculateLeavePay(int fnLeaveTp, String fsDateFrm, String fsDateTo) throws ParseException {
         int lnCredt = pnCredit.getValue();
         @SuppressLint("SimpleDateFormat") final SimpleDateFormat loDate = new SimpleDateFormat("yyyy-MM-dd");
         Date dateFrom = loDate.parse(Objects.requireNonNull(fsDateFrm));
@@ -368,7 +273,10 @@ public class VMLeaveApproval extends AndroidViewModel {
         long diff = Objects.requireNonNull(dateTo).getTime() - Objects.requireNonNull(dateFrom).getTime();
         long noOfDays = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS) + 1;
         pnNoDays.setValue((int) noOfDays);
-        if(noOfDays > lnCredt && lnCredt != 0){
+        if(fnLeaveTp == 3){
+            pnWOPay.setValue(0);
+            pnWithPay.setValue((int) noOfDays);
+        } else if(noOfDays > lnCredt && lnCredt != 0){
             int lnDiff = (int) (noOfDays - lnCredt);
             pnWOPay.setValue(lnDiff);
             pnWithPay.setValue(lnCredt);
@@ -378,6 +286,62 @@ public class VMLeaveApproval extends AndroidViewModel {
         } else {
             pnWithPay.setValue((int) noOfDays);
             pnWOPay.setValue(0);
+        }
+    }
+
+    public LeavePay CalculateLeavePay(int fnLeaveTp, int fnCredit, String fsDateFrm, String fsDateTo) throws Exception{
+        @SuppressLint("SimpleDateFormat") final SimpleDateFormat loDate = new SimpleDateFormat("yyyy-MM-dd");
+        Date dateFrom = loDate.parse(Objects.requireNonNull(fsDateFrm));
+        Date dateTo = loDate.parse(Objects.requireNonNull(fsDateTo));
+        long diff = Objects.requireNonNull(dateTo).getTime() - Objects.requireNonNull(dateFrom).getTime();
+        long noOfDays = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS) + 1;
+
+        // check if leave type is Birthday leave.
+        // Birthday leave doesn't require leave credits to have leave with pay.
+        if(fnLeaveTp == 3){
+            return new LeavePay(1, 0);
+        }
+//        pnNoDays.setValue((int) noOfDays);
+
+        if(fnCredit == 0){
+            return new LeavePay(0, 0);
+        }
+
+        if(noOfDays > fnCredit){
+            int lnDiff = (int) (noOfDays - fnCredit);
+            return new LeavePay(fnCredit, lnDiff);
+        }
+
+        return new LeavePay((int) noOfDays, 0);
+//
+//        if(noOfDays > fnCredit && fnCredit != 0){
+//
+//            pnWOPay.setValue(lnDiff);
+//            pnWithPay.setValue(fnCredit);
+//        } else if(fnCredit == 0){
+//            pnWOPay.setValue((int) noOfDays);
+//            pnWithPay.setValue(0);
+//        } else {
+//            pnWithPay.setValue((int) noOfDays);
+//            pnWOPay.setValue(0);
+//        }
+    }
+
+    public static class LeavePay{
+        private final int lnWithPay;
+        private final int lnWthOPay;
+
+        public LeavePay(int lnWithPay, int lnWthOPay) {
+            this.lnWithPay = lnWithPay;
+            this.lnWthOPay = lnWthOPay;
+        }
+
+        public String getWithPay() {
+            return String.valueOf(lnWithPay);
+        }
+
+        public String getWithoutPay() {
+            return String.valueOf(lnWthOPay);
         }
     }
 }

@@ -25,8 +25,8 @@ import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
 
-import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.g3appdriver.dev.DataManager;
+import org.rmj.g3appdriver.etc.GToast;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMDataManager;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 

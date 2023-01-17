@@ -17,284 +17,301 @@
     style="@style/MasterViewGroupStyle_Light"
     tools:context=".UserInterface.CreateAccount.Fragment_CreateAccount">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/header"
-        android:layout_width="0dp"
+    <ScrollView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="38dp"
+        android:scrollbars="none"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/tvCreateAcc"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/PrimaryHeaderStyle"
-            android:text="@string/create_account"
-            android:textColor="@color/footer_dark_grey"
-            android:textSize="23sp"
-            app:layout_constraintBottom_toTopOf="@id/tvCreateDesc"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
 
-        <TextView
-            android:id="@+id/tvCreateDesc"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/DescriptionHeaderStyle"
-            android:text="@string/create_account_description"
-            android:textColor="@color/footer_dark_grey"
-            android:textSize="14sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvCreateAcc"
-            android:layout_marginTop="3dp"/>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/vgForm"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/tvCompany"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/header"
-        app:layout_constraintVertical_bias="0.28">
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_ca_lastName"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:hint="@string/hint_last_name"
-            style="@style/TextInputStyle"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tie_ca_lastName"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPersonName|textCapWords"
-                android:fontFamily="@font/roboto"
-                android:maxLength="50"
-                android:imeOptions="actionNext"
-                android:nextFocusForward="@id/tie_ca_firstName"/>
+                android:layout_marginTop="38dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <TextView
+                    android:id="@+id/tvCreateAcc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/PrimaryHeaderStyle"
+                    android:text="@string/create_account"
+                    android:textColor="@color/footer_dark_grey"
+                    android:textSize="23sp"
+                    app:layout_constraintBottom_toTopOf="@id/tvCreateDesc"
+                    app:layout_constraintStart_toStartOf="parent" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_ca_firstName"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:hint="@string/hint_first_name"
-            style="@style/TextInputStyle"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/til_ca_lastName">
+                <TextView
+                    android:id="@+id/tvCreateDesc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/DescriptionHeaderStyle"
+                    android:text="@string/create_account_description"
+                    android:textColor="@color/footer_dark_grey"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvCreateAcc"
+                    android:layout_marginTop="3dp"/>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tie_ca_firstName"
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/vgForm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPersonName|textCapWords"
-                android:maxLength="50"
-                
-                android:imeOptions="actionNext"
-                android:nextFocusForward="@id/tie_ca_middleName"
-                android:fontFamily="@font/roboto"/>
+                app:layout_constraintBottom_toTopOf="@+id/tvCompany"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/header"
+                app:layout_constraintVertical_bias="0.28">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_ca_lastName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_last_name"
+                    style="@style/TextInputStyle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_ca_middleName"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:hint="@string/hint_middle_name"
-            style="@style/TextInputStyle"
-            app:layout_constraintEnd_toStartOf="@id/til_ca_suffix"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/til_ca_firstName"
-            app:layout_constraintWidth_default="percent"
-            app:layout_constraintWidth_percent="0.73">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/tie_ca_lastName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPersonName|textCapWords"
+                        android:fontFamily="@font/roboto"
+                        android:maxLength="50"
+                        android:imeOptions="actionNext"
+                        android:nextFocusForward="@id/tie_ca_firstName"/>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tie_ca_middleName"
-                android:layout_width="match_parent"
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_ca_firstName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_first_name"
+                    style="@style/TextInputStyle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/til_ca_lastName">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/tie_ca_firstName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPersonName|textCapWords"
+                        android:maxLength="50"
+
+                        android:imeOptions="actionNext"
+                        android:nextFocusForward="@id/tie_ca_middleName"
+                        android:fontFamily="@font/roboto"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_ca_middleName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_middle_name"
+                    style="@style/TextInputStyle"
+                    app:layout_constraintEnd_toStartOf="@id/til_ca_suffix"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/til_ca_firstName"
+                    app:layout_constraintWidth_default="percent"
+                    app:layout_constraintWidth_percent="0.73">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/tie_ca_middleName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPersonName|textCapWords"
+                        android:maxLength="50"
+
+                        android:imeOptions="actionNext"
+                        android:nextFocusForward="@id/tie_ca_suffix"
+                        android:fontFamily="@font/roboto"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_ca_suffix"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_suffix"
+                    style="@style/TextInputStyle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/til_ca_middleName"
+                    app:layout_constraintTop_toBottomOf="@+id/til_ca_firstName">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/tie_ca_suffix"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPersonName|textCapWords"
+                        android:maxLength="5"
+                        android:imeOptions="actionNext"
+                        android:nextFocusForward="@id/tie_ca_email"
+                        android:fontFamily="@font/roboto"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_ca_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_email"
+                    style="@style/TextInputStyle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/til_ca_middleName">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/tie_ca_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textEmailAddress"
+                        android:maxLength="50"
+
+                        android:imeOptions="actionNext"
+                        android:nextFocusForward="@id/tie_ca_password"
+                        android:fontFamily="@font/roboto"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_ca_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_password"
+                    app:passwordToggleEnabled="true"
+                    style="@style/TextInputStyle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/til_ca_email">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/tie_ca_password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword"
+                        android:maxLength="20"
+
+                        android:imeOptions="actionNext"
+                        android:nextFocusForward="@id/tie_ca_confirmPass"
+                        android:fontFamily="@font/roboto"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_ca_confirmPass"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_confirm_password"
+                    app:passwordToggleEnabled="true"
+                    style="@style/TextInputStyle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/til_ca_password">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/tie_ca_confirmPass"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword"
+                        android:maxLength="20"
+
+                        android:imeOptions="actionNext"
+                        android:nextFocusForward="@id/tie_ca_mobileNumber"
+                        android:fontFamily="@font/roboto"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_ca_mobileNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_mobile_number"
+                    style="@style/TextInputStyle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/til_ca_confirmPass">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/tie_ca_mobileNumber"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number|none"
+                        android:maxLength="11"
+
+                        android:imeOptions="actionDone"
+                        android:fontFamily="@font/roboto"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_createAccount"
+                    style="@style/GhostRider_Button"
+                    android:layout_marginTop="36dp"
+                    android:text="@string/button_send_verification"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/til_ca_mobileNumber"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/tvCompany"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:inputType="textPersonName|textCapWords"
-                android:maxLength="50"
-                
-                android:imeOptions="actionNext"
-                android:nextFocusForward="@id/tie_ca_suffix"
-                android:fontFamily="@font/roboto"/>
+                android:layout_marginBottom="3dp"
+                android:fontFamily="@font/roboto_bold"
+                android:text="@string/sLblCompName"
+                android:textColor="@color/footer_dark_grey"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toTopOf="@+id/tvCopyright"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_ca_suffix"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:hint="@string/hint_suffix"
-            style="@style/TextInputStyle"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/til_ca_middleName"
-            app:layout_constraintTop_toBottomOf="@+id/til_ca_firstName">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tie_ca_suffix"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/tvCopyright"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:inputType="textPersonName|textCapWords"
-                android:maxLength="5"
-                
-                android:imeOptions="actionNext"
-                android:nextFocusForward="@id/tie_ca_email"
-                android:fontFamily="@font/roboto"/>
+                android:fontFamily="@font/roboto_light"
+                android:text="@string/sLblCopyright"
+                android:textColor="@color/footer_dark_grey"
+                android:textSize="11sp"
+                android:layout_marginBottom="3dp"
+                app:layout_constraintBottom_toTopOf="@+id/lbl_versionInfo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_ca_email"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:hint="@string/hint_email"
-            style="@style/TextInputStyle"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/til_ca_middleName">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tie_ca_email"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/lbl_versionInfo"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"
-                android:maxLength="50"
-                
-                android:imeOptions="actionNext"
-                android:nextFocusForward="@id/tie_ca_password"
-                android:fontFamily="@font/roboto"/>
+                android:fontFamily="@font/roboto_light"
+                android:text="@string/lblBuildVersion"
+                android:textColor="@color/footer_dark_grey"
+                android:textSize="11sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
-        </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_ca_password"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:hint="@string/hint_password"
-            app:passwordToggleEnabled="true"
-            style="@style/TextInputStyle"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/til_ca_email">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tie_ca_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPassword"
-                android:maxLength="20"
-                
-                android:imeOptions="actionNext"
-                android:nextFocusForward="@id/tie_ca_confirmPass"
-                android:fontFamily="@font/roboto"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_ca_confirmPass"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:hint="@string/hint_confirm_password"
-            app:passwordToggleEnabled="true"
-            style="@style/TextInputStyle"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/til_ca_password">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tie_ca_confirmPass"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPassword"
-                android:maxLength="20"
-                
-                android:imeOptions="actionNext"
-                android:nextFocusForward="@id/tie_ca_mobileNumber"
-                android:fontFamily="@font/roboto"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_ca_mobileNumber"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:hint="@string/hint_mobile_number"
-            style="@style/TextInputStyle"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/til_ca_confirmPass">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tie_ca_mobileNumber"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="number|none"
-                android:maxLength="11"
-                
-                android:imeOptions="actionDone"
-                android:fontFamily="@font/roboto"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_createAccount"
-            style="@style/GhostRider_Button"
-            android:layout_marginTop="36dp"
-            android:text="@string/button_send_verification"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/til_ca_mobileNumber"/>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <TextView
-        android:id="@+id/tvCompany"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="3dp"
-        android:fontFamily="@font/roboto_bold"
-        android:text="@string/sLblCompName"
-        android:textColor="@color/footer_dark_grey"
-        android:textSize="13sp"
-        app:layout_constraintBottom_toTopOf="@+id/tvCopyright"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/tvCopyright"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/roboto_light"
-        android:text="@string/sLblCopyright"
-        android:textColor="@color/footer_dark_grey"
-        android:textSize="11sp"
-        android:layout_marginBottom="3dp"
-        app:layout_constraintBottom_toTopOf="@+id/lbl_versionInfo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/lbl_versionInfo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/roboto_light"
-        android:text="@string/lblBuildVersion"
-        android:textColor="@color/footer_dark_grey"
-        android:textSize="11sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

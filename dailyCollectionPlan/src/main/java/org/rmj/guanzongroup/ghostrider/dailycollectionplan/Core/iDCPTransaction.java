@@ -1,11 +1,12 @@
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Core;
 
+
 import androidx.lifecycle.LiveData;
 
-import org.rmj.g3appdriver.GRider.Database.Entities.EAddressUpdate;
-import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
-import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.EMobileUpdate;
+import org.rmj.g3appdriver.dev.Database.Entities.EAddressUpdate;
+import org.rmj.g3appdriver.dev.Database.Entities.EDCPCollectionDetail;
+import org.rmj.g3appdriver.dev.Database.Entities.EImageInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.EMobileUpdate;
 
 public interface iDCPTransaction {
     LiveData<EDCPCollectionDetail> getAccountInfo(String TransNox, int EntryNo);

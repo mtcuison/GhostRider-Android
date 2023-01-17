@@ -10,15 +10,17 @@
   -->
 
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="app_name">Guanzon Group EPACS</string>
+    <string name="app_name">Guanzon Circle</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Guanzon Group EPACS</string>
-    <string name="nav_header_subtitle">Electronic Personnel Access, \n Control and Security</string>
+    <string name="nav_header_title">Guanzon Group OACS</string>
+    <string name="nav_header_subtitle">Online Access \n Control and Security</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
-    <string name="menu_home">GhostRider Android</string>
+    <string name="default_notification_channel_id">101</string>
+
+    <string name="menu_home">Guanzon Circle</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
     <string name="menu_samsungKnox">Samsung Knox</string>
@@ -39,7 +41,7 @@
     <string name="menu_cashCount">Cash Count</string>
     <string name="menu_creditInvestigation">Online Credit Investigation</string>
     <string name="menu_creditEvaluation">Credit Evaluation List</string>
-    <string name="App_Desc">Electronic Personnel Access, Control and Security</string>
+    <string name="App_Desc">Online Access Control and Security</string>
     <string name="lsMainOffice">Guanzon Central Office</string>
     <string name="lsMainAddress">Guanzon Bldg., Perez Blvd., Dagupan City, Pangasinan 2400</string>
     <string name="lsMainContact">Tel No.: (075) 522-1085, 522-1097, 515-6418, 515-2495</string>
