@@ -7,19 +7,20 @@ import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
+import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.lib.Panalo.model.PanaloRewards;
 import org.rmj.g3appdriver.utils.MySQLAESCrypt;
 
 import java.util.ArrayList;
 
 public class CodeGenerator {
 
-    private String EncryptionKEY = "20190625";
+    private static final String EncryptionKEY = "20190625";
     MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
-    org.rmj.g3appdriver.utils.MySQLAESCrypt encryptionManager = new org.rmj.g3appdriver.utils.MySQLAESCrypt();
+    MySQLAESCrypt poEncrypt = new MySQLAESCrypt();
     BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
     static String EncryptedQrCode = "";
     static String scanType = "";
-
 
     public void setEncryptedQrCode(String encryptedQrCode){
         EncryptedQrCode = encryptedQrCode;
@@ -43,12 +44,59 @@ public class CodeGenerator {
      * MobileNumber
      * DateTime            DateTime Format must be(YYYYMMDDHHMMSS)
      * AvailablePoints
-     * Transanox = NULL
+     * Transnox = NULL
      * TransNox value is null until a successful redemption of points*/
     public Bitmap generateQrCode(String SOURCE, String DeviceImei, String CardNumber, String UserID, String MobileNumber, String DateTime, double AvailablePoints, String sModelCde, String TransNox){
         Bitmap bitmap = null;
         String UnEncryptedString = SOURCE + "»" + DeviceImei + "»" + CardNumber + "»" + UserID + "»" + MobileNumber + "»" + DateTime + "»" + AvailablePoints + "»" + sModelCde + "»" + TransNox;
-        String EncryptedCode = org.rmj.g3appdriver.utils.MySQLAESCrypt.Encrypt(UnEncryptedString, EncryptionKEY);
+        String EncryptedCode = poEncrypt.Encrypt(UnEncryptedString, EncryptionKEY);
+        try {
+            BitMatrix bitMatrix = multiFormatWriter.encode(EncryptedCode, BarcodeFormat.QR_CODE, 900, 900);
+            bitmap = barcodeEncoder.createBitmap(bitMatrix);
+            return bitmap;
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return bitmap;
+    }
+
+    public Bitmap GeneratePanaloRebateRedemptionQC(PanaloRewards rewards){
+        Bitmap bitmap = null;
+        String UnEncryptedString =
+                rewards.getPanaloQC() + ";" +
+                rewards.getPanaloCD() + ";" +
+                rewards.getAcctNmbr() + ";" +
+                rewards.getAmountxx() + ";" +
+                rewards.getExpiryDt() + ";" +
+                rewards.getDeviceID() + ";" +
+                rewards.getUserIDxx() + ";" +
+                rewards.getItemQtyx() + ";" +
+                rewards.getRedeemxx() + ";" +
+                new AppConstants().DATE_MODIFIED;
+        String EncryptedCode = poEncrypt.Encrypt(UnEncryptedString, EncryptionKEY);
+        try {
+            BitMatrix bitMatrix = multiFormatWriter.encode(EncryptedCode, BarcodeFormat.QR_CODE, 900, 900);
+            bitmap = barcodeEncoder.createBitmap(bitMatrix);
+            return bitmap;
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return bitmap;
+    }
+
+    public Bitmap GeneratePanaloOtherRedemptionQC(PanaloRewards rewards){
+        Bitmap bitmap = null;
+        String UnEncryptedString =
+                rewards.getPanaloQC() + ";" +
+                rewards.getPanaloCD() + ";" +
+                rewards.getItemCode() + ";" +
+                rewards.getItemQtyx() + ";" +
+                rewards.getAmountxx() + ";" +
+                rewards.getExpiryDt() + ";" +
+                rewards.getDeviceID() + ";" +
+                rewards.getUserIDxx() + ";" +
+                new AppConstants().DATE_MODIFIED;
+        String EncryptedCode = poEncrypt.Encrypt(UnEncryptedString, EncryptionKEY);
         try {
             BitMatrix bitMatrix = multiFormatWriter.encode(EncryptedCode, BarcodeFormat.QR_CODE, 900, 900);
             bitmap = barcodeEncoder.createBitmap(bitMatrix);
@@ -70,7 +118,7 @@ public class CodeGenerator {
                                      String TransNox){
         Bitmap GcardCodex = null;
         String UnEncryptedString = SOURCE + "»" + DeviceImei + "»" + CardNumber + "»" + UserID + "»" + MobileNumber + "»" + DateTime + "»" + AvailablePoints + "»" + sModelCde + "»" + TransNox;
-        String EncryptedCode = org.rmj.g3appdriver.utils.MySQLAESCrypt.Encrypt(UnEncryptedString, EncryptionKEY);
+        String EncryptedCode = poEncrypt.Encrypt(UnEncryptedString, EncryptionKEY);
         try {
             BitMatrix bitMatrix = multiFormatWriter.encode(EncryptedCode, BarcodeFormat.QR_CODE, 700, 700);
             GcardCodex = barcodeEncoder.createBitmap(bitMatrix);
@@ -82,14 +130,24 @@ public class CodeGenerator {
     }
 
     public String generateSecureNo(String SecureNo){
-        return org.rmj.g3appdriver.utils.MySQLAESCrypt.Encrypt(SecureNo, EncryptionKEY);
+        poEncrypt = new MySQLAESCrypt();
+        String lsValue = poEncrypt.Encrypt(SecureNo, EncryptionKEY);
+        return lsValue;
+    }
+
+    public String encryptPassword(String Password){
+        return poEncrypt.Encrypt(Password, EncryptionKEY);
+    }
+
+    public String decryptPassword(String EncryptedPassword){
+        return poEncrypt.Encrypt(EncryptedPassword, EncryptionKEY);
     }
 
     /***********************************************************
      * QrCode is decrypted to get the original value
      * */
     private String decryptedQrCodeValue(){
-        String decyptedQrCode = org.rmj.g3appdriver.utils.MySQLAESCrypt.Decrypt(EncryptedQrCode, EncryptionKEY);
+        String decyptedQrCode = poEncrypt.Decrypt(EncryptedQrCode, EncryptionKEY);
         return decyptedQrCode;
     }
 
@@ -232,11 +290,11 @@ public class CodeGenerator {
      *
      * */
     public String encryptPointsxx(double sPointsxx){
-        return org.rmj.g3appdriver.utils.MySQLAESCrypt.Encrypt(String.valueOf(Double.valueOf(sPointsxx)), EncryptionKEY);
+        return poEncrypt.Encrypt(String.valueOf(Double.valueOf(sPointsxx)), EncryptionKEY);
     }
 
     public String decryptPointsxx(String encryptedPointsxx){
-        return MySQLAESCrypt.Decrypt(encryptedPointsxx, EncryptionKEY);
+        return poEncrypt.Decrypt(encryptedPointsxx, EncryptionKEY);
     }
 
     public String generateTransNox(){

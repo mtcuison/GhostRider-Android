@@ -95,6 +95,8 @@ public class WebApi {
 
     private static final String REQUEST_USER_ACCESS = "security/request_android_object.php";
 
+    private static final String GET_PANALO_REWARDS = "gconnect/upload/getUserPanalo.php";
+
     private static final String URL_DOWNLOAD_UPDATE = "https://restgk.guanzongroup.com.ph/apk/gCircle.apk";
     private static final String URL_DOWNLOAD_TEST_UPDATE = "https://restgk.guanzongroup.com.ph/apk/test/gRider.apk";
 
@@ -867,5 +869,16 @@ public class WebApi {
             LIVE = PRIMARY_LIVE;
         }
         return LIVE + LOCAL_COORDINATES_TRACKER;
+    }
+
+    public String getUrlGetPanaloRewards(boolean isBackUp) {
+        if(isUnitTest) {
+            return LOCAL + GET_PANALO_REWARDS;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
+        }
+        return LIVE + GET_PANALO_REWARDS;
     }
 }

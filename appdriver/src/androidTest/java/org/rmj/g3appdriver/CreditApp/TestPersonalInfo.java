@@ -54,9 +54,9 @@ public class TestPersonalInfo {
         isSuccess = false;
         LoanInfo loLoan = new LoanInfo();
         loLoan.setTargetDte("2022-10-24");
-        loLoan.setAppTypex("0");
+        loLoan.setAppTypex(0);
         loLoan.setBranchCde("M001");
-        loLoan.setCustTypex("1");
+        loLoan.setCustTypex(1);
         loLoan.setDownPaymt(10000);
         loLoan.setMonthlyAm(1500);
         loLoan.setModelIDxx("M123131231");
@@ -77,9 +77,9 @@ public class TestPersonalInfo {
         isSuccess = false;
         LoanInfo loLoan = new LoanInfo();
         loLoan.setTargetDte("2022-10-24");
-        loLoan.setAppTypex("0");
+        loLoan.setAppTypex(0);
         loLoan.setBranchCde("M001");
-        loLoan.setCustTypex("1");
+        loLoan.setCustTypex(1);
         loLoan.setDownPaymt(10000);
         loLoan.setMonthlyAm(1500);
         loLoan.setModelIDxx("M123131231");
@@ -124,7 +124,6 @@ public class TestPersonalInfo {
         loDetail.setGender("0");
         loDetail.setCvlStats("0");
         loDetail.setCitizenx("01");
-        loDetail.setMobileNo("09171870011", "1", 0);
         loDetail.setEmailAdd("mikegarcia8748@gmail.com");
         loDetail.setPhoneNox("");
         loDetail.setFbAccntx("sample");
@@ -137,7 +136,8 @@ public class TestPersonalInfo {
             return;
         }
 
-        if(!loApp.Save(loDetail)){
+        String lsResult = loApp.Save(loDetail);
+        if(lsResult == null){
             message = loApp.getMessage();
             Log.e(TAG, message);
         } else {
@@ -170,11 +170,11 @@ public class TestPersonalInfo {
                 Log.d(TAG, "Citizenship: " + loClient.getCtznShip());
                 Log.d(TAG, "Civil Status: " + loClient.getCvlStats());
 
-                for(int x = 0; x < loClient.getMobileNoQty(); x++){
-                    Log.d(TAG, "Mobile No: " + loClient.getMobileNo(x));
-                    Log.d(TAG, "Is Mobile Postpaid: " + loClient.getPostPaid(x));
-                    Log.d(TAG, "Postpaid year: " + loClient.getPostYear(x));
-                }
+//                for(int x = 0; x < loClient.getMobileNoQty(); x++){
+//                    Log.d(TAG, "Mobile No: " + loClient.getMobileNo(x));
+//                    Log.d(TAG, "Is Mobile Postpaid: " + loClient.getPostPaid(x));
+//                    Log.d(TAG, "Postpaid year: " + loClient.getPostYear(x));
+//                }
                 Log.d(TAG, "Email Add:" + loClient.getEmailAdd());
                 Log.d(TAG, "Phone No: " + loClient.getPhoneNox());
                 Log.d(TAG, "Facebook: " + loClient.getFbAccntx());
