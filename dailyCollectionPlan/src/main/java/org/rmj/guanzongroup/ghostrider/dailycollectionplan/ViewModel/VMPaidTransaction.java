@@ -252,7 +252,6 @@ public class VMPaidTransaction extends AndroidViewModel {
 
         @Override
         protected Boolean doInBackground(PaidDCP... paidDCPS) {
-            paidDCPS[0].setPrNoxxx(poConfig.getDCP_PRNox());
             String lsResult = poSys.SavePaidTransaction(paidDCPS[0]);
             if(lsResult == null){
                 message = poSys.getMessage();
