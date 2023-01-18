@@ -57,12 +57,17 @@ public interface DInventoryDao {
     @Query("SELECT * FROM Inventory_Count_Master WHERE cTranStat != '2'")
     List<EInventoryMaster> GetMasterInventoryForUpload();
 
-    @Query("SELECT b.* FROM Employee_Log_Selfie a " +
-            "LEFT JOIN Branch_Info b " +
+//    @Query("SELECT b.* FROM Employee_Log_Selfie a " +
+//            "LEFT JOIN Branch_Info b " +
+//            "ON a.sBranchCd = b.sBranchCd " +
+//            "LEFT JOIN Inventory_Count_Master c ON b.sBranchCd = c.sBranchCd " +
+//            "WHERE c.sBranchCd IS NULL OR c.cTranStat = '0'")
+    @Query("SELECT a.* FROM Branch_Info a " +
+            "LEFT JOIN Inventory_Count_Master b " +
             "ON a.sBranchCd = b.sBranchCd " +
-            "LEFT JOIN Inventory_Count_Master c ON b.sBranchCd = c.sBranchCd " +
-            "WHERE c.sBranchCd IS NULL OR c.cTranStat = '0'")
-    List<EBranchInfo> GetBranchesForInventory();
+            "WHERE b.dTransact=:args " +
+            "AND b.sBranchCd NOT IN (SELECT sBranchCd FROM Inventory_Count_Master WHERE dTransact=:args)")
+    List<EBranchInfo> GetBranchesForInventory(String args);
 
     @Query("SELECT * FROM Branch_Info WHERE sBranchCd =:args")
     LiveData<EBranchInfo> GetBranchInfo(String args);

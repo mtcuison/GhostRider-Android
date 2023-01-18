@@ -70,7 +70,7 @@ public class CashCount {
                 return null;
             }
 
-            List<EBranchInfo> loList = poDao.GetBranchesForCashCount();
+            List<EBranchInfo> loList = poDao.GetBranchesForCashCount(AppConstants.CURRENT_DATE);
             if(loList.size() == 0 ){
                 message = "All branches on selfie log has cash count record.";
                 return null;
