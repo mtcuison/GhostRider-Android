@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Created by Android Team MIS-SEG Year 2021
-  ~ Copyright (c) 2021. Guanzon Central Office
+  ~ Created by Android Team MIS-SEG Year 2023
+  ~ Copyright (c) 2023. Guanzon Central Office
   ~ Guanzon Bldg., Perez Blvd., Dagupan City, Pangasinan 2400
   ~ Project name : GhostRider_Android
   ~ Module : GhostRider_Android.Panalo
@@ -18,27 +18,18 @@
     android:layout_height="match_parent"
     tools:context=".Activity_Panalo">
 
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar2"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
+        android:background="@color/material_tool_bar"
         android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
+        android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" />
-
-    </ScrollView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

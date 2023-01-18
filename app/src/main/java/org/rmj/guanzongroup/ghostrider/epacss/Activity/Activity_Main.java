@@ -256,6 +256,7 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
     }
 
     @Override
+
     public void onBackPressed() {
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
