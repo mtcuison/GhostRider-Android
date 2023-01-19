@@ -146,11 +146,11 @@ public class EEmployeeInfo {
         PositnID = positnID;
     }
 
-    public int getEmpLevID() {
+    public Integer getEmpLevID() {
         return EmpLevID;
     }
 
-    public void setEmpLevID(int empLevID) {
+    public void setEmpLevID(Integer empLevID) {
         EmpLevID = empLevID;
     }
 
