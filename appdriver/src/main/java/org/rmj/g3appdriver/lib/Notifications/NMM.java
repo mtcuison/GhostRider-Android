@@ -9,6 +9,7 @@ import org.rmj.g3appdriver.lib.Notifications.Obj.NMM_Events;
 import org.rmj.g3appdriver.lib.Notifications.Obj.NMM_MPOrderStatus;
 import org.rmj.g3appdriver.lib.Notifications.Obj.NMM_MPQuestions;
 import org.rmj.g3appdriver.lib.Notifications.Obj.NMM_MPReview;
+import org.rmj.g3appdriver.lib.Notifications.Obj.NMM_Panalo;
 import org.rmj.g3appdriver.lib.Notifications.Obj.NMM_Promotions;
 import org.rmj.g3appdriver.lib.Notifications.Obj.NMM_Regular;
 import org.rmj.g3appdriver.lib.Notifications.Obj.NMM_TableUpdate;
@@ -42,7 +43,7 @@ public class NMM {
             case "00007":
                 return new NMM_CustomerService(instance);
             default:
-                return null;
+                return new NMM_Panalo(instance);
         }
     }
 }

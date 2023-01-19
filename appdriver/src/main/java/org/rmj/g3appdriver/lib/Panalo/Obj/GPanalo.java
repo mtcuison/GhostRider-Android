@@ -8,6 +8,8 @@ import androidx.lifecycle.LiveData;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.CodeGenerator;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DPanalo;
+import org.rmj.g3appdriver.dev.Database.Entities.EPanaloReward;
 import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.dev.HttpHeaders;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
@@ -23,7 +25,7 @@ public class GPanalo {
 
     private final Context mContext;
 
-//    private final DPanalo poDao;
+    private final DPanalo poDao;
 
     private final WebApi poApis;
     private final AppConfigPreference poConfig;
@@ -33,7 +35,7 @@ public class GPanalo {
 
     public GPanalo(Context context) {
         this.mContext = context;
-//        this.poDao = GGC_GriderDB.getInstance(mContext).panaloDao();
+        this.poDao = GGC_GriderDB.getInstance(mContext).panaloDao();
         this.poConfig = AppConfigPreference.getInstance(mContext);
         this.poApis = new WebApi(poConfig.getTestStatus());
         this.poHeaders = HttpHeaders.getInstance(mContext);
@@ -42,70 +44,6 @@ public class GPanalo {
     public String getMessage() {
         return message;
     }
-
-//    public LiveData<EPanaloReward> GetPanaloNotice(){
-//        return poDao.GetPanaloRewardNotice();
-//    }
-
-//    public JSONObject GetRewardDetail(String args){
-//        try{
-//            JSONObject params = new JSONObject();
-//            params.put("sReferNox", args);
-//
-//            String lsResponse = WebClient.httpsPostJSon(
-//                    poApis.getSendResponseAPI(),
-//                    params.toString(),
-//                    poHeaders.getHeaders());
-//            if(lsResponse == null){
-//                message = "Server no response while sending response.";
-//                return null;
-//            }
-//
-//            JSONObject loResponse = new JSONObject(lsResponse);
-//            String lsResult = loResponse.getString("result");
-//            if (!lsResult.equalsIgnoreCase("success")) {
-//                JSONObject loError = loResponse.getJSONObject("error");
-//                message = loError.getString("message");
-//                return null;
-//            }
-//
-//            return loResponse;
-//        } catch (Exception e){
-//            e.printStackTrace();
-//            message = e.getMessage();
-//            return null;
-//        }
-//    }
-
-//    public boolean ClaimReward(String args){
-//        try{
-//            JSONObject params = new JSONObject();
-//            params.put("sReferNox", args);
-//
-//            String lsResponse = WebClient.httpsPostJSon(
-//                    poApis.getSendResponseAPI(),
-//                    params.toString(),
-//                    poHeaders.getHeaders());
-//            if(lsResponse == null){
-//                message = "Server no response while sending response.";
-//                return false;
-//            }
-//
-//            JSONObject loResponse = new JSONObject(lsResponse);
-//            String lsResult = loResponse.getString("result");
-//            if (!lsResult.equalsIgnoreCase("success")) {
-//                JSONObject loError = loResponse.getJSONObject("error");
-//                message = loError.getString("message");
-//                return false;
-//            }
-//
-//            return true;
-//        } catch (Exception e){
-//            e.printStackTrace();
-//            message = e.getMessage();
-//            return false;
-//        }
-//    }
 
     public List<PanaloRewards> GetRewards(String args){
         try{

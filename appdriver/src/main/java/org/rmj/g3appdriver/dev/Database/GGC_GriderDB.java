@@ -68,6 +68,7 @@ import org.rmj.g3appdriver.dev.Database.DataAccessObject.DNotificationMaster;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DNotificationUser;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DNotifications;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DOccupationInfo;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DPanalo;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DProvinceInfo;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DRaffleInfo;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DRawDao;
@@ -122,6 +123,7 @@ import org.rmj.g3appdriver.dev.Database.Entities.ENotificationMaster;
 import org.rmj.g3appdriver.dev.Database.Entities.ENotificationRecipient;
 import org.rmj.g3appdriver.dev.Database.Entities.ENotificationUser;
 import org.rmj.g3appdriver.dev.Database.Entities.EOccupationInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.EPanaloReward;
 import org.rmj.g3appdriver.dev.Database.Entities.EProvinceInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ERaffleBasis;
 import org.rmj.g3appdriver.dev.Database.Entities.ERaffleInfo;
@@ -188,7 +190,8 @@ import org.rmj.g3appdriver.dev.Database.Entities.EUncapturedClient;
         EInventoryMaster.class,
         EInventoryDetail.class,
         ECreditOnlineApplicationCI.class,
-        EItinerary.class}, version = 36, exportSchema = false)
+        EItinerary.class,
+        EPanaloReward.class}, version = 36, exportSchema = false)
 public abstract class GGC_GriderDB extends RoomDatabase {
     private static final String TAG = "GhostRider_DB_Manager";
     private static GGC_GriderDB instance;
@@ -252,6 +255,7 @@ public abstract class GGC_GriderDB extends RoomDatabase {
     public abstract DNotificationMaster nMasterDao();
     public abstract DNotificationDetail nDetailDao();
     public abstract DNotificationUser nUserDao();
+    public abstract DPanalo panaloDao();
 
     public static synchronized GGC_GriderDB getInstance(Context context){
         if(instance == null){

@@ -15,6 +15,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.lib.Panalo.Obj.GPanalo;
 import org.rmj.g3appdriver.lib.Panalo.model.PanaloRewards;
 
@@ -27,6 +28,7 @@ public class GPanaloTest {
 
     private Application instance;
 
+    private EmployeeMaster poUser;
     private GPanalo poSys;
 
     private boolean isSuccess = false;
@@ -34,8 +36,12 @@ public class GPanaloTest {
     @Before
     public void setup() throws Exception{
         instance = ApplicationProvider.getApplicationContext();
+        poUser = new EmployeeMaster(instance);
         poSys = new GPanalo(instance);
         AppConfigPreference.getInstance(instance).setTestCase(true);
+
+        EmployeeMaster.UserAuthInfo loAuth = new EmployeeMaster.UserAuthInfo("mikegarcia8748@gmail.com", "123456", "09171870011");
+        assertTrue(poUser.AuthenticateUser(loAuth));
     }
 
     @Test
