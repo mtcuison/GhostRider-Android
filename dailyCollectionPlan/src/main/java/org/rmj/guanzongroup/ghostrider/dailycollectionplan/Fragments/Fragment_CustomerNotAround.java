@@ -104,8 +104,8 @@ public class Fragment_CustomerNotAround extends Fragment {
                     public void OnSuccessResult() {
                         poDialog.dismiss();
                         poMessage.initDialog();
-                        poMessage.setTitle("Selfie Login");
-                        poMessage.setMessage("Promise to pay has been save.");
+                        poMessage.setTitle("Daily Collection Plan");
+                        poMessage.setMessage("Customer not around has been save.");
                         poMessage.setPositiveButton("Okay", (view, dialog) -> {
                             dialog.dismiss();
                             requireActivity().finish();
@@ -117,7 +117,7 @@ public class Fragment_CustomerNotAround extends Fragment {
                     public void OnFailedResult(String message) {
                         poDialog.dismiss();
                         poMessage.initDialog();
-                        poMessage.setTitle("Selfie Login");
+                        poMessage.setTitle("Daily Collection Plan");
                         poMessage.setMessage(message);
                         poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
                         poMessage.show();

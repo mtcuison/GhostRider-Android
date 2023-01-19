@@ -112,92 +112,92 @@ public class DataDownloadService extends JobService {
                 }
             }
 
-            String message;
-            try {
-                if (!loConn.isDeviceConnected()) {
-                    Log.d(TAG, loConn.getMessage());
-                    return;
-                }
-
-                SelfieLog loSelfie = new SelfieLog(instance);
-                if(loSelfie.UploadSelfieLogs()){
-                    Log.d(TAG, "Selfie log/s uploaded successfully");
-                } else {
-                    message = loSelfie.getMessage();
-                    Log.e(TAG, message);
-                }
-                Thread.sleep(1000);
-
-                iPM loLeave = new PetManager(instance).GetInstance(PetManager.ePetManager.LEAVE_APPLICATION);
-                if(loLeave.UploadApplications()){
-                    Log.d(TAG, "Leave application/s uploaded successfully");
-                } else {
-                    message = loSelfie.getMessage();
-                    Log.e(TAG, message);
-                }
-                Thread.sleep(1000);
-
-                iPM loBustrp = new PetManager(instance).GetInstance(PetManager.ePetManager.BUSINESS_TRIP_APPLICATION);
-                if(loBustrp.UploadApplications()){
-                    Log.d(TAG, "Business trip application/s uploaded successfully");
-                } else {
-                    message = loBustrp.getMessage();
-                    Log.e(TAG, message);
-                }
-                Thread.sleep(1000);
-
-                ApprovalCode loCode = new ApprovalCode(instance);
-                if(loCode.UploadApprovalCode()){
-                    Log.d(TAG, "Approval code/s uploaded successfully");
-                } else {
-                    message = loCode.getMessage();
-                    Log.e(TAG, message);
-                }
-                Thread.sleep(1000);
-
-                CashCount loCash = new CashCount(instance);
-                if(loCash.UploadCashCountEntries()){
-                    Log.d(TAG, "Cash count/s uploaded successfully");
-                } else {
-                    message = loCash.getMessage();
-                    Log.e(TAG, message);
-                }
-                Thread.sleep(1000);
-
-                EmployeeItinerary loItnry = new EmployeeItinerary(instance);
-                if(loItnry.UploadUnsentItinerary()){
-                    Log.d(TAG, "Itinerary entries uploaded successfully");
-                } else {
-                    message = loItnry.getMessage();
-                    Log.e(TAG, message);
-                }
-                Thread.sleep(1000);
-
-                RLocationSysLog loLoct = new RLocationSysLog(instance);
-                if(loLoct.uploadUnsentLocationTracks()){
-                    Log.d(TAG, "Location tracking uploaded successfully");
-                } else {
-                    message = loLoct.getMessage();
-                    Log.e(TAG, message);
-                }
-                Thread.sleep(1000);
-
-                CreditOnlineApplication loApp = new CreditOnlineApplication(instance);
-                if(loApp.UploadApplications()){
-                    Log.d(TAG, "Credit online application uploaded successfully");
-                } else {
-                    message = loApp.getMessage();
-                    Log.e(TAG, message);
-                }
-                Thread.sleep(1000);
-
-                message = "Local data and server is updated.";
-                Log.d(TAG, message);
-            } catch (Exception e){
-                e.printStackTrace();
-                message = e.getMessage();
-                Log.e(TAG, message);
-            }
+//            String message;
+//            try {
+//                if (!loConn.isDeviceConnected()) {
+//                    Log.d(TAG, loConn.getMessage());
+//                    return;
+//                }
+//
+//                SelfieLog loSelfie = new SelfieLog(instance);
+//                if(loSelfie.UploadSelfieLogs()){
+//                    Log.d(TAG, "Selfie log/s uploaded successfully");
+//                } else {
+//                    message = loSelfie.getMessage();
+//                    Log.e(TAG, message);
+//                }
+//                Thread.sleep(1000);
+//
+//                iPM loLeave = new PetManager(instance).GetInstance(PetManager.ePetManager.LEAVE_APPLICATION);
+//                if(loLeave.UploadApplications()){
+//                    Log.d(TAG, "Leave application/s uploaded successfully");
+//                } else {
+//                    message = loSelfie.getMessage();
+//                    Log.e(TAG, message);
+//                }
+//                Thread.sleep(1000);
+//
+//                iPM loBustrp = new PetManager(instance).GetInstance(PetManager.ePetManager.BUSINESS_TRIP_APPLICATION);
+//                if(loBustrp.UploadApplications()){
+//                    Log.d(TAG, "Business trip application/s uploaded successfully");
+//                } else {
+//                    message = loBustrp.getMessage();
+//                    Log.e(TAG, message);
+//                }
+//                Thread.sleep(1000);
+//
+//                ApprovalCode loCode = new ApprovalCode(instance);
+//                if(loCode.UploadApprovalCode()){
+//                    Log.d(TAG, "Approval code/s uploaded successfully");
+//                } else {
+//                    message = loCode.getMessage();
+//                    Log.e(TAG, message);
+//                }
+//                Thread.sleep(1000);
+//
+//                CashCount loCash = new CashCount(instance);
+//                if(loCash.UploadCashCountEntries()){
+//                    Log.d(TAG, "Cash count/s uploaded successfully");
+//                } else {
+//                    message = loCash.getMessage();
+//                    Log.e(TAG, message);
+//                }
+//                Thread.sleep(1000);
+//
+//                EmployeeItinerary loItnry = new EmployeeItinerary(instance);
+//                if(loItnry.UploadUnsentItinerary()){
+//                    Log.d(TAG, "Itinerary entries uploaded successfully");
+//                } else {
+//                    message = loItnry.getMessage();
+//                    Log.e(TAG, message);
+//                }
+//                Thread.sleep(1000);
+//
+//                RLocationSysLog loLoct = new RLocationSysLog(instance);
+//                if(loLoct.uploadUnsentLocationTracks()){
+//                    Log.d(TAG, "Location tracking uploaded successfully");
+//                } else {
+//                    message = loLoct.getMessage();
+//                    Log.e(TAG, message);
+//                }
+//                Thread.sleep(1000);
+//
+//                CreditOnlineApplication loApp = new CreditOnlineApplication(instance);
+//                if(loApp.UploadApplications()){
+//                    Log.d(TAG, "Credit online application uploaded successfully");
+//                } else {
+//                    message = loApp.getMessage();
+//                    Log.e(TAG, message);
+//                }
+//                Thread.sleep(1000);
+//
+//                message = "Local data and server is updated.";
+//                Log.d(TAG, message);
+//            } catch (Exception e){
+//                e.printStackTrace();
+//                message = e.getMessage();
+//                Log.e(TAG, message);
+//            }
             jobFinished(params, false);
         }).start();
     }

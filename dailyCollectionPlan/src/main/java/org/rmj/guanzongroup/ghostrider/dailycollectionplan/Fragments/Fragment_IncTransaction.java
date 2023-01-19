@@ -83,7 +83,7 @@ public class Fragment_IncTransaction extends Fragment {
                     @Override
                     public void OnSuccessResult() {
                         poMessage.initDialog();
-                        poMessage.setTitle("Selfie Login");
+                        poMessage.setTitle("Daily Collection Plan");
                         poMessage.setMessage("Collection detail has been save.");
                         poMessage.setPositiveButton("Okay", (view, dialog) -> {
                             dialog.dismiss();
@@ -95,7 +95,7 @@ public class Fragment_IncTransaction extends Fragment {
                     @Override
                     public void OnFailedResult(String message) {
                         poMessage.initDialog();
-                        poMessage.setTitle("Selfie Login");
+                        poMessage.setTitle("Daily Collection Plan");
                         poMessage.setMessage(message);
                         poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
                         poMessage.show();

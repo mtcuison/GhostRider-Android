@@ -153,7 +153,10 @@ public class DialogBranchSelection {
             btnCancel.setVisibility(View.GONE);
         }
 
-        btnCancel.setOnClickListener(v -> poDialogx.dismiss());
+        btnCancel.setOnClickListener(v -> {
+            poDialogx.dismiss();
+            callback.OnCancel();
+        });
 
         if(!poDialogx.isShowing()) {
             poDialogx.show();
