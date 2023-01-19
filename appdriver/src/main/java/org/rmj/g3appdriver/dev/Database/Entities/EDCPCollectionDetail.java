@@ -156,27 +156,27 @@ public class EDCPCollectionDetail {
         this.PRNoxxxx = PRNoxxxx;
     }
 
-    public double getTranAmtx() {
+    public Double getTranAmtx() {
         return TranAmtx;
     }
 
-    public void setTranAmtx(double tranAmtx) {
+    public void setTranAmtx(Double tranAmtx) {
         TranAmtx = tranAmtx;
     }
 
-    public double getDiscount() {
+    public Double getDiscount() {
         return Discount;
     }
 
-    public void setDiscount(double discount) {
+    public void setDiscount(Double discount) {
         Discount = discount;
     }
 
-    public double getOthersxx() {
+    public Double getOthersxx() {
         return Othersxx;
     }
 
-    public void setOthersxx(double othersxx) {
+    public void setOthersxx(Double othersxx) {
         Othersxx = othersxx;
     }
 
@@ -244,11 +244,11 @@ public class EDCPCollectionDetail {
         TranType = tranType;
     }
 
-    public double getTranTotl() {
+    public Double getTranTotl() {
         return TranTotl;
     }
 
-    public void setTranTotl(double tranTotl) {
+    public void setTranTotl(Double tranTotl) {
         TranTotl = tranTotl;
     }
 
@@ -324,19 +324,19 @@ public class EDCPCollectionDetail {
         Purchase = purchase;
     }
 
-    public double getMonAmort() {
+    public Double getMonAmort() {
         return MonAmort;
     }
 
-    public void setMonAmort(double monAmort) {
+    public void setMonAmort(Double monAmort) {
         MonAmort = monAmort;
     }
 
-    public double getAmtDuexx() {
+    public Double getAmtDuexx() {
         return AmtDuexx;
     }
 
-    public void setAmtDuexx(double amtDuexx) {
+    public void setAmtDuexx(Double amtDuexx) {
         AmtDuexx = amtDuexx;
     }
 
@@ -372,19 +372,19 @@ public class EDCPCollectionDetail {
         DueDatex = dueDatex;
     }
 
-    public double getLongitud() {
+    public Double getLongitud() {
         return Longitud;
     }
 
-    public void setLongitud(double longitud) {
+    public void setLongitud(Double longitud) {
         Longitud = longitud;
     }
 
-    public double getLatitude() {
+    public Double getLatitude() {
         return Latitude;
     }
 
-    public void setLatitude(double latitude) {
+    public void setLatitude(Double latitude) {
         Latitude = latitude;
     }
 
@@ -412,11 +412,11 @@ public class EDCPCollectionDetail {
         SerialNo = serialNo;
     }
 
-    public double getLastPaym() {
+    public Double getLastPaym() {
         return LastPaym;
     }
 
-    public void setLastPaym(double lastPaym) {
+    public void setLastPaym(Double lastPaym) {
         LastPaym = lastPaym;
     }
 
@@ -436,11 +436,11 @@ public class EDCPCollectionDetail {
         this.ABalance = ABalance;
     }
 
-    public double getDelayAvg() {
+    public Double getDelayAvg() {
         return DelayAvg;
     }
 
-    public void setDelayAvg(double delayAvg) {
+    public void setDelayAvg(Double delayAvg) {
         DelayAvg = delayAvg;
     }
 

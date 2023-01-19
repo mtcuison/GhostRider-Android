@@ -59,7 +59,7 @@ public class RandomStockInventory {
                 return null;
             }
 
-            List<EBranchInfo> loList = poDao.GetBranchesForInventory();
+            List<EBranchInfo> loList = poDao.GetBranchesForInventory(AppConstants.CURRENT_DATE);
             if(loList.size() == 0){
                 message = "All branches on selfie log has cash count record.";
                 return null;

@@ -59,11 +59,11 @@ public class EDCP_Remittance {
         TransNox = transNox;
     }
 
-    public int getEntryNox() {
+    public Integer getEntryNox() {
         return EntryNox;
     }
 
-    public void setEntryNox(int entryNox) {
+    public void setEntryNox(Integer entryNox) {
         EntryNox = entryNox;
     }
 

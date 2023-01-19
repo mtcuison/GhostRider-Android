@@ -33,12 +33,6 @@ public class DialogCashCountBranch {
 
     private AlertDialog poDialogx;
 
-
-    public interface OnBranchSelectedCallback{
-        void OnSelect(String BranchCode, AlertDialog dialog);
-        void OnCancel();
-    }
-
     public DialogCashCountBranch(Context context, List<EBranchInfo> list) {
         this.mContext = context;
         this.poList = list;
@@ -77,7 +71,10 @@ public class DialogCashCountBranch {
         });
         recyclerView.setAdapter(loAdapter);
 
-        btnCancel.setOnClickListener(v -> poDialogx.dismiss());
+        btnCancel.setOnClickListener(v -> {
+            poDialogx.dismiss();
+            callback.OnCancel();
+        });
 
         if(!poDialogx.isShowing()) {
             poDialogx.show();

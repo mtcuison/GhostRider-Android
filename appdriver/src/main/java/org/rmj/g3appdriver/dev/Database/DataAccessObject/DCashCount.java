@@ -46,12 +46,18 @@ public interface DCashCount {
     @Query("SELECT COUNT(*) FROM Employee_Log_Selfie WHERE dTransact =:args")
     int CheckIfHasSelfieLog(String args);
 
-    @Query("SELECT b.* FROM Employee_Log_Selfie a " +
-            "LEFT JOIN Branch_Info b " +
+//    @Query("SELECT b.* FROM Employee_Log_Selfie a " +
+//            "LEFT JOIN Branch_Info b " +
+//            "ON a.sBranchCd = b.sBranchCd " +
+//            "LEFT JOIN Cash_Count_Master c " +
+//            "ON b.sBranchCd = c.sBranchCd " +
+//            "WHERE a.dTransact =:args AND ")
+    @Query("SELECT a.* FROM Branch_Info a " +
+            "LEFT JOIN Employee_Log_Selfie b " +
             "ON a.sBranchCd = b.sBranchCd " +
-            "LEFT JOIN Cash_Count_Master c ON b.sBranchCd = c.sBranchCd " +
-            "WHERE c.sBranchCd IS NULL")
-    List<EBranchInfo> GetBranchesForCashCount();
+            "WHERE b.dTransact=:args " +
+            "AND b.sBranchCd NOT IN (SELECT sBranchCd FROM Cash_Count_Master WHERE dTransact=:args)")
+    List<EBranchInfo> GetBranchesForCashCount(String args);
 
     @Query("UPDATE Cash_Count_Master SET " +
             "sTransNox =:transNox, " +

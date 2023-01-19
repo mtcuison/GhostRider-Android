@@ -118,11 +118,11 @@ public class ECashCount {
         return ORNoxxxx;
     }
 
-    public double getPettyAmt() {
+    public Double getPettyAmt() {
         return PettyAmt;
     }
 
-    public void setPettyAmt(double pettAmnt) {
+    public void setPettyAmt(Double pettAmnt) {
         PettyAmt = pettAmnt;
     }
 
@@ -205,114 +205,114 @@ public class ECashCount {
         Transact = transact;
     }
 
-    public int getCn0001cx() {
+    public Integer getCn0001cx() {
         return Cn0001cx;
     }
 
-    public void setCn0001cx(int cn0001cx) {
+    public void setCn0001cx(Integer cn0001cx) {
         Cn0001cx = cn0001cx;
     }
 
-    public int getCn0005cx() {
+    public Integer getCn0005cx() {
         return Cn0005cx;
     }
 
-    public void setCn0005cx(int cn0005cx) {
+    public void setCn0005cx(Integer cn0005cx) {
         Cn0005cx = cn0005cx;
     }
 
-    public int getCn0010cx() {
+    public Integer getCn0010cx() {
         return Cn0010cx;
     }
 
-    public void setCn0010cx(int cn0010cx) {
+    public void setCn0010cx(Integer cn0010cx) {
         Cn0010cx = cn0010cx;
     }
 
-    public int getCn0025cx() {
+    public Integer getCn0025cx() {
         return Cn0025cx;
     }
 
-    public void setCn0025cx(int cn0025cx) {
+    public void setCn0025cx(Integer cn0025cx) {
         Cn0025cx = cn0025cx;
     }
 
-    public int getCn0050cx() {
+    public Integer getCn0050cx() {
         return Cn0050cx;
     }
 
-    public void setCn0050cx(int cn0050cx) {
+    public void setCn0050cx(Integer cn0050cx) {
         Cn0050cx = cn0050cx;
     }
-    public int getCn0001px() {
+    public Integer getCn0001px() {
         return Cn0001px;
     }
 
-    public void setCn0001px(int cn0001px) {
+    public void setCn0001px(Integer cn0001px) {
         Cn0001px = cn0001px;
     }
 
-    public int getCn0005px() {
+    public Integer getCn0005px() {
         return Cn0005px;
     }
 
-    public void setCn0005px(int cn0005px) {
+    public void setCn0005px(Integer cn0005px) {
         Cn0005px = cn0005px;
     }
 
-    public int getCn0010px() {
+    public Integer getCn0010px() {
         return Cn0010px;
     }
 
-    public void setCn0010px(int cn0010px) {
+    public void setCn0010px(Integer cn0010px) {
         Cn0010px = cn0010px;
     }
 
-    public int getNte0020p() {
+    public Integer getNte0020p() {
         return Nte0020p;
     }
 
-    public void setNte0020p(int nte0020p) {
+    public void setNte0020p(Integer nte0020p) {
         Nte0020p = nte0020p;
     }
 
-    public int getNte0050p() {
+    public Integer getNte0050p() {
         return Nte0050p;
     }
 
-    public void setNte0050p(int nte0050p) {
+    public void setNte0050p(Integer nte0050p) {
         Nte0050p = nte0050p;
     }
 
-    public int getNte0100p() {
+    public Integer getNte0100p() {
         return Nte0100p;
     }
 
-    public void setNte0100p(int nte0100p) {
+    public void setNte0100p(Integer nte0100p) {
         Nte0100p = nte0100p;
     }
 
-    public int getNte0200p() {
+    public Integer getNte0200p() {
         return Nte0200p;
     }
 
-    public void setNte0200p(int nte0200p) {
+    public void setNte0200p(Integer nte0200p) {
         Nte0200p = nte0200p;
     }
 
-    public int getNte0500p() {
+    public Integer getNte0500p() {
         return Nte0500p;
     }
 
-    public void setNte0500p(int nte0500p) {
+    public void setNte0500p(Integer nte0500p) {
         Nte0500p = nte0500p;
     }
 
-    public int getNte1000p() {
+    public Integer getNte1000p() {
         return Nte1000p;
     }
 
-    public void setNte1000p(int nte1000p) {
+    public void setNte1000p(Integer nte1000p) {
         Nte1000p = nte1000p;
     }
 
@@ -340,11 +340,11 @@ public class ECashCount {
         this.DRNoxxxx = DRNoxxxx;
     }
 
-    public int getSendStat() {
+    public Integer getSendStat() {
         return SendStat;
     }
 
-    public void setSendStat(int sendStat) {
+    public void setSendStat(Integer sendStat) {
         SendStat = sendStat;
     }
 
