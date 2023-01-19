@@ -6,24 +6,29 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.g3appdriver.dev.Database.Entities.EItinerary;
-import org.rmj.g3appdriver.etc.FormatUIText;
+import com.google.android.material.button.MaterialButton;
+
+import org.rmj.guanzongroup.ghostrider.Model.PanaloReward;
 import org.rmj.guanzongroup.ghostrider.R;
 
 import java.util.List;
 
 public class AdapterRewards extends RecyclerView.Adapter<AdapterRewards.RewardsViewHolder> {
 
-    private final List<String> poList;
+    private final List<PanaloReward> poList;
     private final OnClickListener mListener;
 
     public interface OnClickListener{
-        void OnClick(EItinerary args);
+        void OnClick(String args);
+        void OnUseButtonClick(String args);
+
     }
 
-    public AdapterRewards(List<String> poList, OnClickListener mListener) {
+    public AdapterRewards(List<PanaloReward> poList, OnClickListener mListener) {
         this.poList = poList;
         this.mListener = mListener;
     }
@@ -37,12 +42,20 @@ public class AdapterRewards extends RecyclerView.Adapter<AdapterRewards.RewardsV
     @Override
     public void onBindViewHolder(@NonNull RewardsViewHolder holder, int position) {
         try {
-            String loDetail = poList.get(position);
-            holder.lblLastNme.setText("DE CELIS");
-            holder.lblFirstNme.setText("TEEJEI");
-            holder.lblMiddleNme.setText("FERNANDEZ");
+            PanaloReward loDetail = poList.get(position);
+            holder.lblRewardNme.setText(loDetail.getsRewardNm());
+//            holder.lblLRewardCde.setText(loDetail.getsRewardCD());
+            holder.lblRewardDte.setText(loDetail.getsRewardDt());
 
-            //holder.view.setOnClickListener(view -> mListener.OnClick(loDetail));
+            holder.itemView.setOnClickListener(v -> {
+                //Action Done here...
+                mListener.OnClick(poList .get(position).getsRewardNm());
+            });
+            holder.btnUse.setOnClickListener(v -> {
+                //Action Done here...
+                mListener.OnUseButtonClick(poList .get(position).getsRewardNm());
+
+            });
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -57,16 +70,20 @@ public class AdapterRewards extends RecyclerView.Adapter<AdapterRewards.RewardsV
 
         public View view;
         public TextView
-                lblLastNme,
-                lblFirstNme,
-                lblMiddleNme;
+                lblRewardNme,
+                lblLRewardCde,
+                lblRewardDte;
+        public MaterialButton btnUse;
+
 
         public RewardsViewHolder(@NonNull View itemView) {
             super(itemView);
             view = itemView;
-            lblLastNme = itemView.findViewById(R.id.lblLastNme);
-            lblFirstNme = itemView.findViewById(R.id.lblFirstNme);
-            lblMiddleNme = itemView.findViewById(R.id.lblMiddleNme);
+
+            lblRewardNme = itemView.findViewById(R.id.lblRwrdNme);
+            //lblLRewardCde = itemView.findViewById(R.id.lblRwrdCde);
+            lblRewardDte = itemView.findViewById(R.id.lblRwrdDte);
+            btnUse = itemView.findViewById(R.id.btn_dialogClaim);
         }
     }
 }
