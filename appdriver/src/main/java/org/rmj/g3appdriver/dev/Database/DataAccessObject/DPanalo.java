@@ -16,6 +16,6 @@ public interface DPanalo {
     @Update
     void Update(EPanaloReward args);
 
-    @Query("DELETE FROM Panalo_Reward WHERE sPanaloCD")
-    void Delete(EPanaloReward args);
+    @Query("DELETE FROM Panalo_Reward WHERE sPanaloCD =:args")
+    void Delete(String args);
 }

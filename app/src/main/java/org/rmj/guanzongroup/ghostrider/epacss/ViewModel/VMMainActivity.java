@@ -14,6 +14,7 @@ package org.rmj.guanzongroup.ghostrider.epacss.ViewModel;
 import android.app.Application;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
@@ -21,6 +22,7 @@ import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeRole;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.guanzongroup.ghostrider.epacss.Service.DataSyncService;
+import org.rmj.guanzongroup.ghostrider.epacss.ui.Dashboard.Fragment_AHDashboard;
 
 import java.util.List;
 
@@ -53,4 +55,7 @@ public class VMMainActivity extends AndroidViewModel {
         return poUser.GetEmployeeInfo();
     }
 
+    public Fragment GetUserFragments(EEmployeeInfo args){
+        return new Fragment_AHDashboard();
+    }
 }
