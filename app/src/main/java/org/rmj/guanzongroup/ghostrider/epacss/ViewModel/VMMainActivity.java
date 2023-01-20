@@ -56,6 +56,9 @@ public class VMMainActivity extends AndroidViewModel {
     }
 
     public Fragment GetUserFragments(EEmployeeInfo args){
+        switch (args.getEmpLevID()){
+
+        }
         return new Fragment_AHDashboard();
     }
 }
