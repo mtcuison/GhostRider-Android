@@ -117,8 +117,9 @@ dependencies {
 //    implementation project(path: ':griderScanner')
     implementation project(path: ':itinerary')
     implementation project(path: ':appDriver')
-    implementation project(':settings')
-    implementation project(':creditApp')
-    implementation project(':creditEvaluation')
+    implementation project(path: ':petManager')
+    implementation project(path: ':settings')
+    implementation project(path: ':creditApp')
+    implementation project(path: ':creditEvaluation')
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 }

@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Created by Android Team MIS-SEG Year 2021
+  ~ Copyright (c) 2021. Guanzon Central Office
+  ~ Guanzon Bldg., Perez Blvd., Dagupan City, Pangasinan 2400
+  ~ Project name : GhostRider_Android
+  ~ Module : GhostRider_Android.ahMonitoring
+  ~ Electronic Personnel Access Control Security System
+  ~ project file created : 9/16/21, 9:47 AM
+  ~ project file last modified : 9/16/21, 9:47 AM
+  -->
+
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardElevation="3dp"
+    app:cardUseCompatPadding="true"
+    app:cardCornerRadius="5dp"
+    app:cardMaxElevation="5dp"
+    app:cardPreventCornerOverlap="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="5dp">
+
+        <TextView
+            android:id="@+id/lbl_transNox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TransNox . :"
+            android:textSize="16sp"
+            android:textColor="@color/textColor_Black"
+            android:fontFamily="@font/roboto_medium"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/guanzon_orange"/>
+
+        <TextView
+            android:id="@+id/lbl_employeeName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="5dp"
+            android:fontFamily="@font/roboto_bold"
+            android:gravity="center_vertical"
+            android:layout_marginTop="10dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@color/textColor_Black"
+            android:drawableLeft="@drawable/ic_collection_client" />
+
+
+        <TextView
+            android:id="@+id/lbl_deptNme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="5dp"
+            android:fontFamily="@font/roboto_bold"
+            android:gravity="center_vertical"
+            android:layout_marginTop="5dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
+
+        <TextView
+            android:id="@+id/lbl_branchNm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="5dp"
+            android:fontFamily="@font/roboto_regular"
+            android:gravity="center_vertical"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/textColor_Black" />
+
+        <LinearLayout
+            android:id="@+id/linear_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginVertical="5dp">
+
+            <TextView
+                android:id="@+id/lbl_leaveType"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.2"
+                android:gravity="start|center_vertical"
+                android:fontFamily="@font/roboto_medium"
+                android:textColor="@color/textColor_Black"/>
+
+            <TextView
+                android:id="@+id/lbl_leaveStatus"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".8"
+                android:textColor="@color/material_white"
+                android:paddingVertical="3dp"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="center"
+                android:background="@drawable/bg_leavecredits"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".9"
+                android:text="Applied date from :"
+                android:textColor="@color/textColor_Black"
+                android:fontFamily="@font/roboto_medium"
+                android:drawablePadding="5dp"
+                android:gravity="center_vertical"
+                app:drawableStartCompat="@android:drawable/ic_menu_my_calendar"
+                app:drawableLeftCompat="@android:drawable/ic_menu_my_calendar"
+                android:drawableTint="@color/textColor_Black" />
+
+            <TextView
+                android:id="@+id/lbl_dateFrom"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:gravity="end|center_vertical"
+                android:textColor="@color/textColor_Orange"
+                android:fontFamily="@font/roboto_bold"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".9"
+                android:text="Applied date thru :"
+                android:textColor="@color/textColor_Black"
+                android:fontFamily="@font/roboto_medium"
+                android:drawablePadding="5dp"
+                android:gravity="center_vertical"
+                app:drawableStartCompat="@android:drawable/ic_menu_my_calendar"
+                app:drawableLeftCompat="@android:drawable/ic_menu_my_calendar"
+                android:drawableTint="@color/textColor_Black"/>
+
+            <TextView
+                android:id="@+id/lbl_dateThru"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:gravity="end|center_vertical"
+                android:textColor="@color/textColor_Orange"
+                android:fontFamily="@font/roboto_bold"/>
+        </LinearLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilRemarks"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:textColorHint="@color/textColor_Black"
+            android:hint="Purpose / Remarks :"
+            style="@style/TextInputTextAreaStyle">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txt_purpose"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:gravity="top|left"
+                android:inputType="textMultiLine"
+                android:lines="10"
+                android:maxLength="50"
+                android:minLines="3"
+                android:textColor="@color/material_black" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
