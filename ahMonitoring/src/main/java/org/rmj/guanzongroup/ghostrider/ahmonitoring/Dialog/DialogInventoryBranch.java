@@ -74,7 +74,10 @@ public class DialogInventoryBranch {
         });
         recyclerView.setAdapter(loAdapter);
 
-        btnCancel.setOnClickListener(v -> poDialogx.dismiss());
+        btnCancel.setOnClickListener(v -> {
+            poDialogx.dismiss();
+            callback.OnCancel();
+        });
 
         if(!poDialogx.isShowing()) {
             poDialogx.show();
