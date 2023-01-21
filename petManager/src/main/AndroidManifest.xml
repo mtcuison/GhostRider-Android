@@ -3,6 +3,12 @@
 
     <application>
         <activity
+            android:name=".Activity.Activity_Application"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.Activity_Employee_Applications"
+            android:exported="false" />
+        <activity
             android:name=".Activity.Activity_PetManager"
             android:exported="false" />
     </application>
