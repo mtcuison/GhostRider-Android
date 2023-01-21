@@ -62,11 +62,19 @@ public interface DInventoryDao {
 //            "ON a.sBranchCd = b.sBranchCd " +
 //            "LEFT JOIN Inventory_Count_Master c ON b.sBranchCd = c.sBranchCd " +
 //            "WHERE c.sBranchCd IS NULL OR c.cTranStat = '0'")
-    @Query("SELECT a.* FROM Branch_Info a " +
-            "LEFT JOIN Employee_Log_Selfie b " +
-            "ON a.sBranchCd = b.sBranchCd " +
-            "WHERE b.dTransact=:args " +
-            "AND b.sBranchCd NOT IN (SELECT sBranchCd FROM Inventory_Count_Master WHERE dTransact=:args AND cSendStat <> '1')")
+//    @Query("SELECT a.* FROM Branch_Info a " +
+//            "LEFT JOIN Employee_Log_Selfie b " +
+//            "ON a.sBranchCd = b.sBranchCd " +
+//            "WHERE b.dTransact=:args " +
+//            "AND b.sBranchCd NOT IN " +
+//            "(SELECT sBranchCd FROM Inventory_Count_Master " +
+//            "WHERE dTransact=:args AND cTranStat <> '1')")
+    @Query("SELECT c.* FROM Employee_Log_Selfie a LEFT JOIN Inventory_Count_Master b " +
+            "ON a.sBranchCd = b.sBranchCd LEFT JOIN Branch_Info c ON a.sBranchCd = c.sBranchCd " +
+            "WHERE a.dTransact =:args " +
+            "AND b.sBranchCd IS NULL " +
+            "OR a.dTransact =:args " +
+            "AND b.cTranStat == 0")
     List<EBranchInfo> GetBranchesForInventory(String args);
 
     @Query("SELECT * FROM Branch_Info WHERE sBranchCd =:args")

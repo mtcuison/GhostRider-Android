@@ -13,7 +13,9 @@ package org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -210,24 +212,24 @@ public class VMSelfieLog extends AndroidViewModel {
             if(!loImage.IsFileCreated(true)){
                 message = loImage.getMessage();
                 return false;
+            }
+
+            LocationRetriever loLrt = new LocationRetriever(instance, activity);
+            if(loLrt.HasLocation()){
+                args[0] = loImage.getFilePath();
+                args[1] = loImage.getFileName();
+                args[2] = loLrt.getLatitude();
+                args[3] = loLrt.getLongitude();
+                loIntent = loImage.getCameraIntent();
+                return true;
             } else {
-                LocationRetriever loLrt = new LocationRetriever(instance, activity);
-                if(loLrt.HasLocation()){
-                    args[0] = loImage.getFilePath();
-                    args[1] = loImage.getFileName();
-                    args[2] = loLrt.getLatitude();
-                    args[3] = loLrt.getLongitude();
-                    loIntent = loImage.getCameraIntent();
-                    return true;
-                } else {
-                    args[0] = loImage.getFilePath();
-                    args[1] = loImage.getFileName();
-                    args[2] = loLrt.getLatitude();
-                    args[3] = loLrt.getLongitude();
-                    loIntent = loImage.getCameraIntent();
-                    message = loLrt.getMessage();
-                    return false;
-                }
+                args[0] = loImage.getFilePath();
+                args[1] = loImage.getFileName();
+                args[2] = loLrt.getLatitude();
+                args[3] = loLrt.getLongitude();
+                loIntent = loImage.getCameraIntent();
+                message = loLrt.getMessage();
+                return false;
             }
         }
 

@@ -19,8 +19,10 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.LayoutInflater;
@@ -370,6 +372,11 @@ public class Fragment_SelfieLog extends Fragment {
     }
 
     private void InitCamera(String args){
+        LocationManager locationManager = (LocationManager) requireActivity().getSystemService(Context.LOCATION_SERVICE);
+        if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+            Toast.makeText(requireActivity(), "Please enable your location service.", Toast.LENGTH_SHORT).show();
+            return;
+        }
         poSelfie.setRemarksx(args);
         mViewModel.InitCameraLaunch(requireActivity(), new OnInitializeCameraCallback() {
             @Override

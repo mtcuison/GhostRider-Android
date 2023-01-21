@@ -108,6 +108,10 @@ public class RandomStockInventory {
             EInventoryMaster loMaster = poDao.GetMasterIfExists(fsVal, AppConstants.CURRENT_DATE);
 
             if(loMaster != null){
+                if(loMaster.getTranStat().equalsIgnoreCase("2")) {
+                    message = "Inventory is already uploaded to server.";
+                    return false;
+                }
                 message = "Inventory already exist in your local device.";
                 return false;
             }
