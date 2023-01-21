@@ -1430,4 +1430,17 @@ public class LRDcp {
 
         return true;
     }
+
+    public boolean ClearDCPData(){
+        try{
+            poDao.ClearMasterDCP();
+            poDao.ClearDetailDCP();
+            poDao.ClearDCPRemittance();
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
+    }
 }
