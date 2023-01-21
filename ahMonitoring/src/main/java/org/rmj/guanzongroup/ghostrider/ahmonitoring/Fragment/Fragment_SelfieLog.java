@@ -372,11 +372,6 @@ public class Fragment_SelfieLog extends Fragment {
     }
 
     private void InitCamera(String args){
-        LocationManager locationManager = (LocationManager) requireActivity().getSystemService(Context.LOCATION_SERVICE);
-        if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
-            Toast.makeText(requireActivity(), "Please enable your location service.", Toast.LENGTH_SHORT).show();
-            return;
-        }
         poSelfie.setRemarksx(args);
         mViewModel.InitCameraLaunch(requireActivity(), new OnInitializeCameraCallback() {
             @Override
