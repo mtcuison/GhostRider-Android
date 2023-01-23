@@ -65,15 +65,7 @@ public class Activity_SplashScreen extends AppCompatActivity {
         InitializeAppData();
     });
 
-    private final ActivityResultLauncher<Intent> poLogin = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-        if (result.getResultCode() == RESULT_OK) {
-            startActivity(new Intent(Activity_SplashScreen.this, Activity_Main.class));
-            ServiceScheduler.scheduleJob(Activity_SplashScreen.this, DataDownloadService.class, FIFTEEN_MINUTE_PERIODIC, AppConstants.DataServiceID);
-            finish();
-        } else if (result.getResultCode() == RESULT_CANCELED) {
-            finish();
-        }
-    });
+    private ActivityResultLauncher<Intent> poLogin;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -86,6 +78,16 @@ public class Activity_SplashScreen extends AppCompatActivity {
         prgrssBar = findViewById(R.id.progress_splashscreen);
         lblVrsion = findViewById(R.id.lbl_versionInfo);
         lblVrsion.setText(BuildConfig.VERSION_NAME);
+
+        poLogin = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            if (result.getResultCode() == RESULT_OK) {
+                startActivity(new Intent(Activity_SplashScreen.this, Activity_Main.class));
+                ServiceScheduler.scheduleJob(Activity_SplashScreen.this, DataDownloadService.class, FIFTEEN_MINUTE_PERIODIC, AppConstants.DataServiceID);
+                finish();
+            } else if (result.getResultCode() == RESULT_CANCELED) {
+                finish();
+            }
+        });
 
         startService(new Intent(Activity_SplashScreen.this, GMessagingService.class));
         Log.e(TAG, "Firebase messaging service started.");
