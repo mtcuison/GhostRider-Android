@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
+import org.rmj.guanzongroup.ghostrider.Fragment.Fragment_PanaloContainer;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Etc.FragmentAdapter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_AreaPerformance_PieChart;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_BranchPerformance_PieChart;
@@ -78,7 +79,7 @@ public class Fragment_AHDashboard extends Fragment {
         Fragment[] loFragments = new Fragment[]{
                 new Fragment_Home(),
                 new Fragment_SelfieLog(),
-                new Fragment_Home(),
+                new Fragment_PanaloContainer(),
                 new Fragment_AreaPerformance_PieChart(),
                 new Fragment_NotificationList()};
 

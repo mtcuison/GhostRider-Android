@@ -32,7 +32,7 @@
         android:layout_height="?attr/actionBarSize"
         app:itemIconTint="@color/black"
         app:itemTextColor="@color/black"
-        app:menu="@menu/bot_nav_bh_dashboard"
+        app:menu="@menu/bot_nav_dashboard"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

@@ -21,10 +21,10 @@ import org.rmj.guanzongroup.ghostrider.notifications.Fragment.Fragment_Notificat
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link Fragment_BHDashboard#newInstance} factory method to
+ * Use the {@link Fragment_Dashboard#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Fragment_BHDashboard extends Fragment {
+public class Fragment_Dashboard extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -35,7 +35,7 @@ public class Fragment_BHDashboard extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public Fragment_BHDashboard() {
+    public Fragment_Dashboard() {
         // Required empty public constructor
     }
 
@@ -45,11 +45,11 @@ public class Fragment_BHDashboard extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment Fragment_BHDashboard.
+     * @return A new instance of fragment Fragment_Dashboard.
      */
     // TODO: Rename and change types and number of parameters
-    public static Fragment_BHDashboard newInstance(String param1, String param2) {
-        Fragment_BHDashboard fragment = new Fragment_BHDashboard();
+    public static Fragment_Dashboard newInstance(String param1, String param2) {
+        Fragment_Dashboard fragment = new Fragment_Dashboard();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -70,12 +70,11 @@ public class Fragment_BHDashboard extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_ah_dashboard, container, false);
+        View view = inflater.inflate(R.layout.fragment__dashboard, container, false);
 
         Fragment[] loFragments = new Fragment[]{
                 new Fragment_Home(),
                 new Fragment_PanaloContainer(),
-                new Fragment_AreaPerformance_PieChart(),
                 new Fragment_NotificationList()};
 
         ViewPager viewPager = view.findViewById(R.id.viewpager);
@@ -89,11 +88,8 @@ public class Fragment_BHDashboard extends Fragment {
                 case R.id.nav_panalo:
                     viewPager.setCurrentItem(1);
                     break;
-                case R.id.nav_bullseye:
-                    viewPager.setCurrentItem(2);
-                    break;
                 case R.id.nav_notifications:
-                    viewPager.setCurrentItem(3);
+                    viewPager.setCurrentItem(2);
                     break;
             }
             return true;

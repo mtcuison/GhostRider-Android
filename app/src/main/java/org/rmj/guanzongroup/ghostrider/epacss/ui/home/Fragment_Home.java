@@ -117,18 +117,18 @@ public class Fragment_Home extends Fragment {
         navHeader.setOnNavigationItemSelectedListener(item -> {
             Intent loIntent;
             switch (item.getItemId()) {
-                case R.id.menu_selfielog:
-                    loIntent = new Intent(getActivity(), Activity_Application.class);
-                    loIntent.putExtra("app", AppConstants.INTENT_SELFIE_LOGIN);
-                    requireActivity().startActivity(loIntent);
-                    requireActivity().overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
-                    return true;
-                case R.id.menu_notif:
-                    loIntent = new Intent(getActivity(), Activity_Container.class);
-                    loIntent.putExtra("type", "notification");
-                    requireActivity().startActivity(loIntent);
-                    requireActivity().overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
-                    return true;
+//                case R.id.menu_selfielog:
+//                    loIntent = new Intent(getActivity(), Activity_Application.class);
+//                    loIntent.putExtra("app", AppConstants.INTENT_SELFIE_LOGIN);
+//                    requireActivity().startActivity(loIntent);
+//                    requireActivity().overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
+//                    return true;
+//                case R.id.menu_notif:
+//                    loIntent = new Intent(getActivity(), Activity_Container.class);
+//                    loIntent.putExtra("type", "notification");
+//                    requireActivity().startActivity(loIntent);
+//                    requireActivity().overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
+//                    return true;
                 case R.id.menu_settings:
                     loIntent = new Intent(getActivity(), Activity_Settings.class);
                     startActivityForResult(loIntent, SETTINGS);
@@ -206,15 +206,15 @@ public class Fragment_Home extends Fragment {
         });
 
         mViewModel.getUnreadNotificationsCount().observe(getViewLifecycleOwner(), integer -> {
-            try {
-                if(integer > 0) {
-                    navHeader.getOrCreateBadge(R.id.menu_notif).setNumber(integer);
-                } else {
-                    navHeader.removeBadge(R.id.menu_notif);
-                }
-            } catch (Exception e){
-                e.printStackTrace();
-            }
+//            try {
+//                if(integer > 0) {
+//                    navHeader.getOrCreateBadge(R.id.menu_notif).setNumber(integer);
+//                } else {
+//                    navHeader.removeBadge(R.id.menu_notif);
+//                }
+//            } catch (Exception e){
+//                e.printStackTrace();
+//            }
         });
 
         mViewModel.getBranchOpeningInfoForDashBoard().observe(getViewLifecycleOwner(), branchOpeningInfos -> {
