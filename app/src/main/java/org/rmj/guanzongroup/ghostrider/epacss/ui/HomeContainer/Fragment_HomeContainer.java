@@ -26,6 +26,7 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.tabs.TabLayout;
 
 import org.rmj.g3appdriver.dev.DeptCode;
+import org.rmj.guanzongroup.ghostrider.Fragment.Fragment_PanaloContainer;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Etc.FragmentAdapter;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMHomeContainer;
@@ -48,12 +49,12 @@ public class Fragment_HomeContainer extends Fragment {
     private Fragment[] fragment;
 
     private final int[] toggled_icons = {R.drawable.ic_home_dashboard_toggled,
-                                        R.drawable.ic_home_notification_toggled};
+                                        R.drawable.ic_home_notification_toggled,
+                                        R.drawable.ic_baseline_checklist_24};
 
     private final int[] icons = {R.drawable.ic_home_dashboard,
-                                R.drawable.ic_home_notification};
-
-    private final String[] header = {"Dashboard", "Messages", "Notifications"};
+                                R.drawable.ic_home_notification,
+                                R.drawable.ic_baseline_checklist_24};
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -69,7 +70,7 @@ public class Fragment_HomeContainer extends Fragment {
             try {
                 if(eEmployeeInfo.getEmpLevID() == DeptCode.LEVEL_RANK_FILE ||
                         eEmployeeInfo.getEmpLevID() == DeptCode.LEVEL_SUPERVISOR){
-                    fragment = new Fragment[]{new Fragment_Associate_Dashboard(), new Fragment_NotificationList()};
+                    fragment = new Fragment[]{new Fragment_Associate_Dashboard(), new Fragment_NotificationList(), new Fragment_PanaloContainer()};
                     appBarHome.setVisibility(View.VISIBLE);
                     imgHeader.setImageResource(R.drawable.img_associate);
                 }  else if(eEmployeeInfo.getEmpLevID() == DeptCode.LEVEL_BRANCH_HEAD) {
