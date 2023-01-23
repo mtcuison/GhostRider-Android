@@ -18,8 +18,10 @@ import static androidx.core.content.ContextCompat.checkSelfPermission;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -253,6 +255,11 @@ public class Fragment_PromiseToPay extends Fragment {
     }
 
     private void InitializeCamera(){
+        LocationManager locationManager = (LocationManager) requireActivity().getSystemService(Context.LOCATION_SERVICE);
+        if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+            Toast.makeText(requireActivity(), "Please enable your location service.", Toast.LENGTH_SHORT).show();
+            return;
+        }
         poMessage.initDialog();
         poMessage.setTitle("Promise To Pay");
         poMessage.setMessage("Please take a selfie with the customer or within the area of the customer.");
