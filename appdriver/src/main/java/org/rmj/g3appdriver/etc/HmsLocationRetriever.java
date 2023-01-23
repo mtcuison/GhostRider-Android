@@ -22,6 +22,7 @@ public class HmsLocationRetriever implements LocationRetriever.iLocationRetrieve
             if (location != null) {
                 String nLatitude = String.valueOf(location.getLatitude());
                 String nLongitde = String.valueOf(location.getLongitude());
+
                 listener.OnRetrieve(nLatitude, nLongitde);
             } else {
                 listener.OnFailed("Failed to retrieve location.", "0.0", "0.0");

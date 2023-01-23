@@ -43,7 +43,7 @@ public interface DInventoryDao {
     LiveData<List<EInventoryDetail>> GetInventoryItems(String TransNox);
 
     @Query("SELECT * FROM Inventory_Count_Detail WHERE sTransNox =:TransNox AND nEntryNox =:EntryNox AND sBarrCode =:BarrCode")
-    EInventoryDetail GetDetail(String TransNox, String EntryNox, String BarrCode);
+    EInventoryDetail GetDetail(String TransNox, int EntryNox, String BarrCode);
 
     @Query("SELECT * FROM Inventory_Count_Detail WHERE sTransNox =:fsVal")
     List<EInventoryDetail> GetInventoryDetails(String fsVal);
@@ -57,12 +57,25 @@ public interface DInventoryDao {
     @Query("SELECT * FROM Inventory_Count_Master WHERE cTranStat != '2'")
     List<EInventoryMaster> GetMasterInventoryForUpload();
 
-    @Query("SELECT b.* FROM Employee_Log_Selfie a " +
-            "LEFT JOIN Branch_Info b " +
-            "ON a.sBranchCd = b.sBranchCd " +
-            "LEFT JOIN Inventory_Count_Master c ON b.sBranchCd = c.sBranchCd " +
-            "WHERE c.sBranchCd IS NULL OR c.cTranStat = '0'")
-    List<EBranchInfo> GetBranchesForInventory();
+    //    @Query("SELECT b.* FROM Employee_Log_Selfie a " +
+//            "LEFT JOIN Branch_Info b " +
+//            "ON a.sBranchCd = b.sBranchCd " +
+//            "LEFT JOIN Inventory_Count_Master c ON b.sBranchCd = c.sBranchCd " +
+//            "WHERE c.sBranchCd IS NULL OR c.cTranStat = '0'")
+//    @Query("SELECT a.* FROM Branch_Info a " +
+//            "LEFT JOIN Employee_Log_Selfie b " +
+//            "ON a.sBranchCd = b.sBranchCd " +
+//            "WHERE b.dTransact=:args " +
+//            "AND b.sBranchCd NOT IN " +
+//            "(SELECT sBranchCd FROM Inventory_Count_Master " +
+//            "WHERE dTransact=:args AND cTranStat <> '1')")
+    @Query("SELECT c.* FROM Employee_Log_Selfie a LEFT JOIN Inventory_Count_Master b " +
+            "ON a.sBranchCd = b.sBranchCd LEFT JOIN Branch_Info c ON a.sBranchCd = c.sBranchCd " +
+            "WHERE a.dTransact =:args " +
+            "AND b.sBranchCd IS NULL " +
+            "OR a.dTransact =:args " +
+            "AND b.cTranStat == 0")
+    List<EBranchInfo> GetBranchesForInventory(String args);
 
     @Query("SELECT * FROM Branch_Info WHERE sBranchCd =:args")
     LiveData<EBranchInfo> GetBranchInfo(String args);

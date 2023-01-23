@@ -14,7 +14,7 @@ public interface iNotification {
 
     /**
      *
-     * @param val parameters refer to what type of response must be send
+     * @param status parameters refer to what type of response must be send
      *            Receive, Read
      */
     ENotificationMaster SendResponse(String mesgID, NOTIFICATION_STATUS status);

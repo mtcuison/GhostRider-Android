@@ -318,4 +318,44 @@ public class VMCollectionList extends AndroidViewModel {
             }
         }
     }
+
+    public void ClearDCPRecords(OnActionCallback callback){
+        new ClearDCPRecordsTask(callback).execute();
+    }
+
+    private class ClearDCPRecordsTask extends AsyncTask<Void, Void, Boolean>{
+
+        private final OnActionCallback callback;
+
+        private String message;
+
+        public ClearDCPRecordsTask(OnActionCallback callback) {
+            this.callback = callback;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            callback.OnLoad();
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            if(!poSys.ClearDCPData()){
+                message = poSys.getMessage();
+                return false;
+            }
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean isSuccess) {
+            super.onPostExecute(isSuccess);
+            if(!isSuccess){
+                callback.OnFailed(message);
+            } else {
+                callback.OnSuccess();
+            }
+        }
+    }
 }

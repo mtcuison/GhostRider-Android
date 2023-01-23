@@ -78,7 +78,7 @@ public class LeaveApplication {
         Remarksxx = remarksxx;
     }
 
-    public int getNoOfHours(){
+    public double getNoOfHours(){
         noOfHours = noOfDaysx * 8;
         return noOfHours;
     }
