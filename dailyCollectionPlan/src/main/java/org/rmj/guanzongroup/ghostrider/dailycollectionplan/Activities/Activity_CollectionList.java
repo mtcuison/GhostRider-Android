@@ -269,9 +269,10 @@ public class Activity_CollectionList extends AppCompatActivity {
             showAddDcpCollection();
         } else if (item.getItemId() == R.id.action_menu_post_collection) {
             showPostCollection();
-        } else if (item.getItemId() == R.id.action_menu_image_log) {
-            Intent loIntent = new Intent(Activity_CollectionList.this, Activity_ImageLog.class);
-            startActivity(loIntent);
+        } else if (item.getItemId() == R.id.action_clear_dcp) {
+            ClearDCPRecords();
+//            Intent loIntent = new Intent(Activity_CollectionList.this, Activity_ImageLog.class);
+//            startActivity(loIntent);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -522,5 +523,44 @@ public class Activity_CollectionList extends AppCompatActivity {
                 poMessage.show();
             }
         });
+    }
+
+    private void ClearDCPRecords(){
+        poMessage.initDialog();
+        poMessage.setTitle("Daily Collection Plan");
+        poMessage.setMessage("WARNING, Clearing dcp records will erase your all your daily collection plan and collection remittance records on this device. \nClear records?");
+        poMessage.setPositiveButton("Clear", (view, dialog) -> {
+            dialog.dismiss();
+            mViewModel.ClearDCPRecords(new VMCollectionList.OnActionCallback() {
+                @Override
+                public void OnLoad() {
+                    poDialogx.initDialog("Daily Collection Plan",
+                            "Clearing records. Please wait...", false);
+                    poDialogx.show();
+                }
+
+                @Override
+                public void OnSuccess() {
+                    poDialogx.dismiss();
+                    poMessage.initDialog();
+                    poMessage.setTitle("Daily Collection Plan");
+                    poMessage.setMessage("Records cleared successfully.");
+                    poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                    poMessage.show();
+                }
+
+                @Override
+                public void OnFailed(String message) {
+                    poDialogx.dismiss();
+                    poMessage.initDialog();
+                    poMessage.setTitle("Daily Collection Plan");
+                    poMessage.setMessage(message);
+                    poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                    poMessage.show();
+                }
+            });
+        });
+        poMessage.setNegativeButton("Cancel", (view, dialog) -> dialog.dismiss());
+        poMessage.show();
     }
 }
