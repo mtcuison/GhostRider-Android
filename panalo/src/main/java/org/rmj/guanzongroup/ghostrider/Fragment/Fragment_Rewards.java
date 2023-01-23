@@ -16,12 +16,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.rmj.g3appdriver.lib.Panalo.model.PanaloRewards;
 import org.rmj.guanzongroup.ghostrider.Adapter.AdapterRewards;
 import org.rmj.guanzongroup.ghostrider.Dialog.DialogPanaloRedeem;
 import org.rmj.guanzongroup.ghostrider.Model.PanaloReward;
 import org.rmj.guanzongroup.ghostrider.R;
 import org.rmj.guanzongroup.ghostrider.ViewModel.VMPanaloRewards;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.Inflater;
 
@@ -42,6 +44,23 @@ public class Fragment_Rewards extends Fragment  {
         mViewModel = new ViewModelProvider(requireActivity()).get(VMPanaloRewards.class);
         View view = inflater.inflate(R.layout.fragment_rewards, container, false);
         initWidgets(view);
+
+        mViewModel.GetRewards(0, new VMPanaloRewards.OnRetrieveRewardsListener() {
+            @Override
+            public void OnLoad(String title, String message) {
+
+            }
+
+            @Override
+            public void OnSuccess(List<PanaloRewards> args) {
+
+            }
+
+            @Override
+            public void OnFailed(String message) {
+
+            }
+        });
         return  view;
     }
 
@@ -51,7 +70,7 @@ public class Fragment_Rewards extends Fragment  {
         loManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(loManager);
 
-        List<PanaloReward> loList = mViewModel.getList();
+        List<PanaloReward> loList = new ArrayList<>();
         AdapterRewards loAdapter = new AdapterRewards(loList, new AdapterRewards.OnClickListener() {
             @Override
             public void OnClick(String args) {
@@ -70,13 +89,4 @@ public class Fragment_Rewards extends Fragment  {
         });
         recyclerView.setAdapter(loAdapter);
     }
-
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(VMPanaloRewards.class);
-        // TODO: Use the ViewModel
-    }
-
 }
