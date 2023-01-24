@@ -1,5 +1,6 @@
 package org.rmj.guanzongroup.ghostrider.Adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 
+import org.rmj.g3appdriver.lib.Panalo.model.PanaloRewards;
 import org.rmj.guanzongroup.ghostrider.Model.PanaloReward;
 import org.rmj.guanzongroup.ghostrider.R;
 
@@ -19,7 +21,7 @@ import java.util.List;
 
 public class AdapterRewards extends RecyclerView.Adapter<AdapterRewards.RewardsViewHolder> {
 
-    private final List<PanaloReward> poList;
+    private final List<PanaloRewards> poList;
     private final OnClickListener mListener;
 
     public interface OnClickListener{
@@ -28,7 +30,7 @@ public class AdapterRewards extends RecyclerView.Adapter<AdapterRewards.RewardsV
 
     }
 
-    public AdapterRewards(List<PanaloReward> poList, OnClickListener mListener) {
+    public AdapterRewards(List<PanaloRewards> poList, OnClickListener mListener) {
         this.poList = poList;
         this.mListener = mListener;
     }
@@ -42,18 +44,18 @@ public class AdapterRewards extends RecyclerView.Adapter<AdapterRewards.RewardsV
     @Override
     public void onBindViewHolder(@NonNull RewardsViewHolder holder, int position) {
         try {
-            PanaloReward loDetail = poList.get(position);
-            holder.lblRewardNme.setText(loDetail.getsRewardNm());
-//            holder.lblLRewardCde.setText(loDetail.getsRewardCD());
-            holder.lblRewardDte.setText(loDetail.getsRewardDt());
-
+            PanaloRewards loDetail = poList.get(position);
+            holder.lblRewardNme.setText(loDetail.getItemDesc());
+            holder.lblRwrdType.setText(loDetail.getPanaloDs());
+            holder.lblRewardDte.setText("Date:" + loDetail.getExpiryDt());
+            holder.lblQty.setText("Qty: " + loDetail.getItemQtyx());
             holder.itemView.setOnClickListener(v -> {
                 //Action Done here...
-                mListener.OnClick(poList .get(position).getsRewardNm());
+                mListener.OnClick(poList .get(position).getItemDesc());
             });
             holder.btnUse.setOnClickListener(v -> {
                 //Action Done here...
-                mListener.OnUseButtonClick(poList .get(position).getsRewardNm());
+                mListener.OnUseButtonClick(poList .get(position).getItemDesc());
 
             });
         } catch (Exception e){
@@ -71,17 +73,18 @@ public class AdapterRewards extends RecyclerView.Adapter<AdapterRewards.RewardsV
         public View view;
         public TextView
                 lblRewardNme,
-                lblLRewardCde,
-                lblRewardDte;
+                lblRwrdType,
+                lblRewardDte,
+                lblQty;
         public MaterialButton btnUse;
 
 
         public RewardsViewHolder(@NonNull View itemView) {
             super(itemView);
             view = itemView;
-
+            lblQty = itemView.findViewById(R.id.lblQty);
             lblRewardNme = itemView.findViewById(R.id.lblRwrdNme);
-            //lblLRewardCde = itemView.findViewById(R.id.lblRwrdCde);
+            lblRwrdType = itemView.findViewById(R.id.lblRwrdType);
             lblRewardDte = itemView.findViewById(R.id.lblRwrdDte);
             btnUse = itemView.findViewById(R.id.btn_dialogClaim);
         }
