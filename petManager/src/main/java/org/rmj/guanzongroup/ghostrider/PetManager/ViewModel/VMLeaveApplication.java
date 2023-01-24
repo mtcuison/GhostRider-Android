@@ -23,7 +23,6 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEmployeeInfo;
-import org.rmj.g3appdriver.dev.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.lib.PetManager.PetManager;
 import org.rmj.g3appdriver.lib.PetManager.iPM;
 import org.rmj.g3appdriver.lib.PetManager.model.LeaveApplication;
@@ -33,14 +32,12 @@ import org.rmj.g3appdriver.utils.ConnectionUtil;
 public class VMLeaveApplication extends AndroidViewModel {
 
     private final Application instance;
-    private final RBranch pobranch;
     private final iPM poSys;
     private final ConnectionUtil poConn;
 
     public VMLeaveApplication(@NonNull Application application) {
         super(application);
         this.instance = application;
-        this.pobranch = new RBranch(instance);
         this.poSys = new PetManager(instance).GetInstance(PetManager.ePetManager.LEAVE_APPLICATION);
         this.poConn = new ConnectionUtil(instance);
     }

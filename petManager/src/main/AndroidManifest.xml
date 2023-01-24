@@ -3,6 +3,9 @@
 
     <application>
         <activity
+            android:name=".Activity.Activity_EmployeeLoanEntry"
+            android:exported="false" />
+        <activity
             android:name=".Activity.Activity_Application"
             android:exported="false" />
         <activity

@@ -91,7 +91,7 @@
             android:exported="true" />
 
         <!--            android:name="org.rmj.guanzongroup.documentscanner.Activity_DocumentScan"-->
-        <activity
+       <!-- <activity
             android:name=".Activity.Activity_SplashScreen"
             android:screenOrientation="userPortrait"
             android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
@@ -104,6 +104,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        -->
+        <activity
+            android:name="org.rmj.guanzongroup.ghostrider.PetManager.Activity.Activity_EmployeeLoanEntry"
+            android:screenOrientation="userPortrait"
+            android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan"
+            android:exported="true"
+            tools:replace="android:exported">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
 
         <activity
             android:name=".Activity.Activity_Main"
