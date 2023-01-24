@@ -12,6 +12,7 @@ import android.util.Log;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 
+import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EGLocatorSysLog;
 import org.rmj.g3appdriver.dev.Database.Repositories.RLocationSysLog;
 import org.rmj.g3appdriver.dev.Telephony;
@@ -131,16 +132,12 @@ public class LocationRetriever {
 
             RLocationSysLog loSys = new RLocationSysLog(instance);
             Telephony loDevID = new Telephony(instance);
-            SessionManager loSession = new SessionManager(instance);
 
             location.StartLocationTracking(instance, (args, args1) -> {
                 EGLocatorSysLog loLog = new EGLocatorSysLog();
                 loLog.setDeviceID(loDevID.getDeviceID());
                 loLog.setLatitude(String.valueOf(args));
                 loLog.setLongitud(String.valueOf(args1));
-                loLog.setTimeStmp(new AppConstants().DATE_MODIFIED());
-                loLog.setTransact(new AppConstants().DATE_MODIFIED());
-                loLog.setUserIDxx(loSession.getUserID());
                 if(isLocationEnabled(instance)) {
                     loLog.setGpsEnbld("1");
                     loLog.setRemarksx("Location Retrieve.");
