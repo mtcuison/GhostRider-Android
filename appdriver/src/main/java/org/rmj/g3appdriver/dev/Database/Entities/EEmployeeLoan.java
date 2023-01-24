@@ -1,11 +1,15 @@
 package org.rmj.g3appdriver.dev.Database.Entities;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
 @Entity(tableName = "Employee_Loan")
 public class EEmployeeLoan {
 
+    @PrimaryKey
+    @NonNull
     @ColumnInfo(name = "sTransNox")
     private String TransNox;
     @ColumnInfo(name = "sUserIDxx")
@@ -28,6 +32,7 @@ public class EEmployeeLoan {
     public EEmployeeLoan() {
     }
 
+    @NonNull
     public String getTransNox() {
         return TransNox;
     }

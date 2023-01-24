@@ -75,13 +75,13 @@ public class TestPaidCollection {
         PaidDCP loPaid = new PaidDCP();
         loPaid.setTransNo("M01422000120");
         loPaid.setAccntNo("M057170036");
-        loPaid.setAmountx("5000");
+        loPaid.setAmountx(5000);
         loPaid.setBankNme("");
         loPaid.setCheckDt("");
         loPaid.setCheckNo("");
-        loPaid.setDscount("100");
+        loPaid.setDscount(100);
         loPaid.setEntryNo("1");
-        loPaid.setTotAmnt("4900");
+        loPaid.setTotAmnt(4900);
         loPaid.setPayment("1");
         loPaid.setPrNoxxx("10000");
         loPaid.setRemarks("Sample remarks");

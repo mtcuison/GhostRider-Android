@@ -1,20 +1,35 @@
 package org.rmj.g3appdriver.lib.EmployeeLoan.Obj;
 
 import android.app.Application;
+import android.util.Log;
 
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEmployeeLoan;
+import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeLoan;
+import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
+import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.lib.EmployeeLoan.model.LoanApplication;
 import org.rmj.g3appdriver.lib.EmployeeLoan.model.LoanType;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class Contingency {
     private static final String TAG = Contingency.class.getSimpleName();
 
+    private DEmployeeLoan poDao;
+
     private String message;
 
     public Contingency(Application instance) {
+        this.poDao = GGC_GriderDB.getInstance(instance).loanDao();
+    }
 
+    public String getMessage() {
+        return message;
     }
 
     public List<LoanType> GetLoanTypes(){
@@ -74,14 +89,70 @@ public class Contingency {
         }
     }
 
-    public boolean SaveApplication(LoanApplication application){
+    public String SaveApplication(LoanApplication application){
         try{
+            EEmployeeInfo loUser = poDao.GetUserInfo();
 
+            if(loUser == null){
+                message = "Unable to find user info. Please restart app and try again.";
+                return null;
+            }
+
+            EEmployeeLoan loLoan = new EEmployeeLoan();
+
+            String lsTransNox = CreateUniqueID();
+
+            if(lsTransNox.trim().isEmpty()){
+                message = "Unable to create transaction no.";
+                return null;
+            }
+
+            loLoan.setTransNox(lsTransNox);
+            loLoan.setUserIDxx(loUser.getUserIDxx());
+            loLoan.setTransact(AppConstants.CURRENT_DATE);
+            loLoan.setLoanIDxx(application.getLoanIDxx());
+            loLoan.setLoanType(application.getLoanIDxx());
+            loLoan.setAmountxx(application.getAmountxx());
+            loLoan.setInterest(application.getInterest());
+            loLoan.setLoanTerm(application.getLoanTerm());
+
+            poDao.Save(loLoan);
+
+            return lsTransNox;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return null;
+        }
+    }
+
+    public boolean UploadApplication(String args){
+        try{
             return true;
         } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();
             return false;
         }
+    }
+
+    private String CreateUniqueID(){
+        String lsUniqIDx = "";
+        try{
+            String lsBranchCd = "MX01";
+            String lsCrrYear = new SimpleDateFormat("yy", Locale.getDefault()).format(new Date());
+            StringBuilder loBuilder = new StringBuilder(lsBranchCd);
+            loBuilder.append(lsCrrYear);
+
+            int lnLocalID = poDao.GetRowsCountForID() + 1;
+            String lsPadNumx = String.format("%05d", lnLocalID);
+            loBuilder.append(lsPadNumx);
+            lsUniqIDx = loBuilder.toString();
+        } catch (Exception e){
+            e.printStackTrace();
+            Log.e(TAG, e.getMessage());
+        }
+        Log.d(TAG, lsUniqIDx);
+        return lsUniqIDx;
     }
 }

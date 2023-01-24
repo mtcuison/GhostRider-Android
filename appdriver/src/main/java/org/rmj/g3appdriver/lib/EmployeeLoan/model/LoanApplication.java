@@ -2,6 +2,7 @@ package org.rmj.g3appdriver.lib.EmployeeLoan.model;
 
 public class LoanApplication {
     private String LoanIDxx = ""; //sLoanIDxx
+    private String LoanType = ""; //nAmountxx
     private double Amountxx = 0.0; //nAmountxx
     private double Interest = 0.0; //nInterest
     private int LoanTerm = 0; //nLoanTerm
@@ -22,6 +23,14 @@ public class LoanApplication {
 
     public void setLoanIDxx(String loanIDxx) {
         LoanIDxx = loanIDxx;
+    }
+
+    public String getLoanType() {
+        return LoanType;
+    }
+
+    public void setLoanType(String loanType) {
+        LoanType = loanType;
     }
 
     public double getAmountxx() {
