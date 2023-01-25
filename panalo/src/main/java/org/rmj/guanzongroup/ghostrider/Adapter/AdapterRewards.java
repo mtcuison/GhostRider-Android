@@ -1,20 +1,16 @@
 package org.rmj.guanzongroup.ghostrider.Adapter;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 
 import org.rmj.g3appdriver.lib.Panalo.model.PanaloRewards;
-import org.rmj.guanzongroup.ghostrider.Model.PanaloReward;
 import org.rmj.guanzongroup.ghostrider.R;
 
 import java.util.List;
