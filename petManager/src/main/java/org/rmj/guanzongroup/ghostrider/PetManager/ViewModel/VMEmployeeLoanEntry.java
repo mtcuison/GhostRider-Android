@@ -10,19 +10,23 @@ import android.app.DatePickerDialog;
 import android.util.Log;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
+import com.google.android.material.textfield.TextInputEditText;
+
 import org.rmj.g3appdriver.lib.EmployeeLoan.Obj.Contingency;
 import org.rmj.g3appdriver.lib.EmployeeLoan.model.LoanType;
+import org.rmj.guanzongroup.ghostrider.PetManager.Activity.Activity_EmployeeLoanEntry;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class VMEmployeeLoanEntry extends AndroidViewModel implements DatePickerDialog.OnDateSetListener {
+public class VMEmployeeLoanEntry extends AndroidViewModel{
     private static final String TAG = VMEmployeeLoanEntry.class.getSimpleName();
     private final Contingency poSys;
     public EditText editDtPicker;
@@ -61,12 +65,6 @@ public class VMEmployeeLoanEntry extends AndroidViewModel implements DatePickerD
         monthtoword = monthnames.get(monthindex);
         return monthtoword;
     }
-    public void showDatePicker(Activity activity){
-        Calendar cal = Calendar.getInstance();
-        DatePickerDialog dpd = new DatePickerDialog(activity, this, cal.get(YEAR), cal.get(MONTH), cal.get(DAY_OF_MONTH));
-        dpd.setCancelable(true);
-        dpd.show();
-    }
     public Boolean validateAmtFormat(String format, String inputAmt){
         Boolean matchFormat = null;
         if (inputAmt.isEmpty() == false && inputAmt.trim() != "") {
@@ -76,13 +74,36 @@ public class VMEmployeeLoanEntry extends AndroidViewModel implements DatePickerD
                 matchFormat = Pattern.matches("\\d*", inputAmt);
             }
         }
-        Log.d(TAG, String.valueOf(matchFormat));
         return matchFormat;
     }
-    @Override
+    public Boolean validateInputAmt(Activity activity, TextInputEditText[] inputEditTexts){
+        Boolean output = true;
+        for (int i = 0; i <  inputEditTexts.length; i++){
+            String objHint = inputEditTexts[i].getHint().toString();
+            String objAmt = inputEditTexts[i].getText().toString();
+
+            if(objAmt.trim().isEmpty() == true){
+                Toast.makeText(activity, "Please enter amount on "+ objHint, Toast.LENGTH_SHORT).show();
+                output = false;
+                break;
+            }else if(Double.parseDouble(objAmt) <= 0.00){
+                Toast.makeText(activity, "Amount Required on "+ objHint, Toast.LENGTH_SHORT).show();
+                output = false;
+                break;
+            }
+        }
+        return output;
+    }
+   /* public void showDatePicker(Activity activity){
+        Calendar cal = Calendar.getInstance();
+        DatePickerDialog dpd = new DatePickerDialog(activity, this, cal.get(YEAR), cal.get(MONTH), cal.get(DAY_OF_MONTH));
+        dpd.setCancelable(true);
+        dpd.show();
+    }*/
+   /*@Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         month += 1;
         String seldate = month + "/" + dayOfMonth + "/" + year;
         editDtPicker.setText(seldate);
-    }
+    }*/
 }

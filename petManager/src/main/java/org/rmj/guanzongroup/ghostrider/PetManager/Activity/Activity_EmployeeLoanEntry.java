@@ -26,6 +26,7 @@ import android.widget.Toast;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
+import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.EmployeeLoan.model.LoanApplication;
 import org.rmj.g3appdriver.lib.EmployeeLoan.model.LoanType;
 import org.rmj.guanzongroup.ghostrider.PetManager.R;
@@ -53,7 +54,7 @@ public class Activity_EmployeeLoanEntry extends AppCompatActivity {
     private TextInputEditText txt_loanamt;
     private TextInputEditText txt_interest;
     private TextInputEditText txt_terms;
-    private EditText edt_firstpay;
+    private TextInputEditText txt_firstpay;
     private TextView txtview_balance;
     private TextView txtview_amort;
     private TextView txtview_currdate;
@@ -76,7 +77,7 @@ public class Activity_EmployeeLoanEntry extends AppCompatActivity {
         txt_loanamt = findViewById(R.id.txt_loanamt);
         txt_interest = findViewById(R.id.txt_interest);
         txt_terms = findViewById(R.id.txt_terms);
-        edt_firstpay = findViewById(R.id.edt_firstpay);
+        txt_firstpay = findViewById(R.id.txt_firstpay);
         txtview_balance = findViewById(R.id.txtview_balance);
         txtview_amort = findViewById(R.id.txtview_amort);
         btn_saveloanentry = findViewById(R.id.btn_saveloanentry);
@@ -87,11 +88,10 @@ public class Activity_EmployeeLoanEntry extends AppCompatActivity {
         setDisplayCurrentDate();
         /*Loan Type Object Function*/
         setLoanTypeList();
-        /*DatePicker*/
-        setDatePickeronEditText();
         /*TextInput*/
         setDecimalText(txt_loanamt, ".00");
         setDecimalText(txt_interest, ".00");
+        setDecimalText(txt_firstpay, ".00");
         mViewModel.validateAmtFormat("integer", txt_terms.getText().toString());
         /*Apply Button*/
         setButtonAction();
@@ -153,15 +153,6 @@ public class Activity_EmployeeLoanEntry extends AppCompatActivity {
         }
         txtview_currdate.setText(currdate);
     }
-    private void setDatePickeronEditText(){
-        mViewModel.editDtPicker = edt_firstpay;
-        edt_firstpay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mViewModel.showDatePicker(Activity_EmployeeLoanEntry.this);
-            }
-        });
-    }
     private void setDecimalText(TextInputEditText editText, String defText){
         editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -178,6 +169,8 @@ public class Activity_EmployeeLoanEntry extends AppCompatActivity {
                                 editText.setText(currtext);
                             }
                         }
+                    }else {
+                        editText.setText("0.00");
                     }
                 }
             }
@@ -187,17 +180,45 @@ public class Activity_EmployeeLoanEntry extends AppCompatActivity {
         btn_saveloanentry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                SaveLoanApplication();
             }
         });
     }
+    private void setComputation(double loanAmt){
+
+    }
     private void SaveLoanApplication(){
-        if(txt_loanamt.getText().toString().trim().isEmpty()){
-            Toast.makeText(Activity_EmployeeLoanEntry.this, "Please enter amount", Toast.LENGTH_SHORT).show();
+        //VALIDATE LOAN TYPE SELECTION
+        String loantype = spn_loantype.getText().toString();
+        String loanamt = txt_loanamt.getText().toString();
+        String interest = txt_interest.getText().toString();
+        String firstpay = txt_firstpay.getText().toString();
+        String terms = txt_terms.getText().toString();
+
+        if (loantype.trim().isEmpty() == true) {
+            Toast.makeText(Activity_EmployeeLoanEntry.this, "Please select Loan Type", Toast.LENGTH_SHORT).show();
             return;
         }
-        loApp.setLoanTerm(Integer.parseInt(txt_terms.getText().toString()));
-        loApp.setInterest(Double.parseDouble(txt_interest.getText().toString()));
-        loApp.setAmountxx(Double.parseDouble(txt_loanamt.getText().toString()));
+        //VALIDATE TEXTFIELD'S VALUE FOR AMOUNT
+        TextInputEditText[] objtoValidate = {txt_loanamt, txt_interest, txt_terms, txt_firstpay};
+        Boolean outputValid = mViewModel.validateInputAmt(Activity_EmployeeLoanEntry.this, objtoValidate);
+        if(outputValid == false) {
+            return;
+        }
+        //VALIDATE AMOUNT FORMAT FROM TEXTFIELD
+        Boolean loanAmtFormat = mViewModel.validateAmtFormat("decimal", loanamt);
+        Boolean interestAmtFormat = mViewModel.validateAmtFormat("decimal", interest);
+        Boolean firstpayAmtFormat = mViewModel.validateAmtFormat("decimal", firstpay);
+        Boolean termsAmtFormat = mViewModel.validateAmtFormat("integer", terms);
+
+        if(loanAmtFormat == false || interestAmtFormat == false || firstpayAmtFormat == false || termsAmtFormat == false){
+            Toast.makeText(Activity_EmployeeLoanEntry.this, "Invalid Amount Format", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        loApp.setLoanType(loantype);
+        loApp.setAmountxx(Double.parseDouble(loanamt));
+        loApp.setInterest(Double.parseDouble(interest));
+        loApp.setLoanTerm(Integer.parseInt(terms));
+        loApp.setAmountxx(Double.parseDouble(firstpay));
     }
 }
