@@ -14,6 +14,7 @@ import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.dev.HttpHeaders;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.lib.Panalo.model.PanaloRewards;
+import org.rmj.g3appdriver.lib.Panalo.model.RaffleParticipant;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.g3appdriver.utils.WebClient;
 
@@ -116,6 +117,27 @@ public class GPanalo {
                     break;
             }
             return loBmp;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return null;
+        }
+    }
+
+    public List<RaffleParticipant> GetParticipants(){
+        try{
+            List<RaffleParticipant> loList = new ArrayList<>();
+            loList.add(new RaffleParticipant("GAP022000858", "department, testing test ", "M001"));
+            loList.add(new RaffleParticipant("GAP022003272", "Torralba, Mc Joe Penullar ", "M001"));
+            loList.add(new RaffleParticipant("GAP022001831", "Reynante, Richard Bautista Jr", "C025"));
+            loList.add(new RaffleParticipant("GAP022000783", "Zaratan, Jennifer Panlilio ", "M181"));
+            loList.add(new RaffleParticipant("GAP022000778", "De Luna, Jerwin Juguilon ", "M185"));
+            loList.add(new RaffleParticipant("GAP022000759", "Floridablanca-Multi, LGK Guanzon ", "M179"));
+            loList.add(new RaffleParticipant("GAP022000732", "Trabases, Joemarie Estiya ", "M097"));
+            loList.add(new RaffleParticipant("GAP022000722", "Tadeo, Winston Cabansag ", "M174"));
+            loList.add(new RaffleParticipant("GAP022000713", "Baes, Jayvee Bitoon Jay", "M183"));
+            loList.add(new RaffleParticipant("GAP022000586", "Pascua, Marie Dae Vengco", "M188"));
+            return loList;
         } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();
