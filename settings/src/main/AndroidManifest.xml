@@ -10,10 +10,15 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application>
-        <activity android:name=".Activity.Activity_Developer"
+        <activity
+            android:name=".Activity.Activity_AppVersion"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".Activity.Activity_Developer"
             android:label="Developer Test"
             android:screenOrientation="portrait"
-            android:theme="@style/GhostRiderMaterialTheme.WhiteBG"/>
+            android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
         <activity
             android:name=".Activity.Activity_QrCodeScanner"
             android:label="Qr Code"
@@ -41,8 +46,8 @@
             android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
         <activity
             android:name=".Activity.Activity_LocalData"
-            android:screenOrientation="portrait"
             android:label="Manage Space"
+            android:screenOrientation="portrait"
             android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
         <activity
             android:name=".Activity.Activity_Settings"

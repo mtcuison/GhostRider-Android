@@ -10,7 +10,7 @@
   ~ project file last modified : 4/24/21 3:17 PM
   -->
 
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android">
     <color name="guanzon_orange">#F88222</color>
     <color name="material_black" >#101010</color>
     <color name="material_white">#e2e2e2</color>
@@ -71,4 +71,7 @@
     <color name="gap_toolbar_background">#1F1F1F</color>
 
     <color name="textColor_btnWhite">#FFF</color>
+
+    <!-- Guillier   -->
+    <color name="light_black">#303030</color>
 </resources>
