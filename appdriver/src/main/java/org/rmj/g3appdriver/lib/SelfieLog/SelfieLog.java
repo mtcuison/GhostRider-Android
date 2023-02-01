@@ -212,6 +212,8 @@ public class SelfieLog {
                 return false;
             }
 
+            poDao.updateSelfieLogImageID(loDetail.getTransNox(), lsImageID);
+
             Thread.sleep(1000);
 
             JSONObject params = new JSONObject();
