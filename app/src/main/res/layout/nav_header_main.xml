@@ -58,6 +58,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_regular"
                 android:gravity="center"
+                android:visibility="gone"
                 android:text="@string/nav_header_subtitle"
                 android:textColor="#ffff"
                 android:layout_marginBottom="10dp"/>
