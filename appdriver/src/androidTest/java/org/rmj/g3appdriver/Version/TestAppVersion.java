@@ -33,6 +33,7 @@ public class TestAppVersion {
     @Before
     public void setUp() throws Exception {
         instance = ApplicationProvider.getApplicationContext();
+        poVersion = new AppVersion(instance);
         poMaster = new EmployeeMaster(instance);
         AppConfigPreference.getInstance(instance).setTestCase(true);
     }

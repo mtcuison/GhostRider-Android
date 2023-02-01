@@ -42,13 +42,13 @@ public class AppVersion {
             params.put("sUserIDxx", loUser.getUserIDxx());
             params.put("sProdctID", poConfig.ProducID());
             params.put("sIMEINoxx", poTlphony.getDeviceID());
-            params.put("sAppVersn", poConfig.getVersionName());
+            params.put("sAppVersn", poConfig.getVersionCode());
 
             String lsAddress = poApi.getUrlSubmitAppVersion(poConfig.isBackUpServer());
 
             String lsResponse = WebClient.sendRequest(
                     lsAddress,
-                    new JSONObject().toString(),
+                    params.toString(),
                     poHeaders.getHeaders());
 
             if(lsResponse == null){
