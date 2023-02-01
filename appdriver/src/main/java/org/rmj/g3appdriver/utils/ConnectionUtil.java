@@ -51,57 +51,63 @@ public class ConnectionUtil {
     }
 
     public boolean isDeviceConnected(){
-        if(!deviceConnected()){
-            message = "Please enable wifi or data to connect.";
-            return false;
-        } else {
-            String lsAddress;
-            AppConfigPreference loConfig = AppConfigPreference.getInstance(context);
-            boolean isTestCase = loConfig.getTestStatus();
-            if(isTestCase){
-                lsAddress = LOCAL;
-                if(!isReachable(lsAddress)){
-                    message = "Unable to reach local server.";
-                    return false;
-                } else {
-                    return true;
-                }
+        try {
+            if (!deviceConnected()) {
+                message = "Please enable wifi or data to connect.";
+                return false;
             } else {
-                boolean isBackUp = loConfig.isBackUpServer();
-                if(isBackUp){
-                    lsAddress = SECONDARY_LIVE;
-                    if(!isReachable(lsAddress)){
-                        Log.e(TAG, "Unable to connect to secondary server.");
-                        lsAddress = PRIMARY_LIVE;
-                        if(isReachable(lsAddress)){
-                            Log.d(TAG, "Primary server is reachable.");
-                            loConfig.setIfBackUpServer(false);
-                            return true;
-                        } else {
-                            message = "Unable to connect to our servers.";
-                            return false;
-                        }
+                String lsAddress;
+                AppConfigPreference loConfig = AppConfigPreference.getInstance(context);
+                boolean isTestCase = loConfig.getTestStatus();
+                if (isTestCase) {
+                    lsAddress = LOCAL;
+                    if (!isReachable(lsAddress)) {
+                        message = "Unable to reach local server.";
+                        return false;
                     } else {
                         return true;
                     }
                 } else {
-                    lsAddress = PRIMARY_LIVE;
-                    if(!isReachable(lsAddress)){
-                        Log.e(TAG, "Unable to connect to primary server.");
+                    boolean isBackUp = loConfig.isBackUpServer();
+                    if (isBackUp) {
                         lsAddress = SECONDARY_LIVE;
-                        if(isReachable(lsAddress)){
-                            Log.d(TAG, "Secondary server is reachable.");
-                            loConfig.setIfBackUpServer(true);
-                            return true;
+                        if (!isReachable(lsAddress)) {
+                            Log.e(TAG, "Unable to connect to secondary server.");
+                            lsAddress = PRIMARY_LIVE;
+                            if (isReachable(lsAddress)) {
+                                Log.d(TAG, "Primary server is reachable.");
+                                loConfig.setIfBackUpServer(false);
+                                return true;
+                            } else {
+                                message = "Unable to connect to our servers.";
+                                return false;
+                            }
                         } else {
-                            message = "Unable to connect to our servers.";
-                            return false;
+                            return true;
                         }
                     } else {
-                        return true;
+                        lsAddress = PRIMARY_LIVE;
+                        if (!isReachable(lsAddress)) {
+                            Log.e(TAG, "Unable to connect to primary server.");
+                            lsAddress = SECONDARY_LIVE;
+                            if (isReachable(lsAddress)) {
+                                Log.d(TAG, "Secondary server is reachable.");
+                                loConfig.setIfBackUpServer(true);
+                                return true;
+                            } else {
+                                message = "Unable to connect to our servers.";
+                                return false;
+                            }
+                        } else {
+                            return true;
+                        }
                     }
                 }
             }
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
         }
     }
 
