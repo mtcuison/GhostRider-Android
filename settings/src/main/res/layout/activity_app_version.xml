@@ -90,7 +90,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="This update integrates the latest security patches, fixes some known issues, and improves system performances."
-                android:textSize="13sp"
+                android:textSize="15sp"
                 android:fontFamily="@font/roboto_regular"
                 android:textColor="@color/guanzon_dark_grey"
                 android:layout_marginTop="5dp"
@@ -119,7 +119,7 @@
             <ExpandableListView
                 android:id="@+id/exp_updatelogs"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="250dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:background="@android:color/transparent"

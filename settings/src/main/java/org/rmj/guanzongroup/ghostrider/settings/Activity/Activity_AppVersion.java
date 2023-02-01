@@ -1,8 +1,10 @@
 package org.rmj.guanzongroup.ghostrider.settings.Activity;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.nfc.Tag;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -29,6 +31,7 @@ public class Activity_AppVersion extends AppCompatActivity {
     public static List<AppVersion_Model> listUpdatedLogHeader = new ArrayList<>();
     public static List<AppVersion_Model> listUpdatedLogChildModel = new ArrayList<>();
     public static HashMap<AppVersion_Model, List<AppVersion_Model>> listUpdatedLogChild = new HashMap<>();
+    VMAppVersion vmAppVersion = new VMAppVersion();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,26 +41,43 @@ public class Activity_AppVersion extends AppCompatActivity {
         explview_updatedlogs = findViewById(R.id.exp_updatelogs);
         btn_checkupdate = findViewById(R.id.btn_checkupdate);
 
-        List<String> listheaders = new ArrayList<>();
-        listheaders.add("Employee Loan");
-        listheaders.add("UI Design");
+        String logKeyHeader = "0";
+        String[] logDataHeader = {"Employee Loan", "Update Notification", "System Security"};
 
-        HashMap<String, String> listchild = new HashMap<>();
-        listchild.put("Employee Loan", "New application feature that allows employee to apply a loan for the company.");
-        listchild.put("UI Design", "Improved System UI Design");
+        vmAppVersion.imgicon = 0;
+        vmAppVersion.isGroup = true;
+        vmAppVersion.hasChild = true;
+        populateListData(logKeyHeader, logDataHeader, "asHead");
 
-        VMAppVersion vmAppVersion = new VMAppVersion();
-        vmAppVersion.setUpdatedLogDataHeader(listheaders, 0, true, true);
+        String logKeyDetailEL = "Employee Loan";
+        String[] logDataDetailEL = {"Allow user to apply Loan Application", "Loan Cars", "Loan Motorcycle"};
+        vmAppVersion.hasChild = true;
+        populateListData(logKeyDetailEL, logDataDetailEL, "asChild");
 
-        for(String key: listchild.keySet()){
-            int headerIndex = listheaders.indexOf(key);
-            if(headerIndex >= 0){
-                String listChildData = listchild.get(key);
-                vmAppVersion.setUpdatedDataDetails(listChildData, 0, false, true, headerIndex);
-            }
-        }
+        /*String logKeyDetailUID = "UI Design";
+        String[] logDataDetailUID = {"Improve System Performance", "New System Patches"};
+        vmAppVersion.hasChild = true;
+        populateListData(logKeyDetailUID, logDataDetailUID);
+
+        String logKeyDetailSP = "Security Patches";
+        String[] logDataDetailSP = {"Improve Security Patches"};
+        vmAppVersion.hasChild = true;
+        populateListData(logKeyDetailSP, logDataDetailSP);*/
 
         ExpandableListAppVersionAdapter listAdapter = new ExpandableListAppVersionAdapter(Activity_AppVersion.this, listUpdatedLogHeader, listUpdatedLogChild);
         explview_updatedlogs.setAdapter(listAdapter);
+    }
+
+    public void populateListData(String logKey, String[] logData, String dataPosition){
+        if(logData.length > 0){
+            HashMap<String, String[]>  hashlistData = new HashMap<>();
+            hashlistData.put(logKey, logData);
+
+            for(String key: hashlistData.keySet()){
+                for(int i = 0; i < hashlistData.get(key).length; i++){
+                    vmAppVersion.setUpdatedLogData(hashlistData.get(key)[i], key, dataPosition);
+                }
+            }
+        }
     }
 }
