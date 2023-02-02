@@ -44,6 +44,9 @@ public interface DSelfieLog {
             "WHERE sTransNox =:OldTransNox")
     void updateEmployeeLogStat(String TransNox, String OldTransNox, String sImageID, String DateSent);
 
+    @Query("UPDATE Employee_Log_Selfie SET sImageIDx =:ImageID WHERE sTransNox =:TransNox")
+    void updateSelfieLogImageID(String TransNox, String ImageID);
+
     @Query("SELECT * FROM Employee_Log_Selfie WHERE cSendStat <> '1'")
     List<ESelfieLog> GetSelfieLogsForUpload();
 

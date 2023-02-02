@@ -15,6 +15,7 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 
+import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EGLocatorSysLog;
 
 import java.util.List;
@@ -30,4 +31,7 @@ public interface DLocatorSysLog {
 
     @Query("SELECT * FROM GLocator_Sys_log WHERE cSendStat = '0'")
     List<EGLocatorSysLog> GetTrackingLocations();
+
+    @Query("SELECT * FROM User_Info_Master")
+    EEmployeeInfo GetUserInfo();
 }
