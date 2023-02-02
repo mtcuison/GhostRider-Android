@@ -69,6 +69,7 @@ public class ExpandableListAppVersionAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+        String headerCategory = getGroup(groupPosition).category;
         String headerTitle = getGroup(groupPosition).moduleName;
 
         if (convertView == null) {
@@ -76,6 +77,7 @@ public class ExpandableListAppVersionAdapter extends BaseExpandableListAdapter {
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = infalInflater.inflate(R.layout.update_logs_header, null);
         }
+
         TextView lblListHeader = convertView.findViewById(R.id.lblLogHeader);
         lblListHeader.setText(headerTitle);
         return convertView;

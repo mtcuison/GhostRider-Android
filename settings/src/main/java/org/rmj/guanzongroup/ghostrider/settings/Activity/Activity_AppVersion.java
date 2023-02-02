@@ -19,10 +19,8 @@ import org.rmj.guanzongroup.ghostrider.settings.R;
 import org.rmj.guanzongroup.ghostrider.settings.adapter.ExpandableListAppVersionAdapter;
 import org.rmj.guanzongroup.ghostrider.settings.adapter.ExpandableListHelpAdapter;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
+import java.util.stream.*;
 
 public class Activity_AppVersion extends AppCompatActivity {
 
@@ -41,42 +39,14 @@ public class Activity_AppVersion extends AppCompatActivity {
         explview_updatedlogs = findViewById(R.id.exp_updatelogs);
         btn_checkupdate = findViewById(R.id.btn_checkupdate);
 
-        String logKeyHeader = "0";
-        String[] logDataHeader = {"Employee Loan", "Update Notification", "System Security"};
-
-        vmAppVersion.imgicon = 0;
-        vmAppVersion.isGroup = true;
-        vmAppVersion.hasChild = true;
-        populateListData(logKeyHeader, logDataHeader, "asHead");
-
-        String logKeyDetailEL = "Employee Loan";
-        String[] logDataDetailEL = {"Allow user to apply Loan Application", "Loan Cars", "Loan Motorcycle"};
-        vmAppVersion.hasChild = true;
-        populateListData(logKeyDetailEL, logDataDetailEL, "asChild");
-
-        /*String logKeyDetailUID = "UI Design";
-        String[] logDataDetailUID = {"Improve System Performance", "New System Patches"};
-        vmAppVersion.hasChild = true;
-        populateListData(logKeyDetailUID, logDataDetailUID);
-
-        String logKeyDetailSP = "Security Patches";
-        String[] logDataDetailSP = {"Improve Security Patches"};
-        vmAppVersion.hasChild = true;
-        populateListData(logKeyDetailSP, logDataDetailSP);*/
-
         ExpandableListAppVersionAdapter listAdapter = new ExpandableListAppVersionAdapter(Activity_AppVersion.this, listUpdatedLogHeader, listUpdatedLogChild);
         explview_updatedlogs.setAdapter(listAdapter);
     }
 
     public void populateListData(String logKey, String[] logData, String dataPosition){
         if(logData.length > 0){
-            HashMap<String, String[]>  hashlistData = new HashMap<>();
-            hashlistData.put(logKey, logData);
+            for(int i = 0; i < logData.length; i++){
 
-            for(String key: hashlistData.keySet()){
-                for(int i = 0; i < hashlistData.get(key).length; i++){
-                    vmAppVersion.setUpdatedLogData(hashlistData.get(key)[i], key, dataPosition);
-                }
             }
         }
     }

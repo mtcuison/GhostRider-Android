@@ -11,6 +11,17 @@
 
     </LinearLayout>
 
+<!--
+        android:id="@+id/lblLogCategory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_bold"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/guanzon_dark_grey"
+        android:textSize="20sp" /> -->
+
     <TextView
         android:id="@+id/lblLogHeader"
         android:layout_width="match_parent"
@@ -19,6 +30,6 @@
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:textColor="@color/guanzon_dark_grey"
+        android:textColor="@color/guanzon_text_grey"
         android:textSize="15sp" />
 </LinearLayout>
