@@ -3,19 +3,16 @@ package org.rmj.guanzongroup.ghostrider.notifications.Etc;
 import android.content.Context;
 import android.util.Log;
 
-import com.google.firebase.messaging.RemoteMessage;
-
 import org.rmj.g3appdriver.dev.Database.Entities.ENotificationMaster;
-import org.rmj.g3appdriver.lib.Notifications.RemoteMessageParser;
-import org.rmj.guanzongroup.ghostrider.notifications.Obj.CustomerServiceNotification;
-import org.rmj.guanzongroup.ghostrider.notifications.Obj.EventNotification;
-import org.rmj.guanzongroup.ghostrider.notifications.Obj.InquiryNotification;
-import org.rmj.guanzongroup.ghostrider.notifications.Obj.MPOrderNotification;
-import org.rmj.guanzongroup.ghostrider.notifications.Obj.PanaloNotification;
-import org.rmj.guanzongroup.ghostrider.notifications.Obj.PromoNotification;
-import org.rmj.guanzongroup.ghostrider.notifications.Obj.RegularNotification;
-import org.rmj.guanzongroup.ghostrider.notifications.Obj.ReviewNotification;
-import org.rmj.guanzongroup.ghostrider.notifications.Obj.TableUpdateNotification;
+import org.rmj.guanzongroup.ghostrider.notifications.Notifications.CustomerServiceNotification;
+import org.rmj.guanzongroup.ghostrider.notifications.Notifications.EventNotification;
+import org.rmj.guanzongroup.ghostrider.notifications.Notifications.InquiryNotification;
+import org.rmj.guanzongroup.ghostrider.notifications.Notifications.MPOrderNotification;
+import org.rmj.guanzongroup.ghostrider.notifications.Notifications.Panalo.PanaloNotification;
+import org.rmj.guanzongroup.ghostrider.notifications.Notifications.PromoNotification;
+import org.rmj.guanzongroup.ghostrider.notifications.Notifications.RegularNotification;
+import org.rmj.guanzongroup.ghostrider.notifications.Notifications.ReviewNotification;
+import org.rmj.guanzongroup.ghostrider.notifications.Notifications.TableUpdateNotification;
 
 public class NotificationUI {
     private static final String TAG = NotificationUI.class.getSimpleName();

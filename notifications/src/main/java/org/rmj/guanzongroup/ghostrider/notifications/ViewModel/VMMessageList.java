@@ -29,8 +29,8 @@ import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
-import org.rmj.guanzongroup.ghostrider.notifications.Obj.EmployeeSearchItem;
-import org.rmj.guanzongroup.ghostrider.notifications.Obj.MessageItemList;
+import org.rmj.guanzongroup.ghostrider.notifications.Notifications.EmployeeSearchItem;
+import org.rmj.guanzongroup.ghostrider.notifications.Notifications.MessageItemList;
 
 import java.util.List;
 

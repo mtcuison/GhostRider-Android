@@ -20,7 +20,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DNotifications;
 import org.rmj.g3appdriver.dev.Database.Repositories.RNotificationInfo;
-import org.rmj.guanzongroup.ghostrider.notifications.Obj.NotificationItemList;
+import org.rmj.guanzongroup.ghostrider.notifications.Notifications.NotificationItemList;
 
 import java.util.List;
 

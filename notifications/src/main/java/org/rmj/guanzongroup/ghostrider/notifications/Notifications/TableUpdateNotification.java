@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.ghostrider.notifications.Obj;
+package org.rmj.guanzongroup.ghostrider.notifications.Notifications;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -8,11 +8,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 
-import com.google.firebase.messaging.RemoteMessage;
-
 import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Database.Entities.ENotificationMaster;
-import org.rmj.g3appdriver.lib.Notifications.RemoteMessageParser;
 import org.rmj.guanzongroup.ghostrider.notifications.Etc.iNotificationUI;
 import org.rmj.guanzongroup.ghostrider.notifications.R;
 

@@ -1,27 +1,17 @@
-package org.rmj.guanzongroup.ghostrider.notifications.Obj;
+package org.rmj.guanzongroup.ghostrider.notifications.Notifications;
 
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.app.NotificationCompat;
 import androidx.core.app.TaskStackBuilder;
-
-import com.google.firebase.messaging.RemoteMessage;
 
 import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Database.Entities.ENotificationMaster;
-import org.rmj.g3appdriver.lib.Notifications.RemoteMessageParser;
 import org.rmj.guanzongroup.ghostrider.notifications.Etc.iNotificationUI;
-import org.rmj.guanzongroup.ghostrider.notifications.R;
 
 import java.util.Date;
 

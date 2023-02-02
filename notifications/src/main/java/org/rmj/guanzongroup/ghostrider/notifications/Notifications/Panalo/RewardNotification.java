@@ -1,4 +1,8 @@
-package org.rmj.guanzongroup.ghostrider.notifications.Obj;
+package org.rmj.guanzongroup.ghostrider.notifications.Notifications.Panalo;
+
+import static org.rmj.guanzongroup.ghostrider.notifications.Notifications.Panalo.PanaloNotification.CHANNEL_DESC;
+import static org.rmj.guanzongroup.ghostrider.notifications.Notifications.Panalo.PanaloNotification.CHANNEL_NAME;
+import static org.rmj.guanzongroup.ghostrider.notifications.Notifications.Panalo.PanaloNotification.NotificationID;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -6,33 +10,24 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Build;
 
 import androidx.core.app.NotificationCompat;
 
-import com.google.firebase.messaging.RemoteMessage;
-
 import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Database.Entities.ENotificationMaster;
-import org.rmj.g3appdriver.lib.Notifications.RemoteMessageParser;
-import org.rmj.guanzongroup.ghostrider.notifications.Etc.iNotificationUI;
 import org.rmj.guanzongroup.ghostrider.notifications.R;
 
-public class PanaloNotification implements iNotificationUI {
-    private static final String TAG = PanaloNotification.class.getSimpleName();
+public class RewardNotification implements PnlNotification{
+    private static final String TAG = RewardNotification.class.getSimpleName();
 
     private final Context mContext;
     private final ENotificationMaster poMessage;
     private NotificationManager loManager;
 
-    public static final String NotificationID = "org.rmj.guanconnect.guanzonpanalo";
-    private static final String CHANNEL_NAME = "Guanzon Panalo";
-    private static final String CHANNEL_DESC = "Guanzon connect rewards notification for panalo participants.";
-
-    public PanaloNotification(Context context, ENotificationMaster message) {
-        this.mContext = context;
-        this.poMessage = message;
+    public RewardNotification(Context mContext, ENotificationMaster poMessage) {
+        this.mContext = mContext;
+        this.poMessage = poMessage;
     }
 
     @Override
@@ -111,16 +106,16 @@ public class PanaloNotification implements iNotificationUI {
 
             NotificationCompat.Builder notification =
                     new NotificationCompat.Builder(mContext, String.valueOf(lnChannelID))
-                        .setContentIntent(notifyPendingIntent)
-                        .setAutoCancel(true)
-                        .setChannelId(NotificationID)
+                            .setContentIntent(notifyPendingIntent)
+                            .setAutoCancel(true)
+                            .setChannelId(NotificationID)
 //                        .setLargeIcon(icon)
 //                        .setStyle(new NotificationCompat.BigPictureStyle()
 //                            .bigPicture(icon)
 //                            .bigLargeIcon(null))
-                        .setSmallIcon(R.drawable.ic_guanzon_logo)
-                        .setContentTitle(lsTitlexx)
-                        .setContentText(lsMessage);
+                            .setSmallIcon(R.drawable.ic_guanzon_logo)
+                            .setContentTitle(lsTitlexx)
+                            .setContentText(lsMessage);
 
             loManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
             loManager.notify(lnChannelID, notification.build());
