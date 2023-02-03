@@ -81,80 +81,9 @@ public class Fragment_SelfieLog extends Fragment {
     private LoadDialog poLoad;
     private MessageBox poMessage;
 
-    private final ActivityResultLauncher<Intent> poCamera = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
-        @Override
-        public void onActivityResult(ActivityResult result) {
-            try{
-                int resultCode = result.getResultCode();
-                if(resultCode == RESULT_OK){
-                    mViewModel.TimeIn(poSelfie, new VMSelfieLog.OnLoginTimekeeperListener() {
-                        @Override
-                        public void OnLogin() {
-                            poLoad.initDialog("Selfie Log", "Sending your time in. Please wait...", false);
-                            poLoad.show();
-                        }
+    private ActivityResultLauncher<Intent> poCamera;
 
-                        @Override
-                        public void OnSuccess(String args) {
-                            poLoad.dismiss();
-                            ValidateCashCount();
-                        }
-
-                        @Override
-                        public void SaveOffline(String args) {
-                            poLoad.dismiss();
-                            ValidateCashCount();
-                        }
-
-                        @Override
-                        public void OnFailed(String message) {
-                            poLoad.dismiss();
-                            poMessage.initDialog();
-                            poMessage.setTitle("Selfie Log");
-                            poMessage.setMessage(message);
-                            poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-                            poMessage.show();
-                        }
-                    });
-                }
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-        }
-    });
-
-    private final ActivityResultLauncher<String[]> poRequest = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), new ActivityResultCallback<Map<String, Boolean>>() {
-        @Override
-        public void onActivityResult(Map<String, Boolean> result) {
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-                Boolean fineLoct = result.getOrDefault(
-                        Manifest.permission.ACCESS_FINE_LOCATION, false);
-                Boolean coarseL = result.getOrDefault(
-                        Manifest.permission.ACCESS_COARSE_LOCATION, false);
-                Boolean camerax = result.getOrDefault(
-                        Manifest.permission.CAMERA, false);
-                if(Boolean.FALSE.equals(camerax)){
-                    Toast.makeText(requireActivity(), "Please allow camera permission to proceed.", Toast.LENGTH_SHORT).show();
-                } else if(Boolean.FALSE.equals(fineLoct)){
-                    Toast.makeText(requireActivity(), "Please allow permission to get device location.", Toast.LENGTH_SHORT).show();
-                } else if(Boolean.FALSE.equals(coarseL)){
-                    Toast.makeText(requireActivity(), "Please allow permission to get device location.", Toast.LENGTH_SHORT).show();
-                } else {
-                    validateSelfieLog();
-                }
-            } else {
-                if(checkSelfPermission(requireActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
-                    Toast.makeText(requireActivity(), "Please allow camera permission to proceed.", Toast.LENGTH_SHORT).show();
-                } else if(checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-                    Toast.makeText(requireActivity(), "Please allow permission to get device location.", Toast.LENGTH_SHORT).show();
-                } else if(checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-                    Toast.makeText(requireActivity(), "Please allow permission to get device location.", Toast.LENGTH_SHORT).show();
-                } else {
-                    validateSelfieLog();
-                }
-            }
-        }
-    });
+    private ActivityResultLauncher<String[]> poRequest;
 
     private final ActivityResultLauncher<Intent> poSettings = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
@@ -174,6 +103,7 @@ public class Fragment_SelfieLog extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         mViewModel = new ViewModelProvider(this).get(VMSelfieLog.class);
         View view =  inflater.inflate(R.layout.fragment_selfie_log, container, false);
+        InitActivityResultLaunchers();
         initWidgets(view);
 
         btnBranch.setVisibility(View.VISIBLE);
@@ -372,6 +302,11 @@ public class Fragment_SelfieLog extends Fragment {
     }
 
     private void InitCamera(String args){
+        LocationManager locationManager = (LocationManager) requireActivity().getSystemService(Context.LOCATION_SERVICE);
+        if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+            Toast.makeText(requireActivity(), "Please enable your location service.", Toast.LENGTH_SHORT).show();
+            return;
+        }
         poSelfie.setRemarksx(args);
         mViewModel.InitCameraLaunch(requireActivity(), new OnInitializeCameraCallback() {
             @Override
@@ -464,6 +399,83 @@ public class Fragment_SelfieLog extends Fragment {
                 poMessage.setMessage("Selfie log save.");
                 poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
                 poMessage.show();
+            }
+        });
+    }
+
+    private void InitActivityResultLaunchers(){
+        poCamera = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+            @Override
+            public void onActivityResult(ActivityResult result) {
+                try{
+                    int resultCode = result.getResultCode();
+                    if(resultCode == RESULT_OK){
+                        mViewModel.TimeIn(poSelfie, new VMSelfieLog.OnLoginTimekeeperListener() {
+                            @Override
+                            public void OnLogin() {
+                                poLoad.initDialog("Selfie Log", "Sending your time in. Please wait...", false);
+                                poLoad.show();
+                            }
+
+                            @Override
+                            public void OnSuccess(String args) {
+                                poLoad.dismiss();
+                                ValidateCashCount();
+                            }
+
+                            @Override
+                            public void SaveOffline(String args) {
+                                poLoad.dismiss();
+                                ValidateCashCount();
+                            }
+
+                            @Override
+                            public void OnFailed(String message) {
+                                poLoad.dismiss();
+                                poMessage.initDialog();
+                                poMessage.setTitle("Selfie Log");
+                                poMessage.setMessage(message);
+                                poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                                poMessage.show();
+                            }
+                        });
+                    }
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        poRequest = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), new ActivityResultCallback<Map<String, Boolean>>() {
+            @Override
+            public void onActivityResult(Map<String, Boolean> result) {
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                    Boolean fineLoct = result.getOrDefault(
+                            Manifest.permission.ACCESS_FINE_LOCATION, false);
+                    Boolean coarseL = result.getOrDefault(
+                            Manifest.permission.ACCESS_COARSE_LOCATION, false);
+                    Boolean camerax = result.getOrDefault(
+                            Manifest.permission.CAMERA, false);
+                    if(Boolean.FALSE.equals(camerax)){
+                        Toast.makeText(requireActivity(), "Please allow camera permission to proceed.", Toast.LENGTH_SHORT).show();
+                    } else if(Boolean.FALSE.equals(fineLoct)){
+                        Toast.makeText(requireActivity(), "Please allow permission to get device location.", Toast.LENGTH_SHORT).show();
+                    } else if(Boolean.FALSE.equals(coarseL)){
+                        Toast.makeText(requireActivity(), "Please allow permission to get device location.", Toast.LENGTH_SHORT).show();
+                    } else {
+                        validateSelfieLog();
+                    }
+                } else {
+                    if(checkSelfPermission(requireActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
+                        Toast.makeText(requireActivity(), "Please allow camera permission to proceed.", Toast.LENGTH_SHORT).show();
+                    } else if(checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+                        Toast.makeText(requireActivity(), "Please allow permission to get device location.", Toast.LENGTH_SHORT).show();
+                    } else if(checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+                        Toast.makeText(requireActivity(), "Please allow permission to get device location.", Toast.LENGTH_SHORT).show();
+                    } else {
+                        validateSelfieLog();
+                    }
+                }
             }
         });
     }

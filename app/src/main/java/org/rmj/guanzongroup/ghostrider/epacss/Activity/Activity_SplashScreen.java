@@ -61,19 +61,9 @@ public class Activity_SplashScreen extends AppCompatActivity {
 
     private MessageBox poDialog;
 
-    private final ActivityResultLauncher<String[]> poRequest = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), result -> {
-        InitializeAppData();
-    });
+    private ActivityResultLauncher<String[]> poRequest;
 
-    private final ActivityResultLauncher<Intent> poLogin = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-        if (result.getResultCode() == RESULT_OK) {
-            startActivity(new Intent(Activity_SplashScreen.this, Activity_Main.class));
-            ServiceScheduler.scheduleJob(Activity_SplashScreen.this, DataDownloadService.class, FIFTEEN_MINUTE_PERIODIC, AppConstants.DataServiceID);
-            finish();
-        } else if (result.getResultCode() == RESULT_CANCELED) {
-            finish();
-        }
-    });
+    private ActivityResultLauncher<Intent> poLogin;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -81,6 +71,7 @@ public class Activity_SplashScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VMSplashScreen.class);
         setContentView(R.layout.activity_splash_screen);
+        InitActivityResultLaunchers();
         poDialog = new MessageBox(Activity_SplashScreen.this);
         new TransparentToolbar(Activity_SplashScreen.this).SetupActionbar();
         prgrssBar = findViewById(R.id.progress_splashscreen);
@@ -202,6 +193,22 @@ public class Activity_SplashScreen extends AppCompatActivity {
                     finish();
                 });
                 poDialog.show();
+            }
+        });
+    }
+
+    private void InitActivityResultLaunchers(){
+        poRequest = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), result -> {
+            InitializeAppData();
+        });
+
+        poLogin = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            if (result.getResultCode() == RESULT_OK) {
+                startActivity(new Intent(Activity_SplashScreen.this, Activity_Main.class));
+                ServiceScheduler.scheduleJob(Activity_SplashScreen.this, DataDownloadService.class, FIFTEEN_MINUTE_PERIODIC, AppConstants.DataServiceID);
+                finish();
+            } else if (result.getResultCode() == RESULT_CANCELED) {
+                finish();
             }
         });
     }

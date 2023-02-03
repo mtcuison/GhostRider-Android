@@ -16,6 +16,7 @@ import android.util.Log;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DLocatorSysLog;
+import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EGLocatorSysLog;
 import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.etc.AppConstants;
@@ -47,6 +48,16 @@ public class RLocationSysLog {
     }
 
     public void saveCurrentLocation(EGLocatorSysLog sysLog){
+        EEmployeeInfo loUser = poDao.GetUserInfo();
+
+        if(loUser == null){
+            Log.d(TAG, "Unable to save location no user detected.");
+            return;
+        }
+
+        sysLog.setTimeStmp(new AppConstants().DATE_MODIFIED());
+        sysLog.setTransact(new AppConstants().DATE_MODIFIED());
+        sysLog.setUserIDxx(loUser.getUserIDxx());
         poDao.insertLocation(sysLog);
     }
 

@@ -98,6 +98,8 @@ public class WebApi {
     private static final String URL_DOWNLOAD_UPDATE = "https://restgk.guanzongroup.com.ph/apk/gCircle.apk";
     private static final String URL_DOWNLOAD_TEST_UPDATE = "https://restgk.guanzongroup.com.ph/apk/test/gRider.apk";
 
+    private static final String URL_SUBMIT_APP_VERSION = "security/updateUserAppVersion.php";
+    private static final String URL_CHECK_UPDATE = "security/gocas/bh_submit_approval.php";
 
     public WebApi(boolean isTestCase){
         this.isUnitTest = isTestCase;
@@ -867,5 +869,27 @@ public class WebApi {
             LIVE = PRIMARY_LIVE;
         }
         return LIVE + LOCAL_COORDINATES_TRACKER;
+    }
+
+    public String getUrlSubmitAppVersion(boolean isBackUp) {
+        if(isUnitTest) {
+            return LOCAL + URL_SUBMIT_APP_VERSION;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
+        }
+        return LIVE + URL_SUBMIT_APP_VERSION;
+    }
+
+    public String getUrlCheckUpdate(boolean isBackUp) {
+        if(isUnitTest) {
+            return LOCAL + URL_CHECK_UPDATE;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
+        }
+        return LIVE + URL_CHECK_UPDATE;
     }
 }

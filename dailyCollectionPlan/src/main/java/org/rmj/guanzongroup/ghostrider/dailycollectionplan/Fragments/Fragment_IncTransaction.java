@@ -16,8 +16,10 @@ import static android.app.Activity.RESULT_OK;
 import static androidx.core.content.ContextCompat.checkSelfPermission;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -172,6 +174,11 @@ public class Fragment_IncTransaction extends Fragment {
     }
 
     private void InitializeCamera(){
+        LocationManager locationManager = (LocationManager) requireActivity().getSystemService(Context.LOCATION_SERVICE);
+        if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+            Toast.makeText(requireActivity(), "Please enable your location service.", Toast.LENGTH_SHORT).show();
+            return;
+        }
         poMessage.initDialog();
         poMessage.setTitle("Daily Collection Plan");
         poMessage.setMessage("Please take a selfie with the customer or within the area of the customer.");
