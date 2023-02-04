@@ -11,7 +11,7 @@
   -->
 
 <shape android:shape = "rectangle"
-    android:tint="@color/guanzon_digital_orange"
+    android:tint="?attr/colorPrimary"
     xmlns:android = "http://schemas.android.com/apk/res/android">
 
 </shape>

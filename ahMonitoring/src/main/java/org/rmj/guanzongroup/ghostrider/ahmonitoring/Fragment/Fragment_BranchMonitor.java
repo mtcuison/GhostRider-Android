@@ -88,9 +88,9 @@ public class Fragment_BranchMonitor extends Fragment {
             lineDataSet1.setLineWidth(2);
             lineDataSet2.setLineWidth(2);
             lineDataSet3.setLineWidth(2);
-            lineDataSet1.setColors(getResources().getColor(R.color.guanzon_orange));
-            lineDataSet2.setColors(getResources().getColor(R.color.guanzon_deep_dark_grey));
-            lineDataSet3.setColors(getResources().getColor(R.color.guanzon_dark_grey));
+//            lineDataSet1.setColors(getResources().getColor(R.color.guanzon_orange));
+//            lineDataSet2.setColors(getResources().getColor(R.color.guanzon_deep_dark_grey));
+//            lineDataSet3.setColors(getResources().getColor(R.color.guanzon_dark_grey));
 
             //ArrayList<ILineDataSet> Contains list of LineDataSets
             ArrayList<ILineDataSet> dataSets = new ArrayList<>();

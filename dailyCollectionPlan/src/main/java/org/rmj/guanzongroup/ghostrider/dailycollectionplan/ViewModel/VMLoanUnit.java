@@ -199,9 +199,9 @@ public class VMLoanUnit extends AndroidViewModel {
             public View getView(int position, View convertView, ViewGroup parent) {
                 View v = super.getView(position, convertView, parent);
                 if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
-                    ((TextView) v).setTextColor(getApplication().getResources().getColorStateList(R.color.textColor_White));
+//                    ((TextView) v).setTextColor(getApplication().getResources().getColorStateList(R.color.textColor_White));
                 }else {
-                    ((TextView) v).setTextColor(getApplication().getResources().getColorStateList(R.color.textColor_Black));
+//                    ((TextView) v).setTextColor(getApplication().getResources().getColorStateList(R.color.textColor_Black));
                 }
                 return v;
             }

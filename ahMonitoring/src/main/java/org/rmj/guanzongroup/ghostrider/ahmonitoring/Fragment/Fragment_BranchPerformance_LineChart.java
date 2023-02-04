@@ -144,7 +144,7 @@ public class Fragment_BranchPerformance_LineChart extends Fragment implements On
 
             // Set line attributes
             lineDataSet1.setLineWidth(2);
-            lineDataSet1.setColors(getResources().getColor(R.color.guanzon_orange));
+//            lineDataSet1.setColors(getResources().getColor(R.color.guanzon_orange));
             //ArrayList<ILineDataSet> Contains list of LineDataSets
             ArrayList<ILineDataSet> dataSets = new ArrayList<>();
             dataSets.add(lineDataSet1);
@@ -164,7 +164,7 @@ public class Fragment_BranchPerformance_LineChart extends Fragment implements On
             lineChart.setDrawGridBackground(false);
             lineChart.setDrawBorders(true);
             lineChart.setBorderWidth(1);
-            lineChart.setBorderColor(getResources().getColor(R.color.color_dadada));
+//            lineChart.setBorderColor(getResources().getColor(R.color.color_dadada));
             lineChart.animateX(500);
             XAxis xAxis = lineChart.getXAxis();
             xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);

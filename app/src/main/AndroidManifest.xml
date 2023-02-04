@@ -76,11 +76,11 @@
         android:usesCleartextTraffic="true"
         android:manageSpaceActivity="org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_LocalData"
         android:roundIcon="@mipmap/grider_launcher_foreground_round"
-        android:theme="@style/GhostRiderMaterialTheme.NoActionBar">
+        android:theme="@style/Theme.GuanzonCircle.NoActionBar">
 
         <activity android:name=".Activity.Activity_DataManager"
             android:screenOrientation="userPortrait"
-            android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
+            android:theme="@style/Theme.GuanzonCircle.NoActionBar"
             android:windowSoftInputMode="adjustPan"
             android:exported="true"/>
 
@@ -94,7 +94,7 @@
         <activity
             android:name=".Activity.Activity_SplashScreen"
             android:screenOrientation="userPortrait"
-            android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
+            android:theme="@style/Theme.GuanzonCircle.NoActionBar"
             android:windowSoftInputMode="adjustPan"
             android:exported="true">
 
@@ -109,7 +109,7 @@
             android:name=".Activity.Activity_Main"
             android:label="Home"
             android:screenOrientation="userPortrait"
-            android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
+            android:theme="@style/Theme.GuanzonCircle.NoActionBar"
             android:exported="true"/>
 
         <service
@@ -141,7 +141,7 @@
              notification message. See README(https://goo.gl/6BKBk7) for more. -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
-            android:resource="@color/guanzon_digital_orange" />
+            android:resource="?attr/colorPrimary" />
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"

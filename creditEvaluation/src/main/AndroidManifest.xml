@@ -5,23 +5,23 @@
         <activity
             android:name=".Activity.Activity_EvaluationCIHistoryInfo"
             android:screenOrientation="portrait"
-            android:theme="@style/GhostRiderMaterialTheme.WhiteBG"
+            android:theme="@style/Theme.GuanzonCircle"
             android:exported="false" />
 
         <activity
             android:name=".Activity.Activity_CIEvaluationList"
             android:screenOrientation="portrait"
-            android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
+            android:theme="@style/Theme.GuanzonCircle" />
         <activity
             android:name=".Activity.Activity_EvaluationCIHistory"
             android:screenOrientation="portrait"
-            android:theme="@style/GhostRiderMaterialTheme.WhiteBG" /> <!-- <activity -->
+            android:theme="@style/Theme.GuanzonCircle" /> <!-- <activity -->
         <!-- android:name=".Activity.Activity_ApplicationList" -->
         <!-- android:exported="false" /> -->
         <activity
             android:name=".Activity.Activity_Evaluation"
             android:screenOrientation="portrait"
-            android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
+            android:theme="@style/Theme.GuanzonCircle" />
     </application>
 
 </manifest>

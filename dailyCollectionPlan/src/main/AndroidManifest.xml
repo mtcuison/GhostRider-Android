@@ -11,32 +11,32 @@
             android:name=".Activities.Activity_PostDcp"
             android:exported="true"
             android:screenOrientation="userPortrait"
-            android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
+            android:theme="@style/Theme.GuanzonCircle" />
         <activity
             android:name=".Activities.Activity_CollectionRemittance"
             android:exported="true"
             android:screenOrientation="userPortrait"
-            android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
+            android:theme="@style/Theme.GuanzonCircle" />
         <activity
             android:name=".Activities.Activity_LogCollection"
             android:exported="true"
             android:screenOrientation="userPortrait"
-            android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
+            android:theme="@style/Theme.GuanzonCircle" />
         <activity
             android:name=".Activities.Activity_CollectionList"
             android:exported="true"
             android:screenOrientation="userPortrait"
-            android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
+            android:theme="@style/Theme.GuanzonCircle" />
         <activity
             android:name=".Activities.Activity_Transaction"
             android:exported="true"
             android:screenOrientation="userPortrait"
-            android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
+            android:theme="@style/Theme.GuanzonCircle" />
         <activity
             android:name=".Activities.Activity_TransactionDetail"
             android:exported="true"
             android:screenOrientation="userPortrait"
-            android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
+            android:theme="@style/Theme.GuanzonCircle" />
     </application>
 
 </manifest>

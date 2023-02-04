@@ -74,11 +74,11 @@ public class BranchPerformanceAdapter extends RecyclerView.Adapter<BranchPerform
             holder.lblActual.setText(currency_total.format(brnPerformance.getJOGoalxx()));
         }
 
-        if (position == index){
-            holder.indexLayout.setBackgroundColor(mContext.getResources().getColor(R.color.guanzon_digital_orange_lighten));
-        }else{
-            holder.indexLayout.setBackgroundColor(mContext.getResources().getColor(android.R.color.transparent));
-        }
+//        if (position == index){
+//            holder.indexLayout.setBackgroundColor(mContext.getResources().getColor(R.color.guanzon_digital_orange_lighten));
+//        }else{
+//            holder.indexLayout.setBackgroundColor(mContext.getResources().getColor(android.R.color.transparent));
+//        }
     }
 
     @Override

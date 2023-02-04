@@ -14,8 +14,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
 
-    <solid android:color="@color/material_lightgrey"/>
-    <stroke android:color="@color/guanzon_digital_orange"
+    <solid android:color="?attr/colorOnSecondary"/>
+    <stroke android:color="?attr/colorPrimary"
         android:width="0.3dp"/>
     <corners android:radius="10dp"/>
 

@@ -13,6 +13,6 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="oval">
     <solid android:color="#F8F8F8"/>
-    <stroke android:color="@color/white"
+    <stroke android:color="@color/material_white"
         android:width="5dp"/>
 </shape>

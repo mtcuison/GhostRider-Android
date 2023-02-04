@@ -68,11 +68,11 @@ public class AreaPerformanceMonitoringAdapter extends RecyclerView.Adapter<AreaP
             holder.lblActual.setText(currency_total.format(loBranch.getSPActual()));
         }
 
-        if (position == index){
-            holder.indexLayout.setBackgroundColor(mContext.getResources().getColor(R.color.guanzon_digital_orange_lighten));
-        }else{
-            holder.indexLayout.setBackgroundColor(mContext.getResources().getColor(android.R.color.transparent));
-        }
+//        if (position == index){
+//            holder.indexLayout.setBackgroundColor(mContext.getResources().getColor(R.color.guanzon_digital_orange_lighten));
+//        }else{
+//            holder.indexLayout.setBackgroundColor(mContext.getResources().getColor(android.R.color.transparent));
+//        }
     }
 
     @Override

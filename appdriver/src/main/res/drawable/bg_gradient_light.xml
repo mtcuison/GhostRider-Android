@@ -13,11 +13,11 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape>
+<!--            android:startColor = "@color/material_master_light_gradient"-->
+<!--            android:endColor = "@color/material_master_dark_gradient"-->
             <gradient
                 android:type = "radial"
-                android:gradientRadius="360sp"
-                android:startColor = "@color/material_master_light_gradient"
-                android:endColor = "@color/material_master_dark_gradient" />
+                android:gradientRadius="360sp" />
         </shape>
     </item>
 </selector>

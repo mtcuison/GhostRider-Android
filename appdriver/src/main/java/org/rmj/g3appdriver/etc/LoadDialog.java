@@ -46,7 +46,7 @@ public class LoadDialog {
         TextView lblMsgxx = view.findViewById(R.id.lbl_dialogMessage);
         lblMsgxx.setText(Message);
         Sprite loDrawable = new Circle();
-        loDrawable.setColor(context.getResources().getColor(R.color.progressDialogTint));
+//        loDrawable.setColor(context.getResources().getColor(R.color.progressDialogTint));
         progressBar.setIndeterminateDrawable(loDrawable);
     }
 

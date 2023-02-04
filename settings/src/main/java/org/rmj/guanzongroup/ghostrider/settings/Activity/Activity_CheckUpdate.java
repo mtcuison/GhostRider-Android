@@ -76,7 +76,7 @@ public class Activity_CheckUpdate extends AppCompatActivity {
         btnUpdate = findViewById(R.id.btn_Update);
 
         Sprite loDrawable = new FadingCircle();
-        loDrawable.setColor(getResources().getColor(R.color.guanzon_digital_orange));
+//        loDrawable.setColor(getResources().getColor(R.color.guanzon_digital_orange));
         prgDownload.setIndeterminateDrawable(loDrawable);
 
         mViewModel.getVersionInfo().observe(this, s -> lblCurrent.setText(s));

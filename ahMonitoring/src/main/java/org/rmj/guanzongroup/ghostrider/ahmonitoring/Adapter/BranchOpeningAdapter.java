@@ -70,11 +70,11 @@ public class BranchOpeningAdapter extends RecyclerView.Adapter<BranchOpeningAdap
                 .toFormatter();
         LocalTime loTime1 = LocalTime.parse(loMonitor.sTimeOpen, format);
         LocalTime loTime2 = LocalTime.parse(loMonitor.sOpenNowx, format);
-        if(loTime1.isAfter(loTime2)) {
-            holder.cardView.setCardBackgroundColor(ContextCompat.getColor(mContext, R.color.branch_opening));
-        } else {
-            holder.cardView.setCardBackgroundColor(ContextCompat.getColor(mContext, R.color.branch_opening_late));
-        }
+//        if(loTime1.isAfter(loTime2)) {
+//            holder.cardView.setCardBackgroundColor(ContextCompat.getColor(mContext, R.color.branch_opening));
+//        } else {
+//            holder.cardView.setCardBackgroundColor(ContextCompat.getColor(mContext, R.color.branch_opening_late));
+//        }
     }
 
     @Override

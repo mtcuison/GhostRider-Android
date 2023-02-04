@@ -13,5 +13,5 @@
     android:shape="rectangle" >
     <stroke
         android:width="2dp"
-        android:color="@color/guanzon_orange_day" />
+        android:color="?attr/colorPrimary" />
 </shape>

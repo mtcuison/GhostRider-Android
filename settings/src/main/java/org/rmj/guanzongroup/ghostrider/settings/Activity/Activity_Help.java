@@ -117,11 +117,11 @@ public class Activity_Help extends AppCompatActivity {
             dots[i].setText(Html.fromHtml("&#9673;"));
             dots[i].setTextSize(8);
             //set default dot color
-            dots[i].setTextColor(getResources().getColor(R.color.material_lightgrey));
+//            dots[i].setTextColor(getResources().getColor(R.color.material_lightgrey));
             layout_dot.addView(dots[i]);
         }
         //set active dot color
-        dots[page_position].setTextColor(getResources().getColor(R.color.guanzon_orange));
+//        dots[page_position].setTextColor(getResources().getColor(R.color.guanzon_orange));
     }
 
     private void setTutorialFinish(){
