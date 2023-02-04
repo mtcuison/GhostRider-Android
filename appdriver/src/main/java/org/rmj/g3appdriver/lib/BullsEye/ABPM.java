@@ -11,4 +11,6 @@ public interface ABPM {
     boolean ImportData(String args);
     LiveData<List<EAreaPerformance>> GetPeriodicAreaPerformance();
     LiveData<List<EAreaPerformance>> GetBranchesPerformance(String args);
+
+    String getMessage();
 }

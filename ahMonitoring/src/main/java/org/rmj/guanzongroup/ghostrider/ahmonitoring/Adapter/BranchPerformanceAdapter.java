@@ -25,7 +25,7 @@ import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchPerformance;
-import org.rmj.g3appdriver.etc.BranchPerformancePeriod;
+import org.rmj.g3appdriver.lib.BullsEye.obj.BranchPerformancePeriod;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 
 import java.text.DecimalFormat;

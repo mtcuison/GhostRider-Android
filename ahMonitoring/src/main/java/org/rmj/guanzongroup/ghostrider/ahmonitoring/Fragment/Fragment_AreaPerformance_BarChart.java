@@ -11,7 +11,7 @@
 
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment;
 
-import static org.rmj.g3appdriver.etc.BranchPerformancePeriod.getLatestCompletePeriod;
+import static org.rmj.g3appdriver.lib.BullsEye.obj.BranchPerformancePeriod.getLatestCompletePeriod;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;

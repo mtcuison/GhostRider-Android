@@ -22,7 +22,7 @@ import org.rmj.g3appdriver.dev.Database.DataAccessObject.DAreaPerformance;
 import org.rmj.g3appdriver.dev.Database.Entities.EAreaPerformance;
 import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.dev.HttpHeaders;
-import org.rmj.g3appdriver.etc.BranchPerformancePeriod;
+import org.rmj.g3appdriver.lib.BullsEye.obj.BranchPerformancePeriod;
 import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.WebApi;
