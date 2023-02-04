@@ -11,6 +11,8 @@
 
 package org.rmj.g3appdriver.etc;
 
+import static org.rmj.g3appdriver.R.layout.dialog_progress;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;

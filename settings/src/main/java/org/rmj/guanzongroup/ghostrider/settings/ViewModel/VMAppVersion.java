@@ -1,50 +1,78 @@
 package org.rmj.guanzongroup.ghostrider.settings.ViewModel;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import static org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_AppVersion.listUpdatedLogChildModel;
-import static org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_AppVersion.listUpdatedLogHeader;
-import static org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_AppVersion.listUpdatedLogChild;
+import android.app.Application;
+import android.os.AsyncTask;
 
-import android.util.Log;
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 
-import org.rmj.guanzongroup.ghostrider.settings.Model.AppVersion_Model;
+import org.rmj.g3appdriver.lib.Version.AppVersion;
+import org.rmj.g3appdriver.lib.Version.VersionInfo;
+import org.rmj.g3appdriver.utils.ConnectionUtil;
 
 
-public class VMAppVersion {
-    public int imgicon;
-    public Boolean isGroup, hasChild;
-    /*
-    public void setUpdatedLogData(String listLogs, String headerIndex, String dataPosition, int index){
-        if (dataPosition == "asHead"){
-            AppVersion_Model updatedLogModel = new AppVersion_Model(listLogs, index, imgicon, isGroup, hasChild);
-            listUpdatedLogHeader.add(updatedLogModel);
-        } else if (dataPosition == "asChild") {
-            if(hasChild == true){
-                index = getKeyHeader(listUpdatedLogHeader, headerIndex);
-                AppVersion_Model updatedLogModel = new AppVersion_Model(listLogs, index, imgicon, isGroup, hasChild);
-                listUpdatedLogChildModel.add(updatedLogModel);
-                if(index >= 0) {
-                    listUpdatedLogChild.put(listUpdatedLogHeader.get(index), listUpdatedLogChildModel);
+public class VMAppVersion extends AndroidViewModel {
+
+    private AppVersion poSys;
+    private ConnectionUtil poconn;
+
+    public interface onDownloadVersionList{
+        void onDownload();
+        void onSuccess(List<VersionInfo> list);
+        void onFailed(String message);
+    }
+
+    public VMAppVersion(@NonNull Application application) {
+        super(application);
+        poSys = new AppVersion(application);
+        poconn = new ConnectionUtil(application);
+    }
+    public void getVersionList(onDownloadVersionList listener){
+        new getVersionTask(listener).execute();
+    }
+    private class getVersionTask extends AsyncTask<Void, Void, List<VersionInfo>>{
+        private final onDownloadVersionList listener;
+        private String message;
+        private getVersionTask(onDownloadVersionList listener) {
+            this.listener = listener;
+        }
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            listener.onDownload();
+        }
+        @Override
+        protected List<VersionInfo> doInBackground(Void... voids) {
+            try {
+                if(!poconn.isDeviceConnected()){
+                    message = poconn.getMessage();
+                    return null;
                 }
+
+                List<VersionInfo> list = poSys.GetVersionInfo();
+
+                if(list == null){
+                    message = poSys.getMessage();
+                    return null;
+                }
+
+                return list;
+            }catch (Exception e){
+                e.printStackTrace();
+                message = e.getMessage();
+                return null;
+            }
+        }
+        @Override
+        protected void onPostExecute(List<VersionInfo> versionInfos) {
+            super.onPostExecute(versionInfos);
+            if(versionInfos == null){
+                listener.onFailed(message);
+            }else {
+                listener.onSuccess(versionInfos);
             }
         }
     }
-    public int getKeyHeader(List<AppVersion_Model> listHeader, String listHeaderID){
-        int headerIndex = -1;
-        if(listHeader.size() > 0 && listHeaderID.trim().isEmpty() == false){
-            for (int i = 0; i < listHeader.size(); i++){
-                String headerName = listHeader.get(i).moduleName;
-                if (headerName == listHeaderID){
-                    headerIndex =  listHeader.get(i).index;
-                    break;
-                }
-            }
-        }
-        return headerIndex;
-    }*/
 }
