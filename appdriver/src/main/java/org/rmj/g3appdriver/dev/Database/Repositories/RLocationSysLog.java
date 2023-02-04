@@ -47,18 +47,25 @@ public class RLocationSysLog {
         return message;
     }
 
-    public void saveCurrentLocation(EGLocatorSysLog sysLog){
-        EEmployeeInfo loUser = poDao.GetUserInfo();
+    public boolean saveCurrentLocation(EGLocatorSysLog sysLog){
+        try {
+            EEmployeeInfo loUser = poDao.GetUserInfo();
 
-        if(loUser == null){
-            Log.d(TAG, "Unable to save location no user detected.");
-            return;
+            if (loUser == null) {
+                Log.d(TAG, "Unable to save location no user detected.");
+                return false;
+            }
+
+            sysLog.setTimeStmp(new AppConstants().DATE_MODIFIED());
+            sysLog.setTransact(new AppConstants().DATE_MODIFIED());
+            sysLog.setUserIDxx(loUser.getUserIDxx());
+            poDao.insertLocation(sysLog);
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
         }
-
-        sysLog.setTimeStmp(new AppConstants().DATE_MODIFIED());
-        sysLog.setTransact(new AppConstants().DATE_MODIFIED());
-        sysLog.setUserIDxx(loUser.getUserIDxx());
-        poDao.insertLocation(sysLog);
     }
 
     public void updateSysLogStatus(String dTransact){
