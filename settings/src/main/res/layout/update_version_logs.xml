@@ -6,13 +6,53 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/lblLogCategory"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/roboto_bold"
         android:paddingTop="10dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:textColor="@color/color_nav_dashboard"
+        android:textColor="@color/guanzon_dark_grey"
+        android:textSize="20sp"
+        android:text="New Features"/>
+
+    <TextView
+        android:id="@+id/lblLogHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_bold"
+        android:paddingTop="10dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/guanzon_dark_grey"
+        android:textSize="17sp"/>
+    <TextView
+        android:id="@+id/lblLogDescr"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_bold"
+        android:paddingTop="10dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/guanzon_dark_grey"
+        android:textSize="14sp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_bold"
+        android:layout_marginTop="30dp"
+        android:paddingTop="10dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/guanzon_dark_grey"
+        android:textSize="20sp"
+        android:text="Fixed Concerns"/>
+
+    <TextView
+        android:id="@+id/lblLogOthers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_bold"
+        android:paddingTop="10dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/guanzon_dark_grey"
         android:textSize="17sp"/>
 
 </LinearLayout>

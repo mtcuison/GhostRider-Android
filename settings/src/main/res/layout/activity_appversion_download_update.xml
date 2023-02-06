@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/material_master_light_gradient">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/gap_toolbar_background"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -12,19 +12,19 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/lbl_newupdate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:fontFamily="@font/roboto_cond_bold_italic"
                 android:text="New Update Available"
-                android:textColor="@color/color_nav_dashboard"
-                android:textSize="25sp"
+                android:textColor="@color/material_white"
+                android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -39,8 +39,7 @@
                 android:layout_marginRight="25dp"
                 android:fontFamily="@font/roboto_cond_italic"
                 android:text="Build Version v2.14.5.047.b"
-                android:textAlignment="center"
-                android:textColor="@color/color_nav_dashboard"
+                android:textColor="@color/material_white"
                 android:textSize="17sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -52,11 +51,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="60dp"
+                android:layout_marginTop="30dp"
                 android:layout_marginRight="20dp"
                 android:fontFamily="@font/roboto_cond_bold"
                 android:text="New Features"
-                android:textColor="@color/color_nav_dashboard"
+                android:textColor="@color/material_white"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -66,8 +65,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rec_updatelogs"
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:layout_marginTop="1dp"
+                android:layout_height="500dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -78,7 +76,7 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_checkupdate"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
         android:layout_marginLeft="25dp"

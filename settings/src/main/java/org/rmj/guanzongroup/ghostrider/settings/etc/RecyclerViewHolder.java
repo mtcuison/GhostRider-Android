@@ -9,11 +9,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.rmj.guanzongroup.ghostrider.settings.R;
 
 public class RecyclerViewHolder extends RecyclerView.ViewHolder {
-    public TextView tvCategory;
+    public TextView tvHeader;
+    public TextView tvDetails;
+    public TextView tvOthers;
     View view;
     public RecyclerViewHolder(@NonNull View itemView) {
         super(itemView);
-        tvCategory = itemView.findViewById(R.id.lblLogCategory);
+        tvHeader = itemView.findViewById(R.id.lblLogHeader);
+        tvDetails = itemView.findViewById(R.id.lblLogDescr);
+        tvOthers = itemView.findViewById(R.id.lblLogOthers);
         view = itemView;
     }
 }
