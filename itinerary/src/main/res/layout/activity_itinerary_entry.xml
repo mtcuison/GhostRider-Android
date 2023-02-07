@@ -6,24 +6,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activities.Activity_ItineraryEntry"
-    android:theme="@style/GhostRiderMaterialTheme.WhiteBG">
+    android:theme="@style/Theme.GuanzonCircle">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/GhostRiderMaterialTheme.AppBarOverlay"
+        android:theme="@style/Theme.GuanzonCircle.AppBarOverlay"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
-            style="@style/GhostRiderMaterialTheme.PopupOverlay"
+            style="@style/Theme.GuanzonCircle.PopupOverlay"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/material_tool_bar"
-            app:popupTheme="@style/GhostRiderMaterialTheme.PopupOverlay" />
+            app:popupTheme="@style/Theme.GuanzonCircle.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

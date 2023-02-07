@@ -21,14 +21,14 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/GhostRiderMaterialTheme.AppBarOverlay">
+        android:theme="@style/Theme.GuanzonCircle.AppBarOverlay">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar_localData"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/material_tool_bar"
-            app:popupTheme="@style/GhostRiderMaterialTheme.PopupOverlay" />
+            app:popupTheme="@style/Theme.GuanzonCircle.PopupOverlay" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <RelativeLayout
@@ -47,7 +47,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_refreshRecords"
-            style="@style/MaterialButtonLight"
+            style="@style/MaterialButtonAccent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@+id/btn_Clear_Data"
@@ -56,7 +56,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_Clear_Data"
-            style="@style/MaterialButtonLight"
+            style="@style/MaterialButtonAccent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"

@@ -4,20 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:orientation="vertical"
-    android:theme="@style/GhostRiderMaterialTheme.WhiteBG"
+    android:theme="@style/Theme.GuanzonCircle"
     android:layout_height="match_parent">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/GhostRiderMaterialTheme.AppBarOverlay">
+        android:theme="@style/Theme.GuanzonCircle.AppBarOverlay">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar_ReviewLoanApp"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/material_tool_bar"
-            android:popupTheme="@style/GhostRiderMaterialTheme.PopupOverlay" />
+            android:popupTheme="@style/Theme.GuanzonCircle.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -91,7 +91,7 @@
             android:id="@+id/btn_creditAppPrvs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/NavigationButton"
+            style="@style/MaterialButtonAccent"
             android:text="Previous"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
@@ -103,7 +103,7 @@
             android:id="@+id/btn_loanAppSave"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/NavigationButton"
+            style="@style/MaterialButtonAccent"
             android:text="Save"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"

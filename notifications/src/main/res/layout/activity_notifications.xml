@@ -17,7 +17,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/bg_gradient_light"
-    android:theme="@style/GhostRiderMaterialTheme"
+    android:theme="@style/Theme.GuanzonCircle"
     tools:context=".Activity.Activity_Notifications">
 
     <androidx.appcompat.widget.Toolbar

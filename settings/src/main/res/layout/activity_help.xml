@@ -15,7 +15,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:theme="@style/GhostRiderMaterialTheme"
+    android:theme="@style/Theme.GuanzonCircle"
     android:background="#1c1c1c"
     android:gravity="center|center_horizontal|center_vertical"
     android:layout_gravity="center|center_horizontal|center_vertical"

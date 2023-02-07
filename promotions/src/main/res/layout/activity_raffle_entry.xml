@@ -15,22 +15,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
+    android:theme="@style/Theme.GuanzonCircle.NoActionBar"
     tools:context=".Activity_RaffleEntry"
     android:orientation="vertical">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/GhostRiderMaterialTheme.AppBarOverlay">
+        android:theme="@style/Theme.GuanzonCircle.AppBarOverlay">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar_raffleEntry"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/material_tool_bar"
-            app:popupTheme="@style/GhostRiderMaterialTheme.PopupOverlay"
-            style="@style/GhostRiderMaterialTheme.PopupOverlay"/>
+            app:popupTheme="@style/Theme.GuanzonCircle.PopupOverlay"
+            style="@style/Theme.GuanzonCircle.PopupOverlay"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 
