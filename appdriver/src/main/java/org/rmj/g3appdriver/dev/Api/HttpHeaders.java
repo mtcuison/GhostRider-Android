@@ -16,7 +16,7 @@ import android.content.Context;
 import android.os.Build;
 import android.os.StrictMode;
 
-import org.rmj.g3appdriver.dev.Telephony;
+import org.rmj.g3appdriver.dev.Device.Telephony;
 import org.rmj.g3appdriver.lib.Account.SessionManager;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.SQLUtil;

@@ -1,8 +1,15 @@
-package org.rmj.g3appdriver.dev;
+/*
+ * Created by Android Team MIS-SEG Year 2021
+ * Copyright (c) 2021. Guanzon Central Office
+ * Guanzon Bldg., Perez Blvd., Dagupan City, Pangasinan 2400
+ * Project name : GhostRider_Android
+ * Module : GhostRider_Android.g3appdriver
+ * Electronic Personnel Access Control Security System
+ * project file created : 4/24/21 3:19 PM
+ * project file last modified : 4/24/21 3:17 PM
+ */
 
-import android.os.Build;
-
-import androidx.annotation.RequiresApi;
+package org.rmj.g3appdriver.dev.encryp;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
@@ -38,7 +45,6 @@ public class MySQLAESCrypt {
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public static String Encrypt(String data, String key){
         try {
             Cipher encryptCipher = Cipher.getInstance("AES");

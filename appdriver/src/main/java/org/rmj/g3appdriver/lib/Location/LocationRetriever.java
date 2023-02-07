@@ -9,7 +9,7 @@ import android.util.Log;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EGLocatorSysLog;
 import org.rmj.g3appdriver.dev.Database.Repositories.RLocationSysLog;
-import org.rmj.g3appdriver.dev.Telephony;
+import org.rmj.g3appdriver.dev.Device.Telephony;
 
 public class LocationRetriever {
     private static final String TAG = LocationRetriever.class.getSimpleName();

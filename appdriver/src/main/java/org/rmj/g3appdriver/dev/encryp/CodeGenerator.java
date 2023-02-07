@@ -7,15 +7,13 @@ import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
-import org.rmj.g3appdriver.utils.MySQLAESCrypt;
-
 import java.util.ArrayList;
 
 public class CodeGenerator {
 
     private String EncryptionKEY = "20190625";
     MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
-    org.rmj.g3appdriver.utils.MySQLAESCrypt encryptionManager = new org.rmj.g3appdriver.utils.MySQLAESCrypt();
+    MySQLAESCrypt encryptionManager = new MySQLAESCrypt();
     BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
     static String EncryptedQrCode = "";
     static String scanType = "";
@@ -48,7 +46,7 @@ public class CodeGenerator {
     public Bitmap generateQrCode(String SOURCE, String DeviceImei, String CardNumber, String UserID, String MobileNumber, String DateTime, double AvailablePoints, String sModelCde, String TransNox){
         Bitmap bitmap = null;
         String UnEncryptedString = SOURCE + "»" + DeviceImei + "»" + CardNumber + "»" + UserID + "»" + MobileNumber + "»" + DateTime + "»" + AvailablePoints + "»" + sModelCde + "»" + TransNox;
-        String EncryptedCode = org.rmj.g3appdriver.utils.MySQLAESCrypt.Encrypt(UnEncryptedString, EncryptionKEY);
+        String EncryptedCode = MySQLAESCrypt.Encrypt(UnEncryptedString, EncryptionKEY);
         try {
             BitMatrix bitMatrix = multiFormatWriter.encode(EncryptedCode, BarcodeFormat.QR_CODE, 900, 900);
             bitmap = barcodeEncoder.createBitmap(bitMatrix);
@@ -70,7 +68,7 @@ public class CodeGenerator {
                                      String TransNox){
         Bitmap GcardCodex = null;
         String UnEncryptedString = SOURCE + "»" + DeviceImei + "»" + CardNumber + "»" + UserID + "»" + MobileNumber + "»" + DateTime + "»" + AvailablePoints + "»" + sModelCde + "»" + TransNox;
-        String EncryptedCode = org.rmj.g3appdriver.utils.MySQLAESCrypt.Encrypt(UnEncryptedString, EncryptionKEY);
+        String EncryptedCode = MySQLAESCrypt.Encrypt(UnEncryptedString, EncryptionKEY);
         try {
             BitMatrix bitMatrix = multiFormatWriter.encode(EncryptedCode, BarcodeFormat.QR_CODE, 700, 700);
             GcardCodex = barcodeEncoder.createBitmap(bitMatrix);
@@ -82,14 +80,14 @@ public class CodeGenerator {
     }
 
     public String generateSecureNo(String SecureNo){
-        return org.rmj.g3appdriver.utils.MySQLAESCrypt.Encrypt(SecureNo, EncryptionKEY);
+        return MySQLAESCrypt.Encrypt(SecureNo, EncryptionKEY);
     }
 
     /***********************************************************
      * QrCode is decrypted to get the original value
      * */
     private String decryptedQrCodeValue(){
-        String decyptedQrCode = org.rmj.g3appdriver.utils.MySQLAESCrypt.Decrypt(EncryptedQrCode, EncryptionKEY);
+        String decyptedQrCode = MySQLAESCrypt.Decrypt(EncryptedQrCode, EncryptionKEY);
         return decyptedQrCode;
     }
 
@@ -232,7 +230,7 @@ public class CodeGenerator {
      *
      * */
     public String encryptPointsxx(double sPointsxx){
-        return org.rmj.g3appdriver.utils.MySQLAESCrypt.Encrypt(String.valueOf(Double.valueOf(sPointsxx)), EncryptionKEY);
+        return MySQLAESCrypt.Encrypt(String.valueOf(Double.valueOf(sPointsxx)), EncryptionKEY);
     }
 
     public String decryptPointsxx(String encryptedPointsxx){

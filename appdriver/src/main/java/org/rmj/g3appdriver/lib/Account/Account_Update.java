@@ -25,10 +25,10 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.rmj.g3appdriver.etc.SQLiteHandler.TAG;
-
 
 public class Account_Update {
+    private static final String TAG = Account_Update.class.getSimpleName();
+
     private String dialog_result = "";
 
     private String message = "";
