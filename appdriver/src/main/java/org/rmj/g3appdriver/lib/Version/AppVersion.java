@@ -5,12 +5,12 @@ import android.util.Log;
 
 import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
-import org.rmj.g3appdriver.dev.HttpHeaders;
+import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.dev.Telephony;
-import org.rmj.g3appdriver.dev.WebClient;
+import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
-import org.rmj.g3appdriver.utils.WebApi;
+import org.rmj.g3appdriver.dev.Api.WebApi;
 
 public class AppVersion {
     private static final String TAG = AppVersion.class.getSimpleName();

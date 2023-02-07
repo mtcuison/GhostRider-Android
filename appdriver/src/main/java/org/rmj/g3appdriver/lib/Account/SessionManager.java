@@ -9,7 +9,7 @@
  * project file last modified : 4/24/21 3:19 PM
  */
 
-package org.rmj.g3appdriver.etc;
+package org.rmj.g3appdriver.lib.Account;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

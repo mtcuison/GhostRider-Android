@@ -33,7 +33,7 @@ import org.rmj.g3appdriver.dev.Database.Repositories.RBranchPerformance;
 import org.rmj.g3appdriver.dev.Database.Repositories.RNotificationInfo;
 import org.rmj.g3appdriver.dev.Telephony;
 import org.rmj.g3appdriver.etc.AppConstants;
-import org.rmj.g3appdriver.etc.SessionManager;
+import org.rmj.g3appdriver.lib.Account.SessionManager;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 
 import java.util.List;

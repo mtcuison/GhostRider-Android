@@ -20,13 +20,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
 
-import org.rmj.g3appdriver.dev.CodeGenerator;
-import org.rmj.g3appdriver.dev.MySQLAESCrypt;
+import org.rmj.g3appdriver.dev.encryp.CodeGenerator;
 import org.rmj.guanzongroup.ghostrider.settings.R;
 
 import static org.rmj.guanzongroup.ghostrider.settings.etc.SettingsConstants.GCARD_SCAN;

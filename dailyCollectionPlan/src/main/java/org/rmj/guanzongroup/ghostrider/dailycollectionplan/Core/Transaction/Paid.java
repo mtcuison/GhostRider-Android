@@ -10,13 +10,13 @@ import org.rmj.g3appdriver.dev.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.dev.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EMobileUpdate;
 import org.rmj.g3appdriver.dev.Database.Repositories.RDailyCollectionPlan;
-import org.rmj.g3appdriver.dev.HttpHeaders;
+import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.dev.Telephony;
-import org.rmj.g3appdriver.dev.WebClient;
+import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
-import org.rmj.g3appdriver.etc.SessionManager;
-import org.rmj.g3appdriver.utils.WebApi;
+import org.rmj.g3appdriver.lib.Account.SessionManager;
+import org.rmj.g3appdriver.dev.Api.WebApi;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Core.iDCPTransaction;
 
 public class Paid implements iDCPTransaction {

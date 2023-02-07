@@ -1,25 +1,15 @@
-package org.rmj.g3appdriver.etc;
+package org.rmj.g3appdriver.lib.Location;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
-import android.os.Build;
 import android.provider.Settings;
-import android.text.TextUtils;
 import android.util.Log;
 
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
-
-import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EGLocatorSysLog;
 import org.rmj.g3appdriver.dev.Database.Repositories.RLocationSysLog;
 import org.rmj.g3appdriver.dev.Telephony;
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Locale;
 
 public class LocationRetriever {
     private static final String TAG = LocationRetriever.class.getSimpleName();

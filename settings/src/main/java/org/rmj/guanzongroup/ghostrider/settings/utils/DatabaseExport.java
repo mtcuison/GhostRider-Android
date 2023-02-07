@@ -13,9 +13,7 @@ package org.rmj.guanzongroup.ghostrider.settings.utils;
 
 import static org.rmj.g3appdriver.etc.AppConstants.SUB_FOLDER_EXPORTS;
 
-import android.app.Application;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
 
@@ -39,7 +37,7 @@ import com.google.firebase.storage.UploadTask;
 
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.etc.SessionManager;
+import org.rmj.g3appdriver.lib.Account.SessionManager;
 
 public class DatabaseExport {
     private static final String TAG = DatabaseExport.class.getSimpleName();

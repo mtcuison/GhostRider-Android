@@ -21,14 +21,14 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import org.json.JSONObject;
+import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DNotifications;
 import org.rmj.g3appdriver.dev.Database.Repositories.RNotificationInfo;
-import org.rmj.g3appdriver.dev.HttpHeaders;
+import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
-import org.rmj.g3appdriver.utils.WebApi;
-import org.rmj.g3appdriver.utils.WebClient;
+import org.rmj.g3appdriver.dev.Api.WebApi;
 
 import java.util.List;
 import java.util.Objects;
@@ -85,7 +85,7 @@ public class VMViewMessages extends AndroidViewModel {
                         params.put("stamp", lsDateReadx);
                         params.put("infox", "");
 
-                        String response = WebClient.httpsPostJSon(poApi.getUrlSendResponse(loConfig.isBackUpServer()), params.toString(), poHeaders.getHeaders());
+                        String response = WebClient.sendRequest(poApi.getUrlSendResponse(loConfig.isBackUpServer()), params.toString(), poHeaders.getHeaders());
                         JSONObject loJson = new JSONObject(Objects.requireNonNull(response));
                         String result = loJson.getString("result");
                         if (result.equalsIgnoreCase("success")) {

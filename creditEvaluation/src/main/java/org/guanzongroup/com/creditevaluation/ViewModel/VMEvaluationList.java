@@ -20,9 +20,6 @@ import androidx.lifecycle.LiveData;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DCreditOnlineApplicationCI;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEmployeeInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
-import org.rmj.g3appdriver.dev.Database.Repositories.RBranch;
-import org.rmj.g3appdriver.etc.SessionManager;
 import org.rmj.g3appdriver.lib.integsys.CreditInvestigator.CITagging;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 

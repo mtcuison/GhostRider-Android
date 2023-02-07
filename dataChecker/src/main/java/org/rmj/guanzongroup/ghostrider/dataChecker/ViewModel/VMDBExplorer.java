@@ -30,16 +30,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.lifecycle.AndroidViewModel;
 
-import org.json.JSONException;
 import org.json.JSONObject;
-import org.rmj.g3appdriver.dev.HttpHeaders;
-import org.rmj.g3appdriver.dev.WebClient;
+import org.rmj.g3appdriver.dev.Api.HttpHeaders;
+import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
-import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.g3appdriver.utils.SQLUtil;
 import org.rmj.g3appdriver.utils.SecUtil;
-import org.rmj.g3appdriver.utils.WebApi;
+import org.rmj.g3appdriver.dev.Api.WebApi;
 import org.rmj.guanzongroup.ghostrider.dataChecker.Obj.DCPData;
 import org.rmj.guanzongroup.ghostrider.dataChecker.Obj.FileUtil;
 import org.rmj.guanzongroup.ghostrider.dataChecker.Obj.UserInfo;
@@ -52,8 +50,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
 public class VMDBExplorer extends AndroidViewModel {
     private static final String TAG = VMDBExplorer.class.getSimpleName();

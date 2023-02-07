@@ -1,7 +1,6 @@
-package org.rmj.g3appdriver.etc;
+package org.rmj.g3appdriver.lib.Location;
 
 import android.annotation.SuppressLint;
-import android.app.Application;
 import android.content.Context;
 import android.os.Looper;
 

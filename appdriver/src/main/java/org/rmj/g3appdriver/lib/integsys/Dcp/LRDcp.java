@@ -1,16 +1,13 @@
 package org.rmj.g3appdriver.lib.integsys.Dcp;
 
 import android.app.Application;
-import android.content.Context;
 import android.net.Uri;
 import android.os.Environment;
-import android.os.ParcelFileDescriptor;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.rmj.apprdiver.util.LRUtil;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DAddressUpdate;
@@ -26,9 +23,9 @@ import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.dev.Database.Repositories.RCollectionRemittance;
 import org.rmj.g3appdriver.dev.Database.Repositories.RImageInfo;
 import org.rmj.g3appdriver.etc.AppConstants;
-import org.rmj.g3appdriver.etc.SessionManager;
-import org.rmj.g3appdriver.dev.HttpHeaders;
-import org.rmj.g3appdriver.dev.WebClient;
+import org.rmj.g3appdriver.lib.Account.SessionManager;
+import org.rmj.g3appdriver.dev.Api.HttpHeaders;
+import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.dev.Telephony;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
@@ -45,7 +42,7 @@ import org.rmj.g3appdriver.lib.integsys.Dcp.obj.DCPFileManager;
 import org.rmj.g3appdriver.lib.integsys.Dcp.obj.RAddressUpdate;
 import org.rmj.g3appdriver.lib.integsys.Dcp.obj.RClientUpdate;
 import org.rmj.g3appdriver.lib.integsys.Dcp.obj.RMobileUpdate;
-import org.rmj.g3appdriver.utils.WebApi;
+import org.rmj.g3appdriver.dev.Api.WebApi;
 
 import java.io.File;
 import java.io.FileOutputStream;

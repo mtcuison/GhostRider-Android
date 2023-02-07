@@ -9,14 +9,15 @@
  * project file last modified : 4/24/21 3:17 PM
  */
 
-package org.rmj.g3appdriver.dev;
+package org.rmj.g3appdriver.dev.Api;
 
 import android.app.Application;
 import android.content.Context;
 import android.os.Build;
 import android.os.StrictMode;
 
-import org.rmj.g3appdriver.etc.SessionManager;
+import org.rmj.g3appdriver.dev.Telephony;
+import org.rmj.g3appdriver.lib.Account.SessionManager;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.SQLUtil;
 import org.rmj.g3appdriver.utils.SecUtil;

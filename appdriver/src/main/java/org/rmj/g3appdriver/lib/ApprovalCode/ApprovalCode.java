@@ -21,20 +21,20 @@ import androidx.sqlite.db.SimpleSQLiteQuery;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.apprdiver.util.MiscUtil;
+import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DApprovalCode;
 import org.rmj.g3appdriver.dev.Database.Entities.ECodeApproval;
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ESCA_Request;
 import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
-import org.rmj.g3appdriver.dev.HttpHeaders;
+import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.lib.ApprovalCode.Obj.LoanApproval;
 import org.rmj.g3appdriver.lib.ApprovalCode.Obj.ManualLog;
 import org.rmj.g3appdriver.lib.ApprovalCode.Obj.SystemCode;
 import org.rmj.g3appdriver.utils.SQLUtil;
-import org.rmj.g3appdriver.utils.WebApi;
-import org.rmj.g3appdriver.utils.WebClient;
+import org.rmj.g3appdriver.dev.Api.WebApi;
 
 import java.util.List;
 
@@ -111,7 +111,7 @@ public class ApprovalCode {
                 param.put("sReqstdTo", loCode.getReqstdTo() == null ? "" : loCode.getReqstdTo());
                 param.put("cTranStat", loCode.getTranStat());
 
-                String lsResponse = WebClient.httpsPostJSon(
+                String lsResponse = WebClient.sendRequest(
                         poApi.getUrlSaveApproval(poConfig.isBackUpServer()),
                         param.toString(),
                         poHeaders.getHeaders());
@@ -153,7 +153,7 @@ public class ApprovalCode {
             params.put("bsearch", true);
             params.put("id", "All");
 
-            String lsResponse = WebClient.httpsPostJSon(
+            String lsResponse = WebClient.sendRequest(
                     poApi.getUrlScaRequest(poConfig.isBackUpServer()),
                     params.toString(),
                     poHeaders.getHeaders());

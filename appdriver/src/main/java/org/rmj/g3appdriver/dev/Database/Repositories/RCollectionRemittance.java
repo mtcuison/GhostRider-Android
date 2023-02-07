@@ -21,11 +21,11 @@ import org.rmj.g3appdriver.dev.Database.DataAccessObject.DDCP_Remittance;
 import org.rmj.g3appdriver.dev.Database.Entities.EDCP_Remittance;
 import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.etc.AppConstants;
-import org.rmj.g3appdriver.dev.HttpHeaders;
-import org.rmj.g3appdriver.dev.WebClient;
+import org.rmj.g3appdriver.dev.Api.HttpHeaders;
+import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.lib.integsys.Dcp.model.Remittance;
-import org.rmj.g3appdriver.utils.WebApi;
+import org.rmj.g3appdriver.dev.Api.WebApi;
 
 public class RCollectionRemittance {
     private static final String TAG = RCollectionRemittance.class.getSimpleName();

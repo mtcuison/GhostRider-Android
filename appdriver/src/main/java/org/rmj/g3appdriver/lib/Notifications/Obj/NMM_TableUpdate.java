@@ -8,21 +8,21 @@ import androidx.sqlite.db.SimpleSQLiteQuery;
 import com.google.firebase.messaging.RemoteMessage;
 
 import org.json.JSONObject;
+import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DNotifications;
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchOpenMonitor;
 import org.rmj.g3appdriver.dev.Database.Entities.ENotificationMaster;
 import org.rmj.g3appdriver.dev.Database.Entities.ENotificationRecipient;
 import org.rmj.g3appdriver.dev.Database.Entities.ENotificationUser;
 import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
-import org.rmj.g3appdriver.dev.HttpHeaders;
+import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.lib.Notifications.NOTIFICATION_STATUS;
 import org.rmj.g3appdriver.lib.Notifications.RemoteMessageParser;
 import org.rmj.g3appdriver.lib.Notifications.iNotification;
 import org.rmj.g3appdriver.lib.Notifications.model.NotificationItemList;
-import org.rmj.g3appdriver.utils.WebApi;
-import org.rmj.g3appdriver.utils.WebClient;
+import org.rmj.g3appdriver.dev.Api.WebApi;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -141,7 +141,7 @@ public class NMM_TableUpdate implements iNotification {
             params.put("stamp", new AppConstants().DATE_MODIFIED);
             params.put("infox", "");
 
-            String lsResponse = WebClient.httpsPostJSon(
+            String lsResponse = WebClient.sendRequest(
                     loApis.getUrlSendResponse(poConfig.isBackUpServer()),
                     params.toString(),
                     poHeaders.getHeaders());
