@@ -99,7 +99,8 @@ public class WebApi {
     private static final String URL_DOWNLOAD_TEST_UPDATE = "https://restgk.guanzongroup.com.ph/apk/test/gRider.apk";
 
     private static final String URL_SUBMIT_APP_VERSION = "security/updateUserAppVersion.php";
-    private static final String URL_CHECK_UPDATE = "security/gocas/bh_submit_approval.php";
+    private static final String URL_VERSION_LOG = "query/get_version_info.php";
+    private static final String URL_CHECK_UPDATE = "query/check_update.php";
 
     public WebApi(boolean isTestCase){
         this.isUnitTest = isTestCase;
@@ -880,6 +881,17 @@ public class WebApi {
             LIVE = PRIMARY_LIVE;
         }
         return LIVE + URL_SUBMIT_APP_VERSION;
+    }
+
+    public String getUrlVersionLog(boolean isBackUp) {
+        if(isUnitTest) {
+            return LOCAL + URL_CHECK_UPDATE;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
+        }
+        return LIVE + URL_CHECK_UPDATE;
     }
 
     public String getUrlCheckUpdate(boolean isBackUp) {
