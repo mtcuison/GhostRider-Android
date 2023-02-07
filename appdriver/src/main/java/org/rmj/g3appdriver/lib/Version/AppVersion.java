@@ -57,6 +57,7 @@ public class AppVersion {
 
             if(lsResponse == null){
                 message = "Server no response.";
+                Log.e(TAG, message);
                 return false;
             }
 
