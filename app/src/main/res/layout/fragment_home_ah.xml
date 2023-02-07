@@ -3,11 +3,11 @@
   ~ Created by Android Team MIS-SEG Year 2021
   ~ Copyright (c) 2021. Guanzon Central Office
   ~ Guanzon Bldg., Perez Blvd., Dagupan City, Pangasinan 2400
-  ~ Project name : GhostRider_Android
-  ~ Module : GhostRider_Android.app
+  ~ Project name : Guanzon circle
+  ~ Module : dashboard home for area manager
   ~ Electronic Personnel Access Control Security System
-  ~ project file created : 5/5/21 10:57 AM
-  ~ project file last modified : 5/5/21 10:57 AM
+  ~ project file created :02/05/2023 08:57 AM
+  ~ project file last modified : 02/07/2023 08:57 AM
   -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -38,6 +38,7 @@
                 android:layout_marginTop="40dp"
                 android:layout_marginRight="40dp"
                 app:cardCornerRadius="90dp"
+                android:elevation="25dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
@@ -45,7 +46,8 @@
                     android:id="@+id/imgEmp"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    tools:src="@tools:sample/avatars" />
+                    android:padding="10dp"
+                    tools:src="@drawable/ic_ghostrider_logo_day" />
 
             </androidx.cardview.widget.CardView>
 
@@ -54,21 +56,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="45dp"
+                android:layout_marginStart="20dp"
+                android:fontFamily="@font/roboto"
                 android:text="DE CELIS, TEEJEI F."
                 android:textColor="@color/black"
                 android:textSize="20sp"
-                app:layout_constraintEnd_toStartOf="@+id/cardView"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/imageView3" />
+
             <TextView
                 android:id="@+id/lblEmpPosition"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:textColor="@color/black"
+                android:layout_marginStart="20dp"
+                android:fontFamily="@font/roboto"
                 android:text="Area Manager"
-                app:layout_constraintEnd_toStartOf="@+id/cardView"
-                app:layout_constraintHorizontal_bias="0.267"
+                android:textColor="@color/black"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lblEmpNme" />
 
@@ -76,23 +80,21 @@
                 android:id="@+id/constraintLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/imageView3"
-                app:layout_constraintVertical_bias="0.20">
+                app:layout_constraintTop_toBottomOf="@+id/cardView">
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     app:cardCornerRadius="10dp"
-                    app:cardMaxElevation="5dp"
+                    app:cardElevation="5dp"
                     app:cardUseCompatPadding="true"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent">
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
@@ -112,8 +114,8 @@
                                 android:id="@+id/card_MC_Goal"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:backgroundTint="@color/guanzon_digital_orange"
                                 android:layout_margin="15dp"
+                                android:backgroundTint="@color/guanzon_digital_orange"
                                 app:cardCornerRadius="90dp"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
@@ -131,6 +133,7 @@
                                 android:id="@+id/lblMCGoal"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:fontFamily="@font/roboto"
                                 android:text="MC SALES"
                                 android:textColor="@color/guanzon_digital_orange"
                                 app:layout_constraintEnd_toEndOf="parent"
@@ -152,8 +155,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="15dp"
-                                app:cardCornerRadius="90dp"
                                 android:backgroundTint="@color/guanzon_digital_orange"
+                                app:cardCornerRadius="90dp"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent">
@@ -170,6 +173,7 @@
                                 android:id="@+id/lblSPGoal"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:fontFamily="@font/roboto"
                                 android:text="SP SALES"
                                 android:textColor="@color/guanzon_digital_orange"
                                 app:layout_constraintEnd_toEndOf="parent"
@@ -192,8 +196,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="15dp"
-                                app:cardCornerRadius="90dp"
                                 android:backgroundTint="@color/guanzon_digital_orange"
+                                app:cardCornerRadius="90dp"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent">
@@ -202,7 +206,7 @@
                                     android:id="@+id/img_jo_goal"
                                     android:layout_width="70dp"
                                     android:layout_height="70dp"
-                                    android:padding="10dp"
+                                    android:padding="18dp"
                                     tools:src="@drawable/ic_menu_cashcount" />
                             </androidx.cardview.widget.CardView>
 
@@ -210,7 +214,7 @@
                                 android:id="@+id/lblJOGoal"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="MC SALES"
+                                android:text="JOB ORDER"
                                 android:textColor="@color/guanzon_digital_orange"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
@@ -256,6 +260,7 @@
                             android:id="@+id/lblCashCount"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto"
                             android:text="Cash Count"
                             android:textColor="@color/black"
                             app:layout_constraintStart_toStartOf="parent"
@@ -300,6 +305,7 @@
                             android:id="@+id/lbInventory"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto"
                             android:text="Inventory"
                             android:textColor="@color/black"
                             app:layout_constraintStart_toStartOf="parent"
@@ -343,6 +349,7 @@
                             android:id="@+id/lbIsettings"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto"
                             android:text="Settings"
                             android:textColor="@color/black"
                             app:layout_constraintStart_toStartOf="parent"
@@ -386,6 +393,7 @@
                             android:id="@+id/lbIlogout"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto"
                             android:text="Logout"
                             android:textColor="@color/black"
                             app:layout_constraintStart_toStartOf="parent"
@@ -415,6 +423,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="5dp"
+                android:fontFamily="@font/roboto"
                 android:text="Branch Open"
                 android:textColor="@color/black"
                 android:textStyle="bold"
@@ -429,12 +438,14 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lblBranchOpen" />
+
             <TextView
                 android:id="@+id/lblComAnouncemnt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="5dp"
+                android:fontFamily="@font/roboto"
                 android:text="Company Anouncement"
                 android:textColor="@color/black"
                 android:textStyle="bold"
@@ -457,7 +468,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="5dp"
-                android:text="Company Anouncement"
+                android:fontFamily="@font/roboto"
+                android:text="Applications"
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"

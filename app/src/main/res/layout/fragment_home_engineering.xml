@@ -3,11 +3,11 @@
   ~ Created by Android Team MIS-SEG Year 2021
   ~ Copyright (c) 2021. Guanzon Central Office
   ~ Guanzon Bldg., Perez Blvd., Dagupan City, Pangasinan 2400
-  ~ Project name : GhostRider_Android
-  ~ Module : GhostRider_Android.app
+  ~ Project name : Guanzon Circle
+  ~ Module : dashboard home for engineering
   ~ Electronic Personnel Access Control Security System
-  ~ project file created : 5/5/21 10:57 AM
-  ~ project file last modified : 5/5/21 10:57 AM
+  ~ project file created : 02/06/2023 10:57 AM
+  ~ project file last modified : 02/06/2023 10:57 AM
   -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -21,7 +21,7 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/imageView3"
+                android:id="@+id/imgheader"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
                 android:scaleType="centerCrop"
@@ -38,6 +38,7 @@
                 android:layout_marginTop="40dp"
                 android:layout_marginRight="40dp"
                 app:cardCornerRadius="90dp"
+                app:cardMaxElevation="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
@@ -45,7 +46,8 @@
                     android:id="@+id/imgEmp"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    tools:src="@tools:sample/avatars" />
+                    android:padding="10dp"
+                    tools:src="@drawable/ic_ghostrider_logo_day" />
 
             </androidx.cardview.widget.CardView>
 
@@ -53,45 +55,114 @@
                 android:id="@+id/lblEmpNme"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="45dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="50dp"
                 android:text="DE CELIS, TEEJEI F."
                 android:textColor="@color/black"
                 android:textSize="20sp"
-                app:layout_constraintEnd_toStartOf="@+id/cardView"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/imageView3" />
+                app:layout_constraintTop_toTopOf="@+id/imgheader" />
 
             <TextView
                 android:id="@+id/lblEmpPosition"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="5dp"
                 android:text="Engineering Services"
                 android:textColor="@color/black"
-                app:layout_constraintEnd_toStartOf="@+id/cardView"
-                app:layout_constraintHorizontal_bias="0.347"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lblEmpNme" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cardTodoList"
+                android:id="@+id/cardmenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cardView">
 
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cardsettings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginrig="10dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:cardBackgroundColor="@color/zxing_transparent"
+                        app:cardCornerRadius="90dp"
+                        app:cardMaxElevation="15dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:id="@+id/imgsettings"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:padding="8dp"
+                            tools:src="@drawable/ic_dashboard_settings" />
+                    </androidx.cardview.widget.CardView>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cardlogout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    app:layout_constraintStart_toEndOf="@+id/cardsettings"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:cardBackgroundColor="@color/zxing_transparent"
+                        app:cardCornerRadius="90dp"
+                        app:cardMaxElevation="5dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:id="@+id/imglogout"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:padding="8dp"
+                            tools:src="@drawable/ic_dashboard_logout" />
+                    </androidx.cardview.widget.CardView>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cardtodolist"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardmenu">
+
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:minHeight="250dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    app:cardCornerRadius="8dp"
-                    app:cardMaxElevation="10dp"
+                    android:minHeight="250dp"
+                    app:cardCornerRadius="15dp"
+                    app:cardElevation="10dp"
                     app:cardUseCompatPadding="true"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" >
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
@@ -121,112 +192,27 @@
                             app:layout_constraintTop_toBottomOf="@+id/textView2"
                             app:layout_constraintVertical_bias="0.0" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-
                 </androidx.cardview.widget.CardView>
+
             </androidx.constraintlayout.widget.ConstraintLayout>
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cardMenu"
+
+            <TextView
+                android:id="@+id/lblCompnyAnnouncemnt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:text="Company Announcement"
+                android:textColor="@color/black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardtodolist" />
+
+            <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="5dp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginTop="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardTodoList"
-                app:layout_constraintVertical_bias="0.0">
-
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cv_settings"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_margin="5dp"
-                    app:cardBackgroundColor="@color/guanzon_digital_orange"
-                    app:cardCornerRadius="10dp"
-                    app:layout_constraintEnd_toStartOf="@+id/cv_logout"
-                    app:layout_constraintHeight_percent=".93"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintWidth_percent=".20">
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="5dp">
-
-                        <TextView
-                            android:id="@+id/lbIsettings"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:text="Settings"
-                            android:textColor="@color/black"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintWidth_percent=".99" />
-
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:layout_marginStart="20dp"
-                            android:layout_marginTop="20dp"
-                            android:src="@drawable/ic_dashboard_settings"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="1.0"
-                            app:layout_constraintStart_toEndOf="@+id/lbIsettings"
-                            app:layout_constraintTop_toBottomOf="@id/lbIsettings"
-                            app:layout_constraintVertical_bias="1.0" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cv_logout"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_margin="5dp"
-                    app:cardBackgroundColor="@color/guanzon_digital_orange"
-                    app:cardCornerRadius="10dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/cv_settings"
-                    app:layout_constraintHeight_percent=".93"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintWidth_percent=".20">
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="5dp">
-
-                        <TextView
-                            android:id="@+id/lbIlogout"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:text="Logout"
-                            android:textColor="@color/black"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintWidth_percent=".99" />
-
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:layout_marginStart="20dp"
-                            android:layout_marginTop="20dp"
-                            android:src="@drawable/ic_dashboard_logout"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="1.0"
-                            app:layout_constraintStart_toEndOf="@+id/lbIlogout"
-                            app:layout_constraintTop_toBottomOf="@id/lbIlogout"
-                            app:layout_constraintVertical_bias="1.0" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-                </androidx.cardview.widget.CardView>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
+                app:layout_constraintTop_toBottomOf="@+id/lblCompnyAnnouncemnt" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
