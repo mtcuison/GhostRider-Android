@@ -17,20 +17,21 @@
     android:layout_height="match_parent"
     tools:context=".Activity.Activity_Main">
 
-    <com.google.android.material.appbar.AppBarLayout
+<!--    <com.google.android.material.appbar.AppBarLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:theme="@style/Theme.GuanzonCircle.AppBarOverlay">-->
+
+<!--&lt;!&ndash;        &ndash;&gt;-->
+
+<!--    </com.google.android.material.appbar.AppBarLayout>-->
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/GhostRiderMaterialTheme.AppBarOverlay">
-
-<!--        -->
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/material_tool_bar"
-            app:popupTheme="@style/GhostRiderMaterialTheme.PopupOverlay" />
-
-    </com.google.android.material.appbar.AppBarLayout>
+        android:layout_height="?attr/actionBarSize"
+        style="@style/TransparentToolbar"
+        app:popupTheme="@style/Theme.GuanzonCircle.PopupOverlay" />
 
     <include layout="@layout/content_main" />
 

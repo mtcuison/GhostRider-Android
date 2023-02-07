@@ -16,7 +16,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_gradient_light"
-    android:theme="@style/GhostRiderMaterialTheme.WhiteBG"
+    android:theme="@style/Theme.GuanzonCircle"
     tools:context=".Activity.Activity_Authenticate">
 
     <androidx.fragment.app.FragmentContainerView

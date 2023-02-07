@@ -21,7 +21,7 @@
         android:id="@+id/appbar_collectionPost"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/GhostRiderMaterialTheme.AppBarOverlay"
+        android:theme="@style/Theme.GuanzonCircle.AppBarOverlay"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -31,7 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/material_tool_bar"
-            app:popupTheme="@style/GhostRiderMaterialTheme.PopupOverlay" />
+            app:popupTheme="@style/Theme.GuanzonCircle.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

@@ -4,20 +4,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:theme="@style/GhostRiderMaterialTheme.WhiteBG"
+    android:theme="@style/Theme.GuanzonCircle"
     tools:context=".Activities.Activity_DisbursementInfo">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/GhostRiderMaterialTheme.AppBarOverlay">
+        android:theme="@style/Theme.GuanzonCircle.AppBarOverlay">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar_DisbursementInfo"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/material_tool_bar"
-            android:popupTheme="@style/GhostRiderMaterialTheme.PopupOverlay" />
+            android:popupTheme="@style/Theme.GuanzonCircle.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -213,7 +213,7 @@
 
                 <Button
                     android:id="@+id/btn_creditAppPrvs"
-                    style="@style/NavigationButton"
+                    style="@style/MaterialButtonAccent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
@@ -225,7 +225,7 @@
 
                 <Button
                     android:id="@+id/btn_creditAppNext"
-                    style="@style/NavigationButton"
+                    style="@style/MaterialButtonAccent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"

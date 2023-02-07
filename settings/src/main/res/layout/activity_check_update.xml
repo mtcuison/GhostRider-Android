@@ -16,7 +16,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activity.Activity_CheckUpdate"
-    android:theme="@style/GhostRiderMaterialTheme.WhiteBG">
+    android:theme="@style/Theme.GuanzonCircle">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_checkUpdate"

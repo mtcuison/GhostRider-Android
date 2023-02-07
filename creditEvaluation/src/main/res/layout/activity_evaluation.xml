@@ -5,21 +5,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:theme="@style/GhostRiderMaterialTheme"
+    android:theme="@style/Theme.GuanzonCircle"
     android:background="@drawable/bg_gradient_light"
     tools:context=".Activity.Activity_Evaluation">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/GhostRiderMaterialTheme.AppBarOverlay">
+        android:theme="@style/Theme.GuanzonCircle.AppBarOverlay">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar_ci_evaluation"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/material_tool_bar"
-            app:popupTheme="@style/GhostRiderMaterialTheme.PopupOverlay" />
+            app:popupTheme="@style/Theme.GuanzonCircle.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -475,7 +475,7 @@
                                         android:text="Save"
                                         android:layout_weight=".5"
                                         android:layout_marginLeft="10dp"
-                                        style="@style/GhostRider_Button"/>
+                                        style="@style/MaterialButtonAccent"/>
 
                                     <Button
                                         android:id="@+id/btnEditBrgyRecords"
@@ -485,7 +485,7 @@
                                         android:visibility="gone"
                                         android:layout_weight=".5"
                                         android:layout_marginLeft="10dp"
-                                        style="@style/GhostRider_Button"/>
+                                        style="@style/MaterialButtonAccent"/>
 
                                 </LinearLayout>
                             </LinearLayout>
@@ -697,7 +697,7 @@
                                         android:layout_width="fill_parent"
                                         android:layout_height="fill_parent"
                                         android:text="Upload"
-                                        style="@style/GhostRider_Button"
+                                        style="@style/MaterialButtonAccent"
                                         android:layout_alignParentEnd="true"
                                         android:layout_alignParentRight="true"
                                         android:layout_centerVertical="true"
@@ -715,7 +715,7 @@
 
                                     <Button
                                         android:id="@+id/btnSave"
-                                        style="@style/GhostRider_Button"
+                                        style="@style/MaterialButtonAccent"
                                         android:layout_width="fill_parent"
                                         android:layout_height="fill_parent"
                                         android:layout_alignParentEnd="true"

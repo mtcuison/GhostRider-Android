@@ -33,17 +33,16 @@
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_main">
 
-            <ExpandableListView
-                android:id="@+id/lvExp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:groupIndicator="@drawable/nav_dropdown_indicator"
-                android:childDivider="@null"
-                android:background="@android:color/transparent"
-                android:divider="@null"
-                android:choiceMode="singleChoice"
-                android:listSelector="@color/material_lightgrey_selector"
-                android:layout_marginTop="@dimen/nav_header_height"/>
+        <ExpandableListView
+            android:id="@+id/lvExp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/nav_header_height"
+            android:background="@android:color/transparent"
+            android:childDivider="@null"
+            android:choiceMode="singleChoice"
+            android:divider="@null"
+            android:groupIndicator="@drawable/nav_dropdown_indicator" />
 
     </com.google.android.material.navigation.NavigationView>
 
