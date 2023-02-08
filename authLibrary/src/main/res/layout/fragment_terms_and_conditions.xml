@@ -16,7 +16,7 @@
     android:layout_height="match_parent"
     tools:context=".UserInterface.Terms.Fragment_TermsAndConditions"
     android:orientation="vertical"
-    android:theme="@style/GhostRiderMaterialTheme.WhiteBG"
+    android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
     android:background="@drawable/bg_gradient_light">
 
 

@@ -16,7 +16,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Fragments.Fragment_PaidTransaction"
-    android:theme="@style/GhostRiderMaterialTheme.WhiteBG">
+    android:theme="@style/GhostRiderMaterialTheme.NoActionBar">
 
     <LinearLayout
         android:layout_width="match_parent"

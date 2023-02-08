@@ -17,7 +17,7 @@
     android:layout_height="match_parent"
     tools:context=".Activity.Activity_CashCountLog"
     android:background="@drawable/bg_gradient_light"
-    android:theme="@style/GhostRiderMaterialTheme.WhiteBG"
+    android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
     android:orientation="vertical"
     >
     <com.google.android.material.appbar.AppBarLayout

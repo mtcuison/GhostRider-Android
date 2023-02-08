@@ -17,7 +17,7 @@
         <activity
             android:name=".Activity.Activity_Authenticate"
             android:screenOrientation="userPortrait"
-            android:theme="@style/GhostRiderMaterialTheme.WhiteBG"
+            android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan"
             android:exported="true"/>
     </application>

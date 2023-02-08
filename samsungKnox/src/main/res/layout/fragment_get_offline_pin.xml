@@ -17,7 +17,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".Fragment.Fragment_GetOfflinePin"
-    android:theme="@style/GhostRiderMaterialTheme.WhiteBG"
+    android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
     android:background="@drawable/bg_gradient_light">
 
     <androidx.constraintlayout.widget.ConstraintLayout

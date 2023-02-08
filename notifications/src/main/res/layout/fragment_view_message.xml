@@ -39,7 +39,6 @@
                 android:layout_marginBottom="20dp"
                 android:fontFamily="@font/roboto_medium"
                 android:padding="5dp"
-                android:textColor="@color/material_black"
                 android:textSize="24sp" />
 
             <LinearLayout
@@ -62,7 +61,6 @@
                     android:layout_weight="1"
                     android:fontFamily="@font/roboto_medium"
                     android:padding="5dp"
-                    android:textColor="@color/material_black"
                     android:textSize="18sp" />
 
             </LinearLayout>
@@ -87,16 +85,14 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="3"
                         android:fontFamily="@font/roboto_regular"
-                        android:text="@string/slblRecipient"
-                        android:textColor="@color/material_black" />
+                        android:text="@string/slblRecipient" />
 
                     <TextView
                         android:id="@+id/lbl_messageRecipient"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:fontFamily="@font/roboto_regular"
-                        android:textColor="@color/material_black" />
+                        android:fontFamily="@font/roboto_regular"/>
                 </LinearLayout>
 
 
@@ -111,16 +107,14 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="3"
                         android:fontFamily="@font/roboto_regular"
-                        android:text="@string/slblDateTime"
-                        android:textColor="@color/material_black" />
+                        android:text="@string/slblDateTime" />
 
                     <TextView
                         android:id="@+id/lbl_messageDateTime"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:fontFamily="@font/roboto_regular"
-                        android:textColor="@color/material_black" />
+                        android:fontFamily="@font/roboto_regular" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -148,27 +142,23 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="30dp"
                     android:layout_marginBottom="15dp"
-                    android:backgroundTint="@color/guanzon_digital_orange"
                     android:fontFamily="@font/roboto"
                     android:paddingHorizontal="20dp"
                     android:paddingVertical="10dp"
                     android:text="Proceed to Cash Count"
                     android:textAllCaps="false"
-                    android:textColor="@color/white"
                     android:textSize="15sp"
                     android:visibility="gone" />
             </LinearLayout>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_notificationAction"
-                style="@style/MaterialButtonLight"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:visibility="gone"
                 android:text="Create Cash Count"
-                app:iconGravity="textStart"
-                app:iconTint="@color/material_black" />
+                app:iconGravity="textStart" />
 
         </LinearLayout>
 

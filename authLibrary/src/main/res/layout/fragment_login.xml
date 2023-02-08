@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:theme="@style/GhostRiderMaterialTheme.WhiteBG"
+    android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
     android:background="@drawable/bg_gradient_light"
     android:paddingHorizontal="30dp"
     android:paddingVertical="5dp"
@@ -179,7 +179,6 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_login"
-            style="@style/GhostRider_Button"
             android:text="@string/button_login"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

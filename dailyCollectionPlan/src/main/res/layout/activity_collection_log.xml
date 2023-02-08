@@ -16,7 +16,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activities.Activity_LogCollection"
-    android:theme="@style/GhostRiderMaterialTheme.WhiteBG">
+    android:theme="@style/GhostRiderMaterialTheme.NoActionBar">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar_collectionLog"

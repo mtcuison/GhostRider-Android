@@ -73,15 +73,15 @@ public class Fragment_HomeContainer extends Fragment {
                         eEmployeeInfo.getEmpLevID() == DeptCode.LEVEL_SUPERVISOR){
                     fragment = new Fragment[]{new Fragment_Associate_Dashboard(), new Fragment_NotificationList()};
                     appBarHome.setVisibility(View.VISIBLE);
-                    imgHeader.setImageResource(R.drawable.img_associate);
+//                    imgHeader.setImageResource(R.drawable.img_associate);
                 }  else if(eEmployeeInfo.getEmpLevID() == DeptCode.LEVEL_BRANCH_HEAD) {
                     fragment = new Fragment[]{new Fragment_BH_Dashboard(), new Fragment_NotificationList()};
                     appBarHome.setVisibility(View.VISIBLE);
-                    imgHeader.setImageResource(R.drawable.img_bh_header);
+//                    imgHeader.setImageResource(R.drawable.img_bh_header);
                 } else {
                     fragment = new Fragment[]{new Fragment_Home()};
                     appBarHome.setVisibility(View.GONE);
-                    imgHeader.setImageResource(R.drawable.img_ah_header);
+//                    imgHeader.setImageResource(R.drawable.img_ah_header);
 
                     mViewModel.getUnreadNotificationsCount().observe(getViewLifecycleOwner(), userNotificationInfos -> {
                         try {

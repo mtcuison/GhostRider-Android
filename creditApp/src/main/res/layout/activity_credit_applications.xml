@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context=".Activities.Activity_CreditApplications"
     android:background="@drawable/bg_gradient_light"
-    android:theme="@style/GhostRiderMaterialTheme.WhiteBG"
+    android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
     tools:ignore="MissingDefaultResource">
 
     <com.google.android.material.appbar.AppBarLayout
