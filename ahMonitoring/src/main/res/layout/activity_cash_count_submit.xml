@@ -30,18 +30,13 @@
             android:layout_height="?attr/actionBarSize"
             app:popupTheme="@style/GhostRiderMaterialTheme.PopupOverlay" />
 
-    </com.google.android.material.appbar.AppBarLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="@drawable/bg_samsungknox"
             android:gravity="center_horizontal"
             android:paddingHorizontal="15dp">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -104,6 +99,7 @@
                         android:imeOptions="actionSearch"
                         android:maxLines="1"
                         android:hint="Request name" />
+
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <ImageButton
@@ -113,10 +109,17 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_name_search"
                     android:layout_gravity="center"
-                    style="@style/Base.Widget.AppCompat.Button.Borderless"
-                    />
+                    style="@style/Base.Widget.AppCompat.Button.Borderless" />
             </LinearLayout>
         </LinearLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -197,7 +200,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="10dp"
                         android:layout_marginVertical="3dp"
-                        app:cardBackgroundColor="?attr/colorSurface"
                         app:cardCornerRadius="10dp">
 
                         <LinearLayout

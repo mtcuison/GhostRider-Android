@@ -3,8 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
-    android:background="@drawable/bg_gradient_light"
     android:paddingHorizontal="30dp"
     android:paddingVertical="5dp"
     tools:context=".UserInterface.Login.Fragment_Login">
@@ -31,7 +29,6 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/roboto_bold"
         android:text="@string/user_authentication"
-        android:textColor="@color/footer_dark_grey"
         android:textSize="19sp"
         app:layout_constraintBottom_toTopOf="@id/vgForm"
         app:layout_constraintEnd_toEndOf="parent"
@@ -124,7 +121,6 @@
             android:text="@string/forgot_password"
             android:fontFamily="@font/roboto"
             android:textSize="13sp"
-            android:textColor="@color/textview_link_color"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginRight="16sp"
             app:layout_constraintTop_toBottomOf="@id/til_loginMobileNo" />
@@ -137,7 +133,6 @@
             android:text="@string/create_account"
             android:fontFamily="@font/roboto"
             android:textSize="13sp"
-            android:textColor="@color/textview_link_color"
             android:layout_marginLeft="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/til_loginMobileNo" />
@@ -158,10 +153,8 @@
                 android:id="@+id/cbAgree"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:buttonTint="@color/guanzon_digital_orange"
                 android:fontFamily="@font/roboto"
                 android:text="@string/agree"
-                android:textColor="@color/textview_link_color"
                 android:textSize="13sp"
                 android:padding="0dp"/>
 
@@ -171,7 +164,6 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto"
                 android:text="@string/terms_and_conditions"
-                android:textColor="@color/textview_link_color"
                 android:textSize="13sp"
                 android:layout_marginLeft="4dp"/>
 
@@ -179,12 +171,14 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_login"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
             android:text="@string/button_login"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/ln_Terms"
-            android:layout_marginTop="2dp"/>
+            android:layout_marginTop="2dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -195,7 +189,6 @@
         android:layout_marginBottom="3dp"
         android:fontFamily="@font/roboto_bold"
         android:text="@string/sLblCompName"
-        android:textColor="@color/footer_dark_grey"
         android:textSize="13sp"
         app:layout_constraintBottom_toTopOf="@+id/tvCopyright"
         app:layout_constraintEnd_toEndOf="parent"
@@ -207,7 +200,6 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/roboto_light"
         android:text="@string/sLblCopyright"
-        android:textColor="@color/footer_dark_grey"
         android:textSize="11sp"
         android:layout_marginBottom="3dp"
         app:layout_constraintBottom_toTopOf="@+id/lbl_versionInfo"
@@ -220,7 +212,6 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/roboto_light"
         android:text="@string/lblBuildVersion"
-        android:textColor="@color/footer_dark_grey"
         android:textSize="11sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
