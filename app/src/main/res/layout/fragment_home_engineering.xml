@@ -58,7 +58,6 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="50dp"
                 android:text="DE CELIS, TEEJEI F."
-                android:textColor="@color/black"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/imgheader" />
@@ -70,7 +69,6 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="5dp"
                 android:text="Engineering Services"
-                android:textColor="@color/black"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lblEmpNme" />
 
@@ -95,7 +93,6 @@
                     <androidx.cardview.widget.CardView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:cardBackgroundColor="@color/zxing_transparent"
                         app:cardCornerRadius="90dp"
                         app:cardMaxElevation="15dp"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -105,8 +102,8 @@
 
                         <ImageView
                             android:id="@+id/imgsettings"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
                             android:padding="8dp"
                             tools:src="@drawable/ic_dashboard_settings" />
                     </androidx.cardview.widget.CardView>
@@ -123,7 +120,6 @@
                     <androidx.cardview.widget.CardView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:cardBackgroundColor="@color/zxing_transparent"
                         app:cardCornerRadius="90dp"
                         app:cardMaxElevation="5dp"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -133,8 +129,8 @@
 
                         <ImageView
                             android:id="@+id/imglogout"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
                             android:padding="8dp"
                             tools:src="@drawable/ic_dashboard_logout" />
                     </androidx.cardview.widget.CardView>
@@ -175,7 +171,6 @@
                             android:layout_marginStart="15dp"
                             android:layout_marginTop="15dp"
                             android:text="Todo List"
-                            android:textColor="@color/black"
                             android:textStyle="bold"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -185,7 +180,6 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="15dp"
                             android:text="February 07, 2023"
-                            android:textColor="@color/guanzon_digital_orange"
                             android:textSize="24sp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -202,14 +196,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:text="Company Announcement"
-                android:textColor="@color/black"
-                app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cardtodolist" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"

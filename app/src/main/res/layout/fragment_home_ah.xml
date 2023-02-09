@@ -59,7 +59,6 @@
                 android:layout_marginStart="20dp"
                 android:fontFamily="@font/roboto"
                 android:text="DE CELIS, TEEJEI F."
-                android:textColor="@color/black"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/imageView3" />
@@ -72,7 +71,6 @@
                 android:layout_marginStart="20dp"
                 android:fontFamily="@font/roboto"
                 android:text="Area Manager"
-                android:textColor="@color/black"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lblEmpNme" />
 
@@ -115,7 +113,6 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="15dp"
-                                android:backgroundTint="@color/guanzon_digital_orange"
                                 app:cardCornerRadius="90dp"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
@@ -135,7 +132,6 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/roboto"
                                 android:text="MC SALES"
-                                android:textColor="@color/guanzon_digital_orange"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toBottomOf="@+id/card_MC_Goal" />
@@ -155,7 +151,6 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="15dp"
-                                android:backgroundTint="@color/guanzon_digital_orange"
                                 app:cardCornerRadius="90dp"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
@@ -175,7 +170,6 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/roboto"
                                 android:text="SP SALES"
-                                android:textColor="@color/guanzon_digital_orange"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toBottomOf="@+id/card_SP_Goal" />
@@ -196,7 +190,6 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="15dp"
-                                android:backgroundTint="@color/guanzon_digital_orange"
                                 app:cardCornerRadius="90dp"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
@@ -215,7 +208,6 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="JOB ORDER"
-                                android:textColor="@color/guanzon_digital_orange"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toBottomOf="@+id/card_JO_Goal" />
@@ -245,7 +237,6 @@
                     android:layout_margin="5dp"
                     app:layout_constraintWidth_percent=".20"
                     app:layout_constraintHeight_percent=".93"
-                    app:cardBackgroundColor="@color/guanzon_digital_orange"
                     app:cardCornerRadius="10dp"
                     app:layout_constraintEnd_toStartOf="@+id/cv_inventory"
                     app:layout_constraintStart_toStartOf="parent"
@@ -290,7 +281,6 @@
                     android:layout_margin="5dp"
                     app:layout_constraintWidth_percent=".20"
                     app:layout_constraintHeight_percent=".93"
-                    app:cardBackgroundColor="@color/guanzon_digital_orange"
                     app:cardCornerRadius="10dp"
                     app:layout_constraintEnd_toStartOf="@+id/cv_settings"
                     app:layout_constraintStart_toEndOf="@+id/cv_cashCount"
@@ -307,8 +297,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto"
                             android:text="Inventory"
-                            android:textColor="@color/black"
-                            app:layout_constraintStart_toStartOf="parent"
+                           app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintWidth_percent=".99" />
 
@@ -334,7 +323,6 @@
                     android:layout_margin="5dp"
                     app:layout_constraintWidth_percent=".20"
                     app:layout_constraintHeight_percent=".93"
-                    app:cardBackgroundColor="@color/guanzon_digital_orange"
                     app:cardCornerRadius="10dp"
                     app:layout_constraintEnd_toStartOf="@+id/cv_logout"
                     app:layout_constraintStart_toEndOf="@+id/cv_inventory"
@@ -351,7 +339,6 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto"
                             android:text="Settings"
-                            android:textColor="@color/black"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintWidth_percent=".99" />
@@ -378,7 +365,6 @@
                     android:layout_margin="5dp"
                     app:layout_constraintWidth_percent=".20"
                     app:layout_constraintHeight_percent=".93"
-                    app:cardBackgroundColor="@color/guanzon_digital_orange"
                     app:cardCornerRadius="10dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/cv_settings"
@@ -395,7 +381,6 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto"
                             android:text="Logout"
-                            android:textColor="@color/black"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintWidth_percent=".99" />
@@ -425,7 +410,6 @@
                 android:layout_marginTop="5dp"
                 android:fontFamily="@font/roboto"
                 android:text="Branch Open"
-                android:textColor="@color/black"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/constraintLayout3" />
@@ -447,7 +431,6 @@
                 android:layout_marginTop="5dp"
                 android:fontFamily="@font/roboto"
                 android:text="Company Anouncement"
-                android:textColor="@color/black"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/rvBranchOpen" />
@@ -470,7 +453,6 @@
                 android:layout_marginTop="5dp"
                 android:fontFamily="@font/roboto"
                 android:text="Applications"
-                android:textColor="@color/black"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/rvCompnyAnouncemnt" />
