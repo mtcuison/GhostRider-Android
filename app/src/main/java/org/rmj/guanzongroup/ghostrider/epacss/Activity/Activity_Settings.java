@@ -40,7 +40,6 @@ import org.rmj.g3appdriver.etc.GeoLocator;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMSettings;
-import org.rmj.guanzongroup.ghostrider.epacss.themeController.ThemeHelper;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -124,7 +123,7 @@ public class Activity_Settings extends AppCompatActivity {
                         } else {
                             themePreference.getSummaryOff();
                         }
-                        ThemeHelper.applyTheme(themeOption);
+//                        ThemeHelper.applyTheme(themeOption);
                         return true;
                     }
                 });

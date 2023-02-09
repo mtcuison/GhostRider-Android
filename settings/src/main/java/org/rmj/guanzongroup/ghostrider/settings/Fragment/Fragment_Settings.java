@@ -42,7 +42,6 @@ import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_LocalData;
 import org.rmj.guanzongroup.ghostrider.settings.Dialog.Dialog_ChangePassword;
 import org.rmj.guanzongroup.ghostrider.settings.R;
 import org.rmj.guanzongroup.ghostrider.settings.ViewModel.VMSettings;
-import org.rmj.guanzongroup.ghostrider.settings.themeController.ThemeHelper;
 import org.rmj.guanzongroup.ghostrider.settings.utils.DatabaseExport;
 
 import java.util.Objects;
@@ -109,7 +108,7 @@ public class Fragment_Settings  extends PreferenceFragmentCompat {
                 } else {
                     themePreference.getSummaryOff();
                 }
-                ThemeHelper.applyTheme(themeOption);
+//                ThemeHelper.applyTheme(themeOption);
                 return true;
             });
         }

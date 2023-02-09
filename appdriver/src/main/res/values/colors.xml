@@ -11,9 +11,28 @@
   -->
 
 <resources xmlns:tools="http://schemas.android.com/tools">
+
+    <color name="material_black">#161616</color>
+    <color name="material_white">#EEEEEE</color>
+    <color name="colorPrimary_light">#000000</color>
+
+    <color name="background_dark">#161B24</color>
+    <color name="background_light">#F2F2F2</color>
+
+    <color name="colorPrimaryLight">#F47422</color>
+    <color name="colorSecondaryLight">#2F2F2F</color>
+
+    <color name="colorPrimaryVariantLight">#FC7D1E</color>
+    <color name="colorSecondaryVariantLight">#202020</color>
+
+    <color name="colorPrimaryDark">#F47422</color>
+    <color name="colorPrimaryVariantDark">#FC7D1E</color>
+    <color name="colorSecondaryDark">#2F2F2F</color>
+    <color name="colorSecondaryVariantDark">#202020</color>
+
+
+
     <color name="guanzon_orange">#F88222</color>
-    <color name="material_black" >#101010</color>
-    <color name="material_white">#e2e2e2</color>
     <color name="textColor_Black">#000</color>
     <color name="textColor_Orange">#F88222</color>
     <color name="textColor_White">#FFF</color>

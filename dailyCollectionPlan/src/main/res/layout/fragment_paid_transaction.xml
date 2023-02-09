@@ -16,7 +16,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Fragments.Fragment_PaidTransaction"
-    android:theme="@style/GhostRiderMaterialTheme.WhiteBG">
+    android:theme="@style/GhostRiderMaterialTheme.NoActionBar">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -31,7 +31,6 @@
             android:text="Daily Collection Plan"
             android:textSize="20sp"
             android:fontFamily="@font/roboto_bold"
-            android:textColor="@color/textColor_Black"
             android:layout_marginTop="5dp"/>
 
         <TextView
@@ -40,7 +39,6 @@
             android:layout_height="wrap_content"
             android:textSize="16sp"
             android:fontFamily="@font/roboto_bold"
-            android:textColor="@color/textColor_Black"
             android:layout_marginTop="5dp"/>
 
         <TextView
@@ -48,8 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
-            android:fontFamily="@font/roboto_medium"
-            android:textColor="@color/textColor_Black"/>
+            android:fontFamily="@font/roboto_medium"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -57,14 +54,12 @@
             android:text="Customer Paid"
             android:textSize="18sp"
             android:fontFamily="@font/roboto_bold"
-            android:textColor="@color/textColor_Black"
             android:layout_marginTop="15dp"/>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1.5dp"
-            android:layout_marginTop="5dp"
-            android:background="@color/guanzon_orange"/>
+            android:layout_marginTop="5dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -77,8 +72,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight=".5"
                 android:text="Account No. :"
-                android:fontFamily="@font/roboto_regular"
-                android:textColor="@color/textColor_Black"/>
+                android:fontFamily="@font/roboto_regular"/>
 
             <TextView
                 android:id="@+id/lbl_dcpAccNo"
@@ -86,7 +80,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="@font/roboto_medium"
-                android:textColor="@color/textColor_Black"
                 android:gravity="end"/>
         </LinearLayout>
 
@@ -101,8 +94,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight=".5"
                 android:text="Client Name :"
-                android:fontFamily="@font/roboto_regular"
-                android:textColor="@color/textColor_Black"/>
+                android:fontFamily="@font/roboto_regular"/>
 
             <TextView
                 android:id="@+id/lbl_dcpClientNm"
@@ -110,7 +102,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="@font/roboto_medium"
-                android:textColor="@color/textColor_Black"
                 android:gravity="end"/>
         </LinearLayout>
 
@@ -125,8 +116,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight=".5"
                 android:text="Transaction No :"
-                android:fontFamily="@font/roboto_regular"
-                android:textColor="@color/textColor_Black"/>
+                android:fontFamily="@font/roboto_regular"/>
 
             <TextView
                 android:id="@+id/lbl_dcpTransNo"
@@ -134,7 +124,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="@font/roboto_medium"
-                android:textColor="@color/textColor_Black"
                 android:gravity="end"/>
         </LinearLayout>
 
@@ -205,9 +194,7 @@
                 android:layout_weight=".3"
                 android:textAllCaps="false"
                 android:text="Clear"
-                android:fontFamily="@font/roboto_regular"
-                android:textColor="@color/textColor_Black"
-                style="@style/MaterialButtonLight"/>
+                android:fontFamily="@font/roboto_regular"/>
         </LinearLayout>
 
         <Button
@@ -216,9 +203,7 @@
             android:layout_height="wrap_content"
             android:textAllCaps="false"
             android:text="Monthly Amort"
-            android:fontFamily="@font/roboto_regular"
-            android:textColor="@color/textColor_Black"
-            style="@style/MaterialButtonLight"/>
+            android:fontFamily="@font/roboto_regular"/>
 
         <Button
             android:id="@+id/btn_remainbalance"
@@ -226,9 +211,7 @@
             android:layout_height="wrap_content"
             android:textAllCaps="false"
             android:text="Remaining Balance"
-            android:fontFamily="@font/roboto_regular"
-            android:textColor="@color/textColor_Black"
-            style="@style/MaterialButtonLight"/>
+            android:fontFamily="@font/roboto_regular"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_dcpDiscount"
@@ -301,7 +284,6 @@
                 android:id="@+id/txt_dcpRemarks"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/TextInputStyle.Edittext"
                 android:inputType="textMultiLine"
                 android:digits="@string/free_text_restriction"
                 android:lines="3"
@@ -313,7 +295,6 @@
             android:id="@+id/btn_confirm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/MaterialButtonAccent"
             android:text="Save Payment"/>
 
     </LinearLayout>

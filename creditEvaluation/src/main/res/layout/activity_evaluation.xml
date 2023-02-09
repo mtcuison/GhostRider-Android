@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:theme="@style/GhostRiderMaterialTheme"
-    android:background="@drawable/bg_gradient_light"
     tools:context=".Activity.Activity_Evaluation">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -18,7 +17,6 @@
             android:id="@+id/toolbar_ci_evaluation"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/material_tool_bar"
             app:popupTheme="@style/GhostRiderMaterialTheme.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -44,7 +42,6 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto"
                 android:text="Loan Applicant Evaluation"
-                android:textColor="@color/textColor_White"
                 android:textSize="22sp" />
 
             <TextView
@@ -53,7 +50,6 @@
                 android:layout_marginTop="5dp"
                 android:fontFamily="@font/roboto_light"
                 android:text="GMC Dagupan - Honda"
-                android:textColor="@color/textColor_White"
                 android:textSize="15sp" />
 
             <TextView
@@ -61,7 +57,6 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_light"
                 android:text="Guanzon Bldg., Perez Blvd., Dagupan City"
-                android:textColor="@color/textColor_White"
                 android:textSize="15sp" />
         </LinearLayout>
 
@@ -95,15 +90,13 @@
                         android:layout_height="wrap_content"
                         android:text="Garcia, Michael Permison"
                         android:textSize="16sp"
-                        android:textColor="@color/textColor_Black"
                         tools:ignore="HardcodedText"
                         android:fontFamily="@font/roboto_medium"
                         tools:targetApi="jelly_bean"/>
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="2dp"
-                        android:padding="3dp"
-                        android:background="@color/guanzon_orange"/>
+                        android:padding="3dp"/>
 
                     <TextView
                         android:id="@+id/lbl_ci_applicantName"
@@ -111,7 +104,6 @@
                         android:layout_height="wrap_content"
                         android:text="Garcia, Michael Permison"
                         android:textSize="16sp"
-                        android:textColor="@color/textColor_Black"
                         tools:ignore="HardcodedText"
                         android:fontFamily="@font/roboto_medium"
                         tools:targetApi="jelly_bean"/>
@@ -127,7 +119,6 @@
                             android:layout_weight=".5"
                             android:text="Date Applied :"
                             android:textSize="16sp"
-                            android:textColor="@color/textColor_Black"
                             android:gravity="start"
                             tools:ignore="HardcodedText"
                             android:fontFamily="@font/roboto_regular"
@@ -139,7 +130,6 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="December 12, 2019"
-                            android:textColor="@color/textColor_Black"
                             android:gravity="end"
                             tools:ignore="HardcodedText"
                             android:fontFamily="@font/roboto_regular"
@@ -159,7 +149,6 @@
                             android:layout_weight=".5"
                             android:text="Branch :"
                             android:textSize="16sp"
-                            android:textColor="@color/textColor_Black"
                             android:gravity="start"
                             tools:ignore="HardcodedText"
                             android:fontFamily="@font/roboto_regular"
@@ -173,7 +162,6 @@
                             android:fontFamily="@font/roboto_regular"
                             android:gravity="end"
                             android:text="December 12, 2019"
-                            android:textColor="@color/textColor_Black"
                             tools:ignore="HardcodedText"
                             tools:targetApi="jelly_bean" />
 
@@ -182,8 +170,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="2dp"
                         android:layout_marginTop="5dp"
-                        android:padding="3dp"
-                        android:background="@color/guanzon_orange"/>
+                        android:padding="3dp"/>
 
                 </LinearLayout>
                 <!-- START ADDRESS-->
@@ -191,11 +178,9 @@
                     android:id="@+id/cvForEvaluation"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:cardBackgroundColor="@color/material_lightgrey"
                     app:cardUseCompatPadding="true"
                     app:cardCornerRadius="5dp"
                     app:cardElevation="3dp"
-                    android:background="@color/material_lightgrey"
                     app:cardPreventCornerOverlap="true">
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -232,11 +217,9 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardBackgroundColor="@color/material_lightgrey"
                     app:cardUseCompatPadding="true"
                     app:cardCornerRadius="5dp"
                     app:cardElevation="3dp"
-                    android:background="@color/material_lightgrey"
                     app:cardPreventCornerOverlap="true">
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -270,7 +253,6 @@
                                     android:layout_height="wrap_content"
                                     android:text="Barangay Record :"
                                     android:fontFamily="@font/roboto_medium"
-                                    android:textColor="@color/material_black"
                                     />
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -293,8 +275,7 @@
                                             android:fontFamily="@font/roboto_regular"
                                             android:text="No Barangay Record"
                                             android:layout_weight=".2"
-                                            tools:targetApi="jelly_bean"
-                                            android:buttonTint="@color/guanzon_digital_orange" />
+                                            tools:targetApi="jelly_bean"/>
 
                                         <RadioButton
                                             android:id="@+id/rb_ci_withRecord"
@@ -303,8 +284,7 @@
                                             android:text="Has Barangay Record"
                                             android:layout_weight=".2"
                                             android:fontFamily="@font/roboto_regular"
-                                            tools:targetApi="jelly_bean"
-                                            android:buttonTint="@color/guanzon_digital_orange"/>
+                                            tools:targetApi="jelly_bean"/>
                                     </RadioGroup>
                                 </LinearLayout>
 
@@ -323,7 +303,6 @@
                                         android:layout_height="wrap_content"
                                         android:inputType="textCapWords"
                                         android:digits="@string/free_text_restriction"
-                                        android:textColor="@color/material_black"
                                         android:maxLength="50"/>
                                 </com.google.android.material.textfield.TextInputLayout>
                             </LinearLayout>
@@ -352,7 +331,6 @@
                                             android:imeOptions="actionNext"
                                             android:digits="@string/free_text_restriction"
                                             android:nextFocusForward="@id/tie_ci_asstPosition"
-                                            android:textColor="@color/material_black"
                                             android:maxLength="50" />
                                     </com.google.android.material.textfield.TextInputLayout>
 <!--                                    <com.google.android.material.button.MaterialButton-->
@@ -362,7 +340,6 @@
 <!--                                        android:layout_weight="1.5"-->
 <!--                                        android:layout_gravity="center_horizontal|center|center_vertical"-->
 <!--                                        app:icon="@android:drawable/ic_menu_save"-->
-<!--                                        app:iconTint="@color/guanzon_digital_orange"-->
 <!--                                        app:iconGravity="textStart"-->
 <!--                                        app:iconPadding="0dp" />-->
                                 </LinearLayout>
@@ -386,7 +363,6 @@
                                             android:digits="@string/free_text_restriction"
                                             android:imeOptions="actionNext"
                                             android:nextFocusForward="@id/tie_ci_asstPhoneNumber"
-                                            android:textColor="@color/material_black"
                                             android:maxLength="50" />
 
                                     </com.google.android.material.textfield.TextInputLayout>
@@ -397,7 +373,6 @@
 <!--                                        android:layout_weight="1.5"-->
 <!--                                        android:layout_gravity="center_horizontal|center|center_vertical"-->
 <!--                                        app:icon="@android:drawable/ic_menu_save"-->
-<!--                                        app:iconTint="@color/guanzon_digital_orange"-->
 <!--                                        app:iconGravity="textStart"-->
 <!--                                        app:iconPadding="0dp" />-->
                                 </LinearLayout>
@@ -421,7 +396,6 @@
 <!--                                            android:inputType="textCapWords"-->
 <!--                                            android:imeOptions="actionNext"-->
 <!--                                            android:nextFocusForward="@id/tie_ci_neighborName1"-->
-<!--                                            android:textColor="@color/material_black"-->
 <!--                                            android:maxLength="50" />-->
 <!--                                    </com.google.android.material.textfield.TextInputLayout>-->
 
@@ -452,7 +426,6 @@
 <!--                                        android:layout_weight="1.5"-->
 <!--                                        android:layout_gravity="center_horizontal|center|center_vertical"-->
 <!--                                        app:icon="@android:drawable/ic_menu_save"-->
-<!--                                        app:iconTint="@color/guanzon_digital_orange"-->
 <!--                                        app:iconGravity="textStart"-->
 <!--                                        app:iconPadding="0dp" />-->
                                 </LinearLayout>
@@ -474,8 +447,7 @@
                                         android:layout_height="wrap_content"
                                         android:text="Save"
                                         android:layout_weight=".5"
-                                        android:layout_marginLeft="10dp"
-                                        style="@style/GhostRider_Button"/>
+                                        android:layout_marginLeft="10dp"/>
 
                                     <Button
                                         android:id="@+id/btnEditBrgyRecords"
@@ -484,8 +456,7 @@
                                         android:text="Edit"
                                         android:visibility="gone"
                                         android:layout_weight=".5"
-                                        android:layout_marginLeft="10dp"
-                                        style="@style/GhostRider_Button"/>
+                                        android:layout_marginLeft="10dp"/>
 
                                 </LinearLayout>
                             </LinearLayout>
@@ -499,7 +470,6 @@
                                     android:layout_height="wrap_content"
                                     android:text="Neighbor 1 :"
                                     android:fontFamily="@font/roboto_medium"
-                                    android:textColor="@color/material_black"
                                     />
 
                                 <LinearLayout
@@ -522,7 +492,6 @@
                                             android:digits="@string/free_text_restriction"
                                             android:imeOptions="actionNext"
                                             android:nextFocusForward="@id/tie_ci_neighborName2"
-                                            android:textColor="@color/material_black"
                                             android:maxLength="50" />
                                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -533,7 +502,6 @@
                                         android:layout_weight="1.5"
                                         android:layout_gravity="center_horizontal|center|center_vertical"
                                         app:icon="@android:drawable/ic_menu_save"
-                                        app:iconTint="@color/guanzon_digital_orange"
                                         app:iconGravity="textStart"
                                         app:iconPadding="0dp" />
 
@@ -545,7 +513,6 @@
                                         android:visibility="gone"
                                         android:layout_gravity="center_horizontal|center|center_vertical"
                                         app:icon="@android:drawable/ic_menu_edit"
-                                        app:iconTint="@color/guanzon_digital_orange"
                                         app:iconGravity="textStart"
                                         app:iconPadding="0dp" />
                                 </LinearLayout>
@@ -561,7 +528,6 @@
                                     android:layout_height="wrap_content"
                                     android:text="Neighbor 2 :"
                                     android:fontFamily="@font/roboto_medium"
-                                    android:textColor="@color/material_black"
                                     />
 
                                 <LinearLayout
@@ -584,7 +550,6 @@
                                             android:digits="@string/free_text_restriction"
                                             android:imeOptions="actionNext"
                                             android:nextFocusForward="@id/tie_ci_neighborName3"
-                                            android:textColor="@color/material_black"
                                             android:maxLength="50" />
                                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -595,7 +560,6 @@
                                         android:layout_weight="1.5"
                                         android:layout_gravity="center_horizontal|center|center_vertical"
                                         app:icon="@android:drawable/ic_menu_save"
-                                        app:iconTint="@color/guanzon_digital_orange"
                                         app:iconGravity="textStart"
                                         app:iconPadding="0dp" />
 
@@ -607,7 +571,6 @@
                                         android:visibility="gone"
                                         android:layout_gravity="center_horizontal|center|center_vertical"
                                         app:icon="@android:drawable/ic_menu_edit"
-                                        app:iconTint="@color/guanzon_digital_orange"
                                         app:iconGravity="textStart"
                                         app:iconPadding="0dp" />
                                 </LinearLayout>
@@ -624,7 +587,6 @@
                                     android:layout_height="wrap_content"
                                     android:text="Neighbor 3 :"
                                     android:fontFamily="@font/roboto_medium"
-                                    android:textColor="@color/material_black"
                                     />
 
                                 <LinearLayout
@@ -646,7 +608,6 @@
                                             android:inputType="textCapWords"
                                             android:digits="@string/free_text_restriction"
                                             android:imeOptions="actionNext"
-                                            android:textColor="@color/material_black"
                                             android:maxLength="50" />
 <!--                                        android:nextFocusForward="@id/tie_ci_neighborName2"-->
 
@@ -659,7 +620,6 @@
                                         android:layout_weight="1.5"
                                         android:layout_gravity="center_horizontal|center|center_vertical"
                                         app:icon="@android:drawable/ic_menu_save"
-                                        app:iconTint="@color/guanzon_digital_orange"
                                         app:iconGravity="textStart"
                                         app:iconPadding="0dp" />
 
@@ -671,7 +631,6 @@
                                         android:visibility="gone"
                                         android:layout_gravity="center_horizontal|center|center_vertical"
                                         app:icon="@android:drawable/ic_menu_edit"
-                                        app:iconTint="@color/guanzon_digital_orange"
                                         app:iconGravity="textStart"
                                         app:iconPadding="0dp" />
                                 </LinearLayout>
@@ -697,7 +656,6 @@
                                         android:layout_width="fill_parent"
                                         android:layout_height="fill_parent"
                                         android:text="Upload"
-                                        style="@style/GhostRider_Button"
                                         android:layout_alignParentEnd="true"
                                         android:layout_alignParentRight="true"
                                         android:layout_centerVertical="true"
@@ -715,7 +673,6 @@
 
                                     <Button
                                         android:id="@+id/btnSave"
-                                        style="@style/GhostRider_Button"
                                         android:layout_width="fill_parent"
                                         android:layout_height="fill_parent"
                                         android:layout_alignParentEnd="true"

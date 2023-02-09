@@ -13,7 +13,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:theme="@style/GhostRiderMaterialTheme.WhiteBG"
+    android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
     style="@style/MasterViewGroupStyle_Light"
     tools:context=".UserInterface.CreateAccount.Fragment_CreateAccount">
 
@@ -262,7 +262,6 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_createAccount"
-                    style="@style/GhostRider_Button"
                     android:layout_marginTop="36dp"
                     android:text="@string/button_send_verification"
                     app:layout_constraintBottom_toBottomOf="parent"

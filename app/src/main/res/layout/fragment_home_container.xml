@@ -16,7 +16,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#dbdbdb"
     tools:context=".ui.HomeContainer.Fragment_HomeContainer">
 
     <LinearLayout
@@ -33,7 +32,7 @@
                 android:id="@+id/img_dashboard_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:srcCompat ="@drawable/img_ah_header"
+                android:src="@drawable/bg_dashboard"
                 android:scaleType="center"/>
 
             <RelativeLayout
