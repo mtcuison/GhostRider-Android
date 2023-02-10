@@ -17,6 +17,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:theme="@style/GhostRiderMaterialTheme"
     tools:context=".Activity.Activity_Monitoring">
 
     <RelativeLayout
@@ -25,7 +26,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent">
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/img_bg_guanzon_orange"
             android:layout_width="match_parent"
             android:layout_height="200dp"
@@ -43,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/lbl_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -56,7 +57,7 @@
 
                 <include layout="@layout/custom_tab_ah" />
 
-                <androidx.cardview.widget.CardView
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="10dp"
@@ -71,7 +72,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 
-                </androidx.cardview.widget.CardView>
+                </com.google.android.material.card.MaterialCardView>
 
             </LinearLayout>
 
@@ -79,7 +80,7 @@
 
     </RelativeLayout>
 
-    <androidx.appcompat.widget.Toolbar
+    <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar_monitoring"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"

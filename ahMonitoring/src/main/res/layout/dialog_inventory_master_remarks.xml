@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:gravity="center"
+    android:theme="@style/GhostRiderMaterialTheme"
     app:cardCornerRadius="15dp"
     app:cardUseCompatPadding="true"
     app:cardPreventCornerOverlap="true"
@@ -18,7 +20,7 @@
         android:orientation="vertical"
         android:background="@drawable/background_dialog">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lbl_dialogTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -29,7 +31,7 @@
             android:paddingTop="20dp"
             android:fontFamily="@font/roboto_bold"/>
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Please enter remarks for overall inventory for this branch."
@@ -59,7 +61,7 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <View
+        <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/guanzon_orange" />
@@ -74,7 +76,7 @@
             android:fontFamily="@font/roboto_medium"
             style="@style/Widget.AppCompat.Button.Borderless"/>
 
-        <View
+        <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/guanzon_orange" />
@@ -90,4 +92,4 @@
             style="@style/Widget.AppCompat.Button.Borderless"/>
     </LinearLayout>
 
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

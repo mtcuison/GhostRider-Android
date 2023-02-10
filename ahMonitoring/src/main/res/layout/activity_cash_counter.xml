@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:theme="@style/GhostRiderMaterialTheme.AppBarOverlay">
 
-            <androidx.appcompat.widget.Toolbar
+            <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar_cashCounter"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
@@ -57,14 +57,14 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:orientation="vertical">
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Cash Count"
                         android:fontFamily="@font/roboto"
                         android:textSize="22sp"/>
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/lbl_headerBranch"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -73,7 +73,7 @@
                         android:fontFamily="@font/roboto_light"
                         android:layout_marginTop="5dp"/>
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/lbl_headerAddress"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -89,14 +89,14 @@
                 android:orientation="vertical"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="15dp">
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/lbl_headerDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="16sp"
                     android:layout_gravity="end"
                     android:fontFamily="@font/roboto_light"/>
-                <View
+                <com.google.android.material.divider.MaterialDivider
                     android:layout_width="match_parent"
                     android:layout_height="0.8dp"
                     android:background="#fff"/>
@@ -123,7 +123,7 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="10dp">
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
@@ -153,7 +153,7 @@
                             android:layout_gravity="center"
                             android:layout_weight="1.1">
 
-                            <TextView
+                            <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/tv1000p"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
@@ -214,7 +214,7 @@
                             android:layout_gravity="center"
                             android:layout_weight="1.1">
 
-                            <TextView
+                            <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/tv500p"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
@@ -274,7 +274,7 @@
                             android:layout_gravity="center"
                             android:layout_weight="1.1">
 
-                            <TextView
+                            <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/tv200p"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
@@ -336,7 +336,7 @@
                             android:layout_gravity="center"
                             android:layout_weight="1.1">
 
-                            <TextView
+                            <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/tv100p"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
@@ -397,7 +397,7 @@
                             android:layout_gravity="center"
                             android:layout_weight="1.1">
 
-                            <TextView
+                            <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/tv50p"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
@@ -459,7 +459,7 @@
                             android:layout_gravity="center"
                             android:layout_weight="1.1">
 
-                            <TextView
+                            <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/tv20p"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
@@ -516,7 +516,7 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="20dp">
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
@@ -551,7 +551,7 @@
                             android:layout_gravity="center"
                             android:layout_weight="1.1">
 
-                                <TextView
+                                <com.google.android.material.textview.MaterialTextView
                                     android:id="@+id/tv10pc"
                                     android:layout_width="fill_parent"
                                     android:layout_height="wrap_content"
@@ -612,7 +612,7 @@
                             android:layout_gravity="center"
                             android:layout_weight="1.1">
 
-                                <TextView
+                                <com.google.android.material.textview.MaterialTextView
                                     android:id="@+id/tv5pc"
                                     android:layout_width="fill_parent"
                                     android:layout_height="wrap_content"
@@ -672,7 +672,7 @@
                             android:layout_gravity="center"
                             android:layout_weight="1.1">
 
-                                <TextView
+                                <com.google.android.material.textview.MaterialTextView
                                     android:id="@+id/tv1pc"
                                     android:layout_width="fill_parent"
                                     android:layout_height="wrap_content"
@@ -734,7 +734,7 @@
                             android:layout_gravity="center"
                             android:layout_weight="1.1">
 
-                                <TextView
+                                <com.google.android.material.textview.MaterialTextView
                                     android:id="@+id/tv25cc"
                                     android:layout_width="fill_parent"
                                     android:layout_height="wrap_content"
@@ -795,7 +795,7 @@
                             android:layout_gravity="center"
                             android:layout_weight="1.1">
 
-                                <TextView
+                                <com.google.android.material.textview.MaterialTextView
                                     android:id="@+id/tv10cc"
                                     android:layout_width="fill_parent"
                                     android:layout_height="wrap_content"
@@ -858,7 +858,7 @@
                             android:layout_gravity="center"
                             android:layout_weight="1.1">
 
-                                <TextView
+                                <com.google.android.material.textview.MaterialTextView
                                     android:id="@+id/tv5cc"
                                     android:layout_width="fill_parent"
                                     android:layout_height="wrap_content"
@@ -920,7 +920,7 @@
                                 android:layout_gravity="center"
                                 android:layout_weight="1.1">
 
-                                <TextView
+                                <com.google.android.material.textview.MaterialTextView
                                     android:id="@+id/tv1cc"
                                     android:layout_width="fill_parent"
                                     android:layout_height="wrap_content"
@@ -981,14 +981,14 @@
                         android:orientation="horizontal"
                         android:layout_marginBottom="3dp"
                         >
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:text="Bills Total :"
                             android:layout_weight="1"
                             android:textSize="20sp"
                             />
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/lblPesoTotal"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
@@ -1004,14 +1004,14 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:layout_marginBottom="3dp">
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Coins Total :"
                             android:textSize="20sp"
                             />
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/lblCoinsTotal"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
@@ -1028,14 +1028,14 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:layout_marginBottom="5dp">
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:textSize="20sp"
                             android:text="Grand Total :"
                             />
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/lblGrandTotal"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
