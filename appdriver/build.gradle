@@ -67,7 +67,7 @@ dependencies {
     implementation 'com.huawei.hms:site:4.0.3.300'
 
     //Document scanner
-    implementation 'com.websitebeaver:documentscanner:1.0.0'
+//    implementation 'com.websitebeaver:documentscanner:1.0.0'
 
 
 
