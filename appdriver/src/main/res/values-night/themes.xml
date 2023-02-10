@@ -11,16 +11,15 @@
   -->
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
-    <style name="GhostRiderMaterialTheme" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="GhostRiderMaterialTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/colorPrimaryDark</item>
         <item name="colorPrimaryVariant">@color/colorPrimaryVariantDark</item>
         <item name="colorOnPrimary">@color/white</item>
-        <!--        <item name="colorAccent">@color/light_grey</item>-->
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/colorSecondaryLight</item>
         <item name="colorSecondaryVariant">@color/colorSecondaryVariantLight</item>
         <item name="colorOnSecondary">@color/black</item>
-        <item name="colorSurface">@color/colorSecondaryVariantLight</item>
+<!--        <item name="colorSurface">@color/colorSecondaryVariantLight</item>-->
         <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
 
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>

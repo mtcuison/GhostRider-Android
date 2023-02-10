@@ -5,9 +5,10 @@
     android:layout_height="match_parent"
     android:paddingHorizontal="30dp"
     android:paddingVertical="5dp"
+    android:theme="@style/GhostRiderMaterialTheme"
     tools:context=".UserInterface.Login.Fragment_Login">
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/imgLogo"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -149,7 +150,7 @@
             app:layout_constraintBottom_toTopOf="@id/btn_login"
             android:layout_marginTop="10dp">
 
-            <CheckBox
+            <com.google.android.material.checkbox.MaterialCheckBox
                 android:id="@+id/cbAgree"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

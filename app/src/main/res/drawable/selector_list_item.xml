@@ -11,7 +11,7 @@
   -->
 
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@color/material_lightgrey"
+    <item android:drawable="?attr/colorPrimaryVariant"
         android:state_activated="true"/>
     <item android:drawable="@android:color/transparent"/>
 </selector>

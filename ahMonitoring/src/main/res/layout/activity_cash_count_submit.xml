@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:theme="@style/GhostRiderMaterialTheme.AppBarOverlay">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar_cashCountSubmit"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
@@ -49,14 +49,14 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:orientation="vertical">
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Cash Count"
                         android:fontFamily="@font/roboto"
                         android:textSize="22sp" />
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/lbl_headerBranch"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -65,7 +65,7 @@
                         android:fontFamily="@font/roboto_light"
                         android:layout_marginTop="5dp"/>
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/lbl_headerAddress"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

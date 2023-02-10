@@ -30,6 +30,7 @@ import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.switchmaterial.SwitchMaterial;
+import com.google.android.material.textview.MaterialTextView;
 
 import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
@@ -48,7 +49,7 @@ public class Fragment_Associate_Dashboard extends Fragment {
 
     private VMAHDashboard mViewModel;
 
-    private TextView lblFullNme,
+    private MaterialTextView lblFullNme,
             lblEmail,
             lblUserLvl,
             lblDept,

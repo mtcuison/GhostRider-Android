@@ -23,7 +23,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textview.MaterialTextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -59,7 +61,7 @@ public class Activity_CashCountSubmit extends AppCompatActivity {
             txtRemarksx;
     private Button btnSendToServer;
 
-    private TextView lblBranch, lblAddxx;
+    private MaterialTextView lblBranch, lblAddxx;
     ImageButton btnQuickSearch;
 
     private LoadDialog poDialogx;
@@ -207,7 +209,7 @@ public class Activity_CashCountSubmit extends AppCompatActivity {
     }
 
     public void initWidgets(){
-        Toolbar toolbar = findViewById(R.id.toolbar_cashCountSubmit);
+        MaterialToolbar toolbar = findViewById(R.id.toolbar_cashCountSubmit);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 

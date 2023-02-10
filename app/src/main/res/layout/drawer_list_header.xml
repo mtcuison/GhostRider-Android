@@ -10,35 +10,40 @@
   ~ project file last modified : 4/24/21 3:17 PM
   -->
 
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:cardMaxElevation="3dp">
+    android:layout_height="wrap_content">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/iconimage"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:paddingLeft="5dp"
             android:layout_gravity="center"
-            app:tint="@color/material_black" />
+            android:padding="3dp"
+            android:background="@drawable/bg_nav_menu_icon"
+            android:layout_marginStart="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="?attr/colorOnPrimary" />
 
         <TextView
             android:id="@+id/lblHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:paddingLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginVertical="10dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textColor="@color/textColor_Black" />
+            app:layout_constraintBottom_toBottomOf="@+id/iconimage"
+            app:layout_constraintStart_toEndOf="@+id/iconimage"
+            app:layout_constraintTop_toTopOf="@+id/iconimage" />
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.cardview.widget.CardView>
+
+</com.google.android.material.card.MaterialCardView>
