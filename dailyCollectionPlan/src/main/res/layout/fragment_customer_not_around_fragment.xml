@@ -25,7 +25,7 @@
         android:padding="10dp"
         android:gravity="center">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Daily Collection Plan"
@@ -33,7 +33,7 @@
             android:fontFamily="@font/roboto_bold"
             android:layout_marginTop="5dp"/>
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lbl_headerBranch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -41,14 +41,14 @@
             android:fontFamily="@font/roboto_bold"
             android:layout_marginTop="5dp"/>
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lbl_headerAddress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
             android:fontFamily="@font/roboto_medium"/>
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Customer Not Around"
@@ -56,7 +56,7 @@
             android:fontFamily="@font/roboto_bold"
             android:layout_marginTop="15dp"/>
 
-        <View
+        <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"
             android:layout_height="1.5dp"
             android:layout_marginTop="5dp"
@@ -68,14 +68,14 @@
             android:orientation="horizontal"
             android:layout_marginTop="10dp">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight=".5"
                 android:text="Account No. :"
                 android:fontFamily="@font/roboto_regular"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_dcpAccNo"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -90,14 +90,14 @@
             android:orientation="horizontal"
             android:layout_marginTop="3dp">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight=".5"
                 android:text="Client Name :"
                 android:fontFamily="@font/roboto_regular"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_dcpClientNm"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -112,14 +112,14 @@
             android:orientation="horizontal"
             android:layout_marginTop="3dp">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight=".5"
                 android:text="Address :"
                 android:fontFamily="@font/roboto_regular"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_dcpClientAddress"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -141,7 +141,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <RadioButton
+                <com.google.android.material.radiobutton.MaterialRadioButton
                     android:id="@+id/rb_contactNox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -150,7 +150,7 @@
                     android:checked="true"
                     android:layout_marginHorizontal="10dp"/>
 
-                <RadioButton
+                <com.google.android.material.radiobutton.MaterialRadioButton
                     android:id="@+id/rb_address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -193,7 +193,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <CheckBox
+            <com.google.android.material.checkbox.MaterialCheckBox
                 android:id="@+id/cb_primaryContact"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -241,7 +241,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <RadioButton
+                <com.google.android.material.radiobutton.MaterialRadioButton
                     android:id="@+id/rb_permanent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -249,7 +249,7 @@
                     android:text="@string/sLabelPermAddress"
                     android:layout_marginHorizontal="10dp"/>
 
-                <RadioButton
+                <com.google.android.material.radiobutton.MaterialRadioButton
                     android:id="@+id/rb_present"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -308,7 +308,7 @@
                 android:hint="@string/sTown"
                 android:layout_marginTop="5dp">
 
-                <AutoCompleteTextView
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/txt_dcpCNA_town"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -326,7 +326,7 @@
                 android:hint="@string/sBrgy"
                 android:layout_marginTop="5dp">
 
-                <AutoCompleteTextView
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/txt_dcpCNA_brgy"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -337,7 +337,7 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <CheckBox
+            <com.google.android.material.checkbox.MaterialCheckBox
                 android:id="@+id/cb_primary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

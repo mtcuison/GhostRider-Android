@@ -36,14 +36,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight=".5"
                 android:fontFamily="@font/roboto"
                 android:textSize="13sp"
                 android:text="Account Number: "/>
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/txt_acctNo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -58,14 +58,14 @@
             android:orientation="vertical"
             android:layout_marginTop="35dp"
             android:layout_marginBottom="3dp">
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/txt_clientName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto"
                 android:textSize="20sp"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/txt_client_address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -88,13 +88,13 @@
         app:layout_constraintTop_toBottomOf="@id/ln_client_info"
         app:layout_constraintRight_toRightOf="parent">
 
-        <View
+        <com.google.android.material.divider.MaterialDivider
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:layout_weight=".6"
             android:background="@color/guanzon_digital_orange"/>
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lbl_list_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -103,7 +103,7 @@
             android:fontFamily="@font/roboto_bold"
             android:layout_marginHorizontal="10dp"/>
 
-        <View
+        <com.google.android.material.divider.MaterialDivider
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:layout_weight=".6"
@@ -111,7 +111,7 @@
 
     </LinearLayout>
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/cv_remarks"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -127,13 +127,13 @@
             android:paddingHorizontal="10dp"
             android:paddingTop="10dp"
             android:paddingBottom="8dp">
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/iv_transaction_img"
                 android:layout_width="75dp"
                 android:layout_height="100dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_detail_remarks"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -144,7 +144,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_marginLeft="15dp"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/txt_transno"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -157,7 +157,7 @@
                 android:layout_marginVertical="10dp"
                 android:layout_marginLeft="15dp"/>
 
-            <View
+            <com.google.android.material.divider.MaterialDivider
                 android:id="@+id/cv_divider"
                 android:layout_width="0dp"
                 android:layout_height="0.4dp"
@@ -166,7 +166,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 android:layout_marginLeft="8dp"
                 android:layout_marginBottom="3dp"/>
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_coordinates"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -177,7 +177,7 @@
                 android:layout_marginLeft="8dp"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 
     <LinearLayout
         android:id="@+id/ln_mobileNox"
@@ -191,7 +191,7 @@
         app:layout_constraintRight_toRightOf="parent"
         android:visibility="gone">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lbl_mobileNox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -209,7 +209,7 @@
 
     </LinearLayout>
 
-    <View
+    <com.google.android.material.divider.MaterialDivider
         android:id="@+id/divider2"
         android:layout_width="0dp"
         android:layout_height="1dp"
@@ -229,7 +229,7 @@
         app:layout_constraintRight_toRightOf="parent"
         android:visibility="gone">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lbl_addressx"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

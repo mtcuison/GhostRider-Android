@@ -10,7 +10,7 @@
   ~ project file last modified : 4/24/21 3:18 PM
   -->
 
-<androidx.cardview.widget.CardView
+<com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -19,6 +19,7 @@
     app:cardBackgroundColor="@color/material_lightgrey"
     app:cardUseCompatPadding="true"
     app:cardMaxElevation="5dp"
+    android:theme="@style/GhostRiderMaterialTheme"
     android:background="@color/material_lightgrey"
     app:cardElevation="3dp"
     app:cardPreventCornerOverlap="true">
@@ -34,7 +35,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_ci_transNox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -42,7 +43,7 @@
                 android:fontFamily="@font/roboto_bold"
                 android:textSize="16sp" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_ci_approve"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -54,7 +55,7 @@
                 android:textSize="14sp"
                 android:visibility="gone"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_ci_disapprove"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -69,14 +70,14 @@
 
         </LinearLayout>
 
-        <View
+        <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:padding="3dp"
             android:layout_marginVertical="3dp"
             android:background="@color/textColor_Black"/>
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lbl_ci_applicantName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -91,24 +92,22 @@
             android:gravity="center"
             android:layout_marginVertical="1dp">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:text="Date Applied : "
                 android:textSize="14sp"
-                android:fontFamily="@font/roboto_regular"
-                android:textColor="@color/material_black"/>
+                android:fontFamily="@font/roboto_regular"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_ci_applicationDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="end"
                 android:textSize="14sp"
-                android:fontFamily="@font/roboto_regular"
-                android:textColor="@color/material_black"/>
+                android:fontFamily="@font/roboto_regular" />
 
         </LinearLayout>
 
@@ -119,24 +118,22 @@
             android:gravity="center"
             android:layout_marginVertical="1dp">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:text="Branch : "
                 android:textSize="14sp"
-                android:fontFamily="@font/roboto_regular"
-                android:textColor="@color/material_black"/>
+                android:fontFamily="@font/roboto_regular" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_ci_sBranch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="end"
                 android:textSize="14sp"
-                android:fontFamily="@font/roboto_regular"
-                android:textColor="@color/material_black"/>
+                android:fontFamily="@font/roboto_regular" />
 
         </LinearLayout>
 
@@ -148,24 +145,22 @@
             android:gravity="center"
             android:layout_marginVertical="1dp">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:text="Recommendation : "
                 android:textSize="14sp"
-                android:fontFamily="@font/roboto_regular"
-                android:textColor="@color/material_black"/>
+                android:fontFamily="@font/roboto_regular" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_ci_sRcmdtnx1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="end"
                 android:textSize="14sp"
-                android:fontFamily="@font/roboto_regular"
-                android:textColor="@color/material_black"/>
+                android:fontFamily="@font/roboto_regular" />
 
         </LinearLayout>
 
@@ -173,4 +168,4 @@
 
     </LinearLayout>
 
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

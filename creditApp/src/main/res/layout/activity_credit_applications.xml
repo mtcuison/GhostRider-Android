@@ -15,11 +15,10 @@
         android:layout_height="wrap_content"
         android:theme="@style/GhostRiderMaterialTheme.AppBarOverlay">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar_applicationHistory"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/material_tool_bar"
             app:popupTheme="@style/GhostRiderMaterialTheme.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -46,14 +45,14 @@
                 android:gravity="center_horizontal"
                 android:orientation="vertical">
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto"
                     android:text="Loan Application List"
                     android:textSize="22sp" />
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
@@ -61,7 +60,7 @@
                     android:text="GMC Dagupan - Honda"
                     android:textSize="15sp" />
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_light"
@@ -69,7 +68,7 @@
                    android:textSize="15sp" />
             </LinearLayout>
 
-            <View
+            <com.google.android.material.divider.MaterialDivider
                 android:layout_width="match_parent"
                 android:layout_height="0.8dp"
                 android:background="#fff" />
@@ -125,7 +124,7 @@
                 android:layout_height="fill_parent"
                 android:orientation="vertical"
                 android:layout_weight="1">
-                <ImageView
+                <com.google.android.material.imageview.ShapeableImageView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:src="@drawable/ic_toast_warning"
@@ -135,7 +134,7 @@
             </LinearLayout>
 
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_weight="1"
                 android:layout_gravity="center"
                 android:layout_width="wrap_content"

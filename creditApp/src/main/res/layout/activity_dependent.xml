@@ -12,11 +12,10 @@
         android:layout_height="wrap_content"
         android:theme="@style/GhostRiderMaterialTheme.AppBarOverlay">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar_Dependent"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/material_tool_bar"
             android:popupTheme="@style/GhostRiderMaterialTheme.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -32,7 +31,7 @@
             android:orientation="vertical"
             android:padding="5dp">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 style="@style/HeaderLabelBlack"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -84,7 +83,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
-                            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                            <com.google.android.material.textfield.MaterialAutoCompleteTextView
                                 android:id="@+id/spinner_cap_dpdRelation"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -117,7 +116,7 @@
 
                 </LinearLayout>
 
-                <CheckBox
+                <com.google.android.material.checkbox.MaterialCheckBox
                     android:id="@+id/cbStudent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -141,7 +140,7 @@
                         android:orientation="horizontal"
                         android:gravity="center">
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1."
@@ -157,7 +156,7 @@
                             android:text="Public"
                             android:fontFamily="@font/roboto_medium"/>
 
-                        <RadioButton
+                        <com.google.android.material.radiobutton.MaterialRadioButton
                             android:id="@+id/rb_private"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -198,7 +197,7 @@
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
-                        <CheckBox
+                        <com.google.android.material.checkbox.MaterialCheckBox
                             android:id="@+id/cb_cap_dpdScholar"
                             android:layout_width="fill_parent"
                             android:layout_height="fill_parent"
@@ -252,7 +251,7 @@
                             android:layout_weight="1"
                             android:hint="@string/sHintTown">
 
-                            <AutoCompleteTextView
+                            <com.google.android.material.textfield.MaterialAutoCompleteTextView
                                 android:id="@+id/tie_cap_dpdSchoolTown"
                                 style="@style/AutoCompleteStyleTheme"
                                 android:layout_width="match_parent"
@@ -266,7 +265,7 @@
                 </LinearLayout>
 
                 <!--Employed Dependent Info-->
-                <CheckBox
+                <com.google.android.material.checkbox.MaterialCheckBox
                     android:id="@+id/cbEmployee"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -282,7 +281,7 @@
                     android:visibility="gone">
                     <!-- Employment Type -->
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1."
@@ -297,7 +296,7 @@
                         android:orientation="horizontal"
                         android:gravity="center">
 
-                        <RadioButton
+                        <com.google.android.material.radiobutton.MaterialRadioButton
                             android:id="@+id/rb_empPublic"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -305,7 +304,7 @@
                             android:text="Public"
                             android:fontFamily="@font/roboto_medium"/>
 
-                        <RadioButton
+                        <com.google.android.material.radiobutton.MaterialRadioButton
                             android:id="@+id/rb_empPrivate"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -313,7 +312,7 @@
                             android:text="Private"
                             android:fontFamily="@font/roboto_medium"/>
 
-                        <RadioButton
+                        <com.google.android.material.radiobutton.MaterialRadioButton
                             android:id="@+id/rb_empOFW"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -346,7 +345,7 @@
                 android:orientation="vertical"
                 android:padding="10dp">
 
-                <CheckBox
+                <com.google.android.material.checkbox.MaterialCheckBox
                     android:id="@+id/cb_cap_Dependent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -355,7 +354,7 @@
                     tools:ignore="HardcodedText"
                     tools:targetApi="jelly_bean" />
 
-                <CheckBox
+                <com.google.android.material.checkbox.MaterialCheckBox
                     android:id="@+id/cb_cap_HouseHold"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -364,7 +363,7 @@
                     tools:ignore="HardcodedText"
                     tools:targetApi="jelly_bean" />
 
-                <CheckBox
+                <com.google.android.material.checkbox.MaterialCheckBox
                     android:id="@+id/cb_cap_Married"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -388,7 +387,7 @@
                 android:layout_marginBottom="300dp"
                 android:orientation="horizontal">
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_creditAppPrvs"
                     style="@style/NavigationButton"
                     android:layout_width="wrap_content"
@@ -400,7 +399,7 @@
                     android:text="@string/sbtnPrvs"
                     tools:ignore="RelativeOverlap" />
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_creditAppNext"
                     style="@style/NavigationButton"
                     android:layout_width="wrap_content"

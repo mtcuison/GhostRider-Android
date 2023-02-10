@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:theme="@style/GhostRiderMaterialTheme.AppBarOverlay">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar_CoMaker"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
@@ -33,7 +33,7 @@
             android:orientation="vertical">
 
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 style="@style/HeaderLabelBlack"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -162,7 +162,7 @@
                     android:layout_weight="1"
                     android:hint="@string/sHintSuffix">
 
-                    <AutoCompleteTextView
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
                         android:id="@+id/tie_cap_cmrSuffix"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -210,7 +210,7 @@
             <!--Birth Info Fiel Input
             ***************************-->
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 style="@style/HeaderLabelBlack"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -263,7 +263,7 @@
                     android:layout_weight="1.2"
                     android:hint="@string/sHintBpTown">
 
-                    <AutoCompleteTextView
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
                         android:id="@+id/tie_cap_cmrBirthTown"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -308,7 +308,7 @@
                     android:nextFocusForward="@id/spinner_cap_cmrIncomeSrc" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 style="@style/HeaderLabelBlack"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -343,7 +343,7 @@
 
             <!--Contact Info
             ******************-->
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 style="@style/HeaderLabelBlack"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -380,7 +380,7 @@
 
 
 
-                    <CheckBox
+                    <com.google.android.material.checkbox.MaterialCheckBox
                         android:id="@+id/cb_cap_cmrPrimaryCntctStats"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -438,9 +438,7 @@
                         android:nextFocusForward="@id/txt_mobileNo3" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-
-
-                    <CheckBox
+                    <com.google.android.material.checkbox.MaterialCheckBox
                         android:id="@+id/cb_cap_cmrSecondaryCntctStats"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -451,8 +449,6 @@
                         android:inputType="none"
                         android:nextFocusForward="@+id/txt_mobileNo2"
                         android:padding="16dp" />
-
-
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/til_cap_cmrSecondaryCntctPlan"
@@ -499,7 +495,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
 
-                    <CheckBox
+                    <com.google.android.material.checkbox.MaterialCheckBox
                         android:id="@+id/cb_cap_cmrTertiaryCntctStats"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -556,9 +552,9 @@
                 android:layout_marginBottom="350dp"
                 android:orientation="horizontal">
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_creditAppPrvs"
-                    style="@style/NavigationButton"
+                    style="@style/MaterialButtonAccent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
@@ -568,9 +564,9 @@
                     android:text="@string/sbtnPrvs"
                     tools:ignore="RelativeOverlap" />
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_creditAppNext"
-                    style="@style/NavigationButton"
+                    style="@style/MaterialButtonAccent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"

@@ -47,7 +47,7 @@
                     android:layout_marginTop="15dp"
                     android:gravity="center_horizontal" />
 
-                <View
+                <com.google.android.material.divider.MaterialDivider
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@color/guanzon_orange"
@@ -201,7 +201,7 @@
                         android:fontFamily="@font/roboto_regular"/>
                 </LinearLayout>
 
-                <View
+                <com.google.android.material.divider.MaterialDivider
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@color/guanzon_orange"
@@ -383,7 +383,7 @@
                 <!--                android:fontFamily="@font/roboto_regular"/>-->
                 <!--        </LinearLayout>-->
 
-                <View
+                <com.google.android.material.divider.MaterialDivider
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@color/guanzon_orange"
@@ -407,7 +407,7 @@
                             android:fontFamily="@font/roboto_medium"
                             android:text="Please select transaction type."
                             android:textSize="16sp" />
-                        <View
+                        <com.google.android.material.divider.MaterialDivider
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
                             android:background="@color/guanzon_orange"
@@ -689,7 +689,7 @@
             app:rippleColor="@color/guanzon_orange"
             style="@style/Widget.MaterialComponents.Button"/>
 
-        <View
+        <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/guanzon_orange"/>

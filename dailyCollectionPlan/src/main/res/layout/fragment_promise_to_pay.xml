@@ -23,7 +23,7 @@
         android:padding="10dp"
         android:gravity="center">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Daily Collection Plan"
@@ -31,7 +31,7 @@
             android:fontFamily="@font/roboto_bold"
             android:layout_marginTop="5dp"/>
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lbl_headerBranch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -39,13 +39,13 @@
             android:fontFamily="@font/roboto_bold"
             android:layout_marginTop="5dp"/>
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lbl_headerAddress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
             android:fontFamily="@font/roboto_medium"/>
-        <View
+        <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"
             android:layout_height="1.5dp"
             android:layout_marginTop="5dp"
@@ -55,7 +55,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_marginBottom="5dp">
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Customer Promise to Pay"
@@ -68,7 +68,7 @@
                 android:orientation="horizontal"
                 android:layout_marginTop="10dp">
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight=".5"
@@ -76,7 +76,7 @@
                     android:fontFamily="@font/roboto_regular"
                     />
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tvAccountNo"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -91,14 +91,14 @@
                 android:orientation="horizontal"
                 android:layout_marginTop="3dp">
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight=".5"
                     android:text="Client Name :"
                     android:fontFamily="@font/roboto_regular"                    />
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tvClientname"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -113,14 +113,14 @@
                 android:orientation="horizontal"
                 android:layout_marginTop="3dp">
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight=".5"
                     android:text="Transaction No :"
                     android:fontFamily="@font/roboto_regular"/>
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/lbl_dcpTransNo"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -129,7 +129,7 @@
                     android:gravity="start"/>
             </LinearLayout>
         </LinearLayout>
-        <View
+        <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"
             android:layout_height="1.5dp"
             android:layout_marginTop="8dp"
@@ -154,7 +154,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Appointment Unit"
@@ -168,7 +168,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <RadioButton
+                <com.google.android.material.radiobutton.MaterialRadioButton
                     android:id="@+id/rb_ptpBranch"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -177,7 +177,7 @@
                     android:text="Branch"
                     android:buttonTint="@color/guanzon_orange" />
 
-                <RadioButton
+                <com.google.android.material.radiobutton.MaterialRadioButton
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight=".7"
@@ -195,7 +195,7 @@
                 android:visibility="gone"
                 style="@style/TextInputStyle">
 
-                <AutoCompleteTextView
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/txt_ptp_branchName"
                     style="@style/AutoCompleteStyleTheme"
                     android:layout_width="match_parent"

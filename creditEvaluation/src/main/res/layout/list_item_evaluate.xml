@@ -2,10 +2,11 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:theme="@style/GhostRiderMaterialTheme"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/textview"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -34,7 +35,7 @@
             android:orientation="horizontal"
             android:padding="10dp">
 
-            <RadioButton
+            <com.google.android.material.radiobutton.MaterialRadioButton
                 android:id="@+id/rb_correct"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -43,7 +44,7 @@
                 android:buttonTint="@color/check_green"
                 android:text="Correct"/>
 
-            <RadioButton
+            <com.google.android.material.radiobutton.MaterialRadioButton
                 android:id="@+id/rb_incorrect"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

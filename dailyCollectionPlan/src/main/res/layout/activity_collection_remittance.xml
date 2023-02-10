@@ -96,7 +96,7 @@
                 android:fontFamily="@font/roboto_medium"
                 android:layout_marginTop="5dp"/>
 
-            <View
+            <com.google.android.material.divider.MaterialDivider
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/guanzon_orange"
@@ -128,7 +128,7 @@
                 android:fontFamily="@font/roboto_medium"
                 android:layout_marginTop="5dp"/>
 
-            <View
+            <com.google.android.material.divider.MaterialDivider
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/guanzon_orange"
@@ -196,7 +196,7 @@
                 android:paddingVertical="3dp"
                 android:fontFamily="@font/roboto_regular" />
 
-            <View
+            <com.google.android.material.divider.MaterialDivider
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="15dp"
@@ -234,7 +234,7 @@
 
                 </RadioGroup>
 
-                <View
+                <com.google.android.material.divider.MaterialDivider
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@color/guanzon_orange"

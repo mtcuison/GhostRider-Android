@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:theme="@style/GhostRiderMaterialTheme.AppBarOverlay">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar_OtherInfo"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
@@ -32,13 +32,13 @@
             android:orientation="vertical"
             android:padding="5dp">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 style="@style/HeaderLabelBlack"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/sLblOtherInfo" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 style="@style/Regular_Label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -69,7 +69,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Other User">
 
-                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/spinner_cap_otherUser"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -80,7 +80,7 @@
                     android:padding="16dp" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 style="@style/Regular_Label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -93,7 +93,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Unit Purpose">
 
-                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/spinner_cap_purposeOfBuying"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -117,7 +117,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Unit Payer">
 
-                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                <androidx.appcompat.widget.AppCompatMultiAutoCompleteTextView
                     android:id="@+id/spinner_cap_monthlyPayer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -135,7 +135,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Other Payer">
 
-                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/spinner_cap_otherPayer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -146,7 +146,7 @@
                     android:padding="16dp" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 style="@style/Regular_Label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -159,7 +159,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Where do you hear about us?">
 
-                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/spinner_cap_source"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -186,7 +186,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 style="@style/HeaderLabelBlack"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -272,7 +272,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/sHintTown">
 
-                    <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
                         android:id="@+id/tie_cap_referenceAddTown"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -294,7 +294,7 @@
                     tools:ignore="HardcodedText"
                     tools:targetApi="lollipop" />
 
-                <androidx.cardview.widget.CardView
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -303,7 +303,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 
-                </androidx.cardview.widget.CardView>
+                </com.google.android.material.card.MaterialCardView>
 
 
                 <RelativeLayout
@@ -312,7 +312,7 @@
                     android:layout_marginBottom="300dp"
                     android:orientation="horizontal">
 
-                    <Button
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_creditAppPrvs"
                         style="@style/NavigationButton"
                         android:layout_width="wrap_content"
@@ -324,7 +324,7 @@
                         android:text="@string/sbtnPrvs"
                         tools:ignore="RelativeOverlap" />
 
-                    <Button
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_creditAppNext"
                         style="@style/NavigationButton"
                         android:layout_width="wrap_content"

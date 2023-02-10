@@ -12,11 +12,10 @@
         android:layout_height="wrap_content"
         android:theme="@style/GhostRiderMaterialTheme.AppBarOverlay">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar_SpouseInfo"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/material_tool_bar"
             android:popupTheme="@style/GhostRiderMaterialTheme.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -32,7 +31,7 @@
             android:orientation="vertical"
             android:padding="5dp">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 style="@style/HeaderLabelBlack"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -137,7 +136,7 @@
 
             </LinearLayout>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 style="@style/HeaderLabelBlack"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -169,7 +168,7 @@
                     android:layout_weight="1"
                     android:hint="@string/sHintBpTown">
 
-                    <AutoCompleteTextView
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
                         android:id="@+id/txt_bpTown"
                         style="@style/AutoCompleteStyleTheme"
                         android:layout_width="match_parent"
@@ -188,7 +187,7 @@
                 android:layout_weight="1"
                 android:hint="@string/sHintCitizenship">
 
-                <AutoCompleteTextView
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/tie_citizenship"
                     style="@style/AutoCompleteStyleTheme"
                     android:layout_width="match_parent"
@@ -199,7 +198,7 @@
                     android:nextFocusForward="@id/txt_mobileNo1" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 style="@style/HeaderLabelBlack"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -230,12 +229,12 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <CheckBox
+                <com.google.android.material.checkbox.MaterialCheckBox
                     android:id="@+id/cb_mobile1Type"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    style="@style/Widget.AppCompat.CompoundButton.CheckBox"
+                    style="@style/Widget.Material3.CompoundButton.RadioButton"
                     android:text="Postpaid"
                     android:imeOptions="actionNext"
                     android:inputType="none"
@@ -286,12 +285,12 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
 
-                <CheckBox
+                <com.google.android.material.checkbox.MaterialCheckBox
                     android:id="@+id/cb_mobile2Type"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    style="@style/Widget.AppCompat.CompoundButton.CheckBox"
+                    style="@style/Widget.Material3.CompoundButton.RadioButton"
                     android:text="Postpaid"
                     android:imeOptions="actionNext"
                     android:inputType="none"
@@ -341,12 +340,12 @@
                         android:nextFocusForward="@id/txt_telephoneNo" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <CheckBox
+                <com.google.android.material.checkbox.MaterialCheckBox
                     android:id="@+id/cb_mobile3Type"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    style="@style/Widget.AppCompat.CompoundButton.CheckBox"
+                    style="@style/Widget.Material3.CompoundButton.RadioButton"
                     android:text="Postpaid"
                     android:imeOptions="actionNext"
                     android:inputType="none"
@@ -446,7 +445,7 @@
                 android:layout_marginBottom="300dp"
                 android:orientation="horizontal">
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_creditAppPrvs"
                     style="@style/NavigationButton"
                     android:layout_width="wrap_content"
@@ -458,7 +457,7 @@
                     android:text="@string/sbtnPrvs"
                     tools:ignore="RelativeOverlap" />
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_creditAppNext"
                     style="@style/NavigationButton"
                     android:layout_width="wrap_content"

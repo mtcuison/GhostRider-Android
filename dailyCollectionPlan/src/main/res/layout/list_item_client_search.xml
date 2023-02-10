@@ -16,9 +16,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="5dp">
+    android:padding="5dp"
+    android:theme="@style/GhostRiderMaterialTheme">
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/lbl_AccountNo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -26,7 +27,7 @@
         android:textSize="15sp"
         android:fontFamily="@font/roboto_medium"/>
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/lbl_clientNm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -37,7 +38,7 @@
         android:drawablePadding="10dp"
         app:drawableLeftCompat="@drawable/ic_collection_client" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/lbl_addressx"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -48,7 +49,7 @@
         android:drawablePadding="10dp"
         app:drawableLeftCompat="@drawable/ic_collection_address" />
 
-    <View
+    <com.google.android.material.divider.MaterialDivider
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/guanzon_orange"

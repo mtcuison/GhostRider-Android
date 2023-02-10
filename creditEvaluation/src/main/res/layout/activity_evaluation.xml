@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:theme="@style/GhostRiderMaterialTheme.AppBarOverlay">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar_ci_evaluation"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
@@ -37,14 +37,14 @@
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto"
                 android:text="Loan Applicant Evaluation"
                 android:textSize="22sp" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -52,7 +52,7 @@
                 android:text="GMC Dagupan - Honda"
                 android:textSize="15sp" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_light"
@@ -84,7 +84,7 @@
                     android:paddingRight="10dp"
                     android:orientation="vertical">
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/lbl_ci_transNox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -93,12 +93,12 @@
                         tools:ignore="HardcodedText"
                         android:fontFamily="@font/roboto_medium"
                         tools:targetApi="jelly_bean"/>
-                    <View
+                    <com.google.android.material.divider.MaterialDivider
                         android:layout_width="match_parent"
                         android:layout_height="2dp"
                         android:padding="3dp"/>
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/lbl_ci_applicantName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -113,7 +113,7 @@
                         android:orientation="horizontal"
                         android:layout_marginTop="5dp">
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight=".5"
@@ -124,7 +124,7 @@
                             android:fontFamily="@font/roboto_regular"
                             tools:targetApi="jelly_bean"/>
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/lbl_ci_applicationDate"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -143,7 +143,7 @@
                         android:orientation="horizontal"
                         android:layout_marginTop="5dp">
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight=".5"
@@ -154,7 +154,7 @@
                             android:fontFamily="@font/roboto_regular"
                             tools:targetApi="jelly_bean"/>
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/lbl_ci_branch"
                             android:layout_width="0dp"
                             android:layout_height="22dp"
@@ -166,7 +166,7 @@
                             tools:targetApi="jelly_bean" />
 
                     </LinearLayout>
-                    <View
+                    <com.google.android.material.divider.MaterialDivider
                         android:layout_width="match_parent"
                         android:layout_height="2dp"
                         android:layout_marginTop="5dp"
@@ -174,7 +174,7 @@
 
                 </LinearLayout>
                 <!-- START ADDRESS-->
-                <androidx.cardview.widget.CardView
+                <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cvForEvaluation"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -186,7 +186,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             style="@style/HeaderLabelBlack"
@@ -211,10 +211,10 @@
 
                     </LinearLayout>
 
-                </androidx.cardview.widget.CardView>
+                </com.google.android.material.card.MaterialCardView>
                 <!-- END ADDRESS-->
 
-                <androidx.cardview.widget.CardView
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:cardUseCompatPadding="true"
@@ -229,7 +229,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
-                            <TextView
+                            <com.google.android.material.textview.MaterialTextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 style="@style/HeaderLabelBlack"
@@ -248,7 +248,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical">
-                                <TextView
+                                <com.google.android.material.textview.MaterialTextView
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="Barangay Record :"
@@ -268,7 +268,7 @@
                                         android:orientation="horizontal"
                                         android:layout_gravity="center_vertical|center_horizontal">
 
-                                        <RadioButton
+                                        <com.google.android.material.radiobutton.MaterialRadioButton
                                             android:id="@+id/rb_ci_noRecord"
                                             android:layout_width="wrap_content"
                                             android:layout_height="fill_parent"
@@ -277,7 +277,7 @@
                                             android:layout_weight=".2"
                                             tools:targetApi="jelly_bean"/>
 
-                                        <RadioButton
+                                        <com.google.android.material.radiobutton.MaterialRadioButton
                                             android:id="@+id/rb_ci_withRecord"
                                             android:layout_width="wrap_content"
                                             android:layout_height="fill_parent"
@@ -441,21 +441,23 @@
                                         android:orientation="horizontal"
                                         android:layout_weight="1.5"/>
 
-                                    <Button
+                                    <com.google.android.material.button.MaterialButton
                                         android:id="@+id/btnSaveBrgyRecords"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="Save"
                                         android:layout_weight=".5"
+                                        style="@style/MaterialButtonAccent"
                                         android:layout_marginLeft="10dp"/>
 
-                                    <Button
+                                    <com.google.android.material.button.MaterialButton
                                         android:id="@+id/btnEditBrgyRecords"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="Edit"
                                         android:visibility="gone"
                                         android:layout_weight=".5"
+                                        style="@style/MaterialButtonAccent"
                                         android:layout_marginLeft="10dp"/>
 
                                 </LinearLayout>
@@ -465,7 +467,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical">
-                                <TextView
+                                <com.google.android.material.textview.MaterialTextView
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="Neighbor 1 :"
@@ -523,7 +525,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical">
-                                <TextView
+                                <com.google.android.material.textview.MaterialTextView
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="Neighbor 2 :"
@@ -582,7 +584,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical">
-                                <TextView
+                                <com.google.android.material.textview.MaterialTextView
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="Neighbor 3 :"
@@ -651,7 +653,7 @@
                                     android:layout_weight="1"
                                     android:visibility="gone"
                                     android:padding="5dp">
-                                    <Button
+                                    <com.google.android.material.button.MaterialButton
                                         android:id="@+id/btnUpload"
                                         android:layout_width="fill_parent"
                                         android:layout_height="fill_parent"
@@ -659,6 +661,7 @@
                                         android:layout_alignParentEnd="true"
                                         android:layout_alignParentRight="true"
                                         android:layout_centerVertical="true"
+                                        style="@style/MaterialButtonAccent"
                                         tools:ignore="RelativeOverlap" />
 
                                 </LinearLayout>
@@ -671,7 +674,7 @@
                                     android:visibility="gone"
                                     android:padding="5dp">
 
-                                    <Button
+                                    <com.google.android.material.button.MaterialButton
                                         android:id="@+id/btnSave"
                                         android:layout_width="fill_parent"
                                         android:layout_height="fill_parent"
@@ -679,13 +682,14 @@
                                         android:layout_alignParentRight="true"
                                         android:layout_centerVertical="true"
                                         android:text="Approval"
+                                        style="@style/MaterialButtonAccent"
                                         tools:ignore="RelativeOverlap" />
                                 </LinearLayout>
                             </LinearLayout>
                         </LinearLayout>
                     </LinearLayout>
 
-                </androidx.cardview.widget.CardView>
+                </com.google.android.material.card.MaterialCardView>
             </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

@@ -36,7 +36,7 @@
             android:fontFamily="@font/roboto_bold"
             android:layout_marginTop="15dp"/>
 
-        <View
+        <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/guanzon_orange"
@@ -127,7 +127,7 @@
                 android:imeOptions="actionDone"/>
         </com.google.android.material.textfield.TextInputLayout>
 
-        <View
+        <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/guanzon_orange"
