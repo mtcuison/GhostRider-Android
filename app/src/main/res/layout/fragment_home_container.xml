@@ -15,6 +15,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:theme="@style/GhostRiderMaterialTheme"
     android:orientation="vertical"
     tools:context=".ui.HomeContainer.Fragment_HomeContainer">
 
@@ -28,7 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/img_dashboard_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

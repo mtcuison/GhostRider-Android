@@ -13,6 +13,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:theme="@style/GhostRiderMaterialTheme"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.home.Fragment_Home_Engineering">
 
@@ -20,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/imgheader"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
@@ -31,7 +32,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -42,16 +43,16 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <ImageView
+                <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/imgEmp"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:padding="10dp"
                     tools:src="@drawable/ic_ghostrider_logo_day" />
 
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lblEmpNme"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -62,7 +63,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/imgheader" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lblEmpPosition"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -81,7 +82,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/cardView">
 
 
-                <androidx.cardview.widget.CardView
+                <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardSettings"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -92,16 +93,16 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
-                    <ImageView
+                    <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/imgsettings"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:padding="8dp"
                         tools:src="@drawable/ic_dashboard_settings" />
-                </androidx.cardview.widget.CardView>
+                </com.google.android.material.card.MaterialCardView>
 
 
-                <androidx.cardview.widget.CardView
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:cardCornerRadius="90dp"
@@ -111,13 +112,13 @@
                     app:layout_constraintStart_toEndOf="@+id/cardSettings"
                     app:layout_constraintTop_toTopOf="parent">
 
-                    <ImageView
+                    <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/imglogout"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:padding="8dp"
                         tools:src="@drawable/ic_dashboard_logout" />
-                </androidx.cardview.widget.CardView>
+                </com.google.android.material.card.MaterialCardView>
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -129,7 +130,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cardmenu">
 
-                <androidx.cardview.widget.CardView
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -147,7 +148,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/textView2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -158,7 +159,7 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="15dp"
@@ -169,11 +170,11 @@
                             app:layout_constraintTop_toBottomOf="@+id/textView2"
                             app:layout_constraintVertical_bias="0.0" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
-                </androidx.cardview.widget.CardView>
+                </com.google.android.material.card.MaterialCardView>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lblCompnyAnnouncemnt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

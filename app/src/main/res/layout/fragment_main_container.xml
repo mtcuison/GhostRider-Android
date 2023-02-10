@@ -16,6 +16,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:fillViewport="true"
+    android:theme="@style/GhostRiderMaterialTheme"
     android:background="@drawable/bg_gradient_light"
     tools:context=".ui.HomeContainer.Fragment_HomeContainer">
 
@@ -28,7 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/img_dashboard_header"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
@@ -42,7 +43,7 @@
                 android:orientation="vertical"
                 android:layout_marginTop="100dp">
 
-                <androidx.cardview.widget.CardView
+                <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardview_dashboard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -64,7 +65,7 @@
                             android:layout_marginTop="40dp"
                             android:gravity="center_horizontal">
 
-                            <TextView
+                            <com.google.android.material.textview.MaterialTextView
                                 android:layout_marginTop="10dp"
                                 android:id="@+id/lbl_userFullName"
                                 android:layout_width="wrap_content"
@@ -74,7 +75,7 @@
                                 android:gravity="center_horizontal"
                                 android:textSize="18sp" />
 
-                            <TextView
+                            <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/lbl_userEmail"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -82,7 +83,7 @@
                                 android:fontFamily="@font/roboto_regular"
                                 android:gravity="center_horizontal"/>
 
-                            <TextView
+                            <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/lbl_userLevel"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -90,7 +91,7 @@
                                 android:fontFamily="@font/roboto_regular"
                                 android:gravity="center_horizontal"/>
 
-                            <TextView
+                            <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/lbl_userDepartment"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -106,7 +107,7 @@
                             android:layout_height="wrap_content"
                             android:orientation="vertical">
 
-                            <View
+                            <com.google.android.material.divider.MaterialDivider
                                 android:layout_width="match_parent"
                                 android:layout_height="1dp"
                                 android:layout_marginTop="5dp"
@@ -127,7 +128,7 @@
 
                     </LinearLayout>
 
-                </androidx.cardview.widget.CardView>
+                </com.google.android.material.card.MaterialCardView>
 
             </LinearLayout>
 
@@ -137,7 +138,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="50dp">
 
-                <ImageView
+                <com.google.android.material.imageview.ShapeableImageView
                     android:layout_width="120dp"
                     android:layout_height="120dp"
                     android:background="@drawable/circular_imageview"
@@ -156,7 +157,7 @@
                         android:gravity="center_vertical"
                         style="@style/Widget.AppCompat.Button.Borderless"/>
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/lbl_badge_selfieLog"
                         android:layout_width="24dp"
                         android:layout_height="24dp"

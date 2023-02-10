@@ -13,12 +13,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:theme="@style/GhostRiderMaterialTheme"
     android:orientation="vertical" >
 
 
 <!--    android:layout_height="55dip"-->
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/lblListItem"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
