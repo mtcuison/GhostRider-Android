@@ -40,7 +40,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tvCreateAcc"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -50,7 +50,7 @@
                     app:layout_constraintBottom_toTopOf="@id/tvCreateDesc"
                     app:layout_constraintStart_toStartOf="parent" />
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tvCreateDesc"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -271,7 +271,7 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tvCompany"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -283,7 +283,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tvCopyright"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -295,7 +295,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_versionInfo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

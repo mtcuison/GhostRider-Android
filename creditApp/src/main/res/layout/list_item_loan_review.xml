@@ -14,6 +14,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:theme="@style/GhostRiderMaterialTheme"
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
@@ -25,13 +26,13 @@
         android:gravity="center"
         android:layout_marginTop="15dp">
 
-        <View
+        <com.google.android.material.divider.MaterialDivider
             android:layout_width="0dp"
             android:layout_height="1.5dp"
             android:layout_weight=".6"
             android:background="@color/guanzon_orange"/>
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lbl_list_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -40,7 +41,7 @@
             android:fontFamily="@font/roboto_black"
             android:layout_marginHorizontal="10dp"/>
 
-        <View
+        <com.google.android.material.divider.MaterialDivider
             android:layout_width="0dp"
             android:layout_height="1.5dp"
             android:layout_weight=".6"
@@ -56,7 +57,7 @@
         android:gravity="center_vertical"
         android:layout_marginTop="5dp">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lbl_list_detailInfo"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -64,7 +65,7 @@
             android:text="Client Name: "
             android:fontFamily="@font/roboto_medium"/>
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lbl_list_detailContent"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

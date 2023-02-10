@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:theme="@style/GhostRiderMaterialTheme.AppBarOverlay">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar_SpouseSelfEmploymentInfo"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
@@ -32,7 +32,7 @@
             android:orientation="vertical"
             android:padding="5dp">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 style="@style/HeaderLabelBlack"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -44,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/sHintNatureBiz">
 
-                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/spn_bizIndustry"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -73,7 +73,7 @@
                     android:nextFocusForward="@id/txt_bizAddress" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 style="@style/HeaderLabelBlack"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -126,7 +126,7 @@
                     android:layout_weight="1"
                     android:hint="@string/sHintTown">
 
-                    <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
                         android:id="@+id/txt_town"
                         style="@style/AutoCompleteStyleTheme"
                         android:layout_width="match_parent"
@@ -139,7 +139,7 @@
 
             </LinearLayout>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 style="@style/HeaderLabelBlack"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -265,7 +265,7 @@
                 android:layout_marginBottom="300dp"
                 android:orientation="horizontal">
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_creditAppPrvs"
                     style="@style/NavigationButton"
                     android:layout_width="wrap_content"
@@ -277,7 +277,7 @@
                     android:text="@string/sbtnPrvs"
                     tools:ignore="RelativeOverlap" />
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_creditAppNext"
                     style="@style/NavigationButton"
                     android:layout_width="wrap_content"

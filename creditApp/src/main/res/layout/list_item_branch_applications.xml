@@ -10,7 +10,7 @@
   ~ project file last modified : 4/24/21 3:17 PM
   -->
 
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView  xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
@@ -22,6 +22,7 @@
     app:cardElevation="5dp"
     android:layout_marginLeft="3dp"
     android:layout_marginRight="3dp"
+    android:theme="@style/GhostRiderMaterialTheme"
     android:layout_marginTop="3dp"
     android:layout_marginBottom="5dp">
 
@@ -40,7 +41,7 @@
             android:orientation="horizontal"
             android:gravity="center">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_listLog_GoCasNo"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -54,13 +55,13 @@
 
         </LinearLayout>
 
-        <View
+        <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:padding="3dp"
             android:background="@color/textColor_Black"/>
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lbl_listLog_applicantName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -77,7 +78,7 @@
             android:orientation="horizontal"
             android:layout_marginTop="10dp">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight=".6"
@@ -88,7 +89,7 @@
                 android:fontFamily="@font/roboto_regular"
                 tools:targetApi="jelly_bean"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_listLog_applicationTransNo"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -108,7 +109,7 @@
             android:orientation="horizontal"
             android:layout_marginTop="5dp">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight=".5"
@@ -119,7 +120,7 @@
                 android:fontFamily="@font/roboto_regular"
                 tools:targetApi="jelly_bean"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_listLog_applicationDate"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -138,7 +139,7 @@
             android:orientation="horizontal"
             android:layout_marginTop="5dp">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight=".5"
@@ -149,7 +150,7 @@
                 android:fontFamily="@font/roboto_regular"
                 tools:targetApi="jelly_bean"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_listLog_dateSent"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -167,7 +168,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight=".5"
@@ -178,7 +179,7 @@
                 android:fontFamily="@font/roboto_regular"
                 tools:targetApi="jelly_bean"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_listLog_applicationWithCI"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -196,7 +197,7 @@
             android:orientation="horizontal"
             android:layout_marginBottom="10dp">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight=".5"
@@ -207,7 +208,7 @@
                 android:fontFamily="@font/roboto_regular"
                 tools:targetApi="jelly_bean"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_listLog_approvedDate"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -220,11 +221,11 @@
 
         </LinearLayout>
 
-        <View
+        <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:padding="3dp"/>
 
     </LinearLayout>
 
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

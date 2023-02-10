@@ -5,9 +5,10 @@
     android:layout_height="match_parent"
     android:paddingHorizontal="30dp"
     android:paddingVertical="5dp"
+    android:theme="@style/GhostRiderMaterialTheme"
     tools:context=".UserInterface.Login.Fragment_Login">
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/imgLogo"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -23,7 +24,7 @@
         app:layout_constraintWidth_default="percent"
         app:layout_constraintWidth_percent="0.47" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tvUserAuth"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -113,7 +114,7 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tvForgotPassword"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -125,7 +126,7 @@
             android:layout_marginRight="16sp"
             app:layout_constraintTop_toBottomOf="@id/til_loginMobileNo" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tvCreateAccount"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -149,7 +150,7 @@
             app:layout_constraintBottom_toTopOf="@id/btn_login"
             android:layout_marginTop="10dp">
 
-            <CheckBox
+            <com.google.android.material.checkbox.MaterialCheckBox
                 android:id="@+id/cbAgree"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -158,7 +159,7 @@
                 android:textSize="13sp"
                 android:padding="0dp"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tvTerms"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -182,7 +183,7 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tvCompany"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -194,7 +195,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tvCopyright"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -206,7 +207,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/lbl_versionInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

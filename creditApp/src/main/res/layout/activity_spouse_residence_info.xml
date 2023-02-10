@@ -12,11 +12,10 @@
         android:layout_height="wrap_content"
         android:theme="@style/GhostRiderMaterialTheme.AppBarOverlay">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar_SpouseResidenceInfo"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/material_tool_bar"
             android:popupTheme="@style/GhostRiderMaterialTheme.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -32,17 +31,18 @@
             android:padding="5dp"
             android:orientation="vertical">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 style="@style/HeaderLabelBlack"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/sLabelSpousePresAddress" />
 
-            <CheckBox
+            <com.google.android.material.checkbox.MaterialCheckBox
                 android:id="@+id/cb_sameAdd"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight=".7"
+                style="@style/Widget.Material3.CompoundButton.CheckBox"
                 android:buttonTint="@color/guanzon_dark_grey"
                 android:fontFamily="@font/roboto_regular"
                 android:text="Living with spouse"
@@ -143,7 +143,7 @@
                 android:layout_weight="1"
                 android:hint="@string/sHintTown">
 
-                <AutoCompleteTextView
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/txt_town"
                     style="@style/AutoCompleteStyleTheme"
                     android:layout_width="match_parent"
@@ -162,7 +162,7 @@
                 android:layout_weight="1"
                 android:hint="@string/sHintBarangay">
 
-                <AutoCompleteTextView
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/txt_barangay"
                     style="@style/AutoCompleteStyleTheme"
                     android:layout_width="match_parent"
@@ -180,7 +180,7 @@
                 android:layout_marginBottom="300dp"
                 android:orientation="horizontal">
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_creditAppPrvs"
                     style="@style/NavigationButton"
                     android:layout_width="wrap_content"
@@ -192,7 +192,7 @@
                     android:text="@string/sbtnPrvs"
                     tools:ignore="RelativeOverlap" />
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_creditAppNext"
                     style="@style/NavigationButton"
                     android:layout_width="wrap_content"

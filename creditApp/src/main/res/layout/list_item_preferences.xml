@@ -14,6 +14,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:theme="@style/GhostRiderMaterialTheme"
     android:id="@+id/referenceItemLayout"
     android:orientation="vertical">
 
@@ -23,14 +24,14 @@
         android:background="@color/guanzon_dark_grey"
         android:paddingHorizontal="10dp"
         android:paddingVertical="5dp">
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lbl_reference_no"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_bold"
             android:textSize="14sp"
             android:layout_weight="1"/>
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/img_remove"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -45,7 +46,7 @@
         android:paddingVertical="10dp"
         android:layout_marginBottom="5dp">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lbl_itemRefName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -54,7 +55,7 @@
             android:paddingHorizontal="10dp"
             android:layout_marginTop="5dp"/>
 
-        <View
+        <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"
             android:layout_height="0.3dp"
             android:background="@color/guanzon_dark_grey"
@@ -67,13 +68,13 @@
             android:paddingHorizontal="10dp"
             android:layout_marginBottom="7dp"
             android:orientation="horizontal">
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Address : "
                 android:textSize="14sp"
                 android:fontFamily="@font/roboto_medium"/>
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_itemRefTown"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -87,13 +88,13 @@
             android:layout_height="wrap_content"
             android:paddingHorizontal="10dp"
             android:orientation="horizontal">
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Contact No. : "
                 android:textSize="14sp"
                 android:fontFamily="@font/roboto_medium"/>
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_itemRefContactN"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
