@@ -11,8 +11,7 @@
         android:fontFamily="@font/roboto_regular"
         android:text="Sample"
         android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:textColor="@color/textColor_Black" />
+        android:paddingRight="5dp" />
 
     <TextView
         android:id="@+id/lbl_evalTitle"
@@ -21,8 +20,7 @@
         android:fontFamily="@font/roboto_regular"
         android:text="Sample"
         android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:textColor="@color/textColor_Black" />
+        android:paddingRight="5dp"/>
 
     <TextView
         android:id="@+id/lbl_evalLabel"
@@ -31,8 +29,7 @@
         android:fontFamily="@font/roboto_regular"
         android:text="Sample"
         android:paddingLeft="8dp"
-        android:paddingRight="8dp"
-        android:textColor="@color/textColor_Black" />
+        android:paddingRight="8dp"/>
 
     <RadioGroup
         android:id="@+id/rg_evaluator"

@@ -75,8 +75,7 @@
                     android:fontFamily="@font/roboto_medium"
                     android:text="Random Inventory Items"
                     android:padding="10dp"
-                    android:textSize="20sp"
-                    android:textColor="@color/material_black"/>
+                    android:textSize="20sp"/>
 
                 <View
                     android:layout_width="match_parent"
@@ -96,8 +95,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/roboto_medium"
-                        android:padding="10dp"
-                        android:textColor="@color/material_black"/>
+                        android:padding="10dp"/>
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_selectBranch"
@@ -123,8 +121,7 @@
                         android:layout_weight="1"
                         android:fontFamily="@font/roboto_medium"
                         android:text="Updated Inventory Items"
-                        android:padding="10dp"
-                        android:textColor="@color/material_black"/>
+                        android:padding="10dp"/>
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_post"
@@ -149,8 +146,7 @@
                     android:layout_height="match_parent"
                     android:fontFamily="@font/roboto_medium"
                     android:padding="10dp"
-                    android:gravity="center"
-                    android:textColor="@color/material_black"/>
+                    android:gravity="center"/>
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>

@@ -16,6 +16,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:theme="@style/GhostRiderMaterialTheme"
     tools:context=".Activities.Activity_CollectionRemittance">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -24,11 +25,10 @@
         android:layout_height="wrap_content"
         android:theme="@style/GhostRiderMaterialTheme.AppBarOverlay">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar_collectionRemit"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/material_tool_bar"
             app:popupTheme="@style/GhostRiderMaterialTheme.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -49,31 +49,28 @@
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto"
                 android:text="Collection Detail \n and Remittance"
-                android:textColor="@color/white"
                 android:textSize="18sp" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_headerBranch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="15sp"
                 android:fontFamily="@font/roboto_light"
-                android:textColor="@color/white"
                 android:layout_marginTop="5dp"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_headerAddress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="15sp"
                 android:text="Local data is not sync"
-                android:fontFamily="@font/roboto_light"
-                android:textColor="@color/white"/>
+                android:fontFamily="@font/roboto_light"/>
 
         </LinearLayout>
 
@@ -84,19 +81,18 @@
         android:layout_height="wrap_content"
         android:scrollbars="none">
 
-        <LinearLayout
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:gravity="center"
             android:padding="10dp">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Total Collection :"
                 android:textSize="16sp"
-                android:textColor="@color/textColor_Black"
                 android:fontFamily="@font/roboto_medium"
                 android:layout_marginTop="5dp"/>
 
@@ -106,32 +102,29 @@
                 android:background="@color/guanzon_orange"
                 android:layout_marginTop="10dp"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_collectedCash"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Cash : "
                 android:padding="10dp"
-                android:textColor="@color/textColor_Black"
                 android:fontFamily="@font/roboto_regular"
                 android:layout_marginTop="5dp"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_collectedCheck"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Check : "
                 android:padding="10dp"
-                android:textColor="@color/textColor_Black"
                 android:fontFamily="@font/roboto_regular"
                 android:layout_marginTop="5dp"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Total Remitted Collection :"
                 android:textSize="16sp"
-                android:textColor="@color/textColor_Black"
                 android:fontFamily="@font/roboto_medium"
                 android:layout_marginTop="5dp"/>
 
@@ -141,79 +134,71 @@
                 android:background="@color/guanzon_orange"
                 android:layout_marginTop="10dp"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Remitted Collection : "
                 android:padding="5dp"
-                android:textColor="@color/textColor_Black"
                 android:fontFamily="@font/roboto_regular"
                 android:layout_marginTop="5dp"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_remittanceBranch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Branch : "
                 android:paddingLeft="20dp"
                 android:paddingVertical="3dp"
-                android:textColor="@color/textColor_Black"
                 android:fontFamily="@font/roboto_regular" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_remittanceBank"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Bank : "
                 android:paddingLeft="20dp"
                 android:paddingVertical="3dp"
-                android:textColor="@color/textColor_Black"
                 android:fontFamily="@font/roboto_regular" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_remittanceOthers"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Others : "
                 android:paddingLeft="20dp"
                 android:paddingVertical="3dp"
-                android:textColor="@color/textColor_Black"
                 android:fontFamily="@font/roboto_regular" />
 
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="On-Hand : "
                 android:padding="5dp"
-                android:textColor="@color/textColor_Black"
                 android:fontFamily="@font/roboto_regular"
                 android:layout_marginTop="5dp"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_remittanceCash"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_regular"
                 android:paddingVertical="3dp"
                 android:paddingLeft="20dp"
-                android:text="Cash : "
-                android:textColor="@color/textColor_Black" />
+                android:text="Cash : " />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_remittanceCheck"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Check : "
                 android:paddingLeft="20dp"
                 android:paddingVertical="3dp"
-                android:textColor="@color/textColor_Black"
                 android:fontFamily="@font/roboto_regular" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/guanzon_orange"
                 android:layout_marginTop="15dp"
                 android:layout_marginHorizontal="5dp"/>
 
@@ -232,7 +217,7 @@
                     android:orientation="horizontal"
                     android:gravity="center_vertical">
 
-                    <RadioButton
+                    <com.google.android.material.radiobutton.MaterialRadioButton
                         android:id="@+id/rb_remitCash"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -240,7 +225,7 @@
                         android:text="Cash Remittance"
                         android:checked="true"/>
 
-                    <RadioButton
+                    <com.google.android.material.radiobutton.MaterialRadioButton
                         android:id="@+id/rb_remitCheck"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -263,7 +248,7 @@
                     android:orientation="horizontal"
                     android:gravity="center_vertical">
 
-                    <RadioButton
+                    <com.google.android.material.radiobutton.MaterialRadioButton
                         android:id="@+id/rb_remitBranch"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -271,14 +256,14 @@
                         android:text="Branch"
                         android:checked="true"/>
 
-                    <RadioButton
+                    <com.google.android.material.radiobutton.MaterialRadioButton
                         android:id="@+id/rb_remitBank"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Bank"/>
 
-                    <RadioButton
+                    <com.google.android.material.radiobutton.MaterialRadioButton
                         android:id="@+id/rb_remitPaymPnr"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -347,7 +332,7 @@
                         android:hint="Account Number"
                         android:layout_marginTop="5dp">
 
-                        <AutoCompleteTextView
+                        <com.google.android.material.textfield.MaterialAutoCompleteTextView
                             android:id="@+id/txt_remitAcctNox"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -403,26 +388,24 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_remitAll"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textAllCaps="false"
-                    android:textColor="@color/textColor_Black"
                     style="@style/Widget.MaterialComponents.Button.TextButton"/>
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_confirm"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Remit Collected Payments"
                     app:rippleColor="@color/guanzon_orange"
-                    android:textColor="@color/material_black"
                     style="@style/MaterialButtonAccent"/>
 
             </LinearLayout>
 
-        </LinearLayout>
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
     </ScrollView>
 

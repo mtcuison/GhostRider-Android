@@ -51,7 +51,6 @@
                     android:layout_gravity="center"
                     android:fontFamily="@font/roboto_medium"
                     android:text="R1 - C"
-                    android:textColor="@color/white"
                     android:textSize="20sp"
                     android:layout_marginBottom="10dp"/>
 

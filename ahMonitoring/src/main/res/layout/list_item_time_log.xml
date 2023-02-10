@@ -28,7 +28,6 @@
             android:id="@+id/lbl_list_BranchCD"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textColor="@color/material_black"
             android:text="M001"
             android:fontFamily="@font/roboto_medium"
             android:layout_weight=".4"/>
@@ -37,7 +36,6 @@
             android:id="@+id/lbl_list_logDate"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textColor="@color/material_black"
             android:fontFamily="@font/roboto_medium"
             android:layout_weight=".8"/>
 
@@ -46,7 +44,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:textColor="@color/material_black"
             android:fontFamily="@font/roboto_medium"
             android:layout_weight=".8"/>
 
@@ -56,7 +53,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Uploaded"
-            android:textColor="@color/material_black"
             android:fontFamily="@font/roboto_medium"
             android:gravity="end"
             android:layout_weight=".7"

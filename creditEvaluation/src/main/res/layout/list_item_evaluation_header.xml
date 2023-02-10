@@ -12,7 +12,6 @@
         android:paddingTop="10dp"
         android:paddingHorizontal="10dp"
         android:textSize="16sp"
-        android:textColor="@color/textColor_Black"
         android:fontFamily="@font/roboto_bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

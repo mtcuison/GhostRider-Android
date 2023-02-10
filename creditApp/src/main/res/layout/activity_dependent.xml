@@ -123,8 +123,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
                     android:padding="10dp"
-                    android:text="Is dependent a student?"
-                    android:textColor="@color/material_black"/>
+                    android:text="Is dependent a student?"/>
 
                 <!--Student Dependent School Info...-->
                 <LinearLayout
@@ -148,8 +147,7 @@
                             android:layout_weight="1."
                             android:text="School Type"
                             android:fontFamily="@font/roboto_medium"
-                            android:padding="10dp"
-                            android:textColor="@color/material_black"/>
+                            android:padding="10dp"/>
 
                         <RadioButton
                             android:id="@+id/rb_public"
@@ -157,8 +155,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Public"
-                            android:fontFamily="@font/roboto_medium"
-                            android:textColor="@color/material_black"/>
+                            android:fontFamily="@font/roboto_medium"/>
 
                         <RadioButton
                             android:id="@+id/rb_private"
@@ -166,8 +163,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Private"
-                            android:fontFamily="@font/roboto_medium"
-                            android:textColor="@color/material_black"/>
+                            android:fontFamily="@font/roboto_medium"/>
 
                     </RadioGroup>
 
@@ -276,8 +272,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
                     android:padding="10dp"
-                    android:text="Is dependent employed?"
-                    android:textColor="@color/material_black"/>
+                    android:text="Is dependent employed?"/>
 
                 <LinearLayout
                     android:id="@+id/linearEmployd"
@@ -293,8 +288,7 @@
                         android:layout_weight="1."
                         android:text="Employment Sector"
                         android:fontFamily="@font/roboto_medium"
-                        android:padding="10dp"
-                        android:textColor="@color/material_black"/>
+                        android:padding="10dp"/>
 
                     <RadioGroup
                         android:id="@+id/rg_empSector"
@@ -309,8 +303,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Public"
-                            android:fontFamily="@font/roboto_medium"
-                            android:textColor="@color/material_black"/>
+                            android:fontFamily="@font/roboto_medium"/>
 
                         <RadioButton
                             android:id="@+id/rb_empPrivate"
@@ -318,8 +311,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Private"
-                            android:fontFamily="@font/roboto_medium"
-                            android:textColor="@color/material_black"/>
+                            android:fontFamily="@font/roboto_medium"/>
 
                         <RadioButton
                             android:id="@+id/rb_empOFW"
@@ -327,8 +319,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="OFW"
-                            android:fontFamily="@font/roboto_medium"
-                            android:textColor="@color/material_black"/>
+                            android:fontFamily="@font/roboto_medium"/>
 
                     </RadioGroup>
 
@@ -389,8 +380,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_thin"
-                android:text="@string/sBtnAddDependent"
-                android:textColor="@color/textColor_White" />
+                android:text="@string/sBtnAddDependent"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"

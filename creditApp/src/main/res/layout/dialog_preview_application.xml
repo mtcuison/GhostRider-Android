@@ -60,7 +60,6 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_medium"
                 android:text="Doe, John"
-                android:textColor="@color/black"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -73,7 +72,6 @@
                 android:layout_marginTop="5dp"
                 android:fontFamily="@font/roboto_regular"
                 android:text="Transaction No:"
-                android:textColor="@color/black"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lbl_applicantName" />
 
@@ -83,7 +81,6 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_medium"
                 android:text="MX0112345678910"
-                android:textColor="@color/black"
                 android:layout_marginTop="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lbl_applicantName" />
@@ -95,7 +92,6 @@
                 android:layout_marginTop="5dp"
                 android:fontFamily="@font/roboto_regular"
                 android:text="Date Applied:"
-                android:textColor="@color/black"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textview1" />
 
@@ -105,7 +101,6 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_regular"
                 android:text="January 1, 2023"
-                android:textColor="@color/black"
                 android:layout_marginTop="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lbl_TransNox" />
@@ -117,7 +112,6 @@
                 android:layout_marginTop="5dp"
                 android:fontFamily="@font/roboto_regular"
                 android:text="GOCas No:"
-                android:textColor="@color/black"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textview2" />
 
@@ -128,7 +122,6 @@
                 android:layout_marginTop="5dp"
                 android:fontFamily="@font/roboto_regular"
                 android:text="Date Sent:"
-                android:textColor="@color/black"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textview3" />
 
@@ -138,7 +131,6 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_medium"
                 android:text="MX0112345678910"
-                android:textColor="@color/black"
                 android:layout_marginTop="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lbl_dateCreated" />
@@ -150,7 +142,6 @@
                 android:layout_marginTop="5dp"
                 android:fontFamily="@font/roboto_regular"
                 android:text="Status"
-                android:textColor="@color/black"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textview4" />
 
@@ -160,7 +151,6 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_regular"
                 android:text="January 1, 2023"
-                android:textColor="@color/black"
                 android:layout_marginTop="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lbl_gocasNox" />
@@ -172,7 +162,6 @@
                 android:layout_marginTop="5dp"
                 android:fontFamily="@font/roboto_regular"
                 android:text="Date Approved:"
-                android:textColor="@color/black"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textview5" />
 
@@ -182,7 +171,6 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_medium"
                 android:text="Approve With CI"
-                android:textColor="@color/black"
                 android:layout_marginTop="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lbl_dateSent" />
@@ -193,7 +181,6 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_regular"
                 android:text="January 1, 2023"
-                android:textColor="@color/black"
                 android:layout_marginTop="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lbl_applStatus" />

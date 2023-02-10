@@ -40,7 +40,6 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_medium"
                 android:text="Account Number: "
-                android:textColor="@color/textColor_Black"
                 android:layout_weight="0.3"/>
 
             <TextView
@@ -48,7 +47,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_medium"
-                android:textColor="@color/textColor_Black"
                 android:layout_weight="1.5"
                 android:gravity="end"/>
         </LinearLayout>

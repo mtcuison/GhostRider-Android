@@ -54,7 +54,6 @@
                     android:text="Reimbursement"
                     android:scrollHorizontally="false"
                     android:fontFamily="@font/roboto"
-                    android:textColor="@color/white"
                     android:textSize="23sp"/>
 
                 <TextView
@@ -64,7 +63,6 @@
                     android:text="Dela Cruz, Josemari Joma, S."
                     android:scrollHorizontally="false"
                     android:fontFamily="@font/roboto"
-                    android:textColor="@color/white"
                     android:textSize="20sp"
                     android:layout_marginTop="10dp"/>
 
@@ -74,7 +72,6 @@
                     android:text="DSA - Bookkeeper"
                     android:scrollHorizontally="false"
                     android:fontFamily="@font/roboto_light"
-                    android:textColor="@color/white"
                     android:textSize="18sp"/>
                 <TextView
                     android:layout_width="wrap_content"
@@ -82,7 +79,6 @@
                     android:text="Local data is not sync"
                     android:scrollHorizontally="false"
                     android:fontFamily="@font/roboto_light"
-                    android:textColor="@color/white"
                     android:textSize="18sp"/>
 
             </LinearLayout>
@@ -98,8 +94,7 @@
             android:padding="10dp"
             android:fontFamily="@font/roboto_medium"
             android:layout_marginTop="30dp"
-            tools:ignore="HardcodedText"
-            android:textColor="@color/textColor_Black"/>
+            tools:ignore="HardcodedText"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"

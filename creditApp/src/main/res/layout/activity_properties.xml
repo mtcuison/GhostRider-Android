@@ -61,8 +61,7 @@
                         android:maxLength="50"
                         android:maxLines="1"
                         android:nextFocusForward="@id/tie_cap_cmrFirstname"
-                        android:singleLine="true"
-                        android:textColor="@color/material_black" />
+                        android:singleLine="true" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -82,8 +81,7 @@
                         android:maxLength="50"
                         android:maxLines="1"
                         android:nextFocusForward="@id/tie_cap_cmrFirstname"
-                        android:singleLine="true"
-                        android:textColor="@color/material_black" />
+                        android:singleLine="true"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -103,8 +101,7 @@
                         android:maxLength="50"
                         android:maxLines="1"
                         android:nextFocusForward="@id/tie_cap_cmrFirstname"
-                        android:singleLine="true"
-                        android:textColor="@color/material_black" />
+                        android:singleLine="true" />
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 

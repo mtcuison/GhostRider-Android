@@ -12,6 +12,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:theme="@style/GhostRiderMaterialTheme"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
@@ -36,12 +37,12 @@
             android:gravity="bottom|start"
             android:orientation="horizontal">
 
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/ic_user_profile" />
 
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
@@ -50,14 +51,14 @@
                 app:cardCornerRadius="10dp"
                 app:cardPreventCornerOverlap="true">
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/lbl_sender_message"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
                     android:textColor="@color/textColor_Black" />
 
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
         </LinearLayout>
 
@@ -96,30 +97,27 @@
             android:gravity="bottom|end"
             android:orientation="horizontal">
 
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:cardBackgroundColor="@color/guanzon_orange"
                 app:cardCornerRadius="10dp"
                 app:cardPreventCornerOverlap="true">
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/lbl_recipient_message"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:textColor="@color/textColor_Black" />
+                    android:padding="10dp"/>
 
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
         </LinearLayout>
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lbl_messageDateTimeRcpt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="start"
-            android:textColor="@color/textColor_Black"
             android:textSize="12sp"
             android:visibility="gone" />
 

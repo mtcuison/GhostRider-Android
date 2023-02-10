@@ -27,7 +27,6 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:text="Title :"
-            android:textColor="@color/textColor_Black"
             android:padding="5dp"
             android:fontFamily="@font/roboto_regular"
             android:gravity="start|center_vertical"
@@ -41,7 +40,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="fill_parent"
                     android:text="Title :"
-                    android:textColor="@color/textColor_Black"
                     android:fontFamily="@font/roboto_regular"
                     android:gravity="start|center_vertical"
                     />
@@ -53,8 +51,7 @@
                 android:fontFamily="@font/roboto_regular"
                 android:gravity="start|center_vertical"
                 android:padding="5dp"
-                android:text="Title :"
-                android:textColor="@color/textColor_Black" />
+                android:text="Title :"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -68,7 +65,6 @@
                 android:gravity="start|center_vertical"
                 android:singleLine="false"
                 android:text="Findings :"
-                android:textColor="@color/textColor_Black"
                 android:fontFamily="@font/roboto_regular"/>
             <RadioGroup
                 android:id="@+id/rg_evaluator"

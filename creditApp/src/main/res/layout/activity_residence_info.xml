@@ -43,8 +43,7 @@
                 android:id="@+id/cb_oneAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Set as permanent address."
-                android:textColor="@color/textColor_Black" />
+                android:text="Set as permanent address."/>
 
             <LinearLayout
                 android:layout_width="match_parent"

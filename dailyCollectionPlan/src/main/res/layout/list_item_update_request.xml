@@ -24,7 +24,6 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="#12345, sample"
-        android:textColor="@color/textColor_Black"
         android:fontFamily="@font/roboto_regular"/>
 
     <ImageButton

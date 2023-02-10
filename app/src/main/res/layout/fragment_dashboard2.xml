@@ -69,7 +69,6 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_medium"
                         android:text="Domagoso, John Joriell, Delos Reyes"
-                        android:textColor="@color/guanzon_text_grey"
                         android:textSize="18sp"
                         android:gravity="center_horizontal"/>
 
@@ -78,7 +77,6 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto"
                         android:text="DEPARTMENT HEAD"
-                        android:textColor="@color/guanzon_text_grey"
                         android:textSize="12sp"
                         android:layout_marginTop="4dp"/>
 
@@ -87,7 +85,6 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto"
                         android:text="FACILITY AND SECURITY MANAGEMENT"
-                        android:textColor="@color/guanzon_text_grey"
                         android:textSize="12sp"
                         android:layout_marginTop="0.9dp"/>
 

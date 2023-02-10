@@ -28,7 +28,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_bold"
-            android:textColor="@color/textColor_White"
             android:textSize="14sp"
             android:layout_weight="1"/>
         <ImageView
@@ -50,7 +49,6 @@
             android:id="@+id/lbl_itemRefName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/material_black"
             android:textSize="21sp"
             android:fontFamily="@font/roboto_light"
             android:paddingHorizontal="10dp"
@@ -73,14 +71,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Address : "
-                android:textColor="@color/material_black"
                 android:textSize="14sp"
                 android:fontFamily="@font/roboto_medium"/>
             <TextView
                 android:id="@+id/lbl_itemRefTown"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/material_black"
                 android:textSize="14sp"
                 android:fontFamily="@font/roboto"
                 android:gravity="end"/>
@@ -95,14 +91,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Contact No. : "
-                android:textColor="@color/material_black"
                 android:textSize="14sp"
                 android:fontFamily="@font/roboto_medium"/>
             <TextView
                 android:id="@+id/lbl_itemRefContactN"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/material_black"
                 android:textSize="14sp"
                 android:fontFamily="@font/roboto"
                 android:gravity="end"/>

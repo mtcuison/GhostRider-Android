@@ -212,7 +212,6 @@
                             android:layout_weight="0.1"
                             android:fontFamily="@font/roboto"
                             android:text="C.I Recommendation:"
-                            android:textColor="@color/textColor_Black"
                             android:textSize="15sp" />
 
                         <TextView
@@ -222,7 +221,6 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/roboto"
                             android:gravity="right"
-                            android:textColor="@color/textColor_Black"
                             android:textSize="15sp" />
 
                     </LinearLayout>
@@ -239,7 +237,6 @@
                             android:layout_weight="0.1"
                             android:fontFamily="@font/roboto"
                             android:text="Manager Recommendation:"
-                            android:textColor="@color/textColor_Black"
                             android:textSize="15sp" />
 
                         <TextView
@@ -249,7 +246,6 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/roboto"
                             android:gravity="right"
-                            android:textColor="@color/textColor_Black"
                             android:textSize="15sp" />
 
                     </LinearLayout>

@@ -35,7 +35,6 @@
             android:layout_marginTop="15dp"
             android:fontFamily="@font/roboto_bold"
             android:text="Application Means Info"
-            android:textColor="@color/black"
             android:textSize="22sp" />
 
         <View
@@ -51,7 +50,6 @@
             android:gravity="center"
             android:padding="10dp"
             android:text="Please select the source of income of client. If client doesn't have any source of income you can skip this area."
-            android:textColor="@color/black"
             tools:ignore="HardcodedText" />
         <org.rmj.guanzongroup.onlinecreditapplication.Etc.RadioGridGroup
             android:layout_width="match_parent"

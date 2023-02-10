@@ -67,7 +67,6 @@
                                 android:layout_marginBottom="3dp"
                                 android:fontFamily="@font/roboto_medium"
                                 android:gravity="center_horizontal"
-                                android:textColor="@color/material_black"
                                 android:textSize="18sp" />
 
                             <TextView
@@ -76,8 +75,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="3dp"
                                 android:fontFamily="@font/roboto_regular"
-                                android:gravity="center_horizontal"
-                                android:textColor="@color/material_black" />
+                                android:gravity="center_horizontal" />
 
                             <TextView
                                 android:id="@+id/lbl_userLevel"
@@ -85,8 +83,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="5dp"
                                 android:fontFamily="@font/roboto_regular"
-                                android:gravity="center_horizontal"
-                                android:textColor="@color/material_black" />
+                                android:gravity="center_horizontal"/>
 
                             <TextView
                                 android:id="@+id/lbl_userDepartment"
@@ -94,8 +91,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="5dp"
                                 android:fontFamily="@font/roboto_regular"
-                                android:gravity="center_horizontal"
-                                android:textColor="@color/material_black" />
+                                android:gravity="center_horizontal"/>
 
                             <TextView
                                 android:id="@+id/lbl_syncStatus"
@@ -175,8 +171,7 @@
                                     android:fontFamily="@font/roboto_medium"
                                     android:gravity="center"
                                     android:text="Top Performing Branches"
-                                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                                    android:textColor="@color/material_black" />
+                                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
                                 <TextView
                                     android:id="@+id/lbl_areaName"
@@ -186,8 +181,7 @@
                                     android:layout_marginBottom="5dp"
                                     android:fontFamily="@font/roboto_regular"
                                     android:gravity="center_horizontal"
-                                    android:text="Area R1-A"
-                                    android:textColor="@color/material_black" />
+                                    android:text="Area R1-A" />
 
                                 <LinearLayout
                                     android:layout_width="wrap_content"
@@ -232,8 +226,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
                                         android:gravity="center"
-                                        android:text="Legend :"
-                                        android:textColor="@color/textColor_Black" />
+                                        android:text="Legend :"/>
 
                                     <TextView
                                         android:layout_width="0dp"
@@ -244,7 +237,6 @@
                                         android:drawablePadding="5dp"
                                         android:drawableTint="@color/guanzon_digital_orange"
                                         android:text="SP Sales"
-                                        android:textColor="@color/textColor_Black"
                                         tools:ignore="UnusedAttribute,UseCompatTextViewDrawableXml" />
 
                                     <TextView
@@ -256,7 +248,6 @@
                                         android:drawablePadding="5dp"
                                         android:drawableTint="#393939"
                                         android:text="MC Sales"
-                                        android:textColor="@color/textColor_Black"
                                         tools:ignore="UnusedAttribute,UseCompatTextViewDrawableXml" />
 
                                     <TextView
@@ -268,7 +259,6 @@
                                         android:drawablePadding="5dp"
                                         android:drawableTint="#8E8E8E"
                                         android:text="Job Order"
-                                        android:textColor="@color/textColor_Black"
                                         tools:ignore="UnusedAttribute,UseCompatTextViewDrawableXml" />
 
                                 </LinearLayout>
@@ -303,8 +293,7 @@
                                 android:layout_marginBottom="5dp"
                                 android:fontFamily="@font/roboto_medium"
                                 android:gravity="center_horizontal"
-                                android:text="Branches Open Recently"
-                                android:textColor="@color/material_black" />
+                                android:text="Branches Open Recently"/>
 
                             <View
                                 android:layout_width="match_parent"
@@ -342,7 +331,6 @@
                             android:layout_marginBottom="3dp"
                             android:fontFamily="@font/roboto_light"
                             android:text="@string/sLblCopyright"
-                            android:textColor="@color/footer_dark_grey"
                             android:textSize="11sp"
                             tools:ignore="SmallSp" />
 
@@ -353,7 +341,6 @@
                             android:layout_marginBottom="5dp"
                             android:fontFamily="@font/roboto_light"
                             android:text="@string/lblBuildVersion"
-                            android:textColor="@color/footer_dark_grey"
                             android:textSize="11sp"
                             tools:ignore="SmallSp" />
 

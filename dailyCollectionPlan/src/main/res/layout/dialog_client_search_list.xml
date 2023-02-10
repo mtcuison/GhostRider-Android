@@ -34,7 +34,6 @@
             android:layout_height="wrap_content"
             android:text="Add Collection"
             android:textSize="20sp"
-            android:textColor="@color/textColor_Black"
             android:fontFamily="@font/roboto_bold"
             android:layout_marginTop="15dp"/>
 
@@ -50,7 +49,6 @@
             android:layout_height="wrap_content"
             android:text="Tap to select add selected client on collection list."
             android:textSize="16sp"
-            android:textColor="@color/textColor_Black"
             android:fontFamily="@font/roboto_medium"
             android:layout_marginTop="15dp"
             android:gravity="center"/>
@@ -72,7 +70,6 @@
             android:layout_height="wrap_content"
             android:text="Cancel"
             app:rippleColor="@color/guanzon_orange"
-            android:textColor="@color/material_black"
             style="@style/Widget.AppCompat.Button.Borderless"/>
 
     </LinearLayout>

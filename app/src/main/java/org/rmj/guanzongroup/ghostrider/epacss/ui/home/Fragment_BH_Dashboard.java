@@ -118,6 +118,7 @@ public class Fragment_BH_Dashboard extends Fragment {
         btnSettng = v.findViewById(R.id.btn_settings);
         btnLogout = v.findViewById(R.id.btn_logout);
 
+
         lblItem1 = v.findViewById(R.id.item1);
         lblItem2 = v.findViewById(R.id.item2);
         lblSelectd = v.findViewById(R.id.select);

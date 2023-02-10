@@ -205,7 +205,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Name"
-                    android:textColorHint="@color/guanzon_dark_grey"
                     tools:ignore="HardcodedText">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -219,7 +218,6 @@
                         android:maxLines="1"
                         android:nextFocusForward="@id/tie_cap_refereceContact"
                         android:singleLine="true"
-                        android:textColor="@color/material_black"
                         tools:ignore="RtlSymmetry" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -230,7 +228,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Contact"
-                    android:textColorHint="@color/guanzon_dark_grey"
                     tools:ignore="HardcodedText">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -241,7 +238,6 @@
                         android:inputType="number|none"
                         android:maxLength="11"
                         android:nextFocusForward="@id/tie_cap_refereceAddress"
-                        android:textColor="@color/material_black"
                         tools:ignore="RtlSymmetry" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -252,7 +248,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Phase#/Lot#/Sitio/Street/Barangay"
-                    android:textColorHint="@color/guanzon_dark_grey"
                     tools:ignore="HardcodedText">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -266,7 +261,6 @@
                         android:maxLines="1"
                         android:nextFocusForward="@id/til_cap_referenceAddTown"
                         android:singleLine="true"
-                        android:textColor="@color/material_black"
                         tools:ignore="RtlSymmetry" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -297,7 +291,6 @@
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/roboto_thin"
                     android:text="Add Reference"
-                    android:textColor="@color/textColor_White"
                     tools:ignore="HardcodedText"
                     tools:targetApi="lollipop" />
 

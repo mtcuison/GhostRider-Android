@@ -22,7 +22,6 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_bold"
             android:text="Title"
-            android:textColor="@color/white"
             android:textSize="18sp"/>
 
     </LinearLayout>
@@ -45,7 +44,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="@font/roboto_bold"
-                android:textColor="#202020"
                 android:text="Cash"
                 android:textAllCaps="true"
                 android:textSize="16sp"/>
@@ -55,7 +53,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="@font/roboto_bold"
-                android:textColor="#202020"
                 android:text="Quantity"
                 android:textAllCaps="true"
                 android:textSize="16sp"
@@ -66,7 +63,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="@font/roboto_bold"
-                android:textColor="#202020"
                 android:text="total"
                 android:textAllCaps="true"
                 android:textSize="16sp"
@@ -96,7 +92,6 @@
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_medium"
-            android:textColor="#202020"
             android:text="Label"
             android:textSize="16sp"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -109,7 +104,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:fontFamily="@font/roboto_medium"
-            android:textColor="#202020"
             android:text="Data"
             android:textSize="16sp"
             app:layout_constraintLeft_toRightOf="@id/txtLabel"
@@ -123,7 +117,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:fontFamily="@font/roboto_medium"
-            android:textColor="#202020"
             android:text="Total"
             android:textSize="16sp"
             android:gravity="right"

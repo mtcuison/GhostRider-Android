@@ -17,48 +17,47 @@
     android:layout_height="wrap_content"
     android:padding="10dp">
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/lbl_leavePurpose"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:fontFamily="@font/roboto_medium"
         android:text="Purpose"
-        android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/lbl_dateFrom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/roboto_regular"
         android:text="Date From: Sept. 20, 2021"
-        android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lbl_leavePurpose" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/lbl_dateThru"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/roboto_regular"
         android:text="Date From: Sept. 20, 2021"
-        android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lbl_dateFrom" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/lbl_textTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/bg_leavecredits"
         android:fontFamily="@font/roboto_medium"
-        android:text="OPEN"
-        android:textColor="@color/white"
         android:paddingHorizontal="7dp"
         android:paddingVertical="2dp"
-        android:layout_marginTop="8dp"
+        android:text="OPEN"
         android:textSize="18sp"
-        tools:ignore="NewApi"
-        android:background="@drawable/bg_leavecredits"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="NewApi" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -37,7 +37,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Reciept/Detail : 0000000000000"
-                android:textColor="@color/textColor_Black"
                 android:layout_marginBottom="10dp"
                 tools:ignore="HardcodedText" />
 
@@ -46,7 +45,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Amount of Exp.: Php. 200.00"
-                android:textColor="@color/textColor_Black"
                 tools:ignore="HardcodedText" />
 
         </LinearLayout>

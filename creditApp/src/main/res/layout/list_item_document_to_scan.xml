@@ -28,7 +28,6 @@
             android:layout_weight="1"
             android:textSize="14sp"
             android:visibility="gone"
-            android:textColor="@color/textColor_Black"
             android:fontFamily="@font/roboto_medium"/>
         <TextView
             android:id="@+id/lbl_fileCode"
@@ -36,7 +35,6 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:textSize="14sp"
-            android:textColor="@color/textColor_Black"
             android:fontFamily="@font/roboto_medium"/>
 
         <ImageView

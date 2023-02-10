@@ -21,7 +21,6 @@
         android:layout_height="wrap_content"
         android:text="Doe, John Jr."
         android:textSize="18sp"
-        android:textColor="@color/material_black"
         android:fontFamily="@font/roboto_medium"
         android:paddingHorizontal="10dp"/>
     <TextView
@@ -30,7 +29,6 @@
         android:layout_height="wrap_content"
         android:text="Doe, John Jr."
         android:textSize="16sp"
-        android:textColor="@color/material_black"
         android:fontFamily="@font/roboto_regular"
         android:paddingHorizontal="10dp"
         android:paddingVertical="10dp"/>

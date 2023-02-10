@@ -54,16 +54,14 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_bold"
                     android:text="24"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@color/textColor_White" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
                 <TextView
                     android:id="@+id/newsMonth"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
-                    android:text="Feb"
-                    android:textColor="@color/textColor_White" />
+                    android:text="Feb"/>
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>
@@ -76,8 +74,7 @@
         android:text="Grand Opening of Guanzon Mobitek SM City North Edsa-Annex branch"
         android:textSize="12sp"
         android:paddingLeft="5dp"
-        android:paddingTop="5dp"
-        android:textColor="@color/textColor_Black" />
+        android:paddingTop="5dp"/>
     <TextView
         android:id="@+id/newsPostedBy"
         android:layout_width="wrap_content"
@@ -86,7 +83,6 @@
         android:text="POSTED ON FEBRUARY 24, 2021 BY GUANZON_ADMIN"
         android:textSize="11sp"
         android:paddingLeft="5dp"
-        android:layout_marginBottom="5dp"
-        android:textColor="@color/textColor_Black" />
+        android:layout_marginBottom="5dp"/>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

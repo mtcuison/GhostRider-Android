@@ -87,7 +87,6 @@
             android:layout_height="wrap_content"
             android:text="Download"
             app:rippleColor="@color/guanzon_orange"
-            android:textColor="@color/material_black"
             style="@style/Widget.AppCompat.Button.Borderless"/>
 
         <View
@@ -101,7 +100,6 @@
             android:layout_height="wrap_content"
             android:text="Cancel"
             app:rippleColor="@color/guanzon_orange"
-            android:textColor="@color/material_black"
             style="@style/Widget.AppCompat.Button.Borderless"/>
 
     </LinearLayout>

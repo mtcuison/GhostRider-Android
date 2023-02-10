@@ -91,7 +91,6 @@
             android:text="Introductory Question"
             android:textSize="18sp"
             android:fontFamily="@font/roboto_medium"
-            android:textColor="@color/textColor_Black"
             android:layout_marginTop="15dp"/>
 
         <View

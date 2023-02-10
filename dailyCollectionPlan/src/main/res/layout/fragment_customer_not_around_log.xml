@@ -41,7 +41,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight=".5"
                 android:fontFamily="@font/roboto"
-                android:textColor="@color/textColor_White"
                 android:textSize="13sp"
                 android:text="Account Number: "/>
             <TextView
@@ -49,7 +48,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto"
-                android:textColor="@color/textColor_White"
                 android:textSize="13sp"
                 android:layout_weight="1"
                 android:gravity="end"/>
@@ -65,7 +63,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto"
-                android:textColor="@color/textColor_White"
                 android:textSize="20sp"/>
 
             <TextView
@@ -73,7 +70,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_light"
-                android:textColor="@color/textColor_White"
                 android:textSize="15sp"
                 android:layout_marginTop="3dp"/>
         </LinearLayout>
@@ -104,7 +100,6 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textSize="18sp"
-            android:textColor="@color/material_black"
             android:fontFamily="@font/roboto_bold"
             android:layout_marginHorizontal="10dp"/>
 
@@ -144,7 +139,6 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_medium"
                 android:text="Transaction Number:"
-                android:textColor="@color/textColor_Black"
                 android:textSize="15sp"
                 app:layout_constraintLeft_toRightOf="@id/iv_transaction_img"
                 app:layout_constraintTop_toTopOf="parent"
@@ -156,7 +150,6 @@
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
                 android:fontFamily="@font/roboto_light"
-                android:textColor="@color/textColor_Black"
                 android:maxLines="3"
                 app:layout_constraintLeft_toRightOf="@id/iv_transaction_img"
                 app:layout_constraintTop_toBottomOf="@id/lbl_detail_remarks"
@@ -168,7 +161,6 @@
                 android:id="@+id/cv_divider"
                 android:layout_width="0dp"
                 android:layout_height="0.4dp"
-                android:background="@color/textColor_Black"
                 app:layout_constraintLeft_toRightOf="@id/iv_transaction_img"
                 app:layout_constraintBottom_toTopOf="@id/lbl_coordinates"
                 app:layout_constraintRight_toRightOf="parent"
@@ -179,7 +171,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_light"
-                android:textColor="@color/textColor_Black"
                 android:textSize="11sp"
                 app:layout_constraintLeft_toRightOf="@id/iv_transaction_img"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -205,7 +196,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textColor="@color/textColor_Black"
             android:fontFamily="@font/roboto_medium"
             android:text="Mobile Number"/>
 
@@ -244,7 +234,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textColor="@color/textColor_Black"
             android:fontFamily="@font/roboto_medium"
             android:text="Address"/>
 

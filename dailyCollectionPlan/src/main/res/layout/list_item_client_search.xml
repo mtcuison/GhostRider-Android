@@ -24,7 +24,6 @@
         android:layout_height="wrap_content"
         android:text="M001150256"
         android:textSize="15sp"
-        android:textColor="@color/textColor_Black"
         android:fontFamily="@font/roboto_medium"/>
 
     <TextView
@@ -33,7 +32,6 @@
         android:layout_height="wrap_content"
         android:text="Dolleton St. 7c Ilaya"
         android:textSize="15sp"
-        android:textColor="@color/textColor_Black"
         android:fontFamily="@font/roboto_medium"
         android:gravity="center_vertical"
         android:drawablePadding="10dp"
@@ -45,7 +43,6 @@
         android:layout_height="wrap_content"
         android:text="27, Pogo Grande, Alabang, Muntinlupa"
         android:textSize="15sp"
-        android:textColor="@color/textColor_Black"
         android:fontFamily="@font/roboto_regular"
         android:gravity="center_vertical"
         android:drawablePadding="10dp"

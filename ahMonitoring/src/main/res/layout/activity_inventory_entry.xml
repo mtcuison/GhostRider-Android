@@ -76,7 +76,6 @@
                     android:fontFamily="@font/roboto_medium"
                     android:padding="10dp"
                     android:text="Descript"
-                    android:textColor="@color/material_black"
                     android:textSize="20sp" />
 
                 <TextView
@@ -86,7 +85,6 @@
                     android:fontFamily="@font/roboto_medium"
                     android:padding="10dp"
                     android:text="Barcode"
-                    android:textColor="@color/material_black"
                     android:textSize="20sp" />
                 <View
                     android:layout_width="match_parent"
@@ -133,7 +131,6 @@
                                 android:paddingRight="10dp"
                                 android:text="@string/sHintTransNox"
                                 android:textAlignment="textEnd"
-                                android:textColor="@color/textColor_Black"
                                 android:textSize="18sp"
                                 tools:ignore="RtlSymmetry" />
                         </LinearLayout>
@@ -154,8 +151,7 @@
                                 android:focusable="false"
                                 android:focusableInTouchMode="false"
                                 android:focusedByDefault="false"
-                                android:inputType="textShortMessage"
-                                android:textColor="@color/textColor_Black" />
+                                android:inputType="textShortMessage" />
 
                         </com.google.android.material.textfield.TextInputLayout>
 

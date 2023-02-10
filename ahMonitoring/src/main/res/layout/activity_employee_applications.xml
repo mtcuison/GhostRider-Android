@@ -73,7 +73,6 @@
                 android:fontFamily="@font/roboto"
                 android:text="Leave Application"
                 android:gravity="center"
-                android:textColor="@color/textColor_White"
                 android:textSize="22sp" />
 
             <TextView
@@ -83,7 +82,6 @@
                 android:layout_marginTop="5dp"
                 android:text="Local data is not sync"
                 android:fontFamily="@font/roboto_light"
-                android:textColor="@color/textColor_White"
                 android:textSize="15sp" />
 
             <TextView
@@ -91,7 +89,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_light"
-                android:textColor="@color/textColor_White"
                 android:textSize="15sp" />
 
         </LinearLayout>

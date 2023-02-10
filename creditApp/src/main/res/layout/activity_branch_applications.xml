@@ -74,8 +74,7 @@
                     android:layout_height="wrap_content"
                     android:text="Branch Application List"
                     android:textSize="22sp"
-                    android:fontFamily="@font/roboto"
-                    android:textColor="@color/textColor_White"/>
+                    android:fontFamily="@font/roboto"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -83,15 +82,13 @@
                     android:text="GMC Dagupan - Honda"
                     android:textSize="15sp"
                     android:fontFamily="@font/roboto_light"
-                    android:textColor="@color/textColor_White"
                     android:layout_marginTop="5dp"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Guanzon Bldg., Perez Blvd."
                     android:textSize="15sp"
-                    android:fontFamily="@font/roboto_light"
-                    android:textColor="@color/textColor_White"/>
+                    android:fontFamily="@font/roboto_light"/>
             </LinearLayout>
         </LinearLayout>
 
@@ -117,7 +114,6 @@
                     style="@style/TextInputStyle.Edittext"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="#fbfbfb"
                     android:fontFamily="@font/roboto"
                     android:imeOptions="actionDone"
                     android:inputType="textCapWords"
@@ -173,7 +169,6 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:textSize="18dp"
-                android:textColor="@color/guanzon_digital_orange"
                 android:fontFamily="@font/roboto_medium"
                 android:text="No record found."/>
         </LinearLayout>

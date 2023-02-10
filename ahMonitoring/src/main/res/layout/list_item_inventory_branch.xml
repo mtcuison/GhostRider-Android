@@ -12,8 +12,7 @@
         android:layout_height="wrap_content"
         android:text="M001"
         android:fontFamily="@font/roboto_medium"
-        android:textSize="15sp"
-        android:textColor="@color/material_black"/>
+        android:textSize="15sp"/>
 
     <TextView
         android:id="@+id/lbl_branchNm"
@@ -21,8 +20,7 @@
         android:layout_height="wrap_content"
         android:text="GMC Dagupan Honda"
         android:fontFamily="@font/roboto_regular"
-        android:textSize="18sp"
-        android:textColor="@color/material_black"/>
+        android:textSize="18sp"/>
 
     <View
         android:layout_width="match_parent"

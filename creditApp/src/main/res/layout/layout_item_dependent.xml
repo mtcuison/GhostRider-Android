@@ -23,7 +23,6 @@
         android:layout_height="wrap_content"
         android:layout_weight="1.5"
         android:text="Sample Name"
-        android:textColor="@color/material_black"
         android:fontFamily="@font/roboto_regular"
         android:padding="10dp"
         tools:ignore="HardcodedText"
@@ -37,7 +36,6 @@
         android:text="X"
         android:fontFamily="@font/roboto_regular"
         tools:ignore="HardcodedText"
-        android:textColor="@color/material_white"
         android:backgroundTint="@color/light_red"
         tools:targetApi="jelly_bean" />
 

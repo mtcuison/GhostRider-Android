@@ -40,7 +40,6 @@ tools:context=".Fragment.Fragment_BranchPerformance_LineChart">
                     android:gravity="center"
                     android:text="UEMI Brooke's Point - YAMAHA"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@color/textColor_White"
                     android:textSize="20sp" />
 
                 <include layout="@layout/custom_tab_ah" />
@@ -82,8 +81,7 @@ tools:context=".Fragment.Fragment_BranchPerformance_LineChart">
                                 android:fontFamily="@font/roboto_medium"
                                 android:gravity="center"
                                 android:maxLines="2"
-                                android:text="Month"
-                                android:textColor="@color/textColor_White" />
+                                android:text="Month"/>
 
                             <View
                                 android:layout_width="1dp"
@@ -96,8 +94,7 @@ tools:context=".Fragment.Fragment_BranchPerformance_LineChart">
                                 android:layout_weight="1"
                                 android:fontFamily="@font/roboto_medium"
                                 android:gravity="center"
-                                android:text="Goal"
-                                android:textColor="@color/textColor_White" />
+                                android:text="Goal"/>
 
                             <View
                                 android:layout_width="1dp"
@@ -111,8 +108,7 @@ tools:context=".Fragment.Fragment_BranchPerformance_LineChart">
                                 android:layout_weight="1"
                                 android:fontFamily="@font/roboto_medium"
                                 android:gravity="center"
-                                android:text="Actual"
-                                android:textColor="@color/textColor_White" />
+                                android:text="Actual" />
                         </LinearLayout>
 
                         <androidx.core.widget.NestedScrollView

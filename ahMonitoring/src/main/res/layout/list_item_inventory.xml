@@ -30,7 +30,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Transaction No. : 00000000000000"
-            android:textColor="@color/material_black"
             android:textSize="16sp"
             android:fontFamily="@font/roboto_medium"
             android:layout_marginBottom="5dp"/>
@@ -49,7 +48,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Item Code : SKU-KS93528TUT"
-        android:textColor="@color/material_black"
         android:textSize="16sp"
         android:fontFamily="@font/roboto_regular"/>
 
@@ -58,7 +56,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Description : TMX 125 Rocker Arm"
-        android:textColor="@color/material_black"
         android:textSize="16sp"
         android:fontFamily="@font/roboto_regular"/>
 

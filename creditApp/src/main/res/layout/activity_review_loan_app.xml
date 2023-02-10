@@ -64,7 +64,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Doe, John C."
-            android:textColor="@color/textColor_Black"
             android:textSize="16sp"
             android:fontFamily="@font/roboto_black"
             android:layout_marginTop="10dp"/>

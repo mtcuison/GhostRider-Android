@@ -33,7 +33,6 @@
             android:layout_height="wrap_content"
             android:text="Daily Collection Plan"
             android:textSize="20sp"
-            android:textColor="@color/textColor_Black"
             android:fontFamily="@font/roboto_bold"
             android:layout_marginTop="15dp"/>
 
@@ -49,7 +48,6 @@
             android:layout_height="wrap_content"
             android:text="To download additional collection, please enter requested information below."
             android:textSize="16sp"
-            android:textColor="@color/textColor_Black"
             android:fontFamily="@font/roboto_medium"
             android:layout_marginTop="15dp"
             android:gravity="center"/>
@@ -94,7 +92,6 @@
             android:layout_height="wrap_content"
             android:text="Confirm"
             app:rippleColor="@color/guanzon_orange"
-            android:textColor="@color/material_black"
             style="@style/Widget.AppCompat.Button.Borderless"/>
 
         <View
@@ -108,7 +105,6 @@
             android:layout_height="wrap_content"
             android:text="Cancel"
             app:rippleColor="@color/guanzon_orange"
-            android:textColor="@color/material_black"
             style="@style/Widget.AppCompat.Button.Borderless"/>
 
     </LinearLayout>

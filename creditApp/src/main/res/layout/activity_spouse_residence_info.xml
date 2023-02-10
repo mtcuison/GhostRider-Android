@@ -46,7 +46,6 @@
                 android:buttonTint="@color/guanzon_dark_grey"
                 android:fontFamily="@font/roboto_regular"
                 android:text="Living with spouse"
-                android:textColor="@color/textColor_Black"
                 tools:ignore="HardcodedText"
                 tools:targetApi="lollipop" />
 

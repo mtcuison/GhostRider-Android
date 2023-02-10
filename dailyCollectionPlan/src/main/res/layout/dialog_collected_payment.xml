@@ -34,7 +34,6 @@
             android:layout_height="wrap_content"
             android:text="Remit Collection"
             android:textSize="20sp"
-            android:textColor="@color/textColor_Black"
             android:fontFamily="@font/roboto_bold"
             android:layout_marginTop="15dp"/>
 
@@ -59,7 +58,6 @@
                     android:layout_height="wrap_content"
                     android:text="Total Collection :"
                     android:textSize="16sp"
-                    android:textColor="@color/textColor_Black"
                     android:fontFamily="@font/roboto_medium"
                     android:layout_marginTop="5dp"/>
 
@@ -75,7 +73,6 @@
                     android:layout_height="wrap_content"
                     android:text="Cash : "
                     android:padding="10dp"
-                    android:textColor="@color/textColor_Black"
                     android:fontFamily="@font/roboto_regular"
                     android:layout_marginTop="5dp"/>
 
@@ -85,7 +82,6 @@
                     android:layout_height="wrap_content"
                     android:text="Check : "
                     android:padding="10dp"
-                    android:textColor="@color/textColor_Black"
                     android:fontFamily="@font/roboto_regular"
                     android:layout_marginTop="5dp"/>
 
@@ -94,7 +90,6 @@
                     android:layout_height="wrap_content"
                     android:text="Total Remitted Collection :"
                     android:textSize="16sp"
-                    android:textColor="@color/textColor_Black"
                     android:fontFamily="@font/roboto_medium"
                     android:layout_marginTop="5dp"/>
 
@@ -109,7 +104,6 @@
                     android:layout_height="wrap_content"
                     android:text="Remitted Collection : "
                     android:padding="5dp"
-                    android:textColor="@color/textColor_Black"
                     android:fontFamily="@font/roboto_regular"
                     android:layout_marginTop="5dp"/>
 
@@ -120,7 +114,6 @@
                     android:text="Branch : "
                     android:paddingLeft="20dp"
                     android:paddingVertical="3dp"
-                    android:textColor="@color/textColor_Black"
                     android:fontFamily="@font/roboto_regular" />
 
                 <TextView
@@ -130,7 +123,6 @@
                     android:text="Bank : "
                     android:paddingLeft="20dp"
                     android:paddingVertical="3dp"
-                    android:textColor="@color/textColor_Black"
                     android:fontFamily="@font/roboto_regular" />
 
                 <TextView
@@ -140,7 +132,6 @@
                     android:text="Others : "
                     android:paddingLeft="20dp"
                     android:paddingVertical="3dp"
-                    android:textColor="@color/textColor_Black"
                     android:fontFamily="@font/roboto_regular" />
 
 
@@ -149,7 +140,6 @@
                     android:layout_height="wrap_content"
                     android:text="On-Hand : "
                     android:padding="5dp"
-                    android:textColor="@color/textColor_Black"
                     android:fontFamily="@font/roboto_regular"
                     android:layout_marginTop="5dp"/>
 
@@ -160,8 +150,7 @@
                     android:fontFamily="@font/roboto_regular"
                     android:paddingVertical="3dp"
                     android:paddingLeft="20dp"
-                    android:text="Cash : "
-                    android:textColor="@color/textColor_Black" />
+                    android:text="Cash : "/>
 
                 <TextView
                     android:id="@+id/lbl_remittanceCheck"
@@ -170,7 +159,6 @@
                     android:text="Check : "
                     android:paddingLeft="20dp"
                     android:paddingVertical="3dp"
-                    android:textColor="@color/textColor_Black"
                     android:fontFamily="@font/roboto_regular" />
 
                 <View
@@ -185,7 +173,6 @@
                     android:layout_height="wrap_content"
                     android:text="Remit Collected Payments"
                     app:rippleColor="@color/guanzon_orange"
-                    android:textColor="@color/material_black"
                     style="@style/Widget.AppCompat.Button.Borderless"/>
 
                 <View
@@ -199,7 +186,6 @@
                     android:layout_height="wrap_content"
                     android:text="Close Dialog"
                     app:rippleColor="@color/guanzon_orange"
-                    android:textColor="@color/material_black"
                     style="@style/Widget.AppCompat.Button.Borderless"/>
 
             </LinearLayout>

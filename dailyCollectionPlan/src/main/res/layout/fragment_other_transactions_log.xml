@@ -152,7 +152,6 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
                     android:text="Remarks:"
-                    android:textColor="@color/textColor_Black"
                     android:textSize="15sp"
                     app:layout_constraintLeft_toRightOf="@id/divider2"
                     app:layout_constraintTop_toTopOf="parent"/>
@@ -163,7 +162,6 @@
                     android:layout_height="wrap_content"
                     android:textSize="13sp"
                     android:fontFamily="@font/roboto"
-                    android:textColor="@color/textColor_Black"
                     android:maxLines="3"
                     app:layout_constraintLeft_toRightOf="@id/divider2"
                     app:layout_constraintTop_toBottomOf="@id/lbl_detail_remarks"
@@ -195,7 +193,6 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_light"
                     android:text="Transaction No.:"
-                    android:textColor="@color/textColor_Black"
                     android:textSize="11sp"
                     app:layout_constraintLeft_toRightOf="@id/divider2"
                     app:layout_constraintBottom_toBottomOf="parent"/>
@@ -205,7 +202,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_light"
-                    android:textColor="@color/textColor_Black"
                     android:textSize="11sp"
                     app:layout_constraintLeft_toRightOf="@id/iv_transaction_img"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -217,7 +213,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_light"
-                    android:textColor="@color/textColor_Black"
                     android:textSize="11sp"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"/>

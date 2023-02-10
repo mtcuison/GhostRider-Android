@@ -10,10 +10,12 @@
   ~ project file last modified : 4/24/21 3:18 PM
   -->
 
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:theme="@style/GhostRiderMaterialTheme"
     app:cardUseCompatPadding="true"
     app:cardPreventCornerOverlap="true"
     app:cardCornerRadius="25dp"
@@ -35,13 +37,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Account Detail"
                     android:textSize="20sp"
                     android:textAlignment="center"
-                    android:textColor="@color/textColor_Black"
                     android:fontFamily="@font/roboto_bold"
                     android:layout_marginTop="15dp"
                     android:gravity="center_horizontal" />
@@ -61,21 +62,19 @@
                     android:gravity="center"
                     android:layout_marginTop="15dp">
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Reference No. :"
-                        android:textColor="@color/textColor_Black"
                         android:fontFamily="@font/roboto_regular"/>
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/lbl_dcpReferNo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="end"
-                        android:textColor="@color/textColor_Black"
                         android:fontFamily="@font/roboto_regular"/>
                 </LinearLayout>
 
@@ -87,21 +86,19 @@
                     android:gravity="center"
                     android:layout_marginTop="3dp">
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Transaction No. :"
-                        android:textColor="@color/textColor_Black"
                         android:fontFamily="@font/roboto_regular"/>
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/lbl_dcpTransNo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="end"
-                        android:textColor="@color/textColor_Black"
                         android:fontFamily="@font/roboto_regular"/>
                 </LinearLayout>
 
@@ -113,21 +110,19 @@
                     android:gravity="center"
                     android:layout_marginTop="3dp">
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Client Name:"
-                        android:textColor="@color/textColor_Black"
                         android:fontFamily="@font/roboto_regular"/>
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/lbl_dcpClientNm"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="end"
-                        android:textColor="@color/textColor_Black"
                         android:fontFamily="@font/roboto_regular"/>
                 </LinearLayout>
 
@@ -166,21 +161,19 @@
                     android:gravity="center"
                     android:layout_marginTop="3dp">
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Account No. :"
-                        android:textColor="@color/textColor_Black"
                         android:fontFamily="@font/roboto_regular"/>
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/lbl_dcpAccNo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="end"
-                        android:textColor="@color/textColor_Black"
                         android:fontFamily="@font/roboto_regular"/>
                 </LinearLayout>
 
@@ -192,21 +185,19 @@
                     android:gravity="center"
                     android:layout_marginTop="3dp">
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Serial No. :"
-                        android:textColor="@color/textColor_Black"
                         android:fontFamily="@font/roboto_regular"/>
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/lbl_dcpPRNo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="end"
-                        android:textColor="@color/textColor_Black"
                         android:fontFamily="@font/roboto_regular"/>
                 </LinearLayout>
 
@@ -225,21 +216,19 @@
                     android:layout_marginTop="5dp"
                     android:layout_marginHorizontal="5dp">
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Delay Average"
-                        android:textColor="@color/textColor_Black"
                         android:fontFamily="@font/roboto_regular"/>
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/lbl_dcpDelayAvg"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="end"
-                        android:textColor="@color/textColor_Black"
                         android:fontFamily="@font/roboto_regular"/>
 
                 </LinearLayout>
@@ -251,21 +240,19 @@
                     android:layout_marginTop="5dp"
                     android:layout_marginHorizontal="5dp">
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Balance"
-                        android:textColor="@color/textColor_Black"
                         android:fontFamily="@font/roboto_regular"/>
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/lbl_dcpBalance"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="end"
-                        android:textColor="@color/textColor_Black"
                         android:fontFamily="@font/roboto_regular"/>
 
                 </LinearLayout>
@@ -277,21 +264,19 @@
                     android:layout_marginTop="5dp"
                     android:layout_marginHorizontal="5dp">
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Last Payment Amount"
-                        android:textColor="@color/textColor_Black"
                         android:fontFamily="@font/roboto_regular"/>
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/lbl_dcpAmountLastPay"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="end"
-                        android:textColor="@color/textColor_Black"
                         android:fontFamily="@font/roboto_regular"/>
 
                 </LinearLayout>
@@ -303,21 +288,19 @@
                     android:layout_marginTop="5dp"
                     android:layout_marginHorizontal="5dp">
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Last Paid"
-                        android:textColor="@color/textColor_Black"
                         android:fontFamily="@font/roboto_regular"/>
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/lbl_dcpLastPaid"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="end"
-                        android:textColor="@color/textColor_Black"
                         android:fontFamily="@font/roboto_regular"/>
 
                 </LinearLayout>
@@ -330,22 +313,20 @@
                     android:gravity="center"
                     android:layout_marginTop="10dp">
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="AmountDue :"
-                        android:textColor="@color/textColor_Black"
                         android:fontFamily="@font/roboto_regular"/>
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/lbl_dcpAmountDue"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="end"
                         android:text="10000"
-                        android:textColor="@color/textColor_Black"
                         android:fontFamily="@font/roboto_regular"/>
                 </LinearLayout>
 
@@ -358,22 +339,20 @@
                     android:layout_marginTop="3dp"
                     android:layout_marginBottom="5dp">
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Due Date :"
-                        android:textColor="@color/textColor_Black"
                         android:fontFamily="@font/roboto_regular"/>
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/lbl_dcpDueDate"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="end"
                         android:text="10000"
-                        android:textColor="@color/textColor_Black"
                         android:fontFamily="@font/roboto_regular"/>
                 </LinearLayout>
 
@@ -420,14 +399,13 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:layout_marginHorizontal="5dp">
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/lbl_transaction_type"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
                             android:fontFamily="@font/roboto_medium"
                             android:text="Please select transaction type."
-                            android:textColor="@color/textColor_Black"
                             android:textSize="16sp" />
                         <View
                             android:layout_width="match_parent"
@@ -445,23 +423,21 @@
                         android:gravity="center"
                         android:layout_marginTop="3dp">
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="2"
                             android:text="Fullname :"
-                            android:textColor="@color/textColor_Black"
                             android:fontFamily="@font/roboto_regular"/>
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/dialog_fullName"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="start"
                             android:text="10000"
-                            android:textColor="@color/textColor_Black"
-                            android:fontFamily="@font/roboto_regular"/>
+                             android:fontFamily="@font/roboto_regular"/>
                     </LinearLayout>
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -471,23 +447,21 @@
                         android:gravity="center"
                         android:layout_marginTop="3dp">
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="2"
                             android:text="Address"
-                            android:textColor="@color/textColor_Black"
                             android:fontFamily="@font/roboto_regular"/>
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/dialog_address"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="start"
                             android:text="10000"
-                            android:textColor="@color/textColor_Black"
-                            android:fontFamily="@font/roboto_regular"/>
+                             android:fontFamily="@font/roboto_regular"/>
                     </LinearLayout><LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -496,22 +470,20 @@
                     android:gravity="center"
                     android:layout_marginTop="3dp">
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:text="Gender :"
-                        android:textColor="@color/textColor_Black"
                         android:fontFamily="@font/roboto_regular"/>
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/dialog_gender"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="start"
                         android:text="10000"
-                        android:textColor="@color/textColor_Black"
                         android:fontFamily="@font/roboto_regular"/>
                 </LinearLayout>
                     <LinearLayout
@@ -522,22 +494,20 @@
                         android:gravity="center"
                         android:layout_marginTop="3dp">
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="2"
                             android:text="Civil Status :"
-                            android:textColor="@color/textColor_Black"
                             android:fontFamily="@font/roboto_regular"/>
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/dialog_civilStats"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="start"
                             android:text="10000"
-                            android:textColor="@color/textColor_Black"
                             android:fontFamily="@font/roboto_regular"/>
                     </LinearLayout>
                     <LinearLayout
@@ -548,22 +518,20 @@
                         android:gravity="center"
                         android:layout_marginTop="3dp">
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="2"
                             android:text="Birth Date :"
-                            android:textColor="@color/textColor_Black"
                             android:fontFamily="@font/roboto_regular"/>
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/dialog_bDate"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="start"
                             android:text="10000"
-                            android:textColor="@color/textColor_Black"
                             android:fontFamily="@font/roboto_regular"/>
                     </LinearLayout>
                     <LinearLayout
@@ -574,22 +542,20 @@
                         android:gravity="center"
                         android:layout_marginTop="3dp">
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="2"
                             android:text="Birth Place :"
-                            android:textColor="@color/textColor_Black"
                             android:fontFamily="@font/roboto_regular"/>
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/dialog_bPlace"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="start"
                             android:text="10000"
-                            android:textColor="@color/textColor_Black"
                             android:fontFamily="@font/roboto_regular"/>
                     </LinearLayout>
                     <LinearLayout
@@ -600,22 +566,20 @@
                         android:gravity="center"
                         android:layout_marginTop="3dp">
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="2"
                             android:text="Telephone No. :"
-                            android:textColor="@color/textColor_Black"
                             android:fontFamily="@font/roboto_regular"/>
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/dialog_tel"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="start"
                             android:text="10000"
-                            android:textColor="@color/textColor_Black"
                             android:fontFamily="@font/roboto_regular"/>
                     </LinearLayout>
                     <LinearLayout
@@ -626,22 +590,20 @@
                         android:gravity="center"
                         android:layout_marginTop="3dp">
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="2"
                             android:text="Mobile No. :"
-                            android:textColor="@color/textColor_Black"
                             android:fontFamily="@font/roboto_regular"/>
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/dialog_mobileNo"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="start"
                             android:text="10000"
-                            android:textColor="@color/textColor_Black"
                             android:fontFamily="@font/roboto_regular"/>
                     </LinearLayout>
                     <LinearLayout
@@ -652,23 +614,21 @@
                         android:gravity="center"
                         android:layout_marginTop="3dp">
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="2"
                             android:text="Email Address :"
-                            android:textColor="@color/textColor_Black"
                             android:fontFamily="@font/roboto_regular"/>
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/dialog_email"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="start"
                             android:text="10000"
-                            android:textColor="@color/textColor_Black"
-                            android:fontFamily="@font/roboto_regular"/>
+                           android:fontFamily="@font/roboto_regular"/>
                     </LinearLayout>
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -678,22 +638,20 @@
                         android:gravity="center"
                         android:layout_marginTop="3dp">
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="2"
                             android:text="Remarks :"
-                            android:textColor="@color/textColor_Black"
                             android:fontFamily="@font/roboto_regular"/>
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/dialog_remarks"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="start"
                             android:text="10000"
-                            android:textColor="@color/textColor_Black"
                             android:fontFamily="@font/roboto_regular"/>
                     </LinearLayout>
                 </LinearLayout>
@@ -701,13 +659,12 @@
         </ScrollView>
 
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:fontFamily="@font/roboto_medium"
             android:text="Please select transaction type."
-            android:textColor="@color/textColor_Black"
             android:textSize="16sp" />
 
         <Spinner
@@ -718,34 +675,31 @@
             android:layout_marginHorizontal="5dp"/>
 
 
-        <View
+        <com.google.android.material.textview.MaterialTextView
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/guanzon_orange"
             android:layout_marginTop="10dp"/>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_confirm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Confirm"
             app:rippleColor="@color/guanzon_orange"
-            android:textColor="@color/material_black"
-            style="@style/Widget.AppCompat.Button.Borderless"/>
+            style="@style/Widget.MaterialComponents.Button"/>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/guanzon_orange"/>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_cancel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Cancel"
             app:rippleColor="@color/guanzon_orange"
-            android:textColor="@color/material_black"
-            style="@style/Widget.AppCompat.Button.Borderless"/>
+            style="@style/Widget.MaterialComponents.Button"/>
     </LinearLayout>
-
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

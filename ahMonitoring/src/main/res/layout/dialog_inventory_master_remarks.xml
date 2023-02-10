@@ -23,7 +23,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Randon Stock Inventory"
-            android:textColor="@color/material_black"
             android:textSize="21sp"
             android:gravity="center"
             android:textAlignment="center"
@@ -34,7 +33,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Please enter remarks for overall inventory for this branch."
-            android:textColor="@color/material_black"
             android:gravity="center"
             android:paddingHorizontal="10dp"
             android:textAlignment="center"
@@ -73,7 +71,6 @@
             android:layout_weight="1"
             android:text="Confirm"
             app:rippleColor="@color/guanzon_digital_orange"
-            android:textColor="@color/material_black"
             android:fontFamily="@font/roboto_medium"
             style="@style/Widget.AppCompat.Button.Borderless"/>
 
@@ -89,7 +86,6 @@
             android:layout_weight="1"
             android:text="Cancel"
             app:rippleColor="@color/guanzon_digital_orange"
-            android:textColor="@color/material_black"
             android:fontFamily="@font/roboto_medium"
             style="@style/Widget.AppCompat.Button.Borderless"/>
     </LinearLayout>

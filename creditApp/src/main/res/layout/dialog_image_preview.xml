@@ -33,7 +33,6 @@
             android:text="Document Scan"
             android:textSize="20sp"
             android:textAlignment="center"
-            android:textColor="@color/textColor_Black"
             android:fontFamily="@font/roboto_bold"
             android:layout_marginTop="15dp"
             android:gravity="center_horizontal" />
@@ -62,8 +61,7 @@
                     android:id="@+id/holderImagePreview"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    >
+                    android:layout_gravity="center">
                     <ImageView
                         android:id="@+id/imgPreview"
                         android:layout_width="fill_parent"

@@ -36,7 +36,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textSize="14sp"
-                android:textColor="@color/textColor_Black"
                 android:fontFamily="@font/roboto_bold"/>
 
             <TextView
@@ -65,7 +64,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textColor="@color/textColor_Black"
                 android:fontFamily="@font/roboto_bold"
                 android:drawablePadding="5dp"
                 android:gravity="center_vertical"
@@ -78,7 +76,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textColor="@color/textColor_Black"
             android:fontFamily="@font/roboto_regular"
             android:layout_marginTop="5dp"
             android:drawablePadding="5dp"
@@ -91,7 +88,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textColor="@color/textColor_Black"
             android:fontFamily="@font/roboto_regular"
             android:layout_marginTop="5dp"
             android:drawablePadding="5dp"
@@ -116,7 +112,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Amortization"
-                android:textColor="@color/textColor_Black"
                 android:fontFamily="@font/roboto_regular"/>
 
             <TextView
@@ -125,7 +120,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:gravity="end"
-                android:textColor="@color/textColor_Black"
                 android:fontFamily="@font/roboto_regular"/>
 
         </LinearLayout>
@@ -141,7 +135,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Amount Due"
-                android:textColor="@color/textColor_Black"
                 android:fontFamily="@font/roboto_regular"/>
 
             <TextView
@@ -150,7 +143,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:gravity="end"
-                android:textColor="@color/textColor_Black"
                 android:fontFamily="@font/roboto_regular"/>
 
         </LinearLayout>

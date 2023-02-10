@@ -32,7 +32,6 @@
             android:layout_height="wrap_content"
             android:text="TransNox . :"
             android:textSize="16sp"
-            android:textColor="@color/textColor_Black"
             android:fontFamily="@font/roboto_medium"/>
 
         <View
@@ -49,7 +48,6 @@
             android:gravity="center_vertical"
             android:layout_marginTop="10dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textColor="@color/textColor_Black"
             android:drawableLeft="@drawable/ic_collection_client" />
 
 
@@ -70,8 +68,7 @@
             android:drawablePadding="5dp"
             android:fontFamily="@font/roboto_regular"
             android:gravity="center_vertical"
-            android:layout_marginTop="10dp"
-            android:textColor="@color/textColor_Black" />
+            android:layout_marginTop="10dp"/>
 
         <LinearLayout
             android:id="@+id/linear_status"
@@ -87,15 +84,13 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1.2"
                 android:gravity="start|center_vertical"
-                android:fontFamily="@font/roboto_medium"
-                android:textColor="@color/textColor_Black"/>
+                android:fontFamily="@font/roboto_medium"/>
 
             <TextView
                 android:id="@+id/lbl_leaveStatus"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight=".8"
-                android:textColor="@color/material_white"
                 android:paddingVertical="3dp"
                 android:fontFamily="@font/roboto_medium"
                 android:gravity="center"
@@ -114,7 +109,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight=".9"
                 android:text="Applied date from :"
-                android:textColor="@color/textColor_Black"
                 android:fontFamily="@font/roboto_medium"
                 android:drawablePadding="5dp"
                 android:gravity="center_vertical"
@@ -128,7 +122,6 @@
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:gravity="end|center_vertical"
-                android:textColor="@color/textColor_Orange"
                 android:fontFamily="@font/roboto_bold"/>
         </LinearLayout>
 
@@ -143,7 +136,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight=".9"
                 android:text="Applied date thru :"
-                android:textColor="@color/textColor_Black"
                 android:fontFamily="@font/roboto_medium"
                 android:drawablePadding="5dp"
                 android:gravity="center_vertical"
@@ -157,7 +149,6 @@
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:gravity="end|center_vertical"
-                android:textColor="@color/textColor_Orange"
                 android:fontFamily="@font/roboto_bold"/>
         </LinearLayout>
 
@@ -166,7 +157,6 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:textColorHint="@color/textColor_Black"
             android:hint="Purpose / Remarks :"
             style="@style/TextInputTextAreaStyle">
 
@@ -181,8 +171,7 @@
                 android:inputType="textMultiLine"
                 android:lines="10"
                 android:maxLength="50"
-                android:minLines="3"
-                android:textColor="@color/material_black" />
+                android:minLines="3"/>
         </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>

@@ -39,7 +39,6 @@
                     android:gravity="center"
                     android:text="UEMI Brooke's Point - YAMAHA"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@color/textColor_White"
                     android:textSize="20sp"
                     android:layout_marginBottom="10dp" />
 
@@ -129,7 +128,6 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Branch Performances"
-                                android:textColor="@color/guanzon_text_grey"
                                 android:textSize="17sp"
                                 android:fontFamily="@font/roboto_bold"/>
                             <TextView
@@ -137,7 +135,6 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="January 2021"
-                                android:textColor="@color/guanzon_text_grey"
                                 android:textSize="15sp"
                                 android:fontFamily="@font/roboto"/>
                         </LinearLayout>
@@ -157,8 +154,7 @@
                                 android:fontFamily="@font/roboto_medium"
                                 android:gravity="center"
                                 android:maxLines="2"
-                                android:text="Branch"
-                                android:textColor="@color/textColor_White" />
+                                android:text="Branch" />
 
                             <View
                                 android:layout_width="1dp"
@@ -171,8 +167,7 @@
                                 android:layout_weight="1"
                                 android:fontFamily="@font/roboto_medium"
                                 android:gravity="center"
-                                android:text="Goal"
-                                android:textColor="@color/textColor_White" />
+                                android:text="Goal"/>
 
                             <View
                                 android:layout_width="1dp"
@@ -186,8 +181,7 @@
                                 android:layout_weight="1"
                                 android:fontFamily="@font/roboto_medium"
                                 android:gravity="center"
-                                android:text="Actual"
-                                android:textColor="@color/textColor_White" />
+                                android:text="Actual"/>
                         </LinearLayout>
 
 

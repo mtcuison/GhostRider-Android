@@ -53,7 +53,6 @@
                 android:gravity="center"
                 android:fontFamily="@font/roboto_regular"
                 android:text="90"
-                android:textColor="@color/white"
                 android:textSize="10sp"/>
 
         </LinearLayout>
@@ -86,7 +85,6 @@
                 android:gravity="center"
                 android:fontFamily="@font/roboto_regular"
                 android:text="90"
-                android:textColor="@color/white"
                 android:textSize="10sp"/>
 
         </LinearLayout>
@@ -121,7 +119,6 @@
                 android:gravity="center"
                 android:fontFamily="@font/roboto_regular"
                 android:text="90"
-                android:textColor="@color/white"
                 android:textSize="10sp"/>
 
         </LinearLayout>

@@ -33,7 +33,6 @@
             android:layout_height="wrap_content"
             android:text="Import Collection List"
             android:textSize="20sp"
-            android:textColor="@color/textColor_Black"
             android:fontFamily="@font/roboto_bold"
             android:layout_marginTop="15dp"/>
 
@@ -50,7 +49,6 @@
             android:text="Please enter the name of the import file."
             android:textSize="16sp"
             android:padding="10dp"
-            android:textColor="@color/textColor_Black"
             android:fontFamily="@font/roboto_medium"
             android:layout_marginTop="15dp"/>
 
@@ -84,7 +82,6 @@
             android:layout_height="wrap_content"
             android:text="Confirm"
             app:rippleColor="@color/guanzon_orange"
-            android:textColor="@color/material_black"
             style="@style/Widget.AppCompat.Button.Borderless"/>
 
         <View
@@ -98,7 +95,6 @@
             android:layout_height="wrap_content"
             android:text="Cancel"
             app:rippleColor="@color/guanzon_orange"
-            android:textColor="@color/material_black"
             style="@style/Widget.AppCompat.Button.Borderless"/>
 
     </LinearLayout>

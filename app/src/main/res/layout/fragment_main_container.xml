@@ -72,8 +72,7 @@
                                 android:layout_marginBottom="3dp"
                                 android:fontFamily="@font/roboto_medium"
                                 android:gravity="center_horizontal"
-                                android:textSize="18sp"
-                                android:textColor="@color/material_black" />
+                                android:textSize="18sp" />
 
                             <TextView
                                 android:id="@+id/lbl_userEmail"
@@ -81,8 +80,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="3dp"
                                 android:fontFamily="@font/roboto_regular"
-                                android:gravity="center_horizontal"
-                                android:textColor="@color/material_black" />
+                                android:gravity="center_horizontal"/>
 
                             <TextView
                                 android:id="@+id/lbl_userLevel"
@@ -90,8 +88,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="5dp"
                                 android:fontFamily="@font/roboto_regular"
-                                android:gravity="center_horizontal"
-                                android:textColor="@color/material_black" />
+                                android:gravity="center_horizontal"/>
 
                             <TextView
                                 android:id="@+id/lbl_userDepartment"
@@ -99,8 +96,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="5dp"
                                 android:fontFamily="@font/roboto_regular"
-                                android:gravity="center_horizontal"
-                                android:textColor="@color/material_black" />
+                                android:gravity="center_horizontal" />
 
 
                         </LinearLayout>
@@ -170,7 +166,6 @@
                         android:text="!"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:textColor="#ffff"
                         android:layout_alignParentEnd="true" />
                 </RelativeLayout>
             </RelativeLayout>
@@ -202,7 +197,6 @@
                 android:layout_marginBottom="3dp"
                 android:fontFamily="@font/roboto_light"
                 android:text="@string/sLblCopyright"
-                android:textColor="@color/footer_dark_grey"
                 android:textSize="11sp"
                 tools:ignore="SmallSp" />
 
@@ -213,7 +207,6 @@
                 android:layout_marginBottom="5dp"
                 android:fontFamily="@font/roboto_light"
                 android:text="@string/lblBuildVersion"
-                android:textColor="@color/footer_dark_grey"
                 android:textSize="11sp"
                 tools:ignore="SmallSp" />
 
