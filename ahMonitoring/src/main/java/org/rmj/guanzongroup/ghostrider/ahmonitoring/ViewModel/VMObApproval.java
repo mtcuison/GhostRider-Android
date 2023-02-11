@@ -25,8 +25,8 @@ import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeBusinessTrip;
 import org.rmj.g3appdriver.dev.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.lib.PetManager.Obj.EmployeeOB;
 import org.rmj.g3appdriver.lib.PetManager.PetManager;
-import org.rmj.g3appdriver.lib.PetManager.iPM;
-import org.rmj.g3appdriver.lib.PetManager.model.OBApprovalInfo;
+import org.rmj.g3appdriver.lib.PetManager.model.iPM;
+import org.rmj.g3appdriver.lib.PetManager.pojo.OBApprovalInfo;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 
 public class VMObApproval extends AndroidViewModel {

@@ -21,9 +21,9 @@ import androidx.lifecycle.LiveData;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.lib.ApprovalCode.ApprovalCode;
-import org.rmj.g3appdriver.lib.ApprovalCode.SCA;
+import org.rmj.g3appdriver.lib.ApprovalCode.model.SCA;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
-import org.rmj.g3appdriver.lib.ApprovalCode.model.AppCodeParams;
+import org.rmj.g3appdriver.lib.ApprovalCode.pojo.AppCodeParams;
 
 import java.util.List;
 

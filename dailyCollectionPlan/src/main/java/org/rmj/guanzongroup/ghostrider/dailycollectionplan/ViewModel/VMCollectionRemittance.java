@@ -25,7 +25,7 @@ import org.rmj.g3appdriver.dev.Database.Entities.ERemittanceAccounts;
 import org.rmj.g3appdriver.dev.Database.Repositories.RRemittanceAccount;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.lib.integsys.Dcp.LRDcp;
-import org.rmj.g3appdriver.lib.integsys.Dcp.model.Remittance;
+import org.rmj.g3appdriver.lib.integsys.Dcp.pojo.Remittance;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 
 import java.util.List;
