@@ -17,6 +17,7 @@ import android.graphics.Matrix;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.utils.widget.ImageFilterView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -25,6 +26,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+import  com.google.android.material.checkbox.MaterialCheckBox;
 
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_TransactionDetail;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogDisplayImage;
@@ -36,8 +50,8 @@ public class Fragment_Log_Client_Detail extends Fragment {
 
     private VMLogClientDetail mViewModel;
     private DialogDisplayImage poDialogx;
-    private ImageView ivTransImage;
-    private TextView txtAcctNo, txtClientName, txtClientAddress, txtCoord, txtTransTp, txtFullname,
+    private ImageFilterView ivTransImage;
+    private MaterialTextView txtAcctNo, txtClientName, txtClientAddress, txtCoord, txtTransTp, txtFullname,
     txtAddress,
     txtGender,
     txtCivilStat,

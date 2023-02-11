@@ -26,6 +26,19 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+import  com.google.android.material.checkbox.MaterialCheckBox;
+
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_TransactionDetail;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogDisplayImage;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
@@ -36,10 +49,10 @@ public class Fragment_Log_OtherTransactions extends Fragment {
     private final String IMAGE_NAME = Activity_TransactionDetail.imgNme;
     private VMLogOtherTransactions mViewModel;
     private DialogDisplayImage poDialogx;
-    private TextView txtAcctNo, txtClientName, txtClientAddress, txtRemarks, txtTransNo, txtTransTp,
+    private MaterialTextView txtAcctNo, txtClientName, txtClientAddress, txtRemarks, txtTransNo, txtTransTp,
             txtCoord, lblTransNo;
-    private ImageView ivTransImage;
-    private View divDivider, floatRemarks;
+    private ShapeableImageView ivTransImage;
+    private MaterialDivider divDivider, floatRemarks;
 
     public static Fragment_Log_OtherTransactions newInstance(String param1, String param2) {
         return new Fragment_Log_OtherTransactions();

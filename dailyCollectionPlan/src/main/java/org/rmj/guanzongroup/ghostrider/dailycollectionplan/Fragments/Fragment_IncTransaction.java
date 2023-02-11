@@ -36,8 +36,20 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+import  com.google.android.material.checkbox.MaterialCheckBox;
+
 
 import org.rmj.g3appdriver.etc.DCP_Constants;
 import org.rmj.g3appdriver.etc.LoadDialog;
@@ -60,7 +72,7 @@ public class Fragment_IncTransaction extends Fragment {
     private LoadDialog poDialog;
     private MessageBox poMessage;
 
-    private TextView lblFullNme, lblAccount, lblTransact;
+    private MaterialTextView lblFullNme, lblAccount, lblTransact;
     private TextInputEditText txtRemarks;
     private MaterialButton btnPost;
 
