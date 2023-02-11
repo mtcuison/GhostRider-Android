@@ -285,7 +285,7 @@
                         android:hint="Branch Name"
                         android:layout_marginTop="5dp">
 
-                        <AutoCompleteTextView
+                        <com.google.android.material.textfield.MaterialAutoCompleteTextView
                             android:id="@+id/txt_remitBranch"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
