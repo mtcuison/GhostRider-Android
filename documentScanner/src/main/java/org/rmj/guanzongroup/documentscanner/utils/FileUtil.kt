@@ -2,6 +2,7 @@ package org.rmj.guanzongroup.documentscanner.utils
 
 import android.os.Environment
 import androidx.activity.ComponentActivity
+import org.rmj.guanzongroup.documentscanner.xxxImageStatic.*
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -26,6 +27,6 @@ class FileUtil {
 
     // create file in pictures directory
     val storageDir: File? = activity.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-    return File.createTempFile("DOCUMENT_SCAN_${pageNumber}_${dateTime}", ".jpg", storageDir)
+    return File.createTempFile(TransNox + "_" + EntryNox + "_" + FileCode, ".png", storageDir)
   }
 }
