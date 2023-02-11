@@ -11,6 +11,21 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.google.android.material.radiobutton.MaterialRadioButton;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+import  com.google.android.material.checkbox.MaterialCheckBox;
+
+
 import org.guanzongroup.com.creditevaluation.Core.oChildFndg;
 import org.guanzongroup.com.creditevaluation.Core.oParentFndg;
 import org.guanzongroup.com.creditevaluation.R;
@@ -85,12 +100,12 @@ public class CIHistoryPreviewAdapter extends BaseExpandableListAdapter {
         }
         ExpandableListView mExpandableListView = (ExpandableListView) viewGroup;
         mExpandableListView.expandGroup(groupPosition);
-        TextView txtListChild = view.findViewById(R.id.lbl_evalLabel);
+        MaterialTextView txtListChild = view.findViewById(R.id.lbl_evalLabel);
         RadioGroup rgEval = view.findViewById(R.id.rg_evaluator);
         txtListChild.setVisibility(View.GONE);
         rgEval.setVisibility(View.GONE);
-        TextView lblField = view.findViewById(R.id.lbl_evalField);
-        TextView lblTitle = view.findViewById(R.id.lbl_evalTitle);
+        MaterialTextView lblField = view.findViewById(R.id.lbl_evalField);
+        MaterialTextView lblTitle = view.findViewById(R.id.lbl_evalTitle);
         lblField.setText(loParent.getTitle());
         lblTitle.setText(loParent.getParentDescript());
         lblField.setVisibility(View.GONE);
@@ -108,14 +123,14 @@ public class CIHistoryPreviewAdapter extends BaseExpandableListAdapter {
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = infalInflater.inflate(R.layout.list_item_evaluation, null);
         }
-        TextView lblField = view.findViewById(R.id.lbl_evalField);
-        TextView lblTitle = view.findViewById(R.id.lbl_evalTitle);
+        MaterialTextView lblField = view.findViewById(R.id.lbl_evalField);
+        MaterialTextView lblTitle = view.findViewById(R.id.lbl_evalTitle);
         lblField.setVisibility(View.GONE);
         lblTitle.setVisibility(View.GONE);
-        TextView txtListChild = view.findViewById(R.id.lbl_evalLabel);
+        MaterialTextView txtListChild = view.findViewById(R.id.lbl_evalLabel);
         RadioGroup rgEval = view.findViewById(R.id.rg_evaluator);
-        RadioButton rb_correct = view.findViewById(R.id.rb_correct);
-        RadioButton rb_incorrect = view.findViewById(R.id.rb_incorrect);
+        MaterialRadioButton rb_correct = view.findViewById(R.id.rb_correct);
+        MaterialRadioButton rb_incorrect = view.findViewById(R.id.rb_incorrect);
         rb_incorrect.setClickable(false);
         rb_correct.setClickable(false);
         txtListChild.setText(lsLabel);

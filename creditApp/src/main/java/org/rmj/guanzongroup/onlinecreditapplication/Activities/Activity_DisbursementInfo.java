@@ -18,6 +18,19 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
 
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+import  com.google.android.material.checkbox.MaterialCheckBox;
+
 import org.json.JSONException;
 import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.etc.MessageBox;
@@ -34,11 +47,11 @@ public class Activity_DisbursementInfo extends AppCompatActivity {
 
     private VMDisbursement mViewModel;
     private MessageBox poMessage;
-    private AutoCompleteTextView spnTypex;
+    private MaterialAutoCompleteTextView spnTypex;
     private String typeX = "";
     private TextInputEditText tieFoodx, tieElctx, tieWater, tieLoans, tieBankN, tieCCBnk, tieLimit, tieYearS;
-    private Button btnPrev, btnNext;
-    private Toolbar toolbar;
+    private MaterialButton btnPrev, btnNext;
+    private MaterialToolbar toolbar;
 
 
     private String TransNox;

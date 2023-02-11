@@ -20,6 +20,21 @@ import android.widget.Filterable;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+import  com.google.android.material.checkbox.MaterialCheckBox;
+
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -93,11 +108,11 @@ public class CreditEvaluationListAdapter extends RecyclerView.Adapter<CreditEval
 
     public class CreditEvaluationViewHolder extends RecyclerView.ViewHolder{
 
-        private final TextView lblTransNoxxx;
-        private final TextView lblClientName;
-        private final TextView lblAppltnDate;
-        private final TextView lblBranch;
-        private final TextView lblRcmdtnx1;
+        private final MaterialTextView lblTransNoxxx;
+        private final MaterialTextView lblClientName;
+        private final MaterialTextView lblAppltnDate;
+        private final MaterialTextView lblBranch;
+        private final MaterialTextView lblRcmdtnx1;
         private final LinearLayout lnRcmdtnx1;
 
         public CreditEvaluationViewHolder(@NonNull View itemView, OnApplicationClickListener onApplicationClickListener) {
