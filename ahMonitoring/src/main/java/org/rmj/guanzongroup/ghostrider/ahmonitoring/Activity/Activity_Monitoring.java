@@ -30,6 +30,15 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_JobOrder;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_MCSales;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_SPSales;
@@ -46,9 +55,9 @@ public class Activity_Monitoring extends AppCompatActivity {
     private String psAreaCde;
     private String psBrnchCd;
     private ViewPager viewPager;
-    private TextView lblTitle;
+    private MaterialTextView lblTitle;
     private ColorStateList poColor;
-    private TextView lblItem1, lblItem2, lblSelectd;
+    private MaterialTextView lblItem1, lblItem2, lblSelectd;
 
     public static Activity_Monitoring getInstance(){
         return instance;
