@@ -22,7 +22,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 
+
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+import  com.google.android.material.checkbox.MaterialCheckBox;
+
 
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
@@ -44,7 +57,7 @@ public class DialogImagePreview{
                 .setView(view);
         poDialogx = loBuilder.create();
         poDialogx.setCancelable(false);
-        ImageView imgPreview = view.findViewById(R.id.imgPreview);
+        ShapeableImageView imgPreview = view.findViewById(R.id.imgPreview);
         MaterialButton btnCancel = view.findViewById(R.id.btnPreviewOkay);
 
         if (DCP_Constants.selectedImageBitmap != null){
