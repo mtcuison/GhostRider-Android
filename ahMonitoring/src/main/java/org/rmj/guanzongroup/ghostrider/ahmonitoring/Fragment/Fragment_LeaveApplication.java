@@ -39,6 +39,18 @@ import org.rmj.g3appdriver.lib.PetManager.model.LeaveApplication;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMLeaveApplication;
 
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -50,7 +62,7 @@ public class Fragment_LeaveApplication extends Fragment {
 
     private VMLeaveApplication mViewModel;
     private LeaveApplication poLeave;
-    private TextView lblTransNox, lblUsername, lblPosition, lblBranch;
+    private MaterialTextView lblTransNox, lblUsername, lblPosition, lblBranch;
     private Spinner spnType;
     private TextInputEditText txtDateFrom, txtDateTo, txtNoDays, txtRemarks;
     private MaterialButton btnSubmit;

@@ -31,6 +31,18 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -71,7 +83,7 @@ public class Fragment_SelfieLog extends Fragment {
 
     private VMSelfieLog mViewModel;
 
-    private TextView lblUsername, lblPosition, lblBranch;
+    private MaterialTextView lblUsername, lblPosition, lblBranch;
     private TextInputEditText txtDate;
     private MaterialButton btnCamera, btnBranch;
     private RecyclerView recyclerView;
