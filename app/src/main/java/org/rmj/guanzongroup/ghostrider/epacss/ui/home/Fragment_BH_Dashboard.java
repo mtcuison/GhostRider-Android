@@ -62,6 +62,18 @@ import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.ui.etc.AppDeptIcon;
 import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_Settings;
 
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,12 +81,11 @@ public class Fragment_BH_Dashboard extends Fragment {
 
     private VMBHDashboard mViewModel;
 
-    private TextView lblBranchNm,
+    private MaterialTextView lblBranchNm,
                     lblUserName,
                     lblUserPost,
-                    lblUserDept;
-
-    private TextView lblPeriod,
+                    lblUserDept,
+                    lblPeriod,
                     lblProgrss,
                     lblPrgPrct,
                     lblGoalxxx,
@@ -83,10 +94,8 @@ public class Fragment_BH_Dashboard extends Fragment {
     private MaterialButton btnSettng, btnLogout;
 
     private ColorStateList poColor;
-    private TextView lblItem1;
-    private TextView lblItem2;
-    private TextView lblSelectd;
-    private ImageView imgDept;
+    private MaterialTextView lblItem1,lblItem2,lblSelectd;
+    private ShapeableImageView imgDept;
     private LineChart lineChart;
 
     private String BranchCd;
