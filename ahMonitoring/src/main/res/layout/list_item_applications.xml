@@ -9,9 +9,10 @@
   ~ project file last modified : 9/16/21, 9:47 AM
   -->
 
-<androidx.cardview.widget.CardView
+<com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:theme="@style/GhostRiderMaterialTheme"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardElevation="3dp"
@@ -26,7 +27,7 @@
         android:orientation="vertical"
         android:padding="5dp">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lbl_transNox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -34,12 +35,12 @@
             android:textSize="16sp"
             android:fontFamily="@font/roboto_medium"/>
 
-        <View
+        <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/guanzon_orange"/>
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lbl_employeeName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -51,7 +52,7 @@
             android:drawableLeft="@drawable/ic_collection_client" />
 
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lbl_deptNme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -61,7 +62,7 @@
             android:layout_marginTop="5dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lbl_branchNm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -78,7 +79,7 @@
             android:gravity="center"
             android:layout_marginVertical="5dp">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_leaveType"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -86,7 +87,7 @@
                 android:gravity="start|center_vertical"
                 android:fontFamily="@font/roboto_medium"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_leaveStatus"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -104,7 +105,7 @@
             android:orientation="horizontal"
             android:layout_marginTop="5dp">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight=".9"
@@ -116,7 +117,7 @@
                 app:drawableLeftCompat="@android:drawable/ic_menu_my_calendar"
                 android:drawableTint="@color/textColor_Black" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_dateFrom"
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
@@ -131,7 +132,7 @@
             android:orientation="horizontal"
             android:layout_marginTop="5dp">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight=".9"
@@ -143,7 +144,7 @@
                 app:drawableLeftCompat="@android:drawable/ic_menu_my_calendar"
                 android:drawableTint="@color/textColor_Black"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_dateThru"
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
@@ -176,4 +177,4 @@
 
     </LinearLayout>
 
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

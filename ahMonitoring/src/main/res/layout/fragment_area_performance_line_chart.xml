@@ -14,6 +14,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:theme="@style/GhostRiderMaterialTheme"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/bg_gradient_light"
     tools:context="Fragment.Fragment_AreaPerformance_LineChart">
@@ -42,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tvArea"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -55,7 +56,7 @@
 
                 <include layout="@layout/custom_tab_ah" />
 
-                <androidx.cardview.widget.CardView
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="10dp"
@@ -84,13 +85,13 @@
                             android:layout_marginVertical="10dp"
                             android:orientation="vertical">
 
-                            <TextView
+                            <com.google.android.material.textview.MaterialTextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Branch Performances"
                                 android:textSize="17sp"
                                 android:fontFamily="@font/roboto_bold"/>
-                            <TextView
+                            <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/lbl_date"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -107,7 +108,7 @@
                             android:orientation="horizontal"
                             android:padding="5dp">
 
-                            <TextView
+                            <com.google.android.material.textview.MaterialTextView
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
@@ -116,12 +117,12 @@
                                 android:maxLines="2"
                                 android:text="Branch" />
 
-                            <View
+                            <com.google.android.material.divider.MaterialDivider
                                 android:layout_width="1dp"
                                 android:layout_height="match_parent"
                                 android:background="@color/color_dadada" />
 
-                            <TextView
+                            <com.google.android.material.textview.MaterialTextView
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
@@ -129,12 +130,12 @@
                                 android:gravity="center"
                                 android:text="Goal" />
 
-                            <View
+                            <com.google.android.material.divider.MaterialDivider
                                 android:layout_width="1dp"
                                 android:layout_height="match_parent"
                                 android:background="@color/color_dadada" />
 
-                            <TextView
+                            <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/lbl_list_actual"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
@@ -167,14 +168,14 @@
 
                     </LinearLayout>
 
-                </androidx.cardview.widget.CardView>
+                </com.google.android.material.card.MaterialCardView>
             </LinearLayout>
 
         </RelativeLayout>
 
     </RelativeLayout>
 
-    <androidx.appcompat.widget.Toolbar
+    <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar_area_performance"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"

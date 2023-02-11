@@ -4,9 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:theme="@style/GhostRiderMaterialTheme"
     android:padding="10dp">
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/lbl_branchCd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -14,7 +15,7 @@
         android:fontFamily="@font/roboto_medium"
         android:textSize="15sp"/>
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/lbl_branchNm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -22,7 +23,7 @@
         android:fontFamily="@font/roboto_regular"
         android:textSize="18sp"/>
 
-    <View
+    <com.google.android.material.divider.MaterialDivider
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/guanzon_orange"/>

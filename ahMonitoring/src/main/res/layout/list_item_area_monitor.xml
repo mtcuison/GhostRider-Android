@@ -14,9 +14,10 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:theme="@style/GhostRiderMaterialTheme"
     android:layout_marginVertical="5dp">
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/lbl_AreaBranchItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -42,7 +43,7 @@
             android:progress="50"
             android:layout_centerInParent="true"/>
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lbl_listItemPercentage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

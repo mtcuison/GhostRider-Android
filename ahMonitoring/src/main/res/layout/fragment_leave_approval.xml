@@ -41,20 +41,20 @@
                 android:gravity="center_horizontal"
                 android:orientation="vertical">
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto"
                     android:text="Leave Application"
                     android:textSize="22sp" />
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto"
                     android:text="Approval"
                     android:textSize="22sp" />
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/lbl_headerBranch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -63,7 +63,7 @@
                     android:fontFamily="@font/roboto_light"
                     android:layout_marginTop="5dp"/>
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/lbl_headerAddress"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -71,7 +71,7 @@
                     android:fontFamily="@font/roboto_light"/>
             </LinearLayout>
 
-            <View
+            <com.google.android.material.divider.MaterialDivider
                 android:layout_width="match_parent"
                 android:layout_height="0.8dp"
                 android:background="#fff" />
@@ -101,12 +101,12 @@
                         android:hint="Enter Transaction No." />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <ImageButton
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_quick_search"
                     android:layout_weight="1.7"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_name_search"
+                    app:icon="@drawable/ic_name_search"
                     android:layout_gravity="center"
                     style="@style/Base.Widget.AppCompat.Button.Borderless" />
             </LinearLayout>
@@ -122,7 +122,7 @@
             android:paddingBottom="10dp"
             android:layout_marginBottom="50dp">
 
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardPreventCornerOverlap="true"
@@ -141,7 +141,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/lbl_transNox"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -152,12 +152,12 @@
 
                     </LinearLayout>
 
-                    <View
+                    <com.google.android.material.divider.MaterialDivider
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:background="@color/guanzon_orange"/>
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/lbl_clientNm"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -168,7 +168,7 @@
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                         android:drawableLeft="@drawable/ic_collection_client" />
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/lbl_deptNme"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -178,7 +178,7 @@
                         android:layout_marginTop="10dp"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/lbl_branchNm"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -195,7 +195,7 @@
                         android:layout_marginVertical="5dp"
                         android:orientation="horizontal">
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/lbl_leaveCrdt"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -205,7 +205,7 @@
                             android:gravity="center_vertical"
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/lbl_leaveStatus"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -223,7 +223,7 @@
                         android:orientation="horizontal"
                         android:layout_marginTop="10dp">
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight=".9"
@@ -235,7 +235,7 @@
                             app:drawableLeftCompat="@drawable/ic_application_date"
                             android:drawableTint="@color/textColor_Black" />
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/lbl_dateApplied"
                             android:layout_width="0dp"
                             android:layout_height="fill_parent"
@@ -250,7 +250,7 @@
                         android:orientation="horizontal"
                         android:layout_marginTop="10dp">
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight=".9"
@@ -262,7 +262,7 @@
                             app:drawableLeftCompat="@drawable/ic_application_date"
                             android:drawableTint="@color/textColor_Black" />
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/lbl_dateApproved"
                             android:layout_width="0dp"
                             android:layout_height="fill_parent"
@@ -277,7 +277,7 @@
                         android:orientation="horizontal"
                         android:layout_marginTop="10dp">
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight=".9"
@@ -289,7 +289,7 @@
                             app:drawableLeftCompat="@drawable/ic_application_date"
                             android:drawableTint="@color/textColor_Black" />
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/lbl_dateFrom"
                             android:layout_width="0dp"
                             android:layout_height="fill_parent"
@@ -304,7 +304,7 @@
                         android:orientation="horizontal"
                         android:layout_marginTop="10dp">
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight=".9"
@@ -316,7 +316,7 @@
                             app:drawableLeftCompat="@drawable/ic_application_date"
                             android:drawableTint="@color/textColor_Black"/>
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/lbl_dateThru"
                             android:layout_width="0dp"
                             android:layout_height="fill_parent"
@@ -331,7 +331,7 @@
                         android:orientation="horizontal"
                         android:layout_marginTop="10dp">
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight=".9"
@@ -343,7 +343,7 @@
                             app:drawableLeftCompat="@drawable/ic_application_leave"
                             android:drawableTint="@color/textColor_Black"/>
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/lbl_leaveType"
                             android:layout_width="0dp"
                             android:layout_height="fill_parent"
@@ -376,9 +376,9 @@
 
                 </LinearLayout>
 
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cv_leave_ob"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -393,7 +393,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Approval"
@@ -522,7 +522,7 @@
 
                 </LinearLayout>
 
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
         </LinearLayout>
 

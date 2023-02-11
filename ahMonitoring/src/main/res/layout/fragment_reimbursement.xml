@@ -29,7 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/img_bg_guanzon_orange"
                 android:layout_width="0dp"
                 android:layout_height="190dp"
@@ -48,7 +48,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHorizontal_bias=".2">
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Reimbursement"
@@ -56,7 +56,7 @@
                     android:fontFamily="@font/roboto"
                     android:textSize="23sp"/>
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/lbl_username"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -66,14 +66,14 @@
                     android:textSize="20sp"
                     android:layout_marginTop="10dp"/>
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="DSA - Bookkeeper"
                     android:scrollHorizontally="false"
                     android:fontFamily="@font/roboto_light"
                     android:textSize="18sp"/>
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Local data is not sync"
@@ -85,7 +85,7 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Note: In case where receipt is not available. Specify report detail."
@@ -195,7 +195,7 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_submit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -16,6 +16,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    android:theme="@style/GhostRiderMaterialTheme"
     tools:context=".Fragment.Fragment_BranchOpening">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -23,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/img_bg_guanzon_orange"
             android:layout_width="0dp"
             android:layout_height="190dp"
@@ -42,7 +43,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias=".2">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -51,7 +52,7 @@
                 android:fontFamily="@font/roboto"
                 android:textSize="23sp"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_userPosition"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -60,7 +61,7 @@
                 android:fontFamily="@font/roboto_light"
                 android:textSize="18sp"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_userBranch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -69,7 +70,7 @@
                 android:fontFamily="@font/roboto_light"
                 android:textSize="18sp"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

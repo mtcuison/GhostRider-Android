@@ -15,6 +15,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:theme="@style/GhostRiderMaterialTheme"
     android:padding="10dp">
 
 
@@ -24,7 +25,7 @@
         android:orientation="horizontal"
         android:gravity="center">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lbl_itemTransNox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -34,7 +35,7 @@
             android:fontFamily="@font/roboto_medium"
             android:layout_marginBottom="5dp"/>
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/img_status"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -43,7 +44,7 @@
 
     </LinearLayout>
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/lbl_itemCode"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -51,7 +52,7 @@
         android:textSize="16sp"
         android:fontFamily="@font/roboto_regular"/>
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/lbl_itemDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

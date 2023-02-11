@@ -10,7 +10,8 @@
   ~ project file last modified : 4/24/21 3:18 PM
   -->
 
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -33,7 +34,7 @@
             android:orientation="horizontal"
             android:layout_marginTop="10dp">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_list_ccTransNox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -41,7 +42,7 @@
                 android:textSize="14sp"
                 android:fontFamily="@font/roboto_bold"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_list_ccSentStatus"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -49,7 +50,7 @@
                 android:gravity="end"
                 android:fontFamily="@font/roboto_bold"/>
         </LinearLayout>
-        <View
+        <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginBottom="5dp"
@@ -61,7 +62,7 @@
             android:orientation="horizontal"
             android:layout_marginVertical="5dp">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_list_ccBranch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -82,7 +83,7 @@
             android:orientation="horizontal"
             android:layout_marginVertical="5dp">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight=".5"
@@ -93,7 +94,7 @@
                 android:fontFamily="@font/roboto"
                 tools:targetApi="jelly_bean"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_list_ccEntryDte"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -113,7 +114,7 @@
             android:orientation="horizontal"
             android:layout_marginVertical="5dp">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight=".5"
@@ -124,7 +125,7 @@
                 android:fontFamily="@font/roboto"
                 tools:targetApi="jelly_bean"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_list_ccTotalEntry"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -140,4 +141,4 @@
 
     </LinearLayout>
 
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>
