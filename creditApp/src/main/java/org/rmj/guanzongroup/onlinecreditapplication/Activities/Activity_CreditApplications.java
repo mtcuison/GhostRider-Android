@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -88,7 +89,8 @@ public class Activity_CreditApplications extends AppCompatActivity {
                 recyclerView.setAdapter(new CreditApplicationsAdapter(eCreditApplications, new CreditApplicationsAdapter.OnItemActionClickListener() {
                     @Override
                     public void Resend(DCreditApplication.ApplicationLog creditapp) {
-
+                        String lsTransNo = creditapp.sTransNox;
+                        resendApp(lsTransNo);
                     }
 
                     @Override
@@ -97,7 +99,7 @@ public class Activity_CreditApplications extends AppCompatActivity {
                         loDialog.initDialog(creditapp, new DialogPreviewApplication.OnDialogActionClickListener() {
                             @Override
                             public void DocumentScan(DCreditApplication.ApplicationLog creditApp) {
-
+                                Toast.makeText(Activity_CreditApplications.this, "Under development.", Toast.LENGTH_SHORT).show();
                             }
                         });
                         loDialog.show();
