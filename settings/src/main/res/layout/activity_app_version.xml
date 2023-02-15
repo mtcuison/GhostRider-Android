@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/material_master_light_gradient"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:theme="@style/GhostRiderMaterialTheme">
 
     <ScrollView
         android:id="@+id/scv"
@@ -20,67 +21,55 @@
             android:id="@+id/gcircle_icon"
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:src="@drawable/ic_ghostrider_logo_day"
             android:layout_marginTop="50dp"
+            android:src="@drawable/ic_ghostrider_logo_day"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
+            style="@style/GhostRider_Update_Text_Title"
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Guanzon Circle"
             android:textSize="30sp"
-            android:textAlignment="center"
-            android:textStyle="bold"
-            android:fontFamily="@font/roboto_bold"
-            android:textColor="@color/guanzon_orange_day"
+            android:gravity="center"
             android:layout_marginTop="50dp"
-            android:textFontWeight="800"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/gcircle_icon"/>
 
             <TextView
+                style="@style/GhostRider_Update_Text_Sub_Title"
                 android:id="@+id/build_version"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text=""
+                android:text="BUILD V.0.02.3"
                 android:textSize="15sp"
-                android:textAlignment="center"
-                android:textStyle="bold"
-                android:fontFamily="@font/roboto_cond_bold"
-                android:textColor="@color/color_nav_dashboard"
-                android:background="@android:color/transparent"
-                android:divider="@android:color/transparent"
+                android:gravity="center"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/title"/>
 
             <TextView
+                style="@style/HintText"
                 android:id="@+id/date_build"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text=""
+                android:text="2022.13.15"
                 android:textSize="15sp"
-                android:textAlignment="center"
-                android:textStyle="bold"
-                android:fontFamily="@font/roboto_cond_bold"
-                android:textColor="@color/guanzon_dark_grey"
+                android:gravity="center"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/build_version"/>
 
             <TextView
+                style="@style/GhostRider_Update_Text_Caption"
                 android:id="@+id/lbl_aboutupdate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="New Update"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:fontFamily="@font/roboto_cond_bold"
-                android:textColor="@color/guanzon_text_grey"
                 android:layout_marginTop="50dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
@@ -89,13 +78,12 @@
                 app:layout_constraintTop_toBottomOf="@id/date_build"/>
 
             <TextView
+                style="@style/HintText"
                 android:id="@+id/about_update"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text=""
+                android:text="This update integrate new interface, ui design, and security patches"
                 android:textSize="15sp"
-                android:fontFamily="@font/roboto_regular"
-                android:textColor="@color/guanzon_dark_grey"
                 android:layout_marginTop="5dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
@@ -104,14 +92,11 @@
                 app:layout_constraintTop_toBottomOf="@id/lbl_aboutupdate"/>
 
             <TextView
+                style="@style/GhostRider_Update_Text_Caption"
                 android:id="@+id/lbl_updatedLog"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Updated Log"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:fontFamily="@font/roboto_cond_bold"
-                android:textColor="@color/guanzon_text_grey"
                 android:layout_marginTop="25dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
@@ -132,7 +117,7 @@
     </ScrollView>
 
     <androidx.appcompat.widget.AppCompatButton
-        style="@style/Widget.AppCompat.Button"
+        style="@style/GhostRider_Update_Button"
         android:id="@+id/btn_checkupdate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -140,14 +125,6 @@
         android:layout_marginBottom="30dp"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
-        android:padding="15dp"
-        android:textSize="20sp"
-        android:textAlignment="center"
-        android:textStyle="bold"
-        android:fontFamily="@font/roboto_cond_bold"
-        android:background="@drawable/oval_background"
-        android:backgroundTint="@color/color_nav_dashboard"
-        android:backgroundTintMode="add"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>

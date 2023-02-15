@@ -413,4 +413,37 @@
         <item name="tabRippleColor">@color/mtrl_tabs_ripple_color</item>
         <item name="tabUnboundedRipple">true</item>
     </style>
+
+    <!--GUILLIER-->
+    <!--TextView Title-->
+    <style name="GhostRider_Update_Text_Title">
+        <item name="fontFamily">@font/roboto</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:letterSpacing">0.20</item>
+        <item name="android:textColor">?attr/colorSecondary</item>
+    </style>
+    <!--Textview Subtitle-->
+    <style name="GhostRider_Update_Text_Sub_Title">
+        <item name="fontFamily">@font/roboto</item>
+        <item name="android:letterSpacing">0.10</item>
+        <item name="android:textColor">?attr/colorSecondary</item>
+    </style>
+    <!--Textview Captions-->
+    <style name="GhostRider_Update_Text_Caption">
+        <item name="fontFamily">@font/roboto</item>
+        <item name="android:letterSpacing">0.05</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">?attr/colorSecondary</item>
+    </style>
+    <!--Button Check Update-->
+    <style name="GhostRider_Update_Button">
+        <item name="android:padding">15dp</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:fontFamily">@font/roboto_cond_bold</item>
+        <item name="android:background">@drawable/oval_background</item>
+    </style>
 </resources>
