@@ -24,6 +24,6 @@ fun Bitmap.toBase64(): String {
  */
 fun Bitmap.saveToFile(file: File) {
   val fileOutputStream = FileOutputStream(file)
-  compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream)
+  compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream)
   fileOutputStream.close()
 }
