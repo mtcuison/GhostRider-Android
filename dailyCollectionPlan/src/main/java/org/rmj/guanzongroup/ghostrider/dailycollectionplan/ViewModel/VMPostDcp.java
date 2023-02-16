@@ -11,31 +11,22 @@
 
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel;
 
-import android.annotation.SuppressLint;
 import android.app.Application;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.dev.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.dev.Database.Repositories.RDailyCollectionPlan;
-import org.rmj.g3appdriver.dev.Telephony;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
-import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
-import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Core.DcpManager;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class VMPostDcp extends AndroidViewModel {
     private static final String TAG = VMPostDcp.class.getSimpleName();

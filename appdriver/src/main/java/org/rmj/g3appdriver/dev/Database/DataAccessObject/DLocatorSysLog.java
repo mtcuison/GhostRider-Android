@@ -23,7 +23,7 @@ import java.util.List;
 @Dao
 public interface DLocatorSysLog {
 
-    @Insert
+    @Insert()
     void insertLocation(EGLocatorSysLog locatorSysLog);
 
     @Query("UPDATE GLocator_Sys_log SET cSendStat = '1', dTimeStmp =:dTimeStmp WHERE dTransact =:dTransact")

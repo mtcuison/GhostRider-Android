@@ -19,20 +19,20 @@ import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.dev.Database.Repositories.RAreaPerformance;
 import org.rmj.g3appdriver.dev.Database.Repositories.RBranchPerformance;
-import org.rmj.g3appdriver.dev.HttpHeaders;
+import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
-import org.rmj.g3appdriver.etc.BranchPerformancePeriod;
+import org.rmj.g3appdriver.lib.BullsEye.BranchPerformancePeriod;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.lib.ImportData.model.ImportDataCallback;
 import org.rmj.g3appdriver.lib.ImportData.model.ImportInstance;
 import org.rmj.g3appdriver.lib.ImportData.Obj.Import_AreaPerformance;
 import org.rmj.g3appdriver.lib.ImportData.Obj.Import_BranchPerformance;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
-import org.rmj.g3appdriver.utils.WebApi;
-import org.rmj.g3appdriver.utils.WebClient;
+import org.rmj.g3appdriver.dev.Api.WebApi;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -124,7 +124,7 @@ public class PerformanceImportService extends JobService {
                             JSONObject loJSon = new JSONObject();
                             loJSon.put("period", lsPeriod.get(x));
                             loJSon.put("areacd", poUser.getUserAreaCode());
-                            response = WebClient.httpsPostJSon(poApi.getImportAreaPerformance(loConfig.isBackUpServer()), loJSon.toString(), poHeaders.getHeaders());
+                            response = WebClient.sendRequest(poApi.getImportAreaPerformance(loConfig.isBackUpServer()), loJSon.toString(), poHeaders.getHeaders());
                             JSONObject loJson = new JSONObject(response);
                             Log.e(TAG, loJson.getString("result"));
                             String lsResult = loJson.getString("result");

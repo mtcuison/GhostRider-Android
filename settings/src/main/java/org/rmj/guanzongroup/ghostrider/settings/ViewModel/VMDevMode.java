@@ -20,9 +20,6 @@ import androidx.lifecycle.LiveData;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.dev.DevTools;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.etc.SessionManager;
-import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 
 public class VMDevMode extends AndroidViewModel {
 

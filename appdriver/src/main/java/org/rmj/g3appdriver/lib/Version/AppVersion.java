@@ -6,12 +6,12 @@ import android.util.Log;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
-import org.rmj.g3appdriver.dev.HttpHeaders;
-import org.rmj.g3appdriver.dev.Telephony;
-import org.rmj.g3appdriver.dev.WebClient;
+import org.rmj.g3appdriver.dev.Api.HttpHeaders;
+import org.rmj.g3appdriver.dev.Device.Telephony;
+import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
-import org.rmj.g3appdriver.utils.WebApi;
+import org.rmj.g3appdriver.dev.Api.WebApi;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,6 +57,7 @@ public class AppVersion {
 
             if(lsResponse == null){
                 message = "Server no response.";
+                Log.e(TAG, message);
                 return false;
             }
 

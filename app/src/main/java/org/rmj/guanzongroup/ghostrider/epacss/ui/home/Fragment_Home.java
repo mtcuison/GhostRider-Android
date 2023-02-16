@@ -45,7 +45,6 @@ import org.rmj.g3appdriver.dev.Database.Entities.EBranchPerformance;
 import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
-import org.rmj.g3appdriver.etc.GeoLocator;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Application;
@@ -71,7 +70,6 @@ public class Fragment_Home extends Fragment {
     private final String CAMERA_USAGE = "Login";
 
     private VMHome mViewModel;
-    private GeoLocator poLocator;
     private ImageFileCreator poFilexx;
 
     private ImageView imgProfile;
@@ -97,7 +95,6 @@ public class Fragment_Home extends Fragment {
 
         mViewModel = new ViewModelProvider(this).get(VMHome.class);
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        poLocator = new GeoLocator(requireActivity(), requireActivity());
         poFilexx = new ImageFileCreator(getActivity(), CAMERA_USAGE);
         imgProfile = view.findViewById(R.id.img_profile);
         newsList = new ArrayList<>();
