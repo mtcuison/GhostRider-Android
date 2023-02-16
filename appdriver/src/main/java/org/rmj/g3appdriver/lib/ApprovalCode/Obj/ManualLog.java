@@ -18,11 +18,6 @@ import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.lib.ApprovalCode.model.SCA;
 import org.rmj.g3appdriver.lib.ApprovalCode.pojo.CreditAppInfo;
 import org.rmj.g3appdriver.lib.ApprovalCode.pojo.ManualTimeLog;
-import org.rmj.g3appdriver.utils.WebApi;
-import org.rmj.g3appdriver.utils.WebClient;
-import org.rmj.g3appdriver.lib.ApprovalCode.SCA;
-import org.rmj.g3appdriver.lib.ApprovalCode.model.CreditAppInfo;
-import org.rmj.g3appdriver.lib.ApprovalCode.model.ManualTimeLog;
 import org.rmj.g3appdriver.dev.Api.WebApi;
 
 import java.util.List;

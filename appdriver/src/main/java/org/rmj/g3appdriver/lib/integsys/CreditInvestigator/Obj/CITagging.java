@@ -1,4 +1,4 @@
-package org.rmj.g3appdriver.lib.integsys.CreditInvestigator;
+package org.rmj.g3appdriver.lib.integsys.CreditInvestigator.Obj;
 
 import android.app.Application;
 import android.util.Log;
@@ -26,7 +26,6 @@ import org.rmj.g3appdriver.lib.integsys.CreditInvestigator.pojo.BarangayRecord;
 import org.rmj.g3appdriver.lib.integsys.CreditInvestigator.pojo.CIImage;
 import org.rmj.g3appdriver.lib.integsys.CreditInvestigator.pojo.oChildFndg;
 import org.rmj.g3appdriver.lib.integsys.CreditInvestigator.pojo.oParentFndg;
-import org.rmj.g3appdriver.utils.WebApi;
 
 import java.util.Date;
 import java.util.HashMap;

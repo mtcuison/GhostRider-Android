@@ -20,10 +20,6 @@ import org.rmj.g3appdriver.lib.Notifications.NOTIFICATION_STATUS;
 import org.rmj.g3appdriver.lib.Notifications.RemoteMessageParser;
 import org.rmj.g3appdriver.lib.Notifications.model.iNotification;
 import org.rmj.g3appdriver.lib.Notifications.pojo.NotificationItemList;
-import org.rmj.g3appdriver.utils.WebApi;
-import org.rmj.g3appdriver.utils.WebClient;
-import org.rmj.g3appdriver.lib.Notifications.iNotification;
-import org.rmj.g3appdriver.lib.Notifications.model.NotificationItemList;
 import org.rmj.g3appdriver.dev.Api.WebApi;
 
 import java.text.SimpleDateFormat;

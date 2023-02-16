@@ -15,15 +15,10 @@ import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.dev.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.lib.ApprovalCode.SCA;
-import org.rmj.g3appdriver.lib.ApprovalCode.model.AppCodeParams;
-import org.rmj.g3appdriver.lib.ApprovalCode.model.CreditAppInfo;
 import org.rmj.g3appdriver.dev.Api.WebApi;
 import org.rmj.g3appdriver.lib.ApprovalCode.model.SCA;
 import org.rmj.g3appdriver.lib.ApprovalCode.pojo.AppCodeParams;
 import org.rmj.g3appdriver.lib.ApprovalCode.pojo.CreditAppInfo;
-import org.rmj.g3appdriver.utils.WebApi;
-import org.rmj.g3appdriver.utils.WebClient;
 
 import java.util.List;
 
