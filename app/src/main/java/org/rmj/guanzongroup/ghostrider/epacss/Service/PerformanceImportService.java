@@ -27,10 +27,10 @@ import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.lib.BullsEye.BranchPerformancePeriod;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
-import org.rmj.g3appdriver.lib.ImportData.ImportDataCallback;
-import org.rmj.g3appdriver.lib.ImportData.ImportInstance;
-import org.rmj.g3appdriver.lib.ImportData.Import_AreaPerformance;
-import org.rmj.g3appdriver.lib.ImportData.Import_BranchPerformance;
+import org.rmj.g3appdriver.lib.ImportData.model.ImportDataCallback;
+import org.rmj.g3appdriver.lib.ImportData.model.ImportInstance;
+import org.rmj.g3appdriver.lib.ImportData.Obj.Import_AreaPerformance;
+import org.rmj.g3appdriver.lib.ImportData.Obj.Import_BranchPerformance;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.dev.Api.WebApi;
 

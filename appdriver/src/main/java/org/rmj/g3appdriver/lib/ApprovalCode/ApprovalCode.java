@@ -33,6 +33,7 @@ import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.lib.ApprovalCode.Obj.LoanApproval;
 import org.rmj.g3appdriver.lib.ApprovalCode.Obj.ManualLog;
 import org.rmj.g3appdriver.lib.ApprovalCode.Obj.SystemCode;
+import org.rmj.g3appdriver.lib.ApprovalCode.model.SCA;
 import org.rmj.g3appdriver.utils.SQLUtil;
 import org.rmj.g3appdriver.dev.Api.WebApi;
 

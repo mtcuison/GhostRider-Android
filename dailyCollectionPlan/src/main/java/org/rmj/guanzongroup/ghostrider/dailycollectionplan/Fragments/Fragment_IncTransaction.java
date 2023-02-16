@@ -42,7 +42,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import org.rmj.g3appdriver.etc.DCP_Constants;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.lib.integsys.Dcp.model.OtherRemCode;
+import org.rmj.g3appdriver.lib.integsys.Dcp.pojo.OtherRemCode;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_Transaction;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.OnInitializeCameraCallback;

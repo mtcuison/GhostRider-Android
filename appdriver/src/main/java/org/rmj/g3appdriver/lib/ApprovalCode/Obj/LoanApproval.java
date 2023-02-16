@@ -17,6 +17,11 @@ import org.rmj.g3appdriver.lib.ApprovalCode.SCA;
 import org.rmj.g3appdriver.lib.ApprovalCode.model.CreditApp;
 import org.rmj.g3appdriver.lib.ApprovalCode.model.CreditAppInfo;
 import org.rmj.g3appdriver.dev.Api.WebApi;
+import org.rmj.g3appdriver.lib.ApprovalCode.model.SCA;
+import org.rmj.g3appdriver.lib.ApprovalCode.pojo.CreditApp;
+import org.rmj.g3appdriver.lib.ApprovalCode.pojo.CreditAppInfo;
+import org.rmj.g3appdriver.utils.WebApi;
+import org.rmj.g3appdriver.utils.WebClient;
 
 import java.util.List;
 
@@ -59,7 +64,7 @@ public class LoanApproval implements SCA {
             params.put("reasonxx", foVal.getReasonxx());
             params.put("approved", foVal.getApproved());
 
-            String lsResponse = WebClient.sendRequest(
+            String lsResponse = WebClient.httpsPostJSon(
                     poApi.getUrlApplicationApprove(poConfig.isBackUpServer()),
                     params.toString(),
                     poHeaders.getHeaders());
@@ -157,7 +162,7 @@ public class LoanApproval implements SCA {
             params.put("branchcd", args1);
             params.put("transnox", args2);
 
-            String lsResponse = WebClient.sendRequest(
+            String lsResponse = WebClient.httpsPostJSon(
                     poApi.getUrlLoadApplicationApproval(poConfig.isBackUpServer()),
                     params.toString(),
                     poHeaders.getHeaders());

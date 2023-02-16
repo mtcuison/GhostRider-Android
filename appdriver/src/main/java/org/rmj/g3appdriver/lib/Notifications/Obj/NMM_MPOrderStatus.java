@@ -21,6 +21,10 @@ import org.rmj.g3appdriver.lib.Notifications.RemoteMessageParser;
 import org.rmj.g3appdriver.lib.Notifications.iNotification;
 import org.rmj.g3appdriver.lib.Notifications.model.NotificationItemList;
 import org.rmj.g3appdriver.dev.Api.WebApi;
+import org.rmj.g3appdriver.lib.Notifications.model.iNotification;
+import org.rmj.g3appdriver.lib.Notifications.pojo.NotificationItemList;
+import org.rmj.g3appdriver.utils.WebApi;
+import org.rmj.g3appdriver.utils.WebClient;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -122,7 +126,7 @@ public class NMM_MPOrderStatus implements iNotification {
             params.put("stamp", new AppConstants().DATE_MODIFIED);
             params.put("infox", "");
 
-            String lsResponse = WebClient.sendRequest(
+            String lsResponse = WebClient.httpsPostJSon(
                     loApis.getUrlSendResponse(poConfig.isBackUpServer()),
                     params.toString(),
                     poHeaders.getHeaders());
