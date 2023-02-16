@@ -20,8 +20,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
 
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.FormatUIText;
@@ -41,7 +47,7 @@ public class Activity_InventoryEntry extends AppCompatActivity {
 
     private MessageBox poMessage;
 
-    private TextView lblTransNox, lblItemxx, lblBarcode;
+    private MaterialTextView lblTransNox, lblItemxx, lblBarcode;
     private TextInputEditText txtDate,
             txtRemarks1,
             txtEntryNox1,

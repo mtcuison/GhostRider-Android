@@ -14,6 +14,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:theme="@style/GhostRiderMaterialTheme"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragment.Fragment_LeaveApplication"
     android:orientation="vertical">
@@ -31,7 +32,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <ImageView
+                <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/img_bg_guanzon_orange"
                     android:layout_width="0dp"
                     android:layout_height="190dp"
@@ -50,51 +51,47 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintHorizontal_bias=".2">
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Leave Application"
                         android:scrollHorizontally="false"
                         android:fontFamily="@font/roboto"
-                        android:textColor="@color/white"
                         android:textSize="23sp"/>
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/lbl_username"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Dela Cruz, Josemari Joma, S."
                         android:scrollHorizontally="false"
                         android:fontFamily="@font/roboto"
-                        android:textColor="@color/white"
                         android:textSize="20sp"
                         android:layout_marginTop="10dp"/>
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/lbl_userPosition"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="DSA - Bookkeeper"
                         android:scrollHorizontally="false"
                         android:fontFamily="@font/roboto_light"
-                        android:textColor="@color/white"
                         android:textSize="18sp"/>
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/lbl_userBranch"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Local data is not sync"
                         android:scrollHorizontally="false"
                         android:fontFamily="@font/roboto_light"
-                        android:textColor="@color/white"
                         android:textSize="18sp"/>
 
                 </LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_transnox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

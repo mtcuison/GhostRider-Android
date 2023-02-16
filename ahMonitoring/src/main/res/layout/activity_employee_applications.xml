@@ -16,6 +16,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:theme="@style/GhostRiderMaterialTheme"
     tools:context=".Activity.Activity_Employee_Applications">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -23,11 +24,10 @@
         android:layout_height="wrap_content"
         android:theme="@style/GhostRiderMaterialTheme.AppBarOverlay">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar_application"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/material_tool_bar"
             app:popupTheme="@style/GhostRiderMaterialTheme.PopupOverlay" />
 
         <com.google.android.material.tabs.TabLayout
@@ -66,32 +66,29 @@
             android:layout_marginHorizontal="15dp"
             android:orientation="vertical">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_application"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto"
                 android:text="Leave Application"
                 android:gravity="center"
-                android:textColor="@color/textColor_White"
                 android:textSize="22sp" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_headerBranch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:text="Local data is not sync"
                 android:fontFamily="@font/roboto_light"
-                android:textColor="@color/textColor_White"
                 android:textSize="15sp" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_headerAddress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_light"
-                android:textColor="@color/textColor_White"
                 android:textSize="15sp" />
 
         </LinearLayout>

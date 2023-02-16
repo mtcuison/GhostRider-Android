@@ -10,7 +10,7 @@
   ~ project file last modified : 4/24/21 3:17 PM
   -->
 
-<androidx.cardview.widget.CardView
+<com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
@@ -20,6 +20,7 @@
     app:cardCornerRadius="25dp"
     app:cardUseCompatPadding="true"
     app:cardPreventCornerOverlap="true"
+    android:theme="@style/GhostRiderMaterialTheme"
     android:background="@color/material_lightgrey"
     android:layout_marginHorizontal="60dp">
 
@@ -29,12 +30,11 @@
         android:orientation="vertical"
         android:background="@drawable/background_dialog">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lbl_dialogTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Title"
-            android:textColor="@color/material_black"
             android:textSize="21sp"
             android:gravity="center"
             android:textAlignment="center"
@@ -45,12 +45,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_dialogMessage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Message"
-                android:textColor="@color/material_black"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
                 android:gravity="center"
@@ -61,7 +60,7 @@
 
         </ScrollView>
 
-        <View
+        <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"
             android:layout_height="0.7dp"
             android:background="@color/guanzon_orange"/>
@@ -78,12 +77,11 @@
                 android:layout_weight="1"
                 android:text="YES"
                 app:rippleColor="@color/guanzon_digital_orange"
-                android:textColor="@color/material_black"
                 android:fontFamily="@font/roboto_medium"
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:visibility="gone"/>
 
-            <View
+            <com.google.android.material.divider.MaterialDivider
                 android:id="@+id/view_midBorder"
                 android:layout_width="0.7dp"
                 android:layout_height="match_parent"
@@ -97,7 +95,6 @@
                 android:layout_weight="1"
                 android:text="NO"
                 app:rippleColor="@color/guanzon_digital_orange"
-                android:textColor="@color/material_black"
                 android:fontFamily="@font/roboto_medium"
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:visibility="gone"/>
@@ -105,4 +102,4 @@
 
     </LinearLayout>
 
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

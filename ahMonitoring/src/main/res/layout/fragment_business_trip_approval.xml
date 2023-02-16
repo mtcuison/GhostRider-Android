@@ -39,42 +39,38 @@
                android:gravity="center_horizontal"
                android:orientation="vertical">
 
-               <TextView
+               <com.google.android.material.textview.MaterialTextView
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
                    android:fontFamily="@font/roboto"
                    android:text="Business Trip Application"
-                   android:textColor="@color/textColor_White"
                    android:textSize="22sp" />
 
-               <TextView
+               <com.google.android.material.textview.MaterialTextView
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
                    android:fontFamily="@font/roboto"
                    android:text="Approval"
-                   android:textColor="@color/textColor_White"
                    android:textSize="22sp" />
 
-               <TextView
+               <com.google.android.material.textview.MaterialTextView
                    android:id="@+id/lbl_headerBranch"
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
                    android:textSize="15sp"
                    android:fontFamily="@font/roboto_light"
-                   android:textColor="@color/textColor_White"
                    android:layout_marginTop="5dp"/>
 
-               <TextView
+               <com.google.android.material.textview.MaterialTextView
                    android:id="@+id/lbl_headerAddress"
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
                    android:textSize="15sp"
-                   android:fontFamily="@font/roboto_light"
-                   android:textColor="@color/textColor_White"/>
+                   android:fontFamily="@font/roboto_light"/>
 
            </LinearLayout>
 
-           <View
+           <com.google.android.material.divider.MaterialDivider
                android:layout_width="match_parent"
                android:layout_height="0.8dp"
                android:background="#fff" />
@@ -97,7 +93,6 @@
                        android:id="@+id/txt_leave_ob_search"
                        android:layout_width="match_parent"
                        android:layout_height="wrap_content"
-                       android:textColor="#fbfbfb"
                        android:inputType="textCapWords|textPersonName"
                        android:imeOptions="actionSearch"
                        android:maxLines="1"
@@ -105,12 +100,12 @@
                        android:hint="Search transnox" />
                </com.google.android.material.textfield.TextInputLayout>
 
-               <ImageButton
+               <com.google.android.material.button.MaterialButton
                    android:id="@+id/btn_quick_search"
                    android:layout_weight="1.7"
                    android:layout_width="match_parent"
                    android:layout_height="wrap_content"
-                   android:src="@drawable/ic_name_search"
+                   app:icon="@drawable/ic_name_search"
                    android:layout_gravity="center"
                    style="@style/Base.Widget.AppCompat.Button.Borderless"
                    />
@@ -125,7 +120,7 @@
            android:padding="5dp"
            android:paddingBottom="10dp">
 
-           <androidx.cardview.widget.CardView
+           <com.google.android.material.card.MaterialCardView
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
                app:cardPreventCornerOverlap="true"
@@ -144,24 +139,23 @@
                        android:layout_height="wrap_content"
                        android:orientation="horizontal">
 
-                       <TextView
+                       <com.google.android.material.textview.MaterialTextView
                            android:id="@+id/lbl_transNox"
                            android:layout_width="0dp"
                            android:layout_height="wrap_content"
                            android:layout_weight="1"
                            android:text="TransNox . :"
                            android:textSize="16sp"
-                           android:textColor="@color/textColor_Black"
                            android:fontFamily="@font/roboto_medium"/>
 
                    </LinearLayout>
 
-                   <View
+                   <com.google.android.material.divider.MaterialDivider
                        android:layout_width="match_parent"
                        android:layout_height="1dp"
                        android:background="@color/guanzon_orange"/>
 
-                   <TextView
+                   <com.google.android.material.textview.MaterialTextView
                        android:id="@+id/lbl_clientNm"
                        android:layout_width="match_parent"
                        android:layout_height="wrap_content"
@@ -170,7 +164,6 @@
                        android:gravity="center_vertical"
                        android:layout_marginTop="10dp"
                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                       android:textColor="@color/textColor_Black"
                        android:drawableLeft="@drawable/ic_collection_client" />
 
                    <LinearLayout
@@ -179,12 +172,11 @@
                        android:orientation="horizontal"
                        android:layout_marginTop="10dp">
 
-                       <TextView
+                       <com.google.android.material.textview.MaterialTextView
                            android:layout_width="0dp"
                            android:layout_height="wrap_content"
                            android:layout_weight=".9"
                            android:text="Date applied :"
-                           android:textColor="@color/textColor_Black"
                            android:fontFamily="@font/roboto_bold"
                            android:drawablePadding="5dp"
                            android:gravity="center_vertical"
@@ -192,13 +184,12 @@
                            app:drawableLeftCompat="@android:drawable/ic_menu_my_calendar"
                            android:drawableTint="@color/textColor_Black" />
 
-                       <TextView
+                       <com.google.android.material.textview.MaterialTextView
                            android:id="@+id/lbl_dateApplied"
                            android:layout_width="0dp"
                            android:layout_height="fill_parent"
                            android:layout_weight="1"
                            android:gravity="end|center_vertical"
-                           android:textColor="@color/textColor_Orange"
                            android:fontFamily="@font/roboto_bold"/>
                    </LinearLayout>
 
@@ -208,12 +199,11 @@
                        android:orientation="horizontal"
                        android:layout_marginTop="10dp">
 
-                       <TextView
+                       <com.google.android.material.textview.MaterialTextView
                            android:layout_width="0dp"
                            android:layout_height="wrap_content"
                            android:layout_weight=".9"
                            android:text="Date approve :"
-                           android:textColor="@color/textColor_Black"
                            android:fontFamily="@font/roboto_bold"
                            android:drawablePadding="5dp"
                            android:gravity="center_vertical"
@@ -221,13 +211,12 @@
                            app:drawableLeftCompat="@android:drawable/ic_menu_my_calendar"
                            android:drawableTint="@color/textColor_Black" />
 
-                       <TextView
+                       <com.google.android.material.textview.MaterialTextView
                            android:id="@+id/lbl_dateApproved"
                            android:layout_width="0dp"
                            android:layout_height="fill_parent"
                            android:layout_weight="1"
                            android:gravity="end|center_vertical"
-                           android:textColor="@color/textColor_Orange"
                            android:fontFamily="@font/roboto_bold"/>
                    </LinearLayout>
 
@@ -237,12 +226,11 @@
                        android:orientation="horizontal"
                        android:layout_marginTop="10dp">
 
-                       <TextView
+                       <com.google.android.material.textview.MaterialTextView
                            android:layout_width="0dp"
                            android:layout_height="wrap_content"
                            android:layout_weight=".9"
                            android:text="Applied date from :"
-                           android:textColor="@color/textColor_Black"
                            android:fontFamily="@font/roboto_bold"
                            android:drawablePadding="5dp"
                            android:gravity="center_vertical"
@@ -250,13 +238,12 @@
                            app:drawableLeftCompat="@android:drawable/ic_menu_my_calendar"
                            android:drawableTint="@color/textColor_Black" />
 
-                       <TextView
+                       <com.google.android.material.textview.MaterialTextView
                            android:id="@+id/lbl_dateFrom"
                            android:layout_width="0dp"
                            android:layout_height="fill_parent"
                            android:layout_weight="1"
                            android:gravity="end|center_vertical"
-                           android:textColor="@color/textColor_Orange"
                            android:fontFamily="@font/roboto_bold"/>
                    </LinearLayout>
 
@@ -266,12 +253,11 @@
                        android:orientation="horizontal"
                        android:layout_marginTop="10dp">
 
-                       <TextView
+                       <com.google.android.material.textview.MaterialTextView
                            android:layout_width="0dp"
                            android:layout_height="wrap_content"
                            android:layout_weight=".9"
                            android:text="Applied date thru :"
-                           android:textColor="@color/textColor_Black"
                            android:fontFamily="@font/roboto_bold"
                            android:drawablePadding="5dp"
                            android:gravity="center_vertical"
@@ -279,13 +265,12 @@
                            app:drawableLeftCompat="@android:drawable/ic_menu_my_calendar"
                            android:drawableTint="@color/textColor_Black"/>
 
-                       <TextView
+                       <com.google.android.material.textview.MaterialTextView
                            android:id="@+id/lbl_dateThru"
                            android:layout_width="0dp"
                            android:layout_height="fill_parent"
                            android:layout_weight="1"
                            android:gravity="end|center_vertical"
-                           android:textColor="@color/textColor_Orange"
                            android:fontFamily="@font/roboto_bold"/>
                    </LinearLayout>
 
@@ -294,7 +279,6 @@
                        android:layout_width="fill_parent"
                        android:layout_height="wrap_content"
                        android:layout_marginTop="20dp"
-                       android:textColorHint="@color/textColor_Black"
                        android:hint="Purpose / Remarks :"
                        style="@style/TextInputTextAreaStyle">
 
@@ -304,7 +288,6 @@
                            android:layout_height="wrap_content"
                            android:enabled="false"
                            android:focusable="false"
-                           android:textColor="@color/material_black"
                            android:focusableInTouchMode="false"
                            android:inputType="textMultiLine"
                            android:maxLength="50"
@@ -315,9 +298,9 @@
 
                </LinearLayout>
 
-           </androidx.cardview.widget.CardView>
+           </com.google.android.material.card.MaterialCardView>
 
-           <androidx.cardview.widget.CardView
+           <com.google.android.material.card.MaterialCardView
                android:id="@+id/cv_leave_ob"
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
@@ -332,12 +315,11 @@
                    android:orientation="vertical"
                    android:padding="5dp">
 
-                   <TextView
+                   <com.google.android.material.textview.MaterialTextView
                        android:layout_width="match_parent"
                        android:layout_height="wrap_content"
                        android:text="Approval"
                        android:textSize="16sp"
-                       android:textColor="@color/black"
                        android:fontFamily="@font/roboto_black"
                        android:padding="10dp"/>
 
@@ -345,7 +327,6 @@
                        android:layout_width="match_parent"
                        android:layout_height="wrap_content"
                        android:hint="@string/sHintDateFrm"
-                       android:textColorHint="@color/textColor_Black"
                        style="@style/TextInputStyle">
 
                        <com.google.android.material.textfield.TextInputEditText
@@ -367,7 +348,6 @@
                        android:layout_height="wrap_content"
                        android:layout_weight="1"
                        android:hint="@string/sHintDateTo"
-                       android:textColorHint="@color/textColor_Black"
                        style="@style/TextInputStyle">
 
                        <com.google.android.material.textfield.TextInputEditText
@@ -409,7 +389,7 @@
                            android:text="Disapproved"/>
                    </LinearLayout>
                </LinearLayout>
-           </androidx.cardview.widget.CardView>
+           </com.google.android.material.card.MaterialCardView>
        </LinearLayout>
    </LinearLayout>
 </ScrollView>

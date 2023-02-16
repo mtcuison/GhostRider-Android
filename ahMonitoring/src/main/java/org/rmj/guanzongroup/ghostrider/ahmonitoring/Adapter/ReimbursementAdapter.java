@@ -22,7 +22,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.ReimburseInfo;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
-
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
 import java.util.List;
 
 public class ReimbursementAdapter extends RecyclerView.Adapter<ReimbursementAdapter.ExpViewHolder> {
@@ -66,10 +75,8 @@ public class ReimbursementAdapter extends RecyclerView.Adapter<ReimbursementAdap
 
     public static class ExpViewHolder extends RecyclerView.ViewHolder{
 
-        TextView lblDetail;
-        TextView lblAmount;
-        ImageButton btnEdit;
-        ImageButton btnDlte;
+        MaterialTextView lblDetail, lblAmount;
+        MaterialButton btnEdit, btnDlte;
 
         public ExpViewHolder(@NonNull View itemView) {
             super(itemView);

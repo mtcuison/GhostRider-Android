@@ -62,6 +62,18 @@ import org.rmj.g3appdriver.etc.ImageFileCreator;
 import org.rmj.guanzongroup.ghostrider.notifications.Activity.Activity_Container;
 import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_Settings;
 
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,8 +86,8 @@ public class Fragment_Home extends Fragment {
     private GeoLocator poLocator;
     private ImageFileCreator poFilexx;
 
-    private ImageView imgProfile;
-    private TextView lblFullNme,
+    private ShapeableImageView imgProfile;
+    private MaterialTextView lblFullNme,
             lblEmail,
             lblUserLvl,
             lblDept,
@@ -88,7 +100,7 @@ public class Fragment_Home extends Fragment {
     private RecyclerView recyclerView;
     private RecyclerView recyclerViewOpening;
     private MessageBox loMessage;
-    private CardView cvAHMonitoring;
+    private MaterialCardView cvAHMonitoring;
     private BottomNavigationView navHeader;
 
     @SuppressLint("NonConstantResourceId")

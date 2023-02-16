@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:theme="@style/GhostRiderMaterialTheme.AppBarOverlay">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar_CoMakerResidence"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
@@ -32,7 +32,7 @@
             android:orientation="vertical"
             android:padding="5dp">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 style="@style/HeaderLabelBlack"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -149,7 +149,7 @@
                 android:layout_weight="1"
                 android:hint="@string/sHintTown">
 
-                <AutoCompleteTextView
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/txt_town"
                     style="@style/AutoCompleteStyleTheme"
                     android:layout_width="match_parent"
@@ -168,7 +168,7 @@
                 android:layout_weight="1"
                 android:hint="@string/sHintBarangay">
 
-                <AutoCompleteTextView
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/txt_barangay"
                     style="@style/AutoCompleteStyleTheme"
                     android:layout_width="match_parent"
@@ -180,7 +180,7 @@
                     android:nextFocusForward="@+id/rg_ownership"/>
             </com.google.android.material.textfield.TextInputLayout>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 style="@style/HeaderLabelBlack"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -192,21 +192,21 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <RadioButton
+                <com.google.android.material.radiobutton.MaterialRadioButton
                     android:id="@+id/rb_owned"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/sLabelOwned" />
 
-                <RadioButton
+                <com.google.android.material.radiobutton.MaterialRadioButton
                     android:id="@+id/rb_rent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/sLabelRent" />
 
-                <RadioButton
+                <com.google.android.material.radiobutton.MaterialRadioButton
                     android:id="@+id/rb_careTaker"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -354,7 +354,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         style="@style/Regular_Label"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -368,14 +368,14 @@
                         android:layout_weight="1"
                         android:orientation="horizontal">
 
-                        <RadioButton
+                        <com.google.android.material.radiobutton.MaterialRadioButton
                             android:id="@+id/rb_yes"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="@string/sLabelYes" />
 
-                        <RadioButton
+                        <com.google.android.material.radiobutton.MaterialRadioButton
                             android:id="@+id/rb_no"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -394,7 +394,7 @@
                 android:layout_marginBottom="300dp"
                 android:orientation="horizontal">
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_creditAppPrvs"
                     style="@style/NavigationButton"
                     android:layout_width="wrap_content"
@@ -406,7 +406,7 @@
                     android:text="@string/sbtnPrvs"
                     tools:ignore="RelativeOverlap" />
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_creditAppNext"
                     style="@style/NavigationButton"
                     android:layout_width="wrap_content"

@@ -12,11 +12,10 @@
         android:layout_height="wrap_content"
         android:theme="@style/GhostRiderMaterialTheme.AppBarOverlay">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar_Properties"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/material_tool_bar"
             android:popupTheme="@style/GhostRiderMaterialTheme.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -32,7 +31,7 @@
             android:orientation="vertical"
             android:padding="5dp">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 style="@style/HeaderLabelBlack"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -61,8 +60,7 @@
                         android:maxLength="50"
                         android:maxLines="1"
                         android:nextFocusForward="@id/tie_cap_cmrFirstname"
-                        android:singleLine="true"
-                        android:textColor="@color/material_black" />
+                        android:singleLine="true" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -82,8 +80,7 @@
                         android:maxLength="50"
                         android:maxLines="1"
                         android:nextFocusForward="@id/tie_cap_cmrFirstname"
-                        android:singleLine="true"
-                        android:textColor="@color/material_black" />
+                        android:singleLine="true"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -103,12 +100,11 @@
                         android:maxLength="50"
                         android:maxLines="1"
                         android:nextFocusForward="@id/tie_cap_cmrFirstname"
-                        android:singleLine="true"
-                        android:textColor="@color/material_black" />
+                        android:singleLine="true" />
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
-            <View
+            <com.google.android.material.divider.MaterialDivider
                 android:layout_width="match_parent"
                 android:layout_height="0.2dp"
                 android:background="@color/textColor_Black" />
@@ -119,7 +115,7 @@
                 android:orientation="vertical"
                 android:padding="10dp">
 
-                <CheckBox
+                <com.google.android.material.checkbox.MaterialCheckBox
                     android:id="@+id/cb_4Wheels"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -128,7 +124,7 @@
                     android:text="Customer owns a 4 wheel vehicle"
                     tools:ignore="HardcodedText" />
 
-                <CheckBox
+                <com.google.android.material.checkbox.MaterialCheckBox
                     android:id="@+id/cb_3Wheels"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -136,7 +132,7 @@
                     android:text="Customer owns a 3 wheel vehicle (Ex. Tricycle)."
                     tools:ignore="HardcodedText" />
 
-                <CheckBox
+                <com.google.android.material.checkbox.MaterialCheckBox
                     android:id="@+id/cb_2Wheels"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -144,7 +140,7 @@
                     android:text="Customer owns a 2 wheel vehicle (Bike, Single Motorcycle)."
                     tools:ignore="HardcodedText" />
 
-                <CheckBox
+                <com.google.android.material.checkbox.MaterialCheckBox
                     android:id="@+id/cb_Aircon"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -152,7 +148,7 @@
                     android:text="Customer owns an air condition"
                     tools:ignore="HardcodedText" />
 
-                <CheckBox
+                <com.google.android.material.checkbox.MaterialCheckBox
                     android:id="@+id/cb_refrigerator"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -160,7 +156,7 @@
                     android:text="Customer owns refrigerator"
                     tools:ignore="HardcodedText" />
 
-                <CheckBox
+                <com.google.android.material.checkbox.MaterialCheckBox
                     android:id="@+id/cb_television"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -175,7 +171,7 @@
                     android:layout_marginBottom="300dp"
                     android:orientation="horizontal">
 
-                    <Button
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_creditAppPrvs"
                         style="@style/NavigationButton"
                         android:layout_width="wrap_content"
@@ -187,7 +183,7 @@
                         android:text="@string/sbtnPrvs"
                         tools:ignore="RelativeOverlap" />
 
-                    <Button
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_creditAppNext"
                         style="@style/NavigationButton"
                         android:layout_width="wrap_content"

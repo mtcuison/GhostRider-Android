@@ -10,7 +10,7 @@
   ~ project file last modified : 4/24/21 3:18 PM
   -->
 
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView  xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -26,18 +26,17 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:background="@drawable/bg_gradient_light">
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/dialogTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Document Scan"
             android:textSize="20sp"
             android:textAlignment="center"
-            android:textColor="@color/textColor_Black"
             android:fontFamily="@font/roboto_bold"
             android:layout_marginTop="15dp"
             android:gravity="center_horizontal" />
-        <View
+        <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/guanzon_orange"
@@ -62,9 +61,8 @@
                     android:id="@+id/holderImagePreview"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    >
-                    <ImageView
+                    android:layout_gravity="center">
+                    <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/imgPreview"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
@@ -78,7 +76,7 @@
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
                android:orientation="vertical">
-               <View
+               <com.google.android.material.divider.MaterialDivider
                    android:layout_width="match_parent"
                    android:layout_height="1dp"
                    android:background="@color/guanzon_orange"
@@ -99,4 +97,4 @@
 
     </LinearLayout>
 
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

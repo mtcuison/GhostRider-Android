@@ -33,6 +33,17 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.ui.AppBarConfiguration;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeRole;
 import org.rmj.g3appdriver.dev.DeptCode;
@@ -72,7 +83,7 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
     private boolean cSlfiex;
 
     private ImageView imgDept;
-    private TextView lblDept;
+    private MaterialTextView lblDept;
     private ExpandableListDrawerAdapter listAdapter;
     private ExpandableListView expListView;
 
@@ -172,7 +183,7 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
     }
 
     private void initWidgets(){
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        MaterialToolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 

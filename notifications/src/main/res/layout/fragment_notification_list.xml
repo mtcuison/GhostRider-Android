@@ -14,6 +14,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:theme="@style/GhostRiderMaterialTheme"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragment.Fragment_NotificationList">
 
@@ -34,7 +35,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginTop="25dp">
 
-                <androidx.cardview.widget.CardView
+                <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardview_dashboard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -57,11 +58,11 @@
 
                     </LinearLayout>
 
-                </androidx.cardview.widget.CardView>
+                </com.google.android.material.card.MaterialCardView>
 
             </RelativeLayout>
 
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_alignParentStart="true"
@@ -82,12 +83,12 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center">
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:layout_width="110dp"
             android:layout_height="130dp"
             android:src="@drawable/ic_head_notification" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto"

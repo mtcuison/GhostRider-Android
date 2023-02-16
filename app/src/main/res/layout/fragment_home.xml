@@ -14,6 +14,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:theme="@style/GhostRiderMaterialTheme"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -36,7 +37,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginTop="100dp">
 
-                <androidx.cardview.widget.CardView
+                <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardview_dashboard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -59,7 +60,7 @@
                             android:orientation="vertical"
                             android:padding="5dp">
 
-                            <TextView
+                            <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/lbl_userFullName"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -67,37 +68,33 @@
                                 android:layout_marginBottom="3dp"
                                 android:fontFamily="@font/roboto_medium"
                                 android:gravity="center_horizontal"
-                                android:textColor="@color/material_black"
                                 android:textSize="18sp" />
 
-                            <TextView
+                            <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/lbl_userEmail"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="3dp"
                                 android:fontFamily="@font/roboto_regular"
-                                android:gravity="center_horizontal"
-                                android:textColor="@color/material_black" />
+                                android:gravity="center_horizontal" />
 
-                            <TextView
+                            <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/lbl_userLevel"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="5dp"
                                 android:fontFamily="@font/roboto_regular"
-                                android:gravity="center_horizontal"
-                                android:textColor="@color/material_black" />
+                                android:gravity="center_horizontal"/>
 
-                            <TextView
+                            <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/lbl_userDepartment"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="5dp"
                                 android:fontFamily="@font/roboto_regular"
-                                android:gravity="center_horizontal"
-                                android:textColor="@color/material_black" />
+                                android:gravity="center_horizontal"/>
 
-                            <TextView
+                            <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/lbl_syncStatus"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -114,7 +111,7 @@
                             android:layout_height="wrap_content"
                             android:orientation="vertical">
 
-                            <View
+                            <com.google.android.material.divider.MaterialDivider
                                 android:layout_width="match_parent"
                                 android:layout_height="1dp"
                                 android:layout_marginTop="5dp"
@@ -135,7 +132,7 @@
 
                     </LinearLayout>
 
-                </androidx.cardview.widget.CardView>
+                </com.google.android.material.card.MaterialCardView>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -143,7 +140,7 @@
                     android:layout_below="@id/cardview_dashboard"
                     android:orientation="vertical">
 
-                    <androidx.cardview.widget.CardView
+                    <com.google.android.material.card.MaterialCardView
                         android:id="@+id/cv_ahMonitoring"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -168,17 +165,16 @@
                                 android:orientation="vertical"
                                 android:padding="5dp">
 
-                                <TextView
+                                <com.google.android.material.textview.MaterialTextView
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:fontFamily="@font/roboto_medium"
                                     android:gravity="center"
                                     android:text="Top Performing Branches"
-                                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                                    android:textColor="@color/material_black" />
+                                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
-                                <TextView
+                                <com.google.android.material.textview.MaterialTextView
                                     android:id="@+id/lbl_areaName"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
@@ -186,8 +182,7 @@
                                     android:layout_marginBottom="5dp"
                                     android:fontFamily="@font/roboto_regular"
                                     android:gravity="center_horizontal"
-                                    android:text="Area R1-A"
-                                    android:textColor="@color/material_black" />
+                                    android:text="Area R1-A" />
 
                                 <LinearLayout
                                     android:layout_width="wrap_content"
@@ -195,7 +190,7 @@
                                     android:layout_marginTop="10dp"
                                     android:orientation="horizontal">
 
-                                    <View
+                                    <com.google.android.material.divider.MaterialDivider
                                         android:layout_width="1dp"
                                         android:layout_height="match_parent"
                                         android:layout_marginStart="10dp"
@@ -214,7 +209,7 @@
 
                                 </LinearLayout>
 
-                                <View
+                                <com.google.android.material.divider.MaterialDivider
                                     android:layout_width="match_parent"
                                     android:layout_height="1dp"
                                     android:layout_marginStart="10dp"
@@ -227,15 +222,14 @@
                                     android:layout_marginTop="8dp"
                                     android:orientation="horizontal">
 
-                                    <TextView
+                                    <com.google.android.material.textview.MaterialTextView
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
                                         android:gravity="center"
-                                        android:text="Legend :"
-                                        android:textColor="@color/textColor_Black" />
+                                        android:text="Legend :"/>
 
-                                    <TextView
+                                    <com.google.android.material.textview.MaterialTextView
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
@@ -244,10 +238,9 @@
                                         android:drawablePadding="5dp"
                                         android:drawableTint="@color/guanzon_digital_orange"
                                         android:text="SP Sales"
-                                        android:textColor="@color/textColor_Black"
                                         tools:ignore="UnusedAttribute,UseCompatTextViewDrawableXml" />
 
-                                    <TextView
+                                    <com.google.android.material.textview.MaterialTextView
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
@@ -256,10 +249,9 @@
                                         android:drawablePadding="5dp"
                                         android:drawableTint="#393939"
                                         android:text="MC Sales"
-                                        android:textColor="@color/textColor_Black"
                                         tools:ignore="UnusedAttribute,UseCompatTextViewDrawableXml" />
 
-                                    <TextView
+                                    <com.google.android.material.textview.MaterialTextView
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
@@ -268,7 +260,6 @@
                                         android:drawablePadding="5dp"
                                         android:drawableTint="#8E8E8E"
                                         android:text="Job Order"
-                                        android:textColor="@color/textColor_Black"
                                         tools:ignore="UnusedAttribute,UseCompatTextViewDrawableXml" />
 
                                 </LinearLayout>
@@ -277,9 +268,9 @@
 
                         </LinearLayout>
 
-                    </androidx.cardview.widget.CardView>
+                    </com.google.android.material.card.MaterialCardView>
 
-                    <androidx.cardview.widget.CardView
+                    <com.google.android.material.card.MaterialCardView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/linear_carousel"
@@ -297,16 +288,15 @@
                             android:layout_marginBottom="10dp"
                             android:orientation="vertical">
 
-                            <TextView
+                            <com.google.android.material.textview.MaterialTextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="5dp"
                                 android:fontFamily="@font/roboto_medium"
                                 android:gravity="center_horizontal"
-                                android:text="Branches Open Recently"
-                                android:textColor="@color/material_black" />
+                                android:text="Branches Open Recently"/>
 
-                            <View
+                            <com.google.android.material.divider.MaterialDivider
                                 android:layout_width="match_parent"
                                 android:layout_height="1dp"
                                 android:background="@color/guanzon_orange" />
@@ -320,7 +310,7 @@
 
                         </LinearLayout>
 
-                    </androidx.cardview.widget.CardView>
+                    </com.google.android.material.card.MaterialCardView>
 
                     <LinearLayout
                         android:id="@+id/footer_dashboard"
@@ -334,7 +324,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent">
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/tvCopyright"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -342,18 +332,16 @@
                             android:layout_marginBottom="3dp"
                             android:fontFamily="@font/roboto_light"
                             android:text="@string/sLblCopyright"
-                            android:textColor="@color/footer_dark_grey"
                             android:textSize="11sp"
                             tools:ignore="SmallSp" />
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/lbl_versionInfo"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="5dp"
                             android:fontFamily="@font/roboto_light"
                             android:text="@string/lblBuildVersion"
-                            android:textColor="@color/footer_dark_grey"
                             android:textSize="11sp"
                             tools:ignore="SmallSp" />
 
@@ -362,7 +350,7 @@
 
             </RelativeLayout>
 
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:cardMaxElevation="20dp"
@@ -372,14 +360,14 @@
                 android:layout_marginTop="50dp"
                 app:cardCornerRadius="90dp">
 
-                <ImageView
+                <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/img_profile"
                     android:layout_width="120dp"
                     android:layout_height="120dp"
                     android:padding="10dp"
                     app:srcCompat="@drawable/ic_ghostrider_logo_day" />
 
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
         </RelativeLayout>
 

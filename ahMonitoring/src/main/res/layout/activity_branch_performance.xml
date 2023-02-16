@@ -14,6 +14,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:theme="@style/GhostRiderMaterialTheme"
     android:background="@drawable/bg_gradient_light"
     tools:context=".Activity.Activity_BranchPerformance">
 
@@ -22,12 +23,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-    <androidx.appcompat.widget.Toolbar
+    <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:gravity="center"
-        app:titleTextColor="@color/white"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent"/>

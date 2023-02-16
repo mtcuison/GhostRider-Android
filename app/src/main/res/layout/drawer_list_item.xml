@@ -10,15 +10,23 @@
   ~ project file last modified : 4/24/21 3:17 PM
   -->
 
-<com.google.android.material.textview.MaterialTextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/lblListItem"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"
-    android:paddingTop="10dp"
-    android:paddingBottom="10dp"
-    android:fontFamily="@font/roboto_regular"
-    android:textSize="15sp" >
+    android:theme="@style/GhostRiderMaterialTheme"
+    android:orientation="vertical" >
 
-</com.google.android.material.textview.MaterialTextView>
+
+<!--    android:layout_height="55dip"-->
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/lblListItem"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:background="@drawable/selector_list_item"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+</LinearLayout>

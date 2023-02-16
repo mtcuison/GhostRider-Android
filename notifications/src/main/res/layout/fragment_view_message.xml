@@ -14,6 +14,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:theme="@style/GhostRiderMaterialTheme"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragment.Fragment_ViewNotification">
 
@@ -32,7 +33,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_messageTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -48,13 +49,13 @@
                 android:gravity="center"
                 android:orientation="horizontal">
 
-                <ImageView
+                <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/img_sender"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_weight="4.5" />
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/lbl_messageSender"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -80,14 +81,14 @@
                     android:orientation="horizontal"
                     android:padding="10dp">
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="3"
                         android:fontFamily="@font/roboto_regular"
                         android:text="@string/slblRecipient" />
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/lbl_messageRecipient"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -102,14 +103,14 @@
                     android:orientation="horizontal"
                     android:padding="10dp">
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="3"
                         android:fontFamily="@font/roboto_regular"
                         android:text="@string/slblDateTime" />
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/lbl_messageDateTime"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -127,13 +128,12 @@
                 android:orientation="vertical"
                 android:padding="20dp">
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/lbl_messageBody"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:bufferType="spannable"
-                    android:fontFamily="@font/roboto_regular"
-                    android:textColor="@color/material_black" />
+                    android:fontFamily="@font/roboto_regular"/>
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_cash_count"

@@ -39,6 +39,15 @@ import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_LeaveList;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMEmployeeApplications;
 
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+
 import java.util.Objects;
 
 public class Activity_Employee_Applications extends AppCompatActivity implements VMEmployeeApplications.OnDownloadApplicationListener {
@@ -49,8 +58,8 @@ public class Activity_Employee_Applications extends AppCompatActivity implements
                                     "Business Trip",
                                     "History"};
 
-    private TextView lblBrnchNm, lblBrnchAd, lblHeaderx;
-    private Toolbar toolbar;
+    private MaterialTextView lblBrnchNm, lblBrnchAd, lblHeaderx;
+    private MaterialToolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
 

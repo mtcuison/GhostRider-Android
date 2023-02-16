@@ -24,14 +24,38 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
 
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+import  com.google.android.material.checkbox.MaterialCheckBox;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 
+
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+import  com.google.android.material.checkbox.MaterialCheckBox;
+
 
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.FormatUIText;
@@ -51,11 +75,11 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity {
     private VMIntroductoryQuestion mViewModel;
     private MessageBox poMessage;
 
-    private TextView lblBranchNm, lblBrandAdd, lblDate;
-    private AutoCompleteTextView txtBranchNm, txtBrandNm, txtModelNm;
+    private MaterialAutoCompleteTextView lblBranchNm, lblBrandAdd, lblDate;
+    private MaterialAutoCompleteTextView txtBranchNm, txtBrandNm, txtModelNm;
     private TextInputLayout tilApplType;
     private TextInputEditText txtDownPymnt, txtAmort, txtDTarget;
-    private AutoCompleteTextView spnApplType, spnCustType, spnAcctTerm;
+    private MaterialAutoCompleteTextView spnApplType, spnCustType, spnAcctTerm;
     private MaterialButton btnCreate;
 
     public static Activity_IntroductoryQuestion newInstance() {
@@ -303,7 +327,7 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity {
     }
 
     private void initWidgets(){
-        Toolbar toolbar = findViewById(R.id.toolbar_introduction);
+        MaterialToolbar toolbar = findViewById(R.id.toolbar_introduction);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         lblBranchNm = findViewById(R.id.lbl_headerBranch);

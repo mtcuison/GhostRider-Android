@@ -22,9 +22,20 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+import  com.google.android.material.checkbox.MaterialCheckBox;
+
 
 import org.json.JSONException;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
@@ -58,16 +69,16 @@ public class Activity_PersonalInfo extends AppCompatActivity {
             txtMothNm, txtTellNox, txtEmailAdd, txtFbAccount, txtViberAccount;
 
     private TextInputLayout tilMothNm;
-    private AutoCompleteTextView txtTown, txtCitizen;
+    private MaterialAutoCompleteTextView txtTown, txtCitizen;
     private RadioGroup rgGender;
-    private AutoCompleteTextView spnCivilStatus;
+    private MaterialAutoCompleteTextView spnCivilStatus;
     private MaterialButton btnNext, btnPrev;
-    private CheckBox txtMobileType1, txtMobileType2, txtMobileType3;
+    private MaterialCheckBox txtMobileType1, txtMobileType2, txtMobileType3;
 
     private TextInputEditText[] txtMobileNo;
     private TextInputEditText[] txtMobileYear;
     private TextInputLayout[] tilMobileYear;
-    private Toolbar toolbar;
+    private MaterialToolbar toolbar;
 
 
     @Override

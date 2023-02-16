@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:theme="@style/GhostRiderMaterialTheme.AppBarOverlay">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar_collectionLog"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
@@ -55,12 +55,11 @@
                 android:gravity="center_horizontal"
                 android:orientation="vertical">
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto"
                     android:text="Transaction Log"
-                    android:textColor="@color/textColor_White"
                     android:textSize="18sp" />
 
             </LinearLayout>
@@ -73,15 +72,13 @@
                 android:gravity="center_horizontal"
                 android:layout_marginTop="5dp">
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/lbl_totalCollected"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto"
                     android:text="Total Collection :  ₱ 0.00"
-                    android:textColor="@color/textColor_White"
                     android:textSize="16sp"
-                    app:drawableTint="@color/black"
                     android:drawablePadding="5dp"/>
 
                 <LinearLayout
@@ -98,31 +95,28 @@
                         android:orientation="vertical"
                         android:gravity="center_vertical">
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/lbl_totalRemitCollection"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textSize="15sp"
                             android:text="Total Remitted :  ₱ 0.00"
-                            android:fontFamily="@font/roboto_light"
-                            android:textColor="@color/textColor_White" />
+                            android:fontFamily="@font/roboto_light"/>
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/lbl_totalCashOnHand"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textSize="15sp"
                             android:text="Cash-On-Hand : ₱ 0.00"
-                            android:fontFamily="@font/roboto_light"
-                            android:textColor="@color/textColor_White"/>
-                        <TextView
+                            android:fontFamily="@font/roboto_light"/>
+                        <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/lbl_totalCheckOnHand"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textSize="15sp"
                             android:text="Check-On-Hand : ₱ 0.00"
-                            android:fontFamily="@font/roboto_light"
-                            android:textColor="@color/textColor_White"/>
+                            android:fontFamily="@font/roboto_light"/>
 
                     </LinearLayout>
 
@@ -132,7 +126,6 @@
                         android:layout_height="wrap_content"
                         android:text="Remit"
                         android:backgroundTint="@color/guanzon_dark_grey"
-                        android:textColor="@color/white"
                         android:layout_weight=".5"/>
 
                 </LinearLayout>
@@ -141,11 +134,10 @@
 
         </LinearLayout>
 
-        <View
+        <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"
             android:layout_height="0.8dp"
-            android:layout_marginTop="5dp"
-            android:background="#fff"/>
+            android:layout_marginTop="5dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -164,7 +156,6 @@
                     android:id="@+id/txt_collectionDate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="#fbfbfb"
                     android:focusable="false"
                     android:focusableInTouchMode="false"
                     android:focusedByDefault="false"
@@ -182,7 +173,6 @@
                     android:id="@+id/txt_collectionSearch"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="#fbfbfb"
                     android:inputType="textCapWords|textPersonName"
                     android:imeOptions="actionSearch"
                     android:textCursorDrawable="@drawable/white_cursor"
@@ -208,12 +198,12 @@
         android:visibility="gone"
         android:layout_below="@id/linear_header">
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_img_empty_list"/>
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/txt_no_logs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -224,7 +214,7 @@
 
     </LinearLayout>
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/txt_no_name"
         android:layout_width="match_parent"
         android:layout_height="350dp"

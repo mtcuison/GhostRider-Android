@@ -43,10 +43,15 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
 
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.*;
+
 public class Activity_Browser extends AppCompatActivity {
     private static final String TAG = Activity_Browser.class.getSimpleName();
 
-    private Toolbar toolbar;
+    private MaterialToolbar toolbar;
     private ProgressBar progressBar;
     private WebView wbBrowser;
     private SessionManager poSession;

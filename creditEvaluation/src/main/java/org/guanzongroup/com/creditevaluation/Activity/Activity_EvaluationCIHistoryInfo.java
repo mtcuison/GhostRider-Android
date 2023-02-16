@@ -25,6 +25,19 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+import  com.google.android.material.checkbox.MaterialCheckBox;
+
 
 import org.guanzongroup.com.creditevaluation.Adapter.Adapter_CIEvaluation_Headers;
 import org.guanzongroup.com.creditevaluation.Adapter.EvaluationCIHistoryInfoAdapter;
@@ -49,7 +62,7 @@ public class Activity_EvaluationCIHistoryInfo extends AppCompatActivity {
     private LinearLayoutManager layoutManager;
     private RecyclerView recyclerView;
     private MaterialButton btnApprove;
-    private TextView txtClient, txtTransD, txtBranch, lblCIRcmnd, lblBHRcmnd;
+    private MaterialTextView txtClient, txtTransD, txtBranch, lblCIRcmnd, lblBHRcmnd;
 
     private String psTransNo = "";
     private String psClientN = "";
@@ -86,7 +99,7 @@ public class Activity_EvaluationCIHistoryInfo extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(Activity_EvaluationCIHistoryInfo.this);
         layoutManager.setOrientation(RecyclerView.VERTICAL);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        MaterialToolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("C.I Result");
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);

@@ -27,8 +27,18 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+import  com.google.android.material.checkbox.MaterialCheckBox;
 
 import org.rmj.g3appdriver.etc.ProgressDialog;
 import org.rmj.guanzongroup.ghostrider.dataChecker.Adapter.DCPDataAdapter;
@@ -45,7 +55,7 @@ public class Activity_DB_Explorer extends AppCompatActivity {
 
     private VMDBExplorer mViewModel;
 
-    private Toolbar toolbar;
+    private MaterialToolbar toolbar;
     private TextInputEditText txtDataName;
     private MaterialButton btnFind, btnPost;
     private RecyclerView recyclerView;

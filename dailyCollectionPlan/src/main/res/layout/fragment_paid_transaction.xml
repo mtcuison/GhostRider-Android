@@ -25,7 +25,7 @@
         android:padding="10dp"
         android:gravity="center">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Daily Collection Plan"
@@ -33,7 +33,7 @@
             android:fontFamily="@font/roboto_bold"
             android:layout_marginTop="5dp"/>
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lbl_headerBranch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -41,14 +41,14 @@
             android:fontFamily="@font/roboto_bold"
             android:layout_marginTop="5dp"/>
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lbl_headerAddress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
             android:fontFamily="@font/roboto_medium"/>
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Customer Paid"
@@ -56,7 +56,7 @@
             android:fontFamily="@font/roboto_bold"
             android:layout_marginTop="15dp"/>
 
-        <View
+        <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"
             android:layout_height="1.5dp"
             android:layout_marginTop="5dp"/>
@@ -67,14 +67,14 @@
             android:orientation="horizontal"
             android:layout_marginTop="10dp">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight=".5"
                 android:text="Account No. :"
                 android:fontFamily="@font/roboto_regular"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_dcpAccNo"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -89,14 +89,14 @@
             android:orientation="horizontal"
             android:layout_marginTop="3dp">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight=".5"
                 android:text="Client Name :"
                 android:fontFamily="@font/roboto_regular"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_dcpClientNm"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -111,14 +111,14 @@
             android:orientation="horizontal"
             android:layout_marginTop="3dp">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight=".5"
                 android:text="Transaction No :"
                 android:fontFamily="@font/roboto_regular"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_dcpTransNo"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -134,7 +134,7 @@
             android:layout_marginTop="10dp"
             android:padding="10dp"/>
 
-        <CheckBox
+        <com.google.android.material.checkbox.MaterialCheckBox
             android:id="@+id/cb_dcpCheckPayment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -187,29 +187,32 @@
                     android:imeOptions="actionDone"/>
             </com.google.android.material.textfield.TextInputLayout>
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_clearText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight=".3"
                 android:textAllCaps="false"
                 android:text="Clear"
+                style="@style/MaterialButtonAccent"
                 android:fontFamily="@font/roboto_regular"/>
         </LinearLayout>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_amortization"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAllCaps="false"
             android:text="Monthly Amort"
+            style="@style/MaterialButtonAccent"
             android:fontFamily="@font/roboto_regular"/>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_remainbalance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAllCaps="false"
+            style="@style/MaterialButtonAccent"
             android:text="Remaining Balance"
             android:fontFamily="@font/roboto_regular"/>
 

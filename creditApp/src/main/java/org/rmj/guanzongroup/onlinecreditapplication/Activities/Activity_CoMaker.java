@@ -15,6 +15,21 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 
+
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+import  com.google.android.material.checkbox.MaterialCheckBox;
+
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -54,12 +69,12 @@ public class Activity_CoMaker extends AppCompatActivity {
     private TextInputEditText tieLastname, tieFrstname, tieMiddname, tiePrmCntct, tieScnCntct,
             tieTrtCntct, tieNickname, tieBrthDate, tiePrmCntctPlan, tieScnCntctPlan, tieTrtCntctPlan,
             tieFbAcctxx;
-    private AutoCompleteTextView tieSuffixxx, tieBrthProv, tieBrthTown, spnIncmSrce, spnBrwrRltn;
-    private CheckBox cbPrmCntct, cbScnCntct, cbTrtCntct;
+    private MaterialAutoCompleteTextView tieSuffixxx, tieBrthProv, tieBrthTown, spnIncmSrce, spnBrwrRltn;
+    private MaterialCheckBox cbPrmCntct, cbScnCntct, cbTrtCntct;
     private TextInputLayout tilPrmCntctPlan, tilScnCntctPlan, tilTrtCntctPlan;
 
-    private Button btnPrvs, btnNext;
-    private Toolbar toolbar;
+    private MaterialButton btnPrvs, btnNext;
+    private MaterialToolbar toolbar;
 
     private String TransNox;
 

@@ -17,6 +17,15 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -57,8 +66,7 @@ public class AreaMonitoringAdapter extends RecyclerView.Adapter<AreaMonitoringAd
 
     public static class ChartViewHolder extends RecyclerView.ViewHolder{
 
-        public TextView txtArea;
-        public TextView txtPrct;
+        public MaterialTextView txtArea, txtPrct;
         public ProgressBar progressBar;
 
         public ChartViewHolder(@NonNull View itemView) {

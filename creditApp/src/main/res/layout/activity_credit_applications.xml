@@ -15,11 +15,10 @@
         android:layout_height="wrap_content"
         android:theme="@style/GhostRiderMaterialTheme.AppBarOverlay">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar_applicationHistory"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/material_tool_bar"
             app:popupTheme="@style/GhostRiderMaterialTheme.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -46,33 +45,30 @@
                 android:gravity="center_horizontal"
                 android:orientation="vertical">
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto"
                     android:text="Loan Application List"
-                    android:textColor="@color/textColor_White"
                     android:textSize="22sp" />
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:fontFamily="@font/roboto_light"
                     android:text="GMC Dagupan - Honda"
-                    android:textColor="@color/textColor_White"
                     android:textSize="15sp" />
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_light"
                     android:text="Guanzon Bldg., Perez Blvd., Dagupan City"
-                    android:textColor="@color/textColor_White"
-                    android:textSize="15sp" />
+                   android:textSize="15sp" />
             </LinearLayout>
 
-            <View
+            <com.google.android.material.divider.MaterialDivider
                 android:layout_width="match_parent"
                 android:layout_height="0.8dp"
                 android:background="#fff" />
@@ -98,8 +94,7 @@
                         android:imeOptions="actionDone"
                         android:inputType="textCapWords"
                         android:maxLines="1"
-                        android:textCursorDrawable="@drawable/white_cursor"
-                        android:textColor="#ffff" />
+                        android:textCursorDrawable="@drawable/white_cursor"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
@@ -129,7 +124,7 @@
                 android:layout_height="fill_parent"
                 android:orientation="vertical"
                 android:layout_weight="1">
-                <ImageView
+                <com.google.android.material.imageview.ShapeableImageView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:src="@drawable/ic_toast_warning"
@@ -139,14 +134,13 @@
             </LinearLayout>
 
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_weight="1"
                 android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:textSize="18dp"
-                android:textColor="@color/guanzon_digital_orange"
                 android:fontFamily="@font/roboto_medium"
                 android:text="No record found."/>
         </LinearLayout>

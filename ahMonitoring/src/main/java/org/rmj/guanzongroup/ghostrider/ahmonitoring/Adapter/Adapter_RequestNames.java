@@ -9,6 +9,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
 
 import org.rmj.g3appdriver.lib.integsys.CashCount.QuickSearchNames;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
@@ -50,7 +58,7 @@ public class Adapter_RequestNames extends RecyclerView.Adapter<Adapter_RequestNa
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         QuickSearchNames requestNamesInfoModel;
-        TextView textView;
+        MaterialTextView textView;
         public ViewHolder(@NonNull View itemView, final onItemClickListener listener) {
             super(itemView);
             textView = itemView.findViewById(R.id.lbl_employeeName);

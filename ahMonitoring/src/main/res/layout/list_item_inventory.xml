@@ -15,6 +15,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:theme="@style/GhostRiderMaterialTheme"
     android:padding="10dp">
 
 
@@ -24,18 +25,17 @@
         android:orientation="horizontal"
         android:gravity="center">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lbl_itemTransNox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Transaction No. : 00000000000000"
-            android:textColor="@color/material_black"
             android:textSize="16sp"
             android:fontFamily="@font/roboto_medium"
             android:layout_marginBottom="5dp"/>
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/img_status"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -44,21 +44,19 @@
 
     </LinearLayout>
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/lbl_itemCode"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Item Code : SKU-KS93528TUT"
-        android:textColor="@color/material_black"
         android:textSize="16sp"
         android:fontFamily="@font/roboto_regular"/>
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/lbl_itemDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Description : TMX 125 Rocker Arm"
-        android:textColor="@color/material_black"
         android:textSize="16sp"
         android:fontFamily="@font/roboto_regular"/>
 

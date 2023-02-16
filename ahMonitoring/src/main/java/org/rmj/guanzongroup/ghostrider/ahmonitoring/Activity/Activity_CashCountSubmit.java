@@ -18,14 +18,21 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textview.MaterialTextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -59,10 +66,9 @@ public class Activity_CashCountSubmit extends AppCompatActivity {
             txtTotalSalesxx,
             txtTransNox,
             txtRemarksx;
-    private Button btnSendToServer;
+    private MaterialButton btnSendToServer;
 
-    private MaterialTextView lblBranch, lblAddxx;
-    ImageButton btnQuickSearch;
+    private MaterialTextView lblBranch, lblAddxx, btnQuickSearch;
 
     private LoadDialog poDialogx;
     private MessageBox poMessage;
@@ -209,7 +215,7 @@ public class Activity_CashCountSubmit extends AppCompatActivity {
     }
 
     public void initWidgets(){
-        MaterialToolbar toolbar = findViewById(R.id.toolbar_cashCountSubmit);
+        Toolbar toolbar = findViewById(R.id.toolbar_cashCountSubmit);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 

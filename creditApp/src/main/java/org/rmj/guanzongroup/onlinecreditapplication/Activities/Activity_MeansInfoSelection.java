@@ -12,6 +12,20 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.google.android.material.radiobutton.MaterialRadioButton;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+import  com.google.android.material.checkbox.MaterialCheckBox;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -31,10 +45,10 @@ import java.util.Objects;
 
 public class Activity_MeansInfoSelection extends AppCompatActivity  {
 
-    private RadioButton rbEmployed, rbSEmployd, rbFinancex, rbPensionx;
+    private MaterialRadioButton rbEmployed, rbSEmployd, rbFinancex, rbPensionx;
     private RadioGridGroup rgMeans;
-    private Button btnNext, btnPrvs;
-    private Toolbar toolbar;
+    private MaterialButton btnNext, btnPrvs;
+    private MaterialToolbar toolbar;
     private VMMeasnInfo mViewModel;
 
     private MessageBox poMessage;

@@ -22,7 +22,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+import  com.google.android.material.checkbox.MaterialCheckBox;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_TransactionDetail;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
@@ -30,8 +41,8 @@ import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMLogPaidTr
 
 public class Fragment_Log_Paid_Transaction extends Fragment {
     private VMLogPaidTransaction mViewModel;
-    private TextView txtAcctNo, txtClientName, txtClientAddress, txtTransNo;
-    private TextView txtPaymentTp, txtPRNoxx, txtTransAmtx, txtDiscount, txtPenalty, txtTotalAmtx,
+    private MaterialTextView txtAcctNo, txtClientName, txtClientAddress, txtTransNo;
+    private MaterialTextView txtPaymentTp, txtPRNoxx, txtTransAmtx, txtDiscount, txtPenalty, txtTotalAmtx,
             txtRemarksx, txtCheckPayment, txtListHeader, txtBank, txtChckDt, txtChckNm, txtChckAc;
     private LinearLayout lnBank, lnChckDt, lnChckNm, lnChckAc;
 

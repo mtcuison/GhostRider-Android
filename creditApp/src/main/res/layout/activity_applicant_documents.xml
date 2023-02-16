@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:theme="@style/GhostRiderMaterialTheme.AppBarOverlay">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
@@ -49,14 +49,13 @@
                     android:orientation="horizontal"
                     android:gravity="center">
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/lbl_list_transNox"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1.8"
                         android:text="GoCas No. : 437Z19000052"
                         android:textSize="16sp"
-                        android:textColor="@color/textColor_Black"
                         android:gravity="start"
                         tools:ignore="HardcodedText"
                         android:fontFamily="@font/roboto_medium"
@@ -66,19 +65,18 @@
 
                 </LinearLayout>
 
-                <View
+                <com.google.android.material.divider.MaterialDivider
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
                     android:padding="3dp"
                     android:background="@color/guanzon_orange"/>
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/lbl_list_applicantName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Garcia, Michael Permison"
                     android:textSize="16sp"
-                    android:textColor="@color/textColor_Black"
                     tools:ignore="HardcodedText"
                     android:fontFamily="@font/roboto_medium"
                     tools:targetApi="jelly_bean"/>
@@ -89,25 +87,23 @@
                     android:orientation="horizontal"
                     android:layout_marginTop="5dp">
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight=".5"
                         android:text="Date Applied :"
                         android:textSize="16sp"
-                        android:textColor="@color/textColor_Black"
                         android:gravity="start"
                         tools:ignore="HardcodedText"
                         android:fontFamily="@font/roboto_regular"
                         tools:targetApi="jelly_bean"/>
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/lbl_list_applicationDate"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="December 12, 2019"
-                        android:textColor="@color/textColor_Black"
                         android:gravity="end"
                         tools:ignore="HardcodedText"
                         android:fontFamily="@font/roboto_regular"
@@ -121,25 +117,23 @@
                     android:orientation="horizontal"
                     android:layout_marginTop="5dp">
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight=".5"
                         android:text="Model :"
                         android:textSize="16sp"
-                        android:textColor="@color/textColor_Black"
                         android:gravity="start"
                         tools:ignore="HardcodedText"
                         android:fontFamily="@font/roboto_regular"
                         tools:targetApi="jelly_bean"/>
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/lbl_modelName"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="December 12, 2019"
-                        android:textColor="@color/textColor_Black"
                         android:gravity="end"
                         tools:ignore="HardcodedText"
                         android:fontFamily="@font/roboto_regular"
@@ -153,25 +147,23 @@
                     android:orientation="horizontal"
                     android:layout_marginTop="5dp">
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight=".5"
                         android:text="Term :"
                         android:textSize="16sp"
-                        android:textColor="@color/textColor_Black"
                         android:gravity="start"
                         tools:ignore="HardcodedText"
                         android:fontFamily="@font/roboto_regular"
                         tools:targetApi="jelly_bean"/>
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/lbl_accntTerm"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="December 12, 2019"
-                        android:textColor="@color/textColor_Black"
                         android:gravity="end"
                         tools:ignore="HardcodedText"
                         android:fontFamily="@font/roboto_regular"
@@ -184,25 +176,23 @@
                     android:orientation="horizontal"
                     android:layout_marginTop="5dp">
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight=".5"
                         android:text="Mobile # :"
                         android:textSize="16sp"
-                        android:textColor="@color/textColor_Black"
                         android:gravity="start"
                         tools:ignore="HardcodedText"
                         android:fontFamily="@font/roboto_regular"
                         tools:targetApi="jelly_bean"/>
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/lbl_mobileNo"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="December 12, 2019"
-                        android:textColor="@color/textColor_Black"
                         android:gravity="end"
                         tools:ignore="HardcodedText"
                         android:fontFamily="@font/roboto_regular"
@@ -217,32 +207,30 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight=".5"
                         android:text="Status :"
                         android:textSize="16sp"
-                        android:textColor="@color/textColor_Black"
                         android:gravity="start"
                         tools:ignore="HardcodedText"
                         android:fontFamily="@font/roboto_regular"
                         tools:targetApi="jelly_bean"/>
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/lbl_list_applicationWithCI"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Approve with CI"
-                        android:textColor="@color/textColor_Black"
                         android:gravity="end"
                         tools:ignore="HardcodedText"
                         android:fontFamily="@font/roboto_regular"
                         tools:targetApi="jelly_bean"/>
                 </LinearLayout>
 
-                <View
+                <com.google.android.material.divider.MaterialDivider
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
                     android:padding="3dp"

@@ -10,7 +10,7 @@
   ~ project file last modified : 4/24/21 3:18 PM
   -->
 
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView  xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -36,17 +36,16 @@
             android:gravity="center"
             android:layout_marginBottom="20dp">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_approval"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_medium"
                 android:text="Credit Application Approval"
                 android:padding="10dp"
-                android:textSize="20sp"
-                android:textColor="@color/material_black"/>
+                android:textSize="20sp" />
 
-            <View
+            <com.google.android.material.divider.MaterialDivider
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/guanzon_orange"
@@ -58,7 +57,7 @@
                 style="@style/TextInputStyle"
                 android:hint="@string/sHintReqBranch">
 
-                <AutoCompleteTextView
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/txt_appBranch"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -213,7 +212,7 @@
                 android:paddingRight="10dp"
                 android:layout_marginBottom="20dp">
 
-                <EditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/txt_approvalCode"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -222,20 +221,19 @@
                     android:maxLength="11"
                     android:letterSpacing=".4"
                     android:gravity="center"
-                    android:textColor="@color/material_black"
                     android:backgroundTint="@color/textColor_Orange"
                     android:textCursorDrawable="@null"
                     android:fontFamily="@font/roboto_medium"
                     android:enabled="false"
                     tools:ignore="UnusedAttribute" />
 
-                <ImageButton
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_CopyToClipboard"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight=".15"
-                    style="@style/Widget.AppCompat.Button.Borderless"
-                    android:src="@drawable/ic_copy_content"/>
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    app:icon="@drawable/ic_copy_content"/>
 
             </LinearLayout>
 
@@ -249,4 +247,4 @@
 
     </ScrollView>
 
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

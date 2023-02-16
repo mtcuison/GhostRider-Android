@@ -20,8 +20,20 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+import  com.google.android.material.checkbox.MaterialCheckBox;
+
 
 import org.json.JSONException;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
@@ -47,17 +59,17 @@ public class Activity_ResidenceInfo extends AppCompatActivity {
 
     private TextInputEditText txtLandMark, txtHouseNox, txtAddress1, txtAddress2, txtRelationship,
             txtLgnthStay, txtMonthlyExp, txtPLandMark, txtPHouseNox, txtPAddress1, txtPAddress2;
-    private AutoCompleteTextView txtBarangay,
+    private MaterialAutoCompleteTextView txtBarangay,
             txtMunicipality, txtProvince, txtPBarangay, txtPMunicipl, txtPProvince;
-    private CheckBox cbOneAddress;
-    private AutoCompleteTextView spnLgnthStay, spnHouseHold, spnHouseType;
+    private MaterialCheckBox cbOneAddress;
+    private MaterialAutoCompleteTextView spnLgnthStay, spnHouseHold, spnHouseType;
 
     private TextInputLayout tilRelationship;
     private LinearLayout lnOtherInfo, lnPermaAddx;
-    private Button btnNext;
-    private Button btnPrvs;
+    private MaterialButton btnNext;
+    private MaterialButton btnPrvs;
     private RadioGroup rgOwnsership, rgGarage;
-    private Toolbar toolbar;
+    private MaterialToolbar toolbar;
 
     private String TransNox;
 

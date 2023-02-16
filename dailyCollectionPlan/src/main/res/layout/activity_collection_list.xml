@@ -15,9 +15,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:theme="@style/GhostRiderMaterialTheme"
     android:orientation="vertical"
     android:gravity="center_horizontal"
-    android:background="@drawable/bg_gradient_light"
     tools:context=".Activities.Activity_CollectionList">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -25,11 +25,10 @@
         android:layout_height="wrap_content"
         android:theme="@style/GhostRiderMaterialTheme.AppBarOverlay">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar_collectionList"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/material_tool_bar"
             app:popupTheme="@style/GhostRiderMaterialTheme.PopupOverlay"
             style="@style/GhostRiderMaterialTheme.PopupOverlay"/>
 
@@ -51,47 +50,42 @@
             android:layout_marginVertical="15dp"
             android:baselineAligned="false">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Collection List"
                 android:fontFamily="@font/roboto"
-                android:textSize="22sp"
-                android:textColor="@color/textColor_White"/>
+                android:textSize="22sp"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_headerBranch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="15sp"
                 android:fontFamily="@font/roboto_light"
-                android:textColor="@color/textColor_White"
                 android:layout_marginTop="5dp"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_headerAddress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="15sp"
                 android:text="Local data is not sync"
-                android:fontFamily="@font/roboto_light"
-                android:textColor="@color/textColor_White"/>
+                android:fontFamily="@font/roboto_light"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_headerDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="15sp"
                 android:fontFamily="@font/roboto_light"
-                android:textColor="@color/textColor_White"
                 android:visibility="gone"/>
         </LinearLayout>
 
-        <View
+        <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"
             android:layout_height="0.8dp"
-            android:layout_marginTop="5dp"
-            android:background="#fff"/>
+            android:layout_marginTop="5dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -108,7 +102,6 @@
                     android:id="@+id/txt_collectionSearch"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="#fbfbfb"
                     android:inputType="textCapWords|textPersonName"
                     android:imeOptions="actionSearch"
                     android:maxLines="1"
@@ -179,13 +172,13 @@
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:contentDescription="@string/sContent_NoDCP"
             android:src="@drawable/ic_img_empty_list" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto"
@@ -202,7 +195,6 @@
             android:backgroundTint="@color/guanzon_digital_orange"
             android:fontFamily="@font/roboto_light"
             android:text="@string/sBtn_Download"
-            android:textColor="@color/white"
             tools:ignore="UnusedAttribute" />
 
         <com.google.android.material.button.MaterialButton
@@ -212,12 +204,11 @@
             android:backgroundTint="@color/guanzon_digital_orange"
             android:fontFamily="@font/roboto_light"
             android:text="Import from File"
-            android:textColor="@color/white"
             tools:ignore="HardcodedText,UnusedAttribute" />
 
     </LinearLayout>
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/txt_no_name"
         android:layout_width="match_parent"
         android:layout_height="350dp"
