@@ -40,7 +40,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textColor="@color/black"
                 android:buttonTint="@color/check_green"
                 android:text="Correct"/>
 
@@ -49,7 +48,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textColor="@color/black"
                 android:buttonTint="@color/cross_red"
                 android:text="Incorrect"/>
 
@@ -60,7 +58,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Edit"
-            app:backgroundTint="@color/guanzon_digital_orange"
             android:fontFamily="@font/roboto_medium"
             android:layout_weight=".35"
             android:drawableLeft="@drawable/ic_exp_edit"/>

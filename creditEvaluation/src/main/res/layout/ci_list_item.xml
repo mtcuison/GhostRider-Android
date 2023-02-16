@@ -16,11 +16,9 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="10dp"
-    app:cardBackgroundColor="@color/material_lightgrey"
     app:cardUseCompatPadding="true"
     app:cardMaxElevation="5dp"
     android:theme="@style/GhostRiderMaterialTheme"
-    android:background="@color/material_lightgrey"
     app:cardElevation="3dp"
     app:cardPreventCornerOverlap="true">
 
@@ -74,8 +72,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:padding="3dp"
-            android:layout_marginVertical="3dp"
-            android:background="@color/textColor_Black"/>
+            android:layout_marginVertical="3dp"/>
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lbl_ci_applicantName"

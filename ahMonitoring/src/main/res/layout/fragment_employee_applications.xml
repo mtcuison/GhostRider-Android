@@ -27,15 +27,10 @@
         style="@style/Widget.MaterialComponents.TabLayout"
         app:tabGravity="fill"
         app:tabMode="fixed"
-        app:tabIconTint="@color/tab_select_indicator"
-        app:tabTextColor="@color/guanzon_orange"
-        app:tabIndicatorColor="@color/guanzon_orange"
         app:tabIndicator="@drawable/tablayout_select_indicator"
         app:tabIndicatorAnimationDuration="1"
         app:tabIndicatorGravity="bottom"
-        app:tabIndicatorFullWidth="true"
-        android:backgroundTint="@color/gap_toolbar_background"
-        android:elevation="5dp"/>
+        app:tabIndicatorFullWidth="true" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview_applications"

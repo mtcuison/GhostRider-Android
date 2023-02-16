@@ -20,15 +20,15 @@
     <color name="background_light">#F2F2F2</color>
 
     <color name="colorPrimaryLight">#F47422</color>
-    <color name="colorSecondaryLight">#2F2F2F</color>
+    <color name="colorSecondaryLight">#F88222</color>
 
     <color name="colorPrimaryVariantLight">#F88222</color>
-    <color name="colorSecondaryVariantLight">#202020</color>
+    <color name="colorSecondaryVariantLight">#F88222</color>
 
     <color name="colorPrimaryDark">#F47422</color>
     <color name="colorPrimaryVariantDark">#F88222</color>
-    <color name="colorSecondaryDark">#2F2F2F</color>
-    <color name="colorSecondaryVariantDark">#202020</color>
+    <color name="colorSecondaryDark">#F88222</color>
+    <color name="colorSecondaryVariantDark">#F88222</color>
 
     <color name="guanzon_orange">#F88222</color>
     <color name="textColor_Black">#000</color>

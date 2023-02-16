@@ -115,21 +115,6 @@
         <item name="android:padding">5dp</item>
     </style>
 
-    <!-- Kent -->
-    <!-- MASTER VIEW GROUP -->
-
-    <style name="MasterViewGroupStyle_Light">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:background">@drawable/bg_gradient_light</item>
-        <item name="android:paddingLeft">25dp</item>
-        <item name="android:paddingRight">25dp</item>
-        <item name="android:paddingTop">35dp</item>
-        <item name="android:paddingBottom">15dp</item>
-    </style>
-
-    <!-- MASTER VIEW GROUP -->
-
     <!-- MASTER VIEW SCAN GROUP -->
     <style name="ScannerMasterViewGroupStyle_Light">
         <item name="android:layout_width">match_parent</item>
@@ -251,6 +236,11 @@
         <item name="tabTextColor">@color/mtrl_tabs_icon_color_selector</item>
         <item name="tabRippleColor">@color/mtrl_tabs_ripple_color</item>
         <item name="tabUnboundedRipple">true</item>
+    </style>
+
+    <style name="CircularImageView" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
     </style>
 
 </resources>

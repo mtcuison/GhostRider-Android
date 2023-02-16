@@ -43,7 +43,6 @@
                 android:background="@android:color/transparent"
                 android:divider="@null"
                 android:choiceMode="singleChoice"
-                android:listSelector="@color/material_lightgrey_selector"
                 android:layout_marginTop="@dimen/nav_header_height"/>
 
     </com.google.android.material.navigation.NavigationView>

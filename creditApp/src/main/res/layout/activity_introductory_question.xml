@@ -17,7 +17,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
     tools:context=".Activities.Activity_IntroductoryQuestion"
-    android:background="@drawable/bg_gradient_light"
     android:orientation="vertical">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -31,48 +30,48 @@
             android:layout_height="?attr/actionBarSize"
             app:popupTheme="@style/GhostRiderMaterialTheme.PopupOverlay" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:padding="15dp">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sHeader_loanApplication"
+                android:textSize="22sp"
+                android:fontFamily="@font/roboto" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/lbl_headerBranch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:fontFamily="@font/roboto_light"
+                android:layout_marginTop="5dp"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/lbl_headerAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:fontFamily="@font/roboto_light"
+                android:layout_marginBottom="7dp"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/lbl_headerDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:fontFamily="@font/roboto_light"
+                android:visibility="gone"/>
+
+        </LinearLayout>
+
     </com.google.android.material.appbar.AppBarLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@drawable/bg_samsungknox"
-        android:gravity="center_horizontal"
-        android:padding="15dp">
-
-        <com.google.android.material.textview.MaterialTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/sHeader_loanApplication"
-            android:textSize="22sp"
-            android:fontFamily="@font/roboto" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/lbl_headerBranch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:fontFamily="@font/roboto_light"
-            android:layout_marginTop="5dp"/>
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/lbl_headerAddress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:fontFamily="@font/roboto_light"
-            android:layout_marginBottom="7dp"/>
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/lbl_headerDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:fontFamily="@font/roboto_light"
-            android:visibility="gone"/>
-
-    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -136,7 +135,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Customer Type">
-                    <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
                         android:id="@+id/spn_customerType"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

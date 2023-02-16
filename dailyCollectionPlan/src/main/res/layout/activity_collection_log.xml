@@ -28,167 +28,165 @@
             android:id="@+id/toolbar_collectionLog"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/material_tool_bar"
             app:popupTheme="@style/GhostRiderMaterialTheme.PopupOverlay" />
 
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <LinearLayout
-        android:id="@+id/linear_header"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/appbar_collectionLog"
-        android:orientation="vertical"
-        android:background="@drawable/bg_samsungknox"
-        android:gravity="center_horizontal"
-        android:paddingHorizontal="15dp">
-
         <LinearLayout
+            android:id="@+id/linear_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/appbar_collectionLog"
             android:orientation="vertical"
-            android:layout_marginVertical="5dp">
+            android:gravity="center_horizontal"
+            android:paddingHorizontal="15dp">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto"
-                    android:text="Transaction Log"
-                    android:textSize="18sp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linear_collectionCashInfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:gravity="center_horizontal"
-                android:layout_marginTop="5dp">
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/lbl_totalCollected"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto"
-                    android:text="Total Collection :  ₱ 0.00"
-                    android:textSize="16sp"
-                    android:drawablePadding="5dp"/>
+                android:layout_marginVertical="5dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="bottom"
-                    android:layout_marginTop="10dp">
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto"
+                        android:text="Transaction Log"
+                        android:textSize="18sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linear_collectionCashInfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal"
+                    android:layout_marginTop="5dp">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/lbl_totalCollected"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto"
+                        android:text="Total Collection :  ₱ 0.00"
+                        android:textSize="16sp"
+                        android:drawablePadding="5dp"/>
 
                     <LinearLayout
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:gravity="center_vertical">
+                        android:orientation="horizontal"
+                        android:gravity="bottom"
+                        android:layout_marginTop="10dp">
 
-                        <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/lbl_totalRemitCollection"
-                            android:layout_width="match_parent"
+                        <LinearLayout
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:textSize="15sp"
-                            android:text="Total Remitted :  ₱ 0.00"
-                            android:fontFamily="@font/roboto_light"/>
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:gravity="center_vertical">
 
-                        <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/lbl_totalCashOnHand"
-                            android:layout_width="match_parent"
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/lbl_totalRemitCollection"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textSize="15sp"
+                                android:text="Total Remitted :  ₱ 0.00"
+                                android:fontFamily="@font/roboto_light"/>
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/lbl_totalCashOnHand"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textSize="15sp"
+                                android:text="Cash-On-Hand : ₱ 0.00"
+                                android:fontFamily="@font/roboto_light"/>
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/lbl_totalCheckOnHand"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textSize="15sp"
+                                android:text="Check-On-Hand : ₱ 0.00"
+                                android:fontFamily="@font/roboto_light"/>
+
+                        </LinearLayout>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_remit"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:textSize="15sp"
-                            android:text="Cash-On-Hand : ₱ 0.00"
-                            android:fontFamily="@font/roboto_light"/>
-                        <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/lbl_totalCheckOnHand"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textSize="15sp"
-                            android:text="Check-On-Hand : ₱ 0.00"
-                            android:fontFamily="@font/roboto_light"/>
+                            android:text="Remit"
+                            android:backgroundTint="@color/guanzon_dark_grey"
+                            android:layout_weight=".5"/>
 
                     </LinearLayout>
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn_remit"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:text="Remit"
-                        android:backgroundTint="@color/guanzon_dark_grey"
-                        android:layout_weight=".5"/>
 
                 </LinearLayout>
 
             </LinearLayout>
 
-        </LinearLayout>
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="0.8dp"
+                android:layout_marginTop="5dp"/>
 
-        <com.google.android.material.divider.MaterialDivider
-            android:layout_width="match_parent"
-            android:layout_height="0.8dp"
-            android:layout_marginTop="5dp"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:orientation="vertical">
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_collectionDate"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Date"
-                style="@style/TextInputStyleHeaders">
+                android:layout_marginBottom="10dp"
+                android:orientation="vertical">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txt_collectionDate"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_collectionDate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
-                    android:focusedByDefault="false"
-                    tools:targetApi="o" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:hint="Date"
+                    style="@style/TextInputStyleHeaders">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_collectionSearch"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                style="@style/TextInputStyleHeaders">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txt_collectionDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:focusedByDefault="false"
+                        tools:targetApi="o" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txt_collectionSearch"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_collectionSearch"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textCapWords|textPersonName"
-                    android:imeOptions="actionSearch"
-                    android:textCursorDrawable="@drawable/white_cursor"
-                    android:maxLines="1"
-                    android:hint="Search Customer's name"/>
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_marginTop="5dp"
+                    style="@style/TextInputStyleHeaders">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txt_collectionSearch"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textCapWords|textPersonName"
+                        android:imeOptions="actionSearch"
+                        android:textCursorDrawable="@drawable/white_cursor"
+                        android:maxLines="1"
+                        android:hint="Search Customer's name"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
 
         </LinearLayout>
 
-    </LinearLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview_collectionLog"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/linear_header" />
+        android:layout_below="@+id/appbar_collectionLog" />
 
     <LinearLayout
         android:id="@+id/linear_empty_list"
@@ -196,7 +194,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:visibility="gone"
-        android:layout_below="@id/linear_header">
+        android:layout_below="@id/appbar_collectionLog">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:layout_width="match_parent"
@@ -222,7 +220,7 @@
         android:textSize="15dp"
         android:text="@string/sLblNoTransactionLogInName"
         android:gravity="center"
-        android:layout_below="@+id/linear_header"
+        android:layout_below="@+id/appbar_collectionLog"
         android:visibility="gone"/>
 
 </RelativeLayout>

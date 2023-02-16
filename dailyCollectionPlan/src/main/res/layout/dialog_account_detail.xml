@@ -26,8 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:gravity="center"
-        android:background="@drawable/background_dialog">
+        android:gravity="center">
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -50,7 +49,6 @@
                 <com.google.android.material.divider.MaterialDivider
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/guanzon_orange"
                     android:layout_marginTop="5dp"
                     android:layout_marginHorizontal="5dp"/>
 
@@ -126,33 +124,6 @@
                         android:fontFamily="@font/roboto_regular"/>
                 </LinearLayout>
 
-                <!--        <LinearLayout-->
-                <!--            android:layout_width="match_parent"-->
-                <!--            android:layout_height="wrap_content"-->
-                <!--            android:layout_marginHorizontal="5dp"-->
-                <!--            android:orientation="horizontal"-->
-                <!--            android:gravity="center"-->
-                <!--            android:layout_marginTop="3dp">-->
-
-                <!--            <TextView-->
-                <!--                android:layout_width="match_parent"-->
-                <!--                android:layout_height="match_parent"-->
-                <!--                android:layout_weight="1"-->
-                <!--                android:fontFamily="@font/roboto_regular"-->
-                <!--                android:text="Transaction Date :"-->
-                <!--                android:textColor="@color/textColor_Black" />-->
-
-                <!--            <TextView-->
-                <!--                android:id="@+id/lbl_dcpTranDate"-->
-                <!--                android:layout_width="match_parent"-->
-                <!--                android:layout_height="wrap_content"-->
-                <!--                android:layout_weight="2"-->
-                <!--                android:gravity="end"-->
-                <!--                android:text="10000"-->
-                <!--                android:textColor="@color/textColor_Black"-->
-                <!--                android:fontFamily="@font/roboto_regular"/>-->
-                <!--        </LinearLayout>-->
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -204,7 +175,6 @@
                 <com.google.android.material.divider.MaterialDivider
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/guanzon_orange"
                     android:layout_marginTop="10dp"
                     android:layout_marginHorizontal="5dp"/>
 
@@ -356,37 +326,9 @@
                         android:fontFamily="@font/roboto_regular"/>
                 </LinearLayout>
 
-                <!--        <LinearLayout-->
-                <!--            android:layout_width="match_parent"-->
-                <!--            android:layout_height="wrap_content"-->
-                <!--            android:layout_marginHorizontal="5dp"-->
-                <!--            android:orientation="horizontal"-->
-                <!--            android:gravity="center"-->
-                <!--            android:layout_marginTop="3dp">-->
-
-                <!--            <TextView-->
-                <!--                android:layout_width="match_parent"-->
-                <!--                android:layout_height="wrap_content"-->
-                <!--                android:layout_weight="1"-->
-                <!--                android:text="Others:"-->
-                <!--                android:textColor="@color/textColor_Black"-->
-                <!--                android:fontFamily="@font/roboto_regular"/>-->
-
-                <!--            <TextView-->
-                <!--                android:id="@+id/lbl_dcpOthers"-->
-                <!--                android:layout_width="match_parent"-->
-                <!--                android:layout_height="wrap_content"-->
-                <!--                android:layout_weight="2"-->
-                <!--                android:gravity="end"-->
-                <!--                android:text="10000"-->
-                <!--                android:textColor="@color/textColor_Black"-->
-                <!--                android:fontFamily="@font/roboto_regular"/>-->
-                <!--        </LinearLayout>-->
-
                 <com.google.android.material.divider.MaterialDivider
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/guanzon_orange"
                     android:layout_marginHorizontal="5dp"/>
 
                 <LinearLayout
@@ -410,7 +352,6 @@
                         <com.google.android.material.divider.MaterialDivider
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            android:background="@color/guanzon_orange"
                             android:layout_marginVertical="5dp"/>
                     </LinearLayout>
 
@@ -678,7 +619,6 @@
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/guanzon_orange"
             android:layout_marginTop="10dp"/>
 
         <com.google.android.material.button.MaterialButton
@@ -686,20 +626,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Confirm"
-            app:rippleColor="@color/guanzon_orange"
-            style="@style/Widget.MaterialComponents.Button"/>
+            style="@style/Widget.MaterialComponents.Button.TextButton"/>
 
         <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/guanzon_orange"/>
+            android:layout_height="1dp"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_cancel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Cancel"
-            app:rippleColor="@color/guanzon_orange"
-            style="@style/Widget.MaterialComponents.Button"/>
+            style="@style/Widget.MaterialComponents.Button.TextButton"/>
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

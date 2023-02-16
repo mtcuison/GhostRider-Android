@@ -21,14 +21,12 @@
     app:cardUseCompatPadding="true"
     app:cardPreventCornerOverlap="true"
     android:theme="@style/GhostRiderMaterialTheme"
-    android:background="@color/material_lightgrey"
-    android:layout_marginHorizontal="60dp">
+    android:layout_marginHorizontal="20dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@drawable/background_dialog">
+        android:orientation="vertical">
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lbl_dialogTitle"
@@ -76,17 +74,16 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="YES"
-                app:rippleColor="@color/guanzon_digital_orange"
                 android:fontFamily="@font/roboto_medium"
                 style="@style/Widget.AppCompat.Button.Borderless"
-                android:visibility="gone"/>
+                android:visibility="visible"/>
 
             <com.google.android.material.divider.MaterialDivider
                 android:id="@+id/view_midBorder"
                 android:layout_width="0.7dp"
                 android:layout_height="match_parent"
                 android:background="@color/guanzon_orange"
-                android:visibility="gone"/>
+                android:visibility="visible"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_dialogNegative"
@@ -94,10 +91,10 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="NO"
-                app:rippleColor="@color/guanzon_digital_orange"
                 android:fontFamily="@font/roboto_medium"
                 style="@style/Widget.AppCompat.Button.Borderless"
-                android:visibility="gone"/>
+                android:visibility="visible"/>
+
         </LinearLayout>
 
     </LinearLayout>

@@ -70,7 +70,6 @@ dependencies {
     implementation 'com.websitebeaver:documentscanner:1.0.0'
 
 
-
     //Local Libraries
     implementation files('libs/appdriver.jar')
     implementation files('libs/appdriver-mob.jar')

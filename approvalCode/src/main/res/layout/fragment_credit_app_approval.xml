@@ -10,7 +10,7 @@
   ~ project file last modified : 4/24/21 3:18 PM
   -->
 
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -40,13 +40,11 @@
                 android:fontFamily="@font/roboto_medium"
                 android:text="Credit Application Approval"
                 android:padding="10dp"
-                android:textSize="20sp"
-                android:textColor="@color/material_black"/>
+                android:textSize="20sp"/>
 
             <com.google.android.material.divider.MaterialDivider
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/guanzon_orange"
                 android:layout_marginBottom="10dp"/>
 
             <LinearLayout
@@ -102,8 +100,7 @@
 
             <com.google.android.material.divider.MaterialDivider
                 android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="@color/material_black"/>
+                android:layout_height="2dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -214,8 +211,6 @@
                     android:maxLength="11"
                     android:letterSpacing=".4"
                     android:gravity="center"
-                    android:textColor="@color/material_black"
-                    android:backgroundTint="@color/textColor_Orange"
                     android:textCursorDrawable="@null"
                     android:fontFamily="@font/roboto_medium"
                     android:enabled="false"
@@ -257,4 +252,4 @@
 
     </ScrollView>
 
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

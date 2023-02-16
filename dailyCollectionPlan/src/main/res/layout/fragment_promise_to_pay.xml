@@ -132,8 +132,7 @@
         <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"
             android:layout_height="1.5dp"
-            android:layout_marginTop="8dp"
-            android:background="@color/guanzon_orange"/>
+            android:layout_marginTop="8dp"/>
         <com.google.android.material.textfield.TextInputLayout
             style="@style/TextInputStyle"
             android:layout_width="match_parent"
@@ -174,8 +173,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight=".7"
                     android:fontFamily="@font/roboto_regular"
-                    android:text="Branch"
-                    android:buttonTint="@color/guanzon_orange" />
+                    android:text="Branch"/>
 
                 <com.google.android.material.radiobutton.MaterialRadioButton
                     android:layout_width="0dp"
@@ -183,7 +181,6 @@
                     android:layout_weight=".7"
                     android:text="Collector"
                     android:checked="true"
-                    android:buttonTint="@color/guanzon_orange"
                     android:fontFamily="@font/roboto_regular" />
             </RadioGroup>
 

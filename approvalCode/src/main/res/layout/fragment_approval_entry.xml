@@ -221,7 +221,6 @@
                     android:maxLength="11"
                     android:letterSpacing=".4"
                     android:gravity="center"
-                    android:backgroundTint="@color/textColor_Orange"
                     android:textCursorDrawable="@null"
                     android:fontFamily="@font/roboto_medium"
                     android:enabled="false"

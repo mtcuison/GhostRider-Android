@@ -21,13 +21,11 @@
     app:cardUseCompatPadding="true"
     app:cardPreventCornerOverlap="true"
     android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
-    android:background="@color/material_lightgrey"
     android:layout_marginHorizontal="60dp">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/background_dialog"
         android:orientation="vertical"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
@@ -46,8 +44,7 @@
         <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"
             android:layout_height="0.7dp"
-            android:layout_marginTop="10dp"
-            android:background="@color/guanzon_orange" />
+            android:layout_marginTop="10dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -88,8 +85,7 @@
         <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"
             android:layout_height="0.7dp"
-            android:layout_marginTop="10dp"
-            android:background="@color/guanzon_orange" />
+            android:layout_marginTop="10dp"/>
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -123,8 +119,7 @@
         <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"
             android:layout_height="0.7dp"
-            android:layout_marginTop="10dp"
-            android:background="@color/guanzon_orange" />
+            android:layout_marginTop="10dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -133,34 +128,31 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_dialogCancel"
-                style="@style/Widget.AppCompat.Button.Borderless"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
                 android:layout_weight="1"
                 android:fontFamily="@font/roboto_medium"
                 android:text="Cancel"
-                android:textAllCaps="false"
-                app:rippleColor="@color/guanzon_digital_orange" />
+                android:textAllCaps="false"/>
 
             <com.google.android.material.divider.MaterialDivider
                 android:id="@+id/view_midBorder"
                 android:layout_width="0.7dp"
                 android:layout_height="match_parent"
-                android:background="@color/guanzon_orange"
                 android:visibility="visible" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_dialogConfirm"
-                style="@style/Widget.AppCompat.Button.Borderless"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
                 android:layout_weight="1"
                 android:fontFamily="@font/roboto_medium"
                 android:text="Confirm"
-                android:textAllCaps="false"
-                app:rippleColor="@color/guanzon_digital_orange" />
+                android:textAllCaps="false"/>
 
         </LinearLayout>
     </LinearLayout>

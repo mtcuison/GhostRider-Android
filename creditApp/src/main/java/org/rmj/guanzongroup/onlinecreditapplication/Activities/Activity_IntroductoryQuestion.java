@@ -75,7 +75,7 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity {
     private VMIntroductoryQuestion mViewModel;
     private MessageBox poMessage;
 
-    private MaterialAutoCompleteTextView lblBranchNm, lblBrandAdd, lblDate;
+    private MaterialTextView lblBranchNm, lblBrandAdd, lblDate;
     private MaterialAutoCompleteTextView txtBranchNm, txtBrandNm, txtModelNm;
     private TextInputLayout tilApplType;
     private TextInputEditText txtDownPymnt, txtAmort, txtDTarget;

@@ -16,7 +16,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:theme="@style/GhostRiderMaterialTheme"
     app:cardUseCompatPadding="true"
-    android:background="#e2e2e2"
     app:cardCornerRadius="10dp"
     app:cardPreventCornerOverlap="true">
 
@@ -38,7 +37,6 @@
                 android:layout_weight="1"
                 android:text="Account No. : 000000000"
                 android:textSize="14sp"
-                android:textColor="@color/textColor_Black"
                 android:fontFamily="@font/roboto_bold"/>
 
             <com.google.android.material.textview.MaterialTextView
@@ -48,15 +46,13 @@
                 android:layout_weight="2"
                 android:gravity="end"
                 android:textSize="14sp"
-                android:textColor="@color/textColor_Black"
                 android:fontFamily="@font/roboto_medium"/>
 
         </LinearLayout>
 
         <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/guanzon_orange"/>
+            android:layout_height="1dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"

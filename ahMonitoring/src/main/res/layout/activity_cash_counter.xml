@@ -16,7 +16,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".Activity.Activity_CashCounter"
-    android:background="@drawable/bg_gradient_light"
     android:theme="@style/GhostRiderMaterialTheme.NoActionBar">
 
     <LinearLayout
@@ -34,76 +33,77 @@
                 android:id="@+id/toolbar_cashCounter"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="@color/material_tool_bar"
                 app:popupTheme="@style/GhostRiderMaterialTheme.PopupOverlay" />
 
-        </com.google.android.material.appbar.AppBarLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@drawable/bg_samsungknox"
-            android:gravity="center_horizontal"
-            android:paddingHorizontal="15dp">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginVertical="15dp">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
-                    <com.google.android.material.textview.MaterialTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Cash Count"
-                        android:fontFamily="@font/roboto"
-                        android:textSize="22sp"/>
-
-                    <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/lbl_headerBranch"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="15sp"
-                        android:text="Local data is not sync"
-                        android:fontFamily="@font/roboto_light"
-                        android:layout_marginTop="5dp"/>
-
-                    <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/lbl_headerAddress"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="15sp"
-                        android:fontFamily="@font/roboto_light"/>
-
-
-                </LinearLayout>
-            </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="15dp">
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/lbl_headerDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:layout_gravity="end"
-                    android:fontFamily="@font/roboto_light"/>
-                <com.google.android.material.divider.MaterialDivider
+                android:gravity="center_horizontal"
+                android:paddingHorizontal="15dp">
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="0.8dp"
-                    android:background="#fff"/>
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginVertical="15dp">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Cash Count"
+                            android:fontFamily="@font/roboto"
+                            android:textSize="22sp"/>
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/lbl_headerBranch"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="15sp"
+                            android:text="Local data is not sync"
+                            android:fontFamily="@font/roboto_light"
+                            android:layout_marginTop="5dp"/>
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/lbl_headerAddress"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="15sp"
+                            android:fontFamily="@font/roboto_light"/>
+
+
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="15dp">
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/lbl_headerDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:layout_gravity="end"
+                        android:fontFamily="@font/roboto_light"/>
+                    <com.google.android.material.divider.MaterialDivider
+                        android:layout_width="match_parent"
+                        android:layout_height="0.8dp"
+                        android:background="#fff"/>
+                </LinearLayout>
+
+
             </LinearLayout>
 
+        </com.google.android.material.appbar.AppBarLayout>
 
-        </LinearLayout>
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

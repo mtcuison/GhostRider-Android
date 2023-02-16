@@ -17,15 +17,13 @@
     app:cardUseCompatPadding="true"
     app:cardPreventCornerOverlap="true"
     app:cardMaxElevation="5dp"
-    android:background="@drawable/bg_gradient_light"
     app:cardElevation="3dp"
     android:theme="@style/GhostRiderMaterialTheme">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@drawable/bg_gradient_light">
+        android:orientation="vertical">
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -38,7 +36,6 @@
         <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/guanzon_orange"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="10dp"
             android:layout_marginHorizontal="5dp"/>

@@ -15,103 +15,108 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/bg_gradient_light"
     tools:context=".Fragment.Fragment_BusinessTripApproval"
     android:orientation="vertical"
     android:theme="@style/GhostRiderMaterialTheme.NoActionBar">
+
    <LinearLayout
        android:layout_width="match_parent"
-       android:layout_height="match_parent"
+       android:layout_height="wrap_content"
        android:orientation="vertical">
-       <LinearLayout
+
+       <com.google.android.material.appbar.AppBarLayout
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
-           android:background="@drawable/bg_samsungknox"
-           android:gravity="center"
-           android:orientation="vertical"
-           android:paddingHorizontal="15dp">
+           android:theme="@style/GhostRiderMaterialTheme.AppBarOverlay">
 
            <LinearLayout
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
-               android:layout_marginVertical="10dp"
-               android:paddingTop="5dp"
-               android:gravity="center_horizontal"
-               android:orientation="vertical">
+               android:gravity="center"
+               android:orientation="vertical"
+               android:paddingHorizontal="15dp">
 
-               <com.google.android.material.textview.MaterialTextView
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:fontFamily="@font/roboto"
-                   android:text="Business Trip Application"
-                   android:textSize="22sp" />
-
-               <com.google.android.material.textview.MaterialTextView
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:fontFamily="@font/roboto"
-                   android:text="Approval"
-                   android:textSize="22sp" />
-
-               <com.google.android.material.textview.MaterialTextView
-                   android:id="@+id/lbl_headerBranch"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:textSize="15sp"
-                   android:fontFamily="@font/roboto_light"
-                   android:layout_marginTop="5dp"/>
-
-               <com.google.android.material.textview.MaterialTextView
-                   android:id="@+id/lbl_headerAddress"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:textSize="15sp"
-                   android:fontFamily="@font/roboto_light"/>
-
-           </LinearLayout>
-
-           <com.google.android.material.divider.MaterialDivider
-               android:layout_width="match_parent"
-               android:layout_height="0.8dp"
-               android:background="#fff" />
-
-           <LinearLayout
-               android:id="@+id/linear_search"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:orientation="horizontal"
-               android:layout_marginVertical="10dp">
-
-               <com.google.android.material.textfield.TextInputLayout
-                   android:id="@+id/til_collectionSearch"
+               <LinearLayout
                    android:layout_width="match_parent"
                    android:layout_height="wrap_content"
-                   android:layout_weight=".3"
-                   style="@style/TextInputStyleHeaders">
+                   android:layout_marginVertical="10dp"
+                   android:paddingTop="5dp"
+                   android:gravity="center_horizontal"
+                   android:orientation="vertical">
 
-                   <com.google.android.material.textfield.TextInputEditText
-                       android:id="@+id/txt_leave_ob_search"
+                   <com.google.android.material.textview.MaterialTextView
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:fontFamily="@font/roboto"
+                       android:text="Business Trip Application"
+                       android:textSize="22sp" />
+
+                   <com.google.android.material.textview.MaterialTextView
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:fontFamily="@font/roboto"
+                       android:text="Approval"
+                       android:textSize="22sp" />
+
+                   <com.google.android.material.textview.MaterialTextView
+                       android:id="@+id/lbl_headerBranch"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:textSize="15sp"
+                       android:fontFamily="@font/roboto_light"
+                       android:layout_marginTop="5dp"/>
+
+                   <com.google.android.material.textview.MaterialTextView
+                       android:id="@+id/lbl_headerAddress"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:textSize="15sp"
+                       android:fontFamily="@font/roboto_light"/>
+
+               </LinearLayout>
+
+               <com.google.android.material.divider.MaterialDivider
+                   android:layout_width="match_parent"
+                   android:layout_height="0.8dp" />
+
+               <LinearLayout
+                   android:id="@+id/linear_search"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:orientation="horizontal"
+                   android:layout_marginVertical="10dp">
+
+                   <com.google.android.material.textfield.TextInputLayout
+                       android:id="@+id/til_collectionSearch"
                        android:layout_width="match_parent"
                        android:layout_height="wrap_content"
-                       android:inputType="textCapWords|textPersonName"
-                       android:imeOptions="actionSearch"
-                       android:maxLines="1"
-                       android:textCursorDrawable="@drawable/white_cursor"
-                       android:hint="Search transnox" />
-               </com.google.android.material.textfield.TextInputLayout>
+                       android:layout_weight=".3"
+                       style="@style/TextInputStyleHeaders">
 
-               <com.google.android.material.button.MaterialButton
-                   android:id="@+id/btn_quick_search"
-                   android:layout_weight="1.7"
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content"
-                   app:icon="@drawable/ic_name_search"
-                   android:layout_gravity="center"
-                   style="@style/Base.Widget.AppCompat.Button.Borderless"
-                   />
+                       <com.google.android.material.textfield.TextInputEditText
+                           android:id="@+id/txt_leave_ob_search"
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content"
+                           android:inputType="textCapWords|textPersonName"
+                           android:imeOptions="actionSearch"
+                           android:maxLines="1"
+                           android:hint="Search transnox" />
+                   </com.google.android.material.textfield.TextInputLayout>
+
+                   <com.google.android.material.button.MaterialButton
+                       android:id="@+id/btn_quick_search"
+                       android:layout_weight="1.7"
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       app:icon="@drawable/ic_name_search"
+                       android:layout_gravity="center"
+                       style="@style/Base.Widget.AppCompat.Button.Borderless" />
+               </LinearLayout>
+
            </LinearLayout>
 
-       </LinearLayout>
+       </com.google.android.material.appbar.AppBarLayout>
+
        <LinearLayout
            android:layout_width="match_parent"
            android:layout_height="match_parent"
@@ -152,8 +157,7 @@
 
                    <com.google.android.material.divider.MaterialDivider
                        android:layout_width="match_parent"
-                       android:layout_height="1dp"
-                       android:background="@color/guanzon_orange"/>
+                       android:layout_height="1dp"/>
 
                    <com.google.android.material.textview.MaterialTextView
                        android:id="@+id/lbl_clientNm"
@@ -163,8 +167,7 @@
                        android:fontFamily="@font/roboto_bold"
                        android:gravity="center_vertical"
                        android:layout_marginTop="10dp"
-                       android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                       android:drawableLeft="@drawable/ic_collection_client" />
+                       android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
 
                    <LinearLayout
                        android:layout_width="match_parent"
@@ -181,8 +184,7 @@
                            android:drawablePadding="5dp"
                            android:gravity="center_vertical"
                            app:drawableStartCompat="@android:drawable/ic_menu_my_calendar"
-                           app:drawableLeftCompat="@android:drawable/ic_menu_my_calendar"
-                           android:drawableTint="@color/textColor_Black" />
+                           app:drawableLeftCompat="@android:drawable/ic_menu_my_calendar" />
 
                        <com.google.android.material.textview.MaterialTextView
                            android:id="@+id/lbl_dateApplied"
@@ -208,8 +210,7 @@
                            android:drawablePadding="5dp"
                            android:gravity="center_vertical"
                            app:drawableStartCompat="@android:drawable/ic_menu_my_calendar"
-                           app:drawableLeftCompat="@android:drawable/ic_menu_my_calendar"
-                           android:drawableTint="@color/textColor_Black" />
+                           app:drawableLeftCompat="@android:drawable/ic_menu_my_calendar" />
 
                        <com.google.android.material.textview.MaterialTextView
                            android:id="@+id/lbl_dateApproved"
@@ -235,8 +236,7 @@
                            android:drawablePadding="5dp"
                            android:gravity="center_vertical"
                            app:drawableStartCompat="@android:drawable/ic_menu_my_calendar"
-                           app:drawableLeftCompat="@android:drawable/ic_menu_my_calendar"
-                           android:drawableTint="@color/textColor_Black" />
+                           app:drawableLeftCompat="@android:drawable/ic_menu_my_calendar"/>
 
                        <com.google.android.material.textview.MaterialTextView
                            android:id="@+id/lbl_dateFrom"
@@ -262,8 +262,7 @@
                            android:drawablePadding="5dp"
                            android:gravity="center_vertical"
                            app:drawableStartCompat="@android:drawable/ic_menu_my_calendar"
-                           app:drawableLeftCompat="@android:drawable/ic_menu_my_calendar"
-                           android:drawableTint="@color/textColor_Black"/>
+                           app:drawableLeftCompat="@android:drawable/ic_menu_my_calendar"/>
 
                        <com.google.android.material.textview.MaterialTextView
                            android:id="@+id/lbl_dateThru"
@@ -305,7 +304,6 @@
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
                app:cardUseCompatPadding="true"
-               android:background="#e2e2e2"
                app:cardCornerRadius="5dp"
                app:cardPreventCornerOverlap="true">
 

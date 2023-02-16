@@ -156,6 +156,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto"
                 android:text="@string/agree"
+                android:checked="true"
                 android:textSize="13sp"
                 android:padding="0dp"/>
 

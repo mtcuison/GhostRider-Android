@@ -26,8 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:gravity="center"
-        android:background="@drawable/background_dialog">
+        android:gravity="center">
 
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
@@ -40,7 +39,6 @@
         <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/guanzon_orange"
             android:layout_marginTop="5dp"
             android:layout_marginHorizontal="5dp"/>
 
@@ -61,16 +59,14 @@
 
         <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/guanzon_orange"/>
+            android:layout_height="1dp"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_cancel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Cancel"
-            app:rippleColor="@color/guanzon_orange"
-            style="@style/MaterialButtonAccent"/>
+            style="@style/Widget.MaterialComponents.Button.TextButton"/>
 
     </LinearLayout>
 

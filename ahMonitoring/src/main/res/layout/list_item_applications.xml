@@ -37,8 +37,7 @@
 
         <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/guanzon_orange"/>
+            android:layout_height="1dp"/>
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lbl_employeeName"
@@ -114,8 +113,7 @@
                 android:drawablePadding="5dp"
                 android:gravity="center_vertical"
                 app:drawableStartCompat="@android:drawable/ic_menu_my_calendar"
-                app:drawableLeftCompat="@android:drawable/ic_menu_my_calendar"
-                android:drawableTint="@color/textColor_Black" />
+                app:drawableLeftCompat="@android:drawable/ic_menu_my_calendar" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_dateFrom"
@@ -141,8 +139,7 @@
                 android:drawablePadding="5dp"
                 android:gravity="center_vertical"
                 app:drawableStartCompat="@android:drawable/ic_menu_my_calendar"
-                app:drawableLeftCompat="@android:drawable/ic_menu_my_calendar"
-                android:drawableTint="@color/textColor_Black"/>
+                app:drawableLeftCompat="@android:drawable/ic_menu_my_calendar" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_dateThru"

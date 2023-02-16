@@ -20,7 +20,6 @@
     style="@style/Widget.MaterialComponents.Button.TextButton"
     app:icon="@drawable/ic_list_approval"
     android:textAlignment="textStart"
-    app:iconTint="@color/material_black"
     android:text="Field Collection Rebate"
     android:paddingTop="5dp"
     android:paddingBottom="5dp"

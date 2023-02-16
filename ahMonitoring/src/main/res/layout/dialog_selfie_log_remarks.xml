@@ -73,7 +73,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Confirm"
-                app:rippleColor="@color/guanzon_digital_orange"
                 android:fontFamily="@font/roboto_medium"
                 style="@style/MaterialButtonAccent"/>
 
@@ -83,7 +82,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Cancel"
-                app:rippleColor="@color/guanzon_digital_orange"
                 android:fontFamily="@font/roboto_medium"
                 style="@style/MaterialButtonAccent"/>
 

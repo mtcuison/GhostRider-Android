@@ -15,7 +15,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/bg_gradient_light"
     tools:context=".Fragment.Fragment_LeaveApproval"
     android:orientation="vertical"
     android:theme="@style/GhostRiderMaterialTheme.NoActionBar">
@@ -25,93 +24,98 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <LinearLayout
+        <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_samsungknox"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:paddingHorizontal="15dp">
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="10dp"
-                android:paddingTop="5dp"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingHorizontal="15dp">
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto"
-                    android:text="Leave Application"
-                    android:textSize="22sp" />
-                <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto"
-                    android:text="Approval"
-                    android:textSize="22sp" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/lbl_headerBranch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="15sp"
-                    android:text="Local data is not sync"
-                    android:fontFamily="@font/roboto_light"
-                    android:layout_marginTop="5dp"/>
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/lbl_headerAddress"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="15sp"
-                    android:fontFamily="@font/roboto_light"/>
-            </LinearLayout>
-
-            <com.google.android.material.divider.MaterialDivider
-                android:layout_width="match_parent"
-                android:layout_height="0.8dp"
-                android:background="#fff" />
-            <LinearLayout
-                android:id="@+id/linear_search"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginVertical="10dp">
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/til_collectionSearch"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight=".3"
-                    style="@style/TextInputStyleHeaders">
+                    android:layout_marginVertical="10dp"
+                    android:paddingTop="5dp"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/txt_leave_ob_search"
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto"
+                        android:text="Leave Application"
+                        android:textSize="22sp" />
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto"
+                        android:text="Approval"
+                        android:textSize="22sp" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/lbl_headerBranch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="15sp"
+                        android:text="Local data is not sync"
+                        android:fontFamily="@font/roboto_light"
+                        android:layout_marginTop="5dp"/>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/lbl_headerAddress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="15sp"
+                        android:fontFamily="@font/roboto_light"/>
+                </LinearLayout>
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:layout_width="match_parent"
+                    android:layout_height="0.8dp"
+                    android:background="#fff" />
+                <LinearLayout
+                    android:id="@+id/linear_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginVertical="10dp">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/til_collectionSearch"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textCapWords|textPersonName"
-                        android:imeOptions="actionSearch"
-                        android:maxLines="1"
-                        android:textAllCaps="true"
-                        android:textCursorDrawable="@drawable/white_cursor"
-                        android:hint="Enter Transaction No." />
-                </com.google.android.material.textfield.TextInputLayout>
+                        android:layout_weight=".3"
+                        style="@style/TextInputStyleHeaders">
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_quick_search"
-                    android:layout_weight="1.7"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:icon="@drawable/ic_name_search"
-                    android:layout_gravity="center"
-                    style="@style/Base.Widget.AppCompat.Button.Borderless" />
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/txt_leave_ob_search"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textCapWords|textPersonName"
+                            android:imeOptions="actionSearch"
+                            android:maxLines="1"
+                            android:textAllCaps="true"
+                            android:textCursorDrawable="@drawable/white_cursor"
+                            android:hint="Enter Transaction No." />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_quick_search"
+                        android:layout_weight="1.7"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:icon="@drawable/ic_name_search"
+                        android:layout_gravity="center"
+                        style="@style/Base.Widget.AppCompat.Button.Borderless" />
+                </LinearLayout>
+
             </LinearLayout>
 
-        </LinearLayout>
+        </com.google.android.material.appbar.AppBarLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -233,7 +237,7 @@
                             android:gravity="center_vertical"
                             app:drawableStartCompat="@drawable/ic_application_date"
                             app:drawableLeftCompat="@drawable/ic_application_date"
-                            android:drawableTint="@color/textColor_Black" />
+                            />
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/lbl_dateApplied"
@@ -260,7 +264,7 @@
                             android:gravity="center_vertical"
                             app:drawableStartCompat="@drawable/ic_application_date"
                             app:drawableLeftCompat="@drawable/ic_application_date"
-                            android:drawableTint="@color/textColor_Black" />
+                            />
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/lbl_dateApproved"
@@ -287,7 +291,7 @@
                             android:gravity="center_vertical"
                             app:drawableStartCompat="@drawable/ic_application_date"
                             app:drawableLeftCompat="@drawable/ic_application_date"
-                            android:drawableTint="@color/textColor_Black" />
+                            />
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/lbl_dateFrom"
@@ -313,8 +317,7 @@
                             android:drawablePadding="5dp"
                             android:gravity="center_vertical"
                             app:drawableStartCompat="@drawable/ic_application_date"
-                            app:drawableLeftCompat="@drawable/ic_application_date"
-                            android:drawableTint="@color/textColor_Black"/>
+                            app:drawableLeftCompat="@drawable/ic_application_date" />
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/lbl_dateThru"
@@ -340,8 +343,7 @@
                             android:drawablePadding="5dp"
                             android:gravity="center_vertical"
                             app:drawableStartCompat="@drawable/ic_application_leave"
-                            app:drawableLeftCompat="@drawable/ic_application_leave"
-                            android:drawableTint="@color/textColor_Black"/>
+                            app:drawableLeftCompat="@drawable/ic_application_leave" />
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/lbl_leaveType"
@@ -383,7 +385,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardUseCompatPadding="true"
-                android:background="#e2e2e2"
                 app:cardCornerRadius="5dp"
                 app:cardPreventCornerOverlap="true">
 

@@ -8,15 +8,13 @@
     app:cardCornerRadius="25dp"
     app:cardUseCompatPadding="true"
     app:cardPreventCornerOverlap="true"
-    android:background="@color/material_lightgrey"
     android:theme="@style/GhostRiderMaterialTheme"
     android:layout_marginHorizontal="30dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@drawable/background_dialog">
+        android:orientation="vertical">
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lbl_dialogTitle"
@@ -59,7 +57,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Cancel"
-            app:rippleColor="@color/guanzon_digital_orange"
             android:fontFamily="@font/roboto_medium"
             style="@style/Widget.AppCompat.Button.Borderless"/>
     </LinearLayout>

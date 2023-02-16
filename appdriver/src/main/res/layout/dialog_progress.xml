@@ -17,7 +17,6 @@
     android:orientation="vertical"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    app:cardBackgroundColor="#E2E2E2"
     app:cardUseCompatPadding="true"
     app:cardPreventCornerOverlap="true"
     app:cardCornerRadius="25dp">
@@ -28,8 +27,7 @@
         android:orientation="vertical"
         android:gravity="center"
         android:paddingVertical="20dp"
-        android:paddingHorizontal="50dp"
-        android:background="@drawable/background_dialog">
+        android:paddingHorizontal="50dp">
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lbl_dialogTitle"
@@ -50,12 +48,12 @@
             android:layout_marginTop="10dp"
             android:fontFamily="@font/roboto"/>
 
-        <ProgressBar
+        <com.google.android.material.progressindicator.CircularProgressIndicator
             android:id="@+id/progress_loading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            tools:targetApi="lollipop" />
+            android:indeterminate="true"/>
 
     </LinearLayout>
 

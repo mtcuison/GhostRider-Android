@@ -14,7 +14,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
-    style="@style/MasterViewGroupStyle_Light"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="25dp"
     tools:context=".UserInterface.CreateAccount.Fragment_CreateAccount">
 
     <ScrollView

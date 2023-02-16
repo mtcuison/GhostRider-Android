@@ -36,7 +36,6 @@
                 android:textSize="10sp"
                 android:layout_marginRight="3dp"
                 android:background="@drawable/border_label"
-                android:textColor="@color/guanzon_digital_orange"
                 android:visibility="gone"/>
 
             <com.google.android.material.textview.MaterialTextView
@@ -45,7 +44,6 @@
                 android:layout_height="wrap_content"
                 android:textSize="10sp"
                 android:background="@drawable/border_label"
-                android:textColor="@color/guanzon_digital_orange"
                 android:layout_toRightOf="@+id/tvPrimary"
                 android:visibility="gone"/>
         </LinearLayout>
@@ -65,7 +63,6 @@
             android:id="@+id/divider"
             android:layout_width="match_parent"
             android:layout_height=".8dp"
-            android:background="@color/guanzon_dark_grey"
             android:layout_below="@id/tvDetails"
             android:layout_marginTop="10dp"/>
 

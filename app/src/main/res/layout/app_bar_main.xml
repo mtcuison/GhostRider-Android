@@ -18,12 +18,18 @@
     android:layout_height="match_parent"
     tools:context=".Activity.Activity_Main">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:elevation="5dp"
-        app:popupTheme="@style/GhostRiderMaterialTheme.PopupOverlay" />
+        android:layout_height="wrap_content"
+        android:elevation="5dp">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:popupTheme="@style/GhostRiderMaterialTheme.PopupOverlay" />
+
+    </LinearLayout>
 
     <include layout="@layout/content_main"/>
 

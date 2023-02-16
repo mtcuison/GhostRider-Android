@@ -59,8 +59,7 @@
         <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"
             android:layout_height="1.5dp"
-            android:layout_marginTop="5dp"
-            android:background="@color/guanzon_orange"/>
+            android:layout_marginTop="5dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -198,10 +197,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight=".7"
-                android:buttonTint="@color/guanzon_digital_orange"
                 android:fontFamily="@font/roboto_regular"
                 android:text="Primary Contact"
-                android:textColor="@color/material_black"
                 tools:ignore="HardcodedText"
                 tools:targetApi="lollipop" />
 
@@ -342,10 +339,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight=".7"
-                android:buttonTint="@color/guanzon_dark_grey"
                 android:fontFamily="@font/roboto_regular"
                 android:text="Primary Address"
-                android:textColor="@color/black"
                 tools:ignore="HardcodedText"
                 tools:targetApi="lollipop" />
         </LinearLayout>
