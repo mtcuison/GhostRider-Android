@@ -6,53 +6,52 @@
     android:orientation="vertical">
 
     <TextView
+        android:textAppearance="@style/PrimaryHeaderStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/roboto_bold"
         android:paddingTop="10dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:textColor="@color/guanzon_dark_grey"
-        android:textSize="20sp"
-        android:text="New Features"/>
+        android:text="New Features"
+        android:textSize="20sp" />
 
     <TextView
+        style="@style/PrimaryHeaderStyle"
+        android:textAppearance="@style/DescriptionHeaderStyle"
+        android:textColor="?attr/colorSecondary"
         android:id="@+id/lblLogHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/roboto_bold"
-        android:paddingTop="10dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:textColor="@color/guanzon_dark_grey"
-        android:textSize="17sp"/>
+        android:text=""
+        android:textSize="15sp"
+        android:paddingTop="5dp"
+        android:paddingLeft="10dp" />
+
     <TextView
+        style="@style/HintText"
         android:id="@+id/lblLogDescr"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/roboto_bold"
-        android:paddingTop="10dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:textColor="@color/guanzon_dark_grey"
-        android:textSize="14sp"/>
+        android:text=""
+        android:paddingTop="5dp"
+        android:paddingLeft="10dp"
+        android:textSize="13sp"/>
 
     <TextView
+        android:textAppearance="@style/PrimaryHeaderStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/roboto_bold"
         android:layout_marginTop="30dp"
         android:paddingTop="10dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:textColor="@color/guanzon_dark_grey"
         android:textSize="20sp"
         android:text="Fixed Concerns"/>
 
     <TextView
+        style="@style/HintText"
         android:id="@+id/lblLogOthers"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/roboto_bold"
-        android:paddingTop="10dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:textColor="@color/guanzon_dark_grey"
-        android:textSize="17sp"/>
+        android:text=""
+        android:textSize="15sp"
+        android:paddingTop="5dp"
+        android:paddingLeft="10dp"/>
 
 </LinearLayout>

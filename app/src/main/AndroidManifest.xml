@@ -107,7 +107,6 @@
         <activity
             android:name="org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_AppVersion"
             android:screenOrientation="userPortrait"
-            android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan"
             android:exported="true">
 

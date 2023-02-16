@@ -23,6 +23,7 @@ import org.rmj.g3appdriver.lib.Version.VersionInfo;
 import org.rmj.guanzongroup.ghostrider.settings.ViewModel.VMAppVersion;
 import org.rmj.guanzongroup.ghostrider.settings.R;
 import org.rmj.guanzongroup.ghostrider.settings.adapter.RecyclerViewAppVersionAdapter;
+import org.rmj.g3appdriver.BuildConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -93,8 +94,9 @@ public class Activity_AppVersion extends AppCompatActivity {
         getAppVersion();
        //call method to show what to display
         setonDisplay();
-        //call method for button listener
+       //call method for button listener
         btnCheckUpdate();
+
     }
     public void setonDisplay(){
         //show that to display if, list of versions has retrieved more than 0
