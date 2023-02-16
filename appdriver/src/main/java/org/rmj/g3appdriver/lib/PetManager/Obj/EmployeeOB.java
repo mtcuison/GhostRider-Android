@@ -31,9 +31,9 @@ import org.rmj.g3appdriver.dev.HttpHeaders;
 import org.rmj.g3appdriver.dev.WebClient;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
-import org.rmj.g3appdriver.lib.PetManager.iPM;
-import org.rmj.g3appdriver.lib.PetManager.model.OBApplication;
-import org.rmj.g3appdriver.lib.PetManager.model.OBApprovalInfo;
+import org.rmj.g3appdriver.lib.PetManager.model.iPM;
+import org.rmj.g3appdriver.lib.PetManager.pojo.OBApplication;
+import org.rmj.g3appdriver.lib.PetManager.pojo.OBApprovalInfo;
 import org.rmj.g3appdriver.utils.WebApi;
 
 import java.text.SimpleDateFormat;

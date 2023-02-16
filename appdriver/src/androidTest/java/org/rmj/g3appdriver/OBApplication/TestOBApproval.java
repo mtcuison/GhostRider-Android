@@ -18,7 +18,7 @@ import android.util.Log;
 import org.junit.Before;
 import org.junit.Test;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.lib.PetManager.model.OBApprovalInfo;
+import org.rmj.g3appdriver.lib.PetManager.pojo.OBApprovalInfo;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(AndroidJUnit4.class)

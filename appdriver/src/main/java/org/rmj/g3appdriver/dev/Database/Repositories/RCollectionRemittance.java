@@ -24,7 +24,7 @@ import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.dev.HttpHeaders;
 import org.rmj.g3appdriver.dev.WebClient;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.lib.integsys.Dcp.model.Remittance;
+import org.rmj.g3appdriver.lib.integsys.Dcp.pojo.Remittance;
 import org.rmj.g3appdriver.utils.WebApi;
 
 public class RCollectionRemittance {

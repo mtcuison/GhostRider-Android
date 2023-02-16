@@ -15,9 +15,9 @@ import org.rmj.g3appdriver.dev.Database.Entities.EOccupationInfo;
 import org.rmj.g3appdriver.dev.Database.Repositories.ROccupation;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.LocationRetriever;
-import org.rmj.g3appdriver.lib.integsys.CreditInvestigator.BarangayRecord;
-import org.rmj.g3appdriver.lib.integsys.CreditInvestigator.CIImage;
-import org.rmj.g3appdriver.lib.integsys.CreditInvestigator.CITagging;
+import org.rmj.g3appdriver.lib.integsys.CreditInvestigator.pojo.BarangayRecord;
+import org.rmj.g3appdriver.lib.integsys.CreditInvestigator.pojo.CIImage;
+import org.rmj.g3appdriver.lib.integsys.CreditInvestigator.Obj.CITagging;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.etc.ImageFileCreator;
 

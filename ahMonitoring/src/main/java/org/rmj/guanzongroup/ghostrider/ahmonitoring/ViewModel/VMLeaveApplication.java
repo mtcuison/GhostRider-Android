@@ -23,11 +23,10 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEmployeeInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.dev.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.lib.PetManager.PetManager;
-import org.rmj.g3appdriver.lib.PetManager.iPM;
-import org.rmj.g3appdriver.lib.PetManager.model.LeaveApplication;
+import org.rmj.g3appdriver.lib.PetManager.model.iPM;
+import org.rmj.g3appdriver.lib.PetManager.pojo.LeaveApplication;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 
 

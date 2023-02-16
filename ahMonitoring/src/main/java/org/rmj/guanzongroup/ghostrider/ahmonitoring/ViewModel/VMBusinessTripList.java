@@ -19,7 +19,7 @@ import androidx.lifecycle.LiveData;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeBusinessTrip;
 import org.rmj.g3appdriver.lib.PetManager.PetManager;
-import org.rmj.g3appdriver.lib.PetManager.iPM;
+import org.rmj.g3appdriver.lib.PetManager.model.iPM;
 
 import java.util.List;
 
