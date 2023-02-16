@@ -9,22 +9,27 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import org.json.JSONObject;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.Version.VersionInfo;
 import org.rmj.guanzongroup.ghostrider.settings.ViewModel.VMAppVersion;
 import org.rmj.guanzongroup.ghostrider.settings.R;
 import org.rmj.guanzongroup.ghostrider.settings.adapter.RecyclerViewAppVersionAdapter;
-import org.rmj.g3appdriver.BuildConfig;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,13 +95,14 @@ public class Activity_AppVersion extends AppCompatActivity {
         //initialize dialog for displaying message
         pomessage.initDialog();
 
+       //set by default, the current build version of  app
+        setBuild_version();
        //call method to get the list of versions
         getAppVersion();
        //call method to show what to display
         setonDisplay();
        //call method for button listener
         btnCheckUpdate();
-
     }
     public void setonDisplay(){
         //show that to display if, list of versions has retrieved more than 0
@@ -233,6 +239,29 @@ public class Activity_AppVersion extends AppCompatActivity {
                 recyclerView.setAdapter(versionAdapter);
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
             }
+        }
+    }
+    public void setBuild_version()              {
+        //declare package manager
+        PackageManager packageManager = this.getPackageManager();
+        try {
+            //get package for this app
+            PackageInfo packageInfo = packageManager.getPackageInfo(this.getPackageName(), packageManager.GET_ACTIVITIES);
+
+            //create a date formatter
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd");
+
+            //get the source directory of application installed on device and convert to file
+            File file = new File(packageInfo.applicationInfo.sourceDir);
+            if (!packageInfo.versionName.trim().isEmpty()){
+                //set build version from package info
+                build_version.setText(packageInfo.versionName);
+
+                //set date build by the last modified/installed date of source files
+                date_build.setText(simpleDateFormat.format(file.lastModified()));
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            Log.d("Build Version Failed", e.getMessage());
         }
     }
 }
