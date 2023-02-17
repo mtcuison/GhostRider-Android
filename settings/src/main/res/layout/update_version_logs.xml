@@ -5,38 +5,38 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <TextView
-        android:textAppearance="@style/PrimaryHeaderStyle"
+    <com.google.android.material.textview.MaterialTextView
+        style="@style/PrimaryHeaderStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="10dp"
         android:text="New Features"
         android:textSize="20sp" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         style="@style/PrimaryHeaderStyle"
-        android:textAppearance="@style/DescriptionHeaderStyle"
-        android:textColor="?attr/colorSecondary"
+        android:textColor="?attr/colorAccent"
         android:id="@+id/lblLogHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text=""
-        android:textSize="15sp"
+        android:text="Employee Loan"
+        android:textSize="16sp"
         android:paddingTop="5dp"
         android:paddingLeft="10dp" />
 
-    <TextView
-        style="@style/HintText"
+    <com.google.android.material.textview.MaterialTextView
+        style="@style/PrimaryHeaderStyle"
         android:id="@+id/lblLogDescr"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text=""
+        android:text="A feature that allows user to apply loan from company products among all branches."
+        android:textStyle="bold"
         android:paddingTop="5dp"
         android:paddingLeft="10dp"
         android:textSize="13sp"/>
 
-    <TextView
-        android:textAppearance="@style/PrimaryHeaderStyle"
+    <com.google.android.material.textview.MaterialTextView
+        style="@style/PrimaryHeaderStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
@@ -44,13 +44,15 @@
         android:textSize="20sp"
         android:text="Fixed Concerns"/>
 
-    <TextView
-        style="@style/HintText"
+    <com.google.android.material.textview.MaterialTextView
+        style="@style/PrimaryHeaderStyle"
         android:id="@+id/lblLogOthers"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text=""
-        android:textSize="15sp"
+        android:textStyle="bold"
+        android:text="•Improved ui design, adapting to light and dark mode.
+                      \n•Option to change employee position for GM only."
+        android:textSize="16sp"
         android:paddingTop="5dp"
         android:paddingLeft="10dp"/>
 

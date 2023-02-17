@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/gcircle_icon"
             android:layout_width="match_parent"
             android:layout_height="200dp"
@@ -30,49 +30,53 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
-        <TextView
-            style="@style/GhostRider_Update_Text_Title"
+        <com.google.android.material.textview.MaterialTextView
+            style="@style/PrimaryHeaderStyle"
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Guanzon Circle"
-            android:textSize="30sp"
+            android:textColor="?attr/colorAccent"
             android:gravity="center"
+            android:textSize="30sp"
             android:layout_marginTop="50dp"
+            android:letterSpacing="0.20"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/gcircle_icon"/>
 
-            <TextView
-                style="@style/GhostRider_Update_Text_Sub_Title"
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/PrimaryHeaderStyle"
                 android:id="@+id/build_version"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text=""
-                android:textSize="15sp"
+                android:text="Build v2.40.2.V"
+                android:textSize="18sp"
                 android:gravity="center"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/title"/>
 
-            <TextView
-                style="@style/HintText"
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/PrimaryHeaderStyle"
                 android:id="@+id/date_build"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text=""
-                android:textSize="15sp"
+                android:text="2023.02.16"
+                android:textSize="14sp"
                 android:gravity="center"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/build_version"/>
 
-            <TextView
-                style="@style/GhostRider_Update_Text_Caption"
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/PrimaryHeaderStyle"
                 android:id="@+id/lbl_aboutupdate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="New Update"
+                android:textSize="20sp"
+                android:textColor="?attr/colorAccent"
                 android:layout_marginTop="50dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
@@ -80,13 +84,13 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/date_build"/>
 
-            <TextView
-                style="@style/HintText"
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/PrimaryHeaderStyle"
                 android:id="@+id/about_update"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text=""
-                android:textSize="15sp"
+                android:text="This update integrates new ui features, improved security performance and optimized controllers."
+                android:textSize="13sp"
                 android:layout_marginTop="5dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
@@ -94,18 +98,28 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/lbl_aboutupdate"/>
 
-            <TextView
-                style="@style/GhostRider_Update_Text_Caption"
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/PrimaryHeaderStyle"
                 android:id="@+id/lbl_updatedLog"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Updated Log"
+                android:textColor="?attr/colorAccent"
+                android:textSize="20sp"
                 android:layout_marginTop="25dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/about_update"/>
+
+            <include
+                android:layout_width="370dp"
+                android:layout_height="wrap_content"
+                layout="@layout/update_version_logs"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/lbl_updatedLog"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rec_updatelogs"
@@ -116,11 +130,11 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/lbl_updatedLog" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
     <androidx.appcompat.widget.AppCompatButton
-        style="@style/GhostRider_Update_Button"
         android:id="@+id/btn_checkupdate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -128,6 +142,9 @@
         android:layout_marginBottom="30dp"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
+        android:background="@drawable/oval_background"
+        android:backgroundTint="?attr/colorAccent"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
