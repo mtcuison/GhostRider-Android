@@ -10,36 +10,32 @@
   ~ project file last modified : 4/24/21 3:18 PM
   -->
 
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardUseCompatPadding="true"
     app:cardPreventCornerOverlap="true"
     app:cardMaxElevation="5dp"
-    android:background="@drawable/bg_gradient_light"
     app:cardElevation="3dp"
     android:theme="@style/GhostRiderMaterialTheme">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@drawable/bg_gradient_light">
-        <TextView
+        android:orientation="vertical">
+        <com.google.android.material.textview.MaterialTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Daily Collection Plan"
             android:textSize="20sp"
             android:textAlignment="center"
-            android:textColor="@color/textColor_Black"
             android:fontFamily="@font/roboto_bold"
             android:layout_marginTop="15dp"
             android:gravity="center_horizontal" />
-        <View
+        <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/guanzon_orange"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="10dp"
             android:layout_marginHorizontal="5dp"/>
@@ -62,7 +58,7 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center">
 
-                    <ImageView
+                    <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/imgPreview"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
@@ -92,4 +88,4 @@
 
     </LinearLayout>
 
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

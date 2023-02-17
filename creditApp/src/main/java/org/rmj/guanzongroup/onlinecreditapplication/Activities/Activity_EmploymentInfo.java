@@ -21,8 +21,20 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.radiobutton.MaterialRadioButton;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+import  com.google.android.material.checkbox.MaterialCheckBox;
+
 
 import org.json.JSONException;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
@@ -47,7 +59,7 @@ public class Activity_EmploymentInfo extends AppCompatActivity {
             mViewModel;
     private MessageBox
             poMessage;
-    private AutoCompleteTextView
+    private MaterialAutoCompleteTextView
             spnCmpLvl, spnEmpLvl, spnBusNtr, spnEmpSts, spnServce,
             txtCntryx, txtProvNm, txtTownNm, txtJobNme;
     private TextInputLayout
@@ -56,15 +68,15 @@ public class Activity_EmploymentInfo extends AppCompatActivity {
             txtCompNm, txtCompAd, txtSpcfJb, txtLngthS, txtEsSlry, txtCompCn;
     private LinearLayout
             lnGovInfo, lnEmpInfo;
-    private Button
+    private MaterialButton
             btnNext, btnPrvs;
     private RadioGroup
             rgSectorx;
-    private RadioButton
+    private MaterialRadioButton
             rbPrivate, rbGovernment, rbOFW;
-    private CheckBox
+    private MaterialCheckBox
             cbUniformYes, cbMilitaryYes;
-    private Toolbar toolbar;
+    private MaterialToolbar toolbar;
 
     private String TransNox;
 

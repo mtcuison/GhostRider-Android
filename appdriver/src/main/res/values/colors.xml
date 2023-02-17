@@ -10,7 +10,26 @@
   ~ project file last modified : 4/24/21 3:17 PM
   -->
 
-<resources xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android">
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <color name="material_black">#1A1C25</color>
+    <color name="material_white">#fcfcfc</color>
+    <color name="colorPrimary_light">#000000</color>
+
+    <color name="background_dark">#161B24</color>
+    <color name="background_light">#F2F2F2</color>
+
+    <color name="colorPrimaryLight">#F47422</color>
+    <color name="colorSecondaryLight">#F88222</color>
+
+    <color name="colorPrimaryVariantLight">#F88222</color>
+    <color name="colorSecondaryVariantLight">#F88222</color>
+
+    <color name="colorPrimaryDark">#F47422</color>
+    <color name="colorPrimaryVariantDark">#F88222</color>
+    <color name="colorSecondaryDark">#F88222</color>
+    <color name="colorSecondaryVariantDark">#F88222</color>
+
     <color name="guanzon_orange">#F88222</color>
     <color name="material_black" >#101010</color>
     <color name="material_white">#e2e2e2</color>

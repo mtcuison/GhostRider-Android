@@ -25,6 +25,16 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+
 
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.dev.DeptCode;
@@ -45,7 +55,7 @@ public class Fragment_HomeContainer extends Fragment {
     private TabLayout tabLayout;
     private ViewPager viewPager;
 
-    private ImageView imgHeader;
+    private ShapeableImageView imgHeader;
 
     private Fragment[] fragment;
 
@@ -73,15 +83,15 @@ public class Fragment_HomeContainer extends Fragment {
                         eEmployeeInfo.getEmpLevID() == DeptCode.LEVEL_SUPERVISOR){
                     fragment = new Fragment[]{new Fragment_Associate_Dashboard(), new Fragment_NotificationList()};
                     appBarHome.setVisibility(View.VISIBLE);
-                    imgHeader.setImageResource(R.drawable.img_associate);
+//                    imgHeader.setImageResource(R.drawable.img_associate);
                 }  else if(eEmployeeInfo.getEmpLevID() == DeptCode.LEVEL_BRANCH_HEAD) {
                     fragment = new Fragment[]{new Fragment_BH_Dashboard(), new Fragment_NotificationList()};
                     appBarHome.setVisibility(View.VISIBLE);
-                    imgHeader.setImageResource(R.drawable.img_bh_header);
+//                    imgHeader.setImageResource(R.drawable.img_bh_header);
                 } else {
                     fragment = new Fragment[]{new Fragment_Home()};
                     appBarHome.setVisibility(View.GONE);
-                    imgHeader.setImageResource(R.drawable.img_ah_header);
+//                    imgHeader.setImageResource(R.drawable.img_ah_header);
 
                     mViewModel.getUnreadNotificationsCount().observe(getViewLifecycleOwner(), userNotificationInfos -> {
                         try {

@@ -21,6 +21,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+
 import org.rmj.g3appdriver.dev.Database.Entities.EInventoryDetail;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 
@@ -66,10 +77,10 @@ public class InventoryItemAdapter extends RecyclerView.Adapter<InventoryItemAdap
 
     public static class ItemViewHolder extends RecyclerView.ViewHolder{
         public EInventoryDetail item;
-        public TextView lblTransNox;
-        public TextView lblItemCode;
-        public TextView lblItemDesc;
-        public ImageView imgStatusx;
+        public MaterialTextView lblTransNox,
+                                     lblItemCode,
+                                     lblItemDesc;
+        public ShapeableImageView imgStatusx;
 
         public ItemViewHolder(@NonNull View itemView, OnItemClickListener listener) {
             super(itemView);

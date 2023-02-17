@@ -19,41 +19,41 @@
             android:name=".Activity.Activity_Developer"
             android:label="Developer Test"
             android:screenOrientation="portrait"
-            android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
+            android:theme="@style/GhostRiderMaterialTheme.NoActionBar"/>
         <activity
             android:name=".Activity.Activity_QrCodeScanner"
             android:label="Qr Code"
             android:screenOrientation="portrait"
-            android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
+            android:theme="@style/GhostRiderMaterialTheme.NoActionBar" />
         <activity
             android:name=".Activity.Activity_HelpList"
             android:label="Help"
             android:screenOrientation="portrait"
-            android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
+            android:theme="@style/GhostRiderMaterialTheme.NoActionBar" />
         <activity
             android:name=".Activity.Activity_Help"
             android:label="GCard Info"
             android:screenOrientation="portrait"
-            android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
+            android:theme="@style/GhostRiderMaterialTheme.NoActionBar" />
         <activity
             android:name=".Activity.Activity_DigitalGcard"
             android:label="GCard Info"
             android:screenOrientation="portrait"
-            android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
+            android:theme="@style/GhostRiderMaterialTheme.NoActionBar" />
         <activity
             android:name=".Activity.Activity_CheckUpdate"
             android:label="System Update"
             android:screenOrientation="portrait"
-            android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
+            android:theme="@style/GhostRiderMaterialTheme.NoActionBar" />
         <activity
             android:name=".Activity.Activity_LocalData"
-            android:label="Manage Space"
             android:screenOrientation="portrait"
-            android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
+            android:label="Manage Space"
+            android:theme="@style/GhostRiderMaterialTheme.NoActionBar" />
         <activity
             android:name=".Activity.Activity_Settings"
             android:screenOrientation="userPortrait"
-            android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
+            android:theme="@style/GhostRiderMaterialTheme.NoActionBar" />
     </application>
 
 </manifest>

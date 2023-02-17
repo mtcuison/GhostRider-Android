@@ -10,88 +10,69 @@
   ~ project file last modified : 4/24/21 3:17 PM
   -->
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="@dimen/nav_header_height"
     android:gravity="bottom"
     android:orientation="vertical"
-    android:background="@drawable/side_nav_bar"
     android:theme="@style/ThemeOverlay.AppCompat.Dark"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin">
 
-    <LinearLayout
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/imgAppIcon"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@drawable/ic_guanzon_logo"
+        app:layout_constraintBottom_toTopOf="@+id/lbl_deptNme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/lblAppName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_bold"
+        android:paddingTop="@dimen/nav_header_vertical_spacing"
+        android:text="@string/nav_header_title"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="@+id/imgAppIcon"
+        app:layout_constraintStart_toStartOf="@+id/imgAppIcon"
+        app:layout_constraintTop_toBottomOf="@+id/imgAppIcon" />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/img_deptLogo"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="10dp"
+        android:src="@drawable/ic_mis"
+        app:layout_constraintBottom_toTopOf="@+id/view2"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/lbl_deptNme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_medium"
+        android:text="Management Information System"
+        android:layout_marginStart="10dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        app:layout_constraintBottom_toBottomOf="@+id/img_deptLogo"
+        app:layout_constraintStart_toEndOf="@+id/img_deptLogo"
+        app:layout_constraintTop_toTopOf="@+id/img_deptLogo" />
+
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/view2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="1dp"
+        android:background="?attr/colorOnPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="16dp" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:gravity="center_horizontal|bottom"
-            android:orientation="vertical">
-
-            <ImageView
-                android:id="@+id/imgAppIcon"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:src="@drawable/ic_guanzon_logo" />
-
-            <TextView
-                android:id="@+id/lblAppName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_bold"
-                android:paddingTop="@dimen/nav_header_vertical_spacing"
-                android:text="@string/nav_header_title"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="#ffff"
-                android:textSize="15sp" />
-
-            <TextView
-                android:id="@+id/lblAppInfo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_regular"
-                android:gravity="center"
-                android:visibility="gone"
-                android:text="@string/nav_header_subtitle"
-                android:textColor="#ffff"
-                android:layout_marginBottom="10dp"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/linear_dept"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight=".25"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingHorizontal="5dp">
-
-            <ImageView
-                android:id="@+id/img_deptLogo"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_centerInParent="true"
-                android:src="@drawable/ic_mis" />
-
-            <TextView
-                android:id="@+id/lbl_deptNme"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_medium"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:text="Management Information System"
-                android:textColor="#ffff"
-                android:layout_marginLeft="10dp"/>
-        </LinearLayout>
-
-    </LinearLayout>
-
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

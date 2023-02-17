@@ -10,7 +10,7 @@
   ~ project file last modified : 4/24/21 3:17 PM
   -->
 
-<androidx.cardview.widget.CardView
+<com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -32,22 +32,21 @@
         android:paddingHorizontal="20dp"
         android:paddingVertical="10dp">
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/img_toast_icon"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_toast_warning"
             android:layout_marginRight="6dp"/>
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lbl_toast_message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/app_name"
-            android:textColor="@color/guanzon_text_grey"
             android:fontFamily="@font/roboto_medium"
             android:gravity="center"/>
 
     </LinearLayout>
 
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

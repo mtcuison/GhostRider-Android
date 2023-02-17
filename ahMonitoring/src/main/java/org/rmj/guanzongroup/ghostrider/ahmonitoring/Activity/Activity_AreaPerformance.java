@@ -19,9 +19,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.*;
 
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Etc.FragmentAdapter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Etc.NonSwipeableViewPager;
@@ -35,7 +38,7 @@ import java.util.Objects;
 
 public class Activity_AreaPerformance extends AppCompatActivity{
     private VMAreaPerfromanceMonitoring mViewModel;
-    private Toolbar toolbar;
+    private MaterialToolbar toolbar;
     private NonSwipeableViewPager viewPager;
 
     private Fragment[] poPages = new Fragment[] {

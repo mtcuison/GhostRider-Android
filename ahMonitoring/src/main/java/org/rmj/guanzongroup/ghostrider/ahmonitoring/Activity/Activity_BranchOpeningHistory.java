@@ -15,13 +15,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.widget.Toolbar;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.*;
 
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 
 public class Activity_BranchOpeningHistory extends AppCompatActivity {
 
-    private Toolbar toolBar;
+    private MaterialToolbar toolBar;
     private RecyclerView recyclerView;
 
     @Override

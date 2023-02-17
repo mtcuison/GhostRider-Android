@@ -25,6 +25,20 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+import  com.google.android.material.checkbox.MaterialCheckBox;
+
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.LiveData;
 
@@ -52,20 +66,9 @@ public class DialogAccountDetail {
     private String[] civilStatus = DCP_Constants.CIVIL_STATUS;
     private String[] gender = {"Male", "Female", "LGBT"};
 
-    private TextView dFullName;
-    private TextView dAddress;
-    private TextView dGender;
-    private TextView dCivil;
-    private TextView dBDate;
-    private TextView dBPlace;
-    private TextView dTelNo;
-    private TextView dMobileNo;
-    private TextView dEmail;
-    private TextView dRemarks;
-    private TextView lblBalnce;
-    private TextView lblDelayx;
-    private TextView lblLastPy;
-    private TextView lblLastPd;
+    private MaterialTextView dFullName,dAddress, dGender, dCivil, dBDate,
+                                                dBPlace, dTelNo, dMobileNo, dEmail, dRemarks,
+                                                lblBalnce, lblDelayx, lblLastPy, lblLastPd;
 
     public DialogAccountDetail(Context context){
         this.context = context;
@@ -82,14 +85,14 @@ public class DialogAccountDetail {
 
         poTown = new RTown(activity.getApplication());
         poDCPRepo = new RDailyCollectionPlan(activity.getApplication());
-        TextView lblReferNo = view.findViewById(R.id.lbl_dcpReferNo);
-        TextView lblTransNo = view.findViewById(R.id.lbl_dcpTransNo);
-        TextView lblClientN = view.findViewById(R.id.lbl_dcpClientNm);
-        TextView lblAccntNo = view.findViewById(R.id.lbl_dcpAccNo);
-        TextView lblSerialx = view.findViewById(R.id.lbl_dcpPRNo);
-        TextView lblAmountx = view.findViewById(R.id.lbl_dcpAmountDue);
-        TextView lblDueDate = view.findViewById(R.id.lbl_dcpDueDate);
-        TextView transType = view.findViewById(R.id.lbl_transaction_type);
+        MaterialTextView lblReferNo = view.findViewById(R.id.lbl_dcpReferNo);
+        MaterialTextView lblTransNo = view.findViewById(R.id.lbl_dcpTransNo);
+        MaterialTextView lblClientN = view.findViewById(R.id.lbl_dcpClientNm);
+        MaterialTextView lblAccntNo = view.findViewById(R.id.lbl_dcpAccNo);
+        MaterialTextView lblSerialx = view.findViewById(R.id.lbl_dcpPRNo);
+        MaterialTextView lblAmountx = view.findViewById(R.id.lbl_dcpAmountDue);
+        MaterialTextView lblDueDate = view.findViewById(R.id.lbl_dcpDueDate);
+        MaterialTextView transType = view.findViewById(R.id.lbl_transaction_type);
         LinearLayout linearLayout = view.findViewById(R.id.linear_lunInfo);
         dFullName = view.findViewById(R.id.dialog_fullName);
         dAddress = view.findViewById(R.id.dialog_address);
@@ -107,8 +110,8 @@ public class DialogAccountDetail {
         lblLastPd = view.findViewById(R.id.lbl_dcpLastPaid);
 
         Spinner spnTransact = view.findViewById(R.id.spn_transaction);
-        Button btnConfirm = view.findViewById(R.id.btn_confirm);
-        Button btnCancelx = view.findViewById(R.id.btn_cancel);
+        MaterialButton btnConfirm = view.findViewById(R.id.btn_confirm);
+        MaterialButton btnCancelx = view.findViewById(R.id.btn_cancel);
         spnTransact.setAdapter(new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, DCP_Constants.TRANSACTION_TYPE));
 
         if(foDetail.getRemCodex() == null || foDetail.getRemCodex().isEmpty()){

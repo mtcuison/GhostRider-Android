@@ -25,7 +25,7 @@
             android:paddingRight="10dp"
             android:paddingLeft="10dp">
 
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/btn_knoxUpload"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -33,7 +33,6 @@
                 app:cardCornerRadius="10dp"
                 app:cardUseCompatPadding="true"
                 app:cardElevation="5dp"
-                app:cardBackgroundColor="#e2e2e2"
                 android:visibility="visible">
 
                 <LinearLayout
@@ -50,7 +49,7 @@
                         android:layout_weight=".7"
                         android:gravity="right">
 
-                        <ImageView
+                        <com.google.android.material.imageview.ShapeableImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:src="@drawable/ic_knox_upload"/>
@@ -64,28 +63,26 @@
                         android:orientation="vertical"
                         android:gravity="center_vertical">
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="UPLOAD"
-                            android:textColor="@color/textColor_Black"
                             android:layout_marginLeft="10dp"
                             android:fontFamily="@font/roboto_black"
                             android:layout_marginBottom="10dp"/>
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Upload Device Imei."
-                            android:textColor="@color/textColor_Black"
                             android:layout_marginLeft="10dp"/>
 
                     </LinearLayout>
 
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/btn_knoxActivate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -93,7 +90,6 @@
                 app:cardCornerRadius="10dp"
                 app:cardUseCompatPadding="true"
                 app:cardElevation="5dp"
-                app:cardBackgroundColor="#e2e2e2"
                 android:visibility="visible">
 
                 <LinearLayout
@@ -109,7 +105,7 @@
                         android:layout_weight=".7"
                         android:gravity="right">
 
-                        <ImageView
+                        <com.google.android.material.imageview.ShapeableImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:src="@drawable/ic_knox_activate"/>
@@ -123,28 +119,26 @@
                         android:orientation="vertical"
                         android:gravity="center_vertical">
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="ACTIVATE"
-                            android:textColor="@color/textColor_Black"
                             android:layout_marginLeft="10dp"
                             android:fontFamily="@font/roboto_black"
                             android:layout_marginBottom="10dp"/>
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Activate Device if Imei \nis already uploaded."
-                            android:textColor="@color/textColor_Black"
                             android:layout_marginLeft="10dp"/>
 
                     </LinearLayout>
 
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/btn_knoxUnlock"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -152,7 +146,6 @@
                 app:cardCornerRadius="10dp"
                 app:cardUseCompatPadding="true"
                 app:cardElevation="5dp"
-                app:cardBackgroundColor="#e2e2e2"
                 android:visibility="visible">
 
                 <LinearLayout
@@ -169,7 +162,7 @@
                         android:layout_weight=".7"
                         android:gravity="right">
 
-                        <ImageView
+                        <com.google.android.material.imageview.ShapeableImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:src="@drawable/ic_knox_unlock"/>
@@ -183,28 +176,26 @@
                         android:orientation="vertical"
                         android:gravity="center_vertical">
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="UNLOCK"
-                            android:textColor="@color/textColor_Black"
                             android:layout_marginLeft="10dp"
                             android:fontFamily="@font/roboto_black"
                             android:layout_marginBottom="10dp"/>
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Unlock device without\n passcode/passkey."
-                            android:textColor="@color/textColor_Black"
                             android:layout_marginLeft="10dp"/>
 
                     </LinearLayout>
 
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/btn_knoxGetPin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -212,7 +203,6 @@
                 app:cardCornerRadius="10dp"
                 app:cardUseCompatPadding="true"
                 app:cardElevation="5dp"
-                app:cardBackgroundColor="#e2e2e2"
                 android:visibility="visible">
 
                 <LinearLayout
@@ -228,7 +218,7 @@
                         android:layout_weight=".7"
                         android:gravity="right">
 
-                        <ImageView
+                        <com.google.android.material.imageview.ShapeableImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:src="@drawable/ic_knox_unlock"/>
@@ -242,28 +232,26 @@
                         android:orientation="vertical"
                         android:gravity="center_vertical">
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="GET PIN"
-                            android:textColor="@color/textColor_Black"
                             android:layout_marginLeft="10dp"
                             android:fontFamily="@font/roboto_black"
                             android:layout_marginBottom="10dp"/>
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Request unlock PIN\n for unlocking online device."
-                            android:textColor="@color/textColor_Black"
                             android:layout_marginLeft="10dp"/>
 
                     </LinearLayout>
 
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/btn_knoxOfflinePIN"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -271,7 +259,6 @@
                 app:cardCornerRadius="10dp"
                 app:cardUseCompatPadding="true"
                 app:cardElevation="5dp"
-                app:cardBackgroundColor="#e2e2e2"
                 android:visibility="visible">
 
                 <LinearLayout
@@ -287,7 +274,7 @@
                         android:layout_weight=".7"
                         android:gravity="right">
 
-                        <ImageView
+                        <com.google.android.material.card.MaterialCardView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:src="@drawable/ic_knox_unlock"/>
@@ -301,28 +288,26 @@
                         android:orientation="vertical"
                         android:gravity="center_vertical">
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="GET OFFLINE PIN"
-                            android:textColor="@color/textColor_Black"
                             android:layout_marginLeft="10dp"
                             android:fontFamily="@font/roboto_black"
                             android:layout_marginBottom="10dp"/>
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Request unlock PIN for unlocking offline device. Passkey/Passcode is required."
-                            android:textColor="@color/textColor_Black"
                             android:layout_marginLeft="10dp"/>
 
                     </LinearLayout>
 
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/btn_knoxCheckStatus"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -330,7 +315,6 @@
                 app:cardCornerRadius="10dp"
                 app:cardUseCompatPadding="true"
                 app:cardElevation="5dp"
-                app:cardBackgroundColor="#e2e2e2"
                 android:visibility="visible">
 
                 <LinearLayout
@@ -346,7 +330,7 @@
                         android:layout_weight=".7"
                         android:gravity="right">
 
-                        <ImageView
+                        <com.google.android.material.imageview.ShapeableImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:src="@drawable/ic_knox_status"/>
@@ -360,26 +344,24 @@
                         android:orientation="vertical"
                         android:gravity="center_vertical">
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="CHECK STATUS"
-                            android:textColor="@color/textColor_Black"
                             android:layout_marginLeft="10dp"
                             android:fontFamily="@font/roboto_black"
                             android:layout_marginBottom="10dp"/>
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Check device status."
-                            android:textColor="@color/textColor_Black"
                             android:layout_marginLeft="10dp"/>
 
                     </LinearLayout>
 
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
         </LinearLayout>
 

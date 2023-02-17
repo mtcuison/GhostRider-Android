@@ -12,6 +12,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.TextView;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.*;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
 
 import org.rmj.g3appdriver.etc.CashFormatter;
 import org.rmj.g3appdriver.etc.FormatUIText;
@@ -28,9 +34,9 @@ public class Activity_CashCountLogDetails extends AppCompatActivity {
 
     private VMCashCountLogDetails mViewModel;
     private Adapter_CashCountDetailInfo poAdapter;
-    private Toolbar toolbar;
+    private MaterialToolbar toolbar;
     private RecyclerView recyclerView;
-    private TextView lblBranch, lblTranDt, lblTransN, lblGrandT, lblOrNoxx,
+    private MaterialTextView lblBranch, lblTranDt, lblTransN, lblGrandT, lblOrNoxx,
     lblSiNoxx, lblPrNoxx, lblCrNoxx, lblPettyC ;
     private String psTransNo = "";
 

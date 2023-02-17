@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_gradient_light"
-    android:theme="@style/GhostRiderMaterialTheme.WhiteBG"
+    android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
     tools:context=".Activity.Activity_CashCountLogDetails"
     android:orientation="vertical">
 
@@ -13,54 +13,45 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/GhostRiderMaterialTheme.AppBarOverlay">
-        <androidx.appcompat.widget.Toolbar
+
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/material_tool_bar"
             app:popupTheme="@style/GhostRiderMaterialTheme.PopupOverlay" />
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="@drawable/bg_samsungknox"
             android:gravity="center_horizontal"
             android:paddingHorizontal="19dp"
             android:paddingVertical="10dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/lbl_branch"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                    android:fontFamily="@font/roboto_bold"
+                    android:textSize="18sp"/>
 
-                    <TextView
-                        android:id="@+id/lbl_branch"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_bold"
-                        android:textSize="18sp"
-                        android:textColor="@color/textColor_White"/>
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/lbl_grand_total"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="24sp"
+                    android:fontFamily="@font/roboto"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="15dp"/>
 
-                    <TextView
-                        android:id="@+id/lbl_grand_total"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="24sp"
-                        android:fontFamily="@font/roboto"
-                        android:textColor="@color/textColor_White"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="15dp"/>
-
-                </LinearLayout>
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -68,16 +59,15 @@
                 android:orientation="horizontal"
                 android:layout_marginVertical="3dp">
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Entry Date:"
                     android:textSize="15sp"
-                    android:fontFamily="@font/roboto"
-                    android:textColor="@color/textColor_White"/>
+                    android:fontFamily="@font/roboto"/>
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/lbl_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -85,7 +75,6 @@
                     android:text="No.:"
                     android:textSize="15sp"
                     android:fontFamily="@font/roboto"
-                    android:textColor="@color/textColor_White"
                     android:gravity="right"/>
 
             </LinearLayout>
@@ -96,16 +85,15 @@
                 android:orientation="horizontal"
                 android:layout_marginVertical="3dp">
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Transaction No.: "
                     android:textSize="15sp"
-                    android:fontFamily="@font/roboto"
-                    android:textColor="@color/textColor_White"/>
+                    android:fontFamily="@font/roboto"/>
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/lbl_transNo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -113,7 +101,6 @@
                     android:text="No.:"
                     android:textSize="15sp"
                     android:fontFamily="@font/roboto"
-                    android:textColor="@color/textColor_White"
                     android:gravity="right"/>
 
             </LinearLayout>
@@ -124,16 +111,15 @@
                 android:orientation="horizontal"
                 android:layout_marginVertical="3dp">
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Total Petty Cash: "
                     android:textSize="15sp"
-                    android:fontFamily="@font/roboto"
-                    android:textColor="@color/textColor_White"/>
+                    android:fontFamily="@font/roboto"/>
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/lbl_total_pettyCash"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -141,7 +127,6 @@
                     android:text="No.:"
                     android:textSize="15sp"
                     android:fontFamily="@font/roboto"
-                    android:textColor="@color/textColor_White"
                     android:gravity="right"/>
 
             </LinearLayout>
@@ -152,16 +137,15 @@
                 android:orientation="horizontal"
                 android:layout_marginVertical="3dp">
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Official Receipt No.:"
                     android:textSize="15sp"
-                    android:fontFamily="@font/roboto"
-                    android:textColor="@color/textColor_White"/>
+                    android:fontFamily="@font/roboto"/>
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/lbl_orNo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -169,7 +153,6 @@
                     android:text="No.:"
                     android:textSize="15sp"
                     android:fontFamily="@font/roboto"
-                    android:textColor="@color/textColor_White"
                     android:gravity="right"/>
 
             </LinearLayout>
@@ -180,16 +163,15 @@
                 android:orientation="horizontal"
                 android:layout_marginVertical="3dp">
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Sales Invoice No.:"
                     android:textSize="15sp"
-                    android:fontFamily="@font/roboto"
-                    android:textColor="@color/textColor_White"/>
+                    android:fontFamily="@font/roboto"/>
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/lbl_siNo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -197,7 +179,6 @@
                     android:text="No.:"
                     android:textSize="15sp"
                     android:fontFamily="@font/roboto"
-                    android:textColor="@color/textColor_White"
                     android:gravity="right"/>
 
             </LinearLayout>
@@ -208,16 +189,15 @@
                 android:orientation="horizontal"
                 android:layout_marginVertical="3dp">
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Provisional Receipt No.:"
                     android:textSize="15sp"
-                    android:fontFamily="@font/roboto"
-                    android:textColor="@color/textColor_White"/>
+                    android:fontFamily="@font/roboto"/>
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/lbl_prNo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -225,7 +205,6 @@
                     android:text="No.:"
                     android:textSize="15sp"
                     android:fontFamily="@font/roboto"
-                    android:textColor="@color/textColor_White"
                     android:gravity="right"/>
 
             </LinearLayout>
@@ -236,16 +215,15 @@
                 android:orientation="horizontal"
                 android:layout_marginVertical="3dp">
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Collection Receipt No.:"
                     android:textSize="15sp"
-                    android:fontFamily="@font/roboto"
-                    android:textColor="@color/textColor_White"/>
+                    android:fontFamily="@font/roboto"/>
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/lbl_crNo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -253,18 +231,17 @@
                     android:text="No.:"
                     android:textSize="15sp"
                     android:fontFamily="@font/roboto"
-                    android:textColor="@color/textColor_White"
                     android:gravity="right"/>
 
             </LinearLayout>
 
         </LinearLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+    </com.google.android.material.appbar.AppBarLayout>
 
-    </LinearLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
 </LinearLayout>

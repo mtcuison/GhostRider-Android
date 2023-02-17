@@ -16,8 +16,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:theme="@style/GhostRiderMaterialTheme.WhiteBG"
-    android:background="@drawable/bg_gradient_light"
+    android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
     tools:context=".Fragment.Fragment_GetStatus">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -33,12 +32,11 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintRight_toRightOf="parent"/>
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lblSamsungKnox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/sLblSamsungKnox_Status"
-            android:textColor="@color/white"
             android:fontFamily="@font/roboto_light"
             android:textSize="37sp"
             app:layout_constraintTop_toTopOf="parent"
@@ -47,7 +45,7 @@
             app:layout_constraintBottom_toBottomOf="@id/img_bg_guanzon_orange"
             app:layout_constraintVertical_bias=".20"/>
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/ic_phone"
             android:layout_width="150dp"
             android:layout_height="230dp"
@@ -78,14 +76,13 @@
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginBottom="2dp">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight=".5"
-                android:textColor="@color/textColor_Black"
                 android:text="Device IMEI : "/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_knoxDeviceIMEI"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -103,19 +100,17 @@
             app:layout_constraintRight_toRightOf="parent"
             android:layout_marginBottom="2dp">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight=".5"
-                android:textColor="@color/textColor_Black"
                 android:text="Status : " />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_knoxDeviceStatus"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textColor="@color/textColor_Orange"/>
+                android:layout_weight="1"/>
 
         </LinearLayout>
 
@@ -129,19 +124,17 @@
             app:layout_constraintTop_toBottomOf="@id/ln_deviceStat"
             android:layout_marginBottom="2dp">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight=".5"
-                android:textColor="@color/textColor_Black"
                 android:text="Details : "/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_knoxDetailStatus"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textColor="@color/textColor_Black"/>
+                android:layout_weight="1"/>
         </LinearLayout>
 
         <LinearLayout
@@ -153,19 +146,17 @@
             app:layout_constraintTop_toBottomOf="@id/ln_deviceDetails"
             android:layout_marginBottom="2dp">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight=".5"
-                android:textColor="@color/textColor_Black"
                 android:text="Last Update : "/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_knoxStatusDate"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textColor="@color/textColor_Black"/>
+                android:layout_weight="1"/>
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -204,7 +195,9 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/til_knoxImei"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"/>
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

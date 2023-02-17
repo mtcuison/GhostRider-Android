@@ -17,9 +17,13 @@ import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.*;
 
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Etc.FragmentAdapter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Etc.NonSwipeableViewPager;
@@ -34,7 +38,7 @@ import java.util.Objects;
 public class Activity_BranchPerformance extends AppCompatActivity {
     private static Activity_BranchPerformance instance;
     private VMBranchMonitor mViewModel;
-    private Toolbar toolbar;
+    private MaterialToolbar toolbar;
     private NonSwipeableViewPager viewPager;
     private static String sBranchCd = "";
     private Fragment[] poPages = new Fragment[] {

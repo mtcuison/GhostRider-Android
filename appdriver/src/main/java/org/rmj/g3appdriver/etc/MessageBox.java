@@ -21,6 +21,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.textview.MaterialTextView;
 
 import org.rmj.g3appdriver.R;
 
@@ -30,9 +32,9 @@ public class  MessageBox {
     private AlertDialog poDialogx;
     private MaterialButton btnPositive;
     private MaterialButton btnNegative;
-    private TextView lblTitle;
-    private TextView lblMsgxx;
-    private View midBorder;
+    private MaterialTextView lblTitle;
+    private MaterialTextView lblMsgxx;
+    private MaterialDivider midBorder;
 
     private final Context context;
 

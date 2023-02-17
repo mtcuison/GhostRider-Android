@@ -13,6 +13,20 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.RadioButton;
 
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+import  com.google.android.material.checkbox.MaterialCheckBox;
+
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -21,9 +35,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -58,16 +69,16 @@ public class Activity_OtherInfo extends AppCompatActivity {
 
     private static final int MOBILE_DIALER = 104;
 
-    private AutoCompleteTextView spnUnitUser, spnUnitPrps, spnUnitPayr, spnSourcexx, spnOthrUser, spnOthrPayr,
+    private MaterialAutoCompleteTextView spnUnitUser, spnUnitPrps, spnUnitPayr, spnSourcexx, spnOthrUser, spnOthrPayr,
             tieAddProv, tieAddTown;
     private TextInputLayout tilOthrUser, tilOthrPayr, tilOtherSrc;
 
     private TextInputEditText tieOthrSrc, tieRefAdd1, tieRefName, tieRefCntc;
 
     private RecyclerView recyclerView;
-    private Button btnPrevs;
-    private Button btnNext;
-    private Toolbar toolbar;
+    private MaterialButton btnPrevs;
+    private MaterialButton btnNext;
+    private MaterialToolbar toolbar;
     private MaterialButton btnAddReference;
 
     private String TransNox;

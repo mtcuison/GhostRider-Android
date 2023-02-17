@@ -17,13 +17,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             style="@style/GhostRiderMaterialTheme.PopupOverlay"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/material_tool_bar"
-            app:popupTheme="@style/GhostRiderMaterialTheme.PopupOverlay" />
+           app:popupTheme="@style/GhostRiderMaterialTheme.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -47,7 +46,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <ImageView
+                <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/img_bg_guanzon_orange"
                     android:layout_width="0dp"
                     android:layout_height="150dp"
@@ -66,32 +65,29 @@
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto"
                         android:scrollHorizontally="false"
                         android:text="Itinerary Logs"
-                        android:textColor="@color/white"
                         android:textSize="23sp" />
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/lbl_username"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:fontFamily="@font/roboto"
                         android:scrollHorizontally="false"
-                        android:textColor="@color/white"
                         android:textSize="20sp" />
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/lbl_userPosition"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_light"
                         android:scrollHorizontally="false"
-                        android:textColor="@color/white"
                         android:textSize="18sp" />
 
                 </LinearLayout>
@@ -111,7 +107,6 @@
                     android:id="@+id/tildateFrom"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:textColorHint="@color/textColor_Black"
                     android:hint="From :"
                     style="@style/TextInputTextAreaStyle"
                     app:layout_constraintStart_toStartOf="parent"
@@ -123,15 +118,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:focusable="false"
-                        android:focusableInTouchMode="false"
-                        android:textColor="@color/material_black" />
+                        android:focusableInTouchMode="false"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tildateThru"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:textColorHint="@color/textColor_Black"
                     android:hint="To :"
                     style="@style/TextInputTextAreaStyle"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -143,8 +136,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:focusable="false"
-                        android:focusableInTouchMode="false"
-                        android:textColor="@color/material_black" />
+                        android:focusableInTouchMode="false"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
 

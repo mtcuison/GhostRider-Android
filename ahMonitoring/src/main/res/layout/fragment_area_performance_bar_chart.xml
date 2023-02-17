@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:theme="@style/GhostRiderMaterialTheme"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/bg_gradient_light"
     tools:context="Fragment.Fragment_AreaPerformance_BarChart">
@@ -13,7 +14,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/img_bg_guanzon_orange"
             android:layout_width="match_parent"
             android:layout_height="200dp"
@@ -31,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tvArea"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -39,13 +40,12 @@
                     android:gravity="center"
                     android:text="UEMI Brooke's Point - YAMAHA"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@color/textColor_White"
                     android:textSize="20sp"
                     android:layout_marginBottom="10dp" />
 
                 <include layout="@layout/custom_tab_ah" />
 
-                <androidx.cardview.widget.CardView
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="10dp"
@@ -75,42 +75,42 @@
                             android:gravity="center"
                             android:layout_marginBottom="15dp">
 
-                            <View
+                            <com.google.android.material.divider.MaterialDivider
                                 android:layout_width="10dp"
                                 android:layout_height="10dp"
                                 android:background="#454545"
                                 android:layout_marginTop="1dp"
                                 android:layout_marginRight="5dp"/>
 
-                            <TextView
+                            <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/lgd_goal"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Goal"
                                 android:layout_marginRight="10dp"/>
 
-                            <View
+                            <com.google.android.material.divider.MaterialDivider
                                 android:layout_width="10dp"
                                 android:layout_height="10dp"
                                 android:background="#FF8200"
                                 android:layout_marginTop="1dp"
                                 android:layout_marginRight="5dp"/>
 
-                            <TextView
+                            <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/lgd_actual"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Actual"
                                 android:layout_marginRight="10dp"/>
 
-                            <View
+                            <com.google.android.material.divider.MaterialDivider
                                 android:layout_width="10dp"
                                 android:layout_height="10dp"
                                 android:background="#114F87"
                                 android:layout_marginTop="1dp"
                                 android:layout_marginRight="5dp"/>
 
-                            <TextView
+                            <com.google.android.material.divider.MaterialDivider
                                 android:id="@+id/lgd_excess"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -125,19 +125,17 @@
                             android:layout_marginVertical="10dp"
                             android:orientation="vertical">
 
-                            <TextView
+                            <com.google.android.material.textview.MaterialTextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Branch Performances"
-                                android:textColor="@color/guanzon_text_grey"
                                 android:textSize="17sp"
                                 android:fontFamily="@font/roboto_bold"/>
-                            <TextView
+                            <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/lbl_date"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="January 2021"
-                                android:textColor="@color/guanzon_text_grey"
                                 android:textSize="15sp"
                                 android:fontFamily="@font/roboto"/>
                         </LinearLayout>
@@ -150,44 +148,41 @@
                             android:orientation="horizontal"
                             android:padding="5dp">
 
-                            <TextView
+                            <com.google.android.material.textview.MaterialTextView
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
                                 android:fontFamily="@font/roboto_medium"
                                 android:gravity="center"
                                 android:maxLines="2"
-                                android:text="Branch"
-                                android:textColor="@color/textColor_White" />
+                                android:text="Branch" />
 
-                            <View
+                            <com.google.android.material.divider.MaterialDivider
                                 android:layout_width="1dp"
                                 android:layout_height="match_parent"
                                 android:background="@color/color_dadada" />
 
-                            <TextView
+                            <com.google.android.material.textview.MaterialTextView
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
                                 android:fontFamily="@font/roboto_medium"
                                 android:gravity="center"
-                                android:text="Goal"
-                                android:textColor="@color/textColor_White" />
+                                android:text="Goal"/>
 
-                            <View
+                            <com.google.android.material.divider.MaterialDivider
                                 android:layout_width="1dp"
                                 android:layout_height="match_parent"
                                 android:background="@color/color_dadada" />
 
-                            <TextView
+                            <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/lbl_list_actual"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:fontFamily="@font/roboto_medium"
                                 android:gravity="center"
-                                android:text="Actual"
-                                android:textColor="@color/textColor_White" />
+                                android:text="Actual"/>
                         </LinearLayout>
 
 
@@ -213,14 +208,14 @@
 
                     </LinearLayout>
 
-                </androidx.cardview.widget.CardView>
+                </com.google.android.material.card.MaterialCardView>
             </LinearLayout>
 
         </RelativeLayout>
 
     </RelativeLayout>
 
-    <androidx.appcompat.widget.Toolbar
+    <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar_area_performance"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"

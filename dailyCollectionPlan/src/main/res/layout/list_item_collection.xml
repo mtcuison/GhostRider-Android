@@ -10,12 +10,11 @@
   ~ project file last modified : 4/24/21 3:18 PM
   -->
 
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardUseCompatPadding="true"
-    android:background="#e2e2e2"
     app:cardCornerRadius="10dp"
     app:cardPreventCornerOverlap="true">
 
@@ -30,29 +29,26 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_AccountNo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textSize="14sp"
-                android:textColor="@color/textColor_Black"
                 android:fontFamily="@font/roboto_bold"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_dcpStatus"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:gravity="end"
-                android:textColor="@color/guanzon_orange"
                 android:fontFamily="@font/roboto_bold"/>
         </LinearLayout>
 
-        <View
+        <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/guanzon_orange"/>
+            android:layout_height="1dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -60,12 +56,11 @@
             android:orientation="horizontal"
             android:layout_marginTop="10dp">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_clientNm"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textColor="@color/textColor_Black"
                 android:fontFamily="@font/roboto_bold"
                 android:drawablePadding="5dp"
                 android:gravity="center_vertical"
@@ -73,12 +68,11 @@
 
         </LinearLayout>
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lbl_dcpAddress1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textColor="@color/textColor_Black"
             android:fontFamily="@font/roboto_regular"
             android:layout_marginTop="5dp"
             android:drawablePadding="5dp"
@@ -86,12 +80,11 @@
             android:drawableStart="@drawable/ic_collection_address"
             android:drawableLeft="@drawable/ic_collection_address" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lbl_dcpContact"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textColor="@color/textColor_Black"
             android:fontFamily="@font/roboto_regular"
             android:layout_marginTop="5dp"
             android:drawablePadding="5dp"
@@ -99,10 +92,9 @@
             android:drawableStart="@drawable/ic_client_contact"
             android:drawableLeft="@drawable/ic_client_contact" />
 
-        <View
+        <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/guanzon_orange"
             android:layout_marginTop="10dp"/>
 
         <LinearLayout
@@ -111,21 +103,19 @@
             android:orientation="horizontal"
             android:layout_marginTop="10dp">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Amortization"
-                android:textColor="@color/textColor_Black"
                 android:fontFamily="@font/roboto_regular"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_dcpAmortization"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:gravity="end"
-                android:textColor="@color/textColor_Black"
                 android:fontFamily="@font/roboto_regular"/>
 
         </LinearLayout>
@@ -136,25 +126,23 @@
             android:orientation="horizontal"
             android:layout_marginTop="5dp">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Amount Due"
-                android:textColor="@color/textColor_Black"
                 android:fontFamily="@font/roboto_regular"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_dcpAmountDue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:gravity="end"
-                android:textColor="@color/textColor_Black"
                 android:fontFamily="@font/roboto_regular"/>
 
         </LinearLayout>
 
     </LinearLayout>
 
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

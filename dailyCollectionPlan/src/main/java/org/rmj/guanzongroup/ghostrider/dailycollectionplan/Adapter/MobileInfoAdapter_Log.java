@@ -17,6 +17,19 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+import  com.google.android.material.checkbox.MaterialCheckBox;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
@@ -66,9 +79,9 @@ public class MobileInfoAdapter_Log extends RecyclerView.Adapter<MobileInfoAdapte
     }
 
     class MobilenoxHolder extends RecyclerView.ViewHolder {
-        private TextView tvDetails;
-        private TextView tvPrimary;
-        private TextView tvRemarks;
+        private MaterialTextView tvDetails;
+        private MaterialTextView tvPrimary;
+        private MaterialTextView tvRemarks;
 
         public MobilenoxHolder(@NonNull View itemView, OnItemInfoClickListener listener) {
             super(itemView);

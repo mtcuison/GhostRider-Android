@@ -11,17 +11,22 @@
   -->
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
-    <style name="GhostRiderMaterialTheme" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
-        <item name="colorPrimary">@color/material_black</item>
-        <item name="colorPrimaryVariant">@color/material_white</item>
-        <!--        <item name="colorAccent">@color/light_grey</item>-->
+    <style name="GhostRiderMaterialTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryVariant">@color/colorPrimaryVariantDark</item>
+        <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/guanzon_orange</item>
-        <item name="colorSecondaryVariant">@color/textColor_Orange</item>
-        <item name="colorOnSecondary">@color/textColor_White</item>
+        <item name="colorSecondary">@color/colorSecondaryLight</item>
+        <item name="colorSecondaryVariant">@color/colorSecondaryVariantLight</item>
+        <item name="colorOnSecondary">@color/black</item>
+<!--        <item name="colorSurface">@color/colorSecondaryVariantLight</item>-->
         <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
-        <item name="android:popupMenuStyle">@style/MyPopupOtherStyle</item>
+
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <item name="android:colorBackground">@color/background_dark</item>
+        <item name="android:textColor">@color/material_white</item>
     </style>
+
     <style name="MyPopupOtherStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
         <!-- Used for the buttons -->
         <!-- Used for the title and text -->
@@ -29,48 +34,22 @@
         <!-- Used for the background -->
         <item name="android:background">@color/material_white</item>
     </style>
-    <style name="GhostRiderMaterialTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="GhostRiderMaterialTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" >
-        <item name="android:textColorPrimary">@color/material_black</item>
-        <item name="android:popupMenuStyle">@style/MyPopupOtherStyle</item>
-    </style>
+    <style name="GhostRiderMaterialTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.DayNight.ActionBar" />
+    <style name="GhostRiderMaterialTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.DayNight" />
+
     <style name="TextInputStyle.Edittext">
         <item name="iconStartPadding">10dp</item>
         <item name="android:drawablePadding">10dp</item>
-        <item name="android:textColor">@color/textColor_Black</item>
-        <item name="colorControlActivated">@color/guanzon_orange</item>
-        <item name="hintTextColor">@color/textColor_Black</item>
-    </style>
-
-    <style name="GhostRiderMaterialTheme.WhiteBG" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-        <item name="colorPrimary">@color/guanzon_orange_day</item>
-        <item name="colorPrimaryVariant">@color/material_black</item>
-        <item name="colorOnPrimary">@color/guanzon_orange_day</item>
-        <!--        <item name="colorAccent">@color/light_grey</item>-->
-
-        <item name="colorAccent">@color/guanzon_orange_day</item>
-        <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/guanzon_digital_orange_mid</item>
-        <item name="colorSecondaryVariant">@color/guanzon_digital_orange_lighten</item>
-        <item name="colorOnSecondary">@color/material_black</item>
-        <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
-        <item name="android:popupMenuStyle">@style/MyPopupOtherStyle</item>
-        <item name="popupTheme">@style/MyPopupOtherStyle</item>
-        <item name="android:windowBackground">@color/material_white</item>
     </style>
 
     <style name="TextButtonStyle" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="android:layout_margin">5dp</item>
         <item name="android:textAllCaps">false</item>
         <item name="fontFamily">@font/roboto_regular</item>
-        <item name="android:textColor">@color/material_black</item>
     </style>
 
     <style name="AutoCompleteStyleTheme">
-        <item name="colorControlActivated">@color/guanzon_orange</item>
         <item name="android:paddingTop">15dp</item>
         <item name="android:paddingBottom">15dp</item>
         <item name="android:paddingLeft">10dp</item>
@@ -83,8 +62,6 @@
         <item name="android:textAllCaps">false</item>
         <item name="fontFamily">@font/roboto_regular</item>
         <item name="android:radius">5dp</item>
-        <item name="backgroundTint">#9d9d9d</item>
-        <item name="android:textColor">@color/material_black</item>
     </style>
 
     <style name="MaterialButtonAccent" parent="Widget.MaterialComponents.Button">
@@ -92,24 +69,18 @@
         <item name="android:textAllCaps">false</item>
         <item name="fontFamily">@font/roboto_regular</item>
         <item name="android:radius">45dp</item>
-        <item name="backgroundTint">@color/guanzon_orange</item>
-        <item name="android:textColor">@color/textColor_Black</item>
-        <item name="iconTint">@color/textColor_Black</item>
         <item name="iconGravity">textStart</item>
     </style>
 
-    <style name="NavigationButton" parent="Widget.AppCompat.Button.Borderless">
+    <style name="NavigationButton" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="fontFamily">@font/roboto_medium</item>
         <item name="android:drawablePadding">15dp</item>
         <item name="android:padding">10dp</item>
         <item name="android:fontFamily">@font/roboto_medium</item>
-        <item name="android:textColor">@color/material_black</item>
         <item name="android:layout_margin">10dp</item>
     </style>
 
     <style name="HeaderLabelBlack">
-        <item name="android:background">@color/material_black</item>
-        <item name="android:textColor">@color/material_white</item>
         <item name="fontFamily">@font/roboto_medium</item>
         <item name="android:textSize">16sp</item>
         <item name="android:padding">10dp</item>
@@ -120,19 +91,6 @@
         <item name="fontFamily">@font/roboto_regular</item>
         <item name="android:textSize">14sp</item>
         <item name="android:padding">5dp</item>
-    </style>
-
-    <!-- Kent -->
-    <!-- MASTER VIEW GROUP -->
-
-    <style name="MasterViewGroupStyle_Light">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:background">@drawable/bg_gradient_light</item>
-        <item name="android:paddingLeft">25dp</item>
-        <item name="android:paddingRight">25dp</item>
-        <item name="android:paddingTop">35dp</item>
-        <item name="android:paddingBottom">15dp</item>
     </style>
 
     <!-- MASTER VIEW GROUP -->
@@ -154,8 +112,6 @@
         <item name="android:paddingRight">20dp</item>
         <item name="android:paddingTop">10dp</item>
         <item name="android:paddingBottom">10dp</item>
-        <item name="backgroundTint">@color/guanzon_digital_orange</item>
-        <item name="android:textColor">@color/white</item>
         <item name="android:fontFamily">@font/roboto</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:textSize">18sp</item>
@@ -166,9 +122,6 @@
 
     <style name="TextInputStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="android:layout_margin">2dp</item>
-        <item name="boxStrokeColor">@color/guanzon_digital_orange</item>
-        <item name="hintTextColor">@color/guanzon_digital_orange</item>
-        <item name="colorControlActivated">@color/guanzon_orange</item>
         <item name="boxCornerRadiusBottomEnd">10dp</item>
         <item name="boxCornerRadiusBottomStart">10dp</item>
         <item name="boxCornerRadiusTopStart">10dp</item>
@@ -179,11 +132,7 @@
     <!-- TEXT INPUT ORANGE BACKGROUND DCP HEADER-->
     <style name="TextInputStyleHeaders" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
         <item name="android:layout_margin">2dp</item>
-        <item name="boxStrokeColor">@color/text_input_layout_stroke_color</item>
         <item name="boxStrokeWidth">0.8dp</item>
-        <item name="hintTextColor">@color/mtrl_textinput_default_box_stroke_colors</item>
-        <item name="android:textColorHint">@color/text_color_hint</item>
-        <item name="colorControlActivated">@color/mtrl_textinput_default_box_stroke_colors</item>
         <item name="boxCornerRadiusBottomEnd">10dp</item>
         <item name="boxCornerRadiusBottomStart">10dp</item>
         <item name="boxCornerRadiusTopStart">10dp</item>
@@ -201,13 +150,11 @@
 
     <style name="PrimaryHeaderStyle">
         <item name="android:fontFamily">@font/roboto_bold</item>
-        <item name="android:textColor">@color/guanzon_dark_grey</item>
         <item name="android:textSize">25sp</item>
     </style>
 
     <style name="DescriptionHeaderStyle">
         <item name="android:fontFamily">@font/roboto_light</item>
-        <item name="android:textColor">@color/guanzon_dark_grey</item>
         <item name="android:textSize">12sp</item>
     </style>
 
@@ -216,13 +163,8 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_margin">2dp</item>
-        <item name="boxStrokeColor">@color/guanzon_digital_orange</item>
-        <item name="hintTextColor">@color/guanzon_digital_orange</item>
-        <item name="colorControlActivated">@color/guanzon_orange</item>
         <item name="boxCornerRadiusBottomEnd">10dp</item>
         <item name="boxCornerRadiusBottomStart">10dp</item>
-        <item name="android:popupBackground">@color/spinner_background</item>
-        <item name="android:textColor">@color/material_black</item>
         <item name="boxCornerRadiusTopStart">10dp</item>
         <item name="boxCornerRadiusTopEnd">10dp</item>
     </style>
@@ -231,15 +173,8 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_margin">2dp</item>
-        <item name="boxStrokeColor">@color/guanzon_digital_orange</item>
-        <item name="hintTextColor">@color/guanzon_digital_orange</item>
-        <item name="colorControlActivated">@color/guanzon_orange</item>
         <item name="boxCornerRadiusBottomEnd">10dp</item>
         <item name="boxCornerRadiusBottomStart">10dp</item>
-        <item name="android:popupBackground">@color/spinner_background</item>
-        <item name="android:itemBackground">@color/spinner_background</item>
-        <item name="color">@color/material_black</item>
-        <item name="android:textColor">@color/material_black</item>
         <item name="boxCornerRadiusTopStart">10dp</item>
         <item name="boxCornerRadiusTopEnd">10dp</item>
         <item name="android:spinnerMode">dialog</item>
@@ -256,28 +191,15 @@
 
     <style name="TextInputStyleSpinner" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
         <item name="android:layout_margin">2dp</item>
-        <item name="boxStrokeColor">@color/guanzon_digital_orange</item>
-        <item name="hintTextColor">@color/guanzon_digital_orange</item>
-        <item name="colorControlActivated">@color/guanzon_orange</item>
         <item name="boxCornerRadiusBottomEnd">10dp</item>
         <item name="boxCornerRadiusBottomStart">10dp</item>
         <item name="boxCornerRadiusTopStart">10dp</item>
         <item name="boxCornerRadiusTopEnd">10dp</item>
-        <item name="android:popupBackground">@color/spinner_background</item>
-        <item name="android:textColor">@color/material_black</item>
 
     </style>
 
-    <style name="TextInputLayout.CashCount" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <item name="hintTextAppearance">@style/HintText</item>
-        <item name="android:paddingBottom">3dp</item>
+    <style name="CircularImageView" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
     </style>
-
-    <style name="HintText">
-        <item name="android:textSize">12sp</item>
-        <item name="android:fontFamily" tools:targetApi="jelly_bean">@font/roboto_regular</item>
-    </style>
-
-    <color name="gap_toolbar_background">#1F1F1F</color>
-    <color name="textColor_btnWhite">#FFF</color>
 </resources>

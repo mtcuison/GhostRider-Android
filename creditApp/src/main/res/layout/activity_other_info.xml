@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:theme="@style/GhostRiderMaterialTheme.WhiteBG"
+    android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
     tools:context=".Activities.Activity_OtherInfo">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -12,11 +12,10 @@
         android:layout_height="wrap_content"
         android:theme="@style/GhostRiderMaterialTheme.AppBarOverlay">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar_OtherInfo"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/material_tool_bar"
             android:popupTheme="@style/GhostRiderMaterialTheme.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -32,13 +31,13 @@
             android:orientation="vertical"
             android:padding="5dp">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 style="@style/HeaderLabelBlack"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/sLblOtherInfo" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 style="@style/Regular_Label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -69,7 +68,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Other User">
 
-                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/spinner_cap_otherUser"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -80,7 +79,7 @@
                     android:padding="16dp" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 style="@style/Regular_Label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -93,7 +92,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Unit Purpose">
 
-                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/spinner_cap_purposeOfBuying"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -117,7 +116,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Unit Payer">
 
-                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                <androidx.appcompat.widget.AppCompatMultiAutoCompleteTextView
                     android:id="@+id/spinner_cap_monthlyPayer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -135,7 +134,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Other Payer">
 
-                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/spinner_cap_otherPayer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -146,7 +145,7 @@
                     android:padding="16dp" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 style="@style/Regular_Label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -159,7 +158,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Where do you hear about us?">
 
-                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/spinner_cap_source"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -186,7 +185,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 style="@style/HeaderLabelBlack"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -205,7 +204,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Name"
-                    android:textColorHint="@color/guanzon_dark_grey"
                     tools:ignore="HardcodedText">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -219,7 +217,6 @@
                         android:maxLines="1"
                         android:nextFocusForward="@id/tie_cap_refereceContact"
                         android:singleLine="true"
-                        android:textColor="@color/material_black"
                         tools:ignore="RtlSymmetry" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -230,7 +227,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Contact"
-                    android:textColorHint="@color/guanzon_dark_grey"
                     tools:ignore="HardcodedText">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -241,7 +237,6 @@
                         android:inputType="number|none"
                         android:maxLength="11"
                         android:nextFocusForward="@id/tie_cap_refereceAddress"
-                        android:textColor="@color/material_black"
                         tools:ignore="RtlSymmetry" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -252,7 +247,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Phase#/Lot#/Sitio/Street/Barangay"
-                    android:textColorHint="@color/guanzon_dark_grey"
                     tools:ignore="HardcodedText">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -266,7 +260,6 @@
                         android:maxLines="1"
                         android:nextFocusForward="@id/til_cap_referenceAddTown"
                         android:singleLine="true"
-                        android:textColor="@color/material_black"
                         tools:ignore="RtlSymmetry" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -278,7 +271,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/sHintTown">
 
-                    <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
                         android:id="@+id/tie_cap_referenceAddTown"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -297,11 +290,10 @@
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/roboto_thin"
                     android:text="Add Reference"
-                    android:textColor="@color/textColor_White"
                     tools:ignore="HardcodedText"
                     tools:targetApi="lollipop" />
 
-                <androidx.cardview.widget.CardView
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -310,7 +302,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 
-                </androidx.cardview.widget.CardView>
+                </com.google.android.material.card.MaterialCardView>
 
 
                 <RelativeLayout
@@ -319,7 +311,7 @@
                     android:layout_marginBottom="300dp"
                     android:orientation="horizontal">
 
-                    <Button
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_creditAppPrvs"
                         style="@style/NavigationButton"
                         android:layout_width="wrap_content"
@@ -327,11 +319,10 @@
                         android:layout_alignParentStart="true"
                         android:layout_alignParentLeft="true"
                         android:layout_centerVertical="true"
-                        android:drawableLeft="@drawable/ic_nav_left"
                         android:text="@string/sbtnPrvs"
                         tools:ignore="RelativeOverlap" />
 
-                    <Button
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_creditAppNext"
                         style="@style/NavigationButton"
                         android:layout_width="wrap_content"
@@ -339,8 +330,6 @@
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:drawableEnd="@drawable/ic_nav_right"
-                        android:drawableRight="@drawable/ic_nav_right"
                         android:text="@string/sbtnNext"
                         tools:ignore="RelativeOverlap" />
                 </RelativeLayout>
