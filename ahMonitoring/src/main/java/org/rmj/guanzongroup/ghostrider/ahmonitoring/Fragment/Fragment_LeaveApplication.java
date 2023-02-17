@@ -11,6 +11,8 @@
 
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment;
 
+import static org.rmj.g3appdriver.etc.AppConstants.LEAVE_TYPE;
+
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
@@ -18,6 +20,8 @@ import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -62,8 +66,8 @@ public class Fragment_LeaveApplication extends Fragment {
 
     private VMLeaveApplication mViewModel;
     private LeaveApplication poLeave;
-    private MaterialTextView lblTransNox, lblUsername, lblPosition, lblBranch;
-    private Spinner spnType;
+    private MaterialTextView lblUsername, lblPosition, lblBranch;
+    private MaterialAutoCompleteTextView spnType;
     private TextInputEditText txtDateFrom, txtDateTo, txtNoDays, txtRemarks;
     private MaterialButton btnSubmit;
 
@@ -86,7 +90,6 @@ public class Fragment_LeaveApplication extends Fragment {
         lblPosition = view.findViewById(R.id.lbl_userPosition);
         lblBranch = view.findViewById(R.id.lbl_userBranch);
 
-        lblTransNox = view.findViewById(R.id.lbl_transnox);
         spnType = view.findViewById(R.id.spn_leaveType);
         txtDateFrom = view.findViewById(R.id.txt_dateFrom);
         txtDateTo = view.findViewById(R.id.txt_dateTo);
@@ -111,7 +114,8 @@ public class Fragment_LeaveApplication extends Fragment {
             }
         });
 
-        mViewModel.getLeaveTypeList().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnType.setAdapter(stringArrayAdapter));
+        spnType.setAdapter(new ArrayAdapter<>(requireActivity(), android.R.layout.simple_dropdown_item_1line, LEAVE_TYPE));
+        spnType.setOnItemClickListener((parent, view1, position, id) -> poLeave.setLeaveType(String.valueOf(position)));
 
         txtDateFrom.setOnClickListener(v -> {
             final Calendar newCalendar = Calendar.getInstance();
@@ -179,7 +183,6 @@ public class Fragment_LeaveApplication extends Fragment {
                 Toast.makeText(requireContext(), "Please wait...", Toast.LENGTH_LONG).show();
             } else {
                 mLastClickTime = SystemClock.elapsedRealtime();
-                poLeave.setLeaveType(String.valueOf(spnType.getSelectedItemPosition()));
                 poLeave.setDateFromx(Objects.requireNonNull(txtDateFrom.getText()).toString());
                 poLeave.setDateThrux(Objects.requireNonNull(txtDateTo.getText()).toString());
                 String lsNoDays = Objects.requireNonNull(txtNoDays.getText()).toString();

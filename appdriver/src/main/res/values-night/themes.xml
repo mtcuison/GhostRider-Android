@@ -24,6 +24,7 @@
 
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <item name="android:colorBackground">@color/background_dark</item>
+        <item name="android:textColor">@color/material_white</item>
     </style>
 
     <style name="MyPopupOtherStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
@@ -71,7 +72,7 @@
         <item name="iconGravity">textStart</item>
     </style>
 
-    <style name="NavigationButton" parent="Widget.AppCompat.Button.Borderless">
+    <style name="NavigationButton" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="fontFamily">@font/roboto_medium</item>
         <item name="android:drawablePadding">15dp</item>
         <item name="android:padding">10dp</item>

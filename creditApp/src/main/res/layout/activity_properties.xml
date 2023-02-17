@@ -179,7 +179,6 @@
                         android:layout_alignParentStart="true"
                         android:layout_alignParentLeft="true"
                         android:layout_centerVertical="true"
-                        android:drawableLeft="@drawable/ic_nav_left"
                         android:text="@string/sbtnPrvs"
                         tools:ignore="RelativeOverlap" />
 
@@ -191,8 +190,6 @@
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:drawableEnd="@drawable/ic_nav_right"
-                        android:drawableRight="@drawable/ic_nav_right"
                         android:text="@string/sbtnNext"
                         tools:ignore="RelativeOverlap" />
                 </RelativeLayout>

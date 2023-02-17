@@ -55,15 +55,15 @@ public class Activity_CashCounter extends AppCompatActivity {
     //Array for Peso Bill
     private TextInputEditText[] qtyPeso;
     private TextInputEditText[] totalPeso;
-    private TextView[] cprice;
+    private MaterialTextView[] cprice;
 
     //Array for Coin Bill
     private TextInputEditText[] qtyCoin;
     private TextInputEditText[] totalCoin;
-    private TextView[] cpriceCoin;
+    private MaterialTextView[] cpriceCoin;
 
-    private TextView lblPesoTotal, lblCoinsTotal, lblGrandTotal;
-    private TextView lblBranch, lblAddxx, lblDate;
+    private MaterialTextView lblPesoTotal, lblCoinsTotal, lblGrandTotal;
+    private MaterialTextView lblBranch, lblAddxx, lblDate;
     private MaterialButton btnNext;
 
     private MessageBox poMessage;
@@ -319,7 +319,7 @@ public class Activity_CashCounter extends AppCompatActivity {
                 findViewById(R.id.edt50p),
                 findViewById(R.id.edt20p)
         };
-        cprice = new TextView[] {
+        cprice = new MaterialTextView[] {
                 findViewById(R.id.tv1000p),
                 findViewById(R.id.tv500p),
                 findViewById(R.id.tv200p),
@@ -345,7 +345,7 @@ public class Activity_CashCounter extends AppCompatActivity {
                 findViewById(R.id.edt5cc),
                 findViewById(R.id.edt1cc),
         };
-        cpriceCoin = new TextView[] {
+        cpriceCoin = new MaterialTextView[] {
                 findViewById(R.id.tv10pc),
                 findViewById(R.id.tv5pc),
                 findViewById(R.id.tv1pc),

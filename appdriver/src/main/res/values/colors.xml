@@ -12,8 +12,8 @@
 
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <color name="material_black">#161616</color>
-    <color name="material_white">#EEEEEE</color>
+    <color name="material_black">#1A1C25</color>
+    <color name="material_white">#fcfcfc</color>
     <color name="colorPrimary_light">#000000</color>
 
     <color name="background_dark">#161B24</color>

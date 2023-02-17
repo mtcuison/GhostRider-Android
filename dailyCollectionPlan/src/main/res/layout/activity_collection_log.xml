@@ -10,7 +10,7 @@
   ~ project file last modified : 4/24/21 3:18 PM
   -->
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -22,7 +22,10 @@
         android:id="@+id/appbar_collectionLog"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/GhostRiderMaterialTheme.AppBarOverlay">
+        android:theme="@style/GhostRiderMaterialTheme.AppBarOverlay"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar_collectionLog"
@@ -35,15 +38,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/appbar_collectionLog"
-            android:orientation="vertical"
             android:gravity="center_horizontal"
+            android:orientation="vertical"
             android:paddingHorizontal="15dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginVertical="5dp">
+                android:layout_marginVertical="5dp"
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -64,65 +67,58 @@
                     android:id="@+id/linear_collectionCashInfo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
+                    android:layout_marginTop="5dp"
                     android:gravity="center_horizontal"
-                    android:layout_marginTop="5dp">
+                    android:orientation="vertical">
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/lbl_totalCollected"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:drawablePadding="5dp"
                         android:fontFamily="@font/roboto"
                         android:text="Total Collection :  ₱ 0.00"
-                        android:textSize="16sp"
-                        android:drawablePadding="5dp"/>
+                        android:textSize="16sp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
+                        android:layout_marginTop="10dp"
                         android:gravity="bottom"
-                        android:layout_marginTop="10dp">
+                        android:orientation="horizontal">
 
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:orientation="vertical"
-                            android:gravity="center_vertical">
+                            android:gravity="center_vertical"
+                            android:orientation="vertical">
 
                             <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/lbl_totalRemitCollection"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:textSize="15sp"
+                                android:fontFamily="@font/roboto_light"
                                 android:text="Total Remitted :  ₱ 0.00"
-                                android:fontFamily="@font/roboto_light"/>
+                                android:textSize="15sp" />
 
                             <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/lbl_totalCashOnHand"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:textSize="15sp"
+                                android:fontFamily="@font/roboto_light"
                                 android:text="Cash-On-Hand : ₱ 0.00"
-                                android:fontFamily="@font/roboto_light"/>
+                                android:textSize="15sp" />
+
                             <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/lbl_totalCheckOnHand"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:textSize="15sp"
+                                android:fontFamily="@font/roboto_light"
                                 android:text="Check-On-Hand : ₱ 0.00"
-                                android:fontFamily="@font/roboto_light"/>
+                                android:textSize="15sp" />
 
                         </LinearLayout>
-
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/btn_remit"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:text="Remit"
-                            android:backgroundTint="@color/guanzon_dark_grey"
-                            android:layout_weight=".5"/>
 
                     </LinearLayout>
 
@@ -133,7 +129,7 @@
             <com.google.android.material.divider.MaterialDivider
                 android:layout_width="match_parent"
                 android:layout_height="0.8dp"
-                android:layout_marginTop="5dp"/>
+                android:layout_marginTop="5dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -143,10 +139,10 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/til_collectionDate"
+                    style="@style/TextInputStyleHeaders"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Date"
-                    style="@style/TextInputStyleHeaders">
+                    android:hint="Date">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/txt_collectionDate"
@@ -160,20 +156,20 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/til_collectionSearch"
+                    style="@style/TextInputStyleHeaders"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    style="@style/TextInputStyleHeaders">
+                    android:layout_marginTop="5dp">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/txt_collectionSearch"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textCapWords|textPersonName"
+                        android:hint="Search Customer's name"
                         android:imeOptions="actionSearch"
-                        android:textCursorDrawable="@drawable/white_cursor"
+                        android:inputType="textCapWords|textPersonName"
                         android:maxLines="1"
-                        android:hint="Search Customer's name"/>
+                        android:textCursorDrawable="@drawable/white_cursor" />
                 </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
@@ -184,31 +180,48 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview_collectionLog"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/appbar_collectionLog" />
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_below="@+id/appbar_collectionLog"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appbar_collectionLog" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_remit"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Remit Collection"
+        style="@style/MaterialButtonAccent"
+        app:layout_constraintBottom_toBottomOf="@+id/recyclerview_collectionLog"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <LinearLayout
         android:id="@+id/linear_empty_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:orientation="vertical"
         android:visibility="gone"
-        android:layout_below="@id/appbar_collectionLog">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appbar_collectionLog">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_img_empty_list"/>
+            android:src="@drawable/ic_img_empty_list" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/txt_no_logs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto"
-            android:textSize="15dp"
+            android:gravity="center"
             android:text="@string/sLblNoTransactionLogInDate"
-            android:gravity="center"/>
+            android:textSize="15dp" />
 
     </LinearLayout>
 
@@ -216,11 +229,14 @@
         android:id="@+id/txt_no_name"
         android:layout_width="match_parent"
         android:layout_height="350dp"
-        android:fontFamily="@font/roboto"
-        android:textSize="15dp"
-        android:text="@string/sLblNoTransactionLogInName"
-        android:gravity="center"
         android:layout_below="@+id/appbar_collectionLog"
-        android:visibility="gone"/>
+        android:fontFamily="@font/roboto"
+        android:gravity="center"
+        android:text="@string/sLblNoTransactionLogInName"
+        android:textSize="15dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appbar_collectionLog" />
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

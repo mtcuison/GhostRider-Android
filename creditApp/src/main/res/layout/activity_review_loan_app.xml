@@ -16,7 +16,6 @@
             android:id="@+id/toolbar_ReviewLoanApp"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/material_tool_bar"
             android:popupTheme="@style/GhostRiderMaterialTheme.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -94,7 +93,6 @@
             android:text="Previous"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:drawableLeft="@drawable/ic_nav_left"
             android:layout_marginTop="15dp"
             android:layout_alignParentStart="true" />
 
@@ -106,7 +104,6 @@
             android:text="Save"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:drawableRight="@drawable/ic_application_export"
             android:layout_marginTop="15dp"
             android:layout_alignParentEnd="true" />
 

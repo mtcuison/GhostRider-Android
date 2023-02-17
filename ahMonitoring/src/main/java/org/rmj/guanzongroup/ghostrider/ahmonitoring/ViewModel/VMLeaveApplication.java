@@ -56,12 +56,6 @@ public class VMLeaveApplication extends AndroidViewModel {
         return poSys.GetUserInfo();
     }
 
-    public LiveData<ArrayAdapter<String>> getLeaveTypeList(){
-        MutableLiveData<ArrayAdapter<String>> loList = new MutableLiveData<>();
-        loList.setValue(new ArrayAdapter<>(instance, android.R.layout.simple_dropdown_item_1line, LEAVE_TYPE));
-        return loList;
-    }
-
     public void SaveApplication(LeaveApplication application, LeaveApplicationCallback callback){
         new SaveLeaveApplication(callback).execute(application);
     }

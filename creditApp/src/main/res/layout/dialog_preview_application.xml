@@ -20,15 +20,13 @@
     app:cardPreventCornerOverlap="true"
     app:cardMaxElevation="5dp"
     app:cardCornerRadius="15dp"
-    android:background="@drawable/bg_gradient_light"
     app:cardElevation="3dp"
     android:theme="@style/GhostRiderMaterialTheme">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@drawable/bg_gradient_light">
+        android:orientation="vertical">
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/dialogTitle"
@@ -37,14 +35,13 @@
             android:text="Application Info"
             android:textSize="20sp"
             android:textAlignment="center"
-            android:textColor="@color/textColor_Black"
             android:fontFamily="@font/roboto_bold"
             android:layout_marginTop="15dp"
             android:gravity="center_horizontal" />
+
         <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/guanzon_orange"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="10dp"
             android:layout_marginHorizontal="5dp"/>
@@ -184,82 +181,6 @@
                 android:layout_marginTop="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lbl_applStatus" />
-
-<!--            <View-->
-<!--                android:id="@+id/divider1"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="1dp"-->
-<!--                android:background="@color/guanzon_orange"-->
-<!--                android:layout_marginTop="5dp"-->
-<!--                app:layout_constraintTop_toBottomOf="@+id/lbl_dateApproved"-->
-<!--                android:layout_marginBottom="10dp"-->
-<!--                android:layout_marginHorizontal="5dp"/>-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/textview7"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="5dp"-->
-<!--                android:fontFamily="@font/roboto_regular"-->
-<!--                android:text="Unit:"-->
-<!--                android:textColor="@color/black"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@+id/divider1" />-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/lbl_appMcModel"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:fontFamily="@font/roboto_regular"-->
-<!--                android:text="Unit: Sniper 155 R"-->
-<!--                android:textColor="@color/black"-->
-<!--                android:layout_marginTop="5dp"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@+id/divider1" />-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/textview8"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="5dp"-->
-<!--                android:fontFamily="@font/roboto_regular"-->
-<!--                android:text="Unit Price:"-->
-<!--                android:textColor="@color/black"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@+id/textview7" />-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/lbl_McPrice"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:fontFamily="@font/roboto_regular"-->
-<!--                android:text="Unit Price: Php. 145,000.00"-->
-<!--                android:textColor="@color/black"-->
-<!--                android:layout_marginTop="5dp"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@+id/lbl_appMcModel" />-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/textview9"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="5dp"-->
-<!--                android:fontFamily="@font/roboto_regular"-->
-<!--                android:text="Downpayment:"-->
-<!--                android:textColor="@color/black"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@+id/textview8" />-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/lbl_appDownPaym"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:fontFamily="@font/roboto_regular"-->
-<!--                android:text="Downpayment: Php. 54,000.00"-->
-<!--                android:textColor="@color/black"-->
-<!--                android:layout_marginTop="5dp"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@+id/lbl_McPrice" />-->
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_docScan"
