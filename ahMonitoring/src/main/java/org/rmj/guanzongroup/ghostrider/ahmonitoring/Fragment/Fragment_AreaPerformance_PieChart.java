@@ -11,9 +11,9 @@
 
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment;
 
-import static org.rmj.g3appdriver.etc.BranchPerformancePeriod.getLatestCompletePeriod;
-import static org.rmj.g3appdriver.etc.BranchPerformancePeriod.getList;
-import static org.rmj.g3appdriver.etc.BranchPerformancePeriod.getPeriodText;
+import static org.rmj.g3appdriver.lib.BullsEye.BranchPerformancePeriod.getLatestCompletePeriod;
+import static org.rmj.g3appdriver.lib.BullsEye.BranchPerformancePeriod.getList;
+import static org.rmj.g3appdriver.lib.BullsEye.BranchPerformancePeriod.getPeriodText;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -49,7 +49,7 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 
-import org.rmj.g3appdriver.etc.BranchPerformancePeriod;
+import org.rmj.g3appdriver.lib.BullsEye.BranchPerformancePeriod;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_BranchPerformance;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.AreaPerformanceMonitoringAdapter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;

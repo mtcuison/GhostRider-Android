@@ -17,7 +17,7 @@ import org.junit.runners.MethodSorters;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.lib.PetManager.Obj.EmployeeLeave;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.lib.PetManager.model.LeaveApplication;
+import org.rmj.g3appdriver.lib.PetManager.pojo.LeaveApplication;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(AndroidJUnit4.class)

@@ -43,10 +43,10 @@ import com.google.android.material.imageview.ShapeableImageView;
 
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.lib.ApprovalCode.model.CreditAppInfo;
+import org.rmj.g3appdriver.lib.ApprovalCode.pojo.CreditAppInfo;
 import org.rmj.g3appdriver.utils.CopyToClipboard;
 import org.rmj.guanzongroup.ghostrider.approvalcode.Activity.Activity_ApprovalCode;
-import org.rmj.g3appdriver.lib.ApprovalCode.model.CreditApp;
+import org.rmj.g3appdriver.lib.ApprovalCode.pojo.CreditApp;
 import org.rmj.guanzongroup.ghostrider.approvalcode.Etc.ViewModelCallback;
 import org.rmj.guanzongroup.ghostrider.approvalcode.R;
 import org.rmj.guanzongroup.ghostrider.approvalcode.ViewModel.VMCreditAppApproval;

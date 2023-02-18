@@ -18,7 +18,7 @@ import com.google.android.material.divider.MaterialDivider;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.g3appdriver.lib.PetManager.model.LeaveApprovalInfo;
+import org.rmj.g3appdriver.lib.PetManager.pojo.LeaveApprovalInfo;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 
 import java.util.List;

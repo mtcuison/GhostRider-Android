@@ -22,7 +22,7 @@ import org.rmj.g3appdriver.dev.Database.DataAccessObject.DClientUpdate;
 import org.rmj.g3appdriver.dev.Database.Entities.EClientUpdate;
 import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.etc.AppConstants;
-import org.rmj.g3appdriver.lib.integsys.Dcp.model.LoanUnit;
+import org.rmj.g3appdriver.lib.integsys.Dcp.pojo.LoanUnit;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

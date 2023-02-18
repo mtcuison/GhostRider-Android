@@ -10,10 +10,8 @@ import androidx.lifecycle.LiveData;
 
 import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEmployeeInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EItinerary;
 import org.rmj.g3appdriver.dev.Database.Repositories.RBranch;
-import org.rmj.g3appdriver.etc.SessionManager;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.lib.Itinerary.EmployeeItinerary;
 import org.rmj.g3appdriver.utils.ConnectionUtil;

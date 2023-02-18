@@ -25,10 +25,10 @@ import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.dev.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.etc.AppConstants;
-import org.rmj.g3appdriver.etc.LocationRetriever;
+import org.rmj.g3appdriver.lib.Location.LocationRetriever;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.lib.integsys.Dcp.LRDcp;
-import org.rmj.g3appdriver.lib.integsys.Dcp.model.PromiseToPay;
+import org.rmj.g3appdriver.lib.integsys.Dcp.pojo.PromiseToPay;
 import org.rmj.g3appdriver.etc.ImageFileCreator;
 
 import java.util.List;

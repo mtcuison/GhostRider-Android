@@ -1,5 +1,7 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Activities;
 
+import static org.rmj.guanzongroup.documentscanner.xxxImageStatic.FileCode;
+
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -34,6 +36,7 @@ import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.CreditAppDocs;
 import org.rmj.guanzongroup.documentscanner.Activity_DocumentScan;
+import org.rmj.guanzongroup.documentscanner.xxxImageStatic;
 import org.rmj.guanzongroup.onlinecreditapplication.Adapter.DocumentToScanAdapter;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMApplicantDocuments;
@@ -99,6 +102,9 @@ public class Activity_ApplicantDocuments extends AppCompatActivity {
                             poDetail.setTransNox(TransNox);
                             poDetail.setFileCode(documents.get(position).sFileCode);
                             Intent loIntent = new Intent(Activity_ApplicantDocuments.this, Activity_DocumentScan.class);
+                            xxxImageStatic.TransNox = TransNox;
+                            xxxImageStatic.EntryNox = String.valueOf(position + 1);
+                            xxxImageStatic.FileCode = documents.get(position).sFileCode;
                             poScan.launch(loIntent);
                         }
                     }

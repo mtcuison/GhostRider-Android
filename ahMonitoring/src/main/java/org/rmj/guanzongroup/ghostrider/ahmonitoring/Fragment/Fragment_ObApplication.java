@@ -38,8 +38,7 @@ import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.g3appdriver.etc.GToast;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.lib.PetManager.Obj.EmployeeOB;
-import org.rmj.g3appdriver.lib.PetManager.model.OBApplication;
+import org.rmj.g3appdriver.lib.PetManager.pojo.OBApplication;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMObApplication;
 

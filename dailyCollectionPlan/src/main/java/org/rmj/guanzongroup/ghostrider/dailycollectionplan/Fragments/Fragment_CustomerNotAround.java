@@ -62,9 +62,9 @@ import  com.google.android.material.checkbox.MaterialCheckBox;
 
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.lib.integsys.Dcp.model.AddressUpdate;
-import org.rmj.g3appdriver.lib.integsys.Dcp.model.CustomerNotAround;
-import org.rmj.g3appdriver.lib.integsys.Dcp.model.MobileUpdate;
+import org.rmj.g3appdriver.lib.integsys.Dcp.pojo.AddressUpdate;
+import org.rmj.g3appdriver.lib.integsys.Dcp.pojo.CustomerNotAround;
+import org.rmj.g3appdriver.lib.integsys.Dcp.pojo.MobileUpdate;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_Transaction;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter.AddressInfoAdapter;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter.MobileInfoAdapter;

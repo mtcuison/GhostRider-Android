@@ -33,7 +33,6 @@ import com.google.android.material.imageview.ShapeableImageView;
 import  com.google.android.material.checkbox.MaterialCheckBox;
 
 
-import org.guanzongroup.com.creditevaluation.Model.AdditionalInfoModel;
 import org.guanzongroup.com.creditevaluation.R;
 import org.rmj.g3appdriver.etc.GToast;
 

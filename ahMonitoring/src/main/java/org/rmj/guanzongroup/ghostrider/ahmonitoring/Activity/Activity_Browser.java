@@ -16,7 +16,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -34,7 +33,7 @@ import android.webkit.WebView;
 import android.widget.ProgressBar;
 
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.etc.SessionManager;
+import org.rmj.g3appdriver.lib.Account.SessionManager;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 
 import java.io.File;
