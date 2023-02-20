@@ -14,14 +14,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <SwitchPreferenceCompat
-        app:key="themePrefs"
-        app:icon="@drawable/ic_theme"
-        app:title="Dark theme"
-        app:iconSpaceReserved="false"
-        app:defaultValue="false"
-        android:summaryOn="@string/darkmode_summary"
-        android:summaryOff="@string/lightmode_summary"/>
+<!--    <SwitchPreferenceCompat-->
+<!--        app:key="themePrefs"-->
+<!--        app:icon="@drawable/ic_theme"-->
+<!--        app:title="Dark theme"-->
+<!--        app:iconSpaceReserved="false"-->
+<!--        app:defaultValue="false"-->
+<!--        android:summaryOn="@string/darkmode_summary"-->
+<!--        android:summaryOff="@string/lightmode_summary"/>-->
 
     <PreferenceCategory app:title="Permissions">
 
