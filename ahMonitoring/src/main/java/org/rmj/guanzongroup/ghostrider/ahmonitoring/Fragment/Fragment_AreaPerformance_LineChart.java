@@ -31,7 +31,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
@@ -67,9 +77,7 @@ public class Fragment_AreaPerformance_LineChart extends Fragment {
     private TextView lblArea, lblDate;
 
     private ColorStateList poColor;
-    private TextView lblItem1;
-    private TextView lblItem2;
-    private TextView lblSelectd;
+    private MaterialTextView lblItem1,lblItem2,lblSelectd;
 
     public Fragment_AreaPerformance_LineChart() { }
 

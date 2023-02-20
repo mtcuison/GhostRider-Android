@@ -24,14 +24,38 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
 
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+import  com.google.android.material.checkbox.MaterialCheckBox;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 
+
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+import  com.google.android.material.checkbox.MaterialCheckBox;
+
 
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.FormatUIText;
@@ -51,11 +75,11 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity {
     private VMIntroductoryQuestion mViewModel;
     private MessageBox poMessage;
 
-    private TextView lblBranchNm, lblBrandAdd, lblDate;
-    private AutoCompleteTextView txtBranchNm, txtBrandNm, txtModelNm;
+    private MaterialTextView lblBranchNm, lblBrandAdd, lblDate;
+    private MaterialAutoCompleteTextView txtBranchNm, txtBrandNm, txtModelNm;
     private TextInputLayout tilApplType;
     private TextInputEditText txtDownPymnt, txtAmort, txtDTarget;
-    private AutoCompleteTextView spnApplType, spnCustType, spnAcctTerm;
+    private MaterialAutoCompleteTextView spnApplType, spnCustType, spnAcctTerm;
     private MaterialButton btnCreate;
 
     public static Activity_IntroductoryQuestion newInstance() {
@@ -65,12 +89,12 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(VMIntroductoryQuestion.class);
+        mViewModel = new ViewModelProvider(Activity_IntroductoryQuestion.this).get(VMIntroductoryQuestion.class);
         poMessage = new MessageBox(Activity_IntroductoryQuestion.this);
         setContentView(R.layout.activity_introductory_question);
         initWidgets();
 
-        mViewModel.GetUserInfo().observe(this, eBranchInfo -> {
+        mViewModel.GetUserInfo().observe(Activity_IntroductoryQuestion.this, eBranchInfo -> {
             try {
                 lblBranchNm.setText(eBranchInfo.sBranchNm);
                 lblBrandAdd.setText(eBranchInfo.sAddressx);
@@ -84,33 +108,24 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity {
         spnApplType.setText(CreditAppConstants.APPLICATION_TYPE[0]);
         spnCustType.setText(CreditAppConstants.CUSTOMER_TYPE[0]);
         spnAcctTerm.setText(CreditAppConstants.INSTALLMENT_TERM[0]);
-        mViewModel.GetApplicationType().observe(this, stringArrayAdapter -> {
-            spnApplType.setAdapter(stringArrayAdapter);
-            spnApplType.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
-            mViewModel.getModel().setAppTypex(1);
-        });
+        spnApplType.setAdapter(CreditAppConstants.getAdapter(Activity_IntroductoryQuestion.this, CreditAppConstants.APPLICATION_TYPE));
+        mViewModel.getModel().setAppTypex(1);
 
-        mViewModel.GetCustomerType().observe(this, stringArrayAdapter -> {
-            spnCustType.setAdapter(stringArrayAdapter);
-            spnCustType.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
-            mViewModel.getModel().setCustTypex(1);
-        });
+        spnCustType.setAdapter(CreditAppConstants.getAdapter(Activity_IntroductoryQuestion.this, CreditAppConstants.CUSTOMER_TYPE));
+        mViewModel.getModel().setCustTypex(1);
 
-        mViewModel.GetInstallmentTerm().observe(this, stringArrayAdapter -> {
-            spnAcctTerm.setAdapter(stringArrayAdapter);
-            spnAcctTerm.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+        spnAcctTerm.setAdapter(CreditAppConstants.getAdapter(Activity_IntroductoryQuestion.this, CreditAppConstants.INSTALLMENT_TERM));
 
-            //Default value has been set here instead inside of the model in order
-            // to calculate monthly amortization upon selection of model.
-            mViewModel.getModel().setAccTermxx(0);
-        });
+        //Default value has been set here instead inside of the model in order
+        // to calculate monthly amortization upon selection of model.
+        mViewModel.getModel().setAccTermxx(0);
 
         txtDTarget.setText(new AppConstants().CURRENT_DATE_WORD);
 
         txtDTarget.setOnClickListener(v -> {
             final Calendar newCalendar = Calendar.getInstance();
             @SuppressLint("SimpleDateFormat") final SimpleDateFormat dateFormatter = new SimpleDateFormat("MMMM dd, yyyy");
-            final DatePickerDialog  StartTime = new DatePickerDialog(this, (view131, year, monthOfYear, dayOfMonth) -> {
+            final DatePickerDialog  StartTime = new DatePickerDialog(Activity_IntroductoryQuestion.this, (view131, year, monthOfYear, dayOfMonth) -> {
                 Calendar newDate = Calendar.getInstance();
                 newDate.set(year, monthOfYear, dayOfMonth);
                 String lsDate = dateFormatter.format(newDate.getTime());
@@ -121,7 +136,7 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity {
             StartTime.show();
         });
 
-        mViewModel.GetAllBranchInfo().observe(this, loList -> {
+        mViewModel.GetAllBranchInfo().observe(Activity_IntroductoryQuestion.this, loList -> {
             try{
                 ArrayList<String> strings = new ArrayList<>();
                 for(int x = 0; x < loList.size(); x++){
@@ -130,7 +145,6 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity {
 
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(Activity_IntroductoryQuestion.this, android.R.layout.simple_spinner_dropdown_item, strings.toArray(new String[0]));
                 txtBranchNm.setAdapter(adapter);
-                txtBranchNm.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
 
                 txtBranchNm.setOnItemClickListener((adapterView, view, i, l) -> {
                     for(int x = 0; x < loList.size(); x++){
@@ -146,7 +160,7 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity {
             }
         });
 
-        mViewModel.GetAllMcBrand().observe(this, loList -> {
+        mViewModel.GetAllMcBrand().observe(Activity_IntroductoryQuestion.this, loList -> {
             try{
                 ArrayList<String> strings = new ArrayList<>();
                 for(int x = 0; x < loList.size(); x++){
@@ -154,7 +168,6 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity {
                 }
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(Activity_IntroductoryQuestion.this, android.R.layout.simple_spinner_dropdown_item, strings.toArray(new String[0]));
                 txtBrandNm.setAdapter(adapter);
-                txtBrandNm.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
 
                 txtBrandNm.setOnItemClickListener((adapterView, view, i, l) -> {
                     for(int x = 0; x < loList.size(); x++){
@@ -178,9 +191,8 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity {
                         strings.add(loList.get(x).getModelNme() +" "+ loList.get(x).getModelCde());
                     }
 
-                    ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, strings.toArray(new String[0]));
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(Activity_IntroductoryQuestion.this, android.R.layout.simple_spinner_dropdown_item, strings.toArray(new String[0]));
                     txtModelNm.setAdapter(adapter);
-                    txtModelNm.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
 
                     txtModelNm.setOnItemClickListener((adapterView, view, i, l) -> {
                         for(int x = 0; x < loList.size(); x++){
@@ -303,7 +315,7 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity {
     }
 
     private void initWidgets(){
-        Toolbar toolbar = findViewById(R.id.toolbar_introduction);
+        MaterialToolbar toolbar = findViewById(R.id.toolbar_introduction);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         lblBranchNm = findViewById(R.id.lbl_headerBranch);

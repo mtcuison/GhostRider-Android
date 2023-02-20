@@ -33,9 +33,9 @@ class FileUtil {
     if (!storageDir.exists()) {
       storageDir.mkdirs()
     }
-    val lsFileNm = TransNox + "_" + EntryNox + "_" + FileCode + ".png";
-    val loImgFle = File(storageDir, lsFileNm);
-    Log.d(TAG, "File Path: " + loImgFle.absolutePath);
-    return loImgFle;
+    val lsFileNm = TransNox + "_" + EntryNox + "_" + FileCode + ".png"
+    val loImgFle = File(storageDir, lsFileNm)
+    Log.d(TAG, "File Path: " + loImgFle.absolutePath)
+    return loImgFle
   }
 }

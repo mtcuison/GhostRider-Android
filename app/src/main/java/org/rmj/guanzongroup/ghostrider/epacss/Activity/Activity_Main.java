@@ -29,10 +29,23 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.ui.AppBarConfiguration;
+import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeRole;
 import org.rmj.g3appdriver.dev.DeptCode;
@@ -43,6 +56,7 @@ import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.Account.SessionManager;
 import org.rmj.g3appdriver.lib.ImportData.ImportEmployeeRole;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Application;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Etc.FragmentAdapter;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_CollectionList;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_LogCollection;
 import org.rmj.guanzongroup.ghostrider.epacss.Object.ChildObject;
@@ -61,26 +75,24 @@ import java.util.Locale;
 public class Activity_Main extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private static final String TAG = Activity_Main.class.getSimpleName();
     private VMMainActivity mViewModel;
-
     private DataSyncService poNetRecvr;
 
     private AppBarConfiguration mAppBarConfiguration;
     private MessageBox loMessage;
     private LoadDialog poDialog;
-    private SessionManager poSession;
     private Intent loIntent;
     private boolean cSlfiex;
 
     private ImageView imgDept;
-    private TextView lblDept;
+    private MaterialTextView lblDept;
     private ExpandableListDrawerAdapter listAdapter;
     private ExpandableListView expListView;
+    private DrawerLayout drawer;
+    private ViewPager viewPager;
 
     private final List<ParentObject> poParentLst = new ArrayList<>();
     private List<ChildObject> poChildLst;
     private final HashMap<ParentObject, List<ChildObject>> poChild = new HashMap<>();
-
-    public static DrawerLayout drawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,11 +108,15 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
                 imgDept.setImageResource(AppDeptIcon.getIcon(eEmployeeInfo.getDeptIDxx()));
                 lblDept.setText(DeptCode.getDepartmentName(eEmployeeInfo.getDeptIDxx()));
                 cSlfiex = eEmployeeInfo.getSlfieLog().equalsIgnoreCase("1");
+                Fragment[] loFragment = new Fragment[]{mViewModel.GetUserFragments(eEmployeeInfo)};
+                viewPager.setAdapter(new FragmentAdapter(getSupportFragmentManager(), loFragment));
             } catch (Exception e){
                 e.printStackTrace();
             }
         });
+    }
 
+    private void InitUserFeatures(){
         mViewModel.getEmployeeRole().observe(this, roles -> {
             try{
                 mViewModel.getChildRoles().observe(this, childMenus -> {
@@ -172,7 +188,7 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
     }
 
     private void initWidgets(){
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        MaterialToolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
@@ -183,7 +199,6 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
 
         loMessage = new MessageBox(Activity_Main.this);
         poDialog = new LoadDialog(Activity_Main.this);
-        poSession = new SessionManager(Activity_Main.this);
         expListView = (ExpandableListView) findViewById(R.id.lvExp);
         expListView.setIndicatorBoundsRelative(width - GetPixelFromDips(50), width - GetPixelFromDips(10));
 

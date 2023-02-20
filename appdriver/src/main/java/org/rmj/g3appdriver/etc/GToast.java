@@ -20,6 +20,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.textview.MaterialTextView;
+
 import org.rmj.g3appdriver.R;
 
 public class GToast {
@@ -50,7 +52,7 @@ public class GToast {
     private void initToast(){
         View view = LayoutInflater.from(context).inflate(R.layout.dialog_toast, null, false);
 
-        TextView lblMessage = view.findViewById(R.id.lbl_toast_message);
+        MaterialTextView lblMessage = view.findViewById(R.id.lbl_toast_message);
         ImageView imgIconxx = view.findViewById(R.id.img_toast_icon);
         lblMessage.setText(psMessage);
         imgIconxx.setImageDrawable(context.getResources().getDrawable(pnType));

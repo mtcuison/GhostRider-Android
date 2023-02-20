@@ -14,6 +14,7 @@ package org.rmj.guanzongroup.ghostrider.epacss.ViewModel;
 import android.app.Application;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
@@ -21,6 +22,9 @@ import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeRole;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.guanzongroup.ghostrider.epacss.Service.DataSyncService;
+import org.rmj.guanzongroup.ghostrider.epacss.ui.Dashboard.Fragment_AHDashboard;
+import org.rmj.guanzongroup.ghostrider.epacss.ui.Dashboard.Fragment_BHDashboard;
+import org.rmj.guanzongroup.ghostrider.epacss.ui.Dashboard.Fragment_Dashboard;
 
 import java.util.List;
 
@@ -53,4 +57,13 @@ public class VMMainActivity extends AndroidViewModel {
         return poUser.GetEmployeeInfo();
     }
 
+    public Fragment GetUserFragments(EEmployeeInfo args){
+        Fragment userLevel;
+        switch (args.getEmpLevID()){
+            case 3: userLevel = new Fragment_BHDashboard(); break;
+            case 4: userLevel = new Fragment_AHDashboard(); break;
+            default: userLevel = new Fragment_Dashboard(); break;
+        }
+        return userLevel;
+    }
 }

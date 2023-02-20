@@ -14,9 +14,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:theme="@style/GhostRiderMaterialTheme"
     android:padding="10dp">
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/lbl_accountNo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,14 +26,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/lbl_remarksCode"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Promise to Pay"
         app:layout_constraintTop_toBottomOf="@+id/lbl_accountNo" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/lbl_coordinates"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

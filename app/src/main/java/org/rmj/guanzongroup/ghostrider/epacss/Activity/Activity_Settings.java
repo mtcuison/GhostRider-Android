@@ -39,10 +39,21 @@ import androidx.preference.SwitchPreferenceCompat;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMSettings;
-import org.rmj.guanzongroup.ghostrider.epacss.themeController.ThemeHelper;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
 
 import static android.Manifest.permission.CAMERA;
 import static org.rmj.g3appdriver.etc.AppConstants.CAMERA_REQUEST;
@@ -66,7 +77,7 @@ public class Activity_Settings extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_activity);
-        Toolbar toolbar = findViewById(R.id.toolbar_settings);
+        MaterialToolbar toolbar = findViewById(R.id.toolbar_settings);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -122,7 +133,7 @@ public class Activity_Settings extends AppCompatActivity {
                         } else {
                             themePreference.getSummaryOff();
                         }
-                        ThemeHelper.applyTheme(themeOption);
+//                        ThemeHelper.applyTheme(themeOption);
                         return true;
                     }
                 });

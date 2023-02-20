@@ -40,7 +40,6 @@ import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_LocalData;
 import org.rmj.guanzongroup.ghostrider.settings.Dialog.Dialog_ChangePassword;
 import org.rmj.guanzongroup.ghostrider.settings.R;
 import org.rmj.guanzongroup.ghostrider.settings.ViewModel.VMSettings;
-import org.rmj.guanzongroup.ghostrider.settings.themeController.ThemeHelper;
 import org.rmj.guanzongroup.ghostrider.settings.utils.DatabaseExport;
 
 import static android.Manifest.permission.CAMERA;
@@ -52,7 +51,7 @@ import static org.rmj.g3appdriver.etc.AppConstants.STORAGE_REQUEST;
 
 public class Fragment_Settings  extends PreferenceFragmentCompat {
 
-    private SwitchPreferenceCompat themePreference;
+//    private SwitchPreferenceCompat themePreference;
     private Preference locationPref,
             cameraPref,
             phonePref,
@@ -70,7 +69,7 @@ public class Fragment_Settings  extends PreferenceFragmentCompat {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        themePreference = getPreferenceManager().findPreference("themePrefs");
+//        themePreference = getPreferenceManager().findPreference("themePrefs");
         cameraPref = getPreferenceManager().findPreference("cameraPrefs");
         locationPref = getPreferenceManager().findPreference("locationPrefs");
         phonePref = getPreferenceManager().findPreference("phonePrefs");
@@ -97,18 +96,18 @@ public class Fragment_Settings  extends PreferenceFragmentCompat {
 
         mViewModel.getCameraSummary().observe(getViewLifecycleOwner(),s -> cameraPref.setSummary(s));
 
-        if (themePreference != null) {
-            themePreference.setOnPreferenceChangeListener((preference, newValue) -> {
-                Boolean themeOption = (Boolean) newValue;
-                if (themeOption) {
-                    themePreference.getSummaryOn();
-                } else {
-                    themePreference.getSummaryOff();
-                }
-                ThemeHelper.applyTheme(themeOption);
-                return true;
-            });
-        }
+//        if (themePreference != null) {
+//            themePreference.setOnPreferenceChangeListener((preference, newValue) -> {
+//                Boolean themeOption = (Boolean) newValue;
+//                if (themeOption) {
+//                    themePreference.getSummaryOn();
+//                } else {
+//                    themePreference.getSummaryOff();
+//                }
+////                ThemeHelper.applyTheme(themeOption);
+//                return true;
+//            });
+//        }
         if (cameraPref != null) {
             cameraPref.setOnPreferenceClickListener(preference -> {
                 if ((ActivityCompat.checkSelfPermission(requireActivity(), CAMERA) != PackageManager.PERMISSION_GRANTED)) {

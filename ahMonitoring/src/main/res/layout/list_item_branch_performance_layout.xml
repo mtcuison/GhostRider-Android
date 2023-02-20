@@ -15,6 +15,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:theme="@style/GhostRiderMaterialTheme"
     android:orientation="vertical">
 
     <LinearLayout
@@ -26,46 +27,44 @@
         android:background="@android:color/transparent"
         android:gravity="center">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lbl_list_month"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:fontFamily="@font/roboto_medium"
-            android:textColor="@color/textColor_Black"
             android:text="Month"
             android:gravity="start"
             android:maxLines="2"/>
 
-        <View
+        <com.google.android.material.divider.MaterialDivider
             android:layout_width="1dp"
             android:layout_height="match_parent"
             android:background="@color/color_dadada"/>
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lbl_list_goal"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:fontFamily="@font/roboto_regular"
-            android:textColor="@color/textColor_Black"
             android:gravity="center"
             android:text="8:00 AM"/>
 
-        <View
+        <com.google.android.material.divider.MaterialDivider
             android:layout_width="1dp"
             android:layout_height="match_parent"
             android:background="@color/color_dadada"/>
-        <TextView
+
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lbl_list_actual"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:fontFamily="@font/roboto_regular"
-            android:textColor="@color/textColor_Black"
             android:gravity="center"
             android:text="8:00 AM"/>
     </LinearLayout>
-    <View
+    <com.google.android.material.divider.MaterialDivider
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/color_dadada"/>

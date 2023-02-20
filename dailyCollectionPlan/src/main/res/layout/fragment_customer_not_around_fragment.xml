@@ -16,7 +16,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Fragments.Fragment_PaidTransaction"
-    android:theme="@style/GhostRiderMaterialTheme.WhiteBG">
+    android:theme="@style/GhostRiderMaterialTheme.NoActionBar">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,46 +25,41 @@
         android:padding="10dp"
         android:gravity="center">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Daily Collection Plan"
             android:textSize="20sp"
             android:fontFamily="@font/roboto_bold"
-            android:textColor="@color/textColor_Black"
             android:layout_marginTop="5dp"/>
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lbl_headerBranch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
             android:fontFamily="@font/roboto_bold"
-            android:textColor="@color/textColor_Black"
             android:layout_marginTop="5dp"/>
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lbl_headerAddress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
-            android:fontFamily="@font/roboto_medium"
-            android:textColor="@color/textColor_Black"/>
+            android:fontFamily="@font/roboto_medium"/>
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Customer Not Around"
             android:textSize="18sp"
             android:fontFamily="@font/roboto_bold"
-            android:textColor="@color/textColor_Black"
             android:layout_marginTop="15dp"/>
 
-        <View
+        <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"
             android:layout_height="1.5dp"
-            android:layout_marginTop="5dp"
-            android:background="@color/guanzon_orange"/>
+            android:layout_marginTop="5dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -72,21 +67,19 @@
             android:orientation="horizontal"
             android:layout_marginTop="10dp">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight=".5"
                 android:text="Account No. :"
-                android:fontFamily="@font/roboto_regular"
-                android:textColor="@color/textColor_Black"/>
+                android:fontFamily="@font/roboto_regular"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_dcpAccNo"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="@font/roboto_medium"
-                android:textColor="@color/textColor_Black"
                 android:gravity="end"/>
         </LinearLayout>
 
@@ -96,21 +89,19 @@
             android:orientation="horizontal"
             android:layout_marginTop="3dp">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight=".5"
                 android:text="Client Name :"
-                android:fontFamily="@font/roboto_regular"
-                android:textColor="@color/textColor_Black"/>
+                android:fontFamily="@font/roboto_regular"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_dcpClientNm"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="@font/roboto_medium"
-                android:textColor="@color/textColor_Black"
                 android:gravity="end"/>
         </LinearLayout>
 
@@ -120,21 +111,19 @@
             android:orientation="horizontal"
             android:layout_marginTop="3dp">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight=".5"
                 android:text="Address :"
-                android:fontFamily="@font/roboto_regular"
-                android:textColor="@color/textColor_Black"/>
+                android:fontFamily="@font/roboto_regular"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_dcpClientAddress"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="@font/roboto_medium"
-                android:textColor="@color/textColor_Black"
                 android:gravity="end"/>
         </LinearLayout>
 
@@ -151,7 +140,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <RadioButton
+                <com.google.android.material.radiobutton.MaterialRadioButton
                     android:id="@+id/rb_contactNox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -160,7 +149,7 @@
                     android:checked="true"
                     android:layout_marginHorizontal="10dp"/>
 
-                <RadioButton
+                <com.google.android.material.radiobutton.MaterialRadioButton
                     android:id="@+id/rb_address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -203,15 +192,13 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <CheckBox
+            <com.google.android.material.checkbox.MaterialCheckBox
                 android:id="@+id/cb_primaryContact"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight=".7"
-                android:buttonTint="@color/guanzon_digital_orange"
                 android:fontFamily="@font/roboto_regular"
                 android:text="Primary Contact"
-                android:textColor="@color/material_black"
                 tools:ignore="HardcodedText"
                 tools:targetApi="lollipop" />
 
@@ -251,7 +238,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <RadioButton
+                <com.google.android.material.radiobutton.MaterialRadioButton
                     android:id="@+id/rb_permanent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -259,7 +246,7 @@
                     android:text="@string/sLabelPermAddress"
                     android:layout_marginHorizontal="10dp"/>
 
-                <RadioButton
+                <com.google.android.material.radiobutton.MaterialRadioButton
                     android:id="@+id/rb_present"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -318,7 +305,7 @@
                 android:hint="@string/sTown"
                 android:layout_marginTop="5dp">
 
-                <AutoCompleteTextView
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/txt_dcpCNA_town"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -336,7 +323,7 @@
                 android:hint="@string/sBrgy"
                 android:layout_marginTop="5dp">
 
-                <AutoCompleteTextView
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/txt_dcpCNA_brgy"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -347,15 +334,13 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <CheckBox
+            <com.google.android.material.checkbox.MaterialCheckBox
                 android:id="@+id/cb_primary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight=".7"
-                android:buttonTint="@color/guanzon_dark_grey"
                 android:fontFamily="@font/roboto_regular"
                 android:text="Primary Address"
-                android:textColor="@color/black"
                 tools:ignore="HardcodedText"
                 tools:targetApi="lollipop" />
         </LinearLayout>

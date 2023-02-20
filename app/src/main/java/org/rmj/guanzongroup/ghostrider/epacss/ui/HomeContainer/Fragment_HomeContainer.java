@@ -19,20 +19,29 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
 
-import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
+
 import org.rmj.g3appdriver.dev.DeptCode;
+import org.rmj.guanzongroup.ghostrider.Fragment.Fragment_PanaloContainer;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Etc.FragmentAdapter;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMHomeContainer;
 import org.rmj.guanzongroup.ghostrider.epacss.ui.home.Fragment_Associate_Dashboard;
-import org.rmj.guanzongroup.ghostrider.epacss.ui.home.Fragment_BH_Dashboard;
+import org.rmj.guanzongroup.ghostrider.epacss.ui.home.Fragment_BH_Home;
 import org.rmj.guanzongroup.ghostrider.epacss.ui.home.Fragment_Home;
 import org.rmj.guanzongroup.ghostrider.notifications.Fragment.Fragment_NotificationList;
 
@@ -45,17 +54,17 @@ public class Fragment_HomeContainer extends Fragment {
     private TabLayout tabLayout;
     private ViewPager viewPager;
 
-    private ImageView imgHeader;
+    private ShapeableImageView imgHeader;
 
     private Fragment[] fragment;
 
     private final int[] toggled_icons = {R.drawable.ic_home_dashboard_toggled,
-                                        R.drawable.ic_home_notification_toggled};
+                                        R.drawable.ic_home_notification_toggled,
+                                        R.drawable.ic_baseline_checklist_24};
 
     private final int[] icons = {R.drawable.ic_home_dashboard,
-                                R.drawable.ic_home_notification};
-
-    private final String[] header = {"Dashboard", "Messages", "Notifications"};
+                                R.drawable.ic_home_notification,
+                                R.drawable.ic_baseline_checklist_24};
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -71,17 +80,17 @@ public class Fragment_HomeContainer extends Fragment {
             try {
                 if(eEmployeeInfo.getEmpLevID() == DeptCode.LEVEL_RANK_FILE ||
                         eEmployeeInfo.getEmpLevID() == DeptCode.LEVEL_SUPERVISOR){
-                    fragment = new Fragment[]{new Fragment_Associate_Dashboard(), new Fragment_NotificationList()};
+                    fragment = new Fragment[]{new Fragment_Associate_Dashboard(), new Fragment_NotificationList(), new Fragment_PanaloContainer()};
                     appBarHome.setVisibility(View.VISIBLE);
-                    imgHeader.setImageResource(R.drawable.img_associate);
+//                    imgHeader.setImageResource(R.drawable.img_associate);
                 }  else if(eEmployeeInfo.getEmpLevID() == DeptCode.LEVEL_BRANCH_HEAD) {
-                    fragment = new Fragment[]{new Fragment_BH_Dashboard(), new Fragment_NotificationList()};
+                    fragment = new Fragment[]{new Fragment_BH_Home(), new Fragment_NotificationList()};
                     appBarHome.setVisibility(View.VISIBLE);
-                    imgHeader.setImageResource(R.drawable.img_bh_header);
+//                    imgHeader.setImageResource(R.drawable.img_bh_header);
                 } else {
                     fragment = new Fragment[]{new Fragment_Home()};
                     appBarHome.setVisibility(View.GONE);
-                    imgHeader.setImageResource(R.drawable.img_ah_header);
+//                    imgHeader.setImageResource(R.drawable.img_ah_header);
 
                     mViewModel.getUnreadNotificationsCount().observe(getViewLifecycleOwner(), userNotificationInfos -> {
                         try {

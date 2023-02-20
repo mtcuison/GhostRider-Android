@@ -17,6 +17,22 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
+import com.google.android.material.radiobutton.MaterialRadioButton;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+import  com.google.android.material.checkbox.MaterialCheckBox;
+
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -50,32 +66,32 @@ public class Activity_Dependent extends AppCompatActivity {
     private Dependent.DependentInfo poDpndt;
 
     private TextInputEditText tieFullname, tieDpdAgexx, tieSchoolNm, tieSchlAddx;
-    private AutoCompleteTextView tieSchlTown;
+    private MaterialAutoCompleteTextView tieSchlTown;
     private TextInputEditText tieCompName;
     private LinearLayout linearStudent,
                         linearEmployd;
     private RecyclerView recyclerView;
 
-    private AutoCompleteTextView actRelationx,
+    private MaterialAutoCompleteTextView actRelationx,
                                 actSchoolLvl;
     private RadioGroup rgSchoolTpe, rgEmpSctr;
-    private RadioButton rbScPblc,
+    private MaterialRadioButton rbScPblc,
             rbScPrvt,
             rbEmPblc,
             rbEmPrvt,
             rbEmOFW;
 
     private MaterialButton btnAddDependent;
-    private CheckBox cbStudent,
+    private MaterialCheckBox cbStudent,
                     cbEmployee,
                     cbScholarxx,
                     cbDependent,
                     cbHouseHold,
                     cbIsMarried;
-    private Button btnAdd,
+    private MaterialButton btnAdd,
                     btnPrev,
                     btnNext;
-    private Toolbar toolbar;
+    private MaterialToolbar toolbar;
 
     private String TransNox;
 
@@ -190,6 +206,7 @@ public class Activity_Dependent extends AppCompatActivity {
     }
 
 
+    @SuppressLint("WrongViewCast")
     private void initWidgets() {
         toolbar = findViewById(R.id.toolbar_Dependent);
         setSupportActionBar(toolbar);

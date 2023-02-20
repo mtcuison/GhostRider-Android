@@ -18,6 +18,15 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -57,10 +66,9 @@ public class Activity_CashCountSubmit extends AppCompatActivity {
             txtTotalSalesxx,
             txtTransNox,
             txtRemarksx;
-    private Button btnSendToServer;
+    private MaterialButton btnSendToServer;
 
-    private TextView lblBranch, lblAddxx;
-    ImageButton btnQuickSearch;
+    private MaterialTextView lblBranch, lblAddxx, btnQuickSearch;
 
     private LoadDialog poDialogx;
     private MessageBox poMessage;

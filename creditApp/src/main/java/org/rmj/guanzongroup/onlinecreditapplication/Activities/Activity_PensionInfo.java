@@ -16,7 +16,19 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+import  com.google.android.material.checkbox.MaterialCheckBox;
+
 
 import org.json.JSONException;
 import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
@@ -36,11 +48,11 @@ public class Activity_PensionInfo extends AppCompatActivity {
     private VMPensionInfo mViewModel;
     private MessageBox poMessage;
 
-    private AutoCompleteTextView spnSector;
+    private MaterialAutoCompleteTextView spnSector;
     private String sectorPosition = "-1";
     private TextInputEditText txtRangxx, txtYearxx, txtOthInc, txtRngInc;
-    private Button btnPrvs, btnNext;
-    private Toolbar toolbar;
+    private MaterialButton btnPrvs, btnNext;
+    private MaterialToolbar toolbar;
 
     private String TransNox;
 

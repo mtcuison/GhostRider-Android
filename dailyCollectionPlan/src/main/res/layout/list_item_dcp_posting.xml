@@ -7,13 +7,12 @@
     android:gravity="center_vertical"
     android:padding="5dp">
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/lbl_entryNox"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:gravity="center"
         android:layout_weight=".1"
-        android:textColor="@color/material_black"
         android:fontFamily="@font/roboto_regular"/>
 
     <LinearLayout
@@ -22,29 +21,26 @@
         android:layout_weight="1"
         android:orientation="vertical">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lbl_AccountNo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/material_black"
             android:fontFamily="@font/roboto_regular"/>
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lbl_AccountNm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/material_black"
             android:fontFamily="@font/roboto_regular"/>
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lbl_remarksCode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/material_black"
             android:fontFamily="@font/roboto_regular"/>
     </LinearLayout>
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/img_dcp_status"
         android:layout_width="0dp"
         android:layout_height="match_parent"

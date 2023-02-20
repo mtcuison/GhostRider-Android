@@ -15,6 +15,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:theme="@style/GhostRiderMaterialTheme"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingVertical="5dp"
     android:paddingHorizontal="10dp">
@@ -46,7 +47,7 @@
                 android:progressTint="@color/guanzon_digital_orange"
                 tools:ignore="UnusedAttribute" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_spSales"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -54,7 +55,6 @@
                 android:gravity="center"
                 android:fontFamily="@font/roboto_regular"
                 android:text="90"
-                android:textColor="@color/white"
                 android:textSize="10sp"/>
 
         </LinearLayout>
@@ -79,7 +79,7 @@
                 tools:ignore="UnusedAttribute"
                 android:progressTint="#393939"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_mcSales"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -87,7 +87,6 @@
                 android:gravity="center"
                 android:fontFamily="@font/roboto_regular"
                 android:text="90"
-                android:textColor="@color/white"
                 android:textSize="10sp"/>
 
         </LinearLayout>
@@ -114,7 +113,7 @@
                 android:progressTintMode="multiply"
                 tools:ignore="UnusedAttribute" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_jbOrder"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -122,14 +121,13 @@
                 android:gravity="center"
                 android:fontFamily="@font/roboto_regular"
                 android:text="90"
-                android:textColor="@color/white"
                 android:textSize="10sp"/>
 
         </LinearLayout>
 
     </LinearLayout>
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/lbl_AreaBranchItem"
         android:layout_width="fill_parent"
         android:layout_height="0dp"

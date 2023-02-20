@@ -1,25 +1,31 @@
 R_DEF: Internal format may change without notice
 local
+drawable guanzon_panalo_banner
 drawable img_qr_code
 id ViewPager
 id btn_dialogClaim
 id btn_dialogClose
+id imageView3
 id imgLogo
+id lblBranch
 id lblQty
 id lblRwrdDte
 id lblRwrdNme
 id lblRwrdType
+id lblUserID
 id lbl_dialogLocation
 id lbl_dialogTime
 id recyclerView
+id rlEmpty
 id tabLayout
+id textView
 id toolbar2
 id view
 layout activity_panalo
 layout dialog_qr_redeem
-layout fragment__redemption
 layout fragment_panalo_container
 layout fragment_raffle
 layout fragment_rewards
+layout list_item_raffle
 layout list_item_rewards
 string hello_blank_fragment

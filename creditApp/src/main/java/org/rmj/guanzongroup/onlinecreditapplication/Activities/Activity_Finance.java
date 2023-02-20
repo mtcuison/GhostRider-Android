@@ -10,13 +10,26 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+import  com.google.android.material.checkbox.MaterialCheckBox;
+
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONException;
 import org.rmj.g3appdriver.dev.Database.Entities.ECountryInfo;
@@ -35,14 +48,14 @@ import java.util.Objects;
 public class Activity_Finance extends AppCompatActivity {
 
     private VMFinancierInfo mViewModel;
-    private AutoCompleteTextView spnRelation;
+    private MaterialAutoCompleteTextView spnRelation;
     private String relationX = "-1";
     private TextInputEditText txtFNamex, txtFIncme, txtFMoble, txtFFacbk, txtFEmail;
     private MessageBox poMessage;
-    private AutoCompleteTextView txtFCntry;
+    private MaterialAutoCompleteTextView txtFCntry;
 
-    private Button btnNext, btnPrvs;
-    private Toolbar toolbar;
+    private MaterialButton btnNext, btnPrvs;
+    private MaterialToolbar toolbar;
 
     private String TransNox;
 

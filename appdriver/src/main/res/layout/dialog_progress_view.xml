@@ -9,9 +9,10 @@
   ~ project file last modified : 10/20/21, 3:14 PM
   -->
 
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:theme="@style/GhostRiderMaterialTheme"
     android:orientation="vertical"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -29,7 +30,7 @@
         android:paddingHorizontal="50dp"
         android:background="@drawable/background_dialog">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lbl_dialogTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -37,27 +38,24 @@
             android:textSize="21sp"
             android:textAlignment="center"
             android:gravity="center"
-            android:fontFamily="@font/roboto_bold"
-            android:textColor="@color/material_black"/>
+            android:fontFamily="@font/roboto_bold"/>
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lbl_dialogMessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Activating. Please wait..."
             android:textAlignment="center"
             android:layout_marginTop="10dp"
-            android:fontFamily="@font/roboto"
-            android:textColor="@color/material_black"/>
+            android:fontFamily="@font/roboto"/>
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lbl_progress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="1 out of 10"
             android:textAlignment="center"
-            android:fontFamily="@font/roboto"
-            android:textColor="@color/material_black"/>
+            android:fontFamily="@font/roboto"/>
 
         <ProgressBar
             android:id="@+id/progress_loading"
@@ -68,4 +66,4 @@
 
     </LinearLayout>
 
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

@@ -6,6 +6,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -53,7 +62,7 @@ public class Adapter_RequestLeaveObApplication extends RecyclerView.Adapter<Adap
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         LeaveApprovalInfo requestNamesInfoModel;
-        TextView textView;
+        MaterialTextView textView;
         public ViewHolder(@NonNull View itemView, final onItemClickListener listener) {
             super(itemView);
             textView = itemView.findViewById(R.id.lbl_employeeName);

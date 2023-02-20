@@ -27,6 +27,20 @@ import org.rmj.g3appdriver.etc.SingleClickListener;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+import  com.google.android.material.checkbox.MaterialCheckBox;
+
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -93,13 +107,13 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
     public static class CollectionViewHolder extends RecyclerView.ViewHolder{
 
         public EDCPCollectionDetail loPlan;
-        public TextView lblAcctNo;
-        public TextView lblClient;
-        public TextView lblAdd1xx;
-        public TextView lblMobile;
-        public TextView lblAmount;
-        public TextView lblStatus;
-        public TextView lblMnthAm;
+        public MaterialTextView lblAcctNo;
+        public MaterialTextView lblClient;
+        public MaterialTextView lblAdd1xx;
+        public MaterialTextView lblMobile;
+        public MaterialTextView lblAmount;
+        public MaterialTextView lblStatus;
+        public MaterialTextView lblMnthAm;
 
         public CollectionViewHolder(@NonNull View itemView, OnItemClickListener listener) {
             super(itemView);

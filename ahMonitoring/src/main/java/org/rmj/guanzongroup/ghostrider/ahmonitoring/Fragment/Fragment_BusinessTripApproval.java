@@ -19,7 +19,17 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
@@ -55,9 +65,9 @@ public class Fragment_BusinessTripApproval extends Fragment implements VMObAppro
             txtPurpose,
             tieDateFrom,
             tieDateThru;
-    private ImageButton btnQuickSearch;
+    private MaterialButton btnQuickSearch;
     private MaterialButton btnCancel, bntConfirm;
-    private TextView
+    private MaterialTextView
             lblBranchNm,
             lblBranchAd,
             lblTransNox,
@@ -66,7 +76,7 @@ public class Fragment_BusinessTripApproval extends Fragment implements VMObAppro
             lblDateFrom,
             lblDateThru,
             lblDateAppx;
-    private CardView cvLeaveOb;
+    private MaterialCardView cvLeaveOb;
 
     private TextInputLayout tilRemarks;
     private LoadDialog poDialogx;

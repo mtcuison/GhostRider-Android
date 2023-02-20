@@ -11,6 +11,7 @@
 
 package org.rmj.guanzongroup.onlinecreditapplication.Adapter;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,19 @@ import com.google.android.material.button.MaterialButton;
 
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Dependent;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
+
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+import  com.google.android.material.checkbox.MaterialCheckBox;
 
 import java.util.List;
 
@@ -47,6 +61,7 @@ public class DependentAdapter extends RecyclerView.Adapter<DependentAdapter.Item
         return new ItemViewHolder(view);
     }
 
+    @SuppressLint("RecyclerView")
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
         Dependent.DependentInfo dependentsInfoModel = infoModels.get(position);
@@ -66,8 +81,8 @@ public class DependentAdapter extends RecyclerView.Adapter<DependentAdapter.Item
     }
 
     public static class ItemViewHolder extends RecyclerView.ViewHolder{
-        private TextView lblDpdName;
-        private TextView lblDpdRelation;
+        private MaterialTextView lblDpdName;
+        private MaterialTextView lblDpdRelation;
         private MaterialButton btnRemove;
         public ItemViewHolder(@NonNull View itemView) {
             super(itemView);

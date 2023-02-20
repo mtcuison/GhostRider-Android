@@ -24,15 +24,24 @@ import android.widget.CheckBox;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+import  com.google.android.material.checkbox.MaterialCheckBox;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.FormatUIText;
@@ -66,12 +75,12 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
 
     private final DecimalFormat formatter = new DecimalFormat("###,###,##0.00");
 
-    private CheckBox cbCheckPymnt;
-    private TextView lblBranch, lblAddress, lblAccNo, lblClientNm, lblTransNo;
-    private Spinner spnType;
+    private MaterialCheckBox cbCheckPymnt;
+    private MaterialTextView lblBranch, lblAddress, lblAccNo, lblClientNm, lblTransNo;
+    private MaterialAutoCompleteTextView spnType;
     private TextInputEditText txtPrNoxx, txtRemarks, txtAmount, txtRebate, txtOthers, txtTotAmnt;
     private TextInputLayout tilDiscount, tilPenaly;
-    private Button btnAmort, btnRBlnce, btnClear;
+    private MaterialButton btnAmort, btnRBlnce, btnClear;
     private MaterialButton btnConfirm;
 
     public static Fragment_PaidTransaction newInstance() {
@@ -265,7 +274,7 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
 
         btnConfirm.setOnClickListener(v -> {
             poPaid.setRemarks(Remarksx);
-            poPaid.setPayment(String.valueOf(spnType.getSelectedItemPosition()));
+            poPaid.setPayment(String.valueOf(spnType.getText()));
             poPaid.setPrNoxxx(Objects.requireNonNull(txtPrNoxx.getText()).toString());
             poPaid.setRemarks(Objects.requireNonNull(txtRemarks.getText()).toString());
             poPaid.setAmountx(FormatUIText.getParseDouble(Objects.requireNonNull(txtAmount.getText()).toString()));

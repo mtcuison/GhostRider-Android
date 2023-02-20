@@ -14,6 +14,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:theme="@style/GhostRiderMaterialTheme"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragment.Fragment_ViewMessages">
 
@@ -45,13 +46,12 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <ImageButton
+        <com.google.android.material.button.MaterialButton
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="4"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:src="@drawable/ic_message_send"
-            android:tint="@color/material_black"
+            style="@style/Widget.MaterialComponents.Button"
+            app:icon="@drawable/ic_message_send"
             android:layout_marginBottom="10dp"/>
     </LinearLayout>
 

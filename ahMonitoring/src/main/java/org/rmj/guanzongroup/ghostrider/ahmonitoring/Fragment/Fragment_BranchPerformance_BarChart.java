@@ -26,7 +26,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
@@ -49,12 +59,10 @@ public class Fragment_BranchPerformance_BarChart extends Fragment {
     private String brnCD;
     ArrayList<Entry> chartValues;
     private LineChart lineChart;
-    private TextView lblBranch, lgdGoal, lgdActual, lgdExcess;
+    private MaterialTextView lblBranch, lgdGoal, lgdActual, lgdExcess;
 
     private ColorStateList poColor;
-    private TextView lblItem1;
-    private TextView lblItem2;
-    private TextView lblSelectd;
+    private MaterialTextView lblItem1, lblItem2, lblSelectd;
 
     public Fragment_BranchPerformance_BarChart() { }
 

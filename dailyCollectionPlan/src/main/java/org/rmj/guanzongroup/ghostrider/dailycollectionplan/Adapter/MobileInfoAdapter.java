@@ -23,6 +23,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DMobileUpdate;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+import  com.google.android.material.checkbox.MaterialCheckBox;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,9 +79,9 @@ public class MobileInfoAdapter extends RecyclerView.Adapter<MobileInfoAdapter.Mo
     }
 
     class MobilenoxHolder extends RecyclerView.ViewHolder {
-        private TextView tvDetails;
-        private TextView tvPrimary;
-        private ImageView icDelete;
+        private MaterialTextView tvDetails;
+        private MaterialTextView tvPrimary;
+        private ShapeableImageView icDelete;
 
         public MobilenoxHolder(@NonNull View itemView, OnItemInfoClickListener listener) {
             super(itemView);

@@ -21,8 +21,20 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+import  com.google.android.material.checkbox.MaterialCheckBox;
+
 
 import org.json.JSONException;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
@@ -50,7 +62,7 @@ public class Activity_SpouseInfo extends AppCompatActivity {
     private MobileNo[] poMobile = new MobileNo[3];
     private MessageBox poMessage;
 
-    private AutoCompleteTextView
+    private MaterialAutoCompleteTextView
             txtProvince, txtTownxx, txtCitizenx;
     private TextInputEditText
             txtLastName, txtFirstName, txtSuffix, txtMiddName, txtNickName,
@@ -61,11 +73,11 @@ public class Activity_SpouseInfo extends AppCompatActivity {
     private String transnox;
 
     private TextInputLayout tilMobileYr1, tilMobileYr2, tilMobileYr3;
-    private CheckBox cbMobile1, cbMobile2, cbMobile3;
+    private MaterialCheckBox cbMobile1, cbMobile2, cbMobile3;
 
 
-    private Button btnNext, btnPrvs;
-    private Toolbar toolbar;
+    private MaterialButton btnNext, btnPrvs;
+    private MaterialToolbar toolbar;
 
     private String TransNox;
 

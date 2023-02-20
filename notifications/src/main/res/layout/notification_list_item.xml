@@ -14,6 +14,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:theme="@style/GhostRiderMaterialTheme"
     android:orientation="vertical">
 
     <LinearLayout
@@ -22,7 +23,7 @@
         android:orientation="horizontal"
         android:paddingHorizontal="10dp"
         android:paddingVertical="3dp">
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/img_messageSender"
             android:layout_width="match_parent"
             android:layout_height="60dp"
@@ -46,18 +47,17 @@
                 android:gravity="center"
                 android:layout_marginBottom="3dp">
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/lbl_messageSender"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textSize="16sp"
-                    android:textColor="@color/textColor_Black"
                     android:maxLines="1"
                     android:ellipsize="end"
                     android:fontFamily="@font/roboto_medium" />
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/lbl_messageDateTime"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -65,24 +65,21 @@
                     android:ellipsize="end"
                     android:fontFamily="@font/roboto_medium"
                     android:gravity="end"
-                    android:maxLines="1"
-                    android:textColor="@color/textColor_Black" />
+                    android:maxLines="1" />
             </LinearLayout>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_messageTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/textColor_Black"
                 android:maxLines="1"
                 android:ellipsize="end"
                 android:fontFamily="@font/roboto_medium"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_messageBody"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/material_black"
                 android:maxLines="1"
                 android:ellipsize="end"
                 android:fontFamily="@font/roboto_regular"/>
@@ -94,6 +91,5 @@
     <!--    NOTIFICATION DIVIDER-->
     <View
         android:layout_width="match_parent"
-        android:layout_height=".5dp"
-        android:background="@color/hint_color"/>
+        android:layout_height=".5dp"/>
 </LinearLayout>

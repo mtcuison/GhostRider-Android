@@ -13,8 +13,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:theme="@style/GhostRiderMaterialTheme.WhiteBG"
-    style="@style/MasterViewGroupStyle_Light"
+    android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="25dp"
     tools:context=".UserInterface.CreateAccount.Fragment_CreateAccount">
 
     <ScrollView
@@ -40,25 +42,23 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tvCreateAcc"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="@style/PrimaryHeaderStyle"
                     android:text="@string/create_account"
-                    android:textColor="@color/footer_dark_grey"
                     android:textSize="23sp"
                     app:layout_constraintBottom_toTopOf="@id/tvCreateDesc"
                     app:layout_constraintStart_toStartOf="parent" />
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tvCreateDesc"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="@style/DescriptionHeaderStyle"
                     android:text="@string/create_account_description"
-                    android:textColor="@color/footer_dark_grey"
-                    android:textSize="14sp"
+                   android:textSize="14sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvCreateAcc"
                     android:layout_marginTop="3dp"/>
@@ -262,49 +262,47 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_createAccount"
-                    style="@style/GhostRider_Button"
                     android:layout_marginTop="36dp"
                     android:text="@string/button_send_verification"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/til_ca_mobileNumber"/>
+                    app:layout_constraintTop_toBottomOf="@id/til_ca_mobileNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tvCompany"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="3dp"
                 android:fontFamily="@font/roboto_bold"
                 android:text="@string/sLblCompName"
-                android:textColor="@color/footer_dark_grey"
                 android:textSize="13sp"
                 app:layout_constraintBottom_toTopOf="@+id/tvCopyright"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tvCopyright"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_light"
                 android:text="@string/sLblCopyright"
-                android:textColor="@color/footer_dark_grey"
                 android:textSize="11sp"
                 android:layout_marginBottom="3dp"
                 app:layout_constraintBottom_toTopOf="@+id/lbl_versionInfo"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_versionInfo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_light"
                 android:text="@string/lblBuildVersion"
-                android:textColor="@color/footer_dark_grey"
                 android:textSize="11sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

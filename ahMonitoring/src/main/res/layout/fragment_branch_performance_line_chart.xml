@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:orientation="vertical"
-tools:context=".Fragment.Fragment_BranchPerformance_LineChart">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:theme="@style/GhostRiderMaterialTheme"
+    android:orientation="vertical"
+    tools:context=".Fragment.Fragment_BranchPerformance_LineChart">
 
     <RelativeLayout
         android:id="@+id/cl_header"
@@ -13,7 +14,7 @@ tools:context=".Fragment.Fragment_BranchPerformance_LineChart">
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/img_bg_guanzon_orange"
             android:layout_width="match_parent"
             android:layout_height="200dp"
@@ -31,7 +32,7 @@ tools:context=".Fragment.Fragment_BranchPerformance_LineChart">
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tvBranch"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -40,12 +41,11 @@ tools:context=".Fragment.Fragment_BranchPerformance_LineChart">
                     android:gravity="center"
                     android:text="UEMI Brooke's Point - YAMAHA"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@color/textColor_White"
                     android:textSize="20sp" />
 
                 <include layout="@layout/custom_tab_ah" />
 
-                <androidx.cardview.widget.CardView
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginHorizontal="10dp"
@@ -75,44 +75,41 @@ tools:context=".Fragment.Fragment_BranchPerformance_LineChart">
                             android:orientation="horizontal"
                             android:padding="5dp">
 
-                            <TextView
+                            <com.google.android.material.textview.MaterialTextView
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
                                 android:fontFamily="@font/roboto_medium"
                                 android:gravity="center"
                                 android:maxLines="2"
-                                android:text="Month"
-                                android:textColor="@color/textColor_White" />
+                                android:text="Month"/>
 
-                            <View
+                            <com.google.android.material.divider.MaterialDivider
                                 android:layout_width="1dp"
                                 android:layout_height="match_parent"
                                 android:background="@color/color_dadada" />
 
-                            <TextView
+                            <com.google.android.material.textview.MaterialTextView
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
                                 android:fontFamily="@font/roboto_medium"
                                 android:gravity="center"
-                                android:text="Goal"
-                                android:textColor="@color/textColor_White" />
+                                android:text="Goal"/>
 
-                            <View
+                            <com.google.android.material.divider.MaterialDivider
                                 android:layout_width="1dp"
                                 android:layout_height="match_parent"
                                 android:background="@color/color_dadada" />
 
-                            <TextView
-                                android:id="@+id/lbl_list_actual"
+                            <com.google.android.material.textview.MaterialTextView
+                                    android:id="@+id/lbl_list_actual"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:fontFamily="@font/roboto_medium"
                                 android:gravity="center"
-                                android:text="Actual"
-                                android:textColor="@color/textColor_White" />
+                                android:text="Actual" />
                         </LinearLayout>
 
                         <androidx.core.widget.NestedScrollView
@@ -137,7 +134,7 @@ tools:context=".Fragment.Fragment_BranchPerformance_LineChart">
 
                     </LinearLayout>
 
-                </androidx.cardview.widget.CardView>
+                </com.google.android.material.card.MaterialCardView>
 
             </LinearLayout>
 

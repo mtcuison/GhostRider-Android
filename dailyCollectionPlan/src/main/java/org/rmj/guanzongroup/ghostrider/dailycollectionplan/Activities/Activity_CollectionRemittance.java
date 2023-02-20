@@ -27,8 +27,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 
+
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+import  com.google.android.material.checkbox.MaterialCheckBox;
+
 
 import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.g3appdriver.etc.LoadDialog;
@@ -46,8 +58,8 @@ public class Activity_CollectionRemittance extends AppCompatActivity {
     private MessageBox poMessage;
     private Remittance poRemit;
 
-    private Toolbar toolbar;
-    private TextView lblBranch,
+    private MaterialToolbar toolbar;
+    private MaterialTextView lblBranch,
             lblAddrss,
             lblCltdCash,
             lblCltdChck,
@@ -56,12 +68,12 @@ public class Activity_CollectionRemittance extends AppCompatActivity {
             lblRmtOther,
             lblOHCashxx,
             lblOHCheckx;
-    public AutoCompleteTextView txtBranch, txtAccNox;
+    public MaterialAutoCompleteTextView txtBranch, txtAccNox;
     private TextInputEditText txtAmount, txtAccName, txtRefNox;
     private LinearLayout linearBrnch, linearBank;
     private TextInputLayout tilRefNox;
     private RadioGroup rgRemitType, rgRemitance;
-    private Button btnRemitAll, btnRemit;
+    private MaterialButton btnRemitAll, btnRemit;
 
     private String psCltCashx = "0.0",
             psCltCheck = "0.0";

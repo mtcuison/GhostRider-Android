@@ -42,6 +42,18 @@ import org.rmj.g3appdriver.lib.PetManager.pojo.OBApplication;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMObApplication;
 
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -54,10 +66,10 @@ public class Fragment_ObApplication extends Fragment {
     public static final String TAG = Fragment_ObApplication.class.getSimpleName();
     private VMObApplication mViewModel;
 
-    private TextView lblTransNox, lblUsername, lblPosition, lblBranch;
+    private MaterialTextView lblTransNox, lblUsername, lblPosition, lblBranch;
     private LinearLayout lnWithoutLog;
     private Button btnSubmit;
-    private AutoCompleteTextView txtBranchDestination;
+    private MaterialAutoCompleteTextView txtBranchDestination;
     private TextInputEditText txtDateFrom,
                                 txtDateTo,
                                 txtNoDays,

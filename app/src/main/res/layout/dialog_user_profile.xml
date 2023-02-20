@@ -10,7 +10,7 @@
   ~ project file last modified : 4/24/21 3:17 PM
   -->
 
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -30,7 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/imageView2"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
@@ -49,14 +49,14 @@
                 android:gravity="center"
                 app:layout_constraintBottom_toBottomOf="@+id/imageView2">
 
-                <ImageView
+                <com.google.android.material.imageview.ShapeableImageView
                     android:layout_width="120dp"
                     android:layout_height="120dp"
                     android:src="@drawable/ic_user_profile"
                     android:scaleType="centerInside"
                     android:layout_marginBottom="30dp"/>
 
-                <View
+                <com.google.android.material.divider.MaterialDivider
                     android:layout_width="match_parent"
                     android:layout_height="1.5dp"
                     android:layout_marginVertical="10dp"
@@ -69,72 +69,67 @@
                     android:gravity="center"
                     android:orientation="vertical">
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
+
                         android:id="@+id/dialog_lbl_employeeName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
                         android:fontFamily="@font/roboto_black"
                         android:text="Garcia, Michael P."
-                        android:textColor="@color/material_black"
                         android:textSize="20sp" />
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/dialog_lbl_employeeEmail"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
                         android:fontFamily="@font/roboto_medium"
-                        android:text="mikegarcia8748@gmail.com"
-                        android:textColor="@color/material_black" />
+                        android:text="mikegarcia8748@gmail.com"/>
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/dialog_lbl_employeeMobileNo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
                         android:fontFamily="@font/roboto_medium"
-                        android:text="091718700111"
-                        android:textColor="@color/material_black" />
+                        android:text="091718700111" />
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/dialog_lbl_employeePosition"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
                         android:fontFamily="@font/roboto_medium"
-                        android:text="MIS Department"
-                        android:textColor="@color/material_black" />
+                        android:text="MIS Department"/>
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/dialog_lbl_location"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_medium"
                         android:text="address"
-                        android:gravity="center"
-                        android:textColor="@color/material_black" />
+                        android:gravity="center"/>
 
                 </LinearLayout>
 
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <View
+        <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/guanzon_orange"
             android:layout_marginTop="10dp"/>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_dialogClose"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Cancel"
             app:rippleColor="@color/guanzon_orange"
-            android:textColor="@color/material_black"
-            style="@style/Widget.AppCompat.Button.Borderless"/>
+            style="@style/MaterialButtonAccent"/>
 
     </LinearLayout>
 
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

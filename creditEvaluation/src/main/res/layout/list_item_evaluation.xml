@@ -3,36 +3,34 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:theme="@style/GhostRiderMaterialTheme"
     android:orientation="vertical">
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/lbl_evalField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/roboto_regular"
         android:text="Sample"
         android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:textColor="@color/textColor_Black" />
+        android:paddingRight="5dp" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/lbl_evalTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/roboto_regular"
         android:text="Sample"
         android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:textColor="@color/textColor_Black" />
+        android:paddingRight="5dp"/>
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/lbl_evalLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/roboto_regular"
         android:text="Sample"
         android:paddingLeft="8dp"
-        android:paddingRight="8dp"
-        android:textColor="@color/textColor_Black" />
+        android:paddingRight="8dp"/>
 
     <RadioGroup
         android:id="@+id/rg_evaluator"
@@ -43,14 +41,14 @@
         android:paddingRight="8dp"
         android:paddingBottom="8dp">
 
-        <RadioButton
+        <com.google.android.material.radiobutton.MaterialRadioButton
             android:id="@+id/rb_correct"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Correct"
             android:layout_weight="1"/>
 
-        <RadioButton
+        <com.google.android.material.radiobutton.MaterialRadioButton
             android:id="@+id/rb_incorrect"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

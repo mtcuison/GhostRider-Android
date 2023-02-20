@@ -15,14 +15,24 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+import  com.google.android.material.checkbox.MaterialCheckBox;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 
 import org.json.JSONException;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
@@ -44,18 +54,18 @@ public class Activity_SpouseEmploymentInfo extends AppCompatActivity {
     private VMSpouseEmployment mViewModel;
     private MessageBox poMessage;
 
-    private AutoCompleteTextView spnCmpLvl, spnEmpLvl, spnBusNtr, spnEmpSts, spnServce;
-    private AutoCompleteTextView txtCntryx, txtProvNm, txtTownNm, txtJobNme;
+    private MaterialAutoCompleteTextView spnCmpLvl, spnEmpLvl, spnBusNtr, spnEmpSts, spnServce;
+    private MaterialAutoCompleteTextView txtCntryx, txtProvNm, txtTownNm, txtJobNme;
     private TextInputLayout tilCntryx, tilCompNm, tilJobTitle, tilCmpLvl, tilBizNature, tilEmpLvl;
     private TextInputEditText txtCompNm, txtCompAd, txtSpcfJb, txtLngthS, txtEsSlry, txtCompCn;
     private LinearLayout lnGovInfo, lnEmpInfo;
-    private Button btnNext, btnPrvs;
+    private MaterialButton btnNext, btnPrvs;
     private RadioButton rbPrivate, rbGovernment, rbOFW;
 
-    private CheckBox cbUniformYes, cbMilitaryYes;
-    private TextView lblBizNature;
+    private MaterialCheckBox cbUniformYes, cbMilitaryYes;
+    private MaterialTextView lblBizNature;
     private RadioGroup rgSectorx;
-    private Toolbar toolbar;
+    private MaterialToolbar toolbar;
 
     private String TransNox;
 

@@ -106,24 +106,6 @@ public class VMIntroductoryQuestion extends AndroidViewModel implements CreditAp
         return poApp.GetMonthlyAmortization(poAmort.getValue(), args1);
     }
 
-    public LiveData<ArrayAdapter<String>> GetApplicationType(){
-        MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
-        liveData.setValue(CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.APPLICATION_TYPE));
-        return liveData;
-    }
-
-    public LiveData<ArrayAdapter<String>> GetCustomerType(){
-        MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
-        liveData.setValue(CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.CUSTOMER_TYPE));
-        return liveData;
-    }
-
-    public LiveData<ArrayAdapter<String>> GetInstallmentTerm(){
-        MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
-        liveData.setValue(CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.INSTALLMENT_TERM));
-        return liveData;
-    }
-
     @Override
     public void InitializeApplication(Intent params) {
         Log.d(TAG, "No data to initialize on introductory question");

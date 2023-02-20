@@ -44,8 +44,21 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+
+import com.google.android.material.radiobutton.MaterialRadioButton;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+import  com.google.android.material.checkbox.MaterialCheckBox;
+
 
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
@@ -74,12 +87,12 @@ public class Fragment_CustomerNotAround extends Fragment {
     private MobileInfoAdapter mobileAdapter;
     private AddressInfoAdapter addressAdapter;
 
-    private CheckBox cbPrimeContact, cbPrimary;
-    private TextView lblBranch, lblAddress, lblAccNo, lblClientNm, lblClientAddress;
+    private MaterialCheckBox cbPrimeContact, cbPrimary;
+    private MaterialTextView lblBranch, lblAddress, lblAccNo, lblClientNm, lblClientAddress;
     private RadioGroup rg_CNA_Input, rg_addressType;
-    private RadioButton rb_permanent, rb_present;
+    private MaterialRadioButton rb_permanent, rb_present;
     private TextInputEditText txtContact, txtHouseNox, txtAddress, txtRemarks;
-    private AutoCompleteTextView txtTown, txtBrgy, spnRequestCode;
+    private MaterialAutoCompleteTextView txtTown, txtBrgy, spnRequestCode;
     private LinearLayout lnContactNox,
             lnAddress;
     private MaterialButton btnAdd, btnSubmit;

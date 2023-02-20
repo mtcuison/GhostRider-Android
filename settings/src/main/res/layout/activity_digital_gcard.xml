@@ -44,7 +44,6 @@
         android:text="GCard Qr Code Info"
         tools:ignore="HardcodedText"
         android:textSize="18sp"
-        android:textColor="@color/textColor_Black"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -73,7 +72,6 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/roboto_medium"
                 android:text="Source : "
-                android:textColor="@color/textColor_Black"
                 tools:ignore="HardcodedText" />
 
             <TextView
@@ -82,7 +80,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:fontFamily="@font/roboto_regular"
-                android:textColor="@color/textColor_Black"
                 tools:ignore="HardcodedText" />
         </LinearLayout>
 
@@ -98,7 +95,6 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/roboto_medium"
                 android:text="Device IMEI : "
-                android:textColor="@color/textColor_Black"
                 tools:ignore="HardcodedText" />
 
             <TextView
@@ -107,7 +103,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:fontFamily="@font/roboto_regular"
-                android:textColor="@color/textColor_Black"
                 tools:ignore="HardcodedText" />
         </LinearLayout>
 
@@ -123,7 +118,6 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/roboto_medium"
                 android:text="Card Number : "
-                android:textColor="@color/textColor_Black"
                 tools:ignore="HardcodedText" />
 
             <TextView
@@ -132,7 +126,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:fontFamily="@font/roboto_regular"
-                android:textColor="@color/textColor_Black"
                 tools:ignore="HardcodedText" />
         </LinearLayout>
 
@@ -148,7 +141,6 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/roboto_medium"
                 android:text="User ID : "
-                android:textColor="@color/textColor_Black"
                 tools:ignore="HardcodedText" />
 
             <TextView
@@ -157,7 +149,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:fontFamily="@font/roboto_regular"
-                android:textColor="@color/textColor_Black"
                 tools:ignore="HardcodedText" />
         </LinearLayout>
 
@@ -173,7 +164,6 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/roboto_medium"
                 android:text="Mobile No. : "
-                android:textColor="@color/textColor_Black"
                 tools:ignore="HardcodedText" />
 
             <TextView
@@ -182,7 +172,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:fontFamily="@font/roboto_regular"
-                android:textColor="@color/textColor_Black"
                 tools:ignore="HardcodedText" />
         </LinearLayout>
 
@@ -198,7 +187,6 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/roboto_medium"
                 android:text="Date Time : "
-                android:textColor="@color/textColor_Black"
                 tools:ignore="HardcodedText" />
 
             <TextView
@@ -207,7 +195,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:fontFamily="@font/roboto_regular"
-                android:textColor="@color/textColor_Black"
                 tools:ignore="HardcodedText" />
         </LinearLayout>
 
@@ -223,7 +210,6 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/roboto_medium"
                 android:text="Available Pts. : "
-                android:textColor="@color/textColor_Black"
                 tools:ignore="HardcodedText" />
 
             <TextView
@@ -232,7 +218,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:fontFamily="@font/roboto_regular"
-                android:textColor="@color/textColor_Black"
                 tools:ignore="HardcodedText" />
         </LinearLayout>
 
@@ -248,7 +233,6 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/roboto_medium"
                 android:text="Model Code : "
-                android:textColor="@color/textColor_Black"
                 tools:ignore="HardcodedText" />
 
             <TextView
@@ -257,7 +241,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:fontFamily="@font/roboto_regular"
-                android:textColor="@color/textColor_Black"
                 tools:ignore="HardcodedText" />
         </LinearLayout>
 
@@ -273,7 +256,6 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/roboto_medium"
                 android:text="Transaction No. : "
-                android:textColor="@color/textColor_Black"
                 tools:ignore="HardcodedText" />
 
             <TextView
@@ -282,7 +264,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:fontFamily="@font/roboto_regular"
-                android:textColor="@color/textColor_Black"
                 tools:ignore="HardcodedText" />
         </LinearLayout>
 
@@ -298,7 +279,6 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/roboto_medium"
                 android:text="PIN : "
-                android:textColor="@color/textColor_Black"
                 tools:ignore="HardcodedText" />
 
             <TextView
@@ -307,7 +287,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:fontFamily="@font/roboto_regular"
-                android:textColor="@color/textColor_Black"
                 tools:ignore="HardcodedText" />
         </LinearLayout>
 
