@@ -5,50 +5,8 @@
     android:theme="@style/GhostRiderMaterialTheme"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.Dashboard.Fragment_BHDashboard">
     android:scrollbars="none"
-    tools:context=".ui.home.Fragment_BH_Dashboard">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center_horizontal"
-        android:paddingTop="100dp">
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/lbl_BranchName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:fontFamily="@font/roboto_medium"/>
-
-        <include layout="@layout/custom_tab_bh" />
-
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginHorizontal="10dp"
-            app:cardBackgroundColor="@color/material_lightgrey"
-            app:cardElevation="5dp"
-            app:cardCornerRadius="10dp"
-            app:cardMaxElevation="10dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingTop="5dp">
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/lbl_performance_current_period"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_regular"
-                    android:gravity="center"
-                    android:padding="5dp" />
-
+    tools:context=".ui.Dashboard.Fragment_BHDashboard">
 
     <org.rmj.guanzongroup.ghostrider.epacss.ui.etc.NonSwipeableViewPager
         android:id="@+id/viewpager"
@@ -58,57 +16,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:padding="10dp">
-
-                        <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/lbl_performance_progress"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textSize="22sp"
-                            android:fontFamily="@font/roboto_regular"/>
-
-                        <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/lbl_performance_progress_percentage"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_regular"/>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:padding="10dp">
-
-                        <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/lbl_performance_goal"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textSize="22sp"
-                            android:fontFamily="@font/roboto_regular"
-                            android:gravity="end"/>
-
-                        <com.google.android.material.textview.MaterialTextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_regular"
-                            android:gravity="end"/>
-
-                    </LinearLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/botNav"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        app:itemIconTint="@color/black"
-        app:itemTextColor="@color/black"
         app:menu="@menu/bot_nav_bh_dashboard"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -95,9 +95,14 @@ public class WebApi {
 
     private static final String REQUEST_USER_ACCESS = "security/request_android_object.php";
 
+    private static final String URL_SUBMIT_APP_VERSION = "security/updateUserAppVersion.php";
+    private static final String URL_VERSION_LOG = "query/get_version_info.php";
+    private static final String URL_CHECK_UPDATE = "query/check_update.php";
+
     private static final String URL_DOWNLOAD_UPDATE = "https://restgk.guanzongroup.com.ph/apk/gCircle.apk";
     private static final String URL_DOWNLOAD_TEST_UPDATE = "https://restgk.guanzongroup.com.ph/apk/test/gRider.apk";
 
+    private static final String GET_PANALO_REWARDS = "gconnect/upload/getUserPanalo.php";
 
     public WebApi(boolean isTestCase){
         this.isUnitTest = isTestCase;

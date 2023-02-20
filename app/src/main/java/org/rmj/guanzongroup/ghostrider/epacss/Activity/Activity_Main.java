@@ -199,7 +199,6 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
 
         loMessage = new MessageBox(Activity_Main.this);
         poDialog = new LoadDialog(Activity_Main.this);
-        poSession = new SessionManager(Activity_Main.this);
         expListView = (ExpandableListView) findViewById(R.id.lvExp);
         expListView.setIndicatorBoundsRelative(width - GetPixelFromDips(50), width - GetPixelFromDips(10));
 
