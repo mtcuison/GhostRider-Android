@@ -32,5 +32,17 @@
     </LinearLayout>
 
     <include layout="@layout/content_main"/>
+    <org.rmj.guanzongroup.ghostrider.epacss.ui.etc.NonSwipeableViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+<!--    <include-->
+<!--        android:id="@+id/include"-->
+<!--        layout="@layout/content_main" />-->
+
+</androidx.constraintlayout.widget.ConstraintLayout>

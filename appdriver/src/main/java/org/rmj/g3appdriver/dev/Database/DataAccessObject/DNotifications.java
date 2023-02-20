@@ -63,6 +63,9 @@ public interface DNotifications {
     @Query("SELECT COUNT(*) FROM Notification_Info_Master")
     int GetNotificationCountForID();
 
+    @Query("SELECT sUserIDxx FROM User_Info_Master")
+    String GetUserID();
+
     @Query("UPDATE Notification_Info_Recepient SET " +
             "dLastUpdt =:DateTime, " +
             "cMesgStat = '2', " +

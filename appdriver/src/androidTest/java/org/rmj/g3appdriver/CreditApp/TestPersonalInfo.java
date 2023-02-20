@@ -124,7 +124,7 @@ public class TestPersonalInfo {
         loDetail.setGender("0");
         loDetail.setCvlStats("0");
         loDetail.setCitizenx("01");
-//        loDetail.setMobileNo("09171870011", "1", 0);
+        loDetail.setMobileNo("09171870011", "1", 0);
         loDetail.setEmailAdd("mikegarcia8748@gmail.com");
         loDetail.setPhoneNox("");
         loDetail.setFbAccntx("sample");

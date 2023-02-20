@@ -16,7 +16,6 @@ import static org.rmj.guanzongroup.ghostrider.epacss.ui.home.VMBHDashboard.MC_SA
 import static org.rmj.guanzongroup.ghostrider.epacss.ui.home.VMBHDashboard.SP_SALES;
 
 import androidx.annotation.RequiresApi;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
@@ -38,14 +37,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
-import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.google.android.material.button.MaterialButton;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DBranchPerformance;
@@ -59,7 +56,6 @@ import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_BranchPerf
 import org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_Main;
 import org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_SplashScreen;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
-import org.rmj.guanzongroup.ghostrider.epacss.ui.etc.AppDeptIcon;
 import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_Settings;
 
 import com.google.android.material.tabs.TabLayout;
@@ -77,7 +73,7 @@ import com.google.android.material.imageview.ShapeableImageView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Fragment_BH_Dashboard extends Fragment {
+public class Fragment_BH_Home extends Fragment {
 
     private VMBHDashboard mViewModel;
 
@@ -100,15 +96,15 @@ public class Fragment_BH_Dashboard extends Fragment {
 
     private String BranchCd;
 
-    public static Fragment_BH_Dashboard newInstance() {
-        return new Fragment_BH_Dashboard();
+    public static Fragment_BH_Home newInstance() {
+        return new Fragment_BH_Home();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_bh_dashboard, container, false);
+        View view = inflater.inflate(R.layout.fragment_bh_home, container, false);
         setupWidgets(view);
         return view;
     }
