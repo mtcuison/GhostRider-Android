@@ -87,7 +87,6 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_knoxUnlock"
-            style="@style/GhostRider_Button"
             android:text="Unlock"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/til_knoxImei"

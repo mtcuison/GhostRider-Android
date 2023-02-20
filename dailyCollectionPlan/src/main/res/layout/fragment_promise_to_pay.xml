@@ -247,7 +247,6 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.button.MaterialButton
-                style="@style/GhostRider_Button"
                 android:id="@+id/btn_ptp_submit"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"

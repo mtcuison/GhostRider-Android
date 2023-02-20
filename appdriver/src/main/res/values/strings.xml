@@ -54,4 +54,6 @@
     <string name="location_on_summary">Location Permission Enabled</string>
     <string name="location_off_summary">Location Permission Disabled</string>
     <string name="peso_sign">₱</string>
+
+    <string name="summary_settings_dMode">Use by developers and implementors for testing phase. Only MIS-SEG are able to use this mode.</string>
 </resources>

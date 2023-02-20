@@ -19,7 +19,7 @@
         <item name="colorSecondaryVariant">@color/colorSecondaryVariantLight</item>
         <item name="colorOnSecondary">@color/black</item>
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
-<!--        <item name="colorSurface">@color/background_light</item>-->
+        <item name="colorSurface">@color/background_light</item>
         <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
         <item name="android:colorBackground">@color/background_light</item>
         <item name="android:textColor">@color/material_black</item>

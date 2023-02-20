@@ -73,8 +73,8 @@
                android:gravity="right"
                android:layout_marginTop="10dp"
                android:orientation="vertical">
+
                <com.google.android.material.button.MaterialButton
-                   style="@style/GhostRider_Button"
                    android:id="@+id/btnPreviewOkay"
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"

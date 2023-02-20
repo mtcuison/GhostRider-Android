@@ -140,7 +140,6 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_knoxGetPIN"
-            style="@style/GhostRider_Button"
             android:text="Generate"
             tools:ignore="HardcodedText"
             app:layout_constraintLeft_toLeftOf="parent"

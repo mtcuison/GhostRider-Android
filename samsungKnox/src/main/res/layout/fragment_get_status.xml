@@ -189,7 +189,6 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_knoxCheckStatus"
-            style="@style/GhostRider_Button"
             android:text="Check Status"
             tools:ignore="HardcodedText"
             app:layout_constraintLeft_toLeftOf="parent"

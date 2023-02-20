@@ -19,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.rmj.g3appdriver.etc.GToast;
@@ -50,8 +51,8 @@ public class Dialog_ChangePassword {
         txtNewPass = view.findViewById(R.id.txt_newPassword);
         txtCfmPass = view.findViewById(R.id.txt_ConfirmNew);
 
-        Button btnConfirm = view.findViewById(R.id.btn_dialog_confirm);
-        Button btnCancel = view.findViewById(R.id.btn_dialog_cancel);
+        MaterialButton btnConfirm = view.findViewById(R.id.btn_dialog_confirm);
+        MaterialButton btnCancel = view.findViewById(R.id.btn_dialog_cancel);
 
         btnConfirm.setOnClickListener(v -> {
             if(isDataValid()) {
