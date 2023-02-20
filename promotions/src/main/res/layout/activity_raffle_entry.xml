@@ -153,13 +153,19 @@
                     android:nextFocusForward="@id/txt_documentNumber"/>
 
             </com.google.android.material.textfield.TextInputLayout>
-            <Spinner
-                android:id="@+id/spn_documentType"
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/CustomDropDownTilStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"/>
+                android:hint="Document Type">
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                        android:id="@+id/spn_documentType"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/TextInputStyle"

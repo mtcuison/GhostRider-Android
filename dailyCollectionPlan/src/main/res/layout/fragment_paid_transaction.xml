@@ -126,13 +126,20 @@
                 android:fontFamily="@font/roboto_medium"
                 android:gravity="end"/>
         </LinearLayout>
-
-        <Spinner
-            android:id="@+id/spn_paymentType"
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/CustomDropDownTilStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:padding="10dp"/>
+            android:hint=" Payment Type">
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                android:id="@+id/spn_paymentType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:padding="10dp"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
 
         <com.google.android.material.checkbox.MaterialCheckBox
             android:id="@+id/cb_dcpCheckPayment"
