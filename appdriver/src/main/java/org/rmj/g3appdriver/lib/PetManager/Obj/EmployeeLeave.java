@@ -26,16 +26,15 @@ import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeLeave;
 import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.etc.AppConstants;
-import org.rmj.g3appdriver.etc.FormatUIText;
-import org.rmj.g3appdriver.etc.SessionManager;
-import org.rmj.g3appdriver.dev.HttpHeaders;
-import org.rmj.g3appdriver.dev.WebClient;
+import org.rmj.g3appdriver.lib.Account.SessionManager;
+import org.rmj.g3appdriver.dev.Api.HttpHeaders;
+import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
-import org.rmj.g3appdriver.lib.PetManager.iPM;
-import org.rmj.g3appdriver.lib.PetManager.model.LeaveApplication;
-import org.rmj.g3appdriver.lib.PetManager.model.LeaveApprovalInfo;
-import org.rmj.g3appdriver.utils.WebApi;
+import org.rmj.g3appdriver.lib.PetManager.model.iPM;
+import org.rmj.g3appdriver.lib.PetManager.pojo.LeaveApplication;
+import org.rmj.g3appdriver.lib.PetManager.pojo.LeaveApprovalInfo;
+import org.rmj.g3appdriver.dev.Api.WebApi;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -104,10 +103,10 @@ public class EmployeeLeave implements iPM {
                     leave.setPositnNm(loJson.getString("sPositnNm"));
                     leave.setDateFrom(loJson.getString("dAppldFrx"));
                     leave.setDateThru(loJson.getString("dAppldTox"));
-                    leave.setNoDaysxx(loJson.getString("nNoDaysxx"));
+                    leave.setNoDaysxx(loJson.getInt("nNoDaysxx"));
                     leave.setPurposex(loJson.getString("sPurposex"));
                     leave.setLeaveTyp(loJson.getString("cLeaveTyp"));
-                    leave.setLveCredt(loJson.getString("nLveCredt"));
+                    leave.setLveCredt(loJson.getInt("nLveCredt"));
                     leave.setSentStat("1");
                     leave.setTranStat(loJson.getString("cTranStat"));
                     leave.setTimeStmp(loJson.getString("dTimeStmp"));
@@ -131,10 +130,10 @@ public class EmployeeLeave implements iPM {
                         loDetail.setPositnNm(loJson.getString("sPositnNm"));
                         loDetail.setAppldFrx(loJson.getString("dAppldFrx"));
                         loDetail.setAppldTox(loJson.getString("dAppldTox"));
-                        loDetail.setNoDaysxx(loJson.getString("nNoDaysxx"));
+                        loDetail.setNoDaysxx(loJson.getInt("nNoDaysxx"));
                         loDetail.setPurposex(loJson.getString("sPurposex"));
                         loDetail.setLeaveTyp(loJson.getString("cLeaveTyp"));
-                        loDetail.setLveCredt(loJson.getString("nLveCredt"));
+                        loDetail.setLveCredt(loJson.getInt("nLveCredt"));
                         loDetail.setTranStat(loJson.getString("cTranStat"));
                         loDetail.setSentStat("1");
                         loDetail.setTranStat(loJson.getString("cTranStat"));
@@ -208,10 +207,10 @@ public class EmployeeLeave implements iPM {
                     leave.setPositnNm(loJson.getString("sPositnNm"));
                     leave.setAppldFrx(loJson.getString("dAppldFrx"));
                     leave.setAppldTox(loJson.getString("dAppldTox"));
-                    leave.setNoDaysxx(loJson.getString("nNoDaysxx"));
+                    leave.setNoDaysxx(loJson.getInt("nNoDaysxx"));
                     leave.setPurposex(loJson.getString("sPurposex"));
                     leave.setLeaveTyp(loJson.getString("cLeaveTyp"));
-                    leave.setLveCredt(loJson.getString("nLveCredt"));
+                    leave.setLveCredt(loJson.getInt("nLveCredt"));
                     leave.setTranStat(loJson.getString("cTranStat"));
                     leave.setTimeStmp(loJson.getString("dTimeStmp"));
                     poDao.insertApplication(leave);
@@ -229,10 +228,10 @@ public class EmployeeLeave implements iPM {
                         loDetail.setPositnNm(loJson.getString("sPositnNm"));
                         loDetail.setAppldFrx(loJson.getString("dAppldFrx"));
                         loDetail.setAppldTox(loJson.getString("dAppldTox"));
-                        loDetail.setNoDaysxx(loJson.getString("nNoDaysxx"));
+                        loDetail.setNoDaysxx(loJson.getInt("nNoDaysxx"));
                         loDetail.setPurposex(loJson.getString("sPurposex"));
                         loDetail.setLeaveTyp(loJson.getString("cLeaveTyp"));
-                        loDetail.setLveCredt(loJson.getString("nLveCredt"));
+                        loDetail.setLveCredt(loJson.getInt("nLveCredt"));
                         loDetail.setTranStat(loJson.getString("cTranStat"));
                         loDetail.setTimeStmp(loJson.getString("dTimeStmp"));
                         poDao.updateApplication(loDetail);
@@ -277,12 +276,12 @@ public class EmployeeLeave implements iPM {
             loApp.setDateThru(foVal.getDateThrux());
             loApp.setAppldFrx(foVal.getDateFromx());
             loApp.setAppldTox(foVal.getDateThrux());
-            loApp.setNoDaysxx(String.valueOf(foVal.getNoOfDaysx()));
+            loApp.setNoDaysxx(foVal.getNoOfDaysx());
             loApp.setPurposex(foVal.getRemarksxx());
-            loApp.setEqualHrs(String.valueOf(foVal.getNoOfHours()));
+            loApp.setEqualHrs(foVal.getNoOfHours());
             loApp.setLeaveTyp(foVal.getLeaveType());
             loApp.setEntryDte(AppConstants.CURRENT_DATE);
-            loApp.setWithOPay("0");
+            loApp.setWithOPay(0);
             loApp.setApproved("0");
             loApp.setTranStat("0");
             poDao.insertApplication(loApp);
@@ -378,6 +377,7 @@ public class EmployeeLeave implements iPM {
             loDetail.setWithOPay(foVal.getWithOPay());
             loDetail.setApproved(foVal.getApprovex());
             loDetail.setDApproved(foVal.getApproved());
+            loDetail.setSentStat("1");
             poDao.updateApplication(loDetail);
             return loDetail.getTransNox();
         } catch (Exception e){
@@ -388,24 +388,25 @@ public class EmployeeLeave implements iPM {
     }
 
     @Override
-    public boolean UploadApproval(String args) {
+    public boolean UploadApproval(Object args) {
         try{
-            EEmployeeLeave loDetail = poDao.GetEmployeeLeave(args);
+            LeaveApprovalInfo foVal = (LeaveApprovalInfo) args;
+            EEmployeeLeave loDetail = poDao.GetEmployeeLeave(foVal.getTransNox());
             if(loDetail == null){
                 message = "Unable to find leave application to upload.";
                 return false;
             }
 
             JSONObject params = new JSONObject();
-            params.put("sTransNox", loDetail.getTransNox());
+            params.put("sTransNox", foVal.getTransNox());
             params.put("dTransact", loDetail.getTransact());
-            params.put("dAppldFrx", loDetail.getAppldFrx());
-            params.put("dAppldTox", loDetail.getAppldTox());
-            params.put("cTranStat", loDetail.getTranStat());
-            params.put("nWithPayx", loDetail.getWithPayx());
-            params.put("nWithOPay", loDetail.getWithOPay());
-            params.put("sApproved", loDetail.getApproved());
-            params.put("dApproved", loDetail.getDApproved());
+            params.put("dAppldFrx", foVal.getAppldFrx());
+            params.put("dAppldTox", foVal.getAppldTox());
+            params.put("cTranStat", foVal.getTranStat());
+            params.put("nWithPayx", foVal.getWithPayx());
+            params.put("nWithOPay", foVal.getWithOPay());
+            params.put("sApproved", foVal.getApproved());
+            params.put("dApproved", foVal.getApproved());
 
             String lsResponse = WebClient.sendRequest(
                     poApi.getUrlConfirmLeaveApplication(poConfig.isBackUpServer()),
@@ -427,7 +428,6 @@ public class EmployeeLeave implements iPM {
                 return false;
             }
 
-            poDao.updatePostedApproval(args);
             message = "Leave approval has been posted.";
             return true;
         } catch (Exception e){

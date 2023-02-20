@@ -16,13 +16,11 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DNotifications;
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.Repositories.RNotificationInfo;
-import org.rmj.g3appdriver.etc.SessionManager;
+import org.rmj.g3appdriver.lib.Account.SessionManager;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 
 import java.util.List;
@@ -57,7 +55,7 @@ public class VMHomeContainer extends AndroidViewModel {
         return poUser.GetEmployeeInfo();
     }
 
-    public String getEmployeeLevel(){
-        return poSession.getEmployeeLevel();
-    }
+//    public String getEmployeeLevel(){
+//        return poSession.getEmployeeLevel();
+//    }
 }

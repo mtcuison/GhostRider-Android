@@ -5,18 +5,18 @@ import android.app.Application;
 import androidx.lifecycle.LiveData;
 
 import org.json.JSONObject;
+import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DApprovalCode;
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ECodeApproval;
 import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.dev.Database.Repositories.RBranch;
-import org.rmj.g3appdriver.dev.HttpHeaders;
+import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.lib.ApprovalCode.SCA;
-import org.rmj.g3appdriver.lib.ApprovalCode.model.CreditApp;
-import org.rmj.g3appdriver.lib.ApprovalCode.model.CreditAppInfo;
-import org.rmj.g3appdriver.utils.WebApi;
-import org.rmj.g3appdriver.utils.WebClient;
+import org.rmj.g3appdriver.dev.Api.WebApi;
+import org.rmj.g3appdriver.lib.ApprovalCode.model.SCA;
+import org.rmj.g3appdriver.lib.ApprovalCode.pojo.CreditApp;
+import org.rmj.g3appdriver.lib.ApprovalCode.pojo.CreditAppInfo;
 
 import java.util.List;
 
@@ -59,7 +59,7 @@ public class LoanApproval implements SCA {
             params.put("reasonxx", foVal.getReasonxx());
             params.put("approved", foVal.getApproved());
 
-            String lsResponse = WebClient.httpsPostJSon(
+            String lsResponse = WebClient.sendRequest(
                     poApi.getUrlApplicationApprove(poConfig.isBackUpServer()),
                     params.toString(),
                     poHeaders.getHeaders());
@@ -113,7 +113,7 @@ public class LoanApproval implements SCA {
             param.put("sReqstdTo", loCode.getReqstdTo() == null ? "" : loCode.getReqstdTo());
             param.put("cTranStat", loCode.getTranStat());
 
-            String lsResponse = WebClient.httpsPostJSon(
+            String lsResponse = WebClient.sendRequest(
                     poApi.getUrlSaveApproval(poConfig.isBackUpServer()),
                     param.toString(),
                     poHeaders.getHeaders());
@@ -157,7 +157,7 @@ public class LoanApproval implements SCA {
             params.put("branchcd", args1);
             params.put("transnox", args2);
 
-            String lsResponse = WebClient.httpsPostJSon(
+            String lsResponse = WebClient.sendRequest(
                     poApi.getUrlLoadApplicationApproval(poConfig.isBackUpServer()),
                     params.toString(),
                     poHeaders.getHeaders());

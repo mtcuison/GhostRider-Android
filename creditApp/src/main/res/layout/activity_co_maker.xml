@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:theme="@style/GhostRiderMaterialTheme.WhiteBG"
-    tools:context=".Fragment.Fragment_CoMaker">
+    tools:context=".Activities.Activity_CoMaker">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -120,7 +120,7 @@
                         android:inputType="textPersonName"
                         android:maxLength="50"
                         android:maxLines="1"
-                        android:nextFocusForward="@id/tie_cap_cmrSuffix"
+                        android:nextFocusForward="@id/til_cap_cmrMiddname"
                         android:singleLine="true"
                         android:textColor="@color/material_black" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -134,32 +134,6 @@
                 android:orientation="horizontal"
                 android:weightSum="3">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/til_cap_cmrSuffix"
-                    style="@style/TextInputStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:hint="@string/sHintSuffix">
-
-                    <AutoCompleteTextView
-                        android:id="@+id/tie_cap_cmrSuffix"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:digits="@string/free_text_restriction"
-                        android:imeOptions="actionNext"
-                        android:inputType="textPersonName"
-                        android:maxLength="4"
-                        android:maxLines="1"
-                        android:nextFocusForward="@id/tie_cap_cmrMiddname"
-                        android:paddingStart="10dp"
-                        android:paddingLeft="10dp"
-                        android:paddingTop="14dp"
-                        android:paddingBottom="14dp"
-                        android:singleLine="true"
-                        android:textColor="@color/material_black"
-                        tools:ignore="LabelFor,RtlSymmetry" />
-                </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/til_cap_cmrMiddname"
@@ -178,9 +152,36 @@
                         android:inputType="textPersonName"
                         android:maxLength="50"
                         android:maxLines="1"
-                        android:nextFocusForward="@id/tie_cap_cmrNickname"
+                        android:nextFocusForward="@id/tie_cap_cmrSuffix"
                         android:singleLine="true"
                         android:textColor="@color/material_black" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_cap_cmrSuffix"
+                    style="@style/TextInputStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="@string/sHintSuffix">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/tie_cap_cmrSuffix"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:digits="@string/free_text_restriction"
+                        android:imeOptions="actionNext"
+                        android:inputType="textPersonName"
+                        android:maxLength="4"
+                        android:maxLines="1"
+                        android:nextFocusForward="@id/tie_cap_cmrNickname"
+                        android:paddingStart="10dp"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="14dp"
+                        android:paddingBottom="14dp"
+                        android:singleLine="true"
+                        android:textColor="@color/material_black"
+                        tools:ignore="LabelFor,RtlSymmetry" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -225,18 +226,19 @@
                 style="@style/TextInputStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Birthdate(MM/DD/YYYY)">
+                android:hint="@string/sHintBirthDate">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/tie_cap_cmrBirthdate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:focusedByDefault="false"
                     android:imeOptions="actionNext"
-                    android:inputType="date"
+                    android:inputType="number|none"
                     android:maxLength="20"
-                    android:nextFocusForward="@id/tie_cap_cmrBirthProv"
-                    android:textColor="@color/material_black" />
+                    android:nextFocusForward="@id/tie_cap_cmrBirthTown" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!--                Province / Town Field-->
@@ -248,26 +250,26 @@
                 android:gravity="center"
                 android:orientation="horizontal">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/til_cap_cmrBirthProv"
-                    style="@style/TextInputStyle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.2"
-                    android:hint="@string/sHintProvince">
+<!--                <com.google.android.material.textfield.TextInputLayout-->
+<!--                    android:id="@+id/til_cap_cmrBirthProv"-->
+<!--                    style="@style/TextInputStyle"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="1.2"-->
+<!--                    android:hint="@string/sHintProvince">-->
 
-                    <AutoCompleteTextView
-                        android:id="@+id/tie_cap_cmrBirthProv"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:completionThreshold="1"
-                        android:imeOptions="actionNext"
-                        android:inputType="textAutoComplete|textAutoCorrect|none"
-                        android:maxLines="1"
-                        android:nextFocusForward="@id/tie_cap_cmrBirthTown"
-                        android:padding="14dp"
-                        tools:ignore="LabelFor,RtlSymmetry" />
-                </com.google.android.material.textfield.TextInputLayout>
+<!--                    <AutoCompleteTextView-->
+<!--                        android:id="@+id/tie_cap_cmrBirthProv"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:completionThreshold="1"-->
+<!--                        android:imeOptions="actionNext"-->
+<!--                        android:inputType="textAutoComplete|textAutoCorrect|none"-->
+<!--                        android:maxLines="1"-->
+<!--                        android:nextFocusForward="@id/tie_cap_cmrBirthTown"-->
+<!--                        android:padding="14dp"-->
+<!--                        tools:ignore="LabelFor,RtlSymmetry" />-->
+<!--                </com.google.android.material.textfield.TextInputLayout>-->
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/til_cap_cmrBirthTown"
@@ -275,7 +277,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1.2"
-                    android:hint="@string/sHintTown">
+                    android:hint="@string/sHintBpTown">
 
                     <AutoCompleteTextView
                         android:id="@+id/tie_cap_cmrBirthTown"
@@ -381,39 +383,28 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
-                    xmlns:tools="http://schemas.android.com/tools"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1.4"
-                    android:orientation="vertical">
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/til_cap_cmrPrimaryCntctStats"
-                        style="@style/CustomDropDownTilStyle"
+
+                    <CheckBox
+                        android:id="@+id/cb_cap_cmrPrimaryCntctStats"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Sim Type">
+                        android:layout_weight="2"
+                        style="@style/Widget.AppCompat.CompoundButton.CheckBox"
+                        android:text="Postpaid"
+                        android:imeOptions="actionNext"
+                        android:inputType="none"
+                        android:nextFocusForward="@+id/txt_mobileNo2"
+                        android:padding="16dp" />
 
-                        <androidx.appcompat.widget.AppCompatAutoCompleteTextView
-                            android:id="@+id/spinner_cap_cmrPrimaryCntctStats"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:clickable="false"
-                            android:cursorVisible="false"
-                            android:focusable="false"
-                            android:inputType="none"
-                            android:padding="16dp" />
-                    </com.google.android.material.textfield.TextInputLayout>
 
-                </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/til_cap_cmrPrimaryCntctPlan"
                     style="@style/TextInputStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1.6"
+                    android:layout_weight="1.5"
                     android:hint="@string/sHintYear"
                     android:orientation="horizontal"
                     android:visibility="gone">
@@ -452,38 +443,28 @@
                         android:nextFocusForward="@id/txt_mobileNo3" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1.4"
-                    android:orientation="vertical">
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/til_cap_cmrSecondaryCntctStats"
-                        style="@style/CustomDropDownTilStyle"
+
+                    <CheckBox
+                        android:id="@+id/cb_cap_cmrSecondaryCntctStats"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Sim Type">
+                        android:layout_weight="2"
+                        style="@style/Widget.AppCompat.CompoundButton.CheckBox"
+                        android:text="Postpaid"
+                        android:imeOptions="actionNext"
+                        android:inputType="none"
+                        android:nextFocusForward="@+id/txt_mobileNo2"
+                        android:padding="16dp" />
 
-                        <androidx.appcompat.widget.AppCompatAutoCompleteTextView
-                            android:id="@+id/spinner_cap_cmrSecondaryCntctStats"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:clickable="false"
-                            android:cursorVisible="false"
-                            android:focusable="false"
-                            android:inputType="none"
-                            android:padding="16dp" />
-                    </com.google.android.material.textfield.TextInputLayout>
 
-                </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/til_cap_cmrSecondaryCntctPlan"
                     style="@style/TextInputStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1.6"
+                    android:layout_weight="1.5"
                     android:hint="@string/sHintYear"
                     android:orientation="horizontal"
                     android:visibility="gone">
@@ -522,39 +503,18 @@
                         android:nextFocusForward="@id/txt_telephoneNo" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <!--                    <Spinner-->
-                <!--                        android:id="@+id/spinner_cap_cmrTertiaryCntctStats"-->
-                <!--                        android:layout_width="match_parent"-->
-                <!--                        android:layout_height="wrap_content"-->
-                <!--                        android:padding="15dp"-->
-                <!--                        android:layout_weight="1.4"/>-->
-                <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
-                    xmlns:tools="http://schemas.android.com/tools"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1.4"
-                    android:hint="Sim Type"
-                    android:orientation="vertical">
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/til_cap_cmrTertiaryCntctStats"
-                        style="@style/CustomDropDownTilStyle"
+                    <CheckBox
+                        android:id="@+id/cb_cap_cmrTertiaryCntctStats"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Sim Type">
-
-                        <androidx.appcompat.widget.AppCompatAutoCompleteTextView
-                            android:id="@+id/spinner_cap_cmrTertiaryCntctStats"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:clickable="false"
-                            android:cursorVisible="false"
-                            android:focusable="false"
-                            android:inputType="none"
-                            android:padding="16dp" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                </androidx.appcompat.widget.LinearLayoutCompat>
+                        android:layout_weight="2"
+                        style="@style/Widget.AppCompat.CompoundButton.CheckBox"
+                        android:text="Postpaid"
+                        android:imeOptions="actionNext"
+                        android:inputType="none"
+                        android:nextFocusForward="@+id/txt_mobileNo2"
+                        android:padding="16dp" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/til_cap_cmrTertiaryCntctPlan"
@@ -610,7 +570,6 @@
                     android:layout_alignParentStart="true"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
-                    android:drawableStart="@drawable/ic_nav_left"
                     android:drawableLeft="@drawable/ic_nav_left"
                     android:text="@string/sbtnPrvs"
                     tools:ignore="RelativeOverlap" />

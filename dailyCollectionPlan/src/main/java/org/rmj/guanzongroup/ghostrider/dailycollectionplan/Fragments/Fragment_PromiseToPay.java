@@ -18,8 +18,10 @@ import static androidx.core.content.ContextCompat.checkSelfPermission;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +30,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -44,7 +47,7 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.lib.integsys.Dcp.model.PromiseToPay;
+import org.rmj.g3appdriver.lib.integsys.Dcp.pojo.PromiseToPay;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_Transaction;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.OnInitializeCameraCallback;
@@ -189,15 +192,19 @@ public class Fragment_PromiseToPay extends Fragment {
 
         btnPtp.setOnClickListener( v -> {
             poPtp.setRemarks(Objects.requireNonNull(txtRemarks.getText()).toString().trim());
-            if(checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                    checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                    checkSelfPermission(requireActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
-                poRequest.launch(new String[]{
-                        Manifest.permission.ACCESS_COARSE_LOCATION,
-                        Manifest.permission.ACCESS_FINE_LOCATION,
-                        Manifest.permission.CAMERA});
+            if(!poPtp.isDataValid()){
+                Toast.makeText(requireActivity(), poPtp.getMessage(), Toast.LENGTH_SHORT).show();
             } else {
-                InitializeCamera();
+                if (checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                        checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                        checkSelfPermission(requireActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                    poRequest.launch(new String[]{
+                            Manifest.permission.ACCESS_COARSE_LOCATION,
+                            Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.CAMERA});
+                } else {
+                    InitializeCamera();
+                }
             }
         });
 
@@ -236,8 +243,10 @@ public class Fragment_PromiseToPay extends Fragment {
                 if(checkedId == R.id.rb_ptpBranch) {
                     appointment = "1";
                     tilBranchName.setVisibility(View.VISIBLE);
+                    txtCollct.setVisibility(View.GONE);
                 } else {
                     tilBranchName.setVisibility(View.GONE);
+                    txtCollct.setVisibility(View.VISIBLE);
                     appointment = "0";
                 }
                 poPtp.setPaymntxx(appointment);
@@ -246,6 +255,11 @@ public class Fragment_PromiseToPay extends Fragment {
     }
 
     private void InitializeCamera(){
+        LocationManager locationManager = (LocationManager) requireActivity().getSystemService(Context.LOCATION_SERVICE);
+        if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+            Toast.makeText(requireActivity(), "Please enable your location service.", Toast.LENGTH_SHORT).show();
+            return;
+        }
         poMessage.initDialog();
         poMessage.setTitle("Promise To Pay");
         poMessage.setMessage("Please take a selfie with the customer or within the area of the customer.");

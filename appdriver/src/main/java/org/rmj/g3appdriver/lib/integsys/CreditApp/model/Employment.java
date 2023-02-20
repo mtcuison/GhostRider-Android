@@ -1,8 +1,12 @@
 package org.rmj.g3appdriver.lib.integsys.CreditApp.model;
 
+import android.util.Log;
+
 public class Employment {
 
     private String sTransNox = "";
+
+    private String cMeanInfo = "";
     private String sSectorxx = "";
     private String cUniformP = "";
     private String cMilitary = "";
@@ -35,6 +39,15 @@ public class Employment {
     public String getMessage() {
         return message;
     }
+
+    public String getcMeanInfo() {
+        return cMeanInfo;
+    }
+
+    public void setcMeanInfo(String cMeanInfo) {
+        this.cMeanInfo = cMeanInfo;
+    }
+
 
     public String getTransNox() {
         return sTransNox;
@@ -189,11 +202,13 @@ public class Employment {
     public double getLengthOfService() {
         if(!sSectorxx.equalsIgnoreCase("2")) {
             try {
-                if (Integer.parseInt(cIsYearxx) == 0) {
-                    double ldValue = sLengthxx;
-                    return ldValue / 12;
-                } else {
-                    return sLengthxx;
+                if(!"".equalsIgnoreCase(cIsYearxx)){
+                    if (Integer.parseInt(cIsYearxx) == 0) {
+                        double ldValue = sLengthxx;
+                        return ldValue / 12;
+                    } else {
+                        return sLengthxx;
+                    }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -222,16 +237,18 @@ public class Employment {
         this.sMonthlyx = sMonthlyx;
     }
 
+    public void setContact(String sContactx) {
+        this.sContactx = sContactx;
+    }
     public String getContact() {
         return sContactx;
     }
 
-    public void setContact(String sContactx) {
-        this.sContactx = sContactx;
-    }
+
 
     public boolean isDataValid(){
-        return isUniformPersonalValid() &&
+        return  isEmploymentSectorValid() &&
+                isUniformPersonalValid() &&
                 isMilitaryPersonalValid() &&
                 isCompanyLevelValid() &&
                 isEmployeeLevelValid() &&
@@ -248,6 +265,23 @@ public class Employment {
                 isCompanyContactValid();
     }
 
+    public boolean isPrimary(){
+        Log.e("means = ", cMeanInfo);
+       if (!cMeanInfo.equalsIgnoreCase("0")){
+           return false;
+       }
+       return true;
+
+    }
+
+    private boolean isEmploymentSectorValid(){
+        if(sSectorxx.trim().isEmpty() || sSectorxx.equalsIgnoreCase("")){
+                message = "Please select Employment Sector";
+                return false;
+        }
+        return true;
+    }
+
     private boolean isUniformPersonalValid(){
         if(sSectorxx.equalsIgnoreCase("0")){
             if(cUniformP == null || cUniformP.equalsIgnoreCase("")){
@@ -260,7 +294,7 @@ public class Employment {
 
     private boolean isMilitaryPersonalValid(){
         if(sSectorxx.equalsIgnoreCase("0")){
-            if(cMilitary == null || cMilitary.equalsIgnoreCase("")){
+            if(cMilitary == null || cMilitary.trim().equalsIgnoreCase("")){
                 message = "Please select if military personnel";
                 return false;
             }
@@ -270,17 +304,17 @@ public class Employment {
 
     private boolean isCompanyLevelValid(){
         if(sSectorxx.equalsIgnoreCase("0")){
-            if (cCompLevl == null || Integer.parseInt(cCompLevl) < 0) {
+            if (cCompLevl == null || cCompLevl.trim().equalsIgnoreCase("")) {
                 message = "Please select government level";
                 return false;
             }
         } else if(sSectorxx.equalsIgnoreCase("1")){
-            if(cCompLevl == null || Integer.parseInt(cCompLevl)< 0){
+            if(cCompLevl == null || cCompLevl.trim().equalsIgnoreCase("")){
                 message = "Please select company level";
                 return false;
             }
-        } else {
-            if(cCompLevl == null || Integer.parseInt(cCompLevl)< 0){
+        } else if (sSectorxx.equalsIgnoreCase("2")){
+            if(cCompLevl == null || cCompLevl.trim().equalsIgnoreCase("")){
                 message = "Please select ofw region";
                 return false;
             }
@@ -290,17 +324,17 @@ public class Employment {
 
     private boolean isEmployeeLevelValid(){
         if(sSectorxx.equalsIgnoreCase("0")){
-            if(cEmpLevel == null || Integer.parseInt(cEmpLevel)< 0){
+            if(cEmpLevel == null || cEmpLevel.trim().equalsIgnoreCase("")){
                 message = "Please select government level";
                 return false;
             }
         } else if(sSectorxx.equalsIgnoreCase("1")){
-            if(cEmpLevel == null || Integer.parseInt(cEmpLevel)< 0){
+            if(cEmpLevel == null || cEmpLevel.trim().equalsIgnoreCase("")){
                 message = "Please select employee level";
                 return false;
             }
-        } else {
-            if(cEmpLevel == null || Integer.parseInt(cEmpLevel)< 0){
+        } else if (sSectorxx.equalsIgnoreCase("2")){
+            if(cEmpLevel == null || cEmpLevel.trim().equalsIgnoreCase("")){
                 message = "Please select ofw region";
                 return false;
             }
@@ -320,7 +354,7 @@ public class Employment {
 
     private boolean isBusinessNatureValid(){
         if(sSectorxx.equalsIgnoreCase("1")){
-            if(sBusiness == null || sBusiness.equalsIgnoreCase("-1")){
+            if(sBusiness == null || sBusiness.equalsIgnoreCase("")){
                 message = "Please select business nature";
                 return false;
             }
@@ -345,12 +379,12 @@ public class Employment {
 
     private boolean isCompanyAddressValid(){
         if(sSectorxx.equalsIgnoreCase("0") || sSectorxx.equalsIgnoreCase("1")) {
-            if (sProvIDxx == null || sProvIDxx.equalsIgnoreCase("")) {
-                message = "Please enter company province address";
-                return false;
-            }
-            if (sTownIDxx == null || sTownIDxx.equalsIgnoreCase("")) {
-                message = "Please enter company town address";
+//            if (sProvIDxx == null || sProvIDxx.equalsIgnoreCase("")) {
+//                message = "Please enter company province address";
+//                return false;
+//            }
+            if (sTownName == null || sTownName.equalsIgnoreCase("")) {
+                message = "Please enter company Municipality address";
                 return false;
             }
         }
@@ -420,6 +454,14 @@ public class Employment {
         if(sSectorxx.equalsIgnoreCase("0") || sSectorxx.equalsIgnoreCase("1")) {
             if (sContactx == null || sContactx.equalsIgnoreCase("")) {
                 message = "Please enter company contact no.";
+                return false;
+            }
+            if(sContactx.length() != 11){
+                message = "Please enter complete company contact no.";
+                return false;
+            }
+            if(!sContactx.substring(0, 2).equalsIgnoreCase("09")){
+                message = "Contact number must start with '09'";
                 return false;
             }
         }

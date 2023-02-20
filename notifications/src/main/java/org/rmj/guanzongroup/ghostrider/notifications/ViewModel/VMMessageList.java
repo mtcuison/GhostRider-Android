@@ -23,14 +23,14 @@ import androidx.lifecycle.MutableLiveData;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DNotifications;
 import org.rmj.g3appdriver.dev.Database.Repositories.RNotificationInfo;
-import org.rmj.g3appdriver.dev.HttpHeaders;
-import org.rmj.g3appdriver.dev.WebClient;
+import org.rmj.g3appdriver.dev.Api.HttpHeaders;
+import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
-import org.rmj.g3appdriver.utils.WebApi;
-import org.rmj.guanzongroup.ghostrider.notifications.Object.EmployeeSearchItem;
-import org.rmj.guanzongroup.ghostrider.notifications.Object.MessageItemList;
+import org.rmj.g3appdriver.dev.Api.WebApi;
+import org.rmj.guanzongroup.ghostrider.notifications.Obj.EmployeeSearchItem;
+import org.rmj.guanzongroup.ghostrider.notifications.Obj.MessageItemList;
 
 import java.util.List;
 

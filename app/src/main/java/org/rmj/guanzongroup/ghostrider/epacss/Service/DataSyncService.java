@@ -22,14 +22,13 @@ import android.util.Log;
 import org.rmj.g3appdriver.dev.Database.Repositories.RLocationSysLog;
 import org.rmj.g3appdriver.lib.ApprovalCode.ApprovalCode;
 import org.rmj.g3appdriver.lib.Itinerary.EmployeeItinerary;
-import org.rmj.g3appdriver.lib.PetManager.Obj.EmployeeLeave;
-import org.rmj.g3appdriver.lib.PetManager.Obj.EmployeeOB;
 import org.rmj.g3appdriver.lib.PetManager.PetManager;
-import org.rmj.g3appdriver.lib.PetManager.iPM;
+import org.rmj.g3appdriver.lib.PetManager.model.iPM;
 import org.rmj.g3appdriver.lib.SelfieLog.SelfieLog;
 import org.rmj.g3appdriver.lib.integsys.CashCount.CashCount;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditOnlineApplication;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
-import org.rmj.guanzongroup.ghostrider.notifications.Object.GNotifBuilder;
+import org.rmj.guanzongroup.ghostrider.notifications.Obj.GNotifBuilder;
 
 public class DataSyncService extends BroadcastReceiver {
     private static final String TAG = DataSyncService.class.getSimpleName();
@@ -128,6 +127,15 @@ public class DataSyncService extends BroadcastReceiver {
                     Log.d(TAG, "Location tracking uploaded successfully");
                 } else {
                     message = loLoct.getMessage();
+                    Log.e(TAG, message);
+                }
+                Thread.sleep(1000);
+
+                CreditOnlineApplication loApp = new CreditOnlineApplication(instance);
+                if(loApp.UploadApplications()){
+                    Log.d(TAG, "Credit online application uploaded successfully");
+                } else {
+                    message = loApp.getMessage();
                     Log.e(TAG, message);
                 }
                 Thread.sleep(1000);

@@ -38,7 +38,7 @@ public class ConnectionUtil {
     private final Context context;
     private String message;
 
-    private static final String LOCAL = "http://192.168.10.141/";
+    private static final String LOCAL = "http://192.168.10.15/";
     private static final String PRIMARY_LIVE = "https://restgk.guanzongroup.com.ph/";
     private static final String SECONDARY_LIVE = "https://restgk1.guanzongroup.com.ph/";
 
@@ -51,57 +51,63 @@ public class ConnectionUtil {
     }
 
     public boolean isDeviceConnected(){
-        if(!deviceConnected()){
-            message = "Please enable wifi or data to connect.";
-            return false;
-        } else {
-            String lsAddress = "";
-            AppConfigPreference loConfig = AppConfigPreference.getInstance(context);
-            boolean isTestCase = loConfig.getTestStatus();
-            if(isTestCase){
-                lsAddress = LOCAL;
-                if(!isReachable(lsAddress)){
-                    message = "Unable to reach local server.";
-                    return false;
-                } else {
-                    return true;
-                }
+        try {
+            if (!deviceConnected()) {
+                message = "Please enable wifi or data to connect.";
+                return false;
             } else {
-                boolean isBackUp = loConfig.isBackUpServer();
-                if(isBackUp){
-                    lsAddress = SECONDARY_LIVE;
-                    if(!isReachable(lsAddress)){
-                        Log.e(TAG, "Unable to connect to secondary server.");
-                        lsAddress = PRIMARY_LIVE;
-                        if(isReachable(lsAddress)){
-                            Log.d(TAG, "Primary server is reachable.");
-                            loConfig.setIfBackUpServer(false);
-                            return true;
-                        } else {
-                            message = "Unable to connect to our servers.";
-                            return false;
-                        }
+                String lsAddress;
+                AppConfigPreference loConfig = AppConfigPreference.getInstance(context);
+                boolean isTestCase = loConfig.getTestStatus();
+                if (isTestCase) {
+                    lsAddress = LOCAL;
+                    if (!isReachable(lsAddress)) {
+                        message = "Unable to reach local server.";
+                        return false;
                     } else {
                         return true;
                     }
                 } else {
-                    lsAddress = PRIMARY_LIVE;
-                    if(!isReachable(lsAddress)){
-                        Log.e(TAG, "Unable to connect to primary server.");
+                    boolean isBackUp = loConfig.isBackUpServer();
+                    if (isBackUp) {
                         lsAddress = SECONDARY_LIVE;
-                        if(isReachable(lsAddress)){
-                            Log.d(TAG, "Secondary server is reachable.");
-                            loConfig.setIfBackUpServer(true);
-                            return true;
+                        if (!isReachable(lsAddress)) {
+                            Log.e(TAG, "Unable to connect to secondary server.");
+                            lsAddress = PRIMARY_LIVE;
+                            if (isReachable(lsAddress)) {
+                                Log.d(TAG, "Primary server is reachable.");
+                                loConfig.setIfBackUpServer(false);
+                                return true;
+                            } else {
+                                message = "Unable to connect to our servers.";
+                                return false;
+                            }
                         } else {
-                            message = "Unable to connect to our servers.";
-                            return false;
+                            return true;
                         }
                     } else {
-                        return true;
+                        lsAddress = PRIMARY_LIVE;
+                        if (!isReachable(lsAddress)) {
+                            Log.e(TAG, "Unable to connect to primary server.");
+                            lsAddress = SECONDARY_LIVE;
+                            if (isReachable(lsAddress)) {
+                                Log.d(TAG, "Secondary server is reachable.");
+                                loConfig.setIfBackUpServer(true);
+                                return true;
+                            } else {
+                                message = "Unable to connect to our servers.";
+                                return false;
+                            }
+                        } else {
+                            return true;
+                        }
                     }
                 }
             }
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
         }
     }
 
@@ -122,10 +128,11 @@ public class ConnectionUtil {
         try
         {
             HttpURLConnection httpUrlConnection = (HttpURLConnection) new URL(
-                    lsAddress).openConnection();
+                    lsAddress).
+                    openConnection();
             httpUrlConnection.setRequestProperty("Connection", "close");
             httpUrlConnection.setRequestMethod("HEAD");
-            httpUrlConnection.setConnectTimeout(5000);
+            httpUrlConnection.setConnectTimeout(7000);
             int responseCode = httpUrlConnection.getResponseCode();
 
             return responseCode == HttpURLConnection.HTTP_OK;

@@ -36,7 +36,6 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreferenceCompat;
 
-import org.rmj.g3appdriver.etc.GeoLocator;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMSettings;
@@ -90,7 +89,6 @@ public class Activity_Settings extends AppCompatActivity {
         private SwitchPreferenceCompat themePreference;
         private Preference locationPref, cameraPref, phonePref;
         private VMSettings mViewModel;
-        private GeoLocator poLocator;
         private boolean isContinue = false;
         private boolean isGPS = false;
         private int PERMISION_PHONE_REQUEST_CODE = 103, PERMISION_CAMERA_REQUEST_CODE = 102, PERMISION_LOCATION_REQUEST_CODE = 104;

@@ -1,5 +1,6 @@
 package org.rmj.guanzongroup.onlinecreditapplication.ViewModel;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -12,6 +13,7 @@ import androidx.lifecycle.LiveData;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ECountryInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.EOccupationInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditApp;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditAppInstance;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditOnlineApplication;
@@ -62,7 +64,7 @@ public class VMEmploymentInfo extends AndroidViewModel implements CreditAppUI {
 
     @Override
     public void SaveData(OnSaveInfoListener listener) {
-        new SaveDataTask(listener).execute(poModel);
+        new SaveDetailTask(listener).execute(poModel);
     }
 
     public LiveData<List<DTownInfo.TownProvinceInfo>> GetTownProvinceList(){
@@ -73,6 +75,11 @@ public class VMEmploymentInfo extends AndroidViewModel implements CreditAppUI {
         return poApp.GetCountryList();
     }
 
+    public LiveData<List<EOccupationInfo>> GetOccupations(){
+        return poApp.GetOccupations();
+    }
+
+    @SuppressLint("StaticFieldLeak")
     private class ParseDataTask extends AsyncTask<ECreditApplicantInfo, Void, Employment>{
 
         private final OnParseListener listener;
@@ -92,6 +99,10 @@ public class VMEmploymentInfo extends AndroidViewModel implements CreditAppUI {
                 }
 
                 return loDetail;
+            } catch (NullPointerException e){
+                e.printStackTrace();
+                message = e.getMessage();
+                return null;
             } catch (Exception e){
                 e.printStackTrace();
                 message = e.getMessage();
@@ -110,13 +121,14 @@ public class VMEmploymentInfo extends AndroidViewModel implements CreditAppUI {
         }
     }
 
-    private class SaveDataTask extends AsyncTask<Employment, Void, Boolean>{
-
-        public SaveDataTask(OnSaveInfoListener listener) {
-            this.listener = listener;
-        }
+    @SuppressLint("StaticFieldLeak")
+    private class SaveDetailTask extends AsyncTask<Employment, Void, Boolean>{
 
         private final OnSaveInfoListener listener;
+
+        public SaveDetailTask(OnSaveInfoListener listener) {
+            this.listener = listener;
+        }
 
         @Override
         protected Boolean doInBackground(Employment... info) {
@@ -127,7 +139,8 @@ public class VMEmploymentInfo extends AndroidViewModel implements CreditAppUI {
                 return false;
             }
 
-            if(!poApp.Save(info[0])){
+            String lsResult = poApp.Save(info[0]);
+            if(lsResult == null){
                 message = poApp.getMessage();
                 return false;
             }

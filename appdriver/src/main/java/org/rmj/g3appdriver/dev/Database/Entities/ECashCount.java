@@ -31,49 +31,49 @@ public class ECashCount {
     private String Transact;
 
     @ColumnInfo(name = "nCn0001cx")
-    private String Cn0001cx;
+    private Integer Cn0001cx = 0;
 
     @ColumnInfo(name = "nCn0005cx")
-    private String Cn0005cx;
+    private Integer Cn0005cx = 0;
 
     @ColumnInfo(name = "nCn0010cx")
-    private String Cn0010cx;
+    private Integer Cn0010cx = 0;
 
     @ColumnInfo(name = "nCn0025cx")
-    private String Cn0025cx;
+    private Integer Cn0025cx = 0;
 
     @ColumnInfo(name = "nCn0050cx")
-    private String Cn0050cx;
+    private Integer Cn0050cx = 0;
 
     @ColumnInfo(name = "nCn0001px")
-    private String Cn0001px;
+    private Integer Cn0001px = 0;
 
     @ColumnInfo(name = "nCn0005px")
-    private String Cn0005px;
+    private Integer Cn0005px = 0;
 
     @ColumnInfo(name = "nCn0010px")
-    private String Cn0010px;
+    private Integer Cn0010px = 0;
 
     @ColumnInfo(name = "nNte0020p")
-    private String Nte0020p;
+    private Integer Nte0020p = 0;
 
     @ColumnInfo(name = "nNte0050p")
-    private String Nte0050p;
+    private Integer Nte0050p = 0;
 
     @ColumnInfo(name = "nNte0100p")
-    private String Nte0100p;
+    private Integer Nte0100p = 0;
 
     @ColumnInfo(name = "nNte0200p")
-    private String Nte0200p;
+    private Integer Nte0200p = 0;
 
     @ColumnInfo(name = "nNte0500p")
-    private String Nte0500p;
+    private Integer Nte0500p = 0;
 
     @ColumnInfo(name = "nNte1000p")
-    private String Nte1000p;
+    private Integer Nte1000p = 0;
 
     @ColumnInfo(name = "sPettyAmt")
-    private String PettyAmt;
+    private Double PettyAmt  = 0.0;
 
     @ColumnInfo(name = "sORNoxxxx")
     private String ORNoxxxx;
@@ -102,19 +102,14 @@ public class ECashCount {
     @ColumnInfo(name = "sReqstdBy")
     private String ReqstdBy;
 
+    @ColumnInfo(name = "sRemarksx")
+    private String Remarksx;
+
     @ColumnInfo(name = "dModified")
     private String Modified;
 
-    public String getSendStat() {
-        return SendStat;
-    }
-
-    public void setSendStat(String sendStat) {
-        SendStat = sendStat;
-    }
-
     @ColumnInfo(name = "sSendStat")
-    private String SendStat;
+    private Integer SendStat = 0;
 
     public ECashCount() {
     }
@@ -123,11 +118,11 @@ public class ECashCount {
         return ORNoxxxx;
     }
 
-    public String getPettyAmt() {
+    public Double getPettyAmt() {
         return PettyAmt;
     }
 
-    public void setPettyAmt(String pettAmnt) {
+    public void setPettyAmt(Double pettAmnt) {
         PettyAmt = pettAmnt;
     }
 
@@ -210,114 +205,114 @@ public class ECashCount {
         Transact = transact;
     }
 
-    public String getCn0001cx() {
+    public Integer getCn0001cx() {
         return Cn0001cx;
     }
 
-    public void setCn0001cx(String cn0001cx) {
+    public void setCn0001cx(Integer cn0001cx) {
         Cn0001cx = cn0001cx;
     }
 
-    public String getCn0005cx() {
+    public Integer getCn0005cx() {
         return Cn0005cx;
     }
 
-    public void setCn0005cx(String cn0005cx) {
+    public void setCn0005cx(Integer cn0005cx) {
         Cn0005cx = cn0005cx;
     }
 
-    public String getCn0010cx() {
+    public Integer getCn0010cx() {
         return Cn0010cx;
     }
 
-    public void setCn0010cx(String cn0010cx) {
+    public void setCn0010cx(Integer cn0010cx) {
         Cn0010cx = cn0010cx;
     }
 
-    public String getCn0025cx() {
+    public Integer getCn0025cx() {
         return Cn0025cx;
     }
 
-    public void setCn0025cx(String cn0025cx) {
+    public void setCn0025cx(Integer cn0025cx) {
         Cn0025cx = cn0025cx;
     }
 
-    public String getCn0050cx() {
+    public Integer getCn0050cx() {
         return Cn0050cx;
     }
 
-    public void setCn0050cx(String cn0050cx) {
+    public void setCn0050cx(Integer cn0050cx) {
         Cn0050cx = cn0050cx;
     }
-    public String getCn0001px() {
+    public Integer getCn0001px() {
         return Cn0001px;
     }
 
-    public void setCn0001px(String cn0001px) {
+    public void setCn0001px(Integer cn0001px) {
         Cn0001px = cn0001px;
     }
 
-    public String getCn0005px() {
+    public Integer getCn0005px() {
         return Cn0005px;
     }
 
-    public void setCn0005px(String cn0005px) {
+    public void setCn0005px(Integer cn0005px) {
         Cn0005px = cn0005px;
     }
 
-    public String getCn0010px() {
+    public Integer getCn0010px() {
         return Cn0010px;
     }
 
-    public void setCn0010px(String cn0010px) {
+    public void setCn0010px(Integer cn0010px) {
         Cn0010px = cn0010px;
     }
 
-    public String getNte0020p() {
+    public Integer getNte0020p() {
         return Nte0020p;
     }
 
-    public void setNte0020p(String nte0020p) {
+    public void setNte0020p(Integer nte0020p) {
         Nte0020p = nte0020p;
     }
 
-    public String getNte0050p() {
+    public Integer getNte0050p() {
         return Nte0050p;
     }
 
-    public void setNte0050p(String nte0050p) {
+    public void setNte0050p(Integer nte0050p) {
         Nte0050p = nte0050p;
     }
 
-    public String getNte0100p() {
+    public Integer getNte0100p() {
         return Nte0100p;
     }
 
-    public void setNte0100p(String nte0100p) {
+    public void setNte0100p(Integer nte0100p) {
         Nte0100p = nte0100p;
     }
 
-    public String getNte0200p() {
+    public Integer getNte0200p() {
         return Nte0200p;
     }
 
-    public void setNte0200p(String nte0200p) {
+    public void setNte0200p(Integer nte0200p) {
         Nte0200p = nte0200p;
     }
 
-    public String getNte0500p() {
+    public Integer getNte0500p() {
         return Nte0500p;
     }
 
-    public void setNte0500p(String nte0500p) {
+    public void setNte0500p(Integer nte0500p) {
         Nte0500p = nte0500p;
     }
 
-    public String getNte1000p() {
+    public Integer getNte1000p() {
         return Nte1000p;
     }
 
-    public void setNte1000p(String nte1000p) {
+    public void setNte1000p(Integer nte1000p) {
         Nte1000p = nte1000p;
     }
 
@@ -343,5 +338,21 @@ public class ECashCount {
 
     public void setDRNoxxxx(String DRNoxxxx) {
         this.DRNoxxxx = DRNoxxxx;
+    }
+
+    public Integer getSendStat() {
+        return SendStat;
+    }
+
+    public void setSendStat(Integer sendStat) {
+        SendStat = sendStat;
+    }
+
+    public String getRemarksx() {
+        return Remarksx;
+    }
+
+    public void setRemarksx(String remarksx) {
+        Remarksx = remarksx;
     }
 }

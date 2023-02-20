@@ -32,7 +32,7 @@ public class ECreditApplication {
     @ColumnInfo(name = "sClientNm")
     private String ClientNm;
     @ColumnInfo(name = "sGOCASNox")
-    private String GOCASNox;
+    private String GOCASNox = "";
     @ColumnInfo(name = "sGOCASNoF")
     private String GOCASNoF;
     @ColumnInfo(name = "cUnitAppl")
@@ -60,17 +60,17 @@ public class ECreditApplication {
     @ColumnInfo(name = "sRemarksx")
     private String Remarksx;
     @ColumnInfo(name = "dReceived")
-    private String Received;
+    private String Received = "";
     @ColumnInfo(name = "sCreatedx")
     private String Createdx;
     @ColumnInfo(name = "dCreatedx")
     private String DateCreatedx;
     @ColumnInfo(name = "cSendStat")
-    private String SendStat;
+    private String SendStat = "0";
     @ColumnInfo(name = "sVerified")
     private String Verified;
     @ColumnInfo(name = "dVerified")
-    private String DateVerified;
+    private String DateVerified = "";
     @ColumnInfo(name = "dModified")
     private String Modified;
     @ColumnInfo(name = "cTranStat")

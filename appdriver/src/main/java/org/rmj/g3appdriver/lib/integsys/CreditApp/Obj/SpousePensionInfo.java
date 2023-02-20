@@ -14,7 +14,8 @@ import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EOccupationInfo;
 import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditApp;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Pension;
+
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.SpousePension;
 import org.rmj.gocas.base.GOCASApplication;
 
 import java.util.List;
@@ -24,7 +25,7 @@ public class SpousePensionInfo implements CreditApp {
 
     private final DCreditApplication poDao;
 
-    private Pension poDetail;
+    private SpousePension poDetail;
 
     private String message;
 
@@ -41,31 +42,38 @@ public class SpousePensionInfo implements CreditApp {
     @Override
     public Object Parse(ECreditApplicantInfo args) {
         try{
-            String lsDetail = args.getPensionx();
-            GOCASApplication gocas = new GOCASApplication();
-            JSONParser loJson = new JSONParser();
-            JSONObject joDetail = (JSONObject) loJson.parse(lsDetail);
-            gocas.SpouseMeansInfo().PensionerInfo().setData(joDetail);
+            SpousePension loDetail = new SpousePension();
+            if (args.getSpsPensn() != null){
+                String lsDetail = args.getSpsPensn();
+                GOCASApplication gocas = new GOCASApplication();
+                JSONParser loJson = new JSONParser();
+                JSONObject joDetail = (JSONObject) loJson.parse(lsDetail);
+                gocas.SpouseMeansInfo().PensionerInfo().setData(joDetail);
 
-            Pension loDetail = new Pension();
-
-            loDetail.setPensionSector(gocas.SpouseMeansInfo().PensionerInfo().getSource());
-            loDetail.setPensionIncomeRange(gocas.SpouseMeansInfo().PensionerInfo().getAmount());
+                loDetail.setPensionSector(gocas.SpouseMeansInfo().PensionerInfo().getSource());
+                loDetail.setPensionIncomeRange(gocas.SpouseMeansInfo().PensionerInfo().getAmount());
 //            loDetail.setRetirementYear(gocas.MeansInfo().PensionerInfo().get);
 
-            lsDetail = args.getSpOthInc();
-            gocas = new GOCASApplication();
-            loJson = new JSONParser();
-            joDetail = (JSONObject) loJson.parse(lsDetail);
-            gocas.SpouseMeansInfo().setData(joDetail);
+                lsDetail = args.getSpOthInc();
+                gocas = new GOCASApplication();
+                loJson = new JSONParser();
+                joDetail = (JSONObject) loJson.parse(lsDetail);
+                gocas.SpouseMeansInfo().setData(joDetail);
 
-            loDetail.setNatureOfIncome(gocas.SpouseMeansInfo().getOtherIncomeNature());
+                loDetail.setNatureOfIncome(gocas.SpouseMeansInfo().getOtherIncomeNature());
 //            loDetail.setRangeOfIncom(gocas.MeansInfo().getOtherIncomeAmount());
 
-            poDetail = loDetail;
 
+
+                poDetail = loDetail;
+
+            }
             return loDetail;
-        } catch (Exception e){
+        } catch (NullPointerException e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return null;
+        }catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();
             return null;
@@ -74,7 +82,7 @@ public class SpousePensionInfo implements CreditApp {
 
     @Override
     public int Validate(Object args) {
-        Pension loDetail = (Pension) args;
+        SpousePension loDetail = (SpousePension) args;
 
         if(poDetail == null){
 
@@ -100,15 +108,15 @@ public class SpousePensionInfo implements CreditApp {
     }
 
     @Override
-    public boolean Save(Object args) {
+    public String Save(Object args) {
         try {
-            Pension loDetail = (Pension) args;
+            SpousePension loDetail = (SpousePension) args;
 
             ECreditApplicantInfo loApp = poDao.GetApplicantDetails(loDetail.getTransNox());
 
             if(loApp == null){
                 message = "Unable to find record for update. Please restart credit app and try again.";
-                return false;
+                return null;
             }
 
             GOCASApplication gocas = new GOCASApplication();
@@ -124,11 +132,11 @@ public class SpousePensionInfo implements CreditApp {
             loApp.setSpOthInc(gocas.SpouseMeansInfo().toJSONString());
             poDao.Update(loApp);
 
-            return true;
+            return loDetail.getTransNox();
         } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();
-            return false;
+            return null;
         }
     }
 

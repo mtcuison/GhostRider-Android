@@ -195,8 +195,7 @@
                     android:inputType="numberDecimal"
                     android:maxLength="10"
                     android:maxLines="1"
-                    android:imeOptions="actionNext"
-                    android:nextFocusForward="@id/txt_dcpDiscount"/>
+                    android:imeOptions="actionDone"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button

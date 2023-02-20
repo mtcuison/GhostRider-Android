@@ -19,13 +19,13 @@ import androidx.lifecycle.LiveData;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.apprdiver.util.SQLUtil;
+import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DRelation;
 import org.rmj.g3appdriver.dev.Database.Entities.ERelation;
 import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
-import org.rmj.g3appdriver.dev.HttpHeaders;
+import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.utils.WebApi;
-import org.rmj.g3appdriver.utils.WebClient;
+import org.rmj.g3appdriver.dev.Api.WebApi;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -103,7 +103,7 @@ public class RRelation {
                 params.put("timestamp", loDetail.getTimeStmp());
             }
 
-            String lsResponse = WebClient.httpsPostJSon(poApi.getUrlDownloadRelation(
+            String lsResponse = WebClient.sendRequest(poApi.getUrlDownloadRelation(
                     poConfig.isBackUpServer()),
                     params.toString(),
                     poHeaders.getHeaders());

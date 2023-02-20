@@ -15,13 +15,13 @@
 //import org.rmj.g3appdriver.dev.Database.Repositories.RBranchLoanApplication;
 //import org.rmj.g3appdriver.dev.Database.Repositories.RCreditOnlineApplicationCI;
 //import org.rmj.g3appdriver.dev.Database.Repositories.RImageInfo;
-//import org.rmj.g3appdriver.dev.HttpHeaders;
-//import org.rmj.g3appdriver.dev.WebClient;
+//import org.rmj.g3appdriver.dev.Api.HttpHeaders;
+//import org.rmj.g3appdriver.dev.Api.WebClient;
 //import org.rmj.g3appdriver.etc.AppConfigPreference;
 //import org.rmj.g3appdriver.etc.AppConstants;
-//import org.rmj.g3appdriver.etc.SessionManager;
-//import org.rmj.g3appdriver.etc.WebFileServer;
-//import org.rmj.g3appdriver.utils.WebApi;
+//import org.rmj.g3appdriver.lib.Account.SessionManager;
+//import org.rmj.g3appdriver.dev.Api.WebFileServer;
+//import org.rmj.g3appdriver.dev.Api.WebApi;
 //
 //import java.util.Date;
 //import java.util.HashMap;

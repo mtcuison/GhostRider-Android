@@ -168,7 +168,7 @@ public class Fragment_BH_Dashboard extends Fragment {
         mViewModel.getUserInfo().observe(getViewLifecycleOwner(), eEmployeeInfo -> {
             try{
                 lblUserName.setText(eEmployeeInfo.getUserName());
-                lblUserPost.setText(DeptCode.parseUserLevel(Integer.parseInt(eEmployeeInfo.getEmpLevID())));
+                lblUserPost.setText(DeptCode.parseUserLevel(eEmployeeInfo.getEmpLevID()));
                 lblUserDept.setText(DeptCode.getDepartmentName(eEmployeeInfo.getDeptIDxx()));
                 BranchCd = eEmployeeInfo.getBranchCD();
             } catch (Exception e){

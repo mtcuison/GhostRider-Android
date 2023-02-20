@@ -28,7 +28,7 @@ import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.lib.integsys.Dcp.LRDcp;
-import org.rmj.g3appdriver.lib.integsys.Dcp.model.PaidDCP;
+import org.rmj.g3appdriver.lib.integsys.Dcp.pojo.PaidDCP;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
 
@@ -113,14 +113,15 @@ public class VMPaidTransaction extends AndroidViewModel {
         pnTotalx.setValue(lnTotal);
     }
 
-    public void setRebate(Double fnDiscount){
+    public boolean setRebate(Double fnDiscount){
         try {
             if(loDetail.getDelayAvg() != 0.00){
-                psMssage.setValue("Unable to calculate rebate for delay account.");
+                psMssage.setValue("Unable to calculate rebate for accounts with late payment or not updated payment.");
 
                 double lnPnalty = pnPenlty.getValue();
                 double lnTotal = pnAmount + lnPnalty - 0.0;
                 pnTotalx.setValue(lnTotal);
+                return false;
             } else {
                 calculateRebate();
                 double lnRebate = pnRebate.getValue();
@@ -133,9 +134,11 @@ public class VMPaidTransaction extends AndroidViewModel {
                 double lnPnalty = pnPenlty.getValue();
                 double lnTotal = pnAmount + lnPnalty - lnRebate;
                 pnTotalx.setValue(lnTotal);
+                return true;
             }
         } catch(NullPointerException e) {
             e.printStackTrace();
+            return false;
         }
     }
 
@@ -249,7 +252,6 @@ public class VMPaidTransaction extends AndroidViewModel {
 
         @Override
         protected Boolean doInBackground(PaidDCP... paidDCPS) {
-            paidDCPS[0].setPrNoxxx(poConfig.getDCP_PRNox());
             String lsResult = poSys.SavePaidTransaction(paidDCPS[0]);
             if(lsResult == null){
                 message = poSys.getMessage();

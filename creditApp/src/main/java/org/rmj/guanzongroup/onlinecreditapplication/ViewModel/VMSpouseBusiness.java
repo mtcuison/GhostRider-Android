@@ -3,6 +3,7 @@ package org.rmj.guanzongroup.onlinecreditapplication.ViewModel;
 import android.app.Application;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -15,6 +16,8 @@ import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditAppInstance;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditOnlineApplication;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Business;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Personal;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.SpouseBusiness;
 
 import java.util.List;
 
@@ -22,7 +25,7 @@ public class VMSpouseBusiness extends AndroidViewModel implements CreditAppUI {
     private static final String TAG = VMSpouseBusiness.class.getSimpleName();
 
     private final CreditApp poApp;
-    private final Business poModel;
+    private final SpouseBusiness poModel;
 
     private String TransNox;
 
@@ -31,7 +34,11 @@ public class VMSpouseBusiness extends AndroidViewModel implements CreditAppUI {
     public VMSpouseBusiness(@NonNull Application application) {
         super(application);
         this.poApp = new CreditOnlineApplication(application).getInstance(CreditAppInstance.Spouse_Self_Employed_Info);
-        this.poModel = new Business();
+        this.poModel = new SpouseBusiness();
+    }
+
+    public SpouseBusiness getModel(){
+        return poModel;
     }
 
     @Override
@@ -46,7 +53,7 @@ public class VMSpouseBusiness extends AndroidViewModel implements CreditAppUI {
 
     @Override
     public void ParseData(ECreditApplicantInfo args, OnParseListener listener) {
-
+        new ParseDataTask(listener).execute(args);
     }
 
     @Override
@@ -63,7 +70,46 @@ public class VMSpouseBusiness extends AndroidViewModel implements CreditAppUI {
         return poApp.GetTownProvinceList();
     }
 
-    private class SaveDataTask extends AsyncTask<Business, Void, Boolean>{
+    private class ParseDataTask extends AsyncTask<ECreditApplicantInfo, Void, SpouseBusiness>{
+
+        private final OnParseListener listener;
+
+        public ParseDataTask(OnParseListener listener) {
+            this.listener = listener;
+        }
+
+        @Override
+        protected SpouseBusiness doInBackground(ECreditApplicantInfo... app) {
+            try {
+                SpouseBusiness loDetail = (SpouseBusiness) poApp.Parse(app[0]);
+                if(loDetail == null){
+                    message = poApp.getMessage();
+                    return null;
+                }
+                return loDetail;
+            }  catch (NullPointerException e){
+                e.printStackTrace();
+                message = e.getMessage();
+                return null;
+            }catch (Exception e){
+                e.printStackTrace();
+                message = e.getMessage();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(SpouseBusiness result) {
+            super.onPostExecute(result);
+            if(result == null){
+                Log.e(TAG, message);
+            } else {
+                listener.OnParse(result);
+            }
+        }
+    }
+
+    private class SaveDataTask extends AsyncTask<SpouseBusiness, Void, Boolean>{
 
         private final OnSaveInfoListener listener;
 
@@ -72,7 +118,7 @@ public class VMSpouseBusiness extends AndroidViewModel implements CreditAppUI {
         }
 
         @Override
-        protected Boolean doInBackground(Business... info) {
+        protected Boolean doInBackground(SpouseBusiness... info) {
             int lnResult = poApp.Validate(info[0]);
 
             if(lnResult != 1){
@@ -80,7 +126,8 @@ public class VMSpouseBusiness extends AndroidViewModel implements CreditAppUI {
                 return false;
             }
 
-            if(!poApp.Save(info[0])){
+            String lsResult = poApp.Save(info[0]);
+            if(lsResult == null){
                 message = poApp.getMessage();
                 return false;
             }

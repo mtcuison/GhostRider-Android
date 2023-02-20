@@ -40,7 +40,7 @@ import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.etc.SessionManager;
+import org.rmj.g3appdriver.lib.Account.SessionManager;
 import org.rmj.g3appdriver.lib.ImportData.ImportEmployeeRole;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Application;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_CollectionList;
@@ -92,6 +92,7 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
 
         mViewModel.getEmployeeInfo().observe(this, eEmployeeInfo -> {
             try{
+                AppConfigPreference.getInstance(Activity_Main.this).setIsAppFirstLaunch(false);
                 imgDept.setImageResource(AppDeptIcon.getIcon(eEmployeeInfo.getDeptIDxx()));
                 lblDept.setText(DeptCode.getDepartmentName(eEmployeeInfo.getDeptIDxx()));
                 cSlfiex = eEmployeeInfo.getSlfieLog().equalsIgnoreCase("1");
@@ -202,7 +203,7 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
             loImport.RefreshEmployeeRole(new ImportEmployeeRole.OnImportEmployeeRoleCallback() {
                 @Override
                 public void OnRequest() {
-                    poDialog.initDialog("GhostRider", "Refreshing employee access. Please wait...", false);
+                    poDialog.initDialog("Guanzon Circle", "Refreshing employee access. Please wait...", false);
                     poDialog.show();
                 }
 
@@ -215,7 +216,7 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
                 public void OnFailed(String message) {
                     poDialog.dismiss();
                     loMessage.initDialog();
-                    loMessage.setTitle("GhostRider");
+                    loMessage.setTitle("Guanzon Circle");
                     loMessage.setMessage(message);
                     loMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
                     loMessage.show();
@@ -244,7 +245,6 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(poNetRecvr);
-        AppConfigPreference.getInstance(Activity_Main.this).setIsAppFirstLaunch(false);
         Log.e(TAG, "Internet status receiver has been unregistered.");
     }
 
@@ -268,8 +268,8 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
 //                AppConfigPreference.getInstance(Activity_Main.this).setIsAppFirstLaunch(false);
             });
             loMessage.setNegativeButton("No", (view, dialog) -> dialog.dismiss());
-            loMessage.setTitle("GhostRider");
-            loMessage.setMessage("Exit Ghostrider app?");
+            loMessage.setTitle("Guanzon Circle");
+            loMessage.setMessage("Exit Guanzon Circle app?");
             loMessage.show();
         }
     }

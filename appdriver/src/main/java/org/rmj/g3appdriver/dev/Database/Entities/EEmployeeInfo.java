@@ -42,7 +42,7 @@ public class EEmployeeInfo {
     @ColumnInfo(name = "sPositnID")
     private String PositnID;
     @ColumnInfo(name = "sEmpLevID")
-    private String EmpLevID;
+    private Integer EmpLevID;
     @ColumnInfo(name = "cSlfieLog")
     private String SlfieLog;
     @ColumnInfo(name = "cAllowUpd")
@@ -146,11 +146,11 @@ public class EEmployeeInfo {
         PositnID = positnID;
     }
 
-    public String getEmpLevID() {
+    public Integer getEmpLevID() {
         return EmpLevID;
     }
 
-    public void setEmpLevID(String empLevID) {
+    public void setEmpLevID(Integer empLevID) {
         EmpLevID = empLevID;
     }
 

@@ -7,8 +7,6 @@ public class SpouseResidence {
     private String sHouseNox = "";
     private String sAddress1 = "";
     private String sAddress2 = "";
-    private String sProvncNm = "";
-    private String sProvncID = "";
     private String sMuncplNm = "";
     private String sMuncplID = "";
     private String sBrgyName = "";
@@ -65,22 +63,6 @@ public class SpouseResidence {
         this.sAddress2 = sAddress2;
     }
 
-    public String getProvinceNm() {
-        return sProvncNm;
-    }
-
-    public void setProvinceNm(String sProvncNm) {
-        this.sProvncNm = sProvncNm;
-    }
-
-    public String getProvinceID() {
-        return sProvncID;
-    }
-
-    public void setProvinceID(String sProvncID) {
-        this.sProvncID = sProvncID;
-    }
-
     public String getMunicipalNm() {
         return sMuncplNm;
     }
@@ -114,9 +96,9 @@ public class SpouseResidence {
     }
 
     public boolean isDataValid() {
-        if(isLandmarkValid() || !sHouseNox.trim().isEmpty() || !sAddress1.trim().isEmpty() || !sAddress2.trim().isEmpty() || isProvinceValid() || isTownValid() || isBarangayValid()) {
+        if(isLandmarkValid() || !sHouseNox.trim().isEmpty() || !sAddress1.trim().isEmpty() || !sAddress2.trim().isEmpty() || isTownValid() || isBarangayValid()) {
             return isLandmarkValid() &&
-                    isProvinceValid() &&
+//                    isProvinceValid() &&
                     isTownValid() &&
                     isBarangayValid();
         } else {
@@ -125,20 +107,20 @@ public class SpouseResidence {
     }
 
     private boolean isLandmarkValid(){
-        if(sLandMark.trim().isEmpty()){
+        if(sLandMark == null || sLandMark.trim().isEmpty()){
             message = "Please provide Landmark.";
             return false;
         }
         return true;
     }
 
-    private boolean isProvinceValid(){
-        if(sProvncID == null || sProvncID.trim().isEmpty()){
-            message = "Please provide Province.";
-            return false;
-        }
-        return true;
-    }
+//    private boolean isProvinceValid(){
+//        if(sProvncID == null || sProvncID.trim().isEmpty()){
+//            message = "Please provide Province.";
+//            return false;
+//        }
+//        return true;
+//    }
 
     private boolean isTownValid(){
         if(sMuncplID == null || sMuncplID.trim().isEmpty()){

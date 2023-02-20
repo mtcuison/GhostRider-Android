@@ -9,15 +9,16 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DInventoryDao;
+import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EInventoryDetail;
 import org.rmj.g3appdriver.dev.Database.Entities.EInventoryMaster;
 import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.etc.AppConstants;
-import org.rmj.g3appdriver.dev.HttpHeaders;
-import org.rmj.g3appdriver.dev.WebClient;
+import org.rmj.g3appdriver.dev.Api.HttpHeaders;
+import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
-import org.rmj.g3appdriver.utils.WebApi;
+import org.rmj.g3appdriver.dev.Api.WebApi;
 
 import java.util.List;
 
@@ -48,6 +49,32 @@ public class RandomStockInventory {
 
     public LiveData<DEmployeeInfo.EmployeeBranch> GetUserInfo(){
         return poUser.GetEmployeeBranch();
+    }
+
+    public List<EBranchInfo> GetBranchesForInventory(){
+        try{
+            int lnLogsxx = poDao.CheckIfHasSelfieLog(AppConstants.CURRENT_DATE);
+            if(lnLogsxx == 0){
+                message = "No selfie log record found for this day.";
+                return null;
+            }
+
+            List<EBranchInfo> loList = poDao.GetBranchesForInventory(AppConstants.CURRENT_DATE);
+            if(loList.size() == 0){
+                message = "All branches on selfie log has inventory record.";
+                return null;
+            }
+
+            return loList;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return null;
+        }
+    }
+
+    public LiveData<EBranchInfo> GetBranchInfo(String args){
+        return poDao.GetBranchInfo(args);
     }
 
     public Boolean CheckInventoryRecord(String fsVal){
@@ -81,6 +108,10 @@ public class RandomStockInventory {
             EInventoryMaster loMaster = poDao.GetMasterIfExists(fsVal, AppConstants.CURRENT_DATE);
 
             if(loMaster != null){
+                if(loMaster.getTranStat().equalsIgnoreCase("2")) {
+                    message = "Inventory is already uploaded to server.";
+                    return false;
+                }
                 message = "Inventory already exist in your local device.";
                 return false;
             }
@@ -106,52 +137,110 @@ public class RandomStockInventory {
             }
 
             JSONObject joMaster = loResponse.getJSONObject("master");
-            EInventoryMaster master = new EInventoryMaster();
-            master.setTransNox(joMaster.getString("sTransNox"));
-            master.setBranchCd(joMaster.getString("sBranchCd"));
-            master.setTransact(joMaster.getString("dTransact"));
-            master.setRemarksx(joMaster.getString("sRemarksx"));
-            master.setEntryNox(Integer.parseInt(joMaster.getString("nEntryNox")));
-            master.setRqstdByx(joMaster.getString("sRqstdByx"));
-            master.setVerifyBy(joMaster.getString("sVerified"));
-            master.setDateVrfy(joMaster.getString("dVerified"));
-            master.setApprveBy(joMaster.getString("sApproved"));
-            master.setDateAppv(joMaster.getString("dApproved"));
-            master.setTranStat(joMaster.getString("cTranStat"));
-            poDao.SaveMaster(master);
-            Log.d(TAG, "Inventory master has been saved.");
+            EInventoryMaster objMaster = poDao.GetMaster(joMaster.getString("sTransNox"));
+            if(objMaster == null) {
+                EInventoryMaster master = new EInventoryMaster();
+                master.setTransNox(joMaster.getString("sTransNox"));
+                master.setBranchCd(joMaster.getString("sBranchCd"));
+                master.setTransact(joMaster.getString("dTransact"));
+                master.setRemarksx(joMaster.getString("sRemarksx"));
+                master.setEntryNox(Integer.parseInt(joMaster.getString("nEntryNox")));
+                master.setRqstdByx(joMaster.getString("sRqstdByx"));
+                master.setVerifyBy(joMaster.getString("sVerified"));
+                master.setDateVrfy(joMaster.getString("dVerified"));
+                master.setApprveBy(joMaster.getString("sApproved"));
+                master.setDateAppv(joMaster.getString("dApproved"));
+                master.setTranStat(joMaster.getString("cTranStat"));
+                poDao.SaveMaster(master);
+                Log.d(TAG, "Inventory master has been saved.");
 
-            JSONArray joDetail = loResponse.getJSONArray("detail");
-            for (int x = 0; x < joDetail.length(); x++) {
-                JSONObject loData = joDetail.getJSONObject(x);
-                EInventoryDetail loDetail = new EInventoryDetail();
-                loDetail.setTransNox(loData.getString("sTransNox"));
-                loDetail.setEntryNox(Integer.parseInt(loData.getString("nEntryNox")));
-                loDetail.setBarrCode(loData.getString("sBarrCode"));
-                loDetail.setDescript(loData.getString("sDescript"));
-                loDetail.setWHouseNm(loData.getString("sWHouseNm"));
-                loDetail.setWHouseID(loData.getString("sWHouseID"));
-                loDetail.setSectnNme(loData.getString("sSectnNme"));
-                loDetail.setBinNamex(loData.getString("sBinNamex"));
-                loDetail.setQtyOnHnd(Integer.parseInt(loData.getString("nQtyOnHnd")));
-                loDetail.setActCtr01(Integer.parseInt(loData.getString("nActCtr01")));
-                loDetail.setActCtr02(Integer.parseInt(loData.getString("nActCtr02")));
-                loDetail.setActCtr03(Integer.parseInt(loData.getString("nActCtr03")));
-                loDetail.setRemarksx(loData.getString("sRemarksx"));
-                loDetail.setPartsIDx(loData.getString("sPartsIDx"));
-                loDetail.setWHouseID(loData.getString("sWHouseID"));
-                loDetail.setSectnIDx(loData.getString("sSectnIDx"));
-                loDetail.setBinIDxxx(loData.getString("sBinIDxxx"));
-                loDetail.setLedgerNo(loData.getString("nLedgerNo"));
-                loDetail.setBegQtyxx(loData.getString("nBegQtyxx"));
-                poDao.SaveDetail(loDetail);
-                Log.d(TAG, "Inventory detail has been saved.");
+                JSONArray joDetail = loResponse.getJSONArray("detail");
+                SaveDetail(joDetail);
+            } else {
+                objMaster.setTransNox(joMaster.getString("sTransNox"));
+                objMaster.setBranchCd(joMaster.getString("sBranchCd"));
+                objMaster.setTransact(joMaster.getString("dTransact"));
+                objMaster.setRemarksx(joMaster.getString("sRemarksx"));
+                objMaster.setEntryNox(Integer.parseInt(joMaster.getString("nEntryNox")));
+                objMaster.setRqstdByx(joMaster.getString("sRqstdByx"));
+                objMaster.setVerifyBy(joMaster.getString("sVerified"));
+                objMaster.setDateVrfy(joMaster.getString("dVerified"));
+                objMaster.setApprveBy(joMaster.getString("sApproved"));
+                objMaster.setDateAppv(joMaster.getString("dApproved"));
+                objMaster.setTranStat(joMaster.getString("cTranStat"));
+                poDao.UpdateMaster(objMaster);
+                Log.d(TAG, "Inventory master has been updated.");
+
+                JSONArray joDetail = loResponse.getJSONArray("detail");
+                SaveDetail(joDetail);
             }
             return true;
         } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();
             return false;
+        }
+    }
+
+    private void SaveDetail(JSONArray laDetail){
+        try{
+            for (int x = 0; x < laDetail.length(); x++) {
+                JSONObject loData = laDetail.getJSONObject(x);
+
+                String lsTransNo = loData.getString("sTransNox");
+                int lnEntryNo = loData.getInt("nEntryNox");
+                String lsBarCode = loData.getString("sBarrCode");
+
+                EInventoryDetail objDetail = poDao.GetDetail(lsTransNo, lnEntryNo, lsBarCode);
+                if(objDetail == null) {
+                    EInventoryDetail loDetail = new EInventoryDetail();
+                    loDetail.setTransNox(loData.getString("sTransNox"));
+                    loDetail.setEntryNox(loData.getInt("nEntryNox"));
+                    loDetail.setBarrCode(loData.getString("sBarrCode"));
+                    loDetail.setDescript(loData.getString("sDescript"));
+                    loDetail.setWHouseNm(loData.getString("sWHouseNm"));
+                    loDetail.setWHouseID(loData.getString("sWHouseID"));
+                    loDetail.setSectnNme(loData.getString("sSectnNme"));
+                    loDetail.setBinNamex(loData.getString("sBinNamex"));
+                    loDetail.setQtyOnHnd(loData.getInt("nQtyOnHnd"));
+                    loDetail.setActCtr01(loData.getInt("nActCtr01"));
+                    loDetail.setActCtr02(loData.getInt("nActCtr02"));
+                    loDetail.setActCtr03(loData.getInt("nActCtr03"));
+                    loDetail.setRemarksx(loData.getString("sRemarksx"));
+                    loDetail.setPartsIDx(loData.getString("sPartsIDx"));
+                    loDetail.setWHouseID(loData.getString("sWHouseID"));
+                    loDetail.setSectnIDx(loData.getString("sSectnIDx"));
+                    loDetail.setBinIDxxx(loData.getString("sBinIDxxx"));
+                    loDetail.setLedgerNo(loData.getString("nLedgerNo"));
+                    loDetail.setBegQtyxx(loData.getString("nBegQtyxx"));
+                    poDao.SaveDetail(loDetail);
+                    Log.d(TAG, "Inventory detail has been saved.");
+                } else {
+                    objDetail.setTransNox(loData.getString("sTransNox"));
+                    objDetail.setEntryNox(loData.getInt("nEntryNox"));
+                    objDetail.setBarrCode(loData.getString("sBarrCode"));
+                    objDetail.setDescript(loData.getString("sDescript"));
+                    objDetail.setWHouseNm(loData.getString("sWHouseNm"));
+                    objDetail.setWHouseID(loData.getString("sWHouseID"));
+                    objDetail.setSectnNme(loData.getString("sSectnNme"));
+                    objDetail.setBinNamex(loData.getString("sBinNamex"));
+                    objDetail.setQtyOnHnd(loData.getInt("nQtyOnHnd"));
+                    objDetail.setActCtr01(loData.getInt("nActCtr01"));
+                    objDetail.setActCtr02(loData.getInt("nActCtr02"));
+                    objDetail.setActCtr03(loData.getInt("nActCtr03"));
+                    objDetail.setRemarksx(loData.getString("sRemarksx"));
+                    objDetail.setPartsIDx(loData.getString("sPartsIDx"));
+                    objDetail.setWHouseID(loData.getString("sWHouseID"));
+                    objDetail.setSectnIDx(loData.getString("sSectnIDx"));
+                    objDetail.setBinIDxxx(loData.getString("sBinIDxxx"));
+                    objDetail.setLedgerNo(loData.getString("nLedgerNo"));
+                    objDetail.setBegQtyxx(loData.getString("nBegQtyxx"));
+                    poDao.UpdateDetail(objDetail);
+                    Log.d(TAG, "Inventory detail has been updated.");
+                }
+            }
+        } catch (Exception e){
+            e.printStackTrace();
         }
     }
 
@@ -173,7 +262,7 @@ public class RandomStockInventory {
             String PartIDxx = foVal.getPartIDxx();
             String BarCodex = foVal.getBarCodex();
 
-            EInventoryDetail loDetail = poDao.GetDetail(TransNox, PartIDxx, BarCodex);
+            EInventoryDetail loDetail = poDao.GetDetail(TransNox, Integer.parseInt(PartIDxx), BarCodex);
 
             if(loDetail == null){
                 message = "Unable to find item detail.";

@@ -1,5 +1,7 @@
 package org.rmj.g3appdriver.lib.integsys.CreditApp.model;
 
+import android.util.Log;
+
 public class Financier {
 
     private String TransNox = "";
@@ -11,6 +13,7 @@ public class Financier {
     private String sFMoble = "";
     private String sFFcbkx = "";
     private String sFEmlx = "";
+    private String cMeanInfo = "";
 
     private String message;
 
@@ -20,6 +23,15 @@ public class Financier {
     public String getMessage(){
         return message;
     }
+
+    public String getcMeanInfo() {
+        return cMeanInfo;
+    }
+
+    public void setcMeanInfo(String cMeanInfo) {
+        this.cMeanInfo = cMeanInfo;
+    }
+
 
     public String getTransNox() {
         return TransNox;
@@ -88,6 +100,15 @@ public class Financier {
         this.sFEmlx = sFEmlx;
     }
 
+    public boolean isPrimary(){
+        Log.e("means = ", cMeanInfo);
+        if (!cMeanInfo.equalsIgnoreCase("2")){
+            return false;
+        }
+        return true;
+
+    }
+
     public boolean isDataValid(){
         return isFinancierRelationValid() &&
                 isFinancierNameValid() &&
@@ -97,14 +118,14 @@ public class Financier {
     }
 
     private boolean isFinancierNameValid(){
-        if(sFNamex.trim().isEmpty()){
+        if(sFNamex.trim().isEmpty() || sFNamex.trim().equalsIgnoreCase("")){
             message = "Please enter financier name";
             return false;
         }
         return true;
     }
     private boolean isFinancierRelationValid(){
-        if(Integer.parseInt(sFRltnx) < 0){
+        if(sFRltnx.trim().isEmpty() || sFRltnx.trim().equalsIgnoreCase("") ){
             message = "Please select financier relationship";
             return false;
         }
@@ -128,7 +149,7 @@ public class Financier {
     }
 
     private boolean isMobileNoValid(){
-        if(sFMoble.trim().isEmpty()){
+        if(sFMoble.trim().isEmpty() || sFMoble.trim().equalsIgnoreCase("")){
             message = "Please enter financier mobile no";
             return false;
         }

@@ -17,6 +17,7 @@ import android.os.AsyncTask;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EInventoryDetail;
@@ -31,9 +32,9 @@ public class VMInventory extends AndroidViewModel {
     private static final String TAG = VMInventory.class.getSimpleName();
 
     private final RandomStockInventory poSys;
-
-    private final RBranch poBranch;
     private final ConnectionUtil poConn;
+
+    private final MutableLiveData<String> psBranch = new MutableLiveData<>();
 
     public interface OnCheckLocalRecords{
         void OnCheck();
@@ -53,19 +54,29 @@ public class VMInventory extends AndroidViewModel {
         void OnFailed(String message);
     }
 
+    public interface OnGetBranchListListener{
+        void OnLoad();
+        void OnRetrieve(List<EBranchInfo> list);
+        void OnFailed(String message);
+    }
+
     public VMInventory(@NonNull Application application) {
         super(application);
         this.poSys = new RandomStockInventory(application);
-        this.poBranch = new RBranch(application);
         this.poConn = new ConnectionUtil(application);
+        this.psBranch.setValue("");
     }
 
-    public LiveData<EBranchInfo> getUserBranchInfo(){
-        return poBranch.getUserBranchInfo();
+    public void setBranchCd(String val){
+        this.psBranch.setValue(val);
     }
 
-    public LiveData<String> getBranchName(String BranchCd){
-        return poBranch.getBranchName(BranchCd);
+    public LiveData<String> GetBranchCd(){
+        return psBranch;
+    }
+
+    public LiveData<EBranchInfo> GetBranchInfo(String args){
+        return poSys.GetBranchInfo(args);
     }
 
     public LiveData<EInventoryMaster> GetInventoryMaster(String fsVal){
@@ -74,6 +85,47 @@ public class VMInventory extends AndroidViewModel {
 
     public LiveData<List<EInventoryDetail>> GetInventoryItems(String fsVal){
         return poSys.GetInventoryItems(fsVal);
+    }
+
+    public void GetBranchList(OnGetBranchListListener listener){
+        new GetBranchTask(listener).execute();
+    }
+
+    private class GetBranchTask extends AsyncTask<Void, Void, List<EBranchInfo>>{
+
+        private final OnGetBranchListListener listener;
+
+        private String message;
+
+        public GetBranchTask(OnGetBranchListListener listener) {
+            this.listener = listener;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            listener.OnLoad();
+        }
+
+        @Override
+        protected List<EBranchInfo> doInBackground(Void... voids) {
+            List<EBranchInfo> loList = poSys.GetBranchesForInventory();
+            if(loList == null){
+                message = poSys.getMessage();
+                return null;
+            }
+            return loList;
+        }
+
+        @Override
+        protected void onPostExecute(List<EBranchInfo> eBranchInfos) {
+            super.onPostExecute(eBranchInfos);
+            if(eBranchInfos == null){
+                listener.OnFailed(message);
+            } else {
+                listener.OnRetrieve(eBranchInfos);
+            }
+        }
     }
 
     public void CheckBranchInventory(String fsVal, OnCheckLocalRecords callback){
@@ -148,7 +200,7 @@ public class VMInventory extends AndroidViewModel {
                 return false;
             }
 
-            if(poSys.ImportInventory(strings[0])){
+            if(!poSys.ImportInventory(strings[0])){
                 message = poSys.getMessage();
                 return false;
             }

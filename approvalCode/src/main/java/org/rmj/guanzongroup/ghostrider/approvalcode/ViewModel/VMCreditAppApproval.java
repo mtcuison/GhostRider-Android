@@ -18,11 +18,11 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
 import org.rmj.g3appdriver.lib.ApprovalCode.ApprovalCode;
-import org.rmj.g3appdriver.lib.ApprovalCode.SCA;
-import org.rmj.g3appdriver.lib.ApprovalCode.model.CreditAppInfo;
+import org.rmj.g3appdriver.lib.ApprovalCode.model.SCA;
+import org.rmj.g3appdriver.lib.ApprovalCode.pojo.CreditAppInfo;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.guanzongroup.ghostrider.approvalcode.Etc.ViewModelCallback;
-import org.rmj.g3appdriver.lib.ApprovalCode.model.CreditApp;
+import org.rmj.g3appdriver.lib.ApprovalCode.pojo.CreditApp;
 
 public class VMCreditAppApproval extends AndroidViewModel {
     private final ConnectionUtil poConn;

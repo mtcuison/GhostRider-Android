@@ -45,7 +45,7 @@ import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.g3appdriver.etc.GToast;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.lib.PetManager.model.LeaveApprovalInfo;
+import org.rmj.g3appdriver.lib.PetManager.pojo.LeaveApprovalInfo;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Application;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMLeaveApproval;
@@ -144,10 +144,10 @@ public class Fragment_LeaveApproval extends Fragment implements VMLeaveApproval.
                             tieDateFrom.setText(FormatUIText.formatGOCasBirthdate(eEmployeeLeave.getDateFrom()));
                             tieDateThru.setText(FormatUIText.formatGOCasBirthdate(eEmployeeLeave.getDateThru()));
                             txtPurpse.setText(eEmployeeLeave.getPurposex());
-                            pnCredits = Integer.parseInt(eEmployeeLeave.getLveCredt());
+                            pnCredits = eEmployeeLeave.getLveCredt();
                             pnLeaveTp = Integer.parseInt(eEmployeeLeave.getLeaveTyp());
-                            String lsFromx = eEmployeeLeave.getAppldFrx();
-                            String lsDteTo = eEmployeeLeave.getAppldTox();
+                            String lsFromx = eEmployeeLeave.getDateFrom();
+                            String lsDteTo = eEmployeeLeave.getDateThru();
                             mViewModel.setCredits(pnCredits);
                             mViewModel.calculateLeavePay(pnLeaveTp, lsFromx, lsDteTo);
                         }
@@ -331,8 +331,8 @@ public class Fragment_LeaveApproval extends Fragment implements VMLeaveApproval.
         return view;
     }
     private void sendLeaveUpdate(){
-        poModel.setWithPayx(Objects.requireNonNull(tieWithPy.getText()).toString());
-        poModel.setWithOPay(Objects.requireNonNull(tieWOPay.getText()).toString());
+        poModel.setWithPayx(Integer.parseInt(tieWithPy.getText().toString()));
+        poModel.setWithOPay(Integer.parseInt(tieWOPay.getText().toString()));
         mViewModel.confirmLeaveApplication(poModel, new VMLeaveApproval.OnConfirmLeaveAppCallback() {
             @Override
             public void onConfirm() {

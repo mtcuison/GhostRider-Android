@@ -92,9 +92,13 @@ public class Personal {
      * @return Use this get method to retrieve the UI preview of birthdate.
      */
     public String getBirthDte() {
-        return FormatUIText.formatGOCasBirthdate(BrthDate);
+//        if(!BrthDate.isEmpty()){
+//            return  FormatUIText.formatGOCasBirthdate(BrthDate);
+//        }else {
+//            return "";
+//        }
+        return BrthDate;
     }
-
     public void setBrthDate(String brthDate) {
         BrthDate = brthDate;
     }
@@ -274,10 +278,16 @@ public class Personal {
             return false;
         }
 
-        if(Integer.parseInt(Gender) < 0){
+//        if(Gender == null || Integer.parseInt(Gender) < 0){
+//            message = "Please select gender";
+//            return false;
+//        }
+
+        if (Gender == null || Gender.trim().isEmpty()){
             message = "Please select gender";
             return false;
         }
+
 
         if(Gender.equalsIgnoreCase("1") && CvlStats.equalsIgnoreCase("1")) {
             if (MotherNm.trim().isEmpty()) {
@@ -286,7 +296,8 @@ public class Personal {
             }
         }
 
-        if(CvlStats == null || Integer.parseInt(CvlStats) < 0){
+
+        if(CvlStats == null || CvlStats.trim().isEmpty()){
             message = "Please select civil status";
             return false;
         }

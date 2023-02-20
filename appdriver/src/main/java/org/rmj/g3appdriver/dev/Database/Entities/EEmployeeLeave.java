@@ -16,6 +16,8 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import org.rmj.g3appdriver.etc.AppConstants;
+
 @Entity(tableName = "Employee_Leave")
 public class EEmployeeLeave {
 
@@ -40,7 +42,7 @@ public class EEmployeeLeave {
     @ColumnInfo(name = "dDateThru")
     private String DateThru = "";
     @ColumnInfo(name = "nNoDaysxx")
-    private String NoDaysxx = "";
+    private Integer NoDaysxx = 0;
     @ColumnInfo(name = "sPurposex")
     private String Purposex = "";
     @ColumnInfo(name = "cLeaveTyp")
@@ -54,11 +56,11 @@ public class EEmployeeLeave {
     @ColumnInfo(name = "dEntryDte")
     private String EntryDte = "";
     @ColumnInfo(name = "nWithPayx")
-    private String WithPayx = "";
+    private Integer WithPayx = 0;
     @ColumnInfo(name = "nWithOPay")
-    private String WithOPay = "";
+    private Integer WithOPay = 0;
     @ColumnInfo(name = "nEqualHrs")
-    private String EqualHrs = "";
+    private Double EqualHrs = 0.00;
     @ColumnInfo(name = "sApproved")
     private String Approved = "";
     @ColumnInfo(name = "dApproved")
@@ -70,13 +72,13 @@ public class EEmployeeLeave {
     @ColumnInfo(name = "dSendDate")
     private String SendDate = "";
     @ColumnInfo(name = "nLveCredt")
-    private String LveCredt = "";
+    private Integer LveCredt = 0;
     @ColumnInfo(name = "cTranStat")
     private String TranStat = "";
     @ColumnInfo(name = "dModified")
-    private String Modified = "";
+    private String Modified = new AppConstants().DATE_MODIFIED;
     @ColumnInfo(name = "dTimeStmp")
-    private String TimeStmp = "";
+    private String TimeStmp = new AppConstants().DATE_MODIFIED;
 
     public EEmployeeLeave() {
     }
@@ -146,11 +148,11 @@ public class EEmployeeLeave {
         DateThru = dateThru;
     }
 
-    public String getNoDaysxx() {
+    public Integer getNoDaysxx() {
         return NoDaysxx;
     }
 
-    public void setNoDaysxx(String noDaysxx) {
+    public void setNoDaysxx(Integer noDaysxx) {
         NoDaysxx = noDaysxx;
     }
 
@@ -202,19 +204,19 @@ public class EEmployeeLeave {
         EntryDte = entryDte;
     }
 
-    public String getWithOPay() {
+    public Integer getWithOPay() {
         return WithOPay;
     }
 
-    public void setWithOPay(String withOPay) {
+    public void setWithOPay(Integer withOPay) {
         WithOPay = withOPay;
     }
 
-    public String getEqualHrs() {
+    public Double getEqualHrs() {
         return EqualHrs;
     }
 
-    public void setEqualHrs(String equalHrs) {
+    public void setEqualHrs(Double equalHrs) {
         EqualHrs = equalHrs;
     }
 
@@ -250,11 +252,11 @@ public class EEmployeeLeave {
         SendDate = sendDate;
     }
 
-    public String getLveCredt() {
+    public Integer getLveCredt() {
         return LveCredt;
     }
 
-    public void setLveCredt(String lveCredt) {
+    public void setLveCredt(Integer lveCredt) {
         LveCredt = lveCredt;
     }
 
@@ -274,11 +276,11 @@ public class EEmployeeLeave {
         Modified = modified;
     }
 
-    public String getWithPayx() {
+    public Integer getWithPayx() {
         return WithPayx;
     }
 
-    public void setWithPayx(String withPayx) {
+    public void setWithPayx(Integer withPayx) {
         WithPayx = withPayx;
     }
 

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:theme="@style/GhostRiderMaterialTheme.WhiteBG"
-    tools:context=".Fragment.Fragment_Dependent">
+    tools:context=".Activities.Activity_Dependent">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -117,73 +117,59 @@
 
                 </LinearLayout>
 
-                <RadioGroup
-                    android:id="@+id/rg_cap_dpdStudent"
+                <CheckBox
+                    android:id="@+id/cbStudent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:fontFamily="@font/roboto_medium"
+                    android:padding="10dp"
+                    android:text="Is dependent a student?"
+                    android:textColor="@color/material_black"/>
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1.6"
-                        android:fontFamily="@font/roboto_medium"
-                        android:padding="10dp"
-                        android:text="Is dependent a student?"
-                        android:textColor="@color/material_black"
-                        tools:ignore="HardcodedText"
-                        tools:targetApi="jelly_bean" />
-
-                    <RadioButton
-                        android:id="@+id/rb_cap_dpdStudentYes"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight=".7"
-                        android:fontFamily="@font/roboto_regular"
-                        android:text="@string/sLabelYes"
-                        tools:targetApi="jelly_bean" />
-
-                    <RadioButton
-                        android:id="@+id/rb_cap_dpdStudentNo"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight=".7"
-                        android:fontFamily="@font/roboto_regular"
-                        android:text="@string/sLabelNo"
-                        tools:targetApi="jelly_bean" />
-                </RadioGroup>
                 <!--Student Dependent School Info...-->
                 <LinearLayout
                     android:id="@+id/linearStudent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:visibility="visible">
+                    android:visibility="gone">
+
                     <!--School Type-->
-                    <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
-                        xmlns:tools="http://schemas.android.com/tools"
+                    <RadioGroup
+                        android:id="@+id/rg_schoolType"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight=".6"
-                        android:orientation="vertical">
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center">
 
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            style="@style/CustomDropDownTilStyle"
+                        <TextView
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1."
+                            android:text="School Type"
+                            android:fontFamily="@font/roboto_medium"
+                            android:padding="10dp"
+                            android:textColor="@color/material_black"/>
 
-                            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
-                                android:id="@+id/spn_cap_dpdSchoolType"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:clickable="false"
-                                android:focusable="false"
-                                android:hint="@string/sSchoolType"
-                                android:inputType="none"
-                                android:padding="16dp" />
-                        </com.google.android.material.textfield.TextInputLayout>
-                    </androidx.appcompat.widget.LinearLayoutCompat>
+                        <RadioButton
+                            android:id="@+id/rb_public"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Public"
+                            android:fontFamily="@font/roboto_medium"
+                            android:textColor="@color/material_black"/>
+
+                        <RadioButton
+                            android:id="@+id/rb_private"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Private"
+                            android:fontFamily="@font/roboto_medium"
+                            android:textColor="@color/material_black"/>
+
+                    </RadioGroup>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -268,24 +254,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="@string/sHintProvince">
-
-                            <AutoCompleteTextView
-                                android:id="@+id/tie_cap_dpdSchoolProv"
-                                style="@style/AutoCompleteStyleTheme"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:inputType="textCapWords|textAutoComplete"
-                                android:maxLength="50"
-                                android:imeOptions="actionNext"
-                                android:nextFocusForward="@+id/tie_cap_dpdSchoolTown"/>
-                        </com.google.android.material.textfield.TextInputLayout>
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            style="@style/TextInputStyle"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
                             android:hint="@string/sHintTown">
 
                             <AutoCompleteTextView
@@ -302,73 +270,67 @@
                 </LinearLayout>
 
                 <!--Employed Dependent Info-->
-                <RadioGroup
-                    android:id="@+id/rg_cap_dpdEmployed"
+                <CheckBox
+                    android:id="@+id/cbEmployee"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1.6"
-                        android:fontFamily="@font/roboto_medium"
-                        android:padding="10dp"
-                        android:text="Is dependent employed?"
-                        android:textColor="@color/material_black"
-                        tools:ignore="HardcodedText"
-                        tools:targetApi="jelly_bean" />
-
-                    <RadioButton
-                        android:id="@+id/rb_cap_dpdEmployedYes"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight=".7"
-                        android:fontFamily="@font/roboto_regular"
-                        android:text="@string/sLabelYes"
-                        tools:targetApi="jelly_bean" />
-
-                    <RadioButton
-                        android:id="@+id/rb_cap_dpdEmployedNo"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight=".7"
-                        android:fontFamily="@font/roboto_regular"
-                        android:text="@string/sLabelNo"
-                        tools:targetApi="jelly_bean" />
-                </RadioGroup>
+                    android:fontFamily="@font/roboto_medium"
+                    android:padding="10dp"
+                    android:text="Is dependent employed?"
+                    android:textColor="@color/material_black"/>
 
                 <LinearLayout
                     android:id="@+id/linearEmployd"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:visibility="visible">
+                    android:visibility="gone">
                     <!-- Employment Type -->
-                    <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
-                        xmlns:tools="http://schemas.android.com/tools"
+
+                    <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight=".6"
-                        android:orientation="vertical">
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1."
+                        android:text="Employment Sector"
+                        android:fontFamily="@font/roboto_medium"
+                        android:padding="10dp"
+                        android:textColor="@color/material_black"/>
 
+                    <RadioGroup
+                        android:id="@+id/rg_empSector"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center">
 
-                        <com.google.android.material.textfield.TextInputLayout
-                            style="@style/CustomDropDownTilStyle"
+                        <RadioButton
+                            android:id="@+id/rb_empPublic"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Public"
+                            android:fontFamily="@font/roboto_medium"
+                            android:textColor="@color/material_black"/>
 
-                            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
-                                android:id="@+id/spn_cap_dpdEmployedType"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:clickable="false"
-                                android:focusable="false"
-                                android:hint="@string/sHeaderLabelEmploymentTypeSector"
-                                android:inputType="none"
-                                android:padding="16dp" />
-                        </com.google.android.material.textfield.TextInputLayout>
-                    </androidx.appcompat.widget.LinearLayoutCompat>
+                        <RadioButton
+                            android:id="@+id/rb_empPrivate"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Private"
+                            android:fontFamily="@font/roboto_medium"
+                            android:textColor="@color/material_black"/>
+
+                        <RadioButton
+                            android:id="@+id/rb_empOFW"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="OFW"
+                            android:fontFamily="@font/roboto_medium"
+                            android:textColor="@color/material_black"/>
+
+                    </RadioGroup>
 
                     <com.google.android.material.textfield.TextInputLayout
                         style="@style/TextInputStyle"
@@ -444,7 +406,6 @@
                     android:layout_alignParentStart="true"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
-                    android:drawableStart="@drawable/ic_nav_left"
                     android:drawableLeft="@drawable/ic_nav_left"
                     android:text="@string/sbtnPrvs"
                     tools:ignore="RelativeOverlap" />

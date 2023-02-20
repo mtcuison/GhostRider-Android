@@ -1,6 +1,7 @@
 package org.rmj.g3appdriver.lib.integsys.CreditApp.Obj;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
@@ -48,45 +49,66 @@ public class CoMakerResidenceInfo implements CreditApp {
     @Override
     public Object Parse(ECreditApplicantInfo args) {
         try{
-            String lsDetail = args.getCmResidx();
-            GOCASApplication gocas = new GOCASApplication();
-            JSONParser loJson = new JSONParser();
-            JSONObject joDetail = (JSONObject) loJson.parse(lsDetail);
-            gocas.CoMakerInfo().ResidenceInfo().setData(joDetail);
-
             CoMakerResidence loDetail = new CoMakerResidence();
-            loDetail.setLandMark(gocas.CoMakerInfo().ResidenceInfo().PresentAddress().getLandMark());
-            loDetail.setHouseNox(gocas.CoMakerInfo().ResidenceInfo().PresentAddress().getHouseNo());
-            loDetail.setAddress1(gocas.CoMakerInfo().ResidenceInfo().PresentAddress().getAddress1());
-            loDetail.setAddress2(gocas.CoMakerInfo().ResidenceInfo().PresentAddress().getAddress2());
+            if(args.getCmResidx() != null){
+                String lsDetail = args.getCmResidx();
+                GOCASApplication gocas = new GOCASApplication();
+                JSONParser loJson = new JSONParser();
+                JSONObject joDetail = (JSONObject) loJson.parse(lsDetail);
+                gocas.CoMakerInfo().ResidenceInfo().setData(joDetail);
 
-            String lsBrgy = gocas.CoMakerInfo().ResidenceInfo().PresentAddress().getBarangay();
-            DBarangayInfo.BrgyTownProvNames loBrgy = poBrgy.getBrgyTownProvName(lsBrgy);
+                loDetail.setLandMark(gocas.CoMakerInfo().ResidenceInfo().PresentAddress().getLandMark());
+                loDetail.setHouseNox(gocas.CoMakerInfo().ResidenceInfo().PresentAddress().getHouseNo());
+                loDetail.setAddress1(gocas.CoMakerInfo().ResidenceInfo().PresentAddress().getAddress1());
+                loDetail.setAddress2(gocas.CoMakerInfo().ResidenceInfo().PresentAddress().getAddress2());
 
-            loDetail.setMunicipalID(gocas.CoMakerInfo().ResidenceInfo().PresentAddress().getTownCity());
-            loDetail.setBarangayID(lsBrgy);
+                String lsBrgy = gocas.CoMakerInfo().ResidenceInfo().PresentAddress().getBarangay();
+                DBarangayInfo.BrgyTownProvNames loBrgy = poBrgy.getBrgyTownProvName(lsBrgy);
 
-            loDetail.setProvinceNm(loBrgy.sProvName);
-            loDetail.setMunicipalNm(loBrgy.sTownName);
-            loDetail.setBarangayName(loBrgy.sBrgyName);
+                loDetail.setMunicipalID(gocas.CoMakerInfo().ResidenceInfo().PresentAddress().getTownCity());
+                loDetail.setBarangayID(lsBrgy);
 
-            loDetail.setOwnerRelation(gocas.CoMakerInfo().ResidenceInfo().getOwnership());
-            loDetail.setLenghtOfStay(gocas.CoMakerInfo().ResidenceInfo().getRentNoYears());
-            loDetail.setMonthlyExpenses(gocas.CoMakerInfo().ResidenceInfo().getRentExpenses());
+                loDetail.setProvinceNm(loBrgy.sProvName);
+                loDetail.setMunicipalNm(loBrgy.sTownName);
+                loDetail.setBarangayName(loBrgy.sBrgyName);
 
-            //TODO: make a validation of value for length of stay which
-            // will display if the applicant stays for a year or only for a month
-            double lnLength = gocas.CoMakerInfo().ResidenceInfo().getRentNoYears();
+                Log.d(TAG, "House Ownership: " + gocas.CoMakerInfo().ResidenceInfo().getOwnership());
+                loDetail.setOwnerRelation(gocas.CoMakerInfo().ResidenceInfo().getCareTakerRelation());
 
-            if(lnLength % 1 == 0){
-                loDetail.setIsYear(1);
-            } else {
-                loDetail.setIsYear(0);
+                Log.d(TAG, "Length Of Stay: " + gocas.CoMakerInfo().ResidenceInfo().getRentNoYears());
+                loDetail.setLenghtOfStay(gocas.CoMakerInfo().ResidenceInfo().getRentNoYears());
+
+                Log.d(TAG, "Monthly Expense: " + gocas.CoMakerInfo().ResidenceInfo().getRentExpenses());
+                loDetail.setMonthlyExpenses(gocas.CoMakerInfo().ResidenceInfo().getRentExpenses());
+
+                loDetail.setHouseOwn(gocas.CoMakerInfo().ResidenceInfo().getOwnership());
+
+                loDetail.setHouseHold(gocas.CoMakerInfo().ResidenceInfo().getOwnedResidenceInfo());
+                loDetail.setHouseType(gocas.CoMakerInfo().ResidenceInfo().getHouseType());
+                loDetail.setHasGarage(gocas.CoMakerInfo().ResidenceInfo().hasGarage());
+
+//                loDetail.setOwnerRelation(gocas.CoMakerInfo().ResidenceInfo().getOwnership());
+//                loDetail.setLenghtOfStay(gocas.CoMakerInfo().ResidenceInfo().getRentNoYears());
+//                loDetail.setMonthlyExpenses(gocas.CoMakerInfo().ResidenceInfo().getRentExpenses());
+
+                //TODO: make a validation of value for length of stay which
+                // will display if the applicant stays for a year or only for a month
+                double lnLength = gocas.CoMakerInfo().ResidenceInfo().getRentNoYears();
+
+                if(lnLength % 1 == 0){
+                    loDetail.setIsYear(1);
+                } else {
+                    loDetail.setIsYear(0);
+                }
+
+                poDetail = loDetail;
             }
-
-            poDetail = loDetail;
             return loDetail;
-        } catch (Exception e){
+        } catch (NullPointerException e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return null;
+        }catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();
             return null;
@@ -121,7 +143,7 @@ public class CoMakerResidenceInfo implements CreditApp {
     }
 
     @Override
-    public boolean Save(Object args) {
+    public String Save(Object args) {
         try{
             CoMakerResidence loDetail = (CoMakerResidence) args;
 
@@ -129,7 +151,7 @@ public class CoMakerResidenceInfo implements CreditApp {
 
             if(loApp == null){
                 message = "Unable to find record for update. Please restart credit app and try again.";
-                return false;
+                return null;
             }
 
             GOCASApplication gocas = new GOCASApplication();
@@ -149,11 +171,11 @@ public class CoMakerResidenceInfo implements CreditApp {
             gocas.CoMakerInfo().ResidenceInfo().hasGarage(loDetail.getHasGarage());
             loApp.setCmResidx(gocas.CoMakerInfo().ResidenceInfo().toJSONString());
             poDao.Update(loApp);
-            return true;
+            return loDetail.getTransNox();
         } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();
-            return false;
+            return null;
         }
     }
 

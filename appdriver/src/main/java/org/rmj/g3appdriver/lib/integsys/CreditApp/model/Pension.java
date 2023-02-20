@@ -1,5 +1,7 @@
 package org.rmj.g3appdriver.lib.integsys.CreditApp.model;
 
+import android.util.Log;
+
 public class Pension {
 
     private String TransNox = "";
@@ -8,6 +10,8 @@ public class Pension {
     private String sRtrYear = "";
     private String sNtrIncm = "";
     private long sRngIncm = 0;
+    private String cMeanInfo = "";
+
 
     private String message;
 
@@ -17,6 +21,15 @@ public class Pension {
     public String getTransNox() {
         return TransNox;
     }
+
+    public String getcMeanInfo() {
+        return cMeanInfo;
+    }
+
+    public void setcMeanInfo(String cMeanInfo) {
+        this.cMeanInfo = cMeanInfo;
+    }
+
 
     public void setTransNox(String transNox) {
         TransNox = transNox;
@@ -69,6 +82,15 @@ public class Pension {
         this.sRngIncm = sRngIncm;
     }
 
+    public boolean isPrimary(){
+        Log.e("means = ", cMeanInfo);
+        if (!cMeanInfo.equalsIgnoreCase("3")){
+            return false;
+        }
+        return true;
+
+    }
+
     public boolean isDataValid(){
         return isSectorValid() &&
                 isPensionIncomeValid() &&
@@ -77,7 +99,7 @@ public class Pension {
     }
 
     private boolean isSectorValid(){
-        if(sSectorx.equalsIgnoreCase("-1")){
+        if(sSectorx.trim().isEmpty() || sSectorx.equalsIgnoreCase("" )){
             message = "Please select sector";
             return false;
         }
@@ -93,7 +115,7 @@ public class Pension {
     }
 
     private boolean isRetirementYearValid(){
-        if(sRtrYear.trim().isEmpty()){
+        if(sRtrYear.trim().isEmpty() || sRtrYear.trim().equalsIgnoreCase("")){
             message = "Please enter retirement year";
             return false;
         }
@@ -101,7 +123,7 @@ public class Pension {
     }
 
     private boolean isOtherIncomeValid(){
-        if(!sNtrIncm.trim().isEmpty()){
+        if(!sNtrIncm.trim().isEmpty() || !sNtrIncm.equalsIgnoreCase("")){
             if(sRngIncm == 0){
                 message = "Please enter at least estimated amount in other source of income";
                 return false;

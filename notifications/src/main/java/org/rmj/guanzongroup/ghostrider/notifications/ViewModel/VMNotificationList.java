@@ -20,9 +20,8 @@ import androidx.lifecycle.MutableLiveData;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DNotifications;
 import org.rmj.g3appdriver.dev.Database.Repositories.RNotificationInfo;
-import org.rmj.guanzongroup.ghostrider.notifications.Object.NotificationItemList;
+import org.rmj.guanzongroup.ghostrider.notifications.Obj.NotificationItemList;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class VMNotificationList extends AndroidViewModel {

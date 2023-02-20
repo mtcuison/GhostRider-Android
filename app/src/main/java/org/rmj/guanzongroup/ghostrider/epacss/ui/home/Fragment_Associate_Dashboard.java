@@ -110,9 +110,9 @@ public class Fragment_Associate_Dashboard extends Fragment {
                     loMessage.setPositiveButton("Continue", (view1, dialog) -> {
                         dialog.dismiss();
                         poConfig.setTestCase(switchOn);
-                        requireActivity().finish();
                         new EmployeeMaster(requireActivity().getApplication()).LogoutUserSession();
                         AppConfigPreference.getInstance(getActivity()).setIsAppFirstLaunch(false);
+                        requireActivity().finish();
                         startActivity(new Intent(getActivity(), Activity_SplashScreen.class));
                     });
                     loMessage.setTitle("GhostRider Dev Mode");
@@ -128,9 +128,9 @@ public class Fragment_Associate_Dashboard extends Fragment {
                     loMessage.setPositiveButton("Continue", (view1, dialog) -> {
                         dialog.dismiss();
                         poConfig.setTestCase(switchOn);
-                        requireActivity().finish();
                         new EmployeeMaster(requireActivity().getApplication()).LogoutUserSession();
                         AppConfigPreference.getInstance(getActivity()).setIsAppFirstLaunch(false);
+                        requireActivity().finish();
                         startActivity(new Intent(getActivity(), Activity_SplashScreen.class));
                     });
                     loMessage.setTitle("GhostRider Dev Mode");
@@ -152,9 +152,9 @@ public class Fragment_Associate_Dashboard extends Fragment {
             loMessage.setNegativeButton("No", (view1, dialog) -> dialog.dismiss());
             loMessage.setPositiveButton("Yes", (view1, dialog) -> {
                 dialog.dismiss();
-                requireActivity().finish();
                 new EmployeeMaster(requireActivity().getApplication()).LogoutUserSession();
                 AppConfigPreference.getInstance(getActivity()).setIsAppFirstLaunch(false);
+                requireActivity().finish();
                 startActivity(new Intent(getActivity(), Activity_SplashScreen.class));
             });
             loMessage.setTitle("GhostRider Session");
@@ -177,7 +177,7 @@ public class Fragment_Associate_Dashboard extends Fragment {
             try {
                 lblFullNme.setText(eEmployeeInfo.getUserName());
                 lblEmail.setText(eEmployeeInfo.getEmailAdd());
-                lblUserLvl.setText(DeptCode.parseUserLevel(Integer.parseInt(eEmployeeInfo.getEmpLevID())));
+                lblUserLvl.setText(DeptCode.parseUserLevel(eEmployeeInfo.getEmpLevID()));
                 lblDept.setText(DeptCode.getDepartmentName(eEmployeeInfo.getDeptIDxx()));
 //                imgUser.setImageResource(AppConstants.getUserIcon(eEmployeeInfo.getUserLevl()));
                 if(eEmployeeInfo.getDeptIDxx().equalsIgnoreCase(DeptCode.MANAGEMENT_INFORMATION_SYSTEM)){

@@ -41,27 +41,32 @@ public class DisbursementInfo implements CreditApp {
     @Override
     public Object Parse(ECreditApplicantInfo args) {
         try{
-            String lsDetail = args.getDisbrsmt();
-            GOCASApplication gocas = new GOCASApplication();
-            JSONParser loJson = new JSONParser();
-            JSONObject joDetail = (JSONObject) loJson.parse(lsDetail);
-            gocas.DisbursementInfo().setData(joDetail);
-
             Disbursement loDetail = new Disbursement();
+            if (args.getDisbrsmt() != null){
+                String lsDetail = args.getDisbrsmt();
+                GOCASApplication gocas = new GOCASApplication();
+                JSONParser loJson = new JSONParser();
+                JSONObject joDetail = (JSONObject) loJson.parse(lsDetail);
+                gocas.DisbursementInfo().setData(joDetail);
 
-            loDetail.setAcctType(gocas.DisbursementInfo().BankAccount().getAccountType());
-            loDetail.setElectric(gocas.DisbursementInfo().Expenses().getElectricBill());
-            loDetail.setFoodExps(gocas.DisbursementInfo().Expenses().getFoodAllowance());
-            loDetail.setWaterExp(gocas.DisbursementInfo().Expenses().getWaterBill());
-            loDetail.setLoanExps(gocas.DisbursementInfo().Expenses().getLoanAmount());
-            loDetail.setBankName(gocas.DisbursementInfo().BankAccount().getBankName());
-            loDetail.setCrdtBank(gocas.DisbursementInfo().CreditCard().getBankName());
-            loDetail.setCrdtLimt(gocas.DisbursementInfo().CreditCard().getCreditLimit());
+                loDetail.setAcctType(gocas.DisbursementInfo().BankAccount().getAccountType());
+                loDetail.setElectric(gocas.DisbursementInfo().Expenses().getElectricBill());
+                loDetail.setFoodExps(gocas.DisbursementInfo().Expenses().getFoodAllowance());
+                loDetail.setWaterExp(gocas.DisbursementInfo().Expenses().getWaterBill());
+                loDetail.setLoanExps(gocas.DisbursementInfo().Expenses().getLoanAmount());
+                loDetail.setBankName(gocas.DisbursementInfo().BankAccount().getBankName());
+                loDetail.setCrdtBank(gocas.DisbursementInfo().CreditCard().getBankName());
+                loDetail.setCrdtLimt(gocas.DisbursementInfo().CreditCard().getCreditLimit());
 //            loDetail.setCrdtYear(gocas.DisbursementInfo().CreditCard().getMemberSince());
 
-            poDetail = loDetail;
+                poDetail = loDetail;
+            }
             return loDetail;
 
+        } catch (NullPointerException e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return null;
         } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();
@@ -97,15 +102,14 @@ public class DisbursementInfo implements CreditApp {
     }
 
     @Override
-    public boolean Save(Object args) {
-        try{
-            Disbursement loDetail = (Disbursement) args;
+    public String Save(Object args) {
+        try{Disbursement loDetail = (Disbursement) args;
 
             ECreditApplicantInfo loApp = poDao.GetApplicantDetails(loDetail.getTransNox());
 
             if(loApp == null){
                 message = "Unable to find record for update. Please restart credit app and try again.";
-                return false;
+                return null;
             }
 
             GOCASApplication gocas = new GOCASApplication();
@@ -120,11 +124,11 @@ public class DisbursementInfo implements CreditApp {
             gocas.DisbursementInfo().CreditCard().setMemberSince(loDetail.getCrdtYear());
             loApp.setDisbrsmt(gocas.DisbursementInfo().toJSONString());
             poDao.Update(loApp);
-            return true;
+            return loDetail.getTransNox();
         } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();
-            return false;
+            return null;
         }
     }
 

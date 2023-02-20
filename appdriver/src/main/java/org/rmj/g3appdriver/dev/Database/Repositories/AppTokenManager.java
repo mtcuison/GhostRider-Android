@@ -19,8 +19,8 @@ import org.rmj.g3appdriver.dev.Database.Entities.ETokenInfo;
 import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
-import org.rmj.g3appdriver.etc.SessionManager;
-import org.rmj.g3appdriver.etc.WebFileServer;
+import org.rmj.g3appdriver.lib.Account.SessionManager;
+import org.rmj.g3appdriver.dev.Api.WebFileServer;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -149,29 +149,8 @@ public class AppTokenManager {
             if (lnResult >= 0) {
 
                 // Client token might be expired already so we generate another client token...
-                String lsClient = WebFileServer.RequestClientToken(poConfig.ProducID(),
-                        poDao.GetClientID(),
-                        poDao.GetUserID());
-
-                if(lsClient == null){
-                    message = "Unable to generate client token.";
-                    return null;
-                }
-
-                if(lsClient.isEmpty()){
-                    message = "Unable to generate client token.";
-                    return null;
-                }
-
-                lsExpiryx = TokenExpiry();
-
-                loClientx.setTokenInf(lsClient);
-                loClientx.setGeneratd(new AppConstants().DATE_MODIFIED());
-                loClientx.setExpirexx(lsExpiryx);
-                loClientx.setModified(new AppConstants().DATE_MODIFIED());
-                loClientx.setTimeStmp(new AppConstants().DATE_MODIFIED());
-                poDao.UpdateToken(loClientx);
-                Log.d(TAG, "Client token has been updated.");
+                String lsClient = refreshClientToken();
+                return lsClient;
             }
 
             return loClientx.getTokenInf();
@@ -229,33 +208,82 @@ public class AppTokenManager {
             // if result is more than 0 current date is after the due date
             if (lnResult >= 0) {
 
-                // Client token might be expired already so we generate another client token...
-                String lsClient = WebFileServer.RequestClientToken(poConfig.ProducID(),
-                        poDao.GetClientID(),
-                        poDao.GetUserID());
-
-                if(lsClient == null){
-                    message = "Unable to generate client token.";
-                    return null;
-                }
-
-                if(lsClient.isEmpty()){
-                    message = "Unable to generate client token.";
-                    return null;
-                }
-
-                lsExpiryx = TokenExpiry();
-
-                loAccessx.setTokenInf(lsClient);
-                loAccessx.setGeneratd(new AppConstants().DATE_MODIFIED());
-                loAccessx.setExpirexx(lsExpiryx);
-                loAccessx.setModified(new AppConstants().DATE_MODIFIED());
-                loAccessx.setTimeStmp(new AppConstants().DATE_MODIFIED());
-                poDao.UpdateToken(loAccessx);
-                Log.d(TAG, "Client token has been updated.");
+                // Access token might be expired already so we generate another access token...
+                String lsAccess = refreshAccessToken(fsVal);
+                return lsAccess;
             }
 
             return loAccessx.getTokenInf();
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return null;
+        }
+    }
+
+    public String refreshClientToken(){
+        try{
+            ETokenInfo loClientx = poDao.GetClientToken();
+
+            String lsClient = WebFileServer.RequestClientToken(poConfig.ProducID(),
+                    poDao.GetClientID(),
+                    poDao.GetUserID());
+
+            if(lsClient == null){
+                message = "Unable to generate client token.";
+                return null;
+            }
+
+            if(lsClient.isEmpty()){
+                message = "Unable to generate client token.";
+                return null;
+            }
+
+            String lsExpiryx = TokenExpiry();
+
+            loClientx.setTokenInf(lsClient);
+            loClientx.setGeneratd(new AppConstants().DATE_MODIFIED());
+            loClientx.setExpirexx(lsExpiryx);
+            loClientx.setModified(new AppConstants().DATE_MODIFIED());
+            loClientx.setTimeStmp(new AppConstants().DATE_MODIFIED());
+            poDao.UpdateToken(loClientx);
+            Log.d(TAG, "Client token has been updated.");
+
+            return lsClient;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return null;
+        }
+    }
+
+    public String refreshAccessToken(String fsVal){
+        try{
+            ETokenInfo loAccessx = poDao.GetAccessToken();
+
+            String lsAccess = WebFileServer.RequestAccessToken(fsVal);
+
+            if(lsAccess == null){
+                message = "Unable to generate access token.";
+                return null;
+            }
+
+            if(lsAccess.isEmpty()){
+                message = "Unable to generate access token.";
+                return null;
+            }
+
+            String lsExpiryx = TokenExpiry();
+
+            loAccessx.setTokenInf(lsAccess);
+            loAccessx.setGeneratd(new AppConstants().DATE_MODIFIED());
+            loAccessx.setExpirexx(lsExpiryx);
+            loAccessx.setModified(new AppConstants().DATE_MODIFIED());
+            loAccessx.setTimeStmp(new AppConstants().DATE_MODIFIED());
+            poDao.UpdateToken(loAccessx);
+            Log.d(TAG, "Client token has been updated.");
+
+            return lsAccess;
         } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();

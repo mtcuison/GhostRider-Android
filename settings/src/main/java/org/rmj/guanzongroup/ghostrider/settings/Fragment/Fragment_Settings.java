@@ -30,11 +30,9 @@ import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreferenceCompat;
 
 import org.rmj.g3appdriver.dev.DeptCode;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.etc.SessionManager;
-import org.rmj.guanzongroup.ghostrider.dataChecker.Activity.Activity_DB_Explorer;
+import org.rmj.g3appdriver.lib.Account.SessionManager;
 import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_CheckUpdate;
 import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_Developer;
 import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_HelpList;
@@ -44,8 +42,6 @@ import org.rmj.guanzongroup.ghostrider.settings.R;
 import org.rmj.guanzongroup.ghostrider.settings.ViewModel.VMSettings;
 import org.rmj.guanzongroup.ghostrider.settings.themeController.ThemeHelper;
 import org.rmj.guanzongroup.ghostrider.settings.utils.DatabaseExport;
-
-import java.util.Objects;
 
 import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.READ_PHONE_STATE;
@@ -238,7 +234,7 @@ public class Fragment_Settings  extends PreferenceFragmentCompat {
                 debugMode.setVisible(true);
             }
             debugMode.setOnPreferenceClickListener(preference -> {
-                startActivityForResult(new Intent(getActivity(), Activity_Developer.class), DEV_MODE);
+                startActivity(new Intent(getActivity(), Activity_Developer.class));
                 requireActivity().overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
                 return false;
             });

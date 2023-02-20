@@ -48,70 +48,72 @@ public class ResidenceInfo implements CreditApp {
     @Override
     public Object Parse(ECreditApplicantInfo args) {
         try{
-            String lsDetail = args.getResidnce();
-            GOCASApplication gocas = new GOCASApplication();
-            JSONParser loJson = new JSONParser();
-            JSONObject joDetail = (JSONObject) loJson.parse(lsDetail);
-            gocas.ResidenceInfo().setData(joDetail);
-
             ClientResidence loDetail = new ClientResidence();
-            loDetail.setOneAddress(args.getSameAddx().equalsIgnoreCase("1"));
-            loDetail.setLandMark(gocas.ResidenceInfo().PresentAddress().getLandMark());
-            loDetail.setHouseNox(gocas.ResidenceInfo().PresentAddress().getHouseNo());
-            loDetail.setAddress1(gocas.ResidenceInfo().PresentAddress().getAddress1());
-            loDetail.setAddress2(gocas.ResidenceInfo().PresentAddress().getAddress2());
+            if(args.getResidnce() != null){
+                String lsDetail = args.getResidnce();
+                GOCASApplication gocas = new GOCASApplication();
+                JSONParser loJson = new JSONParser();
+                JSONObject joDetail = (JSONObject) loJson.parse(lsDetail);
+                gocas.ResidenceInfo().setData(joDetail);
 
-            String lsBrgy = gocas.ResidenceInfo().PresentAddress().getBarangay();
-            DBarangayInfo.BrgyTownProvNames loBrgy = poBrgy.getBrgyTownProvName(lsBrgy);
+                loDetail.setOneAddress(args.getSameAddx().equalsIgnoreCase("1"));
+                loDetail.setLandMark(gocas.ResidenceInfo().PresentAddress().getLandMark());
+                loDetail.setHouseNox(gocas.ResidenceInfo().PresentAddress().getHouseNo());
+                loDetail.setAddress1(gocas.ResidenceInfo().PresentAddress().getAddress1());
+                loDetail.setAddress2(gocas.ResidenceInfo().PresentAddress().getAddress2());
 
-            loDetail.setMunicipalID(gocas.ResidenceInfo().PresentAddress().getTownCity());
-            loDetail.setBarangayID(lsBrgy);
+                String lsBrgy = gocas.ResidenceInfo().PresentAddress().getBarangay();
+                DBarangayInfo.BrgyTownProvNames loBrgy = poBrgy.getBrgyTownProvName(lsBrgy);
 
-            loDetail.setProvinceNm(loBrgy.sProvName);
-            loDetail.setMunicipalNm(loBrgy.sTownName);
-            loDetail.setBarangayName(loBrgy.sBrgyName);
+                loDetail.setMunicipalID(gocas.ResidenceInfo().PresentAddress().getTownCity());
+                loDetail.setBarangayID(lsBrgy);
 
-            //TODO: make a validation of value for length of stay which
-            // will display if the applicant stays for a year or only for a month
-            double lnLength = gocas.ResidenceInfo().getRentNoYears();
+                loDetail.setProvinceNm(loBrgy.sProvName);
+                loDetail.setMunicipalNm(loBrgy.sTownName);
+                loDetail.setBarangayName(loBrgy.sBrgyName);
 
-            if(lnLength % 1 == 0){
-                loDetail.setIsYear(1);
-            } else {
-                loDetail.setIsYear(0);
+                //TODO: make a validation of value for length of stay which
+                // will display if the applicant stays for a year or only for a month
+                double lnLength = gocas.ResidenceInfo().getRentNoYears();
+
+                if(lnLength % 1 == 0){
+                    loDetail.setIsYear(1);
+                } else {
+                    loDetail.setIsYear(0);
+                }
+
+                Log.d(TAG, "House Ownership: " + gocas.ResidenceInfo().getOwnership());
+                loDetail.setOwnerRelation(gocas.ResidenceInfo().getCareTakerRelation());
+
+                Log.d(TAG, "Length Of Stay: " + gocas.ResidenceInfo().getRentNoYears());
+                loDetail.setLenghtOfStay(gocas.ResidenceInfo().getRentNoYears());
+
+                Log.d(TAG, "Monthly Expense: " + gocas.ResidenceInfo().getRentExpenses());
+                loDetail.setMonthlyExpenses(gocas.ResidenceInfo().getRentExpenses());
+
+                loDetail.setHouseOwn(gocas.ResidenceInfo().getOwnership());
+
+                loDetail.setHouseHold(gocas.ResidenceInfo().getRentedResidenceInfo());
+                loDetail.setHouseType(gocas.ResidenceInfo().getHouseType());
+                loDetail.setHasGarage(gocas.ResidenceInfo().hasGarage());
+
+                loDetail.setPermanentLandMark(gocas.ResidenceInfo().PermanentAddress().getLandMark());
+                loDetail.setPermanentHouseNo(gocas.ResidenceInfo().PermanentAddress().getHouseNo());
+                loDetail.setPermanentAddress1(gocas.ResidenceInfo().PermanentAddress().getAddress1());
+                loDetail.setPermanentAddress2(gocas.ResidenceInfo().PermanentAddress().getAddress2());
+
+                lsBrgy = gocas.ResidenceInfo().PermanentAddress().getBarangay();
+                loBrgy = poBrgy.getBrgyTownProvName(lsBrgy);
+
+                loDetail.setPermanentMunicipalID(gocas.ResidenceInfo().PermanentAddress().getTownCity());
+                loDetail.setPermanentBarangayID(lsBrgy);
+
+                loDetail.setPermanentProvinceNm(loBrgy.sProvName);
+                loDetail.setPermanentMunicipalNm(loBrgy.sTownName);
+                loDetail.setPermanentBarangayName(loBrgy.sBrgyName);
+
+                poDetail = loDetail;
             }
-
-            Log.d(TAG, "House Ownership: " + gocas.ResidenceInfo().getOwnership());
-            loDetail.setOwnerRelation(gocas.ResidenceInfo().getCareTakerRelation());
-
-            Log.d(TAG, "Length Of Stay: " + gocas.ResidenceInfo().getRentNoYears());
-            loDetail.setLenghtOfStay(gocas.ResidenceInfo().getRentNoYears());
-
-            Log.d(TAG, "Monthly Expense: " + gocas.ResidenceInfo().getRentExpenses());
-            loDetail.setMonthlyExpenses(gocas.ResidenceInfo().getRentExpenses());
-
-            loDetail.setHouseOwn(gocas.ResidenceInfo().getOwnership());
-
-            loDetail.setHouseHold(gocas.ResidenceInfo().getRentedResidenceInfo());
-            loDetail.setHouseType(gocas.ResidenceInfo().getHouseType());
-            loDetail.setHasGarage(gocas.ResidenceInfo().hasGarage());
-
-            loDetail.setPermanentLandMark(gocas.ResidenceInfo().PermanentAddress().getLandMark());
-            loDetail.setPermanentHouseNo(gocas.ResidenceInfo().PermanentAddress().getHouseNo());
-            loDetail.setPermanentAddress1(gocas.ResidenceInfo().PermanentAddress().getAddress1());
-            loDetail.setPermanentAddress2(gocas.ResidenceInfo().PermanentAddress().getAddress2());
-
-            lsBrgy = gocas.ResidenceInfo().PermanentAddress().getBarangay();
-            loBrgy = poBrgy.getBrgyTownProvName(lsBrgy);
-
-            loDetail.setPermanentMunicipalID(gocas.ResidenceInfo().PermanentAddress().getTownCity());
-            loDetail.setPermanentBarangayID(lsBrgy);
-
-            loDetail.setPermanentProvinceNm(loBrgy.sProvName);
-            loDetail.setPermanentMunicipalNm(loBrgy.sTownName);
-            loDetail.setPermanentBarangayName(loBrgy.sBrgyName);
-
-            poDetail = loDetail;
             return loDetail;
         } catch (Exception e){
             e.printStackTrace();
@@ -148,7 +150,7 @@ public class ResidenceInfo implements CreditApp {
     }
 
     @Override
-    public boolean Save(Object args) {
+    public String Save(Object args) {
         try{
             ClientResidence loDetail = (ClientResidence) args;
 
@@ -156,7 +158,7 @@ public class ResidenceInfo implements CreditApp {
 
             if(loApp == null){
                 message = "Unable to find record for update. Please restart credit app and try again.";
-                return false;
+                return null;
             }
 
             GOCASApplication gocas = new GOCASApplication();
@@ -189,11 +191,11 @@ public class ResidenceInfo implements CreditApp {
                 loApp.setSameAddx("0");
             }
             poDao.Update(loApp);
-            return true;
+            return loDetail.getTransNox();
         } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();
-            return false;
+            return null;
         }
     }
 

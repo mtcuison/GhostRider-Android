@@ -17,7 +17,7 @@ import org.junit.runners.MethodSorters;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.lib.PetManager.Obj.EmployeeLeave;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.lib.PetManager.model.LeaveApprovalInfo;
+import org.rmj.g3appdriver.lib.PetManager.pojo.LeaveApprovalInfo;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(AndroidJUnit4.class)
@@ -70,8 +70,8 @@ public class TestLeaveApproval {
         loDetail.setTranStat("3");
         loDetail.setAppldFrx("2022-09-20");
         loDetail.setAppldTox("2022-09-20");
-        loDetail.setWithOPay("0");
-        loDetail.setWithPayx("1");
+        loDetail.setWithOPay(0);
+        loDetail.setWithPayx(1);
         loDetail.setApproved("M00119001131");
         String lsTransNox = poSys.SaveApproval(loDetail);
         if(lsTransNox == null){

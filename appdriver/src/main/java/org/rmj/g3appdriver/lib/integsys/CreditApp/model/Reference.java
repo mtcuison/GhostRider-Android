@@ -2,11 +2,13 @@ package org.rmj.g3appdriver.lib.integsys.CreditApp.model;
 
 public class Reference {
 
-    private final String Fullname;
-    private final String Address1;
-    private final String TownCity;
-    private final String ContactN;
+    private  String Fullname = "";
+    private  String Address1 = "";
+    private  String TownCity = "";
+    private  String ContactN = "";
+    public Reference(){
 
+    }
     public Reference(String fullname, String address1, String townCity, String contactN) {
         Fullname = fullname;
         Address1 = address1;
@@ -19,20 +21,37 @@ public class Reference {
     public String getMessage() {
         return message;
     }
+
     public String getFullname() {
-        return Fullname.trim();
+        return Fullname;
+    }
+
+    public void setFullname(String fullname) {
+        Fullname = fullname;
     }
 
     public String getAddress1() {
-        return Address1.trim();
+        return Address1;
+    }
+
+    public void setAddress1(String address1) {
+        Address1 = address1;
     }
 
     public String getTownCity() {
         return TownCity;
     }
 
+    public void setTownCity(String townCity) {
+        TownCity = townCity;
+    }
+
     public String getContactN() {
         return ContactN;
+    }
+
+    public void setContactN(String contactN) {
+        ContactN = contactN;
     }
 
     public boolean isDataValid(){

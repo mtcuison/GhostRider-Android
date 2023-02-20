@@ -19,8 +19,10 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.LayoutInflater;
@@ -53,6 +55,7 @@ import org.rmj.g3appdriver.lib.SelfieLog.SelfieLog;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_CashCounter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.TimeLogAdapter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Dialog.DialogBranchSelection;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Dialog.DialogSelfieLogRemarks;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.OnInitializeCameraCallback;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMSelfieLog;
@@ -78,76 +81,9 @@ public class Fragment_SelfieLog extends Fragment {
     private LoadDialog poLoad;
     private MessageBox poMessage;
 
-    private static boolean isDialogShown;
+    private ActivityResultLauncher<Intent> poCamera;
 
-    private final ActivityResultLauncher<Intent> poCamera = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
-        @Override
-        public void onActivityResult(ActivityResult result) {
-            try{
-                int resultCode = result.getResultCode();
-                if(resultCode == RESULT_OK){
-                    mViewModel.TimeIn(poSelfie, new VMSelfieLog.OnLoginTimekeeperListener() {
-                        @Override
-                        public void OnLogin() {
-                            poLoad.initDialog("Selfie Log", "Sending your time in. Please wait...", false);
-                            poLoad.show();
-                        }
-
-                        @Override
-                        public void OnSuccess(String args) {
-                            poLoad.dismiss();
-                            ValidateCashCount();
-                        }
-
-                        @Override
-                        public void OnFailed(String message) {
-                            poLoad.dismiss();
-                            poMessage.initDialog();
-                            poMessage.setTitle("Selfie Log");
-                            poMessage.setMessage(message);
-                            poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-                            poMessage.show();
-                        }
-                    });
-                }
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-        }
-    });
-
-    private final ActivityResultLauncher<String[]> poRequest = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), new ActivityResultCallback<Map<String, Boolean>>() {
-        @Override
-        public void onActivityResult(Map<String, Boolean> result) {
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-                Boolean fineLoct = result.getOrDefault(
-                        Manifest.permission.ACCESS_FINE_LOCATION, false);
-                Boolean coarseL = result.getOrDefault(
-                        Manifest.permission.ACCESS_COARSE_LOCATION, false);
-                Boolean camerax = result.getOrDefault(
-                        Manifest.permission.CAMERA, false);
-                if(Boolean.FALSE.equals(camerax)){
-                    Toast.makeText(requireActivity(), "Please allow camera permission to proceed.", Toast.LENGTH_SHORT).show();
-                } else if(Boolean.FALSE.equals(fineLoct)){
-                    Toast.makeText(requireActivity(), "Please allow permission to get device location.", Toast.LENGTH_SHORT).show();
-                } else if(Boolean.FALSE.equals(coarseL)){
-                    Toast.makeText(requireActivity(), "Please allow permission to get device location.", Toast.LENGTH_SHORT).show();
-                } else {
-                    initCamera();
-                }
-            } else {
-                if(checkSelfPermission(requireActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
-                    Toast.makeText(requireActivity(), "Please allow camera permission to proceed.", Toast.LENGTH_SHORT).show();
-                } else if(checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-                    Toast.makeText(requireActivity(), "Please allow permission to get device location.", Toast.LENGTH_SHORT).show();
-                } else if(checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-                    Toast.makeText(requireActivity(), "Please allow permission to get device location.", Toast.LENGTH_SHORT).show();
-                } else {
-                    initCamera();
-                }
-            }
-        }
-    });
+    private ActivityResultLauncher<String[]> poRequest;
 
     private final ActivityResultLauncher<Intent> poSettings = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
@@ -167,6 +103,7 @@ public class Fragment_SelfieLog extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         mViewModel = new ViewModelProvider(this).get(VMSelfieLog.class);
         View view =  inflater.inflate(R.layout.fragment_selfie_log, container, false);
+        InitActivityResultLaunchers();
         initWidgets(view);
 
         btnBranch.setVisibility(View.VISIBLE);
@@ -175,11 +112,8 @@ public class Fragment_SelfieLog extends Fragment {
             try {
                 lblUsername.setText(eEmployeeInfo.sUserName);
                 lblPosition.setText(DeptCode.getDepartmentName(eEmployeeInfo.sDeptIDxx));
-                if (eEmployeeInfo.sEmpLevID.equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER))) {
-                    SetupDialogForBranchList();
-                }
                 lblBranch.setText(eEmployeeInfo.sBranchNm);
-                poSelfie.setBranchCode(eEmployeeInfo.sBranchCd);
+
             } catch (NullPointerException e){
                 e.printStackTrace();
             }
@@ -220,13 +154,22 @@ public class Fragment_SelfieLog extends Fragment {
             }
         });
 
-
         btnBranch.setOnClickListener(v -> mViewModel.CheckBranchList(new VMSelfieLog.OnBranchCheckListener() {
             @Override
+            public void OnCheck() {
+                poLoad.initDialog("Selfie Log", "Initializing branch list. Please wait...", false);
+                poLoad.show();
+            }
+
+            @Override
             public void OnCheck(List<EBranchInfo> area, List<EBranchInfo> all) {
+                poLoad.dismiss();
+//                Prompt a dialog which will display list of branch per area or all branch
                 new DialogBranchSelection(requireActivity(), area, all).initDialog(true, new DialogBranchSelection.OnBranchSelectedCallback() {
                     @Override
                     public void OnSelect(String BranchCode, AlertDialog dialog) {
+
+//                        Upon selection of branch code validate or check if the selected branch code has already exist
                         mViewModel.checkIfAlreadyLog(BranchCode, new VMSelfieLog.OnBranchSelectedCallback() {
                             @Override
                             public void OnLoad() {
@@ -262,13 +205,14 @@ public class Fragment_SelfieLog extends Fragment {
 
                     @Override
                     public void OnCancel() {
+
                     }
                 });
             }
 
             @Override
             public void OnFailed(String message) {
-
+                poLoad.dismiss();
             }
         }));
 
@@ -282,7 +226,7 @@ public class Fragment_SelfieLog extends Fragment {
                         Manifest.permission.CAMERA
                 });
             } else {
-                initCamera();
+                validateSelfieLog();
             }
         });
         return view;
@@ -302,45 +246,52 @@ public class Fragment_SelfieLog extends Fragment {
     }
 
     @SuppressLint("MissingPermission")
-    private void initCamera(){
+    private void validateSelfieLog(){
         try {
             if(checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
             checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
             checkSelfPermission(requireActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
                 poRequest.launch(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION});
             } else {
-                mViewModel.InitCameraLaunch(requireActivity(), new OnInitializeCameraCallback() {
+                mViewModel.ValidateSelfieBranch(poSelfie.getBranchCode(), new VMSelfieLog.OnValidateSelfieBranch() {
                     @Override
-                    public void OnInit() {
-                        poLoad.initDialog("Selfie Log", "Initializing camera. Please wait...", false);
+                    public void OnValidate() {
+                        poLoad.initDialog("Selfie Log", "Validating entry. Please wait...", false);
                         poLoad.show();
                     }
 
                     @Override
-                    public void OnSuccess(Intent intent, String[] args) {
+                    public void OnSuccess() {
                         poLoad.dismiss();
-                        poSelfie.setLocation(args[0]);
-                        poSelfie.setFileName(args[1]);
-                        poSelfie.setLatitude(args[2]);
-                        poSelfie.setLongitude(args[3]);
-                        poCamera.launch(intent);
+                        InitCamera("");
                     }
 
                     @Override
-                    public void OnFailed(String message, Intent intent, String[] args) {
+                    public void OnRequireRemarks() {
+                        poLoad.dismiss();
+                        new DialogSelfieLogRemarks(requireActivity()).initDialog(new DialogSelfieLogRemarks.OnDialogRemarksEntry() {
+                            @Override
+                            public void OnConfirm(String args) {
+                                InitCamera(args);
+                            }
+
+                            @Override
+                            public void OnCancel() {
+
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void OnFailed(String message) {
                         poLoad.dismiss();
                         poMessage.initDialog();
                         poMessage.setTitle("Selfie Login");
-                        poMessage.setMessage(message + "\n Proceed taking selfie log?");
-                        poMessage.setPositiveButton("Continue", (view, dialog) -> {
+                        poMessage.setMessage(message);
+                        poMessage.setPositiveButton("Okay", (view, dialog) -> {
                             dialog.dismiss();
-                            poSelfie.setLocation(args[0]);
-                            poSelfie.setFileName(args[1]);
-                            poSelfie.setLatitude(args[2]);
-                            poSelfie.setLongitude(args[3]);
-                            poCamera.launch(intent);
+                            requireActivity().finish();
                         });
-                        poMessage.setNegativeButton("Cancel", (view1, dialog) -> dialog.dismiss());
                         poMessage.show();
                     }
                 });
@@ -350,25 +301,48 @@ public class Fragment_SelfieLog extends Fragment {
         }
     }
 
-    private void requestLocationEnabled(){
-        if(isDialogShown) {
+    private void InitCamera(String args){
+        LocationManager locationManager = (LocationManager) requireActivity().getSystemService(Context.LOCATION_SERVICE);
+        if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+            Toast.makeText(requireActivity(), "Please enable your location service.", Toast.LENGTH_SHORT).show();
             return;
         }
-        poMessage.initDialog();
-        poMessage.setTitle("Selfie Login");
-        poMessage.setMessage("Please enable your device service location.");
-        poMessage.setNegativeButton("Cancel", (view12, dialog) -> {
-            dialog.dismiss();
-            isDialogShown = false;
+        poSelfie.setRemarksx(args);
+        mViewModel.InitCameraLaunch(requireActivity(), new OnInitializeCameraCallback() {
+            @Override
+            public void OnInit() {
+                poLoad.initDialog("Selfie Log", "Initializing camera. Please wait...", false);
+                poLoad.show();
+            }
+
+            @Override
+            public void OnSuccess(Intent intent, String[] args) {
+                poLoad.dismiss();
+                poSelfie.setLocation(args[0]);
+                poSelfie.setFileName(args[1]);
+                poSelfie.setLatitude(args[2]);
+                poSelfie.setLongitude(args[3]);
+                poCamera.launch(intent);
+            }
+
+            @Override
+            public void OnFailed(String message, Intent intent, String[] args) {
+                poLoad.dismiss();
+                poMessage.initDialog();
+                poMessage.setTitle("Selfie Login");
+                poMessage.setMessage(message + "\n Proceed taking selfie log?");
+                poMessage.setPositiveButton("Continue", (view, dialog) -> {
+                    dialog.dismiss();
+                    poSelfie.setLocation(args[0]);
+                    poSelfie.setFileName(args[1]);
+                    poSelfie.setLatitude(args[2]);
+                    poSelfie.setLongitude(args[3]);
+                    poCamera.launch(intent);
+                });
+                poMessage.setNegativeButton("Cancel", (view1, dialog) -> dialog.dismiss());
+                poMessage.show();
+            }
         });
-        poMessage.setPositiveButton("Go to Settings", (view, dialog) -> {
-            Intent loIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-            poSettings.launch(loIntent);
-            dialog.dismiss();
-            isDialogShown = false;
-        });
-        poMessage.show();
-        isDialogShown = true;
     }
 
     public void ValidateCashCount(){
@@ -384,7 +358,6 @@ public class Fragment_SelfieLog extends Fragment {
                 poLoad.dismiss();
                 Intent loIntent = new Intent(requireActivity(), Activity_CashCounter.class);
                 loIntent.putExtra("BranchCd", poSelfie.getBranchCode());
-                loIntent.putExtra("cancelable", false);
                 requireActivity().startActivity(loIntent);
                 requireActivity().finish();
             }
@@ -398,7 +371,6 @@ public class Fragment_SelfieLog extends Fragment {
                 poMessage.setPositiveButton("Create", (view, dialog) -> {
                     Intent loIntent = new Intent(requireActivity(), Activity_CashCounter.class);
                     loIntent.putExtra("BranchCd", poSelfie.getBranchCode());
-                    loIntent.putExtra("cancelable", false);
                     requireActivity().startActivity(loIntent);
                     requireActivity().finish();
                 });
@@ -425,64 +397,85 @@ public class Fragment_SelfieLog extends Fragment {
                 poMessage.initDialog();
                 poMessage.setTitle("Selfie Log");
                 poMessage.setMessage("Selfie log save.");
-                poMessage.setPositiveButton("Okay", (view, dialog) -> {
-                    dialog.dismiss();
-                });
+                poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
                 poMessage.show();
             }
         });
     }
 
-    private void SetupDialogForBranchList(){
-        mViewModel.CheckBranchList(new VMSelfieLog.OnBranchCheckListener() {
+    private void InitActivityResultLaunchers(){
+        poCamera = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
             @Override
-            public void OnCheck(List<EBranchInfo> area, List<EBranchInfo> all) {
-                new DialogBranchSelection(requireActivity(), area, all).initDialog(true, new DialogBranchSelection.OnBranchSelectedCallback() {
-                    @Override
-                    public void OnSelect(String BranchCode, AlertDialog dialog) {
-                        mViewModel.checkIfAlreadyLog(BranchCode, new VMSelfieLog.OnBranchSelectedCallback() {
+            public void onActivityResult(ActivityResult result) {
+                try{
+                    int resultCode = result.getResultCode();
+                    if(resultCode == RESULT_OK){
+                        mViewModel.TimeIn(poSelfie, new VMSelfieLog.OnLoginTimekeeperListener() {
                             @Override
-                            public void OnLoad() {
-                                poLoad.initDialog("Selfie Log", "Validating branch. Please wait...", false);
+                            public void OnLogin() {
+                                poLoad.initDialog("Selfie Log", "Sending your time in. Please wait...", false);
                                 poLoad.show();
                             }
 
                             @Override
-                            public void OnSuccess() {
+                            public void OnSuccess(String args) {
                                 poLoad.dismiss();
-                                poSelfie.setBranchCode(BranchCode);
-                                mViewModel.getBranchInfo(BranchCode).observe(getViewLifecycleOwner(), eBranchInfo -> {
-                                    try{
-                                        lblBranch.setText(eBranchInfo.getBranchNm());
-                                    } catch (Exception e){
-                                        e.printStackTrace();
-                                    }
-                                });
+                                ValidateCashCount();
+                            }
+
+                            @Override
+                            public void SaveOffline(String args) {
+                                poLoad.dismiss();
+                                ValidateCashCount();
                             }
 
                             @Override
                             public void OnFailed(String message) {
                                 poLoad.dismiss();
                                 poMessage.initDialog();
-                                poMessage.setTitle("Selfie Login");
+                                poMessage.setTitle("Selfie Log");
                                 poMessage.setMessage(message);
-                                poMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
+                                poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
                                 poMessage.show();
                             }
                         });
-                        dialog.dismiss();
                     }
-
-                    @Override
-                    public void OnCancel() {
-
-                    }
-                });
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
             }
+        });
 
+        poRequest = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), new ActivityResultCallback<Map<String, Boolean>>() {
             @Override
-            public void OnFailed(String message) {
-
+            public void onActivityResult(Map<String, Boolean> result) {
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                    Boolean fineLoct = result.getOrDefault(
+                            Manifest.permission.ACCESS_FINE_LOCATION, false);
+                    Boolean coarseL = result.getOrDefault(
+                            Manifest.permission.ACCESS_COARSE_LOCATION, false);
+                    Boolean camerax = result.getOrDefault(
+                            Manifest.permission.CAMERA, false);
+                    if(Boolean.FALSE.equals(camerax)){
+                        Toast.makeText(requireActivity(), "Please allow camera permission to proceed.", Toast.LENGTH_SHORT).show();
+                    } else if(Boolean.FALSE.equals(fineLoct)){
+                        Toast.makeText(requireActivity(), "Please allow permission to get device location.", Toast.LENGTH_SHORT).show();
+                    } else if(Boolean.FALSE.equals(coarseL)){
+                        Toast.makeText(requireActivity(), "Please allow permission to get device location.", Toast.LENGTH_SHORT).show();
+                    } else {
+                        validateSelfieLog();
+                    }
+                } else {
+                    if(checkSelfPermission(requireActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
+                        Toast.makeText(requireActivity(), "Please allow camera permission to proceed.", Toast.LENGTH_SHORT).show();
+                    } else if(checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+                        Toast.makeText(requireActivity(), "Please allow permission to get device location.", Toast.LENGTH_SHORT).show();
+                    } else if(checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+                        Toast.makeText(requireActivity(), "Please allow permission to get device location.", Toast.LENGTH_SHORT).show();
+                    } else {
+                        validateSelfieLog();
+                    }
+                }
             }
         });
     }

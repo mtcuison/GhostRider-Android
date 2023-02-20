@@ -1,20 +1,42 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Activities;
 
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.rmj.g3appdriver.etc.FormatUIText;
+import org.rmj.g3appdriver.etc.LoadDialog;
+import org.rmj.g3appdriver.etc.MessageBox;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditAppConstants;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.MobileNo;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Personal;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.ReviewAppDetail;
+import org.rmj.guanzongroup.onlinecreditapplication.Adapter.LoanAppDetailReviewAdapter;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
+import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.OnParseListener;
+import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMComakerResidence;
+import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMPersonalInfo;
+import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMReviewLoanApp;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,50 +46,54 @@ public class Activity_ReviewLoanApp extends AppCompatActivity {
 
     private String TransNox;
     private TextView lblClientNm;
-    private ListView recyclerView;
+//    private ListView recyclerView;
+    private RecyclerView recyclerView;
     private ImageView imgClient;
     private ImageButton btnCamera;
     private Button btnSave, btnPrvs;
 
-//    private List<ReviewAppDetail> plDetail;
-//    private ECreditApplicantInfo poInfo;
-//    private ImageFileCreator poCamera;
-//    private EImageInfo poImage;
-//    private LoadDialog poDialogx;
-//    private MessageBox poMessage;
+    private LoadDialog poDialogx;
+    private MessageBox poMessage;
 
+    private VMReviewLoanApp mViewModel;
     private Toolbar toolbar;
-    ArrayAdapter<String> adapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mViewModel = new ViewModelProvider(Activity_ReviewLoanApp.this).get(VMReviewLoanApp.class);
+        poMessage = new MessageBox(Activity_ReviewLoanApp.this);
+        poDialogx = new LoadDialog(Activity_ReviewLoanApp.this);
         setContentView(R.layout.activity_review_loan_app);
         initWidgets();
-        json();
+        mViewModel.InitializeApplication(getIntent());
+
+        mViewModel.GetApplication().observe(Activity_ReviewLoanApp.this, app -> {
+            try {
+                TransNox = app.getTransNox();
+                mViewModel.setInfo(app);
+                mViewModel.ParseData(app, new OnParseListener() {
+                    @Override
+                    public void OnParse(Object args) {
+                        List<ReviewAppDetail> loDetail =  (List<ReviewAppDetail>) args;
+                        try {
+                            setUpFieldsFromLocalDB(loDetail);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+
+
+        btnPrvs.setOnClickListener(v -> finish());
     }
 
-    private void json() {
-        Intent receiveIntent = getIntent();
-        String param = receiveIntent.getStringExtra("params");
-        try {
-            JSONObject object = new JSONObject(param);
-
-            ArrayList<String> items = new ArrayList<>();
-            items.add(object.getString("sEmployedx") + " " + object.getString("sSEmploydx"));
-            items.add(object.getString("sPensionxx"));
-            items.add(object.getString("sFinancexx"));
-            items.add(object.getString("sPensionxx"));
-            items.add(object.getString("sPensionxx"));
-            items.add(object.getString("sPensionxx"));
-
-            adapter = new ArrayAdapter<>(this, android.R.layout.simple_expandable_list_item_1, items);
-            recyclerView.setAdapter(adapter);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
 
     private void initWidgets() {
         toolbar = findViewById(R.id.toolbar_ReviewLoanApp);
@@ -87,26 +113,99 @@ public class Activity_ReviewLoanApp extends AppCompatActivity {
 
         btnPrvs = findViewById(R.id.btn_creditAppPrvs);
 
-//        plDetail = new ArrayList<>();
-        String lsImageNme = TransNox;
-//        poCamera = new ImageFileCreator(this, AppConstants.SUB_FOLDER_CREDIT_APP, lsImageNme);
-//        poImage = new EImageInfo();
-//        poImage.setImageNme(lsImageNme);
-//        poDialogx = new LoadDialog(this);
-//        poMessage = new MessageBox(this);
-
         btnPrvs = findViewById(R.id.btn_creditAppPrvs);
 
-        btnSave.setOnClickListener(v -> {
-            Intent intent = new Intent(Activity_ReviewLoanApp.this, Activity_PersonalInfo.class);
-            startActivity(intent);
-            finish();
-        });
-        btnPrvs.setOnClickListener(v -> {
-            Intent intent = new Intent(Activity_ReviewLoanApp.this, Activity_ComakerResidence.class);
-            startActivity(intent);
-            finish();
-        });
+        btnSave.setOnClickListener(v -> mViewModel.SaveData(new VMReviewLoanApp.OnSaveCreditAppListener() {
+            @Override
+            public void OnSave() {
+                poDialogx.initDialog("Credit Online Application", "Saving application. Please wait...", false);
+                poDialogx.show();
+            }
 
+            @Override
+            public void OnSuccess(String args) {
+                poDialogx.dismiss();
+                poMessage.initDialog();
+                poMessage.setTitle("Credit Online Application");
+                poMessage.setMessage(args);
+                poMessage.setPositiveButton("Okay", (view, dialog) -> {
+                    dialog.dismiss();
+                    startActivity(new Intent(Activity_ReviewLoanApp.this, Activity_CreditApplications.class));
+                    finish();
+                });
+                poMessage.show();
+            }
+
+            @Override
+            public void OnSaveLocal(String message) {
+                poDialogx.dismiss();
+                poMessage.initDialog();
+                poMessage.setTitle("Credit Online Application");
+                poMessage.setMessage(message);
+                poMessage.setPositiveButton("Okay", (view, dialog) -> {
+                    dialog.dismiss();
+                    startActivity(new Intent(Activity_ReviewLoanApp.this, Activity_CreditApplications.class));
+                    finish();
+                });
+                poMessage.show();
+            }
+
+            @Override
+            public void OnFailed(String message) {
+                poDialogx.dismiss();
+                poMessage.initDialog();
+                poMessage.setTitle("Credit Online Application");
+                poMessage.setMessage(message);
+                poMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
+                poMessage.show();
+            }
+        }));
+        btnPrvs.setOnClickListener(v -> returnPrevious());
+
+    }
+
+
+    @SuppressLint("NewApi")
+    public void setUpFieldsFromLocalDB(List<ReviewAppDetail> infoList) throws JSONException {
+        LoanAppDetailReviewAdapter loAdapter = new LoanAppDetailReviewAdapter(infoList, () -> {
+
+        });
+        LinearLayoutManager loManager = new LinearLayoutManager(Activity_ReviewLoanApp.this);
+        loManager.setOrientation(RecyclerView.VERTICAL);
+        recyclerView.setLayoutManager(loManager);
+        recyclerView.setAdapter(loAdapter);
+
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == android.R.id.home){
+            returnPrevious();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        returnPrevious();
+    }
+
+    @Override
+    protected void onDestroy() {
+        getViewModelStore().clear();
+        super.onDestroy();
+    }
+
+    private void returnPrevious(){
+        Intent loIntent = new Intent(Activity_ReviewLoanApp.this, Activity_ComakerResidence.class);
+        loIntent.putExtra("sTransNox", TransNox);
+        startActivity(loIntent);
+        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
+        finish();
     }
 }

@@ -16,17 +16,16 @@ import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
+import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DImageInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EImageInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.ETokenInfo;
 import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.etc.AppConstants;
-import org.rmj.g3appdriver.etc.SessionManager;
+import org.rmj.g3appdriver.lib.Account.SessionManager;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.etc.WebFileServer;
+import org.rmj.g3appdriver.dev.Api.WebFileServer;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -52,33 +51,13 @@ public class RImageInfo {
         return message;
     }
 
-    public LiveData<String> getImageLocationFromSrcId(String fsSource) {
-        return poDao.getImageLocationFromSrcId(fsSource);
-    }
-
     public LiveData<EImageInfo> getImageLocation(String sDtlSrcNo, String sImageNme) {
         return poDao.getImageLocation(sDtlSrcNo, sImageNme);
-    }
-
-    public LiveData<EImageInfo> getImageInfo(String sTransNox){
-        return poDao.getImageInfo();
-    }
-
-    public void updateImageInfo(String TransNox, String oldTransNox){
-        poDao.updateImageInfo(TransNox, new AppConstants().DATE_MODIFIED(), oldTransNox);
-    }
-
-    public void updateImageInfos(String TransNox, String sourceNo){
-        poDao.updateImageInfos(TransNox, new AppConstants().DATE_MODIFIED(), sourceNo);
     }
 
     public List<EImageInfo> getUnsentSelfieLogImageList(){
         return poDao.getUnsentLoginImageInfo();
     }
-
-//    public void updateImageInfo(EImageInfo imgInfo){
-//        imageDao.updateImageInfo(imgInfo);
-//    }
 
     /**
      *
@@ -88,37 +67,8 @@ public class RImageInfo {
         return poDao.getUnsentDCPImageInfoList();
     }
 
-    public LiveData<List<EImageInfo>> getAllImageInfo(){
-        return poDao.getImageInfoList();
-    }
-
-    public LiveData<List<EImageInfo>> getImageListInfo(String transNox){
-        return poDao.getImageListInfo(transNox);
-    }
-
-    public EImageInfo CheckImageForCIExist(String fsSource, String fsDetail){
-        return poDao.CheckImageForCIExist(fsSource, fsDetail);
-    }
-
-    public void UpdateImageInfoForCI(EImageInfo foImage){
-        poDao.update(foImage);
-    }
-
-    public LiveData<EImageInfo> getImageLogPreview(String transNox){
-        return poDao.getImageLogPreview(transNox);
-    }
-
-    public LiveData<List<EImageInfo>> getCurrentLogTimeIfExist(String fsDate){
-        String DateLog = "%"+fsDate+"%";
-        return poDao.getCurrentLogTimeIfExist(DateLog);
-    }
-
     public EImageInfo getDCPImageInfoForPosting(String TransNox, String AccntNo){
         return poDao.getDCPImageInfoForPosting(TransNox, AccntNo);
-    }
-
-    public EImageInfo getCIImageForPosting(String TransNox){
-        return poDao.getCIImageForPosting(TransNox);
     }
 
     public String CheckTokenAvailable(){
@@ -138,6 +88,32 @@ public class RImageInfo {
             }
 
             return lsAccess;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return null;
+        }
+    }
+
+    public String SaveCreditAppDocument(String TransNox, String FileCode, String FileName, String FileLoct){
+        try{
+            EImageInfo loImage = new EImageInfo();
+            String lsTransNo = CreateUniqueID();
+            loImage.setTransNox(lsTransNo);
+            loImage.setFileCode(FileCode);
+            loImage.setSourceNo(TransNox); //Credit App TransNox
+            loImage.setDtlSrcNo(TransNox); //Credit App TransNox
+            loImage.setSourceCD("COAD");
+            loImage.setMD5Hashx(WebFileServer.createMD5Hash(FileLoct));
+            loImage.setCaptured(new AppConstants().DATE_MODIFIED());
+            loImage.setImageNme(FileName);
+            loImage.setFileLoct(FileLoct);
+            loImage.setLatitude("0.0");
+            loImage.setLongitud("0.0");
+            poDao.SaveImageInfo(loImage);
+            Log.d(TAG, "Selfie has been saved.");
+            return lsTransNo;
+
         } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();
@@ -324,17 +300,22 @@ public class RImageInfo {
      * @param fsVal transaction no of image needed to upload.
      * @return true if operation succeed, else false if operation fails. Call getMessage() to get error message.
      */
-    public boolean UploadImage(String fsVal){
+    public String UploadImage(String fsVal){
         try{
             if(poConfig.getTestStatus()){
                 message = "This feature is not available for testing...";
-                return true;
+                return "";
             }
 
             EImageInfo loDetail = poDao.GetImageInfo(fsVal);
             if(loDetail == null){
                 message = "Unable to find image to upload.";
-                return false;
+                return null;
+            }
+
+            if(loDetail.getSendStat() != null){
+                message = "Image is already uploaded.";
+                return fsVal;
             }
 
             String lsClient = poToken.GetClientToken();
@@ -342,7 +323,7 @@ public class RImageInfo {
             if(lsClient == null){
                 Log.e(TAG, poToken.getMessage());
                 message = "No generated client token to upload image.";
-                return false;
+                return null;
             }
 
             String lsAccess = poToken.GetAccessToken(lsClient);
@@ -350,7 +331,7 @@ public class RImageInfo {
             if(lsAccess == null){
                 Log.e(TAG, message);
                 message = "No generated access token to upload image.";
-                return false;
+                return null;
             }
 
             org.json.simple.JSONObject loUpload = WebFileServer.UploadFile(
@@ -366,22 +347,47 @@ public class RImageInfo {
 
             if (loUpload == null) {
                 message = "Server no response.";
-                return false;
+                return null;
             }
 
-            String lsImgResult = (String) loUpload.get("result");
-            if (lsImgResult.equalsIgnoreCase("error")) {
-                message = "Failed to upload image.";
-                return false;
+            JSONObject loResult = new JSONObject(loUpload.toJSONString());
+            if(loResult.has("result")){
+                String lsImgResult = (String) loUpload.get("result");
+                Log.e(TAG, loUpload.toJSONString());
+                if (lsImgResult.equalsIgnoreCase("error")) {
+                    JSONObject loError = loResult.getJSONObject("error");
+                    message = loError.getString("message");
+                    return null;
+                }
+            } else {
+                String lsImgResult = (String) loUpload.get("rhsult");
+                Log.e(TAG, loUpload.toJSONString());
+                if (lsImgResult.equalsIgnoreCase("error")) {
+                    JSONObject loError = loResult.getJSONObject("error");
+                    message = loError.getString("message");
+                    return null;
+                }
             }
+
 
             String lsTransnox = (String) loUpload.get("sTransNox");
             poDao.updateImageInfo(lsTransnox, new AppConstants().DATE_MODIFIED(), loDetail.getTransNox());
-            return true;
+            return lsTransnox;
         } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();
-            return false;
+            return null;
+        }
+    }
+
+    public String PreviewImage(String FileCode, String ImageName, String SourceCD, String SourceNo){
+        try{
+
+            return "";
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return null;
         }
     }
 

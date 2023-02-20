@@ -16,8 +16,10 @@ import static android.app.Activity.RESULT_OK;
 import static androidx.core.content.ContextCompat.checkSelfPermission;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,7 +44,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.etc.OnDateSetListener;
-import org.rmj.g3appdriver.lib.integsys.Dcp.model.LoanUnit;
+import org.rmj.g3appdriver.lib.integsys.Dcp.pojo.LoanUnit;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_Transaction;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.OnInitializeCameraCallback;
@@ -304,7 +306,7 @@ public class Fragment_LoanUnit extends Fragment {
             @Override
             public void OnSuccessResult() {
                 poMessage.initDialog();
-                poMessage.setTitle("Selfie Login");
+                poMessage.setTitle("Daily Collection Plan");
                 poMessage.setMessage("Collection detail has been save.");
                 poMessage.setPositiveButton("Okay", (view, dialog) -> {
                     dialog.dismiss();
@@ -316,7 +318,7 @@ public class Fragment_LoanUnit extends Fragment {
             @Override
             public void OnFailedResult(String message) {
                 poMessage.initDialog();
-                poMessage.setTitle("Selfie Login");
+                poMessage.setTitle("Daily Collection Plan");
                 poMessage.setMessage(message);
                 poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
                 poMessage.show();
@@ -325,6 +327,11 @@ public class Fragment_LoanUnit extends Fragment {
     }
 
     private void InitializeCamera(){
+        LocationManager locationManager = (LocationManager) requireActivity().getSystemService(Context.LOCATION_SERVICE);
+        if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+            Toast.makeText(requireActivity(), "Please enable your location service.", Toast.LENGTH_SHORT).show();
+            return;
+        }
         mViewModel.InitCameraLaunch(requireActivity(), TransNox, new OnInitializeCameraCallback() {
             @Override
             public void OnInit() {
@@ -346,7 +353,7 @@ public class Fragment_LoanUnit extends Fragment {
             public void OnFailed(String message, Intent intent, String[] args) {
                 poDialog.dismiss();
                 poMessage.initDialog();
-                poMessage.setTitle("Selfie Login");
+                poMessage.setTitle("Daily Collection Plan");
                 poMessage.setMessage(message + "\n Proceed taking selfie log?");
                 poMessage.setPositiveButton("Continue", (view, dialog) -> {
                     dialog.dismiss();

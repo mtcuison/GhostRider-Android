@@ -1,72 +1,157 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONException;
-import org.json.JSONObject;
-import org.rmj.g3appdriver.etc.FormatUIText;
-import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
+import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
+import org.rmj.g3appdriver.etc.MessageBox;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Disbursement;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
+import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.OnParseListener;
+import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMDisbursement;
 
 import java.util.Objects;
 
 public class Activity_DisbursementInfo extends AppCompatActivity {
 
+    private VMDisbursement mViewModel;
+    private MessageBox poMessage;
     private AutoCompleteTextView spnTypex;
     private String typeX = "";
     private TextInputEditText tieFoodx, tieElctx, tieWater, tieLoans, tieBankN, tieCCBnk, tieLimit, tieYearS;
     private Button btnPrev, btnNext;
     private Toolbar toolbar;
 
+
+    private String TransNox;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        mViewModel = new ViewModelProvider(Activity_DisbursementInfo.this).get(VMDisbursement.class);
+        poMessage = new MessageBox(Activity_DisbursementInfo.this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_disbursement_info);
         initWidgets();
-        json();
+        mViewModel.InitializeApplication(getIntent());
+        mViewModel.GetApplication().observe(Activity_DisbursementInfo.this, new Observer<ECreditApplicantInfo>() {
+            @Override
+            public void onChanged(ECreditApplicantInfo app) {
+                try {
+                    TransNox = app.getTransNox();
+                    mViewModel.getModel().setTransNox(app.getTransNox());
+                    mViewModel.setCvlStatus(app.getIsSpouse());
+                    mViewModel.ParseData(app, new OnParseListener() {
+                        @Override
+                        public void OnParse(Object args) {
+                            Disbursement loDetail = (Disbursement) args;
+                            try {
+                                setUpFieldsFromLocalDB(loDetail);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        spnTypex.setAdapter(new ArrayAdapter<>(Activity_DisbursementInfo.this,
+                android.R.layout.simple_list_item_1, CreditAppConstants.ACCOUNT_TYPE));
+        spnTypex.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+        spnTypex.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                mViewModel.getModel().setAcctType(String.valueOf(position));
+            }
+        });
+
+        btnNext.setOnClickListener(v -> SaveDisbursementInfo());
+        btnPrev.setOnClickListener(v -> {
+            returnPrevious();
+        });
+
     }
 
-    private void json() {
-        Intent receiveIntent = getIntent();
-        String param = receiveIntent.getStringExtra("params");
-        try {
-            JSONObject object = new JSONObject(param);
-            object.put("stieElctx",tieElctx.getText().toString().trim());
-            object.put("stieWater",tieWater.getText().toString().trim());
-            object.put("stieFoodx",tieFoodx.getText().toString().trim());
-            object.put("stieLoans",tieLoans.getText().toString().trim());
-            object.put("stieBankN",tieBankN.getText().toString().trim());
-            object.put("sspnTypex",spnTypex.getText().toString().trim());
-            object.put("stieCCBnk",tieCCBnk.getText().toString().trim());
-            object.put("stieLimit",tieLimit.getText().toString().trim());
-            object.put("stieYearS",tieYearS.getText().toString().trim());
-
-            btnNext.setOnClickListener(v -> {
-                Intent intent = new Intent(Activity_DisbursementInfo.this, Activity_Dependent.class);
-                intent.putExtra("params", object.toString());
-                startActivity(intent);
-                finish();
-            });
-            btnPrev.setOnClickListener(v -> {
-                Intent intent = new Intent(Activity_DisbursementInfo.this, Activity_SpousePensionInfo.class);
-                startActivity(intent);
-                finish();
-            });
-
-        } catch (JSONException e) {
-            e.printStackTrace();
+    private void SaveDisbursementInfo() {
+        if (tieElctx.getText().toString().trim().isEmpty()) {
+            mViewModel.getModel().setElectric(0);
+        } else {
+            mViewModel.getModel().setElectric(Double.parseDouble(tieElctx.getText().toString().trim()));
         }
 
+        if (tieWater.getText().toString().trim().isEmpty()) {
+            mViewModel.getModel().setWaterExp(0);
+        } else {
+            mViewModel.getModel().setWaterExp(Double.parseDouble(tieWater.getText().toString().trim()));
+        }
+
+        if (tieFoodx.getText().toString().trim().isEmpty()) {
+            mViewModel.getModel().setFoodExps(0);
+        } else {
+            mViewModel.getModel().setFoodExps(Double.parseDouble((tieFoodx.getText()).toString().trim()));
+        }
+
+        if (tieLoans.getText().toString().trim().isEmpty()) {
+            mViewModel.getModel().setLoanExps(0);
+        } else {
+            mViewModel.getModel().setLoanExps(Double.parseDouble(tieLoans.getText().toString().trim()));
+        }
+
+        mViewModel.getModel().setBankName(tieBankN.getText().toString().trim());
+        mViewModel.getModel().setCrdtBank(tieCCBnk.getText().toString().trim());
+
+        if (tieLimit.getText().toString().trim().isEmpty()) {
+            mViewModel.getModel().setCrdtLimt(0);
+        } else {
+            mViewModel.getModel().setCrdtLimt(Double.parseDouble(tieLimit.getText().toString().trim()));
+        }
+        if (tieYearS.getText().toString().trim().isEmpty()) {
+            mViewModel.getModel().setCrdtYear(0);
+        } else {
+            mViewModel.getModel().setCrdtYear(Integer.parseInt(tieYearS.getText().toString().trim()));
+        }
+
+        mViewModel.SaveData(new OnSaveInfoListener() {
+            @Override
+            public void OnSave(String args) {
+                Intent loIntent = new Intent(Activity_DisbursementInfo.this, Activity_Dependent.class);
+                loIntent.putExtra("sTransNox", args);
+                startActivity(loIntent);
+                overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
+                finish();
+            }
+
+            @Override
+            public void OnFailed(String message) {
+                poMessage.initDialog();
+                poMessage.setTitle("Credit Online Application");
+                poMessage.setMessage(message);
+                poMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
+                poMessage.show();
+            }
+        });
     }
+
 
     private void initWidgets() {
         toolbar = findViewById(R.id.toolbar_DisbursementInfo);
@@ -86,20 +171,84 @@ public class Activity_DisbursementInfo extends AppCompatActivity {
         tieLimit = findViewById(R.id.tie_cap_dbmCreditLimit);
         tieYearS = findViewById(R.id.tie_cap_dbmYearStarted);
 
-        tieElctx.addTextChangedListener(new FormatUIText.CurrencyFormat(tieElctx));
-        tieWater.addTextChangedListener(new FormatUIText.CurrencyFormat(tieWater));
-        tieFoodx.addTextChangedListener(new FormatUIText.CurrencyFormat(tieFoodx));
-        tieLoans.addTextChangedListener(new FormatUIText.CurrencyFormat(tieLoans));
-        tieLimit.addTextChangedListener(new FormatUIText.CurrencyFormat(tieLimit));
-
         btnNext = findViewById(R.id.btn_creditAppNext);
         btnPrev = findViewById(R.id.btn_creditAppPrvs);
 
-        spnTypex.setAdapter(new ArrayAdapter<>(Activity_DisbursementInfo.this,
-                android.R.layout.simple_list_item_1, CreditAppConstants.ACCOUNT_TYPE));
-        spnTypex.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+    }
+
+    @SuppressLint("NewApi")
+    public void setUpFieldsFromLocalDB(Disbursement infoModel) throws JSONException {
+        if(infoModel != null) {
+            tieElctx.setText(String.valueOf(infoModel.getElectric()));
+            tieWater.setText(String.valueOf(infoModel.getWaterExp()));
+            tieFoodx.setText(String.valueOf(infoModel.getFoodExps()));
+            tieLoans.setText(String.valueOf(infoModel.getLoanExps()));
+
+            //Bank Account
+            tieBankN.setText(infoModel.getBankName());
+            if(infoModel.getAcctType() != null) {
+                if(!infoModel.getAcctType().equalsIgnoreCase("")) {
+                    spnTypex.setText(CreditAppConstants.ACCOUNT_TYPE[Integer.parseInt(infoModel.getAcctType())]);
+                    spnTypex.setSelection(Integer.parseInt(infoModel.getAcctType()));
+                    mViewModel.getModel().setAcctType(infoModel.getAcctType());
+                }
+            }
+
+            typeX = infoModel.getCrdtBank();
+            //Credit Card Account
+            tieCCBnk.setText(infoModel.getCrdtBank());
+            tieLimit.setText(String.valueOf(infoModel.getCrdtLimt()));
+            tieYearS.setText(String.valueOf(infoModel.getCrdtYear()));
 
 
+        } else {
+            tieElctx.setText("");
+            tieWater.setText("");
+            tieFoodx.setText("");
+            tieLoans.setText("");
 
+            //Bank Account
+            tieBankN.setText("");
+            spnTypex.getText().clear();
+            spnTypex.getText().clear();
+            //Credit Card Account
+            tieCCBnk.setText("");
+            tieLimit.setText("");
+            tieYearS.setText("");
+        }
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            returnPrevious();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        returnPrevious();
+    }
+
+    @Override
+    protected void onDestroy() {
+        getViewModelStore().clear();
+        super.onDestroy();
+    }
+
+    private void returnPrevious(){
+        Intent loIntent;
+        if(mViewModel.getCvlStatus().equalsIgnoreCase("1") ||
+                mViewModel.getCvlStatus().equalsIgnoreCase("5")){
+            loIntent = new Intent(Activity_DisbursementInfo.this, Activity_SpousePensionInfo.class);
+        }else{
+            loIntent = new Intent(Activity_DisbursementInfo.this, Activity_PensionInfo.class);
+        }
+        loIntent.putExtra("sTransNox", TransNox);
+        startActivity(loIntent);
+        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
+        finish();
     }
 }

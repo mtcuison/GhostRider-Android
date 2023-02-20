@@ -16,8 +16,10 @@ import static android.app.Activity.RESULT_OK;
 import static androidx.core.content.ContextCompat.checkSelfPermission;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -47,9 +49,9 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.lib.integsys.Dcp.model.AddressUpdate;
-import org.rmj.g3appdriver.lib.integsys.Dcp.model.CustomerNotAround;
-import org.rmj.g3appdriver.lib.integsys.Dcp.model.MobileUpdate;
+import org.rmj.g3appdriver.lib.integsys.Dcp.pojo.AddressUpdate;
+import org.rmj.g3appdriver.lib.integsys.Dcp.pojo.CustomerNotAround;
+import org.rmj.g3appdriver.lib.integsys.Dcp.pojo.MobileUpdate;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_Transaction;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter.AddressInfoAdapter;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter.MobileInfoAdapter;
@@ -104,8 +106,8 @@ public class Fragment_CustomerNotAround extends Fragment {
                     public void OnSuccessResult() {
                         poDialog.dismiss();
                         poMessage.initDialog();
-                        poMessage.setTitle("Selfie Login");
-                        poMessage.setMessage("Promise to pay has been save.");
+                        poMessage.setTitle("Daily Collection Plan");
+                        poMessage.setMessage("Customer not around has been save.");
                         poMessage.setPositiveButton("Okay", (view, dialog) -> {
                             dialog.dismiss();
                             requireActivity().finish();
@@ -117,7 +119,7 @@ public class Fragment_CustomerNotAround extends Fragment {
                     public void OnFailedResult(String message) {
                         poDialog.dismiss();
                         poMessage.initDialog();
-                        poMessage.setTitle("Selfie Login");
+                        poMessage.setTitle("Daily Collection Plan");
                         poMessage.setMessage(message);
                         poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
                         poMessage.show();
@@ -388,6 +390,11 @@ public class Fragment_CustomerNotAround extends Fragment {
     }
 
     private void InitializeCamera(){
+        LocationManager locationManager = (LocationManager) requireActivity().getSystemService(Context.LOCATION_SERVICE);
+        if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+            Toast.makeText(requireActivity(), "Please enable your location service.", Toast.LENGTH_SHORT).show();
+            return;
+        }
         poMessage.initDialog();
         poMessage.setTitle("Daily Collection Plan");
         poMessage.setMessage("Please take a selfie with the customer or within the area of the customer.");

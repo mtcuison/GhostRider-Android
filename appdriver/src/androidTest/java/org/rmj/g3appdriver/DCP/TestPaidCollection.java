@@ -15,9 +15,9 @@ import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
-import org.rmj.g3appdriver.lib.integsys.Dcp.model.ImportParams;
+import org.rmj.g3appdriver.lib.integsys.Dcp.pojo.ImportParams;
 import org.rmj.g3appdriver.lib.integsys.Dcp.LRDcp;
-import org.rmj.g3appdriver.lib.integsys.Dcp.model.PaidDCP;
+import org.rmj.g3appdriver.lib.integsys.Dcp.pojo.PaidDCP;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(AndroidJUnit4.class)
@@ -75,13 +75,13 @@ public class TestPaidCollection {
         PaidDCP loPaid = new PaidDCP();
         loPaid.setTransNo("M01422000120");
         loPaid.setAccntNo("M057170036");
-        loPaid.setAmountx("5000");
+        loPaid.setAmountx(5000);
         loPaid.setBankNme("");
         loPaid.setCheckDt("");
         loPaid.setCheckNo("");
-        loPaid.setDscount("100");
+        loPaid.setDscount(100);
         loPaid.setEntryNo("1");
-        loPaid.setTotAmnt("4900");
+        loPaid.setTotAmnt(4900);
         loPaid.setPayment("1");
         loPaid.setPrNoxxx("10000");
         loPaid.setRemarks("Sample remarks");

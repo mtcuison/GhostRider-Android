@@ -7,32 +7,32 @@ import java.util.List;
 
 public class ClientSpouseInfo {
 
-    private String TransNox;
-    private String LastName;
-    private String FrstName;
-    private String MiddName;
-    private String Suffix;
-    private String NickName;
-    private String BrthDate;
-    private String BrthPlce;
+    private String TransNox = "";
+    private String LastName = "";
+    private String FrstName = "";
+    private String MiddName = "";
+    private String Suffix = "";
+    private String NickName = "";
+    private String BrthDate = "";
+    private String BrthPlce = "";
     private String BirthPlc; //This holds the data for preview of Town, Province names.
-    private String CvlStats;
-    private String Citizenx;
-    private String CtznShip; //This holds the data for preview of citizenship
+//    private String CvlStats;
+    private String Citizenx = "";
+    private String CtznShip = ""; //This holds the data for preview of citizenship
 
     private MobileNo mobileNo1;
     private MobileNo mobileNo2;
     private MobileNo mobileNo3;
 
-    private String PhoneNox;
-    private String EmailAdd;
-    private String FbAccntx;
-    private String VbrAccnt;
+    private String PhoneNox = "";
+    private String EmailAdd = "";
+    private String FbAccntx = "";
+    private String VbrAccnt = "";
     private String ImgPath;
 
     //for save instance state
-    private String ProvNme;
-    private String TownNme;
+    private String ProvNme = "";
+    private String TownNme = "";
 
     private String message;
 
@@ -142,13 +142,13 @@ public class ClientSpouseInfo {
         BirthPlc = birthPlc;
     }
 
-    public String getCvlStats() {
-        return CvlStats;
-    }
-
-    public void setCvlStats(String cvlStats) {
-        CvlStats = cvlStats;
-    }
+//    public String getCvlStats() {
+//        return CvlStats;
+//    }
+//
+//    public void setCvlStats(String cvlStats) {
+//        CvlStats = cvlStats;
+//    }
 
     public String getCitizenx() {
         return Citizenx;
@@ -253,10 +253,10 @@ public class ClientSpouseInfo {
             return false;
         }
 
-        if(CvlStats == null || Integer.parseInt(CvlStats) < 0){
-            message = "Please select civil status";
-            return false;
-        }
+//        if(CvlStats == null || Integer.parseInt(CvlStats) < 0){
+//            message = "Please select civil status";
+//            return false;
+//        }
 
         if(Citizenx == null || Citizenx.trim().isEmpty()){
             message = "Please enter citizenship";
@@ -347,8 +347,8 @@ public class ClientSpouseInfo {
             return false;
         } else if(!val.getBirthPlc().equalsIgnoreCase(BirthPlc)){
             return false;
-        } else if(!val.getCvlStats().equalsIgnoreCase(CvlStats)){
-            return false;
+//        } else if(!val.getCvlStats().equalsIgnoreCase(CvlStats)){
+//            return false;
         } else if(!val.getCitizenx().equalsIgnoreCase(Citizenx)){
             return false;
         } else if(!val.getCtznShip().equalsIgnoreCase(CtznShip)){

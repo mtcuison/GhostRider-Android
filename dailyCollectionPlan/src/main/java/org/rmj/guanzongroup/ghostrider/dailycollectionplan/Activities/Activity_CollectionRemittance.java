@@ -33,7 +33,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.lib.integsys.Dcp.model.Remittance;
+import org.rmj.g3appdriver.lib.integsys.Dcp.pojo.Remittance;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMCollectionRemittance;
 
@@ -145,6 +145,7 @@ public class Activity_CollectionRemittance extends AppCompatActivity {
                     try{
                         lblOHCashxx.setText("Cash-On-Hand: " + FormatUIText.getCurrencyUIFormat(s));
                         psCltCashx = s;
+                        poRemit.setnCollectd(Double.parseDouble(psCltCashx));
                         btnRemitAll.setText("Total Cash-On-Hand" + FormatUIText.getCurrencyUIFormat(psCltCashx));
                     } catch (Exception e){
                         e.printStackTrace();
@@ -171,6 +172,7 @@ public class Activity_CollectionRemittance extends AppCompatActivity {
             if(checkedId == R.id.rb_remitCash){
                 isCheck = false;
                 poRemit.setcPaymForm("0");
+                poRemit.setnCollectd(Double.parseDouble(psCltCashx));
                 txtAmount.setText("");
                 if(psCltCashx != null) {
                     if (!psCltCashx.isEmpty()) {
@@ -184,6 +186,7 @@ public class Activity_CollectionRemittance extends AppCompatActivity {
             } else if(checkedId == R.id.rb_remitCheck){
                 isCheck = true;
                 poRemit.setcPaymForm("1");
+                poRemit.setnCollectd(Double.parseDouble(psCltCheck));
                 txtAmount.setText("");
                 if(psCltCheck != null) {
                     if (!psCltCheck.isEmpty()) {

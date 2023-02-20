@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.apprdiver.util.SQLUtil;
+import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DCreditApplication;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DMcModel;
@@ -21,10 +22,10 @@ import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.dev.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.dev.Database.Repositories.RMcBrand;
 import org.rmj.g3appdriver.dev.Database.Repositories.RMcModel;
-import org.rmj.g3appdriver.dev.HttpHeaders;
+import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
-import org.rmj.g3appdriver.etc.SessionManager;
+import org.rmj.g3appdriver.lib.Account.SessionManager;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.ApplicationInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.BusinessInfo;
@@ -34,19 +35,20 @@ import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.DependentsInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.DisbursementInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.EmploymentInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.FinancierInfo;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.MeansSelectionInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.OtherInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.PensionInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.PersonalInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.PropertiesInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.ResidenceInfo;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.ReviewLoanInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.SpouseBusinessInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.SpouseEmploymentInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.SpouseInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.SpousePensionInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.SpouseResidenceInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.LoanInfo;
-import org.rmj.g3appdriver.utils.WebApi;
-import org.rmj.g3appdriver.utils.WebClient;
+import org.rmj.g3appdriver.dev.Api.WebApi;
 import org.rmj.gocas.base.GOCASApplication;
 import org.rmj.gocas.pricelist.PriceFactory;
 import org.rmj.gocas.pricelist.Pricelist;
@@ -111,7 +113,7 @@ public class CreditOnlineApplication {
                 params.put("sUserIDxx", loApp.getTimeStmp());
             }
 
-            String lsResponse = WebClient.httpsPostJSon(
+            String lsResponse = WebClient.sendRequest(
                     poApi.getUrlImportOnlineApplications(poConfig.isBackUpServer()),
                     params.toString(),
                     poHeaders.getHeaders());
@@ -201,13 +203,17 @@ public class CreditOnlineApplication {
         }
     }
 
+    public LiveData<List<DCreditApplication.ApplicationLog>> GetCreditApplications(){
+        return poDao.getApplicationHistory();
+    }
+
     public boolean DownloadBranchApplications(){
         try{
             JSONObject params = new JSONObject();
             params.put("bycode", true);
             params.put("value", poSession.getBranchCode());
 
-            String lsResponse = WebClient.httpsPostJSon(
+            String lsResponse = WebClient.sendRequest(
                     poApi.getUrlBranchLoanApp(poConfig.isBackUpServer()),
                     params.toString(),
                     poHeaders.getHeaders());
@@ -279,6 +285,10 @@ public class CreditOnlineApplication {
         }
     }
 
+    public LiveData<List<EBranchLoanApplication>> GetBranchApplications(){
+        return poDao.GetBranchApplications();
+    }
+
     public String CreateApplication(LoanInfo foVal){
         try{
             if(!foVal.isDataValid()){
@@ -286,7 +296,7 @@ public class CreditOnlineApplication {
                 return null;
             }
 
-            String lsTransNo = CreateUniqueID();
+            String lsTransNo = CreateUniqueIDForApplicant();
 
             if(lsTransNo.isEmpty()){
                 message = "Failed to generate unique id please restart the app and try again.";
@@ -305,24 +315,16 @@ public class CreditOnlineApplication {
             loGocas.PurchaseInfo().setDateApplied(new AppConstants().DATE_MODIFIED());
             loGocas.PurchaseInfo().setMonthlyAmortization(foVal.getMonthlyAm());
 
-            ECreditApplication loDetail = new ECreditApplication();
-            loDetail.setTransNox(lsTransNo);
-            loDetail.setBranchCd(foVal.getBranchCde());
-            loDetail.setClientNm(loGocas.ApplicantInfo().getClientName());
-            loDetail.setUnitAppl(loGocas.PurchaseInfo().getAppliedFor());
-            loDetail.setSourceCD("APP");
-            loDetail.setDetlInfo(loGocas.toJSONString());
-            loDetail.setDownPaym(loGocas.PurchaseInfo().getDownPayment());
-            loDetail.setCreatedx(loGocas.PurchaseInfo().getDateApplied());
-            loDetail.setTransact(AppConstants.CURRENT_DATE);
-            loDetail.setTimeStmp(new AppConstants().DATE_MODIFIED());
-            loDetail.setSendStat("0");
-            poDao.Save(loDetail);
-
             lsTransNo = CreateUniqueIDForApplicant();
             ECreditApplicantInfo loApp = new ECreditApplicantInfo();
             loApp.setTransNox(lsTransNo);
             loApp.setPurchase(loGocas.PurchaseInfo().toJSONString());
+            loApp.setBranchCd(loGocas.PurchaseInfo().getPreferedBranch());
+            loApp.setAppliedx(loGocas.PurchaseInfo().getAppliedFor());
+            loApp.setDownPaym(loGocas.PurchaseInfo().getDownPayment());
+            loApp.setCreatedx(new AppConstants().DATE_MODIFIED);
+            loApp.setTransact(AppConstants.CURRENT_DATE);
+            loApp.setTranStat("0");
             poDao.Save(loApp);
 
             Log.d(TAG, "New credit online application has been created.");
@@ -334,16 +336,109 @@ public class CreditOnlineApplication {
         }
     }
 
+    public boolean UploadApplication(String args){
+        try {
+            ECreditApplication loApp = poDao.GetCreditOnlineApplication(args);
+
+            if(loApp == null){
+                message = "Unable to find application to upload.";
+                return false;
+            }
+
+            JSONObject params = new JSONObject(loApp.getDetlInfo());
+            params.put("dCreatedx", loApp.getCreatedx());
+
+            String lsResponse = WebClient.sendRequest(
+                    poApi.getUrlSubmitOnlineApplication(poConfig.isBackUpServer()),
+                    params.toString(),
+                    poHeaders.getHeaders());
+
+            if(lsResponse == null){
+                message = "Server no response.";
+                return false;
+            }
+
+            JSONObject loResponse = new JSONObject(lsResponse);
+            String lsResult = loResponse.getString("result");
+            if(lsResult.equalsIgnoreCase("error")){
+                JSONObject loError = loResponse.getJSONObject("error");
+                message = loError.getString("message");
+                return false;
+            }
+
+            String lsTransNox = loResponse.getString("sTransNox");
+            poDao.updateSentLoanAppl(loApp.getTransNox(), lsTransNox, new AppConstants().DATE_MODIFIED);
+
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
+    }
+
+    public boolean UploadApplications(){
+        try{
+            List<ECreditApplication> loApps = poDao.GetApplicationsForUpload();
+
+            if(loApps == null){
+                message = "No credit online application to upload.";
+                return false;
+            }
+
+            if(loApps.size() == 0){
+                message = "No credit online application to upload.";
+                return false;
+            }
+
+            for(int x = 0; x < loApps.size(); x++){
+                ECreditApplication loApp = loApps.get(x);
+
+                JSONObject params = new JSONObject(loApp.getDetlInfo());
+                params.put("dCreatedx", loApp.getCreatedx());
+
+                String lsResponse = WebClient.sendRequest(
+                        poApi.getUrlSubmitOnlineApplication(poConfig.isBackUpServer()),
+                        params.toString(),
+                        poHeaders.getHeaders());
+
+                if(lsResponse == null){
+                    message = "Server no response.";
+                    Log.e(TAG, message);
+                    Thread.sleep(1000);
+                    continue;
+                }
+
+                JSONObject loResponse = new JSONObject(lsResponse);
+                String lsResult = loResponse.getString("result");
+                if(lsResult.equalsIgnoreCase("error")){
+                    JSONObject loError = loResponse.getJSONObject("error");
+                    message = loError.getString("message");
+                    Log.e(TAG, message);
+                    Thread.sleep(1000);
+                    continue;
+                }
+
+                String lsTransNox = loResponse.getString("sTransNox");
+                poDao.updateSentLoanAppl(loApp.getTransNox(), lsTransNox, new AppConstants().DATE_MODIFIED);
+                Log.d(TAG, "Credit online application uploaded successfully.");
+                Thread.sleep(1000);
+            }
+
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
+    }
+
     public LiveData<List<EBranchInfo>> getAllBranchInfo(){
         return poBranch.getAllMcBranchInfo();
     }
 
     public LiveData<List<EMcBrand>> getAllMcBrand(){
         return poBrand.getAllBrandInfo();
-    }
-
-    public LiveData<List<EBranchLoanApplication>> GetBranchApplications(){
-        return poDao.GetBranchApplications();
     }
 
     public LiveData<List<EMcModel>> getAllBrandModelInfo(String args){
@@ -461,29 +556,13 @@ public class CreditOnlineApplication {
                 return new CoMakerResidenceInfo(instance);
             case Application_Info:
                 return new ApplicationInfo(instance);
+            case Means_Info:
+                return new MeansSelectionInfo(instance);
+            case ReviewLoanInfo:
+                return new ReviewLoanInfo(instance);
             default:
                 return null;
         }
-    }
-
-    private String CreateUniqueID(){
-        String lsUniqIDx = "";
-        try{
-            String lsBranchCd = "MX01";
-            String lsCrrYear = new SimpleDateFormat("yy", Locale.getDefault()).format(new Date());
-            StringBuilder loBuilder = new StringBuilder(lsBranchCd);
-            loBuilder.append(lsCrrYear);
-
-            int lnLocalID = poDao.GetRowsCountForID() + 1;
-            String lsPadNumx = String.format("%05d", lnLocalID);
-            loBuilder.append(lsPadNumx);
-            lsUniqIDx = loBuilder.toString();
-        } catch (Exception e){
-            e.printStackTrace();
-            Log.e(TAG, e.getMessage());
-        }
-        Log.d(TAG, lsUniqIDx);
-        return lsUniqIDx;
     }
 
     private String CreateUniqueIDForApplicant(){

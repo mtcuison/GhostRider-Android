@@ -1,12 +1,14 @@
 package org.rmj.g3appdriver.lib.integsys.CreditApp.model;
 
+import android.util.Log;
+
 public class Business {
 
     private String sTransNox = "";
     private String sBussNtrx = "";
     private String sBussName = "";
     private String sBussAddx = "";
-    private String sBussProv = "";
+    private String sTownName = "";
     private String sBussTown = "";
     private String sBussType = "";
     private String sBussSize = "";
@@ -14,16 +16,25 @@ public class Business {
     private String cIsYearxx = "";
     private long sMnthlyIn = 0;
     private long sMnthlyEx = 0;
+    private String cMeanInfo = "";
 
     private String message;
 
     public Business() {
 
     }
-
     public String getMessage() {
         return message;
     }
+
+    public String getMeanInfo() {
+        return cMeanInfo;
+    }
+
+    public void setMeanInfo(String cMeanInfo) {
+        this.cMeanInfo = cMeanInfo;
+    }
+
 
     public String getTransNox() {
         return sTransNox;
@@ -57,12 +68,12 @@ public class Business {
         this.sBussAddx = sBussAddx;
     }
 
-    public String getProvince() {
-        return sBussProv;
+    public String getTownName() {
+        return sTownName;
     }
 
-    public void setProvince(String sBussProv) {
-        this.sBussProv = sBussProv;
+    public void setTownName(String sBussProv) {
+        this.sTownName = sBussProv;
     }
 
     public String getTown() {
@@ -122,6 +133,14 @@ public class Business {
         this.sMnthlyEx = sMnthlyEx;
     }
 
+    public boolean isPrimary(){
+        if (!cMeanInfo.equalsIgnoreCase("1")){
+            return false;
+        }
+        return true;
+
+    }
+
     public boolean isDataValid(){
         return isBusinessNatureValid() &&
                 isBusinessNameValid() &&
@@ -135,7 +154,7 @@ public class Business {
     }
 
     boolean isBusinessNatureValid(){
-        if(!sBussNtrx.isEmpty()) {
+        if(!sBussNtrx.isEmpty() || !sBussNtrx.equalsIgnoreCase("")) {
             return true;
         } else {
             message = "Please select business nature";
@@ -144,7 +163,7 @@ public class Business {
     }
 
     boolean isBusinessNameValid(){
-        if(sBussName.trim().isEmpty()){
+        if(sBussName.trim().isEmpty() || sBussName.trim().equalsIgnoreCase("") || sBussName == null){
             message = "Please enter name of business";
             return false;
         }
@@ -152,7 +171,7 @@ public class Business {
     }
 
     boolean isBusinessAddressValid(){
-        if(sBussAddx.trim().isEmpty()){
+        if(sBussAddx.trim().isEmpty() || sBussAddx.trim().equalsIgnoreCase("") || sBussAddx == null){
             message = "Please enter business address";
             return false;
         }
@@ -160,15 +179,15 @@ public class Business {
     }
 
     boolean isTownValid(){
-        if(sBussTown.trim().isEmpty()){
-            message = "Please enter town or municipality";
+        if(sBussTown.trim().isEmpty() || sBussTown.trim().equalsIgnoreCase( "") || sBussTown == null){
+            message = "Please enter municipality address";
             return false;
         }
         return true;
     }
 
     boolean isBusinessTypeValid(){
-        if(Integer.parseInt(sBussType) < 0){
+        if(sBussType.trim().isEmpty() || sBussType.trim().equalsIgnoreCase("")){
             message = "Please select type of business";
             return false;
         }
@@ -176,7 +195,7 @@ public class Business {
     }
 
     boolean isBusinessSizeValid(){
-        if(Integer.parseInt(sBussSize) < 0){
+        if(sBussSize.trim().isEmpty() || sBussSize.trim().equalsIgnoreCase("")){
             message = "Please select size of business";
             return false;
         }
@@ -184,7 +203,7 @@ public class Business {
     }
 
     boolean isLenghtOfServiceValid(){
-        if(sLenghtSv == 0){
+        if(sLenghtSv == 0 ){
             message = "Please enter length of service";
             return false;
         }else {
@@ -192,7 +211,7 @@ public class Business {
         }
     }
     boolean isLenghtOfServiceSpinnerValid(){
-        if(Integer.parseInt(cIsYearxx) < 0){
+        if(cIsYearxx.trim().isEmpty() || cIsYearxx.trim().equalsIgnoreCase("")){
             message = "Please enter length of service in Month/Year";
             return false;
         }

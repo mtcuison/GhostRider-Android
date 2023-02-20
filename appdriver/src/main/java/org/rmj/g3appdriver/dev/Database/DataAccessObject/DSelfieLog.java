@@ -16,6 +16,7 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 
+import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ESelfieLog;
 
 import java.util.List;
@@ -35,15 +36,16 @@ public interface DSelfieLog {
     @Query("SELECT * FROM Employee_Log_Selfie WHERE dLogTimex LIKE:DateLog AND cSendStat = \"1\" ")
     LiveData<List<ESelfieLog>> getCurrentTimeLogIfExist(String DateLog);
 
-    @Query("SELECT * FROM Employee_Log_Selfie WHERE dLogTimex LIKE:DateLog AND cSendStat = \"1\" OR cSendStat = \"0\"")
-    LiveData<List<ESelfieLog>> getCurrentTimeLog(String DateLog);
-
     @Query("UPDATE Employee_Log_Selfie " +
             "SET sTransNox =:TransNox, " +
+            "sImageIDx =:sImageID, " +
             "cSendStat = '1', " +
             "dSendDate =:DateSent " +
             "WHERE sTransNox =:OldTransNox")
-    void updateEmployeeLogStat(String TransNox, String OldTransNox, String DateSent);
+    void updateEmployeeLogStat(String TransNox, String OldTransNox, String sImageID, String DateSent);
+
+    @Query("UPDATE Employee_Log_Selfie SET sImageIDx =:ImageID WHERE sTransNox =:TransNox")
+    void updateSelfieLogImageID(String TransNox, String ImageID);
 
     @Query("SELECT * FROM Employee_Log_Selfie WHERE cSendStat <> '1'")
     List<ESelfieLog> GetSelfieLogsForUpload();
@@ -54,19 +56,14 @@ public interface DSelfieLog {
             "ORDER BY dLogTimex DESC")
     LiveData<List<ESelfieLog>> getAllEmployeeTimeLog(String fsVal);
 
-    @Query("SELECT dLogTimex FROM Employee_Log_Selfie WHERE sEmployID = (SELECT sEmployID FROM User_Info_Master) " +
-            "ORDER BY dLogTimex DESC LIMIT 2")
-    LiveData<List<String>> getLastLogDate();
-
-    @Query("UPDATE Employee_Log_Selfie SET cReqCCntx = '1' WHERE sTransNox=(SELECT sTransNox FROM Employee_Log_Selfie ORDER BY dLogTimex DESC LIMIT 1)")
-    void UpdateCashCountRequireStatus();
-
-    @Query("SELECT sBranchCd FROM Employee_Log_Selfie ORDER BY dLogTimex DESC LIMIT 1")
-    LiveData<String> getSelfieBranchCode();
-
-    @Query("SELECT * FROM Employee_Log_Selfie ORDER BY dLogTimex DESC LIMIT 1")
-    LiveData<ESelfieLog> getLastSelfieLog();
-
     @Query("SELECT COUNT(*) FROM Employee_Log_Selfie WHERE sBranchCd=:BranchCd AND dTransact=:Transact")
-    public int checkBranchCodeIfExist(String BranchCd, String Transact);
+    int checkBranchCodeIfExist(String BranchCd, String Transact);
+
+    @Query("SELECT * FROM Employee_Log_Selfie WHERE sBranchCd=:BranchCd AND dTransact=:Transact")
+    ESelfieLog CheckSelfieLogIfExist(String BranchCd, String Transact);
+
+    @Query("SELECT * FROM Branch_Info WHERE sBranchCd =:args")
+    EBranchInfo GetSelfieLogBranch(String args);
+
+
 }

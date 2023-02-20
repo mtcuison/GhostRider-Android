@@ -16,7 +16,8 @@ import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.dev.Database.Repositories.RBarangay;
 import org.rmj.g3appdriver.dev.Database.Repositories.RTown;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditApp;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Business;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.SpouseBusiness;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.SpouseResidence;
 import org.rmj.gocas.base.GOCASApplication;
 
 import java.util.List;
@@ -27,7 +28,7 @@ public class SpouseBusinessInfo implements CreditApp {
     private final DCreditApplication poDao;
     private final RTown poTown;
 
-    private Business poDetail;
+    private SpouseBusiness poDetail;
 
     private String message;
 
@@ -44,39 +45,42 @@ public class SpouseBusinessInfo implements CreditApp {
     @Override
     public Object Parse(ECreditApplicantInfo args) {
         try{
-            String lsDetail = args.getSpsBusnx();
-            GOCASApplication gocas = new GOCASApplication();
-            JSONParser loJson = new JSONParser();
-            JSONObject joDetail = (JSONObject) loJson.parse(lsDetail);
-            gocas.SpouseMeansInfo().SelfEmployedInfo().setData(joDetail);
+            SpouseBusiness loDetail = new SpouseBusiness();
+            if(args.getSpsBusnx() != null){
+                String lsDetail = args.getSpsBusnx();
+                GOCASApplication gocas = new GOCASApplication();
+                JSONParser loJson = new JSONParser();
+                JSONObject joDetail = (JSONObject) loJson.parse(lsDetail);
+                gocas.SpouseMeansInfo().SelfEmployedInfo().setData(joDetail);
 
-            Business loDetail = new Business();
-            loDetail.setNatureOfBusiness(gocas.SpouseMeansInfo().SelfEmployedInfo().getNatureOfBusiness());
-            loDetail.setNameOfBusiness(gocas.SpouseMeansInfo().SelfEmployedInfo().getNameOfBusiness());
-            loDetail.setBusinessAddress(gocas.SpouseMeansInfo().SelfEmployedInfo().getBusinessAddress());
 
-            String lsTown = gocas.SpouseMeansInfo().SelfEmployedInfo().getBusinessTown();
+                loDetail.setNatureOfBusiness(gocas.SpouseMeansInfo().SelfEmployedInfo().getNatureOfBusiness());
+                loDetail.setNameOfBusiness(gocas.SpouseMeansInfo().SelfEmployedInfo().getNameOfBusiness());
+                loDetail.setBusinessAddress(gocas.SpouseMeansInfo().SelfEmployedInfo().getBusinessAddress());
 
-            DTownInfo.TownProvinceName loTown = poTown.getTownProvinceName(lsTown);
+                String lsTown = gocas.SpouseMeansInfo().SelfEmployedInfo().getBusinessTown();
 
-            loDetail.setTown(lsTown);
-            loDetail.setTypeOfBusiness(gocas.SpouseMeansInfo().SelfEmployedInfo().getBusinessType());
-            loDetail.setSizeOfBusiness(gocas.SpouseMeansInfo().SelfEmployedInfo().getOwnershipSize());
+                DTownInfo.TownProvinceName loTown = poTown.getTownProvinceName(lsTown);
 
-            double lnLength = gocas.SpouseMeansInfo().SelfEmployedInfo().getBusinessLength();
+                loDetail.setTown(lsTown);
+                loDetail.setTypeOfBusiness(gocas.SpouseMeansInfo().SelfEmployedInfo().getBusinessType());
+                loDetail.setSizeOfBusiness(gocas.SpouseMeansInfo().SelfEmployedInfo().getOwnershipSize());
 
-            if(lnLength % 1 == 0){
-                loDetail.setIsYear("1");
-            } else {
-                loDetail.setIsYear("0");
+                double lnLength = gocas.SpouseMeansInfo().SelfEmployedInfo().getBusinessLength();
+
+                if(lnLength % 1 == 0){
+                    loDetail.setIsYear("1");
+                } else {
+                    loDetail.setIsYear("0");
+                }
+
+                loDetail.setLengthOfService(gocas.SpouseMeansInfo().SelfEmployedInfo().getBusinessLength());
+                loDetail.setMonthlyExpense(gocas.SpouseMeansInfo().SelfEmployedInfo().getMonthlyExpense());
+                loDetail.setMonthlyIncome(gocas.SpouseMeansInfo().SelfEmployedInfo().getIncome());
+
+                poDetail = loDetail;
+
             }
-
-            loDetail.setLengthOfService(gocas.SpouseMeansInfo().SelfEmployedInfo().getBusinessLength());
-            loDetail.setMonthlyExpense(gocas.SpouseMeansInfo().SelfEmployedInfo().getMonthlyExpense());
-            loDetail.setMonthlyIncome(gocas.SpouseMeansInfo().SelfEmployedInfo().getIncome());
-
-            poDetail = loDetail;
-
             return loDetail;
         } catch (Exception e){
             e.printStackTrace();
@@ -87,7 +91,7 @@ public class SpouseBusinessInfo implements CreditApp {
 
     @Override
     public int Validate(Object args) {
-        Business loDetail = (Business) args;
+        SpouseBusiness loDetail = (SpouseBusiness) args;
 
         if(poDetail == null){
 
@@ -113,15 +117,15 @@ public class SpouseBusinessInfo implements CreditApp {
     }
 
     @Override
-    public boolean Save(Object args) {
+    public String Save(Object args) {
         try{
-            Business loDetail = (Business) args;
+            SpouseBusiness loDetail = (SpouseBusiness) args;
 
             ECreditApplicantInfo loApp = poDao.GetApplicantDetails(loDetail.getTransNox());
 
             if(loApp == null){
                 message = "Unable to find record for update. Please restart credit app and try again.";
-                return false;
+                return null;
             }
 
             GOCASApplication gocas = new GOCASApplication();
@@ -139,11 +143,11 @@ public class SpouseBusinessInfo implements CreditApp {
             loApp.setSpsBusnx(gocas.SpouseMeansInfo().SelfEmployedInfo().toJSONString());
 
             poDao.Update(loApp);
-            return true;
+            return loDetail.getTransNox();
         } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();
-            return false;
+            return null;
         }
     }
 

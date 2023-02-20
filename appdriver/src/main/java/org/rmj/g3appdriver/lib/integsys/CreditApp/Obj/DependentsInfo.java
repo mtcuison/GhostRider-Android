@@ -20,6 +20,7 @@ import org.rmj.g3appdriver.lib.integsys.CreditApp.model.CoMakerResidence;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Dependent;
 import org.rmj.gocas.base.GOCASApplication;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DependentsInfo implements CreditApp {
@@ -45,42 +46,49 @@ public class DependentsInfo implements CreditApp {
     @Override
     public Object Parse(ECreditApplicantInfo args) {
         try{
-            String lsDetail = args.getDependnt();
-            GOCASApplication gocas = new GOCASApplication();
-            JSONParser loJson = new JSONParser();
-            JSONObject joDetail = (JSONObject) loJson.parse(lsDetail);
-            gocas.DisbursementInfo().DependentInfo().setData(joDetail);
-
             Dependent loDetail = new Dependent();
-
-            JSONArray loList = (JSONArray) joDetail.get("children");
-            if(loList.size() > 0){
-                for(int x = 0; x < loList.size(); x++){
-                    JSONObject loChildren = (JSONObject) loList.get(x);
-                    Dependent.DependentInfo loInfo = new Dependent.DependentInfo();
-                    loInfo.setFullName((String) loChildren.get("sFullName"));
-                    loInfo.setRelation((String) loChildren.get("sRelatnCD"));
-                    long lnAge = (long) loChildren.get("nDepdAgex");
-                    loInfo.setDpdntAge((int) lnAge);
-                    loInfo.setStudentx((String) loChildren.get("cIsPupilx"));
-                    loInfo.setSchoolNm((String) loChildren.get("sSchlName"));
-                    loInfo.setSchlAddx((String) loChildren.get("sSchlAddr"));
-                    loInfo.setSchlTown((String) loChildren.get("sSchlTown"));
-                    loInfo.setSchoolTp((String) loChildren.get("cIsPrivte"));
-                    loInfo.setEduLevel((String) loChildren.get("sEducLevl"));
-                    loInfo.setSchoolar((String) loChildren.get("cIsSchlrx"));
-                    loInfo.setEmployed((String) loChildren.get("cHasWorkx"));
-                    loInfo.setEmpSctor((String) loChildren.get("cWorkType"));
-                    loInfo.setCompName((String) loChildren.get("sCompanyx"));
-                    loInfo.setHouseHld((String) loChildren.get("cHouseHld"));
-                    loInfo.setDependnt((String) loChildren.get("cDependnt"));
-                    loInfo.setMarriedx((String) loChildren.get("cIsMarrdx"));
+            if(args.getDependnt() != null){
+                String lsDetail = args.getDependnt();
+                GOCASApplication gocas = new GOCASApplication();
+                JSONParser loJson = new JSONParser();
+                JSONObject joDetail = (JSONObject) loJson.parse(lsDetail);
+                gocas.DisbursementInfo().DependentInfo().setData(joDetail);
+                JSONArray loList = (JSONArray) joDetail.get("children");
+                List<Dependent.DependentInfo> loDpds = new ArrayList<>();
+                if(loList.size() > 0){
+                    for(int x = 0; x < loList.size(); x++){
+                        JSONObject loChildren = (JSONObject) loList.get(x);
+                        Dependent.DependentInfo loInfo = new Dependent.DependentInfo();
+                        loInfo.setFullName((String) loChildren.get("sFullName"));
+                        loInfo.setRelation((String) loChildren.get("sRelatnCD"));
+                        long lnAge = (long) loChildren.get("nDepdAgex");
+                        loInfo.setDpdntAge((int) lnAge);
+                        loInfo.setStudentx((String) loChildren.get("cIsPupilx"));
+                        loInfo.setSchoolNm((String) loChildren.get("sSchlName"));
+                        loInfo.setSchlAddx((String) loChildren.get("sSchlAddr"));
+                        loInfo.setSchlTown((String) loChildren.get("sSchlTown"));
+                        loInfo.setSchoolTp((String) loChildren.get("cIsPrivte"));
+                        loInfo.setEduLevel((String) loChildren.get("sEducLevl"));
+                        loInfo.setSchoolar((String) loChildren.get("cIsSchlrx"));
+                        loInfo.setEmployed((String) loChildren.get("cHasWorkx"));
+                        loInfo.setEmpSctor((String) loChildren.get("cWorkType"));
+                        loInfo.setCompName((String) loChildren.get("sCompanyx"));
+                        loInfo.setHouseHld((String) loChildren.get("cHouseHld"));
+                        loInfo.setDependnt((String) loChildren.get("cDependnt"));
+                        loInfo.setMarriedx((String) loChildren.get("cIsMarrdx"));
+                        loDpds.add(loInfo);
+                    }
                 }
+
+                loDetail.setDependentList(loDpds);
+                poDetail = loDetail;
+
             }
-
-            poDetail = loDetail;
-
             return loDetail;
+        } catch (NullPointerException e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return null;
         } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();
@@ -116,7 +124,7 @@ public class DependentsInfo implements CreditApp {
     }
 
     @Override
-    public boolean Save(Object args) {
+    public String Save(Object args) {
         try{
             Dependent loDetail = (Dependent) args;
 
@@ -124,7 +132,7 @@ public class DependentsInfo implements CreditApp {
 
             if(loApp == null){
                 message = "Unable to find record for update. Please restart credit app and try again.";
-                return false;
+                return null;
             }
 
             GOCASApplication gocas = new GOCASApplication();
@@ -155,11 +163,11 @@ public class DependentsInfo implements CreditApp {
 
             loApp.setDependnt(gocas.DisbursementInfo().DependentInfo().toJSONString());
             poDao.Update(loApp);
-            return true;
+            return loDetail.getTransNox();
         } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();
-            return false;
+            return null;
         }
     }
 

@@ -22,14 +22,12 @@ import androidx.lifecycle.MutableLiveData;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeLeave;
 import org.rmj.g3appdriver.dev.Database.Repositories.RBranch;
-import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.lib.PetManager.Obj.EmployeeLeave;
 import org.rmj.g3appdriver.lib.PetManager.PetManager;
-import org.rmj.g3appdriver.lib.PetManager.iPM;
-import org.rmj.g3appdriver.lib.PetManager.model.LeaveApprovalInfo;
+import org.rmj.g3appdriver.lib.PetManager.model.iPM;
+import org.rmj.g3appdriver.lib.PetManager.pojo.LeaveApprovalInfo;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 
 import java.text.ParseException;
@@ -177,20 +175,22 @@ public class VMLeaveApproval extends AndroidViewModel {
                     return false;
                 }
 
+                if(!poConn.isDeviceConnected()){
+                    message = poConn.getMessage() + " Your approval will be automatically send if device is reconnected to internet.";
+                    return false;
+                }
+
+                if(!poSys.UploadApproval(infos[0])){
+                    message = poSys.getMessage();
+                    return false;
+                }
+
                 String lsTransNox = poSys.SaveApproval(infos[0]);
                 if(lsTransNox == null){
                     message = poSys.getMessage();
                     return false;
                 }
 
-                if(!poConn.isDeviceConnected()){
-                    message = poConn.getMessage() + " Your approval will be automatically send if device is reconnected to internet.";
-                    return false;
-                }
-                if(!poSys.UploadApproval(lsTransNox)){
-                    message = poSys.getMessage();
-                    return false;
-                }
                 return true;
             } catch (Exception e) {
                 e.printStackTrace();

@@ -90,6 +90,10 @@ public class VMPersonalInfo extends AndroidViewModel implements CreditAppUI {
                     return null;
                 }
                 return loDetail;
+            } catch (NullPointerException e){
+                e.printStackTrace();
+                message = e.getMessage();
+                return null;
             } catch (Exception e){
                 e.printStackTrace();
                 message = e.getMessage();
@@ -125,7 +129,8 @@ public class VMPersonalInfo extends AndroidViewModel implements CreditAppUI {
                 return false;
             }
 
-            if(!poApp.Save(info[0])){
+            String lsResult = poApp.Save(info[0]);
+            if(lsResult == null){
                 message = poApp.getMessage();
                 return false;
             }

@@ -13,6 +13,7 @@ package org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel;
 
 import android.app.Application;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -22,7 +23,7 @@ import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
-import org.rmj.g3appdriver.lib.integsys.Dcp.model.ImportParams;
+import org.rmj.g3appdriver.lib.integsys.Dcp.pojo.ImportParams;
 import org.rmj.g3appdriver.lib.integsys.Dcp.LRDcp;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 
@@ -193,7 +194,7 @@ public class VMCollectionList extends AndroidViewModel {
                 message = poSys.getMessage();
                 return false;
             }
-            return null;
+            return true;
         }
 
         @Override
@@ -282,10 +283,16 @@ public class VMCollectionList extends AndroidViewModel {
 
         @Override
         protected Boolean doInBackground(String... strings) {
+            if(!poSys.ExportToFile()){
+                message = poSys.getMessage();
+                Log.e(TAG, message);
+            }
+
             if(!poConn.isDeviceConnected()){
                 message = poConn.getMessage();
                 return false;
             }
+
 
             String lsResult = poSys.PostCollection(strings[0]);
             if(lsResult == null){
@@ -298,6 +305,46 @@ public class VMCollectionList extends AndroidViewModel {
                 return false;
             }
 
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean isSuccess) {
+            super.onPostExecute(isSuccess);
+            if(!isSuccess){
+                callback.OnFailed(message);
+            } else {
+                callback.OnSuccess();
+            }
+        }
+    }
+
+    public void ClearDCPRecords(OnActionCallback callback){
+        new ClearDCPRecordsTask(callback).execute();
+    }
+
+    private class ClearDCPRecordsTask extends AsyncTask<Void, Void, Boolean>{
+
+        private final OnActionCallback callback;
+
+        private String message;
+
+        public ClearDCPRecordsTask(OnActionCallback callback) {
+            this.callback = callback;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            callback.OnLoad();
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            if(!poSys.ClearDCPData()){
+                message = poSys.getMessage();
+                return false;
+            }
             return true;
         }
 

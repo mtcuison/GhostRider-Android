@@ -79,7 +79,7 @@ public class ApplicationInfo implements CreditApp {
     }
 
     @Override
-    public boolean Save(Object args) {
+    public String Save(Object args) {
         try {
             ECreditApplicantInfo loDetail = (ECreditApplicantInfo) args;
 
@@ -108,11 +108,11 @@ public class ApplicationInfo implements CreditApp {
             loMaster.CoMakerInfo().ResidenceInfo().setData((JSONObject) loJson.parse(loDetail.getCmResidx()));
 
             Log.d(TAG, loMaster.toJSONString());
-            return true;
+            return loDetail.getTransNox();
         } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();
-            return false;
+            return null;
         }
     }
 

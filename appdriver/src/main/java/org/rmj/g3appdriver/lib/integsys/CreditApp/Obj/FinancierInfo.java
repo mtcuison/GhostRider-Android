@@ -1,6 +1,7 @@
 package org.rmj.g3appdriver.lib.integsys.CreditApp.Obj;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
@@ -43,28 +44,35 @@ public class FinancierInfo implements CreditApp {
     @Override
     public Object Parse(ECreditApplicantInfo args) {
         try{
-            String lsDetail = args.getFinancex();
-            GOCASApplication gocas = new GOCASApplication();
-            JSONParser loJson = new JSONParser();
-            JSONObject joDetail = (JSONObject) loJson.parse(lsDetail);
-            gocas.MeansInfo().FinancerInfo().setData(joDetail);
-
             Financier loDetail = new Financier();
-            loDetail.setFinancierRelation(gocas.MeansInfo().FinancerInfo().getSource());
-            loDetail.setFinancierName(gocas.MeansInfo().FinancerInfo().getFinancerName());
-            loDetail.setRangeOfIncome(gocas.MeansInfo().FinancerInfo().getAmount());
-            loDetail.setEmail(gocas.MeansInfo().FinancerInfo().getEmailAddress());
-            loDetail.setFacebook(gocas.MeansInfo().FinancerInfo().getFBAccount());
-            loDetail.setMobileNo(gocas.MeansInfo().FinancerInfo().getMobileNo());
+            if(args.getFinancex() != null){
+                String lsDetail = args.getFinancex();
+                GOCASApplication gocas = new GOCASApplication();
+                JSONParser loJson = new JSONParser();
+                JSONObject joDetail = (JSONObject) loJson.parse(lsDetail);
+                gocas.MeansInfo().FinancerInfo().setData(joDetail);
 
-            String lsCountry = gocas.MeansInfo().FinancerInfo().getCountry();
-            loDetail.setCountry(lsCountry);
+                loDetail.setFinancierRelation(gocas.MeansInfo().FinancerInfo().getSource());
+                loDetail.setFinancierName(gocas.MeansInfo().FinancerInfo().getFinancerName());
+                loDetail.setRangeOfIncome(gocas.MeansInfo().FinancerInfo().getAmount());
+                loDetail.setEmail(gocas.MeansInfo().FinancerInfo().getEmailAddress());
+                loDetail.setFacebook(gocas.MeansInfo().FinancerInfo().getFBAccount());
+                loDetail.setMobileNo(gocas.MeansInfo().FinancerInfo().getMobileNo());
 
-            String lsCName = poCountry.getCountryInfo(lsCountry).getCntryNme();
-            loDetail.setCountryName(lsCName);
+                String lsCountry = gocas.MeansInfo().FinancerInfo().getCountry();
+                loDetail.setCountry(lsCountry);
+                if(!lsCountry.isEmpty()){
+                    String lsCName = poCountry.getCountryInfo(lsCountry).getCntryNme();
+                    loDetail.setCountryName(lsCName);
 
-            poDetail = loDetail;
+                }
+                poDetail = loDetail;
+            }
             return loDetail;
+        } catch (NullPointerException e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return null;
         } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();
@@ -75,20 +83,28 @@ public class FinancierInfo implements CreditApp {
     @Override
     public int Validate(Object args) {
         Financier loDetail = (Financier) args;
-
         if(poDetail == null){
-
-            if(!loDetail.isDataValid()){
-                message = loDetail.getMessage();
-                return 0;
+            if(loDetail.isPrimary()){
+                if(!loDetail.isDataValid()){
+                    message = loDetail.getMessage();
+                    return 0;
+                }
+            }else{
+                return 1;
             }
-
         } else {
 
             //TODO: if all information inside each old object and new object is not the same,
             // return 2 to indicate validation needs confirmation from user to update the
             // previous information being save.
-
+            if(loDetail.isPrimary()){
+                if(!loDetail.isDataValid()){
+                    message = loDetail.getMessage();
+                    return 0;
+                }
+            }else{
+                return 1;
+            }
 //            if(!poDetail.isEqual(loDetail)){
 //                return 2;
 //            } else {
@@ -100,7 +116,7 @@ public class FinancierInfo implements CreditApp {
     }
 
     @Override
-    public boolean Save(Object args) {
+    public String Save(Object args) {
         try{
             Financier loDetail = (Financier) args;
 
@@ -108,7 +124,7 @@ public class FinancierInfo implements CreditApp {
 
             if(loApp == null){
                 message = "Unable to find record for update. Please restart credit app and try again.";
-                return false;
+                return null;
             }
 
             GOCASApplication gocas = new GOCASApplication();
@@ -122,11 +138,11 @@ public class FinancierInfo implements CreditApp {
             loApp.setFinancex(gocas.MeansInfo().FinancerInfo().toJSONString());
             poDao.Update(loApp);
 
-            return true;
+            return loDetail.getTransNox();
         } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();
-            return false;
+            return null;
         }
     }
 

@@ -3,6 +3,7 @@ package org.rmj.guanzongroup.onlinecreditapplication.ViewModel;
 import android.app.Application;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -15,6 +16,7 @@ import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditAppInstance;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditOnlineApplication;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Financier;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Personal;
 
 import java.util.List;
 
@@ -51,7 +53,7 @@ public class VMFinancierInfo extends AndroidViewModel implements CreditAppUI {
 
     @Override
     public void ParseData(ECreditApplicantInfo args, OnParseListener listener) {
-
+        new ParseDataTask(listener).execute(args);
     }
 
     @Override
@@ -66,6 +68,45 @@ public class VMFinancierInfo extends AndroidViewModel implements CreditAppUI {
 
     public LiveData<List<ECountryInfo>> GetCountryList(){
         return poApp.GetCountryList();
+    }
+
+    private class ParseDataTask extends AsyncTask<ECreditApplicantInfo, Void, Financier>{
+
+        private final OnParseListener listener;
+
+        public ParseDataTask(OnParseListener listener) {
+            this.listener = listener;
+        }
+
+        @Override
+        protected Financier doInBackground(ECreditApplicantInfo... app) {
+            try {
+                Financier loDetail = (Financier) poApp.Parse(app[0]);
+                if(loDetail == null){
+                    message = poApp.getMessage();
+                    return null;
+                }
+                return loDetail;
+            } catch (NullPointerException e){
+                e.printStackTrace();
+                message = e.getMessage();
+                return null;
+            } catch (Exception e){
+                e.printStackTrace();
+                message = e.getMessage();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Financier result) {
+            super.onPostExecute(result);
+            if(result == null){
+                Log.e(TAG, message);
+            } else {
+                listener.OnParse(result);
+            }
+        }
     }
 
     private class SaveDataTask extends AsyncTask<Financier, Void, Boolean>{
@@ -85,7 +126,8 @@ public class VMFinancierInfo extends AndroidViewModel implements CreditAppUI {
                 return false;
             }
 
-            if(!poApp.Save(info[0])){
+            String lsResult = poApp.Save(info[0]);
+            if(lsResult == null){
                 message = poApp.getMessage();
                 return false;
             }

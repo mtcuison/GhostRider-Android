@@ -87,6 +87,9 @@ public interface DCreditApplication {
     @Query("SELECT * FROM Credit_Online_Application WHERE sTransNox =:TransNox")
     ECreditApplication getLoanInfoOfTransNox(String TransNox);
 
+    @Query("SELECT * FROM Credit_Online_Application WHERE cSendStat = '0'")
+    List<ECreditApplication> GetApplicationsForUpload();
+
     @Query("UPDATE Credit_Online_Application SET " +
             "sTransNox =:TransNox, " +
             "cSendStat = '1', " +
@@ -125,14 +128,11 @@ public interface DCreditApplication {
             "a.cSendStat, " +
             "a.cTranStat, " +
             "a.dReceived, " +
-            "a.dVerified, " +
-            "c.sFileLoct " +
+            "a.dVerified " +
             "From Credit_Online_Application a " +
             "Left Join Branch_Info b " +
-            "Left Join Image_Information c " +
             "ON a.sBranchCd = b.sBranchCd " +
-            "OR a.sTransNox = c.sSourceNo " +
-            "WHERE cTranStat != 4 " +
+            "WHERE a.cTranStat != 4 " +
             "AND sCreatedx = (SELECT sUserIDxx From User_Info_Master) " +
             "GROUP BY a.sTransNox " +
             "ORDER BY a.dCreatedx DESC")

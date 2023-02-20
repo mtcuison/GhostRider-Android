@@ -25,8 +25,8 @@ import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeBusinessTrip;
 import org.rmj.g3appdriver.dev.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.lib.PetManager.Obj.EmployeeOB;
 import org.rmj.g3appdriver.lib.PetManager.PetManager;
-import org.rmj.g3appdriver.lib.PetManager.iPM;
-import org.rmj.g3appdriver.lib.PetManager.model.OBApprovalInfo;
+import org.rmj.g3appdriver.lib.PetManager.model.iPM;
+import org.rmj.g3appdriver.lib.PetManager.pojo.OBApprovalInfo;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 
 public class VMObApproval extends AndroidViewModel {
@@ -159,18 +159,18 @@ public class VMObApproval extends AndroidViewModel {
         @Override
         protected Boolean doInBackground(OBApprovalInfo... obApprovalInfos) {
             try{
-                String lsTransNox = poSys.SaveApproval(obApprovalInfos[0]);
-                if(lsTransNox == null){
-                    message = poSys.getMessage();
-                    return false;
-                }
-
                 if(!poConn.isDeviceConnected()) {
                     message = poConn.getMessage() + " Your approval will be automatically send if device is reconnected to internet.";
                     return false;
                 }
 
-                if(!poSys.UploadApproval(lsTransNox)){
+                if(!poSys.UploadApproval(obApprovalInfos[0])){
+                    message = poSys.getMessage();
+                    return false;
+                }
+
+                String lsTransNox = poSys.SaveApproval(obApprovalInfos[0]);
+                if(lsTransNox == null){
                     message = poSys.getMessage();
                     return false;
                 }

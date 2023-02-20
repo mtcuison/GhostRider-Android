@@ -1,6 +1,7 @@
 package org.rmj.g3appdriver.lib.integsys.CreditApp.Obj;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
@@ -43,40 +44,49 @@ public class BusinessInfo implements CreditApp {
     @Override
     public Object Parse(ECreditApplicantInfo args) {
         try{
-            String lsDetail = args.getBusnInfo();
-            GOCASApplication gocas = new GOCASApplication();
-            JSONParser loJson = new JSONParser();
-            JSONObject joDetail = (JSONObject) loJson.parse(lsDetail);
-            gocas.MeansInfo().SelfEmployedInfo().setData(joDetail);
 
             Business loDetail = new Business();
+            if(args.getBusnInfo() != null){
+                String lsDetail = args.getBusnInfo();
+//            Log.e("busnInfo",lsDetail.toString());
+                GOCASApplication gocas = new GOCASApplication();
+                JSONParser loJson = new JSONParser();
+                JSONObject joDetail = (JSONObject) loJson.parse(lsDetail);
+                gocas.MeansInfo().SelfEmployedInfo().setData(joDetail);
 
-            loDetail.setNatureOfBusiness(gocas.MeansInfo().SelfEmployedInfo().getNatureOfBusiness());
-            loDetail.setNameOfBusiness(gocas.MeansInfo().SelfEmployedInfo().getNameOfBusiness());
-            loDetail.setBusinessAddress(gocas.MeansInfo().SelfEmployedInfo().getBusinessAddress());
 
-            String lsTown = gocas.MeansInfo().SelfEmployedInfo().getBusinessTown();
+                loDetail.setNatureOfBusiness(gocas.MeansInfo().SelfEmployedInfo().getNatureOfBusiness());
+                loDetail.setNameOfBusiness(gocas.MeansInfo().SelfEmployedInfo().getNameOfBusiness());
+                loDetail.setBusinessAddress(gocas.MeansInfo().SelfEmployedInfo().getBusinessAddress());
 
-            DTownInfo.TownProvinceName loTown = poTown.getTownProvinceName(lsTown);
+                String lsTown = gocas.MeansInfo().SelfEmployedInfo().getBusinessTown();
 
-            loDetail.setTown(lsTown);
-            loDetail.setTypeOfBusiness(gocas.MeansInfo().SelfEmployedInfo().getBusinessType());
-            loDetail.setSizeOfBusiness(gocas.MeansInfo().SelfEmployedInfo().getOwnershipSize());
+                DTownInfo.TownProvinceName loTown = poTown.getTownProvinceName(lsTown);
 
-            double lnLength = gocas.MeansInfo().SelfEmployedInfo().getBusinessLength();
+                loDetail.setTown(lsTown);
+                loDetail.setTypeOfBusiness(gocas.MeansInfo().SelfEmployedInfo().getBusinessType());
+                loDetail.setSizeOfBusiness(gocas.MeansInfo().SelfEmployedInfo().getOwnershipSize());
 
-            if(lnLength % 1 == 0){
-                loDetail.setIsYear("1");
-            } else {
-                loDetail.setIsYear("0");
+                double lnLength = gocas.MeansInfo().SelfEmployedInfo().getBusinessLength();
+
+                if(lnLength % 1 == 0){
+                    loDetail.setIsYear("1");
+                } else {
+                    loDetail.setIsYear("0");
+                }
+
+                loDetail.setLengthOfService(gocas.MeansInfo().SelfEmployedInfo().getBusinessLength());
+                loDetail.setMonthlyExpense(gocas.MeansInfo().SelfEmployedInfo().getMonthlyExpense());
+                loDetail.setMonthlyIncome(gocas.MeansInfo().SelfEmployedInfo().getIncome());
+
+                poDetail = loDetail;
             }
 
-            loDetail.setLengthOfService(gocas.MeansInfo().SelfEmployedInfo().getBusinessLength());
-            loDetail.setMonthlyExpense(gocas.MeansInfo().SelfEmployedInfo().getMonthlyExpense());
-            loDetail.setMonthlyIncome(gocas.MeansInfo().SelfEmployedInfo().getIncome());
-
-            poDetail = loDetail;
             return loDetail;
+        }catch (NullPointerException e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return null;
         } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();
@@ -89,18 +99,27 @@ public class BusinessInfo implements CreditApp {
         Business loDetail = (Business) args;
 
         if(poDetail == null){
-
-            if(!loDetail.isDataValid()){
-                message = loDetail.getMessage();
-                return 0;
+            if(loDetail.isPrimary()){
+                if(!loDetail.isDataValid()){
+                    message = loDetail.getMessage();
+                    return 0;
+                }
+            }else{
+                return 1;
             }
-
         } else {
 
             //TODO: if all information inside each old object and new object is not the same,
             // return 2 to indicate validation needs confirmation from user to update the
             // previous information being save.
-
+            if(loDetail.isPrimary()){
+                if(!loDetail.isDataValid()){
+                    message = loDetail.getMessage();
+                    return 0;
+                }
+            }else{
+                return 1;
+            }
 //            if(!poDetail.isEqual(loDetail)){
 //                return 2;
 //            } else {
@@ -112,7 +131,7 @@ public class BusinessInfo implements CreditApp {
     }
 
     @Override
-    public boolean Save(Object args) {
+    public String Save(Object args) {
         try{
             Business loDetail = (Business) args;
 
@@ -120,7 +139,7 @@ public class BusinessInfo implements CreditApp {
 
             if(loApp == null){
                 message = "Unable to find record for update. Please restart credit app and try again.";
-                return false;
+                return null;
             }
 
             GOCASApplication gocas = new GOCASApplication();
@@ -136,11 +155,11 @@ public class BusinessInfo implements CreditApp {
 
             loApp.setBusnInfo(gocas.MeansInfo().SelfEmployedInfo().toJSONString());
             poDao.Update(loApp);
-            return true;
+            return loDetail.getTransNox();
         } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();
-            return false;
+            return null;
         }
     }
 

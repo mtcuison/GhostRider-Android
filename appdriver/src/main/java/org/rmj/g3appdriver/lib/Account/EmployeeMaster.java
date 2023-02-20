@@ -12,7 +12,6 @@
 package org.rmj.g3appdriver.lib.Account;
 
 import android.app.Application;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.util.Log;
 
@@ -21,18 +20,17 @@ import androidx.lifecycle.LiveData;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.apprdiver.util.SQLUtil;
+import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEmployeeRole;
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeRole;
 import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.etc.AppConstants;
-import org.rmj.g3appdriver.etc.SessionManager;
-import org.rmj.g3appdriver.dev.HttpHeaders;
-import org.rmj.g3appdriver.dev.Telephony;
+import org.rmj.g3appdriver.dev.Api.HttpHeaders;
+import org.rmj.g3appdriver.dev.Device.Telephony;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.utils.WebApi;
-import org.rmj.g3appdriver.utils.WebClient;
+import org.rmj.g3appdriver.dev.Api.WebApi;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -129,7 +127,7 @@ public class EmployeeMaster {
             params.put("user", foVal.getEmail());
             params.put("pswd", foVal.getPassword());
 
-            String lsResponse = WebClient.httpsPostJSon(
+            String lsResponse = WebClient.sendRequest(
                     webApi.getUrlAuthEmployee(poConfig.isBackUpServer()),
                     params.toString(),
                     headers.getHeaders());
@@ -153,7 +151,7 @@ public class EmployeeMaster {
                     employeeInfo.setSlfieLog(loResponse.getString("cSlfieLog"));
                     employeeInfo.setDeptIDxx(loResponse.getString("sDeptIDxx"));
                     employeeInfo.setPositnID(loResponse.getString("sPositnID"));
-                    employeeInfo.setEmpLevID(loResponse.getString("sEmpLevID"));
+                    employeeInfo.setEmpLevID(loResponse.getInt("sEmpLevID"));
                     employeeInfo.setAllowUpd(loResponse.getString("cAllowUpd"));
                     employeeInfo.setEmployID(loResponse.getString("sEmployID"));
                     employeeInfo.setDeviceID(poDevID.getDeviceID());
@@ -193,7 +191,7 @@ public class EmployeeMaster {
     public boolean GetUserAuthorizeAccess(){
         try{
             JSONObject params = new JSONObject();
-            String lsResponse = WebClient.httpsPostJSon(
+            String lsResponse = WebClient.sendRequest(
                     webApi.getRequestUserAccess(poConfig.isBackUpServer()),
                     params.toString(),
                     headers.getHeaders());

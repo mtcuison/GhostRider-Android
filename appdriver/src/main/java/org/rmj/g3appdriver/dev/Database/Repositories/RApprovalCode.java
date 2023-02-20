@@ -15,19 +15,17 @@ import android.app.Application;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
-import androidx.sqlite.db.SupportSQLiteQuery;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
+import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DApprovalCode;
 import org.rmj.g3appdriver.dev.Database.Entities.ECodeApproval;
 import org.rmj.g3appdriver.dev.Database.Entities.ESCA_Request;
 import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
-import org.rmj.g3appdriver.etc.SessionManager;
-import org.rmj.g3appdriver.dev.HttpHeaders;
+import org.rmj.g3appdriver.lib.Account.SessionManager;
+import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.utils.WebApi;
-import org.rmj.g3appdriver.utils.WebClient;
+import org.rmj.g3appdriver.dev.Api.WebApi;
 
 import java.util.List;
 
@@ -117,7 +115,7 @@ public class RApprovalCode {
                 param.put("sReqstdTo", detail.getReqstdTo() == null ? "" : detail.getReqstdTo());
                 param.put("cTranStat", detail.getTranStat());
 
-                String response = WebClient.httpsPostJSon(
+                String response = WebClient.sendRequest(
                         poApi.getUrlSaveApproval(poConfig.isBackUpServer()),
                         param.toString(),
                         poHeaders.getHeaders());

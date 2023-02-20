@@ -18,15 +18,15 @@ import androidx.lifecycle.LiveData;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DBranchPerformance;
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchPerformance;
 import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
-import org.rmj.g3appdriver.etc.BranchPerformancePeriod;
-import org.rmj.g3appdriver.dev.HttpHeaders;
+import org.rmj.g3appdriver.lib.BullsEye.BranchPerformancePeriod;
+import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.utils.WebApi;
-import org.rmj.g3appdriver.utils.WebClient;
+import org.rmj.g3appdriver.dev.Api.WebApi;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -140,7 +140,7 @@ public class RBranchPerformance {
 
     public boolean ImportData(){
         try{
-            String lsUserLvl = poDao.GetUserLevel();
+            int lsUserLvl = poDao.GetUserLevel();
             String lsDeptIDx = poDao.GetUserDepartment();
 
             if(!lsDeptIDx.equalsIgnoreCase(DeptCode.SALES) ||
@@ -149,8 +149,8 @@ public class RBranchPerformance {
                 return false;
             }
 
-            if(!lsUserLvl.equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER)) ||
-                    !lsUserLvl.equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_BRANCH_HEAD))){
+            if(lsUserLvl != DeptCode.LEVEL_AREA_MANAGER ||
+                    lsUserLvl != DeptCode.LEVEL_BRANCH_HEAD){
                 message = "Your user level is not authorize to download area/branch performance";
                 return false;
             }
@@ -169,7 +169,7 @@ public class RBranchPerformance {
                 params.put("period", lsPeriod.get(i));
                 params.put("areacd", lsAreaCode);
 
-                String lsResponse = WebClient.httpsPostJSon(
+                String lsResponse = WebClient.sendRequest(
                         poApi.getImportBranchPerformance(poConfig.isBackUpServer()),
                         params.toString(),
                         poHeaders.getHeaders());

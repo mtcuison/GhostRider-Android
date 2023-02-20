@@ -31,36 +31,8 @@ public class RCashCount {
         GGC_GriderDB GGCGriderDB = GGC_GriderDB.getInstance(application);
         ccDao = GGCGriderDB.CashCountDao();
     }
-    public void insertNewCashCount(ECashCount cashCount){
-        this.ccDao.SaveCashCount(cashCount);
-    }
-    public void updateCashCount(ECashCount cashCount){
-        ccDao.UpdateCashCount(cashCount);
-    }
-    public void UpdateByTransNox(String transNox){
-        new UpdateByTransNox(ccDao).execute(transNox);
-    }
-    private static class UpdateByTransNox extends AsyncTask<String, Void, String> {
-        private final DCashCount ccDao;
-        public UpdateByTransNox(DCashCount ccDao) {
-            this.ccDao = ccDao;
-        }
-
-        @Override
-        protected String doInBackground(String... transNox) {
-            if (ccDao.getDuplicateTransNox(transNox[0]).size()>0){
-                ccDao.UpdateUploadedCashCount(transNox[0]);
-            }
-            return null;
-        }
-    }
-
     public LiveData<List<DCashCount.CashCountLog>> getCashCountLog(){
         return ccDao.getCashCountLog();
-    }
-
-    public List<ECashCount> getAllUnsentCashCountEntries(){
-        return ccDao.GetUnsentCashCountEntries();
     }
 
     public LiveData<ECashCount> getCashCounDetetail(String TransNox){

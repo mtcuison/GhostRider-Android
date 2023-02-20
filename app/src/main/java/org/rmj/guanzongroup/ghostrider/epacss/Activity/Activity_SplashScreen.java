@@ -11,15 +11,17 @@
 
 package org.rmj.guanzongroup.ghostrider.epacss.Activity;
 
-import static org.rmj.g3appdriver.utils.ServiceScheduler.EIGHT_HOUR_PERIODIC;
+import static org.rmj.g3appdriver.utils.ServiceScheduler.FIFTEEN_MINUTE_PERIODIC;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -59,19 +61,9 @@ public class Activity_SplashScreen extends AppCompatActivity {
 
     private MessageBox poDialog;
 
-    private final ActivityResultLauncher<String[]> poRequest = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), result -> {
-        InitializeAppData();
-    });
+    private ActivityResultLauncher<String[]> poRequest;
 
-    private final ActivityResultLauncher<Intent> poLogin = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-        if (result.getResultCode() == RESULT_OK) {
-            startActivity(new Intent(Activity_SplashScreen.this, Activity_Main.class));
-            ServiceScheduler.scheduleJob(Activity_SplashScreen.this, DataDownloadService.class, EIGHT_HOUR_PERIODIC, AppConstants.DataServiceID);
-            finish();
-        } else if (result.getResultCode() == RESULT_CANCELED) {
-            finish();
-        }
-    });
+    private ActivityResultLauncher<Intent> poLogin;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -79,13 +71,17 @@ public class Activity_SplashScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VMSplashScreen.class);
         setContentView(R.layout.activity_splash_screen);
+        InitActivityResultLaunchers();
         poDialog = new MessageBox(Activity_SplashScreen.this);
         new TransparentToolbar(Activity_SplashScreen.this).SetupActionbar();
         prgrssBar = findViewById(R.id.progress_splashscreen);
         lblVrsion = findViewById(R.id.lbl_versionInfo);
         lblVrsion.setText(BuildConfig.VERSION_NAME);
 
-        CheckPermissions();
+        startService(new Intent(Activity_SplashScreen.this, GMessagingService.class));
+        Log.e(TAG, "Firebase messaging service started.");
+
+        InitializeAppContentDisclosure();
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(task -> {
                     if (!task.isSuccessful()) {
@@ -100,13 +96,29 @@ public class Activity_SplashScreen extends AppCompatActivity {
                     AppConfigPreference.getInstance(Activity_SplashScreen.this).setAppToken(token);
                 });
 
-        startService(new Intent(Activity_SplashScreen.this, GMessagingService.class));
-
         AppDirectoryCreator loCreator = new AppDirectoryCreator();
         if(loCreator.createAppDirectory(Activity_SplashScreen.this)){
             Log.e(TAG, loCreator.getMessage());
         } else {
             Log.e(TAG, loCreator.getMessage());
+        }
+    }
+
+    private void InitializeAppContentDisclosure(){
+        boolean isFirstLaunch = AppConfigPreference.getInstance(Activity_SplashScreen.this).isAppFirstLaunch();
+        if(isFirstLaunch) {
+            MessageBox loMessage = new MessageBox(Activity_SplashScreen.this);
+            loMessage.initDialog();
+            loMessage.setTitle("Guanzon Circle");
+            loMessage.setMessage("Guanzon Circle collects location data for Selfie Log, DCP and other major features of the app" +
+                    " even when the app is closed or not in use.");
+            loMessage.setPositiveButton("Continue", (view, dialog) -> {
+                dialog.dismiss();
+                CheckPermissions();
+            });
+            loMessage.show();
+        } else {
+            CheckPermissions();
         }
     }
 
@@ -138,6 +150,11 @@ public class Activity_SplashScreen extends AppCompatActivity {
         }
         if(ActivityCompat.checkSelfPermission(Activity_SplashScreen.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
             lsPermissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if(ActivityCompat.checkSelfPermission(Activity_SplashScreen.this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED){
+                lsPermissions.add(Manifest.permission.POST_NOTIFICATIONS);
+            }
         }
         poRequest.launch(lsPermissions.toArray(new String[0]));
     }
@@ -176,6 +193,22 @@ public class Activity_SplashScreen extends AppCompatActivity {
                     finish();
                 });
                 poDialog.show();
+            }
+        });
+    }
+
+    private void InitActivityResultLaunchers(){
+        poRequest = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), result -> {
+            InitializeAppData();
+        });
+
+        poLogin = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            if (result.getResultCode() == RESULT_OK) {
+                startActivity(new Intent(Activity_SplashScreen.this, Activity_Main.class));
+                ServiceScheduler.scheduleJob(Activity_SplashScreen.this, DataDownloadService.class, FIFTEEN_MINUTE_PERIODIC, AppConstants.DataServiceID);
+                finish();
+            } else if (result.getResultCode() == RESULT_CANCELED) {
+                finish();
             }
         });
     }
