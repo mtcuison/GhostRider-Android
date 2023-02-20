@@ -109,9 +109,10 @@ public class DialogAccountDetail {
         lblLastPy = view.findViewById(R.id.lbl_dcpAmountLastPay);
         lblLastPd = view.findViewById(R.id.lbl_dcpLastPaid);
 
-        Spinner spnTransact = view.findViewById(R.id.spn_transaction);
+        MaterialAutoCompleteTextView  spnTransact = view.findViewById(R.id.spn_transaction);
         MaterialButton btnConfirm = view.findViewById(R.id.btn_confirm);
         MaterialButton btnCancelx = view.findViewById(R.id.btn_cancel);
+
         spnTransact.setAdapter(new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, DCP_Constants.TRANSACTION_TYPE));
 
         if(foDetail.getRemCodex() == null || foDetail.getRemCodex().isEmpty()){
@@ -150,7 +151,7 @@ public class DialogAccountDetail {
         lblLastPy.setText(FormatUIText.getCurrencyUIFormat(String.valueOf(foDetail.getLastPaym())));
         lblLastPd.setText(FormatUIText.formatGOCasBirthdate(foDetail.getLastPaid()));
         btnConfirm.setOnClickListener(view1 -> {
-            listener.OnClick(poDialogx, spnTransact.getSelectedItem().toString());
+            listener.OnClick(poDialogx, spnTransact.getText().toString());
         });
 
         btnCancelx.setOnClickListener(view12 -> dismiss());

@@ -77,7 +77,7 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
 
     private MaterialCheckBox cbCheckPymnt;
     private MaterialTextView lblBranch, lblAddress, lblAccNo, lblClientNm, lblTransNo;
-    private Spinner spnType;
+    private MaterialAutoCompleteTextView spnType;
     private TextInputEditText txtPrNoxx, txtRemarks, txtAmount, txtRebate, txtOthers, txtTotAmnt;
     private TextInputLayout tilDiscount, tilPenaly;
     private MaterialButton btnAmort, btnRBlnce, btnClear;
@@ -274,7 +274,7 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
 
         btnConfirm.setOnClickListener(v -> {
             poPaid.setRemarks(Remarksx);
-            poPaid.setPayment(String.valueOf(spnType.getSelectedItemPosition()));
+            poPaid.setPayment(String.valueOf(spnType.getText()));
             poPaid.setPrNoxxx(Objects.requireNonNull(txtPrNoxx.getText()).toString());
             poPaid.setRemarks(Objects.requireNonNull(txtRemarks.getText()).toString());
             poPaid.setAmountx(FormatUIText.getParseDouble(Objects.requireNonNull(txtAmount.getText()).toString()));

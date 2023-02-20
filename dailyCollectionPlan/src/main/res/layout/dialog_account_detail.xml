@@ -607,14 +607,18 @@
             android:fontFamily="@font/roboto_medium"
             android:text="Please select transaction type."
             android:textSize="16sp" />
-
-        <Spinner
-            android:id="@+id/spn_transaction"
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/CustomDropDownTilStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:spinnerMode="dialog"
-            android:layout_marginHorizontal="5dp"/>
-
+            android:hint="Leave Type">
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/spn_transaction"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:spinnerMode="dialog"
+                    android:layout_marginHorizontal="5dp"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="match_parent"
