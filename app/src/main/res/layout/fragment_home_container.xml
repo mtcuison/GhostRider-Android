@@ -44,7 +44,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/bg_gradient_light"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -52,8 +51,7 @@
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_home"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:tabIconTint="@color/material_black" />
+            android:layout_height="?attr/actionBarSize" />
     </com.google.android.material.appbar.AppBarLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
