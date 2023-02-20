@@ -11,7 +11,7 @@
 
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment;
 
-import static org.rmj.g3appdriver.lib.BullsEye.BranchPerformancePeriod.getLatestCompletePeriod;
+import static org.rmj.g3appdriver.lib.BullsEye.PerformancePeriod.getLatestCompletePeriod;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -28,18 +28,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.MaterialAutoCompleteTextView;
-import com.google.android.material.textfield.TextInputLayout;
+
 import com.google.android.material.textview.MaterialTextView;
-import com.google.android.material.divider.MaterialDivider;
-import com.google.android.material.card.MaterialCardView;
-import com.google.android.material.imageview.ShapeableImageView;
+
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_BranchPerformance;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.AreaInfoBarChartAdapter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.AreaPerformanceMonitoringAdapter;

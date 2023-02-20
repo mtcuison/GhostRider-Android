@@ -22,7 +22,7 @@ import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DBranchPerformance;
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchPerformance;
 import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
-import org.rmj.g3appdriver.lib.BullsEye.BranchPerformancePeriod;
+import org.rmj.g3appdriver.lib.BullsEye.PerformancePeriod;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
@@ -60,34 +60,34 @@ public class RBranchPerformance {
     public LiveData<List<EBranchPerformance>> getBranchPerformanceForDashBoard(){
         return poDao.getBranchPerformanceForDashBoard();
     }
+//
+//    public LiveData<List<EBranchPerformance>> getMCSalesBranchPerformanceASC(){
+//        return poDao.getMCSalesBranchPerformanceASC();
+//    }
+//
+//    public LiveData<List<EBranchPerformance>> getMCSalesBranchPerformanceDESC(){
+//        return poDao.getMCSalesBranchPerformanceDESC();
+//    }
+//
+//    public LiveData<List<EBranchPerformance>> getSPSalesBranchPerformanceASC(){
+//        return poDao.getSPSalesBranchPerformanceASC();
+//    }
+//
+//    public LiveData<List<EBranchPerformance>> getSPSalesBranchPerformanceDESC(){
+//        return poDao.getSPSalesBranchPerformanceDESC();
+//    }
+//
+//    public LiveData<List<EBranchPerformance>> getJOBranchPerformanceASC(){
+//        return poDao.getJOBranchPerformanceASC();
+//    }
+//
+//    public LiveData<List<EBranchPerformance>> getJOBranchPerformanceDESC(){
+//        return poDao.getJOBranchPerformanceDESC();
+//    }
 
-    public LiveData<List<EBranchPerformance>> getMCSalesBranchPerformanceASC(){
-        return poDao.getMCSalesBranchPerformanceASC();
-    }
-
-    public LiveData<List<EBranchPerformance>> getMCSalesBranchPerformanceDESC(){
-        return poDao.getMCSalesBranchPerformanceDESC();
-    }
-
-    public LiveData<List<EBranchPerformance>> getSPSalesBranchPerformanceASC(){
-        return poDao.getSPSalesBranchPerformanceASC();
-    }
-
-    public LiveData<List<EBranchPerformance>> getSPSalesBranchPerformanceDESC(){
-        return poDao.getSPSalesBranchPerformanceDESC();
-    }
-
-    public LiveData<List<EBranchPerformance>> getJOBranchPerformanceASC(){
-        return poDao.getJOBranchPerformanceASC();
-    }
-
-    public LiveData<List<EBranchPerformance>> getJOBranchPerformanceDESC(){
-        return poDao.getJOBranchPerformanceDESC();
-    }
-
-    public String getUserAreaCode(){
-        return poDao.getUserAreaCode();
-    }
+//    public String getUserAreaCode(){
+//        return poDao.getUserAreaCode();
+//    }
 
     public LiveData<List<EBranchPerformance>> getAllBranchPerformanceInfoByBranch(String branchCD){
         return poDao.getAllBranchPerformanceInfoByBranch(branchCD);
@@ -162,7 +162,7 @@ public class RBranchPerformance {
                 return false;
             }
 
-            ArrayList<String> lsPeriod = BranchPerformancePeriod.getList();
+            ArrayList<String> lsPeriod = PerformancePeriod.getList();
             for(int i = 0; i < lsPeriod.size(); i++){
 
                 JSONObject params = new JSONObject();

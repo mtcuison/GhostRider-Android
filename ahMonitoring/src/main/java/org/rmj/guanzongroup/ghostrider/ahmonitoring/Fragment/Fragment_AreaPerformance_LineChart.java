@@ -11,7 +11,7 @@
 
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment;
 
-import static org.rmj.g3appdriver.lib.BullsEye.BranchPerformancePeriod.getPeriodText;
+import static org.rmj.g3appdriver.lib.BullsEye.PerformancePeriod.getPeriodText;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -31,17 +31,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.MaterialAutoCompleteTextView;
-import com.google.android.material.textfield.TextInputLayout;
+
 import com.google.android.material.textview.MaterialTextView;
-import com.google.android.material.divider.MaterialDivider;
-import com.google.android.material.card.MaterialCardView;
-import com.google.android.material.imageview.ShapeableImageView;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
@@ -52,7 +43,7 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
-import org.rmj.g3appdriver.lib.BullsEye.BranchPerformancePeriod;
+import org.rmj.g3appdriver.lib.BullsEye.PerformancePeriod;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_BranchPerformance;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.AreaPerformanceMonitoringAdapter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
@@ -103,7 +94,7 @@ public class Fragment_AreaPerformance_LineChart extends Fragment {
                 e.printStackTrace();
             }
         });
-        poPeriods = BranchPerformancePeriod.getSortedPeriodList(BranchPerformancePeriod.getList());
+        poPeriods = PerformancePeriod.getSortedPeriodList(PerformancePeriod.getList());
         mViewModel.getType().observe(getViewLifecycleOwner(), s -> setChartValue(s));
     }
 
@@ -151,7 +142,7 @@ public class Fragment_AreaPerformance_LineChart extends Fragment {
                 LineData data = new LineData(dataSets);
                 lineChart.setData(data);
                 lineChart.setDescription(null);
-                lineChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(BranchPerformancePeriod.getAreaTableLabel(performances)));
+                lineChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(PerformancePeriod.getAreaTableLabel(performances)));
                 lineChart.setDoubleTapToZoomEnabled(false);
                 lineChart.getXAxis().setTextSize(12f);
                 lineChart.setExtraOffsets(0,0,10f,18f);
@@ -204,8 +195,8 @@ public class Fragment_AreaPerformance_LineChart extends Fragment {
                 });
                 lineChart.invalidate();
 //          SET RECYLERVIEW
-                lblDate.setText(getPeriodText(BranchPerformancePeriod.getLatestCompletePeriod()));
-                mViewModel.getAreaBranchesSalesPerformance(BranchPerformancePeriod.getLatestCompletePeriod(),sales).observe(getViewLifecycleOwner(), branchPerformances -> {
+                lblDate.setText(getPeriodText(PerformancePeriod.getLatestCompletePeriod()));
+                mViewModel.getAreaBranchesSalesPerformance(PerformancePeriod.getLatestCompletePeriod(),sales).observe(getViewLifecycleOwner(), branchPerformances -> {
                     try {
                         poAdapter = new AreaPerformanceMonitoringAdapter(
                                 getActivity(), sales,

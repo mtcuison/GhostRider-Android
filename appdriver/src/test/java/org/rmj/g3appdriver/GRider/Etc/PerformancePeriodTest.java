@@ -5,13 +5,13 @@ import junit.framework.TestCase;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.rmj.g3appdriver.lib.BullsEye.BranchPerformancePeriod;
+import org.rmj.g3appdriver.lib.BullsEye.PerformancePeriod;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.TimeZone;
 
-public class BranchPerformancePeriodTest extends TestCase {
+public class PerformancePeriodTest extends TestCase {
 
     public Calendar poCalendr;
     public SimpleDateFormat poFormatx;
@@ -30,8 +30,8 @@ public class BranchPerformancePeriodTest extends TestCase {
 
     @Test
     public void testGetList() {
-        assertEquals(12, BranchPerformancePeriod.getList().size());
-        System.out.println("getList() fetched values:" + BranchPerformancePeriod.getList());
+        assertEquals(12, PerformancePeriod.getList().size());
+        System.out.println("getList() fetched values:" + PerformancePeriod.getList());
     }
 
     @Test
@@ -43,9 +43,9 @@ public class BranchPerformancePeriodTest extends TestCase {
         int lnCurYear = poCalendr.getInstance().get(Calendar.YEAR);
         String lsPastMos = String.valueOf(lnCurYear) + lnMontCom;
 
-        assertEquals(lsPastMos, BranchPerformancePeriod.getLatestCompletePeriod());
+        assertEquals(lsPastMos, PerformancePeriod.getLatestCompletePeriod());
         System.out.println("getLatestCompletePeriod() fetched values:"
-                + BranchPerformancePeriod.getLatestCompletePeriod());
+                + PerformancePeriod.getLatestCompletePeriod());
     }
 
 

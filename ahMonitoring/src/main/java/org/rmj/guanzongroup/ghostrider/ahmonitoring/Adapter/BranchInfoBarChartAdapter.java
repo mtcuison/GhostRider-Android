@@ -16,20 +16,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
-import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.MaterialAutoCompleteTextView;
-import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.textview.MaterialTextView;
-import com.google.android.material.divider.MaterialDivider;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchPerformance;
-import org.rmj.g3appdriver.lib.BullsEye.BranchPerformancePeriod;
+import org.rmj.g3appdriver.lib.BullsEye.PerformancePeriod;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 
 import java.text.DecimalFormat;
@@ -61,7 +54,7 @@ public class BranchInfoBarChartAdapter extends RecyclerView.Adapter<BranchInfoBa
     @Override
     public void onBindViewHolder(@NonNull ChartViewHolder holder, int position) {
         EBranchPerformance area = branchPerformances.get(position);
-        holder.txtPeriod.setText(BranchPerformancePeriod.parseDateLabel(area.getPeriodxx()));
+        holder.txtPeriod.setText(PerformancePeriod.parseDateLabel(area.getPeriodxx()));
         holder.eArea = branchPerformances.get(position);
 
         if("MC".equalsIgnoreCase(psType)) {

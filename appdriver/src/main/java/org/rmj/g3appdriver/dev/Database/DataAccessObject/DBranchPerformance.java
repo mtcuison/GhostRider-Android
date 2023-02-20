@@ -146,6 +146,15 @@ public interface DBranchPerformance {
             " :fsValue1 AND :fsValue2")
     LiveData<MonthlyPieChart> get12MonthBranchPieChartData(String sBranchCd, String fsValue1, String fsValue2);
 
+    @Query("SELECT nMCActual || '/' || nMCGoalxx AS Performance FROM MC_Branch_Performance ORDER BY sPeriodxx DESC LIMIT 1")
+    LiveData<String> GetMCSalesPerformance();
+
+    @Query("SELECT nSPActual || '/' || nSPGoalxx AS Performance FROM MC_Branch_Performance ORDER BY sPeriodxx DESC LIMIT 1")
+    LiveData<String> GetSPSalesPerformance();
+
+    @Query("SELECT nJOActual || '/' || nJOGoalxx AS Performance FROM MC_Branch_Performance ORDER BY sPeriodxx DESC LIMIT 1")
+    LiveData<String> GetJobOrderPerformance();
+
     class ActualGoal{
         public String Actual;
         public String Percentage;

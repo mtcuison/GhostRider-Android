@@ -42,7 +42,7 @@ public class VMAreaPerfromanceMonitoring extends AndroidViewModel {
     }
 
     public LiveData<String> getAreaNameFromCode() {
-        return poArea.getAreaNameFromCode("");
+        return new MutableLiveData<>();
     }
 
     public LiveData<List<EAreaPerformance>> getAreaPerformanceInfoList() {

@@ -23,8 +23,8 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.TimeZone;
 
-public class BranchPerformancePeriod {
-    private static final String TAG = BranchPerformancePeriod.class.getSimpleName();
+public class PerformancePeriod {
+    private static final String TAG = PerformancePeriod.class.getSimpleName();
 
     public static ArrayList<String> getList() {
         ArrayList<String> loPeriod = new ArrayList<>();

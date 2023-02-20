@@ -21,7 +21,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EAreaPerformance;
-import org.rmj.g3appdriver.lib.BullsEye.BranchPerformancePeriod;
+import org.rmj.g3appdriver.lib.BullsEye.PerformancePeriod;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 
 import java.text.DecimalFormat;
@@ -53,7 +53,7 @@ public class AreaInfoBarChartAdapter extends RecyclerView.Adapter<AreaInfoBarCha
     @Override
     public void onBindViewHolder(@NonNull ChartViewHolder holder, int position) {
         EAreaPerformance area = areaPerformances.get(position);
-        holder.txtPeriod.setText(BranchPerformancePeriod.parseDateLabel(area.getPeriodxx()));
+        holder.txtPeriod.setText(PerformancePeriod.parseDateLabel(area.getPeriodxx()));
         holder.eArea = areaPerformances.get(position);
 
         if("MC".equalsIgnoreCase(psType)) {
