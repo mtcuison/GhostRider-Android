@@ -11,13 +11,13 @@ import org.rmj.guanzongroup.ghostrider.settings.R;
 public class RecyclerViewHolder extends RecyclerView.ViewHolder {
     public TextView tvHeader;
     public TextView tvDetails;
-    public TextView tvOthers;
+    public TextView tvFixedConcerns;
     View view;
     public RecyclerViewHolder(@NonNull View itemView) {
         super(itemView);
         tvHeader = itemView.findViewById(R.id.lblLogHeader);
         tvDetails = itemView.findViewById(R.id.lblLogDescr);
-        tvOthers = itemView.findViewById(R.id.lblLogOthers);
+        tvFixedConcerns = itemView.findViewById(R.id.lblLogFixedConcerns);
         view = itemView;
     }
 }

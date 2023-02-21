@@ -8,13 +8,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.Application;
 import android.content.Context;
-import android.content.SharedPreferences;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -35,18 +38,17 @@ public class Activity_AppVersion extends AppCompatActivity {
     TextView lbl_aboutupdate;
     TextView about_update;
     TextView lbl_updatedLog;
-    RecyclerView recyclerView;
+    TextView lbl_updatedFixedConcerns;
     Button btn_checkupdate;
+    RecyclerView rec_updatedNewFeatures;
+    RecyclerView rec_updatedFixedConcerns;
     RecyclerViewAppVersionAdapter versionAdapter;
     private VMAppVersion mViewModel;
     private LoadDialog poload;
     private MessageBox pomessage;
     List<VersionInfo> versionInfoList;
     AlertDialog alertDialog;
-    String msgdialogTitle;
     Boolean btnClicked;
-    Boolean isSuccess;
-    String msgDialog;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -69,17 +71,18 @@ public class Activity_AppVersion extends AppCompatActivity {
         lbl_aboutupdate = findViewById(R.id.lbl_aboutupdate);
         about_update = findViewById(R.id.about_update);
         lbl_updatedLog = findViewById(R.id.lbl_updatedLog);
+        lbl_updatedFixedConcerns = findViewById(R.id.lbl_updatedFixedConcerns);
 
         btn_checkupdate = findViewById(R.id.btn_checkupdate);
-        recyclerView = findViewById(R.id.rec_updatelogs);
+        rec_updatedNewFeatures = findViewById(R.id.rec_updatelogs);
+        rec_updatedFixedConcerns = findViewById(R.id.rec_updatedFixedConcerns);
 
         btnClicked = false;
-        isSuccess = false;
 
         //create alert dialog obj builder
         AlertDialog.Builder builder = new AlertDialog.Builder(Activity_AppVersion.this);
         //create layout view for dialog builder, using the main activity(Context) and xml file(layout view)
-        View view = LayoutInflater.from(Activity_AppVersion.this).inflate(R.layout.activity_appversion_download_update,null);
+        View view = LayoutInflater.from(Activity_AppVersion.this).inflate(R.layout.dialog_appversion_download_update,null);
 
         //attach the layout view created to builder
         builder.setView(view);
@@ -91,53 +94,38 @@ public class Activity_AppVersion extends AppCompatActivity {
         //initialize dialog for displaying message
         pomessage.initDialog();
 
-       //set by default, the current build version of  app
-        setBuild_version();
-       //call method to get the list of versions
+       /*set by default, the current build version of  app*/
+       String build_name = AppConfigPreference.getInstance(Activity_AppVersion.this).getVersionName(); //get build version
+        build_version.setText(build_name); //display build version
+
+        //call method to get the list of versions
         getAppVersion();
        //call method to show what to display
-        //setonDisplay();
+        setonDisplay();
        //call method for button listener
         btnCheckUpdate();
     }
-    public void setonDisplay(){
-        //show that to display if, list of versions has retrieved more than 0
-        if(versionInfoList.size() <= 0){
-            lbl_aboutupdate.setVisibility(View.INVISIBLE);
-            about_update.setVisibility(View.INVISIBLE);
-            lbl_updatedLog.setVisibility(View.INVISIBLE);
-        }else {
-            lbl_aboutupdate.setVisibility(View.VISIBLE);
-            about_update.setVisibility(View.VISIBLE);
-            lbl_updatedLog.setVisibility(View.VISIBLE);
-        }
-    }
-    public void showDialog(){
-        //get button text
-        String btnText = btn_checkupdate.getHint().toString();
-        String message = btnText;
-        //show what dialog to show
-        if(btnText.equals("Check for Updates")){
-            message = "Checking Updates";
-            if(isSuccess == true){
-                msgdialogTitle = "Check Updates";
-                msgDialog = "Check Updates Successful";
-            }else{
-                msgdialogTitle = "Failed to check updates";
+    public void setonDisplay() {
+        //hide details by default
+        lbl_aboutupdate.setVisibility(View.INVISIBLE);
+        about_update.setVisibility(View.INVISIBLE);
+        lbl_updatedLog.setVisibility(View.INVISIBLE);
+        lbl_updatedFixedConcerns.setVisibility(View.INVISIBLE);
+        rec_updatedNewFeatures.setVisibility(View.INVISIBLE);
+        rec_updatedFixedConcerns.setVisibility(View.INVISIBLE);
+
+        //show details upon button clicked
+        if (btnClicked.equals(true)) {
+            //show what to display if, list of versions has retrieved more than 0
+            if (versionInfoList.size() > 0) {
+                lbl_aboutupdate.setVisibility(View.VISIBLE);
+                about_update.setVisibility(View.VISIBLE);
+                lbl_updatedLog.setVisibility(View.VISIBLE);
+                lbl_updatedFixedConcerns.setVisibility(View.VISIBLE);
+                rec_updatedNewFeatures.setVisibility(View.VISIBLE);
+                rec_updatedFixedConcerns.setVisibility(View.VISIBLE);
             }
-        }else if(btnText.equals("Download Updates")){
-            message = "Downloading Updates";
-            if(isSuccess == true){
-                msgdialogTitle = "Download Updates";
-                msgDialog = "Download Successful";
-            }else{
-                msgdialogTitle = "Failed to download updates";
-            }
-            alertDialog.show();
         }
-        //initialize dialog for checking update
-        poload.initDialog("GCircle App Version", message, false);
-        poload.show();
     }
     public void btnCheckUpdate(){
         btn_checkupdate.setOnClickListener(new View.OnClickListener() {
@@ -147,14 +135,21 @@ public class Activity_AppVersion extends AppCompatActivity {
                 btnClicked = true;
                 //call method to get the list of versions
                 getAppVersion();
+                //show details
+                setonDisplay();
                 //get button text
                 String btnText = btn_checkupdate.getHint().toString();
                 if(btnText.equals("Check for Updates")){
-                    //set list to Adapter
-                    setListToAdapter(Activity_AppVersion.this, R.layout.update_version_logs);
+                    //set list to Adapter, New Features and Fixed Concerns
+                    setListToAdapter(Activity_AppVersion.this, R.layout.update_version_logs, rec_updatedNewFeatures);
+                    setListToAdapter(Activity_AppVersion.this, R.layout.update_version_logs_fixed_concerns, rec_updatedFixedConcerns);
+                    //set button text
+                    btn_checkupdate.setHint("Download Updates");
                 }else if(btnText.equals("Download Updates")){
+                    //Intent intent = new Intent(Activity_AppVersion.this, Activity_AppVersion_Download.class);
+                    //startActivity(intent);
                     //set list to Adapter
-                    setListToAdapter(alertDialog.getContext(), R.layout.activity_appversion_download_update);
+                    //setListToAdapter(alertDialog.getContext(), R.layout.dialog_appversion_download_update);
                 }
             }
         });
@@ -163,66 +158,59 @@ public class Activity_AppVersion extends AppCompatActivity {
         mViewModel.getVersionList(new VMAppVersion.onDownloadVersionList() {
             @Override
             public void onDownload() {
-                versionInfoList.clear();
-                if(btnClicked == true){
-                    //show dialog
-                    showDialog();
-                }
+                //show dialog
+                poload.initDialog("Check Updates", "Checking Updates", false);
+                poload.show();
             }
             @Override
             public void onSuccess(List<VersionInfo> list) {
                 //set the list value
                 versionInfoList= list;
-                //store result if retrieve, success or failed
-                isSuccess = true;
 
-                //show error message, if buttton check update is clicked
-                if(btnClicked == true){
-                    //set dialog message and button
-                    pomessage.setTitle(msgdialogTitle);
-                    pomessage.setMessage(msgDialog);
-                    pomessage.setPositiveButton("OK", new MessageBox.DialogButton() {
-                        @Override
-                        public void OnButtonClick(View view, AlertDialog dialog) {
-                            //close dialogs upon clicking
-                            dialog.dismiss();
-                            //show message
-                            pomessage.show();
-                        }
-                    });
-                }
+                //set dialog message and button
+                pomessage.setTitle("Check Updates");
+                pomessage.setMessage("Finished Getting Updates");
+
+                //show message
+                pomessage.show();
+
+                //close message
+                poload.dismiss();
+
+                //set action button to close message dialog
+                pomessage.setPositiveButton("OK", new MessageBox.DialogButton() {
+                    @Override
+                    public void OnButtonClick(View view, AlertDialog dialog) {
+                        //close dialogs upon clicking
+                        dialog.dismiss();
+                    }
+                });
             }
             @Override
             public void onFailed(String message) {
-                //clear the list value and close dialogs
-                versionInfoList.clear();
-                isSuccess = false;
+                //set dialog message and button
+                pomessage.setTitle("Failed Checking Updates");
+                pomessage.setMessage(message);
 
-                //show error message, if buttton check update is clicked
-                if(btnClicked == true){
-                    //set dialog message and button
-                    pomessage.setTitle(msgdialogTitle);
-                    pomessage.setMessage(message);
-                    pomessage.setPositiveButton("OK", new MessageBox.DialogButton() {
-                        @Override
-                        public void OnButtonClick(View view, AlertDialog dialog) {
-                            //close dialogs upon clicking
-                            dialog.dismiss();
-                            poload.dismiss();
-                            alertDialog.dismiss();
+                //show message
+                pomessage.show();
 
-                            //show message
-                            pomessage.show();
-                        }
-                    });
-                }
+                //close message
+                poload.dismiss();
+
+                pomessage.setPositiveButton("OK", new MessageBox.DialogButton() {
+                    @Override
+                    public void OnButtonClick(View view, AlertDialog dialog) {
+                        //close dialogs upon clicking
+                        dialog.dismiss();
+                    }
+                });
             }
         });
     }
-    public void setListToAdapter(Context context, @LayoutRes int res){
+    public void setListToAdapter(Context context, @LayoutRes int res, RecyclerView recyclerView){
         //if return list of version updates are available, continue
         if(versionInfoList.size() > 0){
-
             //attach list of version updates to the Adapter and ListView Object
             versionAdapter = new RecyclerViewAppVersionAdapter(versionInfoList, context);
             versionAdapter.tvBuildVers = build_version;
@@ -231,15 +219,10 @@ public class Activity_AppVersion extends AppCompatActivity {
             versionAdapter.resource = res;
 
             //validate recycler view obj if visible before attaching the adapter
-            if(recyclerView.getVisibility() == View.VISIBLE){
+            if(recyclerView.getVisibility() == View.VISIBLE) {
                 recyclerView.setAdapter(versionAdapter);
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
             }
         }
-    }
-    public void setBuild_version(){
-       /* AppConfigPreference appConfigPreference = new AppConfigPreference(Activity_AppVersion.this);
-        build_version.setText(appConfigPreference.getVersionName());*/
-
     }
 }

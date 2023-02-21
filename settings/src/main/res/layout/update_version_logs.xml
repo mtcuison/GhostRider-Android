@@ -3,15 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
-
-    <com.google.android.material.textview.MaterialTextView
-        style="@style/PrimaryHeaderStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="10dp"
-        android:text="New Features"
-        android:textSize="20sp" />
+    android:orientation="vertical"
+    android:id="@+id/layout_newfeatures">
 
     <com.google.android.material.textview.MaterialTextView
         style="@style/PrimaryHeaderStyle"
@@ -19,8 +12,8 @@
         android:id="@+id/lblLogHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Employee Loan"
-        android:textSize="16sp"
+        android:text=""
+        android:textSize="15sp"
         android:paddingTop="5dp"
         android:paddingLeft="10dp" />
 
@@ -29,31 +22,9 @@
         android:id="@+id/lblLogDescr"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="A feature that allows user to apply loan from company products among all branches."
+        android:text=""
         android:textStyle="bold"
         android:paddingTop="5dp"
         android:paddingLeft="10dp"
         android:textSize="13sp"/>
-
-    <com.google.android.material.textview.MaterialTextView
-        style="@style/PrimaryHeaderStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:paddingTop="10dp"
-        android:textSize="20sp"
-        android:text="Fixed Concerns"/>
-
-    <com.google.android.material.textview.MaterialTextView
-        style="@style/PrimaryHeaderStyle"
-        android:id="@+id/lblLogOthers"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:text="•Improved ui design, adapting to light and dark mode.
-                      \n•Option to change employee position for GM only."
-        android:textSize="16sp"
-        android:paddingTop="5dp"
-        android:paddingLeft="10dp"/>
-
 </LinearLayout>

@@ -885,13 +885,13 @@ public class WebApi {
 
     public String getUrlVersionLog(boolean isBackUp) {
         if(isUnitTest) {
-            return LOCAL + URL_CHECK_UPDATE;
+            return LOCAL + URL_VERSION_LOG;
         } else if(isBackUp){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
         }
-        return LIVE + URL_CHECK_UPDATE;
+        return LIVE + URL_VERSION_LOG;
     }
 
     public String getUrlCheckUpdate(boolean isBackUp) {
