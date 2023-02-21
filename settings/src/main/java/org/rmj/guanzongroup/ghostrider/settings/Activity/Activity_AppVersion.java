@@ -8,16 +8,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.app.Application;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -96,7 +92,7 @@ public class Activity_AppVersion extends AppCompatActivity {
 
        /*set by default, the current build version of  app*/
        String build_name = AppConfigPreference.getInstance(Activity_AppVersion.this).getVersionName(); //get build version
-        build_version.setText(build_name); //display build version
+       build_version.setText(build_name); //display build version
 
         //call method to get the list of versions
         getAppVersion();

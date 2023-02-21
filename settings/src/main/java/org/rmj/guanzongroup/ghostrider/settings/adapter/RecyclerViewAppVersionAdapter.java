@@ -49,15 +49,6 @@ public class RecyclerViewAppVersionAdapter extends RecyclerView.Adapter<Recycler
      @Override
     public void onBindViewHolder(@NonNull RecyclerViewHolder holder, int position) {
          try {
-             //get parent/root view
-             View parentview = new View(context);
-             //get parent view objects
-             tvBuildVers = parentview.findViewById(R.id.build_version);
-             tvDateBuild = parentview.findViewById(R.id.date_build);
-             tvNewUpdate = parentview.findViewById(R.id.about_update);
-             //set default values for parent view
-             tvBuildVers.setText(list.get(position).getsVrsionNm());
-
              //get layout xml id from current view
              String layoutid = holder.itemView.getResources().getResourceEntryName(holder.itemView.getId());
 
@@ -71,6 +62,17 @@ public class RecyclerViewAppVersionAdapter extends RecyclerView.Adapter<Recycler
                  //get update fixed concerns
                  holder.tvFixedConcerns.setText(list.get(position).getOthers().get(position));
              }
+
+             //get parent/root view
+             View parentview = new View(context);
+
+             //get parent view objects
+             tvBuildVers = parentview.findViewById(R.id.build_version);
+             tvDateBuild = parentview.findViewById(R.id.date_build);
+             tvNewUpdate = parentview.findViewById(R.id.about_update);
+             //set default values for parent view
+             tvBuildVers.setText(list.get(position).getsVrsionNm());
+
          } catch (Exception e) {
              Log.d(context.getClass().getSimpleName(), e.getMessage());
          }
