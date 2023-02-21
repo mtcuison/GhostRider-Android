@@ -86,32 +86,22 @@ public class BranchPerformance extends ABPM {
                 }
 
                 JSONArray laJson = loResponse.getJSONArray("detail");
-                List<EBranchPerformance> branchInfo = new ArrayList<>();
                 for(int x = 0; x < laJson.length(); x++){
                     JSONObject loJson = laJson.getJSONObject(x);
-                    EBranchPerformance loDetail = poDao.GetBranchPerformance(
-                            loJson.getString("sPeriodxx"),
-                            loJson.getString("sBranchCd"));
 
-                    if(loDetail == null){
-
-                        EBranchPerformance info = new EBranchPerformance();
-                        info.setPeriodxx(loJson.getString("sPeriodxx"));
-                        info.setBranchCd(loJson.getString("sBranchCd"));
-                        info.setBranchNm(loJson.getString("sBranchNm"));
-                        info.setMCGoalxx(Integer.parseInt(loJson.getString("nMCGoalxx")));
-                        info.setSPGoalxx(Float.parseFloat(loJson.getString("nSPGoalxx")));
-                        info.setJOGoalxx(Integer.parseInt(loJson.getString("nJOGoalxx")));
-                        info.setLRGoalxx(Float.parseFloat(loJson.getString("nLRGoalxx")));
-                        info.setMCActual(Integer.parseInt(loJson.getString("nMCActual")));
-                        info.setSPActual(Float.parseFloat(loJson.getString("nSPActual")));
-                        info.setLRActual(Float.parseFloat(loJson.getString("nLRActual")));
-                        poDao.insert(info);
-                        Log.d(TAG, "Branch performance for " + loJson.getString("sBranchCd") + " has been saved.");
-
-                    } else {
-
-                    }
+                    EBranchPerformance info = new EBranchPerformance();
+                    info.setPeriodxx(loJson.getString("sPeriodxx"));
+                    info.setBranchCd(loJson.getString("sBranchCd"));
+                    info.setBranchNm(loJson.getString("sBranchNm"));
+                    info.setMCGoalxx(Integer.parseInt(loJson.getString("nMCGoalxx")));
+                    info.setSPGoalxx(Float.parseFloat(loJson.getString("nSPGoalxx")));
+                    info.setJOGoalxx(Integer.parseInt(loJson.getString("nJOGoalxx")));
+                    info.setLRGoalxx(Float.parseFloat(loJson.getString("nLRGoalxx")));
+                    info.setMCActual(Integer.parseInt(loJson.getString("nMCActual")));
+                    info.setSPActual(Float.parseFloat(loJson.getString("nSPActual")));
+                    info.setLRActual(Float.parseFloat(loJson.getString("nLRActual")));
+                    poDao.insert(info);
+                    Log.d(TAG, "Branch performance for " + loJson.getString("sBranchCd") + " has been saved.");
                 }
 
                 Thread.sleep(1000);

@@ -44,7 +44,7 @@ public class AreaPerformanceTest {
     @Before
     public void setUp() throws Exception {
         instance = ApplicationProvider.getApplicationContext();
-        AppConfigPreference.getInstance(instance).setTestCase(true);
+        AppConfigPreference.getInstance(instance).setTestCase(false);
         this.poSys = new AreaPerformance(instance);
         this.poMaster = new EmployeeMaster(instance);
         if(poMaster.AuthenticateUser(new EmployeeMaster.UserAuthInfo("mikegarcia8748@gmail.com", "123456", "09171870011"))){

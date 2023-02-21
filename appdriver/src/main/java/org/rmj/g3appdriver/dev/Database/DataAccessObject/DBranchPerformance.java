@@ -47,6 +47,9 @@ public interface DBranchPerformance {
     @Query("SELECT sAreaCode FROM Branch_Info WHERE sBranchCd = (SELECT sBranchCd FROM User_Info_Master)")
     String GetAreaCode();
 
+    @Query("SELECT sBranchCd FROM Branch_Info WHERE sBranchCd = (SELECT sBranchCd FROM User_Info_Master)")
+    String GetBranchCode();
+
     @Query("SELECT * FROM MC_Branch_Performance")
     LiveData<List<EBranchPerformance>> getAllBranchPerformanceInfo();
 
