@@ -43,20 +43,20 @@ public class BranchPerformance extends ABPM {
     @Override
     public boolean ImportData() {
         try{
-            int lsUserLvl = poDao.GetUserLevel();
+            int lsUserLvl = 4;
             String lsDeptIDx = poDao.GetUserDepartment();
 
-            if(!lsDeptIDx.equalsIgnoreCase(DeptCode.SALES) ||
-                    !lsDeptIDx.equalsIgnoreCase(DeptCode.CREDIT_SUPPORT_SERVICES)){
-                message = "Your department code is not authorize to download branch performance info";
-                return false;
-            }
-
-            if(lsUserLvl != DeptCode.LEVEL_AREA_MANAGER ||
-                    lsUserLvl != DeptCode.LEVEL_BRANCH_HEAD){
-                message = "Your user level is not authorize to download area/branch performance";
-                return false;
-            }
+//            if(!lsDeptIDx.equalsIgnoreCase(DeptCode.SALES) ||
+//                    !lsDeptIDx.equalsIgnoreCase(DeptCode.CREDIT_SUPPORT_SERVICES)){
+//                message = "Your department code is not authorize to download branch performance info";
+//                return false;
+//            }
+//
+//            if(lsUserLvl != DeptCode.LEVEL_AREA_MANAGER ||
+//                    lsUserLvl != DeptCode.LEVEL_BRANCH_HEAD){
+//                message = "Your user level is not authorize to download area/branch performance";
+//                return false;
+//            }
 
             String lsAreaCode = poDao.GetAreaCode();
 
@@ -90,18 +90,38 @@ public class BranchPerformance extends ABPM {
                     JSONObject loJson = laJson.getJSONObject(x);
 
                     EBranchPerformance info = new EBranchPerformance();
-                    info.setPeriodxx(loJson.getString("sPeriodxx"));
-                    info.setBranchCd(loJson.getString("sBranchCd"));
-                    info.setBranchNm(loJson.getString("sBranchNm"));
-                    info.setMCGoalxx(Integer.parseInt(loJson.getString("nMCGoalxx")));
-                    info.setSPGoalxx(Float.parseFloat(loJson.getString("nSPGoalxx")));
-                    info.setJOGoalxx(Integer.parseInt(loJson.getString("nJOGoalxx")));
-                    info.setLRGoalxx(Float.parseFloat(loJson.getString("nLRGoalxx")));
-                    info.setMCActual(Integer.parseInt(loJson.getString("nMCActual")));
-                    info.setSPActual(Float.parseFloat(loJson.getString("nSPActual")));
-                    info.setLRActual(Float.parseFloat(loJson.getString("nLRActual")));
-                    poDao.insert(info);
-                    Log.d(TAG, "Branch performance for " + loJson.getString("sBranchCd") + " has been saved.");
+                    if(lsUserLvl != DeptCode.LEVEL_AREA_MANAGER){
+                        info.setPeriodxx(loJson.getString("sPeriodxx"));
+                        info.setBranchCd(loJson.getString("sBranchCd"));
+                        info.setBranchNm(loJson.getString("sBranchNm"));
+                        info.setMCGoalxx(Integer.parseInt(loJson.getString("nMCGoalxx")));
+                        info.setSPGoalxx(Float.parseFloat(loJson.getString("nSPGoalxx")));
+                        info.setJOGoalxx(Integer.parseInt(loJson.getString("nJOGoalxx")));
+                        info.setLRGoalxx(Float.parseFloat(loJson.getString("nLRGoalxx")));
+                        info.setMCActual(Integer.parseInt(loJson.getString("nMCActual")));
+                        info.setSPActual(Float.parseFloat(loJson.getString("nSPActual")));
+                        info.setLRActual(Float.parseFloat(loJson.getString("nLRActual")));
+                        poDao.insert(info);
+                        Log.d(TAG, "Branch performance for " + loJson.getString("sBranchCd") + " has been saved.");
+                    } else if(lsUserLvl != DeptCode.LEVEL_BRANCH_HEAD){
+
+                        String lsBranchCd = poDao.GetBranchCode();
+
+                        if(lsBranchCd.equalsIgnoreCase(loJson.getString("sBranchCd"))) {
+                            info.setPeriodxx(loJson.getString("sPeriodxx"));
+                            info.setBranchCd(loJson.getString("sBranchCd"));
+                            info.setBranchNm(loJson.getString("sBranchNm"));
+                            info.setMCGoalxx(Integer.parseInt(loJson.getString("nMCGoalxx")));
+                            info.setSPGoalxx(Float.parseFloat(loJson.getString("nSPGoalxx")));
+                            info.setJOGoalxx(Integer.parseInt(loJson.getString("nJOGoalxx")));
+                            info.setLRGoalxx(Float.parseFloat(loJson.getString("nLRGoalxx")));
+                            info.setMCActual(Integer.parseInt(loJson.getString("nMCActual")));
+                            info.setSPActual(Float.parseFloat(loJson.getString("nSPActual")));
+                            info.setLRActual(Float.parseFloat(loJson.getString("nLRActual")));
+                            poDao.insert(info);
+                            Log.d(TAG, "Branch performance for " + loJson.getString("sBranchCd") + " has been saved.");
+                        }
+                    }
                 }
 
                 Thread.sleep(1000);
@@ -117,17 +137,37 @@ public class BranchPerformance extends ABPM {
     }
 
     @Override
+    public String getMessage() {
+        return message;
+    }
+
+    @Override
     public LiveData<String> GetCurrentMCSalesPerformance() {
-        return poDao.GetMCSalesPerformance();
+        String lsBranchCD = poDao.GetBranchCode();
+        return poDao.GetMCSalesPerformance(lsBranchCD);
     }
 
     @Override
     public LiveData<String> GetCurentSPSalesPerformance() {
-        return poDao.GetSPSalesPerformance();
+        String lsBranchCD = poDao.GetBranchCode();
+        return poDao.GetSPSalesPerformance(lsBranchCD);
     }
 
     @Override
     public LiveData<String> GetJobOrderPerformance() {
-        return poDao.GetJobOrderPerformance();
+        String lsBranchCD = poDao.GetBranchCode();
+        return poDao.GetJobOrderPerformance(lsBranchCD);
+    }
+
+    public LiveData<String> GetCurrentMCSalesPerformance(String args) {
+        return poDao.GetMCSalesPerformance(args);
+    }
+
+    public LiveData<String> GetCurentSPSalesPerformance(String args) {
+        return poDao.GetSPSalesPerformance(args);
+    }
+
+    public LiveData<String> GetJobOrderPerformance(String args) {
+        return poDao.GetJobOrderPerformance(args);
     }
 }

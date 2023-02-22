@@ -53,12 +53,6 @@ public class Fragment_AreaPerformance_BarChart extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_area_performance_bar_chart, container, false);
         initWidgets(view);
-        return view;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(requireActivity()).get(VMAreaPerfromanceMonitoring.class);
         mViewModel.getAreaNameFromCode().observe(getViewLifecycleOwner(), sAreaName-> {
             try {
@@ -68,6 +62,7 @@ public class Fragment_AreaPerformance_BarChart extends Fragment {
             }
         });
         mViewModel.getType().observe(getViewLifecycleOwner(), s -> setValues(s, getLatestCompletePeriod()));
+        return view;
     }
 
     private void initWidgets(View v) {
@@ -167,7 +162,5 @@ public class Fragment_AreaPerformance_BarChart extends Fragment {
                 mViewModel.setType("SP");
             }
         }
-
     }
-
 }

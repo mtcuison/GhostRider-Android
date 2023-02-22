@@ -76,12 +76,6 @@ public class Fragment_AreaPerformance_LineChart extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_area_performance_line_chart, container, false);
         initWidgets(view);
-        return view;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
         DisplayMetrics metrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
         width = metrics.widthPixels;
@@ -96,6 +90,7 @@ public class Fragment_AreaPerformance_LineChart extends Fragment {
         });
         poPeriods = PerformancePeriod.getSortedPeriodList(PerformancePeriod.getList());
         mViewModel.getType().observe(getViewLifecycleOwner(), s -> setChartValue(s));
+        return view;
     }
 
     private void initWidgets(View v){

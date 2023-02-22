@@ -65,14 +65,7 @@ public class Fragment_AreaPerformance_PieChart extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_area_performance_pie_chart, container, false);
-
         initWidgets(v);
-        return v;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(requireActivity()).get(VMAreaPerfromanceMonitoring.class);
         mViewModel.getAreaNameFromCode().observe(getViewLifecycleOwner(), sAreaName-> {
             try {
@@ -97,6 +90,7 @@ public class Fragment_AreaPerformance_PieChart extends Fragment {
                 }
             }
         });
+        return v;
     }
 
     private void initWidgets(View v) {
