@@ -16,18 +16,21 @@ import org.rmj.guanzongroup.ghostrider.settings.R;
 import org.rmj.guanzongroup.ghostrider.settings.etc.RecyclerViewHolder;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class RecyclerViewAppVersionAdapter extends RecyclerView.Adapter<RecyclerViewHolder> {
     public TextView tvBuildVers;
     public TextView tvDateBuild;
     public TextView tvNewUpdate;
     public @LayoutRes int resource;
-    List<VersionInfo> list = Collections.emptyList(); //reset the list value
+    List<HashMap<String, String>> list = Collections.emptyList(); //reset the list value
     Context context;
 
     /*SERVE AS THE PARENT OBJECT FOR THE LIST. HOLDS THE LIST. RETURNS TEXTVIEW OBJECT*/
-    public RecyclerViewAppVersionAdapter(List<VersionInfo> list, Context context){
+    public RecyclerViewAppVersionAdapter(List<HashMap<String, String>> list, Context context){
         this.list = list;
         this.context = context; //context from the main activity
      }
@@ -48,38 +51,23 @@ public class RecyclerViewAppVersionAdapter extends RecyclerView.Adapter<Recycler
     /*ATTACH THE LIST DATA TO THE TEXTVIEW OBJECT*/
      @Override
     public void onBindViewHolder(@NonNull RecyclerViewHolder holder, int position) {
-         try {
-             //get layout xml id from current view
-             String layoutid = holder.itemView.getResources().getResourceEntryName(holder.itemView.getId());
+         //get layout xml id from current view
+         String layoutid = holder.itemView.getResources().getResourceEntryName(holder.itemView.getId());
 
-             /*SET LIST OF VERSIONS TO RECYCLER VIEW HOLDER OBJECTS*/
-             if (layoutid.equals("layout_newfeatures")){
-                 //get update feature
-                 holder.tvHeader.setText(list.get(position).getNewFeatures().get(position).getsFeaturex());
-                 //get update description
-                 holder.tvDetails.setText(list.get(position).getNewFeatures().get(position).getsDescript());
-             }else if (layoutid.equals("layout_fixedconcerns")){
-                 //get update fixed concerns
-                 holder.tvFixedConcerns.setText(list.get(position).getOthers().get(position));
-             }
-
-             //get parent/root view
-             View parentview = new View(context);
-
-             //get parent view objects
-             tvBuildVers = parentview.findViewById(R.id.build_version);
-             tvDateBuild = parentview.findViewById(R.id.date_build);
-             tvNewUpdate = parentview.findViewById(R.id.about_update);
-             //set default values for parent view
-             tvBuildVers.setText(list.get(position).getsVrsionNm());
-
-         } catch (Exception e) {
-             Log.d(context.getClass().getSimpleName(), e.getMessage());
+         if (layoutid.equals("layout_newfeatures")) {
+             //get update feature
+             holder.tvHeader.setText(list.get(position).keySet().toArray()[position].toString());
+             //get update description
+             holder.tvDetails.setText(list.get(position).values().toArray()[position].toString());
+         }if (layoutid.equals("layout_fixedconcerns")){
+             //get update fixed concerns
+             holder.tvFixedConcerns.setText(list.get(position).keySet().toArray()[position].toString());
          }
+
      }
     /*GET THE LIST COUNT AND RETURN AS THE POSITION*/
     @Override
     public int getItemCount() {
-        return list.size();
+       return list.size();
     }
 }

@@ -12,6 +12,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -26,6 +27,7 @@ import org.rmj.guanzongroup.ghostrider.settings.R;
 import org.rmj.guanzongroup.ghostrider.settings.adapter.RecyclerViewAppVersionAdapter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Activity_AppVersion extends AppCompatActivity {
@@ -137,15 +139,17 @@ public class Activity_AppVersion extends AppCompatActivity {
                 String btnText = btn_checkupdate.getHint().toString();
                 if(btnText.equals("Check for Updates")){
                     //set list to Adapter, New Features and Fixed Concerns
-                    setListToAdapter(Activity_AppVersion.this, R.layout.update_version_logs, rec_updatedNewFeatures);
-                    setListToAdapter(Activity_AppVersion.this, R.layout.update_version_logs_fixed_concerns, rec_updatedFixedConcerns);
+                    setListToAdapter(Activity_AppVersion.this, R.layout.update_version_logs, rec_updatedNewFeatures, getListFromVersionInfo("New Features"));
+                    setListToAdapter(Activity_AppVersion.this, R.layout.update_version_logs_fixed_concerns, rec_updatedFixedConcerns, getListFromVersionInfo("Fixed Concerns"));
+
                     //set button text
                     btn_checkupdate.setHint("Download Updates");
                 }else if(btnText.equals("Download Updates")){
-                    //Intent intent = new Intent(Activity_AppVersion.this, Activity_AppVersion_Download.class);
-                    //startActivity(intent);
-                    //set list to Adapter
-                    //setListToAdapter(alertDialog.getContext(), R.layout.dialog_appversion_download_update);
+                    alertDialog.show();
+
+                    //set list to Adapter, New Features and Fixed Concerns
+                    setListToAdapter(Activity_AppVersion.this, R.layout.dialog_appversion_download_update, alertDialog.getWindow().findViewById(R.id.rec_updatelogs), getListFromVersionInfo("New Features"));
+                    setListToAdapter(Activity_AppVersion.this, R.layout.dialog_appversion_download_update, alertDialog.getWindow().findViewById(R.id.rec_updatedFixedConcerns), getListFromVersionInfo("Fixed Concerns"));
                 }
             }
         });
@@ -204,21 +208,60 @@ public class Activity_AppVersion extends AppCompatActivity {
             }
         });
     }
-    public void setListToAdapter(Context context, @LayoutRes int res, RecyclerView recyclerView){
+    public void setListToAdapter(Context context, @LayoutRes int res, RecyclerView recyclerView, List<HashMap<String, String>> listVersionInfo){
+        //attach list of version updates to the Adapter and ListView Object
+        versionAdapter = new RecyclerViewAppVersionAdapter(listVersionInfo, context);
+
+        versionAdapter.tvBuildVers = build_version;
+        versionAdapter.tvDateBuild = date_build;
+        versionAdapter.tvNewUpdate = about_update;
+        versionAdapter.resource = res;
+
+        //validate recycler view obj if visible before attaching the adapter
+        if(recyclerView.getVisibility() == View.VISIBLE) {
+            recyclerView.setAdapter(versionAdapter);
+            recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        }
+    }
+    public List<HashMap<String, String>> getListFromVersionInfo(String verioninfoCategory){
+        HashMap<String, String> hmVersionInfo = new HashMap<>();
+        List<HashMap<String, String>> listVersionInfo = new ArrayList<>();
+
+        String feature;
+        String descript;
+        String fixedconcerns;
+
         //if return list of version updates are available, continue
         if(versionInfoList.size() > 0){
-            //attach list of version updates to the Adapter and ListView Object
-            versionAdapter = new RecyclerViewAppVersionAdapter(versionInfoList, context);
-            versionAdapter.tvBuildVers = build_version;
-            versionAdapter.tvDateBuild = date_build;
-            versionAdapter.tvNewUpdate = about_update;
-            versionAdapter.resource = res;
-
-            //validate recycler view obj if visible before attaching the adapter
-            if(recyclerView.getVisibility() == View.VISIBLE) {
-                recyclerView.setAdapter(versionAdapter);
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
+            //loop through versioninfo list, then loop again on its sublist
+            for (int x = 0; x < versionInfoList.size(); x++){
+                try {
+                    if(verioninfoCategory.equals("New Features")){
+                        //if passed arg is New Features, get the list size of New Features from VersionInfo
+                        for (int y = 0; y < versionInfoList.get(x).getNewFeatures().size(); y++){
+                            feature = versionInfoList.get(x).getNewFeatures().get(y).getsFeaturex();
+                            descript = versionInfoList.get(x).getNewFeatures().get(y).getsDescript();
+                            //map feature as KEY, descript as VALUE
+                            hmVersionInfo.put(feature, descript);
+                            //add to list
+                            listVersionInfo.add(hmVersionInfo);
+                        }
+                    }
+                    //if passed arg is New Features, get the list size of Fixed Concerns from VersionInfo
+                    if(verioninfoCategory.equals("Fixed Concerns")){
+                        for (int y = 0; y < versionInfoList.get(x).getOthers().size(); y++){
+                            fixedconcerns = versionInfoList.get(x).getOthers().get(y);
+                            //map fixed concerns as both KEY and VALUE
+                            hmVersionInfo.put(fixedconcerns, fixedconcerns);
+                            //add to list
+                            listVersionInfo.add(hmVersionInfo);
+                        }
+                    }
+                }catch (Exception e){
+                    Log.d( this.getClass().getSimpleName(), e.getMessage());
+                }
             }
         }
+        return listVersionInfo;
     }
 }

@@ -25,6 +25,6 @@
         android:text=""
         android:textStyle="bold"
         android:paddingTop="5dp"
-        android:paddingLeft="10dp"
+        android:paddingLeft="15dp"
         android:textSize="13sp"/>
 </LinearLayout>
