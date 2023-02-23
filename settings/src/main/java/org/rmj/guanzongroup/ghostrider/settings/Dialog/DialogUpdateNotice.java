@@ -12,6 +12,7 @@ import androidx.annotation.LayoutRes;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
 
 import org.rmj.g3appdriver.lib.Version.VersionInfo;
@@ -31,6 +32,7 @@ public class DialogUpdateNotice {
     private RecyclerViewAppVersionAdapter versionAdapter;
     private MaterialTextView lbl_updatedLog;
     private MaterialTextView lbl_updatedFixedConcerns;
+    private MaterialButton btn_downloadupdate;
 
     public DialogUpdateNotice(Context context, List<VersionInfo> infoList) {
         this.context = context;
@@ -55,9 +57,14 @@ public class DialogUpdateNotice {
         rec_updatedNewFeatures = view.findViewById(R.id.rec_updatelogs);
         rec_updatedFixedConcerns = view.findViewById(R.id.rec_updatedFixedConcerns);
 
+        //get button id
+        btn_downloadupdate = view.findViewById(R.id.btn_downloadupdate);
+
         //attach list of version updates to the Adapter and ListView Object
         setListToAdapter(context, R.layout.update_version_logs, rec_updatedNewFeatures, getListFromVersionInfo("New Features"));
         setListToAdapter(context, R.layout.update_version_logs_fixed_concerns, rec_updatedFixedConcerns, getListFromVersionInfo("Fixed Concerns"));
+
+        btn_downloadupdate.setOnClickListener(v -> dismiss());
     }
     public List<HashMap<String, String>> getListFromVersionInfo(String verioninfoCategory){
         HashMap<String, String> hmVersionInfo = new HashMap<>();
