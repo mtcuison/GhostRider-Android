@@ -15,20 +15,19 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:hint="•"
+            android:textStyle="bold"
             android:textSize="15sp"
             android:paddingTop="5dp"
             android:paddingLeft="10dp"/>
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lblLogFixedConcerns"
-            style="@style/PrimaryHeaderStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingTop="5dp"
             android:paddingLeft="5dp"
-            android:text=""
-            android:textColor="?attr/colorAccent"
-            android:textSize="15sp" />
+            android:textStyle="bold"
+            android:textSize="13sp" />
 
     </LinearLayout>
 </LinearLayout>

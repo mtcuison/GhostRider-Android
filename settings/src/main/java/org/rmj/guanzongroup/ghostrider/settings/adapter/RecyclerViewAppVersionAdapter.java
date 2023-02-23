@@ -11,20 +11,13 @@ import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.g3appdriver.lib.Version.VersionInfo;
-import org.rmj.guanzongroup.ghostrider.settings.R;
 import org.rmj.guanzongroup.ghostrider.settings.etc.RecyclerViewHolder;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 public class RecyclerViewAppVersionAdapter extends RecyclerView.Adapter<RecyclerViewHolder> {
-    public TextView tvBuildVers;
-    public TextView tvDateBuild;
-    public TextView tvNewUpdate;
     public @LayoutRes int resource;
     List<HashMap<String, String>> list = Collections.emptyList(); //reset the list value
     Context context;

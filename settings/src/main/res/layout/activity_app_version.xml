@@ -3,113 +3,98 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:theme="@style/GhostRiderMaterialTheme"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent=".3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/gcircle_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/ic_ghostrider_logo_day"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent=".45"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="Guanzon Circle"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/gcircle_icon" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/build_version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text=""
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/date_build"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/build_version" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ScrollView
         android:id="@+id/scv"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="120dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:fillViewport="true">
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toTopOf="@+id/btn_checkupdate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/constraintLayout2">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/scv_parent"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/gcircle_icon"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginTop="0dp"
-            android:src="@drawable/ic_ghostrider_logo_day"
-            android:background="@drawable/background_gradient_dark_orange"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
-
-        <com.google.android.material.textview.MaterialTextView
-            style="@style/PrimaryHeaderStyle"
-            android:id="@+id/title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Guanzon Circle"
-            android:textColor="?attr/colorAccent"
-            android:gravity="center"
-            android:textSize="30sp"
-            android:layout_marginTop="50dp"
-            android:letterSpacing="0.20"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/gcircle_icon"/>
-
             <com.google.android.material.textview.MaterialTextView
-                style="@style/PrimaryHeaderStyle"
-                android:id="@+id/build_version"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:textSize="18sp"
-                android:gravity="center"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/title"/>
-
-            <com.google.android.material.textview.MaterialTextView
-                style="@style/PrimaryHeaderStyle"
-                android:id="@+id/date_build"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:gravity="center"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/build_version"/>
-
-            <com.google.android.material.textview.MaterialTextView
-                style="@style/PrimaryHeaderStyle"
-                android:id="@+id/lbl_aboutupdate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="About this Update"
-                android:textSize="20sp"
-                android:textColor="?attr/colorAccent"
-                android:layout_marginTop="50dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/date_build"/>
-
-            <com.google.android.material.textview.MaterialTextView
-                style="@style/PrimaryHeaderStyle"
-                android:id="@+id/about_update"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="This update integrates new UI Features, fixed system bugs, and improved user controls."
-                android:textSize="13sp"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/lbl_aboutupdate"/>
-
-            <com.google.android.material.textview.MaterialTextView
-                style="@style/PrimaryHeaderStyle"
                 android:id="@+id/lbl_updatedLog"
+                style="@style/PrimaryHeaderStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="New Features"
-                android:textSize="17sp"
-                android:layout_marginTop="25dp"
                 android:layout_marginLeft="20dp"
+                android:layout_marginTop="25dp"
                 android:layout_marginRight="20dp"
-                app:layout_constraintStart_toStartOf="parent"
+                android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/about_update"/>
+                app:layout_constraintStart_toStartOf="parent"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rec_updatelogs"
@@ -122,18 +107,18 @@
                 app:layout_constraintTop_toBottomOf="@id/lbl_updatedLog" />
 
             <com.google.android.material.textview.MaterialTextView
-                style="@style/PrimaryHeaderStyle"
                 android:id="@+id/lbl_updatedFixedConcerns"
+                style="@style/PrimaryHeaderStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Fixed Concerns"
-                android:textSize="17sp"
-                android:layout_marginTop="25dp"
                 android:layout_marginLeft="20dp"
+                android:layout_marginTop="25dp"
                 android:layout_marginRight="20dp"
-                app:layout_constraintStart_toStartOf="parent"
+                android:text=""
+                android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/rec_updatelogs"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/rec_updatelogs" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rec_updatedFixedConcerns"
@@ -148,17 +133,12 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
-    <androidx.appcompat.widget.AppCompatButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_checkupdate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Check for Updates"
-        android:layout_marginBottom="30dp"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
-        android:background="@drawable/oval_background"
-        android:backgroundTint="?attr/colorAccent"
-        android:textSize="20sp"
+        style="@style/MaterialButtonAccent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>

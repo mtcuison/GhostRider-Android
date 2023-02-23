@@ -1,6 +1,7 @@
 package org.rmj.guanzongroup.ghostrider.settings.Activity;
 
 import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -9,19 +10,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
+
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textview.MaterialTextView;
 
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.Version.VersionInfo;
+import org.rmj.guanzongroup.ghostrider.settings.Dialog.DialogUpdateNotice;
 import org.rmj.guanzongroup.ghostrider.settings.ViewModel.VMAppVersion;
 import org.rmj.guanzongroup.ghostrider.settings.R;
 import org.rmj.guanzongroup.ghostrider.settings.adapter.RecyclerViewAppVersionAdapter;
@@ -31,22 +33,21 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Activity_AppVersion extends AppCompatActivity {
-    TextView build_version;
-    TextView date_build;
-    TextView lbl_aboutupdate;
-    TextView about_update;
-    TextView lbl_updatedLog;
-    TextView lbl_updatedFixedConcerns;
-    Button btn_checkupdate;
-    RecyclerView rec_updatedNewFeatures;
-    RecyclerView rec_updatedFixedConcerns;
-    RecyclerViewAppVersionAdapter versionAdapter;
+
+    private MaterialToolbar toolbar;
+    private MaterialTextView build_version;
+    private MaterialTextView date_build;
+    private MaterialTextView lbl_updatedLog;
+    private MaterialTextView lbl_updatedFixedConcerns;
+    private MaterialButton btn_checkupdate;
+    private RecyclerView rec_updatedNewFeatures;
+    private RecyclerView rec_updatedFixedConcerns;
+    private RecyclerViewAppVersionAdapter versionAdapter;
     private VMAppVersion mViewModel;
     private LoadDialog poload;
     private MessageBox pomessage;
     List<VersionInfo> versionInfoList;
-    AlertDialog alertDialog;
-    Boolean btnClicked;
+    private DialogUpdateNotice poUpdateNotice;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -63,11 +64,13 @@ public class Activity_AppVersion extends AppCompatActivity {
         poload = new LoadDialog(Activity_AppVersion.this);
         pomessage = new MessageBox(Activity_AppVersion.this);
 
+        //initialize dialog for displaying message
+        pomessage.initDialog();
+
         //declare ui from layout
+        toolbar = findViewById(R.id.toolbar);
         build_version = findViewById(R.id.build_version);
         date_build = findViewById(R.id.date_build);
-        lbl_aboutupdate = findViewById(R.id.lbl_aboutupdate);
-        about_update = findViewById(R.id.about_update);
         lbl_updatedLog = findViewById(R.id.lbl_updatedLog);
         lbl_updatedFixedConcerns = findViewById(R.id.lbl_updatedFixedConcerns);
 
@@ -75,91 +78,56 @@ public class Activity_AppVersion extends AppCompatActivity {
         rec_updatedNewFeatures = findViewById(R.id.rec_updatelogs);
         rec_updatedFixedConcerns = findViewById(R.id.rec_updatedFixedConcerns);
 
-        btnClicked = false;
-
-        //create alert dialog obj builder
-        AlertDialog.Builder builder = new AlertDialog.Builder(Activity_AppVersion.this);
-        //create layout view for dialog builder, using the main activity(Context) and xml file(layout view)
-        View view = LayoutInflater.from(Activity_AppVersion.this).inflate(R.layout.dialog_appversion_download_update,null);
-
-        //attach the layout view created to builder
-        builder.setView(view);
-        //create new obj alert dialog (parent container) and attach to the obj builder created
-        alertDialog = builder.create();
-        //set background color for the dialog
-        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
-        //initialize dialog for displaying message
-        pomessage.initDialog();
+        //set toolbar and action
+        toolbar.setTitle("System Update");
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
        /*set by default, the current build version of  app*/
        String build_name = AppConfigPreference.getInstance(Activity_AppVersion.this).getVersionName(); //get build version
        build_version.setText(build_name); //display build version
 
-        //call method to get the list of versions
-        getAppVersion();
-       //call method to show what to display
-        setonDisplay();
+       //call method to get the list of versions
+       getAppVersion("Check Updates", "Connecting to Server . . .", "Check Updates", "Successfully Connected to Server");
        //call method for button listener
-        btnCheckUpdate();
+       btnCheckUpdate();
     }
-    public void setonDisplay() {
-        //hide details by default
-        lbl_aboutupdate.setVisibility(View.INVISIBLE);
-        about_update.setVisibility(View.INVISIBLE);
-        lbl_updatedLog.setVisibility(View.INVISIBLE);
-        lbl_updatedFixedConcerns.setVisibility(View.INVISIBLE);
-        rec_updatedNewFeatures.setVisibility(View.INVISIBLE);
-        rec_updatedFixedConcerns.setVisibility(View.INVISIBLE);
-
-        //show details upon button clicked
-        if (btnClicked.equals(true)) {
-            //show what to display if, list of versions has retrieved more than 0
-            if (versionInfoList.size() > 0) {
-                lbl_aboutupdate.setVisibility(View.VISIBLE);
-                about_update.setVisibility(View.VISIBLE);
-                lbl_updatedLog.setVisibility(View.VISIBLE);
-                lbl_updatedFixedConcerns.setVisibility(View.VISIBLE);
-                rec_updatedNewFeatures.setVisibility(View.VISIBLE);
-                rec_updatedFixedConcerns.setVisibility(View.VISIBLE);
-            }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == android.R.id.home){
+            finish();
         }
+        return super.onOptionsItemSelected(item);
     }
-    public void btnCheckUpdate(){
+    private void btnCheckUpdate(){
         btn_checkupdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //set listener for this button, when clicked
-                btnClicked = true;
                 //call method to get the list of versions
-                getAppVersion();
-                //show details
-                setonDisplay();
+                getAppVersion("Check Updates", "Getting Updates . . .", "Check Updates", "Successfully Get Updates");
                 //get button text
                 String btnText = btn_checkupdate.getHint().toString();
                 if(btnText.equals("Check for Updates")){
                     //set list to Adapter, New Features and Fixed Concerns
                     setListToAdapter(Activity_AppVersion.this, R.layout.update_version_logs, rec_updatedNewFeatures, getListFromVersionInfo("New Features"));
                     setListToAdapter(Activity_AppVersion.this, R.layout.update_version_logs_fixed_concerns, rec_updatedFixedConcerns, getListFromVersionInfo("Fixed Concerns"));
-
                     //set button text
                     btn_checkupdate.setHint("Download Updates");
                 }else if(btnText.equals("Download Updates")){
-                    alertDialog.show();
-
-                    //set list to Adapter, New Features and Fixed Concerns
-                    setListToAdapter(Activity_AppVersion.this, R.layout.dialog_appversion_download_update, alertDialog.getWindow().findViewById(R.id.rec_updatelogs), getListFromVersionInfo("New Features"));
-                    setListToAdapter(Activity_AppVersion.this, R.layout.dialog_appversion_download_update, alertDialog.getWindow().findViewById(R.id.rec_updatedFixedConcerns), getListFromVersionInfo("Fixed Concerns"));
+                    //call dialog for download notice
+                    poUpdateNotice = new DialogUpdateNotice(Activity_AppVersion.this, versionInfoList);
+                    poUpdateNotice.initDialog();
+                    poUpdateNotice.show();
                 }
             }
         });
     }
-    public void getAppVersion(){
+    public void getAppVersion(String poloadTitle, String poloadMsg, String poMsgTitle, String poMsg){
         mViewModel.getVersionList(new VMAppVersion.onDownloadVersionList() {
             @Override
             public void onDownload() {
                 //show dialog
-                poload.initDialog("Check Updates", "Checking Updates", false);
+                poload.initDialog(poloadTitle, poloadMsg, false);
                 poload.show();
             }
             @Override
@@ -168,8 +136,8 @@ public class Activity_AppVersion extends AppCompatActivity {
                 versionInfoList= list;
 
                 //set dialog message and button
-                pomessage.setTitle("Check Updates");
-                pomessage.setMessage("Finished Getting Updates");
+                pomessage.setTitle(poMsgTitle);
+                pomessage.setMessage(poMsg);
 
                 //show message
                 pomessage.show();
@@ -189,7 +157,7 @@ public class Activity_AppVersion extends AppCompatActivity {
             @Override
             public void onFailed(String message) {
                 //set dialog message and button
-                pomessage.setTitle("Failed Checking Updates");
+                pomessage.setTitle(poMsgTitle);
                 pomessage.setMessage(message);
 
                 //show message
@@ -211,10 +179,6 @@ public class Activity_AppVersion extends AppCompatActivity {
     public void setListToAdapter(Context context, @LayoutRes int res, RecyclerView recyclerView, List<HashMap<String, String>> listVersionInfo){
         //attach list of version updates to the Adapter and ListView Object
         versionAdapter = new RecyclerViewAppVersionAdapter(listVersionInfo, context);
-
-        versionAdapter.tvBuildVers = build_version;
-        versionAdapter.tvDateBuild = date_build;
-        versionAdapter.tvNewUpdate = about_update;
         versionAdapter.resource = res;
 
         //validate recycler view obj if visible before attaching the adapter
@@ -237,6 +201,8 @@ public class Activity_AppVersion extends AppCompatActivity {
             for (int x = 0; x < versionInfoList.size(); x++){
                 try {
                     if(verioninfoCategory.equals("New Features")){
+                        //set text on recycler view label
+                        lbl_updatedLog.setText("New Features");
                         //if passed arg is New Features, get the list size of New Features from VersionInfo
                         for (int y = 0; y < versionInfoList.get(x).getNewFeatures().size(); y++){
                             feature = versionInfoList.get(x).getNewFeatures().get(y).getsFeaturex();
@@ -249,6 +215,8 @@ public class Activity_AppVersion extends AppCompatActivity {
                     }
                     //if passed arg is New Features, get the list size of Fixed Concerns from VersionInfo
                     if(verioninfoCategory.equals("Fixed Concerns")){
+                        //set text on recycler view label
+                        lbl_updatedFixedConcerns.setText("Fixed Concerns");
                         for (int y = 0; y < versionInfoList.get(x).getOthers().size(); y++){
                             fixedconcerns = versionInfoList.get(x).getOthers().get(y);
                             //map fixed concerns as both KEY and VALUE

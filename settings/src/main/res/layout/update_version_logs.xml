@@ -1,29 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:id="@+id/layout_newfeatures">
 
     <com.google.android.material.textview.MaterialTextView
-        style="@style/PrimaryHeaderStyle"
-        android:textColor="?attr/colorAccent"
         android:id="@+id/lblLogHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text=""
+        android:textStyle="bold"
         android:textSize="15sp"
         android:paddingTop="5dp"
         android:paddingLeft="10dp" />
 
     <com.google.android.material.textview.MaterialTextView
-        style="@style/PrimaryHeaderStyle"
         android:id="@+id/lblLogDescr"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text=""
-        android:textStyle="bold"
         android:paddingTop="5dp"
         android:paddingLeft="15dp"
         android:textSize="13sp"/>
