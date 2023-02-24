@@ -20,15 +20,9 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
-import org.rmj.g3appdriver.dev.Telephony;
+import org.rmj.g3appdriver.dev.Device.Telephony;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.utils.SQLUtil;
-import org.rmj.g3appdriver.utils.SecUtil;
 import org.rmj.g3appdriver.utils.WebClient;
-
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(AndroidJUnit4.class)

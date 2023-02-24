@@ -31,12 +31,12 @@ import org.rmj.g3appdriver.dev.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.dev.Database.Repositories.RBarangay;
 import org.rmj.g3appdriver.dev.Database.Repositories.RTown;
 import org.rmj.g3appdriver.etc.AppConstants;
-import org.rmj.g3appdriver.etc.LocationRetriever;
+import org.rmj.g3appdriver.lib.Location.LocationRetriever;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
-import org.rmj.g3appdriver.lib.integsys.Dcp.model.AddressUpdate;
-import org.rmj.g3appdriver.lib.integsys.Dcp.model.CustomerNotAround;
+import org.rmj.g3appdriver.lib.integsys.Dcp.pojo.AddressUpdate;
+import org.rmj.g3appdriver.lib.integsys.Dcp.pojo.CustomerNotAround;
 import org.rmj.g3appdriver.lib.integsys.Dcp.LRDcp;
-import org.rmj.g3appdriver.lib.integsys.Dcp.model.MobileUpdate;
+import org.rmj.g3appdriver.lib.integsys.Dcp.pojo.MobileUpdate;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
 import org.rmj.g3appdriver.etc.ImageFileCreator;
 

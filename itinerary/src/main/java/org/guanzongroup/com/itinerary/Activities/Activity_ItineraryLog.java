@@ -83,7 +83,7 @@ public class Activity_ItineraryLog extends AppCompatActivity {
                 lblUser.setText(user.sUserName);
                 lblDept.setText(DeptCode.getDepartmentName(user.sDeptIDxx));
 
-                int lnUserLvl = Integer.parseInt(user.nUserLevl);
+                int lnUserLvl = Integer.parseInt(user.sEmpLevID);
 
                 if(lnUserLvl == DeptCode.LEVEL_DEPARTMENT_HEAD){
                     mViewModel.ImportUsers(new VMItinerary.OnImportUsersListener() {

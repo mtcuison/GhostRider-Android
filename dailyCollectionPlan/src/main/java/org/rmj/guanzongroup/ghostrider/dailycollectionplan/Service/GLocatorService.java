@@ -12,53 +12,23 @@
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Service;
 
 import android.annotation.SuppressLint;
-import android.app.Application;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ServiceInfo;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.IBinder;
-import android.os.Looper;
-import android.provider.Settings;
-import android.text.TextUtils;
-import android.util.Log;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 
-import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationResult;
-import com.google.android.gms.location.LocationServices;
-
-import org.json.JSONObject;
-import org.rmj.g3appdriver.dev.Database.Entities.EGLocatorSysLog;
-import org.rmj.g3appdriver.dev.Database.Repositories.RDailyCollectionPlan;
-import org.rmj.g3appdriver.dev.Database.Repositories.RLocationSysLog;
 import org.rmj.g3appdriver.dev.Database.Repositories.RSysConfig;
-import org.rmj.g3appdriver.dev.GLocationManager;
-import org.rmj.g3appdriver.dev.HttpHeaders;
-import org.rmj.g3appdriver.dev.Telephony;
-import org.rmj.g3appdriver.dev.WebClient;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.etc.AppConstants;
-import org.rmj.g3appdriver.etc.LocationRetriever;
-import org.rmj.g3appdriver.etc.SessionManager;
-import org.rmj.g3appdriver.utils.ConnectionUtil;
-import org.rmj.g3appdriver.utils.WebApi;
+import org.rmj.g3appdriver.lib.Location.LocationRetriever;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_CollectionList;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 
 public class GLocatorService extends Service {
     private static final String TAG = GLocatorService.class.getSimpleName();

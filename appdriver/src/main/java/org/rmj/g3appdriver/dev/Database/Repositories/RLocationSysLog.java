@@ -15,15 +15,15 @@ import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DLocatorSysLog;
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EGLocatorSysLog;
 import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.etc.AppConstants;
-import org.rmj.g3appdriver.dev.HttpHeaders;
+import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.utils.WebApi;
-import org.rmj.g3appdriver.utils.WebClient;
+import org.rmj.g3appdriver.dev.Api.WebApi;
 
 import java.util.List;
 
@@ -47,18 +47,25 @@ public class RLocationSysLog {
         return message;
     }
 
-    public void saveCurrentLocation(EGLocatorSysLog sysLog){
-        EEmployeeInfo loUser = poDao.GetUserInfo();
+    public boolean saveCurrentLocation(EGLocatorSysLog sysLog){
+        try {
+            EEmployeeInfo loUser = poDao.GetUserInfo();
 
-        if(loUser == null){
-            Log.d(TAG, "Unable to save location no user detected.");
-            return;
+            if (loUser == null) {
+                Log.d(TAG, "Unable to save location no user detected.");
+                return false;
+            }
+
+            sysLog.setTimeStmp(new AppConstants().DATE_MODIFIED());
+            sysLog.setTransact(new AppConstants().DATE_MODIFIED());
+            sysLog.setUserIDxx(loUser.getUserIDxx());
+            poDao.insertLocation(sysLog);
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
         }
-
-        sysLog.setTimeStmp(new AppConstants().DATE_MODIFIED());
-        sysLog.setTransact(new AppConstants().DATE_MODIFIED());
-        sysLog.setUserIDxx(loUser.getUserIDxx());
-        poDao.insertLocation(sysLog);
     }
 
     public void updateSysLogStatus(String dTransact){
@@ -92,7 +99,7 @@ public class RLocationSysLog {
 
             loJson.put("detail", laDetail);
 
-            String lsResponse = WebClient.httpPostJSon(poApi.getUrlSubmitLocationTrack(poConfig.isBackUpServer()),
+            String lsResponse = WebClient.sendRequest(poApi.getUrlSubmitLocationTrack(poConfig.isBackUpServer()),
                     loJson.toString(), poHeaders.getHeaders());
             if(lsResponse == null){
                 message = "No server response.";

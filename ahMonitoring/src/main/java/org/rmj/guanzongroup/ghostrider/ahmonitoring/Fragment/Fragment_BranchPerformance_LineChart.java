@@ -18,7 +18,6 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -42,14 +41,13 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
-import org.rmj.g3appdriver.etc.BranchPerformancePeriod;
+import org.rmj.g3appdriver.lib.BullsEye.BranchPerformancePeriod;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_BranchPerformance;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.BranchPerformanceAdapter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMBranchMonitor;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class Fragment_BranchPerformance_LineChart extends Fragment implements OnChartValueSelectedListener {
     private VMBranchMonitor mViewModel;

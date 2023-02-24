@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.apprdiver.util.SQLUtil;
+import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DCreditApplication;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DMcModel;
@@ -21,10 +22,10 @@ import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.dev.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.dev.Database.Repositories.RMcBrand;
 import org.rmj.g3appdriver.dev.Database.Repositories.RMcModel;
-import org.rmj.g3appdriver.dev.HttpHeaders;
+import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
-import org.rmj.g3appdriver.etc.SessionManager;
+import org.rmj.g3appdriver.lib.Account.SessionManager;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.ApplicationInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.BusinessInfo;
@@ -47,8 +48,7 @@ import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.SpouseInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.SpousePensionInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.SpouseResidenceInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.LoanInfo;
-import org.rmj.g3appdriver.utils.WebApi;
-import org.rmj.g3appdriver.utils.WebClient;
+import org.rmj.g3appdriver.dev.Api.WebApi;
 import org.rmj.gocas.base.GOCASApplication;
 import org.rmj.gocas.pricelist.PriceFactory;
 import org.rmj.gocas.pricelist.Pricelist;
@@ -113,7 +113,7 @@ public class CreditOnlineApplication {
                 params.put("sUserIDxx", loApp.getTimeStmp());
             }
 
-            String lsResponse = WebClient.httpsPostJSon(
+            String lsResponse = WebClient.sendRequest(
                     poApi.getUrlImportOnlineApplications(poConfig.isBackUpServer()),
                     params.toString(),
                     poHeaders.getHeaders());
@@ -213,7 +213,7 @@ public class CreditOnlineApplication {
             params.put("bycode", true);
             params.put("value", poSession.getBranchCode());
 
-            String lsResponse = WebClient.httpsPostJSon(
+            String lsResponse = WebClient.sendRequest(
                     poApi.getUrlBranchLoanApp(poConfig.isBackUpServer()),
                     params.toString(),
                     poHeaders.getHeaders());
@@ -348,7 +348,7 @@ public class CreditOnlineApplication {
             JSONObject params = new JSONObject(loApp.getDetlInfo());
             params.put("dCreatedx", loApp.getCreatedx());
 
-            String lsResponse = WebClient.httpsPostJSon(
+            String lsResponse = WebClient.sendRequest(
                     poApi.getUrlSubmitOnlineApplication(poConfig.isBackUpServer()),
                     params.toString(),
                     poHeaders.getHeaders());
@@ -397,7 +397,7 @@ public class CreditOnlineApplication {
                 JSONObject params = new JSONObject(loApp.getDetlInfo());
                 params.put("dCreatedx", loApp.getCreatedx());
 
-                String lsResponse = WebClient.httpsPostJSon(
+                String lsResponse = WebClient.sendRequest(
                         poApi.getUrlSubmitOnlineApplication(poConfig.isBackUpServer()),
                         params.toString(),
                         poHeaders.getHeaders());

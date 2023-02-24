@@ -30,12 +30,12 @@ import androidx.lifecycle.MutableLiveData;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.rmj.g3appdriver.dev.HttpHeaders;
-import org.rmj.g3appdriver.dev.WebClient;
+import org.rmj.g3appdriver.dev.Api.HttpHeaders;
+import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
-import org.rmj.g3appdriver.utils.WebApi;
+import org.rmj.g3appdriver.dev.Api.WebApi;
 
 import java.io.File;
 import java.io.FileOutputStream;

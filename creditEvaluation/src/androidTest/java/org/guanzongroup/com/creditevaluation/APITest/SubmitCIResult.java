@@ -4,16 +4,16 @@ import static org.junit.Assert.assertTrue;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
-import org.guanzongroup.com.creditevaluation.Core.CIAPIs;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
+import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.utils.SQLUtil;
 import org.rmj.g3appdriver.utils.SecUtil;
+import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.g3appdriver.utils.WebClient;
 
 import java.util.Calendar;
@@ -24,7 +24,7 @@ import java.util.Map;
 @RunWith(AndroidJUnit4.class)
 public class SubmitCIResult {
 
-    private CIAPIs poApis;
+    private WebApi poApis;
 
     private static final String LIVE_LOGIN = "https://restgk.guanzongroup.com.ph/security/mlogin.php";
     private static final String LOCAL_LOGIN = "http://192.168.10.141/security/mlogin.php";
@@ -39,7 +39,7 @@ public class SubmitCIResult {
 
     @Before
     public void setup() throws Exception{
-        poApis = new CIAPIs(true);
+        poApis = new WebApi(true);
 
         headers.put("Content-Type", "application/json");
         headers.put("g-api-id", "gRider");
@@ -105,7 +105,7 @@ public class SubmitCIResult {
         params.put("sApproved", "M00117000702");
         params.put("dApproved", AppConstants.CURRENT_DATE);
 
-        String lsResponse = WebClient.httpPostJSon(poApis.getUrlSubmitCIResult(),
+        String lsResponse = WebClient.httpPostJSon(poApis.getUrlSubmitCIResult(false),
                 params.toString(), (HashMap<String, String>) headers);
         if(lsResponse == null){
             isSuccess = false;
@@ -128,7 +128,7 @@ public class SubmitCIResult {
         JSONObject params = new JSONObject();
         params.put("sEmployID", "M00117000702");
 
-        String lsResponse = WebClient.httpPostJSon(poApis.getUrlDownloadBhPreview(),
+        String lsResponse = WebClient.httpPostJSon(poApis.getUrlDownloadBhPreview(false),
                 params.toString(), (HashMap<String, String>) headers);
         if(lsResponse == null){
             isSuccess = false;
@@ -155,7 +155,7 @@ public class SubmitCIResult {
         params.put("cRcmdtnx1", "1");
         params.put("sRcmdtnx1", "sample");
 
-        String lsResponse = WebClient.httpPostJSon(poApis.getUrlPostCiApproval(),
+        String lsResponse = WebClient.httpPostJSon(poApis.getUrlPostCiApproval(false),
                 params.toString(), (HashMap<String, String>) headers);
         if(lsResponse == null){
             isSuccess = false;
@@ -178,7 +178,7 @@ public class SubmitCIResult {
         JSONObject params = new JSONObject();
         params.put("sEmployID", "sEmployID");
 
-        String lsResponse = WebClient.httpPostJSon(poApis.getUrlDownloadBhPreview(),
+        String lsResponse = WebClient.httpPostJSon(poApis.getUrlDownloadBhPreview(false),
                 params.toString(), (HashMap<String, String>) headers);
         if(lsResponse == null){
             isSuccess = false;
@@ -205,7 +205,7 @@ public class SubmitCIResult {
         params.put("cRcmdtnx2", "1");
         params.put("sRcmdtnx2", "sample");
 
-        String lsResponse = WebClient.httpPostJSon(poApis.getUrlPostBhApproval(),
+        String lsResponse = WebClient.httpPostJSon(poApis.getUrlPostBhApproval(false),
                 params.toString(), (HashMap<String, String>) headers);
         if(lsResponse == null){
             isSuccess = false;
