@@ -87,10 +87,10 @@ public class Activity_AppVersion extends AppCompatActivity {
        String build_name = AppConfigPreference.getInstance(Activity_AppVersion.this).getVersionName(); //get build version
        build_version.setText(build_name); //display build version
 
-       //call method to get the list of versions
-       getAppVersion("Check Updates", "Connecting to Server . . .", "Check Updates", "Successfully Connected to Server");
-       //call method for button listener
-       btnCheckUpdate();
+        //call method to get the list of versions
+        getAppVersion("Check Updates", "Getting Updates . . .", "Check Updates", "Successfully Get Updates");
+        //call method for button listener
+        btnCheckUpdate();
     }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -103,17 +103,9 @@ public class Activity_AppVersion extends AppCompatActivity {
         btn_checkupdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //call method to get the list of versions
-                getAppVersion("Check Updates", "Getting Updates . . .", "Check Updates", "Successfully Get Updates");
                 //get button text
                 String btnText = btn_checkupdate.getHint().toString();
-                if(btnText.equals("Check for Updates")){
-                    //set list to Adapter, New Features and Fixed Concerns
-                    setListToAdapter(Activity_AppVersion.this, R.layout.update_version_logs, rec_updatedNewFeatures, getListFromVersionInfo("New Features"));
-                    setListToAdapter(Activity_AppVersion.this, R.layout.update_version_logs_fixed_concerns, rec_updatedFixedConcerns, getListFromVersionInfo("Fixed Concerns"));
-                    //set button text
-                    btn_checkupdate.setHint("Download Updates");
-                }else if(btnText.equals("Download Updates")){
+                if(btnText.equals("Download Updates")){
                     //call dialog for download notice
                     poUpdateNotice = new DialogUpdateNotice(Activity_AppVersion.this, versionInfoList);
                     poUpdateNotice.initDialog();
@@ -134,6 +126,13 @@ public class Activity_AppVersion extends AppCompatActivity {
             public void onSuccess(List<VersionInfo> list) {
                 //set the list value
                 versionInfoList= list;
+
+                //set list to Adapter, New Features and Fixed Concerns
+                setListToAdapter(Activity_AppVersion.this, R.layout.update_version_logs, rec_updatedNewFeatures, getListFromVersionInfo("New Features"));
+                setListToAdapter(Activity_AppVersion.this, R.layout.update_version_logs_fixed_concerns, rec_updatedFixedConcerns, getListFromVersionInfo("Fixed Concerns"));
+
+                //set button text
+                btn_checkupdate.setHint("Download Updates");
 
                 //set dialog message and button
                 pomessage.setTitle(poMsgTitle);
@@ -197,6 +196,10 @@ public class Activity_AppVersion extends AppCompatActivity {
 
         //if return list of version updates are available, continue
         if(versionInfoList.size() > 0){
+
+            //set button text
+            btn_checkupdate.setHint("Download Updates");
+
             //loop through versioninfo list, then loop again on its sublist
             for (int x = 0; x < versionInfoList.size(); x++){
                 try {
