@@ -73,6 +73,7 @@ public class Activity_ReviewLoanApp extends AppCompatActivity {
             try {
                 TransNox = app.getTransNox();
                 mViewModel.setInfo(app);
+                lblClientNm.setText(app.getClientNm());
                 mViewModel.ParseData(app, new OnParseListener() {
                     @Override
                     public void OnParse(Object args) {
