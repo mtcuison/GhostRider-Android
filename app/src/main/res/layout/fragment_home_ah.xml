@@ -15,7 +15,8 @@
     android:layout_height="match_parent"
     android:theme="@style/GhostRiderMaterialTheme"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.home.Fragment_Home_AH">
+    tools:context=".ui.home.Fragment_Home_AH"
+    android:layout_marginTop="45dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -36,7 +37,7 @@
                 android:id="@+id/cardView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="60dp"
                 android:layout_marginRight="40dp"
                 app:cardCornerRadius="90dp"
                 android:elevation="25dp"
@@ -48,7 +49,7 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:padding="10dp"
-                    tools:src="@drawable/ic_ghostrider_logo_day" />
+                    app:srcCompat="@drawable/ic_ghostrider_logo_day" />
 
             </com.google.android.material.card.MaterialCardView>
 
@@ -56,7 +57,7 @@
                 android:id="@+id/lblEmpNme"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="45dp"
+                android:layout_marginTop="100dp"
                 android:layout_marginStart="20dp"
                 android:fontFamily="@font/roboto"
                 android:text="DE CELIS, TEEJEI F."
@@ -124,7 +125,7 @@
                                     android:layout_width="70dp"
                                     android:layout_height="70dp"
                                     android:padding="10dp"
-                                    tools:src="@drawable/ic_performance_mc_unit" />
+                                    app:srcCompat="@drawable/ic_performance_mc_unit" />
                             </com.google.android.material.card.MaterialCardView>
 
                             <com.google.android.material.textview.MaterialTextView
@@ -162,7 +163,7 @@
                                     android:layout_width="70dp"
                                     android:layout_height="70dp"
                                     android:padding="10dp"
-                                    tools:src="@drawable/ic_dashboard_settings" />
+                                    app:srcCompat="@drawable/ic_dashboard_settings" />
                             </com.google.android.material.card.MaterialCardView>
 
                             <com.google.android.material.textview.MaterialTextView
@@ -201,7 +202,7 @@
                                     android:layout_width="70dp"
                                     android:layout_height="70dp"
                                     android:padding="18dp"
-                                    tools:src="@drawable/ic_menu_cashcount" />
+                                    app:srcCompat="@drawable/ic_menu_cashcount" />
                             </com.google.android.material.card.MaterialCardView>
 
                             <com.google.android.material.textview.MaterialTextView
@@ -246,6 +247,7 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="@drawable/bg_dsahboard_cv_btn"
                         android:padding="5dp">
 
                         <com.google.android.material.textview.MaterialTextView
@@ -254,7 +256,6 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto"
                             android:text="Cash Count"
-                            android:textColor="@color/black"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintWidth_percent=".70" />
@@ -290,6 +291,7 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="@drawable/bg_dsahboard_cv_btn"
                         android:padding="5dp">
 
                         <com.google.android.material.textview.MaterialTextView
@@ -332,6 +334,7 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="@drawable/bg_dsahboard_cv_btn"
                         android:padding="5dp">
 
                         <com.google.android.material.textview.MaterialTextView
@@ -374,6 +377,7 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="@drawable/bg_dsahboard_cv_btn"
                         android:padding="5dp">
 
                         <com.google.android.material.textview.MaterialTextView
@@ -408,7 +412,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="15dp"
                 android:fontFamily="@font/roboto"
                 android:text="Branch Open"
                 android:textStyle="bold"

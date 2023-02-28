@@ -15,7 +15,8 @@
     android:layout_height="match_parent"
     android:theme="@style/GhostRiderMaterialTheme"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.home.Fragment_Home_Engineering">
+    tools:context=".ui.home.Fragment_Home_Engineering"
+    android:layout_marginTop="45dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -24,7 +25,7 @@
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/imgheader"
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
+                android:layout_height="290dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/bg_dashboard"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -36,7 +37,7 @@
                 android:id="@+id/cardView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="60dp"
                 android:layout_marginRight="40dp"
                 app:cardCornerRadius="90dp"
                 app:cardMaxElevation="5dp"
@@ -48,61 +49,62 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:padding="10dp"
-                    tools:src="@drawable/ic_ghostrider_logo_day" />
+                    app:srcCompat="@drawable/ic_ghostrider_logo_day"/>
 
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/lblEmpNme"
+                android:id="@+id/lbl_EngrNme"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="100dp"
                 android:text="DE CELIS, TEEJEI F."
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/imgheader" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/lblEmpPosition"
+                android:id="@+id/lbl_userDepartment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="5dp"
                 android:text="Engineering Services"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lblEmpNme" />
+                app:layout_constraintTop_toBottomOf="@+id/lbl_EngrNme" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cardmenu"
+                android:layout_marginTop="15dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cardView">
 
-
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardSettings"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:cardCornerRadius="90dp"
-                    app:cardMaxElevation="15dp"
+                    app:cardMaxElevation="5dp"
                     android:layout_marginStart="15dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:id="@+id/imgsettings"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:padding="8dp"
-                        tools:src="@drawable/ic_dashboard_settings" />
-                </com.google.android.material.card.MaterialCardView>
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnSettings"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:background="@drawable/ic_dashboard_settings"/>
+
+                    </com.google.android.material.card.MaterialCardView>
 
 
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardLogout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:cardCornerRadius="90dp"
@@ -112,12 +114,11 @@
                     app:layout_constraintStart_toEndOf="@+id/cardSettings"
                     app:layout_constraintTop_toTopOf="parent">
 
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:id="@+id/imglogout"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:padding="8dp"
-                        tools:src="@drawable/ic_dashboard_logout" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnLogout"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:background="@drawable/ic_dashboard_logout"/>
                 </com.google.android.material.card.MaterialCardView>
 
 
@@ -165,6 +166,7 @@
                             android:layout_marginStart="15dp"
                             android:text="February 07, 2023"
                             android:textSize="24sp"
+                            android:id="@+id/lblDate"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/textView2"

@@ -21,12 +21,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -34,18 +32,9 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.viewpager.widget.ViewPager;
 
-import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.MaterialAutoCompleteTextView;
-import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textview.MaterialTextView;
-import com.google.android.material.divider.MaterialDivider;
-import com.google.android.material.card.MaterialCardView;
-import com.google.android.material.imageview.ShapeableImageView;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeRole;
 import org.rmj.g3appdriver.dev.DeptCode;
@@ -53,7 +42,6 @@ import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.lib.Account.SessionManager;
 import org.rmj.g3appdriver.lib.ImportData.ImportEmployeeRole;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Application;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Etc.FragmentAdapter;
@@ -101,6 +89,7 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
         poNetRecvr = mViewModel.getInternetReceiver();
         setContentView(R.layout.activity_main);
         initWidgets();
+        InitUserFeatures();
 
         mViewModel.getEmployeeInfo().observe(this, eEmployeeInfo -> {
             try{
@@ -211,6 +200,7 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         View view = navigationView.getHeaderView(0);
+        viewPager = findViewById(R.id.viewpager);
         imgDept = view.findViewById(R.id.img_deptLogo);
         lblDept = view.findViewById(R.id.lbl_deptNme);
         lblDept.setOnClickListener(v -> {
@@ -315,4 +305,5 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
             startActivity(intent);
         }
     }
+
 }
