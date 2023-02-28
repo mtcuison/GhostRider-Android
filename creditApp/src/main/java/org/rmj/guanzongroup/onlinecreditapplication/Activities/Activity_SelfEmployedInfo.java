@@ -17,7 +17,20 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+import  com.google.android.material.checkbox.MaterialCheckBox;
+
 
 import org.json.JSONException;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
@@ -39,14 +52,14 @@ public class Activity_SelfEmployedInfo extends AppCompatActivity {
 
     private VMBusinessInfo mViewModel;
     private MessageBox poMessage;
-    private AutoCompleteTextView spnBussNtr, spnBussTyp, spnBussSze, spnLngSrvc;
+    private MaterialAutoCompleteTextView spnBussNtr, spnBussTyp, spnBussSze, spnLngSrvc;
 
     private TextInputEditText txtBussName, txtBussAdds, txtLnghtSrv, txtMnthlyIn, txtMnthlyEx;
-    private AutoCompleteTextView txtProvnc, txtTownxx;
-    private CheckBox cb_isYear;
+    private MaterialAutoCompleteTextView txtProvnc, txtTownxx;
+    private MaterialCheckBox cb_isYear;
 
-    private Button btnNext, btnPrvs;
-    private Toolbar toolbar;
+    private MaterialButton btnNext, btnPrvs;
+    private MaterialToolbar toolbar;
 
     private String TransNox;
 

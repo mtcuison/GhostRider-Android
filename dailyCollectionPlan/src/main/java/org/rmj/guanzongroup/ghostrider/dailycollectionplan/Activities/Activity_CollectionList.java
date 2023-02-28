@@ -37,16 +37,27 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+import  com.google.android.material.checkbox.MaterialCheckBox;
+
 
 import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.lib.integsys.Dcp.model.ImportParams;
+import org.rmj.g3appdriver.lib.integsys.Dcp.pojo.ImportParams;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter.CollectionAdapter;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogAccountDetail;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogAddCollection;
@@ -79,11 +90,11 @@ public class Activity_CollectionList extends AppCompatActivity {
     private RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
 
-    private TextView lblBranch, lblAddxx, lblDate;
+    private MaterialTextView lblBranch, lblAddxx, lblDate;
 
     private MaterialButton btnDownload, btnImport;
     private LinearLayout lnImportPanel, lnPosted;
-    private TextView lblNoName;
+    private MaterialTextView lblNoName;
 
     private String FILENAME;
     private final String FILE_TYPE = "-mob.txt";
@@ -269,9 +280,10 @@ public class Activity_CollectionList extends AppCompatActivity {
             showAddDcpCollection();
         } else if (item.getItemId() == R.id.action_menu_post_collection) {
             showPostCollection();
-        } else if (item.getItemId() == R.id.action_menu_image_log) {
-            Intent loIntent = new Intent(Activity_CollectionList.this, Activity_ImageLog.class);
-            startActivity(loIntent);
+        } else if (item.getItemId() == R.id.action_clear_dcp) {
+            ClearDCPRecords();
+//            Intent loIntent = new Intent(Activity_CollectionList.this, Activity_ImageLog.class);
+//            startActivity(loIntent);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -522,5 +534,44 @@ public class Activity_CollectionList extends AppCompatActivity {
                 poMessage.show();
             }
         });
+    }
+
+    private void ClearDCPRecords(){
+        poMessage.initDialog();
+        poMessage.setTitle("Daily Collection Plan");
+        poMessage.setMessage("WARNING, Clearing dcp records will erase your all your daily collection plan and collection remittance records on this device. \nClear records?");
+        poMessage.setPositiveButton("Clear", (view, dialog) -> {
+            dialog.dismiss();
+            mViewModel.ClearDCPRecords(new VMCollectionList.OnActionCallback() {
+                @Override
+                public void OnLoad() {
+                    poDialogx.initDialog("Daily Collection Plan",
+                            "Clearing records. Please wait...", false);
+                    poDialogx.show();
+                }
+
+                @Override
+                public void OnSuccess() {
+                    poDialogx.dismiss();
+                    poMessage.initDialog();
+                    poMessage.setTitle("Daily Collection Plan");
+                    poMessage.setMessage("Records cleared successfully.");
+                    poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                    poMessage.show();
+                }
+
+                @Override
+                public void OnFailed(String message) {
+                    poDialogx.dismiss();
+                    poMessage.initDialog();
+                    poMessage.setTitle("Daily Collection Plan");
+                    poMessage.setMessage(message);
+                    poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                    poMessage.show();
+                }
+            });
+        });
+        poMessage.setNegativeButton("Cancel", (view, dialog) -> dialog.dismiss());
+        poMessage.show();
     }
 }

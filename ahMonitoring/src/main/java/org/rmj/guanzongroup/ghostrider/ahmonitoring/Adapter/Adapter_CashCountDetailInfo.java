@@ -6,6 +6,15 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
@@ -63,7 +72,7 @@ public class Adapter_CashCountDetailInfo extends RecyclerView.Adapter<Adapter_Ca
 
         LinearLayout loTitlex, loSbHead;
         ConstraintLayout loDataxx;
-        TextView txtTitle, txtLabel, txtDatax, txtTotal;
+        MaterialTextView txtTitle, txtLabel, txtDatax, txtTotal;
 
         public CashCountDataHolder(@NonNull View itemView) {
             super(itemView);

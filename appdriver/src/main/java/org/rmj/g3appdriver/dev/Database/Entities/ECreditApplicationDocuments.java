@@ -31,10 +31,12 @@ public class ECreditApplicationDocuments implements Serializable {
     private int EntryNox;
     @ColumnInfo(name = "sImageNme")
     private String ImageNme;
+    @ColumnInfo(name = "sImageIDx")
+    private String ImageIDx;
     @ColumnInfo(name = "sFileLoc")
     private String FileLoc;
     @ColumnInfo(name = "sSendStat")
-    private String SendStat;
+    private String SendStat = "0";
 
     public ECreditApplicationDocuments() {
     }
@@ -93,5 +95,13 @@ public class ECreditApplicationDocuments implements Serializable {
     }
     public void setSendStat(String sendStat) {
         SendStat = sendStat;
+    }
+
+    public String getImageIDx() {
+        return ImageIDx;
+    }
+
+    public void setImageIDx(String imageIDx) {
+        ImageIDx = imageIDx;
     }
 }

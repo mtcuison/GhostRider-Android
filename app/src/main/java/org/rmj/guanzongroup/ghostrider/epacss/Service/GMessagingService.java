@@ -19,12 +19,11 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 import org.rmj.g3appdriver.dev.Database.Entities.ENotificationMaster;
-import org.rmj.g3appdriver.dev.Database.Entities.ETokenInfo;
 import org.rmj.g3appdriver.dev.Database.Repositories.AppTokenManager;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.lib.Notifications.NMM;
+import org.rmj.g3appdriver.lib.Notifications.model.NMM;
 import org.rmj.g3appdriver.lib.Notifications.NOTIFICATION_STATUS;
-import org.rmj.g3appdriver.lib.Notifications.iNotification;
+import org.rmj.g3appdriver.lib.Notifications.model.iNotification;
 import org.rmj.guanzongroup.ghostrider.notifications.Etc.NotificationUI;
 import org.rmj.guanzongroup.ghostrider.notifications.Etc.iNotificationUI;
 

@@ -11,9 +11,9 @@
 
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment;
 
-import static org.rmj.g3appdriver.etc.BranchPerformancePeriod.getLatestCompletePeriod;
-import static org.rmj.g3appdriver.etc.BranchPerformancePeriod.getList;
-import static org.rmj.g3appdriver.etc.BranchPerformancePeriod.getPeriodText;
+import static org.rmj.g3appdriver.lib.BullsEye.BranchPerformancePeriod.getLatestCompletePeriod;
+import static org.rmj.g3appdriver.lib.BullsEye.BranchPerformancePeriod.getList;
+import static org.rmj.g3appdriver.lib.BullsEye.BranchPerformancePeriod.getPeriodText;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -26,7 +26,17 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,7 +49,7 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 
-import org.rmj.g3appdriver.etc.BranchPerformancePeriod;
+import org.rmj.g3appdriver.lib.BullsEye.BranchPerformancePeriod;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_BranchPerformance;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.AreaPerformanceMonitoringAdapter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
@@ -55,7 +65,7 @@ public class Fragment_AreaPerformance_PieChart extends Fragment {
     private AreaPerformanceMonitoringAdapter poAdapter;
     private ArrayList<String> poPeriods = new ArrayList<>();
     private String[] brnSales = {"MC Sales","SP Sales","JO Sales"};
-    private TextView lblArea, lblDate, lblItem1, lblItem2, lblSelectd, lgdGoal, lgdActual, lgdExcess;
+    private MaterialTextView lblArea, lblDate, lblItem1, lblItem2, lblSelectd, lgdGoal, lgdActual, lgdExcess;
     private ColorStateList poColor;
     private RadioGroup rgPeriodx;
 

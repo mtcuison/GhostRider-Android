@@ -18,6 +18,18 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -61,8 +73,8 @@ public class NewsEventsAdapter extends RecyclerView.Adapter<NewsEventsAdapter.Cu
 
     public class CustomViewHolder extends RecyclerView.ViewHolder {
 
-        private ImageView itemImage;
-        private TextView itemTitle, itemDay, itemMonth, itemPostedBy;
+        private ShapeableImageView itemImage;
+        private MaterialTextView itemTitle, itemDay, itemMonth, itemPostedBy;
 
         public CustomViewHolder(View view) {
             super(view);

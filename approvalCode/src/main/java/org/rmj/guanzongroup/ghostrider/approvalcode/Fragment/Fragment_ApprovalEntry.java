@@ -11,7 +11,6 @@
 
 package org.rmj.guanzongroup.ghostrider.approvalcode.Fragment;
 
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.app.DatePickerDialog;
@@ -25,7 +24,6 @@ import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
@@ -34,22 +32,29 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
 
-import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
+
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.utils.CopyToClipboard;
 import org.rmj.guanzongroup.ghostrider.approvalcode.Activity.Activity_ApprovalCode;
-import org.rmj.g3appdriver.lib.ApprovalCode.model.AppCodeParams;
+import org.rmj.g3appdriver.lib.ApprovalCode.pojo.AppCodeParams;
 import org.rmj.guanzongroup.ghostrider.approvalcode.R;
 import org.rmj.guanzongroup.ghostrider.approvalcode.ViewModel.VMApprovalEntry;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 import java.util.Objects;
 
 public class Fragment_ApprovalEntry extends Fragment {
@@ -65,12 +70,10 @@ public class Fragment_ApprovalEntry extends Fragment {
 
     private AutoCompleteTextView txtBranch;
     private TextInputLayout tilReferNo;
-    private TextInputEditText txtDate, txtReferNo, txtLastNm, txtFrstNm, txtMiddNm, txtSuffix, txtRemarks;
-    private EditText txtAppCode;
-    private TextView lblAppv;
+    private TextInputEditText txtDate, txtReferNo, txtLastNm, txtFrstNm, txtMiddNm, txtSuffix, txtRemarks,txtAppCode;
+    private MaterialTextView lblAppv;
     private LinearLayout lnFullNm;
-    private MaterialButton btnCreate;
-    private ImageButton btnCopy;
+    private MaterialButton btnCreate, btnCopy;
 
     private boolean createNew = true;
 

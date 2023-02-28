@@ -13,12 +13,12 @@
 
     <item android:id="@+id/nav_panalo"
         android:title="Panalo"
-        android:icon="@drawable/ic_menu_home"
+        android:icon="@drawable/ic_menu_rewards"
         android:enabled="true"/>
 
     <item android:id="@+id/nav_bullseye"
         android:title="Area Performance"
-        android:icon="@drawable/ic_menu_home"
+        android:icon="@drawable/ic_menu_applist"
         android:enabled="true"/>
 
     <item android:id="@+id/nav_notifications"

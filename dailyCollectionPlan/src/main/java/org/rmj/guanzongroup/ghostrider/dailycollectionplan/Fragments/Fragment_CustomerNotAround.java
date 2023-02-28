@@ -16,8 +16,10 @@ import static android.app.Activity.RESULT_OK;
 import static androidx.core.content.ContextCompat.checkSelfPermission;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -42,14 +44,27 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+
+import com.google.android.material.radiobutton.MaterialRadioButton;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+import  com.google.android.material.checkbox.MaterialCheckBox;
+
 
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.lib.integsys.Dcp.model.AddressUpdate;
-import org.rmj.g3appdriver.lib.integsys.Dcp.model.CustomerNotAround;
-import org.rmj.g3appdriver.lib.integsys.Dcp.model.MobileUpdate;
+import org.rmj.g3appdriver.lib.integsys.Dcp.pojo.AddressUpdate;
+import org.rmj.g3appdriver.lib.integsys.Dcp.pojo.CustomerNotAround;
+import org.rmj.g3appdriver.lib.integsys.Dcp.pojo.MobileUpdate;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_Transaction;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter.AddressInfoAdapter;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter.MobileInfoAdapter;
@@ -72,12 +87,12 @@ public class Fragment_CustomerNotAround extends Fragment {
     private MobileInfoAdapter mobileAdapter;
     private AddressInfoAdapter addressAdapter;
 
-    private CheckBox cbPrimeContact, cbPrimary;
-    private TextView lblBranch, lblAddress, lblAccNo, lblClientNm, lblClientAddress;
+    private MaterialCheckBox cbPrimeContact, cbPrimary;
+    private MaterialTextView lblBranch, lblAddress, lblAccNo, lblClientNm, lblClientAddress;
     private RadioGroup rg_CNA_Input, rg_addressType;
-    private RadioButton rb_permanent, rb_present;
+    private MaterialRadioButton rb_permanent, rb_present;
     private TextInputEditText txtContact, txtHouseNox, txtAddress, txtRemarks;
-    private AutoCompleteTextView txtTown, txtBrgy, spnRequestCode;
+    private MaterialAutoCompleteTextView txtTown, txtBrgy, spnRequestCode;
     private LinearLayout lnContactNox,
             lnAddress;
     private MaterialButton btnAdd, btnSubmit;
@@ -388,6 +403,11 @@ public class Fragment_CustomerNotAround extends Fragment {
     }
 
     private void InitializeCamera(){
+        LocationManager locationManager = (LocationManager) requireActivity().getSystemService(Context.LOCATION_SERVICE);
+        if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+            Toast.makeText(requireActivity(), "Please enable your location service.", Toast.LENGTH_SHORT).show();
+            return;
+        }
         poMessage.initDialog();
         poMessage.setTitle("Daily Collection Plan");
         poMessage.setMessage("Please take a selfie with the customer or within the area of the customer.");

@@ -138,6 +138,7 @@ public class TestResidenceInfo {
         }
 
         String lsResult = loApp.Save(loDetail);
+
         if(lsResult == null){
             message = loApp.getMessage();
             Log.e(TAG, message);
@@ -223,6 +224,7 @@ public class TestResidenceInfo {
         }
 
         String lsResult = loApp.Save(loDetail);
+
         if(lsResult == null){
             message = loApp.getMessage();
             Log.e(TAG, message);
@@ -309,6 +311,7 @@ public class TestResidenceInfo {
         }
 
         String lsResult = loApp.Save(loDetail);
+
         if(lsResult == null){
             message = loApp.getMessage();
             Log.e(TAG, message);

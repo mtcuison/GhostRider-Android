@@ -14,6 +14,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:theme="@style/GhostRiderMaterialTheme"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
@@ -32,21 +33,19 @@
             android:orientation="vertical"
             android:gravity="center">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_list_expDetail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Reciept/Detail : 0000000000000"
-                android:textColor="@color/textColor_Black"
                 android:layout_marginBottom="10dp"
                 tools:ignore="HardcodedText" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_list_expAmount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Amount of Exp.: Php. 200.00"
-                android:textColor="@color/textColor_Black"
                 tools:ignore="HardcodedText" />
 
         </LinearLayout>
@@ -58,29 +57,29 @@
             android:orientation="vertical"
             android:gravity="end">
 
-            <ImageButton
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_item_edit"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
-                android:src="@drawable/ic_exp_edit"
+                app:icon="@drawable/ic_exp_edit"
                 android:adjustViewBounds="true"
-                style="@style/Widget.AppCompat.Button.Borderless"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
                 tools:ignore="ContentDescription" />
 
-            <ImageButton
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_item_delete"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
-                android:src="@drawable/ic_exp_delete"
+                app:icon="@drawable/ic_exp_delete"
                 android:adjustViewBounds="true"
-                style="@style/Widget.AppCompat.Button.Borderless"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
                 tools:ignore="ContentDescription" />
 
         </LinearLayout>
 
     </LinearLayout>
 
-    <View
+    <com.google.android.material.divider.MaterialDivider
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:background="@color/guanzon_orange"/>

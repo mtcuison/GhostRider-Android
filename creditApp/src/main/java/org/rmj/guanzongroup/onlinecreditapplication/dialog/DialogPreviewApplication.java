@@ -8,7 +8,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+import  com.google.android.material.checkbox.MaterialCheckBox;
+
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DCreditApplication;
 import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplication;
@@ -38,7 +51,7 @@ public class DialogPreviewApplication {
         poDialogx = poBuilder.create();
         poDialogx.setCancelable(false);
 
-        TextView lblTransNo = view.findViewById(R.id.lbl_TransNox),
+        MaterialTextView lblTransNo = view.findViewById(R.id.lbl_TransNox),
                 lblApplName = view.findViewById(R.id.lbl_applicantName),
                 lblGOCasNo = view.findViewById(R.id.lbl_gocasNox),
                 lblDateAppl = view.findViewById(R.id.lbl_dateCreated),

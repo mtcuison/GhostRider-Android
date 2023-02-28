@@ -21,12 +21,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -34,7 +32,9 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.textview.MaterialTextView;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeRole;
 import org.rmj.g3appdriver.dev.DeptCode;
@@ -42,7 +42,6 @@ import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.etc.SessionManager;
 import org.rmj.g3appdriver.lib.ImportData.ImportEmployeeRole;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Application;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Etc.FragmentAdapter;
@@ -73,7 +72,7 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
     private boolean cSlfiex;
 
     private ImageView imgDept;
-    private TextView lblDept;
+    private MaterialTextView lblDept;
     private ExpandableListDrawerAdapter listAdapter;
     private ExpandableListView expListView;
     private DrawerLayout drawer;
@@ -90,140 +89,8 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
         poNetRecvr = mViewModel.getInternetReceiver();
         setContentView(R.layout.activity_main);
         initWidgets();
-        InitUserInfo();
         InitUserFeatures();
-    }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        IntentFilter loFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
-        registerReceiver(poNetRecvr, loFilter);
-        Log.e(TAG, "Internet status receiver has been registered.");
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        unregisterReceiver(poNetRecvr);
-        Log.e(TAG, "Internet status receiver has been unregistered.");
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        //getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        }else{
-            loMessage.initDialog();
-            loMessage.setPositiveButton("Yes", (view, dialog) -> {
-                dialog.dismiss();
-                finish();
-//                new REmployee(getApplication()).LogoutUserSession();
-//                AppConfigPreference.getInstance(Activity_Main.this).setIsAppFirstLaunch(false);
-            });
-            loMessage.setNegativeButton("No", (view, dialog) -> dialog.dismiss());
-            loMessage.setTitle("Guanzon Circle");
-            loMessage.setMessage("Exit Guanzon Circle app?");
-            loMessage.show();
-        }
-    }
-
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        Log.e("request code:", String.valueOf(requestCode));
-        Log.e("result code:", String.valueOf(resultCode));
-        if(requestCode == AppConstants.INTENT_SELFIE_LOGIN && resultCode == RESULT_OK){
-            Intent intent = new Intent(Activity_Main.this, Activity_Application.class);
-            intent.putExtra("app", AppConstants.INTENT_SELFIE_LOGIN);
-            startActivity(intent);
-        }else if(requestCode == AppConstants.INTENT_DCP_LOG && resultCode == RESULT_OK){
-            Intent  intent = new Intent(Activity_Main.this, Activity_LogCollection.class);
-            startActivity(intent);
-        }else if(requestCode == AppConstants.INTENT_DCP_LIST && resultCode == RESULT_OK){
-            Intent  intent = new Intent(Activity_Main.this, Activity_CollectionList.class);
-            startActivity(intent);
-        }
-    }
-
-    private void initWidgets(){
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-
-        /*Edited by mike*/
-        DisplayMetrics metrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        int width = metrics.widthPixels;
-
-        loMessage = new MessageBox(Activity_Main.this);
-        poDialog = new LoadDialog(Activity_Main.this);
-        expListView = (ExpandableListView) findViewById(R.id.lvExp);
-        expListView.setIndicatorBoundsRelative(width - GetPixelFromDips(50), width - GetPixelFromDips(10));
-
-        drawer = findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-        viewPager = findViewById(R.id.viewpager);
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-        View view = navigationView.getHeaderView(0);
-        imgDept = view.findViewById(R.id.img_deptLogo);
-        lblDept = view.findViewById(R.id.lbl_deptNme);
-        lblDept.setOnClickListener(v -> {
-            ImportEmployeeRole loImport = new ImportEmployeeRole(getApplication());
-            loImport.RefreshEmployeeRole(new ImportEmployeeRole.OnImportEmployeeRoleCallback() {
-                @Override
-                public void OnRequest() {
-                    poDialog.initDialog("Guanzon Circle", "Refreshing employee access. Please wait...", false);
-                    poDialog.show();
-                }
-
-                @Override
-                public void OnSuccess() {
-                    poDialog.dismiss();
-                }
-
-                @Override
-                public void OnFailed(String message) {
-                    poDialog.dismiss();
-                    loMessage.initDialog();
-                    loMessage.setTitle("Guanzon Circle");
-                    loMessage.setMessage(message);
-                    loMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
-                    loMessage.show();
-                }
-            });
-        });
-    }
-
-    /*Edited by mike*/
-    public int GetPixelFromDips(float pixels) {
-        // Get the screen's density scale
-        final float scale = getResources().getDisplayMetrics().density;
-        // Convert the dps to pixels, based on density scale
-        return (int) (pixels * scale + 0.5f);
-    }
-
-    private void InitUserInfo(){
         mViewModel.getEmployeeInfo().observe(this, eEmployeeInfo -> {
             try{
                 AppConfigPreference.getInstance(Activity_Main.this).setIsAppFirstLaunch(false);
@@ -308,4 +175,135 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
             }
         });
     }
+
+    private void initWidgets(){
+        MaterialToolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+        /*Edited by mike*/
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        int width = metrics.widthPixels;
+
+        loMessage = new MessageBox(Activity_Main.this);
+        poDialog = new LoadDialog(Activity_Main.this);
+        expListView = (ExpandableListView) findViewById(R.id.lvExp);
+        expListView.setIndicatorBoundsRelative(width - GetPixelFromDips(50), width - GetPixelFromDips(10));
+
+        drawer = findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        View view = navigationView.getHeaderView(0);
+        viewPager = findViewById(R.id.viewpager);
+        imgDept = view.findViewById(R.id.img_deptLogo);
+        lblDept = view.findViewById(R.id.lbl_deptNme);
+        lblDept.setOnClickListener(v -> {
+            ImportEmployeeRole loImport = new ImportEmployeeRole(getApplication());
+            loImport.RefreshEmployeeRole(new ImportEmployeeRole.OnImportEmployeeRoleCallback() {
+                @Override
+                public void OnRequest() {
+                    poDialog.initDialog("Guanzon Circle", "Refreshing employee access. Please wait...", false);
+                    poDialog.show();
+                }
+
+                @Override
+                public void OnSuccess() {
+                    poDialog.dismiss();
+                }
+
+                @Override
+                public void OnFailed(String message) {
+                    poDialog.dismiss();
+                    loMessage.initDialog();
+                    loMessage.setTitle("Guanzon Circle");
+                    loMessage.setMessage(message);
+                    loMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
+                    loMessage.show();
+                }
+            });
+        });
+    }
+
+    /*Edited by mike*/
+    public int GetPixelFromDips(float pixels) {
+        // Get the screen's density scale
+        final float scale = getResources().getDisplayMetrics().density;
+        // Convert the dps to pixels, based on density scale
+        return (int) (pixels * scale + 0.5f);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        IntentFilter loFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
+        registerReceiver(poNetRecvr, loFilter);
+        Log.e(TAG, "Internet status receiver has been registered.");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(poNetRecvr);
+        Log.e(TAG, "Internet status receiver has been unregistered.");
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        //getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        }else{
+            loMessage.initDialog();
+            loMessage.setPositiveButton("Yes", (view, dialog) -> {
+                dialog.dismiss();
+                finish();
+//                new REmployee(getApplication()).LogoutUserSession();
+//                AppConfigPreference.getInstance(Activity_Main.this).setIsAppFirstLaunch(false);
+            });
+            loMessage.setNegativeButton("No", (view, dialog) -> dialog.dismiss());
+            loMessage.setTitle("Guanzon Circle");
+            loMessage.setMessage("Exit Guanzon Circle app?");
+            loMessage.show();
+        }
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.e("request code:", String.valueOf(requestCode));
+        Log.e("result code:", String.valueOf(resultCode));
+        if(requestCode == AppConstants.INTENT_SELFIE_LOGIN && resultCode == RESULT_OK){
+            Intent intent = new Intent(Activity_Main.this, Activity_Application.class);
+            intent.putExtra("app", AppConstants.INTENT_SELFIE_LOGIN);
+            startActivity(intent);
+        }else if(requestCode == AppConstants.INTENT_DCP_LOG && resultCode == RESULT_OK){
+            Intent  intent = new Intent(Activity_Main.this, Activity_LogCollection.class);
+            startActivity(intent);
+        }else if(requestCode == AppConstants.INTENT_DCP_LIST && resultCode == RESULT_OK){
+            Intent  intent = new Intent(Activity_Main.this, Activity_CollectionList.class);
+            startActivity(intent);
+        }
+    }
+
 }

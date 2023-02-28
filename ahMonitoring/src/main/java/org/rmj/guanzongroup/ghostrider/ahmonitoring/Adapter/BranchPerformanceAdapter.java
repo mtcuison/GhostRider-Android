@@ -24,8 +24,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchPerformance;
-import org.rmj.g3appdriver.etc.BranchPerformancePeriod;
+import org.rmj.g3appdriver.lib.BullsEye.BranchPerformancePeriod;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 
 import java.text.DecimalFormat;
@@ -89,7 +99,7 @@ public class BranchPerformanceAdapter extends RecyclerView.Adapter<BranchPerform
     public static class OpeningViewHolder extends RecyclerView.ViewHolder{
 
         public LinearLayout indexLayout;
-        public TextView lblMonth, lblGoal, lblActual;
+        public MaterialTextView lblMonth, lblGoal, lblActual;
         public Context mContext;
         public int indexPosition;
 //        public OpeningViewHolder(@NonNull View itemView, OnAdapterItemClickListener listener) {

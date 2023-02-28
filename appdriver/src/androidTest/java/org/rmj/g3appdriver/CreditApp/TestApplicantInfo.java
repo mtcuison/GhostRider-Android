@@ -138,6 +138,7 @@ public class TestApplicantInfo {
         loDetail.setGender("0");
         loDetail.setCvlStats("0");
         loDetail.setCitizenx("01");
+//        loDetail.setMobileNo("09171870011", "1", 0);
         loDetail.setEmailAdd("mikegarcia8748@gmail.com");
         loDetail.setPhoneNox("");
         loDetail.setFbAccntx("sample");
@@ -151,6 +152,7 @@ public class TestApplicantInfo {
         }
 
         String lsResult = loApp.Save(loDetail);
+
         if(lsResult == null){
             message = loApp.getMessage();
             Log.e(TAG, message);
@@ -230,6 +232,7 @@ public class TestApplicantInfo {
         }
 
         String lsResult = loApp.Save(loDetail);
+
         if(lsResult == null){
             message = loApp.getMessage();
             Log.e(TAG, message);
@@ -315,6 +318,7 @@ public class TestApplicantInfo {
         }
 
         String lsResult = loApp.Save(loDetail);
+
         if(lsResult == null){
             message = loApp.getMessage();
             Log.e(TAG, message);
@@ -393,6 +397,7 @@ public class TestApplicantInfo {
         }
 
         String lsResult = loApp.Save(loDetail);
+
         if(lsResult == null){
             message = loApp.getMessage();
             Log.e(TAG, message);
@@ -451,6 +456,7 @@ public class TestApplicantInfo {
         }
 
         String lsResult = loApp.Save(loDetail);
+
         if(lsResult == null){
             message = loApp.getMessage();
             Log.e(TAG, message);
@@ -499,6 +505,7 @@ public class TestApplicantInfo {
         }
 
         String lsResult = loApp.Save(loDetail);
+
         if(lsResult == null){
             message = loApp.getMessage();
             Log.e(TAG, message);
@@ -551,6 +558,7 @@ public class TestApplicantInfo {
         }
 
         String lsResult = loApp.Save(loDetail);
+
         if(lsResult == null){
             message = loApp.getMessage();
             Log.e(TAG, message);
@@ -593,7 +601,9 @@ public class TestApplicantInfo {
         loDetail.setSuffix("");
         loDetail.setBrthDate("1996-11-26");
         loDetail.setBrthPlce("0346");
+//        loDetail.setCvlStats("0");
         loDetail.setCitizenx("01");
+//        loDetail.setMobileNo("09171870011", "1", 0);
         loDetail.setEmailAdd("mikegarcia8748@gmail.com");
         loDetail.setPhoneNox("");
         loDetail.setFbAccntx("sample");
@@ -607,6 +617,7 @@ public class TestApplicantInfo {
         }
 
         String lsResult = loApp.Save(loDetail);
+
         if(lsResult == null){
             message = loApp.getMessage();
             Log.e(TAG, message);
@@ -665,6 +676,7 @@ public class TestApplicantInfo {
         }
 
         String lsResult = loApp.Save(loDetail);
+
         if(lsResult == null){
             message = loApp.getMessage();
             Log.e(TAG, message);
@@ -743,6 +755,7 @@ public class TestApplicantInfo {
         }
 
         String lsResult = loApp.Save(loDetail);
+
         if(lsResult == null){
             message = loApp.getMessage();
             Log.e(TAG, message);
@@ -799,6 +812,7 @@ public class TestApplicantInfo {
         }
 
         String lsResult = loApp.Save(loDetail);
+
         if(lsResult == null){
             message = loApp.getMessage();
             Log.e(TAG, message);
@@ -851,6 +865,7 @@ public class TestApplicantInfo {
         }
 
         String lsResult = loApp.Save(loDetail);
+
         if(lsResult == null){
             message = loApp.getMessage();
             Log.e(TAG, message);
@@ -893,6 +908,7 @@ public class TestApplicantInfo {
         loDetail.setNickName("Mike");
         loDetail.setBrthDate("1996-11-26");
         loDetail.setBrthPlce("0346");
+//        loDetail.setMobileNo("09123456789", "0", 0);
 
         if(loApp.Validate(loDetail) == 0){
             message = loApp.getMessage();
@@ -902,6 +918,7 @@ public class TestApplicantInfo {
         }
 
         String lsResult = loApp.Save(loDetail);
+
         if(lsResult == null){
             message = loApp.getMessage();
             Log.e(TAG, message);
@@ -959,6 +976,7 @@ public class TestApplicantInfo {
         }
 
         String lsResult = loApp.Save(loDetail);
+
         if(lsResult == null){
             message = loApp.getMessage();
             Log.e(TAG, message);
@@ -1011,6 +1029,7 @@ public class TestApplicantInfo {
         loInfo.setHouseHld("1");
         loInfo.setDependnt("1");
         loInfo.setMarriedx("0");
+//        loDetail.Add(loInfo);
 
         if(loApp.Validate(loDetail) == 0){
             message = loApp.getMessage();
@@ -1020,6 +1039,7 @@ public class TestApplicantInfo {
         }
 
         String lsResult = loApp.Save(loDetail);
+
         if(lsResult == null){
             message = loApp.getMessage();
             Log.e(TAG, message);
@@ -1073,6 +1093,7 @@ public class TestApplicantInfo {
 //        }
 
         String lsResult = loApp.Save(loDetail);
+
         if(lsResult == null){
             message = loApp.getMessage();
             Log.e(TAG, message);

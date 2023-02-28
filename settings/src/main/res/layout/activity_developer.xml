@@ -30,7 +30,6 @@
             android:id="@+id/toolbar_deveMode"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/material_tool_bar"
             app:popupTheme="@style/GhostRiderMaterialTheme.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -52,7 +51,6 @@
             android:layout_weight="1"
             android:fontFamily="@font/roboto_medium"
             android:text="Test Mode"
-            android:textColor="@color/textColor_Black"
             android:textSize="15sp" />
 
         <com.google.android.material.switchmaterial.SwitchMaterial
@@ -76,7 +74,6 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/textColor_Black"
             android:fontFamily="@font/roboto_medium"
             android:textSize="15sp"
             android:text="Change employee level to"/>
@@ -100,7 +97,6 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/textColor_Black"
             android:fontFamily="@font/roboto_medium"
             android:textSize="15sp"
             android:paddingVertical="10dp"
@@ -126,7 +122,6 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/textColor_Black"
             android:fontFamily="@font/roboto_medium"
             android:textSize="15sp"
             android:paddingVertical="10dp"

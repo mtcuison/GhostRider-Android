@@ -15,21 +15,19 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ESelfieLog;
 import org.rmj.g3appdriver.dev.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.etc.AppConstants;
-import org.rmj.g3appdriver.etc.LocationRetriever;
-import org.rmj.g3appdriver.etc.SessionManager;
+import org.rmj.g3appdriver.lib.Location.LocationRetriever;
+import org.rmj.g3appdriver.lib.Account.SessionManager;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.lib.SelfieLog.SelfieLog;
 import org.rmj.g3appdriver.lib.integsys.CashCount.CashCount;
@@ -210,24 +208,24 @@ public class VMSelfieLog extends AndroidViewModel {
             if(!loImage.IsFileCreated(true)){
                 message = loImage.getMessage();
                 return false;
+            }
+
+            LocationRetriever loLrt = new LocationRetriever(instance, activity);
+            if(loLrt.HasLocation()){
+                args[0] = loImage.getFilePath();
+                args[1] = loImage.getFileName();
+                args[2] = loLrt.getLatitude();
+                args[3] = loLrt.getLongitude();
+                loIntent = loImage.getCameraIntent();
+                return true;
             } else {
-                LocationRetriever loLrt = new LocationRetriever(instance, activity);
-                if(loLrt.HasLocation()){
-                    args[0] = loImage.getFilePath();
-                    args[1] = loImage.getFileName();
-                    args[2] = loLrt.getLatitude();
-                    args[3] = loLrt.getLongitude();
-                    loIntent = loImage.getCameraIntent();
-                    return true;
-                } else {
-                    args[0] = loImage.getFilePath();
-                    args[1] = loImage.getFileName();
-                    args[2] = loLrt.getLatitude();
-                    args[3] = loLrt.getLongitude();
-                    loIntent = loImage.getCameraIntent();
-                    message = loLrt.getMessage();
-                    return false;
-                }
+                args[0] = loImage.getFilePath();
+                args[1] = loImage.getFileName();
+                args[2] = loLrt.getLatitude();
+                args[3] = loLrt.getLongitude();
+                loIntent = loImage.getCameraIntent();
+                message = loLrt.getMessage();
+                return false;
             }
         }
 

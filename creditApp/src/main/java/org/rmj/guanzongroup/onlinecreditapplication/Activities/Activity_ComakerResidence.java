@@ -13,6 +13,19 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+import  com.google.android.material.checkbox.MaterialCheckBox;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -45,15 +58,15 @@ public class Activity_ComakerResidence extends AppCompatActivity {
     private MessageBox poMessage;
     private TextInputEditText txtLandMark, txtHouseNox, txtAddress1, txtAddress2, txtRelationship,
             txtLgnthStay, txtMonthlyExp;
-    private AutoCompleteTextView txtBarangay, txtMunicipality, txtProvince;
-    private AutoCompleteTextView spnLgnthStay, spnHouseHold, spnHouseType;
+    private MaterialAutoCompleteTextView txtBarangay, txtMunicipality, txtProvince;
+    private MaterialAutoCompleteTextView spnLgnthStay, spnHouseHold, spnHouseType;
 
     private RadioGroup rgOwnsership, rgGarage;
 
     private TextInputLayout tilRelationship;
     private LinearLayout lnOtherInfo;
-    private Button btnNext, btnPrvs;
-    private Toolbar toolbar;
+    private MaterialButton btnNext, btnPrvs;
+    private MaterialToolbar toolbar;
 
     private String TransNox;
 

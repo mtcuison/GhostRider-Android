@@ -104,4 +104,13 @@ public interface DLRDcp {
 
     @Query("SELECT * FROM LR_DCP_Collection_Master WHERE cSendStat IS NULL")
     LiveData<EDCPCollectionMaster> GetColletionMasterForRemittance();
+
+    @Query("DELETE FROM LR_DCP_Collection_Master")
+    void ClearMasterDCP();
+
+    @Query("DELETE FROM LR_DCP_Collection_Detail")
+    void ClearDetailDCP();
+
+    @Query("DELETE FROM LR_DCP_Remittance")
+    void ClearDCPRemittance();
 }

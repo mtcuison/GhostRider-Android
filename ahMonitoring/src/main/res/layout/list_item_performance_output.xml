@@ -16,9 +16,10 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:gravity="center_vertical"
+    android:theme="@style/GhostRiderMaterialTheme"
     android:padding="3dp">
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/lbl_AreaBranchItem"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

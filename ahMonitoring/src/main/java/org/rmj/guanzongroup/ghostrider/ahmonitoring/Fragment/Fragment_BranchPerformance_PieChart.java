@@ -11,12 +11,22 @@
 
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment;
 
-import static org.rmj.g3appdriver.etc.BranchPerformancePeriod.getList;
+import static org.rmj.g3appdriver.lib.BullsEye.BranchPerformancePeriod.getList;
 
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
-
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -28,20 +38,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_BranchPerformance;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.BranchPerformanceAdapter;
@@ -60,12 +64,12 @@ public class Fragment_BranchPerformance_PieChart extends Fragment {
     private String brnCD;
     ArrayList<Entry> chartValues;
     private LineChart lineChart;
-    private TextView lblBranch, lgdGoal, lgdActual, lgdExcess;
+    private MaterialTextView lblBranch, lgdGoal, lgdActual, lgdExcess;
 
     private ColorStateList poColor;
-    private TextView lblItem1;
-    private TextView lblItem2;
-    private TextView lblSelectd;
+    private MaterialTextView lblItem1;
+    private MaterialTextView lblItem2;
+    private MaterialTextView lblSelectd;
 
     public Fragment_BranchPerformance_PieChart() { }
 

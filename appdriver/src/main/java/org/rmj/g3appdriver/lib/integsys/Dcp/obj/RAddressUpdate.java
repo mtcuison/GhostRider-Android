@@ -10,7 +10,7 @@ import org.rmj.g3appdriver.dev.Database.DataAccessObject.DAddressUpdate;
 import org.rmj.g3appdriver.dev.Database.Entities.EAddressUpdate;
 import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.etc.AppConstants;
-import org.rmj.g3appdriver.lib.integsys.Dcp.model.AddressUpdate;
+import org.rmj.g3appdriver.lib.integsys.Dcp.pojo.AddressUpdate;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

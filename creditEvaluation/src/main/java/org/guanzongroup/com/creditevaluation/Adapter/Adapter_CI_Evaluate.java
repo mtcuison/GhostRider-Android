@@ -7,10 +7,24 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+import  com.google.android.material.checkbox.MaterialCheckBox;
+
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.button.MaterialButton;
 
 import org.guanzongroup.com.creditevaluation.R;
 import org.json.JSONArray;
@@ -157,7 +171,7 @@ public class Adapter_CI_Evaluate extends RecyclerView.Adapter<Adapter_CI_Evaluat
 
     public static class VHEvaluation extends RecyclerView.ViewHolder{
 
-        public TextView lblCaption;
+        public MaterialTextView lblCaption;
         public RadioGroup rgResult;
         public RadioButton rbCor, rbInc;
         public MaterialButton btnEdit;

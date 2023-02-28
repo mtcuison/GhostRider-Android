@@ -25,6 +25,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.rmj.g3appdriver.dev.Database.Entities.ESelfieLog;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+
 import java.util.List;
 
 public class TimeLogAdapter extends RecyclerView.Adapter<TimeLogAdapter.TimeLogViewHolder> {
@@ -82,11 +93,8 @@ public class TimeLogAdapter extends RecyclerView.Adapter<TimeLogAdapter.TimeLogV
     public static class TimeLogViewHolder extends RecyclerView.ViewHolder {
 
         ESelfieLog logSelfie;
-        TextView lblBranchCD;
-        TextView lblTimeLog;
-        TextView lblDateLog;
-        TextView lblStatusx;
-        ImageButton btnPreview;
+        MaterialTextView lblBranchCD,lblTimeLog,lblDateLog, lblStatusx;
+        MaterialButton btnPreview;
 
         public TimeLogViewHolder(@NonNull View itemView, OnTimeLogActionListener listener) {
             super(itemView);

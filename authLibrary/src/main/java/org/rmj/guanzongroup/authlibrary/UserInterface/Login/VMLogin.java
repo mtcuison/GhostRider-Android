@@ -19,9 +19,10 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
-import org.rmj.g3appdriver.dev.Telephony;
+import org.rmj.g3appdriver.dev.Device.Telephony;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
+import org.rmj.g3appdriver.lib.Version.AppVersion;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 
 public class VMLogin extends AndroidViewModel {
@@ -68,6 +69,7 @@ public class VMLogin extends AndroidViewModel {
     private static class LoginTask extends AsyncTask<EmployeeMaster.UserAuthInfo, Void, Boolean>{
         private final LoginCallback callback;
         private final EmployeeMaster poUser;
+        private final AppVersion poVersion;
         private final ConnectionUtil poConn;
         private final AppConfigPreference poConfig;
 
@@ -77,6 +79,7 @@ public class VMLogin extends AndroidViewModel {
             this.poUser = new EmployeeMaster(instance);
             this.callback = callback;
             this.poConfig = AppConfigPreference.getInstance(instance);
+            this.poVersion = new AppVersion(instance);
             this.poConn = new ConnectionUtil(instance);
         }
 
@@ -106,6 +109,13 @@ public class VMLogin extends AndroidViewModel {
                             message = poUser.getMessage();
                             return false;
                         } else {
+                            Thread.sleep(1000);
+                            if (poVersion.SubmitUserAppVersion()){
+                                Log.d(TAG, "User app version uploaded.");
+                            } else {
+                                Log.d(TAG, poVersion.getMessage());
+                            }
+
                             Thread.sleep(1000);
                             Log.d(TAG, "Downloading authorized features...");
                             if(!poUser.GetUserAuthorizeAccess()){

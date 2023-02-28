@@ -12,6 +12,21 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+import  com.google.android.material.checkbox.MaterialCheckBox;
+
+
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -22,10 +37,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 
 import org.guanzongroup.com.creditevaluation.Adapter.Adapter_CIEvaluation_Headers;
 import org.guanzongroup.com.creditevaluation.Adapter.onEvaluate;
@@ -41,8 +52,8 @@ import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Database.Entities.ECreditOnlineApplicationCI;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.lib.integsys.CreditInvestigator.BarangayRecord;
-import org.rmj.g3appdriver.lib.integsys.CreditInvestigator.CIImage;
+import org.rmj.g3appdriver.lib.integsys.CreditInvestigator.pojo.BarangayRecord;
+import org.rmj.g3appdriver.lib.integsys.CreditInvestigator.pojo.CIImage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,11 +68,11 @@ public class Activity_Evaluation extends AppCompatActivity {
     private TextInputEditText txtNeighbor1, txtNeighbor2, txtNeighbor3;
     private TextInputLayout tilRecordRemarks;
     private RadioGroup rgHasRecord;
-    private TextView lblTransNox,lblClientName,lblDTransact, lblBranch;
+    private MaterialTextView lblTransNox,lblClientName,lblDTransact, lblBranch;
     private MaterialButton btnSaveNeighbor1,
 
     btnSaveNeighbor2,btnSaveNeighbor3;
-    private Button btnSave,btnUpload, btnSaveBrgyRcrd;
+    private MaterialButton btnSave,btnUpload, btnSaveBrgyRcrd;
 
     private BarangayRecord poBrgy;
     private LoadDialog poDialogx;
@@ -409,7 +420,7 @@ public class Activity_Evaluation extends AppCompatActivity {
         lblBranch.setText(getIntent().getStringExtra("Branch"));
     }
     private void initWidgets(){
-        Toolbar toolbar = findViewById(R.id.toolbar_ci_evaluation);
+        MaterialToolbar toolbar = findViewById(R.id.toolbar_ci_evaluation);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 

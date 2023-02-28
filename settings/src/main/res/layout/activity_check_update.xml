@@ -16,7 +16,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activity.Activity_CheckUpdate"
-    android:theme="@style/GhostRiderMaterialTheme.WhiteBG">
+    android:theme="@style/GhostRiderMaterialTheme.NoActionBar">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_checkUpdate"
@@ -65,7 +65,7 @@
             android:padding="5dp"
             android:text="Guanzon Group EPACSS"
             android:textSize="18sp"
-            android:textColor="@color/textColor_Black"
+
             android:gravity="center_horizontal"/>
 
         <TextView
@@ -74,7 +74,6 @@
             android:fontFamily="@font/roboto_regular"
             android:padding="5dp"
             android:text="(Electronic Personnel Access Control and  Security)"
-            android:textColor="@color/textColor_Black"
             android:gravity="center_horizontal"/>
 
         <TextView
@@ -84,7 +83,6 @@
             android:fontFamily="@font/roboto_regular"
             android:padding="5dp"
             android:text="@string/lblBuildVersion"
-            android:textColor="@color/textColor_Black"
             android:gravity="center_horizontal"/>
 
     </LinearLayout>
@@ -105,8 +103,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_medium"
             android:padding="5dp"
-            android:text="New Version Available"
-            android:textColor="@color/textColor_Black" />
+            android:text="New Version Available"/>
 
         <TextView
             android:id="@+id/lbl_newVersion"
@@ -114,8 +111,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_regular"
             android:padding="5dp"
-            android:text="@string/lblBuildVersion"
-            android:textColor="@color/textColor_Black" />
+            android:text="@string/lblBuildVersion"/>
     </LinearLayout>
 
     <TextView
@@ -166,8 +162,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:fontFamily="@font/roboto_regular"
-            android:gravity="end"
-            android:textColor="@color/textColor_Black"/>
+            android:gravity="end"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -177,8 +172,7 @@
             android:fontFamily="@font/roboto_regular"
             android:layout_marginTop="25dp"
             android:gravity="center"
-            android:text="Do not exit GhostRider app to finish downloading updates..."
-            android:textColor="@color/textColor_Black" />
+            android:text="Do not exit GhostRider app to finish downloading updates..." />
 
     </RelativeLayout>
 

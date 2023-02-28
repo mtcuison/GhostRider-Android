@@ -1,5 +1,7 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Activities;
 
+import static org.rmj.guanzongroup.documentscanner.xxxImageStatic.FileCode;
+
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -17,10 +19,24 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+import  com.google.android.material.checkbox.MaterialCheckBox;
+
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.CreditAppDocs;
 import org.rmj.guanzongroup.documentscanner.Activity_DocumentScan;
+import org.rmj.guanzongroup.documentscanner.xxxImageStatic;
 import org.rmj.guanzongroup.onlinecreditapplication.Adapter.DocumentToScanAdapter;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMApplicantDocuments;
@@ -36,13 +52,7 @@ public class Activity_ApplicantDocuments extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
-    private TextView lblTransNoxxx;
-    private TextView lblClientName;
-    private TextView lblAppltnDate;
-    private TextView lblModelName;
-    private TextView lblAccntTern;
-    private TextView lblMobileNo;
-    private TextView lblStatus;
+    private MaterialTextView lblTransNoxxx,lblClientName,lblAppltnDate,lblModelName, lblAccntTern, lblMobileNo, lblStatus;
 
     private final ActivityResultLauncher<Intent> poScan = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
@@ -92,6 +102,9 @@ public class Activity_ApplicantDocuments extends AppCompatActivity {
                             poDetail.setTransNox(TransNox);
                             poDetail.setFileCode(documents.get(position).sFileCode);
                             Intent loIntent = new Intent(Activity_ApplicantDocuments.this, Activity_DocumentScan.class);
+                            xxxImageStatic.TransNox = TransNox;
+                            xxxImageStatic.EntryNox = String.valueOf(position + 1);
+                            xxxImageStatic.FileCode = documents.get(position).sFileCode;
                             poScan.launch(loIntent);
                         }
                     }
@@ -112,7 +125,7 @@ public class Activity_ApplicantDocuments extends AppCompatActivity {
         poDialogx = new LoadDialog(Activity_ApplicantDocuments.this);
         poMessage = new MessageBox(Activity_ApplicantDocuments.this);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        MaterialToolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("Applicant Documents");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

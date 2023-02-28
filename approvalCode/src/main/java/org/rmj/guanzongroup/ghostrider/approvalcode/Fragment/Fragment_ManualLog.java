@@ -31,13 +31,25 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+import  com.google.android.material.checkbox.MaterialCheckBox;
+
 
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.utils.CopyToClipboard;
-import org.rmj.g3appdriver.lib.ApprovalCode.model.ManualTimeLog;
+import org.rmj.g3appdriver.lib.ApprovalCode.pojo.ManualTimeLog;
 import org.rmj.guanzongroup.ghostrider.approvalcode.R;
 import org.rmj.guanzongroup.ghostrider.approvalcode.ViewModel.VMManualLog;
 
@@ -48,17 +60,12 @@ public class Fragment_ManualLog extends Fragment {
 
     private VMManualLog mViewModel;
 
-    private AutoCompleteTextView txtBranch;
+    private MaterialAutoCompleteTextView txtBranch;
     private TextInputEditText txtReqDate;
     private TextInputEditText txtRemarks;
-    private EditText txtAppCode;
-    private CheckBox cbTimeInAM;
-    private CheckBox cbTimeInPM;
-    private CheckBox cbTmeOutAM;
-    private CheckBox cbTmeOutPM;
-    private CheckBox cbTimeInOT;
-    private CheckBox cbTmeOutOT;
-    private ImageButton btnCopy;
+    private TextInputEditText txtAppCode;
+    private MaterialCheckBox cbTimeInAM,cbTimeInPM,cbTmeOutAM,cbTmeOutPM,cbTimeInOT,cbTmeOutOT;
+    private MaterialButton btnCopy;
     private MaterialButton btnReqAppCode;
     private ManualTimeLog poManual;
 

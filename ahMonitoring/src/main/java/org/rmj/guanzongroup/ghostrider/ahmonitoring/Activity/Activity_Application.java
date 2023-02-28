@@ -16,11 +16,17 @@ import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.*;
+
+
+import com.google.android.material.internal.ToolbarUtils;
 
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_Approval;
@@ -59,7 +65,7 @@ public class Activity_Application extends AppCompatActivity {
         instance = this;
         int application = getIntent().getIntExtra("app", 0);
 
-        Toolbar toolbar = findViewById(R.id.toolbar_application);
+        MaterialToolbar toolbar = findViewById(R.id.toolbar_application);
 
         ViewPager viewPager = findViewById(R.id.viewpager_application);
 

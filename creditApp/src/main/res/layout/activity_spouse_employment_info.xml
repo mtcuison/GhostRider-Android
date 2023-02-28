@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:theme="@style/GhostRiderMaterialTheme.WhiteBG"
+    android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
     tools:context=".Activities.Activity_SpouseEmploymentInfo">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -12,11 +12,10 @@
         android:layout_height="wrap_content"
         android:theme="@style/GhostRiderMaterialTheme.AppBarOverlay">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar_SpouseEmploymentInfo"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/material_tool_bar"
             android:popupTheme="@style/GhostRiderMaterialTheme.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -32,7 +31,7 @@
             android:orientation="vertical"
             android:padding="5dp">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 style="@style/HeaderLabelBlack"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -44,21 +43,21 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <RadioButton
+                <com.google.android.material.radiobutton.MaterialRadioButton
                     android:id="@+id/rb_private"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/sLabelPrivate" />
 
-                <RadioButton
+                <com.google.android.material.radiobutton.MaterialRadioButton
                     android:id="@+id/rb_government"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/sLabelGovernment" />
 
-                <RadioButton
+                <com.google.android.material.radiobutton.MaterialRadioButton
                     android:id="@+id/rb_ofw"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -75,13 +74,13 @@
                 android:orientation="vertical"
                 android:visibility="gone">
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     style="@style/HeaderLabelBlack"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/sLabelUniformPersonnel" />
 
-                <CheckBox
+                <com.google.android.material.checkbox.MaterialCheckBox
                     android:id="@+id/cb_UniformPersonnelYes"
                     style="@style/Widget.AppCompat.CompoundButton.CheckBox"
                     android:layout_width="match_parent"
@@ -89,13 +88,13 @@
                     android:layout_marginStart="16dp"
                     android:text="Yes" />
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     style="@style/HeaderLabelBlack"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/sLabelMilitaryPersonnel" />
 
-                <CheckBox
+                <com.google.android.material.checkbox.MaterialCheckBox
                     android:id="@+id/cb_MilitaryPersonalYes"
                     style="@style/Widget.AppCompat.CompoundButton.CheckBox"
                     android:layout_width="match_parent"
@@ -112,7 +111,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Company Level (Required)">
 
-                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/spn_employmentLevel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -131,7 +130,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Employee Level (Required)">
 
-                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/spn_employeeLevel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -151,7 +150,7 @@
                 android:hint="@string/sHintCountryNm"
                 android:visibility="gone">
 
-                <AutoCompleteTextView
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/txt_countryNme"
                     style="@style/AutoCompleteStyleTheme"
                     android:layout_width="match_parent"
@@ -168,7 +167,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/spn_businessNature"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -252,7 +251,7 @@
                         android:layout_weight="1"
                         android:hint="@string/sHintTown">
 
-                        <AutoCompleteTextView
+                        <com.google.android.material.textfield.MaterialAutoCompleteTextView
                             android:id="@+id/txt_town"
                             style="@style/AutoCompleteStyleTheme"
                             android:layout_width="match_parent"
@@ -266,7 +265,7 @@
                 </LinearLayout>
 
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     style="@style/HeaderLabelBlack"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -279,7 +278,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/sHintJobTitle">
 
-                    <AutoCompleteTextView
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
                         android:id="@+id/txt_jobPosition"
                         style="@style/AutoCompleteStyleTheme"
                         android:layout_width="match_parent"
@@ -310,7 +309,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
                         android:id="@+id/spn_employmentStatus"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -351,7 +350,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1.5">
 
-                        <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                        <com.google.android.material.textfield.MaterialAutoCompleteTextView
                             android:id="@+id/spn_lengthService"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -404,7 +403,7 @@
                 android:layout_marginBottom="300dp"
                 android:orientation="horizontal">
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_creditAppPrvs"
                     style="@style/NavigationButton"
                     android:layout_width="wrap_content"
@@ -412,11 +411,10 @@
                     android:layout_alignParentStart="true"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
-                    android:drawableLeft="@drawable/ic_nav_left"
                     android:text="@string/sbtnPrvs"
                     tools:ignore="RelativeOverlap" />
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_creditAppNext"
                     style="@style/NavigationButton"
                     android:layout_width="wrap_content"
@@ -424,8 +422,6 @@
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:drawableEnd="@drawable/ic_nav_right"
-                    android:drawableRight="@drawable/ic_nav_right"
                     android:text="@string/sbtnNext"
                     tools:ignore="RelativeOverlap" />
             </RelativeLayout>

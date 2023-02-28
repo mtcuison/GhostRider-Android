@@ -10,13 +10,11 @@
   ~ project file last modified : 4/24/21 3:17 PM
   -->
 
-<TextView
+<com.google.android.material.textview.MaterialTextView
     android:id="@+id/text1"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:textColor="#000"
-    android:background="#fff"
     android:padding="10dp">
 
-</TextView>
+</com.google.android.material.textview.MaterialTextView>

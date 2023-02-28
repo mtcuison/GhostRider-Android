@@ -1,23 +1,21 @@
 package org.rmj.guanzongroup.ghostrider.epacss.ui.Dashboard;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
-
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import org.rmj.guanzongroup.ghostrider.Fragment.Fragment_PanaloContainer;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Etc.FragmentAdapter;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_AreaPerformance_PieChart;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_SelfieLog;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
-import org.rmj.guanzongroup.ghostrider.epacss.ui.home.Fragment_Home;
+import org.rmj.guanzongroup.ghostrider.epacss.ui.home.Fragment_Home_AH;
 import org.rmj.guanzongroup.ghostrider.notifications.Fragment.Fragment_NotificationList;
 
 /**
@@ -74,10 +72,10 @@ public class Fragment_AHDashboard extends Fragment {
         View view = inflater.inflate(R.layout.fragment_ah_dashboard, container, false);
 
         Fragment[] loFragments = new Fragment[]{
-                new Fragment_Home(),
+                new Fragment_Home_AH(),
                 new Fragment_SelfieLog(),
-                new Fragment_Home(),
-                new Fragment_Home(),
+                new Fragment_PanaloContainer(),
+                new Fragment_AreaPerformance_PieChart(),
                 new Fragment_NotificationList()};
 
         ViewPager viewPager = view.findViewById(R.id.viewpager);

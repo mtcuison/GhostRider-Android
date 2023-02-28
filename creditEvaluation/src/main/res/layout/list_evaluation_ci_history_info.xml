@@ -12,6 +12,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:theme="@style/GhostRiderMaterialTheme"
     android:orientation="vertical">
 
     <LinearLayout
@@ -23,23 +24,22 @@
         android:layout_marginTop="15dp"
         android:layout_marginBottom="10dp">
 
-        <View
+        <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_weight=".6"
             android:background="@color/guanzon_digital_orange"/>
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/txt_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Header"
             android:textSize="16sp"
-            android:textColor="@color/material_black"
             android:fontFamily="@font/roboto_bold"
             android:layout_marginHorizontal="10dp"/>
 
-        <View
+        <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_weight=".6"
@@ -47,7 +47,7 @@
 
     </LinearLayout>
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/txt_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -63,22 +63,20 @@
         android:gravity="bottom"
         android:layout_marginTop="5dp">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/txt_label"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1.5"
             android:text="Label: "
-            android:textColor="@color/material_black"
             android:fontFamily="@font/roboto_medium"/>
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/txt_content"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".5"
             android:text="Data"
-            android:textColor="@color/material_black"
             android:fontFamily="@font/roboto_regular"
             android:gravity="end"/>
 

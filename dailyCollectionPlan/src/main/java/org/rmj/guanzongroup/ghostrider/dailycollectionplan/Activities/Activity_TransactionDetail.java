@@ -30,6 +30,19 @@ import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments.Fragment_Lo
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments.Fragment_Log_PromiseToPay;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+import  com.google.android.material.checkbox.MaterialCheckBox;
+
 import java.util.Objects;
 
 public class Activity_TransactionDetail extends AppCompatActivity {
@@ -62,7 +75,7 @@ public class Activity_TransactionDetail extends AppCompatActivity {
         psTransTp = DCP_Constants.getRemarksDescription(remCodex);
 
 
-        Toolbar toolbar = findViewById(R.id.toolbar_transaction);
+        MaterialToolbar toolbar = findViewById(R.id.toolbar_transaction);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 

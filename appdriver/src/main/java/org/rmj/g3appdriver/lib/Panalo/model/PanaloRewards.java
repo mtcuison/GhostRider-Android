@@ -112,8 +112,7 @@ public class PanaloRewards {
         ItemDesc = itemDesc;
     }
 
-    public int getItemQtyx() {
-        return ItemQtyx;
+    public int getItemQtyx() {return ItemQtyx;
     }
 
     public void setItemQtyx(int itemQtyx) {

@@ -29,7 +29,20 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-;
+
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+import  com.google.android.material.checkbox.MaterialCheckBox;
+
 import org.rmj.g3appdriver.etc.GToast;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_TransactionDetail;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter.AddressInfoAdapter_Log;
@@ -45,9 +58,9 @@ public class Fragment_Log_CustomerNotAround extends Fragment {
     private MobileInfoAdapter_Log mobileAdapter;
     private AddressInfoAdapter_Log addressAdapter;
     private DialogDisplayImage poDialogx;
-    private TextView txtAcctNo, txtClientName, txtClientAddress, txtTransNo, txtTransTp, txtCoord;
+    private MaterialAutoCompleteTextView txtAcctNo, txtClientName, txtClientAddress, txtTransNo, txtTransTp, txtCoord;
     private RecyclerView rvMobileNox, rvAddress;
-    private ImageView ivTransImage;
+    private ShapeableImageView ivTransImage;
     private LinearLayout lnMobilenox, lnAddressx;
 
     @Override

@@ -36,16 +36,24 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
 
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.g3appdriver.etc.GToast;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.lib.PetManager.model.LeaveApprovalInfo;
+import org.rmj.g3appdriver.lib.PetManager.pojo.LeaveApprovalInfo;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Application;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMLeaveApproval;
@@ -68,7 +76,7 @@ public class Fragment_LeaveApproval extends Fragment implements VMLeaveApproval.
 
     private LinearLayout lnSearch, lnApprvl;
     private MaterialButton btnCancel, bntConfirm;
-    private TextView
+    private MaterialTextView
             lblHdBranch,
             lblHdAddrss,
             lblTransNox,
@@ -89,7 +97,7 @@ public class Fragment_LeaveApproval extends Fragment implements VMLeaveApproval.
             tieWithPy,
             tieWOPay;
     private TextInputLayout tilRemarks;
-    private ImageButton btnQuickSearch;
+    private MaterialButton btnQuickSearch;
 
     public static Fragment_LeaveApproval newInstance() {
         return new Fragment_LeaveApproval();

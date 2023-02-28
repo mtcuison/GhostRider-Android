@@ -23,75 +23,77 @@
         android:orientation="vertical"
         android:gravity="center_horizontal">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl_header"
+        <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/img_bg_guanzon_orange"
-            android:layout_width="0dp"
-            android:layout_height="190dp"
-            android:src="@drawable/bg_samsungknox"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintRight_toRightOf="parent"/>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintHorizontal_bias=".2">
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/img_bg_guanzon_orange"
+                    android:layout_width="0dp"
+                    android:layout_height="190dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"/>
 
-                <TextView
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Business Trip Application"
-                    android:scrollHorizontally="false"
-                    android:fontFamily="@font/roboto"
-                    android:textColor="@color/white"
-                    android:textSize="23sp"/>
+                    android:orientation="vertical"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintHorizontal_bias=".2">
 
-                <TextView
-                    android:id="@+id/lbl_username"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Dela Cruz, Josemari Joma, S."
-                    android:scrollHorizontally="false"
-                    android:fontFamily="@font/roboto"
-                    android:textColor="@color/white"
-                    android:textSize="20sp"
-                    android:layout_marginTop="10dp"/>
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Business Trip Application"
+                        android:scrollHorizontally="false"
+                        android:fontFamily="@font/roboto"
+                        android:textSize="23sp"/>
 
-                <TextView
-                    android:id="@+id/lbl_userPosition"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="DSA - Bookkeeper"
-                    android:scrollHorizontally="false"
-                    android:fontFamily="@font/roboto_light"
-                    android:textColor="@color/white"
-                    android:textSize="18sp"/>
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/lbl_username"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Dela Cruz, Josemari Joma, S."
+                        android:scrollHorizontally="false"
+                        android:fontFamily="@font/roboto"
+                        android:textSize="20sp"
+                        android:layout_marginTop="10dp"/>
 
-                <TextView
-                    android:id="@+id/lbl_userBranch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Local data is not sync"
-                    android:scrollHorizontally="false"
-                    android:fontFamily="@font/roboto_light"
-                    android:textColor="@color/white"
-                    android:textSize="18sp"/>
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/lbl_userPosition"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="DSA - Bookkeeper"
+                        android:scrollHorizontally="false"
+                        android:fontFamily="@font/roboto_light"
+                        android:textSize="18sp"/>
 
-            </LinearLayout>
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/lbl_userBranch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Local data is not sync"
+                        android:scrollHorizontally="false"
+                        android:fontFamily="@font/roboto_light"
+                        android:textSize="18sp"/>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                </LinearLayout>
 
-        <TextView
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <com.google.android.material.textview.MaterialTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="20sp"
@@ -100,7 +102,7 @@
             android:layout_marginTop="30dp"
             android:fontFamily="@font/roboto_bold"/>
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lbl_transnox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -188,7 +190,7 @@
             android:hint="@string/sHintDestination"
             style="@style/TextInputStyle">
 
-            <AutoCompleteTextView
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
                 android:id="@+id/txt_brnDestination"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -221,7 +223,7 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_submitApplication"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
