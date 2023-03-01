@@ -10,7 +10,7 @@
   ~ project file last modified : 4/24/21 3:18 PM
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -19,51 +19,49 @@
     tools:context=".Fragment.Fragment_GetOfflinePin"
     android:theme="@style/GhostRiderMaterialTheme.NoActionBar">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_header"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/img_bg_guanzon_orange"
-            android:layout_width="0dp"
-            android:layout_height="205dp"
-            android:src="@drawable/bg_samsungknox"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintRight_toRightOf="parent"/>
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/img_bg_guanzon_orange"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/bg_dashboard"
+        app:layout_constraintHeight_percent=".35"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/lblSamsungKnox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/sLblSamsungKnox_Pin_Offline"
-            android:fontFamily="@font/roboto_light"
-            android:textSize="37sp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintBottom_toBottomOf="@id/img_bg_guanzon_orange"
-            app:layout_constraintVertical_bias=".20"/>
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/lblSamsungKnox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sLblSamsungKnox_Pin_Offline"
+        android:fontFamily="@font/roboto_light"
+        android:textSize="37sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/img_bg_guanzon_orange"
+        app:layout_constraintVertical_bias=".40"/>
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/ic_phone"
-            android:layout_width="150dp"
-            android:layout_height="230dp"
-            android:layout_marginTop="25dp"
-            android:adjustViewBounds="true"
-            android:paddingLeft="14dp"
-            android:src="@drawable/ic_samsung_knox_pin_offline"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lblSamsungKnox"
-            tools:ignore="ContentDescription" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/ic_phone"
+        android:layout_width="150dp"
+        android:layout_height="230dp"
+        android:layout_marginTop="25dp"
+        android:adjustViewBounds="true"
+        android:paddingLeft="14dp"
+        android:src="@drawable/ic_samsung_knox_pin_offline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblSamsungKnox"
+        tools:ignore="ContentDescription" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_form"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="25dp">
+        android:layout_margin="25dp"
+        app:layout_constraintTop_toBottomOf="@+id/ic_phone">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_knoxImei"
@@ -71,18 +69,18 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="Device IMEI"
-            tools:ignore="HardcodedText"
             app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintRight_toRightOf="parent">
+            tools:ignore="HardcodedText">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/txt_knoxImei"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="3dp"
                 android:digits="@string/free_text_restriction"
-                android:maxLength="16"
-                android:layout_marginBottom="3dp"/>
+                android:maxLength="16" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -91,18 +89,18 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="Device Pass Key"
-            tools:ignore="HardcodedText"
             app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/til_knoxImei"
-            app:layout_constraintRight_toRightOf="parent">
+            tools:ignore="HardcodedText">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/txt_knoxPassKey"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
                 android:inputType="number|none"
-                android:maxLength="16"
-                android:layout_marginBottom="20dp"/>
+                android:maxLength="16" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
@@ -111,43 +109,43 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/til_knoxPassKey"
-            app:layout_constraintRight_toRightOf="parent">
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/til_knoxPassKey">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/txt_KnoxPIN"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"
                 android:layout_weight="1"
-                android:maxLines="1"
-                android:maxLength="10"
+                android:enabled="false"
+                android:fontFamily="@font/roboto_medium"
                 android:gravity="center"
                 android:letterSpacing=".5"
-                android:textCursorDrawable="@null"
-                android:fontFamily="@font/roboto_medium"
-                android:enabled="false"
+                android:maxLength="10"
+                android:maxLines="1"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:layout_marginBottom="30dp"/>
+                android:textCursorDrawable="@null" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_CopyToClipboard"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight=".15"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                app:icon="@drawable/ic_content_copy"/>
+                app:icon="@drawable/ic_content_copy" />
         </LinearLayout>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_knoxGetPIN"
-            android:text="Generate"
-            tools:ignore="HardcodedText"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/lnCopyCode"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="Generate"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/lnCopyCode"
+            tools:ignore="HardcodedText" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

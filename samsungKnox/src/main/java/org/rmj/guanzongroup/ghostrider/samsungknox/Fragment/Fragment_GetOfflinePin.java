@@ -63,7 +63,7 @@ public class Fragment_GetOfflinePin extends Fragment implements ViewModelCallBac
         txtImei = v.findViewById(R.id.txt_knoxImei);
         txtPassKey = v.findViewById(R.id.txt_knoxPassKey);
         txtPIN = v.findViewById(R.id.txt_KnoxPIN);
-        ImageButton btnCopy = v.findViewById(R.id.btn_CopyToClipboard);
+        MaterialButton btnCopy = v.findViewById(R.id.btn_CopyToClipboard);
         btnCopy.setOnClickListener(view -> {
             String KnoxPin = txtPIN.getText().toString();
             String message;

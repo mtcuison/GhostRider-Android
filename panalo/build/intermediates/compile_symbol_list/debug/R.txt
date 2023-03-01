@@ -2933,6 +2933,7 @@ int drawable ic_baseline_call_end_24 0x0
 int drawable ic_baseline_done_24 0x0
 int drawable ic_baseline_file_upload_24 0x0
 int drawable ic_baseline_location_on_24 0x0
+int drawable ic_baseline_payslip 0x0
 int drawable ic_btn_delete 0x0
 int drawable ic_camera_black_24 0x0
 int drawable ic_clear_black_24 0x0
@@ -5022,6 +5023,7 @@ int style Widget_AppCompat_TextView 0x0
 int style Widget_AppCompat_TextView_SpinnerItem 0x0
 int style Widget_AppCompat_Toolbar 0x0
 int style Widget_AppCompat_Toolbar_Button_Navigation 0x0
+int style Widget_App_Button_OutlinedButton_IconOnly 0x0
 int style Widget_Compat_NotificationActionContainer 0x0
 int style Widget_Compat_NotificationActionText 0x0
 int style Widget_Design_AppBarLayout 0x0
