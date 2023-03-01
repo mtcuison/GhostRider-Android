@@ -9,7 +9,7 @@
  * project file last modified : 4/24/21 3:18 PM
  */
 
-package org.rmj.guanzongroup.ghostrider.notifications.Obj;
+package org.rmj.guanzongroup.ghostrider.notifications.Notifications;
 
 import android.annotation.SuppressLint;
 import android.app.NotificationChannel;

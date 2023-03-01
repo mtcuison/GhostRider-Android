@@ -76,149 +76,166 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lblEmpNme" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/constraintLayout"
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cb_performance"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                app:cardCornerRadius="15dp"
+                app:cardUseCompatPadding="true"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardView">
+                app:layout_constraintTop_toBottomOf="@+id/cardView"
+                app:layout_constraintEnd_toEndOf="parent">
 
-                <com.google.android.material.card.MaterialCardView
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    app:cardCornerRadius="10dp"
-                    app:cardElevation="5dp"
-                    app:cardUseCompatPadding="true"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    android:padding="10dp">
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:padding="10dp">
+                    <com.google.android.material.progressindicator.CircularProgressIndicator
+                        android:id="@+id/cpi_mc_sales"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:progress="90"
+                        app:indicatorDirectionCircular="clockwise"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:indicatorSize="100dp"
+                        app:trackCornerRadius="10dp" />
 
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:id="@+id/consMCgoal"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintVertical_bias="0.0">
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/lblMCGoalPercent"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:gravity="center"
+                        android:text="90%"
+                        app:layout_constraintBottom_toBottomOf="@+id/cpi_mc_sales"
+                        app:layout_constraintEnd_toEndOf="@+id/cpi_mc_sales"
+                        app:layout_constraintStart_toStartOf="@+id/cpi_mc_sales"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.339"
+                        app:layout_constraintWidth_percent=".2" />
 
-                            <com.google.android.material.card.MaterialCardView
-                                android:id="@+id/card_MC_Goal"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="15dp"
-                                app:cardCornerRadius="90dp"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent">
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/lblMCGoal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_light"
+                        android:text="90/100"
+                        android:textSize="12sp"
+                        android:gravity="center"
+                        app:layout_constraintStart_toStartOf="@id/lblMCGoalPercent"
+                        app:layout_constraintEnd_toEndOf="@id/lblMCGoalPercent"
+                        app:layout_constraintTop_toBottomOf="@id/lblMCGoalPercent" />
 
-                                <com.google.android.material.imageview.ShapeableImageView
-                                    android:id="@+id/img_mc_goal"
-                                    android:layout_width="70dp"
-                                    android:layout_height="70dp"
-                                    android:padding="10dp"
-                                    app:srcCompat="@drawable/ic_performance_mc_unit" />
-                            </com.google.android.material.card.MaterialCardView>
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto"
+                        android:text="MC SALES"
+                        app:layout_constraintStart_toStartOf="@id/lblMCGoal"
+                        app:layout_constraintEnd_toEndOf="@id/lblMCGoal"
+                        app:layout_constraintTop_toBottomOf="@id/lblMCGoal"/>
 
-                            <com.google.android.material.textview.MaterialTextView
-                                android:id="@+id/lblMCGoal"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/roboto"
-                                android:text="MC SALES"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@+id/card_MC_Goal" />
-                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    <com.google.android.material.progressindicator.CircularProgressIndicator
+                        android:id="@+id/cpi_sp_sales"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:progress="100"
+                        app:indicatorDirectionCircular="clockwise"
+                        app:indicatorSize="100dp"
+                        app:layout_constraintEnd_toStartOf="@+id/cpi_job_order"
+                        app:layout_constraintStart_toEndOf="@id/cpi_mc_sales"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:trackCornerRadius="10dp" />
 
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:id="@+id/consSPgoal"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toStartOf="@+id/consJOgoal"
-                            app:layout_constraintStart_toEndOf="@+id/consMCgoal"
-                            app:layout_constraintTop_toTopOf="parent">
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/lblSPGoalPercent"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="100%"
+                        android:gravity="center"
+                        app:layout_constraintHeight_percent=".3"
+                        app:layout_constraintVertical_bias="0.339"
+                        app:layout_constraintWidth_percent=".2"
+                        app:layout_constraintTop_toTopOf="@id/cpi_sp_sales"
+                        app:layout_constraintBottom_toBottomOf="@+id/cpi_sp_sales"
+                        app:layout_constraintEnd_toEndOf="@+id/cpi_sp_sales"
+                        app:layout_constraintStart_toStartOf="@+id/cpi_sp_sales" />
 
-                            <com.google.android.material.card.MaterialCardView
-                                android:id="@+id/card_SP_Goal"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="15dp"
-                                app:cardCornerRadius="90dp"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent">
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/lblSPGoal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_light"
+                        android:text="100000/1000000"
+                        android:textSize="12sp"
+                        android:gravity="center"
+                        app:layout_constraintStart_toStartOf="@id/lblSPGoalPercent"
+                        app:layout_constraintEnd_toEndOf="@id/lblSPGoalPercent"
+                        app:layout_constraintTop_toBottomOf="@id/lblSPGoalPercent" />
 
-                                <com.google.android.material.imageview.ShapeableImageView
-                                    android:id="@+id/img_sp_goal"
-                                    android:layout_width="70dp"
-                                    android:layout_height="70dp"
-                                    android:padding="10dp"
-                                    app:srcCompat="@drawable/ic_dashboard_settings" />
-                            </com.google.android.material.card.MaterialCardView>
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto"
+                        android:text="SP SALES"
+                        app:layout_constraintStart_toStartOf="@id/lblSPGoal"
+                        app:layout_constraintEnd_toEndOf="@id/lblSPGoal"
+                        app:layout_constraintTop_toBottomOf="@id/lblSPGoal"/>
 
-                            <com.google.android.material.textview.MaterialTextView
-                                android:id="@+id/lblSPGoal"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/roboto"
-                                android:text="SP SALES"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@+id/card_SP_Goal" />
+                    <com.google.android.material.progressindicator.CircularProgressIndicator
+                        android:id="@+id/cpi_job_order"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:progress="90"
+                        app:indicatorDirectionCircular="clockwise"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:indicatorSize="100dp"
+                        app:trackCornerRadius="10dp" />
 
-                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/lblJobOrderPercent"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="50%"
+                        android:gravity="center"
+                        app:layout_constraintHeight_percent=".3"
+                        app:layout_constraintVertical_bias="0.339"
+                        app:layout_constraintWidth_percent=".2"
+                        app:layout_constraintBottom_toBottomOf="@+id/cpi_job_order"
+                        app:layout_constraintEnd_toEndOf="@+id/cpi_job_order"
+                        app:layout_constraintStart_toStartOf="@+id/cpi_job_order"
+                        app:layout_constraintTop_toTopOf="@+id/cpi_job_order" />
 
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:id="@+id/consJOgoal"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintVertical_bias="0.0">
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/lblJobOrder"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_light"
+                        android:text="100000/1000000"
+                        android:textSize="12sp"
+                        android:gravity="center"
+                        app:layout_constraintStart_toStartOf="@id/lblJobOrderPercent"
+                        app:layout_constraintEnd_toEndOf="@id/lblJobOrderPercent"
+                        app:layout_constraintTop_toBottomOf="@id/lblJobOrderPercent" />
 
-                            <com.google.android.material.card.MaterialCardView
-                                android:id="@+id/card_JO_Goal"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="15dp"
-                                app:cardCornerRadius="90dp"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent">
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto"
+                        android:text="JOB ORDER"
+                        app:layout_constraintStart_toStartOf="@id/lblJobOrder"
+                        app:layout_constraintEnd_toEndOf="@id/lblJobOrder"
+                        app:layout_constraintTop_toBottomOf="@id/lblJobOrder"/>
 
-                                <com.google.android.material.imageview.ShapeableImageView
-                                    android:id="@+id/img_jo_goal"
-                                    android:layout_width="70dp"
-                                    android:layout_height="70dp"
-                                    android:padding="18dp"
-                                    app:srcCompat="@drawable/ic_menu_cashcount" />
-                            </com.google.android.material.card.MaterialCardView>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-                            <com.google.android.material.textview.MaterialTextView
-                                android:id="@+id/lblJOGoal"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="JOB ORDER"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@+id/card_JO_Goal" />
-
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-                </com.google.android.material.card.MaterialCardView>
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayout3"
@@ -229,7 +246,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.25"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+                app:layout_constraintTop_toBottomOf="@+id/cb_performance"
                 app:layout_constraintVertical_bias="0.0">
 
                 <com.google.android.material.card.MaterialCardView
@@ -461,6 +478,7 @@
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/rvCompnyAnouncemnt" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvApplicaiton"
                 android:layout_width="match_parent"

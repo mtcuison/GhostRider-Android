@@ -29,7 +29,6 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.ui.AppBarConfiguration;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.appbar.MaterialToolbar;
@@ -65,7 +64,6 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
     private VMMainActivity mViewModel;
     private DataSyncService poNetRecvr;
 
-    private AppBarConfiguration mAppBarConfiguration;
     private MessageBox loMessage;
     private LoadDialog poDialog;
     private Intent loIntent;

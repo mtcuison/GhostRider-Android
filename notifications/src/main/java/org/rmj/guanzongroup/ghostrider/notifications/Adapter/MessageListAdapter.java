@@ -20,7 +20,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.guanzongroup.ghostrider.notifications.Obj.MessageItemList;
+import org.rmj.guanzongroup.ghostrider.notifications.Notifications.MessageItemList;
 import org.rmj.guanzongroup.ghostrider.notifications.R;
 
 import java.util.List;

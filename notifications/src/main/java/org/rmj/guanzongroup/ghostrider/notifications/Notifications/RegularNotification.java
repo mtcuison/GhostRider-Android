@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.ghostrider.notifications.Obj;
+package org.rmj.guanzongroup.ghostrider.notifications.Notifications;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -8,27 +8,24 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 
-import com.google.firebase.messaging.RemoteMessage;
-
 import org.rmj.g3appdriver.dev.Database.Entities.ENotificationMaster;
-import org.rmj.g3appdriver.lib.Notifications.RemoteMessageParser;
 import org.rmj.guanzongroup.ghostrider.notifications.Etc.iNotificationUI;
 import org.rmj.guanzongroup.ghostrider.notifications.R;
 
 import java.util.Date;
 
-public class InquiryNotification implements iNotificationUI {
-    private static final String TAG = InquiryNotification.class.getSimpleName();
+public class RegularNotification implements iNotificationUI {
+    private static final String TAG = RegularNotification.class.getSimpleName();
 
     private final Context mContext;
     private final ENotificationMaster poMessage;
     private final NotificationManager loManager;
 
-    public static final String NotificationID = "org.rmj.guanconnect.guanzoninquiry";
-    private static final String CHANNEL_NAME = "Customer Inquiry";
-    private static final String CHANNEL_DESC = "Guanzon connect rewards notification for panalo participants.";
+    public static final String NotificationID = "org.rmj.guanconnect.regularmessage";
+    private static final String CHANNEL_NAME = "Regular Message";
+    private static final String CHANNEL_DESC = "Guanzon connect notice";
 
-    public InquiryNotification(Context mContext, ENotificationMaster message) {
+    public RegularNotification(Context mContext, ENotificationMaster message) {
         this.mContext = mContext;
         this.poMessage = message;
         this.loManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);

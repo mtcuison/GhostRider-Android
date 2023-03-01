@@ -44,7 +44,7 @@ import org.rmj.guanzongroup.ghostrider.griderscanner.viewModel.VMClientInfo;
 import org.rmj.guanzongroup.ghostrider.griderscanner.viewModel.VMMainScanner;
 import org.rmj.guanzongroup.ghostrider.griderscanner.viewModel.ViewModelCallBack;
 import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
-import org.rmj.guanzongroup.ghostrider.notifications.Obj.GNotifBuilder;
+import org.rmj.guanzongroup.ghostrider.notifications.Notifications.GNotifBuilder;
 
 import java.io.File;
 import java.io.IOException;
@@ -52,7 +52,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static org.rmj.guanzongroup.ghostrider.notifications.Obj.GNotifBuilder.APP_SYNC_DATA;
+import static org.rmj.guanzongroup.ghostrider.notifications.Notifications.GNotifBuilder.APP_SYNC_DATA;
 
 public class ClientInfo extends AppCompatActivity {
     private RecyclerView recyclerView;
