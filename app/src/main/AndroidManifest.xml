@@ -106,7 +106,7 @@
 
         <activity
             android:name=".Activity.Activity_Main"
-            android:label="Home"
+            android:label="@string/menu_home"
             android:screenOrientation="userPortrait"
             android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
             android:exported="true"/>

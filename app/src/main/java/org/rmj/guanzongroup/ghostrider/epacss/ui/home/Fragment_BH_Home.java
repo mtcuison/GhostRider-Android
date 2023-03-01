@@ -91,7 +91,6 @@ public class Fragment_BH_Home extends Fragment {
 
     private ColorStateList poColor;
     private MaterialTextView lblItem1,lblItem2,lblSelectd;
-    private ShapeableImageView imgDept;
     private LineChart lineChart;
 
     private String BranchCd;
@@ -119,7 +118,6 @@ public class Fragment_BH_Home extends Fragment {
         lblPrgPrct = v.findViewById(R.id.lbl_performance_progress_percentage);
         lblGoalxxx = v.findViewById(R.id.lbl_performance_goal);
         lblPrdRnge = v.findViewById(R.id.lbl_performance_period_range);
-        imgDept = v.findViewById(R.id.img_deptLogo);
         btnSettng = v.findViewById(R.id.btn_settings);
         btnLogout = v.findViewById(R.id.btn_logout);
 

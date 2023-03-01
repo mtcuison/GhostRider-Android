@@ -2929,8 +2929,10 @@ int drawable ic_application_export 0x0
 int drawable ic_approved_ci 0x0
 int drawable ic_arrow_back_black_24 0x0
 int drawable ic_baseline_add_24 0x0
+int drawable ic_baseline_call_end_24 0x0
 int drawable ic_baseline_done_24 0x0
 int drawable ic_baseline_file_upload_24 0x0
+int drawable ic_baseline_location_on_24 0x0
 int drawable ic_btn_delete 0x0
 int drawable ic_camera_black_24 0x0
 int drawable ic_clear_black_24 0x0

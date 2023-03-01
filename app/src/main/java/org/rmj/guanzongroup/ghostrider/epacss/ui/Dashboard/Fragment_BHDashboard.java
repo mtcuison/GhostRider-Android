@@ -14,8 +14,10 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import org.rmj.guanzongroup.ghostrider.Fragment.Fragment_PanaloContainer;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Etc.FragmentAdapter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_AreaPerformance_PieChart;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_BranchPerformance_LineChart;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_SelfieLog;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
+import org.rmj.guanzongroup.ghostrider.epacss.ui.home.Fragment_BH_Home;
 import org.rmj.guanzongroup.ghostrider.epacss.ui.home.Fragment_Home;
 import org.rmj.guanzongroup.ghostrider.notifications.Fragment.Fragment_NotificationList;
 
@@ -73,9 +75,9 @@ public class Fragment_BHDashboard extends Fragment {
         View view = inflater.inflate(R.layout.fragment_bh_dashboard, container, false);
 
         Fragment[] loFragments = new Fragment[]{
-                new Fragment_Home(),
+                new Fragment_BH_Home(),
                 new Fragment_PanaloContainer(),
-                new Fragment_AreaPerformance_PieChart(),
+                new Fragment_BranchPerformance_LineChart(),
                 new Fragment_NotificationList()};
 
         ViewPager viewPager = view.findViewById(R.id.viewpager);

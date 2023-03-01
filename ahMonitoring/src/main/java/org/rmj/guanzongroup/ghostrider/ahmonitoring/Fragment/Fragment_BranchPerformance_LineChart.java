@@ -93,10 +93,10 @@ public class Fragment_BranchPerformance_LineChart extends Fragment implements On
         width = metrics.widthPixels;
         height = metrics.heightPixels;
         mViewModel = new ViewModelProvider(requireActivity()).get(VMBranchMonitor.class);
-        brnCD = Activity_BranchPerformance.getInstance().getBranchCode();
-        mViewModel.getBranchName(brnCD).observe(getViewLifecycleOwner(),bnName->{
-            lblBranch.setText(bnName);
-        });
+//        brnCD = Activity_BranchPerformance.getInstance().getBranchCode();
+//        mViewModel.getBranchName(brnCD).observe(getViewLifecycleOwner(),bnName->{
+//            lblBranch.setText(bnName);
+//        });
 
         mViewModel.getType().observe(getViewLifecycleOwner(), s -> setChartValue(s));
     }
