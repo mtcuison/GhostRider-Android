@@ -16,6 +16,7 @@ import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.ui.home.Fragment_Home_Engineering;
 import org.rmj.guanzongroup.ghostrider.epacss.ui.home.VMHomeEngineering;
 import org.rmj.guanzongroup.ghostrider.notifications.Fragment.Fragment_NotificationList;
+import org.rmj.guanzongroup.ghostrider.notifications.Fragment.Fragment_Notifications;
 
 public class Fragment_Eng_Dashboard extends Fragment {
     private static final String ARG_PARAM1 = "param1";
@@ -51,7 +52,7 @@ public class Fragment_Eng_Dashboard extends Fragment {
         Fragment[] loFragments = new Fragment[]{
                 new Fragment_Home_Engineering(),
                 new Fragment_PanaloContainer(),
-                new Fragment_NotificationList()};
+                new Fragment_Notifications()};
 
         ViewPager viewpager = view.findViewById(R.id.viewpager);
         viewpager.setAdapter(new FragmentAdapter(getChildFragmentManager(), loFragments));

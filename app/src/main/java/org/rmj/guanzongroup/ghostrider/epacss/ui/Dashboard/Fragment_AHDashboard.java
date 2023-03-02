@@ -17,6 +17,7 @@ import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_SelfieLog;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.ui.home.Fragment_Home_AH;
 import org.rmj.guanzongroup.ghostrider.notifications.Fragment.Fragment_NotificationList;
+import org.rmj.guanzongroup.ghostrider.notifications.Fragment.Fragment_Notifications;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -76,7 +77,7 @@ public class Fragment_AHDashboard extends Fragment {
                 new Fragment_SelfieLog(),
                 new Fragment_PanaloContainer(),
                 new Fragment_AreaPerformance_PieChart(),
-                new Fragment_NotificationList()};
+                new Fragment_Notifications()};
 
         ViewPager viewPager = view.findViewById(R.id.viewpager);
         viewPager.setAdapter(new FragmentAdapter(getChildFragmentManager(), loFragments));

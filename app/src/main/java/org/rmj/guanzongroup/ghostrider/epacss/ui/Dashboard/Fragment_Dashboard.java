@@ -16,6 +16,7 @@ import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMDashboard;
 import org.rmj.guanzongroup.ghostrider.epacss.ui.home.Fragment_Associate_Dashboard;
 import org.rmj.guanzongroup.ghostrider.notifications.Fragment.Fragment_NotificationList;
+import org.rmj.guanzongroup.ghostrider.notifications.Fragment.Fragment_Notifications;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -75,7 +76,7 @@ public class Fragment_Dashboard extends Fragment {
         Fragment[] loFragments = new Fragment[]{
                 new Fragment_Associate_Dashboard(),
                 new Fragment_PanaloContainer(),
-                new Fragment_NotificationList()};
+                new Fragment_Notifications()};
 
 
         ViewPager viewpager = view.findViewById(R.id.viewpager);

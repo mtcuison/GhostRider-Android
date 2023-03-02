@@ -10,7 +10,7 @@
   ~ project file last modified : 4/24/21 3:18 PM
   -->
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -21,114 +21,79 @@
         android:id="@+id/rl_message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/img_dashboard_header"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:src="@drawable/bg_dashboard"
-            android:scaleType="centerCrop"/>
-
-        <RelativeLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp">
+            android:layout_alignParentTop="true"
+            android:padding="10dp">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout"
+                style="@style/TextInputStyle"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="25dp">
+                android:hint="Enter Employee Name"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent=".85">
 
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/cardview_dashboard"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txt_employeeSearch"
+                    style="@style/TextInputStyle.Edittext"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:cardCornerRadius="15dp"
-                    app:cardMaxElevation="5dp"
-                    app:cardUseCompatPadding="true">
+                    android:layout_height="wrap_content" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:paddingHorizontal="5dp"
-                        android:paddingTop="40dp">
+            </com.google.android.material.textfield.TextInputLayout>
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:gravity="center">
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSearch"
+                style="@style/Widget.App.Button.OutlinedButton.IconOnly"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:icon="@drawable/ic_name_search"
+                app:iconGravity="textStart"
+                app:layout_constraintBottom_toBottomOf="@+id/textInputLayout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textInputLayout"
+                app:layout_constraintTop_toTopOf="@+id/textInputLayout" />
 
-                            <com.google.android.material.textfield.TextInputLayout
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:hint="Enter Employee Name"
-                                style="@style/TextInputStyle"
-                                android:layout_marginBottom="10dp">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview_messages"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
 
-                                <com.google.android.material.textfield.TextInputEditText
-                                    android:id="@+id/txt_employeeSearch"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    style="@style/TextInputStyle.Edittext" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview_employee"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout"/>
 
-                            </com.google.android.material.textfield.TextInputLayout>
-
-                            <com.google.android.material.button.MaterialButton
-                                android:id="@+id/btnSearch"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight=".8"
-                                app:icon="@drawable/ic_client_search"
-                                app:iconGravity="textStart"
-                                android:text="Search"/>
-
-                        </LinearLayout>
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/recyclerview_messages"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:visibility="gone"
-                            android:layout_marginBottom="10dp"/>
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/recyclerview_employee"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:visibility="gone"/>
-
-                    </LinearLayout>
-
-                </com.google.android.material.card.MaterialCardView>
-
-            </RelativeLayout>
-
-            <com.google.android.material.imageview.ShapeableImageView
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
-                android:layout_marginStart="30dp"
-                android:layout_marginLeft="30dp"
-                android:background="@drawable/circular_imageview"
-                android:padding="10dp"
-                android:src="@drawable/ic_head_messaging" />
-
-        </RelativeLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/ln_empty"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
         android:orientation="vertical"
-        android:gravity="center">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
         <com.google.android.material.imageview.ShapeableImageView
             android:layout_width="110dp"
             android:layout_height="130dp"
@@ -137,19 +102,10 @@
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:fontFamily="@font/roboto"
             android:text="No messages available."
-            android:textSize="16sp"
-            android:layout_marginTop="10dp"/>
+            android:textSize="16sp" />
     </LinearLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_margin="20dp"
-        android:src="@drawable/ic_message_create"/>
-
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

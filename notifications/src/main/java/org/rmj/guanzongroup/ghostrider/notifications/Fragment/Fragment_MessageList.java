@@ -61,15 +61,9 @@ public class Fragment_MessageList extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        mViewModel = new ViewModelProvider(this).get(VMMessageList.class);
         View view = inflater.inflate(R.layout.fragment_message_list, container, false);
         setWidgets(view);
-        return view;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(VMMessageList.class);
         mViewModel.getUserMessagesList().observe(getViewLifecycleOwner(), userNotificationInfos -> {
             try {
                 if (userNotificationInfos.size() > 0) {
@@ -122,6 +116,7 @@ public class Fragment_MessageList extends Fragment {
                 }
             });
         });
+        return view;
     }
 
     private void setWidgets(View view) {

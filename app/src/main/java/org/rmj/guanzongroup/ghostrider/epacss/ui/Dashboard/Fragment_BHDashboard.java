@@ -20,6 +20,7 @@ import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.ui.home.Fragment_BH_Home;
 import org.rmj.guanzongroup.ghostrider.epacss.ui.home.Fragment_Home;
 import org.rmj.guanzongroup.ghostrider.notifications.Fragment.Fragment_NotificationList;
+import org.rmj.guanzongroup.ghostrider.notifications.Fragment.Fragment_Notifications;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -78,7 +79,7 @@ public class Fragment_BHDashboard extends Fragment {
                 new Fragment_BH_Home(),
                 new Fragment_PanaloContainer(),
                 new Fragment_BranchPerformance_LineChart(),
-                new Fragment_NotificationList()};
+                new Fragment_Notifications()};
 
         ViewPager viewPager = view.findViewById(R.id.viewpager);
         viewPager.setAdapter(new FragmentAdapter(getChildFragmentManager(), loFragments));

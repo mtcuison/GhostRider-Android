@@ -9,27 +9,27 @@
   ~ project file created :02/05/2023 08:57 AM
   ~ project file last modified : 02/07/2023 08:57 AM
   -->
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:theme="@style/GhostRiderMaterialTheme"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.home.Fragment_Home_AH"
-    android:layout_marginTop="45dp">
+    tools:context=".ui.home.Fragment_Home_AH">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/imageView3"
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
+                android:layout_height="0dp"
+                android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
                 android:src="@drawable/bg_dashboard"
+                app:layout_constraintHeight_percent=".5"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -490,4 +490,4 @@
                 app:layout_constraintTop_toBottomOf="@+id/lblApplication" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-</ScrollView>
+</androidx.core.widget.NestedScrollView>

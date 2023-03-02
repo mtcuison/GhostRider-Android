@@ -18,18 +18,6 @@
     android:theme="@style/GhostRiderMaterialTheme"
     tools:context=".Fragment.Fragment_NotificationList">
 
-    <ImageView
-        android:layout_marginTop="55dp"
-        android:id="@+id/image_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:scaleType="centerCrop"
-        android:src="@drawable/img_ah_header"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <RelativeLayout
         android:id="@+id/rl_list"
         android:layout_width="match_parent"
@@ -90,27 +78,39 @@
 
     </RelativeLayout>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/ln_empty"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/image_view">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:layout_width="110dp"
-            android:layout_height="130dp"
-            android:src="@drawable/ic_head_notification" />
+            android:id="@+id/shapeableImageView2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/ic_head_notification"
+            app:layout_constraintHeight_percent=".2"
+            app:layout_constraintWidth_percent=".25"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto"
             android:text="No notifications available."
-            android:textSize="16sp" />
-    </LinearLayout>
-
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@+id/shapeableImageView2"
+            app:layout_constraintStart_toStartOf="@+id/shapeableImageView2"
+            app:layout_constraintTop_toBottomOf="@+id/shapeableImageView2" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

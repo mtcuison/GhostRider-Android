@@ -11,6 +11,7 @@
 
 package org.rmj.guanzongroup.ghostrider.notifications.Fragment;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
@@ -47,7 +48,7 @@ public class Fragment_NotificationList extends Fragment {
     private NotificationListAdapter poAdapter;
     private LinearLayoutManager manager;
     private RelativeLayout rl_list;
-    private LinearLayout ln_empty;
+    private ConstraintLayout ln_empty;
     private boolean isLoading = false;
     private List<NotificationItemList> notificationItemLists = new ArrayList<>();
 
