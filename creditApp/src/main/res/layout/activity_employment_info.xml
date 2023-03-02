@@ -124,7 +124,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/spn_employmentLevel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -142,7 +142,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/spn_employeeLevel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -265,7 +265,7 @@
                         android:layout_weight="1"
                         android:hint="@string/sHintTown">
 
-                        <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                        <com.google.android.material.textfield.MaterialAutoCompleteTextView
                             android:id="@+id/txt_town"
                             style="@style/AutoCompleteStyleTheme"
                             android:layout_width="match_parent"
@@ -291,7 +291,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/sHintJobTitle">
 
-                    <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
                         android:id="@+id/txt_jobPosition"
                         style="@style/AutoCompleteStyleTheme"
                         android:layout_width="match_parent"
@@ -324,7 +324,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
                         android:id="@+id/spn_employmentStatus"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -366,7 +366,7 @@
                         android:layout_weight="1.5"
                         android:hint="Length of Stay (Required)">
 
-                        <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                        <com.google.android.material.textfield.MaterialAutoCompleteTextView
                             android:id="@+id/spn_lengthService"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
