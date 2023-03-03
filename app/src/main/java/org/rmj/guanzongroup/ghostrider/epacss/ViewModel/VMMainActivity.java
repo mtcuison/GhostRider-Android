@@ -24,6 +24,7 @@ import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.guanzongroup.ghostrider.epacss.Service.DataSyncService;
 import org.rmj.guanzongroup.ghostrider.epacss.ui.Dashboard.Fragment_AHDashboard;
 import org.rmj.guanzongroup.ghostrider.epacss.ui.Dashboard.Fragment_BHDashboard;
+import org.rmj.guanzongroup.ghostrider.epacss.ui.Dashboard.Fragment_Dashboard;
 import org.rmj.guanzongroup.ghostrider.epacss.ui.Dashboard.Fragment_Eng_Dashboard;
 import org.rmj.guanzongroup.ghostrider.epacss.ui.home.Fragment_Associate_Dashboard;
 
@@ -73,7 +74,7 @@ public class VMMainActivity extends AndroidViewModel {
                         userLevel = new Fragment_Eng_Dashboard();
                         break;
                     default:
-                        userLevel = new Fragment_Associate_Dashboard();
+                        userLevel = new Fragment_Dashboard();
                         break;
                 }
         }
