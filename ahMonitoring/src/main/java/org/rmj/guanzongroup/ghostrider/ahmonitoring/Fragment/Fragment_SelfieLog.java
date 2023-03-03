@@ -83,7 +83,7 @@ public class Fragment_SelfieLog extends Fragment {
 
     private VMSelfieLog mViewModel;
 
-    private MaterialTextView lblUsername, lblPosition, lblBranch;
+    private MaterialTextView lblBranch;
     private TextInputEditText txtDate;
     private MaterialButton btnCamera, btnBranch;
     private RecyclerView recyclerView;
@@ -122,8 +122,8 @@ public class Fragment_SelfieLog extends Fragment {
 
         mViewModel.GetUserInfo().observe(getViewLifecycleOwner(), eEmployeeInfo -> {
             try {
-                lblUsername.setText(eEmployeeInfo.sUserName);
-                lblPosition.setText(DeptCode.getDepartmentName(eEmployeeInfo.sDeptIDxx));
+//                lblUsername.setText(eEmployeeInfo.sUserName);
+//                lblPosition.setText(DeptCode.getDepartmentName(eEmployeeInfo.sDeptIDxx));
                 lblBranch.setText(eEmployeeInfo.sBranchNm);
 
             } catch (NullPointerException e){
@@ -245,8 +245,8 @@ public class Fragment_SelfieLog extends Fragment {
     }
 
     private void initWidgets(View view){
-        lblUsername = view.findViewById(R.id.lbl_username);
-        lblPosition = view.findViewById(R.id.lbl_userPosition);
+//        lblUsername = view.findViewById(R.id.lbl_username);
+//        lblPosition = view.findViewById(R.id.lbl_userPosition);
         lblBranch = view.findViewById(R.id.lbl_userBranch);
         btnCamera = view.findViewById(R.id.btn_takeSelfie);
         btnBranch = view.findViewById(R.id.btn_selectBranch);

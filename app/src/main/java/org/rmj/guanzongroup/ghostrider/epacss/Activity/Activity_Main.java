@@ -302,7 +302,7 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
                 AppConfigPreference.getInstance(Activity_Main.this).setIsAppFirstLaunch(false);
                 startActivity(new Intent(Activity_Main.this, Activity_SplashScreen.class));
             });
-            loMessage.setTitle("GhostRider Session");
+            loMessage.setTitle("Account Session");
             loMessage.setMessage("Are you sure you want to end session/logout?");
             loMessage.show();
         }

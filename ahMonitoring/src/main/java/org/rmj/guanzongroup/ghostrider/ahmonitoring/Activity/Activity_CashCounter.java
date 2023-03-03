@@ -63,7 +63,7 @@ public class Activity_CashCounter extends AppCompatActivity {
     private MaterialTextView[] cpriceCoin;
 
     private MaterialTextView lblPesoTotal, lblCoinsTotal, lblGrandTotal;
-    private MaterialTextView lblBranch, lblAddxx, lblDate;
+    private MaterialTextView lblBranch, lblAddxx;
     private MaterialButton btnNext;
 
     private MessageBox poMessage;
@@ -128,7 +128,6 @@ public class Activity_CashCounter extends AppCompatActivity {
             try {
                 lblBranch.setText(eBranchInfo.getBranchNm());
                 lblAddxx.setText(eBranchInfo.getAddressx());
-                lblDate.setText(new AppConstants().CURRENT_DATE_WORD);
 
                 if(branchCd.isEmpty()){
                     btnNext.setEnabled(false);
@@ -306,7 +305,6 @@ public class Activity_CashCounter extends AppCompatActivity {
 
         lblBranch = findViewById(R.id.lbl_headerBranch);
         lblAddxx = findViewById(R.id.lbl_headerAddress);
-        lblDate = findViewById(R.id.lbl_headerDate);
         btnNext = findViewById(R.id.btn_cash_count);
         lblPesoTotal = findViewById(R.id.lblPesoTotal);
         lblCoinsTotal = findViewById(R.id.lblCoinsTotal);
