@@ -47,9 +47,6 @@ public interface DAreaPerformance {
     @Query("SELECT * FROM MC_Area_Performance WHERE sPeriodxx =:Period AND sAreaCode=:AreaCode")
     EAreaPerformance GetAreaPerformance(String Period, String AreaCode);
 
-    @Query("DELETE FROM MC_Area_Performance")
-    void deleteAllAreaPerformanceInfo();
-
     @Query("SELECT * FROM MC_Area_Performance ORDER BY sPeriodxx ASC")
     LiveData<List<EAreaPerformance>> getAllAreaPerformanceInfo();
 
@@ -59,9 +56,12 @@ public interface DAreaPerformance {
     @Query("SELECT sAreaDesc FROM MC_Area_Performance WHERE sAreaCode = (SELECT sAreaCode FROM Branch_Info WHERE sBranchCd = (SELECT sBranchCd FROM User_Info_Master))")
     LiveData<String> getAreaDescription();
 
-//    @Query("SELECT sAreaDesc FROM MC_Area_Performance WHERE sAreaCode = :fsAreaCde")
-//    LiveData<String> getAreaNameFromCode(String fsAreaCde);
+    @Query("SELECT nMCActual || '/' || nMCGoalxx AS Performance FROM MC_Area_Performance ORDER BY sPeriodxx DESC LIMIT 1")
+    LiveData<String> GetMCSalesPerformance();
 
-    @Query("SELECT sAreaDesc FROM MC_Area_Performance WHERE sAreaCode = (SELECT sAreaCode FROM Branch_Info WHERE sBranchCd = (SELECT sBranchCd FROM User_Info_Master))")
-    LiveData<String> getAreaNameFromCode();
+    @Query("SELECT nSPActual || '/' || nSPGoalxx AS Performance FROM MC_Area_Performance ORDER BY sPeriodxx DESC LIMIT 1")
+    LiveData<String> GetSPSalesPerformance();
+
+    @Query("SELECT nJOActual || '/' || nJOGoalxx AS Performance FROM MC_Area_Performance ORDER BY sPeriodxx DESC LIMIT 1")
+    LiveData<String> GetJobOrderPerformance();
 }

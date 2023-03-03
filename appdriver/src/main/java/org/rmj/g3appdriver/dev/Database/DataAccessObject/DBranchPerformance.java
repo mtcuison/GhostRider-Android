@@ -26,7 +26,7 @@ import java.util.List;
 @Dao
 public interface DBranchPerformance {
 
-    @Insert
+    @Insert (onConflict = OnConflictStrategy.REPLACE)
     void insert(EBranchPerformance branchPerformance);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -46,6 +46,9 @@ public interface DBranchPerformance {
 
     @Query("SELECT sAreaCode FROM Branch_Info WHERE sBranchCd = (SELECT sBranchCd FROM User_Info_Master)")
     String GetAreaCode();
+
+    @Query("SELECT sBranchCd FROM Branch_Info WHERE sBranchCd = (SELECT sBranchCd FROM User_Info_Master)")
+    String GetBranchCode();
 
     @Query("SELECT * FROM MC_Branch_Performance")
     LiveData<List<EBranchPerformance>> getAllBranchPerformanceInfo();
@@ -145,6 +148,15 @@ public interface DBranchPerformance {
             " AND sPeriodxx BETWEEN" +
             " :fsValue1 AND :fsValue2")
     LiveData<MonthlyPieChart> get12MonthBranchPieChartData(String sBranchCd, String fsValue1, String fsValue2);
+
+    @Query("SELECT nMCActual || '/' || nMCGoalxx AS Performance FROM MC_Branch_Performance WHERE sBranchCd =:branchCd ORDER BY sPeriodxx DESC LIMIT 1")
+    LiveData<String> GetMCSalesPerformance(String branchCd);
+
+    @Query("SELECT nSPActual || '/' || nSPGoalxx AS Performance FROM MC_Branch_Performance WHERE sBranchCd =:branchCd ORDER BY sPeriodxx DESC LIMIT 1")
+    LiveData<String> GetSPSalesPerformance(String branchCd);
+
+    @Query("SELECT nJOActual || '/' || nJOGoalxx AS Performance FROM MC_Branch_Performance WHERE sBranchCd =:branchCd ORDER BY sPeriodxx DESC LIMIT 1")
+    LiveData<String> GetJobOrderPerformance(String branchCd);
 
     class ActualGoal{
         public String Actual;

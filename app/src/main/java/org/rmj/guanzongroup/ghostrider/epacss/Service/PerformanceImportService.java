@@ -25,7 +25,7 @@ import org.rmj.g3appdriver.dev.Database.Repositories.RBranchPerformance;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
-import org.rmj.g3appdriver.lib.BullsEye.BranchPerformancePeriod;
+import org.rmj.g3appdriver.lib.BullsEye.PerformancePeriod;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.lib.ImportData.model.ImportDataCallback;
 import org.rmj.g3appdriver.lib.ImportData.model.ImportInstance;
@@ -117,7 +117,7 @@ public class PerformanceImportService extends JobService {
         protected String doInBackground(String... strings) {
             String response = "";
             try {
-                ArrayList<String> lsPeriod = BranchPerformancePeriod.getList();
+                ArrayList<String> lsPeriod = PerformancePeriod.getList();
                 if(poConn.isDeviceConnected()) {
                     if(lsPeriod.size() > 0) {
                         for(int x = 0 ; x < lsPeriod.size(); x++) {

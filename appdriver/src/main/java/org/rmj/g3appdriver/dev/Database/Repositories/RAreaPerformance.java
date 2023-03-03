@@ -23,7 +23,7 @@ import org.rmj.g3appdriver.dev.Database.DataAccessObject.DAreaPerformance;
 import org.rmj.g3appdriver.dev.Database.Entities.EAreaPerformance;
 import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
-import org.rmj.g3appdriver.lib.BullsEye.BranchPerformancePeriod;
+import org.rmj.g3appdriver.lib.BullsEye.PerformancePeriod;
 import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.dev.Api.WebApi;
@@ -69,10 +69,6 @@ public class RAreaPerformance {
         return poDao.getAreaDescription();
     }
 
-    public LiveData<String> getAreaNameFromCode(String fsAreaCde){
-        return poDao.getAreaNameFromCode();
-    }
-
     public boolean ImportData(){
         try{
             int lsUserLvl = poDao.GetUserLevel();
@@ -96,7 +92,7 @@ public class RAreaPerformance {
                 return false;
             }
 
-            ArrayList<String> lsPeriod = BranchPerformancePeriod.getList();
+            ArrayList<String> lsPeriod = PerformancePeriod.getList();
             for(int i = 0; i < lsPeriod.size(); i++){
                 JSONObject params = new JSONObject();
                 params.put("period", lsPeriod.get(i));

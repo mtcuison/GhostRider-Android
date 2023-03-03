@@ -18,24 +18,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.MaterialAutoCompleteTextView;
-import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.textview.MaterialTextView;
-import com.google.android.material.divider.MaterialDivider;
-import com.google.android.material.card.MaterialCardView;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchPerformance;
-import org.rmj.g3appdriver.lib.BullsEye.BranchPerformancePeriod;
+import org.rmj.g3appdriver.lib.BullsEye.PerformancePeriod;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 
 import java.text.DecimalFormat;
@@ -71,7 +62,7 @@ public class BranchPerformanceAdapter extends RecyclerView.Adapter<BranchPerform
     @Override
     public void onBindViewHolder(@NonNull OpeningViewHolder holder, @SuppressLint("RecyclerView") int position) {
         EBranchPerformance brnPerformance = brnPerformances.get(position);
-        holder.lblMonth.setText(BranchPerformancePeriod.parseDateLabel(brnPerformance.getPeriodxx()));
+        holder.lblMonth.setText(PerformancePeriod.parseDateLabel(brnPerformance.getPeriodxx()));
         holder.indexPosition = position;
         if(category.equalsIgnoreCase("MC")){
             holder.lblGoal.setText(String.valueOf(brnPerformance.getMCGoalxx()));
