@@ -22,6 +22,7 @@ import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -41,6 +42,7 @@ import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
+import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.lib.ImportData.ImportEmployeeRole;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Application;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Etc.FragmentAdapter;
@@ -53,6 +55,7 @@ import org.rmj.guanzongroup.ghostrider.epacss.Service.DataSyncService;
 import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMMainActivity;
 import org.rmj.guanzongroup.ghostrider.epacss.adapter.ExpandableListDrawerAdapter;
 import org.rmj.guanzongroup.ghostrider.epacss.ui.etc.AppDeptIcon;
+import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_Settings;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -254,7 +257,7 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        //getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
@@ -267,8 +270,6 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
             loMessage.setPositiveButton("Yes", (view, dialog) -> {
                 dialog.dismiss();
                 finish();
-//                new REmployee(getApplication()).LogoutUserSession();
-//                AppConfigPreference.getInstance(Activity_Main.this).setIsAppFirstLaunch(false);
             });
             loMessage.setNegativeButton("No", (view, dialog) -> dialog.dismiss());
             loMessage.setTitle("Guanzon Circle");
@@ -284,6 +285,28 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
         int id = item.getItemId();
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == R.id.action_settings){
+            startActivity(new Intent(Activity_Main.this, Activity_Settings.class));
+            overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
+        } else if(item.getItemId() == R.id.action_logout){
+            loMessage.initDialog();
+            loMessage.setNegativeButton("No", (view, dialog) -> dialog.dismiss());
+            loMessage.setPositiveButton("Yes", (view, dialog) -> {
+                dialog.dismiss();
+                finish();
+                new EmployeeMaster(getApplication()).LogoutUserSession();
+                AppConfigPreference.getInstance(Activity_Main.this).setIsAppFirstLaunch(false);
+                startActivity(new Intent(Activity_Main.this, Activity_SplashScreen.class));
+            });
+            loMessage.setTitle("GhostRider Session");
+            loMessage.setMessage("Are you sure you want to end session/logout?");
+            loMessage.show();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
