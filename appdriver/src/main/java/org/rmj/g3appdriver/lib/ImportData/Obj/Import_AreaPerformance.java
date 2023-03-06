@@ -14,16 +14,17 @@ package org.rmj.g3appdriver.lib.ImportData.Obj;
 import android.app.Application;
 
 import org.rmj.g3appdriver.dev.Database.Repositories.RAreaPerformance;
+import org.rmj.g3appdriver.lib.BullsEye.obj.AreaPerformance;
 import org.rmj.g3appdriver.lib.ImportData.model.ImportDataCallback;
 import org.rmj.g3appdriver.lib.ImportData.model.ImportInstance;
 
 public class Import_AreaPerformance implements ImportInstance {
     private static final String TAG = Import_AreaPerformance.class.getSimpleName();
 
-    private final RAreaPerformance poSys;
+    private final AreaPerformance poSys;
 
     public Import_AreaPerformance(Application instance) {
-        this.poSys = new RAreaPerformance(instance);
+        this.poSys = new AreaPerformance(instance);
     }
 
     @Override

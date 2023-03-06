@@ -11,22 +11,14 @@
 
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment;
 
-import static org.rmj.g3appdriver.lib.BullsEye.BranchPerformancePeriod.getList;
+import static org.rmj.g3appdriver.lib.BullsEye.PerformancePeriod.getList;
 
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
-import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.MaterialAutoCompleteTextView;
-import com.google.android.material.textfield.TextInputLayout;
+
 import com.google.android.material.textview.MaterialTextView;
-import com.google.android.material.divider.MaterialDivider;
-import com.google.android.material.card.MaterialCardView;
-import com.google.android.material.imageview.ShapeableImageView;
+
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -38,7 +30,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;

@@ -76,7 +76,6 @@
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".Activity.Activity_Inventory"
-            android:label="Inventory"
             android:screenOrientation="userPortrait"
             android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan" />
