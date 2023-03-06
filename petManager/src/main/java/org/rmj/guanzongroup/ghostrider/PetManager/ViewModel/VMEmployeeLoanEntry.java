@@ -94,16 +94,4 @@ public class VMEmployeeLoanEntry extends AndroidViewModel{
         }
         return output;
     }
-   /* public void showDatePicker(Activity activity){
-        Calendar cal = Calendar.getInstance();
-        DatePickerDialog dpd = new DatePickerDialog(activity, this, cal.get(YEAR), cal.get(MONTH), cal.get(DAY_OF_MONTH));
-        dpd.setCancelable(true);
-        dpd.show();
-    }*/
-   /*@Override
-    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        month += 1;
-        String seldate = month + "/" + dayOfMonth + "/" + year;
-        editDtPicker.setText(seldate);
-    }*/
 }

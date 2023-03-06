@@ -18,6 +18,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -25,6 +26,7 @@ import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.EmployeeLoan.model.LoanApplication;
@@ -33,6 +35,7 @@ import org.rmj.guanzongroup.ghostrider.PetManager.R;
 import org.rmj.guanzongroup.ghostrider.PetManager.ViewModel.VMEmployeeLoanEntry;
 
 import java.sql.Time;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -57,10 +60,9 @@ public class Activity_EmployeeLoanEntry extends AppCompatActivity {
     private TextInputEditText txt_firstpay;
     private TextView txtview_balance;
     private TextView txtview_amort;
+    private TextView txtview_totalinterest;
     private TextView txtview_currdate;
     private MaterialButton btn_saveloanentry;
-
-    Toast toast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +72,7 @@ public class Activity_EmployeeLoanEntry extends AppCompatActivity {
         mViewModel = new ViewModelProvider(this).get(VMEmployeeLoanEntry.class);
         loApp = new LoanApplication();
 
-//      set declared  object value by getting id object from xml file
+        //set declared  object value by getting id object from xml file
         toolbar = findViewById(R.id.toolbar);
         txtview_currdate = findViewById(R.id.txtview_currdate);
         spn_loantype = findViewById(R.id.spn_loantype);
@@ -80,50 +82,55 @@ public class Activity_EmployeeLoanEntry extends AppCompatActivity {
         txt_firstpay = findViewById(R.id.txt_firstpay);
         txtview_balance = findViewById(R.id.txtview_balance);
         txtview_amort = findViewById(R.id.txtview_amort);
+        txtview_totalinterest = findViewById(R.id.txtview_totalinterest);
         btn_saveloanentry = findViewById(R.id.btn_saveloanentry);
 
         /*TOOL BAR*/
         setToolbarAction();
+
         /*TEXTVIEW FOR CURRENT DAY*/
         setDisplayCurrentDate();
+
         /*Loan Type Object Function*/
         setLoanTypeList();
+
         /*TextInput*/
-        setDecimalText(txt_loanamt, ".00");
-        setDecimalText(txt_interest, ".00");
-        setDecimalText(txt_firstpay, ".00");
-        mViewModel.validateAmtFormat("integer", txt_terms.getText().toString());
+        setDefaultText(txt_loanamt, ".00", "decimal");
+        setDefaultText(txt_interest, ".00", "decimal");
+        setDefaultText(txt_firstpay, ".00", "decimal");
+        setDefaultText(txt_terms, "0", "integer");
+
         /*Apply Button*/
         setButtonAction();
     }
     private void setToolbarAction(){
         setSupportActionBar(toolbar); //set object toolbar as default action bar for activity
-        getSupportActionBar().setTitle(""); //set default title for action bar
+        getSupportActionBar().setTitle("Employee Loan"); //set default title for action bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); //set back button to toolbar
         getSupportActionBar().setDisplayShowHomeEnabled(true); //enable the back button set on toolbar
     }
     private void setLoanTypeList(){
-//      get different loan type values from declared view model above and store to list type
+      //get different loan type values from declared view model above and store to list type
         List<LoanType> loList = mViewModel.GetLoanTypes();
-//      declare an array type
-        ArrayList<String> loTypes = new ArrayList<>();
-//      create a for loop that scans the list value and store to array object
+        ArrayList<String> loTypes = new ArrayList<>(); //declare an array type
+
+      //create a for loop that scans the list value and store to array object
         for(int x= 0; x < loList.size(); x++){
             LoanType loType = loList.get(x);
             String lsType = loType.getLoanName();
             loTypes.add(lsType);
         }
-//      create an adapter for array as on how it could be set on object,
-//      1st arg: CLASS, 2nd arg: Object Layout View, 3rd arg: Value
+        /*create an adapter for array as on how it could be set on object,
+            1st arg: CLASS, 2nd arg: Object Layout View, 3rd arg: Value*/
         ArrayAdapter<String> loAdapter = new ArrayAdapter<>(
                 Activity_EmployeeLoanEntry.this,
                 android.R.layout.simple_dropdown_item_1line,
                 loTypes.toArray(new String[0]));
 
-//      set the view of values to object
+        //set the view of values to object
         spn_loantype.setAdapter(loAdapter);
 
-        //      set event listener for the object
+        // set event listener for the object
         spn_loantype.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -153,24 +160,26 @@ public class Activity_EmployeeLoanEntry extends AppCompatActivity {
         }
         txtview_currdate.setText(currdate);
     }
-    private void setDecimalText(TextInputEditText editText, String defText){
+    private void setDefaultText(TextInputEditText editText, String defText,String formattoCheck){
         editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus == false){
                     String currtext = editText.getText().toString();
                     if (currtext.isEmpty() == false && currtext.trim() != ""){
-                        Boolean matchFormat = mViewModel.validateAmtFormat("decimal", currtext);
+                        Boolean matchFormat = mViewModel.validateAmtFormat(formattoCheck, currtext);
 
                         if (matchFormat == false) {
                             if (defText.isEmpty() == false && defText.trim() != "") {
                                 currtext = currtext.concat(defText);
                                 editText.setText("");
                                 editText.setText(currtext);
+                                return;
                             }
                         }
+                        computeBalance();
                     }else {
-                        editText.setText("0.00");
+                        editText.setText(defText);
                     }
                 }
             }
@@ -181,11 +190,9 @@ public class Activity_EmployeeLoanEntry extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 SaveLoanApplication();
+                clearFields();
             }
         });
-    }
-    private void setComputation(double loanAmt){
-
     }
     private void SaveLoanApplication(){
         //VALIDATE LOAN TYPE SELECTION
@@ -215,10 +222,79 @@ public class Activity_EmployeeLoanEntry extends AppCompatActivity {
             Toast.makeText(Activity_EmployeeLoanEntry.this, "Invalid Amount Format", Toast.LENGTH_SHORT).show();
             return;
         }
+        //Loan Amount should not be less than equal to first payment.
+        if(Double.parseDouble(loanamt) <= Double.parseDouble(firstpay)){
+            Toast.makeText(Activity_EmployeeLoanEntry.this, "Loan Amount should be higher than First Payment", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        //terms should not be lees than 0
+        if (Integer.parseInt(terms) <= 0){
+            Toast.makeText(Activity_EmployeeLoanEntry.this, "Please Enter Valid Terms", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         loApp.setLoanType(loantype);
         loApp.setAmountxx(Double.parseDouble(loanamt));
         loApp.setInterest(Double.parseDouble(interest));
         loApp.setLoanTerm(Integer.parseInt(terms));
         loApp.setAmountxx(Double.parseDouble(firstpay));
+    }
+    private void clearFields(){
+        spn_loantype.setText("");
+        txt_loanamt.setText("");
+        txt_interest.setText("");
+        txt_terms.setText("");
+        txt_firstpay.setText("");
+        txtview_balance.setText(".00");
+        txtview_amort.setText(".00");
+        txtview_totalinterest.setText(".00");
+    }
+    private void computeBalance(){
+        double loanAmt = 0.00;
+        double intrstAmt = 0.00;
+        double firstPay = 0.00;
+        int terms = 0;
+
+        if (!txt_loanamt.getText().toString().isEmpty() && !txt_loanamt.getText().toString().equals("")){
+            loanAmt = Double.parseDouble(txt_loanamt.getText().toString());
+        }else if (!txt_interest.getText().toString().isEmpty() && !txt_interest.getText().toString().equals("")){
+            intrstAmt = Double.parseDouble(txt_interest.getText().toString());
+        }else if (!txt_firstpay.getText().toString().isEmpty() && !txt_firstpay.getText().toString().equals("")){
+            firstPay = Double.parseDouble(txt_firstpay.getText().toString());
+        }else if (!txt_terms.getText().toString().isEmpty() && !txt_terms.getText().toString().equals("")){
+            terms = Integer.parseInt(txt_terms.getText().toString());
+        }
+
+        double totalBalance = loanAmt;
+
+        if (loanAmt > 0){
+            //AMOUNT WITH DEDUCTED FIRST PAYMENT
+            if (firstPay > 0){
+                //deduct first payment from loan amt
+                loanAmt = loanAmt - firstPay;
+                //set computed balance
+                totalBalance = loanAmt;
+
+            }
+            //AMOUNT WITH INTEREST
+            if (intrstAmt > 0){
+                //interest rate / 100 * loan amount
+                double totalIntrst = (intrstAmt / 100) * loanAmt;
+                //set computed balance
+                totalBalance = loanAmt + totalIntrst;
+                txtview_totalinterest.setText(new DecimalFormat("#,###.00").format(totalIntrst)); //set total interest
+            }
+
+            if (terms > 0){
+                double loanPerMonth = totalBalance / terms; //get loan monthly
+                double intrstPerMonth = intrstAmt / terms; //get interest monthly
+
+                double totalPayperMonth = (loanPerMonth + intrstPerMonth); //sum total amt monthly
+
+                txtview_amort.setText(new DecimalFormat("#,###.00").format(totalPayperMonth)); //display
+            }
+
+            txtview_balance.setText(new DecimalFormat("#,###.00").format(totalBalance)); //set total loan balance
+        }
     }
 }
