@@ -15,8 +15,7 @@
     android:layout_height="match_parent"
     android:theme="@style/GhostRiderMaterialTheme"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.home.Fragment_Home_BH"
-    android:layout_marginTop="45dp">
+    tools:context=".ui.home.Fragment_Home_BH">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -37,7 +36,7 @@
             android:id="@+id/cardView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="105dp"
             android:layout_marginRight="40dp"
             app:cardCornerRadius="90dp"
             android:elevation="25dp"
@@ -57,7 +56,7 @@
             android:id="@+id/bhName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="145dp"
             android:layout_marginStart="20dp"
             android:fontFamily="@font/roboto"
             android:text="DE CELIS, TEEJEI F."

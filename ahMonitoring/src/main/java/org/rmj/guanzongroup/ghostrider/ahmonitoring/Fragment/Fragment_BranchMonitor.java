@@ -13,30 +13,16 @@ package org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment;
 
 import static org.rmj.g3appdriver.etc.AppConstants.CHART_MONTH_LABEL;
 
-import androidx.lifecycle.ViewModelProvider;
-
-import android.graphics.Color;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.MaterialAutoCompleteTextView;
-import com.google.android.material.textfield.TextInputLayout;
-import com.google.android.material.textview.MaterialTextView;
-import com.google.android.material.divider.MaterialDivider;
-import com.google.android.material.card.MaterialCardView;
-import com.google.android.material.imageview.ShapeableImageView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Description;
@@ -45,14 +31,12 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
-import com.github.mikephil.charting.utils.ColorTemplate;
 
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Monitoring;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMBranchMonitor;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Fragment_BranchMonitor extends Fragment {
 
@@ -124,7 +108,7 @@ public class Fragment_BranchMonitor extends Fragment {
 
     private void initWidgets(View v){
 
-        lineChart = v.findViewById(R.id.activity_main_linechart);
+        lineChart = v.findViewById(R.id.branch_linechart);
     }
 
 }
