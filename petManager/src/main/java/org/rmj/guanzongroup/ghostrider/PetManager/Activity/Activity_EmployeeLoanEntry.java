@@ -174,7 +174,6 @@ public class Activity_EmployeeLoanEntry extends AppCompatActivity {
                                 currtext = currtext.concat(defText);
                                 editText.setText("");
                                 editText.setText(currtext);
-                                return;
                             }
                         }
                         computeBalance();
@@ -257,11 +256,17 @@ public class Activity_EmployeeLoanEntry extends AppCompatActivity {
 
         if (!txt_loanamt.getText().toString().isEmpty() && !txt_loanamt.getText().toString().equals("")){
             loanAmt = Double.parseDouble(txt_loanamt.getText().toString());
-        }else if (!txt_interest.getText().toString().isEmpty() && !txt_interest.getText().toString().equals("")){
+        }
+
+        if (!txt_interest.getText().toString().isEmpty() && !txt_interest.getText().toString().equals("")){
             intrstAmt = Double.parseDouble(txt_interest.getText().toString());
-        }else if (!txt_firstpay.getText().toString().isEmpty() && !txt_firstpay.getText().toString().equals("")){
+        }
+
+        if (!txt_firstpay.getText().toString().isEmpty() && !txt_firstpay.getText().toString().equals("")){
             firstPay = Double.parseDouble(txt_firstpay.getText().toString());
-        }else if (!txt_terms.getText().toString().isEmpty() && !txt_terms.getText().toString().equals("")){
+        }
+
+        if (!txt_terms.getText().toString().isEmpty() && !txt_terms.getText().toString().equals("")){
             terms = Integer.parseInt(txt_terms.getText().toString());
         }
 
