@@ -28,7 +28,7 @@
     <string name="forgot_password">Forgot Password?</string>
     <string name="agree">I agree</string>
     <string name="terms_and_conditions">with the <b>Terms and Conditions.</b></string>
-    <string name="user_authentication">User Authentication</string>
+    <string name="user_authentication">Login</string>
     <string name="lblRetrievePassword">Retrieve Password</string>
     <string name="create_account_description">Please provide all information requested to create your account.</string>
     <string name="email_retrieval_message">Please enter your email address to receive password info.</string>
