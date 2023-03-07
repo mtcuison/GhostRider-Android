@@ -144,11 +144,14 @@ public class AreaPerformance extends ABPM {
 
     @Override
     public LiveData<String> GetCurentSPSalesPerformance() {
+
         return poDao.GetSPSalesPerformance();
     }
 
     @Override
     public LiveData<String> GetJobOrderPerformance() {
+
         return poDao.GetJobOrderPerformance();
     }
+
 }

@@ -1,7 +1,5 @@
 package org.rmj.guanzongroup.ghostrider.epacss.ui.home;
 
-import static org.rmj.g3appdriver.etc.AppConstants.SETTINGS;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,10 +10,12 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.android.material.textview.MaterialTextView;
 
 import org.rmj.g3appdriver.dev.DeptCode;
@@ -28,7 +28,6 @@ import org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_SplashScreen;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.adapter.NewsEventsAdapter;
 import org.rmj.guanzongroup.ghostrider.epacss.adapter.NewsEventsModel;
-import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_Settings;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,14 +35,11 @@ import java.util.List;
 public class Fragment_Home_AH extends Fragment {
 
     private VMHomeAH mViewModel;
-    private MaterialTextView lblFullNme
-                            ,lblDept;
-    private MaterialCardView Logout
-                            ,Settings
-                            ,CashCount
-                            ,Inventory;
+    private MaterialTextView lblFullNme ,lblDept;
+    private MaterialTextView mcGoalPerc,mcGoalFraction,spGoalPerc,spGoalFraction,joGoalPerc,joGoalFraction;
+    private MaterialCardView CashCount,Inventory;
     private List<NewsEventsModel> newsList;
-
+    private CircularProgressIndicator mcIndicator,spIndicator,joIndicator;
     private NewsEventsAdapter adapter;
     private RecyclerView recyclerView;
     private RecyclerView recyclerViewOpening;
@@ -53,7 +49,7 @@ public class Fragment_Home_AH extends Fragment {
         return new Fragment_Home_AH();
     }
 
-    @SuppressLint("NonConstantResourceId")
+    @SuppressLint({"NonConstantResourceId", "MissingInflatedId"})
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         mViewModel = new ViewModelProvider(this).get(VMHomeAH.class);
@@ -63,12 +59,24 @@ public class Fragment_Home_AH extends Fragment {
           adapter = new NewsEventsAdapter(getContext(), newsList) ;
           lblFullNme = view.findViewById(R.id.lblEmpNme);
           lblDept = view.findViewById(R.id.lblEmpPosition);
-          Logout = view.findViewById(R.id.cv_logout);
-          Settings = view.findViewById(R.id.cv_settings);
           CashCount = view.findViewById(R.id.cv_cashCount);
           Inventory = view.findViewById(R.id.cv_inventory);
+
+          mcIndicator = view.findViewById(R.id.cpi_mc_sales);
+          mcGoalPerc = view.findViewById(R.id.lblMCGoal);
+          mcGoalFraction = view.findViewById(R.id.lblMCGoalPercent);
+
+          spIndicator = view.findViewById(R.id.cpi_sp_sales);
+          spGoalPerc = view.findViewById(R.id.lblSPGoal);
+          spGoalFraction = view.findViewById(R.id.lblSPGoalPercent);
+
+          joIndicator = view.findViewById(R.id.cpi_job_order);
+          joGoalPerc = view.findViewById(R.id.lblJobOrderPercent);
+          joGoalFraction = view.findViewById(R.id.lblJobOrder);
+
         initButton();
         initUserInfo();
+        initGoals();
         return view;
     }
     public void showDialog(){
@@ -88,22 +96,22 @@ public class Fragment_Home_AH extends Fragment {
     public void initButton(){
 
 
-        Logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showDialog();
-            }
-        });
-        Settings.setOnClickListener(new View.OnClickListener() {
-            Intent loIntent;
-            @Override
-            public void onClick(View view) {
-                loIntent = new Intent(getActivity(), Activity_Settings.class);
-                startActivityForResult(loIntent, SETTINGS);
-                requireActivity().overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
-
-            }
-        });
+//        Logout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                showDialog();
+//            }
+//        });
+//        Settings.setOnClickListener(new View.OnClickListener() {
+//            Intent loIntent;
+//            @Override
+//            public void onClick(View view) {
+//                loIntent = new Intent(getActivity(), Activity_Settings.class);
+//                startActivityForResult(loIntent, SETTINGS);
+//                requireActivity().overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
+//
+//            }
+//        });
         CashCount.setOnClickListener(new View.OnClickListener() {
             Intent loIntent;
             @Override
@@ -125,6 +133,44 @@ public class Fragment_Home_AH extends Fragment {
 
         });
     }
+    private void initGoals(){
+        mViewModel.GetCurrentMCSalesPerformance().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String mc_goal) {
+                mcGoalPerc.setText(mc_goal);
+                if (mc_goal.contains("/")){
+                    String[] rat = mc_goal.split("/");
+                    double ratio =Double.parseDouble(rat[0]) / Double.parseDouble(rat[1]) * 100;
+                    mcGoalFraction.setText(String.valueOf(Math.round(ratio)) + "%");
+                    mcIndicator.setProgress((int) (Math.round(ratio)));
+                }
+            }
+        });
+        mViewModel.GetJobOrderPerformance().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String sp_goal) {
+                spGoalPerc.setText(sp_goal);
+                if (sp_goal.contains("/")){
+                    String[] rat = sp_goal.split("/");
+                    double ratio =Double.parseDouble(rat[0]) / Double.parseDouble(rat[1]) * 100;
+                    spGoalFraction.setText(String.valueOf(Math.round(ratio)) + "%");
+                    spIndicator.setProgress((int) (Math.round(ratio)));
+                }
+            }
+        });
+        mViewModel.GetJobOrderPerformance().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String jo_goal) {
+                joGoalPerc.setText(jo_goal);
+                if (jo_goal.contains("/")){
+                    String[] rat = jo_goal.split("/");
+                    double ratio =Double.parseDouble(rat[0]) / Double.parseDouble(rat[1]) * 100;
+                    joGoalFraction.setText(String.valueOf(Math.round(ratio)) + "%");
+                    joIndicator.setProgress((int) (Math.round(ratio)));
+                }
+            }
+        });
+    }
     private void initUserInfo(){
         mViewModel.getEmployeeInfo().observe(getViewLifecycleOwner(), eEmployeeInfo -> {
             try {
@@ -139,11 +185,4 @@ public class Fragment_Home_AH extends Fragment {
             }
         });
     }
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(VMHomeAH.class);
-        // TODO: Use the ViewModel
-    }
-
 }

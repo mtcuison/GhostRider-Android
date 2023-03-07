@@ -11,11 +11,9 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DBranchOpeningMonitor;
-import org.rmj.g3appdriver.dev.Database.Entities.EAreaPerformance;
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchPerformance;
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
-import org.rmj.g3appdriver.dev.Database.Repositories.RAreaPerformance;
 import org.rmj.g3appdriver.dev.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.dev.Database.Repositories.RBranchPerformance;
 import org.rmj.g3appdriver.dev.Database.Repositories.RNotificationInfo;
@@ -23,6 +21,7 @@ import org.rmj.g3appdriver.dev.Device.Telephony;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.lib.Account.SessionManager;
+import org.rmj.g3appdriver.lib.BullsEye.obj.AreaPerformance;
 import org.rmj.g3appdriver.lib.Notifications.BranchOpeningMonitor;
 
 import java.util.List;
@@ -41,7 +40,8 @@ public class VMHomeAH extends AndroidViewModel {
 //        private MutableLiveData<String> psMobleNo = new MutableLiveData<>();
 //    private final MutableLiveData<Integer> cv_ahMonitoring = new MutableLiveData<>();
 //    private final MutableLiveData<Integer> userLvl = new MutableLiveData<>();
-    private final RAreaPerformance poDatabse;
+//    private final RAreaPerformance poDatabse;
+    private final AreaPerformance poSys;
     private final RNotificationInfo poNotification;
     private final BranchOpeningMonitor poOpening;
     private final RBranch poBrInfo;
@@ -52,7 +52,8 @@ public class VMHomeAH extends AndroidViewModel {
         poSession = new SessionManager(application);
         poEmploye = new EmployeeMaster(application);
         psMobleNo.setValue(new Telephony(application).getMobilNumbers());
-        poDatabse = new RAreaPerformance(application);
+//        poDatabse = new RAreaPerformance(application);
+        this.poSys = new AreaPerformance(application);
         this.poNotification = new RNotificationInfo(application);
         this.cv_ahMonitoring.setValue(View.GONE);
         this.poOpening = new BranchOpeningMonitor(application);
@@ -68,10 +69,6 @@ public class VMHomeAH extends AndroidViewModel {
         return psMobleNo;
     }
 
-    public LiveData<List<EAreaPerformance>> getAreaPerformanceInfoList(){
-        return poDatabse.getAreaPerformanceInfoList();
-    }
-
     public LiveData<String> getUserAreaCodeForDashboard(){
         return poEmploye.getUserAreaCodeForDashboard();
     }
@@ -80,9 +77,6 @@ public class VMHomeAH extends AndroidViewModel {
         return poBranch.getBranchPerformanceForDashBoard();
     }
 
-    public LiveData<List<EAreaPerformance>> getAreaPerformanceDashboard(){
-        return poDatabse.getAreaPerformanceDashboard();
-    }
     // TODO: Implement the ViewModel
     public LiveData<EBranchInfo> GetUserBranchInfo(){
         return poBrInfo.getUserBranchInfo();
@@ -123,5 +117,16 @@ public class VMHomeAH extends AndroidViewModel {
 
     public LiveData<String> getBranchAreaCode(String fsBranchCd) {
         return poBrInfo.getBranchAreaCode(fsBranchCd);
+    }
+
+    public LiveData<String> GetCurrentMCSalesPerformance(){
+        return poSys.GetCurrentMCSalesPerformance();
+    }
+
+    public LiveData<String> GetCurentSPSalesPerformance() {
+        return poSys.GetCurentSPSalesPerformance();
+    }
+    public LiveData<String> GetJobOrderPerformance() {
+        return poSys.GetJobOrderPerformance();
     }
 }
