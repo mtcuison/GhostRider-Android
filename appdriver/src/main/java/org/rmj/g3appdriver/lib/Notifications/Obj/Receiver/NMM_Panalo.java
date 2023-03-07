@@ -1,4 +1,4 @@
-package org.rmj.g3appdriver.lib.Notifications.Obj;
+package org.rmj.g3appdriver.lib.Notifications.Obj.Receiver;
 
 import android.app.Application;
 
@@ -7,36 +7,39 @@ import androidx.lifecycle.LiveData;
 import com.google.firebase.messaging.RemoteMessage;
 
 import org.json.JSONObject;
+import org.rmj.g3appdriver.dev.Api.HttpHeaders;
+import org.rmj.g3appdriver.dev.Api.WebApi;
 import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DNotifications;
 import org.rmj.g3appdriver.dev.Database.Entities.ENotificationMaster;
 import org.rmj.g3appdriver.dev.Database.Entities.ENotificationRecipient;
 import org.rmj.g3appdriver.dev.Database.Entities.ENotificationUser;
+import org.rmj.g3appdriver.dev.Database.Entities.EPanaloReward;
 import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
-import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.lib.Notifications.NOTIFICATION_STATUS;
 import org.rmj.g3appdriver.lib.Notifications.RemoteMessageParser;
 import org.rmj.g3appdriver.lib.Notifications.model.iNotification;
 import org.rmj.g3appdriver.lib.Notifications.pojo.NotificationItemList;
-import org.rmj.g3appdriver.dev.Api.WebApi;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class NMM_Events implements iNotification {
-    private static final String TAG = NMM_Events.class.getSimpleName();
+public class NMM_Panalo implements iNotification {
+    private static final String TAG = NMM_Panalo.class.getSimpleName();
 
     private final DNotifications poDao;
+
     private final HttpHeaders poHeaders;
+
     private final AppConfigPreference poConfig;
 
     private String message;
 
-    public NMM_Events(Application instance) {
+    public NMM_Panalo(Application instance) {
         this.poDao = GGC_GriderDB.getInstance(instance).NotificationDao();
         this.poHeaders = HttpHeaders.getInstance(instance);
         this.poConfig = AppConfigPreference.getInstance(instance);
@@ -47,6 +50,9 @@ public class NMM_Events implements iNotification {
         try{
             RemoteMessageParser loParser = new RemoteMessageParser(foVal);
             String lsMesgIDx = loParser.getValueOf("transno");
+            String lsUserIDx = poDao.GetUserID();
+            String lsRecpntx = loParser.getValueOf("rcptid");
+
             if(poDao.CheckNotificationIfExist(lsMesgIDx) >= 1){
                 String lsStatus = loParser.getValueOf("status");
                 poDao.updateNotificationStatusFromOtherDevice(lsMesgIDx, lsStatus);
@@ -82,7 +88,24 @@ public class NMM_Events implements iNotification {
                 if(poDao.CheckIfUserExist(loParser.getValueOf("srceid")) == null){
                     poDao.insert(loUser);
                 }
+
+                JSONObject loData = new JSONObject(loMaster.getDataSndx());
+                JSONObject loDetail = loData.getJSONObject("data");
+                String lsReferNox = loDetail.getString("sReferNox");
+                String lcTranStat = loDetail.getString("cTranStat");
+
+                EPanaloReward loReward = new EPanaloReward();
+                loReward.setPanaloCD(lsReferNox);
+                loReward.setTranStat(lcTranStat);
+                loReward.setModified(new AppConstants().DATE_MODIFIED);
+                loReward.setTimeStmp(new AppConstants().DATE_MODIFIED);
             }
+
+            if(!lsUserIDx.equalsIgnoreCase(lsRecpntx)){
+                message = "User is not the recipient of notification";
+                return null;
+            }
+
             return lsMesgIDx;
         } catch (Exception e){
             e.printStackTrace();

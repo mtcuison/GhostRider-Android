@@ -44,25 +44,17 @@ public class Fragment_AreaMonitor extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        mViewModel = new ViewModelProvider(this).get(VMAreaMonitor.class);
         View view = inflater.inflate(R.layout.fragment_area_monitor, container, false);
 
-
-
-        return view;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(VMAreaMonitor.class);
-
+        recyclerView = view.findViewById(R.id.recyclerView);
         mViewModel.getAreaPerformanceInfoList().observe(getViewLifecycleOwner(), areaPerformances -> {
             List<Area> areaList = new ArrayList<>();
             for(int x = 0; x < areaPerformances.size(); x++){
                 Area area = new Area(areaPerformances.get(x).getAreaCode(),
-                                    areaPerformances.get(x).getAreaDesc(),
-                                    String.valueOf(areaPerformances.get(x).getMCGoalxx()),
-                                    String.valueOf(areaPerformances.get(x).getMCActual()));
+                        areaPerformances.get(x).getAreaDesc(),
+                        String.valueOf(areaPerformances.get(x).getMCGoalxx()),
+                        String.valueOf(areaPerformances.get(x).getMCActual()));
                 areaList.add(area);
             }
             AreaMonitoringAdapter loAdapter = new AreaMonitoringAdapter(areaList);
@@ -71,6 +63,7 @@ public class Fragment_AreaMonitor extends Fragment {
             recyclerView.setLayoutManager(loManager);
             recyclerView.setAdapter(loAdapter);
         });
-    }
 
+        return view;
+    }
 }

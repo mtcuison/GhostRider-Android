@@ -8,12 +8,11 @@
 
     <item android:id="@+id/nav_panalo"
         android:title="Panalo"
-        android:icon="@drawable/ic_menu_rewards"
+        android:icon="@drawable/ic_baseline_panalo"
         android:enabled="true"/>
 
     <item android:id="@+id/nav_notifications"
         android:title="Notifications"
         android:icon="@drawable/ic_head_notification"
-        android:iconTint="@color/black"
         android:enabled="true"/>
 </menu>

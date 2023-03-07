@@ -69,6 +69,7 @@ import org.rmj.g3appdriver.dev.Database.DataAccessObject.DNotificationUser;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DNotifications;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DOccupationInfo;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DPanalo;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DPayslip;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DProvinceInfo;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DRaffleInfo;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DRawDao;
@@ -256,6 +257,7 @@ public abstract class GGC_GriderDB extends RoomDatabase {
     public abstract DNotificationDetail nDetailDao();
     public abstract DNotificationUser nUserDao();
     public abstract DPanalo panaloDao();
+    public abstract DPayslip payslipDao();
 
     public static synchronized GGC_GriderDB getInstance(Context context){
         if(instance == null){
