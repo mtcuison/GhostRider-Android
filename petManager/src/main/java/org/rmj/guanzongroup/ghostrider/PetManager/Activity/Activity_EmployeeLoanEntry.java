@@ -36,6 +36,7 @@ import org.rmj.guanzongroup.ghostrider.PetManager.ViewModel.VMEmployeeLoanEntry;
 
 import java.sql.Time;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -139,15 +140,14 @@ public class Activity_EmployeeLoanEntry extends AppCompatActivity {
                 String lsType = loType.getLoanName();
                 loApp.setLoanIDxx(lsIDxx);
                 loApp.setLoanType(lsType);
-
-                Log.d(TAG, "SELECTED Loan Type: " + lsIDxx +", "+ lsType);
             }
         });
     }
     private void setDisplayCurrentDate(){
         Calendar cal = Calendar.getInstance();
         String currdate;
-        String month = mViewModel.convertMonthtoWord(cal.get(MONTH));
+
+        String month = mViewModel.convertMonthtoWord(cal.get(MONTH) + 1);
         String day = String.valueOf(cal.get(DAY_OF_MONTH));
         String year = String.valueOf(cal.get(YEAR));
 
@@ -165,19 +165,28 @@ public class Activity_EmployeeLoanEntry extends AppCompatActivity {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus == false){
-                    String currtext = editText.getText().toString();
-                    if (currtext.isEmpty() == false && currtext.trim() != ""){
-                        Boolean matchFormat = mViewModel.validateAmtFormat(formattoCheck, currtext);
+                    String currtext = editText.getText().toString(); //displayed value
+                    if (!currtext.isEmpty() && !currtext.trim().equals("")){
+                        Boolean matchFormat = mViewModel.validateAmtFormat(formattoCheck, currtext); //amt format return
 
                         if (matchFormat == false) {
-                            if (defText.isEmpty() == false && defText.trim() != "") {
-                                currtext = currtext.concat(defText);
+                            if (!defText.isEmpty() && !defText.trim().equals("")) {
+                                if(formattoCheck.equals("decimal")){
+                                    //format value to decimal format, String cannot be formatted
+                                    currtext =  new DecimalFormat("####.00").format(Integer.parseInt(currtext));
+                                }else if (formattoCheck.equals("integer")){
+                                    //format value to number format, String cannot be formatted
+                                    currtext =  NumberFormat.getInstance().format(Double.parseDouble(currtext));
+                                }
+                                //replace displayed value
                                 editText.setText("");
                                 editText.setText(currtext);
                             }
                         }
+                        //compute total amount and display
                         computeBalance();
-                    }else {
+                    }else{
+                        //set default value
                         editText.setText(defText);
                     }
                 }
@@ -188,6 +197,7 @@ public class Activity_EmployeeLoanEntry extends AppCompatActivity {
         btn_saveloanentry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //save entries and clear values
                 SaveLoanApplication();
                 clearFields();
             }
