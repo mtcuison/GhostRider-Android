@@ -22,6 +22,8 @@ import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_CashCounter;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Inventory;
 import org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_SplashScreen;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.adapter.NewsEventsAdapter;
@@ -37,7 +39,9 @@ public class Fragment_Home_AH extends Fragment {
     private MaterialTextView lblFullNme
                             ,lblDept;
     private MaterialCardView Logout
-                            ,Settings;
+                            ,Settings
+                            ,CashCount
+                            ,Inventory;
     private List<NewsEventsModel> newsList;
 
     private NewsEventsAdapter adapter;
@@ -61,6 +65,8 @@ public class Fragment_Home_AH extends Fragment {
           lblDept = view.findViewById(R.id.lblEmpPosition);
           Logout = view.findViewById(R.id.cv_logout);
           Settings = view.findViewById(R.id.cv_settings);
+          CashCount = view.findViewById(R.id.cv_cashCount);
+          Inventory = view.findViewById(R.id.cv_inventory);
         initButton();
         initUserInfo();
         return view;
@@ -81,6 +87,7 @@ public class Fragment_Home_AH extends Fragment {
     }
     public void initButton(){
 
+
         Logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -96,6 +103,26 @@ public class Fragment_Home_AH extends Fragment {
                 requireActivity().overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
 
             }
+        });
+        CashCount.setOnClickListener(new View.OnClickListener() {
+            Intent loIntent;
+            @Override
+            public void onClick(View view) {
+                loIntent = new Intent(getActivity(), Activity_CashCounter.class);
+                startActivity(loIntent);
+                requireActivity().overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
+            }
+
+        });
+        Inventory.setOnClickListener(new View.OnClickListener() {
+            Intent loIntent;
+            @Override
+            public void onClick(View view) {
+                loIntent = new Intent(getActivity(), Activity_Inventory.class);
+                startActivity(loIntent);
+                requireActivity().overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
+            }
+
         });
     }
     private void initUserInfo(){

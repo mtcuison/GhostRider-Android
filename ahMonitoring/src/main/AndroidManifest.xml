@@ -4,8 +4,10 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
-    <application
-        android:usesCleartextTraffic="true">
+    <application android:usesCleartextTraffic="true">
+        <activity
+            android:name=".Adapter.Adapter_Top_Performing"
+            android:exported="false" />
         <activity
             android:name=".Activity.Activity_CashCountLogDetails"
             android:exported="false" />
