@@ -161,11 +161,11 @@ public class Fragment_Home_AH extends Fragment {
         mViewModel.GetJobOrderPerformance().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(String jo_goal) {
-                joGoalPerc.setText(jo_goal);
+                joGoalFraction.setText(jo_goal);
                 if (jo_goal.contains("/")){
                     String[] rat = jo_goal.split("/");
                     double ratio =Double.parseDouble(rat[0]) / Double.parseDouble(rat[1]) * 100;
-                    joGoalFraction.setText(String.valueOf(Math.round(ratio)) + "%");
+                    joGoalPerc.setText(String.valueOf(Math.round(ratio)) + "%");
                     joIndicator.setProgress((int) (Math.round(ratio)));
                 }
             }

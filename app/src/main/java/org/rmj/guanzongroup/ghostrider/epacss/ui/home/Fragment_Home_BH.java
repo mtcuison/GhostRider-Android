@@ -67,8 +67,8 @@ public class Fragment_Home_BH extends Fragment {
         spGoalFraction = view.findViewById(R.id.lblSPGoalPercent);
 
         joIndicator = view.findViewById(R.id.cpi_job_order);
-        joGoalPerc = view.findViewById(R.id.lblJobOrderPercent);
-        joGoalFraction = view.findViewById(R.id.lblJobOrder);
+        joGoalPerc = view.findViewById(R.id.lblJobOrder);
+        joGoalFraction = view.findViewById(R.id.lblJobOrderPercent);
         initUserInfo();
         initGoals();
         return view;
