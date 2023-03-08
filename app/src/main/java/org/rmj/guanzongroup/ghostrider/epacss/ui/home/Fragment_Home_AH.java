@@ -24,6 +24,7 @@ import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_CashCounter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Inventory;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Monitoring;
 import org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_SplashScreen;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.adapter.NewsEventsAdapter;
@@ -37,7 +38,7 @@ public class Fragment_Home_AH extends Fragment {
     private VMHomeAH mViewModel;
     private MaterialTextView lblFullNme ,lblDept;
     private MaterialTextView mcGoalPerc,mcGoalFraction,spGoalPerc,spGoalFraction,joGoalPerc,joGoalFraction;
-    private MaterialCardView CashCount,Inventory;
+    private MaterialCardView CashCount,Inventory,btnPerformance;
     private List<NewsEventsModel> newsList;
     private CircularProgressIndicator mcIndicator,spIndicator,joIndicator;
     private NewsEventsAdapter adapter;
@@ -73,6 +74,8 @@ public class Fragment_Home_AH extends Fragment {
           joIndicator = view.findViewById(R.id.cpi_job_order);
           joGoalPerc = view.findViewById(R.id.lblJobOrderPercent);
           joGoalFraction = view.findViewById(R.id.lblJobOrder);
+
+          btnPerformance = view.findViewById(R.id.cb_performance);
 
         initButton();
         initUserInfo();
@@ -112,6 +115,15 @@ public class Fragment_Home_AH extends Fragment {
 //
 //            }
 //        });
+        btnPerformance.setOnClickListener(new View.OnClickListener() {
+            Intent loIntent;
+            @Override
+            public void onClick(View view) {
+                loIntent = new Intent(getActivity(), Activity_Monitoring.class);
+                startActivity(loIntent);
+                requireActivity().overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
+            }
+        });
         CashCount.setOnClickListener(new View.OnClickListener() {
             Intent loIntent;
             @Override

@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.android.material.textview.MaterialTextView;
 
@@ -20,6 +21,7 @@ import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_BranchPerformance;
 import org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_SplashScreen;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.adapter.NewsEventsModel;
@@ -43,6 +45,7 @@ public class Fragment_Home_BH extends Fragment {
     private CircularProgressIndicator mcIndicator,spIndicator,joIndicator;
     private MaterialTextView mcGoalPerc,mcGoalFraction,spGoalPerc,spGoalFraction,joGoalPerc,joGoalFraction;
     private VMHomeBH mViewModel;
+    private MaterialCardView btnPerformance;
 
     public static Fragment_Home_BH newInstance() {
         return new Fragment_Home_BH();
@@ -69,8 +72,11 @@ public class Fragment_Home_BH extends Fragment {
         joIndicator = view.findViewById(R.id.cpi_job_order);
         joGoalPerc = view.findViewById(R.id.lblJobOrder);
         joGoalFraction = view.findViewById(R.id.lblJobOrderPercent);
+
+        btnPerformance = view.findViewById(R.id.cb_performance);
         initUserInfo();
         initGoals();
+        initButton();
         return view;
     }
 
@@ -140,25 +146,17 @@ public class Fragment_Home_BH extends Fragment {
         loMessage.setMessage("Are you sure you want to end session/logout?");
         loMessage.show();
     }
-//    public void initButton(){
-//
-//        logout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                showDialog();
-//            }
-//        });
-//        settings.setOnClickListener(new View.OnClickListener() {
-//            Intent loIntent;
-//            @Override
-//            public void onClick(View view) {
-//                loIntent = new Intent(getActivity(), Activity_Settings.class);
-//                startActivityForResult(loIntent, SETTINGS);
-//                requireActivity().overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
-//
-//            }
-//        });
-//    }
+    public void initButton(){
+        btnPerformance.setOnClickListener(new View.OnClickListener() {
+            Intent loIntent;
+            @Override
+            public void onClick(View view) {
+                loIntent = new Intent(getActivity(), Activity_BranchPerformance.class);
+                startActivity(loIntent);
+                requireActivity().overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
+            }
+        });
+    }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
