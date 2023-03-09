@@ -12,6 +12,7 @@ import org.rmj.g3appdriver.dev.Api.WebApi;
 import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DAreaPerformance;
 import org.rmj.g3appdriver.dev.Database.Entities.EAreaPerformance;
+import org.rmj.g3appdriver.dev.Database.Entities.EBranchPerformance;
 import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.lib.BullsEye.ABPM;
@@ -144,14 +145,23 @@ public class AreaPerformance extends ABPM {
 
     @Override
     public LiveData<String> GetCurentSPSalesPerformance() {
-
         return poDao.GetSPSalesPerformance();
     }
 
     @Override
     public LiveData<String> GetJobOrderPerformance() {
-
         return poDao.GetJobOrderPerformance();
     }
 
+    public LiveData<List<EBranchPerformance>> GetTopBranchPerformerForMCSales(){
+        return poDao.GetTopBranchPerformerForMCSales();
+    }
+
+    public LiveData<List<EBranchPerformance>> GetTopBranchPerformerForSPSales(){
+        return poDao.GetTopBranchPerformerForSPSales();
+    }
+
+    public LiveData<List<EBranchPerformance>> GetTopBranchPerformerForJobOrder(){
+        return poDao.GetTopBranchPerformerForJobOrder();
+    }
 }

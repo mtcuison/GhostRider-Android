@@ -1,4 +1,4 @@
-package org.rmj.g3appdriver.lib.Notifications.Obj;
+package org.rmj.g3appdriver.lib.Notifications.Obj.Receiver;
 
 import android.app.Application;
 
@@ -27,8 +27,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class NMM_MPReview implements iNotification {
-    private static final String TAG = NMM_MPReview.class.getSimpleName();
+public class NMM_Regular implements iNotification {
+    private static final String TAG = NMM_Regular.class.getSimpleName();
 
     private final DNotifications poDao;
     private final HttpHeaders poHeaders;
@@ -36,7 +36,7 @@ public class NMM_MPReview implements iNotification {
 
     private String message;
 
-    public NMM_MPReview(Application instance) {
+    public NMM_Regular(Application instance) {
         this.poDao = GGC_GriderDB.getInstance(instance).NotificationDao();
         this.poHeaders = HttpHeaders.getInstance(instance);
         this.poConfig = AppConfigPreference.getInstance(instance);

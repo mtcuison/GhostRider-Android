@@ -16,14 +16,10 @@
         android:id="@+id/menu_settings"
         android:enabled="true"
         android:icon="@drawable/ic_baseline_settings_24"
-        android:iconTint="@color/spinner_background"
-        app:itemRippleColor="@color/textColor_Black"
         android:title="Settings"/>
     <item
         android:id="@+id/menu_logout"
         android:enabled="true"
         android:icon="@drawable/ic_dashboard_logout"
-        android:iconTint="@color/spinner_background"
-        app:itemRippleColor="@color/textColor_Black"
         android:title="Logout"/>
 </menu>

@@ -106,7 +106,8 @@ public interface DBranchPerformance {
             "nMCActual AS Actual, " +
             "nMCGoalxx AS Goal " +
             "FROM MC_Branch_Performance " +
-            "WHERE sBranchCd = (SELECT sBranchCd FROM User_Info_Master)")
+            "WHERE sBranchCd = (SELECT sBranchCd FROM User_Info_Master) " +
+            "ORDER BY sPeriodxx DESC")
     LiveData<List<PeriodicalPerformance>> getMCBranchPeriodicalPerformance();
 
     @Query("SELECT sPeriodxx AS Period, " +

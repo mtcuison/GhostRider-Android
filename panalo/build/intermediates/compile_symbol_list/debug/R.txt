@@ -2935,7 +2935,11 @@ int drawable ic_baseline_done_24 0x0
 int drawable ic_baseline_file_download_24 0x0
 int drawable ic_baseline_file_upload_24 0x0
 int drawable ic_baseline_location_on_24 0x0
+int drawable ic_baseline_more_vert 0x0
+int drawable ic_baseline_panalo 0x0
 int drawable ic_baseline_payslip 0x0
+int drawable ic_baseline_performance_monitor 0x0
+int drawable ic_baseline_selfie 0x0
 int drawable ic_btn_delete 0x0
 int drawable ic_camera_black_24 0x0
 int drawable ic_clear_black_24 0x0

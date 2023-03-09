@@ -1,4 +1,4 @@
-package org.rmj.g3appdriver.lib.Notifications.Obj;
+package org.rmj.g3appdriver.lib.Notifications.Obj.Receiver;
 
 import android.app.Application;
 
@@ -18,17 +18,17 @@ import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.lib.Notifications.NOTIFICATION_STATUS;
 import org.rmj.g3appdriver.lib.Notifications.RemoteMessageParser;
-import org.rmj.g3appdriver.dev.Api.WebApi;
 import org.rmj.g3appdriver.lib.Notifications.model.iNotification;
 import org.rmj.g3appdriver.lib.Notifications.pojo.NotificationItemList;
+import org.rmj.g3appdriver.dev.Api.WebApi;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class NMM_MPQuestions implements iNotification {
-    private static final String TAG = NMM_MPQuestions.class.getSimpleName();
+public class NMM_CustomerService implements iNotification {
+    private static final String TAG = NMM_CustomerService.class.getSimpleName();
 
     private final DNotifications poDao;
     private final HttpHeaders poHeaders;
@@ -36,7 +36,7 @@ public class NMM_MPQuestions implements iNotification {
 
     private String message;
 
-    public NMM_MPQuestions(Application instance) {
+    public NMM_CustomerService(Application instance) {
         this.poDao = GGC_GriderDB.getInstance(instance).NotificationDao();
         this.poHeaders = HttpHeaders.getInstance(instance);
         this.poConfig = AppConfigPreference.getInstance(instance);
