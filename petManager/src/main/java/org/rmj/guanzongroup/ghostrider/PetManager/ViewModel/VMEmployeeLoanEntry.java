@@ -76,7 +76,7 @@ public class VMEmployeeLoanEntry extends AndroidViewModel{
         }
         return matchFormat;
     }
-    public Boolean validateInputAmt(Activity activity, TextInputEditText[] inputEditTexts){
+    public Boolean validateInputAmt(Activity activity, Boolean required, TextInputEditText[] inputEditTexts){
         Boolean output = true;
         for (int i = 0; i <  inputEditTexts.length; i++){
             String objHint = inputEditTexts[i].getHint().toString();
@@ -86,7 +86,7 @@ public class VMEmployeeLoanEntry extends AndroidViewModel{
                 Toast.makeText(activity, "Please enter amount on "+ objHint, Toast.LENGTH_SHORT).show();
                 output = false;
                 break;
-            }else if(Double.parseDouble(objAmt) <= 0.00){
+            }else if(Double.parseDouble(objAmt) <= 0.00 && required.equals(true)){
                 Toast.makeText(activity, "Amount Required on "+ objHint, Toast.LENGTH_SHORT).show();
                 output = false;
                 break;

@@ -9,50 +9,41 @@ import androidx.appcompat.widget.AppCompatAutoCompleteTextView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.app.Activity;
-import android.app.DatePickerDialog;
-import android.content.ClipData;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
+
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.DatePicker;
-import android.widget.EditText;
+
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 
+import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.EmployeeLoan.model.LoanApplication;
 import org.rmj.g3appdriver.lib.EmployeeLoan.model.LoanType;
 import org.rmj.guanzongroup.ghostrider.PetManager.R;
 import org.rmj.guanzongroup.ghostrider.PetManager.ViewModel.VMEmployeeLoanEntry;
 
-import java.sql.Time;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
+
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
+
 import java.util.List;
-import java.util.Locale;
-import java.util.TimeZone;
-import java.util.regex.Pattern;
 
 public class Activity_EmployeeLoanEntry extends AppCompatActivity {
     private static final String TAG = Activity_EmployeeLoanEntry.class.getSimpleName();
 
     private VMEmployeeLoanEntry mViewModel;
     private LoanApplication loApp;
-
     private Toolbar toolbar;
     private AppCompatAutoCompleteTextView spn_loantype;
     private TextInputEditText txt_loanamt;
@@ -64,6 +55,7 @@ public class Activity_EmployeeLoanEntry extends AppCompatActivity {
     private TextView txtview_totalinterest;
     private TextView txtview_currdate;
     private MaterialButton btn_saveloanentry;
+    private String dialogConfirm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -193,71 +185,6 @@ public class Activity_EmployeeLoanEntry extends AppCompatActivity {
             }
         });
     }
-    private void setButtonAction(){
-        btn_saveloanentry.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //save entries and clear values
-                SaveLoanApplication();
-                clearFields();
-            }
-        });
-    }
-    private void SaveLoanApplication(){
-        //VALIDATE LOAN TYPE SELECTION
-        String loantype = spn_loantype.getText().toString();
-        String loanamt = txt_loanamt.getText().toString();
-        String interest = txt_interest.getText().toString();
-        String firstpay = txt_firstpay.getText().toString();
-        String terms = txt_terms.getText().toString();
-
-        if (loantype.trim().isEmpty() == true) {
-            Toast.makeText(Activity_EmployeeLoanEntry.this, "Please select Loan Type", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        //VALIDATE TEXTFIELD'S VALUE FOR AMOUNT
-        TextInputEditText[] objtoValidate = {txt_loanamt, txt_interest, txt_terms, txt_firstpay};
-        Boolean outputValid = mViewModel.validateInputAmt(Activity_EmployeeLoanEntry.this, objtoValidate);
-        if(outputValid == false) {
-            return;
-        }
-        //VALIDATE AMOUNT FORMAT FROM TEXTFIELD
-        Boolean loanAmtFormat = mViewModel.validateAmtFormat("decimal", loanamt);
-        Boolean interestAmtFormat = mViewModel.validateAmtFormat("decimal", interest);
-        Boolean firstpayAmtFormat = mViewModel.validateAmtFormat("decimal", firstpay);
-        Boolean termsAmtFormat = mViewModel.validateAmtFormat("integer", terms);
-
-        if(loanAmtFormat == false || interestAmtFormat == false || firstpayAmtFormat == false || termsAmtFormat == false){
-            Toast.makeText(Activity_EmployeeLoanEntry.this, "Invalid Amount Format", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        //Loan Amount should not be less than equal to first payment.
-        if(Double.parseDouble(loanamt) <= Double.parseDouble(firstpay)){
-            Toast.makeText(Activity_EmployeeLoanEntry.this, "Loan Amount should be higher than First Payment", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        //terms should not be lees than 0
-        if (Integer.parseInt(terms) <= 0){
-            Toast.makeText(Activity_EmployeeLoanEntry.this, "Please Enter Valid Terms", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        loApp.setLoanType(loantype);
-        loApp.setAmountxx(Double.parseDouble(loanamt));
-        loApp.setInterest(Double.parseDouble(interest));
-        loApp.setLoanTerm(Integer.parseInt(terms));
-        loApp.setAmountxx(Double.parseDouble(firstpay));
-    }
-    private void clearFields(){
-        spn_loantype.setText("");
-        txt_loanamt.setText("");
-        txt_interest.setText("");
-        txt_terms.setText("");
-        txt_firstpay.setText("");
-        txtview_balance.setText(".00");
-        txtview_amort.setText(".00");
-        txtview_totalinterest.setText(".00");
-    }
     private void computeBalance(){
         double loanAmt = 0.00;
         double intrstAmt = 0.00;
@@ -280,36 +207,122 @@ public class Activity_EmployeeLoanEntry extends AppCompatActivity {
             terms = Integer.parseInt(txt_terms.getText().toString());
         }
 
-        double totalBalance = loanAmt;
+        //INTEREST RATE / 100 * loan amount
+        double totalIntrst = (intrstAmt / 100) * loanAmt;
 
-        if (loanAmt > 0){
-            //AMOUNT WITH DEDUCTED FIRST PAYMENT
-            if (firstPay > 0){
-                //deduct first payment from loan amt
-                loanAmt = loanAmt - firstPay;
-                //set computed balance
-                totalBalance = loanAmt;
+        //TOTAL BALANCE: (LOAN - FIRST PAY) + TOTAL INTEREST
+        double totalBalance = (loanAmt - firstPay) + totalIntrst;
 
+        //INTEREST PER MONTH: rate / terms
+        double intrstPerMonth = intrstAmt / terms; //get interest monthly
+
+        //LOAN PER MONTH: (loan total - first payment) + total interest / terms
+        double monthlyPayment = totalBalance / terms; //get loan monthly
+
+        //TOTAL MONTHLY PAYMENT: monthly payment + interest per month
+        double totalPayperMonth = (monthlyPayment + intrstPerMonth); //sum total payment monthly
+
+        txtview_balance.setText(new DecimalFormat("#,###.00").format(totalBalance)); //set total loan balance
+
+        txtview_totalinterest.setText(new DecimalFormat("#,###.00").format(totalIntrst)); //set total interest
+
+        txtview_amort.setText(new DecimalFormat("#,###.00").format(totalPayperMonth)); //set total payment per month
+    }
+    private void setButtonAction(){
+        btn_saveloanentry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //save entries and clear values
+                SaveLoanApplication();
             }
-            //AMOUNT WITH INTEREST
-            if (intrstAmt > 0){
-                //interest rate / 100 * loan amount
-                double totalIntrst = (intrstAmt / 100) * loanAmt;
-                //set computed balance
-                totalBalance = loanAmt + totalIntrst;
-                txtview_totalinterest.setText(new DecimalFormat("#,###.00").format(totalIntrst)); //set total interest
-            }
+        });
+    }
+    private void SaveLoanApplication(){
+        //VALIDATE LOAN TYPE SELECTION
+        String loantype = spn_loantype.getText().toString();
+        String loanamt = txt_loanamt.getText().toString();
+        String interest = txt_interest.getText().toString();
+        String firstpay = txt_firstpay.getText().toString();
+        String terms = txt_terms.getText().toString();
 
-            if (terms > 0){
-                double loanPerMonth = totalBalance / terms; //get loan monthly
-                double intrstPerMonth = intrstAmt / terms; //get interest monthly
-
-                double totalPayperMonth = (loanPerMonth + intrstPerMonth); //sum total amt monthly
-
-                txtview_amort.setText(new DecimalFormat("#,###.00").format(totalPayperMonth)); //display
-            }
-
-            txtview_balance.setText(new DecimalFormat("#,###.00").format(totalBalance)); //set total loan balance
+        if (loantype.trim().isEmpty() == true) {
+            Toast.makeText(Activity_EmployeeLoanEntry.this, "Please select Loan Type", Toast.LENGTH_SHORT).show();
+            return;
         }
+        //VALIDATE TEXTFIELD'S VALUE FOR AMOUNT
+        Boolean outputValid = mViewModel.validateInputAmt(Activity_EmployeeLoanEntry.this, true, new TextInputEditText[]{txt_loanamt, txt_terms, txt_firstpay});
+        Boolean outputValidIntrst = mViewModel.validateInputAmt(Activity_EmployeeLoanEntry.this, false, new TextInputEditText[]{txt_interest});
+        if(outputValid.equals(false)) {
+            return;
+        }else if (outputValidIntrst.equals(false)){
+            return;
+        }
+
+        //VALIDATE AMOUNT FORMAT FROM TEXTFIELD
+        Boolean loanAmtFormat = mViewModel.validateAmtFormat("decimal", loanamt);
+        Boolean interestAmtFormat = mViewModel.validateAmtFormat("decimal", interest);
+        Boolean firstpayAmtFormat = mViewModel.validateAmtFormat("decimal", firstpay);
+        Boolean termsAmtFormat = mViewModel.validateAmtFormat("integer", terms);
+
+        if(loanAmtFormat == false || interestAmtFormat == false || firstpayAmtFormat == false || termsAmtFormat == false){
+            Toast.makeText(Activity_EmployeeLoanEntry.this, "Invalid Amount Format", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        //Loan Amount should not be less than equal to first payment.
+        if(Double.parseDouble(loanamt) <= Double.parseDouble(firstpay)){
+            Toast.makeText(Activity_EmployeeLoanEntry.this, "Loan Amount should be higher than First Payment", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        //terms should not be lees than 0
+        if (Integer.parseInt(terms) <= 0){
+            Toast.makeText(Activity_EmployeeLoanEntry.this, "Please Enter Valid Terms", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        //initialize dialog class
+        MessageBox messageBox = new MessageBox(Activity_EmployeeLoanEntry.this);
+        messageBox.initDialog();
+
+        //set dialog title and message
+        messageBox.setTitle("Loan Application");
+        messageBox.setMessage("Confirm Loan Application?");
+
+        //set dialog buttons
+        messageBox.setPositiveButton("YES", new MessageBox.DialogButton() {
+            @Override
+            public void OnButtonClick(View view, AlertDialog dialog) {
+                loApp.setLoanType(loantype);
+                loApp.setAmountxx(Double.parseDouble(loanamt));
+                loApp.setInterest(Double.parseDouble(interest));
+                loApp.setLoanTerm(Integer.parseInt(terms));
+                loApp.setAmountxx(Double.parseDouble(firstpay));
+
+                //clear values
+                clearFields();
+                //close dialog
+                dialog.dismiss();
+            }
+        });
+
+        messageBox.setNegativeButton("NO", new MessageBox.DialogButton() {
+            @Override
+            public void OnButtonClick(View view, AlertDialog dialog) {
+                dialog.dismiss();
+                return;
+            }
+        });
+
+        //show dialog
+        messageBox.show();
+    }
+    private void clearFields(){
+        spn_loantype.setText("");
+        txt_loanamt.setText("");
+        txt_interest.setText("");
+        txt_terms.setText("");
+        txt_firstpay.setText("");
+        txtview_balance.setText(".00");
+        txtview_amort.setText(".00");
+        txtview_totalinterest.setText(".00");
     }
 }
