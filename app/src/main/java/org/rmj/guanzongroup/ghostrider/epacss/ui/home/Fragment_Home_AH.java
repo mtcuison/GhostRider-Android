@@ -19,13 +19,10 @@ import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.android.material.textview.MaterialTextView;
 
 import org.rmj.g3appdriver.dev.DeptCode;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_CashCounter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Inventory;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Monitoring;
-import org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_SplashScreen;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.adapter.NewsEventsAdapter;
 import org.rmj.guanzongroup.ghostrider.epacss.adapter.NewsEventsModel;
@@ -53,8 +50,10 @@ public class Fragment_Home_AH extends Fragment {
     @SuppressLint({"NonConstantResourceId", "MissingInflatedId"})
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        mViewModel = new ViewModelProvider(this).get(VMHomeAH.class);
+        mViewModel = new ViewModelProvider(requireActivity()).get(VMHomeAH.class);
         View view = inflater.inflate(R.layout.fragment_home_ah, container, false);
+
+
          newsList = new ArrayList<>();
           loMessage = new MessageBox(getActivity());
           adapter = new NewsEventsAdapter(getContext(), newsList) ;
@@ -82,39 +81,8 @@ public class Fragment_Home_AH extends Fragment {
         initGoals();
         return view;
     }
-    public void showDialog(){
-        loMessage.initDialog();
-        loMessage.setNegativeButton("No", (view, dialog) -> dialog.dismiss());
-        loMessage.setPositiveButton("Yes", (view, dialog) -> {
-            dialog.dismiss();
-            requireActivity().finish();
-            new EmployeeMaster(requireActivity().getApplication()).LogoutUserSession();
-            AppConfigPreference.getInstance(getActivity()).setIsAppFirstLaunch(false);
-            startActivity(new Intent(getActivity(), Activity_SplashScreen.class));
-        });
-        loMessage.setTitle("GhostRider Session");
-        loMessage.setMessage("Are you sure you want to end session/logout?");
-        loMessage.show();
-    }
+
     public void initButton(){
-
-
-//        Logout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                showDialog();
-//            }
-//        });
-//        Settings.setOnClickListener(new View.OnClickListener() {
-//            Intent loIntent;
-//            @Override
-//            public void onClick(View view) {
-//                loIntent = new Intent(getActivity(), Activity_Settings.class);
-//                startActivityForResult(loIntent, SETTINGS);
-//                requireActivity().overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
-//
-//            }
-//        });
         btnPerformance.setOnClickListener(new View.OnClickListener() {
             Intent loIntent;
             @Override
@@ -149,36 +117,49 @@ public class Fragment_Home_AH extends Fragment {
         mViewModel.GetCurrentMCSalesPerformance().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(String mc_goal) {
-                mcGoalPerc.setText(mc_goal);
-                if (mc_goal.contains("/")){
-                    String[] rat = mc_goal.split("/");
-                    double ratio =Double.parseDouble(rat[0]) / Double.parseDouble(rat[1]) * 100;
-                    mcGoalFraction.setText(String.valueOf(Math.round(ratio)) + "%");
-                    mcIndicator.setProgress((int) (Math.round(ratio)));
+                try {
+                    mcGoalPerc.setText(mc_goal);
+                    if (mc_goal.contains("/")){
+                        String[] rat = mc_goal.split("/");
+                        double ratio =Double.parseDouble(rat[0]) / Double.parseDouble(rat[1]) * 100;
+                        mcGoalFraction.setText(String.valueOf(Math.round(ratio)) + "%");
+                        mcIndicator.setProgress((int) (Math.round(ratio)));
+                    }
+                }catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         });
         mViewModel.GetJobOrderPerformance().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(String sp_goal) {
-                spGoalPerc.setText(sp_goal);
-                if (sp_goal.contains("/")){
-                    String[] rat = sp_goal.split("/");
-                    double ratio =Double.parseDouble(rat[0]) / Double.parseDouble(rat[1]) * 100;
-                    spGoalFraction.setText(String.valueOf(Math.round(ratio)) + "%");
-                    spIndicator.setProgress((int) (Math.round(ratio)));
+                try {
+                    spGoalPerc.setText(sp_goal);
+                    if (sp_goal.contains("/")){
+                        String[] rat = sp_goal.split("/");
+                        double ratio =Double.parseDouble(rat[0]) / Double.parseDouble(rat[1]) * 100;
+                        spGoalFraction.setText(String.valueOf(Math.round(ratio)) + "%");
+                        spIndicator.setProgress((int) (Math.round(ratio)));
+                    }
+                }catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         });
         mViewModel.GetJobOrderPerformance().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(String jo_goal) {
-                joGoalFraction.setText(jo_goal);
-                if (jo_goal.contains("/")){
-                    String[] rat = jo_goal.split("/");
-                    double ratio =Double.parseDouble(rat[0]) / Double.parseDouble(rat[1]) * 100;
-                    joGoalPerc.setText(String.valueOf(Math.round(ratio)) + "%");
-                    joIndicator.setProgress((int) (Math.round(ratio)));
+                try {
+                    joGoalFraction.setText(jo_goal);
+                    if (jo_goal.contains("/")){
+                        String[] rat = jo_goal.split("/");
+                        double ratio =Double.parseDouble(rat[0]) / Double.parseDouble(rat[1]) * 100;
+                        joGoalPerc.setText(String.valueOf(Math.round(ratio)) + "%");
+                        joIndicator.setProgress((int) (Math.round(ratio)));
+                    }
+
+                }catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         });
@@ -197,4 +178,5 @@ public class Fragment_Home_AH extends Fragment {
             }
         });
     }
+
 }

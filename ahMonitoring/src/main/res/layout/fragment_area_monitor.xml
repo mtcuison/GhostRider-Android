@@ -234,7 +234,7 @@
             app:layout_constraintTop_toBottomOf="@+id/cv_jo" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
+            android:id="@+id/rvTopPerformingBranch"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
@@ -245,6 +245,7 @@
             app:layout_constraintTop_toBottomOf="@+id/lbl_top_performer_branch" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/lblContainer"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="15dp"
@@ -259,7 +260,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="No Data Available"
-
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

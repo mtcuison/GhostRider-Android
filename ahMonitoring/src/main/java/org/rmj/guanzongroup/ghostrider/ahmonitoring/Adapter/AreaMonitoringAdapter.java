@@ -15,48 +15,44 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.TextView;
-
-import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.MaterialAutoCompleteTextView;
-import com.google.android.material.textfield.TextInputLayout;
-import com.google.android.material.textview.MaterialTextView;
-import com.google.android.material.divider.MaterialDivider;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.Area;
+import com.google.android.material.textview.MaterialTextView;
+
+import org.rmj.g3appdriver.dev.Database.Entities.EBranchPerformance;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 
 import java.util.List;
 
 public class AreaMonitoringAdapter extends RecyclerView.Adapter<AreaMonitoringAdapter.ChartViewHolder> {
 
-    List<Area> areaPerformances;
+    List<EBranchPerformance> areaPerformances;
 
-    public AreaMonitoringAdapter(List<Area> areaPerformances){
+    public AreaMonitoringAdapter(List<EBranchPerformance> areaPerformances){
         this.areaPerformances = areaPerformances;
     }
 
     @NonNull
     @Override
     public ChartViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_area_monitor, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_top_performing, parent, false);
         return new ChartViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ChartViewHolder holder, int position) {
-        Area area = areaPerformances.get(position);
-        holder.txtArea.setText(area.getAreaName());
-        holder.txtPrct.setText(area.getSalesPercentage());
-        holder.progressBar.setScaleY(55f);
-        holder.progressBar.setMax(area.getDynamicSize());
-        holder.progressBar.setProgress(getParseValue(area.getSalesPercentage().replace("%","")));
+        try {
+            EBranchPerformance area = areaPerformances.get(position);
+            holder.txtBranch.setText(area.getBranchNm());
+            holder.txtMCGoal.setText(area.getMCGoalxx());
+            holder.txtSPGoal.setText((int) area.getSPGoalxx());
+            holder.txtJOGoal.setText(area.getJOGoalxx());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
     @Override
@@ -66,14 +62,16 @@ public class AreaMonitoringAdapter extends RecyclerView.Adapter<AreaMonitoringAd
 
     public static class ChartViewHolder extends RecyclerView.ViewHolder{
 
-        public MaterialTextView txtArea, txtPrct;
+        public MaterialTextView txtBranch, txtMCGoal,txtSPGoal,txtJOGoal;
         public ProgressBar progressBar;
 
         public ChartViewHolder(@NonNull View itemView) {
             super(itemView);
-            txtArea = itemView.findViewById(R.id.lbl_AreaBranchItem);
-            txtPrct = itemView.findViewById(R.id.lbl_listItemPercentage);
-            progressBar = itemView.findViewById(R.id.progress_monitor);
+            txtBranch = itemView.findViewById(R.id.lbl_top_branches);
+            txtMCGoal = itemView.findViewById(R.id.lblmcSalesgoal);
+            txtSPGoal = itemView.findViewById(R.id.lblspSalesgoal);
+            txtJOGoal = itemView.findViewById(R.id.lblJOgoal);
+
         }
     }
 
