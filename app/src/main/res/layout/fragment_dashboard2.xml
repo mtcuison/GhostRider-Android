@@ -107,7 +107,7 @@
             android:layout_height="110dp"
             android:background="@drawable/circular_imageview"
             android:padding="10dp"
-            android:src="@drawable/ic_ghostrider_logo_day"
+            android:src="@drawable/ic_guanzon_circle"
             android:layout_marginLeft="20dp"
             android:layout_marginStart="20dp"
             android:layout_centerHorizontal="true"

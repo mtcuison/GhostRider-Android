@@ -390,7 +390,7 @@
                     android:layout_width="120dp"
                     android:layout_height="120dp"
                     android:padding="10dp"
-                    app:srcCompat="@drawable/ic_ghostrider_logo_day" />
+                    app:srcCompat="@drawable/ic_guanzon_circle" />
 
             </com.google.android.material.card.MaterialCardView>
 

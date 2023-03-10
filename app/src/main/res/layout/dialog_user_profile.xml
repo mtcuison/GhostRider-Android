@@ -36,7 +36,7 @@
                 android:layout_height="300dp"
                 android:alpha=".15"
                 android:scaleType="fitCenter"
-                android:src="@drawable/ic_ghostrider_logo_day"
+                android:src="@drawable/ic_guanzon_circle"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:padding="40dp"/>

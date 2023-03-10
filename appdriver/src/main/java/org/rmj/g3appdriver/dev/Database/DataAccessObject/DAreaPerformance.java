@@ -68,16 +68,19 @@ public interface DAreaPerformance {
 
     @Query("SELECT a.* FROM MC_Branch_Performance a LEFT JOIN Branch_Info b ON a.sBranchCd = b.sBranchCd " +
             "WHERE b.sAreaCode = (SELECT sAreaCode FROM Branch_Info WHERE sBranchCd = (SELECT sBranchCd FROM User_Info_Master)) " +
+            "AND a.sPeriodxx = (SELECT sPeriodxx FROM MC_Branch_Performance ORDER BY sPeriodxx DESC LIMIT 1)" +
             "ORDER BY a.nMCActual DESC LIMIT 5")
     LiveData<List<EBranchPerformance>> GetTopBranchPerformerForMCSales();
 
     @Query("SELECT a.* FROM MC_Branch_Performance a LEFT JOIN Branch_Info b ON a.sBranchCd = b.sBranchCd " +
             "WHERE b.sAreaCode = (SELECT sAreaCode FROM Branch_Info WHERE sBranchCd = (SELECT sBranchCd FROM User_Info_Master)) " +
+            "AND a.sPeriodxx = (SELECT sPeriodxx FROM MC_Branch_Performance ORDER BY sPeriodxx DESC LIMIT 1)" +
             "ORDER BY a.nSPActual DESC LIMIT 5")
     LiveData<List<EBranchPerformance>> GetTopBranchPerformerForSPSales();
 
     @Query("SELECT a.* FROM MC_Branch_Performance a LEFT JOIN Branch_Info b ON a.sBranchCd = b.sBranchCd " +
             "WHERE b.sAreaCode = (SELECT sAreaCode FROM Branch_Info WHERE sBranchCd = (SELECT sBranchCd FROM User_Info_Master)) " +
+            "AND a.sPeriodxx = (SELECT sPeriodxx FROM MC_Branch_Performance ORDER BY sPeriodxx DESC LIMIT 1)" +
             "ORDER BY a.nJOActual DESC LIMIT 5")
     LiveData<List<EBranchPerformance>> GetTopBranchPerformerForJobOrder();
 }
