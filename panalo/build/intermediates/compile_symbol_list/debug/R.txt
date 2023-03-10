@@ -2881,6 +2881,7 @@ int drawable bg_dashboard 0x0
 int drawable bg_gradient_dark 0x0
 int drawable bg_gradient_light 0x0
 int drawable bg_gradient_orange 0x0
+int drawable bg_nav_header 0x0
 int drawable bg_nav_menu_icon 0x0
 int drawable bg_samsungknox 0x0
 int drawable border_label 0x0

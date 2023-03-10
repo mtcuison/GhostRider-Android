@@ -14,7 +14,7 @@ package org.rmj.guanzongroup.ghostrider.notifications.Fragment;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
-import org.rmj.g3appdriver.GRider.Http.WebClient;
+import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.utils.SQLUtil;
 import org.rmj.g3appdriver.utils.SecUtil;
 

@@ -9,7 +9,7 @@
  * project file last modified : 6/9/21 2:17 PM
  */
 
-package org.rmj.g3appdriver.lib.Notifications;
+package org.rmj.g3appdriver.lib.Notifications.Obj;
 
 import android.app.Application;
 
