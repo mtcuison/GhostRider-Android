@@ -3,12 +3,27 @@ package org.rmj.g3appdriver.dev.Database.DataAccessObject;
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Query;
+import androidx.room.Update;
+
+import org.rmj.g3appdriver.dev.Database.Entities.ENotificationRecipient;
 
 import java.util.List;
 
 @Dao
 public interface DPayslip {
 
+    @Query("SELECT * FROM Notification_Info_Recepient WHERE sTransNox =:MessageID")
+    ENotificationRecipient GetPaySlipNotification(String MessageID);
+
+    @Update
+    void Update(ENotificationRecipient foVal);
+
+    @Query("UPDATE Notification_Info_Recepient SET " +
+            "dReadxxxx =:DateTime, " +
+            "cMesgStat = '3', " +
+            "cStatSent = '0' " +
+            "WHERE sTransNox =:MessageID")
+    void updateNotificationReadStatus(String MessageID, String DateTime);
     @Query("SELECT b.sTransNox, " +
             "a.sMesgIDxx, " +
             "a.sMsgTitle, " +

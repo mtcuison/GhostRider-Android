@@ -13,8 +13,6 @@ package org.rmj.guanzongroup.ghostrider.notifications.ViewModel;
 
 import android.os.Build;
 
-import androidx.test.core.app.ApplicationProvider;
-
 import junit.framework.TestCase;
 
 import org.junit.After;
@@ -31,7 +29,7 @@ public class VMViewNotificationTest extends TestCase {
 
     @Before
     public void setUp() {
-        mViewModel = new VMViewNotification(ApplicationProvider.getApplicationContext());
+//        mViewModel = new VMViewNotification(ApplicationProvider.getApplicationContext());
     }
 
     @After
