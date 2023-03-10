@@ -6,7 +6,6 @@
     <string name="sHintMiddName">MiddleName</string>
     <string name="sHintNickname">NickName</string>
     <string name="sHintBirthDate">Birth Date</string>
-    <string name="sHintBpProv">Province (Birth Place)</string>
     <string name="sGenderMale">Male</string>
     <string name="sGenderFmale">Female</string>
     <string name="sGenderLGBT">LGBT</string>
@@ -15,7 +14,6 @@
     <string name="sHintCitizenship">Citizenship (Required)</string>
     <string name="sHintMotherNm">Mother\'s Maiden Name (Required)</string>
     <string name="sHintPrimaryContact">Primary Contact No. (Required)</string>
-    <string name="sHintSimType">Sim Type</string>
     <string name="sHint2ndContact">2nd Contact No. (Optional)</string>
     <string name="sHint3rdContact">3rd Contact No. (Optional)</string>
     <string name="sHintTelephoneNo">Telephone No.</string>
@@ -30,7 +28,6 @@
     <string name="sHintHouseNo">House No.</string>
     <string name="sHintLotNo">Phase#/Lot#/Sitio</string>
     <string name="sHintStreet">Street</string>
-    <string name="sHintProvince">Province</string>
     <string name="sHintTown">Municipality</string>
     <string name="sHintBarangay">Barangay</string>
     <string name="sLabelHouseOwnership">House Ownership</string>
@@ -38,7 +35,6 @@
     <string name="sLabelRent">Rent</string>
     <string name="sLabelCaretaker">Care Taker</string>
     <string name="sLabelPermAddress">Permanent Address</string>
-    <string name="sLabelSetPermAddress">Set Permanent Address</string>
     <string name="sHintCompanyNme">Company Name</string>
     <string name="sHintAddress">Street/ Building/ Barangay</string>
     <string name="sHintPosition">Specific Job/Position</string>
@@ -55,12 +51,7 @@
     <string name="sHeaderSelfEmplopyedInfo">Self Employed Info</string>
     <string name="sHeaderBizAddress">Business Address</string>
     <string name="sHeaderBizOtherInfo">Other Business Information</string>
-    <string name="sHeaderEmpOtherInfo">Other Employment Information</string>
-    <string name="sHeaderLabelSector">Is dependent employed?</string>
-    <string name="sHeaderLabelEmploymentTypeSector">Employment Type</string>
     <string name="sHeaderLabelSpouseEmploymentTypeSector">Spouse Employment Type</string>
-    <string name="sHeaderLabelSpouseEmploymentInfo">Spouse Employment Information</string>
-    <string name="sHeaderLabelCompanyAddress">Company Address</string>
     <string name="sLabelUniformPersonnel">Is applicant uniformed personnel?</string>
     <string name="sLabelMilitaryPersonnel">Is applicant military personnel?</string>
     <string name="sLabelPrivate">Private</string>
@@ -94,23 +85,18 @@
     <string name="sBtnAddDependent">Add Dependent</string>
     <string name="sHintDependentFNme">Dependent Full Name</string>
     <string name="sHintAge">Age</string>
-    <string name="sHintSchoolNm">Is dependent a student?</string>
     <string name="sDependentStudent">School Name</string>
     <string name="sLabelQUnitUser">Who will use the unit?</string>
     <string name="sLabelQUnitPurpose">Purpose of buying the unit.</string>
     <string name="sLabelQMonthlyAmort">Who will shoulder the monthly payment?</string>
     <string name="sLabelQDiscoverUs">How you know about us?</string>
     <string name="sHintSpecify">Please specify</string>
-    <string name="sbtnAddReference">Add Reference</string>
     <string name="sLabelGarage">With safe garage</string>
     <string name="sHintLengthStay">Length of Stay (Required)</string>
     <string name="sHintRelationship">Relationship</string>
-    <string name="sHintDependentRelationship">Dependent Relationship</string>
-    <string name="sSchoolType">School Type</string>
     <string name="sHintBizType">Business Type</string>
     <string name="sHintBizSize">Business Size</string>
     <string name="sHintDuration">Duration</string>
-    <string name="sSchoolLvl">Education Level</string>
     <string name="sHintYear">Year</string>
     <string name="sHintNewApplication">Create Application</string>
     <string name="sbtnPrvs">Previous</string>
@@ -120,18 +106,12 @@
     <string name="sLblSpouseSelfEmployedInfo">Spouse Self Employed Information</string>
     <string name="sLblSpousebirthInfo">Spouse Birth Information</string>
     <string name="sLblSpouseContactInfo">Spouse Contact Information</string>
-    <string name="sLblSpouseInfo">Spouse Information</string>
 
     <string name="header_creditApp_coMakerInfo">Co-Maker Information</string>
     <string name="header_creditApp_coMaker_birth_Info">Co-Maker Birth Information</string>
     <string name="header_creditApp_coMaker_contact_Info">Co-Maker Contact Information</string>
     <string name="header_creditApp_coMaker_src">Co-Maker Source of Income</string>
-    <string name="header_creditApp_birthPlace">BIRTH PLACE</string>
-    <string name="header_creditApp_birthdayInfo">BIRTHDATE</string>
-    <string name="header_creditApp_contact">CONTACT</string>
     <string name="hint_creditApp_maidenName">Applicant\'s Maiden Name</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="sHeader_loanApplication">Loan Application</string>
-    <string name="menu_send_application">Post Documents</string>
 </resources>

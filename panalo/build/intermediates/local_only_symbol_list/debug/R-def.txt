@@ -28,4 +28,3 @@ layout fragment_raffle
 layout fragment_rewards
 layout list_item_raffle
 layout list_item_rewards
-string hello_blank_fragment

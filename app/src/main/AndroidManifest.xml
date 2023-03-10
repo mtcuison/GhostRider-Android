@@ -69,12 +69,12 @@
     <application
         android:allowBackup="false"
         android:hardwareAccelerated="true"
-        android:icon="@mipmap/grider_launcher_foreground"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/menu_home"
         android:requestLegacyExternalStorage="true"
         android:usesCleartextTraffic="true"
         android:manageSpaceActivity="org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_LocalData"
-        android:roundIcon="@mipmap/grider_launcher_foreground_round"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:theme="@style/GhostRiderMaterialTheme.NoActionBar">
 
         <activity android:name=".Activity.Activity_DataManager"

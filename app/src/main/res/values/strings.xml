@@ -14,88 +14,29 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Guanzon Circle</string>
-    <string name="nav_header_subtitle">Online Access \n Control and Security</string>
-    <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
     <string name="default_notification_channel_id">101</string>
 
     <string name="menu_home">Guanzon Circle</string>
-    <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
-    <string name="menu_samsungKnox">Samsung Knox</string>
-    <string name="menu_creditAppLog">Credit Application List</string>
-    <string name="menu_appCode">Approval Code</string>
-    <string name="menu_ahMonitoring">Area Performance Monitoring</string>
-    <string name="menu_creditApp">Online Credit Application</string>
-    <string name="menu_mcImpound">MC Impounding</string>
-    <string name="menu_reimbursement">Reimbursement</string>
-    <string name="menu_application">Application</string>
-    <string name="menu_inventory">Inventory</string>
-    <string name="menu_promotions">Promotions</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="sBtnLeaveApp">Apply Leave</string>
-    <string name="sBtnBusTrpApp">Apply Business Trip</string>
     <string name="action_logout">Logout</string>
-    <string name="menu_cashCount">Cash Count</string>
-    <string name="menu_creditInvestigation">Online Credit Investigation</string>
-    <string name="menu_creditEvaluation">Credit Evaluation List</string>
-    <string name="App_Desc">Online Access Control and Security</string>
-    <string name="lsMainOffice">Guanzon Central Office</string>
-    <string name="lsMainAddress">Guanzon Bldg., Perez Blvd., Dagupan City, Pangasinan 2400</string>
-    <string name="lsMainContact">Tel No.: (075) 522-1085, 522-1097, 515-6418, 515-2495</string>
-    <string name="lsMainWebsite">www.guanzongroup.com.ph</string>
-    <string name="lsBtn_UseProfile">User Profile</string>
-    <string name="lsBtn_SelfieLogin">Selfie Login</string>
-    <string name="lsBtn_Messages">Messages</string>
-    <string name="lsBtn_Notification">Notifications</string>
-    <string name="lsBtn_Settings">Settings</string>
-    <string name="lsBtn_Logout">Logout</string>
     <string name="title_activity_settings">Settings</string>
 
     <!-- Preference Titles -->
-    <string name="theme_title">Appearance</string>
-    <string name="messages_header">Messages</string>
-    <string name="sync_header">Sync</string>
 
     <!-- Messages Preferences -->
-    <string name="signature_title">Your signature</string>
-    <string name="reply_title">Default reply action</string>
 
     <!-- Sync Preferences -->
-    <string name="sync_title">Sync email periodically</string>
-    <string name="attachment_title">Download incoming attachments</string>
-    <string name="attachment_summary_on">Automatically download attachments for incoming emails
-    </string>
-    <string name="attachment_summary_off">Only download attachments when manually requested</string>
 
 
     <!--   CAMERA -->
-
-    <string name="show_camera">Show camera preview</string>
-    <string name="camera_unavailable"><b>Camera could not be opened.</b>\nThis occurs when the camera is not available (for example it is already in use) or if the system has denied access (for example when camera access has been disabled).</string>
-    <string name="intro">This sample shows a basic implementation for requesting permissions at runtime.\nClick the button below to request the Camera permission and open a full-screen camera preview.</string>
-    <string name="open_camera_preview">Open Camera Preview</string>
-    <string name="intro_message"><![CDATA[
-This sample shows a basic implementation for requesting permissions at runtime. Click the button to
-request the Camera permission and open a full-screen camera preview.
-Note: The "RuntimePermissions" sample provides a more complete overview over the runtime permission
-features available.]]>
-    </string>
-    <string name="camera_access_required">Camera access is required to display the camera preview.</string>
-    <string name="ok">OK</string>
-    <string name="camera_permission_not_available">Permission is not available. Requesting camera permission.</string>
-    <string name="camera_permission_available">Camera permission is available. Starting preview.</string>
-    <string name="camera_permission_granted">Camera permission was granted. Starting preview.</string>
-    <string name="camera_permission_denied">Camera permission request was denied.</string>
 
     <string name="summary_settings_export">Exporting your database is only allowed if problem occurs and if supervise by MIS</string>
     <string name="summary_settings_localDB">Download new records of data from server.</string>
     <string name="summary_settings_account">Change your account password</string>
     <string name="summary_settings_update">Check your for new system updates.</string>
     <string name="summary_settings_dMode">Use by developers and implementors for testing phase. Only MIS-SEG are able to use this mode.</string>
-    <string name="summary_settings_help">View instructions of app features.</string>
     <string name="sDataManagerInfo">Clearing app data will erase all, records, pending loan applications, pending dcp remittance and selfie login data. Please make sure all data has been uploaded to server.</string>
 
 </resources>

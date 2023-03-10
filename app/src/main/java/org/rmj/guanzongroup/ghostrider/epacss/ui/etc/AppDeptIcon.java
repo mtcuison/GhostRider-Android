@@ -32,6 +32,6 @@ public class AppDeptIcon {
         else if(deptID.equalsIgnoreCase(TELEMARKETING_MANAGEMENT))
             return R.drawable.ic_telemarket;
         else
-        return R.drawable.ic_grider_launcher_foreground;
+        return R.drawable.ic_launcher_foreground;
     }
 }

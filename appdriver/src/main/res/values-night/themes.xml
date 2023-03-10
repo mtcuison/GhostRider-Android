@@ -27,24 +27,12 @@
         <item name="android:textColor">@color/material_white</item>
     </style>
 
-    <style name="MyPopupOtherStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <!-- Used for the buttons -->
-        <!-- Used for the title and text -->
-        <!-- Used for the background -->
-    </style>
-
     <style name="GhostRiderMaterialTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.DayNight.ActionBar" />
     <style name="GhostRiderMaterialTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.DayNight" />
 
     <style name="TextInputStyle.Edittext">
         <item name="iconStartPadding">10dp</item>
         <item name="android:drawablePadding">10dp</item>
-    </style>
-
-    <style name="TextButtonStyle" parent="Widget.MaterialComponents.Button.TextButton">
-        <item name="android:layout_margin">5dp</item>
-        <item name="android:textAllCaps">false</item>
-        <item name="fontFamily">@font/roboto_regular</item>
     </style>
 
     <style name="AutoCompleteStyleTheme">
@@ -114,10 +102,6 @@
     </style>
     <!-- PROGRESSBAR -->
 
-    <style name="ProgressBarStyle" parent="Widget.AppCompat.ProgressBar.Horizontal">
-        <item name="android:background">@drawable/progressbar_gradient</item>
-    </style>
-
 
     <!-- TEXT HEADERS -->
 
@@ -160,15 +144,6 @@
     <style name="PopupAnimation">
         <item name="android:windowEnterAnimation">@anim/anim_pop_in</item>
         <item name="android:windowExitAnimation">@anim/anim_pop_out</item>
-    </style>
-
-    <style name="TextInputStyleSpinner" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
-        <item name="android:layout_margin">2dp</item>
-        <item name="boxCornerRadiusBottomEnd">10dp</item>
-        <item name="boxCornerRadiusBottomStart">10dp</item>
-        <item name="boxCornerRadiusTopStart">10dp</item>
-        <item name="boxCornerRadiusTopEnd">10dp</item>
-
     </style>
 
     <style name="CircularImageView" parent="">

@@ -14,7 +14,6 @@
 
     <color name="material_black">#1A1C25</color>
     <color name="material_white">#fcfcfc</color>
-    <color name="colorPrimary_light">#000000</color>
 
     <color name="background_dark">#161B24</color>
     <color name="background_light">#F2F2F2</color>
@@ -27,26 +26,18 @@
 
     <color name="colorPrimaryDark">#F47422</color>
     <color name="colorPrimaryVariantDark">#F47422</color>
-    <color name="colorSecondaryDark">#F47422</color>
-    <color name="colorSecondaryVariantDark">#F47422</color>
 
     <color name="guanzon_orange">#F88222</color>
     <color name="textColor_Black">#000</color>
-    <color name="textColor_Orange">#F88222</color>
     <color name="textColor_White">#FFF</color>
-    <color name="hintColor_Black">#161616</color>
-    <color name="hintColor_Orange">#F47422</color>
     <color name="progressDialogTint">#1A1C25</color>
     <color name="material_lightgrey">#fcfcfc</color>
     <color name="material_lightgrey_selector">#ebebeb</color>
     <color name="material_nav_light_gradient">#575757</color>
-    <color name="material_nav_dark_gradient">#101010</color>
 
     <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">#6B000000</color>
     <color name="mtrl_textinput_default_box_stroke_colors" tools:override="true">#fbfbfb</color>
 
-    <color name="text_input_layout_stroke_color" tools:ignore="MissingDefaultResource">@color/border_white</color>
-    <color name="text_input_color_hint" tools:ignore="MissingDefaultResource">@color/text_color_hint</color>
     <color name="material_master_light_gradient">#ffff</color>
     <color name="material_master_dark_gradient">#DBDBDB</color>
     <color name="material_tool_bar">#101010</color>
@@ -62,30 +53,19 @@
     <color name="guanzon_text_grey">#272727</color>
     <color name="guanzon_deep_dark_grey">#222222</color>
     <color name="guanzon_digital_orange">#FF8200</color>
-    <color name="guanzon_digital_orange_mid">#ff8f1a</color>
     <color name="guanzon_digital_orange_lighten">#FFA84D</color>
     <color name="footer_dark_grey">#393939</color>
     <color name="success_green">#009A17</color>
     <color name="error_red">#CD001A</color>
 
-    <color name="light_preview_img">#e2e2e2</color>
-    <color name="spinner_background">#FBFBFB</color>
-
     <color name="light_red">#ff3333</color>
-    <color name="light_green">#76EE00</color>
-    <color name="hint_color">#dadada</color>
 
     <color name="check_green">#008000</color>
     <color name="cross_red">#ac0d0d</color>
-
-    <color name="guanzon_orange_day">#FF8200</color>
 
     <color name="branch_opening_late">#F86060</color>
     <color name="branch_opening">#f2f2f2</color>
 
     <color name="color_nav_dashboard">#575757</color>
 
-    <color name="gap_toolbar_background">#1F1F1F</color>
-
-    <color name="textColor_btnWhite">#FFF</color>
 </resources>
