@@ -14,7 +14,6 @@ package org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -63,7 +62,6 @@ public class AreaMonitoringAdapter extends RecyclerView.Adapter<AreaMonitoringAd
     public static class ChartViewHolder extends RecyclerView.ViewHolder{
 
         public MaterialTextView txtBranch, txtMCGoal,txtSPGoal,txtJOGoal;
-        public ProgressBar progressBar;
 
         public ChartViewHolder(@NonNull View itemView) {
             super(itemView);
