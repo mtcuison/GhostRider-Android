@@ -6,6 +6,16 @@
     android:layout_height="match_parent"
     tools:context=".Fragment.Fragment_PayslipList">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:stackFromEnd="true" />
+
     <LinearLayout
         android:id="@+id/ln_empty"
         android:layout_width="0dp"
@@ -29,6 +39,7 @@
             android:fontFamily="@font/roboto"
             android:text="No payslip available."
             android:textSize="16sp" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

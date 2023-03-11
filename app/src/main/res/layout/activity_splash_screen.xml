@@ -37,15 +37,12 @@
         app:layout_constraintWidth_percent="0.47" />
 
 
-    <ProgressBar
+    <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/progress_splashscreen"
-        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="0dp"
         android:layout_height="2dp"
-        android:max="4"
-        android:progress="0"
+        app:layout_constraintWidth_percent=".8"
         app:layout_constraintBottom_toTopOf="@+id/tvCompany"
-        app:layout_constraintDimensionRatio="85:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imgLogo"

@@ -29,7 +29,7 @@ public class AdapterPayslip extends RecyclerView.Adapter<AdapterPayslip.VHPaySli
     }
 
     public interface OnDownloadPayslipListener{
-        void DownloadPayslip(String args);
+        void DownloadPayslip(String messageID, String link);
     }
 
     @NonNull
@@ -58,7 +58,7 @@ public class AdapterPayslip extends RecyclerView.Adapter<AdapterPayslip.VHPaySli
 
         holder.btnDownload.setOnClickListener(v -> {
             try{
-                mListener.DownloadPayslip(uri.toString());
+                mListener.DownloadPayslip(loPaySlip.sMesgIDxx, uri.toString());
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -73,7 +73,7 @@ public class AdapterPayslip extends RecyclerView.Adapter<AdapterPayslip.VHPaySli
     public static class VHPaySlip extends RecyclerView.ViewHolder{
 
         public MaterialTextView lblMessage,
-        lblTimeStamp;
+                                lblTimeStamp;
 
         public MaterialButton btnDownload;
 

@@ -47,7 +47,6 @@ public class Fragment_NotificationList extends Fragment {
     private RecyclerView recyclerView;
     private NotificationListAdapter poAdapter;
     private LinearLayoutManager manager;
-    private RelativeLayout rl_list;
     private ConstraintLayout ln_empty;
     private boolean isLoading = false;
     private List<NotificationItemList> notificationItemLists = new ArrayList<>();
@@ -69,7 +68,7 @@ public class Fragment_NotificationList extends Fragment {
         mViewModel.getUserNotificationList().observe(getViewLifecycleOwner(), userNotificationInfos -> {
             try {
                 if (userNotificationInfos.size() > 0) {
-                    rl_list.setVisibility(View.VISIBLE);
+                    recyclerView.setVisibility(View.VISIBLE);
                     ln_empty.setVisibility(View.GONE);
 
                     notificationItemLists.clear();
@@ -112,7 +111,7 @@ public class Fragment_NotificationList extends Fragment {
                     recyclerView.setAdapter(poAdapter);
 
                 } else {
-                    rl_list.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.GONE);
                     ln_empty.setVisibility(View.VISIBLE);
                 }
             } catch(NullPointerException e) {
@@ -126,8 +125,7 @@ public class Fragment_NotificationList extends Fragment {
     }
 
     private void setupWidgets(View v) {
-        recyclerView = v.findViewById(R.id.recyclerview_notifications);
-        rl_list = v.findViewById(R.id.rl_list);
+        recyclerView = v.findViewById(R.id.recyclerview);
         ln_empty = v.findViewById(R.id.ln_empty);
     }
 
