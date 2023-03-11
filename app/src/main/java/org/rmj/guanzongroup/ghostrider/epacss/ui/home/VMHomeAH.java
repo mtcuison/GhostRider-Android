@@ -127,6 +127,7 @@ public class VMHomeAH extends AndroidViewModel {
         return poSys.GetCurentSPSalesPerformance();
     }
     public LiveData<String> GetJobOrderPerformance() {
+
         return poSys.GetJobOrderPerformance();
     }
 }

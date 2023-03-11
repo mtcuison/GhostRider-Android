@@ -16,8 +16,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.android.material.textview.MaterialTextView;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchPerformance;
@@ -27,10 +29,18 @@ import java.util.List;
 
 public class AreaMonitoringAdapter extends RecyclerView.Adapter<AreaMonitoringAdapter.ChartViewHolder> {
 
-    List<EBranchPerformance> areaPerformances;
+    private final List<EBranchPerformance> areaPerformances;
+    private final OnBranchPerformanceClickListener mListener;
+    private final int nPriority;
 
-    public AreaMonitoringAdapter(List<EBranchPerformance> areaPerformances){
+    public interface OnBranchPerformanceClickListener{
+        void OnClick(String sBranchCd);
+    }
+
+    public AreaMonitoringAdapter(List<EBranchPerformance> areaPerformances, int nPriority, OnBranchPerformanceClickListener listener){
         this.areaPerformances = areaPerformances;
+        this.nPriority = nPriority ;
+        this.mListener = listener;
     }
 
     @NonNull
@@ -45,9 +55,27 @@ public class AreaMonitoringAdapter extends RecyclerView.Adapter<AreaMonitoringAd
         try {
             EBranchPerformance area = areaPerformances.get(position);
             holder.txtBranch.setText(area.getBranchNm());
-            holder.txtMCGoal.setText(area.getMCGoalxx());
-            holder.txtSPGoal.setText((int) area.getSPGoalxx());
-            holder.txtJOGoal.setText(area.getJOGoalxx());
+            holder.txtMCGoal.setText(String.valueOf(area.getMCGoalxx()));
+            holder.txtSPGoal.setText(String.valueOf((int) area.getSPGoalxx()));
+            holder.txtJOGoal.setText(String.valueOf(area.getJOGoalxx()));
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mListener.OnClick(area.getBranchCd());
+                }
+            });
+            if (nPriority == 0) {
+                holder.lblPercentage.setText((Math.round(area.getMCActual() / area.getMCGoalxx() * 100)) + "%");
+                holder.pi.setProgress((int)(Math.round(area.getMCActual() / area.getMCGoalxx() * 100)));
+            } else if (nPriority == 1) {
+                holder.lblPercentage.setText(String.valueOf((Math.round(area.getSPActual() / area.getSPGoalxx() * 100))+ "%"));
+                holder.pi.setProgress((Math.round(area.getSPActual() / area.getSPGoalxx() * 100)));
+            } else {
+                holder.lblPercentage.setText(String.valueOf((Math.round(area.getJOActual() / area.getJOGoalxx() * 100))+ "%"));
+                holder.pi.setProgress((Math.round(area.getJOActual() / area.getJOGoalxx() * 100)));
+            }
+
+
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -61,14 +89,18 @@ public class AreaMonitoringAdapter extends RecyclerView.Adapter<AreaMonitoringAd
 
     public static class ChartViewHolder extends RecyclerView.ViewHolder{
 
-        public MaterialTextView txtBranch, txtMCGoal,txtSPGoal,txtJOGoal;
-
+        public MaterialTextView txtBranch, txtMCGoal,txtSPGoal,txtJOGoal,lblPercentage;
+        public CircularProgressIndicator pi;
+        public ConstraintLayout btnBrPerformance;
         public ChartViewHolder(@NonNull View itemView) {
             super(itemView);
             txtBranch = itemView.findViewById(R.id.lbl_top_branches);
             txtMCGoal = itemView.findViewById(R.id.lblmcSalesgoal);
             txtSPGoal = itemView.findViewById(R.id.lblspSalesgoal);
             txtJOGoal = itemView.findViewById(R.id.lblJOgoal);
+            lblPercentage = itemView.findViewById(R.id.lbl_percentage);
+            pi = itemView.findViewById(R.id.cpi_percentage);
+            btnBrPerformance = itemView.findViewById(R.id.btnBranchPerformance);
 
         }
     }

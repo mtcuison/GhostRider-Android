@@ -130,7 +130,7 @@ public class Fragment_Home_AH extends Fragment {
                 }
             }
         });
-        mViewModel.GetJobOrderPerformance().observe(getViewLifecycleOwner(), new Observer<String>() {
+        mViewModel.GetCurentSPSalesPerformance().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(String sp_goal) {
                 try {

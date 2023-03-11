@@ -52,4 +52,15 @@ public class VMAreaMonitor extends AndroidViewModel {
     public LiveData<List<EBranchPerformance>> GetTopBranchPerformerForMCSales() {
         return poSys.GetTopBranchPerformerForMCSales();
     }
+    public LiveData<String> GetCurrentMCSalesPerformance(){
+        return poSys.GetCurrentMCSalesPerformance();
+    }
+
+    public LiveData<String> GetCurentSPSalesPerformance() {
+        return poSys.GetCurentSPSalesPerformance();
+    }
+    public LiveData<String> GetJobOrderPerformance() {
+
+        return poSys.GetJobOrderPerformance();
+    }
 }

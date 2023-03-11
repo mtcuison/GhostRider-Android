@@ -11,6 +11,7 @@
 
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,20 +21,35 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.progressindicator.CircularProgressIndicator;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.textview.MaterialTextView;
+
+import org.rmj.g3appdriver.dev.Database.Entities.EBranchPerformance;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_BranchPerformance;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Monitoring;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.AreaMonitoringAdapter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMAreaMonitor;
 
+import java.util.List;
+
 public class Fragment_AreaMonitor extends Fragment {
 
     private VMAreaMonitor mViewModel;
-
+    private TabLayout tabLayout;
     private RecyclerView recyclerView;
     private ConstraintLayout lblContainer;
+    private MaterialCardView btnMCPerformance,btnSPPerformance,btnJOPerformance;
+    private CircularProgressIndicator mcIndicator,spIndicator,joIndicator;
+    private MaterialTextView mcGoalPerc,spGoalPerc,joGoalPerc,mcFraction,spFraction,joFraction;
+    public ConstraintLayout btnBrPerformance;
 
     public static Fragment_AreaMonitor newInstance() {
         return new Fragment_AreaMonitor();
@@ -44,27 +60,177 @@ public class Fragment_AreaMonitor extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         mViewModel = new ViewModelProvider(this).get(VMAreaMonitor.class);
         View view = inflater.inflate(R.layout.fragment_area_monitor, container, false);
-        initTopPerformingBrach();
         recyclerView = view.findViewById(R.id.rvTopPerformingBranch);
         lblContainer = view.findViewById(R.id.lblContainer);
 
-        return view;
-    }
+        btnMCPerformance = view.findViewById(R.id.cv_mc_sales);
+        btnSPPerformance = view.findViewById(R.id.cv_sp_sales);
+        btnJOPerformance = view.findViewById(R.id.cv_jo);
 
-    public void initTopPerformingBrach(){
-        mViewModel.GetTopBranchPerformerForMCSales().observe(getViewLifecycleOwner(),  areaTopBranch -> {
+        mcIndicator = view.findViewById(R.id.cpi_mc_sales);
+        spIndicator = view.findViewById(R.id.cpi_sp_sales);
+        joIndicator = view.findViewById(R.id.cpi_jo);
+
+        mcGoalPerc = view.findViewById(R.id.lbl_mc_percentage);
+        spGoalPerc = view.findViewById(R.id.lbl_sp_percentage);
+        joGoalPerc = view.findViewById(R.id.lbl_jo_percentage);
+
+        mcFraction = view.findViewById(R.id.lbl_mc_goal);
+        spFraction = view.findViewById(R.id.lbl_sp_goal);
+        joFraction = view.findViewById(R.id.lbl_jo_goal);
+
+        tabLayout = view.findViewById(R.id.tabLayout);
+
+        tabLayout.addTab(tabLayout.newTab().setText("MC Sales"));
+        tabLayout.addTab(tabLayout.newTab().setText("SP Sales"));
+        tabLayout.addTab(tabLayout.newTab().setText("Joborder"));
+        initCardPerformance();
+        initGoalPercentage();
+
+        mViewModel.GetTopBranchPerformerForMCSales().observe(getViewLifecycleOwner(),  areaTopBranchbyMC -> {
             try{
-                AreaMonitoringAdapter loAdapter = new AreaMonitoringAdapter(areaTopBranch);
-                LinearLayoutManager loManager = new LinearLayoutManager(getActivity());
-                loManager.setOrientation(RecyclerView.VERTICAL);
-                recyclerView.setLayoutManager(loManager);
-                recyclerView.setAdapter(loAdapter);
-                recyclerView.setVisibility(View.VISIBLE);
-                lblContainer.setVisibility(View.GONE);
+                InitializeBranchList(areaTopBranchbyMC,0);
             }catch (Exception e){
                 e.printStackTrace();
             }
         });
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                if(tab.getPosition() == 0){
+                    mViewModel.GetTopBranchPerformerForMCSales().observe(getViewLifecycleOwner(),  areaTopBranchbyMC -> {
+                        try{
+                            InitializeBranchList(areaTopBranchbyMC, tab.getPosition());
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    });
+                } else if (tab.getPosition() == 1) {
+                    mViewModel.GetTopBranchPerformerForSPSales().observe(getViewLifecycleOwner(),  areaTopBranchbySP -> {
+                        try{
+                            InitializeBranchList(areaTopBranchbySP, tab.getPosition());
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    });
+                } else{
+                    mViewModel.GetTopBranchPerformerForJobOrder().observe(getViewLifecycleOwner(),  areaTopBranchbyJO -> {
+                        try{
+                            InitializeBranchList(areaTopBranchbyJO, tab.getPosition());
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    });
+                }
+            }
 
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+            }
+        });
+        return view;
+    }
+    public void initGoalPercentage(){
+        mViewModel.GetCurrentMCSalesPerformance().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String mc_goal) {
+                try {
+                    mcFraction.setText(mc_goal);
+                    if (mc_goal.contains("/")){
+                        String[] rat = mc_goal.split("/");
+                        double ratio =Double.parseDouble(rat[0]) / Double.parseDouble(rat[1]) * 100;
+                        mcGoalPerc.setText(String.valueOf(Math.round(ratio)) + "%");
+                        mcIndicator.setProgress((int) (Math.round(ratio)));
+                    }
+                }catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        mViewModel.GetCurentSPSalesPerformance().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String sp_goal) {
+                try {
+                    spFraction.setText(sp_goal);
+                    if (sp_goal.contains("/")){
+                        String[] rat = sp_goal.split("/");
+                        double ratio =Double.parseDouble(rat[0]) / Double.parseDouble(rat[1]) * 100;
+                        spGoalPerc.setText(String.valueOf(Math.round(ratio)) + "%");
+                        spIndicator.setProgress((int) (Math.round(ratio)));
+                    }
+                }catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        mViewModel.GetJobOrderPerformance().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String jo_goal) {
+                try {
+                    joFraction.setText(jo_goal);
+                    if (jo_goal.contains("/")){
+                        String[] rat = jo_goal.split("/");
+                        double ratio =Double.parseDouble(rat[0]) / Double.parseDouble(rat[1]) * 100;
+                        joGoalPerc.setText(String.valueOf(Math.round(ratio)) + "%");
+                        joIndicator.setProgress((int) (Math.round(ratio)));
+                    }
+                }catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+    private void initCardPerformance(){
+        btnMCPerformance.setOnClickListener(new View.OnClickListener() {
+            Intent loIntent;
+            @Override
+            public void onClick(View view) {
+                loIntent = new Intent(getActivity(), Activity_Monitoring.class);
+                startActivity(loIntent);
+                requireActivity().overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
+            }
+        });
+        btnSPPerformance.setOnClickListener(new View.OnClickListener() {
+            Intent loIntent;
+            @Override
+            public void onClick(View view) {
+                loIntent = new Intent(getActivity(), Activity_Monitoring.class);
+                startActivity(loIntent);
+                requireActivity().overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
+            }
+        });
+        btnJOPerformance.setOnClickListener(new View.OnClickListener() {
+            Intent loIntent;
+            @Override
+            public void onClick(View view) {
+                loIntent = new Intent(getActivity(), Activity_Monitoring.class);
+                startActivity(loIntent);
+                requireActivity().overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
+            }
+        });
+
+    }
+
+
+
+    private void InitializeBranchList(List<EBranchPerformance> list, int priority){
+        AreaMonitoringAdapter loAdapter = new AreaMonitoringAdapter(list, priority, new AreaMonitoringAdapter.OnBranchPerformanceClickListener() {
+            @Override
+            public void OnClick(String sBranchCd) {
+                Intent loIntent = new Intent(getActivity(),Activity_BranchPerformance.class);
+                loIntent.putExtra("brnCD", sBranchCd);
+                startActivity(loIntent);
+            }
+        });
+        LinearLayoutManager loManager = new LinearLayoutManager(getActivity());
+        loManager.setOrientation(RecyclerView.VERTICAL);
+        recyclerView.setLayoutManager(loManager);
+        recyclerView.setAdapter(loAdapter);
+        recyclerView.setVisibility(View.VISIBLE);
+        lblContainer.setVisibility(View.GONE);
     }
 }

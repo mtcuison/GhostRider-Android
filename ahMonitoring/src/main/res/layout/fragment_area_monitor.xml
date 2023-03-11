@@ -230,8 +230,16 @@
             android:layout_marginTop="15dp"
             android:layout_marginStart="15dp"
             android:text="TOP PERFORMING BRANCH"
+            style="@style/TextAppearance.MaterialComponents.Headline6"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cv_jo" />
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lbl_top_performer_branch" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvTopPerformingBranch"
@@ -242,18 +250,18 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lbl_top_performer_branch" />
+            app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/lblContainer"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:minHeight="50dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lbl_top_performer_branch">
+            app:layout_constraintTop_toBottomOf="@+id/tabLayout">
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_no_top_performing_branch"
