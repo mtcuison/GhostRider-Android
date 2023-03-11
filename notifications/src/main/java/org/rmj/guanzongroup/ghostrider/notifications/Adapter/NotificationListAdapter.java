@@ -59,13 +59,6 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
         if (holder instanceof ItemViewHolder) {
             NotificationItemList message = notificationItemLists.get(position);
             ((ItemViewHolder) holder).message = message;
-            if (!message.getName().equalsIgnoreCase("null")) {
-                ((ItemViewHolder) holder).lblSender.setText(message.getName());
-                ((ItemViewHolder) holder).imgSendr.setImageResource(R.drawable.ic_user_profile);
-            } else {
-                ((ItemViewHolder) holder).lblSender.setText("SYSTEM NOTIFICATION");
-                ((ItemViewHolder) holder).imgSendr.setImageResource(R.drawable.ic_guanzon_logo);
-            }
             ((ItemViewHolder) holder).lblTitlex.setText(message.getTitle());
             ((ItemViewHolder) holder).lblBodyxx.setText(message.getMessage());
             ((ItemViewHolder) holder).lblDateTm.setText(message.getDateTime());

@@ -57,6 +57,10 @@ public class Payslip {
         return poDao.GetPaySlipList();
     }
 
+    public LiveData<Integer> GetUnreadPayslipCount(){
+        return poDao.GetUnreadPayslipCount();
+    }
+
     public boolean NotificationRead(String MessageID){
         try{
             ENotificationRecipient loDetail = poDao.GetPaySlipNotification(MessageID);

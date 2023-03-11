@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
@@ -19,9 +21,11 @@ import android.view.ViewGroup;
 import com.google.android.material.tabs.TabLayout;
 
 import org.rmj.guanzongroup.ghostrider.notifications.R;
+import org.rmj.guanzongroup.ghostrider.notifications.ViewModel.VMNotifications;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,6 +33,8 @@ import java.util.List;
  * create an instance of this fragment.
  */
 public class Fragment_Notifications extends Fragment {
+
+    private VMNotifications mViewModel;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -74,6 +80,7 @@ public class Fragment_Notifications extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        mViewModel = new ViewModelProvider(requireActivity()).get(VMNotifications.class);
         View view = inflater.inflate(R.layout.fragment_notifications, container, false);
 
         ViewPager viewPager = view.findViewById(R.id.viewpager);
@@ -81,6 +88,21 @@ public class Fragment_Notifications extends Fragment {
 
         viewPager.setAdapter(new ApplicationPageAdapter(getChildFragmentManager()));
         tabLayout.setupWithViewPager(viewPager);
+
+        mViewModel.GetUnreadPayslipCount().observe(requireActivity(), new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                try{
+                    if (integer > 0) {
+                        Objects.requireNonNull(Objects.requireNonNull(tabLayout.getTabAt(1)).getOrCreateBadge()).setNumber(integer);
+                    } else {
+                        Objects.requireNonNull(tabLayout.getTabAt(1)).removeBadge();
+                    }
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
         return view;
     }
 
