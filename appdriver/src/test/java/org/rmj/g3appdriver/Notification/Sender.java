@@ -6,8 +6,8 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.junit.Test;
+import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.utils.SQLUtil;
-import org.rmj.g3appdriver.utils.WebClient;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -19,14 +19,14 @@ public class Sender {
 
     @Test
     public void test01SenderNotification() throws Exception{
-        String sURL = "https://restgk.guanzongroup.com.ph/notification/send_request.php";
+        String sURL = "https://restgk.guanzongroup.com.ph/notification/send_request_system.php";
         Calendar calendar = Calendar.getInstance();
         //Create the header section needed by the API
         Map<String, String> headers =
                 new HashMap<String, String>();
         headers.put("Accept", "application/json");
         headers.put("Content-Type", "application/json");
-        headers.put("g-api-id", "GuanzonApp");
+        headers.put("g-api-id", "IntegSys");
         headers.put("g-api-imei", "356060072281722");
         headers.put("g-api-key", SQLUtil.dateFormat(calendar.getTime(), "yyyyMMddHHmmss"));
         headers.put("g-api-hash", org.apache.commons.codec.digest.DigestUtils.md5Hex((String)headers.get("g-api-imei") + (String)headers.get("g-api-key")));
@@ -51,7 +51,7 @@ public class Sender {
         JSONParser oParser = new JSONParser();
         JSONObject json_obj = null;
 
-        String response = WebClient.httpsPostJSon(sURL, param.toJSONString(), (HashMap<String, String>) headers);
+        String response = WebClient.sendRequest(sURL, param.toJSONString(), (HashMap<String, String>) headers);
         if(response == null){
             System.out.println("HTTP Error detected: " + System.getProperty("store.error.info"));
         }
@@ -99,7 +99,7 @@ public class Sender {
             JSONParser oParser = new JSONParser();
             JSONObject json_obj = null;
 
-            String response = WebClient.httpsPostJSon(sURL, param.toJSONString(), (HashMap<String, String>) headers);
+            String response = WebClient.sendRequest(sURL, param.toJSONString(), (HashMap<String, String>) headers);
             if(response == null){
                 System.out.println("HTTP Error detected: " + System.getProperty("store.error.info"));
                 System.exit(1);

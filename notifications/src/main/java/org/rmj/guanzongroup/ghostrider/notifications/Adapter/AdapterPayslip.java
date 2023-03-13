@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -53,6 +54,9 @@ public class AdapterPayslip extends RecyclerView.Adapter<AdapterPayslip.VHPaySli
         String subsTringVal = loPaySlip.sMessagex.substring(lnStart+1, lnEnd);
         Uri uri = Uri.parse(subsTringVal);
         Log.e("URL", uri.toString());
+        if(loPaySlip.cMesgStat.equalsIgnoreCase("2")){
+            holder.lnBadge.setVisibility(View.VISIBLE);
+        }
 
         holder.lblTimeStamp.setText(FormatUIText.getParseDateTime(loPaySlip.dReceived));
 
@@ -77,11 +81,14 @@ public class AdapterPayslip extends RecyclerView.Adapter<AdapterPayslip.VHPaySli
 
         public MaterialButton btnDownload;
 
+        public LinearLayout lnBadge;
+
         public VHPaySlip(@NonNull View itemView) {
             super(itemView);
             lblMessage = itemView.findViewById(R.id.lblMessage);
             lblTimeStamp = itemView.findViewById(R.id.lblTimeStamp);
             btnDownload = itemView.findViewById(R.id.btnDownload);
+            lnBadge = itemView.findViewById(R.id.linear_badge);
         }
     }
 }

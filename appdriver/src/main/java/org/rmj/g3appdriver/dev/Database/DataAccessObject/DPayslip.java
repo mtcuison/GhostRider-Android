@@ -28,6 +28,7 @@ public interface DPayslip {
             "a.sMesgIDxx, " +
             "a.sMsgTitle, " +
             "a.sMessagex, " +
+            "b.cMesgStat, " +
             "b.dReceived " +
             "FROM Notification_Info_Master a " +
             "LEFT JOIN Notification_Info_Recepient b ON a.sMesgIDxx = b.sTransNox " +
@@ -52,6 +53,7 @@ public interface DPayslip {
         public String sMesgIDxx;
         public String sMsgTitle;
         public String sMessagex;
+        public String cMesgStat;
         public String dReceived;
     }
 }

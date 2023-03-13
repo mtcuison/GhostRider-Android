@@ -75,6 +75,7 @@ public class WebApi {
     private static final String URL_UPLOAD_CI_RESULT = "integsys/gocas/upload_ci_result.php";
     private static final String URL_SEND_RESPONSE = "nmm/send_response.php";
     private static final String URL_SEND_REQUEST = "nmm/send_request.php";
+    private static final String URL_SEND_REQUEST_SYSTEM = "nmm/send_request_system.php";
     private static final String URL_KWIKSEARCH = "integsys/paramqry/cash_count_rqst_officer.php";
     private static final String URL_SEND_LEAVE_APPLICATION = "petmgr/send_leave_application.php";
     private static final String URL_GET_LEAVE_APPLICATION = "petmgr/get_leave_application.php";

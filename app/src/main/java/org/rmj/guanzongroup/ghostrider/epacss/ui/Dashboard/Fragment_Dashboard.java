@@ -108,6 +108,8 @@ public class Fragment_Dashboard extends Fragment {
                     if(integer > 0){
                         BadgeDrawable loBadge = botNav.getOrCreateBadge(R.id.nav_notifications);
                         loBadge.setNumber(integer);
+                    } else {
+                        botNav.removeBadge(R.id.nav_notifications);
                     }
                 } catch (Exception e){
                     e.printStackTrace();
