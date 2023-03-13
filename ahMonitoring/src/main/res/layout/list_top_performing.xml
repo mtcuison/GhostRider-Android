@@ -3,15 +3,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".Adapter.Adapter_Top_Performing">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="85dp"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/btnBranchPerformance"
+            android:layout_width="match_parent"
+            android:layout_height="85dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
@@ -115,14 +124,39 @@
         app:cardElevation="5dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:src="@drawable/guanzo_small_logo" />
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:id="@+id/cpi_percentage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:progress="90"
+                app:indicatorDirectionCircular="clockwise"
+                app:indicatorSize="41dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:trackCornerRadius="40dp" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/lbl_percentage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="90%"
+                app:layout_constraintBottom_toBottomOf="@+id/cpi_percentage"
+                app:layout_constraintEnd_toEndOf="@+id/cpi_percentage"
+                app:layout_constraintStart_toStartOf="@+id/cpi_percentage"
+                app:layout_constraintTop_toTopOf="@+id/cpi_percentage" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
     </com.google.android.material.card.MaterialCardView>
 
-
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,13 +13,11 @@ import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DBranchPerformance;
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchPerformance;
 import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
-import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.lib.BullsEye.ABPM;
 import org.rmj.g3appdriver.lib.BullsEye.PerformancePeriod;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class BranchPerformance extends ABPM {
     private static final String TAG = BranchPerformance.class.getSimpleName();
@@ -90,38 +88,38 @@ public class BranchPerformance extends ABPM {
                     JSONObject loJson = laJson.getJSONObject(x);
 
                     EBranchPerformance info = new EBranchPerformance();
-                    if(lsUserLvl != DeptCode.LEVEL_AREA_MANAGER){
-                        info.setPeriodxx(loJson.getString("sPeriodxx"));
-                        info.setBranchCd(loJson.getString("sBranchCd"));
-                        info.setBranchNm(loJson.getString("sBranchNm"));
-                        info.setMCGoalxx(Integer.parseInt(loJson.getString("nMCGoalxx")));
-                        info.setSPGoalxx(Float.parseFloat(loJson.getString("nSPGoalxx")));
-                        info.setJOGoalxx(Integer.parseInt(loJson.getString("nJOGoalxx")));
-                        info.setLRGoalxx(Float.parseFloat(loJson.getString("nLRGoalxx")));
-                        info.setMCActual(Integer.parseInt(loJson.getString("nMCActual")));
-                        info.setSPActual(Float.parseFloat(loJson.getString("nSPActual")));
-                        info.setLRActual(Float.parseFloat(loJson.getString("nLRActual")));
-                        poDao.insert(info);
-                        Log.d(TAG, "Branch performance for " + loJson.getString("sBranchCd") + " has been saved.");
-                    } else if(lsUserLvl != DeptCode.LEVEL_BRANCH_HEAD){
-
-                        String lsBranchCd = poDao.GetBranchCode();
-
-                        if(lsBranchCd.equalsIgnoreCase(loJson.getString("sBranchCd"))) {
-                            info.setPeriodxx(loJson.getString("sPeriodxx"));
-                            info.setBranchCd(loJson.getString("sBranchCd"));
-                            info.setBranchNm(loJson.getString("sBranchNm"));
-                            info.setMCGoalxx(Integer.parseInt(loJson.getString("nMCGoalxx")));
-                            info.setSPGoalxx(Float.parseFloat(loJson.getString("nSPGoalxx")));
-                            info.setJOGoalxx(Integer.parseInt(loJson.getString("nJOGoalxx")));
-                            info.setLRGoalxx(Float.parseFloat(loJson.getString("nLRGoalxx")));
-                            info.setMCActual(Integer.parseInt(loJson.getString("nMCActual")));
-                            info.setSPActual(Float.parseFloat(loJson.getString("nSPActual")));
-                            info.setLRActual(Float.parseFloat(loJson.getString("nLRActual")));
-                            poDao.insert(info);
-                            Log.d(TAG, "Branch performance for " + loJson.getString("sBranchCd") + " has been saved.");
-                        }
-                    }
+                    info.setPeriodxx(loJson.getString("sPeriodxx"));
+                    info.setBranchCd(loJson.getString("sBranchCd"));
+                    info.setBranchNm(loJson.getString("sBranchNm"));
+                    info.setMCGoalxx(Integer.parseInt(loJson.getString("nMCGoalxx")));
+                    info.setSPGoalxx(Float.parseFloat(loJson.getString("nSPGoalxx")));
+                    info.setJOGoalxx(Integer.parseInt(loJson.getString("nJOGoalxx")));
+                    info.setLRGoalxx(Float.parseFloat(loJson.getString("nLRGoalxx")));
+                    info.setMCActual(Integer.parseInt(loJson.getString("nMCActual")));
+                    info.setSPActual(Float.parseFloat(loJson.getString("nSPActual")));
+                    info.setLRActual(Float.parseFloat(loJson.getString("nLRActual")));
+                    poDao.insert(info);
+                    Log.d(TAG, "Branch performance for " + loJson.getString("sBranchCd") + " has been saved.");
+//                    if(lsUserLvl != DeptCode.LEVEL_AREA_MANAGER){
+//                    } else if(lsUserLvl != DeptCode.LEVEL_BRANCH_HEAD){
+//
+//                        String lsBranchCd = poDao.GetBranchCode();
+//
+//                        if(lsBranchCd.equalsIgnoreCase(loJson.getString("sBranchCd"))) {
+//                            info.setPeriodxx(loJson.getString("sPeriodxx"));
+//                            info.setBranchCd(loJson.getString("sBranchCd"));
+//                            info.setBranchNm(loJson.getString("sBranchNm"));
+//                            info.setMCGoalxx(Integer.parseInt(loJson.getString("nMCGoalxx")));
+//                            info.setSPGoalxx(Float.parseFloat(loJson.getString("nSPGoalxx")));
+//                            info.setJOGoalxx(Integer.parseInt(loJson.getString("nJOGoalxx")));
+//                            info.setLRGoalxx(Float.parseFloat(loJson.getString("nLRGoalxx")));
+//                            info.setMCActual(Integer.parseInt(loJson.getString("nMCActual")));
+//                            info.setSPActual(Float.parseFloat(loJson.getString("nSPActual")));
+//                            info.setLRActual(Float.parseFloat(loJson.getString("nLRActual")));
+//                            poDao.insert(info);
+//                            Log.d(TAG, "Branch performance for " + loJson.getString("sBranchCd") + " has been saved.");
+//                        }
+//                    }
                 }
 
                 Thread.sleep(1000);

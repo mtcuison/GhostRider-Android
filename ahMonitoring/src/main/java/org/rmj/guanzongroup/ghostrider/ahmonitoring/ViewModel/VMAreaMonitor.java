@@ -18,7 +18,9 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EAreaPerformance;
+import org.rmj.g3appdriver.dev.Database.Entities.EBranchPerformance;
 import org.rmj.g3appdriver.dev.Database.Repositories.RAreaPerformance;
+import org.rmj.g3appdriver.lib.BullsEye.obj.AreaPerformance;
 
 import java.util.List;
 
@@ -26,13 +28,39 @@ public class VMAreaMonitor extends AndroidViewModel {
     public static final String TAG = VMAreaMonitor.class.getSimpleName();
 
     private final RAreaPerformance poDatabse;
+    private final AreaPerformance poSys;
 
     public VMAreaMonitor(@NonNull Application application) {
         super(application);
         poDatabse = new RAreaPerformance(application);
+        this.poSys = new AreaPerformance(application);
     }
 
     public LiveData<List<EAreaPerformance>> getAreaPerformanceInfoList(){
         return poDatabse.getAreaPerformanceInfoList();
+    }
+
+    public LiveData<List<EAreaPerformance>> getTopBranchList(){
+        return poDatabse.getAreaPerformanceInfoList();
+    }
+    public LiveData<List<EBranchPerformance>> GetTopBranchPerformerForJobOrder() {
+        return poSys.GetTopBranchPerformerForJobOrder();
+    }
+    public LiveData<List<EBranchPerformance>> GetTopBranchPerformerForSPSales() {
+        return poSys.GetTopBranchPerformerForSPSales();
+    }
+    public LiveData<List<EBranchPerformance>> GetTopBranchPerformerForMCSales() {
+        return poSys.GetTopBranchPerformerForMCSales();
+    }
+    public LiveData<String> GetCurrentMCSalesPerformance(){
+        return poSys.GetCurrentMCSalesPerformance();
+    }
+
+    public LiveData<String> GetCurentSPSalesPerformance() {
+        return poSys.GetCurentSPSalesPerformance();
+    }
+    public LiveData<String> GetJobOrderPerformance() {
+
+        return poSys.GetJobOrderPerformance();
     }
 }

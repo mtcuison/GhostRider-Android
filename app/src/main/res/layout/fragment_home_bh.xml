@@ -74,7 +74,6 @@
             android:text="Branch Manager"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/bhName" />
-
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cb_performance"
             android:layout_width="match_parent"
@@ -95,11 +94,12 @@
                     android:id="@+id/cpi_mc_sales"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
                     android:progress="90"
                     app:indicatorDirectionCircular="clockwise"
+                    app:indicatorSize="100dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:indicatorSize="100dp"
                     app:trackCornerRadius="10dp" />
 
                 <com.google.android.material.textview.MaterialTextView
@@ -133,9 +133,9 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto"
                     android:text="MC SALES"
-                    app:layout_constraintStart_toStartOf="@id/cpi_mc_sales"
-                    app:layout_constraintEnd_toEndOf="@id/cpi_mc_sales"
-                    app:layout_constraintTop_toBottomOf="@id/cpi_mc_sales"/>
+                    app:layout_constraintStart_toStartOf="@id/lblMCGoal"
+                    app:layout_constraintEnd_toEndOf="@id/lblMCGoal"
+                    app:layout_constraintTop_toBottomOf="@id/lblMCGoal"/>
 
                 <com.google.android.material.progressindicator.CircularProgressIndicator
                     android:id="@+id/cpi_sp_sales"
@@ -181,9 +181,9 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto"
                     android:text="SP SALES"
-                    app:layout_constraintStart_toStartOf="@id/cpi_sp_sales"
-                    app:layout_constraintEnd_toEndOf="@id/cpi_sp_sales"
-                    app:layout_constraintTop_toBottomOf="@id/cpi_sp_sales"/>
+                    app:layout_constraintStart_toStartOf="@id/lblSPGoal"
+                    app:layout_constraintEnd_toEndOf="@id/lblSPGoal"
+                    app:layout_constraintTop_toBottomOf="@id/lblSPGoal"/>
 
                 <com.google.android.material.progressindicator.CircularProgressIndicator
                     android:id="@+id/cpi_job_order"
@@ -228,200 +228,13 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto"
                     android:text="JOB ORDER"
-                    app:layout_constraintStart_toStartOf="@id/cpi_job_order"
-                    app:layout_constraintEnd_toEndOf="@id/cpi_job_order"
-                    app:layout_constraintTop_toBottomOf="@id/cpi_job_order"/>
+                    app:layout_constraintStart_toStartOf="@id/lblJobOrder"
+                    app:layout_constraintEnd_toEndOf="@id/lblJobOrder"
+                    app:layout_constraintTop_toBottomOf="@id/lblJobOrder"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </com.google.android.material.card.MaterialCardView>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="5dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.25"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cb_performance"
-            app:layout_constraintVertical_bias="0.0">
-
-<!--            <com.google.android.material.card.MaterialCardView-->
-<!--                android:id="@+id/cv_cashCount"-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="0dp"-->
-<!--                android:layout_margin="5dp"-->
-<!--                app:layout_constraintWidth_percent=".20"-->
-<!--                app:layout_constraintHeight_percent=".93"-->
-<!--                app:cardCornerRadius="10dp"-->
-<!--                app:layout_constraintEnd_toStartOf="@+id/cv_inventory"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toTopOf="parent">-->
-
-<!--                <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:background="@drawable/bg_dsahboard_cv_btn"-->
-<!--                    android:padding="5dp">-->
-
-<!--                    <com.google.android.material.textview.MaterialTextView-->
-<!--                        android:id="@+id/lblCashCount"-->
-<!--                        android:layout_width="0dp"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:fontFamily="@font/roboto"-->
-<!--                        android:text="Cash Count"-->
-<!--                        app:layout_constraintStart_toStartOf="parent"-->
-<!--                        app:layout_constraintTop_toTopOf="parent"-->
-<!--                        app:layout_constraintWidth_percent=".70" />-->
-
-<!--                    <com.google.android.material.imageview.ShapeableImageView-->
-<!--                        android:layout_width="20dp"-->
-<!--                        android:layout_height="20dp"-->
-<!--                        android:layout_marginStart="15dp"-->
-<!--                        android:layout_marginTop="15dp"-->
-<!--                        android:src="@drawable/ic_menu_cashcount"-->
-<!--                        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                        app:layout_constraintEnd_toEndOf="parent"-->
-<!--                        app:layout_constraintHorizontal_bias="1.0"-->
-<!--                        app:layout_constraintStart_toEndOf="@+id/lblCashCount"-->
-<!--                        app:layout_constraintTop_toBottomOf="@id/lblCashCount"-->
-<!--                        app:layout_constraintVertical_bias="1.0" />-->
-<!--                </androidx.constraintlayout.widget.ConstraintLayout>-->
-
-<!--            </com.google.android.material.card.MaterialCardView>-->
-
-<!--            <com.google.android.material.card.MaterialCardView-->
-<!--                android:id="@+id/cv_inventory"-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="0dp"-->
-<!--                android:layout_margin="5dp"-->
-<!--                app:layout_constraintWidth_percent=".20"-->
-<!--                app:layout_constraintHeight_percent=".93"-->
-<!--                app:cardCornerRadius="10dp"-->
-<!--                app:layout_constraintEnd_toStartOf="@+id/cv_settings"-->
-<!--                app:layout_constraintStart_toEndOf="@+id/cv_cashCount"-->
-<!--                app:layout_constraintTop_toTopOf="parent">-->
-
-<!--                <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:background="@drawable/bg_dsahboard_cv_btn"-->
-<!--                    android:padding="5dp">-->
-
-<!--                    <com.google.android.material.textview.MaterialTextView-->
-<!--                        android:id="@+id/lbInventory"-->
-<!--                        android:layout_width="0dp"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:fontFamily="@font/roboto"-->
-<!--                        android:text="Inventory"-->
-<!--                        app:layout_constraintStart_toStartOf="parent"-->
-<!--                        app:layout_constraintTop_toTopOf="parent"-->
-<!--                        app:layout_constraintWidth_percent=".99" />-->
-
-<!--                    <com.google.android.material.imageview.ShapeableImageView-->
-<!--                        android:layout_width="20dp"-->
-<!--                        android:layout_height="20dp"-->
-<!--                        android:layout_marginStart="20dp"-->
-<!--                        android:layout_marginTop="20dp"-->
-<!--                        android:src="@drawable/ic_menu_inventory"-->
-<!--                        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                        app:layout_constraintEnd_toEndOf="parent"-->
-<!--                        app:layout_constraintHorizontal_bias="1.0"-->
-<!--                        app:layout_constraintStart_toEndOf="@+id/lbInventory"-->
-<!--                        app:layout_constraintTop_toBottomOf="@id/lbInventory"-->
-<!--                        app:layout_constraintVertical_bias="1.0" />-->
-<!--                </androidx.constraintlayout.widget.ConstraintLayout>-->
-<!--            </com.google.android.material.card.MaterialCardView>-->
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cv_settings"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_margin="5dp"
-                app:cardCornerRadius="10dp"
-                app:layout_constraintEnd_toStartOf="@+id/cv_logout"
-                app:layout_constraintHeight_percent=".93"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent=".20">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/bg_dsahboard_cv_btn"
-                    android:padding="5dp">
-
-                    <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/lbIsettings"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto"
-                        android:text="Settings"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintWidth_percent=".99" />
-
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginTop="20dp"
-                        android:src="@drawable/ic_dashboard_settings"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="1.0"
-                        app:layout_constraintStart_toEndOf="@+id/lbIsettings"
-                        app:layout_constraintTop_toBottomOf="@id/lbIsettings"
-                        app:layout_constraintVertical_bias="1.0" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cv_logout"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_margin="5dp"
-                app:cardCornerRadius="10dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHeight_percent=".93"
-                app:layout_constraintStart_toEndOf="@+id/cv_settings"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent=".20">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/bg_dsahboard_cv_btn"
-                    android:padding="5dp">
-
-                    <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/lbIlogout"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto"
-                        android:text="Logout"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintWidth_percent=".99" />
-
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginTop="20dp"
-                        android:src="@drawable/ic_dashboard_logout"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="1.0"
-                        app:layout_constraintStart_toEndOf="@+id/lbIlogout"
-                        app:layout_constraintTop_toBottomOf="@id/lbIlogout"
-                        app:layout_constraintVertical_bias="1.0" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lblComAnouncemnt"
@@ -433,7 +246,7 @@
             android:text="Company Anouncement"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout3" />
+            app:layout_constraintTop_toBottomOf="@+id/cb_performance" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvCompnyAnouncemnt"
@@ -467,5 +280,4 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/lblApplication" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </ScrollView>
