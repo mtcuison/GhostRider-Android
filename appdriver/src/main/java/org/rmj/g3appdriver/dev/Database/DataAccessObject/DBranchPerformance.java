@@ -117,6 +117,30 @@ public interface DBranchPerformance {
             "WHERE sBranchCd = (SELECT sBranchCd FROM User_Info_Master)")
     LiveData<List<PeriodicalPerformance>> getSPBranchPeriodicalPerformance();
 
+    @Query("SELECT sPeriodxx AS Period, " +
+            "nMCActual AS Actual, " +
+            "nMCGoalxx AS Goal " +
+            "FROM MC_Branch_Performance " +
+            "WHERE sBranchCd =:BranchCd " +
+            "ORDER BY sPeriodxx DESC")
+    LiveData<List<PeriodicalPerformance>> GetMCSalesPeriodicPerformance(String BranchCd);
+
+    @Query("SELECT sPeriodxx AS Period, " +
+            "nSPActual AS Actual, " +
+            "nSPGoalxx AS Goal " +
+            "FROM MC_Branch_Performance " +
+            "WHERE sBranchCd =:BranchCd " +
+            "ORDER BY sPeriodxx DESC")
+    LiveData<List<PeriodicalPerformance>> GetSPSalesPeriodicPerformance(String BranchCd);
+
+    @Query("SELECT sPeriodxx AS Period, " +
+            "nJOActual AS Actual, " +
+            "nJOGoalxx AS Goal " +
+            "FROM MC_Branch_Performance " +
+            "WHERE sBranchCd =:BranchCd " +
+            "ORDER BY sPeriodxx DESC")
+    LiveData<List<PeriodicalPerformance>> GetJobOrderPeriodicPerformance(String BranchCd);
+
     @Query("SELECT MIN(sPeriodxx) AS Start, MAX(sPeriodxx) AS Current FROM MC_Branch_Performance;")
     LiveData<PeriodRange> getPeriodRange();
 

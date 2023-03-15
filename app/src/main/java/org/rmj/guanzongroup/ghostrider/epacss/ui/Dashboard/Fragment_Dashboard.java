@@ -6,8 +6,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.rmj.guanzongroup.ghostrider.Fragment.Fragment_PanaloContainer;
@@ -71,6 +74,7 @@ public class Fragment_Dashboard extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        mViewModel = new ViewModelProvider(requireActivity()).get(VMDashboard.class);
         View view = inflater.inflate(R.layout.fragment_dashboard, container, false);
 
         Fragment[] loFragments = new Fragment[]{
@@ -97,6 +101,21 @@ public class Fragment_Dashboard extends Fragment {
             return true;
         });
 
+        mViewModel.GetUnreadPayslipCount().observe(requireActivity(), new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                try{
+                    if(integer > 0){
+                        BadgeDrawable loBadge = botNav.getOrCreateBadge(R.id.nav_notifications);
+                        loBadge.setNumber(integer);
+                    } else {
+                        botNav.removeBadge(R.id.nav_notifications);
+                    }
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
         return view;
     }
 }

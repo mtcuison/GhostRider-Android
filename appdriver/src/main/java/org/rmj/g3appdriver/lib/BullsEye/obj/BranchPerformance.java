@@ -18,11 +18,12 @@ import org.rmj.g3appdriver.lib.BullsEye.ABPM;
 import org.rmj.g3appdriver.lib.BullsEye.PerformancePeriod;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class BranchPerformance extends ABPM {
     private static final String TAG = BranchPerformance.class.getSimpleName();
 
-    private DBranchPerformance poDao;
+    private final DBranchPerformance poDao;
 
     private final AppConfigPreference poConfig;
     private final WebApi poApi;
@@ -169,5 +170,15 @@ public class BranchPerformance extends ABPM {
         return poDao.GetJobOrderPerformance(args);
     }
 
+    public LiveData<List<DBranchPerformance.PeriodicalPerformance>> GetMCSalesPeriodicPerformance(String BranchCd){
+        return poDao.GetMCSalesPeriodicPerformance(BranchCd);
+    }
 
+    public LiveData<List<DBranchPerformance.PeriodicalPerformance>> GetSPSalesPeriodicPerformance(String BranchCd){
+        return poDao.GetSPSalesPeriodicPerformance(BranchCd);
+    }
+
+    public LiveData<List<DBranchPerformance.PeriodicalPerformance>> GetJobOrderPeriodicPerformance(String BranchCd){
+        return poDao.GetJobOrderPeriodicPerformance(BranchCd);
+    }
 }

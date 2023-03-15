@@ -46,8 +46,8 @@
                 android:id="@+id/btnDownload"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Download Payslip"
-                app:icon="@drawable/ic_baseline_file_download_24"
+                android:text="View Payslip"
+                app:icon="@drawable/ic_baseline_payslip"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_marginTop="10dp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -56,6 +56,24 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>
+
+    <LinearLayout
+        android:id="@+id/linear_badge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="3dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/cv_sender_message"
+        app:layout_constraintTop_toTopOf="@+id/cv_sender_message">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_margin="5dp"
+            android:tint="@color/light_red"
+            android:src="@drawable/ic_baseline_payslip_badge" />
+
+    </LinearLayout>
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/lblTimeStamp"

@@ -24,6 +24,7 @@ import org.rmj.g3appdriver.dev.Device.Telephony;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
+import org.rmj.g3appdriver.lib.Notifications.Obj.Payslip;
 import org.rmj.g3appdriver.lib.SelfieLog.SelfieLog;
 
 import java.util.List;
@@ -35,12 +36,15 @@ public class VMDashboard extends AndroidViewModel {
     private final AppConfigPreference poConfig;
     private MutableLiveData<String> psMobleNo = new MutableLiveData<>();
 
+    private final Payslip poPaySlip;
+
     public VMDashboard(@NonNull Application application) {
         super(application);
         this.poEmploye = new EmployeeMaster(application);
         this.psMobleNo.setValue(new Telephony(application).getMobilNumbers());
         this.poLog = new SelfieLog(application);
         this.poConfig = AppConfigPreference.getInstance(application);
+        this.poPaySlip = new Payslip(application);
     }
 
     public LiveData<EEmployeeInfo> getEmployeeInfo(){
@@ -53,5 +57,9 @@ public class VMDashboard extends AndroidViewModel {
 
     public LiveData<List<ESelfieLog>> getCurrentLogTimeIfExist(){
         return poLog.getCurrentLogTimeIfExist(AppConstants.CURRENT_DATE);
+    }
+
+    public LiveData<Integer> GetUnreadPayslipCount(){
+        return poPaySlip.GetUnreadPayslipCount();
     }
 }

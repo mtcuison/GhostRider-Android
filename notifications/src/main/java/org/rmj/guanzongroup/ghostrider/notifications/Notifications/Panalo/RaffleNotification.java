@@ -18,6 +18,8 @@ import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Database.Entities.ENotificationMaster;
 import org.rmj.guanzongroup.ghostrider.notifications.R;
 
+import java.util.Date;
+
 public class RaffleNotification implements PnlNotification{
     private static final String TAG = RaffleNotification.class.getSimpleName();
 
@@ -38,7 +40,7 @@ public class RaffleNotification implements PnlNotification{
 
             int lnChannelID = 123;
 
-//            Intent loIntent = new Intent(mContext, Class.forName("org.rmj.guanzongroup.guanzonapp.Activity.Activity_SplashScreen"));
+            Intent loIntent = new Intent(mContext, Class.forName("org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_SplashScreen"));
 
 //            String lsDataxx = poMessage.getDataSndx();
 //            JSONObject loJson = new JSONObject(lsDataxx);
@@ -60,14 +62,14 @@ public class RaffleNotification implements PnlNotification{
                 notificationManager.createNotificationChannel(channel);
             }
 
-//            PendingIntent notifyPendingIntent;
-//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-//                notifyPendingIntent = PendingIntent.getActivity(
-//                        mContext, 0, loIntent, PendingIntent.FLAG_MUTABLE);
-//            } else {
-//                notifyPendingIntent = PendingIntent.getActivity(
-//                        mContext, 0, loIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-//            }
+            PendingIntent notifyPendingIntent;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                notifyPendingIntent = PendingIntent.getActivity(
+                        mContext, 0, loIntent, PendingIntent.FLAG_MUTABLE);
+            } else {
+                notifyPendingIntent = PendingIntent.getActivity(
+                        mContext, 0, loIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            }
 
             String lsTitlexx = poMessage.getMsgTitle();
             String lsMessage = poMessage.getMessagex();
@@ -108,6 +110,7 @@ public class RaffleNotification implements PnlNotification{
                     new NotificationCompat.Builder(mContext, String.valueOf(lnChannelID))
                             .setAutoCancel(true)
                             .setChannelId(NotificationID)
+                            .setContentIntent(notifyPendingIntent)
 //                        .setLargeIcon(icon)
 //                        .setStyle(new NotificationCompat.BigPictureStyle()
 //                            .bigPicture(icon)
