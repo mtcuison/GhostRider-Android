@@ -57,6 +57,8 @@ public interface DNotifications {
     @Query("SELECT COUNT(*) FROM Notification_Info_Master WHERE sMesgIDxx=:TransNox")
     int CheckNotificationIfExist(String TransNox);
 
+    @Query("SELECT * FROM Notification_Info_Recepient WHERE sTransNox =:MessageID")
+    ENotificationRecipient GetNotification(String MessageID);
     @Query("SELECT * FROM Notification_User WHERE sUserIDxx=:fsVal")
     ENotificationUser CheckIfUserExist(String fsVal);
 

@@ -34,7 +34,7 @@ public class NMM_Regular implements iNotification {
     private final HttpHeaders poHeaders;
     private final AppConfigPreference poConfig;
 
-    private String message;
+    protected String message;
 
     public NMM_Regular(Application instance) {
         this.poDao = GGC_GriderDB.getInstance(instance).NotificationDao();
@@ -96,6 +96,18 @@ public class NMM_Regular implements iNotification {
         try{
             WebApi loApis = new WebApi(poConfig.getTestStatus());
 
+            ENotificationRecipient loDetail = poDao.GetNotification(mesgID);
+
+            if(loDetail == null){
+                message = "Unable to find notification for update.";
+                return null;
+            }
+
+            if(loDetail.getMesgStat().equalsIgnoreCase("3")){
+                message = "Message is already read.";
+                return null;
+            }
+
             String lsTranStat = "";
 
             switch (status){
@@ -115,6 +127,10 @@ public class NMM_Regular implements iNotification {
                     lsTranStat = "4";
                     break;
             }
+
+            loDetail.setMesgStat(lsTranStat);
+            loDetail.setReadxxxx(new AppConstants().DATE_MODIFIED);
+            poDao.update(loDetail);
 
             JSONObject params = new JSONObject();
             params.put("transno", mesgID);
@@ -139,7 +155,8 @@ public class NMM_Regular implements iNotification {
                 return null;
             }
 
-            poDao.UpdateSentResponseStatus(mesgID, lsTranStat, new AppConstants().DATE_MODIFIED);
+            loDetail.setStatSent("1");
+            poDao.update(loDetail);
             return poDao.CheckIfMasterExist(mesgID);
         } catch (Exception e){
             e.printStackTrace();

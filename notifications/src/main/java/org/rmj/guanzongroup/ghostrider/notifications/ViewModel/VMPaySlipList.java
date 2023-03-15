@@ -11,6 +11,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DPayslip;
+import org.rmj.g3appdriver.dev.Database.Entities.ENotificationMaster;
+import org.rmj.g3appdriver.lib.Notifications.NOTIFICATION_STATUS;
 import org.rmj.g3appdriver.lib.Notifications.Obj.Payslip;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 
@@ -56,7 +58,9 @@ public class VMPaySlipList extends AndroidViewModel {
 
             String lsMessageID = strings[0];
 
-            if(!poSys.NotificationRead(lsMessageID)){
+            ENotificationMaster loResult = poSys.SendResponse(lsMessageID, NOTIFICATION_STATUS.READ);
+
+            if(loResult == null){
                 Log.e(TAG, poSys.getMessage());
                 return false;
             }

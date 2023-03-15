@@ -36,7 +36,7 @@ public class Sender {
 
         JSONArray rcpts = new JSONArray();
         JSONObject rcpt = new JSONObject();
-        rcpt.put("app", "GuanzonApp");
+        rcpt.put("app", "gRider");
         rcpt.put("user", "GAP021002961");
         rcpts.add(rcpt);
 
@@ -64,14 +64,14 @@ public class Sender {
 
     @Test
     public void test02SendDataNotification() throws Exception{
-        String sURL = "https://restgk.guanzongroup.com.ph/notification/send_request.php";
+        String sURL = "https://restgk.guanzongroup.com.ph/notification/send_request_system.php";
         Calendar calendar = Calendar.getInstance();
         //Create the header section needed by the API
         Map<String, String> headers =
                 new HashMap<String, String>();
         headers.put("Accept", "application/json");
         headers.put("Content-Type", "application/json");
-        headers.put("g-api-id", "GuanzonApp");
+        headers.put("g-api-id", "IntegSys");
         headers.put("g-api-imei", "356060072281722");
         headers.put("g-api-key", SQLUtil.dateFormat(calendar.getTime(), "yyyyMMddHHmmss"));
         headers.put("g-api-hash", org.apache.commons.codec.digest.DigestUtils.md5Hex((String)headers.get("g-api-imei") + (String)headers.get("g-api-key")));
@@ -81,7 +81,7 @@ public class Sender {
 
         JSONArray rcpts = new JSONArray();
         JSONObject rcpt = new JSONObject();
-        rcpt.put("app", "GuanzonApp");
+        rcpt.put("app", "gRider");
         rcpt.put("user", "GAP021002961");
         rcpts.add(rcpt);
 
