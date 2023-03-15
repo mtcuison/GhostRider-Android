@@ -181,4 +181,6 @@ public class BranchPerformance extends ABPM {
     public LiveData<List<DBranchPerformance.PeriodicalPerformance>> GetJobOrderPeriodicPerformance(String BranchCd){
         return poDao.GetJobOrderPeriodicPerformance(BranchCd);
     }
+
+
 }
