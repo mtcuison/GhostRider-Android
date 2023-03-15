@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.ghostrider.epacss.ui.etc;
+package org.rmj.guanzongroup.ghostrider.epacss.ui.home.etc;
 
 import static org.rmj.g3appdriver.dev.DeptCode.*;
 

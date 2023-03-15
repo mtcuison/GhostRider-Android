@@ -31,7 +31,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <org.rmj.guanzongroup.ghostrider.epacss.ui.etc.NonSwipeableViewPager
+    <org.rmj.guanzongroup.ghostrider.epacss.ui.home.etc.NonSwipeableViewPager
         android:id="@+id/viewpager_home"
         android:layout_width="match_parent"
         android:layout_height="0dp"

@@ -11,7 +11,6 @@
 
 package org.rmj.guanzongroup.ghostrider.epacss.ui.HomeContainer;
 
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
@@ -28,7 +27,7 @@ import android.view.ViewGroup;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Etc.FragmentAdapter;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMMainContainer;
-import org.rmj.guanzongroup.ghostrider.epacss.ui.etc.appConstants;
+import org.rmj.guanzongroup.ghostrider.epacss.ui.home.etc.appConstants;
 
 public class Fragment_MainContainer extends Fragment {
 
