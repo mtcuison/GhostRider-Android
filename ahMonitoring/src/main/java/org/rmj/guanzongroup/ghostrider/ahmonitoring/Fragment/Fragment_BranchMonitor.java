@@ -14,10 +14,12 @@ package org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment;
 import static org.rmj.g3appdriver.etc.AppConstants.CHART_MONTH_LABEL;
 
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,6 +29,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -38,6 +41,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.textview.MaterialTextView;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DBranchPerformance;
+import org.rmj.g3appdriver.lib.BullsEye.PerformancePeriod;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMBranchMonitor;
 
@@ -48,9 +52,13 @@ public class Fragment_BranchMonitor extends Fragment {
 
     private VMBranchMonitor mViewModel;
     ArrayList<Entry> values1, values2, values3;
+
+    private ArrayList<Entry> poActual, poGoalxx;
     private LineChart lineChart;
     private TabLayout tabLayout;
     private String BranchCd;
+    private int width;
+    private int height;
     private MaterialTextView sample;
     private MaterialCardView cvMCSales, cvSPSales, cvJobOrder;
     public static Fragment_BranchMonitor newInstance() {
@@ -62,16 +70,11 @@ public class Fragment_BranchMonitor extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         mViewModel = new ViewModelProvider(this).get(VMBranchMonitor.class);
-
-        mViewModel.getEmployeeInfo().observe(getViewLifecycleOwner(), eEmployeeInfo -> {
-            try {
-                BranchCd = eEmployeeInfo.getBranchCD();
-
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-        });
         View view = inflater.inflate(R.layout.fragment_branch_monitor, container, false);
+        DisplayMetrics metrics = new DisplayMetrics();
+        requireActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        width = metrics.widthPixels;
+        height = metrics.heightPixels;
         mcIndicator = view.findViewById(R.id.cpi_mc_sales);
         spIndicator = view.findViewById(R.id.cpi_sp_sales);
         joIndicator = view.findViewById(R.id.cpi_jo);
@@ -93,7 +96,15 @@ public class Fragment_BranchMonitor extends Fragment {
 
         tabLayout.addTab(tabLayout.newTab().setText("MC Sales"));
         tabLayout.addTab(tabLayout.newTab().setText("SP Sales"));
-        tabLayout.addTab(tabLayout.newTab().setText("Joborder"));
+        tabLayout.addTab(tabLayout.newTab().setText("Job Order"));
+
+        mViewModel.getEmployeeInfo().observe(getViewLifecycleOwner(), eEmployeeInfo -> {
+            try {
+                BranchCd = eEmployeeInfo.getBranchCD();
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
 
         initGoalPercentage();
 
@@ -149,120 +160,46 @@ public class Fragment_BranchMonitor extends Fragment {
     }
 
     private void InitializeBranchList(List<DBranchPerformance.PeriodicalPerformance> list, int priority){
+        poActual = new ArrayList<>();
+        poGoalxx = new ArrayList<>();
+        for(int x = 0; x < list.size(); x ++){
+            poActual.add(new Entry(x, Float.valueOf(list.get(x).Actual)));
+            poGoalxx.add(new Entry(x, Float.valueOf(list.get(x).Goal)));
+        }
 
-//            AreaMonitoringAdapter loAdapter = new AreaMonitoringAdapter(list, priority, new AreaMonitoringAdapter.OnBranchPerformanceClickListener() {
-//                @Override
-//                public void OnClick(String sBranchCd) {
-//                    Intent loIntent = new Intent(getActivity(), Activity_BranchPerformance.class);
-//                    loIntent.putExtra("brnCD", sBranchCd);
-//                    startActivity(loIntent);
-//                }
-//            });
-//            LinearLayoutManager loManager = new LinearLayoutManager(getActivity());
-//            loManager.setOrientation(RecyclerView.VERTICAL);
-//        recyclerView.setLayoutManager(loManager);
-//        recyclerView.setAdapter(loAdapter);
-//        recyclerView.setVisibility(View.VISIBLE);
-//        lblContainer.setVisibility(View.GONE);
-            Description desc = new Description();
-            desc.setText("Over All Sales");
-            desc.setTextSize(28);
-            Log.e("teejei", String.valueOf(list.size()));
-            values1 = new ArrayList<>();
-            values2 = new ArrayList<>();
-            values3 = new ArrayList<>();
-            for (int x = 0; x< list.size(); x++){
-                DBranchPerformance.PeriodicalPerformance info = list.get(x);
-                values1.add(new Entry(Float.valueOf(info.Goal), Float.valueOf(info.Actual),Float.valueOf(info.Period)));
-                values2.add(new Entry(Float.valueOf(info.Goal), Float.valueOf(info.Actual),Float.valueOf(info.Period)));
-                values3.add(new Entry(Float.valueOf(info.Goal), Float.valueOf(info.Actual),Float.valueOf(info.Period)));
+        LineDataSet loActual = new LineDataSet(poActual, "Actual");
+        LineDataSet loGoalxx = new LineDataSet(poGoalxx, "Goal");
 
-//                Log.e("MC", String.valueOf(info.getMCActual()));
-//                Log.e("Val1", info.getBranchCd() + " " +  info.getMCGoalxx());
-//                Log.e("Val2", info.getBranchNm() + " " +  info.getSPGoalxx());
-//                Log.e("Val3", info.getBranchCd() + " " +  info.getJOGoalxx());
-            }
-            LineDataSet lineDataSet1 = new LineDataSet(values1, "MC Sales");
-            LineDataSet lineDataSet2 = new LineDataSet(values2, "SP Sales");
-            LineDataSet lineDataSet3 = new LineDataSet(values3, "JO Sales");
+        loActual.setLineWidth(2);
+        loActual.setColors(getResources().getColor(R.color.guanzon_orange));
 
-            // Set line attributes
-            lineDataSet1.setLineWidth(4);
-            lineDataSet2.setLineWidth(4);
-            lineDataSet3.setLineWidth(4);
-            lineDataSet1.setColors(getResources().getColor(R.color.guanzon_orange));
-            lineDataSet2.setColors(getResources().getColor(R.color.guanzon_deep_dark_grey));
-            lineDataSet3.setColors(getResources().getColor(R.color.guanzon_dark_grey));
+        loGoalxx.setLineWidth(2);
+        loGoalxx.setColors(getResources().getColor(R.color.check_green));
 
-            //ArrayList<ILineDataSet> Contains list of LineDataSets
-            ArrayList<ILineDataSet> dataSets = new ArrayList<>();
-            if(priority == 0){
-                dataSets.add(lineDataSet1);
-            }else if(priority == 1){
-                dataSets.add(lineDataSet2);
-            }else if(priority == 2){
-                dataSets.add(lineDataSet3);
-            }
-//            dataSets.add(lineDataSet2);
-//            dataSets.add(lineDataSet3);
+        ArrayList<ILineDataSet> loDataSet = new ArrayList<>();
+        loDataSet.add(loActual);
+        loDataSet.add(loGoalxx);
 
-            // LineData Contains ArrayList<ILineDataSet>
-            LineData lineData = new LineData(dataSets);
-            Log.e("sample",lineData.getDataSets().toString());
-            lineChart.setData(lineData);
-            lineChart.invalidate();
-            lineChart.setDescription(desc);
-            lineChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(CHART_MONTH_LABEL));
-            lineChart.setDoubleTapToZoomEnabled(false);
+        LineData data = new LineData(loDataSet);
+        lineChart.setData(data);
+        lineChart.setDescription(null);
+        lineChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(CHART_MONTH_LABEL));
+        lineChart.setDoubleTapToZoomEnabled(false);
+        lineChart.getXAxis().setTextSize(14f);
+        lineChart.setExtraOffsets(0,0,10f,18f);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width, (height/3));
+        lineChart.setLayoutParams(params);
+        lineChart.getLegend().setEnabled(false);
+        lineChart.setDrawGridBackground(false);
+        lineChart.setDrawBorders(true);
+        lineChart.setBorderWidth(1);
+        lineChart.setBorderColor(getResources().getColor(R.color.color_dadada));
+        lineChart.animateX(500);
+        XAxis xAxis = lineChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        lineChart.invalidate();
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(VMBranchMonitor.class);
-
-
-//        mViewModel.getAllBranchPerformanceInfoByBranch(Activity_Monitoring.getInstance().getAreaCode()).observe(getViewLifecycleOwner(),eperformance ->{
-//            Description desc = new Description();
-//            desc.setText("Over All Sales");
-//            desc.setTextSize(28);
-//            for (int x = 0; x< eperformance.size(); x++){
-//                values1.add(new Entry(x, eperformance.get(x).getSPActual()));
-//                values2.add(new Entry(x, eperformance.get(x).getMCActual()));
-//                values3.add(new Entry(x, eperformance.get(x).getJOGoalxx()));
-//                Log.e("MC", String.valueOf(eperformance.get(x).getMCActual()));
-//
-//            }
-//            LineDataSet lineDataSet1 = new LineDataSet(values1, "SP Sales");
-//            LineDataSet lineDataSet2 = new LineDataSet(values2, "MC Sales");
-//            LineDataSet lineDataSet3 = new LineDataSet(values3, "JO Sales");
-//
-//            // Set line attributes
-//            lineDataSet1.setLineWidth(2);
-//            lineDataSet2.setLineWidth(2);
-//            lineDataSet3.setLineWidth(2);
-//            lineDataSet1.setColors(getResources().getColor(R.color.guanzon_orange));
-//            lineDataSet2.setColors(getResources().getColor(R.color.guanzon_deep_dark_grey));
-//            lineDataSet3.setColors(getResources().getColor(R.color.guanzon_dark_grey));
-//
-//            //ArrayList<ILineDataSet> Contains list of LineDataSets
-//            ArrayList<ILineDataSet> dataSets = new ArrayList<>();
-//            dataSets.add(lineDataSet1);
-//            dataSets.add(lineDataSet2);
-//            dataSets.add(lineDataSet3);
-//
-//            // LineData Contains ArrayList<ILineDataSet>
-//            LineData data = new LineData(dataSets);
-//            lineChart.setData(data);
-//            lineChart.invalidate();
-//            lineChart.setDescription(desc);
-//            lineChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(CHART_MONTH_LABEL));
-//            lineChart.setDoubleTapToZoomEnabled(false);
-//
-//
-//        });
-        // TODO: Use the ViewModel
-    }
     public void initGoalPercentage(){
         mViewModel.GetCurrentMCSalesPerformance(BranchCd).observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
@@ -313,6 +250,4 @@ public class Fragment_BranchMonitor extends Fragment {
             }
         });
     }
-
-
 }

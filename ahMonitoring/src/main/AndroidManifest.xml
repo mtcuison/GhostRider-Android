@@ -6,20 +6,28 @@
 
     <application android:usesCleartextTraffic="true">
         <activity
-            android:name=".Activity_BranchPerformanceMonitoring"
-            android:exported="false" />
+            android:name=".Activity.Activity_BranchPerformanceMonitoring"
+            android:exported="false"
+            android:screenOrientation="userPortrait"
+            android:theme="@style/GhostRiderMaterialTheme.NoActionBar" />
         <activity
-            android:name=".Activity_AreaPerformanceMonitoring"
-            android:exported="false" />
+            android:name=".Activity.Activity_AreaPerformanceMonitoring"
+            android:exported="false"
+            android:screenOrientation="userPortrait"
+            android:theme="@style/GhostRiderMaterialTheme.NoActionBar" />
         <activity
             android:name=".Adapter.Adapter_Top_Performing"
             android:exported="false" />
         <activity
             android:name=".Activity.Activity_CashCountLogDetails"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="userPortrait"
+            android:theme="@style/GhostRiderMaterialTheme.NoActionBar" />
         <activity
             android:name=".Activity.Activity_CashCountDetail"
-            android:exported="true" />
+            android:exported="true"
+            android:screenOrientation="userPortrait"
+            android:theme="@style/GhostRiderMaterialTheme.NoActionBar" />
         <activity
             android:name=".Activity.Activity_InventoryEntry"
             android:exported="true"
