@@ -67,6 +67,7 @@
         android:layout_marginHorizontal="10dp"
         app:cardCornerRadius="10dp"
         android:layout_marginTop="30dp"
+        android:layout_marginBottom="20dp"
         app:cardPreventCornerOverlap="true"
         app:cardUseCompatPadding="true"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -161,11 +162,14 @@
                     android:padding="5dp"
                     android:orientation="vertical"  />
 
-                <com.google.android.material.button.MaterialButton
-                    android:layout_width="wrap_content"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerview_branches_performance"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="View My Branches Performance"
-                    style="@style/Widget.MaterialComponents.Button.TextButton"/>
+                    android:clipToPadding="false"
+                    android:scrollbars="none"
+                    android:padding="5dp"
+                    android:orientation="vertical"  />
 
             </LinearLayout>
 
