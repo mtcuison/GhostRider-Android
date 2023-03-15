@@ -9,7 +9,7 @@
  * project file last modified : 5/6/21 9:01 AM
  */
 
-package org.rmj.guanzongroup.ghostrider.epacss.ui.etc;
+package org.rmj.guanzongroup.ghostrider.epacss.ui.home.etc;
 
 import android.graphics.Rect;
 import android.view.View;

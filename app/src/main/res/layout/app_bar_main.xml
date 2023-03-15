@@ -35,7 +35,7 @@
 
     </LinearLayout>
 
-    <org.rmj.guanzongroup.ghostrider.epacss.ui.etc.NonSwipeableViewPager
+    <org.rmj.guanzongroup.ghostrider.epacss.ui.home.etc.NonSwipeableViewPager
         android:id="@+id/viewpager"
         android:layout_width="0dp"
         android:layout_height="0dp"

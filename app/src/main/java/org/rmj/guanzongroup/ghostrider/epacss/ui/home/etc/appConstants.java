@@ -9,7 +9,7 @@
  * project file last modified : 4/24/21 3:17 PM
  */
 
-package org.rmj.guanzongroup.ghostrider.epacss.ui.etc;
+package org.rmj.guanzongroup.ghostrider.epacss.ui.home.etc;
 
 import androidx.fragment.app.Fragment;
 

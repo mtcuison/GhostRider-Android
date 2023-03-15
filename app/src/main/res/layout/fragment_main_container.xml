@@ -173,7 +173,7 @@
 
         </RelativeLayout>
 
-        <org.rmj.guanzongroup.ghostrider.epacss.ui.etc.NonSwipeableViewPager
+        <org.rmj.guanzongroup.ghostrider.epacss.ui.home.etc.NonSwipeableViewPager
             android:id="@+id/viewpager_mainContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
