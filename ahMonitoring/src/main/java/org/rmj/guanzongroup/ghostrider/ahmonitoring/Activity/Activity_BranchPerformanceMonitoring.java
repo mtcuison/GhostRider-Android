@@ -3,14 +3,15 @@ package org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity;
 import static org.rmj.g3appdriver.etc.AppConstants.CHART_MONTH_LABEL;
 
 import android.os.Bundle;
-import android.util.Log;
+import android.util.DisplayMetrics;
+import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -33,15 +34,19 @@ public class Activity_BranchPerformanceMonitoring extends AppCompatActivity {
     private PieChart piechart;
 
     private TabLayout tabLayout;
-    ArrayList<Entry> values1, values2, values3;
-
+    private ArrayList<Entry> poActual, poGoalxx;
+    private int width;
+    private int height;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.mViewModel = new ViewModelProvider(this).get(VMBranchPerformanceMonitor.class);
         setContentView(R.layout.activity_branch_performance_monitoring);
         this.BranchCD = getIntent().getStringExtra("BranchCD");
-
+        DisplayMetrics metrics = new DisplayMetrics();
+//        requireActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        width = metrics.widthPixels;
+        height = metrics.heightPixels;
         piechart = findViewById(R.id.pie_chart);
         linechart = findViewById(R.id.line_chart);
 
@@ -52,22 +57,31 @@ public class Activity_BranchPerformanceMonitoring extends AppCompatActivity {
         tabLayout.addTab(tabLayout.newTab().setText("Joborder"));
 
         initTablayout();
+        mViewModel.GetMCSalesPeriodicPerformance(BranchCD).observe(Activity_BranchPerformanceMonitoring.this,  BranchPerforamancebyMC -> {
+            try{
+                InitializeBranchList(BranchPerforamancebyMC, 0);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        });
     }
+
+
+
     private void initTablayout(){
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 if(tab.getPosition() == 0){
+                    mViewModel.GetMCSalesPeriodicPerformance(BranchCD).observe(Activity_BranchPerformanceMonitoring.this,  BranchPerforamancebyMC -> {
+                        try{
+                            InitializeBranchList(BranchPerforamancebyMC, tab.getPosition());
 
-//                    mViewModel.GetCurrentMCSalesPerformance(BranchCD).observe(getViewLifecycleOwner(),  BranchPerforamancebyMC -> {
-//                        try{
-////                            InitializeBranchList(BranchPerforamancebyMC, tab.getPosition());
-//
-//                        }catch (Exception e){
-//                            e.printStackTrace();
-//                        }
-//                    });
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    });
                 } else if (tab.getPosition() == 1) {
 //                    mViewModel.GetSPSalesPeriodicPerformance(BranchCd).observe(getViewLifecycleOwner(),  BranchPerforamancebySP -> {
 //                        try{
@@ -98,55 +112,43 @@ public class Activity_BranchPerformanceMonitoring extends AppCompatActivity {
     }
     private void InitializeBranchList(List<DBranchPerformance.PeriodicalPerformance> list, int priority){
 
-        Description desc = new Description();
-        desc.setText("Over All Sales");
-        desc.setTextSize(28);
-        Log.e("teejei", String.valueOf(list.size()));
-        values1 = new ArrayList<>();
-        values2 = new ArrayList<>();
-        values3 = new ArrayList<>();
-        for (int x = 0; x< list.size(); x++){
-            DBranchPerformance.PeriodicalPerformance info = list.get(x);
-            values1.add(new Entry(Float.valueOf(info.Goal), Float.valueOf(info.Actual),Float.valueOf(info.Period)));
-            values2.add(new Entry(Float.valueOf(info.Goal), Float.valueOf(info.Actual),Float.valueOf(info.Period)));
-            values3.add(new Entry(Float.valueOf(info.Goal), Float.valueOf(info.Actual),Float.valueOf(info.Period)));
-
-//                Log.e("MC", String.valueOf(info.getMCActual()));
-//                Log.e("Val1", info.getBranchCd() + " " +  info.getMCGoalxx());
-//                Log.e("Val2", info.getBranchNm() + " " +  info.getSPGoalxx());
-//                Log.e("Val3", info.getBranchCd() + " " +  info.getJOGoalxx());
+        poActual = new ArrayList<>();
+        poGoalxx = new ArrayList<>();
+        for (int x = 0; x < list.size(); x++) {
+            poActual.add(new Entry(x, Float.valueOf(list.get(x).Actual)));
+            poGoalxx.add(new Entry(x, Float.valueOf(list.get(x).Goal)));
         }
-        LineDataSet lineDataSet1 = new LineDataSet(values1, "MC Sales");
-        LineDataSet lineDataSet2 = new LineDataSet(values2, "SP Sales");
-        LineDataSet lineDataSet3 = new LineDataSet(values3, "JO Sales");
 
-        // Set line attributes
-        lineDataSet1.setLineWidth(4);
-        lineDataSet2.setLineWidth(4);
-        lineDataSet3.setLineWidth(4);
-        lineDataSet1.setColors(getResources().getColor(R.color.guanzon_orange));
-        lineDataSet2.setColors(getResources().getColor(R.color.guanzon_deep_dark_grey));
-        lineDataSet3.setColors(getResources().getColor(R.color.guanzon_dark_grey));
+        LineDataSet loActual = new LineDataSet(poActual, "Actual");
+        LineDataSet loGoalxx = new LineDataSet(poGoalxx, "Goal");
 
-        //ArrayList<ILineDataSet> Contains list of LineDataSets
-        ArrayList<ILineDataSet> dataSets = new ArrayList<>();
-        if(priority == 0){
-            dataSets.add(lineDataSet1);
-        }else if(priority == 1){
-            dataSets.add(lineDataSet2);
-        }else if(priority == 2){
-            dataSets.add(lineDataSet3);
-        }
-//            dataSets.add(lineDataSet2);
-//            dataSets.add(lineDataSet3);
+        loActual.setLineWidth(2);
+        loActual.setColors(getResources().getColor(R.color.guanzon_orange));
 
-        // LineData Contains ArrayList<ILineDataSet>
-        LineData lineData = new LineData(dataSets);
-        Log.e("sample",lineData.getDataSets().toString());
-        linechart.setData(lineData);
-        linechart.invalidate();
-        linechart.setDescription(desc);
+        loGoalxx.setLineWidth(2);
+        loGoalxx.setColors(getResources().getColor(R.color.check_green));
+
+        ArrayList<ILineDataSet> loDataSet = new ArrayList<>();
+        loDataSet.add(loActual);
+        loDataSet.add(loGoalxx);
+
+        LineData data = new LineData(loDataSet);
+        linechart.setData(data);
+        linechart.setDescription(null);
         linechart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(CHART_MONTH_LABEL));
         linechart.setDoubleTapToZoomEnabled(false);
+        linechart.getXAxis().setTextSize(14f);
+        linechart.setExtraOffsets(0, 0, 10f, 18f);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width, (height / 3));
+        linechart.setLayoutParams(params);
+        linechart.getLegend().setEnabled(false);
+        linechart.setDrawGridBackground(false);
+        linechart.setDrawBorders(true);
+        linechart.setBorderWidth(1);
+        linechart.setBorderColor(getResources().getColor(R.color.color_dadada));
+        linechart.animateX(500);
+        XAxis xAxis = linechart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        linechart.invalidate();
     }
 }
