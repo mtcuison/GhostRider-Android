@@ -24,7 +24,12 @@ public class VMBranchPerformanceMonitor extends AndroidViewModel {
     public LiveData<String> GetCurrentMCSalesPerformance(String args) {
         return poSys.GetCurrentMCSalesPerformance(args);
     }
-
+    public LiveData<String> GetCurrentSPSalesPerformance(String args) {
+        return poSys.GetCurentSPSalesPerformance(args);
+    }
+    public LiveData<String> GetJobOrderPerformance(String args) {
+        return poSys.GetJobOrderPerformance(args);
+    }
     public LiveData<List<DBranchPerformance.PeriodicalPerformance>> GetMCSalesPeriodicPerformance(String BranchCd){
         return poSys.GetMCSalesPeriodicPerformance(BranchCd);
     }
