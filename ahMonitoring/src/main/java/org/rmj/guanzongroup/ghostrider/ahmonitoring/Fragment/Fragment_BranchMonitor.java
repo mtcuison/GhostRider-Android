@@ -71,6 +71,8 @@ public class Fragment_BranchMonitor extends Fragment {
                 e.printStackTrace();
             }
         });
+        Log.e("THIS is ",String.valueOf(BranchCd));
+
         View view = inflater.inflate(R.layout.fragment_branch_monitor, container, false);
         mcIndicator = view.findViewById(R.id.cpi_mc_sales);
         spIndicator = view.findViewById(R.id.cpi_sp_sales);

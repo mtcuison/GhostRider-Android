@@ -4,6 +4,7 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 
 import org.rmj.g3appdriver.lib.BullsEye.obj.BranchPerformance;
 
@@ -17,5 +18,8 @@ public class VMBranchPerformanceMonitor extends AndroidViewModel {
         this.poSys = new BranchPerformance(application);
     }
 
+    public LiveData<String> GetCurrentMCSalesPerformance(String args) {
+        return poSys.GetCurrentMCSalesPerformance(args);
+    }
 
 }
