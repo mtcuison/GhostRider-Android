@@ -40,9 +40,9 @@ public class Activity_BranchPerformanceMonitoring extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.mViewModel = new ViewModelProvider(this).get(VMBranchPerformanceMonitor.class);
+        this.mViewModel = new ViewModelProvider(Activity_BranchPerformanceMonitoring.this).get(VMBranchPerformanceMonitor.class);
         setContentView(R.layout.activity_branch_performance_monitoring);
-        this.BranchCD = getIntent().getStringExtra("BranchCD");
+        this.BranchCD = getIntent().getStringExtra("brnCd");
         DisplayMetrics metrics = new DisplayMetrics();
 //        requireActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
         width = metrics.widthPixels;
@@ -56,7 +56,7 @@ public class Activity_BranchPerformanceMonitoring extends AppCompatActivity {
         tabLayout.addTab(tabLayout.newTab().setText("SP Sales"));
         tabLayout.addTab(tabLayout.newTab().setText("Joborder"));
 
-        initTablayout();
+
         mViewModel.GetMCSalesPeriodicPerformance(BranchCD).observe(Activity_BranchPerformanceMonitoring.this,  BranchPerforamancebyMC -> {
             try{
                 InitializeBranchList(BranchPerforamancebyMC, 0);
@@ -64,6 +64,7 @@ public class Activity_BranchPerformanceMonitoring extends AppCompatActivity {
                 e.printStackTrace();
             }
         });
+        initTablayout();
     }
 
 
@@ -111,7 +112,6 @@ public class Activity_BranchPerformanceMonitoring extends AppCompatActivity {
         });
     }
     private void InitializeBranchList(List<DBranchPerformance.PeriodicalPerformance> list, int priority){
-
         poActual = new ArrayList<>();
         poGoalxx = new ArrayList<>();
         for (int x = 0; x < list.size(); x++) {

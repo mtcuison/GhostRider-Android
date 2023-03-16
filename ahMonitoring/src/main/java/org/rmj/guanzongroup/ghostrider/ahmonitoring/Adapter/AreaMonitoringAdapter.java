@@ -65,8 +65,8 @@ public class AreaMonitoringAdapter extends RecyclerView.Adapter<AreaMonitoringAd
                 }
             });
             if (nPriority == 0) {
-                holder.lblPercentage.setText((Math.round(area.getMCActual() / area.getMCGoalxx() * 100)) + "%");
-                holder.pi.setProgress((int)(Math.round(area.getMCActual() / area.getMCGoalxx() * 100)));
+//                holder.lblPercentage.setText((Math.round(area.getMCActual() / area.getMCGoalxx() * 100)) + "%");
+//                holder.pi.setProgress((int)(Math.round(area.getMCActual() / area.getMCGoalxx() * 100)));
             } else if (nPriority == 1) {
                 holder.lblPercentage.setText(String.valueOf((Math.round(area.getSPActual() / area.getSPGoalxx() * 100))+ "%"));
                 holder.pi.setProgress((Math.round(area.getSPActual() / area.getSPGoalxx() * 100)));
