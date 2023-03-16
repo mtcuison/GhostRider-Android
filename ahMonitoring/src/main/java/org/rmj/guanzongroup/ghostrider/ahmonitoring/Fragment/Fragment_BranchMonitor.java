@@ -101,17 +101,15 @@ public class Fragment_BranchMonitor extends Fragment {
         mViewModel.getEmployeeInfo().observe(getViewLifecycleOwner(), eEmployeeInfo -> {
             try {
                 BranchCd = eEmployeeInfo.getBranchCD();
+
+                mViewModel.GetMCSalesPeriodicPerformance(BranchCd).observe(getViewLifecycleOwner(),  BranchPerforamancebyMC -> {
+                    try{
+                        InitializeBranchList(BranchPerforamancebyMC, 0);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                });
             } catch (Exception e){
-                e.printStackTrace();
-            }
-        });
-
-        initGoalPercentage();
-
-        mViewModel.GetMCSalesPeriodicPerformance(BranchCd).observe(getViewLifecycleOwner(),  BranchPerforamancebyMC -> {
-            try{
-                InitializeBranchList(BranchPerforamancebyMC, 0);
-            }catch (Exception e){
                 e.printStackTrace();
             }
         });
