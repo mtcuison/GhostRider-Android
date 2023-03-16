@@ -33,7 +33,7 @@ public class ILOVEMYJOB extends GPanalo {
         try{
             JSONObject loJson = new JSONObject(lsData);
             JSONObject loData = loJson.getJSONObject("data");
-            Integer lsStatus = Integer.valueOf(loData.getString("cTranStat"));
+            Integer lsStatus = Integer.valueOf(loData.getString("status"));
 
             ERaffleStatus loDetail = poDao.GetRaffleStatus();
 
