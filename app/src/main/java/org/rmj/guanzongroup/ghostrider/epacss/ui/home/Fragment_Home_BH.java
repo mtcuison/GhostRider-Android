@@ -84,36 +84,48 @@ public class Fragment_Home_BH extends Fragment {
         mViewModel.GetCurrentMCSalesPerformance().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(String mc_goal) {
-                mcGoalPerc.setText(mc_goal);
-                if (mc_goal.contains("/")){
-                    String[] rat = mc_goal.split("/");
-                    double ratio =Double.parseDouble(rat[0]) / Double.parseDouble(rat[1]) * 100;
-                    mcGoalFraction.setText(String.valueOf(Math.round(ratio)) + "%");
-                    mcIndicator.setProgress((int) (Math.round(ratio)));
+                try {
+                    mcGoalPerc.setText(mc_goal);
+                    if (mc_goal.contains("/")) {
+                        String[] rat = mc_goal.split("/");
+                        double ratio = Double.parseDouble(rat[0]) / Double.parseDouble(rat[1]) * 100;
+                        mcGoalFraction.setText(String.valueOf(Math.round(ratio)) + "%");
+                        mcIndicator.setProgress((int) (Math.round(ratio)));
+                    }
+                } catch (Exception e){
+                    e.printStackTrace();
                 }
             }
         });
         mViewModel.GetJobOrderPerformance().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(String sp_goal) {
-                spGoalPerc.setText(sp_goal);
-                if (sp_goal.contains("/")){
-                    String[] rat = sp_goal.split("/");
-                    double ratio =Double.parseDouble(rat[0]) / Double.parseDouble(rat[1]) * 100;
-                    spGoalFraction.setText(String.valueOf(Math.round(ratio)) + "%");
-                    spIndicator.setProgress((int) (Math.round(ratio)));
+                try {
+                    spGoalPerc.setText(sp_goal);
+                    if (sp_goal.contains("/")) {
+                        String[] rat = sp_goal.split("/");
+                        double ratio = Double.parseDouble(rat[0]) / Double.parseDouble(rat[1]) * 100;
+                        spGoalFraction.setText(String.valueOf(Math.round(ratio)) + "%");
+                        spIndicator.setProgress((int) (Math.round(ratio)));
+                    }
+                } catch (Exception e){
+                    e.printStackTrace();
                 }
             }
         });
         mViewModel.GetJobOrderPerformance().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(String jo_goal) {
-                joGoalPerc.setText(jo_goal);
-                if (jo_goal.contains("/")){
-                    String[] rat = jo_goal.split("/");
-                    double ratio =Double.parseDouble(rat[0]) / Double.parseDouble(rat[1]) * 100;
-                    joGoalFraction.setText(String.valueOf(Math.round(ratio)) + "%");
-                    joIndicator.setProgress((int) (Math.round(ratio)));
+                try {
+                    joGoalPerc.setText(jo_goal);
+                    if (jo_goal.contains("/")) {
+                        String[] rat = jo_goal.split("/");
+                        double ratio = Double.parseDouble(rat[0]) / Double.parseDouble(rat[1]) * 100;
+                        joGoalFraction.setText(String.valueOf(Math.round(ratio)) + "%");
+                        joIndicator.setProgress((int) (Math.round(ratio)));
+                    }
+                } catch (Exception e){
+                    e.printStackTrace();
                 }
             }
         });
