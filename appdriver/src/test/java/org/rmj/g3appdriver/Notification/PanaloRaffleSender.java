@@ -121,7 +121,7 @@ public class PanaloRaffleSender {
     private static String CreatePanaloNotification(){
         JSONObject loJSON = new JSONObject();
 
-        loJSON.put("module", "001");
+        loJSON.put("module", "002");
         loJSON.put("panalo", "raffle");
 //        loJSON.put("panalo", "reward");
 //        loJSON.put("panalo", "claim");
@@ -129,7 +129,6 @@ public class PanaloRaffleSender {
 //        loJSON.put("panalo", "warning");
 
         JSONObject loPanalo = new JSONObject();
-        loPanalo.put("sReferNox", "MX01123456789");
         loPanalo.put("cTranStat", "0");
 
         loJSON.put("data", loPanalo);

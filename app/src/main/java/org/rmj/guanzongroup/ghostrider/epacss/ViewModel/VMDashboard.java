@@ -19,12 +19,14 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.ERaffleStatus;
 import org.rmj.g3appdriver.dev.Database.Entities.ESelfieLog;
 import org.rmj.g3appdriver.dev.Device.Telephony;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.lib.Notifications.Obj.Payslip;
+import org.rmj.g3appdriver.lib.Panalo.Obj.ILOVEMYJOB;
 import org.rmj.g3appdriver.lib.SelfieLog.SelfieLog;
 
 import java.util.List;
@@ -32,34 +34,26 @@ import java.util.List;
 public class VMDashboard extends AndroidViewModel {
 
     private final EmployeeMaster poEmploye;
-    private final SelfieLog poLog;
-    private final AppConfigPreference poConfig;
-    private MutableLiveData<String> psMobleNo = new MutableLiveData<>();
-
+    private final ILOVEMYJOB poPanalo;
     private final Payslip poPaySlip;
 
     public VMDashboard(@NonNull Application application) {
         super(application);
         this.poEmploye = new EmployeeMaster(application);
-        this.psMobleNo.setValue(new Telephony(application).getMobilNumbers());
-        this.poLog = new SelfieLog(application);
-        this.poConfig = AppConfigPreference.getInstance(application);
+
         this.poPaySlip = new Payslip(application);
+        this.poPanalo = new ILOVEMYJOB(application);
     }
 
     public LiveData<EEmployeeInfo> getEmployeeInfo(){
         return poEmploye.GetEmployeeInfo();
     }
 
-    public LiveData<String> getMobileNo() {
-        return psMobleNo;
-    }
-
-    public LiveData<List<ESelfieLog>> getCurrentLogTimeIfExist(){
-        return poLog.getCurrentLogTimeIfExist(AppConstants.CURRENT_DATE);
-    }
-
     public LiveData<Integer> GetUnreadPayslipCount(){
         return poPaySlip.GetUnreadPayslipCount();
+    }
+
+    public LiveData<ERaffleStatus> GetRaffleStatus(){
+        return poPanalo.GetRaffleStatus();
     }
 }

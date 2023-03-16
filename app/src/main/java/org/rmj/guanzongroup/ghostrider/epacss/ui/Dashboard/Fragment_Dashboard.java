@@ -2,17 +2,24 @@ package org.rmj.guanzongroup.ghostrider.epacss.ui.Dashboard;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import androidx.annotation.experimental.UseExperimental;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.badge.BadgeDrawable;
+import com.google.android.material.badge.BadgeUtils;
+import com.google.android.material.badge.ExperimentalBadgeUtils;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import org.rmj.g3appdriver.dev.Database.Entities.ERaffleStatus;
 import org.rmj.guanzongroup.ghostrider.Fragment.Fragment_PanaloContainer;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Etc.FragmentAdapter;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
@@ -38,6 +45,7 @@ public class Fragment_Dashboard extends Fragment {
     private String mParam2;
     private ViewPager viewPager;
     private VMDashboard mViewModel;
+    private BottomNavigationView botNav;
 
     public Fragment_Dashboard() {
         // Required empty public constructor
@@ -85,7 +93,7 @@ public class Fragment_Dashboard extends Fragment {
 
         ViewPager viewpager = view.findViewById(R.id.viewpager);
         viewpager.setAdapter(new FragmentAdapter(getChildFragmentManager(), loFragments));
-        BottomNavigationView botNav = view.findViewById(R.id.botNav);
+        botNav = view.findViewById(R.id.botNav);
         botNav.setOnItemSelectedListener(item -> {
             switch (item.getItemId()){
                 case R.id.nav_home:
@@ -116,6 +124,45 @@ public class Fragment_Dashboard extends Fragment {
                 }
             }
         });
+
+        mViewModel.GetRaffleStatus().observe(requireActivity(), new Observer<ERaffleStatus>() {
+            @Override
+            public void onChanged(ERaffleStatus status) {
+                try{
+                    int lnStatus = status.getHasRffle();
+                    CreatePanalobadge(lnStatus);
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
         return view;
+    }
+
+    @UseExperimental(markerClass = ExperimentalBadgeUtils.class)
+    private void CreatePanalobadge(int status){
+        BadgeDrawable loBadge;
+        Menu loMenu = botNav.getMenu();
+        MenuItem loMenuItem;
+        View loMenuView;
+        switch (status){
+            case 0:
+                loBadge = botNav.getOrCreateBadge(R.id.nav_panalo);
+                loMenuItem = loMenu.getItem(1);
+                loMenuView = loMenuItem.getActionView();
+                BadgeUtils.attachBadgeDrawable(loBadge, loMenuView);
+            case 1:
+                loBadge = botNav.getOrCreateBadge(R.id.nav_panalo);
+                loMenuItem = loMenu.getItem(1);
+                loMenuView = loMenuItem.getActionView();
+                BadgeUtils.attachBadgeDrawable(loBadge, loMenuView);
+            case 2:
+                loBadge = botNav.getOrCreateBadge(R.id.nav_panalo);
+                loMenuItem = loMenu.getItem(1);
+                loMenuView = loMenuItem.getActionView();
+                BadgeUtils.attachBadgeDrawable(loBadge, loMenuView);
+            default:
+                botNav.removeBadge(R.id.nav_panalo);
+        }
     }
 }

@@ -22,6 +22,7 @@ import org.rmj.g3appdriver.lib.Notifications.NOTIFICATION_STATUS;
 import org.rmj.g3appdriver.lib.Notifications.RemoteMessageParser;
 import org.rmj.g3appdriver.lib.Notifications.model.iNotification;
 import org.rmj.g3appdriver.lib.Notifications.pojo.NotificationItemList;
+import org.rmj.g3appdriver.lib.Panalo.Obj.ILOVEMYJOB;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -30,6 +31,8 @@ import java.util.Locale;
 
 public class NMM_Panalo implements iNotification {
     private static final String TAG = NMM_Panalo.class.getSimpleName();
+
+    private final Application instance;
 
     private final DNotifications poDao;
 
@@ -40,6 +43,7 @@ public class NMM_Panalo implements iNotification {
     private String message;
 
     public NMM_Panalo(Application instance) {
+        this.instance = instance;
         this.poDao = GGC_GriderDB.getInstance(instance).NotificationDao();
         this.poHeaders = HttpHeaders.getInstance(instance);
         this.poConfig = AppConfigPreference.getInstance(instance);
@@ -89,16 +93,33 @@ public class NMM_Panalo implements iNotification {
                     poDao.insert(loUser);
                 }
 
-                JSONObject loData = new JSONObject(loMaster.getDataSndx());
-                JSONObject loDetail = loData.getJSONObject("data");
-                String lsReferNox = loDetail.getString("sReferNox");
-                String lcTranStat = loDetail.getString("cTranStat");
+                String lsData = loParser.getValueOf("infox");
 
-                EPanaloReward loReward = new EPanaloReward();
-                loReward.setPanaloCD(lsReferNox);
-                loReward.setTranStat(lcTranStat);
-                loReward.setModified(new AppConstants().DATE_MODIFIED);
-                loReward.setTimeStmp(new AppConstants().DATE_MODIFIED);
+                JSONObject loJson = new JSONObject(lsData);
+
+                String lsModule = loJson.getString("module");
+
+                switch (lsModule){
+                    case "001":
+//                        SaveRaffleStatus(lsData);
+                        break;
+                    case "002":
+                        new ILOVEMYJOB(instance).SaveRaffleStatus(lsData);
+                        break;
+                    default:
+                        break;
+                }
+//
+//                JSONObject loData = new JSONObject(loMaster.getDataSndx());
+//                JSONObject loDetail = loData.getJSONObject("data");
+//                String lsReferNox = loDetail.getString("sReferNox");
+//                String lcTranStat = loDetail.getString("cTranStat");
+//
+//                EPanaloReward loReward = new EPanaloReward();
+//                loReward.setPanaloCD(lsReferNox);
+//                loReward.setTranStat(lcTranStat);
+//                loReward.setModified(new AppConstants().DATE_MODIFIED);
+//                loReward.setTimeStmp(new AppConstants().DATE_MODIFIED);
             }
 
             if(!lsUserIDx.equalsIgnoreCase(lsRecpntx)){

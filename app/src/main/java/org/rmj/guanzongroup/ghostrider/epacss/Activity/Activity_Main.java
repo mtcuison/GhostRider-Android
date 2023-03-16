@@ -244,6 +244,7 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
         super.onStart();
         IntentFilter loFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
         registerReceiver(poNetRecvr, loFilter);
+        AppConfigPreference.getInstance(Activity_Main.this).setIsMainActive(true);
         Log.e(TAG, "Internet status receiver has been registered.");
     }
 
@@ -252,6 +253,7 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
         super.onDestroy();
         unregisterReceiver(poNetRecvr);
         Log.e(TAG, "Internet status receiver has been unregistered.");
+        AppConfigPreference.getInstance(Activity_Main.this).setIsMainActive(false);
     }
 
     @Override

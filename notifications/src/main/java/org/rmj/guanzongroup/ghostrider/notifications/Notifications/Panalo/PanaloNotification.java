@@ -39,10 +39,10 @@ public class PanaloNotification implements iNotificationUI {
             PnlNotification loNotif = null;
             switch (lsModule){
                 case "001":
-                    loNotif = new RaffleNotification(mContext, poMessage);
+                    loNotif = new RewardNotification(mContext, poMessage);
                     break;
                 default:
-                    loNotif = new RewardNotification(mContext, poMessage);
+                    loNotif = new RaffleNotification(mContext, poMessage);
                     break;
             }
             loNotif.CreateNotification();
