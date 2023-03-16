@@ -146,23 +146,16 @@ public class Fragment_Dashboard extends Fragment {
         MenuItem loMenuItem;
         View loMenuView;
         switch (status){
-            case 0:
-                loBadge = botNav.getOrCreateBadge(R.id.nav_panalo);
-                loMenuItem = loMenu.getItem(1);
-                loMenuView = loMenuItem.getActionView();
-                BadgeUtils.attachBadgeDrawable(loBadge, loMenuView);
             case 1:
-                loBadge = botNav.getOrCreateBadge(R.id.nav_panalo);
-                loMenuItem = loMenu.getItem(1);
-                loMenuView = loMenuItem.getActionView();
-                BadgeUtils.attachBadgeDrawable(loBadge, loMenuView);
             case 2:
                 loBadge = botNav.getOrCreateBadge(R.id.nav_panalo);
                 loMenuItem = loMenu.getItem(1);
                 loMenuView = loMenuItem.getActionView();
                 BadgeUtils.attachBadgeDrawable(loBadge, loMenuView);
+                break;
             default:
                 botNav.removeBadge(R.id.nav_panalo);
+                break;
         }
     }
 }

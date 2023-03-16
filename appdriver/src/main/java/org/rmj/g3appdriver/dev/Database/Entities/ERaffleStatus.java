@@ -12,7 +12,7 @@ public class ERaffleStatus {
     @NonNull
     @ColumnInfo(name = "sStatusID")
     private Integer StatusID;
-    private Integer HasRffle = 0; //0 = Not Started, 1 = Starting, 2 = OnGoing, 3 = Ended
+    private Integer HasRffle = 0; //0 = Not Started, 1 = Starting Notice, 2 = OnGoing, 3 = Ended
 
     public ERaffleStatus() {
     }

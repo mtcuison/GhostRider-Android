@@ -129,7 +129,7 @@ public class PanaloRaffleSender {
 //        loJSON.put("panalo", "warning");
 
         JSONObject loPanalo = new JSONObject();
-        loPanalo.put("cTranStat", "0");
+        loPanalo.put("cTranStat", "1");
 
         loJSON.put("data", loPanalo);
 

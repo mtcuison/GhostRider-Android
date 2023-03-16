@@ -138,14 +138,13 @@ public class Fragment_PanaloContainer extends Fragment {
         BadgeDrawable loBadge = loTab.getOrCreateBadge();
         View loMenuView = tabLayout.getTabAt(0).getCustomView();
         switch (status){
-            case 0:
-                BadgeUtils.attachBadgeDrawable(loBadge, loMenuView);
+            case 2:
             case 1:
                 BadgeUtils.attachBadgeDrawable(loBadge, loMenuView);
-            case 2:
-                BadgeUtils.attachBadgeDrawable(loBadge, loMenuView);
+                break;
             default:
                 loTab.removeBadge();
+                break;
         }
     }
 }
