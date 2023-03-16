@@ -250,10 +250,11 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         unregisterReceiver(poNetRecvr);
         Log.e(TAG, "Internet status receiver has been unregistered.");
         AppConfigPreference.getInstance(Activity_Main.this).setIsMainActive(false);
+        mViewModel.ResetRaffleStatus();
+        super.onDestroy();
     }
 
     @Override

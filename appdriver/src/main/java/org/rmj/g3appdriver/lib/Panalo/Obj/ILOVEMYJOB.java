@@ -1,6 +1,7 @@
 package org.rmj.g3appdriver.lib.Panalo.Obj;
 
 import android.app.Application;
+import android.graphics.Bitmap;
 
 import androidx.lifecycle.LiveData;
 
@@ -8,8 +9,11 @@ import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DRaffleStatus;
 import org.rmj.g3appdriver.dev.Database.Entities.ERaffleStatus;
 import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
+import org.rmj.g3appdriver.lib.Panalo.model.PanaloRewards;
 
-public class ILOVEMYJOB {
+import java.util.List;
+
+public class ILOVEMYJOB extends GPanalo {
     private static final String TAG = ILOVEMYJOB.class.getSimpleName();
 
     private final DRaffleStatus poDao;
@@ -17,7 +21,12 @@ public class ILOVEMYJOB {
     private String message;
 
     public ILOVEMYJOB(Application instance) {
+        super(instance);
         this.poDao = GGC_GriderDB.getInstance(instance).raffleStatusDao();
+    }
+
+    public String getMessage() {
+        return message;
     }
 
     public boolean SaveRaffleStatus(String lsData){
@@ -45,7 +54,48 @@ public class ILOVEMYJOB {
         }
     }
 
+    public boolean ResetRaffleStatus(){
+        try{
+            ERaffleStatus loDetail = poDao.GetRaffleStatus();
+
+            if(loDetail == null) {
+                message = "Raffle status is not yet initialize.";
+                return false;
+            }
+
+            switch (loDetail.getHasRffle()){
+                case 0:
+                    message = "Raffle status is already reset.";
+                    return false;
+                case 1:
+                    message = "Raffle status hasn't started yet.";
+                    return false;
+                case 2:
+                    message = "Raffle status is on going...";
+                    return false;
+                default:
+                    loDetail.setHasRffle(0);
+                    poDao.Update(loDetail);
+                    return true;
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
+    }
+
     public LiveData<ERaffleStatus> GetRaffleStatus(){
         return poDao.HasRaffle();
+    }
+
+    @Override
+    public List<PanaloRewards> GetRewards(String args) {
+        return super.GetRewards(args);
+    }
+
+    @Override
+    public Bitmap RedeemReward(PanaloRewards args) {
+        return super.RedeemReward(args);
     }
 }
