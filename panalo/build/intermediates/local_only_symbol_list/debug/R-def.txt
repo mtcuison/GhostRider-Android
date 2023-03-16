@@ -9,6 +9,7 @@ id imageView3
 id imgLogo
 id lblBranch
 id lblQty
+id lblRaffleStatus
 id lblRwrdDte
 id lblRwrdNme
 id lblRwrdType

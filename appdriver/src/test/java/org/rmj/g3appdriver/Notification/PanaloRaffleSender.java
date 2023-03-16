@@ -91,7 +91,7 @@ public class PanaloRaffleSender {
             param.put("type", "00008");
             param.put("parent", null);
             param.put("title", "I LOVE MY JOB");
-            param.put("message", "Employee raffle starting soon...");
+            param.put("message", "Employee raffle has ended!");
             param.put("rcpt", rcpts);
             param.put("infox", CreatePanaloNotification());
 
@@ -129,7 +129,7 @@ public class PanaloRaffleSender {
 //        loJSON.put("panalo", "warning");
 
         JSONObject loPanalo = new JSONObject();
-        loPanalo.put("cTranStat", "1");
+        loPanalo.put("cTranStat", "3");
 
         loJSON.put("data", loPanalo);
 
