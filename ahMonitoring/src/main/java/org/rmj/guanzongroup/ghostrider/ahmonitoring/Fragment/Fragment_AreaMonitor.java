@@ -32,7 +32,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.textview.MaterialTextView;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchPerformance;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_BranchPerformance;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_BranchPerformanceMonitoring;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Monitoring;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.AreaMonitoringAdapter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
@@ -221,7 +221,7 @@ public class Fragment_AreaMonitor extends Fragment {
         AreaMonitoringAdapter loAdapter = new AreaMonitoringAdapter(list, priority, new AreaMonitoringAdapter.OnBranchPerformanceClickListener() {
             @Override
             public void OnClick(String sBranchCd) {
-                Intent loIntent = new Intent(getActivity(),Activity_BranchPerformance.class);
+                Intent loIntent = new Intent(getActivity(), Activity_BranchPerformanceMonitoring.class);
                 loIntent.putExtra("brnCD", sBranchCd);
                 startActivity(loIntent);
             }

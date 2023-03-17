@@ -16,9 +16,14 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
+            android:id="@+id/toolbar_monitoring"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="?attr/actionBarSize"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:titleTextColor="@color/white" />
 
     </LinearLayout>
 
@@ -26,11 +31,12 @@
         android:id="@+id/img_header"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:src="@drawable/bg_dashboard"
-        android:scaleType="centerCrop"
         android:adjustViewBounds="true"
-        app:layout_constraintHeight_percent=".35"
+        android:scaleType="centerCrop"
+        android:src="@drawable/bg_dashboard"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent=".35"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
