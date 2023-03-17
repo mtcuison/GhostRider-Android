@@ -12,9 +12,9 @@ public class TestPanaloRaffleDrawSender {
         String lsApp = "gRider";
         String lsUser = "GAP021002961";
         String lsTitle = "I LOVE MY JOB";
-        String lsMessage = "Guanzon Panalo raffle draw starting soon...";
+        String lsMessage = "Guanzon Panalo raffle draw ended!";
         String lsPanalo = "0";
-        int lnStatus = 1;
+        int lnStatus = 3;
 
         boolean isSuccess = PanaloNotificationSender.SendSystemPanaloRaffleNotification(lsApp,
                                                                                         lsUser,

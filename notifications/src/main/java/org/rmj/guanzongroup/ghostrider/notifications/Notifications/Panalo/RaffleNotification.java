@@ -119,7 +119,7 @@ public class RaffleNotification implements PnlNotification{
 //                        .setStyle(new NotificationCompat.BigPictureStyle()
 //                            .bigPicture(icon)
 //                            .bigLargeIcon(null))
-                            .setSmallIcon(R.drawable.ic_guanzon_logo)
+                            .setSmallIcon(R.drawable.ic_guanzon_circle)
                             .setContentTitle(lsTitlexx)
                             .setContentText(lsMessage);
 

@@ -2,6 +2,8 @@ package org.rmj.g3appdriver.Notification;
 
 import static org.junit.Assert.assertTrue;
 
+import android.util.Log;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -98,6 +100,9 @@ public class PanaloRaffleSender {
 
             JSONParser oParser = new JSONParser();
             JSONObject json_obj = null;
+
+            String lsJson = param.toJSONString();
+            System.out.println("Panalo JSON " + lsJson);
 
             String response = WebClient.sendRequest(sURL, param.toJSONString(), (HashMap<String, String>) headers);
             if(response == null){

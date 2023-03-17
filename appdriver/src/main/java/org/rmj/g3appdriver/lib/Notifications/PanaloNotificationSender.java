@@ -2,6 +2,8 @@ package org.rmj.g3appdriver.lib.Notifications;
 
 import static org.junit.Assert.assertTrue;
 
+import android.util.Log;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -21,7 +23,7 @@ public class PanaloNotificationSender {
      * @param title notification title
      * @param message notification message
      * @param panalo type of panalo notification 0 = raffle, 1 = reward, 2 = claim, 3 = redeemed, 4 = warning
-     * @param status status of panalo raffle draw 0 = No Status, 1 = Starting Soon, 2 = Started, 3 = Ended
+     * @param status status of panalo raffle 0 = No Status, 1 = Starting Soon, 2 = Started, 3 = Ended
      * @return returns true if process has been successfully executed.
      */
     public static boolean SendSystemPanaloRaffleNotification(String app,
@@ -46,21 +48,13 @@ public class PanaloNotificationSender {
             headers.put("g-api-mobile", "09171870011");
             headers.put("g-api-token", "cPYKpB-pPYM:APA91bE82C4lKZduL9B2WA1Ygd0znWEUl9rM7pflSlpYLQJq4Nl9l5W4tWinyy5RCLNTSs3bX3JjOVhYnmCpe7zM98cENXt5tIHwW_2P8Q3BXI7gYtEMTJN5JxirOjNTzxWHkWDEafza");
 
-            JSONObject loInfo = new JSONObject();
             JSONArray rcpts = new JSONArray();
             JSONObject rcpt = new JSONObject();
             rcpt.put("app", app);
             rcpt.put("user", userid);
             rcpts.add(rcpt);
 
-            JSONObject param = new JSONObject();
-            param.put("type", "00008");
-            param.put("parent", null);
-            param.put("title", title);
-            param.put("message", message);
-            param.put("rcpt", rcpts);
-            param.put("infox", loInfo);
-
+            JSONObject loInfo = new JSONObject();
             loInfo.put("module", "002");
             loInfo.put("panalo", panalo);
 //        loInfo.put("panalo", "reward");
@@ -72,6 +66,16 @@ public class PanaloNotificationSender {
             loData.put("status", status);
 
             loInfo.put("data", loData);
+
+            String lsInfoxx = loInfo.toJSONString();
+
+            JSONObject param = new JSONObject();
+            param.put("type", "00008");
+            param.put("parent", null);
+            param.put("title", title);
+            param.put("message", message);
+            param.put("rcpt", rcpts);
+            param.put("infox", lsInfoxx);
 
             String response = WebClient.sendRequest(sURL, param.toJSONString(), (HashMap<String, String>) headers);
             if(response == null){
