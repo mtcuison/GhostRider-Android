@@ -22,6 +22,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import org.rmj.g3appdriver.dev.Database.Entities.ERaffleStatus;
 import org.rmj.guanzongroup.ghostrider.Fragment.Fragment_PanaloContainer;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Etc.FragmentAdapter;
+import org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_Main;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMDashboard;
 import org.rmj.guanzongroup.ghostrider.epacss.ui.home.Fragment_Associate_Dashboard;
@@ -33,7 +34,7 @@ import org.rmj.guanzongroup.ghostrider.notifications.Fragment.Fragment_Notificat
  * Use the {@link Fragment_Dashboard#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Fragment_Dashboard extends Fragment {
+public class Fragment_Dashboard extends Fragment implements Activity_Main.OnReceivePanaloNotificationListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -109,6 +110,9 @@ public class Fragment_Dashboard extends Fragment {
             return true;
         });
 
+        Activity_Main loActivity = (Activity_Main) requireActivity();
+        loActivity.setOnPanaloListener(this);
+
         mViewModel.GetUnreadPayslipCount().observe(requireActivity(), new Observer<Integer>() {
             @Override
             public void onChanged(Integer integer) {
@@ -157,5 +161,10 @@ public class Fragment_Dashboard extends Fragment {
                 botNav.removeBadge(R.id.nav_panalo);
                 break;
         }
+    }
+
+    @Override
+    public void OnReceive(String args) {
+        viewPager.setCurrentItem(1);
     }
 }

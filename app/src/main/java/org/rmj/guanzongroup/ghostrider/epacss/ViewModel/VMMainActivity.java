@@ -22,6 +22,7 @@ import androidx.lifecycle.LiveData;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeRole;
+import org.rmj.g3appdriver.dev.Database.Entities.ERaffleStatus;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.lib.Panalo.Obj.ILOVEMYJOB;
 import org.rmj.guanzongroup.ghostrider.epacss.Service.DataSyncService;
@@ -101,16 +102,6 @@ public class VMMainActivity extends AndroidViewModel {
                 return false;
             }
             return true;
-        }
-
-        @Override
-        protected void onPostExecute(Boolean isSuccess) {
-            super.onPostExecute(isSuccess);
-            if(!isSuccess){
-                Log.e(TAG, message);
-            } else {
-                Log.e(TAG, "I LOVE MY JOB raffle status has been reset.");
-            }
         }
     }
 }

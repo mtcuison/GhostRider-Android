@@ -46,15 +46,12 @@ public class RaffleNotification implements PnlNotification{
 
             Intent loIntent = new Intent(mContext, Class.forName("org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_Main"));
 
-//            String lsDataxx = poMessage.getDataSndx();
-//            JSONObject loJson = new JSONObject(lsDataxx);
+            String lsDataxx = poMessage.getDataSndx();
+            JSONObject loJson = new JSONObject(lsDataxx);
 //            JSONObject loPromo = loJson.getJSONObject("data");
-//            String lsUrlLinkx = loPromo.getString("sReferNox");
-//            String lsImageUrl = loPromo.getString("sImageUrl");
+            String lsPanalo = loJson.getString("panalo");
 //
-//            loIntent.putExtra("notification", "promo");
-//            loIntent.putExtra("args", "1");
-//            loIntent.putExtra("url_link", lsUrlLinkx);
+            loIntent.putExtra("panalo", lsPanalo);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 int importance = NotificationManager.IMPORTANCE_DEFAULT;
