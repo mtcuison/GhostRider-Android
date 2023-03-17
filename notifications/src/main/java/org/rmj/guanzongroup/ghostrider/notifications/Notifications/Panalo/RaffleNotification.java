@@ -44,7 +44,7 @@ public class RaffleNotification implements PnlNotification{
 
             int lnChannelID = 123;
 
-            Intent loIntent = new Intent(mContext, Class.forName("org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_SplashScreen"));
+            Intent loIntent = new Intent(mContext, Class.forName("org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_Main"));
 
 //            String lsDataxx = poMessage.getDataSndx();
 //            JSONObject loJson = new JSONObject(lsDataxx);

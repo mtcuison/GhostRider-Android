@@ -2,6 +2,7 @@ package org.rmj.g3appdriver.lib.Panalo.Obj;
 
 import android.app.Application;
 import android.graphics.Bitmap;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
@@ -11,6 +12,7 @@ import org.rmj.g3appdriver.dev.Database.Entities.ERaffleStatus;
 import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.lib.Panalo.model.PanaloRewards;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ILOVEMYJOB extends GPanalo {
@@ -18,15 +20,9 @@ public class ILOVEMYJOB extends GPanalo {
 
     private final DRaffleStatus poDao;
 
-    private String message;
-
     public ILOVEMYJOB(Application instance) {
         super(instance);
         this.poDao = GGC_GriderDB.getInstance(instance).raffleStatusDao();
-    }
-
-    public String getMessage() {
-        return message;
     }
 
     public boolean SaveRaffleStatus(String lsData){
@@ -49,7 +45,7 @@ public class ILOVEMYJOB extends GPanalo {
             return true;
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            Log.e(TAG, e.getMessage());
             return false;
         }
     }
@@ -59,19 +55,19 @@ public class ILOVEMYJOB extends GPanalo {
             ERaffleStatus loDetail = poDao.GetRaffleStatus();
 
             if(loDetail == null) {
-                message = "Raffle status is not yet initialize.";
+                Log.e(TAG, "Raffle status is not yet initialize.");
                 return false;
             }
 
             switch (loDetail.getHasRffle()){
                 case 0:
-                    message = "Raffle status is already reset.";
+                    Log.e(TAG, "Raffle status is already reset.");
                     return false;
                 case 1:
-                    message = "Raffle status hasn't started yet.";
+                    Log.e(TAG, "Raffle status hasn't started yet.");
                     return false;
                 case 2:
-                    message = "Raffle status is on going...";
+                    Log.e(TAG, "Raffle status is on going...");
                     return false;
                 default:
                     loDetail.setHasRffle(0);
@@ -80,13 +76,24 @@ public class ILOVEMYJOB extends GPanalo {
             }
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            Log.e(TAG, e.getMessage());
             return false;
         }
     }
 
     public LiveData<ERaffleStatus> GetRaffleStatus(){
         return poDao.HasRaffle();
+    }
+
+    public List<String> GetParticipants(){
+        try{
+
+            return new ArrayList<>();
+        } catch (Exception e){
+            e.printStackTrace();
+            Log.e(TAG, e.getMessage());
+            return null;
+        }
     }
 
     @Override
@@ -97,5 +104,10 @@ public class ILOVEMYJOB extends GPanalo {
     @Override
     public Bitmap RedeemReward(PanaloRewards args) {
         return super.RedeemReward(args);
+    }
+
+    @Override
+    public String getMessage() {
+        return super.getMessage();
     }
 }

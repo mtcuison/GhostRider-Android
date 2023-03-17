@@ -38,13 +38,13 @@ public class RewardNotification implements PnlNotification{
 
             int lnChannelID = 123;
 
-            Intent loIntent = new Intent(mContext, Class.forName("org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_SplashScreen"));
+            Intent loIntent = new Intent(mContext, Class.forName("org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_Main"));
 
             String lsDataxx = poMessage.getDataSndx();
             JSONObject loJson = new JSONObject(lsDataxx);
             JSONObject loPromo = loJson.getJSONObject("data");
             String lsUrlLinkx = loPromo.getString("sReferNox");
-            String lsImageUrl = loPromo.getString("sImageUrl");
+//            String lsImageUrl = loPromo.getString("sImageUrl");
 
             loIntent.putExtra("notification", "promo");
             loIntent.putExtra("args", "1");
