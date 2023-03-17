@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
@@ -24,6 +25,7 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.textview.MaterialTextView;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DBranchPerformance;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
@@ -37,12 +39,14 @@ public class Activity_BranchPerformanceMonitoring extends AppCompatActivity {
 
     private VMBranchPerformanceMonitor mViewModel;
     private String BranchCD;
+    private String BranchNM;
     private LineChart linechart;
     private PieChart piechart;
-
+    private MaterialTextView lblBranch;
     private TabLayout tabLayout;
     private ArrayList<Entry> poActual, poGoalxx;
     private int width, height;
+    private RecyclerView rvAreaPerformance, rvBranchPerformance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +54,7 @@ public class Activity_BranchPerformanceMonitoring extends AppCompatActivity {
         this.mViewModel = new ViewModelProvider(Activity_BranchPerformanceMonitoring.this).get(VMBranchPerformanceMonitor.class);
         setContentView(R.layout.activity_branch_performance_monitoring);
         this.BranchCD = getIntent().getStringExtra("brnCD");
+        this.BranchNM = getIntent().getStringExtra("brnNM");
         Log.e("ito ung branch",String.valueOf(getIntent().getStringExtra("brnCD")));
 
         Toolbar toolbar = findViewById(R.id.toolbar_monitoring);
@@ -59,10 +64,13 @@ public class Activity_BranchPerformanceMonitoring extends AppCompatActivity {
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
+        lblBranch = findViewById(R.id.lbl_AreaCde);
+
         width = metrics.widthPixels;
         height = metrics.heightPixels;
         piechart = findViewById(R.id.pie_chart);
         linechart = findViewById(R.id.line_chart);
+        rvAreaPerformance = findViewById(R.id.recyclerview_area_performance);
 
         tabLayout = findViewById(R.id.tabLayout);
 
@@ -71,9 +79,11 @@ public class Activity_BranchPerformanceMonitoring extends AppCompatActivity {
         tabLayout.addTab(tabLayout.newTab().setText("Job Order"));
 
 
+
         mViewModel.GetMCSalesPeriodicPerformance(BranchCD).observe(Activity_BranchPerformanceMonitoring.this,  BranchPerforamancebyMC -> {
             try{
                 InitializeBranchList(BranchPerforamancebyMC);
+                lblBranch.setText(BranchNM);
             }catch (Exception e){
                 e.printStackTrace();
             }
@@ -92,8 +102,6 @@ public class Activity_BranchPerformanceMonitoring extends AppCompatActivity {
 
         initTablayout();
     }
-
-
 
     private void initTablayout(){
 

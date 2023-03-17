@@ -12,6 +12,7 @@ public class VMAreaPerformanceMonitor extends AndroidViewModel {
 
     private final AreaPerformance poSys;
 
+
     public VMAreaPerformanceMonitor(@NonNull Application application) {
         super(application);
         this.poSys = new AreaPerformance(application);
