@@ -42,9 +42,7 @@ public class Activity_BranchPerformanceMonitoring extends AppCompatActivity {
 
     private TabLayout tabLayout;
     private ArrayList<Entry> poActual, poGoalxx;
-    private int width;
-    private int height;
-    private String goal,actual;
+    private int width, height;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,9 +83,6 @@ public class Activity_BranchPerformanceMonitoring extends AppCompatActivity {
                 if (BranchPerforamancebyMC.contains("/")){
                     String[] rat = BranchPerforamancebyMC.split("/");
                     double ratio =Double.parseDouble(rat[0]) / Double.parseDouble(rat[1]) * 100;
-                    goal = String.valueOf(Double.parseDouble(rat[0]));
-                    actual = String.valueOf(Double.parseDouble(rat[1]));
-
                     InitializePieChart(BranchPerforamancebyMC);
                 }
             }catch (Exception e){

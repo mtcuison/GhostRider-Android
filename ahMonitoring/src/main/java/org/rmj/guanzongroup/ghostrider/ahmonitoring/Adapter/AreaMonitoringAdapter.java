@@ -11,6 +11,7 @@
 
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,6 +55,7 @@ public class AreaMonitoringAdapter extends RecyclerView.Adapter<AreaMonitoringAd
     public void onBindViewHolder(@NonNull ChartViewHolder holder, int position) {
         try {
             EBranchPerformance area = areaPerformances.get(position);
+            Log.e("value of position", String.valueOf(position));
             holder.txtBranch.setText(area.getBranchNm());
             holder.txtMCGoal.setText(String.valueOf(area.getMCGoalxx()));
             holder.txtSPGoal.setText(String.valueOf((int) area.getSPGoalxx()));
@@ -65,14 +67,41 @@ public class AreaMonitoringAdapter extends RecyclerView.Adapter<AreaMonitoringAd
                 }
             });
             if (nPriority == 0) {
-//                holder.lblPercentage.setText((Math.round(area.getMCActual() / area.getMCGoalxx() * 100)) + "%");
-//                holder.pi.setProgress((int)(Math.round(area.getMCActual() / area.getMCGoalxx() * 100)));
+                if (area.getMCActual() == 0){
+                    holder.lblPercentage.setText("0%");
+                    holder.pi.setProgress(0);
+                }else {
+                    Float percentage =((Float.parseFloat(String.valueOf(area.getMCActual()))) / (Float.parseFloat(String.valueOf(area.getMCGoalxx()))));
+//                    (int) (((Double.valueOf(area.getMCActual()))/ (Double.valueOf(area.getMCActual()))) * 100);
+//                    Double xxx = Double.valueOf(String.valueOf(percentage));
+//                    String x = String.valueOf((percentage) *  100 );
+                    holder.lblPercentage.setText( Math.round((percentage) *  100) + "%");
+                    holder.pi.setProgress(Integer.parseInt(String.valueOf(Math.round((percentage)*  100))));
+//                    Log.e("my period", String.valueOf(area.getPeriodxx()));
+//                    Log.e("my branch", String.valueOf(area.getBranchNm()));
+//                    Log.e("this computation1", String.valueOf(area.getMCActual()));
+//                        Log.e("this computation2", String.valueOf(area.getMCGoalxx()));
+//                        Log.e("this computation3", String.valueOf(Math.round(percentage) *  100 ));
+                    }
+
             } else if (nPriority == 1) {
-                holder.lblPercentage.setText(String.valueOf((Math.round(area.getSPActual() / area.getSPGoalxx() * 100))+ "%"));
-                holder.pi.setProgress((Math.round(area.getSPActual() / area.getSPGoalxx() * 100)));
+                if (area.getMCActual() == 0) {
+                    holder.lblPercentage.setText("0%");
+                    holder.pi.setProgress(0);
+                }else {
+                    Float percentage =((Float.parseFloat(String.valueOf(area.getSPActual()))) / (Float.parseFloat(String.valueOf(area.getSPGoalxx()))));
+                    holder.lblPercentage.setText(String.valueOf(Math.round((percentage) *  100) + "%"));
+                    holder.pi.setProgress(Integer.parseInt(String.valueOf(Math.round((percentage)*  100))));
+                }
             } else {
-                holder.lblPercentage.setText(String.valueOf((Math.round(area.getJOActual() / area.getJOGoalxx() * 100))+ "%"));
-                holder.pi.setProgress((Math.round(area.getJOActual() / area.getJOGoalxx() * 100)));
+                if (area.getMCActual() == 0) {
+                    holder.lblPercentage.setText("0%");
+                    holder.pi.setProgress(0);
+                }else {
+                    Float percentage =((Float.parseFloat(String.valueOf(area.getJOActual()))) / (Float.parseFloat(String.valueOf(area.getJOGoalxx()))));
+                    holder.lblPercentage.setText(String.valueOf(Math.round((percentage) *  100) + "%"));
+                    holder.pi.setProgress(Integer.parseInt(String.valueOf(Math.round((percentage)*  100))));
+                }
             }
 
 
