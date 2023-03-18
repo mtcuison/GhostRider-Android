@@ -93,6 +93,7 @@ public class Activity_AreaPerformanceMonitoring extends AppCompatActivity {
                 e.printStackTrace();
             }
         });
+//        mViewModel.GetMCSalesPeriodicPerformance
         initTablayout();
     }
     private void initTablayout(){
@@ -104,6 +105,7 @@ public class Activity_AreaPerformanceMonitoring extends AppCompatActivity {
                     mViewModel.GetMCSalesBranchesPerformance().observe(Activity_AreaPerformanceMonitoring.this,  AreaPerforamancebyMC -> {
                         try{
                             InitializeBranchList(AreaPerforamancebyMC);
+
                         }catch (Exception e){
                             e.printStackTrace();
                         }
@@ -231,4 +233,6 @@ public class Activity_AreaPerformanceMonitoring extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
+
 }
