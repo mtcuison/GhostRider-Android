@@ -34,7 +34,7 @@ import org.rmj.guanzongroup.ghostrider.notifications.Fragment.Fragment_Notificat
  * Use the {@link Fragment_Dashboard#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Fragment_Dashboard extends Fragment implements Activity_Main.OnReceivePanaloNotificationListener {
+public class Fragment_Dashboard extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -92,26 +92,24 @@ public class Fragment_Dashboard extends Fragment implements Activity_Main.OnRece
                 new Fragment_Notifications()};
 
 
-        ViewPager viewpager = view.findViewById(R.id.viewpager);
-        viewpager.setAdapter(new FragmentAdapter(getChildFragmentManager(), loFragments));
+        viewPager = view.findViewById(R.id.viewpager);
+        viewPager.setAdapter(new FragmentAdapter(getChildFragmentManager(), loFragments));
+
         botNav = view.findViewById(R.id.botNav);
         botNav.setOnItemSelectedListener(item -> {
             switch (item.getItemId()){
                 case R.id.nav_home:
-                    viewpager.setCurrentItem(0);
+                    viewPager.setCurrentItem(0);
                     break;
                 case R.id.nav_panalo:
-                    viewpager.setCurrentItem(1);
+                    viewPager.setCurrentItem(1);
                     break;
                 case R.id.nav_notifications:
-                    viewpager.setCurrentItem(2);
+                    viewPager.setCurrentItem(2);
                     break;
             }
             return true;
         });
-
-        Activity_Main loActivity = (Activity_Main) requireActivity();
-        loActivity.setOnPanaloListener(this);
 
         mViewModel.GetUnreadPayslipCount().observe(requireActivity(), new Observer<Integer>() {
             @Override
@@ -140,6 +138,8 @@ public class Fragment_Dashboard extends Fragment implements Activity_Main.OnRece
                 }
             }
         });
+
+        InitializePanaloDashboard();
         return view;
     }
 
@@ -163,8 +163,11 @@ public class Fragment_Dashboard extends Fragment implements Activity_Main.OnRece
         }
     }
 
-    @Override
-    public void OnReceive(String args) {
-        viewPager.setCurrentItem(1);
+    private void InitializePanaloDashboard(){
+        if(!requireActivity().getIntent().hasExtra("panalo")){
+            return;
+        }
+
+        botNav.setSelectedItemId(R.id.nav_panalo);
     }
 }

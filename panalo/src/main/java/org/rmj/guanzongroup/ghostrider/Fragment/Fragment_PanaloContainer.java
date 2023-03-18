@@ -146,5 +146,11 @@ public class Fragment_PanaloContainer extends Fragment {
                 loTab.removeBadge();
                 break;
         }
+
+        if(!requireActivity().getIntent().hasExtra("panalo")){
+            return;
+        }
+
+        tabLayout.getTabAt(0).select();
     }
 }

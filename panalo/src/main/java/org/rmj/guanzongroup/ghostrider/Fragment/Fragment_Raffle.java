@@ -133,6 +133,4 @@ public class Fragment_Raffle extends Fragment {
         List<PanaloRewards> loList = new ArrayList<>();
 
     }
-
-
 }
