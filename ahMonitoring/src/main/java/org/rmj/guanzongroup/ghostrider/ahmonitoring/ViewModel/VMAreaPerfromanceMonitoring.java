@@ -97,5 +97,16 @@ public class VMAreaPerfromanceMonitoring extends AndroidViewModel {
     public LiveData<String> GetJobOrderPerformance() {
         return poSys.GetJobOrderPerformance();
     }
+    public LiveData<List<DAreaPerformance.PeriodicPerformance>>GetMCSalesPeriodicPerformance(){
+        return poSys.GetMCSalesPeriodicPerformance();
+    }
+
+    public LiveData<List<DAreaPerformance.PeriodicPerformance>>GetSPSalesPeriodicPerformance(){
+        return poSys.GetSPSalesPeriodicPerformance();
+    }
+
+    public LiveData<List<DAreaPerformance.PeriodicPerformance>>GetJobOrderPeriodicPerformance(){
+        return poSys.GetJobOrderPeriodicPerformance();
+    }
 
 }

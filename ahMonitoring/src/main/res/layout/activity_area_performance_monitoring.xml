@@ -115,6 +115,7 @@
                         android:text="Area Performance Monitoring"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        style="@style/TextAppearance.AppCompat.Medium"
                         android:layout_marginTop="15dp"/>
 
                 <LinearLayout
@@ -180,6 +181,7 @@
                     android:text="Branch Performance Monitoring"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    style="@style/TextAppearance.AppCompat.Medium"
                     android:layout_marginTop="15dp"/>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -230,8 +232,7 @@
                     android:clipToPadding="false"
                     android:scrollbars="none"
                     android:padding="5dp"
-                    android:orientation="vertical"
-                    android:visibility="gone"/>
+                    android:orientation="vertical"/>
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/lbl_NO_data_for_branch_performance"

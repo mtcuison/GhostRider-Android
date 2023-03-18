@@ -6,6 +6,12 @@
 
     <application android:usesCleartextTraffic="true">
         <activity
+            android:name=".Adapter_Branch_Performance_Monitoring"
+            android:exported="false" />
+        <activity
+            android:name=".Adapter_Area_Performance_Monitoring"
+            android:exported="false" />
+        <activity
             android:name=".Activity.Activity_BranchPerformanceMonitoring"
             android:exported="false"
             android:screenOrientation="userPortrait"
