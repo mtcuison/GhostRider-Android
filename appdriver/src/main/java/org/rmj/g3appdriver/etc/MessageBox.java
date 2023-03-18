@@ -99,14 +99,7 @@ public class  MessageBox {
         if(!poDialogx.isShowing()) {
             poDialogx.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             poDialogx.getWindow().getAttributes().windowAnimations = R.style.PopupAnimation;
-            try {
-                if (!((Activity) context).isFinishing()) {
-                    poDialogx.show();
-//                    isDialogShown = true;
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            poDialogx.show();
         }
     }
 

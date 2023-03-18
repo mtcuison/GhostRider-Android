@@ -52,6 +52,8 @@ public class AppConfigPreference {
 
     private static final String LOGIN_ATTEMPT = "gRider_Log_Attempt";
 
+    private static final String MAIN_ACTIVITY = "cMainActv";
+
     private static AppConfigPreference mAppConfigPreference;
 
     private AppConfigPreference(Context context){
@@ -65,6 +67,15 @@ public class AppConfigPreference {
             mAppConfigPreference = new AppConfigPreference(context);
         }
         return mAppConfigPreference;
+    }
+
+    public void setIsMainActive(boolean isActive){
+        editor.putBoolean(MAIN_ACTIVITY, isActive);
+        editor.commit();
+    }
+
+    public boolean isMainActive(){
+        return pref.getBoolean(MAIN_ACTIVITY, false);
     }
 
     public void setPackageName(String fsVal){

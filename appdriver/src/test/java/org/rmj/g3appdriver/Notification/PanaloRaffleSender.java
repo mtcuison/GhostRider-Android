@@ -2,6 +2,8 @@ package org.rmj.g3appdriver.Notification;
 
 import static org.junit.Assert.assertTrue;
 
+import android.util.Log;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -91,13 +93,16 @@ public class PanaloRaffleSender {
             param.put("type", "00008");
             param.put("parent", null);
             param.put("title", "I LOVE MY JOB");
-            param.put("message", "Employee raffle starting soon...");
+            param.put("message", "Employee raffle has ended!");
             param.put("rcpt", rcpts);
             param.put("infox", CreatePanaloNotification());
 
 
             JSONParser oParser = new JSONParser();
             JSONObject json_obj = null;
+
+            String lsJson = param.toJSONString();
+            System.out.println("Panalo JSON " + lsJson);
 
             String response = WebClient.sendRequest(sURL, param.toJSONString(), (HashMap<String, String>) headers);
             if(response == null){
@@ -121,7 +126,7 @@ public class PanaloRaffleSender {
     private static String CreatePanaloNotification(){
         JSONObject loJSON = new JSONObject();
 
-        loJSON.put("module", "001");
+        loJSON.put("module", "002");
         loJSON.put("panalo", "raffle");
 //        loJSON.put("panalo", "reward");
 //        loJSON.put("panalo", "claim");
@@ -129,8 +134,7 @@ public class PanaloRaffleSender {
 //        loJSON.put("panalo", "warning");
 
         JSONObject loPanalo = new JSONObject();
-        loPanalo.put("sReferNox", "MX01123456789");
-        loPanalo.put("cTranStat", "0");
+        loPanalo.put("cTranStat", "3");
 
         loJSON.put("data", loPanalo);
 

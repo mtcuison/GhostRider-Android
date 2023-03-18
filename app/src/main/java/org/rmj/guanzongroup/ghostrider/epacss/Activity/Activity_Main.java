@@ -83,6 +83,12 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
     private List<ChildObject> poChildLst;
     private final HashMap<ParentObject, List<ChildObject>> poChild = new HashMap<>();
 
+    private OnReceivePanaloNotificationListener mPanaloListener;
+
+    public interface OnReceivePanaloNotificationListener{
+        void OnReceive(String args);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,6 +110,8 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
                 e.printStackTrace();
             }
         });
+
+        InitializePanaloIntent();
     }
 
     private void InitUserFeatures(){
@@ -239,19 +247,41 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
         return (int) (pixels * scale + 0.5f);
     }
 
+    public void setOnPanaloListener(OnReceivePanaloNotificationListener listener){
+        this.mPanaloListener = listener;
+    }
+
+    private void InitializePanaloIntent(){
+        if(!getIntent().hasExtra("panalo")) {
+            return;
+        }
+
+        while (mPanaloListener == null){
+            Log.e(TAG, "Waiting to initialize listener...");
+        }
+
+        String lsPanalo = getIntent().getStringExtra("panalo");
+        if(lsPanalo.equalsIgnoreCase("0")){
+            mPanaloListener.OnReceive(lsPanalo);
+        }
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
         IntentFilter loFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
         registerReceiver(poNetRecvr, loFilter);
+        AppConfigPreference.getInstance(Activity_Main.this).setIsMainActive(true);
         Log.e(TAG, "Internet status receiver has been registered.");
     }
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         unregisterReceiver(poNetRecvr);
         Log.e(TAG, "Internet status receiver has been unregistered.");
+        AppConfigPreference.getInstance(Activity_Main.this).setIsMainActive(false);
+        mViewModel.ResetRaffleStatus();
+        super.onDestroy();
     }
 
     @Override
@@ -326,5 +356,4 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
             startActivity(intent);
         }
     }
-
 }

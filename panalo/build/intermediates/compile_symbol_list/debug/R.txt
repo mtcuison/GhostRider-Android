@@ -3303,6 +3303,7 @@ int id labeled 0x0
 int id layout 0x0
 int id lblBranch 0x0
 int id lblQty 0x0
+int id lblRaffleStatus 0x0
 int id lblRwrdDte 0x0
 int id lblRwrdNme 0x0
 int id lblRwrdType 0x0

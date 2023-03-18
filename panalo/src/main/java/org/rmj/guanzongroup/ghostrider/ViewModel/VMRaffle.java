@@ -5,9 +5,12 @@ import android.os.AsyncTask;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
+import org.rmj.g3appdriver.dev.Database.Entities.ERaffleStatus;
 import org.rmj.g3appdriver.lib.Panalo.Obj.GPanalo;
+import org.rmj.g3appdriver.lib.Panalo.Obj.ILOVEMYJOB;
 import org.rmj.g3appdriver.lib.Panalo.model.PanaloRewards;
 
 import java.util.List;
@@ -15,6 +18,7 @@ import java.util.List;
 public class VMRaffle extends AndroidViewModel {
 
     private final GPanalo poSys;
+    private final ILOVEMYJOB poPanalo;
 
     public interface OnRetrieveRaffleListener{
         void OnLoad(String title, String message);
@@ -27,6 +31,11 @@ public class VMRaffle extends AndroidViewModel {
     public VMRaffle(@NonNull Application application) {
         super(application);
         this.poSys = new GPanalo(application);
+        this.poPanalo = new ILOVEMYJOB(application);
+    }
+
+    public LiveData<ERaffleStatus> GetRaffleStatus(){
+        return poPanalo.GetRaffleStatus();
     }
 
     public void GetRewards(int fnArgs, VMRaffle.OnRetrieveRaffleListener listener){

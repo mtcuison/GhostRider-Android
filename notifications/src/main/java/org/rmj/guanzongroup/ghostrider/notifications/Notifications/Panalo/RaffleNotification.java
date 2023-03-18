@@ -4,6 +4,7 @@ import static org.rmj.guanzongroup.ghostrider.notifications.Notifications.Panalo
 import static org.rmj.guanzongroup.ghostrider.notifications.Notifications.Panalo.PanaloNotification.CHANNEL_NAME;
 import static org.rmj.guanzongroup.ghostrider.notifications.Notifications.Panalo.PanaloNotification.NotificationID;
 
+import android.app.AlertDialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -11,11 +12,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
+import android.view.View;
 
 import androidx.core.app.NotificationCompat;
 
 import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Database.Entities.ENotificationMaster;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.notifications.R;
 
 import java.util.Date;
@@ -40,17 +44,14 @@ public class RaffleNotification implements PnlNotification{
 
             int lnChannelID = 123;
 
-            Intent loIntent = new Intent(mContext, Class.forName("org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_SplashScreen"));
+            Intent loIntent = new Intent(mContext, Class.forName("org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_Main"));
 
-//            String lsDataxx = poMessage.getDataSndx();
-//            JSONObject loJson = new JSONObject(lsDataxx);
+            String lsDataxx = poMessage.getDataSndx();
+            JSONObject loJson = new JSONObject(lsDataxx);
 //            JSONObject loPromo = loJson.getJSONObject("data");
-//            String lsUrlLinkx = loPromo.getString("sReferNox");
-//            String lsImageUrl = loPromo.getString("sImageUrl");
+            String lsPanalo = loJson.getString("panalo");
 //
-//            loIntent.putExtra("notification", "promo");
-//            loIntent.putExtra("args", "1");
-//            loIntent.putExtra("url_link", lsUrlLinkx);
+            loIntent.putExtra("panalo", lsPanalo);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 int importance = NotificationManager.IMPORTANCE_DEFAULT;
@@ -115,7 +116,7 @@ public class RaffleNotification implements PnlNotification{
 //                        .setStyle(new NotificationCompat.BigPictureStyle()
 //                            .bigPicture(icon)
 //                            .bigLargeIcon(null))
-                            .setSmallIcon(R.drawable.ic_guanzon_logo)
+                            .setSmallIcon(R.drawable.ic_guanzon_circle)
                             .setContentTitle(lsTitlexx)
                             .setContentText(lsMessage);
 

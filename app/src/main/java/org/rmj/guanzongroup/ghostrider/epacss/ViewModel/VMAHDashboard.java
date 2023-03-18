@@ -34,7 +34,7 @@ public class VMAHDashboard extends AndroidViewModel {
 
     private final EmployeeMaster poEmployee;
     private final RBranch pobranch;
-    private final SelfieLog poLog;
+
     private final AppConfigPreference poConfigx;
 
     private final MutableLiveData<String> psVersion = new MutableLiveData<>();
@@ -43,7 +43,6 @@ public class VMAHDashboard extends AndroidViewModel {
         super(application);
         this.poEmployee = new EmployeeMaster(application);
         this.pobranch = new RBranch(application);
-        poLog = new SelfieLog(application);
         this.poConfigx = AppConfigPreference.getInstance(application);
         this.psVersion.setValue(poConfigx.getVersionInfo());
     }
@@ -58,9 +57,5 @@ public class VMAHDashboard extends AndroidViewModel {
 
     public LiveData<EBranchInfo> getUserBranchInfo(){
         return pobranch.getUserBranchInfo();
-    }
-
-    public LiveData<List<ESelfieLog>> getCurrentLogTimeIfExist(){
-        return poLog.getCurrentLogTimeIfExist(new AppConstants().CURRENT_DATE);
     }
 }

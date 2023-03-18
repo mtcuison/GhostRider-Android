@@ -72,6 +72,7 @@ import org.rmj.g3appdriver.dev.Database.DataAccessObject.DPanalo;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DPayslip;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DProvinceInfo;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DRaffleInfo;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DRaffleStatus;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DRawDao;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DRelation;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DRemittanceAccounts;
@@ -128,6 +129,7 @@ import org.rmj.g3appdriver.dev.Database.Entities.EPanaloReward;
 import org.rmj.g3appdriver.dev.Database.Entities.EProvinceInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ERaffleBasis;
 import org.rmj.g3appdriver.dev.Database.Entities.ERaffleInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.ERaffleStatus;
 import org.rmj.g3appdriver.dev.Database.Entities.ERelation;
 import org.rmj.g3appdriver.dev.Database.Entities.ERemittanceAccounts;
 import org.rmj.g3appdriver.dev.Database.Entities.ESCA_Request;
@@ -192,7 +194,8 @@ import org.rmj.g3appdriver.dev.Database.Entities.EUncapturedClient;
         EInventoryDetail.class,
         ECreditOnlineApplicationCI.class,
         EItinerary.class,
-        EPanaloReward.class}, version = 36, exportSchema = false)
+        EPanaloReward.class,
+        ERaffleStatus.class}, version = 37, exportSchema = false)
 public abstract class GGC_GriderDB extends RoomDatabase {
     private static final String TAG = "GhostRider_DB_Manager";
     private static GGC_GriderDB instance;
@@ -258,6 +261,7 @@ public abstract class GGC_GriderDB extends RoomDatabase {
     public abstract DNotificationUser nUserDao();
     public abstract DPanalo panaloDao();
     public abstract DPayslip payslipDao();
+    public abstract DRaffleStatus raffleStatusDao();
 
     public static synchronized GGC_GriderDB getInstance(Context context){
         if(instance == null){

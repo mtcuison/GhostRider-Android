@@ -267,7 +267,6 @@ public class Fragment_AreaPerformance_PieChart extends Fragment {
                 pieChart2.getLegend().setEnabled(false);
                 pieChart2.setData(pieData);
                 pieChart2.invalidate();
-
             } catch(Exception e) {
                 e.printStackTrace();
             }

@@ -38,13 +38,13 @@ public class RewardNotification implements PnlNotification{
 
             int lnChannelID = 123;
 
-            Intent loIntent = new Intent(mContext, Class.forName("org.rmj.guanzongroup.guanzonapp.Activity.Activity_SplashScreen"));
+            Intent loIntent = new Intent(mContext, Class.forName("org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_Main"));
 
             String lsDataxx = poMessage.getDataSndx();
             JSONObject loJson = new JSONObject(lsDataxx);
             JSONObject loPromo = loJson.getJSONObject("data");
             String lsUrlLinkx = loPromo.getString("sReferNox");
-            String lsImageUrl = loPromo.getString("sImageUrl");
+//            String lsImageUrl = loPromo.getString("sImageUrl");
 
             loIntent.putExtra("notification", "promo");
             loIntent.putExtra("args", "1");
@@ -113,7 +113,7 @@ public class RewardNotification implements PnlNotification{
 //                        .setStyle(new NotificationCompat.BigPictureStyle()
 //                            .bigPicture(icon)
 //                            .bigLargeIcon(null))
-                            .setSmallIcon(R.drawable.ic_guanzon_logo)
+                            .setSmallIcon(R.drawable.ic_guanzon_circle)
                             .setContentTitle(lsTitlexx)
                             .setContentText(lsMessage);
 

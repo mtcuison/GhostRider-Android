@@ -1,5 +1,6 @@
 package org.rmj.guanzongroup.ghostrider.Fragment;
 
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
@@ -17,6 +18,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.badge.BadgeUtils;
+
+import org.rmj.g3appdriver.dev.Database.Entities.ERaffleStatus;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.Panalo.model.PanaloRewards;
 import org.rmj.guanzongroup.ghostrider.Adapter.AdapterRaffleDraw;
@@ -36,7 +40,7 @@ public class Fragment_Raffle extends Fragment {
     private TextView lblFirstNme,
             lblLastNme,
             lblMiddleNme,
-            textView;
+            lblStatus;
 
     public static Fragment_Raffle newInstance() {
         return new Fragment_Raffle();
@@ -48,54 +52,79 @@ public class Fragment_Raffle extends Fragment {
         mViewModel = new ViewModelProvider(requireActivity()).get(VMRaffle.class);
         View view = inflater.inflate(R.layout.fragment_raffle, container, false);
         initWidgets(view);
-        mViewModel.GetRewards(0, new VMRaffle.OnRetrieveRaffleListener() {
+
+        mViewModel.GetRaffleStatus().observe(requireActivity(), new Observer<ERaffleStatus>() {
             @Override
-            public void OnLoad(String title, String message) {
-
-            }
-
-            @Override
-            public void OnSuccess(List<PanaloRewards> args) {
-//                if(String.valueOf(args.size()) == null){
-                if (args.size() > 0){
-                    recyclerView.setVisibility(View.VISIBLE);
-                    rlEmpty.setVisibility(View.GONE);
-
-
-                    AdapterRaffleDraw loAdapter = new AdapterRaffleDraw(args, new AdapterRaffleDraw.OnClickListener() {
-
-                        @Override
-                        public void OnClick(String args) {
-                            //to display dialog here
-                            DialogPanaloRedeem dialogPanaloRedeem = new DialogPanaloRedeem(getActivity());
-                            dialogPanaloRedeem.show();
-                            Toast.makeText(requireActivity(), args, Toast.LENGTH_SHORT).show();
-                        }
-                    }) {
-                        @Override
-                        public void OnClick(String args) {
-
-                        }
-                    };
-                    recyclerView.setAdapter(loAdapter);
-                }else {
-                    recyclerView.setVisibility(View.GONE);
-                    rlEmpty.setVisibility(View.VISIBLE);
-
+            public void onChanged(ERaffleStatus status) {
+                try{
+                    switch (status.getHasRffle()){
+                        case 0:
+                            lblStatus.setText("Raffle draw every monday at 3PM");
+                            break;
+                        case 1:
+                            lblStatus.setText("Raffle starting soon...");
+                            break;
+                        case 2:
+                            lblStatus.setText("Raffle Started");
+                            break;
+                        default:
+                            lblStatus.setText("Raffle Ended.");
+                            break;
+                    }
+                } catch (Exception e){
+                    e.printStackTrace();
                 }
             }
-
-            @Override
-            public void OnFailed(String message) {
-
-            }
         });
+
+//        mViewModel.GetRewards(0, new VMRaffle.OnRetrieveRaffleListener() {
+//            @Override
+//            public void OnLoad(String title, String message) {
+//
+//            }
+//
+//            @Override
+//            public void OnSuccess(List<PanaloRewards> args) {
+////                if(String.valueOf(args.size()) == null){
+//                if (args.size() > 0){
+//                    recyclerView.setVisibility(View.VISIBLE);
+//                    rlEmpty.setVisibility(View.GONE);
+//
+//
+//                    AdapterRaffleDraw loAdapter = new AdapterRaffleDraw(args, new AdapterRaffleDraw.OnClickListener() {
+//
+//                        @Override
+//                        public void OnClick(String args) {
+//                            //to display dialog here
+//                            DialogPanaloRedeem dialogPanaloRedeem = new DialogPanaloRedeem(getActivity());
+//                            dialogPanaloRedeem.show();
+//                            Toast.makeText(requireActivity(), args, Toast.LENGTH_SHORT).show();
+//                        }
+//                    }) {
+//                        @Override
+//                        public void OnClick(String args) {
+//
+//                        }
+//                    };
+//                    recyclerView.setAdapter(loAdapter);
+//                }else {
+//                    recyclerView.setVisibility(View.GONE);
+//                    rlEmpty.setVisibility(View.VISIBLE);
+//
+//                }
+//            }
+//
+//            @Override
+//            public void OnFailed(String message) {
+//
+//            }
+//        });
         return  view;
     }
 
     private void initWidgets(View v) {
         recyclerView = v.findViewById(R.id.recyclerView);
-        textView = v.findViewById(R.id.textView);
+        lblStatus = v.findViewById(R.id.lblRaffleStatus);
         rlEmpty = v.findViewById(R.id.rlEmpty);
         LinearLayoutManager loManager = new LinearLayoutManager(requireActivity());
         loManager.setOrientation(RecyclerView.VERTICAL);

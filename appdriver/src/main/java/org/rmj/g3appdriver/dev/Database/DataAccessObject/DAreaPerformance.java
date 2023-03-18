@@ -102,6 +102,24 @@ public interface DAreaPerformance {
             "FROM MC_Branch_Performance ORDER BY nMCActual DESC")
     LiveData<List<BranchPerformance>> GetJobOrderBranchesPerformance();
 
+    @Query("SELECT sPeriodxx, " +
+            "nMCActual AS nActualxx, " +
+            "nMCGoalxx AS nGoalxxxx " +
+            "FROM MC_Area_Performance ORDER BY sPeriodxx DESC")
+    LiveData<List<PeriodicPerformance>> GetMCSalesPeriodicPerformance();
+
+    @Query("SELECT sPeriodxx, " +
+            "nSPActual AS nActualxx, " +
+            "nSPGoalxx AS nGoalxxxx " +
+            "FROM MC_Area_Performance ORDER BY sPeriodxx DESC")
+    LiveData<List<PeriodicPerformance>> GetSPSalesPeriodicPerformance();
+
+    @Query("SELECT sPeriodxx, " +
+            "nJOActual AS nActualxx, " +
+            "nJOGoalxx AS nGoalxxxx " +
+            "FROM MC_Area_Performance ORDER BY sPeriodxx DESC")
+    LiveData<List<PeriodicPerformance>> GetJobOrderPeriodicPerformance();
+
     class BranchPerformance{
         public String sBranchCd;
         public String sBranchNm;
