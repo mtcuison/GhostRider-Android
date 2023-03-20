@@ -11,6 +11,12 @@
 
 package org.rmj.g3appdriver.etc;
 
+import android.content.Context;
+import android.content.res.Resources;
+import android.util.TypedValue;
+
+import androidx.annotation.ColorInt;
+
 import org.json.JSONObject;
 import org.rmj.g3appdriver.R;
 import org.rmj.g3appdriver.dev.DeptCode;
@@ -211,5 +217,13 @@ public class AppConstants {
         } else {
             return R.drawable.ic_user_supervisor;
         }
+    }
+
+    public static int getThemeTextColor(Context context) {
+        TypedValue typedValue = new TypedValue();
+        Resources.Theme theme = context.getTheme();
+        theme.resolveAttribute(R.attr.colorOnPrimary, typedValue, true);
+        @ColorInt int color = typedValue.data;
+        return color;
     }
 }
