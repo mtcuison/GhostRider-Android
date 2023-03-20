@@ -6,8 +6,10 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.LinearLayout;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
@@ -33,7 +35,6 @@ import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMBranchPerformanc
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class Activity_BranchPerformanceMonitoring extends AppCompatActivity {
 
@@ -59,7 +60,7 @@ public class Activity_BranchPerformanceMonitoring extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar_monitoring);
         setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
@@ -166,6 +167,14 @@ public class Activity_BranchPerformanceMonitoring extends AppCompatActivity {
             }
         });
     }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == android.R.id.home){
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     private void InitializeBranchList(List<DBranchPerformance.PeriodicalPerformance> list){
         poActual = new ArrayList<>();
         poGoalxx = new ArrayList<>();

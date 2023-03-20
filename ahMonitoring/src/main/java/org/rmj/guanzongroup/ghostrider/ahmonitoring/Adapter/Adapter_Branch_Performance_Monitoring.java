@@ -46,7 +46,7 @@ public class Adapter_Branch_Performance_Monitoring extends RecyclerView.Adapter<
     @NonNull
 
     public Adapter_Branch_Performance_Monitoring.ChartViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_area_performance_monitoring, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_adapter_branch_performance_monitoring, parent, false);
         return new Adapter_Branch_Performance_Monitoring.ChartViewHolder(view);
     }
 

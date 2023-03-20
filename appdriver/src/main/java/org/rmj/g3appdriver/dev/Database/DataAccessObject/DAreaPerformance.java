@@ -13,7 +13,6 @@ package org.rmj.g3appdriver.dev.Database.DataAccessObject;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
-import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
@@ -155,5 +154,6 @@ public interface DAreaPerformance {
         public String sPeriodxx;
         public String nActualxx;
         public String nGoalxxxx;
+
     }
 }

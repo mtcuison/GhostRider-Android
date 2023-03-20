@@ -109,4 +109,6 @@ public class VMAreaPerfromanceMonitoring extends AndroidViewModel {
         return poSys.GetJobOrderPeriodicPerformance();
     }
 
+
+
 }

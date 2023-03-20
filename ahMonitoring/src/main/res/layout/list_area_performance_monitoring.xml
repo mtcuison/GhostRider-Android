@@ -18,7 +18,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center"
+            android:gravity="left"
             android:text="January" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -26,7 +26,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center"
+            android:gravity="right"
+            android:layout_marginEnd="15dp"
             android:text="Goal" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -34,7 +35,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center"
+            android:gravity="right"
+            android:layout_marginEnd="15dp"
             android:text="Actual" />
 
     </LinearLayout>

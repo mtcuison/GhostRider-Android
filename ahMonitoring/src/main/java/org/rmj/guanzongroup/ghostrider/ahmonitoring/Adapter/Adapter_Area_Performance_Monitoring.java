@@ -12,6 +12,7 @@ import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.android.material.textview.MaterialTextView;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DAreaPerformance;
+import org.rmj.g3appdriver.lib.BullsEye.PerformancePeriod;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 
 import java.util.List;
@@ -37,7 +38,8 @@ public class Adapter_Area_Performance_Monitoring extends RecyclerView.Adapter<Ad
     @Override
     public void onBindViewHolder(@NonNull ChartViewHolder holder, int position) {
         DAreaPerformance.PeriodicPerformance loArea = areaPerformances.get(position);
-        holder.lblPeriod.setText(loArea.sPeriodxx);
+        holder.lblPeriod.setText(PerformancePeriod.getPeriodText(loArea.sPeriodxx));
+//        Log.e("PERIOD NAME", PerformancePeriod.getPeriodText());
         holder.lblActual.setText(String.valueOf(Double.valueOf(loArea.nActualxx)));
         holder.lblGoal.setText(String.valueOf(Double.valueOf(loArea.nGoalxxxx)));
     }
