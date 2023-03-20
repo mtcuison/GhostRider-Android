@@ -33,6 +33,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.textview.MaterialTextView;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DAreaPerformance;
+import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.Adapter_Area_Performance_Monitoring;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.Adapter_Branch_Performance_Monitoring;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
@@ -233,6 +234,13 @@ public class Activity_AreaPerformanceMonitoring extends AppCompatActivity {
 
         LineData data = new LineData(loDataSet);
         linechart.setData(data);
+        int color = AppConstants.getThemeTextColor(Activity_AreaPerformanceMonitoring.this);
+        linechart.getData().setValueTextColor(color);
+        linechart.getData().setValueTextColor(color);
+        linechart.getXAxis().setTextColor(color);
+        linechart.getAxisLeft().setTextColor(color);
+        linechart.getAxisRight().setTextColor(color);
+        linechart.getLegend().setTextColor(color);
         linechart.setDescription(null);
         linechart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(CHART_MONTH_LABEL));
         linechart.setDoubleTapToZoomEnabled(false);
