@@ -61,6 +61,10 @@ public class Activity_AreaPerformanceMonitoring extends AppCompatActivity {
         this.BranchNM = getIntent().getStringExtra("brnNM");
         Log.e("ito ung branch",String.valueOf(getIntent().getStringExtra("brnCD")));
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 //        Toolbar toolbar = findViewById(R.id.toolbar_monitoring);
 //        setSupportActionBar(toolbar);
 //        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
@@ -68,10 +72,6 @@ public class Activity_AreaPerformanceMonitoring extends AppCompatActivity {
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
-//        lblBranch = findViewById(R.id.lbl_AreaCde);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         width = metrics.widthPixels;
         height = metrics.heightPixels;
         piechart = findViewById(R.id.pie_chart);
