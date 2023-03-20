@@ -81,43 +81,67 @@ public interface DAreaPerformance {
             "ORDER BY nJOActual DESC LIMIT 5")
     LiveData<List<EBranchPerformance>> GetTopBranchPerformerForJobOrder();
 
-    @Query("SELECT sBranchCd, " +
-            "sBranchNm, " +
-            "nMCActual AS nActualxx, " +
-            "nMCGoalxx AS nGoalxxxx " +
-            "FROM MC_Branch_Performance ORDER BY nMCActual DESC")
+    @Query("SELECT " +
+            "a.sBranchCd, " +
+            "a.sBranchNm, " +
+            "a.nMCActual AS nActualxx," +
+            "a.nMCGoalxx AS nGoalxxxx " +
+            "FROM MC_Branch_Performance a " +
+            "LEFT JOIN Branch_Info b ON a.sBranchCd = b.sBranchCd " +
+            "WHERE b.sAreaCode = ( " +
+            "SELECT sAreaCode FROM Branch_Info WHERE sBranchCd =(SELECT sBranchCd FROM User_Info_Master)) " +
+            "GROUP BY a.sBranchCd " +
+            "ORDER BY a.sPeriodxx DESC, a.nMCActual DESC")
     LiveData<List<BranchPerformance>> GetMCSalesBranchesPerformance();
 
-    @Query("SELECT sBranchCd, " +
-            "sBranchNm, " +
-            "nSPActual AS nActualxx, " +
-            "nSPGoalxx AS nGoalxxxx " +
-            "FROM MC_Branch_Performance ORDER BY nMCActual DESC")
+    @Query("SELECT " +
+            "a.sBranchCd, " +
+            "a.sBranchNm, " +
+            "a.nSPActual AS nActualxx," +
+            "a.nSPGoalxx AS nGoalxxxx " +
+            "FROM MC_Branch_Performance a " +
+            "LEFT JOIN Branch_Info b ON a.sBranchCd = b.sBranchCd " +
+            "WHERE b.sAreaCode = ( " +
+            "SELECT sAreaCode FROM Branch_Info WHERE sBranchCd =(SELECT sBranchCd FROM User_Info_Master)) " +
+            "GROUP BY a.sBranchCd " +
+            "ORDER BY a.sPeriodxx DESC, a.nSPActual DESC")
     LiveData<List<BranchPerformance>> GetSPSalesBranchesPerformance();
 
-    @Query("SELECT sBranchCd, " +
-            "sBranchNm, " +
-            "nJOActual AS nActualxx, " +
-            "nJOGoalxx AS nGoalxxxx " +
-            "FROM MC_Branch_Performance ORDER BY nMCActual DESC")
+    @Query("SELECT " +
+            "a.sBranchCd, " +
+            "a.sBranchNm, " +
+            "a.nJOActual AS nActualxx," +
+            "a.nJOGoalxx AS nGoalxxxx " +
+            "FROM MC_Branch_Performance a " +
+            "LEFT JOIN Branch_Info b ON a.sBranchCd = b.sBranchCd " +
+            "WHERE b.sAreaCode = ( " +
+            "SELECT sAreaCode FROM Branch_Info WHERE sBranchCd =(SELECT sBranchCd FROM User_Info_Master)) " +
+            "GROUP BY a.sBranchCd " +
+            "ORDER BY a.sPeriodxx DESC, a.nJOActual DESC")
     LiveData<List<BranchPerformance>> GetJobOrderBranchesPerformance();
 
     @Query("SELECT sPeriodxx, " +
             "nMCActual AS nActualxx, " +
             "nMCGoalxx AS nGoalxxxx " +
-            "FROM MC_Area_Performance ORDER BY sPeriodxx DESC")
+            "FROM MC_Area_Performance " +
+            "WHERE sAreaCode = (" +
+            "SELECT sAreaCode FROM Branch_Info WHERE sBranchCd = (SELECT sBranchCd FROM User_Info_Master)) ORDER BY sPeriodxx DESC")
     LiveData<List<PeriodicPerformance>> GetMCSalesPeriodicPerformance();
 
     @Query("SELECT sPeriodxx, " +
             "nSPActual AS nActualxx, " +
             "nSPGoalxx AS nGoalxxxx " +
-            "FROM MC_Area_Performance ORDER BY sPeriodxx DESC")
+            "FROM MC_Area_Performance " +
+            "WHERE sAreaCode = (" +
+            "SELECT sAreaCode FROM Branch_Info WHERE sBranchCd = (SELECT sBranchCd FROM User_Info_Master)) ORDER BY sPeriodxx DESC")
     LiveData<List<PeriodicPerformance>> GetSPSalesPeriodicPerformance();
 
     @Query("SELECT sPeriodxx, " +
             "nJOActual AS nActualxx, " +
             "nJOGoalxx AS nGoalxxxx " +
-            "FROM MC_Area_Performance ORDER BY sPeriodxx DESC")
+            "FROM MC_Area_Performance " +
+            "WHERE sAreaCode = (" +
+            "SELECT sAreaCode FROM Branch_Info WHERE sBranchCd = (SELECT sBranchCd FROM User_Info_Master)) ORDER BY sPeriodxx DESC")
     LiveData<List<PeriodicPerformance>> GetJobOrderPeriodicPerformance();
 
     class BranchPerformance{

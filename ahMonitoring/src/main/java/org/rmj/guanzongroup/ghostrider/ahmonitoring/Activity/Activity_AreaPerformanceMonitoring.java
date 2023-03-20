@@ -7,10 +7,13 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -66,7 +69,9 @@ public class Activity_AreaPerformanceMonitoring extends AppCompatActivity {
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
 //        lblBranch = findViewById(R.id.lbl_AreaCde);
-
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         width = metrics.widthPixels;
         height = metrics.heightPixels;
         piechart = findViewById(R.id.pie_chart);
@@ -110,8 +115,15 @@ public class Activity_AreaPerformanceMonitoring extends AppCompatActivity {
         initTablayout();
     }
 
-    private void initTablayout(){
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == android.R.id.home){
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
+    private void initTablayout(){
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -120,7 +132,6 @@ public class Activity_AreaPerformanceMonitoring extends AppCompatActivity {
                         try{
                             InitializeBranchList(AreaPerforamancebyMC);
                             InitializeBranchPerformanceList(AreaPerforamancebyMC);
-
                         }catch (Exception e){
                             e.printStackTrace();
                         }
@@ -288,6 +299,7 @@ public class Activity_AreaPerformanceMonitoring extends AppCompatActivity {
         rvAreaPerformance.setVisibility(View.VISIBLE);
         lblNoDataAreaPerformance.setVisibility(View.GONE);;
     }
+
     private void InitializeBranchPerformanceList(List<DAreaPerformance.BranchPerformance> BranchPerformanceList) {
         Adapter_Branch_Performance_Monitoring loAdapter = new Adapter_Branch_Performance_Monitoring(BranchPerformanceList, new Adapter_Branch_Performance_Monitoring.OnAreasClickListener() {
             @Override

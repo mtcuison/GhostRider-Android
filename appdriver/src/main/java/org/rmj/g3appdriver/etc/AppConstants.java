@@ -113,6 +113,8 @@ public class AppConstants {
 
     public static int DataServiceID = 213;
 
+    public static int PerformanceServiceID = 214;
+
     public static int GLocatorServiceID = 913;
 
     public static int INTENT_OB_APPLICATION = 101;

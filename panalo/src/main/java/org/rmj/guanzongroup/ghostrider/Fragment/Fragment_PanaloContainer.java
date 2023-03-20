@@ -105,6 +105,10 @@ public class Fragment_PanaloContainer extends Fragment {
             @Override
             public void onChanged(ERaffleStatus status) {
                 try{
+                    if(status == null) {
+                        return;
+                    }
+
                     InitializeRaffleBadge(status.getHasRffle());
                 } catch (Exception e){
                     e.printStackTrace();

@@ -57,6 +57,9 @@ public class Fragment_Raffle extends Fragment {
             @Override
             public void onChanged(ERaffleStatus status) {
                 try{
+                    if(status == null) {
+                        return;
+                    }
                     switch (status.getHasRffle()){
                         case 0:
                             lblStatus.setText("Raffle draw every monday at 3PM");
