@@ -156,7 +156,6 @@
                         android:gravity="center"
                         android:text="Actual" />
                 </LinearLayout>
-
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerview_area_performance"
                     android:layout_width="match_parent"
@@ -165,8 +164,10 @@
                     android:scrollbars="none"
                     android:padding="5dp"
                     android:orientation="vertical"  />
-
             </LinearLayout>
+
+
+
 
         </androidx.core.widget.NestedScrollView>
 

@@ -32,8 +32,8 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.textview.MaterialTextView;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchPerformance;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_AreaPerformanceMonitoring;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_BranchPerformanceMonitoring;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Monitoring;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.AreaMonitoringAdapter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMAreaMonitor;
@@ -189,7 +189,7 @@ public class Fragment_AreaMonitor extends Fragment {
             Intent loIntent;
             @Override
             public void onClick(View view) {
-                loIntent = new Intent(getActivity(), Activity_Monitoring.class);
+                loIntent = new Intent(getActivity(), Activity_AreaPerformanceMonitoring.class);
                 startActivity(loIntent);
                 requireActivity().overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
             }
@@ -198,7 +198,7 @@ public class Fragment_AreaMonitor extends Fragment {
             Intent loIntent;
             @Override
             public void onClick(View view) {
-                loIntent = new Intent(getActivity(), Activity_Monitoring.class);
+                loIntent = new Intent(getActivity(), Activity_AreaPerformanceMonitoring.class);
                 startActivity(loIntent);
                 requireActivity().overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
             }
@@ -207,7 +207,7 @@ public class Fragment_AreaMonitor extends Fragment {
             Intent loIntent;
             @Override
             public void onClick(View view) {
-                loIntent = new Intent(getActivity(), Activity_Monitoring.class);
+                loIntent = new Intent(getActivity(), Activity_AreaPerformanceMonitoring .class);
                 startActivity(loIntent);
                 requireActivity().overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
             }
@@ -220,9 +220,10 @@ public class Fragment_AreaMonitor extends Fragment {
     private void InitializeBranchList(List<EBranchPerformance> list, int priority){
         AreaMonitoringAdapter loAdapter = new AreaMonitoringAdapter(list, priority, new AreaMonitoringAdapter.OnBranchPerformanceClickListener() {
             @Override
-            public void OnClick(String sBranchCd) {
+            public void OnClick(String sBranchCd,String sBranchnm) {
                 Intent loIntent = new Intent(getActivity(), Activity_BranchPerformanceMonitoring.class);
                 loIntent.putExtra("brnCD", sBranchCd);
+                loIntent.putExtra("brnNM", sBranchnm);
                 startActivity(loIntent);
             }
         });

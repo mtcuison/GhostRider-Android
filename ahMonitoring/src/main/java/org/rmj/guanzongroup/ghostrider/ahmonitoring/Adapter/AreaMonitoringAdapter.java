@@ -35,7 +35,7 @@ public class AreaMonitoringAdapter extends RecyclerView.Adapter<AreaMonitoringAd
     private final int nPriority;
 
     public interface OnBranchPerformanceClickListener{
-        void OnClick(String sBranchCd);
+        void OnClick(String sBranchCd,String sBranchNm);
     }
 
     public AreaMonitoringAdapter(List<EBranchPerformance> areaPerformances, int nPriority, OnBranchPerformanceClickListener listener){
@@ -63,7 +63,7 @@ public class AreaMonitoringAdapter extends RecyclerView.Adapter<AreaMonitoringAd
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    mListener.OnClick(area.getBranchCd());
+                    mListener.OnClick(area.getBranchCd(),area.getBranchNm());
                 }
             });
             if (nPriority == 0) {

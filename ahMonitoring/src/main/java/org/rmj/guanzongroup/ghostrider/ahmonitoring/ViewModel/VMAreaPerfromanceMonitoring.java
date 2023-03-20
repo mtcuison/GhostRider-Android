@@ -19,11 +19,13 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DAreaPerformance;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DBranchPerformance;
 import org.rmj.g3appdriver.dev.Database.Entities.EAreaPerformance;
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchPerformance;
 import org.rmj.g3appdriver.dev.Database.Repositories.RAreaPerformance;
 import org.rmj.g3appdriver.dev.Database.Repositories.RBranchPerformance;
+import org.rmj.g3appdriver.lib.BullsEye.obj.AreaPerformance;
 
 import java.util.List;
 
@@ -31,6 +33,7 @@ public class VMAreaPerfromanceMonitoring extends AndroidViewModel {
     private static final String TAG = VMAreaPerfromanceMonitoring.class.getSimpleName();
     private final RAreaPerformance poArea;
     private final RBranchPerformance poBranch;
+    private final AreaPerformance poSys;
     private final MutableLiveData<String> psType = new MutableLiveData<>();
 
     public VMAreaPerfromanceMonitoring(@NonNull Application application) {
@@ -38,6 +41,7 @@ public class VMAreaPerfromanceMonitoring extends AndroidViewModel {
         Log.e(TAG, "Initialized.");
         this.poArea = new RAreaPerformance(application);
         this.poBranch = new RBranchPerformance(application);
+        this.poSys = new AreaPerformance(application);
         psType.setValue("MC");
     }
 
@@ -71,6 +75,38 @@ public class VMAreaPerfromanceMonitoring extends AndroidViewModel {
 
     public LiveData<String> getType(){
         return psType;
+    }
+
+    public LiveData<List<DAreaPerformance.BranchPerformance>> GetMCSalesBranchesPerformance(){
+        return poSys.GetMCSalesBranchesPerformance();
+    }
+
+    public LiveData<List<DAreaPerformance.BranchPerformance>> GetSPSalesBranchesPerformance(){
+        return poSys.GetSPSalesBranchesPerformance();
+    }
+
+    public LiveData<List<DAreaPerformance.BranchPerformance>> GetJobOrderBranchesPerformance(){
+        return poSys.GetJobOrderBranchesPerformance();
+    }
+    public LiveData<String> GetCurrentMCSalesPerformance() {
+        return poSys.GetCurrentMCSalesPerformance();
+    }
+    public LiveData<String> GetCurentSPSalesPerformance() {
+        return poSys.GetCurentSPSalesPerformance();
+    }
+    public LiveData<String> GetJobOrderPerformance() {
+        return poSys.GetJobOrderPerformance();
+    }
+    public LiveData<List<DAreaPerformance.PeriodicPerformance>>GetMCSalesPeriodicPerformance(){
+        return poSys.GetMCSalesPeriodicPerformance();
+    }
+
+    public LiveData<List<DAreaPerformance.PeriodicPerformance>>GetSPSalesPeriodicPerformance(){
+        return poSys.GetSPSalesPeriodicPerformance();
+    }
+
+    public LiveData<List<DAreaPerformance.PeriodicPerformance>>GetJobOrderPeriodicPerformance(){
+        return poSys.GetJobOrderPeriodicPerformance();
     }
 
 }

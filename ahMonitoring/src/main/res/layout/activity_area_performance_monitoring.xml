@@ -89,15 +89,16 @@
                 <com.google.android.material.tabs.TabLayout
                     android:id="@+id/tabLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    tools:ignore="SpeakableTextPresentCheck" />
 
                 <com.github.mikephil.charting.charts.PieChart
                     android:id="@+id/pie_chart"
                     android:layout_width="match_parent"
                     android:layout_height="180dp"
+                    android:layout_gravity="center"
                     android:layout_marginVertical="10dp"
-                    android:padding="5dp"
-                    android:layout_gravity="center"/>
+                    android:padding="5dp" />
 
                 <com.github.mikephil.charting.charts.LineChart
                     android:id="@+id/line_chart"
@@ -108,6 +109,14 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/lblAreaPerformanceMonitoring"
+                        android:text="Area Performance Monitoring"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/TextAppearance.AppCompat.Medium"
+                        android:layout_marginTop="15dp"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -144,7 +153,6 @@
                         android:layout_height="match_parent" />
 
                     <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/lbl_list_actual"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -160,8 +168,63 @@
                     android:clipToPadding="false"
                     android:scrollbars="none"
                     android:padding="5dp"
-                    android:orientation="vertical"  />
+                    android:orientation="vertical"/>
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/lbl_NO_data_for_area_performance"
+                    android:text="No Record Available"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_marginTop="15dp"/>
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/lblBranchPerformanceMonitoring"
+                    android:text="Branch Performance Monitoring"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/TextAppearance.AppCompat.Medium"
+                    android:layout_marginTop="15dp"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/colorPrimary"
+                    android:gravity="center"
+                    android:layout_marginTop="20dp"
+                    android:orientation="horizontal"
+                    android:padding="5dp">
 
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_medium"
+                        android:gravity="center"
+                        android:maxLines="2"
+                        android:text="Month" />
+
+                    <com.google.android.material.divider.MaterialDivider
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_medium"
+                        android:gravity="center"
+                        android:text="Goal" />
+
+                    <com.google.android.material.divider.MaterialDivider
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_medium"
+                        android:gravity="center"
+                        android:text="Actual" />
+                </LinearLayout>
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerview_branches_performance"
                     android:layout_width="match_parent"
@@ -169,8 +232,15 @@
                     android:clipToPadding="false"
                     android:scrollbars="none"
                     android:padding="5dp"
-                    android:orientation="vertical"  />
+                    android:orientation="vertical"/>
 
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/lbl_NO_data_for_branch_performance"
+                    android:text="No Record Available"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_marginTop="15dp"/>
             </LinearLayout>
 
         </androidx.core.widget.NestedScrollView>
