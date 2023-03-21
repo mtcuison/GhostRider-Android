@@ -88,6 +88,7 @@ public class Fragment_Home_AH extends Fragment {
             @Override
             public void onClick(View view) {
                 loIntent = new Intent(getActivity(), Activity_AreaPerformanceMonitoring.class);
+                loIntent.putExtra("index","0");
                 startActivity(loIntent);
                 requireActivity().overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
             }

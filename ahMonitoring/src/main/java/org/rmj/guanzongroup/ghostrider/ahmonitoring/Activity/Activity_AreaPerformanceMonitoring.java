@@ -53,6 +53,7 @@ public class Activity_AreaPerformanceMonitoring extends AppCompatActivity {
     private ArrayList<Entry> poActual, poGoalxx;
     private int width, height;
     private RecyclerView rvAreaPerformance, rvBranchPerformance;
+    private String button;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +61,7 @@ public class Activity_AreaPerformanceMonitoring extends AppCompatActivity {
         setContentView(R.layout.activity_area_performance_monitoring);
         this.BranchCD = getIntent().getStringExtra("brnCD");
         this.BranchNM = getIntent().getStringExtra("brnNM");
+
         Log.e("ito ung branch",String.valueOf(getIntent().getStringExtra("brnCD")));
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -83,7 +85,6 @@ public class Activity_AreaPerformanceMonitoring extends AppCompatActivity {
         tabLayout.addTab(tabLayout.newTab().setText("MC Sales"));
         tabLayout.addTab(tabLayout.newTab().setText("SP Sales"));
         tabLayout.addTab(tabLayout.newTab().setText("Job Order"));
-
         initTablayout();
     }
 
@@ -96,42 +97,18 @@ public class Activity_AreaPerformanceMonitoring extends AppCompatActivity {
     }
 
     private void initTablayout(){
+
         mViewModel.getAreaDescription().observe(Activity_AreaPerformanceMonitoring.this,  AreaNme -> {
             lblAreaNme.setText(AreaNme);
-            Log.e("ito ung area mo", AreaNme);
         });
 
-        mViewModel.GetMCSalesBranchesPerformance().observe(Activity_AreaPerformanceMonitoring.this,  AreaPerforamancebyMC -> {
-            try{
-
-                InitializeBranchPerformanceList(AreaPerforamancebyMC);
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-        });
-        mViewModel.GetCurrentMCSalesPerformance().observe(Activity_AreaPerformanceMonitoring.this, AreaPerforamancebyMC ->{
-            try{
-                if (AreaPerforamancebyMC.contains("/")){
-                    String[] rat = AreaPerforamancebyMC.split("/");
-                    double ratio =Double.parseDouble(rat[0]) / Double.parseDouble(rat[1]) * 100;
-                    InitializePieChart(AreaPerforamancebyMC);
-                }
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-        });
-        mViewModel.GetMCSalesPeriodicPerformance().observe(Activity_AreaPerformanceMonitoring.this, AreaMonitoringPerformancebyMC ->{
-            try{
-                InitializeAreaList(AreaMonitoringPerformancebyMC);
-                InitializeLineGraph(AreaMonitoringPerformancebyMC);
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-        });
-
+        selectedCArdView();
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+
             @Override
-            public void onTabSelected(TabLayout.Tab tab) {
+
+            public void onTabSelected(TabLayout.Tab tab ) {
+
                 if(tab.getPosition() == 0){
                     mViewModel.GetMCSalesBranchesPerformance().observe(Activity_AreaPerformanceMonitoring.this,  AreaPerforamancebyMC -> {
                         try{
@@ -327,4 +304,92 @@ public class Activity_AreaPerformanceMonitoring extends AppCompatActivity {
         rvBranchPerformance.setVisibility(View.VISIBLE);
         lblNoDataBranchPerformance.setVisibility(View.GONE);;
     }
+    private void selectedCArdView(){
+        Integer index = Integer.valueOf(getIntent().getStringExtra("index"));
+        tabLayout.selectTab(tabLayout.getTabAt(index));
+        switch (getIntent().getStringExtra("index")){
+            case "0":
+                mViewModel.GetMCSalesBranchesPerformance().observe(Activity_AreaPerformanceMonitoring.this,  AreaPerforamancebyMC -> {
+                    try{
+
+                        InitializeBranchPerformanceList(AreaPerforamancebyMC);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                });
+
+                mViewModel.GetCurrentMCSalesPerformance().observe(Activity_AreaPerformanceMonitoring.this, AreaPerforamancebyMC ->{
+                    try{
+                        InitializePieChart(AreaPerforamancebyMC);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                });
+
+                mViewModel.GetMCSalesPeriodicPerformance().observe(Activity_AreaPerformanceMonitoring.this, AreaMonitoringPerformancebyMC ->{
+                    try{
+                        InitializeAreaList(AreaMonitoringPerformancebyMC);
+                        InitializeLineGraph(AreaMonitoringPerformancebyMC);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                });
+                break;
+            case "1":
+                mViewModel.GetSPSalesBranchesPerformance().observe(Activity_AreaPerformanceMonitoring.this,  AreaPerforamancebySP -> {
+                    try{
+
+                        InitializeBranchPerformanceList(AreaPerforamancebySP);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                });
+
+                mViewModel.GetCurentSPSalesPerformance().observe(Activity_AreaPerformanceMonitoring.this, AreaPerforamancebySP ->{
+                    try{
+                        InitializePieChart(AreaPerforamancebySP);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                });
+
+                mViewModel.GetSPSalesPeriodicPerformance().observe(Activity_AreaPerformanceMonitoring.this, AreaMonitoringPerformancebySP ->{
+                    try{
+                        InitializeAreaList(AreaMonitoringPerformancebySP);
+                        InitializeLineGraph(AreaMonitoringPerformancebySP);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                });
+                break;
+            default:
+                mViewModel.GetJobOrderBranchesPerformance().observe(Activity_AreaPerformanceMonitoring.this,  AreaPerforamancebyJO -> {
+                    try{
+
+                        InitializeBranchPerformanceList(AreaPerforamancebyJO);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                });
+                mViewModel.GetJobOrderPerformance().observe(Activity_AreaPerformanceMonitoring.this, AreaPerforamancebyJO ->{
+                    try{
+                        InitializePieChart(AreaPerforamancebyJO);
+                        Log.e("value of ",AreaPerforamancebyJO);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                });
+                mViewModel.GetJobOrderPeriodicPerformance().observe(Activity_AreaPerformanceMonitoring.this, AreaMonitoringPerformancebyJO ->{
+                    try{
+                        InitializeAreaList(AreaMonitoringPerformancebyJO);
+                        InitializeLineGraph(AreaMonitoringPerformancebyJO);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                });
+                break;
+        }
+
+    }
+
 }

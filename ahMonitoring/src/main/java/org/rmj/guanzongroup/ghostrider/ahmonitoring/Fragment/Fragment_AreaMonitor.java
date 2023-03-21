@@ -50,7 +50,7 @@ public class Fragment_AreaMonitor extends Fragment {
     private CircularProgressIndicator mcIndicator,spIndicator,joIndicator;
     private MaterialTextView mcGoalPerc,spGoalPerc,joGoalPerc,mcFraction,spFraction,joFraction;
     public ConstraintLayout btnBrPerformance;
-
+    public String button;
     public static Fragment_AreaMonitor newInstance() {
         return new Fragment_AreaMonitor();
     }
@@ -191,6 +191,7 @@ public class Fragment_AreaMonitor extends Fragment {
             @Override
             public void onClick(View view) {
                 loIntent = new Intent(getActivity(), Activity_AreaPerformanceMonitoring.class);
+                loIntent.putExtra("index","0");
                 startActivity(loIntent);
                 requireActivity().overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
             }
@@ -200,6 +201,7 @@ public class Fragment_AreaMonitor extends Fragment {
             @Override
             public void onClick(View view) {
                 loIntent = new Intent(getActivity(), Activity_AreaPerformanceMonitoring.class);
+                loIntent.putExtra("index","1");
                 startActivity(loIntent);
                 requireActivity().overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
             }
@@ -209,6 +211,7 @@ public class Fragment_AreaMonitor extends Fragment {
             @Override
             public void onClick(View view) {
                 loIntent = new Intent(getActivity(), Activity_AreaPerformanceMonitoring .class);
+                loIntent.putExtra("index","2");
                 startActivity(loIntent);
                 requireActivity().overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
             }
