@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Android Team MIS-SEG Year 2021
+  ~ Copyright (c) 2021. Guanzon Central Office
+  ~ Guanzon Bldg., Perez Blvd., Dagupan City, Pangasinan 2400
+  ~ Project name : GhostRider_Android
+  ~ Module : GhostRider_Android.ahMonitoring
+  ~ Electronic Personnel Access Control Security System
+  ~ project file created : 4/24/21 3:19 PM
+  ~ project file last modified : 4/24/21 3:18 PM
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:theme="@style/GhostRiderMaterialTheme"
+    android:paddingHorizontal="5dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/lbl_list_BranchCD"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="M001"
+            android:fontFamily="@font/roboto_medium"
+            android:layout_weight=".4"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/lbl_list_logDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_medium"
+            android:layout_weight=".8"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/lbl_list_logTime"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:fontFamily="@font/roboto_medium"
+            android:layout_weight=".8"/>
+
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/lbl_list_logStatus"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Uploaded"
+            android:fontFamily="@font/roboto_medium"
+            android:gravity="end"
+            android:layout_weight=".7"
+            android:layout_marginRight="5dp"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_list_logImagePreview"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:icon ="@drawable/ic_image_preview"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:adjustViewBounds="true"
+            android:layout_weight=".25"/>
+
+    </LinearLayout>
+
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="match_parent"
+        android:layout_height="1.5dp"
+        android:background="@color/guanzon_orange"/>
+
+</LinearLayout>

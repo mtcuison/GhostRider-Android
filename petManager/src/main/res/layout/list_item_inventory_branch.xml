@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:theme="@style/GhostRiderMaterialTheme"
+    android:padding="10dp">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/lbl_branchCd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="M001"
+        android:fontFamily="@font/roboto_medium"
+        android:textSize="15sp"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/lbl_branchNm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="GMC Dagupan Honda"
+        android:fontFamily="@font/roboto_regular"
+        android:textSize="18sp"/>
+
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/guanzon_orange"/>
+
+</LinearLayout>

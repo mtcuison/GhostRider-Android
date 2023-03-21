@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter;
+package org.rmj.g3appdriver.etc;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
