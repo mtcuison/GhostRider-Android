@@ -11,40 +11,24 @@
 
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment;
 
-import static org.rmj.g3appdriver.lib.BullsEye.PerformancePeriod.getPeriodText;
-
-import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.android.material.textview.MaterialTextView;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
-import com.github.mikephil.charting.highlight.Highlight;
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
-import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
+import com.google.android.material.textview.MaterialTextView;
 
 import org.rmj.g3appdriver.lib.BullsEye.PerformancePeriod;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_BranchPerformance;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.AreaPerformanceMonitoringAdapter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMAreaPerfromanceMonitoring;
@@ -108,122 +92,122 @@ public class Fragment_AreaPerformance_LineChart extends Fragment {
     }
 
     public void setChartValue(String sales){
-        mViewModel.getAreaPerformanceInfoList().observe(getViewLifecycleOwner(), performances -> {
-            try {
-                chartValues = new ArrayList<>();
-                if (sales.equalsIgnoreCase("MC")){
-                    for (int x = 0; x< performances.size(); x++){
-                        chartValues.add(new Entry(x, performances.get(x).getMCActual()));
-                    }
-                    AreaPerformanceMonitoringAdapter.setIndexPosition(-1);
-                }else {
-                    for (int x = 0; x< performances.size(); x++){
-                        chartValues.add(new Entry(x, performances.get(x).getSPActual()));
-                    }
-
-                    AreaPerformanceMonitoringAdapter.setIndexPosition(-1);
-                }
-                LineDataSet lineDataSet1 = new LineDataSet(chartValues, "");
-
-                // Set line attributes
-                lineDataSet1.setLineWidth(2);
-                lineDataSet1.setColors(getResources().getColor(R.color.guanzon_orange));
-                //ArrayList<ILineDataSet> Contains list of LineDataSets
-                ArrayList<ILineDataSet> dataSets = new ArrayList<>();
-                dataSets.add(lineDataSet1);
-
-
-                // LineData Contains ArrayList<ILineDataSet>
-                LineData data = new LineData(dataSets);
-                lineChart.setData(data);
-                lineChart.setDescription(null);
-                lineChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(PerformancePeriod.getAreaTableLabel(performances)));
-                lineChart.setDoubleTapToZoomEnabled(false);
-                lineChart.getXAxis().setTextSize(12f);
-                lineChart.setExtraOffsets(0,0,10f,18f);
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width, (height/3));
-                lineChart.setLayoutParams(params);
-                lineChart.getLegend().setEnabled(false);
-                lineChart.setDrawGridBackground(false);
-                lineChart.setDrawBorders(true);
-                lineChart.setBorderWidth(1);
-                lineChart.setBorderColor(getResources().getColor(R.color.color_dadada));
-                lineChart.animateX(500);
-                XAxis xAxis = lineChart.getXAxis();
-                xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-                lineChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
-                    @Override
-                    public void onValueSelected(Entry e, Highlight h) {
-//                            AreaPerformanceMonitoringAdapter.setIndexPosition((int) e.getX());
-                        lblDate.setText(getPeriodText(poPeriods.get((int) e.getX())));
-                        mViewModel.getAreaBranchesSalesPerformance(poPeriods.get((int) e.getX()), sales).observe(getViewLifecycleOwner(), branchPerformances -> {
-                            try {
-                                poAdapter = new AreaPerformanceMonitoringAdapter(
-                                        getActivity(), sales,
-                                        branchPerformances, sBranchCd -> {
-                                    try {
-                                        Intent loIntent = new Intent(
-                                                getActivity(),
-                                                Activity_BranchPerformance.class);
-                                        loIntent.putExtra("brnCD", sBranchCd);
-                                        startActivity(loIntent);
-                                    } catch (Exception ex) {
-                                        ex.printStackTrace();
-                                    }
-                                });
-                                recyclerView.setHasFixedSize(true);
-                                recyclerView.setItemAnimator(new DefaultItemAnimator());
-                                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-                                recyclerView.setAdapter(poAdapter);
-                            } catch (Exception ex) {
-                                ex.printStackTrace();
-                            }
-                        });
-                        poAdapter.notifyDataSetChanged();
-
-                    }
-
-                    @Override
-                    public void onNothingSelected() {
-
-                    }
-                });
-                lineChart.invalidate();
-//          SET RECYLERVIEW
-                lblDate.setText(getPeriodText(PerformancePeriod.getLatestCompletePeriod()));
-                mViewModel.getAreaBranchesSalesPerformance(PerformancePeriod.getLatestCompletePeriod(),sales).observe(getViewLifecycleOwner(), branchPerformances -> {
-                    try {
-                        poAdapter = new AreaPerformanceMonitoringAdapter(
-                                getActivity(), sales,
-                                branchPerformances, sBranchCd -> {
-                            try {
-                                Intent loIntent = new Intent(
-                                        getActivity(),
-                                        Activity_BranchPerformance.class);
-                                loIntent.putExtra("brnCD", sBranchCd);
-                                startActivity(loIntent);
-                            } catch (NullPointerException e) {
-                                e.printStackTrace();
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        });
-                        recyclerView.setHasFixedSize(true);
-                        recyclerView.setItemAnimator(new DefaultItemAnimator());
-                        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),  LinearLayoutManager.VERTICAL, false));
-                        recyclerView.setAdapter(poAdapter);
-                    } catch(NullPointerException e) {
-                        e.printStackTrace();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                });
-            } catch (NullPointerException e) {
-                e.printStackTrace();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
+//        mViewModel.getAreaPerformanceInfoList().observe(getViewLifecycleOwner(), performances -> {
+//            try {
+//                chartValues = new ArrayList<>();
+//                if (sales.equalsIgnoreCase("MC")){
+//                    for (int x = 0; x< performances.size(); x++){
+//                        chartValues.add(new Entry(x, performances.get(x).getMCActual()));
+//                    }
+//                    AreaPerformanceMonitoringAdapter.setIndexPosition(-1);
+//                }else {
+//                    for (int x = 0; x< performances.size(); x++){
+//                        chartValues.add(new Entry(x, performances.get(x).getSPActual()));
+//                    }
+//
+//                    AreaPerformanceMonitoringAdapter.setIndexPosition(-1);
+//                }
+//                LineDataSet lineDataSet1 = new LineDataSet(chartValues, "");
+//
+//                // Set line attributes
+//                lineDataSet1.setLineWidth(2);
+//                lineDataSet1.setColors(getResources().getColor(R.color.guanzon_orange));
+//                //ArrayList<ILineDataSet> Contains list of LineDataSets
+//                ArrayList<ILineDataSet> dataSets = new ArrayList<>();
+//                dataSets.add(lineDataSet1);
+//
+//
+//                // LineData Contains ArrayList<ILineDataSet>
+//                LineData data = new LineData(dataSets);
+//                lineChart.setData(data);
+//                lineChart.setDescription(null);
+//                lineChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(PerformancePeriod.getAreaTableLabel(performances)));
+//                lineChart.setDoubleTapToZoomEnabled(false);
+//                lineChart.getXAxis().setTextSize(12f);
+//                lineChart.setExtraOffsets(0,0,10f,18f);
+//                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width, (height/3));
+//                lineChart.setLayoutParams(params);
+//                lineChart.getLegend().setEnabled(false);
+//                lineChart.setDrawGridBackground(false);
+//                lineChart.setDrawBorders(true);
+//                lineChart.setBorderWidth(1);
+//                lineChart.setBorderColor(getResources().getColor(R.color.color_dadada));
+//                lineChart.animateX(500);
+//                XAxis xAxis = lineChart.getXAxis();
+//                xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+//                lineChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
+//                    @Override
+//                    public void onValueSelected(Entry e, Highlight h) {
+////                            AreaPerformanceMonitoringAdapter.setIndexPosition((int) e.getX());
+//                        lblDate.setText(getPeriodText(poPeriods.get((int) e.getX())));
+//                        mViewModel.getAreaBranchesSalesPerformance(poPeriods.get((int) e.getX()), sales).observe(getViewLifecycleOwner(), branchPerformances -> {
+//                            try {
+//                                poAdapter = new AreaPerformanceMonitoringAdapter(
+//                                        getActivity(), sales,
+//                                        branchPerformances, sBranchCd -> {
+//                                    try {
+//                                        Intent loIntent = new Intent(
+//                                                getActivity(),
+//                                                Activity_BranchPerformance.class);
+//                                        loIntent.putExtra("brnCD", sBranchCd);
+//                                        startActivity(loIntent);
+//                                    } catch (Exception ex) {
+//                                        ex.printStackTrace();
+//                                    }
+//                                });
+//                                recyclerView.setHasFixedSize(true);
+//                                recyclerView.setItemAnimator(new DefaultItemAnimator());
+//                                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+//                                recyclerView.setAdapter(poAdapter);
+//                            } catch (Exception ex) {
+//                                ex.printStackTrace();
+//                            }
+//                        });
+//                        poAdapter.notifyDataSetChanged();
+//
+//                    }
+//
+//                    @Override
+//                    public void onNothingSelected() {
+//
+//                    }
+//                });
+//                lineChart.invalidate();
+////          SET RECYLERVIEW
+//                lblDate.setText(getPeriodText(PerformancePeriod.getLatestCompletePeriod()));
+//                mViewModel.getAreaBranchesSalesPerformance(PerformancePeriod.getLatestCompletePeriod(),sales).observe(getViewLifecycleOwner(), branchPerformances -> {
+//                    try {
+//                        poAdapter = new AreaPerformanceMonitoringAdapter(
+//                                getActivity(), sales,
+//                                branchPerformances, sBranchCd -> {
+//                            try {
+//                                Intent loIntent = new Intent(
+//                                        getActivity(),
+//                                        Activity_BranchPerformance.class);
+//                                loIntent.putExtra("brnCD", sBranchCd);
+//                                startActivity(loIntent);
+//                            } catch (NullPointerException e) {
+//                                e.printStackTrace();
+//                            } catch (Exception e) {
+//                                e.printStackTrace();
+//                            }
+//                        });
+//                        recyclerView.setHasFixedSize(true);
+//                        recyclerView.setItemAnimator(new DefaultItemAnimator());
+//                        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),  LinearLayoutManager.VERTICAL, false));
+//                        recyclerView.setAdapter(poAdapter);
+//                    } catch(NullPointerException e) {
+//                        e.printStackTrace();
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//                });
+//            } catch (NullPointerException e) {
+//                e.printStackTrace();
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        });
     }
 
     private class TabClickHandler implements View.OnClickListener{

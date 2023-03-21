@@ -15,32 +15,22 @@ import static org.rmj.g3appdriver.lib.BullsEye.PerformancePeriod.getLatestComple
 import static org.rmj.g3appdriver.lib.BullsEye.PerformancePeriod.getList;
 import static org.rmj.g3appdriver.lib.BullsEye.PerformancePeriod.getPeriodText;
 
-import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.google.android.material.textview.MaterialTextView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioGroup;
 
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.data.PieEntry;
+import com.google.android.material.textview.MaterialTextView;
 
 import org.rmj.g3appdriver.lib.BullsEye.PerformancePeriod;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_BranchPerformance;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.AreaPerformanceMonitoringAdapter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMAreaPerfromanceMonitoring;
@@ -147,160 +137,160 @@ public class Fragment_AreaPerformance_PieChart extends Fragment {
     }
 
     private void setMonthPieChartData(String sales, String fsPeriodx) {
-        mViewModel.getMonthlyPieChartData(fsPeriodx).observe(getViewLifecycleOwner(), monthlyPieChart -> {
-            try {
-                ArrayList<PieEntry> pieEntries = new ArrayList<>();
-                ArrayList<Integer> colors = new ArrayList<>();
-                String label = "type";
-
-                if(sales.equalsIgnoreCase("MC")) {
-                    lgdGoal.setText("MC Goal");
-                    lgdActual.setText("MC Actual");
-                    lgdExcess.setText("MC Excess");
-                    pieEntries.clear();
-                    colors.clear();
-                    colors.add(Color.parseColor("#454545"));
-                    colors.add(Color.parseColor("#FF8200"));
-                    pieEntries.add(new PieEntry(monthlyPieChart.mcGoal, ""));
-                    pieEntries.add(new PieEntry(monthlyPieChart.mcActual, ""));
-                    if(monthlyPieChart.mcActual > monthlyPieChart.mcGoal) {
-                        pieEntries.clear();
-                        colors.clear();
-                        colors.add(Color.parseColor("#FF8200"));
-                        colors.add(Color.parseColor("#114F87"));
-                        float lnActual = monthlyPieChart.mcActual;
-                        float lnGoal = monthlyPieChart.mcGoal;
-                        pieEntries.add(new PieEntry(monthlyPieChart.mcActual, ""));
-                        pieEntries.add(new PieEntry(lnActual - lnGoal, ""));
-                    }
-                } else {
-                    lgdGoal.setText("SP Goal");
-                    lgdActual.setText("SP Actual");
-                    lgdExcess.setText("SP Excess");
-                    pieEntries.clear();
-                    colors.clear();
-                    colors.add(Color.parseColor("#454545"));
-                    colors.add(Color.parseColor("#FF8200"));
-                    pieEntries.add(new PieEntry(monthlyPieChart.spGoal, ""));
-                    pieEntries.add(new PieEntry(monthlyPieChart.spActual, ""));
-                    if(monthlyPieChart.spActual > monthlyPieChart.spGoal) {
-                        pieEntries.clear();
-                        colors.clear();
-                        colors.add(Color.parseColor("#FF8200"));
-                        colors.add(Color.parseColor("#114F87"));
-                        float lnActual = monthlyPieChart.spActual;
-                        float lnGoal = monthlyPieChart.spGoal;
-                        pieEntries.add(new PieEntry(monthlyPieChart.spActual, ""));
-                        pieEntries.add(new PieEntry(lnActual - lnGoal, ""));
-                    }
-                }
-
-                PieDataSet pieDataSet = new PieDataSet(pieEntries,label);
-                pieDataSet.setValueTextSize(12f);
-                pieDataSet.setColors(colors);
-                PieData pieData = new PieData(pieDataSet);
-                pieData.setDrawValues(true);
-                pieChart.getLegend().setEnabled(false);
-                pieChart.setData(pieData);
-                pieChart.invalidate();
-
-            } catch(Exception e) {
-                e.printStackTrace();
-            }
-        });
+//        mViewModel.getMonthlyPieChartData(fsPeriodx).observe(getViewLifecycleOwner(), monthlyPieChart -> {
+//            try {
+//                ArrayList<PieEntry> pieEntries = new ArrayList<>();
+//                ArrayList<Integer> colors = new ArrayList<>();
+//                String label = "type";
+//
+//                if(sales.equalsIgnoreCase("MC")) {
+//                    lgdGoal.setText("MC Goal");
+//                    lgdActual.setText("MC Actual");
+//                    lgdExcess.setText("MC Excess");
+//                    pieEntries.clear();
+//                    colors.clear();
+//                    colors.add(Color.parseColor("#454545"));
+//                    colors.add(Color.parseColor("#FF8200"));
+//                    pieEntries.add(new PieEntry(monthlyPieChart.mcGoal, ""));
+//                    pieEntries.add(new PieEntry(monthlyPieChart.mcActual, ""));
+//                    if(monthlyPieChart.mcActual > monthlyPieChart.mcGoal) {
+//                        pieEntries.clear();
+//                        colors.clear();
+//                        colors.add(Color.parseColor("#FF8200"));
+//                        colors.add(Color.parseColor("#114F87"));
+//                        float lnActual = monthlyPieChart.mcActual;
+//                        float lnGoal = monthlyPieChart.mcGoal;
+//                        pieEntries.add(new PieEntry(monthlyPieChart.mcActual, ""));
+//                        pieEntries.add(new PieEntry(lnActual - lnGoal, ""));
+//                    }
+//                } else {
+//                    lgdGoal.setText("SP Goal");
+//                    lgdActual.setText("SP Actual");
+//                    lgdExcess.setText("SP Excess");
+//                    pieEntries.clear();
+//                    colors.clear();
+//                    colors.add(Color.parseColor("#454545"));
+//                    colors.add(Color.parseColor("#FF8200"));
+//                    pieEntries.add(new PieEntry(monthlyPieChart.spGoal, ""));
+//                    pieEntries.add(new PieEntry(monthlyPieChart.spActual, ""));
+//                    if(monthlyPieChart.spActual > monthlyPieChart.spGoal) {
+//                        pieEntries.clear();
+//                        colors.clear();
+//                        colors.add(Color.parseColor("#FF8200"));
+//                        colors.add(Color.parseColor("#114F87"));
+//                        float lnActual = monthlyPieChart.spActual;
+//                        float lnGoal = monthlyPieChart.spGoal;
+//                        pieEntries.add(new PieEntry(monthlyPieChart.spActual, ""));
+//                        pieEntries.add(new PieEntry(lnActual - lnGoal, ""));
+//                    }
+//                }
+//
+//                PieDataSet pieDataSet = new PieDataSet(pieEntries,label);
+//                pieDataSet.setValueTextSize(12f);
+//                pieDataSet.setColors(colors);
+//                PieData pieData = new PieData(pieDataSet);
+//                pieData.setDrawValues(true);
+//                pieChart.getLegend().setEnabled(false);
+//                pieChart.setData(pieData);
+//                pieChart.invalidate();
+//
+//            } catch(Exception e) {
+//                e.printStackTrace();
+//            }
+//        });
     }
 
     private void setYearPieChartData(String sales) {
-        mViewModel.get12MonthPieChartData(getList().get(getList().size()-1), getList().get(0)).observe(getViewLifecycleOwner(), monthlyPieChart -> {
-            try {
-                ArrayList<PieEntry> pieEntries = new ArrayList<>();
-                ArrayList<Integer> colors = new ArrayList<>();
-                String label = "type";
-
-                if(sales.equalsIgnoreCase("MC")) {
-                    lgdGoal.setText("MC Goal");
-                    lgdActual.setText("MC Actual");
-                    lgdExcess.setText("MC Excess");
-                    pieEntries.clear();
-                    colors.clear();
-                    colors.add(Color.parseColor("#454545"));
-                    colors.add(Color.parseColor("#FF8200"));
-                    pieEntries.add(new PieEntry(monthlyPieChart.mcGoal, ""));
-                    pieEntries.add(new PieEntry(monthlyPieChart.mcActual, ""));
-                    if(monthlyPieChart.mcActual > monthlyPieChart.mcGoal) {
-                        pieEntries.clear();
-                        colors.clear();
-                        colors.add(Color.parseColor("#FF8200"));
-                        colors.add(Color.parseColor("#114F87"));
-                        float lnActual = monthlyPieChart.mcActual;
-                        float lnGoal = monthlyPieChart.mcGoal;
-                        pieEntries.add(new PieEntry(monthlyPieChart.mcActual, ""));
-                        pieEntries.add(new PieEntry(lnActual - lnGoal, ""));
-                    }
-                } else {
-                    lgdGoal.setText("SP Goal");
-                    lgdActual.setText("SP Actual");
-                    lgdExcess.setText("SP Excess");
-                    pieEntries.clear();
-                    colors.clear();
-                    colors.add(Color.parseColor("#454545"));
-                    colors.add(Color.parseColor("#FF8200"));
-                    pieEntries.add(new PieEntry(monthlyPieChart.spGoal, ""));
-                    pieEntries.add(new PieEntry(monthlyPieChart.spActual, ""));
-                    if(monthlyPieChart.spActual > monthlyPieChart.spGoal) {
-                        pieEntries.clear();
-                        colors.clear();
-                        colors.add(Color.parseColor("#FF8200"));
-                        colors.add(Color.parseColor("#114F87"));
-                        float lnActual = monthlyPieChart.spActual;
-                        float lnGoal = monthlyPieChart.spGoal;
-                        pieEntries.add(new PieEntry(monthlyPieChart.spActual, ""));
-                        pieEntries.add(new PieEntry(lnActual - lnGoal, ""));
-                    }
-                }
-
-                PieDataSet pieDataSet = new PieDataSet(pieEntries,label);
-                pieDataSet.setValueTextSize(12f);
-                pieDataSet.setColors(colors);
-                PieData pieData = new PieData(pieDataSet);
-                pieData.setDrawValues(true);
-                pieChart2.getLegend().setEnabled(false);
-                pieChart2.setData(pieData);
-                pieChart2.invalidate();
-            } catch(Exception e) {
-                e.printStackTrace();
-            }
-        });
+//        mViewModel.get12MonthPieChartData(getList().get(getList().size()-1), getList().get(0)).observe(getViewLifecycleOwner(), monthlyPieChart -> {
+//            try {
+//                ArrayList<PieEntry> pieEntries = new ArrayList<>();
+//                ArrayList<Integer> colors = new ArrayList<>();
+//                String label = "type";
+//
+//                if(sales.equalsIgnoreCase("MC")) {
+//                    lgdGoal.setText("MC Goal");
+//                    lgdActual.setText("MC Actual");
+//                    lgdExcess.setText("MC Excess");
+//                    pieEntries.clear();
+//                    colors.clear();
+//                    colors.add(Color.parseColor("#454545"));
+//                    colors.add(Color.parseColor("#FF8200"));
+//                    pieEntries.add(new PieEntry(monthlyPieChart.mcGoal, ""));
+//                    pieEntries.add(new PieEntry(monthlyPieChart.mcActual, ""));
+//                    if(monthlyPieChart.mcActual > monthlyPieChart.mcGoal) {
+//                        pieEntries.clear();
+//                        colors.clear();
+//                        colors.add(Color.parseColor("#FF8200"));
+//                        colors.add(Color.parseColor("#114F87"));
+//                        float lnActual = monthlyPieChart.mcActual;
+//                        float lnGoal = monthlyPieChart.mcGoal;
+//                        pieEntries.add(new PieEntry(monthlyPieChart.mcActual, ""));
+//                        pieEntries.add(new PieEntry(lnActual - lnGoal, ""));
+//                    }
+//                } else {
+//                    lgdGoal.setText("SP Goal");
+//                    lgdActual.setText("SP Actual");
+//                    lgdExcess.setText("SP Excess");
+//                    pieEntries.clear();
+//                    colors.clear();
+//                    colors.add(Color.parseColor("#454545"));
+//                    colors.add(Color.parseColor("#FF8200"));
+//                    pieEntries.add(new PieEntry(monthlyPieChart.spGoal, ""));
+//                    pieEntries.add(new PieEntry(monthlyPieChart.spActual, ""));
+//                    if(monthlyPieChart.spActual > monthlyPieChart.spGoal) {
+//                        pieEntries.clear();
+//                        colors.clear();
+//                        colors.add(Color.parseColor("#FF8200"));
+//                        colors.add(Color.parseColor("#114F87"));
+//                        float lnActual = monthlyPieChart.spActual;
+//                        float lnGoal = monthlyPieChart.spGoal;
+//                        pieEntries.add(new PieEntry(monthlyPieChart.spActual, ""));
+//                        pieEntries.add(new PieEntry(lnActual - lnGoal, ""));
+//                    }
+//                }
+//
+//                PieDataSet pieDataSet = new PieDataSet(pieEntries,label);
+//                pieDataSet.setValueTextSize(12f);
+//                pieDataSet.setColors(colors);
+//                PieData pieData = new PieData(pieDataSet);
+//                pieData.setDrawValues(true);
+//                pieChart2.getLegend().setEnabled(false);
+//                pieChart2.setData(pieData);
+//                pieChart2.invalidate();
+//            } catch(Exception e) {
+//                e.printStackTrace();
+//            }
+//        });
     }
 
     private void setTableData(String sales, String fsPeriodx) {
-        mViewModel.getAreaBranchesSalesPerformance(fsPeriodx, sales).observe(getViewLifecycleOwner(), branchPerformances -> {
-            try {
-                poAdapter = new AreaPerformanceMonitoringAdapter(
-                        getActivity(), sales,
-                        branchPerformances, sBranchCd -> {
-                    try {
-                        Intent loIntent = new Intent(
-                                getActivity(),
-                                Activity_BranchPerformance.class);
-                        loIntent.putExtra("brnCD", sBranchCd);
-                        startActivity(loIntent);
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    }
-                });
-                recyclerView.setHasFixedSize(true);
-                recyclerView.setItemAnimator(new DefaultItemAnimator());
-                recyclerView.setLayoutManager(
-                        new LinearLayoutManager(getActivity(),
-                                LinearLayoutManager.VERTICAL,
-                                false));
-                recyclerView.setAdapter(poAdapter);
-                poAdapter.notifyDataSetChanged();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        });
+//        mViewModel.getAreaBranchesSalesPerformance(fsPeriodx, sales).observe(getViewLifecycleOwner(), branchPerformances -> {
+//            try {
+//                poAdapter = new AreaPerformanceMonitoringAdapter(
+//                        getActivity(), sales,
+//                        branchPerformances, sBranchCd -> {
+//                    try {
+//                        Intent loIntent = new Intent(
+//                                getActivity(),
+//                                Activity_BranchPerformance.class);
+//                        loIntent.putExtra("brnCD", sBranchCd);
+//                        startActivity(loIntent);
+//                    } catch (Exception ex) {
+//                        ex.printStackTrace();
+//                    }
+//                });
+//                recyclerView.setHasFixedSize(true);
+//                recyclerView.setItemAnimator(new DefaultItemAnimator());
+//                recyclerView.setLayoutManager(
+//                        new LinearLayoutManager(getActivity(),
+//                                LinearLayoutManager.VERTICAL,
+//                                false));
+//                recyclerView.setAdapter(poAdapter);
+//                poAdapter.notifyDataSetChanged();
+//            } catch (Exception ex) {
+//                ex.printStackTrace();
+//            }
+//        });
     }
 
     private class TabClickHandler implements View.OnClickListener{

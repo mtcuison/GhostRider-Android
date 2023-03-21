@@ -13,25 +13,19 @@ package org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment;
 
 import static org.rmj.g3appdriver.lib.BullsEye.PerformancePeriod.getLatestCompletePeriod;
 
-import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.material.textview.MaterialTextView;
 
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_BranchPerformance;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.AreaInfoBarChartAdapter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.AreaPerformanceMonitoringAdapter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
@@ -96,53 +90,53 @@ public class Fragment_AreaPerformance_BarChart extends Fragment {
             lgdActual.setText("SP Actual");
             lgdExcess.setText("SP Excess");
         }
-        mViewModel.getAreaPerformanceInfoList().observe(getViewLifecycleOwner(), performances -> {
-            try {
-                poChartAd = new AreaInfoBarChartAdapter(performances, sales, eAreaPerformance -> {
-
-                });
-                poChartAd.notifyDataSetChanged();
-                rvChart.setHasFixedSize(true);
-                rvChart.setItemAnimator(new DefaultItemAnimator());
-                rvChart.setLayoutManager(
-                        new LinearLayoutManager(getActivity(),
-                                LinearLayoutManager.HORIZONTAL,
-                                false));
-                rvChart.setAdapter(poChartAd);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
+//        mViewModel.getAreaPerformanceInfoList().observe(getViewLifecycleOwner(), performances -> {
+//            try {
+//                poChartAd = new AreaInfoBarChartAdapter(performances, sales, eAreaPerformance -> {
+//
+//                });
+//                poChartAd.notifyDataSetChanged();
+//                rvChart.setHasFixedSize(true);
+//                rvChart.setItemAnimator(new DefaultItemAnimator());
+//                rvChart.setLayoutManager(
+//                        new LinearLayoutManager(getActivity(),
+//                                LinearLayoutManager.HORIZONTAL,
+//                                false));
+//                rvChart.setAdapter(poChartAd);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        });
     }
 
     private void setTableData(String sales, String fsPeriodx) {
-        mViewModel.getAreaBranchesSalesPerformance(fsPeriodx, sales).observe(getViewLifecycleOwner(), branchPerformances -> {
-            try {
-                poTblAdpt = new AreaPerformanceMonitoringAdapter(
-                        getActivity(), sales,
-                        branchPerformances, sBranchCd -> {
-                    try {
-                        Intent loIntent = new Intent(
-                                getActivity(),
-                                Activity_BranchPerformance.class);
-                        loIntent.putExtra("brnCD", sBranchCd);
-                        startActivity(loIntent);
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    }
-                });
-                rvTable.setHasFixedSize(true);
-                rvTable.setItemAnimator(new DefaultItemAnimator());
-                rvTable.setLayoutManager(
-                        new LinearLayoutManager(getActivity(),
-                                LinearLayoutManager.VERTICAL,
-                                false));
-                rvTable.setAdapter(poTblAdpt);
-                poTblAdpt.notifyDataSetChanged();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        });
+//        mViewModel.getAreaBranchesSalesPerformance(fsPeriodx, sales).observe(getViewLifecycleOwner(), branchPerformances -> {
+//            try {
+//                poTblAdpt = new AreaPerformanceMonitoringAdapter(
+//                        getActivity(), sales,
+//                        branchPerformances, sBranchCd -> {
+//                    try {
+//                        Intent loIntent = new Intent(
+//                                getActivity(),
+//                                Activity_BranchPerformance.class);
+//                        loIntent.putExtra("brnCD", sBranchCd);
+//                        startActivity(loIntent);
+//                    } catch (Exception ex) {
+//                        ex.printStackTrace();
+//                    }
+//                });
+//                rvTable.setHasFixedSize(true);
+//                rvTable.setItemAnimator(new DefaultItemAnimator());
+//                rvTable.setLayoutManager(
+//                        new LinearLayoutManager(getActivity(),
+//                                LinearLayoutManager.VERTICAL,
+//                                false));
+//                rvTable.setAdapter(poTblAdpt);
+//                poTblAdpt.notifyDataSetChanged();
+//            } catch (Exception ex) {
+//                ex.printStackTrace();
+//            }
+//        });
     }
 
     private class TabClickHandler implements View.OnClickListener{
