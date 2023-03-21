@@ -154,4 +154,74 @@ public class PanaloNotificationSender {
             return false;
         }
     }
+
+
+    /**
+     *
+     * @param app set recipient product id
+     * @param userid set recipient user id
+     * @param title notification title
+     * @param message notification message
+     * @return returns true if process has been successfully executed.
+     */
+    public static boolean SendSystemBranchOpeningNotification(String app,
+                                                             String userid,
+                                                             String title,
+                                                             String message){
+        try{
+            String sURL = "https://restgk.guanzongroup.com.ph/notification/send_request_system.php";
+            Calendar calendar = Calendar.getInstance();
+            //Create the header section needed by the API
+            Map<String, String> headers =
+                    new HashMap<String, String>();
+            headers.put("Accept", "application/json");
+            headers.put("Content-Type", "application/json");
+            headers.put("g-api-id", "IntegSys");
+            headers.put("g-api-imei", "356060072281722");
+            headers.put("g-api-key", SQLUtil.dateFormat(calendar.getTime(), "yyyyMMddHHmmss"));
+            headers.put("g-api-hash", org.apache.commons.codec.digest.DigestUtils.md5Hex((String)headers.get("g-api-imei") + (String)headers.get("g-api-key")));
+            headers.put("g-api-user", "GAP0190001");
+            headers.put("g-api-mobile", "09171870011");
+            headers.put("g-api-token", "cPYKpB-pPYM:APA91bE82C4lKZduL9B2WA1Ygd0znWEUl9rM7pflSlpYLQJq4Nl9l5W4tWinyy5RCLNTSs3bX3JjOVhYnmCpe7zM98cENXt5tIHwW_2P8Q3BXI7gYtEMTJN5JxirOjNTzxWHkWDEafza");
+
+            JSONArray rcpts = new JSONArray();
+            JSONObject rcpt = new JSONObject();
+            rcpt.put("app", app);
+            rcpt.put("user", userid);
+            rcpts.add(rcpt);
+
+            JSONObject loInfo = new JSONObject();
+            loInfo.put("module", "00002");
+
+            JSONObject loData = new JSONObject();
+            loData.put("dTransact", "2023-03-21");
+            loData.put("sBranchCD", "M175");
+            loData.put("sTimeOpen", "08:30:00 AM");
+            loData.put("sOpenNowx", ":35:01 AM");
+
+            loInfo.put("data", loData);
+
+            String lsInfoxx = loInfo.toJSONString();
+
+            JSONObject param = new JSONObject();
+            param.put("type", "00000");
+            param.put("parent", null);
+            param.put("title", title);
+            param.put("message", message);
+            param.put("rcpt", rcpts);
+            param.put("infox", lsInfoxx);
+
+            String response = WebClient.sendRequest(sURL, param.toJSONString(), (HashMap<String, String>) headers);
+            if(response == null){
+                System.out.println("HTTP Error detected: " + System.getProperty("store.error.info"));
+                System.exit(1);
+            }
+
+            System.out.println(response);
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

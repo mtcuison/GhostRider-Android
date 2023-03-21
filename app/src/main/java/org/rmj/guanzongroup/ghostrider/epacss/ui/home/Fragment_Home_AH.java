@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.card.MaterialCardView;
@@ -20,12 +21,14 @@ import com.google.android.material.textview.MaterialTextView;
 
 import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.etc.MessageBox;
+import org.rmj.g3appdriver.lib.Notifications.data.SampleData;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_CashCounter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Inventory;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Monitoring;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.adapter.NewsEventsAdapter;
 import org.rmj.guanzongroup.ghostrider.epacss.adapter.NewsEventsModel;
+import org.rmj.guanzongroup.ghostrider.notifications.Adapter.AdapterAnnouncements;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,8 +42,9 @@ public class Fragment_Home_AH extends Fragment {
     private List<NewsEventsModel> newsList;
     private CircularProgressIndicator mcIndicator,spIndicator,joIndicator;
     private NewsEventsAdapter adapter;
-    private RecyclerView recyclerView;
-    private RecyclerView recyclerViewOpening;
+    private RecyclerView rvBranchOpen;
+    private RecyclerView rvCompnyAnouncemnt;
+    private RecyclerView rvApplicaiton;
     private MessageBox loMessage;
 
     public static Fragment_Home_AH newInstance() {
@@ -53,32 +57,36 @@ public class Fragment_Home_AH extends Fragment {
         mViewModel = new ViewModelProvider(requireActivity()).get(VMHomeAH.class);
         View view = inflater.inflate(R.layout.fragment_home_ah, container, false);
 
+        newsList = new ArrayList<>();
+        loMessage = new MessageBox(getActivity());
+        adapter = new NewsEventsAdapter(getContext(), newsList) ;
+        lblFullNme = view.findViewById(R.id.lblEmpNme);
+        lblDept = view.findViewById(R.id.lblEmpPosition);
+        CashCount = view.findViewById(R.id.cv_cashCount);
+        Inventory = view.findViewById(R.id.cv_inventory);
 
-         newsList = new ArrayList<>();
-          loMessage = new MessageBox(getActivity());
-          adapter = new NewsEventsAdapter(getContext(), newsList) ;
-          lblFullNme = view.findViewById(R.id.lblEmpNme);
-          lblDept = view.findViewById(R.id.lblEmpPosition);
-          CashCount = view.findViewById(R.id.cv_cashCount);
-          Inventory = view.findViewById(R.id.cv_inventory);
+        mcIndicator = view.findViewById(R.id.cpi_mc_sales);
+        mcGoalPerc = view.findViewById(R.id.lblMCGoal);
+        mcGoalFraction = view.findViewById(R.id.lblMCGoalPercent);
 
-          mcIndicator = view.findViewById(R.id.cpi_mc_sales);
-          mcGoalPerc = view.findViewById(R.id.lblMCGoal);
-          mcGoalFraction = view.findViewById(R.id.lblMCGoalPercent);
+        spIndicator = view.findViewById(R.id.cpi_sp_sales);
+        spGoalPerc = view.findViewById(R.id.lblSPGoal);
+        spGoalFraction = view.findViewById(R.id.lblSPGoalPercent);
 
-          spIndicator = view.findViewById(R.id.cpi_sp_sales);
-          spGoalPerc = view.findViewById(R.id.lblSPGoal);
-          spGoalFraction = view.findViewById(R.id.lblSPGoalPercent);
+        joIndicator = view.findViewById(R.id.cpi_job_order);
+        joGoalPerc = view.findViewById(R.id.lblJobOrderPercent);
+        joGoalFraction = view.findViewById(R.id.lblJobOrder);
 
-          joIndicator = view.findViewById(R.id.cpi_job_order);
-          joGoalPerc = view.findViewById(R.id.lblJobOrderPercent);
-          joGoalFraction = view.findViewById(R.id.lblJobOrder);
+        btnPerformance = view.findViewById(R.id.cb_performance);
 
-          btnPerformance = view.findViewById(R.id.cb_performance);
+        rvBranchOpen = view.findViewById(R.id.rvBranchOpen);
+        rvCompnyAnouncemnt = view.findViewById(R.id.rvCompnyAnouncemnt);
+        rvApplicaiton = view.findViewById(R.id.rvApplicaiton);
 
         initButton();
         initUserInfo();
         initGoals();
+        initCompanyNotice();
         return view;
     }
 
@@ -177,6 +185,27 @@ public class Fragment_Home_AH extends Fragment {
                 e.printStackTrace();
             }
         });
+    }
+
+    private void initBranchOpening(){
+
+    }
+
+    private void initCompanyNotice(){
+        AdapterAnnouncements loAdapter = new AdapterAnnouncements(SampleData.GetAnnouncementList(), new AdapterAnnouncements.OnItemClickListener() {
+            @Override
+            public void OnClick(String args) {
+
+            }
+        });
+        LinearLayoutManager loManager = new LinearLayoutManager(requireActivity());
+        loManager.setOrientation(RecyclerView.VERTICAL);
+        rvCompnyAnouncemnt.setLayoutManager(loManager);
+        rvCompnyAnouncemnt.setAdapter(loAdapter);
+    }
+
+    private void initEmployeeApp(){
+
     }
 
 }

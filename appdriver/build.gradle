@@ -69,6 +69,11 @@ dependencies {
     //Document scanner
 //    implementation 'com.websitebeaver:documentscanner:1.0.0'
 
+    //Image loader
+    implementation 'com.squareup.picasso:picasso:2.71828'
+    // Image Slider Dependencies
+    implementation 'com.github.smarteist:autoimageslider:1.4.0'
+    implementation 'com.github.bumptech.glide:glide:4.13.2'
 
     //Local Libraries
     implementation files('libs/appdriver.jar')

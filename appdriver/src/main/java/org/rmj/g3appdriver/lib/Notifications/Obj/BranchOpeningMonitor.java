@@ -18,6 +18,7 @@ import androidx.lifecycle.LiveData;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DBranchOpeningMonitor;
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchOpenMonitor;
 import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
+import org.rmj.g3appdriver.etc.AppConstants;
 
 import java.util.List;
 
@@ -43,8 +44,8 @@ public class BranchOpeningMonitor {
         return dao.getBranchOpeningForDate(dTransact);
     }
 
-    public LiveData<List<DBranchOpeningMonitor.BranchOpeningInfo>> getBranchOpeningInfoForDashBoard(String dTransact) {
-        return dao.getBranchOpeningInfoForDashBoard(dTransact);
+    public LiveData<List<DBranchOpeningMonitor.BranchOpeningInfo>> GetBranchOpeningForDashboard(String dTransact) {
+        return dao.GetBranchOpeningInfoForDashBoard(AppConstants.CURRENT_DATE);
     }
 
     public LiveData<List<DBranchOpeningMonitor.BranchOpeningInfo>> getBranchOpeningInfo(String dTransact) {

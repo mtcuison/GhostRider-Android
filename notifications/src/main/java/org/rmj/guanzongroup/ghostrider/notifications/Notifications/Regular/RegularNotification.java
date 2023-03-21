@@ -1,4 +1,6 @@
-package org.rmj.guanzongroup.ghostrider.notifications.Notifications;
+package org.rmj.guanzongroup.ghostrider.notifications.Notifications.Regular;
+
+import static org.rmj.guanzongroup.ghostrider.notifications.Notifications.Panalo.PanaloNotification.NotificationID;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -7,6 +9,8 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+
+import androidx.core.app.NotificationCompat;
 
 import org.rmj.g3appdriver.dev.Database.Entities.ENotificationMaster;
 import org.rmj.guanzongroup.ghostrider.notifications.Etc.iNotificationUI;
@@ -19,7 +23,7 @@ public class RegularNotification implements iNotificationUI {
 
     private final Context mContext;
     private final ENotificationMaster poMessage;
-    private final NotificationManager loManager;
+    private NotificationManager loManager;
 
     public static final String NotificationID = "org.rmj.guanconnect.regularmessage";
     private static final String CHANNEL_NAME = "Regular Message";
@@ -28,12 +32,14 @@ public class RegularNotification implements iNotificationUI {
     public RegularNotification(Context mContext, ENotificationMaster message) {
         this.mContext = mContext;
         this.poMessage = message;
-        this.loManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
     }
 
     @Override
     public void CreateNotification() {
         try{
+
+            int lnChannelID = (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
+
             Intent loIntent = new Intent();
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 int importance = NotificationManager.IMPORTANCE_DEFAULT;
@@ -57,17 +63,21 @@ public class RegularNotification implements iNotificationUI {
             String lsTitlexx = poMessage.getMsgTitle();
             String lsMessage = poMessage.getMessagex();
 
-            Notification.Builder loBuilder = new Notification.Builder(mContext)
-                    .setContentIntent(notifyPendingIntent)
-                    .setPriority(Notification.PRIORITY_HIGH)
-                    .setAutoCancel(true)
-                    .setSmallIcon(R.drawable.ic_guanzon_logo)
-                    .setContentTitle(lsTitlexx)
-                    .setContentText(lsMessage);
+            NotificationCompat.Builder notification =
+                    new NotificationCompat.Builder(mContext, String.valueOf(lnChannelID))
+//                            .setContentIntent(notifyPendingIntent)
+                            .setAutoCancel(true)
+                            .setChannelId(NotificationID)
+//                        .setLargeIcon(icon)
+//                        .setStyle(new NotificationCompat.BigPictureStyle()
+//                            .bigPicture(icon)
+//                            .bigLargeIcon(null))
+                            .setSmallIcon(R.drawable.ic_guanzon_circle)
+                            .setContentTitle(lsTitlexx)
+                            .setContentText(lsMessage);
 
-            int lnChannelID = (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
-
-            loManager.notify(lnChannelID, loBuilder.build());
+            loManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+            loManager.notify(lnChannelID, notification.build());
         } catch (Exception e){
             e.printStackTrace();
         }

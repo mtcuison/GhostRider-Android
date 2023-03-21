@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="10dp"
+    app:cardPreventCornerOverlap="true"
+    app:cardUseCompatPadding="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/imgAnnouncement"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="centerCrop"
+            android:adjustViewBounds="true"
+            app:shapeAppearanceOverlay="@style/RoundedImageView"
+            android:src="@drawable/img_guanzon_announcement_sample"
+            app:layout_constraintWidth_percent=".25"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/lbl_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Guanzon Festival"
+            android:textSize="16sp"
+            android:maxLines="3"
+            android:layout_marginTop="20dp"
+            android:layout_marginHorizontal="10dp"
+            android:fontFamily="@font/roboto_medium"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imgAnnouncement"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/lbl_messageBody"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:ellipsize="end"
+            android:fontFamily="@font/roboto_regular"
+            android:maxLines="2"
+            android:text="After a hiatus due to the Covid-19 pandemic, the Guanzon Festival is finally back on track!
+
+Guanzon Group of Companies has once again begun its back-to-back surprises games and awesome entertainment for everyone to rejoice in. An event as festive as you can imagine only happened in 3 phenomenal days!
+
+The first day of the event definitely gave a worthwhile entrance of the motorcade along with the different riders group all over Pangasinan. It was accompanied by the drum beaters who really gave out a lively performance for all the onlookers. This was followed by the opening ceremony which was led by Guanzon Group’s President, Mr. Guanson Y. Lo. A heartwarming message was also given by their industry partners: Yamaha’s President, Mr. Hiroshi Koike, Kawasaki’s Assistant to the President, Mr. Koji Nakamori, Suzuki’s President, Mr. Akira Utsumi, Honda’s President, Mr. Susumu Mitsuishi and the Municipal Admin of Calasiao, Ms. Roma Q. Macanlalay."
+            app:layout_constraintEnd_toEndOf="@+id/lbl_title"
+            app:layout_constraintStart_toStartOf="@+id/lbl_title"
+            app:layout_constraintTop_toBottomOf="@id/lbl_title" />
+
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/lbl_dateTime"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"
+            android:ellipsize="end"
+            android:fontFamily="@font/roboto_light"
+            android:maxLines="3"
+            android:text="March 1, 2023"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/lbl_messageBody"
+            app:layout_constraintTop_toBottomOf="@id/lbl_messageBody" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

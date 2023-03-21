@@ -22,6 +22,7 @@ import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.guanzongroup.documentscanner.Activity_DocumentScan;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Application;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_AreaPerformance;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_AreaPerformanceMonitoring;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_CashCountLog;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_CashCounter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Employee_Applications;
@@ -168,7 +169,7 @@ public class ChildObject {
                 loIntent = new Intent(context, Activity_Inventory.class);
                 break;
             case "branches performance info":
-                loIntent = new Intent(context, Activity_AreaPerformance.class);
+                loIntent = new Intent(context, Activity_AreaPerformanceMonitoring.class);
                 break;
             case "cash count":
                 loIntent = new Intent(context, Activity_CashCounter.class);
