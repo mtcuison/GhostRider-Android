@@ -153,6 +153,10 @@ public class AreaPerformance extends ABPM {
         return poDao.GetJobOrderPerformance();
     }
 
+    public LiveData<String> getAreaDescription(){
+        return poDao.getAreaDescription();
+    }
+
     public LiveData<List<EBranchPerformance>> GetTopBranchPerformerForMCSales(){
         return poDao.GetTopBranchPerformerForMCSales();
     }
@@ -188,4 +192,5 @@ public class AreaPerformance extends ABPM {
     public LiveData<List<DAreaPerformance.PeriodicPerformance>>GetJobOrderPeriodicPerformance(){
         return poDao.GetJobOrderPeriodicPerformance();
     }
+
 }

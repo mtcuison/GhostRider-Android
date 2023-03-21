@@ -20,9 +20,9 @@ import com.google.android.material.textview.MaterialTextView;
 
 import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.etc.MessageBox;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_AreaPerformanceMonitoring;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_CashCounter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Inventory;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Monitoring;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.adapter.NewsEventsAdapter;
 import org.rmj.guanzongroup.ghostrider.epacss.adapter.NewsEventsModel;
@@ -87,7 +87,7 @@ public class Fragment_Home_AH extends Fragment {
             Intent loIntent;
             @Override
             public void onClick(View view) {
-                loIntent = new Intent(getActivity(), Activity_Monitoring.class);
+                loIntent = new Intent(getActivity(), Activity_AreaPerformanceMonitoring.class);
                 startActivity(loIntent);
                 requireActivity().overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
             }

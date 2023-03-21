@@ -101,6 +101,7 @@ public class Fragment_AreaMonitor extends Fragment {
                     mViewModel.GetTopBranchPerformerForMCSales().observe(getViewLifecycleOwner(),  areaTopBranchbyMC -> {
                         try{
                             InitializeBranchList(areaTopBranchbyMC, tab.getPosition());
+
                         }catch (Exception e){
                             e.printStackTrace();
                         }

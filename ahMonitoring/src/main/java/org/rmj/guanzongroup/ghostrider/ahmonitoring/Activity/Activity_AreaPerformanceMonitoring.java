@@ -48,7 +48,7 @@ public class Activity_AreaPerformanceMonitoring extends AppCompatActivity {
     private String BranchNM;
     private LineChart linechart;
     private PieChart piechart;
-    private MaterialTextView lblNoDataAreaPerformance,lblNoDataBranchPerformance;
+    private MaterialTextView lblNoDataAreaPerformance,lblNoDataBranchPerformance, lblAreaNme;
     private TabLayout tabLayout;
     private ArrayList<Entry> poActual, poGoalxx;
     private int width, height;
@@ -66,10 +66,6 @@ public class Activity_AreaPerformanceMonitoring extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-//        Toolbar toolbar = findViewById(R.id.toolbar_monitoring);
-//        setSupportActionBar(toolbar);
-//        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
@@ -81,15 +77,33 @@ public class Activity_AreaPerformanceMonitoring extends AppCompatActivity {
         rvBranchPerformance = findViewById(R.id.recyclerview_branches_performance);
         lblNoDataAreaPerformance = findViewById(R.id.lbl_NO_data_for_area_performance);
         lblNoDataBranchPerformance = findViewById(R.id.lbl_NO_data_for_branch_performance);
+        lblAreaNme = findViewById(R.id.lbl_AreaCde);
         tabLayout = findViewById(R.id.tabLayout);
 
         tabLayout.addTab(tabLayout.newTab().setText("MC Sales"));
         tabLayout.addTab(tabLayout.newTab().setText("SP Sales"));
         tabLayout.addTab(tabLayout.newTab().setText("Job Order"));
 
+        initTablayout();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == android.R.id.home){
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void initTablayout(){
+        mViewModel.getAreaDescription().observe(Activity_AreaPerformanceMonitoring.this,  AreaNme -> {
+            lblAreaNme.setText(AreaNme);
+            Log.e("ito ung area mo", AreaNme);
+        });
+
         mViewModel.GetMCSalesBranchesPerformance().observe(Activity_AreaPerformanceMonitoring.this,  AreaPerforamancebyMC -> {
             try{
-                InitializeBranchList(AreaPerforamancebyMC);
+
                 InitializeBranchPerformanceList(AreaPerforamancebyMC);
             }catch (Exception e){
                 e.printStackTrace();
@@ -109,29 +123,19 @@ public class Activity_AreaPerformanceMonitoring extends AppCompatActivity {
         mViewModel.GetMCSalesPeriodicPerformance().observe(Activity_AreaPerformanceMonitoring.this, AreaMonitoringPerformancebyMC ->{
             try{
                 InitializeAreaList(AreaMonitoringPerformancebyMC);
+                InitializeLineGraph(AreaMonitoringPerformancebyMC);
             }catch (Exception e){
                 e.printStackTrace();
             }
         });
-        initTablayout();
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() == android.R.id.home){
-            finish();
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void initTablayout(){
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 if(tab.getPosition() == 0){
                     mViewModel.GetMCSalesBranchesPerformance().observe(Activity_AreaPerformanceMonitoring.this,  AreaPerforamancebyMC -> {
                         try{
-                            InitializeBranchList(AreaPerforamancebyMC);
+
                             InitializeBranchPerformanceList(AreaPerforamancebyMC);
                         }catch (Exception e){
                             e.printStackTrace();
@@ -147,6 +151,7 @@ public class Activity_AreaPerformanceMonitoring extends AppCompatActivity {
                     mViewModel.GetMCSalesPeriodicPerformance().observe(Activity_AreaPerformanceMonitoring.this, AreaMonitoringPerformancebyMC ->{
                         try{
                             InitializeAreaList(AreaMonitoringPerformancebyMC);
+                            InitializeLineGraph(AreaMonitoringPerformancebyMC);
                         }catch (Exception e){
                             e.printStackTrace();
                         }
@@ -154,7 +159,7 @@ public class Activity_AreaPerformanceMonitoring extends AppCompatActivity {
                 } else if (tab.getPosition() == 1) {
                     mViewModel.GetSPSalesBranchesPerformance().observe(Activity_AreaPerformanceMonitoring.this,  AreaPerforamancebySP -> {
                         try{
-                            InitializeBranchList(AreaPerforamancebySP);
+
                             InitializeBranchPerformanceList(AreaPerforamancebySP);
                         }catch (Exception e){
                             e.printStackTrace();
@@ -170,6 +175,7 @@ public class Activity_AreaPerformanceMonitoring extends AppCompatActivity {
                     mViewModel.GetSPSalesPeriodicPerformance().observe(Activity_AreaPerformanceMonitoring.this, AreaMonitoringPerformancebySP ->{
                         try{
                             InitializeAreaList(AreaMonitoringPerformancebySP);
+                            InitializeLineGraph(AreaMonitoringPerformancebySP);
                         }catch (Exception e){
                             e.printStackTrace();
                         }
@@ -177,7 +183,7 @@ public class Activity_AreaPerformanceMonitoring extends AppCompatActivity {
                 } else{
                     mViewModel.GetJobOrderBranchesPerformance().observe(Activity_AreaPerformanceMonitoring.this,  AreaPerforamancebyJO -> {
                         try{
-                            InitializeBranchList(AreaPerforamancebyJO);
+
                             InitializeBranchPerformanceList(AreaPerforamancebyJO);
                         }catch (Exception e){
                             e.printStackTrace();
@@ -194,6 +200,7 @@ public class Activity_AreaPerformanceMonitoring extends AppCompatActivity {
                     mViewModel.GetJobOrderPeriodicPerformance().observe(Activity_AreaPerformanceMonitoring.this, AreaMonitoringPerformancebyJO ->{
                         try{
                             InitializeAreaList(AreaMonitoringPerformancebyJO);
+                            InitializeLineGraph(AreaMonitoringPerformancebyJO);
                         }catch (Exception e){
                             e.printStackTrace();
                         }
@@ -211,7 +218,7 @@ public class Activity_AreaPerformanceMonitoring extends AppCompatActivity {
         });
     }
 
-    private void InitializeBranchList(List<DAreaPerformance.BranchPerformance> list){
+    private void InitializeLineGraph(List<DAreaPerformance.PeriodicPerformance> list){
         poActual = new ArrayList<>();
         poGoalxx = new ArrayList<>();
         for (int x = 0; x < list.size(); x++) {
@@ -267,16 +274,11 @@ public class Activity_AreaPerformanceMonitoring extends AppCompatActivity {
             if(args.contains("/")){
                 String[] rat = args.split("/");
                 loEntries.add(new PieEntry((float) Double.parseDouble(rat[0]), "Actual")); //Set actual performance
-//                loEntries.add(new PieEntry((float) Double.parseDouble(rat[1]), "Goal")); //Set goal
                 loEntries.add(new PieEntry((float) Double.parseDouble(rat[1])-(float) Double.parseDouble(rat[0]) , "Remaining Goal"));
             }
-//            loEntries.add(new PieEntry(80, "Actual")); //Set actual performance
-//            loEntries.add(new PieEntry(20, "Balance")); //Set goal
-//            loEntries.add(new PieEntry(100, "Goal")); //Set goal
 
             colors.add(Color.parseColor("#F47422"));
             colors.add(Color.parseColor("#1ED760"));
-//            colors.add(Color.parseColor("#ffffff"));
             PieDataSet pieDataSet = new PieDataSet(loEntries, "");
             pieDataSet.setValueTextSize(12f);
             pieDataSet.setColors(colors);
