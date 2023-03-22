@@ -75,7 +75,6 @@
                         android:id="@+id/cpi_mc_sales"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:progress="90"
                         app:indicatorDirectionCircular="clockwise"
                         app:indicatorSize="60dp"
                         app:layout_constraintStart_toStartOf="parent"
@@ -87,7 +86,6 @@
                         style="@style/TextAppearance.AppCompat.Large"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="90%"
                         app:layout_constraintBottom_toBottomOf="@+id/cpi_mc_sales"
                         app:layout_constraintEnd_toEndOf="@+id/cpi_mc_sales"
                         app:layout_constraintStart_toStartOf="@+id/cpi_mc_sales"
@@ -99,7 +97,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="15dp"
-                        android:text="98/132"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -137,7 +134,6 @@
                         android:id="@+id/cpi_jo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:progress="90"
                         app:indicatorDirectionCircular="clockwise"
                         app:indicatorSize="60dp"
                         app:layout_constraintStart_toStartOf="parent"
@@ -149,7 +145,6 @@
                         style="@style/TextAppearance.AppCompat.Large"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="90%"
                         app:layout_constraintBottom_toBottomOf="@+id/cpi_jo"
                         app:layout_constraintEnd_toEndOf="@+id/cpi_jo"
                         app:layout_constraintStart_toStartOf="@+id/cpi_jo"
@@ -173,7 +168,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="15dp"
-                        android:text="98/132"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -199,7 +193,6 @@
                         android:id="@+id/cpi_sp_sales"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:progress="90"
                         app:indicatorDirectionCircular="clockwise"
                         app:indicatorSize="60dp"
                         app:layout_constraintStart_toStartOf="parent"
@@ -211,7 +204,6 @@
                         style="@style/TextAppearance.AppCompat.Large"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="90%"
                         app:layout_constraintBottom_toBottomOf="@+id/cpi_sp_sales"
                         app:layout_constraintEnd_toEndOf="@+id/cpi_sp_sales"
                         app:layout_constraintStart_toStartOf="@+id/cpi_sp_sales"
@@ -234,7 +226,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="15dp"
-                        android:text="98/132"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>

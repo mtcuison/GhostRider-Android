@@ -14,6 +14,7 @@ import org.rmj.g3appdriver.dev.Database.DataAccessObject.DAreaPerformance;
 import org.rmj.g3appdriver.dev.Database.Entities.EAreaPerformance;
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchPerformance;
 import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
+import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.lib.BullsEye.ABPM;
 import org.rmj.g3appdriver.lib.BullsEye.PerformancePeriod;
@@ -55,19 +56,21 @@ public class AreaPerformance extends ABPM {
 //                message = "Your department code is not authorize to download branch performance info";
 //                return false;
 //            }
-//
-//            if(lsUserLvl != DeptCode.LEVEL_AREA_MANAGER ||
-//                    lsUserLvl != DeptCode.LEVEL_BRANCH_HEAD){
-//                message = "User is not authorize to download area/branch performance";
-//                return false;
-//            }
-//
+
+            if(!lsDeptIDx.equalsIgnoreCase(DeptCode.MANAGEMENT_INFORMATION_SYSTEM)) {
+                if (lsUserLvl != DeptCode.LEVEL_AREA_MANAGER ||
+                        lsUserLvl != DeptCode.LEVEL_BRANCH_HEAD) {
+                    message = "User is not authorize to download area/branch performance";
+                    return false;
+                }
+            }
+
             String lsAreaCode = poDao.GetAreaCode();
-//
-//            if(lsAreaCode == null){
-//                message = "Unable to retrieve area code. Please re-login account.";
-//                return false;
-//            }
+
+            if(lsAreaCode == null){
+                message = "Unable to retrieve area code. Please re-login account.";
+                return false;
+            }
 
             ArrayList<String> lsPeriod = PerformancePeriod.getList();
             for(int i = 0; i < lsPeriod.size(); i++){

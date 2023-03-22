@@ -116,9 +116,9 @@
             android:name=".Service.DataDownloadService"
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
-        <service
-            android:name=".Service.PerformanceImportService"
-            android:permission="android.permission.BIND_JOB_SERVICE" />
+<!--        <service-->
+<!--            android:name=".Service.PerformanceImportService"-->
+<!--            android:permission="android.permission.BIND_JOB_SERVICE" />-->
 
         <service android:name="org.rmj.guanzongroup.ghostrider.dailycollectionplan.Service.GLocatorService"
             android:foregroundServiceType="location"

@@ -13,6 +13,7 @@ import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DBranchPerformance;
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchPerformance;
 import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
+import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.lib.BullsEye.ABPM;
 import org.rmj.g3appdriver.lib.BullsEye.PerformancePeriod;
@@ -50,12 +51,14 @@ public class BranchPerformance extends ABPM {
 //                message = "Your department code is not authorize to download branch performance info";
 //                return false;
 //            }
-//
-//            if(lsUserLvl != DeptCode.LEVEL_AREA_MANAGER ||
-//                    lsUserLvl != DeptCode.LEVEL_BRANCH_HEAD){
-//                message = "Your user level is not authorize to download area/branch performance";
-//                return false;
-//            }
+
+            if(!lsDeptIDx.equalsIgnoreCase(DeptCode.MANAGEMENT_INFORMATION_SYSTEM)) {
+                if (lsUserLvl != DeptCode.LEVEL_AREA_MANAGER ||
+                        lsUserLvl != DeptCode.LEVEL_BRANCH_HEAD) {
+                    message = "User is not authorize to download area/branch performance";
+                    return false;
+                }
+            }
 
             String lsAreaCode = poDao.GetAreaCode();
 
