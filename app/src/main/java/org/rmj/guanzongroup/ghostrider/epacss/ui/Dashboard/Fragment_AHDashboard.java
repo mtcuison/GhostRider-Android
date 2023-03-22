@@ -13,12 +13,10 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import org.rmj.guanzongroup.ghostrider.Fragment.Fragment_PanaloContainer;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Etc.FragmentAdapter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_AreaMonitor;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_AreaPerformance_PieChart;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_SelfieLog;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.ui.home.Fragment_Home_AH;
-import org.rmj.guanzongroup.ghostrider.notifications.Fragment.Fragment_NotificationList;
 import org.rmj.guanzongroup.ghostrider.notifications.Fragment.Fragment_Notifications;
+import org.rmj.guanzongroup.petmanager.Fragment.Fragment_SelfieLog;
 
 /**
  * A simple {@link Fragment} subclass.

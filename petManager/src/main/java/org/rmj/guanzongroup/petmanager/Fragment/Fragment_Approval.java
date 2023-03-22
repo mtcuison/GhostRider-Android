@@ -37,10 +37,6 @@ public class Fragment_Approval extends Fragment {
     private ViewPager viewPager;
     private TabLayout tabLayout;
 
-    private int[] leave_tab = {
-            R.drawable.ic_application_leave,
-            R.drawable.ic_application_business_trip};
-
     public static Fragment_Approval newInstance() {
         return new Fragment_Approval();
     }
@@ -51,22 +47,6 @@ public class Fragment_Approval extends Fragment {
         mViewModel = new ViewModelProvider(this).get(VMFragmentApproval.class);
         view = inflater.inflate(R.layout.fragment_approval, container, false);
         setupWidgets();
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                tabLayout.getTabAt(tab.getPosition()).setIcon(leave_tab[tab.getPosition()]);
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-                tabLayout.getTabAt(tab.getPosition()).setIcon(leave_tab[tab.getPosition()]);
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
         return view;
     }
 
@@ -75,13 +55,11 @@ public class Fragment_Approval extends Fragment {
         tabLayout = view.findViewById(R.id.tabLayout_leave_ob_fragment_indicator);
 
         ActivityFragmentAdapter adapter = new ActivityFragmentAdapter(getChildFragmentManager());
-        adapter.addFragment(new Fragment_LeaveApproval());
-        adapter.addFragment(new Fragment_BusinessTripApproval());
-        adapter.addFragment(new Fragment_Employee_Applications());
+        adapter.addFragment(new Fragment_LeaveApproval(), "Leave");
+        adapter.addFragment(new Fragment_BusinessTripApproval(), "Business Trip");
+        adapter.addFragment(new Fragment_Employee_Applications(), "Your Applications");
         viewPager.setAdapter(adapter);
 
         tabLayout.setupWithViewPager(viewPager);
-        Objects.requireNonNull(tabLayout.getTabAt(0)).setIcon(leave_tab[0]);
-        Objects.requireNonNull(tabLayout.getTabAt(1)).setIcon(leave_tab[1]);
     }
 }

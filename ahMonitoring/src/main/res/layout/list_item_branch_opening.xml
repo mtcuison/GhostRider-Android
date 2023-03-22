@@ -10,48 +10,105 @@
   ~ project file last modified : 4/24/21 3:18 PM
   -->
 
-<com.google.android.material.card.MaterialCardView
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cardview_branchOpening"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardCornerRadius="5dp"
-    android:layout_margin="3dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/materialDivider"
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/shapeableImageView3"
+        app:layout_constraintEnd_toEndOf="@+id/shapeableImageView3"
+        app:layout_constraintStart_toStartOf="@+id/shapeableImageView3"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/shapeableImageView3"
+        app:layout_constraintStart_toStartOf="@+id/shapeableImageView3"
+        app:layout_constraintTop_toBottomOf="@+id/shapeableImageView3" />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/shapeableImageView3"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="5dp"
-        android:gravity="center">
+        android:scaleType="centerInside"
+        android:adjustViewBounds="true"
+        android:src="@drawable/ic_access_time"
+        android:layout_marginStart="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/lbl_list_branchName"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:fontFamily="@font/roboto_medium"
-            android:text="GMC Dagupan - HONDA"
-            android:maxLines="2"/>
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="10dp"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true"
+        app:layout_constraintWidth_percent=".9"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/lbl_list_openingTime"
-            android:layout_width="0dp"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight=".4"
-            android:fontFamily="@font/roboto_regular"
-            android:gravity="center"
-            android:text="8:00 AM"/>
+            android:padding="8dp">
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/lbl_list_timeOpened"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight=".4"
-            android:fontFamily="@font/roboto_regular"
-            android:gravity="end"
-            android:text="8:00 AM"/>
-    </LinearLayout>
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/lbl_list_branchName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
+                android:maxLines="2"
+                android:text="GMC Dagupan - HONDA"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toStartOf="@+id/lbl_list_openingTime"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-</com.google.android.material.card.MaterialCardView>
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/lbl_list_openingTime"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:gravity="center"
+                android:text="8:00 AM"
+                app:layout_constraintBottom_toBottomOf="@+id/lbl_list_branchName"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/lbl_list_branchName" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/materialTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:gravity="end"
+                android:text="Has opened at "
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/lbl_list_branchName"
+                app:layout_constraintTop_toBottomOf="@+id/lbl_list_branchName" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/lbl_list_timeOpened"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:gravity="end"
+                android:text="8:00 AM"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/materialTextView"
+                app:layout_constraintTop_toBottomOf="@+id/lbl_list_branchName" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

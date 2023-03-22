@@ -52,10 +52,16 @@ public class Adapter_Branch_Performance_Monitoring extends RecyclerView.Adapter<
 
     @Override
     public void onBindViewHolder(@NonNull ChartViewHolder holder, int position) {
-        DAreaPerformance.BranchPerformance loArea = BranchPerformances.get(position);
-        holder.lblPeriod.setText(loArea.sBranchNm);
-        holder.lblActual.setText(String.valueOf(Double.valueOf(loArea.nActualxx)));
-        holder.lblGoal.setText(String.valueOf(Double.valueOf(loArea.nGoalxxxx)));
+        DAreaPerformance.BranchPerformance loBranch = BranchPerformances.get(position);
+        holder.lblPeriod.setText(loBranch.sBranchNm);
+        holder.lblActual.setText(String.valueOf(Double.valueOf(loBranch.nActualxx)));
+        holder.lblGoal.setText(String.valueOf(Double.valueOf(loBranch.nGoalxxxx)));
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.OnClick(loBranch.sBranchCd, loBranch.sBranchNm);
+            }
+        });
     }
 
     @Override

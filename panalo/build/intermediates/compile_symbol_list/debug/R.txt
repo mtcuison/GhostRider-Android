@@ -2889,6 +2889,7 @@ int drawable background_no_record 0x0
 int drawable bg_badge_red 0x0
 int drawable bg_dashboard 0x0
 int drawable bg_gradient_light 0x0
+int drawable bg_icon 0x0
 int drawable bg_nav_header 0x0
 int drawable bg_samsungknox 0x0
 int drawable border_label 0x0
@@ -2929,8 +2930,11 @@ int drawable googleg_disabled_color_18 0x0
 int drawable googleg_standard_color_18 0x0
 int drawable guanzo_small_logo 0x0
 int drawable guanzon_panalo_banner 0x0
+int drawable ic_access_time 0x0
 int drawable ic_aftersales 0x0
+int drawable ic_application_business_trip 0x0
 int drawable ic_application_export 0x0
+int drawable ic_application_leave 0x0
 int drawable ic_arrow_back_black_24 0x0
 int drawable ic_baseline_add_24 0x0
 int drawable ic_baseline_anouncement 0x0

@@ -5,13 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     tools:context=".Adapter.Adapter_Area_Performance_Monitoring"
-    android:layout_margin="3dp">
+    app:cardUseCompatPadding="true"
+    app:cardPreventCornerOverlap="true"
+    app:cardCornerRadius="5dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:weightSum="3">
+        android:weightSum="3"
+        android:padding="5dp">
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lblMonth"

@@ -11,6 +11,7 @@
 
 package org.rmj.guanzongroup.ghostrider.epacss.ui.home;
 
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
@@ -20,6 +21,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,27 +46,38 @@ import com.google.android.material.divider.MaterialDivider;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.imageview.ShapeableImageView;
 
+import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeBusinessTrip;
+import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeLeave;
 import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
+import org.rmj.g3appdriver.lib.Notifications.data.SampleData;
 import org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_Main;
 import org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_SplashScreen;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMAHDashboard;
+import org.rmj.guanzongroup.ghostrider.notifications.Adapter.AdapterAnnouncements;
 import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_Settings;
+import org.rmj.guanzongroup.petmanager.Adapter.EmployeeApplicationAdapter;
 
 import static android.app.Activity.RESULT_OK;
 import static org.rmj.g3appdriver.etc.AppConstants.SETTINGS;
+
+import java.util.List;
 
 public class Fragment_Associate_Dashboard extends Fragment {
 
     private VMAHDashboard mViewModel;
 
+    private View view;
+
     private MaterialTextView lblFullNme,
             lblUserLvl,
             lblDept,
             lblVersion;
+
+    private RecyclerView rvCompnyAnouncemnt, rvLeaveApp, rvBusTripApp;
 
     public static Fragment_Associate_Dashboard newInstance() {
         return new Fragment_Associate_Dashboard();
@@ -74,21 +88,11 @@ public class Fragment_Associate_Dashboard extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_associate_dashboard, container, false);
-        lblFullNme = view.findViewById(R.id.lbl_userFullName);
-        lblUserLvl = view.findViewById(R.id.lbl_userLevel);
-        lblDept = view.findViewById(R.id.lbl_userDepartment);
-//        imgUser = view.findViewById(R.id.img_userLogo);
-        lblVersion = view.findViewById(R.id.lbl_versionInfo);
-
-        return view;
-    }
-
-    @SuppressLint({"UseCompatLoadingForDrawables", "SetTextI18n"})
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VMAHDashboard.class);
+        view = inflater.inflate(R.layout.fragment_associate_dashboard, container, false);
+
+        initWidgets();
+
 
         mViewModel.getVersionInfo().observe(getViewLifecycleOwner(), s -> lblVersion.setText(s));
 
@@ -122,16 +126,93 @@ public class Fragment_Associate_Dashboard extends Fragment {
                 e.printStackTrace();
             }
         });
+
+        initCompanyNotice();
+        initEmployeeApp();
+        return view;
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if(requestCode == SETTINGS){
-            if(resultCode == RESULT_OK) {
-                Intent loIntent = new Intent(getActivity(), Activity_Main.class);
-                requireActivity().finish();
-                startActivity(loIntent);
+    private void initWidgets(){
+        lblFullNme = view.findViewById(R.id.lbl_userFullName);
+        lblUserLvl = view.findViewById(R.id.lbl_userLevel);
+        lblDept = view.findViewById(R.id.lbl_userDepartment);
+        rvCompnyAnouncemnt = view.findViewById(R.id.rvCompnyAnouncemnt);
+        rvLeaveApp = view.findViewById(R.id.rvLeaveApp);
+        rvBusTripApp = view.findViewById(R.id.rvBusTripApp);
+//        imgUser = view.findViewById(R.id.img_userLogo);
+        lblVersion = view.findViewById(R.id.lbl_versionInfo);
+    }
+
+    private void initCompanyNotice(){
+        AdapterAnnouncements loAdapter = new AdapterAnnouncements(SampleData.GetAnnouncementList(), new AdapterAnnouncements.OnItemClickListener() {
+            @Override
+            public void OnClick(String args) {
+
             }
-        }
+        });
+        LinearLayoutManager loManager = new LinearLayoutManager(requireActivity());
+        loManager.setOrientation(RecyclerView.VERTICAL);
+        rvCompnyAnouncemnt.setLayoutManager(loManager);
+        rvCompnyAnouncemnt.setAdapter(loAdapter);
+    }
+
+    private void initEmployeeApp(){
+        mViewModel.GetLeaveForApproval().observe(requireActivity(), new Observer<List<EEmployeeLeave>>() {
+            @Override
+            public void onChanged(List<EEmployeeLeave> app) {
+                try{
+                    if(app == null){
+                        return;
+                    }
+
+                    if(app.size() == 0){
+                        return;
+                    }
+
+                    EmployeeApplicationAdapter loAdapter = new EmployeeApplicationAdapter(app, false, new EmployeeApplicationAdapter.OnLeaveItemClickListener() {
+                        @Override
+                        public void OnClick(String TransNox) {
+
+                        }
+                    });
+
+                    LinearLayoutManager loManager = new LinearLayoutManager(requireActivity());
+                    loManager.setOrientation(RecyclerView.VERTICAL);
+                    rvLeaveApp.setLayoutManager(loManager);
+                    rvLeaveApp.setAdapter(loAdapter);
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        mViewModel.GetOBForApproval().observe(requireActivity(), new Observer<List<EEmployeeBusinessTrip>>() {
+            @Override
+            public void onChanged(List<EEmployeeBusinessTrip> app) {
+                try{
+                    if(app == null){
+                        return;
+                    }
+
+                    if(app.size() == 0){
+                        return;
+                    }
+
+                    EmployeeApplicationAdapter loAdapter = new EmployeeApplicationAdapter(app, new EmployeeApplicationAdapter.OnOBItemClickListener() {
+                        @Override
+                        public void OnClick(String TransNox) {
+
+                        }
+                    });
+
+                    LinearLayoutManager loManager = new LinearLayoutManager(requireActivity());
+                    loManager.setOrientation(RecyclerView.VERTICAL);
+                    rvBusTripApp.setLayoutManager(loManager);
+                    rvBusTripApp.setAdapter(loAdapter);
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 }

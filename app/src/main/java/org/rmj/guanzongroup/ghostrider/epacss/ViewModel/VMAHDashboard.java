@@ -19,12 +19,18 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeBusinessTrip;
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeLeave;
 import org.rmj.g3appdriver.dev.Database.Entities.ESelfieLog;
 import org.rmj.g3appdriver.dev.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
+import org.rmj.g3appdriver.lib.PetManager.Obj.EmployeeLeave;
+import org.rmj.g3appdriver.lib.PetManager.Obj.EmployeeOB;
+import org.rmj.g3appdriver.lib.PetManager.PetManager;
+import org.rmj.g3appdriver.lib.PetManager.model.iPM;
 import org.rmj.g3appdriver.lib.SelfieLog.SelfieLog;
 
 import java.util.List;
@@ -32,7 +38,10 @@ import java.util.List;
 public class VMAHDashboard extends AndroidViewModel {
     private static final String TAG =  VMAHDashboard.class.getSimpleName();
 
+    private final Application instance;
+
     private final EmployeeMaster poEmployee;
+    private iPM poApp;
     private final RBranch pobranch;
 
     private final AppConfigPreference poConfigx;
@@ -41,6 +50,7 @@ public class VMAHDashboard extends AndroidViewModel {
 
     public VMAHDashboard(@NonNull Application application) {
         super(application);
+        this.instance = application;
         this.poEmployee = new EmployeeMaster(application);
         this.pobranch = new RBranch(application);
         this.poConfigx = AppConfigPreference.getInstance(application);
@@ -57,5 +67,15 @@ public class VMAHDashboard extends AndroidViewModel {
 
     public LiveData<EBranchInfo> getUserBranchInfo(){
         return pobranch.getUserBranchInfo();
+    }
+
+    public LiveData<List<EEmployeeLeave>> GetLeaveForApproval(){
+        this.poApp = new PetManager(instance).GetInstance(PetManager.ePetManager.LEAVE_APPLICATION);
+        return poApp.GetLeaveApplicationsForApproval();
+    }
+
+    public LiveData<List<EEmployeeBusinessTrip>> GetOBForApproval(){
+        this.poApp = new PetManager(instance).GetInstance(PetManager.ePetManager.BUSINESS_TRIP_APPLICATION);
+        return poApp.GetOBApplicationsForApproval();
     }
 }

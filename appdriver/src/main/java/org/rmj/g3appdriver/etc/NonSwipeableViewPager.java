@@ -9,7 +9,7 @@
  * project file last modified : 4/24/21 3:18 PM
  */
 
-package org.rmj.guanzongroup.ghostrider.ahmonitoring.Etc;
+package org.rmj.g3appdriver.etc;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

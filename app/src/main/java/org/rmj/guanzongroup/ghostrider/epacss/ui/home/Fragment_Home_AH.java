@@ -81,7 +81,7 @@ public class Fragment_Home_AH extends Fragment {
 
         rvBranchOpen = view.findViewById(R.id.rvBranchOpen);
         rvCompnyAnouncemnt = view.findViewById(R.id.rvCompnyAnouncemnt);
-        rvApplicaiton = view.findViewById(R.id.rvApplicaiton);
+        rvApplicaiton = view.findViewById(R.id.rvLeaveApp);
 
         initButton();
         initUserInfo();

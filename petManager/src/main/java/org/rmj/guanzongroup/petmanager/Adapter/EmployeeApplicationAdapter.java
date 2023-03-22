@@ -22,6 +22,7 @@ import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textview.MaterialTextView;
 
@@ -76,6 +77,7 @@ public class EmployeeApplicationAdapter extends RecyclerView.Adapter<EmployeeApp
         }
         if(poLeave != null) {
             EEmployeeLeave loLeave = poLeave.get(position);
+            holder.imgType.setImageResource(R.drawable.ic_application_leave);
             holder.lblTransNox.setText(loLeave.getTransNox());
             holder.lblEmplName.setText(loLeave.getEmployID());
             holder.lblDeptName.setText(loLeave.getDeptName());
@@ -84,7 +86,7 @@ public class EmployeeApplicationAdapter extends RecyclerView.Adapter<EmployeeApp
             holder.lblDateThru.setText(FormatUIText.formatGOCasBirthdate(loLeave.getDateThru()));
             holder.lblAppStats.setText(AppConstants.getLeaveStatus(loLeave.getTranStat()));
             holder.lblLeaveTpe.setText("Leave Type : " + LEAVE_TYPE[Integer.parseInt(loLeave.getLeaveTyp())]);
-            holder.txtPurpose.setText(loLeave.getPurposex());
+            holder.lblRemarksx.setText(loLeave.getPurposex());
             holder.itemView.setOnClickListener(v -> {
                 if(mLvListener != null){
                     mLvListener.OnClick(loLeave.getTransNox());
@@ -92,13 +94,14 @@ public class EmployeeApplicationAdapter extends RecyclerView.Adapter<EmployeeApp
             });
         } else if(poBusTrip != null){
             EEmployeeBusinessTrip loBusTrip = poBusTrip.get(position);
+            holder.imgType.setImageResource(R.drawable.ic_application_business_trip);
             holder.lblTransNox.setText(loBusTrip.getTransNox());
             holder.lblEmplName.setText(loBusTrip.getFullName());
             holder.lblDeptName.setText(loBusTrip.getDeptName());
             holder.lblBrnchNme.setText(loBusTrip.getBranchNm());
             holder.lblDateFrom.setText(FormatUIText.formatGOCasBirthdate(loBusTrip.getDateFrom()));
             holder.lblDateThru.setText(FormatUIText.formatGOCasBirthdate(loBusTrip.getDateThru()));
-            holder.txtPurpose.setText(loBusTrip.getRemarksx());
+            holder.lblRemarksx.setText(loBusTrip.getRemarksx());
             holder.itemView.setOnClickListener(v -> {
                 if(mObListener != null){
                     mObListener.OnClick(loBusTrip.getTransNox());
@@ -125,11 +128,12 @@ public class EmployeeApplicationAdapter extends RecyclerView.Adapter<EmployeeApp
                  lblDateFrom,
                  lblDateThru,
                  lblLeaveTpe,
-                 lblAppStats;
+                 lblAppStats,
+                 lblRemarksx;
 
         LinearLayout lnStatus;
 
-        TextInputEditText txtPurpose;
+        ShapeableImageView imgType;
 
         public ApplicationViewHolder(@NonNull View view) {
             super(view);
@@ -141,8 +145,9 @@ public class EmployeeApplicationAdapter extends RecyclerView.Adapter<EmployeeApp
             lblDateThru = view.findViewById(R.id.lbl_dateThru);
             lblLeaveTpe = view.findViewById(R.id.lbl_leaveType);
             lblAppStats = view.findViewById(R.id.lbl_leaveStatus);
-            txtPurpose = view.findViewById(R.id.txt_purpose);
+            lblRemarksx = view.findViewById(R.id.lbl_remarks);
             lnStatus = view.findViewById(R.id.linear_status);
+            imgType = view.findViewById(R.id.img_appType);
         }
     }
 }

@@ -9,12 +9,11 @@
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/shapeableImageView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="@dimen/header_background_image"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
         android:src="@drawable/bg_dashboard"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent=".35"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -57,7 +56,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/materialCardView" >
 
-        <org.rmj.guanzongroup.ghostrider.ahmonitoring.Etc.NonSwipeableViewPager
+        <org.rmj.g3appdriver.etc.NonSwipeableViewPager
             android:id="@+id/viewpager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>

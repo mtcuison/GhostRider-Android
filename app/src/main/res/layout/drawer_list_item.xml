@@ -21,8 +21,10 @@
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/lblListItem"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:fontFamily="@font/roboto_regular"
         android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"
         android:paddingTop="10dp"
         android:paddingBottom="10dp" />

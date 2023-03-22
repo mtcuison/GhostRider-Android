@@ -9,7 +9,7 @@
  * project file last modified : 9/16/21, 9:35 AM
  */
 
-package org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity;
+package org.rmj.guanzongroup.petmanager.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -32,21 +32,10 @@ import com.google.android.material.tabs.TabLayout;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_Approval;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_BusinessTripList;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_Employee_Applications;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_LeaveList;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMEmployeeApplications;
-
-import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.MaterialAutoCompleteTextView;
-import com.google.android.material.textfield.TextInputLayout;
-import com.google.android.material.textview.MaterialTextView;
-import com.google.android.material.divider.MaterialDivider;
+import org.rmj.guanzongroup.petmanager.Fragment.Fragment_BusinessTripList;
+import org.rmj.guanzongroup.petmanager.Fragment.Fragment_LeaveList;
+import org.rmj.guanzongroup.petmanager.R;
+import org.rmj.guanzongroup.petmanager.ViewModel.VMEmployeeApplications;
 
 import java.util.Objects;
 
@@ -55,11 +44,11 @@ public class Activity_Employee_Applications extends AppCompatActivity implements
     private VMEmployeeApplications mViewModel;
 
     private final String[] tabHeaders = {"Leave",
-                                    "Business Trip",
-                                    "History"};
+            "Business Trip",
+            "History"};
 
-    private MaterialTextView lblBrnchNm, lblBrnchAd, lblHeaderx;
-    private MaterialToolbar toolbar;
+    private TextView lblBrnchNm, lblBrnchAd, lblHeaderx;
+    private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
 
@@ -185,7 +174,7 @@ public class Activity_Employee_Applications extends AppCompatActivity implements
     private static class ApplicationsPageAdapter extends FragmentStatePagerAdapter {
 
         private final Fragment[] fragments = {new Fragment_LeaveList(),
-                                        new Fragment_BusinessTripList()};
+                new Fragment_BusinessTripList()};
         private final String[] titles = {"Leave", "Business Trip"};
 
         public ApplicationsPageAdapter(@NonNull FragmentManager fm) {

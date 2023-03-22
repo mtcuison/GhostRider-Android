@@ -10,7 +10,8 @@
   ~ project file last modified : 4/24/21 3:18 PM
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -19,60 +20,76 @@
     android:theme="@style/GhostRiderMaterialTheme"
     android:paddingHorizontal="5dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_list_logImagePreview"
+        style="@style/Widget.App.Button.OutlinedButton.IconOnly"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center">
+        android:adjustViewBounds="true"
+        app:icon="@drawable/ic_image_preview"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/lbl_list_BranchCD"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="M001"
-            android:fontFamily="@font/roboto_medium"
-            android:layout_weight=".4"/>
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="10dp"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btn_list_logImagePreview"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/lbl_list_logDate"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/roboto_medium"
-            android:layout_weight=".8"/>
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/lbl_list_logTime"
-            android:layout_width="0dp"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:fontFamily="@font/roboto_medium"
-            android:layout_weight=".8"/>
+            android:orientation="horizontal"
+            android:padding="10dp">
 
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/lbl_list_logTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="13:00:07"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="center"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/lbl_list_logStatus"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Uploaded"
-            android:fontFamily="@font/roboto_medium"
-            android:gravity="end"
-            android:layout_weight=".7"
-            android:layout_marginRight="5dp"/>
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/lbl_list_BranchCD"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:text="M001"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_list_logImagePreview"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:icon ="@drawable/ic_image_preview"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:adjustViewBounds="true"
-            android:layout_weight=".25"/>
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/lbl_list_logDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:text="March 22, 2023"
+                app:layout_constraintStart_toStartOf="@+id/lbl_list_logTime"
+                app:layout_constraintTop_toBottomOf="@+id/lbl_list_logTime"/>
 
-    </LinearLayout>
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/lbl_list_logStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="end"
+                android:text="Uploaded"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
 
-    <com.google.android.material.divider.MaterialDivider
-        android:layout_width="match_parent"
-        android:layout_height="1.5dp"
-        android:background="@color/guanzon_orange"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-</LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

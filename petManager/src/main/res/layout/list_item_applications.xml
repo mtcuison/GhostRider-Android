@@ -12,44 +12,114 @@
 <com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:theme="@style/GhostRiderMaterialTheme"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardElevation="3dp"
     app:cardUseCompatPadding="true"
-    app:cardCornerRadius="5dp"
-    app:cardMaxElevation="5dp"
+    app:cardCornerRadius="10dp"
     app:cardPreventCornerOverlap="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/img_appType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_icon"
+            android:scaleType="center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/lbl_employeeName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:fontFamily="@font/roboto_bold"
+            android:gravity="center_vertical"
+            android:text="Doe, John"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toStartOf="@+id/lbl_transNox"
+            app:layout_constraintStart_toEndOf="@+id/img_appType"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/lbl_transNox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_medium"
+            android:text="M13923000010"
+            app:layout_constraintBottom_toBottomOf="@+id/lbl_employeeName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/lbl_employeeName" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/materialTextView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/roboto_regular"
+            android:gravity="center_vertical"
+            android:text="Date : "
+            app:layout_constraintStart_toStartOf="@+id/lbl_employeeName"
+            app:layout_constraintTop_toBottomOf="@id/lbl_employeeName" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/lbl_dateFrom"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_regular"
+            android:text="Septempter 3, 2022"
+            app:layout_constraintBottom_toBottomOf="@+id/materialTextView3"
+            app:layout_constraintStart_toEndOf="@+id/materialTextView3"
+            app:layout_constraintTop_toTopOf="@+id/materialTextView3" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/materialTextView4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_regular"
+            android:gravity="center_vertical"
+            android:text=" - "
+            app:layout_constraintBottom_toBottomOf="@+id/lbl_dateFrom"
+            app:layout_constraintStart_toEndOf="@+id/lbl_dateFrom"
+            app:layout_constraintTop_toTopOf="@+id/lbl_dateFrom" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/lbl_dateThru"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_regular"
+            android:text="Septempter. 3, 2022"
+            app:layout_constraintBottom_toBottomOf="@+id/materialTextView4"
+            app:layout_constraintStart_toEndOf="@+id/materialTextView4"
+            app:layout_constraintTop_toTopOf="@+id/materialTextView4" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/lbl_remarks"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:ellipsize="end"
+            android:fontFamily="@font/roboto_regular"
+            android:maxLines="1"
+            android:text="Bumyahe ng sobrang malayong malayo Bumyahe ng sobrang malayong malayo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/materialTextView3"
+            app:layout_constraintTop_toBottomOf="@+id/materialTextView3" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:visibility="gone"
         android:padding="5dp">
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/lbl_transNox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="TransNox . :"
-            android:textSize="16sp"
-            android:fontFamily="@font/roboto_medium"/>
-
-        <com.google.android.material.divider.MaterialDivider
-            android:layout_width="match_parent"
-            android:layout_height="1dp"/>
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/lbl_employeeName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawablePadding="5dp"
-            android:fontFamily="@font/roboto_bold"
-            android:gravity="center_vertical"
-            android:layout_marginTop="10dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:drawableLeft="@drawable/ic_collection_client" />
-
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lbl_deptNme"
@@ -97,59 +167,6 @@
                 android:background="@drawable/bg_leavecredits"/>
         </LinearLayout>
 
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="5dp">
-
-            <com.google.android.material.textview.MaterialTextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight=".9"
-                android:text="Applied date from :"
-                android:fontFamily="@font/roboto_medium"
-                android:drawablePadding="5dp"
-                android:gravity="center_vertical"
-                app:drawableStartCompat="@android:drawable/ic_menu_my_calendar"
-                app:drawableLeftCompat="@android:drawable/ic_menu_my_calendar" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/lbl_dateFrom"
-                android:layout_width="0dp"
-                android:layout_height="fill_parent"
-                android:layout_weight="1"
-                android:gravity="end|center_vertical"
-                android:fontFamily="@font/roboto_bold"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="5dp">
-
-            <com.google.android.material.textview.MaterialTextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight=".9"
-                android:text="Applied date thru :"
-                android:fontFamily="@font/roboto_medium"
-                android:drawablePadding="5dp"
-                android:gravity="center_vertical"
-                app:drawableStartCompat="@android:drawable/ic_menu_my_calendar"
-                app:drawableLeftCompat="@android:drawable/ic_menu_my_calendar" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/lbl_dateThru"
-                android:layout_width="0dp"
-                android:layout_height="fill_parent"
-                android:layout_weight="1"
-                android:gravity="end|center_vertical"
-                android:fontFamily="@font/roboto_bold"/>
-        </LinearLayout>
-
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilRemarks"
             android:layout_width="fill_parent"
@@ -170,6 +187,7 @@
                 android:lines="10"
                 android:maxLength="50"
                 android:minLines="3"/>
+
         </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>

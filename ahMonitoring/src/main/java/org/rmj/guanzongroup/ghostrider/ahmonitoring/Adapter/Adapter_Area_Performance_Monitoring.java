@@ -42,6 +42,12 @@ public class Adapter_Area_Performance_Monitoring extends RecyclerView.Adapter<Ad
 //        Log.e("PERIOD NAME", PerformancePeriod.getPeriodText());
         holder.lblActual.setText(String.valueOf(Double.valueOf(loArea.nActualxx)));
         holder.lblGoal.setText(String.valueOf(Double.valueOf(loArea.nGoalxxxx)));
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     @Override

@@ -407,7 +407,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/rvCompnyAnouncemnt" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvApplicaiton"
+                android:id="@+id/rvLeaveApp"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"

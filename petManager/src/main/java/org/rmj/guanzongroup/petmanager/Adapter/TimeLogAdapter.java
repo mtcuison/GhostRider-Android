@@ -24,8 +24,11 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
 
 import org.rmj.g3appdriver.dev.Database.Entities.ESelfieLog;
+import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.guanzongroup.petmanager.R;
 
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.List;
 
 public class TimeLogAdapter extends RecyclerView.Adapter<TimeLogAdapter.TimeLogViewHolder> {
@@ -56,8 +59,8 @@ public class TimeLogAdapter extends RecyclerView.Adapter<TimeLogAdapter.TimeLogV
         try {
             holder.logSelfie = selfieLogList.get(position);
             String[] dTime = selfieLogList.get(position).getLogTimex().split(" ");
-            holder.lblDateLog.setText(dTime[0]);
-            holder.lblTimeLog.setText(dTime[1]);
+            holder.lblDateLog.setText(FormatUIText.formatGOCasBirthdate(dTime[0]));
+            holder.lblTimeLog.setText(FormatUIText.HHMMSS_TO_HHMMA_12(dTime[1]));
             if(selfieLogList.get(position).getBranchCd() != null) {
                 holder.lblBranchCD.setText(selfieLogList.get(position).getBranchCd());
             } else {

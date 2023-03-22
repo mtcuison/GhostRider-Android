@@ -21,7 +21,7 @@ android {
 
     defaultConfig {
         applicationId "org.rmj.guanzongroup.ghostrider.epacss"
-        minSdkVersion 21
+        minSdkVersion 24
         targetSdkVersion 33
         versionCode 48
         versionName "Build Version v.2.13.048 b"
@@ -110,14 +110,11 @@ dependencies {
     implementation project(path: ':approvalCode')
     implementation project(path: ':panalo')
     implementation project(path: ':notifications')
-//    implementation project(path: ':imgCapture')
-//    implementation project(path: ':griderScanner')
     implementation project(path: ':dailyCollectionPlan')
     implementation project(path: ':dataChecker')
-
-//    implementation project(path: ':griderScanner')
     implementation project(path: ':itinerary')
     implementation project(path: ':appDriver')
+    implementation project(path: ':petManager')
     implementation project(':settings')
     implementation project(':creditApp')
     implementation project(':creditEvaluation')

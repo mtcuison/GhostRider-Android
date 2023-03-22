@@ -17,7 +17,6 @@ import static org.rmj.g3appdriver.dev.PositionCode.Positions;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.app.Activity;
@@ -27,9 +26,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
@@ -50,6 +47,7 @@ public class Activity_Developer extends AppCompatActivity {
     private Spinner spnLevl;
     private AutoCompleteTextView txtDept, txtPost;
     private MaterialButton btnSave, btnRestore;
+    private SwitchMaterial smTestMode;
 
     private EEmployeeInfo poInfo;
 
@@ -64,6 +62,7 @@ public class Activity_Developer extends AppCompatActivity {
         txtDept = findViewById(R.id.txt_department);
         txtPost = findViewById(R.id.txt_position);
         btnSave = findViewById(R.id.btn_Save);
+        smTestMode = findViewById(R.id.sm_TestMode);
 
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);

@@ -50,6 +50,7 @@ import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.etc.OnInitializeCameraCallback;
 import org.rmj.g3appdriver.lib.SelfieLog.SelfieLog;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_CashCounter;
 import org.rmj.guanzongroup.petmanager.Adapter.TimeLogAdapter;
 import org.rmj.guanzongroup.petmanager.Dialog.DialogBranchSelection;
 import org.rmj.guanzongroup.petmanager.Dialog.DialogSelfieLogRemarks;

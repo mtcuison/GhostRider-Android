@@ -18,7 +18,7 @@
     android:background="@drawable/bg_gradient_light"
     tools:context=".Activity.Activity_BranchPerformance">
 
-    <org.rmj.guanzongroup.ghostrider.ahmonitoring.Etc.NonSwipeableViewPager
+    <org.rmj.g3appdriver.etc.NonSwipeableViewPager
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

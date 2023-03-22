@@ -22,12 +22,9 @@ import android.view.MenuItem;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.textfield.*;
 
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Etc.FragmentAdapter;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Etc.NonSwipeableViewPager;
+import org.rmj.g3appdriver.etc.NonSwipeableViewPager;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_AreaPerformance_BarChart;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_AreaPerformance_LineChart;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_AreaPerformance_PieChart;

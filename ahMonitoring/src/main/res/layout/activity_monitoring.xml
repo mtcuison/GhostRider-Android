@@ -67,7 +67,7 @@
                     app:cardElevation="5dp"
                     app:cardMaxElevation="10dp">
 
-                    <org.rmj.guanzongroup.ghostrider.ahmonitoring.Etc.NonSwipeableViewPager
+                    <org.rmj.g3appdriver.etc.NonSwipeableViewPager
                         android:id="@+id/viewpager_monitoring"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />

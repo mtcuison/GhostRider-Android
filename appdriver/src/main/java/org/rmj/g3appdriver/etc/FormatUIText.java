@@ -188,6 +188,16 @@ public class FormatUIText {
         return "";
     }
 
+    public static String HHMMSS_TO_HHMMA_12(String date){
+        try{
+            Date parseDate = new SimpleDateFormat("HH:mm:ss").parse(date);
+            return new SimpleDateFormat("hh:mm a").format(parseDate);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return "";
+    }
+
     public static String getCurrencyUIFormat(String price){
         String lsResult = "₱ 0.00";
         try {
