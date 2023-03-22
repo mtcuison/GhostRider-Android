@@ -945,6 +945,22 @@ int attr percentWidth 0x0
 int attr percentX 0x0
 int attr percentY 0x0
 int attr perpendicularPath_percent 0x0
+int attr piv_animationDuration 0x0
+int attr piv_animationType 0x0
+int attr piv_autoVisibility 0x0
+int attr piv_count 0x0
+int attr piv_dynamicCount 0x0
+int attr piv_interactiveAnimation 0x0
+int attr piv_orientation 0x0
+int attr piv_padding 0x0
+int attr piv_radius 0x0
+int attr piv_rtl_mode 0x0
+int attr piv_scaleFactor 0x0
+int attr piv_select 0x0
+int attr piv_selectedColor 0x0
+int attr piv_strokeWidth 0x0
+int attr piv_unselectedColor 0x0
+int attr piv_viewPager 0x0
 int attr pivotAnchor 0x0
 int attr placeholderText 0x0
 int attr placeholderTextAppearance 0x0
@@ -1036,6 +1052,25 @@ int attr singleChoiceItemLayout 0x0
 int attr singleLine 0x0
 int attr singleSelection 0x0
 int attr sizePercent 0x0
+int attr sliderAnimationDuration 0x0
+int attr sliderAutoCycleDirection 0x0
+int attr sliderAutoCycleEnabled 0x0
+int attr sliderIndicatorAnimationDuration 0x0
+int attr sliderIndicatorEnabled 0x0
+int attr sliderIndicatorGravity 0x0
+int attr sliderIndicatorMargin 0x0
+int attr sliderIndicatorMarginBottom 0x0
+int attr sliderIndicatorMarginLeft 0x0
+int attr sliderIndicatorMarginRight 0x0
+int attr sliderIndicatorMarginTop 0x0
+int attr sliderIndicatorOrientation 0x0
+int attr sliderIndicatorPadding 0x0
+int attr sliderIndicatorRadius 0x0
+int attr sliderIndicatorRtlMode 0x0
+int attr sliderIndicatorSelectedColor 0x0
+int attr sliderIndicatorUnselectedColor 0x0
+int attr sliderScrollTimeInSec 0x0
+int attr sliderStartAutoCycle 0x0
 int attr sliderStyle 0x0
 int attr snackbarButtonStyle 0x0
 int attr snackbarStyle 0x0
@@ -1331,6 +1366,7 @@ int color abc_decor_view_status_guard 0x0
 int color abc_decor_view_status_guard_light 0x0
 int color abc_hint_foreground_material_dark 0x0
 int color abc_hint_foreground_material_light 0x0
+int color abc_input_method_navigation_guard 0x0
 int color abc_primary_text_disable_only_material_dark 0x0
 int color abc_primary_text_disable_only_material_light 0x0
 int color abc_primary_text_material_dark 0x0
@@ -2183,6 +2219,7 @@ int dimen emui_master_subtitle 0x0
 int dimen fastscroll_default_thickness 0x0
 int dimen fastscroll_margin 0x0
 int dimen fastscroll_minimum_range 0x0
+int dimen header_background_image 0x0
 int dimen highlight_alpha_material_colored 0x0
 int dimen highlight_alpha_material_dark 0x0
 int dimen highlight_alpha_material_light 0x0
@@ -2907,6 +2944,7 @@ int drawable ic_baseline_payslip 0x0
 int drawable ic_baseline_payslip_badge 0x0
 int drawable ic_baseline_performance_monitor 0x0
 int drawable ic_baseline_selfie 0x0
+int drawable ic_broken_image_24 0x0
 int drawable ic_btn_delete 0x0
 int drawable ic_camera_black_24 0x0
 int drawable ic_clear_black_24 0x0
@@ -2927,6 +2965,7 @@ int drawable ic_guanzon_logo 0x0
 int drawable ic_hcm 0x0
 int drawable ic_home_dashboard 0x0
 int drawable ic_home_notification 0x0
+int drawable ic_image_place_holder 0x0
 int drawable ic_image_preview 0x0
 int drawable ic_img_empty_list 0x0
 int drawable ic_keyboard_black_24dp 0x0
@@ -3169,6 +3208,7 @@ int id auto 0x0
 int id autoComplete 0x0
 int id autoCompleteToEnd 0x0
 int id autoCompleteToStart 0x0
+int id back_and_forth 0x0
 int id barrier 0x0
 int id baseline 0x0
 int id bestChoice 0x0
@@ -3198,6 +3238,7 @@ int id circle_center 0x0
 int id clear_text 0x0
 int id clockwise 0x0
 int id closest 0x0
+int id color 0x0
 int id compress 0x0
 int id confirm_button 0x0
 int id constraint 0x0
@@ -3240,6 +3281,7 @@ int id dragLeft 0x0
 int id dragRight 0x0
 int id dragStart 0x0
 int id dragUp 0x0
+int id drop 0x0
 int id dropdown_menu 0x0
 int id easeIn 0x0
 int id easeInOut 0x0
@@ -3270,6 +3312,7 @@ int id frost 0x0
 int id fullscreen_header 0x0
 int id ghost_view 0x0
 int id ghost_view_holder 0x0
+int id glide_custom_view_target_tag 0x0
 int id gone 0x0
 int id group_divider 0x0
 int id header_title 0x0
@@ -3278,6 +3321,7 @@ int id hms_progress_bar 0x0
 int id hms_progress_text 0x0
 int id home 0x0
 int id honorRequest 0x0
+int id horizontal 0x0
 int id horizontal_only 0x0
 int id hybrid 0x0
 int id icon 0x0
@@ -3438,6 +3482,7 @@ int id save_non_transition_alpha 0x0
 int id save_overlay_view 0x0
 int id sawtooth 0x0
 int id scale 0x0
+int id scale_down 0x0
 int id screen 0x0
 int id scrollIndicatorDown 0x0
 int id scrollIndicatorUp 0x0
@@ -3504,6 +3549,7 @@ int id stop 0x0
 int id stretch 0x0
 int id submenuarrow 0x0
 int id submit_area 0x0
+int id swap 0x0
 int id tabLayout 0x0
 int id tabMode 0x0
 int id tag_accessibility_actions 0x0
@@ -3534,6 +3580,7 @@ int id textinput_helper_text 0x0
 int id textinput_placeholder 0x0
 int id textinput_prefix_text 0x0
 int id textinput_suffix_text 0x0
+int id thinWorm 0x0
 int id third_app_dl_progress_text 0x0
 int id third_app_dl_progressbar 0x0
 int id third_app_warn_text 0x0
@@ -3557,6 +3604,7 @@ int id unlabeled 0x0
 int id up 0x0
 int id version_layout 0x0
 int id version_textview 0x0
+int id vertical 0x0
 int id vertical_only 0x0
 int id view 0x0
 int id view_midBorder 0x0
@@ -3572,6 +3620,7 @@ int id west 0x0
 int id wide 0x0
 int id with_icon 0x0
 int id withinBounds 0x0
+int id worm 0x0
 int id wrap 0x0
 int id wrap_content 0x0
 int id wrap_content_constrained 0x0
@@ -3811,6 +3860,18 @@ int string abc_activity_chooser_view_see_all 0x0
 int string abc_activitychooserview_choose_application 0x0
 int string abc_capital_off 0x0
 int string abc_capital_on 0x0
+int string abc_font_family_body_1_material 0x0
+int string abc_font_family_body_2_material 0x0
+int string abc_font_family_button_material 0x0
+int string abc_font_family_caption_material 0x0
+int string abc_font_family_display_1_material 0x0
+int string abc_font_family_display_2_material 0x0
+int string abc_font_family_display_3_material 0x0
+int string abc_font_family_display_4_material 0x0
+int string abc_font_family_headline_material 0x0
+int string abc_font_family_menu_material 0x0
+int string abc_font_family_subhead_material 0x0
+int string abc_font_family_title_material 0x0
 int string abc_menu_alt_shortcut_label 0x0
 int string abc_menu_ctrl_shortcut_label 0x0
 int string abc_menu_delete_shortcut_label 0x0
@@ -4427,6 +4488,7 @@ int style Platform_Widget_AppCompat_Spinner 0x0
 int style PopupAnimation 0x0
 int style PrimaryHeaderStyle 0x0
 int style Regular_Label 0x0
+int style RoundedImageView 0x0
 int style RtlOverlay_DialogWindowTitle_AppCompat 0x0
 int style RtlOverlay_Widget_AppCompat_ActionBar_TitleItem 0x0
 int style RtlOverlay_Widget_AppCompat_DialogTitle_Icon 0x0
@@ -6904,6 +6966,23 @@ int styleable OnSwipe_springStopThreshold 15
 int styleable OnSwipe_touchAnchorId 16
 int styleable OnSwipe_touchAnchorSide 17
 int styleable OnSwipe_touchRegionId 18
+int[] styleable PageIndicatorView { 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0 }
+int styleable PageIndicatorView_piv_animationDuration 0
+int styleable PageIndicatorView_piv_animationType 1
+int styleable PageIndicatorView_piv_autoVisibility 2
+int styleable PageIndicatorView_piv_count 3
+int styleable PageIndicatorView_piv_dynamicCount 4
+int styleable PageIndicatorView_piv_interactiveAnimation 5
+int styleable PageIndicatorView_piv_orientation 6
+int styleable PageIndicatorView_piv_padding 7
+int styleable PageIndicatorView_piv_radius 8
+int styleable PageIndicatorView_piv_rtl_mode 9
+int styleable PageIndicatorView_piv_scaleFactor 10
+int styleable PageIndicatorView_piv_select 11
+int styleable PageIndicatorView_piv_selectedColor 12
+int styleable PageIndicatorView_piv_strokeWidth 13
+int styleable PageIndicatorView_piv_unselectedColor 14
+int styleable PageIndicatorView_piv_viewPager 15
 int[] styleable PopupWindow { 0x10102c9, 0x1010176, 0x0 }
 int styleable PopupWindow_android_popupAnimationStyle 0
 int styleable PopupWindow_android_popupBackground 1
@@ -7042,6 +7121,26 @@ int styleable Slider_trackColor 19
 int styleable Slider_trackColorActive 20
 int styleable Slider_trackColorInactive 21
 int styleable Slider_trackHeight 22
+int[] styleable SliderView { 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0 }
+int styleable SliderView_sliderAnimationDuration 0
+int styleable SliderView_sliderAutoCycleDirection 1
+int styleable SliderView_sliderAutoCycleEnabled 2
+int styleable SliderView_sliderIndicatorAnimationDuration 3
+int styleable SliderView_sliderIndicatorEnabled 4
+int styleable SliderView_sliderIndicatorGravity 5
+int styleable SliderView_sliderIndicatorMargin 6
+int styleable SliderView_sliderIndicatorMarginBottom 7
+int styleable SliderView_sliderIndicatorMarginLeft 8
+int styleable SliderView_sliderIndicatorMarginRight 9
+int styleable SliderView_sliderIndicatorMarginTop 10
+int styleable SliderView_sliderIndicatorOrientation 11
+int styleable SliderView_sliderIndicatorPadding 12
+int styleable SliderView_sliderIndicatorRadius 13
+int styleable SliderView_sliderIndicatorRtlMode 14
+int styleable SliderView_sliderIndicatorSelectedColor 15
+int styleable SliderView_sliderIndicatorUnselectedColor 16
+int styleable SliderView_sliderScrollTimeInSec 17
+int styleable SliderView_sliderStartAutoCycle 18
 int[] styleable Snackbar { 0x0, 0x0, 0x0 }
 int styleable Snackbar_snackbarButtonStyle 0
 int styleable Snackbar_snackbarStyle 1

@@ -36,4 +36,18 @@ public class TestPanaloRaffleDrawSender {
                 lsMessage);
         assertTrue(isSuccess);
     }
+
+    @Test
+    public void test03SendBranchOpeningNotification() {
+        String lsApp = "gRider";
+        String lsUser = "GAP021002961";
+        String lsTitle = "Branch Opening";
+        String lsMessage = "LGK Tarlac - Honda has opened.";
+
+        boolean isSuccess = PanaloNotificationSender.SendSystemBranchOpeningNotification(lsApp,
+                lsUser,
+                lsTitle,
+                lsMessage);
+        assertTrue(isSuccess);
+    }
 }

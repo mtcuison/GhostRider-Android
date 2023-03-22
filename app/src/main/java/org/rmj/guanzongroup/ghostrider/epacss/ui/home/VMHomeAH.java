@@ -112,7 +112,7 @@ public class VMHomeAH extends AndroidViewModel {
     }
 
     public LiveData<List<DBranchOpeningMonitor.BranchOpeningInfo>> getBranchOpeningInfoForDashBoard(){
-        return poOpening.getBranchOpeningInfoForDashBoard(AppConstants.CURRENT_DATE);
+        return poOpening.GetBranchOpeningForDashboard(AppConstants.CURRENT_DATE);
     }
 
     public LiveData<String> getBranchAreaCode(String fsBranchCd) {

@@ -1,6 +1,7 @@
 package org.rmj.g3appdriver.lib.Notifications.Obj.Receiver;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
@@ -9,6 +10,7 @@ import com.google.firebase.messaging.RemoteMessage;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DNotifications;
+import org.rmj.g3appdriver.dev.Database.Entities.EBranchOpenMonitor;
 import org.rmj.g3appdriver.dev.Database.Entities.ENotificationMaster;
 import org.rmj.g3appdriver.dev.Database.Entities.ENotificationRecipient;
 import org.rmj.g3appdriver.dev.Database.Entities.ENotificationUser;
@@ -81,6 +83,25 @@ public class NMM_Regular implements iNotification {
                 poDao.insert(loRecpnt);
                 if(poDao.CheckIfUserExist(loParser.getValueOf("srceid")) == null){
                     poDao.insert(loUser);
+                }
+
+
+                String lsData = loParser.getValueOf("infox");
+
+                JSONObject loJson = new JSONObject(lsData);
+
+                String lsModule = loJson.getString("module");
+
+                switch (lsModule){
+                    case "00001":
+//                        SaveTableUpdate(lsData);
+                        Log.e(TAG, "No corresponding function for module 00001");
+                        break;
+                    case "00002":
+                        SaveBranchOpening(lsData);
+                        break;
+                    default:
+                        break;
                 }
             }
             return lsMesgIDx;
@@ -203,5 +224,23 @@ public class NMM_Regular implements iNotification {
             e.printStackTrace();
         }
         return lsUniqIDx;
+    }
+
+    private boolean SaveBranchOpening(String args){
+        try{
+            JSONObject loJson = new JSONObject(args);
+            JSONObject loData = loJson.getJSONObject("data");
+            EBranchOpenMonitor loDetail = new EBranchOpenMonitor();
+            loDetail.setBranchCD(loData.getString("sBranchCD"));
+            loDetail.setTransact(loData.getString("dTransact"));
+            loDetail.setTimeOpen(loData.getString("sTimeOpen"));
+            loDetail.setOpenNowx(loData.getString("sOpenNowx"));
+            poDao.SaveBranchOpening(loDetail);
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
     }
 }

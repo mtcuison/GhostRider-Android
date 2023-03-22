@@ -10,7 +10,7 @@ import org.rmj.guanzongroup.ghostrider.notifications.Notifications.InquiryNotifi
 import org.rmj.guanzongroup.ghostrider.notifications.Notifications.MPOrderNotification;
 import org.rmj.guanzongroup.ghostrider.notifications.Notifications.Panalo.PanaloNotification;
 import org.rmj.guanzongroup.ghostrider.notifications.Notifications.PromoNotification;
-import org.rmj.guanzongroup.ghostrider.notifications.Notifications.RegularNotification;
+import org.rmj.guanzongroup.ghostrider.notifications.Notifications.Regular.RegularNotification;
 import org.rmj.guanzongroup.ghostrider.notifications.Notifications.ReviewNotification;
 import org.rmj.guanzongroup.ghostrider.notifications.Notifications.TableUpdateNotification;
 
