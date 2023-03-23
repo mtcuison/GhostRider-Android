@@ -10,7 +10,7 @@ import org.rmj.guanzongroup.ghostrider.R;
 public class DialogRaffleStart {
     public DialogRaffleStart(Context context){
         AlertDialog.Builder poBuilder = new AlertDialog.Builder(context);
-        View view = LayoutInflater.from(context).inflate(R.layout.dialog_qr_redeem, null);
+        View view = LayoutInflater.from(context).inflate(R.layout.dialog_raffle_start, null);
         poBuilder.setCancelable(false)
                 .setView(view);
 //        poDialog = poBuilder.create();

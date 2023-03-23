@@ -8,17 +8,18 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DBranchOpeningMonitor_Impl;
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeBusinessTrip;
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
-
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeLeave;
+import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.lib.BullsEye.obj.AreaPerformance;
+import org.rmj.g3appdriver.lib.Notifications.Obj.BranchOpeningMonitor;
 import org.rmj.g3appdriver.lib.PetManager.OnCheckEmployeeApplicationListener;
 import org.rmj.g3appdriver.lib.PetManager.PetManager;
 import org.rmj.g3appdriver.lib.PetManager.model.iPM;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
-import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMAssociateDashboard;
 
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class VMHomeAH extends AndroidViewModel {
     private final EmployeeMaster poEmploye;
     private final AreaPerformance poSys;
     private final ConnectionUtil poConn;
-
+    private final BranchOpeningMonitor poOpening;
     private iPM poApp;
 
     public VMHomeAH(@NonNull Application application) {
@@ -38,6 +39,7 @@ public class VMHomeAH extends AndroidViewModel {
         this.poEmploye = new EmployeeMaster(application);
         this.poSys = new AreaPerformance(application);
         this.poConn = new ConnectionUtil(application);
+        this.poOpening = new BranchOpeningMonitor(application);
     }
 
     public LiveData<EEmployeeInfo> getEmployeeInfo(){
@@ -119,7 +121,7 @@ public class VMHomeAH extends AndroidViewModel {
             }
         }
     }
-    public LiveData<List<DBranchOpeningMonitor.BranchOpeningInfo>> GetBranchOpeningForDashboard(String dTransact) {
+    public LiveData<List<DBranchOpeningMonitor_Impl.BranchOpeningInfo>> GetBranchOpeningForDashboard(String dTransact) {
         return poOpening.GetBranchOpeningForDashboard(AppConstants.CURRENT_DATE);
     }
 
