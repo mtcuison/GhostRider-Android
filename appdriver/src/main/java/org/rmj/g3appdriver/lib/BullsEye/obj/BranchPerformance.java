@@ -53,10 +53,11 @@ public class BranchPerformance extends ABPM {
 //            }
 
             if(!lsDeptIDx.equalsIgnoreCase(DeptCode.MANAGEMENT_INFORMATION_SYSTEM)) {
-                if (lsUserLvl != DeptCode.LEVEL_AREA_MANAGER ||
-                        lsUserLvl != DeptCode.LEVEL_BRANCH_HEAD) {
-                    message = "User is not authorize to download area/branch performance";
-                    return false;
+                if(!lsDeptIDx.equalsIgnoreCase(DeptCode.MANAGEMENT_INFORMATION_SYSTEM)) {
+                    if(lsUserLvl < DeptCode.LEVEL_BRANCH_HEAD) {
+                        message = "User is not authorize to download area/branch performance";
+                        return false;
+                    }
                 }
             }
 
@@ -138,7 +139,6 @@ public class BranchPerformance extends ABPM {
         }
     }
 
-    @Override
     public String getMessage() {
         return message;
     }

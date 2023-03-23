@@ -30,6 +30,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.textview.MaterialTextView;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DBranchPerformance;
+import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMBranchPerformanceMonitor;
 
@@ -78,8 +79,6 @@ public class Activity_BranchPerformanceMonitoring extends AppCompatActivity {
         tabLayout.addTab(tabLayout.newTab().setText("MC Sales"));
         tabLayout.addTab(tabLayout.newTab().setText("SP Sales"));
         tabLayout.addTab(tabLayout.newTab().setText("Job Order"));
-
-
 
         mViewModel.GetMCSalesPeriodicPerformance(BranchCD).observe(Activity_BranchPerformanceMonitoring.this,  BranchPerforamancebyMC -> {
             try{
@@ -205,6 +204,13 @@ public class Activity_BranchPerformanceMonitoring extends AppCompatActivity {
 
         LineData data = new LineData(loDataSet);
         linechart.setData(data);
+        int color = AppConstants.getThemeTextColor(Activity_BranchPerformanceMonitoring.this);
+        linechart.getData().setValueTextColor(color);
+        linechart.getData().setValueTextColor(color);
+        linechart.getXAxis().setTextColor(color);
+        linechart.getAxisLeft().setTextColor(color);
+        linechart.getAxisRight().setTextColor(color);
+        linechart.getLegend().setTextColor(color);
         linechart.setDescription(null);
         linechart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(CHART_MONTH_LABEL));
         linechart.setDoubleTapToZoomEnabled(false);
@@ -231,17 +237,26 @@ public class Activity_BranchPerformanceMonitoring extends AppCompatActivity {
 
             if(args.contains("/")){
                 String[] rat = args.split("/");
-                loEntries.add(new PieEntry((float) Double.parseDouble(rat[0]), "Actual")); //Set actual performance
-//                loEntries.add(new PieEntry((float) Double.parseDouble(rat[1]), "Goal")); //Set goal
-                loEntries.add(new PieEntry((float) Double.parseDouble(rat[1])-(float) Double.parseDouble(rat[0]) , "Remaining Goal"));
-            }
-//            loEntries.add(new PieEntry(80, "Actual")); //Set actual performance
-//            loEntries.add(new PieEntry(20, "Balance")); //Set goal
-//            loEntries.add(new PieEntry(100, "Goal")); //Set goal
+                float lnActual = (float) Double.parseDouble(rat[0]);
+                float lnGoalxx = (float) Double.parseDouble(rat[1]);
 
-            colors.add(Color.parseColor("#F47422"));
-            colors.add(Color.parseColor("#1ED760"));
-//            colors.add(Color.parseColor("#ffffff"));
+                if(lnGoalxx > lnActual){
+                    float lnRemain = lnGoalxx - lnActual;
+                    loEntries.add(new PieEntry((float) Double.parseDouble(rat[0]), "Actual")); //Set actual performance
+                    loEntries.add(new PieEntry(lnRemain , "Remaining Goal"));
+
+                    colors.add(Color.parseColor("#F47422"));
+                    colors.add(Color.parseColor("#1ED760"));
+                } else {
+                    float lnExcess = lnActual - lnGoalxx;
+                    loEntries.add(new PieEntry(lnExcess , "Overdue"));
+                    loEntries.add(new PieEntry((float) Double.parseDouble(rat[0]), "Actual")); //Set actual performance
+
+                    colors.add(Color.parseColor("#ff3333"));
+                    colors.add(Color.parseColor("#F47422"));
+                }
+            }
+
             PieDataSet pieDataSet = new PieDataSet(loEntries, "");
             pieDataSet.setValueTextSize(12f);
             pieDataSet.setColors(colors);

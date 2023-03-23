@@ -15,7 +15,6 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -24,51 +23,29 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.android.material.textview.MaterialTextView;
-
-import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.MaterialAutoCompleteTextView;
-import com.google.android.material.textfield.TextInputLayout;
-import com.google.android.material.textview.MaterialTextView;
-import com.google.android.material.divider.MaterialDivider;
-import com.google.android.material.card.MaterialCardView;
-import com.google.android.material.imageview.ShapeableImageView;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeBusinessTrip;
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeLeave;
 import org.rmj.g3appdriver.dev.DeptCode;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.lib.Notifications.data.SampleData;
-import org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_Main;
-import org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_SplashScreen;
+import org.rmj.g3appdriver.lib.PetManager.OnCheckEmployeeApplicationListener;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
-import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMAHDashboard;
+import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMAssociateDashboard;
 import org.rmj.guanzongroup.ghostrider.notifications.Adapter.AdapterAnnouncements;
-import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_Settings;
 import org.rmj.guanzongroup.petmanager.Adapter.EmployeeApplicationAdapter;
-
-import static android.app.Activity.RESULT_OK;
-import static org.rmj.g3appdriver.etc.AppConstants.SETTINGS;
 
 import java.util.List;
 
 public class Fragment_Associate_Dashboard extends Fragment {
+    private static final String TAG = Fragment_Associate_Dashboard.class.getSimpleName();
 
-    private VMAHDashboard mViewModel;
+    private VMAssociateDashboard mViewModel;
 
     private View view;
 
@@ -88,7 +65,7 @@ public class Fragment_Associate_Dashboard extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        mViewModel = new ViewModelProvider(this).get(VMAHDashboard.class);
+        mViewModel = new ViewModelProvider(this).get(VMAssociateDashboard.class);
         view = inflater.inflate(R.layout.fragment_associate_dashboard, container, false);
 
         initWidgets();
@@ -157,6 +134,23 @@ public class Fragment_Associate_Dashboard extends Fragment {
     }
 
     private void initEmployeeApp(){
+        mViewModel.CheckApplicationsForApproval(new OnCheckEmployeeApplicationListener() {
+            @Override
+            public void OnCheck() {
+                Log.d(TAG, "Checking employee leave and business trip applications...");
+            }
+
+            @Override
+            public void OnSuccess() {
+                Log.d(TAG, "Leave and business trip applications checked!");
+            }
+
+            @Override
+            public void OnFailed(String message) {
+                Log.e(TAG, message);
+            }
+        });
+
         mViewModel.GetLeaveForApproval().observe(requireActivity(), new Observer<List<EEmployeeLeave>>() {
             @Override
             public void onChanged(List<EEmployeeLeave> app) {

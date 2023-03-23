@@ -67,17 +67,17 @@ public interface DAreaPerformance {
 
     @Query("SELECT * FROM MC_Branch_Performance " +
             "WHERE sPeriodxx = (SELECT sPeriodxx FROM MC_Branch_Performance ORDER BY sPeriodxx DESC LIMIT 1)" +
-            "ORDER BY nMCActual DESC LIMIT 5")
+            "ORDER BY nMCActual=0, nMCActual DESC LIMIT 5")
     LiveData<List<EBranchPerformance>> GetTopBranchPerformerForMCSales();
 
     @Query("SELECT * FROM MC_Branch_Performance " +
             "WHERE sPeriodxx = (SELECT sPeriodxx FROM MC_Branch_Performance ORDER BY sPeriodxx DESC LIMIT 1)" +
-            "ORDER BY nSPActual DESC LIMIT 5")
+            "ORDER BY nSPActual=0.0, nSPActual DESC LIMIT 5")
     LiveData<List<EBranchPerformance>> GetTopBranchPerformerForSPSales();
 
     @Query("SELECT * FROM MC_Branch_Performance " +
             "WHERE sPeriodxx = (SELECT sPeriodxx FROM MC_Branch_Performance ORDER BY sPeriodxx DESC LIMIT 1)" +
-            "ORDER BY nJOActual DESC LIMIT 5")
+            "ORDER BY nJOActual=0.0, nJOActual DESC LIMIT 5")
     LiveData<List<EBranchPerformance>> GetTopBranchPerformerForJobOrder();
 
     @Query("SELECT " +
@@ -89,8 +89,9 @@ public interface DAreaPerformance {
             "LEFT JOIN Branch_Info b ON a.sBranchCd = b.sBranchCd " +
             "WHERE b.sAreaCode = ( " +
             "SELECT sAreaCode FROM Branch_Info WHERE sBranchCd =(SELECT sBranchCd FROM User_Info_Master)) " +
+            "AND a.sPeriodxx = (SELECT sPeriodxx FROM MC_Area_Performance ORDER BY sPeriodxx DESC LIMIT 1)" +
             "GROUP BY a.sBranchCd " +
-            "ORDER BY a.sPeriodxx DESC, a.nMCActual DESC")
+            "ORDER BY a.nMCActual=0, a.nMCActual DESC")
     LiveData<List<BranchPerformance>> GetMCSalesBranchesPerformance();
 
     @Query("SELECT " +
@@ -102,8 +103,9 @@ public interface DAreaPerformance {
             "LEFT JOIN Branch_Info b ON a.sBranchCd = b.sBranchCd " +
             "WHERE b.sAreaCode = ( " +
             "SELECT sAreaCode FROM Branch_Info WHERE sBranchCd =(SELECT sBranchCd FROM User_Info_Master)) " +
+            "AND a.sPeriodxx = (SELECT sPeriodxx FROM MC_Area_Performance ORDER BY sPeriodxx DESC LIMIT 1)" +
             "GROUP BY a.sBranchCd " +
-            "ORDER BY a.sPeriodxx DESC, a.nSPActual DESC")
+            "ORDER BY a.nSPActual=0.0, a.nSPActual DESC")
     LiveData<List<BranchPerformance>> GetSPSalesBranchesPerformance();
 
     @Query("SELECT " +
@@ -115,8 +117,9 @@ public interface DAreaPerformance {
             "LEFT JOIN Branch_Info b ON a.sBranchCd = b.sBranchCd " +
             "WHERE b.sAreaCode = ( " +
             "SELECT sAreaCode FROM Branch_Info WHERE sBranchCd =(SELECT sBranchCd FROM User_Info_Master)) " +
+            "AND a.sPeriodxx = (SELECT sPeriodxx FROM MC_Area_Performance ORDER BY sPeriodxx DESC LIMIT 1)" +
             "GROUP BY a.sBranchCd " +
-            "ORDER BY a.sPeriodxx DESC, a.nJOActual DESC")
+            "ORDER BY a.nJOActual=0.0, a.nJOActual DESC")
     LiveData<List<BranchPerformance>> GetJobOrderBranchesPerformance();
 
     @Query("SELECT sPeriodxx, " +
@@ -124,7 +127,7 @@ public interface DAreaPerformance {
             "nMCGoalxx AS nGoalxxxx " +
             "FROM MC_Area_Performance " +
             "WHERE sAreaCode = (" +
-            "SELECT sAreaCode FROM Branch_Info WHERE sBranchCd = (SELECT sBranchCd FROM User_Info_Master)) ORDER BY sPeriodxx DESC")
+            "SELECT sAreaCode FROM Branch_Info WHERE sBranchCd = (SELECT sBranchCd FROM User_Info_Master)) ORDER BY sPeriodxx ASC")
     LiveData<List<PeriodicPerformance>> GetMCSalesPeriodicPerformance();
 
     @Query("SELECT sPeriodxx, " +
@@ -132,7 +135,7 @@ public interface DAreaPerformance {
             "nSPGoalxx AS nGoalxxxx " +
             "FROM MC_Area_Performance " +
             "WHERE sAreaCode = (" +
-            "SELECT sAreaCode FROM Branch_Info WHERE sBranchCd = (SELECT sBranchCd FROM User_Info_Master)) ORDER BY sPeriodxx DESC")
+            "SELECT sAreaCode FROM Branch_Info WHERE sBranchCd = (SELECT sBranchCd FROM User_Info_Master)) ORDER BY sPeriodxx ASC")
     LiveData<List<PeriodicPerformance>> GetSPSalesPeriodicPerformance();
 
     @Query("SELECT sPeriodxx, " +
@@ -140,7 +143,7 @@ public interface DAreaPerformance {
             "nJOGoalxx AS nGoalxxxx " +
             "FROM MC_Area_Performance " +
             "WHERE sAreaCode = (" +
-            "SELECT sAreaCode FROM Branch_Info WHERE sBranchCd = (SELECT sBranchCd FROM User_Info_Master)) ORDER BY sPeriodxx DESC")
+            "SELECT sAreaCode FROM Branch_Info WHERE sBranchCd = (SELECT sBranchCd FROM User_Info_Master)) ORDER BY sPeriodxx ASC")
     LiveData<List<PeriodicPerformance>> GetJobOrderPeriodicPerformance();
 
     class BranchPerformance{

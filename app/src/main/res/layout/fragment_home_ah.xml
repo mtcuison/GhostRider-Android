@@ -175,7 +175,7 @@
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/lblSPGoal"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_light"
                         android:gravity="center"
@@ -222,7 +222,7 @@
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/lblJobOrder"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_light"
                         android:gravity="center"
@@ -394,29 +394,41 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lblComAnouncemnt" />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/lblApplication"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="5dp"
-                android:fontFamily="@font/roboto"
-                android:text="Applications"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/rvCompnyAnouncemnt" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvLeaveApp"
+            <LinearLayout
+                android:id="@+id/linear_Applications"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:paddingHorizontal="10dp"
-                android:scrollbars="none"
+                android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lblApplication" />
+                app:layout_constraintTop_toBottomOf="@+id/rvCompnyAnouncemnt">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="Applications"
+                    android:textSize="16sp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvLeaveApp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:paddingHorizontal="10dp"
+                    android:scrollbars="none" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvBusTripApp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="10dp"
+                    android:scrollbars="none" />
+
+            </LinearLayout>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>

@@ -65,14 +65,12 @@ public class HttpHeaders {
         Calendar calendar = Calendar.getInstance();
 
 
-        //TODO: Change Values on user testing and production
         String lsUserIDx = poSession.getUserID();
         String lsClientx = poSession.getClientId();
         String lsLogNoxx = poSession.getLogNumber();
         String lsTokenxx = poConfigx.getAppToken();
         String lsProduct = poConfigx.ProducID();
         String lsDevcIDx = poTlphony.getDeviceID();
-        Log.e(TAG, lsDevcIDx);
         String lsDateTme = SQLUtil.dateFormat(calendar.getTime(), "yyyyMMddHHmmss");
         String lsDevcMdl = Build.MODEL;
         String lsMobileN = poConfigx.getMobileNo();
@@ -104,7 +102,6 @@ public class HttpHeaders {
         Calendar calendar = Calendar.getInstance();
 
 
-        //TODO: Change Values on user testing and production
         String lsUserIDx = poSession.getUserID();
         String lsClientx = poSession.getClientId();
         String lsLogNoxx = poSession.getLogNumber();
@@ -136,10 +133,8 @@ public class HttpHeaders {
 
     public HashMap<String, String> getHeaders(){
         if(!poConfigx.getTestStatus()) {
-            Log.e(TAG, "Initializing headers for live data");
             return (HashMap<String, String>) initHttpHeaders();
         }
-        Log.e(TAG, "Initializing headers for local data");
         return (HashMap<String, String>) initTestHeaders();
     }
 }

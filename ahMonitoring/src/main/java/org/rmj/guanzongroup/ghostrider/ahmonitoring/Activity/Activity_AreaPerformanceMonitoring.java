@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -34,6 +35,7 @@ import com.google.android.material.textview.MaterialTextView;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DAreaPerformance;
 import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.lib.BullsEye.PerformancePeriod;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.Adapter_Area_Performance_Monitoring;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.Adapter_Branch_Performance_Monitoring;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
@@ -145,9 +147,11 @@ public class Activity_AreaPerformanceMonitoring extends AppCompatActivity {
         LineDataSet loActual = new LineDataSet(poActual, "Actual");
         LineDataSet loGoalxx = new LineDataSet(poGoalxx, "Goal");
 
+        loActual.setAxisDependency(YAxis.AxisDependency.RIGHT);
         loActual.setLineWidth(2);
         loActual.setColors(getResources().getColor(R.color.guanzon_orange));
 
+        loGoalxx.setAxisDependency(YAxis.AxisDependency.RIGHT);
         loGoalxx.setLineWidth(2);
         loGoalxx.setColors(getResources().getColor(R.color.check_green));
 
@@ -165,9 +169,10 @@ public class Activity_AreaPerformanceMonitoring extends AppCompatActivity {
         linechart.getAxisRight().setTextColor(color);
         linechart.getLegend().setTextColor(color);
         linechart.setDescription(null);
-        linechart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(CHART_MONTH_LABEL));
+        linechart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(PerformancePeriod.getPerformancePeriodList(list)));
+//        linechart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(CHART_MONTH_LABEL));
         linechart.setDoubleTapToZoomEnabled(false);
-        linechart.getXAxis().setTextSize(14f);
+        linechart.getXAxis().setTextSize(10f);
         linechart.setExtraOffsets(0, 0, 10f, 18f);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width, (height / 3));
         linechart.setLayoutParams(params);
@@ -202,6 +207,7 @@ public class Activity_AreaPerformanceMonitoring extends AppCompatActivity {
             PieData pieData = new PieData(pieDataSet);
             pieData.setDrawValues(true);
             piechart.getLegend().setEnabled(false);
+            piechart.getDescription().setEnabled(false);
             piechart.setData(pieData);
             piechart.invalidate();
 
@@ -221,6 +227,7 @@ public class Activity_AreaPerformanceMonitoring extends AppCompatActivity {
         });
         LinearLayoutManager loManager = new LinearLayoutManager(Activity_AreaPerformanceMonitoring.this);
         loManager.setOrientation(RecyclerView.VERTICAL);
+        loManager.setReverseLayout(true);
         rvAreaPerformance.setLayoutManager(loManager);
         rvAreaPerformance.setAdapter(loAdapter);
         rvAreaPerformance.setVisibility(View.VISIBLE);

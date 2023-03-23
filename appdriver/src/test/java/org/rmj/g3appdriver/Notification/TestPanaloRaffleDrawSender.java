@@ -34,6 +34,8 @@ public class TestPanaloRaffleDrawSender {
                 lsUser,
                 lsTitle,
                 lsMessage);
+
+
         assertTrue(isSuccess);
     }
 

@@ -13,6 +13,7 @@ package org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +33,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.textview.MaterialTextView;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchPerformance;
+import org.rmj.g3appdriver.lib.BullsEye.OnImportPerformanceListener;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_AreaPerformanceMonitoring;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_BranchPerformanceMonitoring;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.AreaMonitoringAdapter;
@@ -41,16 +43,16 @@ import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMAreaMonitor;
 import java.util.List;
 
 public class Fragment_AreaMonitor extends Fragment {
+    private static final String TAG = Fragment_AreaMonitor.class.getSimpleName();
 
     private VMAreaMonitor mViewModel;
+    private View view;
     private TabLayout tabLayout;
     private RecyclerView recyclerView;
     private ConstraintLayout lblContainer;
     private MaterialCardView btnMCPerformance,btnSPPerformance,btnJOPerformance;
     private CircularProgressIndicator mcIndicator,spIndicator,joIndicator;
     private MaterialTextView mcGoalPerc,spGoalPerc,joGoalPerc,mcFraction,spFraction,joFraction;
-    public ConstraintLayout btnBrPerformance;
-    public String button;
     public static Fragment_AreaMonitor newInstance() {
         return new Fragment_AreaMonitor();
     }
@@ -59,28 +61,9 @@ public class Fragment_AreaMonitor extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         mViewModel = new ViewModelProvider(this).get(VMAreaMonitor.class);
-        View view = inflater.inflate(R.layout.fragment_area_monitor, container, false);
-        recyclerView = view.findViewById(R.id.rvTopPerformingBranch);
-        lblContainer = view.findViewById(R.id.lblContainer);
-
-        btnMCPerformance = view.findViewById(R.id.cv_mc_sales);
-        btnSPPerformance = view.findViewById(R.id.cv_sp_sales);
-        btnJOPerformance = view.findViewById(R.id.cv_jo);
-
-        mcIndicator = view.findViewById(R.id.cpi_mc_sales);
-        spIndicator = view.findViewById(R.id.cpi_sp_sales);
-        joIndicator = view.findViewById(R.id.cpi_jo);
-
-        mcGoalPerc = view.findViewById(R.id.lbl_mc_percentage);
-        spGoalPerc = view.findViewById(R.id.lbl_sp_percentage);
-        joGoalPerc = view.findViewById(R.id.lbl_jo_percentage);
-
-        mcFraction = view.findViewById(R.id.lbl_mc_goal);
-        spFraction = view.findViewById(R.id.lbl_sp_goal);
-        joFraction = view.findViewById(R.id.lbl_jo_goal);
-
-        tabLayout = view.findViewById(R.id.tabLayout);
-
+        view = inflater.inflate(R.layout.fragment_area_monitor, container, false);
+        initWidgets();
+        initPerformanceUpdate();
         tabLayout.addTab(tabLayout.newTab().setText("MC Sales"));
         tabLayout.addTab(tabLayout.newTab().setText("SP Sales"));
         tabLayout.addTab(tabLayout.newTab().setText("Joborder"));
@@ -135,6 +118,49 @@ public class Fragment_AreaMonitor extends Fragment {
         });
         return view;
     }
+
+    private void initWidgets(){
+        recyclerView = view.findViewById(R.id.rvTopPerformingBranch);
+        lblContainer = view.findViewById(R.id.lblContainer);
+
+        btnMCPerformance = view.findViewById(R.id.cv_mc_sales);
+        btnSPPerformance = view.findViewById(R.id.cv_sp_sales);
+        btnJOPerformance = view.findViewById(R.id.cv_jo);
+
+        mcIndicator = view.findViewById(R.id.cpi_mc_sales);
+        spIndicator = view.findViewById(R.id.cpi_sp_sales);
+        joIndicator = view.findViewById(R.id.cpi_jo);
+
+        mcGoalPerc = view.findViewById(R.id.lbl_mc_percentage);
+        spGoalPerc = view.findViewById(R.id.lbl_sp_percentage);
+        joGoalPerc = view.findViewById(R.id.lbl_jo_percentage);
+
+        mcFraction = view.findViewById(R.id.lbl_mc_goal);
+        spFraction = view.findViewById(R.id.lbl_sp_goal);
+        joFraction = view.findViewById(R.id.lbl_jo_goal);
+
+        tabLayout = view.findViewById(R.id.tabLayout);
+    }
+
+    private void initPerformanceUpdate(){
+        mViewModel.ImportPerformance(new OnImportPerformanceListener() {
+            @Override
+            public void OnImport() {
+                Log.d(TAG, "Updating area performance records...");
+            }
+
+            @Override
+            public void OnSuccess() {
+                Log.d(TAG, "Performance records updated successfully!");
+            }
+
+            @Override
+            public void OnFailed(String message) {
+                Log.d(TAG, message);
+            }
+        });
+    }
+
     public void initGoalPercentage(){
         mViewModel.GetCurrentMCSalesPerformance().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override

@@ -91,6 +91,7 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
         setContentView(R.layout.activity_main);
         initWidgets();
         InitUserFeatures();
+        initReceiver();
 
         mViewModel.getEmployeeInfo().observe(this, eEmployeeInfo -> {
             try{
@@ -239,9 +240,7 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
         return (int) (pixels * scale + 0.5f);
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
+    private void initReceiver(){
         IntentFilter loFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
         registerReceiver(poNetRecvr, loFilter);
         AppConfigPreference.getInstance(Activity_Main.this).setIsMainActive(true);

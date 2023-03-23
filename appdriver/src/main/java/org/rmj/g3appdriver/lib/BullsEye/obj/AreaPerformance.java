@@ -41,7 +41,6 @@ public class AreaPerformance extends ABPM {
         this.poHeaders = HttpHeaders.getInstance(context);
     }
 
-    @Override
     public String getMessage() {
         return message;
     }
@@ -58,8 +57,7 @@ public class AreaPerformance extends ABPM {
 //            }
 
             if(!lsDeptIDx.equalsIgnoreCase(DeptCode.MANAGEMENT_INFORMATION_SYSTEM)) {
-                if (lsUserLvl != DeptCode.LEVEL_AREA_MANAGER ||
-                        lsUserLvl != DeptCode.LEVEL_BRANCH_HEAD) {
+                if(lsUserLvl < DeptCode.LEVEL_BRANCH_HEAD) {
                     message = "User is not authorize to download area/branch performance";
                     return false;
                 }

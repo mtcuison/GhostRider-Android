@@ -4,5 +4,5 @@ public interface OnImportPerformanceListener {
 
     void OnImport();
     void OnSuccess();
-    void OnFailed();
+    void OnFailed(String message);
 }

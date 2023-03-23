@@ -13,6 +13,7 @@ package org.rmj.g3appdriver.lib.BullsEye;
 
 import android.util.Log;
 
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DAreaPerformance;
 import org.rmj.g3appdriver.dev.Database.Entities.EAreaPerformance;
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchPerformance;
 
@@ -31,7 +32,7 @@ public class PerformancePeriod {
         Calendar loCalendr = Calendar.getInstance(TimeZone.getTimeZone("Asia/Manila"));
         SimpleDateFormat loFormatx = new SimpleDateFormat("yyyyMM");
 
-        int lnMontCom = loCalendr.getInstance().get(Calendar.MONTH);
+        int lnMontCom = loCalendr.getInstance().get(Calendar.MONTH) + 1;
         int lnCurYear = loCalendr.getInstance().get(Calendar.YEAR);
         String lsPastMos = String.valueOf(lnCurYear) + lnMontCom;
 
@@ -157,6 +158,19 @@ public class PerformancePeriod {
 
         for(int x = 0; x < foList.size(); x++) {
             loList.add(parseDateLabel(foList.get(x).getPeriodxx()));
+        }
+
+        String[] loArray = loList.toArray(new String[0]);
+
+        return loArray;
+
+    };
+
+    public static String[] getPerformancePeriodList(List<DAreaPerformance.PeriodicPerformance> foList) {
+        List<String> loList = new ArrayList<>();
+
+        for(int x = 0; x < foList.size(); x++) {
+            loList.add(parseDateLabel(foList.get(x).sPeriodxx));
         }
 
         String[] loArray = loList.toArray(new String[0]);

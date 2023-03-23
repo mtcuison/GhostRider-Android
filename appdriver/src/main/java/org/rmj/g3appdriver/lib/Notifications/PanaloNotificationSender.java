@@ -8,10 +8,13 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.rmj.g3appdriver.dev.Api.WebClient;
+import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.utils.SQLUtil;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class PanaloNotificationSender {
@@ -193,11 +196,13 @@ public class PanaloNotificationSender {
             JSONObject loInfo = new JSONObject();
             loInfo.put("module", "00002");
 
+            String lsTime = new SimpleDateFormat("HH:mm:ss a", Locale.getDefault()).format(Calendar.getInstance().getTime());
+
             JSONObject loData = new JSONObject();
-            loData.put("dTransact", "2023-03-21");
+            loData.put("dTransact", AppConstants.CURRENT_DATE);
             loData.put("sBranchCD", "M175");
             loData.put("sTimeOpen", "08:30:00 AM");
-            loData.put("sOpenNowx", ":35:01 AM");
+            loData.put("sOpenNowx", lsTime);
 
             loInfo.put("data", loData);
 

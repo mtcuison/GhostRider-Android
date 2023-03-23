@@ -57,9 +57,9 @@ public class AreaMonitoringAdapter extends RecyclerView.Adapter<AreaMonitoringAd
             EBranchPerformance area = areaPerformances.get(position);
             Log.e("value of position", String.valueOf(position));
             holder.txtBranch.setText(area.getBranchNm());
-            holder.txtMCGoal.setText(String.valueOf(area.getMCGoalxx()));
-            holder.txtSPGoal.setText(String.valueOf((int) area.getSPGoalxx()));
-            holder.txtJOGoal.setText(String.valueOf(area.getJOGoalxx()));
+            holder.txtMCGoal.setText(area.getMCActual() + "/" +area.getMCGoalxx());
+            holder.txtSPGoal.setText(area.getSPActual() + "/" +area.getSPGoalxx());
+            holder.txtJOGoal.setText(area.getJOActual() + "/" +area.getJOGoalxx());
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
