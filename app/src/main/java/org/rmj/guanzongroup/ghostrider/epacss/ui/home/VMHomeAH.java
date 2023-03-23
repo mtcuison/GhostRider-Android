@@ -111,7 +111,7 @@ public class VMHomeAH extends AndroidViewModel {
         return poNotification.getUnreadNotificationsCount();
     }
 
-    public LiveData<List<DBranchOpeningMonitor.BranchOpeningInfo>> getBranchOpeningInfoForDashBoard(){
+    public LiveData<List<DBranchOpeningMonitor.BranchOpeningInfo>> getBranchOpeningInfoForDashBoard(String dtransact){
         return poOpening.GetBranchOpeningForDashboard(AppConstants.CURRENT_DATE);
     }
 
@@ -130,4 +130,8 @@ public class VMHomeAH extends AndroidViewModel {
 
         return poSys.GetJobOrderPerformance();
     }
+    public LiveData<List<DBranchOpeningMonitor.BranchOpeningInfo>> GetBranchOpeningForDashboard(String dTransact) {
+        return poOpening.GetBranchOpeningForDashboard(AppConstants.CURRENT_DATE);
+    }
+
 }

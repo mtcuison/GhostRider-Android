@@ -3767,6 +3767,7 @@ int layout design_text_input_start_icon 0x0
 int layout dialog_message_box 0x0
 int layout dialog_progress 0x0
 int layout dialog_qr_redeem 0x0
+int layout dialog_raffle_start 0x0
 int layout dialog_toast 0x0
 int layout empty_layout 0x0
 int layout fragment_panalo_container 0x0

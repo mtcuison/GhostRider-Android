@@ -21,7 +21,7 @@ import org.rmj.g3appdriver.dev.Database.Entities.EBranchOpenMonitor;
 import java.util.List;
 
 @Dao
-public interface DBranchOpeningMonitor {
+public interface  DBranchOpeningMonitor {
 
     @Insert
     void insert(EBranchOpenMonitor branchOpenMonitor);
