@@ -20,6 +20,7 @@ import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.android.material.textview.MaterialTextView;
 
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DBranchOpeningMonitor;
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeBusinessTrip;
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeLeave;
 import org.rmj.g3appdriver.dev.DeptCode;
@@ -29,6 +30,7 @@ import org.rmj.g3appdriver.lib.PetManager.OnCheckEmployeeApplicationListener;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_AreaPerformanceMonitoring;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_CashCounter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Inventory;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.BranchOpeningAdapter;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.adapter.NewsEventsAdapter;
 import org.rmj.guanzongroup.ghostrider.epacss.adapter.NewsEventsModel;
@@ -195,9 +197,21 @@ public class Fragment_Home_AH extends Fragment {
         });
     }
 
-    private void initBranchOpening(){
+    private void initBranchOpening(List<DBranchOpeningMonitor.BranchOpeningInfo>List){
 
+        BranchOpeningAdapter loAdapter = new BranchOpeningAdapter(requireActivity(), List , new BranchOpeningAdapter.OnAdapterItemClickListener() {
+            @Override
+            public void OnClick() {
+
+            }
+
+        });
+        LinearLayoutManager loManager = new LinearLayoutManager(requireActivity());
+        loManager.setOrientation(RecyclerView.VERTICAL);
+        rvBranchOpen.setLayoutManager(loManager);
+        rvBranchOpen.setAdapter(loAdapter);
     }
+
 
     private void initCompanyNotice(){
         AdapterAnnouncements loAdapter = new AdapterAnnouncements(SampleData.GetAnnouncementList(), new AdapterAnnouncements.OnItemClickListener() {

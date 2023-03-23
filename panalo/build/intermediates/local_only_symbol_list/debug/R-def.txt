@@ -24,6 +24,7 @@ id toolbar2
 id view
 layout activity_panalo
 layout dialog_qr_redeem
+layout dialog_raffle_start
 layout fragment_panalo_container
 layout fragment_raffle
 layout fragment_rewards
