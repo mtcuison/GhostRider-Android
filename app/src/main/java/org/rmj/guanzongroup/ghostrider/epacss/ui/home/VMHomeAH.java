@@ -119,8 +119,4 @@ public class VMHomeAH extends AndroidViewModel {
             }
         }
     }
-    public LiveData<List<DBranchOpeningMonitor.BranchOpeningInfo>> GetBranchOpeningForDashboard(String dTransact) {
-        return poOpening.GetBranchOpeningForDashboard(AppConstants.CURRENT_DATE);
-    }
-
 }

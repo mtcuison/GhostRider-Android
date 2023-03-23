@@ -102,6 +102,36 @@ public class GPanalo {
         }
     }
 
+    public Boolean ClaimReward(String args){
+        try{
+            JSONObject params = new JSONObject();
+            params.put("transtat", args);
+
+            String lsResponse = WebClient.sendRequest(
+                    poApis.getUrlGetPanaloRewards(poConfig.isBackUpServer()),
+                    params.toString(),
+                    poHeaders.getHeaders());
+            if(lsResponse == null){
+                message = "Server no response while sending response.";
+                return false;
+            }
+
+            JSONObject loResponse = new JSONObject(lsResponse);
+            String lsResult = loResponse.getString("result");
+            if (!lsResult.equalsIgnoreCase("success")) {
+                JSONObject loError = loResponse.getJSONObject("error");
+                message = loError.getString("message");
+                return false;
+            }
+
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
+    }
+
     public Bitmap RedeemReward(PanaloRewards args){
         try{
             Bitmap loBmp = null;
