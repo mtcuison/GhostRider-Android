@@ -57,7 +57,6 @@ public class VMPanaloRewards extends AndroidViewModel {
             List<PanaloRewards> loResult = poSys.GetRewards(lsType);
             if(loResult == null){
                 message = poSys.getMessage();
-
                 return null;
             }
             return loResult;

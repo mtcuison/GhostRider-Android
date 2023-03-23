@@ -24,6 +24,7 @@ import org.rmj.g3appdriver.dev.Database.DataAccessObject.DBranchOpeningMonitor;
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeBusinessTrip;
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeLeave;
 import org.rmj.g3appdriver.dev.DeptCode;
+import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.Notifications.data.SampleData;
 import org.rmj.g3appdriver.lib.PetManager.OnCheckEmployeeApplicationListener;
@@ -35,6 +36,8 @@ import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.adapter.NewsEventsAdapter;
 import org.rmj.guanzongroup.ghostrider.epacss.adapter.NewsEventsModel;
 import org.rmj.guanzongroup.ghostrider.notifications.Adapter.AdapterAnnouncements;
+import org.rmj.guanzongroup.petmanager.Activity.Activity_Application;
+import org.rmj.guanzongroup.petmanager.Activity.Activity_Employee_Applications;
 import org.rmj.guanzongroup.petmanager.Adapter.EmployeeApplicationAdapter;
 
 import java.util.ArrayList;
@@ -260,7 +263,10 @@ public class Fragment_Home_AH extends Fragment {
                     EmployeeApplicationAdapter loAdapter = new EmployeeApplicationAdapter(app, false, new EmployeeApplicationAdapter.OnLeaveItemClickListener() {
                         @Override
                         public void OnClick(String TransNox) {
-
+                            Intent loIntent = new Intent(requireActivity(), Activity_Application.class);
+                            loIntent.putExtra("app", AppConstants.INTENT_LEAVE_APPROVAL);
+                            loIntent.putExtra("sTransNox", "");
+                            startActivity(loIntent);
                         }
                     });
 
@@ -289,7 +295,10 @@ public class Fragment_Home_AH extends Fragment {
                     EmployeeApplicationAdapter loAdapter = new EmployeeApplicationAdapter(app, new EmployeeApplicationAdapter.OnOBItemClickListener() {
                         @Override
                         public void OnClick(String TransNox) {
-
+                            Intent loIntent = new Intent(requireActivity(), Activity_Application.class);
+                            loIntent.putExtra("app", AppConstants.INTENT_OB_APPROVAL);
+                            loIntent.putExtra("sTransNox", "");
+                            startActivity(loIntent);
                         }
                     });
 

@@ -131,6 +131,9 @@ public class Fragment_Dashboard extends Fragment {
             @Override
             public void onChanged(ERaffleStatus status) {
                 try{
+                    if(status == null){
+                        return;
+                    }
                     int lnStatus = status.getHasRffle();
                     CreatePanalobadge(lnStatus);
                 } catch (Exception e){

@@ -3350,6 +3350,7 @@ int id jumpToStart 0x0
 int id labeled 0x0
 int id layout 0x0
 int id lblBranch 0x0
+int id lblNoRewards 0x0
 int id lblQty 0x0
 int id lblRaffleStatus 0x0
 int id lblRwrdDte 0x0
@@ -3367,6 +3368,8 @@ int id light 0x0
 int id line1 0x0
 int id line3 0x0
 int id linear 0x0
+int id linearClaimed 0x0
+int id linearEarned 0x0
 int id listMode 0x0
 int id list_item 0x0
 int id m3_side_sheet 0x0
@@ -3374,6 +3377,8 @@ int id marquee 0x0
 int id masked 0x0
 int id match_constraint 0x0
 int id match_parent 0x0
+int id materialTextView 0x0
+int id materialTextView1 0x0
 int id material_clock_display 0x0
 int id material_clock_display_and_toggle 0x0
 int id material_clock_face 0x0
@@ -3481,6 +3486,8 @@ int id right_side 0x0
 int id rlEmpty 0x0
 int id rounded 0x0
 int id row_index_key 0x0
+int id rvClaimed 0x0
+int id rvEarned 0x0
 int id satellite 0x0
 int id save_non_transition_alpha 0x0
 int id save_overlay_view 0x0
@@ -3574,7 +3581,6 @@ int id text 0x0
 int id text2 0x0
 int id textSpacerNoButtons 0x0
 int id textSpacerNoTitle 0x0
-int id textView 0x0
 int id text_input_end_icon 0x0
 int id text_input_error_icon 0x0
 int id text_input_start_icon 0x0

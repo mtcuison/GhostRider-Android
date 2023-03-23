@@ -110,4 +110,9 @@ public class ILOVEMYJOB extends GPanalo {
     public String getMessage() {
         return super.getMessage();
     }
+
+    @Override
+    public Boolean ClaimReward(String args) {
+        return super.ClaimReward(args);
+    }
 }

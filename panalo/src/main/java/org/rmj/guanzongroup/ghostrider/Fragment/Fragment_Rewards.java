@@ -15,9 +15,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.material.progressindicator.CircularProgressIndicator;
+import com.google.android.material.textview.MaterialTextView;
 
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.Panalo.Obj.GPanalo;
@@ -35,12 +39,10 @@ import java.util.zip.Inflater;
 public class Fragment_Rewards extends Fragment  {
     private VMPanaloRewards mViewModel;
     private MessageBox loMessage;
-    private RecyclerView recyclerView;
-    private RelativeLayout rlEmpty;
-    private TextView lblFirstNme,
-            lblLastNme,
-            lblMiddleNme,
-            textView;
+    private LinearLayout lnEarned, lnClaimed;
+    private RecyclerView rvEarned, rvClaimed;
+    private MaterialTextView lblNoRewards;
+    private CircularProgressIndicator progress;
 
     public static Fragment_Rewards newInstance() {
         return new Fragment_Rewards();
@@ -55,59 +57,83 @@ public class Fragment_Rewards extends Fragment  {
         mViewModel.GetRewards(0, new VMPanaloRewards.OnRetrieveRewardsListener() {
             @Override
             public void OnLoad(String title, String message) {
-
+                progress.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void OnSuccess(List<PanaloRewards> args) {
-//                if(String.valueOf(args.size()) == null){
-                if (args.size() > 0){
-                    recyclerView.setVisibility(View.VISIBLE);
-                    rlEmpty.setVisibility(View.GONE);
-                    AdapterRewards loAdapter = new AdapterRewards(args, new AdapterRewards.OnClickListener() {
-                        @Override
-                        public void OnClick(String args) {
-                            //to display dialog here
-                            DialogPanaloRedeem dialogPanaloRedeem = new DialogPanaloRedeem(getActivity());
-                            dialogPanaloRedeem.show();
-                            Toast.makeText(requireActivity(), args, Toast.LENGTH_SHORT).show();
-                        }
-                        @Override
-                        public void OnUseButtonClick(String args) {
-                            //to display dialog here
-                            DialogPanaloRedeem dialogPanaloRedeem = new DialogPanaloRedeem(getActivity());
-                            dialogPanaloRedeem.show();
-                            Toast.makeText(requireActivity(), args, Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                    recyclerView.setAdapter(loAdapter);
-                }else {
-                    recyclerView.setVisibility(View.GONE);
-                    rlEmpty.setVisibility(View.VISIBLE);
-
+                progress.setVisibility(View.GONE);
+                if (args.size() == 0){
+                    lblNoRewards.setVisibility(View.VISIBLE);
+                    return;
                 }
 
+                initRewardsClaimed(args);
             }
 
             @Override
             public void OnFailed(String message) {
-
+                progress.setVisibility(View.GONE);
+                lblNoRewards.setVisibility(View.VISIBLE);
             }
         });
         return  view;
     }
 
     private void initWidgets(View v) {
-        recyclerView = v.findViewById(R.id.recyclerView);
-        textView = v.findViewById(R.id.textView);
-        rlEmpty = v.findViewById(R.id.rlEmpty);
-        LinearLayoutManager loManager = new LinearLayoutManager(requireActivity());
-        loManager.setOrientation(RecyclerView.VERTICAL);
-        recyclerView.setLayoutManager(loManager);
-
-        List<PanaloRewards> loList = new ArrayList<>();
-
+        lnEarned = v.findViewById(R.id.linearEarned);
+        lnClaimed = v.findViewById(R.id.linearClaimed);
+        rvEarned = v.findViewById(R.id.rvEarned);
+        rvClaimed = v.findViewById(R.id.rvClaimed);
+        lblNoRewards = v.findViewById(R.id.lblNoRewards);
+        progress = v.findViewById(R.id.progress_circular);
     }
 
+    private void initRewardsEarned(List<PanaloRewards> args){
+        AdapterRewards loAdapter = new AdapterRewards(args, new AdapterRewards.OnClickListener() {
+            @Override
+            public void OnClick(String args) {
+                //to display dialog here
+                DialogPanaloRedeem dialogPanaloRedeem = new DialogPanaloRedeem(getActivity());
+                dialogPanaloRedeem.show();
+                Toast.makeText(requireActivity(), args, Toast.LENGTH_SHORT).show();
+            }
+            @Override
+            public void OnUseButtonClick(String args) {
+                //to display dialog here
+                DialogPanaloRedeem dialogPanaloRedeem = new DialogPanaloRedeem(getActivity());
+                dialogPanaloRedeem.show();
+                Toast.makeText(requireActivity(), args, Toast.LENGTH_SHORT).show();
+            }
+        });
+        LinearLayoutManager loManager = new LinearLayoutManager(requireActivity());
+        loManager.setOrientation(RecyclerView.VERTICAL);
+        rvEarned.setLayoutManager(loManager);
+        rvEarned.setAdapter(loAdapter);
+        lnEarned.setVisibility(View.VISIBLE);
+    }
 
+    private void initRewardsClaimed(List<PanaloRewards> args){
+        AdapterRewards loAdapter = new AdapterRewards(args, new AdapterRewards.OnClickListener() {
+            @Override
+            public void OnClick(String args) {
+                //to display dialog here
+                DialogPanaloRedeem dialogPanaloRedeem = new DialogPanaloRedeem(getActivity());
+                dialogPanaloRedeem.show();
+                Toast.makeText(requireActivity(), args, Toast.LENGTH_SHORT).show();
+            }
+            @Override
+            public void OnUseButtonClick(String args) {
+                //to display dialog here
+                DialogPanaloRedeem dialogPanaloRedeem = new DialogPanaloRedeem(getActivity());
+                dialogPanaloRedeem.show();
+                Toast.makeText(requireActivity(), args, Toast.LENGTH_SHORT).show();
+            }
+        });
+        LinearLayoutManager loManager = new LinearLayoutManager(requireActivity());
+        loManager.setOrientation(RecyclerView.VERTICAL);
+        rvClaimed.setLayoutManager(loManager);
+        rvClaimed.setAdapter(loAdapter);
+        lnClaimed.setVisibility(View.VISIBLE);
+    }
 }

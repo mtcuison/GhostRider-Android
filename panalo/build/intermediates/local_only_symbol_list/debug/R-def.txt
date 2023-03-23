@@ -8,6 +8,7 @@ id btn_dialogClose
 id imageView3
 id imgLogo
 id lblBranch
+id lblNoRewards
 id lblQty
 id lblRaffleStatus
 id lblRwrdDte
@@ -16,10 +17,16 @@ id lblRwrdType
 id lblUserID
 id lbl_dialogLocation
 id lbl_dialogTime
+id linearClaimed
+id linearEarned
+id materialTextView
+id materialTextView1
+id progress_circular
 id recyclerView
 id rlEmpty
+id rvClaimed
+id rvEarned
 id tabLayout
-id textView
 id toolbar2
 id view
 layout activity_panalo
