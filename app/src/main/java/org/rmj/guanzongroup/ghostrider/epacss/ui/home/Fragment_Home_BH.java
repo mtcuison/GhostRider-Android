@@ -21,9 +21,10 @@ import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_BranchPerformance;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_BranchPerformanceMonitoring;
 import org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_SplashScreen;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
+import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMHomeBH;
 import org.rmj.guanzongroup.ghostrider.epacss.adapter.NewsEventsModel;
 
 import java.util.ArrayList;
@@ -163,7 +164,7 @@ public class Fragment_Home_BH extends Fragment {
             Intent loIntent;
             @Override
             public void onClick(View view) {
-                loIntent = new Intent(getActivity(), Activity_BranchPerformance.class);
+                loIntent = new Intent(getActivity(), Activity_BranchPerformanceMonitoring.class);
                 startActivity(loIntent);
                 requireActivity().overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
             }

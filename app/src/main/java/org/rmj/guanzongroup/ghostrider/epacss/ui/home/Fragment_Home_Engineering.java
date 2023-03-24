@@ -1,42 +1,29 @@
 package org.rmj.guanzongroup.ghostrider.epacss.ui.home;
 
-import static org.rmj.g3appdriver.etc.AppConstants.SETTINGS;
-
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textview.MaterialTextView;
 
 import org.guanzongroup.com.itinerary.Adapter.AdapterItineraries;
 import org.rmj.g3appdriver.dev.Database.Entities.EItinerary;
 import org.rmj.g3appdriver.dev.DeptCode;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.lib.Notifications.data.SampleData;
-import org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_SplashScreen;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
-import org.rmj.guanzongroup.ghostrider.epacss.adapter.NewsEventsAdapter;
-import org.rmj.guanzongroup.ghostrider.epacss.adapter.NewsEventsModel;
+import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMHomeEngineering;
 import org.rmj.guanzongroup.ghostrider.notifications.Adapter.AdapterAnnouncements;
-import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_Settings;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Fragment_Home_Engineering extends Fragment {

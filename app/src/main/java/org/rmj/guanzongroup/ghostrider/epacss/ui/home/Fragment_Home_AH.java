@@ -21,7 +21,6 @@ import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.android.material.textview.MaterialTextView;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DBranchOpeningMonitor;
-import org.rmj.g3appdriver.dev.Database.Entities.EBranchOpenMonitor;
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeBusinessTrip;
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeLeave;
 import org.rmj.g3appdriver.dev.DeptCode;
@@ -34,14 +33,11 @@ import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_CashCounte
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Inventory;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.BranchOpeningAdapter;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
-import org.rmj.guanzongroup.ghostrider.epacss.adapter.NewsEventsAdapter;
-import org.rmj.guanzongroup.ghostrider.epacss.adapter.NewsEventsModel;
+import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMHomeAH;
 import org.rmj.guanzongroup.ghostrider.notifications.Adapter.AdapterAnnouncements;
 import org.rmj.guanzongroup.petmanager.Activity.Activity_Application;
-import org.rmj.guanzongroup.petmanager.Activity.Activity_Employee_Applications;
 import org.rmj.guanzongroup.petmanager.Adapter.EmployeeApplicationAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Fragment_Home_AH extends Fragment {

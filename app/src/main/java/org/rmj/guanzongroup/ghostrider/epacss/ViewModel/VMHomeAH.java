@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.ghostrider.epacss.ui.home;
+package org.rmj.guanzongroup.ghostrider.epacss.ViewModel;
 
 import android.app.Application;
 import android.os.AsyncTask;
@@ -9,7 +9,6 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DBranchOpeningMonitor;
-import org.rmj.g3appdriver.dev.Database.Entities.EBranchOpenMonitor;
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeBusinessTrip;
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
 
@@ -21,7 +20,6 @@ import org.rmj.g3appdriver.lib.PetManager.OnCheckEmployeeApplicationListener;
 import org.rmj.g3appdriver.lib.PetManager.PetManager;
 import org.rmj.g3appdriver.lib.PetManager.model.iPM;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
-import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMAssociateDashboard;
 
 import java.util.List;
 
