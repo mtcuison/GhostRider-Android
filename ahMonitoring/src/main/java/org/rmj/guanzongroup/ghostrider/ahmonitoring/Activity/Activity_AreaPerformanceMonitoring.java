@@ -1,7 +1,5 @@
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity;
 
-import static org.rmj.g3appdriver.etc.AppConstants.CHART_MONTH_LABEL;
-
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -195,6 +193,7 @@ public class Activity_AreaPerformanceMonitoring extends AppCompatActivity {
 
             if(args.contains("/")){
                 String[] rat = args.split("/");
+
                 loEntries.add(new PieEntry((float) Double.parseDouble(rat[0]), "Actual")); //Set actual performance
                 loEntries.add(new PieEntry((float) Double.parseDouble(rat[1])-(float) Double.parseDouble(rat[0]) , "Remaining Goal"));
             }

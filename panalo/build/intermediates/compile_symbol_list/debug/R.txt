@@ -3768,10 +3768,13 @@ int layout design_navigation_menu 0x0
 int layout design_navigation_menu_item 0x0
 int layout design_text_input_end_icon 0x0
 int layout design_text_input_start_icon 0x0
+int layout dialog_mechanics 0x0
 int layout dialog_message_box 0x0
 int layout dialog_progress 0x0
 int layout dialog_qr_redeem 0x0
+int layout dialog_raffle_ended 0x0
 int layout dialog_raffle_start 0x0
+int layout dialog_reward 0x0
 int layout dialog_toast 0x0
 int layout empty_layout 0x0
 int layout fragment_panalo_container 0x0
@@ -3944,6 +3947,7 @@ int string fab_transformation_sheet_behavior 0x0
 int string fcm_fallback_notification_channel_label 0x0
 int string forgot_password 0x0
 int string free_text_restriction 0x0
+int string hello_blank_fragment 0x0
 int string hide_bottom_view_on_scroll_behavior 0x0
 int string hint_confirm_password 0x0
 int string hint_email 0x0

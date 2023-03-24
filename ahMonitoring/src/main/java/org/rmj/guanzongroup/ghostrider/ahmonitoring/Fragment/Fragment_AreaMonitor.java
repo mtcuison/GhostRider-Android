@@ -167,11 +167,17 @@ public class Fragment_AreaMonitor extends Fragment {
             public void onChanged(String mc_goal) {
                 try {
                     mcFraction.setText(mc_goal);
-                    if (mc_goal.contains("/")){
+                    if (mc_goal.contains("/")) {
                         String[] rat = mc_goal.split("/");
-                        double ratio =Double.parseDouble(rat[0]) / Double.parseDouble(rat[1]) * 100;
-                        mcGoalPerc.setText(String.valueOf(Math.round(ratio)) + "%");
-                        mcIndicator.setProgress((int) (Math.round(ratio)));
+                        if ((Double.parseDouble(rat[0]) == 0) || (Double.parseDouble(rat[1]) == 0)) {
+                            mcGoalPerc.setText("0%");
+                            mcIndicator.setProgress(0);
+                        } else {
+                            double ratio = Double.parseDouble(rat[0]) / Double.parseDouble(rat[1]) * 100;
+                            mcGoalPerc.setText(String.valueOf(Math.round(ratio)) + "%");
+                            mcIndicator.setProgress((int) (Math.round(ratio)));
+                            Log.e("this is mcgoal", mc_goal);
+                        }
                     }
                 }catch (Exception e) {
                     e.printStackTrace();
@@ -183,11 +189,17 @@ public class Fragment_AreaMonitor extends Fragment {
             public void onChanged(String sp_goal) {
                 try {
                     spFraction.setText(sp_goal);
-                    if (sp_goal.contains("/")){
+                    if (sp_goal.contains("/")) {
                         String[] rat = sp_goal.split("/");
-                        double ratio =Double.parseDouble(rat[0]) / Double.parseDouble(rat[1]) * 100;
-                        spGoalPerc.setText(String.valueOf(Math.round(ratio)) + "%");
-                        spIndicator.setProgress((int) (Math.round(ratio)));
+                        if ((Double.parseDouble(rat[0]) == 0) || (Double.parseDouble(rat[1]) == 0)) {
+                            spGoalPerc.setText("0%");
+                            spIndicator.setProgress(0);
+                        } else {
+                            double ratio = Double.parseDouble(rat[0]) / Double.parseDouble(rat[1]) * 100;
+                            spGoalPerc.setText(String.valueOf(Math.round(ratio)) + "%");
+                            spIndicator.setProgress((int) (Math.round(ratio)));
+                            Log.e("this is spgoal", sp_goal);
+                        }
                     }
                 }catch (Exception e) {
                     e.printStackTrace();
@@ -199,11 +211,17 @@ public class Fragment_AreaMonitor extends Fragment {
             public void onChanged(String jo_goal) {
                 try {
                     joFraction.setText(jo_goal);
-                    if (jo_goal.contains("/")){
+                    if (jo_goal.contains("/")) {
                         String[] rat = jo_goal.split("/");
-                        double ratio =Double.parseDouble(rat[0]) / Double.parseDouble(rat[1]) * 100;
-                        joGoalPerc.setText(String.valueOf(Math.round(ratio)) + "%");
-                        joIndicator.setProgress((int) (Math.round(ratio)));
+                        if ((Double.parseDouble(rat[0]) == 0) || (Double.parseDouble(rat[1]) == 0)) {
+                            joGoalPerc.setText("0%");
+                            joIndicator.setProgress(0);
+                        } else {
+                            double ratio = Double.parseDouble(rat[0]) / Double.parseDouble(rat[1]) * 100;
+                            joGoalPerc.setText(String.valueOf(Math.round(ratio)) + "%");
+                            joIndicator.setProgress((int) (Math.round(ratio)));
+                            Log.e("this is jogoal", jo_goal);
+                        }
                     }
                 }catch (Exception e) {
                     e.printStackTrace();

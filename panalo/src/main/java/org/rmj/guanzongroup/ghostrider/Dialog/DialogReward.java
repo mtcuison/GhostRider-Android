@@ -18,6 +18,6 @@ public class DialogReward {
 //
 //        lblAddress = view.findViewById(R.id.lbl_dialogLocation);
 //        MaterialButton btnClose = view.findViewById(R.id.btn_dialogClose);
-//        btnClose.setOnClickListener(view1 -> poDialog.dismiss());
+//        btnClose.setO nClickListener(view1 -> poDialog.dismiss());
     }
 }

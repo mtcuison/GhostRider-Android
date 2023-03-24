@@ -67,25 +67,17 @@ public class AreaMonitoringAdapter extends RecyclerView.Adapter<AreaMonitoringAd
                 }
             });
             if (nPriority == 0) {
-                if (area.getMCActual() == 0){
+                if ((area.getMCActual() == 0) ||  (area.getMCGoalxx() == 0)){
                     holder.lblPercentage.setText("0%");
                     holder.pi.setProgress(0);
                 }else {
                     Float percentage =((Float.parseFloat(String.valueOf(area.getMCActual()))) / (Float.parseFloat(String.valueOf(area.getMCGoalxx()))));
-//                    (int) (((Double.valueOf(area.getMCActual()))/ (Double.valueOf(area.getMCActual()))) * 100);
-//                    Double xxx = Double.valueOf(String.valueOf(percentage));
-//                    String x = String.valueOf((percentage) *  100 );
                     holder.lblPercentage.setText( Math.round((percentage) *  100) + "%");
                     holder.pi.setProgress(Integer.parseInt(String.valueOf(Math.round((percentage)*  100))));
-//                    Log.e("my period", String.valueOf(area.getPeriodxx()));
-//                    Log.e("my branch", String.valueOf(area.getBranchNm()));
-//                    Log.e("this computation1", String.valueOf(area.getMCActual()));
-//                        Log.e("this computation2", String.valueOf(area.getMCGoalxx()));
-//                        Log.e("this computation3", String.valueOf(Math.round(percentage) *  100 ));
                     }
 
             } else if (nPriority == 1) {
-                if (area.getMCActual() == 0) {
+                if ((area.getSPActual() == 0) ||  (area.getSPGoalxx() == 0)){
                     holder.lblPercentage.setText("0%");
                     holder.pi.setProgress(0);
                 }else {
@@ -94,7 +86,7 @@ public class AreaMonitoringAdapter extends RecyclerView.Adapter<AreaMonitoringAd
                     holder.pi.setProgress(Integer.parseInt(String.valueOf(Math.round((percentage)*  100))));
                 }
             } else {
-                if (area.getMCActual() == 0) {
+                if ((area.getJOActual() == 0) ||  (area.getJOGoalxx() == 0)){
                     holder.lblPercentage.setText("0%");
                     holder.pi.setProgress(0);
                 }else {
