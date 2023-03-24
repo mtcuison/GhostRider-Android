@@ -200,7 +200,7 @@ public class PanaloNotificationSender {
 
             JSONObject loData = new JSONObject();
             loData.put("dTransact", AppConstants.CURRENT_DATE);
-            loData.put("sBranchCD", "M175");
+            loData.put("sBranchCD", "M174");
             loData.put("sTimeOpen", "08:30:00 AM");
             loData.put("sOpenNowx", lsTime);
 

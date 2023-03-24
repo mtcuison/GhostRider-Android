@@ -3,7 +3,6 @@ package org.rmj.guanzongroup.ghostrider.notifications.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -26,7 +25,6 @@ import org.rmj.guanzongroup.ghostrider.notifications.Adapter.AdapterPayslip;
 import org.rmj.guanzongroup.ghostrider.notifications.R;
 import org.rmj.guanzongroup.ghostrider.notifications.ViewModel.VMPaySlipList;
 
-import java.io.File;
 import java.util.List;
 
 public class Fragment_PayslipList extends Fragment {
@@ -52,7 +50,7 @@ public class Fragment_PayslipList extends Fragment {
         View view = inflater.inflate(R.layout.fragment_payslip_list, container, false);
 
         lnEmpty = view.findViewById(R.id.ln_empty);
-        recyclerView = view.findViewById(R.id.recyclerView);
+        recyclerView = view.findViewById(R.id.recyclerview);
         mViewModel.GetPaySlipList().observe(getViewLifecycleOwner(), new Observer<List<DPayslip.Payslip>>() {
             @Override
             public void onChanged(List<DPayslip.Payslip> payslips) {

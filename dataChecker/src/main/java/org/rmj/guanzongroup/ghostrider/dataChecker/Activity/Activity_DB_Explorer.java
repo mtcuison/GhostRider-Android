@@ -16,7 +16,6 @@ import static org.rmj.guanzongroup.ghostrider.dataChecker.ViewModel.VMDBExplorer
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,18 +26,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.MaterialAutoCompleteTextView;
-import com.google.android.material.textfield.TextInputLayout;
-import com.google.android.material.textview.MaterialTextView;
-import com.google.android.material.divider.MaterialDivider;
-import com.google.android.material.card.MaterialCardView;
-import com.google.android.material.imageview.ShapeableImageView;
-import  com.google.android.material.checkbox.MaterialCheckBox;
 
 import org.rmj.g3appdriver.etc.ProgressDialog;
 import org.rmj.guanzongroup.ghostrider.dataChecker.Adapter.DCPDataAdapter;
@@ -99,7 +89,7 @@ public class Activity_DB_Explorer extends AppCompatActivity {
         txtDataName = findViewById(R.id.txt_dbName);
         btnFind = findViewById(R.id.btn_findDb);
         btnPost = findViewById(R.id.btn_post);
-        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView = findViewById(R.id.recyclerview);
 
         poDialog = new ProgressDialog(Activity_DB_Explorer.this);
     }

@@ -8,12 +8,15 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DBranchOpeningMonitor;
+import org.rmj.g3appdriver.dev.Database.Entities.EBranchOpenMonitor;
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeBusinessTrip;
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeLeave;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.lib.BullsEye.obj.AreaPerformance;
+import org.rmj.g3appdriver.lib.Notifications.Obj.BranchOpeningMonitor;
 import org.rmj.g3appdriver.lib.PetManager.OnCheckEmployeeApplicationListener;
 import org.rmj.g3appdriver.lib.PetManager.PetManager;
 import org.rmj.g3appdriver.lib.PetManager.model.iPM;
@@ -29,6 +32,7 @@ public class VMHomeAH extends AndroidViewModel {
     private final EmployeeMaster poEmploye;
     private final AreaPerformance poSys;
     private final ConnectionUtil poConn;
+    private final BranchOpeningMonitor poOpening;
 
     private iPM poApp;
 
@@ -38,6 +42,7 @@ public class VMHomeAH extends AndroidViewModel {
         this.poEmploye = new EmployeeMaster(application);
         this.poSys = new AreaPerformance(application);
         this.poConn = new ConnectionUtil(application);
+        this.poOpening = new BranchOpeningMonitor(application);
     }
 
     public LiveData<EEmployeeInfo> getEmployeeInfo(){
@@ -65,6 +70,10 @@ public class VMHomeAH extends AndroidViewModel {
     public LiveData<List<EEmployeeBusinessTrip>> GetOBForApproval(){
         this.poApp = new PetManager(instance).GetInstance(PetManager.ePetManager.BUSINESS_TRIP_APPLICATION);
         return poApp.GetOBApplicationsForApproval();
+    }
+
+    public LiveData<List<DBranchOpeningMonitor.BranchOpeningInfo>> GetRecentlyOpenBranches(){
+        return poOpening.GetBranchOpeningForDashboard();
     }
 
     public void CheckApplicationsForApproval(OnCheckEmployeeApplicationListener listener){

@@ -21,6 +21,7 @@ import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.android.material.textview.MaterialTextView;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DBranchOpeningMonitor;
+import org.rmj.g3appdriver.dev.Database.Entities.EBranchOpenMonitor;
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeBusinessTrip;
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeLeave;
 import org.rmj.g3appdriver.dev.DeptCode;
@@ -70,6 +71,7 @@ public class Fragment_Home_AH extends Fragment {
         initButton();
         initUserInfo();
         initGoals();
+        initBranchOpening();
         initCompanyNotice();
         initEmployeeApp();
         return view;
@@ -200,19 +202,31 @@ public class Fragment_Home_AH extends Fragment {
         });
     }
 
-    private void initBranchOpening(List<DBranchOpeningMonitor.BranchOpeningInfo>List){
-
-        BranchOpeningAdapter loAdapter = new BranchOpeningAdapter(requireActivity(), List , new BranchOpeningAdapter.OnAdapterItemClickListener() {
+    private void initBranchOpening(){
+        mViewModel.GetRecentlyOpenBranches().observe(requireActivity(), new Observer<List<DBranchOpeningMonitor.BranchOpeningInfo>>() {
             @Override
-            public void OnClick() {
+            public void onChanged(List<DBranchOpeningMonitor.BranchOpeningInfo> opening) {
+                try{
+                    if(opening == null){
+                        return;
+                    }
 
+                    BranchOpeningAdapter loAdapter = new BranchOpeningAdapter(requireActivity(), opening , new BranchOpeningAdapter.OnAdapterItemClickListener() {
+                        @Override
+                        public void OnClick() {
+
+                        }
+
+                    });
+                    LinearLayoutManager loManager = new LinearLayoutManager(requireActivity());
+                    loManager.setOrientation(RecyclerView.VERTICAL);
+                    rvBranchOpen.setLayoutManager(loManager);
+                    rvBranchOpen.setAdapter(loAdapter);
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
             }
-
         });
-        LinearLayoutManager loManager = new LinearLayoutManager(requireActivity());
-        loManager.setOrientation(RecyclerView.VERTICAL);
-        rvBranchOpen.setLayoutManager(loManager);
-        rvBranchOpen.setAdapter(loAdapter);
     }
 
 

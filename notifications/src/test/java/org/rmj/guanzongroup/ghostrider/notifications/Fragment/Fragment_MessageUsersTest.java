@@ -24,7 +24,7 @@ import java.util.Map;
 
 import static org.junit.Assert.*;
 
-public class Fragment_MessageListTest {
+public class Fragment_MessageUsersTest {
     private static final String URL_QUICK_SEARCH = "https://restgk.guanzongroup.com.ph/integsys/paramqry/cash_count_rqst_officer.php";
 
     @Before

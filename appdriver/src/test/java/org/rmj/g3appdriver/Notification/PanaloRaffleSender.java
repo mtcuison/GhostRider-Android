@@ -38,13 +38,13 @@ public class PanaloRaffleSender {
 
         JSONArray rcpts = new JSONArray();
         JSONObject rcpt = new JSONObject();
-        rcpt.put("app", "GuanzonApp");
+        rcpt.put("app", "gRider");
         rcpt.put("user", "GAP021002961");
         rcpts.add(rcpt);
 
         //Create the parameters needed by the API
         JSONObject param = new JSONObject();
-        param.put("type", "00008");
+        param.put("type", "00000");
         param.put("parent", null);
         param.put("title", "Guanzon Panalo");
         param.put("message", "Congratulations!");
@@ -66,7 +66,7 @@ public class PanaloRaffleSender {
 
     @Test
     public void test02SendDataNotification() throws Exception{
-        String sURL = "https://restgk.guanzongroup.com.ph/notification/send_request_system.php";
+        String sURL = "https://restgk.guanzongroup.com.ph/notification/send_request.php";
         Calendar calendar = Calendar.getInstance();
         //Create the header section needed by the API
         Map<String, String> headers =
@@ -90,7 +90,7 @@ public class PanaloRaffleSender {
         for(int x = 0; x < 1; x++){
             //Create the parameters needed by the API
             JSONObject param = new JSONObject();
-            param.put("type", "00008");
+            param.put("type", "00000");
             param.put("parent", null);
             param.put("title", "I LOVE MY JOB");
             param.put("message", "Employee raffle has ended!");

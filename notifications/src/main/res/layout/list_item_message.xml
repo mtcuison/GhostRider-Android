@@ -25,7 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingHorizontal="10dp"
-        android:paddingVertical="5dp">
+        android:paddingVertical="15dp">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/img_messageSender"
@@ -45,6 +45,7 @@
             android:fontFamily="@font/roboto_regular"
             android:maxLines="1"
             android:text="Data Requirements"
+            android:textSize="16sp"
             android:layout_marginStart="10dp"
             app:layout_constraintStart_toEndOf="@+id/img_messageSender"
             app:layout_constraintTop_toTopOf="parent" />

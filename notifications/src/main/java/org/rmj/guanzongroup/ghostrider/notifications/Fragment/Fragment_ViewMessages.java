@@ -23,11 +23,11 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.rmj.guanzongroup.ghostrider.notifications.R;
-import org.rmj.guanzongroup.ghostrider.notifications.ViewModel.VMViewMessages;
+import org.rmj.guanzongroup.ghostrider.notifications.ViewModel.VMUserMessages;
 
 public class Fragment_ViewMessages extends Fragment {
 
-    private VMViewMessages mViewModel;
+    private VMUserMessages mViewModel;
 
     private RecyclerView recyclerView;
 
@@ -48,7 +48,7 @@ public class Fragment_ViewMessages extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(VMViewMessages.class);
+        mViewModel = new ViewModelProvider(this).get(VMUserMessages.class);
 
 //        String lsSenderID = Activity_Notifications.getInstance().getSender();
 //        mViewModel.UpdateMessageStatus(lsSenderID);

@@ -3078,6 +3078,7 @@ int drawable notification_template_icon_bg 0x0
 int drawable notification_template_icon_low_bg 0x0
 int drawable notification_tile_bg 0x0
 int drawable notify_panel_notification_icon_bg 0x0
+int drawable sample 0x0
 int drawable tab_selector_bh 0x0
 int drawable tab_selector_bh_untoggled 0x0
 int drawable tablayout_select_indicator 0x0

@@ -60,6 +60,7 @@ import org.rmj.g3appdriver.dev.Database.DataAccessObject.DMcCategory;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DMcModel;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DMcModelPrice;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DMcTermCategory;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DMessages;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DMobileRequest;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DMobileUpdate;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DNNDMRequest;
@@ -262,6 +263,7 @@ public abstract class GGC_GriderDB extends RoomDatabase {
     public abstract DPanalo panaloDao();
     public abstract DPayslip payslipDao();
     public abstract DRaffleStatus raffleStatusDao();
+    public abstract DMessages messagesDao();
 
     public static synchronized GGC_GriderDB getInstance(Context context){
         if(instance == null){

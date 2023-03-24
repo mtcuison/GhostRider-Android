@@ -23,14 +23,17 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.textview.MaterialTextView;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DBranchOpeningMonitor;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
+import java.util.Date;
 import java.util.List;
 
 public class BranchOpeningAdapter extends RecyclerView.Adapter<BranchOpeningAdapter.OpeningViewHolder> {
@@ -64,17 +67,24 @@ public class BranchOpeningAdapter extends RecyclerView.Adapter<BranchOpeningAdap
         holder.lblOpenTime.setText(loMonitor.sTimeOpen);
         holder.lblTimeOpened.setText(loMonitor.sOpenNowx);
 
-        DateTimeFormatter format = new DateTimeFormatterBuilder()
-                .appendPattern("HH:mm a")
-                .parseCaseInsensitive()
-                .parseLenient()
-                .toFormatter();
-        LocalTime loTime1 = LocalTime.parse(loMonitor.sTimeOpen, format);
-        LocalTime loTime2 = LocalTime.parse(loMonitor.sOpenNowx, format);
-        if(loTime1.isAfter(loTime2)) {
-            holder.cardView.setCardBackgroundColor(ContextCompat.getColor(mContext, R.color.branch_opening));
-        } else {
-            holder.cardView.setCardBackgroundColor(ContextCompat.getColor(mContext, R.color.branch_opening_late));
+        try {
+            Date loOpening = new SimpleDateFormat("HH:mm:ss").parse(loMonitor.sTimeOpen);
+            Date loOpenedx = new SimpleDateFormat("HH:mm:ss").parse(loMonitor.sOpenNowx);
+//        DateTimeFormatter format = new DateTimeFormatterBuilder()
+//                .appendPattern("hh:mm a")
+//                .parseCaseInsensitive()
+//                .parseLenient()
+//                .toFormatter();
+//        LocalTime loTime1 = LocalTime.parse(loMonitor.sTimeOpen, format);
+//        LocalTime loTime2 = LocalTime.parse(loMonitor.sOpenNowx, format);
+            int lnResult = loOpenedx.compareTo(loOpening);
+            if (lnResult <= 0) {
+                holder.imgTime.setColorFilter(ContextCompat.getColor(mContext, R.color.branch_opening));
+            } else {
+                holder.imgTime.setColorFilter(ContextCompat.getColor(mContext, R.color.branch_opening_late));
+            }
+        } catch (Exception e){
+            e.printStackTrace();
         }
     }
 
@@ -85,13 +95,13 @@ public class BranchOpeningAdapter extends RecyclerView.Adapter<BranchOpeningAdap
 
     public static class OpeningViewHolder extends RecyclerView.ViewHolder{
 
-        public MaterialCardView cardView;
+        public ShapeableImageView imgTime;
         public MaterialTextView lblBranch, lblOpenTime, lblTimeOpened;
 
         public OpeningViewHolder(@NonNull View itemView, OnAdapterItemClickListener listener) {
             super(itemView);
 
-            cardView = itemView.findViewById(R.id.cardview_branchOpening);
+            imgTime = itemView.findViewById(R.id.shapeableImageView3);
             lblBranch = itemView.findViewById(R.id.lbl_list_branchName);
             lblOpenTime = itemView.findViewById(R.id.lbl_list_openingTime);
             lblTimeOpened = itemView.findViewById(R.id.lbl_list_timeOpened);

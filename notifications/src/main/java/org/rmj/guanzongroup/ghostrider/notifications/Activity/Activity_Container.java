@@ -21,10 +21,8 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import org.rmj.guanzongroup.ghostrider.notifications.Adapter.FragmentAdapter;
-import org.rmj.guanzongroup.ghostrider.notifications.Fragment.Fragment_MessageList;
+import org.rmj.guanzongroup.ghostrider.notifications.Fragment.Fragment_MessageUsers;
 import org.rmj.guanzongroup.ghostrider.notifications.Fragment.Fragment_NotificationList;
-import org.rmj.guanzongroup.ghostrider.notifications.Fragment.Fragment_ViewMessages;
-import org.rmj.guanzongroup.ghostrider.notifications.Fragment.Fragment_ViewNotification;
 import org.rmj.guanzongroup.ghostrider.notifications.R;
 
 import java.util.Objects;
@@ -69,7 +67,7 @@ public class Activity_Container extends AppCompatActivity {
         if(type.equalsIgnoreCase("notification")){
             return new Fragment[]{new Fragment_NotificationList()};
         } else {
-            return new Fragment[]{new Fragment_MessageList()};
+            return new Fragment[]{new Fragment_MessageUsers()};
         }
     }
 }

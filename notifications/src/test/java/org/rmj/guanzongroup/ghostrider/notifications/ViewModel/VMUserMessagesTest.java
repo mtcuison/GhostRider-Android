@@ -24,8 +24,8 @@ import org.robolectric.annotation.Config;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(sdk = {Build.VERSION_CODES.O_MR1}, manifest= Config.NONE)
-public class VMViewMessagesTest extends TestCase {
-    private VMViewMessages mViewModel;
+public class VMUserMessagesTest extends TestCase {
+    private VMUserMessages mViewModel;
 
     @Before
     public void setUp() {

@@ -1,23 +1,16 @@
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity;
 
-import static org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.CashCountDetailedInfo.Values.C0001;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.TextView;
+
 import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.textfield.*;
 import com.google.android.material.textview.MaterialTextView;
-import com.google.android.material.divider.MaterialDivider;
 
 import org.rmj.g3appdriver.etc.CashFormatter;
 import org.rmj.g3appdriver.etc.FormatUIText;
@@ -70,7 +63,7 @@ public class Activity_CashCountLogDetails extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView = findViewById(R.id.recyclerview);
         LinearLayoutManager layoutManager = new LinearLayoutManager(Activity_CashCountLogDetails.this);
         recyclerView.setLayoutManager(layoutManager);
 

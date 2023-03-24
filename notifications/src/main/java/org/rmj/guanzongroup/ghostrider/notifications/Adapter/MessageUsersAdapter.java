@@ -20,17 +20,19 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DMessages;
+import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.guanzongroup.ghostrider.notifications.Notifications.MessageItemList;
 import org.rmj.guanzongroup.ghostrider.notifications.R;
 
 import java.util.List;
 
-public class MessageListAdapter extends RecyclerView.Adapter<MessageListAdapter.ItemViewHolder> {
+public class MessageUsersAdapter extends RecyclerView.Adapter<MessageUsersAdapter.ItemViewHolder> {
 
-    private final List<MessageItemList> messages;
+    private final List<DMessages.MessageUsers> messages;
     private final OnItemClickListener mListener;
 
-    public MessageListAdapter(List<MessageItemList> messages, OnItemClickListener mListener) {
+    public MessageUsersAdapter(List<DMessages.MessageUsers> messages, OnItemClickListener mListener) {
         this.messages = messages;
         this.mListener = mListener;
     }
@@ -44,11 +46,19 @@ public class MessageListAdapter extends RecyclerView.Adapter<MessageListAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
-        MessageItemList message = messages.get(position);
-        holder.message = message;
-        holder.lblName.setText(message.getName());
-        holder.lblBody.setText(message.getMessage());
-        holder.lblDate.setText(message.getDateTime());
+        DMessages.MessageUsers message = messages.get(position);
+        holder.lblName.setText(message.sUserName);
+        holder.lblBody.setText(message.sMessagex);
+        holder.lblDate.setText(FormatUIText.FormatSenderMessageDateTime(message.dReceived));
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(position != RecyclerView.NO_POSITION){
+                    mListener.OnClick(message.sUserName, message.sMessagex, message.sUserIDxx);
+                }
+            }
+        });
     }
 
     @Override
@@ -58,7 +68,6 @@ public class MessageListAdapter extends RecyclerView.Adapter<MessageListAdapter.
 
     public class ItemViewHolder extends RecyclerView.ViewHolder{
 
-        public MessageItemList message;
         public ImageView imgSender;
         public TextView lblName;
         public TextView lblBody;
@@ -71,13 +80,6 @@ public class MessageListAdapter extends RecyclerView.Adapter<MessageListAdapter.
             lblName = itemView.findViewById(R.id.lbl_messageSender);
             lblBody = itemView.findViewById(R.id.lbl_messageBody);
             lblDate = itemView.findViewById(R.id.lbl_messageDateTime);
-
-            itemView.setOnClickListener(view -> {
-                int position = getAdapterPosition();
-                if(position != RecyclerView.NO_POSITION){
-                    mListener.OnClick(message.getName(), message.getMessage(), message.getSendrID());
-                }
-            });
         }
     }
 

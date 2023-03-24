@@ -36,15 +36,15 @@ public class BranchOpeningMonitor {
         dao.insert(branchOpenMonitor);
     }
 
-    public LiveData<List<EBranchOpenMonitor>> getBranchOpeningForDashBoard(String dTransact) {
-        return dao.getBranchOpeningForDashBoard(dTransact);
+    public LiveData<List<EBranchOpenMonitor>> getBranchOpeningForDashBoard() {
+        return dao.getBranchOpeningForDashBoard(AppConstants.CURRENT_DATE);
     }
 
     public LiveData<List<EBranchOpenMonitor>> getBranchOpeningForDate(String dTransact) {
         return dao.getBranchOpeningForDate(dTransact);
     }
 
-    public LiveData<List<DBranchOpeningMonitor.BranchOpeningInfo>> GetBranchOpeningForDashboard(String dTransact) {
+    public LiveData<List<DBranchOpeningMonitor.BranchOpeningInfo>> GetBranchOpeningForDashboard() {
         return dao.GetBranchOpeningInfoForDashBoard(AppConstants.CURRENT_DATE);
     }
 

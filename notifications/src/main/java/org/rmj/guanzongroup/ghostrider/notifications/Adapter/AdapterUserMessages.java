@@ -18,19 +18,21 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DMessages;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DNotifications;
 import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.guanzongroup.ghostrider.notifications.R;
 
 import java.util.List;
 
-public class MessagesViewAdapter extends RecyclerView.Adapter<MessagesViewAdapter.MessagesViewHolder> {
+public class AdapterUserMessages extends RecyclerView.Adapter<AdapterUserMessages.MessagesViewHolder> {
 
-    private List<DNotifications.UserNotificationInfo> plMessage;
+    private List<DMessages.UserMessages> plMessage;
 
-    public MessagesViewAdapter(List<DNotifications.UserNotificationInfo> plMessage) {
+    public AdapterUserMessages(List<DMessages.UserMessages> plMessage) {
         this.plMessage = plMessage;
     }
 
@@ -44,8 +46,9 @@ public class MessagesViewAdapter extends RecyclerView.Adapter<MessagesViewAdapte
     @Override
     public void onBindViewHolder(@NonNull MessagesViewHolder holder, int position) {
         holder.cvSenderMsg.setVisibility(View.VISIBLE);
-        holder.lblSenderMsg.setText(plMessage.get(position).Messagex);
-        holder.lblDateTmeSd.setText(FormatUIText.getParseDateTime(plMessage.get(position).Received));
+        holder.lblSenderMsg.setText(plMessage.get(position).sMessagex);
+        holder.lblDateTmeSd.setText(FormatUIText.getParseDateTime(plMessage.get(position).dReceived));
+        holder.cvSenderMsg.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -59,7 +62,7 @@ public class MessagesViewAdapter extends RecyclerView.Adapter<MessagesViewAdapte
                         lblRecpntMsg,
                         lblDateTmeRc,
                         lblDateTmeSd;
-        public LinearLayout cvSenderMsg,
+        public ConstraintLayout cvSenderMsg,
                 cvRecpntMsg;
 
         public MessagesViewHolder(@NonNull View itemView) {
@@ -68,8 +71,8 @@ public class MessagesViewAdapter extends RecyclerView.Adapter<MessagesViewAdapte
             lblRecpntMsg = itemView.findViewById(R.id.lbl_recipient_message);
             lblDateTmeRc = itemView.findViewById(R.id.lbl_messageDateTimeRcpt);
             lblDateTmeSd = itemView.findViewById(R.id.lbl_messageDateTimeSndr);
-            cvSenderMsg = itemView.findViewById(R.id.cv_sender_message);
-            cvRecpntMsg = itemView.findViewById(R.id.cv_recipient_message);
+            cvSenderMsg = itemView.findViewById(R.id.constraint_sender);
+            cvRecpntMsg = itemView.findViewById(R.id.constraint_user);
 
             lblSenderMsg.setOnClickListener(v -> {
                 if(lblDateTmeSd.getVisibility() != View.VISIBLE) {

@@ -13,7 +13,6 @@ package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,20 +20,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 
-import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.MaterialAutoCompleteTextView;
-import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.textview.MaterialTextView;
-import com.google.android.material.divider.MaterialDivider;
-import com.google.android.material.card.MaterialCardView;
-import com.google.android.material.imageview.ShapeableImageView;
-import  com.google.android.material.checkbox.MaterialCheckBox;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.etc.LoadDialog;
@@ -43,8 +31,6 @@ import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter.PostDcpAdapte
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMPostDcp;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class Activity_PostDcp extends AppCompatActivity {
@@ -93,7 +79,7 @@ public class Activity_PostDcp extends AppCompatActivity {
         lblBranch = findViewById(R.id.lbl_headerBranch);
         lblAddrss = findViewById(R.id.lbl_headerAddress);
         lblNoList = findViewById(R.id.lbl_noAvailable);
-        recyclerV = findViewById(R.id.recyclerView);
+        recyclerV = findViewById(R.id.recyclerview);
         LinearLayoutManager lnManager = new LinearLayoutManager(Activity_PostDcp.this);
         lnManager.setOrientation(RecyclerView.VERTICAL);
         recyclerV.setLayoutManager(lnManager);

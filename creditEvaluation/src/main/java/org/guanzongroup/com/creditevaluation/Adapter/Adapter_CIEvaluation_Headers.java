@@ -4,21 +4,9 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 
-import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.MaterialAutoCompleteTextView;
-import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.textview.MaterialTextView;
-import com.google.android.material.divider.MaterialDivider;
-import com.google.android.material.card.MaterialCardView;
-import com.google.android.material.imageview.ShapeableImageView;
-import  com.google.android.material.checkbox.MaterialCheckBox;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -121,7 +109,7 @@ public class Adapter_CIEvaluation_Headers extends RecyclerView.Adapter<Adapter_C
 
         public VHEvaluationHeaders(@NonNull View itemView) {
             super(itemView);
-            recyclerView = itemView.findViewById(R.id.recyclerView);
+            recyclerView = itemView.findViewById(R.id.recyclerview);
             lblHeader = itemView.findViewById(R.id.textview);
         }
     }
