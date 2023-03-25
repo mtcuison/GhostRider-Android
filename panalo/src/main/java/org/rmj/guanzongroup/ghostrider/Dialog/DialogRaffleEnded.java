@@ -7,10 +7,10 @@ import android.view.View;
 
 import org.rmj.guanzongroup.ghostrider.R;
 
-public class DialogRaffleStart {
-    public DialogRaffleStart(Context context){
+public class DialogRaffleEnded {
+    public DialogRaffleEnded(Context context){
         AlertDialog.Builder poBuilder = new AlertDialog.Builder(context);
-        View view = LayoutInflater.from(context).inflate(R.layout.dialog_raffle_start, null);
+        View view = LayoutInflater.from(context).inflate(R.layout.dialog_raffle_ended, null);
         poBuilder.setCancelable(false)
                 .setView(view);
 //        poDialog = poBuilder.create();

@@ -12,6 +12,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
@@ -21,11 +23,14 @@ import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
+import org.rmj.g3appdriver.lib.Notifications.data.SampleData;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_BranchPerformanceMonitoring;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_BranchPerformanceMonitoring;
 import org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_SplashScreen;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMHomeBH;
 import org.rmj.guanzongroup.ghostrider.epacss.adapter.NewsEventsModel;
+import org.rmj.guanzongroup.ghostrider.notifications.Adapter.AdapterAnnouncements;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +43,7 @@ public class Fragment_Home_BH extends Fragment {
             lblDept,
             lblAreaNme,
             lblSyncStat;
-    private String photoPath;
+    private String photoPath, branchCd, branchNm;
     private double latitude, longitude;
     private List<NewsEventsModel> newsList;
 
@@ -47,6 +52,7 @@ public class Fragment_Home_BH extends Fragment {
     private MaterialTextView mcGoalPerc,mcGoalFraction,spGoalPerc,spGoalFraction,joGoalPerc,joGoalFraction;
     private VMHomeBH mViewModel;
     private MaterialCardView btnPerformance;
+    private RecyclerView rvCompnyAnouncemnt, rvLeaveApp, rvBusTripApp;
 
     public static Fragment_Home_BH newInstance() {
         return new Fragment_Home_BH();
@@ -74,10 +80,12 @@ public class Fragment_Home_BH extends Fragment {
         joGoalPerc = view.findViewById(R.id.lblJobOrder);
         joGoalFraction = view.findViewById(R.id.lblJobOrderPercent);
 
+        rvCompnyAnouncemnt= view.findViewById(R.id.rvCompnyAnouncemnt);
         btnPerformance = view.findViewById(R.id.cb_performance);
         initUserInfo();
         initGoals();
         initButton();
+        initCompanyNotice();
         return view;
     }
 
@@ -89,9 +97,14 @@ public class Fragment_Home_BH extends Fragment {
                     mcGoalPerc.setText(mc_goal);
                     if (mc_goal.contains("/")) {
                         String[] rat = mc_goal.split("/");
-                        double ratio = Double.parseDouble(rat[0]) / Double.parseDouble(rat[1]) * 100;
-                        mcGoalFraction.setText(String.valueOf(Math.round(ratio)) + "%");
-                        mcIndicator.setProgress((int) (Math.round(ratio)));
+                        if ((Double.parseDouble(rat[0]) == 0) || (Double.parseDouble(rat[1]) == 0)) {
+                            mcGoalFraction.setText("0%");
+                            mcIndicator.setProgress(0);
+                        } else {
+                            double ratio = Double.parseDouble(rat[0]) / Double.parseDouble(rat[1]) * 100;
+                            mcGoalFraction.setText(String.valueOf(Math.round(ratio)) + "%");
+                            mcIndicator.setProgress((int) (Math.round(ratio)));
+                        }
                     }
                 } catch (Exception e){
                     e.printStackTrace();
@@ -105,9 +118,14 @@ public class Fragment_Home_BH extends Fragment {
                     spGoalPerc.setText(sp_goal);
                     if (sp_goal.contains("/")) {
                         String[] rat = sp_goal.split("/");
-                        double ratio = Double.parseDouble(rat[0]) / Double.parseDouble(rat[1]) * 100;
-                        spGoalFraction.setText(String.valueOf(Math.round(ratio)) + "%");
-                        spIndicator.setProgress((int) (Math.round(ratio)));
+                        if ((Double.parseDouble(rat[0]) == 0) || (Double.parseDouble(rat[1]) == 0)) {
+                            spGoalFraction.setText("0%");
+                            spIndicator.setProgress(0);
+                        } else {
+                            double ratio = Double.parseDouble(rat[0]) / Double.parseDouble(rat[1]) * 100;
+                            spGoalFraction.setText(String.valueOf(Math.round(ratio)) + "%");
+                            spIndicator.setProgress((int) (Math.round(ratio)));
+                        }
                     }
                 } catch (Exception e){
                     e.printStackTrace();
@@ -121,9 +139,14 @@ public class Fragment_Home_BH extends Fragment {
                     joGoalPerc.setText(jo_goal);
                     if (jo_goal.contains("/")) {
                         String[] rat = jo_goal.split("/");
-                        double ratio = Double.parseDouble(rat[0]) / Double.parseDouble(rat[1]) * 100;
-                        joGoalFraction.setText(String.valueOf(Math.round(ratio)) + "%");
-                        joIndicator.setProgress((int) (Math.round(ratio)));
+                        if ((Double.parseDouble(rat[0]) == 0) || (Double.parseDouble(rat[1]) == 0)) {
+                            joGoalFraction.setText("0%");
+                            joIndicator.setProgress(0);
+                        } else {
+                            double ratio = Double.parseDouble(rat[0]) / Double.parseDouble(rat[1]) * 100;
+                            joGoalFraction.setText(String.valueOf(Math.round(ratio)) + "%");
+                            joIndicator.setProgress((int) (Math.round(ratio)));
+                        }
                     }
                 } catch (Exception e){
                     e.printStackTrace();
@@ -137,6 +160,8 @@ public class Fragment_Home_BH extends Fragment {
                 //lblEmail.setText(eEmployeeInfo.getEmailAdd());
 //                lblUserLvl.setText(DeptCode.parseUserLevel(eEmployeeInfo.getEmpLevID()));
                 lblFullNme.setText(eEmployeeInfo.getUserName());
+                branchCd = eEmployeeInfo.getBranchCD();
+                branchNm = eEmployeeInfo.getBranchNm();
                 lblDept.setText(DeptCode.parseUserLevel(eEmployeeInfo.getEmpLevID()));
                 mViewModel.setIntUserLvl(4);
 
@@ -165,6 +190,10 @@ public class Fragment_Home_BH extends Fragment {
             @Override
             public void onClick(View view) {
                 loIntent = new Intent(getActivity(), Activity_BranchPerformanceMonitoring.class);
+                loIntent.putExtra("index","0");
+                loIntent.putExtra("brnCD",branchCd);
+                loIntent.putExtra("brnNM",branchNm);
+                loIntent = new Intent(getActivity(), Activity_BranchPerformanceMonitoring.class);
                 startActivity(loIntent);
                 requireActivity().overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
             }
@@ -176,6 +205,18 @@ public class Fragment_Home_BH extends Fragment {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VMHomeBH.class);
         // TODO: Use the ViewModel
+    }
+    private void initCompanyNotice(){
+        AdapterAnnouncements loAdapter = new AdapterAnnouncements(SampleData.GetAnnouncementList(), new AdapterAnnouncements.OnItemClickListener() {
+            @Override
+            public void OnClick(String args) {
+
+            }
+        });
+        LinearLayoutManager loManager = new LinearLayoutManager(requireActivity());
+        loManager.setOrientation(RecyclerView.VERTICAL);
+        rvCompnyAnouncemnt.setLayoutManager(loManager);
+        rvCompnyAnouncemnt.setAdapter(loAdapter);
     }
 
 }

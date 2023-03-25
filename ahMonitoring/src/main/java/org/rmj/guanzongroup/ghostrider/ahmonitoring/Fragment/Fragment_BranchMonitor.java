@@ -28,7 +28,6 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
@@ -41,7 +40,6 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.textview.MaterialTextView;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DBranchPerformance;
-import org.rmj.g3appdriver.lib.BullsEye.PerformancePeriod;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMBranchMonitor;
 
@@ -154,6 +152,7 @@ public class Fragment_BranchMonitor extends Fragment {
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
+        initGoalPercentage();
         return view;
     }
 
@@ -202,13 +201,20 @@ public class Fragment_BranchMonitor extends Fragment {
         mViewModel.GetCurrentMCSalesPerformance(BranchCd).observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(String mc_goal) {
+
                 try {
                     mcFraction.setText(mc_goal);
-                    if (mc_goal.contains("/")){
+                    Log.e("this is mc Goal", mc_goal);
+                    if (mc_goal.contains("/")) {
                         String[] rat = mc_goal.split("/");
-                        double ratio =Double.parseDouble(rat[0]) / Double.parseDouble(rat[1]) * 100;
-                        mcGoalPerc.setText(String.valueOf(Math.round(ratio)) + "%");
-                        mcIndicator.setProgress((int) (Math.round(ratio)));
+                        if ((Double.parseDouble(rat[0]) == 0) || (Double.parseDouble(rat[1]) == 0)) {
+                            mcGoalPerc.setText("0%");
+                            mcIndicator.setProgress(0);
+                        } else {
+                            double ratio = Double.parseDouble(rat[0]) / Double.parseDouble(rat[1]) * 100;
+                            mcGoalPerc.setText(String.valueOf(Math.round(ratio)) + "%");
+                            mcIndicator.setProgress((int) (Math.round(ratio)));
+                        }
                     }
                 }catch (Exception e) {
                     e.printStackTrace();
@@ -220,11 +226,17 @@ public class Fragment_BranchMonitor extends Fragment {
             public void onChanged(String sp_goal) {
                 try {
                     spFraction.setText(sp_goal);
-                    if (sp_goal.contains("/")){
+                    Log.e("this is sp Goal", sp_goal);
+                    if (sp_goal.contains("/")) {
                         String[] rat = sp_goal.split("/");
-                        double ratio =Double.parseDouble(rat[0]) / Double.parseDouble(rat[1]) * 100;
-                        spGoalPerc.setText(String.valueOf(Math.round(ratio)) + "%");
-                        spIndicator.setProgress((int) (Math.round(ratio)));
+                        if ((Double.parseDouble(rat[0]) == 0) || (Double.parseDouble(rat[1]) == 0)) {
+                            spGoalPerc.setText("0%");
+                            spIndicator.setProgress(0);
+                        } else {
+                            double ratio = Double.parseDouble(rat[0]) / Double.parseDouble(rat[1]) * 100;
+                            spGoalPerc.setText(String.valueOf(Math.round(ratio)) + "%");
+                            spIndicator.setProgress((int) (Math.round(ratio)));
+                        }
                     }
                 }catch (Exception e) {
                     e.printStackTrace();
@@ -236,11 +248,17 @@ public class Fragment_BranchMonitor extends Fragment {
             public void onChanged(String jo_goal) {
                 try {
                     joFraction.setText(jo_goal);
-                    if (jo_goal.contains("/")){
+                    Log.e("this is jo Goal", jo_goal);
+                    if (jo_goal.contains("/")) {
                         String[] rat = jo_goal.split("/");
-                        double ratio =Double.parseDouble(rat[0]) / Double.parseDouble(rat[1]) * 100;
-                        joGoalPerc.setText(String.valueOf(Math.round(ratio)) + "%");
-                        joIndicator.setProgress((int) (Math.round(ratio)));
+                        if ((Double.parseDouble(rat[0]) == 0) || (Double.parseDouble(rat[1]) == 0)) {
+                            joGoalPerc.setText("0%");
+                            joIndicator.setProgress(0);
+                        } else {
+                            double ratio = Double.parseDouble(rat[0]) / Double.parseDouble(rat[1]) * 100;
+                            joGoalPerc.setText(String.valueOf(Math.round(ratio)) + "%");
+                            joIndicator.setProgress((int) (Math.round(ratio)));
+                        }
                     }
                 }catch (Exception e) {
                     e.printStackTrace();

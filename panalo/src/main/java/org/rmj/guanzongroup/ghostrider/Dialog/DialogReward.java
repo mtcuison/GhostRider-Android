@@ -7,10 +7,10 @@ import android.view.View;
 
 import org.rmj.guanzongroup.ghostrider.R;
 
-public class DialogRaffleStart {
-    public DialogRaffleStart(Context context){
+public class DialogReward {
+    public DialogReward(Context context){
         AlertDialog.Builder poBuilder = new AlertDialog.Builder(context);
-        View view = LayoutInflater.from(context).inflate(R.layout.dialog_raffle_start, null);
+        View view = LayoutInflater.from(context).inflate(R.layout.dialog_reward, null);
         poBuilder.setCancelable(false)
                 .setView(view);
 //        poDialog = poBuilder.create();
@@ -18,6 +18,6 @@ public class DialogRaffleStart {
 //
 //        lblAddress = view.findViewById(R.id.lbl_dialogLocation);
 //        MaterialButton btnClose = view.findViewById(R.id.btn_dialogClose);
-//        btnClose.setOnClickListener(view1 -> poDialog.dismiss());
+//        btnClose.setO nClickListener(view1 -> poDialog.dismiss());
     }
 }

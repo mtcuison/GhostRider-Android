@@ -11,19 +11,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.android.material.textview.MaterialTextView;
 
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DAreaPerformance;
 import org.rmj.g3appdriver.lib.BullsEye.PerformancePeriod;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.PeriodicPerformance;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 
 import java.util.List;
 
 public class Adapter_Area_Performance_Monitoring extends RecyclerView.Adapter<Adapter_Area_Performance_Monitoring.ChartViewHolder> {
-    private List<DAreaPerformance.PeriodicPerformance> areaPerformances;
+    private List<PeriodicPerformance> areaPerformances;
     private final Adapter_Area_Performance_Monitoring.OnAreasClickListener mListener;
     public interface OnAreasClickListener {
         void OnClick(String sBranchCd, String sBranchnm);
     }
-    public Adapter_Area_Performance_Monitoring(List<DAreaPerformance.PeriodicPerformance> areaMonitoringPerformancebyMC, OnAreasClickListener listener) {
+    public Adapter_Area_Performance_Monitoring(List<PeriodicPerformance> areaMonitoringPerformancebyMC, OnAreasClickListener listener) {
         this.areaPerformances = areaMonitoringPerformancebyMC;
         this.mListener = listener;
     }
@@ -37,11 +37,11 @@ public class Adapter_Area_Performance_Monitoring extends RecyclerView.Adapter<Ad
 
     @Override
     public void onBindViewHolder(@NonNull ChartViewHolder holder, int position) {
-        DAreaPerformance.PeriodicPerformance loArea = areaPerformances.get(position);
-        holder.lblPeriod.setText(PerformancePeriod.getPeriodText(loArea.sPeriodxx));
+        PeriodicPerformance loArea = areaPerformances.get(position);
+        holder.lblPeriod.setText(PerformancePeriod.getPeriodText(loArea.getsPeriod()));
 //        Log.e("PERIOD NAME", PerformancePeriod.getPeriodText());
-        holder.lblActual.setText(String.valueOf(Double.valueOf(loArea.nActualxx)));
-        holder.lblGoal.setText(String.valueOf(Double.valueOf(loArea.nGoalxxxx)));
+        holder.lblActual.setText(loArea.getnActual());
+        holder.lblGoal.setText(loArea.getnGoalxx());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

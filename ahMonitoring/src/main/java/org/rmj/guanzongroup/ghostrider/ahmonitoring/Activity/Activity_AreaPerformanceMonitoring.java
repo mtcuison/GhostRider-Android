@@ -1,7 +1,5 @@
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity;
 
-import static org.rmj.g3appdriver.etc.AppConstants.CHART_MONTH_LABEL;
-
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -38,6 +36,7 @@ import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.lib.BullsEye.PerformancePeriod;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.Adapter_Area_Performance_Monitoring;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.Adapter_Branch_Performance_Monitoring;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.PeriodicPerformance;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMAreaPerfromanceMonitoring;
 
@@ -140,8 +139,8 @@ public class Activity_AreaPerformanceMonitoring extends AppCompatActivity {
         poActual = new ArrayList<>();
         poGoalxx = new ArrayList<>();
         for (int x = 0; x < list.size(); x++) {
-            poActual.add(new Entry(x, Float.valueOf(list.get(x).nActualxx)));
-            poGoalxx.add(new Entry(x, Float.valueOf(list.get(x).nGoalxxxx)));
+            poActual.add(new Entry(x, (list.get(x).nActualxx.isEmpty())?(float)0.0:Float.valueOf(list.get(x).nActualxx)));
+            poGoalxx.add(new Entry(x, (list.get(x).nGoalxxxx.isEmpty())?(float)0.0:Float.valueOf(list.get(x).nGoalxxxx)));
         }
 
         LineDataSet loActual = new LineDataSet(poActual, "Actual");
@@ -216,7 +215,15 @@ public class Activity_AreaPerformanceMonitoring extends AppCompatActivity {
         }
     }
     private void InitializeAreaList(List<DAreaPerformance.PeriodicPerformance> areaMonitoringPerformance) {
-        Adapter_Area_Performance_Monitoring loAdapter = new Adapter_Area_Performance_Monitoring(areaMonitoringPerformance, new Adapter_Area_Performance_Monitoring.OnAreasClickListener() {
+        List<PeriodicPerformance> loList = new ArrayList<>();
+        for(int x = 0; x < areaMonitoringPerformance.size(); x++){
+            String lsPeriod = areaMonitoringPerformance.get(x).sPeriodxx;
+            String lnActual = areaMonitoringPerformance.get(x).nActualxx;
+            String lnGoalxx = areaMonitoringPerformance.get(x).nGoalxxxx;
+
+            loList.add(new PeriodicPerformance(lsPeriod, lnActual, lnGoalxx));
+        }
+        Adapter_Area_Performance_Monitoring loAdapter = new Adapter_Area_Performance_Monitoring(loList, new Adapter_Area_Performance_Monitoring.OnAreasClickListener() {
             @Override
             public void OnClick(String sBranchCd, String sBranchnm) {
                 Intent loIntent = new Intent(Activity_AreaPerformanceMonitoring.this, Activity_BranchPerformanceMonitoring.class);

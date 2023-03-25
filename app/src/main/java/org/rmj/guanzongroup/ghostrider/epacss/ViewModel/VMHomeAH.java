@@ -9,10 +9,11 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DBranchOpeningMonitor;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DBranchOpeningMonitor_Impl;
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeBusinessTrip;
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
-
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeLeave;
+import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.lib.BullsEye.obj.AreaPerformance;
 import org.rmj.g3appdriver.lib.Notifications.Obj.BranchOpeningMonitor;
@@ -32,6 +33,7 @@ public class VMHomeAH extends AndroidViewModel {
     private final ConnectionUtil poConn;
     private final BranchOpeningMonitor poOpening;
 
+    private final BranchOpeningMonitor poOpening;
     private iPM poApp;
 
     public VMHomeAH(@NonNull Application application) {
@@ -126,4 +128,8 @@ public class VMHomeAH extends AndroidViewModel {
             }
         }
     }
+    public LiveData<List<DBranchOpeningMonitor_Impl.BranchOpeningInfo>> GetBranchOpeningForDashboard(String dTransact) {
+        return poOpening.GetBranchOpeningForDashboard(AppConstants.CURRENT_DATE);
+    }
+
 }
