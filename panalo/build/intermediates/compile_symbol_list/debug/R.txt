@@ -2039,6 +2039,8 @@ int color secondary_text_default_material_dark 0x0
 int color secondary_text_default_material_light 0x0
 int color secondary_text_disabled_material_dark 0x0
 int color secondary_text_disabled_material_light 0x0
+int color statusBarColorDark 0x0
+int color statusBarColorLight 0x0
 int color success_green 0x0
 int color switch_thumb_disabled_material_dark 0x0
 int color switch_thumb_disabled_material_light 0x0
@@ -2882,6 +2884,8 @@ int drawable abc_textfield_search_activated_mtrl_alpha 0x0
 int drawable abc_textfield_search_default_mtrl_alpha 0x0
 int drawable abc_textfield_search_material 0x0
 int drawable abc_vector_test 0x0
+int drawable app_background_dark 0x0
+int drawable app_background_light 0x0
 int drawable avd_hide_password 0x0
 int drawable avd_show_password 0x0
 int drawable background_dialog 0x0

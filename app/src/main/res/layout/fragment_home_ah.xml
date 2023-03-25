@@ -24,6 +24,7 @@
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
         android:src="@drawable/bg_dashboard"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -66,7 +67,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:fontFamily="@font/roboto"
-                android:text="DE CELIS, TEEJEI F."
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="@+id/cardView"
                 app:layout_constraintStart_toStartOf="parent"
@@ -79,7 +79,6 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="5dp"
                 android:fontFamily="@font/roboto"
-                android:text="Area Manager"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lblEmpNme" />
 
@@ -96,6 +95,8 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
+
+
                     android:layout_height="wrap_content"
                     android:padding="10dp">
 

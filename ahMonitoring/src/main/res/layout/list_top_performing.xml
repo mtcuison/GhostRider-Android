@@ -32,9 +32,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="86dp"
-                tools:layout_editor_absoluteX="-180dp"
-                tools:layout_editor_absoluteY="-16dp">
+                android:layout_height="86dp">
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/lbl_top_branches"

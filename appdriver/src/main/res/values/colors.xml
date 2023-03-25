@@ -24,6 +24,9 @@
     <color name="colorPrimaryVariantLight">#F47422</color>
     <color name="colorSecondaryVariantLight">#F47422</color>
 
+    <color name="statusBarColorLight">#F47422</color>
+    <color name="statusBarColorDark">#FF303137</color>
+
     <color name="colorPrimaryDark">#F47422</color>
     <color name="colorPrimaryVariantDark">#F47422</color>
 
