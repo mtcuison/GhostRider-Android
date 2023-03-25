@@ -81,4 +81,5 @@ public class Adapter_Branch_Performance_Monitoring extends RecyclerView.Adapter<
             lblActual = itemView.findViewById(R.id.lblActual);
         }
     }
+
 }

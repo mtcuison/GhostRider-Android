@@ -2,22 +2,26 @@ package org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity;
 
 import static org.rmj.g3appdriver.etc.AppConstants.CHART_MONTH_LABEL;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -31,6 +35,8 @@ import com.google.android.material.textview.MaterialTextView;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DBranchPerformance;
 import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.Adapter_Area_Performance_Monitoring;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.PeriodicPerformance;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMBranchPerformanceMonitor;
 
@@ -72,7 +78,7 @@ public class Activity_BranchPerformanceMonitoring extends AppCompatActivity {
         height = metrics.heightPixels;
         piechart = findViewById(R.id.pie_chart);
         linechart = findViewById(R.id.line_chart);
-        rvAreaPerformance = findViewById(R.id.recyclerview_area_performance);
+        rvBranchPerformance = findViewById(R.id.rvBranchPerformance);
 
         tabLayout = findViewById(R.id.tabLayout);
 
@@ -80,80 +86,21 @@ public class Activity_BranchPerformanceMonitoring extends AppCompatActivity {
         tabLayout.addTab(tabLayout.newTab().setText("SP Sales"));
         tabLayout.addTab(tabLayout.newTab().setText("Job Order"));
 
-        mViewModel.GetMCSalesPeriodicPerformance(BranchCD).observe(Activity_BranchPerformanceMonitoring.this,  BranchPerforamancebyMC -> {
-            try{
-                InitializeBranchList(BranchPerforamancebyMC);
-                lblBranch.setText(BranchNM);
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-        });
-        mViewModel.GetCurrentMCSalesPerformance(BranchCD).observe(Activity_BranchPerformanceMonitoring.this, BranchPerforamancebyMC ->{
-            try{
-                if (BranchPerforamancebyMC.contains("/")){
-                    String[] rat = BranchPerforamancebyMC.split("/");
-                    double ratio =Double.parseDouble(rat[0]) / Double.parseDouble(rat[1]) * 100;
-                    InitializePieChart(BranchPerforamancebyMC);
-                }
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-        });
-
         initTablayout();
     }
 
     private void initTablayout(){
-
+        selectedCardView();
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
+
             public void onTabSelected(TabLayout.Tab tab) {
                 if(tab.getPosition() == 0){
-                    mViewModel.GetMCSalesPeriodicPerformance(BranchCD).observe(Activity_BranchPerformanceMonitoring.this,  BranchPerforamancebyMC -> {
-                        try{
-                            InitializeBranchList(BranchPerforamancebyMC);
-                        }catch (Exception e){
-                            e.printStackTrace();
-                        }
-                    });
-                    mViewModel.GetCurrentMCSalesPerformance(BranchCD).observe(Activity_BranchPerformanceMonitoring.this, BranchPerforamancebyMC ->{
-                        try{
-                            InitializePieChart(BranchPerforamancebyMC);
-                        }catch (Exception e){
-                            e.printStackTrace();
-                        }
-                    });
+                    initMCSales();
                 } else if (tab.getPosition() == 1) {
-                    mViewModel.GetSPSalesPeriodicPerformance(BranchCD).observe(Activity_BranchPerformanceMonitoring.this,  BranchPerforamancebySP -> {
-                        try{
-                            InitializeBranchList(BranchPerforamancebySP);
-                        }catch (Exception e){
-                            e.printStackTrace();
-                        }
-                    });
-                    mViewModel.GetCurrentSPSalesPerformance(BranchCD).observe(Activity_BranchPerformanceMonitoring.this, BranchPerforamancebySP ->{
-                        try{
-                            InitializePieChart(BranchPerforamancebySP);
-                        }catch (Exception e){
-                            e.printStackTrace();
-                        }
-                    });
+                    initSPSales();
                 } else{
-                    mViewModel.GetJobOrderPeriodicPerformance(BranchCD).observe(Activity_BranchPerformanceMonitoring.this,  BranchPerforamancebyJO -> {
-                        try{
-                            InitializeBranchList(BranchPerforamancebyJO);
-                        }catch (Exception e){
-                            e.printStackTrace();
-                        }
-                    });
-                    mViewModel.GetJobOrderPerformance(BranchCD).observe(Activity_BranchPerformanceMonitoring.this, BranchPerforamancebyJO ->{
-                        try{
-                            InitializePieChart(BranchPerforamancebyJO);
-                            Log.e("value of ",BranchPerforamancebyJO);
-                        }catch (Exception e){
-                            e.printStackTrace();
-                        }
-                    });
+                    initJOSales();
                 }
             }
 
@@ -163,6 +110,60 @@ public class Activity_BranchPerformanceMonitoring extends AppCompatActivity {
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
+            }
+        });
+    }
+
+    public void initMCSales(){
+        mViewModel.GetMCSalesPeriodicPerformance(BranchCD).observe(Activity_BranchPerformanceMonitoring.this,  BranchPerforamancebyMC -> {
+            try{
+                InitializeBranchList(BranchPerforamancebyMC);
+                InitializeBranch(BranchPerforamancebyMC);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+        mViewModel.GetCurrentMCSalesPerformance(BranchCD).observe(Activity_BranchPerformanceMonitoring.this, BranchPerforamancebyMC ->{
+            try{
+                InitializePieChart(BranchPerforamancebyMC);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+    }
+    public void initSPSales(){
+        mViewModel.GetSPSalesPeriodicPerformance(BranchCD).observe(Activity_BranchPerformanceMonitoring.this,  BranchPerforamancebySP -> {
+            try{
+                InitializeBranchList(BranchPerforamancebySP);
+                InitializeBranch(BranchPerforamancebySP);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+        mViewModel.GetCurrentSPSalesPerformance(BranchCD).observe(Activity_BranchPerformanceMonitoring.this, BranchPerforamancebySP ->{
+            try{
+                InitializePieChart(BranchPerforamancebySP);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+
+    }
+    public void initJOSales(){
+        mViewModel.GetJobOrderPeriodicPerformance(BranchCD).observe(Activity_BranchPerformanceMonitoring.this,  BranchPerforamancebyJO -> {
+            try{
+                InitializeBranchList(BranchPerforamancebyJO);
+                InitializeBranch(BranchPerforamancebyJO);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+        mViewModel.GetJobOrderPerformance(BranchCD).observe(Activity_BranchPerformanceMonitoring.this, BranchPerforamancebyJO ->{
+            try{
+                InitializePieChart(BranchPerforamancebyJO);
+                Log.e("value of ",BranchPerforamancebyJO);
+            }catch (Exception e){
+                e.printStackTrace();
             }
         });
     }
@@ -192,9 +193,20 @@ public class Activity_BranchPerformanceMonitoring extends AppCompatActivity {
         LineDataSet loActual = new LineDataSet(poActual, "Actual");
         LineDataSet loGoalxx = new LineDataSet(poGoalxx, "Goal");
 
+//        loActual.setLineWidth(2);
+//        loActual.setColors(getResources().getColor(R.color.guanzon_orange));
+//
+//        loGoalxx.setLineWidth(2);
+//        loGoalxx.setColors(getResources().getColor(R.color.check_green));
+//
+//        ArrayList<ILineDataSet> loDataSet = new ArrayList<>();
+//        loDataSet.add(loActual);
+//        loDataSet.add(loGoalxx);
+        loActual.setAxisDependency(YAxis.AxisDependency.RIGHT);
         loActual.setLineWidth(2);
         loActual.setColors(getResources().getColor(R.color.guanzon_orange));
 
+        loGoalxx.setAxisDependency(YAxis.AxisDependency.RIGHT);
         loGoalxx.setLineWidth(2);
         loGoalxx.setColors(getResources().getColor(R.color.check_green));
 
@@ -213,8 +225,9 @@ public class Activity_BranchPerformanceMonitoring extends AppCompatActivity {
         linechart.getLegend().setTextColor(color);
         linechart.setDescription(null);
         linechart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(CHART_MONTH_LABEL));
+//        linechart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(CHART_MONTH_LABEL));
         linechart.setDoubleTapToZoomEnabled(false);
-        linechart.getXAxis().setTextSize(14f);
+        linechart.getXAxis().setTextSize(10f);
         linechart.setExtraOffsets(0, 0, 10f, 18f);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width, (height / 3));
         linechart.setLayoutParams(params);
@@ -234,8 +247,8 @@ public class Activity_BranchPerformanceMonitoring extends AppCompatActivity {
         try{
             ArrayList<PieEntry> loEntries = new ArrayList<>();
             ArrayList<Integer> colors = new ArrayList<>();
-
-            if(args.contains("/")){
+            Log.e("anu ito",String.valueOf(args));
+            if(String.valueOf(args).contains("/")){
                 String[] rat = args.split("/");
                 float lnActual = (float) Double.parseDouble(rat[0]);
                 float lnGoalxx = (float) Double.parseDouble(rat[1]);
@@ -270,4 +283,52 @@ public class Activity_BranchPerformanceMonitoring extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+    private void InitializeBranch(List<DBranchPerformance.PeriodicalPerformance> BranchPerformanceList) {
+        List<PeriodicPerformance> loList = new ArrayList<>();
+        for(int x = 0; x < BranchPerformanceList.size(); x++){
+            String lsPeriod = BranchPerformanceList.get(x).Period;
+            String lnActual = BranchPerformanceList.get(x).Actual;
+            String lnGoalxx = BranchPerformanceList.get(x).Goal;
+
+            loList.add(new PeriodicPerformance(lsPeriod, lnActual, lnGoalxx));
+        }
+        Adapter_Area_Performance_Monitoring loAdapter = new Adapter_Area_Performance_Monitoring(loList, new Adapter_Area_Performance_Monitoring.OnAreasClickListener() {
+            @Override
+            public void OnClick(String sBranchCd, String sBranchnm) {
+                Intent loIntent = new Intent(Activity_BranchPerformanceMonitoring.this, Activity_BranchPerformanceMonitoring.class);
+                loIntent.putExtra("brnCD", sBranchCd);
+                loIntent.putExtra("brnNM", sBranchnm);
+                startActivity(loIntent);
+            }
+        });
+        LinearLayoutManager loManager = new LinearLayoutManager(Activity_BranchPerformanceMonitoring.this);
+        loManager.setOrientation(RecyclerView.VERTICAL);
+        loManager.setReverseLayout(true);
+        rvBranchPerformance.setLayoutManager(loManager);
+        rvBranchPerformance.setAdapter(loAdapter);
+        rvBranchPerformance.setVisibility(View.VISIBLE);
+//        lblNoDataAreaPerformance.setVisibility(View.GONE);;
+    }
+    private void selectedCardView(){
+        if(!getIntent().hasExtra("index")){
+            initMCSales();
+            return;
+        }
+
+        Integer index = Integer.valueOf(getIntent().getStringExtra("index"));
+        tabLayout.selectTab(tabLayout.getTabAt(index));
+        switch (getIntent().getStringExtra("index")){
+            case "0":
+                initMCSales();
+                break;
+            case "1":
+                initSPSales();
+                break;
+            default:
+                initJOSales();
+                break;
+        }
+
+    }
+
 }
