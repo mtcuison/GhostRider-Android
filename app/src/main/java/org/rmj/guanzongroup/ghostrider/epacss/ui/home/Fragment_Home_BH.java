@@ -163,7 +163,6 @@ public class Fragment_Home_BH extends Fragment {
                 branchCd = eEmployeeInfo.getBranchCD();
                 branchNm = eEmployeeInfo.getBranchNm();
                 lblDept.setText(DeptCode.parseUserLevel(eEmployeeInfo.getEmpLevID()));
-                mViewModel.setIntUserLvl(4);
 
             } catch (Exception e){
                 e.printStackTrace();
