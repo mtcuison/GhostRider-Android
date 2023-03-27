@@ -7,6 +7,8 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DBranchPerformance;
+import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
+import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.lib.BullsEye.obj.BranchPerformance;
 
 import java.util.List;
@@ -15,10 +17,12 @@ public class VMBranchPerformanceMonitor extends AndroidViewModel {
     private static final String TAG = VMBranchPerformanceMonitor.class.getSimpleName();
 
     private final BranchPerformance poSys;
+    private final EmployeeMaster poEmploye;
 
     public VMBranchPerformanceMonitor(@NonNull Application application) {
         super(application);
         this.poSys = new BranchPerformance(application);
+        this.poEmploye = new EmployeeMaster(application);
     }
 
     public LiveData<String> GetCurrentMCSalesPerformance(String args) {
@@ -41,5 +45,7 @@ public class VMBranchPerformanceMonitor extends AndroidViewModel {
     public LiveData<List<DBranchPerformance.PeriodicalPerformance>> GetJobOrderPeriodicPerformance(String BranchCd){
         return poSys.GetJobOrderPeriodicPerformance(BranchCd);
     }
-
+    public LiveData<EEmployeeInfo> getEmployeeInfo(){
+        return poEmploye.GetEmployeeInfo();
+    }
 }

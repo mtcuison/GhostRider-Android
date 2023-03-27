@@ -47,7 +47,6 @@ public class Activity_BranchPerformanceMonitoring extends AppCompatActivity {
 
     private VMBranchPerformanceMonitor mViewModel;
     private String BranchCD;
-    private String BranchNM;
     private LineChart linechart;
     private PieChart piechart;
     private MaterialTextView lblBranch;
@@ -61,9 +60,6 @@ public class Activity_BranchPerformanceMonitoring extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         this.mViewModel = new ViewModelProvider(Activity_BranchPerformanceMonitoring.this).get(VMBranchPerformanceMonitor.class);
         setContentView(R.layout.activity_branch_performance_monitoring);
-        this.BranchCD = getIntent().getStringExtra("brnCD");
-        this.BranchNM = getIntent().getStringExtra("brnNM");
-        Log.e("ito ung branch",String.valueOf(getIntent().getStringExtra("brnCD")));
 
         Toolbar toolbar = findViewById(R.id.toolbar_monitoring);
         setSupportActionBar(toolbar);
@@ -86,11 +82,22 @@ public class Activity_BranchPerformanceMonitoring extends AppCompatActivity {
         tabLayout.addTab(tabLayout.newTab().setText("SP Sales"));
         tabLayout.addTab(tabLayout.newTab().setText("Job Order"));
 
+
+        mViewModel.getEmployeeInfo().observe(Activity_BranchPerformanceMonitoring.this,initbranch ->{
+            try {
+                BranchCD = initbranch.getBranchCD();
+                Log.e("ginawa ko to",BranchCD);
+                initMCSales();
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+
         initTablayout();
     }
 
     private void initTablayout(){
-        selectedCardView();
+
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
 
@@ -115,6 +122,7 @@ public class Activity_BranchPerformanceMonitoring extends AppCompatActivity {
     }
 
     public void initMCSales(){
+        Log.e("sample branch",String.valueOf(BranchCD));
         mViewModel.GetMCSalesPeriodicPerformance(BranchCD).observe(Activity_BranchPerformanceMonitoring.this,  BranchPerforamancebyMC -> {
             try{
                 InitializeBranchList(BranchPerforamancebyMC);
@@ -307,28 +315,6 @@ public class Activity_BranchPerformanceMonitoring extends AppCompatActivity {
         rvBranchPerformance.setLayoutManager(loManager);
         rvBranchPerformance.setAdapter(loAdapter);
         rvBranchPerformance.setVisibility(View.VISIBLE);
-//        lblNoDataAreaPerformance.setVisibility(View.GONE);;
-    }
-    private void selectedCardView(){
-        if(!getIntent().hasExtra("index")){
-            initMCSales();
-            return;
-        }
-
-        Integer index = Integer.valueOf(getIntent().getStringExtra("index"));
-        tabLayout.selectTab(tabLayout.getTabAt(index));
-        switch (getIntent().getStringExtra("index")){
-            case "0":
-                initMCSales();
-                break;
-            case "1":
-                initSPSales();
-                break;
-            default:
-                initJOSales();
-                break;
-        }
-
     }
 
 }
