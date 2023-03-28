@@ -85,8 +85,15 @@ public class NMM_Regular implements iNotification {
                     poDao.insert(loUser);
                 }
 
-
                 String lsData = loParser.getValueOf("infox");
+
+                if(lsData == null){
+                    return lsMesgIDx;
+                }
+
+                if(lsData.isEmpty()){
+                    return lsMesgIDx;
+                }
 
                 JSONObject loJson = new JSONObject(lsData);
 

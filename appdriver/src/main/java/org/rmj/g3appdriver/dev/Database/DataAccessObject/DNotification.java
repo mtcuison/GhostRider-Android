@@ -29,6 +29,16 @@ public interface DNotification {
             "ORDER BY b.dReceived DESC")
     LiveData<List<NotificationListDetail>> GetNotificationList();
 
+    @Query("SELECT COUNT(a.sMesgIDxx) " +
+            "FROM Notification_Info_Master a " +
+            "LEFT JOIN Notification_Info_Recepient b " +
+            "ON a.sMesgIDxx = b.sTransNox " +
+            "WHERE b.sRecpntID = (SELECT sUserIDxx FROM user_info_master) " +
+            "AND a.sCreatrID = 'SYSTEM'" +
+            "AND a.sMsgTitle <> 'Branch Opening'" +
+            "AND b.cMesgStat == '2'")
+    LiveData<Integer> GetUnreadNotificationCout();
+
     @Query("SELECT * FROM Notification_Info_Master WHERE sMesgIDxx =:args")
     LiveData<ENotificationMaster> GetNotificationMaster(String args);
 

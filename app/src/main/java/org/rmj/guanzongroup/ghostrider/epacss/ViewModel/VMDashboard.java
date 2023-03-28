@@ -25,6 +25,8 @@ import org.rmj.g3appdriver.dev.Device.Telephony;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
+import org.rmj.g3appdriver.lib.Notifications.Obj.Message;
+import org.rmj.g3appdriver.lib.Notifications.Obj.Notification;
 import org.rmj.g3appdriver.lib.Notifications.Obj.Payslip;
 import org.rmj.g3appdriver.lib.Panalo.Obj.ILOVEMYJOB;
 import org.rmj.g3appdriver.lib.SelfieLog.SelfieLog;
@@ -36,13 +38,16 @@ public class VMDashboard extends AndroidViewModel {
     private final EmployeeMaster poEmploye;
     private final ILOVEMYJOB poPanalo;
     private final Payslip poPaySlip;
+    private final Message poMessage;
+    private final Notification poNotification;
 
     public VMDashboard(@NonNull Application application) {
         super(application);
         this.poEmploye = new EmployeeMaster(application);
-
         this.poPaySlip = new Payslip(application);
         this.poPanalo = new ILOVEMYJOB(application);
+        this.poMessage = new Message(application);
+        this.poNotification = new Notification(application);
     }
 
     public LiveData<EEmployeeInfo> getEmployeeInfo(){
@@ -55,5 +60,13 @@ public class VMDashboard extends AndroidViewModel {
 
     public LiveData<ERaffleStatus> GetRaffleStatus(){
         return poPanalo.GetRaffleStatus();
+    }
+
+    public LiveData<Integer> GetUnreadMessagesCount(){
+        return poMessage.GetUnreadMessagesCount();
+    }
+
+    public LiveData<Integer> GetUnreadNotificationCount(){
+        return poNotification.GetUnreadNotificationCout();
     }
 }

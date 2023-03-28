@@ -37,47 +37,20 @@ public class RegularNotification implements iNotificationUI {
     @Override
     public void CreateNotification() {
         try{
+            String lsCrtr = poMessage.getCreatrID();
 
-            int lnChannelID = (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
+            RglNotification loNotif;
+            switch (lsCrtr){
+                case "SYSTEM":
+                    loNotif = new RegularSysNotification(mContext, poMessage);
+                    break;
 
-            Intent loIntent = new Intent();
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                int importance = NotificationManager.IMPORTANCE_DEFAULT;
-                NotificationChannel channel = new NotificationChannel(NotificationID, CHANNEL_NAME, importance);
-                channel.setDescription(CHANNEL_DESC);
-                // Register the channel with the system; you can't change the importance
-                // or other notification behaviors after this
-                NotificationManager notificationManager = mContext.getSystemService(NotificationManager.class);
-                notificationManager.createNotificationChannel(channel);
+                default:
+                    loNotif = new MessageNotification(mContext, poMessage);
+                    break;
             }
 
-            PendingIntent notifyPendingIntent;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                notifyPendingIntent = PendingIntent.getActivity(
-                        mContext, 0, loIntent, PendingIntent.FLAG_MUTABLE);
-            } else {
-                notifyPendingIntent = PendingIntent.getActivity(
-                        mContext, 0, loIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-            }
-
-            String lsTitlexx = poMessage.getMsgTitle();
-            String lsMessage = poMessage.getMessagex();
-
-            NotificationCompat.Builder notification =
-                    new NotificationCompat.Builder(mContext, String.valueOf(lnChannelID))
-//                            .setContentIntent(notifyPendingIntent)
-                            .setAutoCancel(true)
-                            .setChannelId(NotificationID)
-//                        .setLargeIcon(icon)
-//                        .setStyle(new NotificationCompat.BigPictureStyle()
-//                            .bigPicture(icon)
-//                            .bigLargeIcon(null))
-                            .setSmallIcon(R.drawable.ic_guanzon_circle)
-                            .setContentTitle(lsTitlexx)
-                            .setContentText(lsMessage);
-
-            loManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
-            loManager.notify(lnChannelID, notification.build());
+            loNotif.CreateNotification();
         } catch (Exception e){
             e.printStackTrace();
         }

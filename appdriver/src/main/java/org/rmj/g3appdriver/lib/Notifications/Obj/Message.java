@@ -6,7 +6,6 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DMessages;
-import org.rmj.g3appdriver.dev.Database.Entities.ENotificationMaster;
 import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.lib.Notifications.NOTIFICATION_STATUS;
 import org.rmj.g3appdriver.lib.Notifications.Obj.Receiver.NMM_Regular;
@@ -26,7 +25,11 @@ public class Message extends NMM_Regular {
     }
 
     public LiveData<List<DMessages.MessageUsers>> GetUsersMessages(){
-        return poDao.GetUsersMessages();
+        return poDao.GetMessageUsers();
+    }
+
+    public LiveData<Integer> GetUnreadMessagesCount(){
+        return poDao.GetUnreadMessagesCount();
     }
 
     /**

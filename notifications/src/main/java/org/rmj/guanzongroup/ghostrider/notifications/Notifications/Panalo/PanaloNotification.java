@@ -36,7 +36,7 @@ public class PanaloNotification implements iNotificationUI {
         try {
             JSONObject loJson = new JSONObject(poMessage.getDataSndx());
             String lsModule = loJson.getString("module");
-            PnlNotification loNotif = null;
+            PnlNotification loNotif;
             switch (lsModule){
                 case "001":
                     loNotif = new RewardNotification(mContext, poMessage);

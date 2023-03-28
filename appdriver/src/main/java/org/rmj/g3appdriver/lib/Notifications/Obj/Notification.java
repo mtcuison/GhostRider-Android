@@ -28,6 +28,10 @@ public class Notification extends NMM_Regular {
         return poDao.GetNotificationList();
     }
 
+    public LiveData<Integer> GetUnreadNotificationCout(){
+        return poDao.GetUnreadNotificationCout();
+    }
+
     public LiveData<ENotificationMaster> GetNotificationMaster(String args){
         return poDao.GetNotificationMaster(args);
     }

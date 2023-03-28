@@ -256,15 +256,15 @@ public class PanaloNotificationSender {
             rcpt.put("user", userid);
             rcpts.add(rcpt);
 
-            rcpt = new JSONObject();
-            rcpt.put("app", app);
-            rcpt.put("user", "GAP0190004");
-            rcpts.add(rcpt);
-
-            rcpt = new JSONObject();
-            rcpt.put("app", app);
-            rcpt.put("user", "GAP021002985");
-            rcpts.add(rcpt);
+//            rcpt = new JSONObject();
+//            rcpt.put("app", app);
+//            rcpt.put("user", "GAP0190004");
+//            rcpts.add(rcpt);
+//
+//            rcpt = new JSONObject();
+//            rcpt.put("app", app);
+//            rcpt.put("user", "GAP021002985");
+//            rcpts.add(rcpt);
 
             JSONObject param = new JSONObject();
             param.put("type", "00000");

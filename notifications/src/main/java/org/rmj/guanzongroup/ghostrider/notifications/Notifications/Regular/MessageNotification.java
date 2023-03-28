@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.ghostrider.notifications.Notifications.Panalo;
+package org.rmj.guanzongroup.ghostrider.notifications.Notifications.Regular;
 
 import static org.rmj.guanzongroup.ghostrider.notifications.Notifications.Panalo.PanaloNotification.CHANNEL_DESC;
 import static org.rmj.guanzongroup.ghostrider.notifications.Notifications.Panalo.PanaloNotification.CHANNEL_NAME;
@@ -18,14 +18,14 @@ import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Database.Entities.ENotificationMaster;
 import org.rmj.guanzongroup.ghostrider.notifications.R;
 
-public class RewardNotification implements PnlNotification{
-    private static final String TAG = RewardNotification.class.getSimpleName();
+public class MessageNotification implements RglNotification{
+    private static final String TAG = MessageNotification.class.getSimpleName();
 
     private final Context mContext;
     private final ENotificationMaster poMessage;
     private NotificationManager loManager;
 
-    public RewardNotification(Context mContext, ENotificationMaster message) {
+    public MessageNotification(Context mContext, ENotificationMaster message) {
         this.mContext = mContext;
         this.poMessage = message;
     }
@@ -39,16 +39,6 @@ public class RewardNotification implements PnlNotification{
             int lnChannelID = 123;
 
             Intent loIntent = new Intent(mContext, Class.forName("org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_Main"));
-
-            String lsDataxx = poMessage.getDataSndx();
-            JSONObject loJson = new JSONObject(lsDataxx);
-            JSONObject loPromo = loJson.getJSONObject("data");
-            String lsUrlLinkx = loPromo.getString("sReferNox");
-//            String lsImageUrl = loPromo.getString("sImageUrl");
-
-            loIntent.putExtra("notification", "promo");
-            loIntent.putExtra("args", "1");
-            loIntent.putExtra("url_link", lsUrlLinkx);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 int importance = NotificationManager.IMPORTANCE_DEFAULT;
@@ -69,7 +59,7 @@ public class RewardNotification implements PnlNotification{
                         mContext, 0, loIntent, PendingIntent.FLAG_UPDATE_CURRENT);
             }
 
-            String lsTitlexx = poMessage.getMsgTitle();
+            String lsTitlexx = poMessage.getCreatrNm();
             String lsMessage = poMessage.getMessagex();
 
             //Retrieve a resource drawable and convert it to bitmap.
@@ -80,8 +70,6 @@ public class RewardNotification implements PnlNotification{
             // 2. CLAIM
             // 3. REDEEMED
             // 4. WARNING
-
-            String lsPanaloTp = loJson.getString("panalo");
 
             Bitmap icon;
 
