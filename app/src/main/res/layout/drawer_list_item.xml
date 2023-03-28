@@ -24,8 +24,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="16sp"
-        android:fontFamily="@font/roboto_regular"
-        android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"
+        android:fontFamily="@font/roboto_light"
+        android:text="Leave Application"
+        android:drawableStart="@drawable/ic_chevron_right_24"
+        android:drawablePadding="3dp"
+        android:paddingStart="?android:attr/expandableListPreferredChildPaddingLeft"
+        android:paddingEnd="?android:attr/expandableListPreferredChildPaddingLeft"
         android:paddingTop="10dp"
         android:paddingBottom="10dp" />
 

@@ -10,11 +10,10 @@ import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.dev.Api.WebApi;
 import org.rmj.g3appdriver.dev.Api.WebClient;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DNotifications;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DNotificationReceiver;
 import org.rmj.g3appdriver.dev.Database.Entities.ENotificationMaster;
 import org.rmj.g3appdriver.dev.Database.Entities.ENotificationRecipient;
 import org.rmj.g3appdriver.dev.Database.Entities.ENotificationUser;
-import org.rmj.g3appdriver.dev.Database.Entities.EPanaloReward;
 import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
@@ -34,7 +33,7 @@ public class NMM_Panalo implements iNotification {
 
     private final Application instance;
 
-    private final DNotifications poDao;
+    private final DNotificationReceiver poDao;
 
     private final HttpHeaders poHeaders;
 
@@ -44,7 +43,7 @@ public class NMM_Panalo implements iNotification {
 
     public NMM_Panalo(Application instance) {
         this.instance = instance;
-        this.poDao = GGC_GriderDB.getInstance(instance).NotificationDao();
+        this.poDao = GGC_GriderDB.getInstance(instance).ntfReceiverDao();
         this.poHeaders = HttpHeaders.getInstance(instance);
         this.poConfig = AppConfigPreference.getInstance(instance);
     }

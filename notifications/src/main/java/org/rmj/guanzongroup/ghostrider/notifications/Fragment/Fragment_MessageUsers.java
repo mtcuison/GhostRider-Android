@@ -85,6 +85,7 @@ public class Fragment_MessageUsers extends Fragment {
                         Intent loIntent = new Intent(getActivity(), Activity_UserMessages.class);
                         loIntent.putExtra("sUserIDxx", SenderID);
                         startActivity(loIntent);
+                        requireActivity().overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
                     }));
                 } catch (Exception e){
                     e.printStackTrace();

@@ -28,7 +28,7 @@ import org.rmj.g3appdriver.dev.Database.Entities.ENotificationUser;
 import java.util.List;
 
 @Dao
-public interface DNotifications {
+public interface DNotificationReceiver {
 
     @Insert
     void insert(ENotificationMaster notificationMaster);

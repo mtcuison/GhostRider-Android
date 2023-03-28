@@ -14,6 +14,7 @@ package org.rmj.g3appdriver.lib.BullsEye;
 import android.util.Log;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DAreaPerformance;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DBranchPerformance;
 import org.rmj.g3appdriver.dev.Database.Entities.EAreaPerformance;
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchPerformance;
 
@@ -166,7 +167,7 @@ public class PerformancePeriod {
 
     };
 
-    public static String[] getPerformancePeriodList(List<DAreaPerformance.PeriodicPerformance> foList) {
+    public static String[] parseAreaPeriodicPerformance(List<DAreaPerformance.PeriodicPerformance> foList) {
         List<String> loList = new ArrayList<>();
 
         for(int x = 0; x < foList.size(); x++) {
@@ -176,7 +177,19 @@ public class PerformancePeriod {
         String[] loArray = loList.toArray(new String[0]);
 
         return loArray;
+    };
 
+
+    public static String[] parseBranchPeriodicPerformance(List<DBranchPerformance.PeriodicalPerformance> foList) {
+        List<String> loList = new ArrayList<>();
+
+        for(int x = 0; x < foList.size(); x++) {
+            loList.add(parseDateLabel(foList.get(x).Period));
+        }
+
+        String[] loArray = loList.toArray(new String[0]);
+
+        return loArray;
     };
 
     public static String[] getBranchTableLabel(List<EBranchPerformance> foList) {

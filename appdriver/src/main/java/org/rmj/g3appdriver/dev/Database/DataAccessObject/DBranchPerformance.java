@@ -107,14 +107,15 @@ public interface DBranchPerformance {
             "nMCGoalxx AS Goal " +
             "FROM MC_Branch_Performance " +
             "WHERE sBranchCd = (SELECT sBranchCd FROM User_Info_Master) " +
-            "ORDER BY sPeriodxx DESC")
+            "ORDER BY sPeriodxx ASC")
     LiveData<List<PeriodicalPerformance>> getMCBranchPeriodicalPerformance();
 
     @Query("SELECT sPeriodxx AS Period, " +
             "nSPActual AS Actual, " +
             "nSPGoalxx AS Goal " +
             "FROM MC_Branch_Performance " +
-            "WHERE sBranchCd = (SELECT sBranchCd FROM User_Info_Master)")
+            "WHERE sBranchCd = (SELECT sBranchCd FROM User_Info_Master) " +
+            "ORDER BY sPeriodxx ASC")
     LiveData<List<PeriodicalPerformance>> getSPBranchPeriodicalPerformance();
 
     @Query("SELECT sPeriodxx AS Period, " +
@@ -122,7 +123,7 @@ public interface DBranchPerformance {
             "nMCGoalxx AS Goal " +
             "FROM MC_Branch_Performance " +
             "WHERE sBranchCd =:BranchCd " +
-            "ORDER BY sPeriodxx DESC")
+            "ORDER BY sPeriodxx ASC")
     LiveData<List<PeriodicalPerformance>> GetMCSalesPeriodicPerformance(String BranchCd);
 
     @Query("SELECT sPeriodxx AS Period, " +
@@ -130,7 +131,7 @@ public interface DBranchPerformance {
             "nSPGoalxx AS Goal " +
             "FROM MC_Branch_Performance " +
             "WHERE sBranchCd =:BranchCd " +
-            "ORDER BY sPeriodxx DESC")
+            "ORDER BY sPeriodxx ASC")
     LiveData<List<PeriodicalPerformance>> GetSPSalesPeriodicPerformance(String BranchCd);
 
     @Query("SELECT sPeriodxx AS Period, " +
@@ -138,7 +139,7 @@ public interface DBranchPerformance {
             "nJOGoalxx AS Goal " +
             "FROM MC_Branch_Performance " +
             "WHERE sBranchCd =:BranchCd " +
-            "ORDER BY sPeriodxx DESC")
+            "ORDER BY sPeriodxx ASC")
     LiveData<List<PeriodicalPerformance>> GetJobOrderPeriodicPerformance(String BranchCd);
 
     @Query("SELECT MIN(sPeriodxx) AS Start, MAX(sPeriodxx) AS Current FROM MC_Branch_Performance;")

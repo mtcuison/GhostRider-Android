@@ -168,7 +168,7 @@ public class Activity_AreaPerformanceMonitoring extends AppCompatActivity {
         linechart.getAxisRight().setTextColor(color);
         linechart.getLegend().setTextColor(color);
         linechart.setDescription(null);
-        linechart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(PerformancePeriod.getPerformancePeriodList(list)));
+        linechart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(PerformancePeriod.parseAreaPeriodicPerformance(list)));
 //        linechart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(CHART_MONTH_LABEL));
         linechart.setDoubleTapToZoomEnabled(false);
         linechart.getXAxis().setTextSize(10f);
