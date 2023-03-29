@@ -98,6 +98,13 @@ public class Activity_EmployeeLoanEntry extends AppCompatActivity {
         getSupportActionBar().setTitle("Employee Loan"); //set default title for action bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); //set back button to toolbar
         getSupportActionBar().setDisplayShowHomeEnabled(true); //enable the back button set on toolbar
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
     private void setLoanTypeList(){
       //get different loan type values from declared view model above and store to list type

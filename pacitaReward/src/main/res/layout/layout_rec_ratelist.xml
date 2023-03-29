@@ -11,18 +11,20 @@
         android:orientation="horizontal"
         android:layout_marginVertical="10dp">
 
-        <com.google.android.material.textview.MaterialTextView
+<!--        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/item_no"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="1."
-            android:textSize="15sp"/>
+            android:textSize="15sp"
+            android:paddingHorizontal="10dp"
+            android:layout_gravity="center"/> -->
 
         <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/item_question"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Comfort Room Cleanliness"
             android:textSize="15sp"
-            android:textAlignment="center"/>
+            android:textAlignment="center" />
     </LinearLayout>
 
 
@@ -31,44 +33,50 @@
         android:layout_height="wrap_content"
         android:layout_marginVertical="10dp"
         android:orientation="horizontal"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        android:background="@drawable/oval_rating_button_background">
 
         <LinearLayout
+            android:id="@+id/layout_pass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_gravity="left"
-            android:layout_marginEnd="2dp">
+            android:layout_gravity="left">
 
             <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/pass_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:src="@drawable/baseline_check_24"/>
+                android:src="@drawable/emoji_laugh_svgrepo_com"/>
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/pass_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Pass"
-                android:paddingHorizontal="60dp"
-                android:background="none"/>
+                android:paddingHorizontal="50dp"
+                android:background="@color/zxing_transparent"/>
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/layout_fail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/fail_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:src="@drawable/baseline_close_24" />
+                android:src="@drawable/emoji_sad_svgrepo_com"/>
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/fail_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Fail"
-                android:paddingHorizontal="60dp"
-                android:background="none"/>
+                android:paddingHorizontal="50dp"
+                android:background="@color/zxing_transparent"/>
         </LinearLayout>
 
     </LinearLayout>
@@ -83,22 +91,30 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Please Leave A Comment"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:textAlignment="center"/>
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/TextInputStyle"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Type a comment here . . ."
-            android:layout_marginHorizontal="20dp">
+            android:layout_height="match_parent">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/TextInputStyle"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:textSize="15sp"
-                android:lines="5"/>
-        </com.google.android.material.textfield.TextInputLayout>
+                android:hint="Type a comment here . . ."
+                app:layout_constraintWidth_percent="0.90"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textSize="15sp"
+                    android:lines="5" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <View
             android:layout_width="match_parent"
