@@ -23,6 +23,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -287,7 +288,9 @@ public class Fragment_SelfieLog extends Fragment {
                         poMessage.setMessage(message);
                         poMessage.setPositiveButton("Okay", (view, dialog) -> {
                             dialog.dismiss();
-                            requireActivity().finish();
+                            if(!requireActivity().getClass().getSimpleName().equalsIgnoreCase("Activity_Main")) {
+                                requireActivity().finish();
+                            }
                         });
                         poMessage.show();
                     }
@@ -356,7 +359,9 @@ public class Fragment_SelfieLog extends Fragment {
                 Intent loIntent = new Intent(requireActivity(), Activity_CashCounter.class);
                 loIntent.putExtra("BranchCd", poSelfie.getBranchCode());
                 requireActivity().startActivity(loIntent);
-                requireActivity().finish();
+                if(!requireActivity().getClass().getSimpleName().equalsIgnoreCase("Activity_Main")) {
+                    requireActivity().finish();
+                }
             }
 
             @Override
@@ -369,9 +374,15 @@ public class Fragment_SelfieLog extends Fragment {
                     Intent loIntent = new Intent(requireActivity(), Activity_CashCounter.class);
                     loIntent.putExtra("BranchCd", poSelfie.getBranchCode());
                     requireActivity().startActivity(loIntent);
-                    requireActivity().finish();
+                    if(!requireActivity().getClass().getSimpleName().equalsIgnoreCase("Activity_Main")) {
+                        requireActivity().finish();
+                    }
                 });
-                poMessage.setNegativeButton("Exit", (view, dialog) -> requireActivity().finish());
+                poMessage.setNegativeButton("Exit", (view, dialog) -> {
+                    if(!requireActivity().getClass().getSimpleName().equalsIgnoreCase("Activity_Main")) {
+                        requireActivity().finish();
+                    }
+                });
                 poMessage.show();
             }
 
@@ -383,7 +394,9 @@ public class Fragment_SelfieLog extends Fragment {
                 poMessage.setMessage(message);
                 poMessage.setPositiveButton("Okay", (view, dialog) -> {
                     dialog.dismiss();
-                    requireActivity().finish();
+                    if(!requireActivity().getClass().getSimpleName().equalsIgnoreCase("Activity_Main")) {
+                        requireActivity().finish();
+                    }
                 });
                 poMessage.show();
             }

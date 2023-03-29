@@ -11,19 +11,29 @@ import java.util.List;
 @Dao
 public interface DMessages {
 
-    @Query("SELECT " +
-            "c.*, " +
-            "a.sMessagex, " +
-            "b.dReceived " +
-            "FROM Notification_Info_Master a " +
-            "LEFT JOIN Notification_Info_Recepient b " +
-            "ON a.sMesgIDxx = b.sTransNox " +
-            "LEFT JOIN Notification_User c " +
-            "ON a.sCreatrID = c.sUserIDxx " +
-            "WHERE a.sMsgTypex = '00000' " +
-            "AND a.sCreatrID <> 'SYSTEM' " +
-            "ORDER BY b.dReceived DESC")
+
+    @Query("SELECT a.*, " +
+            "(SELECT sMessagex FROM Notification_Info_Master WHERE sCreatrID = a.sUserIDxx " +
+            "AND sMsgTypex == '00000' " +
+            "AND sCreatrID <> 'SYSTEM' ORDER BY dCreatedx DESC LIMIT 1) AS sMessagex, " +
+            "(SELECT dReceived FROM Notification_Info_Recepient WHERE sTransNox = " +
+            "(SELECT sMesgIDxx FROM Notification_Info_Master WHERE sCreatrID = a.sUserIDxx ORDER BY dCreatedx DESC LIMIT 1) ORDER BY dReceived DESC LIMIT 1) AS dReceived " +
+            "FROM Notification_User a")
     LiveData<List<MessageUsers>> GetMessageUsers();
+
+//    @Query("SELECT " +
+//            "c.*, " +
+//            "a.sMessagex, " +
+//            "b.dReceived " +
+//            "FROM Notification_Info_Master a " +
+//            "LEFT JOIN Notification_Info_Recepient b " +
+//            "ON a.sMesgIDxx = b.sTransNox " +
+//            "LEFT JOIN Notification_User c " +
+//            "ON a.sCreatrID = c.sUserIDxx " +
+//            "WHERE a.sMsgTypex = '00000' " +
+//            "AND a.sCreatrID <> 'SYSTEM' " +
+//            "ORDER BY b.dReceived DESC")
+//    LiveData<List<MessageUsers>> GetMessageUsers();
 
 //    SELECT a.*,
 //            (SELECT sMessagex FROM Notification_Info_Master WHERE sCreatrID = a.sUserIDxx ORDER BY dCreatedx DESC LIMIT 1) AS sMessagex,

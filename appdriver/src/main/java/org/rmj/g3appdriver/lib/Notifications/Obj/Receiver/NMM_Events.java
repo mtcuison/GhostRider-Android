@@ -73,14 +73,17 @@ public class NMM_Events implements iNotification {
                 loRecpnt.setReceived(new AppConstants().DATE_MODIFIED);
                 loRecpnt.setTimeStmp(new AppConstants().DATE_MODIFIED);
 
-                ENotificationUser loUser = new ENotificationUser();
-                loUser.setUserIDxx(loParser.getValueOf("srceid"));
-                loUser.setUserName(loParser.getValueOf("srcenm"));
-
                 poDao.insert(loMaster);
                 poDao.insert(loRecpnt);
-                if(poDao.CheckIfUserExist(loParser.getValueOf("srceid")) == null){
-                    poDao.insert(loUser);
+
+                if(!"SYSTEM".equalsIgnoreCase(loParser.getValueOf("srceid"))) {
+                    ENotificationUser loUser = new ENotificationUser();
+                    loUser.setUserIDxx(loParser.getValueOf("srceid"));
+                    loUser.setUserName(loParser.getValueOf("srcenm"));
+
+                    if (poDao.CheckIfUserExist(loParser.getValueOf("srceid")) == null) {
+                        poDao.insert(loUser);
+                    }
                 }
             }
             return lsMesgIDx;
