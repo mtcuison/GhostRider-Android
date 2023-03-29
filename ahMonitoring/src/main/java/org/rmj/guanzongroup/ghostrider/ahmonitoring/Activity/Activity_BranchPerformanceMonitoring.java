@@ -2,6 +2,7 @@ package org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity;
 
 import static org.rmj.g3appdriver.etc.AppConstants.CHART_MONTH_LABEL;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -46,7 +47,7 @@ import java.util.List;
 public class Activity_BranchPerformanceMonitoring extends AppCompatActivity {
 
     private VMBranchPerformanceMonitor mViewModel;
-    private String BranchCD;
+    private String BranchCD,BranchNM;
     private LineChart linechart;
     private PieChart piechart;
     private MaterialTextView lblBranch;
@@ -55,12 +56,15 @@ public class Activity_BranchPerformanceMonitoring extends AppCompatActivity {
     private int width, height;
     private RecyclerView rvAreaPerformance, rvBranchPerformance;
 
+    @SuppressLint("LongLogTag")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.BranchCD = getIntent().getStringExtra("brnCD");
+        this.BranchNM = getIntent().getStringExtra("brnNM");
         this.mViewModel = new ViewModelProvider(Activity_BranchPerformanceMonitoring.this).get(VMBranchPerformanceMonitor.class);
         setContentView(R.layout.activity_branch_performance_monitoring);
-
+        Log.e("pinasa ko galing area", String.valueOf(getIntent().getStringExtra("brnCD")));
         Toolbar toolbar = findViewById(R.id.toolbar_monitoring);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -82,17 +86,24 @@ public class Activity_BranchPerformanceMonitoring extends AppCompatActivity {
         tabLayout.addTab(tabLayout.newTab().setText("SP Sales"));
         tabLayout.addTab(tabLayout.newTab().setText("Job Order"));
 
+        if (BranchCD == null){
+            mViewModel.getEmployeeInfo().observe(Activity_BranchPerformanceMonitoring.this, initbranch -> {
+                try {
+                    BranchCD = initbranch.getBranchCD();
+                    lblBranch.setText(initbranch.getBranchNm());
+                    Log.e("ginawa ko to", BranchCD);
+                    initMCSales();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
 
-        mViewModel.getEmployeeInfo().observe(Activity_BranchPerformanceMonitoring.this,initbranch ->{
-            try {
-                BranchCD = initbranch.getBranchCD();
-                Log.e("ginawa ko to",BranchCD);
-                initMCSales();
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-        });
-
+        }else {
+            BranchCD = getIntent().getStringExtra("brnCD");
+            lblBranch.setText(getIntent().getStringExtra("brnNM"));
+            Log.e("ito na", String.valueOf(BranchCD));
+            initMCSales();
+        }
         initTablayout();
     }
 

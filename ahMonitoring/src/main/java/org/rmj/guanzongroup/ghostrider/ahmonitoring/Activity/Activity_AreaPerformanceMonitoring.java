@@ -248,6 +248,7 @@ public class Activity_AreaPerformanceMonitoring extends AppCompatActivity {
                 Intent loIntent = new Intent(Activity_AreaPerformanceMonitoring.this, Activity_BranchPerformanceMonitoring.class);
                 loIntent.putExtra("brnCD", sBranchCd);
                 loIntent.putExtra("brnNM", sBranchnm);
+                Log.e("ito ung naclick ko",sBranchCd + sBranchnm);
                 startActivity(loIntent);
             }
         });
@@ -256,9 +257,8 @@ public class Activity_AreaPerformanceMonitoring extends AppCompatActivity {
         rvBranchPerformance.setLayoutManager(loManager);
         rvBranchPerformance.setAdapter(loAdapter);
         rvBranchPerformance.setVisibility(View.VISIBLE);
-        lblNoDataBranchPerformance.setVisibility(View.GONE);;
+        lblNoDataBranchPerformance.setVisibility(View.GONE);
     }
-
     private void selectedCardView(){
         if(!getIntent().hasExtra("index")){
             initMCSales();
@@ -278,7 +278,6 @@ public class Activity_AreaPerformanceMonitoring extends AppCompatActivity {
                 initJobOrder();
                 break;
         }
-
     }
 
     private void initMCSales(){
