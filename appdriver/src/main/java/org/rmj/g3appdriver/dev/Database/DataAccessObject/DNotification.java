@@ -6,7 +6,6 @@ import androidx.room.Query;
 
 import org.rmj.g3appdriver.dev.Database.Entities.ENotificationMaster;
 import org.rmj.g3appdriver.dev.Database.Entities.ENotificationRecipient;
-import org.rmj.g3appdriver.lib.Notifications.Obj.Notification;
 
 import java.util.List;
 
@@ -24,6 +23,7 @@ public interface DNotification {
             "LEFT JOIN Notification_Info_Recepient b " +
             "ON a.sMesgIDxx = b.sTransNox " +
             "WHERE b.sRecpntID = (SELECT sUserIDxx FROM user_info_master) " +
+            "AND a.sMsgTitle NOT LIKE '%PAYSLIP%'" +
             "AND a.sCreatrID = 'SYSTEM'" +
             "AND a.sMsgTitle <> 'Branch Opening'" +
             "ORDER BY b.dReceived DESC")
@@ -35,15 +35,23 @@ public interface DNotification {
             "ON a.sMesgIDxx = b.sTransNox " +
             "WHERE b.sRecpntID = (SELECT sUserIDxx FROM user_info_master) " +
             "AND a.sCreatrID = 'SYSTEM'" +
+            "AND a.sMsgTitle NOT LIKE '%PAYSLIP%'" +
             "AND a.sMsgTitle <> 'Branch Opening'" +
             "AND b.cMesgStat == '2'")
-    LiveData<Integer> GetUnreadNotificationCout();
+    LiveData<Integer> GetUnreadNotificationCount();
 
     @Query("SELECT * FROM Notification_Info_Master WHERE sMesgIDxx =:args")
     LiveData<ENotificationMaster> GetNotificationMaster(String args);
 
     @Query("SELECT * FROM Notification_Info_Recepient WHERE sTransNox =:args")
     LiveData<ENotificationRecipient> GetNotificationDetail(String args);
+
+    @Query("SELECT COUNT(a.sTransNox) FROM Notification_Info_Master a " +
+            "LEFT JOIN Notification_Info_Recepient b " +
+            "ON a.sMesgIDxx = b.sTransNox " +
+            "WHERE b.sRecpntID = (SELECT sUserIDxx FROM User_Info_Master) " +
+            "AND b.cMesgStat == '2'")
+    LiveData<Integer> GetAllUnreadNotificationCount();
 
     class NotificationListDetail{
         public String sMesgIDxx;

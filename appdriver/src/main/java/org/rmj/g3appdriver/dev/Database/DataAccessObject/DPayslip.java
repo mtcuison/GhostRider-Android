@@ -12,18 +12,9 @@ import java.util.List;
 @Dao
 public interface DPayslip {
 
-    @Query("SELECT * FROM Notification_Info_Recepient WHERE sTransNox =:MessageID")
-    ENotificationRecipient GetPaySlipNotification(String MessageID);
-
     @Update
     void Update(ENotificationRecipient foVal);
 
-    @Query("UPDATE Notification_Info_Recepient SET " +
-            "dReadxxxx =:DateTime, " +
-            "cMesgStat = '3', " +
-            "cStatSent = '0' " +
-            "WHERE sTransNox =:MessageID")
-    void updateNotificationReadStatus(String MessageID, String DateTime);
     @Query("SELECT b.sTransNox, " +
             "a.sMesgIDxx, " +
             "a.sMsgTitle, " +
@@ -42,7 +33,7 @@ public interface DPayslip {
             "FROM Notification_Info_Master a " +
             "LEFT JOIN Notification_Info_Recepient b ON a.sMesgIDxx = b.sTransNox " +
             "WHERE a.sMsgTypex = '00000' " +
-            "AND b.cMesgStat <> '3'" +
+            "AND b.cMesgStat == '2'" +
             "AND a.sAppSrcex = 'IntegSys' " +
             "AND a.sMsgTitle LIKE 'PAYSLIP%' " +
             "AND b.sRecpntID = (SELECT sUserIDxx FROM User_Info_Master)")

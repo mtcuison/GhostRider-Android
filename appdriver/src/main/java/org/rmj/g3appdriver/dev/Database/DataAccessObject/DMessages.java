@@ -77,6 +77,7 @@ public interface DMessages {
             "ON a.sMesgIDxx = b.sTransNox " +
             "WHERE b.sRecpntID = (SELECT sUserIDxx FROM User_Info_Master) " +
             "AND a.sMsgTypex == '00000' " +
+            "AND a.sMsgTitle NOT LIKE '%PAYSLIP%'" +
             "AND a.sCreatrID <> 'SYSTEM' " +
             "AND b.cMesgStat == '2'")
     LiveData<Integer> GetUnreadMessagesCount();

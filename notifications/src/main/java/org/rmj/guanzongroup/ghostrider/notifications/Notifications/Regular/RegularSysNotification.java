@@ -17,12 +17,16 @@ import androidx.core.app.NotificationCompat;
 import org.rmj.g3appdriver.dev.Database.Entities.ENotificationMaster;
 import org.rmj.guanzongroup.ghostrider.notifications.R;
 
-public class RegularSysNotification implements RglNotification{
+import java.util.Date;
 
+public class RegularSysNotification implements RglNotification{
 
     private final Context mContext;
     private final ENotificationMaster poMessage;
     private NotificationManager loManager;
+
+    private static final int SYSTEM_SUMMARY_NOTIFICATION = 141;
+    private static final String SYSTEM_GROUP_NOTIFICATION = "org.rmj.guanzongroup.ghostrider.sysgroupnotification";
 
     public RegularSysNotification(Context mContext, ENotificationMaster message) {
         this.mContext = mContext;
@@ -33,9 +37,9 @@ public class RegularSysNotification implements RglNotification{
     public void CreateNotification() {
         try{
             // this portion of code generates random channel id for notifications needed to show separately
-//            int lnChannelID = (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
+            int lnChannelID = (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
 
-            int lnChannelID = 123;
+//            int lnChannelID = 123;
 
             Intent loIntent = new Intent(mContext, Class.forName("org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_Main"));
 
@@ -61,45 +65,11 @@ public class RegularSysNotification implements RglNotification{
             String lsTitlexx = poMessage.getMsgTitle();
             String lsMessage = poMessage.getMessagex();
 
-            //Retrieve a resource drawable and convert it to bitmap.
-            //retrieving a resource drawable in panalo notification must be base on
-            //which type of panalo notification must be displayed
-            //Panalo Notifications
-            // 1. WIN
-            // 2. CLAIM
-            // 3. REDEEMED
-            // 4. WARNING
-
-            Bitmap icon;
-
-//            switch (lsPanaloTp){
-//                case "reward":
-//                    icon = BitmapFactory.decodeResource(mContext.getResources(),
-//                            R.drawable.sample_listing_product);
-//                    break;
-//                case "claim":
-//                    icon = BitmapFactory.decodeResource(mContext.getResources(),
-//                            R.drawable.sample_listing_product);
-//                    break;
-//                case "redeemed":
-//                    icon = BitmapFactory.decodeResource(mContext.getResources(),
-//                            R.drawable.sample_listing_product);
-//                    break;
-//                default:
-//                    icon = BitmapFactory.decodeResource(mContext.getResources(),
-//                            R.drawable.sample_listing_product);
-//                    break;
-//            }
-
             NotificationCompat.Builder notification =
                     new NotificationCompat.Builder(mContext, String.valueOf(lnChannelID))
                             .setContentIntent(notifyPendingIntent)
                             .setAutoCancel(true)
                             .setChannelId(NotificationID)
-//                        .setLargeIcon(icon)
-//                        .setStyle(new NotificationCompat.BigPictureStyle()
-//                            .bigPicture(icon)
-//                            .bigLargeIcon(null))
                             .setSmallIcon(R.drawable.ic_guanzon_circle)
                             .setContentTitle(lsTitlexx)
                             .setContentText(lsMessage);
