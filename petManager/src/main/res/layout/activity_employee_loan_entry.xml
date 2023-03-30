@@ -7,7 +7,7 @@
     android:theme="@style/GhostRiderMaterialTheme"
     tools:context=".Activity.Activity_EmployeeLoanEntry">
 
-    <androidx.appcompat.widget.Toolbar
+    <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
@@ -17,7 +17,7 @@
         app:popupTheme="@style/GhostRiderMaterialTheme.PopupOverlay"
         />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/txtview_loandet"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -31,7 +31,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.040"/>
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         style="@style/PrimaryHeaderStyle"
         android:id="@+id/txtview_currdate"
         android:layout_width="0dp"
@@ -56,7 +56,7 @@
         app:layout_constraintHeight_percent="0.080"
         app:layout_constraintWidth_percent="0.900">
 
-        <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+        <com.google.android.material.textfield.MaterialAutoCompleteTextView
             android:id="@+id/spn_loantype"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -110,7 +110,7 @@
             android:maxLength="7"/>
     </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         style="@style/PrimaryHeaderStyle"
         android:id="@+id/txtviewlbl_percent"
         android:layout_width="0dp"
@@ -144,7 +144,7 @@
             android:maxLength="3"/>
     </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         style="@style/PrimaryHeaderStyle"
         android:id="@+id/txtviewlbl_month"
         android:layout_width="0dp"
@@ -180,7 +180,7 @@
             android:maxLength="20"/>
     </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/txtview_loacomp"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -195,7 +195,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.040" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         style="@style/PrimaryHeaderStyle"
         android:id="@+id/txtviewlbl_totalInterest"
         android:layout_width="wrap_content"
@@ -208,7 +208,7 @@
         app:layout_constraintEnd_toEndOf="@id/txtviewlbl_amort"
         app:layout_constraintHeight_percent="0.040"/>
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         style="@style/PrimaryHeaderStyle"
         android:id="@+id/txtview_totalinterest"
         android:layout_width="wrap_content"
@@ -221,7 +221,7 @@
         app:layout_constraintStart_toEndOf="@id/txtviewlbl_totalInterest"
         app:layout_constraintHeight_percent="0.040"/>
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         style="@style/PrimaryHeaderStyle"
         android:id="@+id/txtviewlbl_balance"
         android:layout_width="wrap_content"
@@ -233,7 +233,7 @@
         app:layout_constraintEnd_toEndOf="@id/txtviewlbl_amort"
         app:layout_constraintHeight_percent="0.040"/>
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         style="@style/PrimaryHeaderStyle"
         android:id="@+id/txtview_balance"
         android:layout_width="wrap_content"
@@ -245,7 +245,7 @@
         app:layout_constraintStart_toEndOf="@id/txtviewlbl_balance"
         app:layout_constraintHeight_percent="0.040"/>
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         style="@style/PrimaryHeaderStyle"
         android:id="@+id/txtviewlbl_amort"
         android:layout_width="wrap_content"
@@ -257,7 +257,7 @@
         app:layout_constraintHeight_percent="0.040"
         app:layout_constraintWidth_percent="0.200"/>
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         style="@style/PrimaryHeaderStyle"
         android:id="@+id/txtview_amort"
         android:layout_width="wrap_content"

@@ -19,12 +19,18 @@ import java.util.Map;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder> {
 
-    public List<String> questionList;
+    List<String> questionList;
+    Context context;
+
+    public RecyclerViewAdapter(Context context, List<String> questionList){
+        this.context = context;
+        this.questionList = questionList;
+    }
 
     @NonNull
     @Override
     public RecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+        LayoutInflater layoutInflater = LayoutInflater.from(context);
         View view = layoutInflater.inflate(R.layout.layout_rec_ratelist, parent, false);
         return new RecyclerViewHolder(view);
     }

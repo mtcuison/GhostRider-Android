@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -33,8 +34,7 @@ public class Activity_Branch_Rate extends AppCompatActivity {
         questionList.add("Store Ambiance");
         questionList.add("Staff Services/Accomodation");
 
-        RecyclerViewAdapter viewAdapter = new RecyclerViewAdapter();
-        viewAdapter.questionList = questionList;
+        RecyclerViewAdapter viewAdapter = new RecyclerViewAdapter(Activity_Branch_Rate.this, questionList);
 
         rate_list.setAdapter(viewAdapter);
         rate_list.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
