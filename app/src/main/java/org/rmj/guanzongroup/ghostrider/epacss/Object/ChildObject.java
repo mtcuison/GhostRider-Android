@@ -40,6 +40,7 @@ import org.rmj.guanzongroup.onlinecreditapplication.Activities.Activity_Properti
 import org.rmj.guanzongroup.onlinecreditapplication.Activities.Activity_ReviewLoanApp;
 import org.rmj.guanzongroup.onlinecreditapplication.Activities.Activity_SpouseInfo;
 import org.rmj.guanzongroup.petmanager.Activity.Activity_Application;
+import org.rmj.guanzongroup.petmanager.Activity.Activity_EmployeeLoanEntry;
 import org.rmj.guanzongroup.petmanager.Activity.Activity_Employee_Applications;
 
 public class ChildObject {
@@ -181,6 +182,9 @@ public class ChildObject {
                 break;
             case "itinerary entry":
                 loIntent = new Intent(context, Activity_ItineraryEntry.class);
+                break;
+            case "employee loan":
+                loIntent = new Intent(context, Activity_EmployeeLoanEntry.class);
                 break;
             default:
                 loIntent = null;
