@@ -52,4 +52,24 @@ public class TestPanaloRaffleDrawSender {
                 lsMessage);
         assertTrue(isSuccess);
     }
+
+    @Test
+    public void test04SendRegularSystemNotification() {
+        String lsApp = "gRider";
+        String lsUser = "GAP021002961";
+        String lsTitle = "I LOVE MY JOB";
+        String lsMessage = "Congratulations! \n " +
+                "You win a token Trip To Baguio for 1 Year. " +
+                "Raffle token prizes will be automatically redeemed and HR will be responsible " +
+                "for the schedule of your trip. \n" +
+                "\n" +
+                "\n" +
+                "Have a Safe Trip!";
+
+        boolean isSuccess = PanaloNotificationSender.SendRegularSystemNotification(lsApp,
+                lsUser,
+                lsTitle,
+                lsMessage);
+        assertTrue(isSuccess);
+    }
 }

@@ -229,4 +229,62 @@ public class PanaloNotificationSender {
             return false;
         }
     }
+
+    public static boolean SendRegularSystemNotification(String app,
+                                                        String userid,
+                                                        String title,
+                                                        String message){
+        try{
+            String sURL = "https://restgk.guanzongroup.com.ph/notification/send_request_system.php";
+            Calendar calendar = Calendar.getInstance();
+            //Create the header section needed by the API
+            Map<String, String> headers =
+                    new HashMap<String, String>();
+            headers.put("Accept", "application/json");
+            headers.put("Content-Type", "application/json");
+            headers.put("g-api-id", "IntegSys");
+            headers.put("g-api-imei", "356060072281722");
+            headers.put("g-api-key", SQLUtil.dateFormat(calendar.getTime(), "yyyyMMddHHmmss"));
+            headers.put("g-api-hash", org.apache.commons.codec.digest.DigestUtils.md5Hex((String)headers.get("g-api-imei") + (String)headers.get("g-api-key")));
+            headers.put("g-api-user", "GAP0190001");
+            headers.put("g-api-mobile", "09171870011");
+            headers.put("g-api-token", "cPYKpB-pPYM:APA91bE82C4lKZduL9B2WA1Ygd0znWEUl9rM7pflSlpYLQJq4Nl9l5W4tWinyy5RCLNTSs3bX3JjOVhYnmCpe7zM98cENXt5tIHwW_2P8Q3BXI7gYtEMTJN5JxirOjNTzxWHkWDEafza");
+
+            JSONArray rcpts = new JSONArray();
+            JSONObject rcpt = new JSONObject();
+            rcpt.put("app", app);
+            rcpt.put("user", userid);
+            rcpts.add(rcpt);
+
+//            rcpt = new JSONObject();
+//            rcpt.put("app", app);
+//            rcpt.put("user", "GAP0190004");
+//            rcpts.add(rcpt);
+//
+//            rcpt = new JSONObject();
+//            rcpt.put("app", app);
+//            rcpt.put("user", "GAP021002985");
+//            rcpts.add(rcpt);
+
+            JSONObject param = new JSONObject();
+            param.put("type", "00000");
+            param.put("parent", null);
+            param.put("title", title);
+            param.put("message", message);
+            param.put("rcpt", rcpts);
+            param.put("infox", null);
+
+            String response = WebClient.sendRequest(sURL, param.toJSONString(), (HashMap<String, String>) headers);
+            if(response == null){
+                System.out.println("HTTP Error detected: " + System.getProperty("store.error.info"));
+                System.exit(1);
+            }
+
+            System.out.println(response);
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

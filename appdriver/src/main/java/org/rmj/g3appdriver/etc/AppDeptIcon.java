@@ -1,8 +1,9 @@
-package org.rmj.guanzongroup.ghostrider.epacss.ui.home.etc;
+package org.rmj.g3appdriver.etc;
 
 import static org.rmj.g3appdriver.dev.DeptCode.*;
 
-import org.rmj.guanzongroup.ghostrider.epacss.R;
+import org.rmj.g3appdriver.R;
+
 
 public class AppDeptIcon {
 
@@ -32,6 +33,6 @@ public class AppDeptIcon {
         else if(deptID.equalsIgnoreCase(TELEMARKETING_MANAGEMENT))
             return R.drawable.ic_telemarket;
         else
-        return R.drawable.ic_launcher_foreground;
+        return R.drawable.ic_guanzon_logo;
     }
 }

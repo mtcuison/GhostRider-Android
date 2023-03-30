@@ -25,6 +25,7 @@
         android:layout_height="0dp"
         android:scaleType="centerCrop"
         android:src="@drawable/bg_dashboard"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent=".3"
         app:layout_constraintStart_toStartOf="parent"
@@ -42,7 +43,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.35" />
+        app:layout_constraintVertical_bias="0.45" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/lbl_userBranch"
@@ -60,7 +61,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="30dp"
         app:cardUseCompatPadding="true"
-        app:cardCornerRadius="10dp"
+        app:cardCornerRadius="15dp"
         app:cardPreventCornerOverlap="true"
         android:layout_marginHorizontal="10dp"
         android:layout_marginBottom="10dp"

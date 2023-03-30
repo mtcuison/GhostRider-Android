@@ -9,7 +9,7 @@ import com.google.firebase.messaging.RemoteMessage;
 
 import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Api.WebClient;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DNotifications;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DNotificationReceiver;
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchOpenMonitor;
 import org.rmj.g3appdriver.dev.Database.Entities.ENotificationMaster;
 import org.rmj.g3appdriver.dev.Database.Entities.ENotificationRecipient;
@@ -32,14 +32,14 @@ import java.util.Locale;
 public class NMM_Regular implements iNotification {
     private static final String TAG = NMM_Regular.class.getSimpleName();
 
-    private final DNotifications poDao;
+    private final DNotificationReceiver poDao;
     private final HttpHeaders poHeaders;
     private final AppConfigPreference poConfig;
 
     protected String message;
 
     public NMM_Regular(Application instance) {
-        this.poDao = GGC_GriderDB.getInstance(instance).NotificationDao();
+        this.poDao = GGC_GriderDB.getInstance(instance).ntfReceiverDao();
         this.poHeaders = HttpHeaders.getInstance(instance);
         this.poConfig = AppConfigPreference.getInstance(instance);
     }
@@ -75,18 +75,28 @@ public class NMM_Regular implements iNotification {
                 loRecpnt.setReceived(new AppConstants().DATE_MODIFIED);
                 loRecpnt.setTimeStmp(new AppConstants().DATE_MODIFIED);
 
-                ENotificationUser loUser = new ENotificationUser();
-                loUser.setUserIDxx(loParser.getValueOf("srceid"));
-                loUser.setUserName(loParser.getValueOf("srcenm"));
-
                 poDao.insert(loMaster);
                 poDao.insert(loRecpnt);
-                if(poDao.CheckIfUserExist(loParser.getValueOf("srceid")) == null){
-                    poDao.insert(loUser);
+
+                if(!"SYSTEM".equalsIgnoreCase(loParser.getValueOf("srceid"))) {
+                    ENotificationUser loUser = new ENotificationUser();
+                    loUser.setUserIDxx(loParser.getValueOf("srceid"));
+                    loUser.setUserName(loParser.getValueOf("srcenm"));
+
+                    if (poDao.CheckIfUserExist(loParser.getValueOf("srceid")) == null) {
+                        poDao.insert(loUser);
+                    }
                 }
 
-
                 String lsData = loParser.getValueOf("infox");
+
+                if(lsData == null){
+                    return lsMesgIDx;
+                }
+
+                if(lsData.isEmpty()){
+                    return lsMesgIDx;
+                }
 
                 JSONObject loJson = new JSONObject(lsData);
 

@@ -64,10 +64,11 @@ import org.rmj.g3appdriver.dev.Database.DataAccessObject.DMessages;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DMobileRequest;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DMobileUpdate;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DNNDMRequest;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DNotification;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DNotificationDetail;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DNotificationMaster;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DNotificationReceiver;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DNotificationUser;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DNotifications;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DOccupationInfo;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DPanalo;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DPayslip;
@@ -221,7 +222,7 @@ public abstract class GGC_GriderDB extends RoomDatabase {
     public abstract DBranchPerformance BranchPerformanceDao();
     public abstract DRawDao RawDao();
     public abstract DRaffleInfo RaffleDao();
-    public abstract DNotifications NotificationDao();
+    public abstract DNotificationReceiver ntfReceiverDao();
     public abstract DApprovalCode ApprovalDao();
     public abstract DLRDcp DcpDao();
     public abstract DDCPCollectionMaster DcpMasterDao();
@@ -264,6 +265,7 @@ public abstract class GGC_GriderDB extends RoomDatabase {
     public abstract DPayslip payslipDao();
     public abstract DRaffleStatus raffleStatusDao();
     public abstract DMessages messagesDao();
+    public abstract DNotification notificationDao();
 
     public static synchronized GGC_GriderDB getInstance(Context context){
         if(instance == null){

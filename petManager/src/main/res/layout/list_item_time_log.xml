@@ -53,7 +53,6 @@
                 android:id="@+id/lbl_list_logTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="13:00:07"
                 android:fontFamily="@font/roboto_medium"
                 android:gravity="center"
                 android:textSize="18sp"
@@ -65,7 +64,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_regular"
-                android:text="M001"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -74,7 +72,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_regular"
-                android:text="March 22, 2023"
                 app:layout_constraintStart_toStartOf="@+id/lbl_list_logTime"
                 app:layout_constraintTop_toBottomOf="@+id/lbl_list_logTime"/>
 
@@ -84,7 +81,6 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_medium"
                 android:gravity="end"
-                android:text="Uploaded"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
 

@@ -12,6 +12,7 @@
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
@@ -21,8 +22,11 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.*;
 
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMBranchOpening;
 
 public class Activity_BranchOpeningHistory extends AppCompatActivity {
+
+    private VMBranchOpening mViewModel;
 
     private MaterialToolbar toolBar;
     private RecyclerView recyclerView;
@@ -30,6 +34,7 @@ public class Activity_BranchOpeningHistory extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mViewModel = new ViewModelProvider(Activity_BranchOpeningHistory.this).get(VMBranchOpening.class);
         setContentView(R.layout.activity_branch_opening_history);
 
         getExtras();

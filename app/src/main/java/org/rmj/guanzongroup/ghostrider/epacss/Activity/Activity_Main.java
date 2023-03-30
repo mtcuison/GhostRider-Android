@@ -53,7 +53,7 @@ import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.Service.DataSyncService;
 import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMMainActivity;
 import org.rmj.guanzongroup.ghostrider.epacss.adapter.ExpandableListDrawerAdapter;
-import org.rmj.guanzongroup.ghostrider.epacss.ui.home.etc.AppDeptIcon;
+import org.rmj.g3appdriver.etc.AppDeptIcon;
 import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_Settings;
 import org.rmj.guanzongroup.petmanager.Activity.Activity_Application;
 

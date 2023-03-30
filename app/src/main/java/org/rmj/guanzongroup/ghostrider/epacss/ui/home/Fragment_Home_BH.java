@@ -153,7 +153,6 @@ public class Fragment_Home_BH extends Fragment {
             try {
                 lblFullNme.setText(eEmployeeInfo.getUserName());
                 lblDept.setText(DeptCode.parseUserLevel(eEmployeeInfo.getEmpLevID()));
-                mViewModel.setIntUserLvl(4);
 
             } catch (Exception e){
                 e.printStackTrace();

@@ -36,6 +36,7 @@ import com.google.android.material.textview.MaterialTextView;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DBranchPerformance;
 import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.lib.BullsEye.PerformancePeriod;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.Adapter_Area_Performance_Monitoring;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.PeriodicPerformance;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
@@ -212,15 +213,6 @@ public class Activity_BranchPerformanceMonitoring extends AppCompatActivity {
         LineDataSet loActual = new LineDataSet(poActual, "Actual");
         LineDataSet loGoalxx = new LineDataSet(poGoalxx, "Goal");
 
-//        loActual.setLineWidth(2);
-//        loActual.setColors(getResources().getColor(R.color.guanzon_orange));
-//
-//        loGoalxx.setLineWidth(2);
-//        loGoalxx.setColors(getResources().getColor(R.color.check_green));
-//
-//        ArrayList<ILineDataSet> loDataSet = new ArrayList<>();
-//        loDataSet.add(loActual);
-//        loDataSet.add(loGoalxx);
         loActual.setAxisDependency(YAxis.AxisDependency.RIGHT);
         loActual.setLineWidth(2);
         loActual.setColors(getResources().getColor(R.color.guanzon_orange));
@@ -243,8 +235,7 @@ public class Activity_BranchPerformanceMonitoring extends AppCompatActivity {
         linechart.getAxisRight().setTextColor(color);
         linechart.getLegend().setTextColor(color);
         linechart.setDescription(null);
-        linechart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(CHART_MONTH_LABEL));
-//        linechart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(CHART_MONTH_LABEL));
+        linechart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(PerformancePeriod.parseBranchPeriodicPerformance(list)));
         linechart.setDoubleTapToZoomEnabled(false);
         linechart.getXAxis().setTextSize(10f);
         linechart.setExtraOffsets(0, 0, 10f, 18f);

@@ -26,7 +26,6 @@ import org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_Main;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMDashboard;
 import org.rmj.guanzongroup.ghostrider.epacss.ui.home.Fragment_Associate_Dashboard;
-import org.rmj.guanzongroup.ghostrider.notifications.Fragment.Fragment_NotificationList;
 import org.rmj.guanzongroup.ghostrider.notifications.Fragment.Fragment_Notifications;
 
 /**
@@ -113,14 +112,31 @@ public class Fragment_Dashboard extends Fragment {
 
         mViewModel.GetUnreadPayslipCount().observe(requireActivity(), new Observer<Integer>() {
             @Override
-            public void onChanged(Integer integer) {
+            public void onChanged(Integer count) {
                 try{
-                    if(integer > 0){
-                        BadgeDrawable loBadge = botNav.getOrCreateBadge(R.id.nav_notifications);
-                        loBadge.setNumber(integer);
-                    } else {
-                        botNav.removeBadge(R.id.nav_notifications);
-                    }
+                    initNotificationBadge(count);
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        mViewModel.GetUnreadMessagesCount().observe(requireActivity(), new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer count) {
+                try{
+                    initNotificationBadge(count);
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        mViewModel.GetUnreadNotificationCount().observe(requireActivity(), new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer count) {
+                try{
+                    initNotificationBadge(count);
                 } catch (Exception e){
                     e.printStackTrace();
                 }
@@ -172,5 +188,25 @@ public class Fragment_Dashboard extends Fragment {
         }
 
         botNav.setSelectedItemId(R.id.nav_panalo);
+    }
+
+    private void initNotificationBadge(int count) throws Exception{
+        if(count > 0){
+            BadgeDrawable loBadge = botNav.getOrCreateBadge(R.id.nav_notifications);
+            if(loBadge == null){
+                return;
+            }
+
+            if(loBadge.getNumber() == 0){
+                loBadge.setNumber(count);
+                return;
+            }
+
+            int lnExist = loBadge.getNumber();
+            int lnTotal = lnExist + count;
+            loBadge.setNumber(lnTotal);
+        } else {
+            botNav.removeBadge(R.id.nav_notifications);
+        }
     }
 }

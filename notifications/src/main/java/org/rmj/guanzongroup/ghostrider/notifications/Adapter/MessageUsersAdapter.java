@@ -54,9 +54,7 @@ public class MessageUsersAdapter extends RecyclerView.Adapter<MessageUsersAdapte
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(position != RecyclerView.NO_POSITION){
-                    mListener.OnClick(message.sUserName, message.sMessagex, message.sUserIDxx);
-                }
+                mListener.OnClick(message.sUserName, message.sMessagex, message.sUserIDxx);
             }
         });
     }
