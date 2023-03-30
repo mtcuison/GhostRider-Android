@@ -168,7 +168,7 @@ public class Activity_AreaPerformanceMonitoring extends AppCompatActivity {
         linechart.getAxisRight().setTextColor(color);
         linechart.getLegend().setTextColor(color);
         linechart.setDescription(null);
-        linechart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(PerformancePeriod.getPerformancePeriodList(list)));
+        linechart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(PerformancePeriod.parseAreaPeriodicPerformance(list)));
 //        linechart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(CHART_MONTH_LABEL));
         linechart.setDoubleTapToZoomEnabled(false);
         linechart.getXAxis().setTextSize(10f);
@@ -248,6 +248,7 @@ public class Activity_AreaPerformanceMonitoring extends AppCompatActivity {
                 Intent loIntent = new Intent(Activity_AreaPerformanceMonitoring.this, Activity_BranchPerformanceMonitoring.class);
                 loIntent.putExtra("brnCD", sBranchCd);
                 loIntent.putExtra("brnNM", sBranchnm);
+                Log.e("ito ung naclick ko",sBranchCd + sBranchnm);
                 startActivity(loIntent);
             }
         });
@@ -256,9 +257,8 @@ public class Activity_AreaPerformanceMonitoring extends AppCompatActivity {
         rvBranchPerformance.setLayoutManager(loManager);
         rvBranchPerformance.setAdapter(loAdapter);
         rvBranchPerformance.setVisibility(View.VISIBLE);
-        lblNoDataBranchPerformance.setVisibility(View.GONE);;
+        lblNoDataBranchPerformance.setVisibility(View.GONE);
     }
-
     private void selectedCardView(){
         if(!getIntent().hasExtra("index")){
             initMCSales();
@@ -278,7 +278,6 @@ public class Activity_AreaPerformanceMonitoring extends AppCompatActivity {
                 initJobOrder();
                 break;
         }
-
     }
 
     private void initMCSales(){

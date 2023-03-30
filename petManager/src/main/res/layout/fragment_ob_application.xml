@@ -26,7 +26,8 @@
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_header"
@@ -36,16 +37,16 @@
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/img_bg_guanzon_orange"
                     android:layout_width="0dp"
-                    android:layout_height="190dp"
+                    android:layout_height="@dimen/pet_manager_header"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintRight_toRightOf="parent"/>
-
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
+                    android:layout_marginTop="30dp"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
@@ -93,27 +94,6 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </com.google.android.material.appbar.AppBarLayout>
-
-        <com.google.android.material.textview.MaterialTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="@string/sHeaderBusTrip"
-            android:gravity="center_horizontal"
-            android:layout_marginTop="30dp"
-            android:fontFamily="@font/roboto_bold"/>
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/lbl_transnox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:text="@string/sLabelTransNox"
-            android:fontFamily="@font/roboto_medium"
-            android:layout_marginTop="20dp"
-            android:paddingLeft="10dp"
-            android:paddingStart="10dp"
-            tools:ignore="RtlSymmetry" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"

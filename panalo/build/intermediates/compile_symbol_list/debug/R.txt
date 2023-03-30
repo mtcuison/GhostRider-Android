@@ -2955,6 +2955,7 @@ int drawable ic_baseline_selfie 0x0
 int drawable ic_broken_image_24 0x0
 int drawable ic_btn_delete 0x0
 int drawable ic_camera_black_24 0x0
+int drawable ic_chevron_right_24 0x0
 int drawable ic_clear_black_24 0x0
 int drawable ic_client_contact 0x0
 int drawable ic_clock_black_24dp 0x0
@@ -2991,7 +2992,9 @@ int drawable ic_mtrl_chip_checked_circle 0x0
 int drawable ic_mtrl_chip_close_circle 0x0
 int drawable ic_nav_dropdown 0x0
 int drawable ic_nav_dropdown_collapse 0x0
+int drawable ic_notification_24 0x0
 int drawable ic_proc_services 0x0
+int drawable ic_rating_24 0x0
 int drawable ic_search_black_24 0x0
 int drawable ic_settings_about 0x0
 int drawable ic_settings_account 0x0

@@ -11,19 +11,35 @@ import java.util.List;
 @Dao
 public interface DMessages {
 
-    @Query("SELECT " +
-            "a.*, " +
-            "b.sMessagex, " +
-            "c.dReceived " +
-            "FROM Notification_User a " +
-            "LEFT JOIN Notification_Info_Master b " +
-            "ON a.sUserIDxx = b.sCreatrID " +
-            "LEFT JOIN Notification_Info_Recepient c " +
-            "ON b.sMesgIDxx = c.sTransNox " +
-            "WHERE b.sCreatrID <> 'SYSTEM' " +
-            "GROUP BY a.sUserIDxx " +
-            "ORDER BY c.dReceived DESC")
-    LiveData<List<MessageUsers>> GetUsersMessages();
+
+    @Query("SELECT a.*, " +
+            "(SELECT sMessagex FROM Notification_Info_Master WHERE sCreatrID = a.sUserIDxx " +
+            "AND sMsgTypex == '00000' " +
+            "AND sCreatrID <> 'SYSTEM' ORDER BY dCreatedx DESC LIMIT 1) AS sMessagex, " +
+            "(SELECT dReceived FROM Notification_Info_Recepient WHERE sTransNox = " +
+            "(SELECT sMesgIDxx FROM Notification_Info_Master WHERE sCreatrID = a.sUserIDxx ORDER BY dCreatedx DESC LIMIT 1) ORDER BY dReceived DESC LIMIT 1) AS dReceived " +
+            "FROM Notification_User a")
+    LiveData<List<MessageUsers>> GetMessageUsers();
+
+//    @Query("SELECT " +
+//            "c.*, " +
+//            "a.sMessagex, " +
+//            "b.dReceived " +
+//            "FROM Notification_Info_Master a " +
+//            "LEFT JOIN Notification_Info_Recepient b " +
+//            "ON a.sMesgIDxx = b.sTransNox " +
+//            "LEFT JOIN Notification_User c " +
+//            "ON a.sCreatrID = c.sUserIDxx " +
+//            "WHERE a.sMsgTypex = '00000' " +
+//            "AND a.sCreatrID <> 'SYSTEM' " +
+//            "ORDER BY b.dReceived DESC")
+//    LiveData<List<MessageUsers>> GetMessageUsers();
+
+//    SELECT a.*,
+//            (SELECT sMessagex FROM Notification_Info_Master WHERE sCreatrID = a.sUserIDxx ORDER BY dCreatedx DESC LIMIT 1) AS sMessagex,
+// (SELECT dReceived FROM Notification_Info_Recepient WHERE sTransNox =
+//            (SELECT sMesgIDxx FROM Notification_Info_Master WHERE sCreatrID = a.sUserIDxx ORDER BY dCreatedx DESC LIMIT 1) ORDER BY dReceived DESC LIMIT 1) AS dReceived
+//    FROM Notification_User a;
 
     @Query("SELECT sUserName FROM Notification_User WHERE sUserIDxx =:args")
     LiveData<String> GetSenderName(String args);
@@ -54,6 +70,17 @@ public interface DMessages {
             "AND b.cMesgStat == '3' " +
             "AND b.cStatSent == 0")
     List<String> GetUnreadMessagesID(String args);
+
+    @Query("SELECT COUNT(a.sMesgIDxx) " +
+            "FROM Notification_Info_Master a " +
+            "LEFT JOIN Notification_Info_Recepient b " +
+            "ON a.sMesgIDxx = b.sTransNox " +
+            "WHERE b.sRecpntID = (SELECT sUserIDxx FROM User_Info_Master) " +
+            "AND a.sMsgTypex == '00000' " +
+            "AND a.sMsgTitle NOT LIKE '%PAYSLIP%'" +
+            "AND a.sCreatrID <> 'SYSTEM' " +
+            "AND b.cMesgStat == '2'")
+    LiveData<Integer> GetUnreadMessagesCount();
 
     /**
      *

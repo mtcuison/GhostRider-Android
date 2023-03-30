@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.ghostrider.notifications.Notifications.Panalo;
+package org.rmj.guanzongroup.ghostrider.notifications.Notifications.Regular;
 
 import static org.rmj.guanzongroup.ghostrider.notifications.Notifications.Panalo.PanaloNotification.CHANNEL_DESC;
 import static org.rmj.guanzongroup.ghostrider.notifications.Notifications.Panalo.PanaloNotification.CHANNEL_NAME;
@@ -14,18 +14,21 @@ import android.os.Build;
 
 import androidx.core.app.NotificationCompat;
 
-import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Database.Entities.ENotificationMaster;
 import org.rmj.guanzongroup.ghostrider.notifications.R;
 
-public class RewardNotification implements PnlNotification{
-    private static final String TAG = RewardNotification.class.getSimpleName();
+import java.util.Date;
+
+public class RegularSysNotification implements RglNotification{
 
     private final Context mContext;
     private final ENotificationMaster poMessage;
     private NotificationManager loManager;
 
-    public RewardNotification(Context mContext, ENotificationMaster message) {
+    private static final int SYSTEM_SUMMARY_NOTIFICATION = 141;
+    private static final String SYSTEM_GROUP_NOTIFICATION = "org.rmj.guanzongroup.ghostrider.sysgroupnotification";
+
+    public RegularSysNotification(Context mContext, ENotificationMaster message) {
         this.mContext = mContext;
         this.poMessage = message;
     }
@@ -34,21 +37,11 @@ public class RewardNotification implements PnlNotification{
     public void CreateNotification() {
         try{
             // this portion of code generates random channel id for notifications needed to show separately
-//            int lnChannelID = (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
+            int lnChannelID = (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
 
-            int lnChannelID = 123;
+//            int lnChannelID = 123;
 
             Intent loIntent = new Intent(mContext, Class.forName("org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_Main"));
-
-            String lsDataxx = poMessage.getDataSndx();
-            JSONObject loJson = new JSONObject(lsDataxx);
-            JSONObject loPromo = loJson.getJSONObject("data");
-            String lsUrlLinkx = loPromo.getString("sReferNox");
-//            String lsImageUrl = loPromo.getString("sImageUrl");
-
-            loIntent.putExtra("notification", "promo");
-            loIntent.putExtra("args", "1");
-            loIntent.putExtra("url_link", lsUrlLinkx);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 int importance = NotificationManager.IMPORTANCE_DEFAULT;
@@ -72,47 +65,11 @@ public class RewardNotification implements PnlNotification{
             String lsTitlexx = poMessage.getMsgTitle();
             String lsMessage = poMessage.getMessagex();
 
-            //Retrieve a resource drawable and convert it to bitmap.
-            //retrieving a resource drawable in panalo notification must be base on
-            //which type of panalo notification must be displayed
-            //Panalo Notifications
-            // 1. WIN
-            // 2. CLAIM
-            // 3. REDEEMED
-            // 4. WARNING
-
-            String lsPanaloTp = loJson.getString("panalo");
-
-            Bitmap icon;
-
-//            switch (lsPanaloTp){
-//                case "reward":
-//                    icon = BitmapFactory.decodeResource(mContext.getResources(),
-//                            R.drawable.sample_listing_product);
-//                    break;
-//                case "claim":
-//                    icon = BitmapFactory.decodeResource(mContext.getResources(),
-//                            R.drawable.sample_listing_product);
-//                    break;
-//                case "redeemed":
-//                    icon = BitmapFactory.decodeResource(mContext.getResources(),
-//                            R.drawable.sample_listing_product);
-//                    break;
-//                default:
-//                    icon = BitmapFactory.decodeResource(mContext.getResources(),
-//                            R.drawable.sample_listing_product);
-//                    break;
-//            }
-
             NotificationCompat.Builder notification =
                     new NotificationCompat.Builder(mContext, String.valueOf(lnChannelID))
                             .setContentIntent(notifyPendingIntent)
                             .setAutoCancel(true)
                             .setChannelId(NotificationID)
-//                        .setLargeIcon(icon)
-//                        .setStyle(new NotificationCompat.BigPictureStyle()
-//                            .bigPicture(icon)
-//                            .bigLargeIcon(null))
                             .setSmallIcon(R.drawable.ic_guanzon_circle)
                             .setContentTitle(lsTitlexx)
                             .setContentText(lsMessage);

@@ -6,7 +6,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.experimental.UseExperimental;
 import androidx.fragment.app.Fragment;
@@ -22,11 +21,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import org.rmj.g3appdriver.dev.Database.Entities.ERaffleStatus;
 import org.rmj.guanzongroup.ghostrider.Fragment.Fragment_PanaloContainer;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Etc.FragmentAdapter;
-import org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_Main;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMDashboard;
 import org.rmj.guanzongroup.ghostrider.epacss.ui.home.Fragment_Associate_Dashboard;
-import org.rmj.guanzongroup.ghostrider.notifications.Fragment.Fragment_NotificationList;
 import org.rmj.guanzongroup.ghostrider.notifications.Fragment.Fragment_Notifications;
 
 /**
@@ -111,22 +108,6 @@ public class Fragment_Dashboard extends Fragment {
             return true;
         });
 
-        mViewModel.GetUnreadPayslipCount().observe(requireActivity(), new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer integer) {
-                try{
-                    if(integer > 0){
-                        BadgeDrawable loBadge = botNav.getOrCreateBadge(R.id.nav_notifications);
-                        loBadge.setNumber(integer);
-                    } else {
-                        botNav.removeBadge(R.id.nav_notifications);
-                    }
-                } catch (Exception e){
-                    e.printStackTrace();
-                }
-            }
-        });
-
         mViewModel.GetRaffleStatus().observe(requireActivity(), new Observer<ERaffleStatus>() {
             @Override
             public void onChanged(ERaffleStatus status) {
@@ -135,7 +116,7 @@ public class Fragment_Dashboard extends Fragment {
                         return;
                     }
                     int lnStatus = status.getHasRffle();
-                    CreatePanalobadge(lnStatus);
+                    CreatePanaloBadge(lnStatus);
                 } catch (Exception e){
                     e.printStackTrace();
                 }
@@ -143,11 +124,28 @@ public class Fragment_Dashboard extends Fragment {
         });
 
         InitializePanaloDashboard();
+
+        mViewModel.GetAllUnreadNotificationCount().observe(requireActivity(), new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer count) {
+                if(count == null){
+                    return;
+                }
+
+                if(count == 0){
+                    botNav.removeBadge(R.id.nav_notifications);
+                    return;
+                }
+
+                BadgeDrawable loBadge = botNav.getOrCreateBadge(R.id.nav_notifications);
+                loBadge.setNumber(count);
+            }
+        });
         return view;
     }
 
     @UseExperimental(markerClass = ExperimentalBadgeUtils.class)
-    private void CreatePanalobadge(int status){
+    private void CreatePanaloBadge(int status){
         BadgeDrawable loBadge;
         Menu loMenu = botNav.getMenu();
         MenuItem loMenuItem;

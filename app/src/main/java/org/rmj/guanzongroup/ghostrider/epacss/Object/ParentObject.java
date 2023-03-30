@@ -17,6 +17,7 @@ import android.content.Intent;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Browser;
 import org.rmj.guanzongroup.ghostrider.dataChecker.Activity.Activity_DB_Explorer;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
+import org.rmj.guanzongroup.ghostrider.pacitaReward.Activity_Branch_Rate;
 import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_DigitalGcard;
 
 public class ParentObject {
@@ -69,6 +70,9 @@ public class ParentObject {
             case "employee itinerary":
                 lnIcon = R.drawable.ic_baseline_checklist_24;
                 break;
+            case "pacita reward":
+                lnIcon = R.drawable.ic_rating_24;
+                break;
         }
         return lnIcon;
     }
@@ -94,6 +98,9 @@ public class ParentObject {
                 loIntent = new Intent(context, Activity_DB_Explorer.class);
                 break;
 
+            case "pacita reward":
+                loIntent = new Intent(context, Activity_Branch_Rate.class);
+                break;
             default:
                 loIntent = null;
         }

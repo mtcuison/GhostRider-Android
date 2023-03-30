@@ -21,7 +21,6 @@ import android.os.Build;
 
 import androidx.core.app.NotificationCompat;
 
-import org.rmj.guanzongroup.ghostrider.notifications.Activity.Activity_Notifications;
 import org.rmj.guanzongroup.ghostrider.notifications.R;
 
 public class GNotifBuilder {
@@ -99,32 +98,37 @@ public class GNotifBuilder {
     }
 
     private NotificationCompat.Builder initNotification(){
-        Intent notifyIntent = new Intent(context, Activity_Notifications.class);
-        // Set the Activity to start in a new, empty task
-        notifyIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-                | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        if(MessageID != null) {
-            notifyIntent.putExtra("id", MessageID);
-            notifyIntent.putExtra("title", Title);
-            notifyIntent.putExtra("type", "notification");
+        try {
+            Intent notifyIntent = new Intent(context, Class.forName("org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_Main"));
+            // Set the Activity to start in a new, empty task
+            notifyIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                    | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            if (MessageID != null) {
+                notifyIntent.putExtra("id", MessageID);
+                notifyIntent.putExtra("title", Title);
+                notifyIntent.putExtra("type", "notification");
+            }
+            // Create the PendingIntent
+            PendingIntent notifyPendingIntent = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+                notifyPendingIntent = PendingIntent.getActivity(
+                        context, 0, notifyIntent, PendingIntent.FLAG_MUTABLE);
+            } else {
+                notifyPendingIntent = PendingIntent.getActivity(
+                        context, 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            }
+            return new NotificationCompat.Builder(context)
+                    .setContentIntent(notifyPendingIntent)
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+                    .setAutoCancel(true)
+                    .setChannelId(NotificationID)
+                    .setSmallIcon(R.drawable.ic_guanzon_circle)
+                    .setContentTitle(Title)
+                    .setContentText(Message);
+        } catch (Exception e){
+            e.printStackTrace();
+            return null;
         }
-        // Create the PendingIntent
-        PendingIntent notifyPendingIntent = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
-            notifyPendingIntent = PendingIntent.getActivity(
-                    context, 0, notifyIntent, PendingIntent.FLAG_MUTABLE);
-        } else {
-            notifyPendingIntent = PendingIntent.getActivity(
-                    context, 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        }
-        return new NotificationCompat.Builder(context)
-                .setContentIntent(notifyPendingIntent)
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setAutoCancel(true)
-                .setChannelId(NotificationID)
-                .setSmallIcon(R.drawable.ic_guanzon_circle)
-                .setContentTitle(Title)
-                .setContentText(Message);
     }
 
     public void show(){

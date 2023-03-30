@@ -8,7 +8,7 @@
     android:scrollbars="none"
     tools:context=".ui.Dashboard.Fragment_BHDashboard">
 
-    <org.rmj.guanzongroup.ghostrider.epacss.ui.home.etc.NonSwipeableViewPager
+    <org.rmj.g3appdriver.etc.NonSwipeableViewPager
         android:id="@+id/viewpager"
         android:layout_width="0dp"
         android:layout_height="0dp"

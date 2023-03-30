@@ -25,7 +25,6 @@ import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.lib.Notifications.data.SampleData;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_BranchPerformanceMonitoring;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_BranchPerformanceMonitoring;
 import org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_SplashScreen;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMHomeBH;
@@ -38,12 +37,7 @@ import java.util.List;
 public class Fragment_Home_BH extends Fragment {
 
     private MaterialTextView lblFullNme,
-            lblEmail,
-            lblUserLvl,
-            lblDept,
-            lblAreaNme,
-            lblSyncStat;
-    private String photoPath, branchCd, branchNm;
+            lblDept;
     private double latitude, longitude;
     private List<NewsEventsModel> newsList;
 
@@ -52,7 +46,7 @@ public class Fragment_Home_BH extends Fragment {
     private MaterialTextView mcGoalPerc,mcGoalFraction,spGoalPerc,spGoalFraction,joGoalPerc,joGoalFraction;
     private VMHomeBH mViewModel;
     private MaterialCardView btnPerformance;
-    private RecyclerView rvCompnyAnouncemnt, rvLeaveApp, rvBusTripApp;
+    private RecyclerView rvCompnyAnouncemnt;
 
     public static Fragment_Home_BH newInstance() {
         return new Fragment_Home_BH();
@@ -157,11 +151,7 @@ public class Fragment_Home_BH extends Fragment {
     private void initUserInfo(){
         mViewModel.getEmployeeInfo().observe(getViewLifecycleOwner(), eEmployeeInfo -> {
             try {
-                //lblEmail.setText(eEmployeeInfo.getEmailAdd());
-//                lblUserLvl.setText(DeptCode.parseUserLevel(eEmployeeInfo.getEmpLevID()));
                 lblFullNme.setText(eEmployeeInfo.getUserName());
-                branchCd = eEmployeeInfo.getBranchCD();
-                branchNm = eEmployeeInfo.getBranchNm();
                 lblDept.setText(DeptCode.parseUserLevel(eEmployeeInfo.getEmpLevID()));
 
             } catch (Exception e){
@@ -189,9 +179,6 @@ public class Fragment_Home_BH extends Fragment {
             @Override
             public void onClick(View view) {
                 loIntent = new Intent(getActivity(), Activity_BranchPerformanceMonitoring.class);
-                loIntent.putExtra("index","0");
-                loIntent.putExtra("brnCD",branchCd);
-                loIntent.putExtra("brnNM",branchNm);
                 loIntent = new Intent(getActivity(), Activity_BranchPerformanceMonitoring.class);
                 startActivity(loIntent);
                 requireActivity().overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);

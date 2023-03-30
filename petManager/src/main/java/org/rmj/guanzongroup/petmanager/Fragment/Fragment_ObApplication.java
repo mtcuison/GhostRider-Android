@@ -54,7 +54,7 @@ public class Fragment_ObApplication extends Fragment {
     public static final String TAG = Fragment_ObApplication.class.getSimpleName();
     private VMObApplication mViewModel;
 
-    private MaterialTextView lblTransNox, lblUsername, lblPosition, lblBranch;
+    private MaterialTextView lblUsername, lblPosition, lblBranch;
     private LinearLayout lnWithoutLog;
     private Button btnSubmit;
     private MaterialAutoCompleteTextView txtBranchDestination;
@@ -81,7 +81,6 @@ public class Fragment_ObApplication extends Fragment {
         lblPosition = view.findViewById(R.id.lbl_userPosition);
         lblBranch = view.findViewById(R.id.lbl_userBranch);
 
-        lblTransNox = view.findViewById(R.id.lbl_transnox);
         lnWithoutLog = view.findViewById(R.id.linear_ObWithoutLog);
         txtDateFrom = view.findViewById(R.id.txt_dateFrom);
         txtDateTo = view.findViewById(R.id.txt_dateTo);

@@ -53,7 +53,6 @@ public class AdapterPayslip extends RecyclerView.Adapter<AdapterPayslip.VHPaySli
 
         String subsTringVal = loPaySlip.sMessagex.substring(lnStart+1, lnEnd);
         Uri uri = Uri.parse(subsTringVal);
-        Log.e("URL", uri.toString());
         if(loPaySlip.cMesgStat.equalsIgnoreCase("2")){
             holder.lnBadge.setVisibility(View.VISIBLE);
         }

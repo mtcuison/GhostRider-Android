@@ -16,44 +16,35 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ERaffleStatus;
-import org.rmj.g3appdriver.dev.Database.Entities.ESelfieLog;
-import org.rmj.g3appdriver.dev.Device.Telephony;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
-import org.rmj.g3appdriver.lib.Notifications.Obj.Payslip;
+import org.rmj.g3appdriver.lib.Notifications.Obj.Notification;
 import org.rmj.g3appdriver.lib.Panalo.Obj.ILOVEMYJOB;
-import org.rmj.g3appdriver.lib.SelfieLog.SelfieLog;
-
-import java.util.List;
 
 public class VMDashboard extends AndroidViewModel {
 
     private final EmployeeMaster poEmploye;
     private final ILOVEMYJOB poPanalo;
-    private final Payslip poPaySlip;
+    private final Notification poNotification;
 
     public VMDashboard(@NonNull Application application) {
         super(application);
         this.poEmploye = new EmployeeMaster(application);
-
-        this.poPaySlip = new Payslip(application);
         this.poPanalo = new ILOVEMYJOB(application);
+        this.poNotification = new Notification(application);
     }
 
     public LiveData<EEmployeeInfo> getEmployeeInfo(){
         return poEmploye.GetEmployeeInfo();
     }
 
-    public LiveData<Integer> GetUnreadPayslipCount(){
-        return poPaySlip.GetUnreadPayslipCount();
-    }
-
     public LiveData<ERaffleStatus> GetRaffleStatus(){
         return poPanalo.GetRaffleStatus();
+    }
+
+    public LiveData<Integer> GetAllUnreadNotificationCount(){
+        return poNotification.GetAllUnreadNotificationCount();
     }
 }

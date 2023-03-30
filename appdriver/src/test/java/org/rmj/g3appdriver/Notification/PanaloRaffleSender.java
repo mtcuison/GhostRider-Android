@@ -47,7 +47,7 @@ public class PanaloRaffleSender {
         param.put("type", "00000");
         param.put("parent", null);
         param.put("title", "Guanzon Panalo");
-        param.put("message", "Congratulations!");
+        param.put("message", "Congrats! libre kana");
         param.put("rcpt", rcpts);
 
         JSONParser oParser = new JSONParser();

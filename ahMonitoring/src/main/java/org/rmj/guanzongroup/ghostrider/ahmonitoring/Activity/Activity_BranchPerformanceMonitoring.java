@@ -2,6 +2,7 @@ package org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity;
 
 import static org.rmj.g3appdriver.etc.AppConstants.CHART_MONTH_LABEL;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -35,6 +36,7 @@ import com.google.android.material.textview.MaterialTextView;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DBranchPerformance;
 import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.lib.BullsEye.PerformancePeriod;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.Adapter_Area_Performance_Monitoring;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.PeriodicPerformance;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
@@ -46,8 +48,7 @@ import java.util.List;
 public class Activity_BranchPerformanceMonitoring extends AppCompatActivity {
 
     private VMBranchPerformanceMonitor mViewModel;
-    private String BranchCD;
-    private String BranchNM;
+    private String BranchCD,BranchNM;
     private LineChart linechart;
     private PieChart piechart;
     private MaterialTextView lblBranch;
@@ -56,15 +57,15 @@ public class Activity_BranchPerformanceMonitoring extends AppCompatActivity {
     private int width, height;
     private RecyclerView rvAreaPerformance, rvBranchPerformance;
 
+    @SuppressLint("LongLogTag")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.mViewModel = new ViewModelProvider(Activity_BranchPerformanceMonitoring.this).get(VMBranchPerformanceMonitor.class);
-        setContentView(R.layout.activity_branch_performance_monitoring);
         this.BranchCD = getIntent().getStringExtra("brnCD");
         this.BranchNM = getIntent().getStringExtra("brnNM");
-        Log.e("ito ung branch",String.valueOf(getIntent().getStringExtra("brnCD")));
-
+        this.mViewModel = new ViewModelProvider(Activity_BranchPerformanceMonitoring.this).get(VMBranchPerformanceMonitor.class);
+        setContentView(R.layout.activity_branch_performance_monitoring);
+        Log.e("pinasa ko galing area", String.valueOf(getIntent().getStringExtra("brnCD")));
         Toolbar toolbar = findViewById(R.id.toolbar_monitoring);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -86,11 +87,29 @@ public class Activity_BranchPerformanceMonitoring extends AppCompatActivity {
         tabLayout.addTab(tabLayout.newTab().setText("SP Sales"));
         tabLayout.addTab(tabLayout.newTab().setText("Job Order"));
 
+        if (BranchCD == null){
+            mViewModel.getEmployeeInfo().observe(Activity_BranchPerformanceMonitoring.this, initbranch -> {
+                try {
+                    BranchCD = initbranch.getBranchCD();
+                    lblBranch.setText(initbranch.getBranchNm());
+                    Log.e("ginawa ko to", BranchCD);
+                    initMCSales();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+
+        }else {
+            BranchCD = getIntent().getStringExtra("brnCD");
+            lblBranch.setText(getIntent().getStringExtra("brnNM"));
+            Log.e("ito na", String.valueOf(BranchCD));
+            initMCSales();
+        }
         initTablayout();
     }
 
     private void initTablayout(){
-        selectedCardView();
+
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
 
@@ -115,6 +134,7 @@ public class Activity_BranchPerformanceMonitoring extends AppCompatActivity {
     }
 
     public void initMCSales(){
+        Log.e("sample branch",String.valueOf(BranchCD));
         mViewModel.GetMCSalesPeriodicPerformance(BranchCD).observe(Activity_BranchPerformanceMonitoring.this,  BranchPerforamancebyMC -> {
             try{
                 InitializeBranchList(BranchPerforamancebyMC);
@@ -193,15 +213,6 @@ public class Activity_BranchPerformanceMonitoring extends AppCompatActivity {
         LineDataSet loActual = new LineDataSet(poActual, "Actual");
         LineDataSet loGoalxx = new LineDataSet(poGoalxx, "Goal");
 
-//        loActual.setLineWidth(2);
-//        loActual.setColors(getResources().getColor(R.color.guanzon_orange));
-//
-//        loGoalxx.setLineWidth(2);
-//        loGoalxx.setColors(getResources().getColor(R.color.check_green));
-//
-//        ArrayList<ILineDataSet> loDataSet = new ArrayList<>();
-//        loDataSet.add(loActual);
-//        loDataSet.add(loGoalxx);
         loActual.setAxisDependency(YAxis.AxisDependency.RIGHT);
         loActual.setLineWidth(2);
         loActual.setColors(getResources().getColor(R.color.guanzon_orange));
@@ -224,8 +235,7 @@ public class Activity_BranchPerformanceMonitoring extends AppCompatActivity {
         linechart.getAxisRight().setTextColor(color);
         linechart.getLegend().setTextColor(color);
         linechart.setDescription(null);
-        linechart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(CHART_MONTH_LABEL));
-//        linechart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(CHART_MONTH_LABEL));
+        linechart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(PerformancePeriod.parseBranchPeriodicPerformance(list)));
         linechart.setDoubleTapToZoomEnabled(false);
         linechart.getXAxis().setTextSize(10f);
         linechart.setExtraOffsets(0, 0, 10f, 18f);
@@ -307,28 +317,6 @@ public class Activity_BranchPerformanceMonitoring extends AppCompatActivity {
         rvBranchPerformance.setLayoutManager(loManager);
         rvBranchPerformance.setAdapter(loAdapter);
         rvBranchPerformance.setVisibility(View.VISIBLE);
-//        lblNoDataAreaPerformance.setVisibility(View.GONE);;
-    }
-    private void selectedCardView(){
-        if(!getIntent().hasExtra("index")){
-            initMCSales();
-            return;
-        }
-
-        Integer index = Integer.valueOf(getIntent().getStringExtra("index"));
-        tabLayout.selectTab(tabLayout.getTabAt(index));
-        switch (getIntent().getStringExtra("index")){
-            case "0":
-                initMCSales();
-                break;
-            case "1":
-                initSPSales();
-                break;
-            default:
-                initJOSales();
-                break;
-        }
-
     }
 
 }
