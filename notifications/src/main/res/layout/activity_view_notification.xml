@@ -87,6 +87,24 @@
                 app:layout_constraintEnd_toEndOf="@+id/lbl_messageRecipient"
                 app:layout_constraintStart_toStartOf="@+id/lbl_messageRecipient"
                 app:layout_constraintTop_toBottomOf="@+id/lbl_messageRecipient" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/lbl_ReceivedDateTime"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_light"
+                android:layout_marginTop="5dp"
+                app:layout_constraintEnd_toEndOf="@+id/lbl_messageDateTime"
+                app:layout_constraintStart_toStartOf="@+id/lbl_messageDateTime"
+                app:layout_constraintTop_toBottomOf="@+id/lbl_messageDateTime" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/lbl_OpenDateTime"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_light"
+                android:layout_marginTop="5dp"
+                app:layout_constraintEnd_toEndOf="@+id/lbl_ReceivedDateTime"
+                app:layout_constraintStart_toStartOf="@+id/lbl_ReceivedDateTime"
+                app:layout_constraintTop_toBottomOf="@+id/lbl_ReceivedDateTime" />
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
@@ -96,7 +114,7 @@
                 app:cardPreventCornerOverlap="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lbl_messageDateTime">
+                app:layout_constraintTop_toBottomOf="@+id/lbl_OpenDateTime">
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/lbl_messageBody"

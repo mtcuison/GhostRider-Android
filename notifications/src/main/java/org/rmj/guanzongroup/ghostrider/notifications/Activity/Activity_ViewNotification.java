@@ -1,12 +1,12 @@
 package org.rmj.guanzongroup.ghostrider.notifications.Activity;
 
+import android.os.Bundle;
+import android.view.MenuItem;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-
-import android.os.Bundle;
-import android.view.MenuItem;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.textview.MaterialTextView;
@@ -27,7 +27,9 @@ public class Activity_ViewNotification extends AppCompatActivity {
                             lblSendr,
                             lblRcpnt,
                             lblDatex,
-                            lblBodyx;
+                            lblBodyx,
+                            lblReceivedDate,
+                            lblOpenDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +55,7 @@ public class Activity_ViewNotification extends AppCompatActivity {
                     lblTitle.setText(master.getMsgTitle());
                     lblSendr.setText(master.getCreatrNm() == null ? "null" : "SYSTEM");
                     lblBodyx.setText(master.getMessagex());
+                    lblDatex.setText("Date Created: " + FormatUIText.getParseDateTime(master.getCreatedx()));
                 } catch (Exception e){
                     e.printStackTrace();
                 }
@@ -68,7 +71,8 @@ public class Activity_ViewNotification extends AppCompatActivity {
                     }
 
                     lblRcpnt.setText(detail.getRecpntNm());
-                    lblDatex.setText(FormatUIText.getParseDateTime(detail.getReceived()));
+                    lblReceivedDate.setText("Date Received: " + FormatUIText.getParseDateTime(detail.getReceived()));
+                    lblOpenDate.setText("Date Opened: " + FormatUIText.getParseDateTime(detail.getReadxxxx()));
                 } catch (Exception e){
                     e.printStackTrace();
                 }
@@ -86,6 +90,8 @@ public class Activity_ViewNotification extends AppCompatActivity {
         lblRcpnt = findViewById(R.id.lbl_messageRecipient);
         lblDatex = findViewById(R.id.lbl_messageDateTime);
         lblBodyx = findViewById(R.id.lbl_messageBody);
+        lblReceivedDate = findViewById(R.id.lbl_ReceivedDateTime);
+        lblOpenDate = findViewById(R.id.lbl_OpenDateTime);
     }
 
     @Override
