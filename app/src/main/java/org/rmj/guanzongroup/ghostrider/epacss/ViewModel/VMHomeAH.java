@@ -9,14 +9,15 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DBranchOpeningMonitor;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DBranchOpeningMonitor_Impl;
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeBusinessTrip;
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeLeave;
-import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.dev.Database.Entities.ERaffleStatus;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.lib.BullsEye.obj.AreaPerformance;
 import org.rmj.g3appdriver.lib.Notifications.Obj.BranchOpeningMonitor;
+import org.rmj.g3appdriver.lib.Notifications.Obj.Notification;
+import org.rmj.g3appdriver.lib.Panalo.Obj.ILOVEMYJOB;
 import org.rmj.g3appdriver.lib.PetManager.OnCheckEmployeeApplicationListener;
 import org.rmj.g3appdriver.lib.PetManager.PetManager;
 import org.rmj.g3appdriver.lib.PetManager.model.iPM;
@@ -32,7 +33,8 @@ public class VMHomeAH extends AndroidViewModel {
     private final AreaPerformance poSys;
     private final ConnectionUtil poConn;
     private final BranchOpeningMonitor poOpening;
-
+    private final Notification poNotification;
+    private final ILOVEMYJOB poPanalo;
     private iPM poApp;
 
     public VMHomeAH(@NonNull Application application) {
@@ -42,8 +44,12 @@ public class VMHomeAH extends AndroidViewModel {
         this.poSys = new AreaPerformance(application);
         this.poConn = new ConnectionUtil(application);
         this.poOpening = new BranchOpeningMonitor(application);
+        this.poNotification = new Notification(application);
+        this.poPanalo = new ILOVEMYJOB(application);
     }
-
+    public LiveData<Integer> GetAllUnreadNotificationCount(){
+        return poNotification.GetAllUnreadNotificationCount();
+    }
     public LiveData<EEmployeeInfo> getEmployeeInfo(){
         return poEmploye.GetEmployeeInfo();
     }
@@ -51,7 +57,9 @@ public class VMHomeAH extends AndroidViewModel {
     public LiveData<String> GetCurrentMCSalesPerformance(){
         return poSys.GetCurrentMCSalesPerformance();
     }
-
+    public LiveData<ERaffleStatus> GetRaffleStatus(){
+        return poPanalo.GetRaffleStatus();
+    }
     public LiveData<String> GetCurentSPSalesPerformance() {
         return poSys.GetCurentSPSalesPerformance();
     }
