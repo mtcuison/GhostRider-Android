@@ -15,7 +15,6 @@ import static org.rmj.g3appdriver.etc.AppConstants.CHART_MONTH_LABEL;
 
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -203,8 +202,10 @@ public class Fragment_BranchMonitor extends Fragment {
             public void onChanged(String mc_goal) {
 
                 try {
+                    if(mc_goal == null){
+                        return;
+                    }
                     mcFraction.setText(mc_goal);
-                    Log.e("this is mc Goal", mc_goal);
                     if (mc_goal.contains("/")) {
                         String[] rat = mc_goal.split("/");
                         if ((Double.parseDouble(rat[0]) == 0) || (Double.parseDouble(rat[1]) == 0)) {
@@ -224,9 +225,12 @@ public class Fragment_BranchMonitor extends Fragment {
         mViewModel.GetCurrentSPSalesPerformance(BranchCd).observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(String sp_goal) {
+                if(sp_goal == null){
+                    return;
+                }
                 try {
+
                     spFraction.setText(sp_goal);
-                    Log.e("this is sp Goal", sp_goal);
                     if (sp_goal.contains("/")) {
                         String[] rat = sp_goal.split("/");
                         if ((Double.parseDouble(rat[0]) == 0) || (Double.parseDouble(rat[1]) == 0)) {
@@ -247,8 +251,10 @@ public class Fragment_BranchMonitor extends Fragment {
             @Override
             public void onChanged(String jo_goal) {
                 try {
+                    if(jo_goal == null){
+                        return;
+                    }
                     joFraction.setText(jo_goal);
-                    Log.e("this is jo Goal", jo_goal);
                     if (jo_goal.contains("/")) {
                         String[] rat = jo_goal.split("/");
                         if ((Double.parseDouble(rat[0]) == 0) || (Double.parseDouble(rat[1]) == 0)) {
