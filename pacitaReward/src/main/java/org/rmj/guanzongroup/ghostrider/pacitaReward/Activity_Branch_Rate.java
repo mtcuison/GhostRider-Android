@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.imageview.ShapeableImageView;
 
@@ -21,13 +22,28 @@ import java.util.List;
 
 public class Activity_Branch_Rate extends AppCompatActivity {
     RecyclerView rate_list;
+    private MaterialToolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_branch_rate);
 
+        toolbar = findViewById(R.id.toolbar);
         rate_list = findViewById(R.id.rate_list);
+
+        /*TOOL BAR*/
+        setSupportActionBar(toolbar); //set object toolbar as default action bar for activity
+        getSupportActionBar().setTitle("Branch Rate"); //set default title for action bar
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true); //set back button to toolbar
+        getSupportActionBar().setDisplayShowHomeEnabled(true); //enable the back button set on toolbar
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         List<String> questionList = new ArrayList<>();
         questionList.add("Comfort Room Cleanliness");
