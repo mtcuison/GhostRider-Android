@@ -1,14 +1,11 @@
 package org.rmj.guanzongroup.petmanager.ViewModel;
 
-import static java.util.Calendar.DAY_OF_MONTH;
-import static java.util.Calendar.MONTH;
-import static java.util.Calendar.YEAR;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Application;
 import android.content.Context;
 import android.view.View;
+import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
@@ -25,7 +22,6 @@ import org.rmj.g3appdriver.lib.EmployeeLoan.model.LoanType;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -37,24 +33,6 @@ public class VMEmployeeLoanEntry extends AndroidViewModel{
     public VMEmployeeLoanEntry(@NonNull Application application) {
         super(application);
         this.poSys = new Contingency(application);
-    }
-    public String getCurrentDateFormat(){
-        Calendar cal = Calendar.getInstance();
-        String currdate;
-
-        String month = convertMonthtoWord(cal.get(MONTH) + 1);
-        String day = String.valueOf(cal.get(DAY_OF_MONTH));
-        String year = String.valueOf(cal.get(YEAR));
-
-        if (month == null){
-            currdate = "";
-            Toast toast = Toast.makeText(context, "Current Date cannot be Displayed", Toast.LENGTH_LONG);
-            toast.show();
-        }else{
-            currdate = month + " " + day + ", " + year;
-        }
-
-        return currdate;
     }
     public ArrayAdapter<String> getLoanTypeListAdapter(){
         ArrayList<String> loTypes = new ArrayList<>(); //declare an array type
@@ -72,34 +50,6 @@ public class VMEmployeeLoanEntry extends AndroidViewModel{
     }
     public List<LoanType> GetLoanTypes(){
         return poSys.GetLoanTypes();
-    }
-    public String convertMonthtoWord(int monthindex){
-        String monthtoword;
-
-        if(monthindex == 0){
-            monthindex += 1;
-        } else if (monthindex == 13) {
-            monthindex -= 1;
-        }else if (monthindex < 0 || monthindex > 12){
-            return null;
-        }
-        ArrayList<String> monthnames = new ArrayList<>();
-        monthnames.add(0, "");
-        monthnames.add(1, "January");
-        monthnames.add(2, "February");
-        monthnames.add(3, "March");
-        monthnames.add(4, "April");
-        monthnames.add(5, "May");
-        monthnames.add(6, "June");
-        monthnames.add(7, "July");
-        monthnames.add(8, "August");
-        monthnames.add(9, "September");
-        monthnames.add(10, "October");
-        monthnames.add(11, "November");
-        monthnames.add(12, "December");
-
-        monthtoword = monthnames.get(monthindex);
-        return monthtoword;
     }
     public Boolean validateAmtFormat(String format, String inputAmt){
         Boolean matchFormat = null;
@@ -176,7 +126,7 @@ public class VMEmployeeLoanEntry extends AndroidViewModel{
         if(returnAmt.equals("balance")){ //return total loan balance
             sreturnCompAmt = new DecimalFormat("#,###.00").format(totalBalance);
         }else if (returnAmt.equals("interest")) { //return total interest
-            sreturnCompAmt = new DecimalFormat("#,###.00").format(totalIntrst);
+            sreturnCompAmt = new DecimalFormat("#,###.00").format(totalIntrst / terms);
         }else if (returnAmt.equals("amort")) { //return total payment per month
             sreturnCompAmt = new DecimalFormat("#,###.00").format(totalPayperMonth);
         }
@@ -201,11 +151,12 @@ public class VMEmployeeLoanEntry extends AndroidViewModel{
         }
         return output;
     }
-    public void SaveLoanApplication(String sloanType, String sloanAmt, String sIntrst, String sfirstPay, String sTerms, LoanApplication loApp){
+    public Boolean SaveLoanApplication(String sloanType, String sloanAmt, String sIntrst, String sfirstPay, String sTerms, LoanApplication loApp){
+        Boolean res = true;
 
         if (sloanType.trim().isEmpty() == true) {
             Toast.makeText(context, "Please select Loan Type", Toast.LENGTH_SHORT).show();
-            return;
+            res =  false;
         }
         //VALIDATE AMOUNT FORMAT FROM TEXTFIELD
         Boolean loanAmtFormat = validateAmtFormat("decimal", sloanAmt);
@@ -215,57 +166,19 @@ public class VMEmployeeLoanEntry extends AndroidViewModel{
 
         if(loanAmtFormat == false || interestAmtFormat == false || firstpayAmtFormat == false || termsAmtFormat == false){
             Toast.makeText(context, "Invalid Amount Format", Toast.LENGTH_SHORT).show();
-            return;
+            res = false;
         }
         //Loan Amount should not be less than equal to first payment.
         if(Double.parseDouble(sloanAmt) <= Double.parseDouble(sfirstPay)){
             Toast.makeText(context, "Loan Amount should be higher than First Payment", Toast.LENGTH_SHORT).show();
-            return;
+            res = false;
         }
         //terms should not be lees than 0
         if (Integer.parseInt(sTerms) <= 0){
             Toast.makeText(context, "Please Enter Valid Terms", Toast.LENGTH_SHORT).show();
-            return;
+            res = false;
         }
 
-        //initialize dialog class
-        MessageBox messageBox = new MessageBox(context);
-        messageBox.initDialog();
-
-        //set dialog title and message
-        messageBox.setTitle("Loan Application");
-        messageBox.setMessage("Confirm Loan Application?");
-
-        //set dialog buttons
-        messageBox.setPositiveButton("YES", new MessageBox.DialogButton() {
-            @Override
-            public void OnButtonClick(View view, AlertDialog dialog) {
-                //loApp.setLoanType(loantype);
-                loApp.setAmountxx(Double.parseDouble(sloanAmt));
-                loApp.setInterest(Double.parseDouble(sIntrst));
-                loApp.setLoanTerm(Integer.parseInt(sTerms));
-                loApp.setAmountxx(Double.parseDouble(sfirstPay));
-
-                //close dialog
-                clearFields(view.getRootView());
-                dialog.dismiss();
-            }
-        });
-
-        messageBox.setNegativeButton("NO", new MessageBox.DialogButton() {
-            @Override
-            public void OnButtonClick(View view, AlertDialog dialog) {
-                dialog.dismiss();
-                return;
-            }
-        });
-
-        //show dialog
-        messageBox.show();
-    }
-    private void clearFields(View v){
-        if (v instanceof TextInputEditText){
-            ((TextInputEditText) v).setText("");
-        }
+        return res;
     }
 }

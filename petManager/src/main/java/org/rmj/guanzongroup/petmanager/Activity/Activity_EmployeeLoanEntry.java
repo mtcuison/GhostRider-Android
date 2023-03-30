@@ -3,6 +3,7 @@ package org.rmj.guanzongroup.petmanager.Activity;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 
 import android.view.View;
@@ -14,6 +15,7 @@ import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textview.MaterialTextView;
 
+import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.EmployeeLoan.model.LoanApplication;
 import org.rmj.g3appdriver.lib.EmployeeLoan.model.LoanType;
 import org.rmj.guanzongroup.petmanager.R;
@@ -30,10 +32,8 @@ public class Activity_EmployeeLoanEntry extends AppCompatActivity {
     private TextInputEditText txt_interest;
     private TextInputEditText txt_terms;
     private TextInputEditText txt_firstpay;
-    private MaterialTextView txtview_balance;
-    private MaterialTextView txtview_amort;
-    private MaterialTextView txtview_totalinterest;
-    private MaterialTextView txtview_currdate;
+    private TextInputEditText txt_amort;
+    private TextInputEditText txt_totalinterest;
     private MaterialButton btn_saveloanentry;
 
     @Override
@@ -48,15 +48,13 @@ public class Activity_EmployeeLoanEntry extends AppCompatActivity {
 
         //set declared  object value by getting id object from xml file
         toolbar = findViewById(R.id.toolbar);
-        txtview_currdate = findViewById(R.id.txtview_currdate);
         spn_loantype = findViewById(R.id.spn_loantype);
         txt_loanamt = findViewById(R.id.txt_loanamt);
         txt_interest = findViewById(R.id.txt_interest);
         txt_terms = findViewById(R.id.txt_terms);
         txt_firstpay = findViewById(R.id.txt_firstpay);
-        txtview_balance = findViewById(R.id.txtview_balance);
-        txtview_amort = findViewById(R.id.txtview_amort);
-        txtview_totalinterest = findViewById(R.id.txtview_totalinterest);
+        txt_amort = findViewById(R.id.txt_monthlypay);
+        txt_totalinterest = findViewById(R.id.txt_totalintrst);
         btn_saveloanentry = findViewById(R.id.btn_saveloanentry);
 
         /*TOOL BAR*/
@@ -71,9 +69,6 @@ public class Activity_EmployeeLoanEntry extends AppCompatActivity {
                 onBackPressed();
             }
         });
-
-        /*TEXTVIEW FOR CURRENT DAY*/
-        txtview_currdate.setText(mViewModel.getCurrentDateFormat());
 
         /*Loan Type Object*/
         spn_loantype.setAdapter(mViewModel.getLoanTypeListAdapter());
@@ -95,14 +90,11 @@ public class Activity_EmployeeLoanEntry extends AppCompatActivity {
                 //set default text
                 txt_loanamt.setText(mViewModel.getDefaultText(txt_loanamt.getText().toString(),
                         ".00", "decimal"));
-                //set total balance
-                txtview_balance.setText(mViewModel.computeTotalAmt(txt_loanamt.getText().toString(), txt_interest.getText().toString(),
-                        txt_firstpay.getText().toString(), txt_terms.getText().toString(), "balance"));
                 //set total interest
-                txtview_totalinterest.setText(mViewModel.computeTotalAmt(txt_loanamt.getText().toString(), txt_interest.getText().toString(),
+                txt_totalinterest.setText(mViewModel.computeTotalAmt(txt_loanamt.getText().toString(), txt_interest.getText().toString(),
                         txt_firstpay.getText().toString(), txt_terms.getText().toString(), "interest"));
                 //set total amort
-                txtview_amort.setText(mViewModel.computeTotalAmt(txt_loanamt.getText().toString(), txt_interest.getText().toString(),
+                txt_amort.setText(mViewModel.computeTotalAmt(txt_loanamt.getText().toString(), txt_interest.getText().toString(),
                         txt_firstpay.getText().toString(), txt_terms.getText().toString(), "amort"));
             }
         });
@@ -112,14 +104,11 @@ public class Activity_EmployeeLoanEntry extends AppCompatActivity {
                 //set default text
                 txt_interest.setText(mViewModel.getDefaultText(txt_interest.getText().toString(),
                         ".00", "decimal"));
-                //set total balance
-                txtview_balance.setText(mViewModel.computeTotalAmt(txt_loanamt.getText().toString(), txt_interest.getText().toString(),
-                        txt_firstpay.getText().toString(), txt_terms.getText().toString(), "balance"));
                 //set total interest
-                txtview_totalinterest.setText(mViewModel.computeTotalAmt(txt_loanamt.getText().toString(), txt_interest.getText().toString(),
+                txt_totalinterest.setText(mViewModel.computeTotalAmt(txt_loanamt.getText().toString(), txt_interest.getText().toString(),
                         txt_firstpay.getText().toString(), txt_terms.getText().toString(), "interest"));
                 //set total amort
-                txtview_amort.setText(mViewModel.computeTotalAmt(txt_loanamt.getText().toString(), txt_interest.getText().toString(),
+                txt_amort.setText(mViewModel.computeTotalAmt(txt_loanamt.getText().toString(), txt_interest.getText().toString(),
                         txt_firstpay.getText().toString(), txt_terms.getText().toString(), "amort"));
             }
         });
@@ -129,14 +118,11 @@ public class Activity_EmployeeLoanEntry extends AppCompatActivity {
                 //set default text
                 txt_firstpay.setText(mViewModel.getDefaultText(txt_firstpay.getText().toString(),
                         ".00", "decimal"));
-                //set total balance
-                txtview_balance.setText(mViewModel.computeTotalAmt(txt_loanamt.getText().toString(), txt_interest.getText().toString(),
-                        txt_firstpay.getText().toString(), txt_terms.getText().toString(), "balance"));
                 //set total interest
-                txtview_totalinterest.setText(mViewModel.computeTotalAmt(txt_loanamt.getText().toString(), txt_interest.getText().toString(),
+                txt_totalinterest.setText(mViewModel.computeTotalAmt(txt_loanamt.getText().toString(), txt_interest.getText().toString(),
                         txt_firstpay.getText().toString(), txt_terms.getText().toString(), "interest"));
                 //set total amort
-                txtview_amort.setText(mViewModel.computeTotalAmt(txt_loanamt.getText().toString(), txt_interest.getText().toString(),
+                txt_amort.setText(mViewModel.computeTotalAmt(txt_loanamt.getText().toString(), txt_interest.getText().toString(),
                         txt_firstpay.getText().toString(), txt_terms.getText().toString(), "amort"));
             }
         });
@@ -146,19 +132,14 @@ public class Activity_EmployeeLoanEntry extends AppCompatActivity {
                 //set default text
                 txt_terms.setText(mViewModel.getDefaultText(txt_terms.getText().toString(),
                         "0", "integer"));
-                //set total balance
-                txtview_balance.setText(mViewModel.computeTotalAmt(txt_loanamt.getText().toString(), txt_interest.getText().toString(),
-                        txt_firstpay.getText().toString(), txt_terms.getText().toString(), "balance"));
                 //set total interest
-                txtview_totalinterest.setText(mViewModel.computeTotalAmt(txt_loanamt.getText().toString(), txt_interest.getText().toString(),
+                txt_totalinterest.setText(mViewModel.computeTotalAmt(txt_loanamt.getText().toString(), txt_interest.getText().toString(),
                         txt_firstpay.getText().toString(), txt_terms.getText().toString(), "interest"));
                 //set total amort
-                txtview_amort.setText(mViewModel.computeTotalAmt(txt_loanamt.getText().toString(), txt_interest.getText().toString(),
+                txt_amort.setText(mViewModel.computeTotalAmt(txt_loanamt.getText().toString(), txt_interest.getText().toString(),
                         txt_firstpay.getText().toString(), txt_terms.getText().toString(), "amort"));
             }
         });
-
-        /*Apply Button*/
         btn_saveloanentry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -171,9 +152,54 @@ public class Activity_EmployeeLoanEntry extends AppCompatActivity {
                     return;
                 }
 
-                mViewModel.SaveLoanApplication(spn_loantype.getText().toString(), txt_loanamt.getText().toString(),
+                Boolean save = mViewModel.SaveLoanApplication(spn_loantype.getText().toString(), txt_loanamt.getText().toString(),
                         txt_interest.getText().toString(), txt_firstpay.getText().toString(), txt_terms.getText().toString()
                         , loApp);
+
+                if (save.equals(true)) {
+
+                    //initialize dialog class
+                    MessageBox messageBox = new MessageBox(Activity_EmployeeLoanEntry.this);
+                    messageBox.initDialog();
+
+                    //set dialog title and message
+                    messageBox.setTitle("Loan Application");
+                    messageBox.setMessage("Confirm Loan Application?");
+
+                    //set dialog buttons
+                    messageBox.setPositiveButton("YES", new MessageBox.DialogButton() {
+                        @Override
+                        public void OnButtonClick(View view, AlertDialog dialog) {
+                            //loApp.setLoanType(loantype);
+                            loApp.setAmountxx(Double.parseDouble(txt_loanamt.getText().toString()));
+                            loApp.setInterest(Double.parseDouble(txt_interest.getText().toString()));
+                            loApp.setLoanTerm(Integer.parseInt(txt_terms.getText().toString()));
+                            loApp.setAmountxx(Double.parseDouble(txt_firstpay.getText().toString()));
+
+                            //close dialog
+                            dialog.dismiss();
+
+                            spn_loantype.setText("");
+                            txt_loanamt.setText("");
+                            txt_interest.setText("");
+                            txt_terms.setText("");
+                            txt_firstpay.setText("");
+                            txt_amort.setText("");
+                            txt_totalinterest.setText("");
+                        }
+                    });
+
+                    messageBox.setNegativeButton("NO", new MessageBox.DialogButton() {
+                        @Override
+                        public void OnButtonClick(View view, AlertDialog dialog) {
+                            dialog.dismiss();
+                            return;
+                        }
+                    });
+
+                    //show dialog
+                    messageBox.show();
+                }
             }
         });
     }
