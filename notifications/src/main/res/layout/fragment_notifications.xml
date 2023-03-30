@@ -13,6 +13,7 @@
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
         android:src="@drawable/bg_dashboard"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -33,7 +34,15 @@
             android:id="@+id/tabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabTextAppearance="@style/TextAppearance.MaterialComponents.Body2">
+            app:tabTextAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            app:tabIndicatorHeight="4dp"
+            style="@style/Widget.MaterialComponents.TabLayout"
+            app:tabGravity="fill"
+            app:tabMode="fixed"
+            app:tabIndicator="@drawable/tablayout_select_indicator"
+            app:tabIndicatorAnimationDuration="1"
+            app:tabIndicatorGravity="bottom"
+            app:tabIndicatorFullWidth="true">
 
 <!--            <com.google.android.material.tabs.TabItem-->
 <!--                android:layout_width="wrap_content"-->

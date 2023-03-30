@@ -86,13 +86,58 @@ public class Fragment_Notifications extends Fragment {
 
         mViewModel.GetUnreadPayslipCount().observe(requireActivity(), new Observer<Integer>() {
             @Override
-            public void onChanged(Integer integer) {
+            public void onChanged(Integer count) {
                 try{
-                    if (integer > 0) {
-                        Objects.requireNonNull(Objects.requireNonNull(tabLayout.getTabAt(1)).getOrCreateBadge()).setNumber(integer);
-                    } else {
-                        Objects.requireNonNull(tabLayout.getTabAt(1)).removeBadge();
+                    if(count == null){
+                        return;
                     }
+
+                    if(count == 0){
+                        Objects.requireNonNull(tabLayout.getTabAt(1)).removeBadge();
+                        return;
+                    }
+
+                    Objects.requireNonNull(Objects.requireNonNull(tabLayout.getTabAt(1)).getOrCreateBadge()).setNumber(count);
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        mViewModel.GetUnreadMessagesCount().observe(requireActivity(), new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer count) {
+                try{
+                    if(count == null){
+                        return;
+                    }
+
+                    if(count == 0){
+                        Objects.requireNonNull(tabLayout.getTabAt(2)).removeBadge();
+                        return;
+                    }
+
+                    Objects.requireNonNull(Objects.requireNonNull(tabLayout.getTabAt(2)).getOrCreateBadge()).setNumber(count);
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        mViewModel.GetUnreadNotificationCount().observe(requireActivity(), new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer count) {
+                try{
+                    if(count == null){
+                        return;
+                    }
+
+                    if(count == 0){
+                        Objects.requireNonNull(tabLayout.getTabAt(3)).removeBadge();
+                        return;
+                    }
+
+                    Objects.requireNonNull(Objects.requireNonNull(tabLayout.getTabAt(3)).getOrCreateBadge()).setNumber(count);
                 } catch (Exception e){
                     e.printStackTrace();
                 }

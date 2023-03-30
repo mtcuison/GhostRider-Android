@@ -5,7 +5,6 @@ import android.app.Application;
 import androidx.lifecycle.LiveData;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DNotification;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DNotificationReceiver;
 import org.rmj.g3appdriver.dev.Database.Entities.ENotificationMaster;
 import org.rmj.g3appdriver.dev.Database.Entities.ENotificationRecipient;
 import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
@@ -28,8 +27,8 @@ public class Notification extends NMM_Regular {
         return poDao.GetNotificationList();
     }
 
-    public LiveData<Integer> GetUnreadNotificationCout(){
-        return poDao.GetUnreadNotificationCout();
+    public LiveData<Integer> GetUnreadNotificationCount(){
+        return poDao.GetUnreadNotificationCount();
     }
 
     public LiveData<ENotificationMaster> GetNotificationMaster(String args){
@@ -38,6 +37,10 @@ public class Notification extends NMM_Regular {
 
     public LiveData<ENotificationRecipient> GetNotificationDetail(String args){
         return poDao.GetNotificationDetail(args);
+    }
+
+    public LiveData<Integer> GetAllUnreadNotificationCount(){
+        return poDao.GetAllUnreadNotificationCount();
     }
 
     @Override
