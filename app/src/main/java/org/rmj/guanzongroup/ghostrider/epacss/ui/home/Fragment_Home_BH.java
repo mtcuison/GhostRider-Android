@@ -173,7 +173,7 @@ public class Fragment_Home_BH extends Fragment {
                 lblFullNme.setText(eEmployeeInfo.getUserName());
                 lblDept.setText(DeptCode.parseUserLevel(eEmployeeInfo.getEmpLevID()));
                 lblBranchCD = eEmployeeInfo.getBranchCD();
-                lblBranchNM = eEmployeeInfo.getBranchCD();
+                lblBranchNM = eEmployeeInfo.getBranchNm();
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -201,6 +201,7 @@ public class Fragment_Home_BH extends Fragment {
                 loIntent = new Intent(getActivity(), Activity_BranchPerformanceMonitoring.class);
                 loIntent.putExtra("brnCD", lblBranchCD);
                 loIntent.putExtra("brnNM", lblBranchNM);
+                Log.e("papaso ko na branch",lblBranchNM);
                 startActivity(loIntent);
                 requireActivity().overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
             }
