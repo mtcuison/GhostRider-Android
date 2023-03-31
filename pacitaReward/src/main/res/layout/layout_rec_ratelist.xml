@@ -47,7 +47,8 @@
                 android:id="@+id/pass_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:src="@drawable/emoji_laugh_svgrepo_com"/>
+                android:src="@drawable/emoji_laugh_svgrepo_com"
+                android:paddingHorizontal="5dp"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/pass_btn"
@@ -68,7 +69,8 @@
                 android:id="@+id/fail_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:src="@drawable/emoji_sad_svgrepo_com"/>
+                android:src="@drawable/emoji_sad_svgrepo_com"
+                android:paddingHorizontal="5dp"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/fail_btn"
