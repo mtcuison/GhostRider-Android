@@ -23,6 +23,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:src="@drawable/bg_nav_header"
+        android:visibility="invisible"
         android:scaleType="centerCrop"
         android:adjustViewBounds="true"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -40,10 +41,12 @@
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/imgAppIcon"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:src="@drawable/ic_guanzon_logo"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:src="@drawable/ic_guanzon_circle"
             app:layout_constraintBottom_toTopOf="@+id/lbl_deptNme"
+            app:layout_constraintHeight_percent=".5"
+            app:layout_constraintWidth_percent=".3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -63,22 +66,25 @@
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/img_deptLogo"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_marginBottom="10dp"
             android:src="@drawable/ic_mis"
+            android:scaleType="centerInside"
+            android:adjustViewBounds="true"
             app:layout_constraintBottom_toTopOf="@+id/view2"
             app:layout_constraintStart_toStartOf="parent" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lbl_deptNme"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
             android:fontFamily="@font/roboto_medium"
             android:text="Management Information System"
-            android:layout_marginStart="10dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             app:layout_constraintBottom_toBottomOf="@+id/img_deptLogo"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/img_deptLogo"
             app:layout_constraintTop_toTopOf="@+id/img_deptLogo" />
 

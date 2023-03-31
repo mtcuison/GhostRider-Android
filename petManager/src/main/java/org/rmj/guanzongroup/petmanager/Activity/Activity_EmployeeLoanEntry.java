@@ -23,8 +23,8 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.lib.EmployeeLoan.model.LoanApplication;
-import org.rmj.g3appdriver.lib.EmployeeLoan.model.LoanType;
+import org.rmj.g3appdriver.lib.EmployeeLoan.pojo.LoanApplication;
+import org.rmj.g3appdriver.lib.EmployeeLoan.pojo.LoanType;
 import org.rmj.guanzongroup.petmanager.R;
 import org.rmj.guanzongroup.petmanager.ViewModel.VMEmployeeLoanEntry;
 

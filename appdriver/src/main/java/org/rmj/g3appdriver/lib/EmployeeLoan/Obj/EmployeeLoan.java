@@ -2,18 +2,18 @@ package org.rmj.g3appdriver.lib.EmployeeLoan.Obj;
 
 import android.app.Application;
 
-import org.rmj.g3appdriver.lib.EmployeeLoan.model.LoanApplication;
-import org.rmj.g3appdriver.lib.EmployeeLoan.model.LoanType;
+import org.rmj.g3appdriver.lib.EmployeeLoan.pojo.LoanApplication;
+import org.rmj.g3appdriver.lib.EmployeeLoan.pojo.LoanType;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Contingency {
-    private static final String TAG = Contingency.class.getSimpleName();
+public class EmployeeLoan {
+    private static final String TAG = EmployeeLoan.class.getSimpleName();
 
     private String message;
 
-    public Contingency(Application instance) {
+    public EmployeeLoan(Application instance) {
 
     }
 

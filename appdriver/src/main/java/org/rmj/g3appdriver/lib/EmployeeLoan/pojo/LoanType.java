@@ -1,4 +1,4 @@
-package org.rmj.g3appdriver.lib.EmployeeLoan.model;
+package org.rmj.g3appdriver.lib.EmployeeLoan.pojo;
 
 public class LoanType {
 

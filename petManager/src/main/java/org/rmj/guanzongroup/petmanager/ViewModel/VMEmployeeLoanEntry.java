@@ -10,8 +10,8 @@ import androidx.lifecycle.AndroidViewModel;
 
 import com.google.android.material.textfield.TextInputEditText;
 
-import org.rmj.g3appdriver.lib.EmployeeLoan.Obj.Contingency;
-import org.rmj.g3appdriver.lib.EmployeeLoan.model.LoanType;
+import org.rmj.g3appdriver.lib.EmployeeLoan.Obj.EmployeeLoan;
+import org.rmj.g3appdriver.lib.EmployeeLoan.pojo.LoanType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,11 +19,11 @@ import java.util.regex.Pattern;
 
 public class VMEmployeeLoanEntry extends AndroidViewModel{
     private static final String TAG = VMEmployeeLoanEntry.class.getSimpleName();
-    private final Contingency poSys;
+    private final EmployeeLoan poSys;
     public EditText editDtPicker;
     public VMEmployeeLoanEntry(@NonNull Application application) {
         super(application);
-        this.poSys = new Contingency(application);
+        this.poSys = new EmployeeLoan(application);
     }
     public List<LoanType> GetLoanTypes(){
         return poSys.GetLoanTypes();
