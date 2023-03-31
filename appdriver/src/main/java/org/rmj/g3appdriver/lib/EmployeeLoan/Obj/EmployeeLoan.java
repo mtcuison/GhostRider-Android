@@ -3,6 +3,7 @@ package org.rmj.g3appdriver.lib.EmployeeLoan.Obj;
 import android.app.Application;
 
 import org.rmj.g3appdriver.lib.EmployeeLoan.pojo.LoanApplication;
+import org.rmj.g3appdriver.lib.EmployeeLoan.pojo.LoanTerm;
 import org.rmj.g3appdriver.lib.EmployeeLoan.pojo.LoanType;
 
 import java.util.ArrayList;
@@ -67,6 +68,31 @@ public class EmployeeLoan {
             loList.add(new LoanType("12", "Cash Loan", "0", "0"));
             loList.add(new LoanType("13", "Love Fund", "0", "0"));
             return loList;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return null;
+        }
+    }
+
+    /**
+     *
+     * @return list of LoanTerm Object,
+     * Gamitin mo ung getsLoanTerm() para sa display ng selection ng term,
+     * tapos ung getnLoanTerm para sa actual value
+     */
+    public List<LoanTerm> GetLoanTerm(){
+        try{
+            List<LoanTerm> loTerms = new ArrayList<>();
+
+            loTerms.add(new LoanTerm("36 Months", 36));
+            loTerms.add(new LoanTerm("24 Months", 24));
+            loTerms.add(new LoanTerm("18 Months", 18));
+            loTerms.add(new LoanTerm("12 Months", 12));
+            loTerms.add(new LoanTerm("6 Months", 6));
+            loTerms.add(new LoanTerm("3 Months", 3));
+
+            return loTerms;
         } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();

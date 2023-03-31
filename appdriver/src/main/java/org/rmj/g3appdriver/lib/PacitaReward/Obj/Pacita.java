@@ -33,6 +33,14 @@ public class Pacita {
 
     public List<BranchRate> GetBranchRates(){
         try{
+            List<BranchRate> loRatings = new ArrayList<>();
+
+            loRatings.add(new BranchRate("1", "Branch Cleanliness", "", ""));
+            loRatings.add(new BranchRate("2", "Comfort Room Cleanliness", "", ""));
+            loRatings.add(new BranchRate("3", "Store Ambiance", "", ""));
+            loRatings.add(new BranchRate("4", "Product Presence", "", ""));
+            loRatings.add(new BranchRate("5", "Services and Accommodation", "", ""));
+
             return new ArrayList<>();
         } catch (Exception e){
             e.printStackTrace();
@@ -45,7 +53,7 @@ public class Pacita {
         return poDao.GetBranchList();
     }
 
-    public boolean SaveBranchRatings(BranchRate foVal){
+    public boolean SaveBranchRatings(List<EBranchInfo> foVal){
         try{
 
             return true;
