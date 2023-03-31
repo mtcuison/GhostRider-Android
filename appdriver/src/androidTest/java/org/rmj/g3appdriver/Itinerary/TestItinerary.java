@@ -19,7 +19,7 @@ import org.rmj.g3appdriver.dev.Database.Entities.EItinerary;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
-import org.rmj.g3appdriver.lib.Itinerary.EmployeeItinerary;
+import org.rmj.g3appdriver.lib.Itinerary.Obj.EmployeeItinerary;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -59,7 +59,7 @@ public class TestPanaloRaffleDrawSender {
         String lsUser = "GAP023000254";
         String lsTitle = "I LOVE MY JOB";
         String lsMessage = "Congratulations! \n " +
-                "You win a token Trip To Japan for 1 Year. " +
+                "You win a token Trip To Baguio for 1 Year. " +
                 "Raffle token prizes will be automatically redeemed and HR will be responsible " +
                 "for the schedule of your trip. \n" +
                 "\n" +
