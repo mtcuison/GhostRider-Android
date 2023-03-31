@@ -39,6 +39,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.textview.MaterialTextView;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DBranchPerformance;
+import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMBranchMonitor;
 
@@ -178,6 +179,13 @@ public class Fragment_BranchMonitor extends Fragment {
 
         LineData data = new LineData(loDataSet);
         lineChart.setData(data);
+        int color = AppConstants.getThemeTextColor(requireActivity());
+        lineChart.getData().setValueTextColor(color);
+        lineChart.getData().setValueTextColor(color);
+        lineChart.getXAxis().setTextColor(color);
+        lineChart.getAxisLeft().setTextColor(color);
+        lineChart.getAxisRight().setTextColor(color);
+        lineChart.getLegend().setTextColor(color);
         lineChart.setDescription(null);
         lineChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(CHART_MONTH_LABEL));
         lineChart.setDoubleTapToZoomEnabled(false);
