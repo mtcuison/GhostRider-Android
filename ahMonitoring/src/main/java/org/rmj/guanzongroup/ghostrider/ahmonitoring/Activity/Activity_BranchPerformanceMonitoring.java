@@ -1,7 +1,5 @@
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity;
 
-import static org.rmj.g3appdriver.etc.AppConstants.CHART_MONTH_LABEL;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
@@ -87,24 +85,9 @@ public class Activity_BranchPerformanceMonitoring extends AppCompatActivity {
         tabLayout.addTab(tabLayout.newTab().setText("SP Sales"));
         tabLayout.addTab(tabLayout.newTab().setText("Job Order"));
 
-        if (BranchCD == null){
-            mViewModel.getEmployeeInfo().observe(Activity_BranchPerformanceMonitoring.this, initbranch -> {
-                try {
-                    BranchCD = initbranch.getBranchCD();
-                    lblBranch.setText(initbranch.getBranchNm());
-                    Log.e("ginawa ko to", BranchCD);
-                    initMCSales();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            });
-
-        }else {
-            BranchCD = getIntent().getStringExtra("brnCD");
-            lblBranch.setText(getIntent().getStringExtra("brnNM"));
-            Log.e("ito na", String.valueOf(BranchCD));
-            initMCSales();
-        }
+//        BranchCD = getIntent().getStringExtra("brnCD");
+        lblBranch.setText(BranchNM);
+        initMCSales();
         initTablayout();
     }
 
