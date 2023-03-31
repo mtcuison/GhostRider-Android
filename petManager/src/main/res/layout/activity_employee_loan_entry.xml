@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -43,14 +44,14 @@
         android:layout_height="0dp"
         app:cardUseCompatPadding="true"
         app:cardCornerRadius="15dp"
+        android:layout_marginTop="60dp"
         app:cardPreventCornerOverlap="true"
         android:layout_marginHorizontal="10dp"
-        android:layout_marginTop="-90dp"
         android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/shapeableImageView">
+        app:layout_constraintTop_toBottomOf="@+id/materialTextView">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -93,7 +94,7 @@
                     app:layout_constraintTop_toBottomOf="@id/line_view"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHeight_percent="0.105"
+                    app:layout_constraintHeight_percent="0.130"
                     app:layout_constraintWidth_percent="0.900">
 
                     <com.google.android.material.textfield.MaterialAutoCompleteTextView
@@ -116,7 +117,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/layout_spnamt"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHeight_percent="0.105"
+                    app:layout_constraintHeight_percent="0.130"
                     app:layout_constraintWidth_percent="0.900">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -130,74 +131,26 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    style="@style/TextInputStyle"
-                    android:id="@+id/layout_interest"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:hint="Interest"
-                    app:layout_constraintTop_toBottomOf="@+id/layout_loanamt"
-                    app:layout_constraintStart_toStartOf="@id/layout_loanamt"
-                    app:layout_constraintHeight_percent="0.105"
-                    app:layout_constraintWidth_percent="0.500">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/txt_interest"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:textSize="15sp"
-                        android:imeOptions="actionNext"
-                        android:inputType="numberDecimal|none"
-                        android:maxLength="7"/>
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textview.MaterialTextView
-                    style="@style/PrimaryHeaderStyle"
-                    android:id="@+id/txtviewlbl_percent"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:text="%"
-                    android:textSize="20sp"
-                    android:gravity="center"
-                    app:layout_constraintStart_toEndOf="@id/layout_interest"
-                    app:layout_constraintTop_toBottomOf="@id/layout_loanamt"
-                    app:layout_constraintHeight_percent="0.105"
-                    app:layout_constraintWidth_percent="0.090" />
-
-                <com.google.android.material.textfield.TextInputLayout
-                    style="@style/TextInputStyle"
+                    style="@style/CustomDropDownDialogStyle"
                     android:id="@+id/layout_terms"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:hint="Terms"
-                    app:layout_constraintTop_toBottomOf="@+id/layout_interest"
-                    app:layout_constraintStart_toStartOf="@id/layout_loanamt"
-                    app:layout_constraintHeight_percent="0.105"
-                    app:layout_constraintWidth_percent="0.500">
+                    app:layout_constraintTop_toBottomOf="@+id/layout_loanamt"
+                    app:layout_constraintStart_toStartOf="@+id/layout_loanamt"
+                    app:layout_constraintHeight_percent="0.130"
+                    app:layout_constraintWidth_percent="0.425">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/txt_terms"
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                        android:id="@+id/spn_terms"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:textSize="15sp"
-                        android:imeOptions="actionNext"
-                        android:inputType="number|none"
-                        android:maxLength="3"/>
+                        android:clickable="false"
+                        android:cursorVisible="false"
+                        android:focusable="true"
+                        android:inputType="none"
+                        android:padding="16dp"/>
                 </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textview.MaterialTextView
-                    style="@style/PrimaryHeaderStyle"
-                    android:id="@+id/txtviewlbl_month"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:text="Month/s"
-                    android:textSize="20sp"
-                    android:gravity="center_vertical"
-                    android:layout_marginEnd="20dp"
-                    android:paddingStart="10dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/layout_terms"
-                    app:layout_constraintTop_toBottomOf="@id/layout_interest"
-                    app:layout_constraintHeight_percent="0.105"/>
 
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/TextInputStyle"
@@ -206,8 +159,9 @@
                     android:layout_height="0dp"
                     android:hint="First Payment"
                     app:layout_constraintTop_toBottomOf="@+id/layout_terms"
-                    app:layout_constraintStart_toStartOf="@id/layout_loanamt"
-                    app:layout_constraintHeight_percent="0.105"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHeight_percent="0.130"
                     app:layout_constraintWidth_percent="0.900">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -251,7 +205,7 @@
                     android:hint="Monthly Payment"
                     app:layout_constraintTop_toBottomOf="@+id/line_view2"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintHeight_percent="0.105"
+                    app:layout_constraintHeight_percent="0.130"
                     app:layout_constraintWidth_percent="0.50">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -266,25 +220,25 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    style="@style/TextInputStyle"
                     android:id="@+id/layout_totalintrst"
+                    style="@style/TextInputStyle"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:hint="Interest"
+                    app:layout_constraintHeight_percent="0.130"
+                    app:layout_constraintWidth_percent="0.50"
                     app:layout_constraintTop_toBottomOf="@+id/line_view2"
-                    app:layout_constraintStart_toStartOf="@+id/txtviewlbl_month"
-                    app:layout_constraintHeight_percent="0.105"
-                    app:layout_constraintWidth_percent="0.42">
+                    app:layout_constraintEnd_toEndOf="parent">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/txt_totalintrst"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:textSize="15sp"
+                        android:enabled="false"
                         android:imeOptions="actionNext"
                         android:inputType="numberDecimal|none"
                         android:maxLength="20"
-                        android:enabled="false"/>
+                        android:textSize="15sp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.button.MaterialButton
