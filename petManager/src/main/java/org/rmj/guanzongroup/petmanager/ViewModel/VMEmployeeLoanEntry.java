@@ -3,8 +3,6 @@ package org.rmj.guanzongroup.petmanager.ViewModel;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
-import android.view.View;
-import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
@@ -13,11 +11,8 @@ import androidx.lifecycle.AndroidViewModel;
 
 import com.google.android.material.textfield.TextInputEditText;
 
-import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.lib.EmployeeLoan.Obj.Contingency;
-import org.rmj.g3appdriver.lib.EmployeeLoan.model.LoanApplication;
-import org.rmj.g3appdriver.lib.EmployeeLoan.model.LoanType;
 import org.rmj.g3appdriver.lib.EmployeeLoan.Obj.EmployeeLoan;
+import org.rmj.g3appdriver.lib.EmployeeLoan.pojo.LoanApplication;
 import org.rmj.g3appdriver.lib.EmployeeLoan.pojo.LoanType;
 
 import java.text.DecimalFormat;
@@ -29,8 +24,6 @@ import java.util.regex.Pattern;
 public class VMEmployeeLoanEntry extends AndroidViewModel{
     private static final String TAG = VMEmployeeLoanEntry.class.getSimpleName();
     private final EmployeeLoan poSys;
-    public EditText editDtPicker;
-    private final Contingency poSys;
     public Context context;
 
     public VMEmployeeLoanEntry(@NonNull Application application) {
