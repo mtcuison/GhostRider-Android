@@ -3,6 +3,7 @@ package org.rmj.guanzongroup.petmanager.ViewModel;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
@@ -14,6 +15,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import org.rmj.g3appdriver.lib.EmployeeLoan.Obj.EmployeeLoan;
 import org.rmj.g3appdriver.lib.EmployeeLoan.pojo.LoanApplication;
 import org.rmj.g3appdriver.lib.EmployeeLoan.pojo.LoanType;
+import org.rmj.g3appdriver.lib.EmployeeLoan.pojo.LoanTerm;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -30,6 +32,9 @@ public class VMEmployeeLoanEntry extends AndroidViewModel{
         super(application);
         this.poSys = new EmployeeLoan(application);
     }
+    public List<LoanType> GetLoanTypes(){
+        return poSys.GetLoanTypes();
+    }
     public ArrayAdapter<String> getLoanTypeListAdapter(){
         ArrayList<String> loTypes = new ArrayList<>(); //declare an array type
 
@@ -44,13 +49,24 @@ public class VMEmployeeLoanEntry extends AndroidViewModel{
 
         return loAdapter;
     }
-    public List<LoanType> GetLoanTypes(){
-        return poSys.GetLoanTypes();
+    public List<LoanTerm> getTermsList(){
+        return poSys.GetLoanTerm();
     }
-    public void getTermsList(){
+    public  ArrayAdapter<String> getTermsListAdapter(){
+        ArrayList<String> loTerms = new ArrayList<>(); //declare an array type
 
+        //create a for loop that scans the list value and store to array object
+        for(int x= 0; x < getTermsList().size(); x++){
+            LoanTerm loTerm = getTermsList().get(x);
+            loTerms.add(loTerm.getsLoanTerm());
+        }
+
+        ArrayAdapter<String> loAdapter = new ArrayAdapter<>(
+                context, android.R.layout.simple_dropdown_item_1line,
+                loTerms.toArray(new String[0]));
+
+        return loAdapter;
     }
-    public void getTermsListAdapter(){}
     public Boolean validateAmtFormat(String format, String inputAmt){
         Boolean matchFormat = null;
         if (inputAmt.isEmpty() == false && inputAmt.trim() != "") {
