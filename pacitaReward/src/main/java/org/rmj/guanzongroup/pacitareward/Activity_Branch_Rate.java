@@ -1,23 +1,15 @@
-package org.rmj.guanzongroup.ghostrider.pacitaReward;
+package org.rmj.guanzongroup.pacitareward;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.LinearLayout;
 
 import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.imageview.ShapeableImageView;
-
-import org.rmj.guanzongroup.pacitareward.R;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class Activity_Branch_Rate extends AppCompatActivity {

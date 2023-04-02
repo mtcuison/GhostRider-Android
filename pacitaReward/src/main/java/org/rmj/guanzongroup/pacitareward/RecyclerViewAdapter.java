@@ -1,9 +1,8 @@
-package org.rmj.guanzongroup.ghostrider.pacitaReward;
+package org.rmj.guanzongroup.pacitareward;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,11 +10,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.guanzongroup.pacitareward.R;
-
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder> {
 

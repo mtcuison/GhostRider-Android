@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:fillViewport="true"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="org.rmj.guanzongroup.ghostrider.pacitaReward.Activity_Branch_Rate">
+    tools:context=".Activity_Branch_Rate">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
