@@ -35,39 +35,21 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
             //holder.item_no.setText(String.valueOf(position + 1) + ".");
             holder.item_question.setText(String.valueOf(position + 1) + ".  " + questionList.get(position));
 
-            holder.pass_icon.setOnClickListener(new View.OnClickListener() {
-                @SuppressLint("ResourceAsColor")
-                @Override
-                public void onClick(View v) {
-                    holder.layout_pass.setBackgroundColor(R.color.cardview_shadow_start_color);
-                    holder.layout_fail.setBackgroundColor(Color.TRANSPARENT);
-                }
-            });
-
             holder.pass_btn.setOnClickListener(new View.OnClickListener() {
                 @SuppressLint("ResourceAsColor")
                 @Override
                 public void onClick(View v) {
-                    holder.layout_pass.setBackgroundColor(R.color.cardview_shadow_start_color);
-                    holder.layout_fail.setBackgroundColor(Color.TRANSPARENT);
+                    holder.pass_btn.setBackgroundColor(R.color.cardview_shadow_start_color);
+                    holder.fail_btn.setBackgroundColor(Color.TRANSPARENT);
                 }
             });
-
-        holder.fail_icon.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("ResourceAsColor")
-            @Override
-            public void onClick(View v) {
-                holder.layout_pass.setBackgroundColor(Color.TRANSPARENT);
-                holder.layout_fail.setBackgroundColor(R.color.cardview_shadow_start_color);
-            }
-        });
 
         holder.fail_btn.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("ResourceAsColor")
             @Override
             public void onClick(View v) {
-                holder.layout_pass.setBackgroundColor(Color.TRANSPARENT);
-                holder.layout_fail.setBackgroundColor(R.color.cardview_shadow_start_color);
+                holder.pass_btn.setBackgroundColor(Color.TRANSPARENT);
+                holder.fail_btn.setBackgroundColor(R.color.cardview_shadow_start_color);
             }
         });
     }

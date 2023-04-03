@@ -36,50 +36,35 @@
         android:layout_gravity="center"
         android:background="@drawable/oval_rating_button_background">
 
-        <LinearLayout
-            android:id="@+id/layout_pass"
+        <com.google.android.material.button.MaterialButtonToggleGroup
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="left">
-
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/pass_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:src="@drawable/emoji_laugh_svgrepo_com"
-                android:paddingHorizontal="5dp"/>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/pass_btn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Pass"
-                android:paddingHorizontal="50dp"
-                android:background="@color/zxing_transparent"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/layout_fail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="horizontal">
 
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/fail_icon"
+            <com.google.android.material.button.MaterialButton
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:id="@+id/pass_btn"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:src="@drawable/emoji_sad_svgrepo_com"
-                android:paddingHorizontal="5dp"/>
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Pass"
+                app:icon="@drawable/emoji_laugh_svgrepo_com"
+                app:iconGravity="start"
+                app:iconPadding="5dp"
+                android:paddingHorizontal="50dp"/>
 
             <com.google.android.material.button.MaterialButton
+                style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:id="@+id/fail_btn"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="Fail"
-                android:paddingHorizontal="50dp"
-                android:background="@color/zxing_transparent"/>
-        </LinearLayout>
+                app:icon="@drawable/emoji_sad_svgrepo_com"
+                app:iconGravity="start"
+                app:iconPadding="5dp"
+                android:paddingHorizontal="50dp"/>
+        </com.google.android.material.button.MaterialButtonToggleGroup>
 
     </LinearLayout>
 
@@ -100,21 +85,21 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/TextInputStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:hint="Type a comment here . . ."
-                app:layout_constraintWidth_percent="0.90"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
+<!--            <com.google.android.material.textfield.TextInputLayout-->
+<!--                style="@style/TextInputStyle"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:hint="Type a comment here . . ."-->
+<!--                app:layout_constraintWidth_percent="0.90"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintEnd_toEndOf="parent">-->
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:textSize="15sp"
-                    android:lines="5" />
-            </com.google.android.material.textfield.TextInputLayout>
+<!--                <com.google.android.material.textfield.TextInputEditText-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:textSize="15sp"-->
+<!--                    android:lines="5" />-->
+<!--            </com.google.android.material.textfield.TextInputLayout>-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
