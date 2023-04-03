@@ -1,80 +1,77 @@
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardCornerRadius="20dp"
-    app:cardPreventCornerOverlap="true"
-    app:cardElevation="5dp"
-    app:cardUseCompatPadding="true"
-    app:cardMaxElevation="10dp"
     android:theme="@style/GhostRiderMaterialTheme">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/lbl_dialogTitle"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/materialCardView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:cardCornerRadius="20dp"
+        app:cardPreventCornerOverlap="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent=".65"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent=".8">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Title"
-            android:textSize="21sp"
-            android:gravity="center"
-            android:textAlignment="center"
-            android:paddingTop="20dp"
-            android:fontFamily="@font/roboto_bold"/>
+            android:layout_height="match_parent">
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/img_bg_panalo_dialog"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/lbl_dialogMessage"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Message"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
-                android:gravity="center"
+            <ScrollView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@drawable/bg_mechanics"
+                android:padding="20dp"
                 android:textAlignment="center"
-                android:fontFamily="@font/roboto"
-                android:paddingTop="25dp"
-                android:paddingBottom="30dp"/>
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_percent=".65"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.815"
+                app:layout_constraintWidth_percent=".85">
 
-        </ScrollView>
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/lbl_dialogMessage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto"
+                    android:text="Message" />
 
-        <com.google.android.material.divider.MaterialDivider
-            android:layout_width="match_parent"
-            android:layout_height="0.7dp"
-            android:background="@color/guanzon_orange"/>
+            </ScrollView>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
+    </com.google.android.material.card.MaterialCardView>
 
-
-            <com.google.android.material.divider.MaterialDivider
-                android:id="@+id/view_midBorder"
-                android:layout_width="0.7dp"
-                android:layout_height="match_parent"
-                android:background="@color/guanzon_orange"
-                android:visibility="visible"/>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_dialogClose"
-                style="@style/MaterialButtonAccent"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Close" />
-
-        </LinearLayout>
-
-
-    </LinearLayout>
-
-
-
-</androidx.cardview.widget.CardView>
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_dialogClose"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Close"
+        android:elevation="3dp"
+        app:backgroundTint="@color/material_white"
+        app:layout_constraintEnd_toEndOf="@+id/materialCardView"
+        app:layout_constraintStart_toStartOf="@+id/materialCardView"
+        app:layout_constraintTop_toBottomOf="@+id/materialCardView"
+        app:layout_constraintWidth_percent=".6"
+        android:layout_marginTop="-25dp"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
