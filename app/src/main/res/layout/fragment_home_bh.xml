@@ -9,7 +9,7 @@
   ~ project file created :02/05/2023 08:57 AM
   ~ project file last modified : 02/07/2023 08:57 AM
   -->
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -24,11 +24,11 @@
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/imageView3"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="@dimen/header_background_image"
             android:scaleType="centerCrop"
             android:src="@drawable/bg_dashboard"
+            android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -36,7 +36,7 @@
             android:id="@+id/cardView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="105dp"
+            android:layout_marginTop="60dp"
             android:layout_marginRight="40dp"
             app:cardCornerRadius="90dp"
             android:elevation="25dp"
@@ -54,15 +54,16 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/bhName"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="145dp"
             android:layout_marginStart="20dp"
             android:fontFamily="@font/roboto"
             android:text="DE CELIS, TEEJEI F."
             android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/cardView"
+            app:layout_constraintEnd_toStartOf="@+id/cardView"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/imageView3" />
+            app:layout_constraintTop_toTopOf="@+id/cardView" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/bhPosition"
@@ -295,4 +296,4 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/rvLeaveApp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+</androidx.core.widget.NestedScrollView>

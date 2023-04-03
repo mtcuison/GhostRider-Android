@@ -1,4 +1,4 @@
-package org.rmj.g3appdriver.lib.Itinerary;
+package org.rmj.g3appdriver.lib.Itinerary.Obj;
 
 import android.app.Application;
 import android.util.Log;

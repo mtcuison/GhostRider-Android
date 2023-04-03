@@ -21,7 +21,7 @@ import android.util.Log;
 
 import org.rmj.g3appdriver.dev.Database.Repositories.RLocationSysLog;
 import org.rmj.g3appdriver.lib.ApprovalCode.ApprovalCode;
-import org.rmj.g3appdriver.lib.Itinerary.EmployeeItinerary;
+import org.rmj.g3appdriver.lib.Itinerary.Obj.EmployeeItinerary;
 import org.rmj.g3appdriver.lib.PetManager.PetManager;
 import org.rmj.g3appdriver.lib.PetManager.model.iPM;
 import org.rmj.g3appdriver.lib.SelfieLog.SelfieLog;

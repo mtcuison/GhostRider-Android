@@ -2994,6 +2994,7 @@ int drawable ic_nav_dropdown 0x0
 int drawable ic_nav_dropdown_collapse 0x0
 int drawable ic_notification_24 0x0
 int drawable ic_proc_services 0x0
+int drawable ic_rating_24 0x0
 int drawable ic_search_black_24 0x0
 int drawable ic_settings_about 0x0
 int drawable ic_settings_account 0x0

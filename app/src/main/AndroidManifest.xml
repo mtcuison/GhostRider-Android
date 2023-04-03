@@ -84,8 +84,7 @@
             android:windowSoftInputMode="adjustPan"
             android:exported="true"/>
 
-        <!--            android:name="org.rmj.guanzongroup.documentscanner.Activity_DocumentScan"-->
-        <activity
+       <activity
             android:name=".Activity.Activity_SplashScreen"
             android:screenOrientation="userPortrait"
             android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
@@ -97,22 +96,19 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
+        </activity>  -->
 
         <activity
             android:name=".Activity.Activity_Main"
             android:label="@string/menu_home"
             android:screenOrientation="userPortrait"
             android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
+            android:launchMode="singleTop"
             android:exported="true"/>
 
         <service
             android:name=".Service.DataDownloadService"
             android:permission="android.permission.BIND_JOB_SERVICE" />
-
-<!--        <service-->
-<!--            android:name=".Service.PerformanceImportService"-->
-<!--            android:permission="android.permission.BIND_JOB_SERVICE" />-->
 
         <service android:name="org.rmj.guanzongroup.ghostrider.dailycollectionplan.Service.GLocatorService"
             android:foregroundServiceType="location"
