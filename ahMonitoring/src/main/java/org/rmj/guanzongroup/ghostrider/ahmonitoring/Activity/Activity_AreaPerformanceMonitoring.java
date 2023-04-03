@@ -209,6 +209,7 @@ public class Activity_AreaPerformanceMonitoring extends AppCompatActivity {
             piechart.getDescription().setEnabled(false);
             piechart.setData(pieData);
             piechart.invalidate();
+            piechart.setDescription(null);
 
         } catch (Exception e){
             e.printStackTrace();
