@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.ghostrider.pacitaReward;
+package org.rmj.guanzongroup.pacitareward;
 
 import android.view.View;
 import android.widget.LinearLayout;

@@ -3,7 +3,7 @@
 
     <application>
         <activity
-            android:name="org.rmj.guanzongroup.ghostrider.pacitaReward.Activity_Branch_Rate"
+            android:name=".Activity_Branch_Rate"
             android:exported="true"/>
     </application>
 
