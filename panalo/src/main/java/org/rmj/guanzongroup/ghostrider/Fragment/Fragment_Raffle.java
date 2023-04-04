@@ -1,35 +1,31 @@
 package org.rmj.guanzongroup.ghostrider.Fragment;
 
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.material.badge.BadgeUtils;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import org.rmj.g3appdriver.dev.Database.Entities.ERaffleStatus;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.Panalo.model.PanaloRewards;
-import org.rmj.guanzongroup.ghostrider.Adapter.AdapterRaffleDraw;
-import org.rmj.guanzongroup.ghostrider.Dialog.DialogPanaloRedeem;
 import org.rmj.guanzongroup.ghostrider.R;
 import org.rmj.guanzongroup.ghostrider.ViewModel.VMRaffle;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Fragment_Raffle extends Fragment {
 
@@ -41,6 +37,10 @@ public class Fragment_Raffle extends Fragment {
             lblLastNme,
             lblMiddleNme,
             lblStatus;
+    private Handler handler;
+    private boolean isRunning;
+
+    private String[] names = {"John", "Jane", "Bob", "Alice", "Tom", "Linda", "Mike", "Sara"};
 
     public static Fragment_Raffle newInstance() {
         return new Fragment_Raffle();
@@ -52,7 +52,10 @@ public class Fragment_Raffle extends Fragment {
         mViewModel = new ViewModelProvider(requireActivity()).get(VMRaffle.class);
         View view = inflater.inflate(R.layout.fragment_raffle, container, false);
         initWidgets(view);
-
+        handler = new Handler(Looper.getMainLooper());
+        isRunning = false;
+        isRunning = true;
+        startGeneratingNames();
         mViewModel.GetRaffleStatus().observe(requireActivity(), new Observer<ERaffleStatus>() {
             @Override
             public void onChanged(ERaffleStatus status) {
@@ -79,6 +82,7 @@ public class Fragment_Raffle extends Fragment {
                 }
             }
         });
+
 
 //        mViewModel.GetRewards(0, new VMRaffle.OnRetrieveRaffleListener() {
 //            @Override
@@ -124,7 +128,33 @@ public class Fragment_Raffle extends Fragment {
 //        });
         return  view;
     }
+    private void startGeneratingNames() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (isRunning) {
+                    final String randomName = getRandomName();
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            lblStatus.setText(randomName);
+                        }
+                    });
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
+    }
 
+    private String getRandomName() {
+        Random random = new Random();
+        int index = random.nextInt(names.length);
+        return names[index];
+    }
     private void initWidgets(View v) {
         recyclerView = v.findViewById(R.id.recyclerView);
         lblStatus = v.findViewById(R.id.lblRaffleStatus);
