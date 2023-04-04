@@ -2894,6 +2894,7 @@ int drawable bg_badge_red 0x0
 int drawable bg_dashboard 0x0
 int drawable bg_gradient_light 0x0
 int drawable bg_icon 0x0
+int drawable bg_mechanics 0x0
 int drawable bg_nav_header 0x0
 int drawable bg_samsungknox 0x0
 int drawable border_label 0x0
@@ -2993,6 +2994,10 @@ int drawable ic_mtrl_chip_close_circle 0x0
 int drawable ic_nav_dropdown 0x0
 int drawable ic_nav_dropdown_collapse 0x0
 int drawable ic_notification_24 0x0
+int drawable ic_panalo_coin 0x0
+int drawable ic_panalo_shirt 0x0
+int drawable ic_panalo_tag 0x0
+int drawable ic_panalo_tag_long 0x0
 int drawable ic_proc_services 0x0
 int drawable ic_rating_24 0x0
 int drawable ic_search_black_24 0x0
@@ -3011,6 +3016,7 @@ int drawable ic_user_associate 0x0
 int drawable ic_user_profile 0x0
 int drawable ic_user_supervisor 0x0
 int drawable img_ah_header 0x0
+int drawable img_bg_panalo_dialog 0x0
 int drawable img_qr_code 0x0
 int drawable img_settings_header 0x0
 int drawable m3_appbar_background 0x0
@@ -3227,6 +3233,7 @@ int id bestChoice 0x0
 int id blocking 0x0
 int id bottom 0x0
 int id bounce 0x0
+int id btnMechanics 0x0
 int id btn_dialogClaim 0x0
 int id btn_dialogClose 0x0
 int id btn_dialogNegative 0x0
@@ -3254,6 +3261,8 @@ int id color 0x0
 int id compress 0x0
 int id confirm_button 0x0
 int id constraint 0x0
+int id constraintLayout 0x0
+int id constraintLayout1 0x0
 int id container 0x0
 int id content 0x0
 int id contentPanel 0x0
@@ -3385,6 +3394,7 @@ int id marquee 0x0
 int id masked 0x0
 int id match_constraint 0x0
 int id match_parent 0x0
+int id materialCardView 0x0
 int id materialTextView 0x0
 int id materialTextView1 0x0
 int id material_clock_display 0x0
@@ -3535,6 +3545,8 @@ int id search_voice_btn 0x0
 int id select_dialog_listview 0x0
 int id selected 0x0
 int id selection_type 0x0
+int id shapeableImageView2 0x0
+int id shapeableImageView9 0x0
 int id sharedValueSet 0x0
 int id sharedValueUnset 0x0
 int id shortcut 0x0
@@ -3795,6 +3807,7 @@ int layout fragment_panalo_container 0x0
 int layout fragment_raffle 0x0
 int layout fragment_rewards 0x0
 int layout hms_download_progress 0x0
+int layout list_item_claim 0x0
 int layout list_item_raffle 0x0
 int layout list_item_rewards 0x0
 int layout m3_alert_dialog 0x0

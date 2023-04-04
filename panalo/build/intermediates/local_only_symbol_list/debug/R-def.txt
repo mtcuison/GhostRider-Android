@@ -1,10 +1,19 @@
 R_DEF: Internal format may change without notice
 local
+drawable bg_mechanics
 drawable guanzon_panalo_banner
+drawable ic_panalo_coin
+drawable ic_panalo_shirt
+drawable ic_panalo_tag
+drawable ic_panalo_tag_long
+drawable img_bg_panalo_dialog
 drawable img_qr_code
 id ViewPager
+id btnMechanics
 id btn_dialogClaim
 id btn_dialogClose
+id constraintLayout
+id constraintLayout1
 id imageView3
 id imgLogo
 id lblBranch
@@ -21,6 +30,7 @@ id lbl_dialogTime
 id lbl_dialogTitle
 id linearClaimed
 id linearEarned
+id materialCardView
 id materialTextView
 id materialTextView1
 id progress_circular
@@ -28,6 +38,8 @@ id recyclerView
 id rlEmpty
 id rvClaimed
 id rvEarned
+id shapeableImageView2
+id shapeableImageView9
 id tabLayout
 id toolbar2
 id view
@@ -41,6 +53,7 @@ layout dialog_reward
 layout fragment_panalo_container
 layout fragment_raffle
 layout fragment_rewards
+layout list_item_claim
 layout list_item_raffle
 layout list_item_rewards
 string hello_blank_fragment
