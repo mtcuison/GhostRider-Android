@@ -169,7 +169,7 @@ public class Fragment_PanaloContainer extends Fragment {
             public void onClick(View view) {
                 DialogMechanics dialogMechanics = new DialogMechanics(getActivity());
                 dialogMechanics.show();
-                Toast.makeText(requireActivity(),"Dialog Mechanics", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireActivity(),"Mechanics", Toast.LENGTH_SHORT).show();
             }
         });
     }

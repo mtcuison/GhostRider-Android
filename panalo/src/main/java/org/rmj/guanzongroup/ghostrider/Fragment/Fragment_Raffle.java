@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,6 +21,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.rmj.g3appdriver.dev.Database.Entities.ERaffleStatus;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.Panalo.model.PanaloRewards;
+import org.rmj.guanzongroup.ghostrider.Adapter.AdapterRaffleDraw;
+import org.rmj.guanzongroup.ghostrider.Dialog.DialogPanaloRedeem;
 import org.rmj.guanzongroup.ghostrider.R;
 import org.rmj.guanzongroup.ghostrider.ViewModel.VMRaffle;
 
@@ -53,9 +56,7 @@ public class Fragment_Raffle extends Fragment {
         View view = inflater.inflate(R.layout.fragment_raffle, container, false);
         initWidgets(view);
         handler = new Handler(Looper.getMainLooper());
-        isRunning = false;
-        isRunning = true;
-        startGeneratingNames();
+
         mViewModel.GetRaffleStatus().observe(requireActivity(), new Observer<ERaffleStatus>() {
             @Override
             public void onChanged(ERaffleStatus status) {
@@ -66,15 +67,26 @@ public class Fragment_Raffle extends Fragment {
                     switch (status.getHasRffle()){
                         case 0:
                             lblStatus.setText("Raffle draw every monday at 3PM");
+                            isRunning = false;
+//                            startGeneratingNames();
+                            initResult();
                             break;
                         case 1:
                             lblStatus.setText("Raffle starting soon...");
+                            isRunning = false;
+//                            startGeneratingNames();
+                            initResult();
                             break;
                         case 2:
                             lblStatus.setText("Raffle Started");
+                            isRunning = true;
+                            startGeneratingNames();
                             break;
                         default:
                             lblStatus.setText("Raffle Ended.");
+                            isRunning = false;
+//                            startGeneratingNames();
+                            initResult();
                             break;
                     }
                 } catch (Exception e){
@@ -84,48 +96,7 @@ public class Fragment_Raffle extends Fragment {
         });
 
 
-//        mViewModel.GetRewards(0, new VMRaffle.OnRetrieveRaffleListener() {
-//            @Override
-//            public void OnLoad(String title, String message) {
 //
-//            }
-//
-//            @Override
-//            public void OnSuccess(List<PanaloRewards> args) {
-////                if(String.valueOf(args.size()) == null){
-//                if (args.size() > 0){
-//                    recyclerView.setVisibility(View.VISIBLE);
-//                    rlEmpty.setVisibility(View.GONE);
-//
-//
-//                    AdapterRaffleDraw loAdapter = new AdapterRaffleDraw(args, new AdapterRaffleDraw.OnClickListener() {
-//
-//                        @Override
-//                        public void OnClick(String args) {
-//                            //to display dialog here
-//                            DialogPanaloRedeem dialogPanaloRedeem = new DialogPanaloRedeem(getActivity());
-//                            dialogPanaloRedeem.show();
-//                            Toast.makeText(requireActivity(), args, Toast.LENGTH_SHORT).show();
-//                        }
-//                    }) {
-//                        @Override
-//                        public void OnClick(String args) {
-//
-//                        }
-//                    };
-//                    recyclerView.setAdapter(loAdapter);
-//                }else {
-//                    recyclerView.setVisibility(View.GONE);
-//                    rlEmpty.setVisibility(View.VISIBLE);
-//
-//                }
-//            }
-//
-//            @Override
-//            public void OnFailed(String message) {
-//
-//            }
-//        });
         return  view;
     }
     private void startGeneratingNames() {
@@ -165,5 +136,50 @@ public class Fragment_Raffle extends Fragment {
 
         List<PanaloRewards> loList = new ArrayList<>();
 
+    }
+
+    private void initResult(){
+        mViewModel.GetRewards(0, new VMRaffle.OnRetrieveRaffleListener() {
+            @Override
+            public void OnLoad(String title, String message) {
+
+            }
+
+            @Override
+            public void OnSuccess(List<PanaloRewards> args) {
+//                if(String.valueOf(args.size()) == null){
+                if (args.size() > 0){
+                    recyclerView.setVisibility(View.VISIBLE);
+                    rlEmpty.setVisibility(View.GONE);
+
+
+                    AdapterRaffleDraw loAdapter = new AdapterRaffleDraw(args, new AdapterRaffleDraw.OnClickListener() {
+
+                        @Override
+                        public void OnClick(String args) {
+                            //to display dialog here
+                            DialogPanaloRedeem dialogPanaloRedeem = new DialogPanaloRedeem(getActivity());
+                            dialogPanaloRedeem.show();
+                            Toast.makeText(requireActivity(), args, Toast.LENGTH_SHORT).show();
+                        }
+                    }) {
+                        @Override
+                        public void OnClick(String args) {
+
+                        }
+                    };
+                    recyclerView.setAdapter(loAdapter);
+                }else {
+                    recyclerView.setVisibility(View.GONE);
+                    rlEmpty.setVisibility(View.VISIBLE);
+
+                }
+            }
+
+            @Override
+            public void OnFailed(String message) {
+
+            }
+        });
     }
 }
