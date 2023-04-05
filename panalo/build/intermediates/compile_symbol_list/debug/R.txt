@@ -2896,6 +2896,7 @@ int drawable bg_gradient_light 0x0
 int drawable bg_icon 0x0
 int drawable bg_mechanics 0x0
 int drawable bg_nav_header 0x0
+int drawable bg_panalo_redeem 0x0
 int drawable bg_samsungknox 0x0
 int drawable border_label 0x0
 int drawable btn_checkbox_checked_mtrl 0x0
@@ -3233,6 +3234,7 @@ int id bestChoice 0x0
 int id blocking 0x0
 int id bottom 0x0
 int id bounce 0x0
+int id btnMechanics 0x0
 int id btn_dialogClaim 0x0
 int id btn_dialogClose 0x0
 int id btn_dialogNegative 0x0
@@ -3261,6 +3263,7 @@ int id compress 0x0
 int id confirm_button 0x0
 int id constraint 0x0
 int id constraintLayout 0x0
+int id constraintLayout1 0x0
 int id container 0x0
 int id content 0x0
 int id contentPanel 0x0
@@ -3374,7 +3377,6 @@ int id lblRwrdType 0x0
 int id lblUserID 0x0
 int id lbl_dialogLocation 0x0
 int id lbl_dialogMessage 0x0
-int id lbl_dialogTime 0x0
 int id lbl_dialogTitle 0x0
 int id lbl_toast_message 0x0
 int id left 0x0
@@ -3393,6 +3395,7 @@ int id masked 0x0
 int id match_constraint 0x0
 int id match_parent 0x0
 int id materialCardView 0x0
+int id materialCardView2 0x0
 int id materialTextView 0x0
 int id materialTextView1 0x0
 int id material_clock_display 0x0
@@ -3543,7 +3546,9 @@ int id search_voice_btn 0x0
 int id select_dialog_listview 0x0
 int id selected 0x0
 int id selection_type 0x0
+int id shapeableImageView 0x0
 int id shapeableImageView2 0x0
+int id shapeableImageView9 0x0
 int id sharedValueSet 0x0
 int id sharedValueUnset 0x0
 int id shortcut 0x0

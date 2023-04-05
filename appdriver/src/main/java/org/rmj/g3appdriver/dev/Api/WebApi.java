@@ -104,6 +104,7 @@ public class WebApi {
     private static final String URL_DOWNLOAD_TEST_UPDATE = "https://restgk.guanzongroup.com.ph/apk/test/gRider.apk";
 
     private static final String GET_PANALO_REWARDS = "gconnect/upload/getUserPanalo.php";
+    private static final String GET_RAFFLE_PARTICIPANTS = "gconnect/upload/getUserPanalo.php";
 
     public WebApi(boolean isTestCase){
         this.isUnitTest = isTestCase;
@@ -917,5 +918,16 @@ public class WebApi {
             LIVE = PRIMARY_LIVE;
         }
         return LIVE + GET_PANALO_REWARDS;
+    }
+
+    public String getUrlGetRaffleParticipants(boolean isBackUp) {
+        if(isUnitTest) {
+            return LOCAL + GET_RAFFLE_PARTICIPANTS;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
+        }
+        return LIVE + GET_RAFFLE_PARTICIPANTS;
     }
 }

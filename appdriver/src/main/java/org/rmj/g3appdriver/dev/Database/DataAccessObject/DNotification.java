@@ -23,6 +23,7 @@ public interface DNotification {
             "LEFT JOIN Notification_Info_Recepient b " +
             "ON a.sMesgIDxx = b.sTransNox " +
             "WHERE b.sRecpntID = (SELECT sUserIDxx FROM user_info_master) " +
+            "AND a.sMsgTypex == '00000'" +
             "AND a.sMsgTitle NOT LIKE '%PAYSLIP%'" +
             "AND a.sCreatrID = 'SYSTEM'" +
             "AND a.sMsgTitle <> 'Branch Opening'" +
