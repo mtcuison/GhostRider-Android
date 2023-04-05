@@ -23,6 +23,7 @@ public interface DNotification {
             "LEFT JOIN Notification_Info_Recepient b " +
             "ON a.sMesgIDxx = b.sTransNox " +
             "WHERE b.sRecpntID = (SELECT sUserIDxx FROM user_info_master) " +
+            "AND a.sMsgTypex == '00000'" +
             "AND a.sMsgTitle NOT LIKE '%PAYSLIP%'" +
             "AND a.sCreatrID = 'SYSTEM'" +
             "AND a.sMsgTitle <> 'Branch Opening'" +
@@ -34,6 +35,7 @@ public interface DNotification {
             "LEFT JOIN Notification_Info_Recepient b " +
             "ON a.sMesgIDxx = b.sTransNox " +
             "WHERE b.sRecpntID = (SELECT sUserIDxx FROM user_info_master) " +
+            "AND a.sMsgTypex == '00000'" +
             "AND a.sCreatrID = 'SYSTEM'" +
             "AND a.sMsgTitle NOT LIKE '%PAYSLIP%'" +
             "AND a.sMsgTitle <> 'Branch Opening'" +
@@ -49,6 +51,7 @@ public interface DNotification {
     @Query("SELECT COUNT(a.sTransNox) FROM Notification_Info_Master a " +
             "LEFT JOIN Notification_Info_Recepient b " +
             "ON a.sMesgIDxx = b.sTransNox " +
+            "AND a.sMsgTypex == '00000'" +
             "WHERE b.sRecpntID = (SELECT sUserIDxx FROM User_Info_Master) " +
             "AND b.cMesgStat == '2'")
     LiveData<Integer> GetAllUnreadNotificationCount();
