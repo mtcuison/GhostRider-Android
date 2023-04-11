@@ -9,10 +9,10 @@
     tools:context=".Activity_Branch_Rate">
 
     <com.google.android.material.appbar.MaterialToolbar
+        style="@style/GhostRiderMaterialTheme.PopupOverlay"
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/GhostRiderMaterialTheme.PopupOverlay"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -21,10 +21,10 @@
         android:id="@+id/mcv_icon"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="30dp"
         app:cardUseCompatPadding="true"
         app:cardCornerRadius="10dp"
         app:cardElevation="3dp"
-        android:layout_marginTop="30dp"
         app:layout_constraintWidth_percent=".3"
         app:layout_constraintHeight_percent=".15"
         app:layout_constraintEnd_toEndOf="parent"

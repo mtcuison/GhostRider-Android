@@ -12,27 +12,26 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder> {
+public class RecyclerViewAdapter_BranchRate extends RecyclerView.Adapter<RecyclerViewHolder_BranchRate> {
 
     List<String> questionList;
     Context context;
 
-    public RecyclerViewAdapter(Context context, List<String> questionList){
+    public RecyclerViewAdapter_BranchRate(Context context, List<String> questionList){
         this.context = context;
         this.questionList = questionList;
     }
 
     @NonNull
     @Override
-    public RecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public RecyclerViewHolder_BranchRate onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         View view = layoutInflater.inflate(R.layout.layout_rec_ratelist, parent, false);
-        return new RecyclerViewHolder(view);
+        return new RecyclerViewHolder_BranchRate(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerViewHolder holder, int position) {
-            //holder.item_no.setText(String.valueOf(position + 1) + ".");
+    public void onBindViewHolder(@NonNull RecyclerViewHolder_BranchRate holder, int position) {
             holder.item_question.setText(String.valueOf(position + 1) + ".  " + questionList.get(position));
 
             holder.pass_btn.setOnClickListener(new View.OnClickListener() {

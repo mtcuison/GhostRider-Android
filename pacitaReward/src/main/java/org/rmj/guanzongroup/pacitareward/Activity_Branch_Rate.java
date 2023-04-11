@@ -42,7 +42,7 @@ public class Activity_Branch_Rate extends AppCompatActivity {
         questionList.add("Store Ambiance");
         questionList.add("Staff Services/Accomodation");
 
-        RecyclerViewAdapter viewAdapter = new RecyclerViewAdapter(Activity_Branch_Rate.this, questionList);
+        RecyclerViewAdapter_BranchRate viewAdapter = new RecyclerViewAdapter_BranchRate(Activity_Branch_Rate.this, questionList);
 
         rate_list.setAdapter(viewAdapter);
         rate_list.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
