@@ -1,19 +1,17 @@
-package org.rmj.g3appdriver.lib.PacitaReward.pojo;
+package org.rmj.g3appdriver.lib.GawadPacita.pojo;
 
 public class BranchRate {
-    private final String sRateIDxx;
+    private final Integer sRateIDxx;
     private final String sRateName;
     private final String cPasRatex;
-    private final String sCommentx;
 
-    public BranchRate(String sRateIDxx, String sRateName, String cPasRatex, String sCommentx) {
+    public BranchRate(Integer sRateIDxx, String sRateName, String cPasRatex) {
         this.sRateIDxx = sRateIDxx;
         this.sRateName = sRateName;
         this.cPasRatex = cPasRatex;
-        this.sCommentx = sCommentx;
     }
 
-    public String getsRateIDxx() {
+    public Integer getsRateIDxx() {
         return sRateIDxx;
     }
 
@@ -23,9 +21,5 @@ public class BranchRate {
 
     public String getcPasRatex() {
         return cPasRatex;
-    }
-
-    public String getsCommentx() {
-        return sCommentx;
     }
 }

@@ -106,6 +106,10 @@ public class WebApi {
     private static final String GET_PANALO_REWARDS = "gconnect/upload/getUserPanalo.php";
     private static final String GET_RAFFLE_PARTICIPANTS = "gconnect/upload/getUserPanalo.php";
 
+    private static final String GET_PACITA_RULES = "gconnect/upload/getUserPanalo.php";
+    private static final String GET_PACITA_EVALUATIONS = "gconnect/upload/getUserPanalo.php";
+    private static final String SUBMIT_PACITA_RESULT = "gconnect/upload/getUserPanalo.php";
+
     public WebApi(boolean isTestCase){
         this.isUnitTest = isTestCase;
     }
@@ -929,5 +933,38 @@ public class WebApi {
             LIVE = PRIMARY_LIVE;
         }
         return LIVE + GET_RAFFLE_PARTICIPANTS;
+    }
+
+    public String getUrlGetPacitaRules(boolean isBackUp) {
+        if(isUnitTest) {
+            return LOCAL + GET_PACITA_RULES;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
+        }
+        return LIVE + GET_PACITA_RULES;
+    }
+
+    public String getUrlGetPacitaEvaluations(boolean isBackUp) {
+        if(isUnitTest) {
+            return LOCAL + GET_PACITA_EVALUATIONS;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
+        }
+        return LIVE + GET_PACITA_EVALUATIONS;
+    }
+
+    public String getUrlSubmitPacitaResult(boolean isBackUp) {
+        if(isUnitTest) {
+            return LOCAL + SUBMIT_PACITA_RESULT;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
+        }
+        return LIVE + SUBMIT_PACITA_RESULT;
     }
 }
