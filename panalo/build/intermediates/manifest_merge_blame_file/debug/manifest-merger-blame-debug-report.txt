@@ -3,22 +3,22 @@
 3    package="org.rmj.guanzongroup.ghostrider" >
 4
 5    <uses-sdk android:minSdkVersion="21" />
-5-->A:\android_gRider\panalo\src\main\AndroidManifest.xml
+5-->C:\GhostRider\panalo\src\main\AndroidManifest.xml
 6
 7    <application>
-7-->A:\android_gRider\panalo\src\main\AndroidManifest.xml:4:5-12:19
+7-->C:\GhostRider\panalo\src\main\AndroidManifest.xml:4:5-12:19
 8        <activity
-8-->A:\android_gRider\panalo\src\main\AndroidManifest.xml:5:9-11:20
+8-->C:\GhostRider\panalo\src\main\AndroidManifest.xml:5:9-11:20
 9            android:name="org.rmj.guanzongroup.ghostrider.Activity_Panalo"
-9-->A:\android_gRider\panalo\src\main\AndroidManifest.xml:6:13-44
+9-->C:\GhostRider\panalo\src\main\AndroidManifest.xml:6:13-44
 10            android:exported="false" >
-10-->A:\android_gRider\panalo\src\main\AndroidManifest.xml:7:13-37
+10-->C:\GhostRider\panalo\src\main\AndroidManifest.xml:7:13-37
 11            <meta-data
-11-->A:\android_gRider\panalo\src\main\AndroidManifest.xml:8:13-10:36
+11-->C:\GhostRider\panalo\src\main\AndroidManifest.xml:8:13-10:36
 12                android:name="android.app.lib_name"
-12-->A:\android_gRider\panalo\src\main\AndroidManifest.xml:9:17-52
+12-->C:\GhostRider\panalo\src\main\AndroidManifest.xml:9:17-52
 13                android:value="" />
-13-->A:\android_gRider\panalo\src\main\AndroidManifest.xml:10:17-33
+13-->C:\GhostRider\panalo\src\main\AndroidManifest.xml:10:17-33
 14        </activity>
 15    </application>
 16

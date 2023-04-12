@@ -3,8 +3,14 @@
 
     <application>
         <activity
+            android:name=".Dialog_SelectAction"
+            android:exported="false" />
+        <activity
+            android:name=".Activity_BranchList"
+            android:exported="false" />
+        <activity
             android:name=".Activity_Branch_Rate"
-            android:exported="true"/>
+            android:exported="true" />
     </application>
 
 </manifest>
