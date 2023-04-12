@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.pacitareward;
+package org.rmj.guanzongroup.pacitareward.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -8,13 +8,18 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.textview.MaterialTextView;
+
+import org.rmj.guanzongroup.pacitareward.Adapter.RecyclerViewAdapter_BranchRate;
+import org.rmj.guanzongroup.pacitareward.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Activity_Branch_Rate extends AppCompatActivity {
-    RecyclerView rate_list;
+    private RecyclerView rate_list;
     private MaterialToolbar toolbar;
+    private MaterialTextView rate_title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +28,8 @@ public class Activity_Branch_Rate extends AppCompatActivity {
 
         toolbar = findViewById(R.id.toolbar);
         rate_list = findViewById(R.id.rate_list);
+        rate_title = findViewById(R.id.rate_title);
+
 
         /*TOOL BAR*/
         setSupportActionBar(toolbar); //set object toolbar as default action bar for activity

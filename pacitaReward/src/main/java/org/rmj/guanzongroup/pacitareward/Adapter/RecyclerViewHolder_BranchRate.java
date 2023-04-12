@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.pacitareward;
+package org.rmj.guanzongroup.pacitareward.Adapter;
 
 import android.view.View;
 import android.widget.LinearLayout;
@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
+
+import org.rmj.guanzongroup.pacitareward.R;
 
 public class RecyclerViewHolder_BranchRate extends RecyclerView.ViewHolder {
     public MaterialTextView item_question;

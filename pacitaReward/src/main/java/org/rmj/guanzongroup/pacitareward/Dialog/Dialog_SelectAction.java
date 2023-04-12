@@ -1,10 +1,11 @@
-package org.rmj.guanzongroup.pacitareward;
+package org.rmj.guanzongroup.pacitareward.Dialog;
 
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -12,17 +13,17 @@ import androidx.core.content.ContextCompat;
 
 import com.google.android.material.button.MaterialButton;
 
+import org.rmj.guanzongroup.pacitareward.Activity.Activity_Branch_Rate;
+import org.rmj.guanzongroup.pacitareward.R;
+
 public class Dialog_SelectAction  {
-    Context context;
     MaterialButton btn_evaluate;
     MaterialButton btn_vrec;
     MaterialButton btn_cancel;
 
-    public Dialog_SelectAction(Context context){
-        this.context = context;
-    }
+    public void initDialog(Context context, String sBranchcode, String sBranchname){
+        Log.d(sBranchcode, sBranchname);
 
-    public void initDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         View view = LayoutInflater.from(context).inflate(R.layout.activity_dialog_select_action, null);
         builder.setView(view);
@@ -51,6 +52,8 @@ public class Dialog_SelectAction  {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(view.getContext(), Activity_Branch_Rate.class);
+                intent.putExtra("Branch", sBranchname);
+
                 ContextCompat.startActivity(view.getContext(), intent, null);
                 alertDialog.dismiss();
             }

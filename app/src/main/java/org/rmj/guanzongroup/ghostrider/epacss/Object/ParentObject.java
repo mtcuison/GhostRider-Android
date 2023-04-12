@@ -17,8 +17,7 @@ import android.content.Intent;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Browser;
 import org.rmj.guanzongroup.ghostrider.dataChecker.Activity.Activity_DB_Explorer;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
-import org.rmj.guanzongroup.pacitareward.Activity_BranchList;
-import org.rmj.guanzongroup.pacitareward.Activity_Branch_Rate;
+import org.rmj.guanzongroup.pacitareward.Activity.Activity_BranchList;
 import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_DigitalGcard;
 
 public class ParentObject {

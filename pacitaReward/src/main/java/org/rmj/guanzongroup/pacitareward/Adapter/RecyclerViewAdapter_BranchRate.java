@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.pacitareward;
+package org.rmj.guanzongroup.pacitareward.Adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import org.rmj.guanzongroup.pacitareward.R;
 
 import java.util.List;
 

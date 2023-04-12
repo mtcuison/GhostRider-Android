@@ -3,13 +3,13 @@
 
     <application>
         <activity
-            android:name=".Dialog_SelectAction"
+            android:name=".Dialog.Dialog_SelectAction"
             android:exported="false" />
         <activity
-            android:name=".Activity_BranchList"
+            android:name=".Activity.Activity_BranchList"
             android:exported="false" />
         <activity
-            android:name=".Activity_Branch_Rate"
+            android:name=".Activity.Activity_Branch_Rate"
             android:exported="true" />
     </application>
 
