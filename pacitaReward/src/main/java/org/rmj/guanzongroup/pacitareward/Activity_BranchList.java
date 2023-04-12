@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.SearchView;
 
 import com.google.android.material.appbar.MaterialToolbar;
 
@@ -16,6 +17,7 @@ import java.util.List;
 public class Activity_BranchList extends AppCompatActivity {
     MaterialToolbar toolbar;
     RecyclerView rvc_branchlist;
+    SearchView searchview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +26,7 @@ public class Activity_BranchList extends AppCompatActivity {
 
         toolbar = findViewById(R.id.toolbar);
         rvc_branchlist = findViewById(R.id.branch_list);
+        searchview = findViewById(R.id.searchview);
 
         setSupportActionBar(toolbar); //set object toolbar as default action bar for activity
         getSupportActionBar().setTitle(""); //set default title for action bar
@@ -52,7 +55,24 @@ public class Activity_BranchList extends AppCompatActivity {
         mapBranches.put("CSI Lucao", "Lucao Dist, Dagupan City");
 
         RecyclerViewAdapter_BranchList rec_branchList = new RecyclerViewAdapter_BranchList(Activity_BranchList.this, listBranches, mapBranches);
+        rec_branchList.notifyDataSetChanged();
         rvc_branchlist.setAdapter(rec_branchList);
         rvc_branchlist.setLayoutManager(new LinearLayoutManager(Activity_BranchList.this));
+
+        searchview.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                rec_branchList.getFilter().filter(query);
+                rec_branchList.notifyDataSetChanged();
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                rec_branchList.getFilter().filter(newText);
+                rec_branchList.notifyDataSetChanged();
+                return true;
+            }
+        });
     }
 }
