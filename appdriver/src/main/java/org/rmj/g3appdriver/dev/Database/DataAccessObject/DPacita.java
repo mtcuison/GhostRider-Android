@@ -30,6 +30,9 @@ public interface DPacita {
     @Query("SELECT * FROM Pacita_Rule")
     LiveData<List<EPacitaRule>> GetPacitaRules();
 
+    @Query("SELECT dTimeStmp FROM Pacita_Rule ORDER BY dTimeStmp DESC LIMIT 1")
+    String GetLatestRecordTimeStamp();
+
     @Query("SELECT * FROM Pacita_Evaluation WHERE sTransNox=:TransNox")
     LiveData<EPacitaEvaluation> GetPacitaEvaluation(String TransNox);
 
@@ -40,7 +43,7 @@ public interface DPacita {
     EPacitaRule GetPacitaRule(int entryNox);
 
     @Query("SELECT * FROM Pacita_Evaluation WHERE sTransNox=:args")
-    EPacitaEvaluation GetEvaluation(String args);
+    EPacitaEvaluation GetEvaluationForPosting(String args);
 
     @Query("SELECT * FROM Pacita_Evaluation WHERE sTransNox=:BranchCd ORDER BY dTransact DESC LIMIT 1")
     EPacitaEvaluation GetEvaluationForInitialization(String BranchCd);
