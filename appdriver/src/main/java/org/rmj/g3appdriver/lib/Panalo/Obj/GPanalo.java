@@ -2,6 +2,7 @@ package org.rmj.g3appdriver.lib.Panalo.Obj;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
@@ -149,6 +150,24 @@ public class GPanalo {
         } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();
+            return null;
+        }
+    }
+
+    public List<String> GetParticipants(){
+        try{
+            String lsResponse = WebClient.sendRequest(
+                    poApis.getUrlGetRaffleParticipants(poConfig.isBackUpServer()),
+                    "",
+                    poHeaders.getHeaders());
+            if(lsResponse == null){
+                message = "Server no response while sending response.";
+                return null;
+            }
+            return new ArrayList<>();
+        } catch (Exception e){
+            e.printStackTrace();
+            Log.e(TAG, e.getMessage());
             return null;
         }
     }

@@ -1,11 +1,11 @@
 package org.rmj.guanzongroup.ghostrider.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.experimental.UseExperimental;
 import androidx.fragment.app.Fragment;
@@ -16,10 +16,12 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.badge.BadgeUtils;
 import com.google.android.material.badge.ExperimentalBadgeUtils;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.tabs.TabLayout;
 
 import org.rmj.g3appdriver.dev.Database.Entities.ERaffleStatus;
 import org.rmj.guanzongroup.ghostrider.Adapter.FragmentAdapter;
+import org.rmj.guanzongroup.ghostrider.Dialog.DialogMechanics;
 import org.rmj.guanzongroup.ghostrider.R;
 import org.rmj.guanzongroup.ghostrider.ViewModel.VMPanaloContainer;
 
@@ -36,6 +38,7 @@ public class Fragment_PanaloContainer extends Fragment {
     private View view;
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    private MaterialCardView btnMechanics;
 
     private Fragment[] fragment;
 
@@ -89,6 +92,7 @@ public class Fragment_PanaloContainer extends Fragment {
         fragment = new Fragment[]{new Fragment_Raffle(), new Fragment_Rewards()};
         tabLayout = view.findViewById(R.id.tabLayout);
         viewPager = view.findViewById(R.id.ViewPager);
+        btnMechanics = view.findViewById(R.id.btnMechanics);
 
         tabLayout.addTab(tabLayout.newTab().setText("Raffle Draw"));
         tabLayout.addTab(tabLayout.newTab().setText("Redemption"));
@@ -133,6 +137,7 @@ public class Fragment_PanaloContainer extends Fragment {
 
             }
         });
+        initBtnMechanics();
         return view;
     }
 
@@ -156,5 +161,16 @@ public class Fragment_PanaloContainer extends Fragment {
         }
 
         tabLayout.getTabAt(0).select();
+    }
+    private  void initBtnMechanics(){
+        btnMechanics.setOnClickListener(new View.OnClickListener() {
+            Intent loIntent;
+            @Override
+            public void onClick(View view) {
+                DialogMechanics dialogMechanics = new DialogMechanics(getActivity());
+                dialogMechanics.show();
+                Toast.makeText(requireActivity(),"Mechanics", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

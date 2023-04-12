@@ -271,6 +271,7 @@ public class Activity_BranchPerformanceMonitoring extends AppCompatActivity {
             piechart.getLegend().setEnabled(false);
             piechart.setData(pieData);
             piechart.invalidate();
+            piechart.setDescription(null);
 
         } catch (Exception e){
             e.printStackTrace();
