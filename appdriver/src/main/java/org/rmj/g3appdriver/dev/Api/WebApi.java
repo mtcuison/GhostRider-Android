@@ -106,9 +106,9 @@ public class WebApi {
     private static final String GET_PANALO_REWARDS = "gconnect/upload/getUserPanalo.php";
     private static final String GET_RAFFLE_PARTICIPANTS = "gconnect/upload/getUserPanalo.php";
 
-    private static final String GET_PACITA_RULES = "gconnect/upload/getUserPanalo.php";
-    private static final String GET_PACITA_EVALUATIONS = "gconnect/upload/getUserPanalo.php";
-    private static final String SUBMIT_PACITA_RESULT = "gconnect/upload/getUserPanalo.php";
+    private static final String GET_PACITA_RULES = "gCircle/Pacita/import_pacita_rules.php";
+    private static final String GET_PACITA_EVALUATIONS = "gCircle/Pacita/import_pacita_evaluations.php";
+    private static final String SUBMIT_PACITA_RESULT = "gCircle/Pacita/submit_pacita_result.php";
 
     public WebApi(boolean isTestCase){
         this.isUnitTest = isTestCase;

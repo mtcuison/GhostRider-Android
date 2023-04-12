@@ -18,10 +18,8 @@ import org.rmj.g3appdriver.dev.Database.Entities.EPacitaRule;
 import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
-import org.rmj.g3appdriver.lib.GawadPacita.pojo.BranchRate;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -45,24 +43,6 @@ public class Pacita {
 
     public String getMessage() {
         return message;
-    }
-
-    public List<BranchRate> GetBranchRates(){
-        try{
-            List<BranchRate> loRatings = new ArrayList<>();
-
-            loRatings.add(new BranchRate(1, "Branch Cleanliness", ""));
-            loRatings.add(new BranchRate(2, "Comfort Room Cleanliness", ""));
-            loRatings.add(new BranchRate(3, "Store Ambiance", ""));
-            loRatings.add(new BranchRate(4, "Product Presence", ""));
-            loRatings.add(new BranchRate(5, "Services and Accommodation", ""));
-
-            return new ArrayList<>();
-        } catch (Exception e){
-            e.printStackTrace();
-            message = e.getMessage();
-            return null;
-        }
     }
 
     public LiveData<List<EBranchInfo>> GetBranchesList(){
@@ -99,7 +79,7 @@ public class Pacita {
                 return false;
             }
 
-            JSONArray laJson = loResponse.getJSONArray("detail");
+            JSONArray laJson = loResponse.getJSONArray("payload");
             for(int x = 0; x < laJson.length(); x++){
                 JSONObject loJson = laJson.getJSONObject(x);
 
@@ -114,7 +94,7 @@ public class Pacita {
                     loInfo.setFieldNmx(loJson.getString("sFieldNmx"));
                     loInfo.setMaxValue(loJson.getDouble("nMaxValue"));
                     loInfo.setRecdStat(loJson.getString("cRecdStat"));
-                    loInfo.setParentxx(loJson.getString("cParentxx"));
+//                    loInfo.setParentxx(loJson.getString("cParentxx"));
                     loInfo.setModified(loJson.getString("dModified"));
                     loInfo.setTimeStmp(loJson.getString("dTimeStmp"));
                     poDao.Save(loInfo);
@@ -143,6 +123,10 @@ public class Pacita {
             message = e.getMessage();
             return false;
         }
+    }
+
+    public LiveData<List<EPacitaRule>> GetPacitaRules(){
+        return poDao.GetPacitaRules();
     }
 
     /**
@@ -324,7 +308,7 @@ public class Pacita {
 
             //Create a JSONObject for all the rules on pacita_rule
             JSONArray laJson = new JSONArray();
-            List<Integer> loFields = poDao.GetPacitaRules();
+            List<Integer> loFields = poDao.GetPacitaRulesEntryNo();
 
             if(loFields == null){
                 message = "Unable to find pacita rules.";
@@ -340,6 +324,7 @@ public class Pacita {
                 JSONObject loJson = new JSONObject();
                 loJson.put("nEntryNox", loFields.get(x));
                 loJson.put("xRatingxx", "");
+                laJson.put(loJson);
             }
 
             EPacitaEvaluation loInfo = new EPacitaEvaluation();
@@ -359,6 +344,10 @@ public class Pacita {
             message = e.getMessage();
             return null;
         }
+    }
+
+    public LiveData<EPacitaEvaluation> GetEvaluationRecord(String TransNox){
+        return poDao.GetPacitaEvaluation(TransNox);
     }
 
     private String CreateUniqueID(){

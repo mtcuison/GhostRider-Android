@@ -27,8 +27,14 @@ public interface DPacita {
     @Update
     void Update(EPacitaEvaluation foVal);
 
-//    @Query("SELECT * FROM Pacita_Evaluation WHERE sBranchCD =:Branch AND cTranStat <> '1'")
-//    void ResetPacitaRewardForBranch(String Branch);
+    @Query("SELECT * FROM Pacita_Rule")
+    LiveData<List<EPacitaRule>> GetPacitaRules();
+
+    @Query("SELECT * FROM Pacita_Evaluation WHERE sTransNox=:TransNox")
+    LiveData<EPacitaEvaluation> GetPacitaEvaluation(String TransNox);
+
+    @Query("DELETE FROM Pacita_Evaluation WHERE sTransNox =:TransNox")
+    void ResetPacitaRewardForBranch(String TransNox);
 
     @Query("SELECT * FROM Pacita_Rule WHERE nEntryNox =:entryNox")
     EPacitaRule GetPacitaRule(int entryNox);
@@ -46,7 +52,7 @@ public interface DPacita {
     int GetRowsCountForID();
 
     @Query("SELECT nEntryNox FROM Pacita_Rule")
-    List<Integer> GetPacitaRules();
+    List<Integer> GetPacitaRulesEntryNo();
 
     @Query("SELECT sUserIDxx FROM User_Info_Master")
     String GetUserID();

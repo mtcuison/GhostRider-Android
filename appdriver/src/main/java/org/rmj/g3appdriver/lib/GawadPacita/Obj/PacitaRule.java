@@ -11,7 +11,6 @@ import java.util.List;
 
 public class PacitaRule {
 
-    /**
     public static List<BranchRate> ParseBranchRate(String PayLoad, List<EPacitaRule> Rules){
         try{
             List<BranchRate> loBranch = new ArrayList<>();
