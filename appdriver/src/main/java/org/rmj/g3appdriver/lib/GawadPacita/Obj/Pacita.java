@@ -60,9 +60,15 @@ public class Pacita {
      */
     public boolean ImportPacitaRules(){
         try{
+            JSONObject params = new JSONObject();
+            String lsTimeStmp = poDao.GetLatestRecordTimeStamp();
+            if(lsTimeStmp != null){
+                params.put("dTimeStmp", lsTimeStmp);
+            }
+
             String lsResponse = WebClient.sendRequest(
                     poApi.getUrlGetPacitaRules(poConfig.isBackUpServer()),
-                    new JSONObject().toString(),
+                    params.toString(),
                     poHeaders.getHeaders());
 
             if(lsResponse == null){
@@ -209,7 +215,7 @@ public class Pacita {
 
     public boolean UpdateBranchRate(String TransNox, int EntryNox, String Result){
         try{
-            EPacitaEvaluation loDetail = poDao.GetEvaluation(TransNox);
+            EPacitaEvaluation loDetail = poDao.GetEvaluationForInitialization(TransNox);
 
             String lsPayload = loDetail.getPayloadx();
 
@@ -244,19 +250,29 @@ public class Pacita {
      */
     public boolean SaveBranchRatings(String TransNox){
         try{
-            EPacitaEvaluation loDetail = poDao.GetEvaluation(TransNox);
+            EPacitaEvaluation loDetail = poDao.GetEvaluationForPosting(TransNox);
 
             if(loDetail == null){
                 message = "Unable to find record for posting.";
                 return false;
             }
 
+            if(loDetail.getTranStat().equalsIgnoreCase("1")){
+                message = "Evaluation record is already posted.";
+                return false;
+            }
+
             JSONObject params = new JSONObject();
             params.put("sBranchCD", loDetail.getBranchCD());
-            params.put("sEvalType", loDetail.getEvalType());
+            params.put("dTransact", loDetail.getTransact());
 
-            JSONArray loPayload = new JSONArray(loDetail.getPayloadx());
-            params.put("sPayloadx", loPayload);
+            JSONObject loPayload = new JSONObject();
+            loPayload.put("sEvalType", loDetail.getEvalType());
+
+            JSONArray laPayload = new JSONArray(loDetail.getPayloadx());
+            loPayload.put("sPayloadx", laPayload);
+
+            params.put("sPayloadxx", loPayload);
 
             String lsResponse = WebClient.sendRequest(
                     poApi.getUrlSubmitPacitaResult(poConfig.isBackUpServer()),

@@ -76,6 +76,8 @@ public class PacitaTest {
                     return;
                 }
 
+
+
                 if(ePacitaRules.size() == 0){
                     Log.e(TAG, "No pacita rules found.");
                     return;
@@ -213,5 +215,26 @@ public class PacitaTest {
                 }
             });
         }
+    }
+
+    @Test
+    public void test05PostEvaluation() {
+        String lsResult = poSys.InitializePacitaEvaluation("M001");
+        if(lsResult == null){
+            Log.e(TAG, poSys.getMessage());
+            assertTrue(isSuccess);
+            isSuccess = false;
+
+            return;
+        }
+
+        if(!poSys.SaveBranchRatings(lsResult)){
+            Log.e(TAG, poSys.getMessage());
+        } else {
+            isSuccess = true;
+        }
+        assertTrue(isSuccess);
+
+        isSuccess = false;
     }
 }
