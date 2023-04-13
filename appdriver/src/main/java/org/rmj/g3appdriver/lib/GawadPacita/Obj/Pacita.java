@@ -145,7 +145,7 @@ public class Pacita {
     public boolean ImportPacitaEvaluations(String BranchCD){
         try{
             JSONObject params = new JSONObject();
-            params.put("sBranchCd", BranchCD);
+            params.put("sBranchCD", BranchCD);
 
             String lsResponse = WebClient.sendRequest(
                     poApi.getUrlGetPacitaEvaluations(poConfig.isBackUpServer()),
@@ -166,7 +166,7 @@ public class Pacita {
                 return false;
             }
 
-            JSONArray laJson = loResponse.getJSONArray("detail");
+            JSONArray laJson = loResponse.getJSONArray("payload");
             for(int x = 0; x < laJson.length(); x++){
                 JSONObject loJson = laJson.getJSONObject(x);
 
@@ -176,10 +176,10 @@ public class Pacita {
                 if(loDetail == null){
 
                     EPacitaEvaluation loInfo = new EPacitaEvaluation();
-                    loInfo.setTransNox(loJson.getString("sTransNox "));
+                    loInfo.setTransNox(loJson.getString("sTransNox"));
                     loInfo.setTransact(loJson.getString("dTransact"));
-                    loInfo.setUserIDxx(loJson.getString("sUserIDxx"));
-                    loInfo.setBranchCD(loJson.getString("sBranchCD"));
+                    loInfo.setUserIDxx(poDao.GetUserID());
+                    loInfo.setBranchCD(BranchCD);
                     loInfo.setPayloadx(loJson.getString("sPayloadx"));
                     loInfo.setRatingxx(loJson.getDouble("nRatingxx"));
                     loInfo.setModified(loJson.getString("dModified"));
@@ -193,8 +193,8 @@ public class Pacita {
                     if (!ldDate1.equals(ldDate2)) {
                         loDetail.setTransNox(loJson.getString("sTransNox "));
                         loDetail.setTransact(loJson.getString("dTransact"));
-                        loDetail.setUserIDxx(loJson.getString("sUserIDxx"));
-                        loDetail.setBranchCD(loJson.getString("sBranchCD"));
+                        loDetail.setUserIDxx(poDao.GetUserID());
+                        loDetail.setBranchCD(BranchCD);
                         loDetail.setPayloadx(loJson.getString("sPayloadx"));
                         loDetail.setRatingxx(loJson.getDouble("nRatingxx"));
                         loDetail.setModified(loJson.getString("dModified"));
@@ -293,8 +293,8 @@ public class Pacita {
                 return false;
             }
 
-            loDetail.setTranStat("1");
-            poDao.Update(loDetail);
+            String lsTransNo = loResponse.getString("sTransNox");
+            poDao.UpdatePosted(loDetail.getTransNox(), lsTransNo);
             return true;
         } catch (Exception e){
             e.printStackTrace();
@@ -318,10 +318,35 @@ public class Pacita {
         try{
             EPacitaEvaluation loDetail = poDao.GetEvaluationForInitialization(BranchCD);
 
-            if(loDetail != null){
-                return loDetail.getTransNox();
+            if(loDetail == null){
+                return CreateNewEvaluation(BranchCD);
             }
 
+            if(loDetail.getTranStat().equalsIgnoreCase("1")){
+                message = "Evaluation for this branch was already posted.";
+                return null;
+            }
+
+            if(!loDetail.getTransact().equalsIgnoreCase(AppConstants.CURRENT_DATE)){
+                poDao.ResetPacitaRewardForBranch(loDetail.getTransNox());
+                Log.e(TAG, "Evaluation record has been reset.");
+                return CreateNewEvaluation(BranchCD);
+            }
+
+            return loDetail.getTransNox();
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return null;
+        }
+    }
+
+    public LiveData<EPacitaEvaluation> GetEvaluationRecord(String TransNox){
+        return poDao.GetPacitaEvaluation(TransNox);
+    }
+
+    private String CreateNewEvaluation(String BranchCD){
+        try{
             //Create a JSONObject for all the rules on pacita_rule
             JSONArray laJson = new JSONArray();
             List<Integer> loFields = poDao.GetPacitaRulesEntryNo();
@@ -354,16 +379,11 @@ public class Pacita {
             loInfo.setTimeStmp(new AppConstants().DATE_MODIFIED);
             poDao.Save(loInfo);
             return loInfo.getTransNox();
-
         } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();
             return null;
         }
-    }
-
-    public LiveData<EPacitaEvaluation> GetEvaluationRecord(String TransNox){
-        return poDao.GetPacitaEvaluation(TransNox);
     }
 
     private String CreateUniqueID(){

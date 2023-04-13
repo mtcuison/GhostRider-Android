@@ -17,6 +17,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DPacita;
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EPacitaEvaluation;
 import org.rmj.g3appdriver.dev.Database.Entities.EPacitaRule;
@@ -236,5 +237,39 @@ public class PacitaTest {
         assertTrue(isSuccess);
 
         isSuccess = false;
+    }
+
+    @Test
+    public void test06ImportEvaluations() {
+        if(!poSys.ImportPacitaEvaluations("M001")){
+            Log.e(TAG, poSys.getMessage());
+        } else {
+            isSuccess = true;
+        }
+        assertTrue(isSuccess);
+
+        isSuccess = false;
+    }
+
+    @Test
+    public void test07GetBranchRecords() {
+        poSys.GetBranchRecords("M001").observeForever(new Observer<List<DPacita.BranchRecords>>() {
+            @Override
+            public void onChanged(List<DPacita.BranchRecords> branchRecords) {
+                if(branchRecords == null){
+                    Log.e(TAG, "No evaluation record found.");
+                    return;
+                }
+
+                if(branchRecords.size() == 0){
+                    Log.e(TAG, "No evaluation record found.");
+                    return;
+                }
+
+                for(int x = 0; x < branchRecords.size(); x++){
+                    Log.e(TAG, "Date: " + branchRecords.get(x).dTransact + ", Rate: " + branchRecords.get(x).nRatingxx);
+                }
+            }
+        });
     }
 }
