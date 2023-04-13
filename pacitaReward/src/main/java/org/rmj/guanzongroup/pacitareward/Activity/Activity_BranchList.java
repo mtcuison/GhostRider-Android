@@ -37,9 +37,10 @@ public class Activity_BranchList extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(VMBranchList.class);
-
         setContentView(R.layout.activity_branch_list);
+
+        mViewModel = new ViewModelProvider(this).get(VMBranchList.class);
+        mViewModel.importCriteria();
 
         toolbar = findViewById(R.id.toolbar);
         rvc_branchlist = findViewById(R.id.branch_list);

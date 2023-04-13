@@ -1,6 +1,8 @@
 package org.rmj.guanzongroup.pacitareward.ViewModel;
 
 import android.app.Application;
+import android.os.AsyncTask;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -27,5 +29,24 @@ public class VMBranchList extends AndroidViewModel {
 
     public LiveData<List<EBranchInfo>> getBranchlist(){
         return poSys.GetBranchesList();
+    }
+    public void importCriteria(){
+        new importCriteriaTask().execute();
+    }
+
+    private class importCriteriaTask extends AsyncTask<Void, Void, Boolean>{
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            if (!poConn.isDeviceConnected()){
+                Log.e("Error", poConn.getMessage());
+                return false;
+            }
+            if (!poSys.ImportPacitaRules()){
+                Log.e("Error", poSys.getMessage());
+                return false;
+            }
+            return true;
+        }
     }
 }

@@ -3,6 +3,9 @@
 
     <application>
         <activity
+            android:name=".Activity.Activity_BranchRecords"
+            android:exported="false" />
+        <activity
             android:name=".Dialog.Dialog_SelectAction"
             android:exported="false" />
         <activity

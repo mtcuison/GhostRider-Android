@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat;
 
 import com.google.android.material.button.MaterialButton;
 
+import org.rmj.guanzongroup.pacitareward.Activity.Activity_BranchRecords;
 import org.rmj.guanzongroup.pacitareward.Activity.Activity_Branch_Rate;
 import org.rmj.guanzongroup.pacitareward.R;
 
@@ -43,6 +44,7 @@ public class Dialog_SelectAction  {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(view.getContext(), Activity_Branch_Rate.class);
+                intent.putExtra("Branch", sBranchcode);
                 ContextCompat.startActivity(view.getContext(), intent, null);
                 alertDialog.dismiss();
             }
@@ -51,9 +53,8 @@ public class Dialog_SelectAction  {
         btn_vrec.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(view.getContext(), Activity_Branch_Rate.class);
-                intent.putExtra("Branch", sBranchname);
-
+                Intent intent = new Intent(view.getContext(), Activity_BranchRecords.class);
+                intent.putExtra("Branch", sBranchcode);
                 ContextCompat.startActivity(view.getContext(), intent, null);
                 alertDialog.dismiss();
             }
