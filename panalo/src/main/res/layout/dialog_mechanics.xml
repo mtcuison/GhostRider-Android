@@ -68,7 +68,7 @@
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Close"
+        android:text="Okay"
         android:elevation="3dp"
         app:backgroundTint="@color/material_white"
         app:layout_constraintEnd_toEndOf="@+id/materialCardView"

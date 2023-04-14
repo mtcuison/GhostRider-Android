@@ -25,10 +25,10 @@ public class TestPanaloRaffleDrawSender {
 
     @Test
     public void test02SendRewardsNotification() {
-        String lsApp = "gRider";
-        String lsUser = "GAP023000254";
-        String lsTitle = "I LOVE MY JOB";
-        String lsMessage = "Congratulations!, You won a permanent Work from home.";
+        String lsApp = "GuanzonApp";
+        String lsUser = "GAP021002961";
+        String lsTitle = "Guanzon Panalo";
+        String lsMessage = "Congrats, John Doe! You won Php100/mo for 3 mos. on Guanzon Panalo Raffle. Claim prize by May 20, 2023. Thank you for your loyalty.";
 
         boolean isSuccess = PanaloNotificationSender.SendSystemPanaloRewardNotification(lsApp,
                 lsUser,

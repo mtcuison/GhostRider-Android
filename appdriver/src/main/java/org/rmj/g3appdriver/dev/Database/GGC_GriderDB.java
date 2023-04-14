@@ -128,6 +128,8 @@ import org.rmj.g3appdriver.dev.Database.Entities.ENotificationMaster;
 import org.rmj.g3appdriver.dev.Database.Entities.ENotificationRecipient;
 import org.rmj.g3appdriver.dev.Database.Entities.ENotificationUser;
 import org.rmj.g3appdriver.dev.Database.Entities.EOccupationInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.EPacitaEvaluation;
+import org.rmj.g3appdriver.dev.Database.Entities.EPacitaRule;
 import org.rmj.g3appdriver.dev.Database.Entities.EPanaloReward;
 import org.rmj.g3appdriver.dev.Database.Entities.EProvinceInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ERaffleBasis;
@@ -198,7 +200,9 @@ import org.rmj.g3appdriver.dev.Database.Entities.EUncapturedClient;
         ECreditOnlineApplicationCI.class,
         EItinerary.class,
         EPanaloReward.class,
-        ERaffleStatus.class}, version = 37, exportSchema = false)
+        ERaffleStatus.class,
+        EPacitaRule.class,
+        EPacitaEvaluation.class}, version = 37, exportSchema = false)
 public abstract class GGC_GriderDB extends RoomDatabase {
     private static final String TAG = "GhostRider_DB_Manager";
     private static GGC_GriderDB instance;
