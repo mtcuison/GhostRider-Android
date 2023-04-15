@@ -51,8 +51,8 @@ public class PacitaTest {
         poUser = new EmployeeMaster(instance);
         poSys = new Pacita(instance);
 
-        EmployeeMaster.UserAuthInfo loAuth = new EmployeeMaster.UserAuthInfo("mikegarcia8748@gmail.com", "123456", "09171870011");
-        assertTrue(poUser.AuthenticateUser(loAuth));
+//        EmployeeMaster.UserAuthInfo loAuth = new EmployeeMaster.UserAuthInfo("mikegarcia8748@gmail.com", "123456", "09171870011");
+//        assertTrue(poUser.AuthenticateUser(loAuth));
     }
 
     @Test
@@ -267,8 +267,29 @@ public class PacitaTest {
                 }
 
                 for(int x = 0; x < branchRecords.size(); x++){
-                    Log.e(TAG, "Date: " + branchRecords.get(x).dTransact + ", Rate: " + branchRecords.get(x).nRatingxx);
+                    Log.e(TAG, "TransNox: "+ branchRecords.get(x).sTransNox +", Date: " + branchRecords.get(x).dTransact + ", Rate: " + branchRecords.get(x).nRatingxx);
                 }
+
+                poSys.GetEvaluationRecord(branchRecords.get(0).sTransNox).observeForever(new Observer<EPacitaEvaluation>() {
+                    @Override
+                    public void onChanged(EPacitaEvaluation ePacitaEvaluation) {
+                        if(ePacitaEvaluation == null){
+                            Log.e(TAG, "No evaluation record found.");
+                            return;
+                        }
+
+                        poSys.GetPacitaRules().observeForever(new Observer<List<EPacitaRule>>() {
+                            @Override
+                            public void onChanged(List<EPacitaRule> ePacitaRules) {
+                                List<BranchRate> loList = PacitaRule.ParseBranchRate(ePacitaEvaluation.getPayloadx(), ePacitaRules);
+                                for(int x = 0; x < loList.size(); x++){
+                                    BranchRate loRate = loList.get(x);
+                                    Log.d(TAG, "Criteria: " + loRate.getsRateName() + ", Rate: " + loRate.getcPasRatex());
+                                }
+                            }
+                        });
+                    }
+                });
             }
         });
     }

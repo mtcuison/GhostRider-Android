@@ -149,6 +149,8 @@ public class AppConfigPreference {
         editor.commit();
     }
 
+
+
     public String getPIN(){
         return pref.getString(temp_PIN, "");
     }
