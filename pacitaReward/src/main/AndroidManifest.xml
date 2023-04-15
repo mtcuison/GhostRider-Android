@@ -3,6 +3,9 @@
 
     <application>
         <activity
+            android:name=".Activity.Activity_BranchRecord_Details"
+            android:exported="false" />
+        <activity
             android:name=".Activity.Activity_BranchRecords"
             android:exported="false" />
         <activity

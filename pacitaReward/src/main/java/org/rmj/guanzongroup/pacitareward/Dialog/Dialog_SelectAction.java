@@ -12,6 +12,7 @@ import android.view.View;
 import androidx.core.content.ContextCompat;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textview.MaterialTextView;
 
 import org.rmj.guanzongroup.pacitareward.Activity.Activity_BranchRecords;
 import org.rmj.guanzongroup.pacitareward.Activity.Activity_Branch_Rate;
@@ -21,6 +22,7 @@ public class Dialog_SelectAction  {
     MaterialButton btn_evaluate;
     MaterialButton btn_vrec;
     MaterialButton btn_cancel;
+    MaterialTextView mtv_branchname;
 
     public void initDialog(Context context, String sBranchcode, String sBranchname){
         Log.d(sBranchcode, sBranchname);
@@ -39,12 +41,15 @@ public class Dialog_SelectAction  {
         btn_evaluate = view.findViewById(R.id.btn_evaluate);
         btn_vrec = view.findViewById(R.id.btn_vrec);
         btn_cancel = view.findViewById(R.id.btn_cancel);
+        mtv_branchname = view.findViewById(R.id.mtv_branchname);
+
+        mtv_branchname.setText(sBranchname);
 
         btn_evaluate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(view.getContext(), Activity_Branch_Rate.class);
-                intent.putExtra("Branch", sBranchcode);
+                intent.putExtra("Branch", new String[]{sBranchcode, sBranchname});
                 ContextCompat.startActivity(view.getContext(), intent, null);
                 alertDialog.dismiss();
             }
@@ -54,7 +59,7 @@ public class Dialog_SelectAction  {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(view.getContext(), Activity_BranchRecords.class);
-                intent.putExtra("Branch", sBranchcode);
+                intent.putExtra("Branch", new String[]{sBranchcode, sBranchname});
                 ContextCompat.startActivity(view.getContext(), intent, null);
                 alertDialog.dismiss();
             }

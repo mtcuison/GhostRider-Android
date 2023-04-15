@@ -7,18 +7,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
-import android.widget.SearchView;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
+import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.guanzongroup.pacitareward.Adapter.RecyclerViewAdapter_BranchList;
 import org.rmj.guanzongroup.pacitareward.Dialog.Dialog_SelectAction;
 import org.rmj.guanzongroup.pacitareward.R;
@@ -29,10 +27,10 @@ import java.util.List;
 public class Activity_BranchList extends AppCompatActivity {
 
     private VMBranchList mViewModel;
-    MaterialToolbar toolbar;
-    RecyclerView rvc_branchlist;
-    TextInputEditText searchview;
-    RecyclerViewAdapter_BranchList rec_branchList;
+    private MaterialToolbar toolbar;
+    private RecyclerView rvc_branchlist;
+    private TextInputEditText searchview;
+    private RecyclerViewAdapter_BranchList rec_branchList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +45,7 @@ public class Activity_BranchList extends AppCompatActivity {
         searchview = findViewById(R.id.searchview);
 
         setSupportActionBar(toolbar); //set object toolbar as default action bar for activity
-        getSupportActionBar().setTitle(""); //set default title for action bar
+        getSupportActionBar().setTitle("Branch List"); //set default title for action bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); //set back button to toolbar
         getSupportActionBar().setDisplayShowHomeEnabled(true); //enable the back button set on toolbar
 
@@ -57,9 +55,23 @@ public class Activity_BranchList extends AppCompatActivity {
                 onBackPressed();
             }
         });
+
+        MessageBox loadDialog = new MessageBox(Activity_BranchList.this);
+        loadDialog.initDialog();
+        loadDialog.setTitle("No Records");
+        loadDialog.setMessage("No Branch Records Found");
+        loadDialog.setPositiveButton("OK", new MessageBox.DialogButton() {
+            @Override
+            public void OnButtonClick(View view, AlertDialog dialog) {
+                dialog.dismiss();
+            }
+        });
         mViewModel.getBranchlist().observe(Activity_BranchList.this, new Observer<List<EBranchInfo>>() {
             @Override
             public void onChanged(List<EBranchInfo> eBranchInfos) {
+                if (eBranchInfos.size() <= 0){
+                    loadDialog.show();
+                }
                 rec_branchList = new RecyclerViewAdapter_BranchList(eBranchInfos, new RecyclerViewAdapter_BranchList.OnBranchSelectListener() {
                     @Override
                     public void OnSelect(String BranchCode, String BranchName) {
@@ -73,7 +85,6 @@ public class Activity_BranchList extends AppCompatActivity {
                 rvc_branchlist.setLayoutManager(new LinearLayoutManager(Activity_BranchList.this));
             }
         });
-
         searchview.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -107,7 +118,6 @@ public class Activity_BranchList extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-
             }
         });
     }

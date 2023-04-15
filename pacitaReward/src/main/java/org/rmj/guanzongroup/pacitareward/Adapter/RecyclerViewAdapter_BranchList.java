@@ -1,7 +1,5 @@
 package org.rmj.guanzongroup.pacitareward.Adapter;
 
-import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RecyclerViewAdapter_BranchList extends RecyclerView.Adapter<RecyclerViewHolder_BranchList> {
-
     private final List<EBranchInfo> paBranch;
     private List<EBranchInfo> paBranchFilter;
     private final BranchFilter poFilter;
@@ -26,14 +23,12 @@ public class RecyclerViewAdapter_BranchList extends RecyclerView.Adapter<Recycle
     public interface OnBranchSelectListener{
         void OnSelect(String BranchCode, String BranchName);
     }
-
     public RecyclerViewAdapter_BranchList(List<EBranchInfo> paBranch, OnBranchSelectListener listener) {
         this.paBranchFilter = paBranch;
         this.paBranch = paBranch;
         this.poFilter = new BranchFilter(this);
         this.listener = listener;
     }
-
     public BranchFilter getFilter(){
         return poFilter;
     }
@@ -56,9 +51,7 @@ public class RecyclerViewAdapter_BranchList extends RecyclerView.Adapter<Recycle
         return paBranchFilter.size();
     }
     public class BranchFilter extends Filter{
-
         private final RecyclerViewAdapter_BranchList poAdapter;
-
         public BranchFilter(RecyclerViewAdapter_BranchList poAdapter) {
             super();
             this.poAdapter = poAdapter;

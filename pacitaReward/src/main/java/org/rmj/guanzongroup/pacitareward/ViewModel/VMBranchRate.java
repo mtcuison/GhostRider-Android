@@ -32,13 +32,15 @@ public class VMBranchRate extends AndroidViewModel {
     public void InitializeEvaluation(String BranchCD, OnInitializeBranchEvaluationListener listener){
         new InitializeEvluationTask(listener).execute(BranchCD);
     }
-
+    public LiveData<EPacitaEvaluation> getBranchEvaluation(String lsTransNo){
+        return poSys.GetEvaluationRecord(lsTransNo);
+    }
+    public LiveData<List<EPacitaRule>> GetCriteria(){
+        return poSys.GetPacitaRules();
+    }
     private class InitializeEvluationTask extends AsyncTask<String, Void, String>{
-
         private final OnInitializeBranchEvaluationListener mListener;
-
         private String message;
-
         public InitializeEvluationTask(OnInitializeBranchEvaluationListener mListener) {
             this.mListener = mListener;
         }
@@ -65,17 +67,13 @@ public class VMBranchRate extends AndroidViewModel {
         }
     }
 
-    public LiveData<EPacitaEvaluation> getBranchEvaluation(String lsTransNo){
-        return poSys.GetEvaluationRecord(lsTransNo);
-    }
-    public LiveData<List<EPacitaRule>> GetCriteria(){
-        return poSys.GetPacitaRules();
+    public void saveBranchRatings(String TransNox){
+        poSys.SaveBranchRatings(TransNox);
     }
 
     public void setEvaluationResult(String TransNox, String EntryNox, String Result){
         new SetEvaluationResultTask().execute(TransNox, EntryNox, Result);
     }
-
     public class SetEvaluationResultTask extends AsyncTask<String, Void, Boolean>{
 
         @Override
