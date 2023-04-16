@@ -52,7 +52,7 @@ public class RecyclerViewAdapter_BranchRate extends RecyclerView.Adapter<Recycle
                 public void onClick(View v) {
                     holder.pass_btn.setBackgroundColor(R.color.cardview_shadow_start_color);
                     holder.fail_btn.setBackgroundColor(Color.TRANSPARENT);
-                    mListener.onItemSelect(questionList.get(holder.getAdapterPosition()).getsRateIDxx().toString(), "1");
+                    mListener.onItemSelect(String.valueOf(1), "1");
                 }
             });
 
@@ -62,7 +62,7 @@ public class RecyclerViewAdapter_BranchRate extends RecyclerView.Adapter<Recycle
             public void onClick(View v) {
                 holder.pass_btn.setBackgroundColor(Color.TRANSPARENT);
                 holder.fail_btn.setBackgroundColor(R.color.cardview_shadow_start_color);
-                mListener.onItemSelect(questionList.get(holder.getAdapterPosition()).getsRateIDxx().toString(), "0");
+                mListener.onItemSelect(String.valueOf(0).toString(), "0");
             }
         });
     }

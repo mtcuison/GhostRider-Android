@@ -5,8 +5,10 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.loader.content.AsyncTaskLoader;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EPacitaEvaluation;
 import org.rmj.g3appdriver.dev.Database.Entities.EPacitaRule;
@@ -67,10 +69,6 @@ public class VMBranchRate extends AndroidViewModel {
         }
     }
 
-    public void saveBranchRatings(String TransNox){
-        poSys.SaveBranchRatings(TransNox);
-    }
-
     public void setEvaluationResult(String TransNox, String EntryNox, String Result){
         new SetEvaluationResultTask().execute(TransNox, EntryNox, Result);
     }
@@ -84,6 +82,19 @@ public class VMBranchRate extends AndroidViewModel {
 
             if(!poSys.UpdateBranchRate(sTransNo, Integer.parseInt(EntryNox), Result)){
                 return false;
+            }
+            return true;
+        }
+    }
+
+    public void saveBranchRatings(String TransNox){
+        new SaveBranchRatings().execute(TransNox);
+    }
+    public class SaveBranchRatings extends AsyncTask<String, Void, Boolean>{
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            if(!poSys.SaveBranchRatings(strings[0])){
+                return  false;
             }
             return true;
         }

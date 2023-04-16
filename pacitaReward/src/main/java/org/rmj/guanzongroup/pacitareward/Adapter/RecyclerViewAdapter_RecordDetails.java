@@ -36,8 +36,6 @@ public class RecyclerViewAdapter_RecordDetails extends RecyclerView.Adapter<Recy
         String cPasRate = evaluationList.get(position).getcPasRatex();
         String scritera = evaluationList.get(position).getsRateName();
 
-        Log.d("RATE LIST SIZE", String.valueOf(evaluationList.size()));
-
         holder.mtv_criteria.setText(scritera);
 
        if (cPasRate.equals("0")){
