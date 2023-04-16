@@ -16,6 +16,7 @@ import com.google.android.material.textview.MaterialTextView;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EPacitaEvaluation;
 import org.rmj.g3appdriver.dev.Database.Entities.EPacitaRule;
+import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.GawadPacita.Obj.PacitaRule;
 import org.rmj.g3appdriver.lib.GawadPacita.pojo.BranchRate;
@@ -33,6 +34,7 @@ public class Activity_Branch_Rate extends AppCompatActivity {
     private MaterialTextView rate_title;
     private VMBranchRate mViewModel;
     private MessageBox loadDialog;
+    private LoadDialog poLoad;
     private String intentDataBranchcd;
     private String intentDataBranchName;
     private String dialogTitle;
@@ -45,6 +47,8 @@ public class Activity_Branch_Rate extends AppCompatActivity {
         setContentView(R.layout.activity_branch_rate);
 
         mViewModel = new ViewModelProvider(this).get(VMBranchRate.class);
+
+        poLoad = new LoadDialog(Activity_Branch_Rate.this);
 
         loadDialog = new MessageBox(Activity_Branch_Rate.this);
         loadDialog.initDialog();
@@ -128,7 +132,29 @@ public class Activity_Branch_Rate extends AppCompatActivity {
                 btn_submit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mViewModel.saveBranchRatings(transactNo);
+                        mViewModel.saveBranchRatings(transactNo, new VMBranchRate.BranchRatingsCallback() {
+                            @Override
+                            public void onSave(String title, String message) {
+                                poLoad.initDialog(title, message, false);
+                                poLoad.show();
+                            }
+
+                            @Override
+                            public void onSuccess(String message) {
+                                poLoad.dismiss();
+                                dialogTitle = "Success Saving Application";
+                                dialogMessage = message;
+                                loadDialog.show();
+                            }
+
+                            @Override
+                            public void onFailed(String message) {
+                                poLoad.dismiss();
+                                dialogTitle = "Success Saving Application";
+                                dialogMessage = message;
+                                loadDialog.show();
+                            }
+                        });
                     }
                 });
             }

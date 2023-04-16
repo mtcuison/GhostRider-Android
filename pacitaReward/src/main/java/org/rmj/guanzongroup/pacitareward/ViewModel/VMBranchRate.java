@@ -13,17 +13,21 @@ import androidx.loader.content.AsyncTaskLoader;
 import org.rmj.g3appdriver.dev.Database.Entities.EPacitaEvaluation;
 import org.rmj.g3appdriver.dev.Database.Entities.EPacitaRule;
 import org.rmj.g3appdriver.lib.GawadPacita.Obj.Pacita;
+import org.rmj.g3appdriver.lib.GawadPacita.pojo.BranchRate;
+import org.rmj.g3appdriver.utils.ConnectionUtil;
 
 import java.util.List;
 
 public class VMBranchRate extends AndroidViewModel {
     private final Pacita poSys;
-    private OnInitializeBranchEvaluationListener listener;
+    private ConnectionUtil poConnection;
+    private String message;
 
     public VMBranchRate(@NonNull Application application) {
         super(application);
 
         poSys = new Pacita(application);
+        poConnection = new ConnectionUtil(application);
     }
 
     public interface OnInitializeBranchEvaluationListener {
@@ -42,7 +46,6 @@ public class VMBranchRate extends AndroidViewModel {
     }
     private class InitializeEvluationTask extends AsyncTask<String, Void, String>{
         private final OnInitializeBranchEvaluationListener mListener;
-        private String message;
         public InitializeEvluationTask(OnInitializeBranchEvaluationListener mListener) {
             this.mListener = mListener;
         }
@@ -50,6 +53,10 @@ public class VMBranchRate extends AndroidViewModel {
         @Override
         protected String doInBackground(String... branchcd) {
             String lsResult = poSys.InitializePacitaEvaluation(branchcd[0]);
+            if(!poConnection.isDeviceConnected()){
+                message = poConnection.getMessage();
+                return null;
+            }
             if(lsResult == null){
                 message = poSys.getMessage();
                 return null;
@@ -68,35 +75,76 @@ public class VMBranchRate extends AndroidViewModel {
             }
         }
     }
-
     public void setEvaluationResult(String TransNox, String EntryNox, String Result){
         new SetEvaluationResultTask().execute(TransNox, EntryNox, Result);
     }
     public class SetEvaluationResultTask extends AsyncTask<String, Void, Boolean>{
-
         @Override
         protected Boolean doInBackground(String... strings) {
             String sTransNo = strings[0];
             String EntryNox = strings[1];
             String Result = strings[2];
 
+            if(!poConnection.isDeviceConnected()){
+                message = poConnection.getMessage();
+                return false;
+            }
             if(!poSys.UpdateBranchRate(sTransNo, Integer.parseInt(EntryNox), Result)){
+                message = poSys.getMessage();
                 return false;
             }
             return true;
         }
     }
 
-    public void saveBranchRatings(String TransNox){
-        new SaveBranchRatings().execute(TransNox);
+    public interface BranchRatingsCallback{
+        void onSave(String title, String message);
+        void onSuccess(String message);
+        void onFailed(String message);
+    }
+    public void saveBranchRatings(String TransNox, BranchRatingsCallback callback){
+        new SaveBranchRatings(TransNox, callback).execute(TransNox);
     }
     public class SaveBranchRatings extends AsyncTask<String, Void, Boolean>{
+        private final BranchRatingsCallback callback;
+        private String TransNox;
+        public SaveBranchRatings(String TransNox, BranchRatingsCallback callback){
+            this.TransNox = TransNox;
+            this.callback = callback;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            callback.onSave("Pacita Reward", "Saving your Evaluation. Please Wait . . . ");
+        }
         @Override
         protected Boolean doInBackground(String... strings) {
-            if(!poSys.SaveBranchRatings(strings[0])){
-                return  false;
+            try {
+                if(!poConnection.isDeviceConnected()){
+                    message = poConnection.getMessage();
+                    return false;
+                }
+                if(!poSys.SaveBranchRatings(strings[0])){
+                    message = poSys.getMessage();
+                    return  false;
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+                message = e.getMessage();
+                return false;
             }
             return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            if(aBoolean){
+                callback.onSuccess(message);
+            } else {
+                callback.onFailed(message);
+            }
         }
     }
 }
