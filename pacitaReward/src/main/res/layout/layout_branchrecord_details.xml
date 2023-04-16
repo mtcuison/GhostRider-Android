@@ -13,7 +13,6 @@
             android:id="@+id/siv_rate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/emoji_laugh_svgrepo_com"
             android:layout_gravity="center"/>
 
 
@@ -21,9 +20,8 @@
             android:id="@+id/mtv_criteria"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="10dp"
+            android:paddingHorizontal="20dp"
             android:paddingVertical="10dp"
-            android:gravity="center"
             android:textSize="15sp"/>
     </LinearLayout>
 

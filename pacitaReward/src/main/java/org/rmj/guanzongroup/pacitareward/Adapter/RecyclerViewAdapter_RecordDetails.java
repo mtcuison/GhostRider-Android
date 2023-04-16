@@ -1,6 +1,7 @@
 package org.rmj.guanzongroup.pacitareward.Adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,11 +36,13 @@ public class RecyclerViewAdapter_RecordDetails extends RecyclerView.Adapter<Recy
         String cPasRate = evaluationList.get(position).getcPasRatex();
         String scritera = evaluationList.get(position).getsRateName();
 
-        if (cPasRate.equals("0")){
-            holder.mtv_criteria.setText(scritera);
+        Log.d("RATE LIST SIZE", String.valueOf(evaluationList.size()));
+
+        holder.mtv_criteria.setText(scritera);
+
+       if (cPasRate.equals("0")){
             holder.siv_rate.setBackgroundResource(R.drawable.emoji_sad_svgrepo_com);
         } else if (cPasRate.equals("1")) {
-            holder.mtv_criteria.setText(scritera);
             holder.siv_rate.setBackgroundResource(R.drawable.emoji_laugh_svgrepo_com);
         }
     }
