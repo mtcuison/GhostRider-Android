@@ -31,10 +31,10 @@ public class VMBranchList extends AndroidViewModel {
         return poSys.GetBranchesList();
     }
     public void importCriteria(){
-        new importCriteriaTask().execute();
+        new ImportCriteriaTask().execute();
     }
 
-    private class importCriteriaTask extends AsyncTask<Void, Void, Boolean>{
+    private class ImportCriteriaTask extends AsyncTask<Void, Void, Boolean>{
 
         @Override
         protected Boolean doInBackground(Void... voids) {

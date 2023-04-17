@@ -30,12 +30,12 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/mtv_title"
+        android:id="@+id/mtv_branchname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/roboto"
         android:scrollHorizontally="false"
-        android:text="Branch Records"
+        android:text="Branch Details"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="@+id/shapeableImageView"
         app:layout_constraintEnd_toEndOf="parent"
@@ -63,11 +63,11 @@
                 android:id="@+id/txtv_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="List of Records"
+                android:text="List of Evaluations"
                 android:textSize="15sp"
-                android:textStyle="bold"
                 android:gravity="center"
-                android:paddingVertical="10dp"/>
+                android:paddingVertical="10dp"
+                android:textStyle="bold"/>
 
             <View
                 android:id="@+id/view"

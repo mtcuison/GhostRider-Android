@@ -69,7 +69,6 @@ public interface DPacita {
             "a.nRatingxx " +
             "FROM Pacita_Evaluation a " +
             "WHERE a.sBranchCD =:BranchCD " +
-            "AND a.cTranStat == '1' " +
             "ORDER BY a.dTransact DESC")
     LiveData<List<BranchRecords>> GetBranchRecords(String BranchCD);
 

@@ -3,6 +3,7 @@ package org.rmj.guanzongroup.pacitareward.Adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,15 +43,16 @@ public class RecyclerViewAdapter_BranchRate extends RecyclerView.Adapter<Recycle
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewHolder_BranchRate holder, int position) {
-            holder.item_question.setText(String.valueOf(position + 1) + ".  " + questionList.get(position).getsRateName());
+            holder.item_question.setText(String.valueOf(position + 1) + ".  " + questionList.get(holder.getAdapterPosition()).getsRateName());
 
+            Log.d("GET RATE ID", questionList.get(holder.getAdapterPosition()).getsRateIDxx().toString());
             holder.pass_btn.setOnClickListener(new View.OnClickListener() {
                 @SuppressLint("ResourceAsColor")
                 @Override
                 public void onClick(View v) {
                     holder.pass_btn.setBackgroundColor(R.color.cardview_shadow_start_color);
                     holder.fail_btn.setBackgroundColor(Color.TRANSPARENT);
-                    mListener.onItemSelect(questionList.get(position).getsRateIDxx().toString(), "1");
+                    mListener.onItemSelect(questionList.get(holder.getAdapterPosition()).getsRateIDxx().toString(), "1");
                 }
             });
 
@@ -60,7 +62,7 @@ public class RecyclerViewAdapter_BranchRate extends RecyclerView.Adapter<Recycle
             public void onClick(View v) {
                 holder.pass_btn.setBackgroundColor(Color.TRANSPARENT);
                 holder.fail_btn.setBackgroundColor(R.color.cardview_shadow_start_color);
-                mListener.onItemSelect(questionList.get(position).getsRateIDxx().toString(), "0");
+                mListener.onItemSelect(questionList.get(holder.getAdapterPosition()).getsRateIDxx().toString(), "0");
             }
         });
     }
