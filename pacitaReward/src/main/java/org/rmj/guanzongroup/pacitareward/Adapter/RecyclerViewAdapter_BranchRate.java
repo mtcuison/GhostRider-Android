@@ -19,17 +19,15 @@ public class RecyclerViewAdapter_BranchRate extends RecyclerView.Adapter<Recycle
 
     private List<BranchRate> questionList;
     private Context context;
-    private String transxNo;
     private onSelect mListener;
 
     public interface onSelect{
         void onItemSelect(String EntryNox, String result);
     }
 
-    public RecyclerViewAdapter_BranchRate(Context context, List<BranchRate> questionList, String transxNo, onSelect mListener){
+    public RecyclerViewAdapter_BranchRate(Context context, List<BranchRate> questionList, onSelect mListener){
         this.context = context;
         this.questionList = questionList;
-        this.transxNo = transxNo;
         this.mListener = mListener;
     }
 
@@ -43,16 +41,14 @@ public class RecyclerViewAdapter_BranchRate extends RecyclerView.Adapter<Recycle
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewHolder_BranchRate holder, int position) {
-            holder.item_question.setText(String.valueOf(position + 1) + ".  " + questionList.get(holder.getAdapterPosition()).getsRateName());
-
-            Log.d("GET RATE ID", questionList.get(holder.getAdapterPosition()).getsRateIDxx().toString());
+            holder.item_question.setText(String.valueOf(position + 1) + ".  " + questionList.get(position).getsRateName());
             holder.pass_btn.setOnClickListener(new View.OnClickListener() {
                 @SuppressLint("ResourceAsColor")
                 @Override
                 public void onClick(View v) {
                     holder.pass_btn.setBackgroundColor(R.color.cardview_shadow_start_color);
                     holder.fail_btn.setBackgroundColor(Color.TRANSPARENT);
-                    mListener.onItemSelect(String.valueOf(1), "1");
+                    mListener.onItemSelect(questionList.get(position).getsRateIDxx().toString(), "1");
                 }
             });
 
@@ -62,7 +58,7 @@ public class RecyclerViewAdapter_BranchRate extends RecyclerView.Adapter<Recycle
             public void onClick(View v) {
                 holder.pass_btn.setBackgroundColor(Color.TRANSPARENT);
                 holder.fail_btn.setBackgroundColor(R.color.cardview_shadow_start_color);
-                mListener.onItemSelect(String.valueOf(0).toString(), "0");
+                mListener.onItemSelect(questionList.get(position).getsRateIDxx().toString(), "0");
             }
         });
     }

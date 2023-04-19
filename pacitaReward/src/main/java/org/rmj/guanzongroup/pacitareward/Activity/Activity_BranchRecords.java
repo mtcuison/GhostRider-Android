@@ -10,13 +10,12 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.TextView;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.textview.MaterialTextView;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DPacita.BranchRecords;
-import org.rmj.g3appdriver.dev.Database.Entities.EPacitaEvaluation;
+import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.guanzongroup.pacitareward.Adapter.RecyclerViewAdapter_BranchRecord;
 import org.rmj.guanzongroup.pacitareward.R;
@@ -31,6 +30,8 @@ public class Activity_BranchRecords extends AppCompatActivity {
     private String intentDataBranchcd;
     private String intentDataBranchName;
     private MaterialTextView mtv_title;
+    private LoadDialog poLoad;
+    private MessageBox poMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +42,6 @@ public class Activity_BranchRecords extends AppCompatActivity {
         intentDataBranchName = getIntent().getStringArrayExtra("Branch")[1];
 
         mviewModel = new ViewModelProvider(this).get(VMBranchRecords.class);
-        mviewModel.initializeRecords(intentDataBranchcd);
 
         toolbar = findViewById(R.id.toolbar);
         mtv_title = findViewById(R.id.mtv_title);
@@ -61,35 +61,62 @@ public class Activity_BranchRecords extends AppCompatActivity {
 
         mtv_title.setText(intentDataBranchName);
 
-        MessageBox loadDialog = new MessageBox(Activity_BranchRecords.this);
-        loadDialog.initDialog();
-        loadDialog.setTitle("No Records");
-        loadDialog.setMessage("No records found for " + intentDataBranchName);
-        loadDialog.setPositiveButton("OK", new MessageBox.DialogButton() {
+        poLoad = new LoadDialog(Activity_BranchRecords.this);
+
+        poMessage = new MessageBox(Activity_BranchRecords.this);
+        poMessage.initDialog();
+        poMessage.setPositiveButton("OK", new MessageBox.DialogButton() {
             @Override
             public void OnButtonClick(View view, AlertDialog dialog) {
                 dialog.dismiss();
             }
         });
-        mviewModel.getBranchRecords(intentDataBranchcd).observe(Activity_BranchRecords.this, new Observer<List<BranchRecords>>() {
-            @Override
-            public void onChanged(List<BranchRecords> branchRecords) {
-                if (branchRecords.size() <= 0){
-                    loadDialog.show();
-                }
 
-                RecyclerViewAdapter_BranchRecord recyclerViewAdapterBranchRecord = new RecyclerViewAdapter_BranchRecord(
-                        Activity_BranchRecords.this, branchRecords, new RecyclerViewAdapter_BranchRecord.onSelectItem() {
+        mviewModel.initializeRecords(intentDataBranchcd, new VMBranchRecords.BranchRecordsCallBack() {
+            @Override
+            public void onInitialize(String message) {
+                poLoad.initDialog("Branch Records", message, false);
+                poLoad.show();
+            }
+
+            @Override
+            public void onSuccess(String message) {
+                mviewModel.getBranchRecords(intentDataBranchcd).observe(Activity_BranchRecords.this, new Observer<List<BranchRecords>>() {
                     @Override
-                    public void onItemSelected(String dtTransact) {
-                        Intent intent = new Intent(Activity_BranchRecords.this, Activity_BranchRecord_Details.class);
-                        intent.putExtra("Branch", new String[]{intentDataBranchcd, intentDataBranchName});
-                        startActivity(intent);
+                    public void onChanged(List<BranchRecords> branchRecords) {
+                        if (branchRecords.size() <= 0){
+                            poLoad.dismiss();
+                            poMessage.setTitle("No Records");
+                            poMessage.setMessage(message);
+                            poMessage.show();
+                            return;
+                        }
+
+                        RecyclerViewAdapter_BranchRecord recyclerViewAdapterBranchRecord = new RecyclerViewAdapter_BranchRecord(
+                                Activity_BranchRecords.this, branchRecords, new RecyclerViewAdapter_BranchRecord.onSelectItem() {
+                            @Override
+                            public void onItemSelected(String dtTransact) {
+                                Intent intent = new Intent(Activity_BranchRecords.this, Activity_BranchRecord_Details.class);
+                                intent.putExtra("Branch", new String[]{intentDataBranchcd, intentDataBranchName});
+                                startActivity(intent);
+                            }
+                        });
+
+                        branch_rec.setAdapter(recyclerViewAdapterBranchRecord);
+                        branch_rec.setLayoutManager(new LinearLayoutManager(Activity_BranchRecords.this));
+
+                        poLoad.dismiss();
                     }
                 });
+            }
 
-                branch_rec.setAdapter(recyclerViewAdapterBranchRecord);
-                branch_rec.setLayoutManager(new LinearLayoutManager(Activity_BranchRecords.this));
+            @Override
+            public void onError(String message) {
+                poLoad.dismiss();
+                poMessage.setTitle("Error Message");
+                poMessage.setMessage(message);
+                poMessage.show();
+                return;
             }
         });
     }

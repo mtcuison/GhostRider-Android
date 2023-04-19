@@ -2,18 +2,14 @@ package org.rmj.guanzongroup.pacitareward.ViewModel;
 
 import android.app.Application;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.loader.content.AsyncTaskLoader;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EPacitaEvaluation;
 import org.rmj.g3appdriver.dev.Database.Entities.EPacitaRule;
 import org.rmj.g3appdriver.lib.GawadPacita.Obj.Pacita;
-import org.rmj.g3appdriver.lib.GawadPacita.pojo.BranchRate;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 
 import java.util.List;
@@ -31,7 +27,8 @@ public class VMBranchRate extends AndroidViewModel {
     }
 
     public interface OnInitializeBranchEvaluationListener {
-        void OnInitialize(String transactNo);
+        void onInitialize(String message);
+        void OnSuccess(String transactNo, String message);
         void OnError(String message);
     }
 
@@ -51,17 +48,29 @@ public class VMBranchRate extends AndroidViewModel {
         }
 
         @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            message = "Loading Evaluations. Please wait . . .";
+            mListener.onInitialize(message);
+        }
+
+        @Override
         protected String doInBackground(String... branchcd) {
             String lsResult = poSys.InitializePacitaEvaluation(branchcd[0]);
-            if(!poConnection.isDeviceConnected()){
-                message = poConnection.getMessage();
-                return null;
-            }
-            if(lsResult == null){
+            try{
                 message = poSys.getMessage();
-                return null;
-            }
 
+                if(!poConnection.isDeviceConnected()){
+                    message = poConnection.getMessage();
+                    return null;
+                }
+                if(lsResult == null){
+                    message = poSys.getMessage();
+                    return null;
+                }
+            }catch (Exception e){
+                message = e.getMessage();
+            }
             return lsResult;
         }
 
@@ -71,7 +80,7 @@ public class VMBranchRate extends AndroidViewModel {
             if(result == null){
                 mListener.OnError(message);
             } else {
-                mListener.OnInitialize(result);
+                mListener.OnSuccess(result, message);
             }
         }
     }
