@@ -3,9 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
     android:orientation="vertical"
-    android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
     tools:context=".Activities.Activity_PersonalInfo">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -170,9 +168,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:imeOptions="actionDone"
-                    android:inputType="textPersonName|textCapWords"
-                    android:maxLength="100"
-                    android:padding="16dp" />
+                    android:inputType="textCapWords|textAutoComplete"
+                    style="@style/AutoCompleteStyleTheme" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textview.MaterialTextView
