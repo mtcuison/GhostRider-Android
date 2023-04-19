@@ -17,14 +17,14 @@ import com.google.android.material.textview.MaterialTextView;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EPacitaEvaluation;
 import org.rmj.g3appdriver.dev.Database.Entities.EPacitaRule;
+import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.lib.GawadPacita.Obj.Pacita;
 import org.rmj.g3appdriver.lib.GawadPacita.Obj.PacitaRule;
 import org.rmj.g3appdriver.lib.GawadPacita.pojo.BranchRate;
 import org.rmj.guanzongroup.pacitareward.Adapter.RecyclerViewAdapter_RecordDetails;
 import org.rmj.guanzongroup.pacitareward.R;
-import org.rmj.guanzongroup.pacitareward.ViewModel.VMBranchRate;
 import org.rmj.guanzongroup.pacitareward.ViewModel.VMBranchRecordDetails;
+import org.rmj.guanzongroup.pacitareward.ViewModel.VMBranchRecordDetails.BranchRecordDetailsCallBack;
 
 import java.util.List;
 
@@ -32,12 +32,11 @@ public class Activity_BranchRecord_Details extends AppCompatActivity {
     private MaterialToolbar toolbar;
     private MaterialTextView mtv_branchname;
     private VMBranchRecordDetails mViewModel;
-    private MessageBox loadDialog;
     private String intentDataBranchcd;
     private String intentDataBranchName;
     private RecyclerView branch_rec;
-    private String dialogTitle;
-    private String dialogMessage;
+    private LoadDialog poLoad;
+    private MessageBox poMessage;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,11 +45,11 @@ public class Activity_BranchRecord_Details extends AppCompatActivity {
 
         mViewModel = new ViewModelProvider(this).get(VMBranchRecordDetails.class);
 
-        loadDialog = new MessageBox(Activity_BranchRecord_Details.this);
-        loadDialog.initDialog();
-        loadDialog.setTitle(dialogTitle);
-        loadDialog.setMessage(dialogMessage);
-        loadDialog.setPositiveButton("OK", new MessageBox.DialogButton() {
+        poLoad = new LoadDialog(Activity_BranchRecord_Details.this);
+
+        poMessage = new MessageBox(Activity_BranchRecord_Details.this);
+        poMessage.initDialog();
+        poMessage.setPositiveButton("OK", new MessageBox.DialogButton() {
             @Override
             public void OnButtonClick(View view, AlertDialog dialog) {
                 dialog.dismiss();
@@ -78,43 +77,69 @@ public class Activity_BranchRecord_Details extends AppCompatActivity {
 
         mtv_branchname.setText(intentDataBranchName);
 
-        mViewModel.onEvaluationRecords(intentDataBranchcd);
-        mViewModel.getBranchEvaluation(intentDataBranchcd).observe(Activity_BranchRecord_Details.this, new Observer<EPacitaEvaluation>() {
+        mViewModel.onEvaluationRecords(intentDataBranchcd, new BranchRecordDetailsCallBack() {
             @Override
-            public void onChanged(EPacitaEvaluation ePacitaEvaluation) {
-                if(ePacitaEvaluation == null){
-                    dialogTitle = "No Records";
-                    dialogMessage = "No records found for branch " + intentDataBranchName;
-                    loadDialog.show();
-                    return;
-                }
+            public void onInitialize(String message) {
+                poLoad.initDialog("Record Details", message, false);
+            }
 
-                mViewModel.GetCriteria().observe(Activity_BranchRecord_Details.this, new Observer<List<EPacitaRule>>() {
+            @Override
+            public void onSuccess(String message, String transactNo) {
+                Log.d("TRANSACTION NUMBER BA TO?", transactNo);
+                mViewModel.getBranchEvaluation(transactNo).observe(Activity_BranchRecord_Details.this, new Observer<EPacitaEvaluation>() {
                     @Override
-                    public void onChanged(List<EPacitaRule> ePacitaRules) {
-                        if(ePacitaRules == null){
-                            dialogTitle = "No Records";
-                            dialogMessage = "No Pacita Rules found";
-                            loadDialog.show();
-                            return;
-                        }
-                        if(ePacitaRules.size() == 0){
-                            dialogTitle = "No Records";
-                            dialogMessage = "No Pacita Rules found";
-                            loadDialog.show();
+                    public void onChanged(EPacitaEvaluation ePacitaEvaluation) {
+                        if(ePacitaEvaluation == null){
+                            poLoad.dismiss();
+                            poMessage.setTitle("No Records");
+                            poMessage.setMessage("No records found for branch " + intentDataBranchName);
+                            poMessage.show();
                             return;
                         }
 
-                        String lsPayload = ePacitaEvaluation.getPayloadx();
-                        List<BranchRate> loRate = PacitaRule.ParseBranchRate(lsPayload, ePacitaRules);
-                        Log.d("LIST OF DETAILS", String.valueOf(loRate));
+                        mViewModel.GetCriteria().observe(Activity_BranchRecord_Details.this, new Observer<List<EPacitaRule>>() {
+                            @Override
+                            public void onChanged(List<EPacitaRule> ePacitaRules) {
+                                if(ePacitaRules == null){
+                                    poLoad.dismiss();
+                                    poMessage.setTitle("No Records");
+                                    poMessage.setMessage("No Pacita Rules found for branch " + intentDataBranchName);
+                                    poMessage.show();
+                                    return;
+                                }
+                                if(ePacitaRules.size() <= 0){
+                                    poLoad.dismiss();
+                                    poMessage.setTitle("No Records");
+                                    poMessage.setMessage("No Pacita Rules found for branch " + intentDataBranchName);
+                                    poMessage.show();
+                                    return;
+                                }
 
-                        RecyclerViewAdapter_RecordDetails recyclerViewAdapter_recordDetails =
+                                String lsPayload = ePacitaEvaluation.getPayloadx();
+                                List<BranchRate> loRate = PacitaRule.ParseBranchRate(lsPayload, ePacitaRules);
+
+                                Log.d("LIST OF DETAILS ", String.valueOf(loRate.size()));
+
+                                RecyclerViewAdapter_RecordDetails recyclerViewAdapter_recordDetails =
                                         new RecyclerViewAdapter_RecordDetails(Activity_BranchRecord_Details.this, loRate);
-                        branch_rec.setAdapter(recyclerViewAdapter_recordDetails);
-                        branch_rec.setLayoutManager(new LinearLayoutManager(Activity_BranchRecord_Details.this, RecyclerView.VERTICAL, false));
+                                branch_rec.setAdapter(recyclerViewAdapter_recordDetails);
+                                branch_rec.setLayoutManager(new LinearLayoutManager(Activity_BranchRecord_Details.this, RecyclerView.VERTICAL, false));
+
+                                poLoad.dismiss();
+                            }
+                        });
                     }
                 });
+
+            }
+
+            @Override
+            public void onError(String message) {
+                poLoad.dismiss();
+
+                poMessage.setTitle("Transaction Result");
+                poMessage.setMessage(message);
+                poMessage.show();
             }
         });
     }

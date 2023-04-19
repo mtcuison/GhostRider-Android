@@ -128,6 +128,7 @@ public class Activity_Branch_Rate extends AppCompatActivity {
                                         mViewModel.setEvaluationResult(transactNo, EntryNox, result);
                                     }
                                 });
+
                                 rate_list.setAdapter(viewAdapter);
                                 rate_list.setLayoutManager(new LinearLayoutManager(Activity_Branch_Rate.this, LinearLayoutManager.VERTICAL, false));
 
@@ -140,38 +141,42 @@ public class Activity_Branch_Rate extends AppCompatActivity {
                 btn_submit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mViewModel.saveBranchRatings(transactNo, new VMBranchRate.BranchRatingsCallback() {
-                            @Override
-                            public void onSave(String title, String message) {
-                                poLoad.initDialog(title, message, false);
-                                poLoad.show();
-                            }
+                        if (!transactNo.isEmpty()){
+                            mViewModel.saveBranchRatings(transactNo, new VMBranchRate.BranchRatingsCallback() {
+                                @Override
+                                public void onSave(String title, String message) {
+                                    poLoad.initDialog(title, message, false);
+                                    poLoad.show();
+                                }
 
-                            @Override
-                            public void onSuccess(String message) {
-                                poLoad.dismiss();
-                                poMessage.setTitle("Success Saving Application");
-                                poMessage.setMessage(message);
-                                poMessage.show();
-                            }
+                                @Override
+                                public void onSuccess(String message) {
+                                    poLoad.dismiss();
+                                    poMessage.setTitle("Success Saving Application");
+                                    poMessage.setMessage(message);
+                                    poMessage.show();
+                                }
 
-                            @Override
-                            public void onFailed(String message) {
-                                poLoad.dismiss();
-                                poMessage.setTitle("Error Saving Application");
-                                poMessage.setMessage(message);
-                                poMessage.show();
-                            }
-                        });
+                                @Override
+                                public void onFailed(String message) {
+                                    poLoad.dismiss();
+                                    poMessage.setTitle("Error Saving Application");
+                                    poMessage.setMessage(message);
+                                    poMessage.show();
+                                }
+                            });
+                        }
                     }
                 });
             }
             @Override
             public void OnError(String message) {
                 poLoad.dismiss();
-                poMessage.setTitle("Message Error");
+                poMessage.setTitle("Transaction Result");
                 poMessage.setMessage(message);
                 poMessage.show();
+
+                btn_submit.setEnabled(false);
             }
         });
     }
