@@ -27,6 +27,9 @@ public interface DPacita {
     @Update
     void Update(EPacitaEvaluation foVal);
 
+    @Query("UPDATE Pacita_Evaluation SET cTranStat = 1, sTransNox =:NextCde WHERE sTransNox=:transNo")
+    void UpdatePosted(String transNo, String NextCde);
+
     @Query("SELECT * FROM Pacita_Rule")
     LiveData<List<EPacitaRule>> GetPacitaRules();
 
@@ -45,7 +48,7 @@ public interface DPacita {
     @Query("SELECT * FROM Pacita_Evaluation WHERE sTransNox=:args")
     EPacitaEvaluation GetEvaluationForPosting(String args);
 
-    @Query("SELECT * FROM Pacita_Evaluation WHERE sTransNox=:BranchCd ORDER BY dTransact DESC LIMIT 1")
+    @Query("SELECT * FROM Pacita_Evaluation WHERE sBranchCD=:BranchCd ORDER BY dTransact DESC LIMIT 1")
     EPacitaEvaluation GetEvaluationForInitialization(String BranchCd);
 
     @Query("SELECT * FROM Branch_Info")
@@ -61,6 +64,7 @@ public interface DPacita {
     String GetUserID();
 
     @Query("SELECT " +
+            "a.sTransNox, " +
             "a.dTransact, " +
             "a.nRatingxx " +
             "FROM Pacita_Evaluation a " +
@@ -69,6 +73,7 @@ public interface DPacita {
     LiveData<List<BranchRecords>> GetBranchRecords(String BranchCD);
 
     class BranchRecords{
+        public String sTransNox;
         public String dTransact;
         public String nRatingxx;
     }
