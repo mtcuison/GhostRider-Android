@@ -171,7 +171,7 @@ public class Pacita {
                 JSONObject loJson = laJson.getJSONObject(x);
 
                 String lsTransNox = loJson.getString("sTransNox");
-                EPacitaEvaluation loDetail = poDao.GetEvaluationForInitialization(lsTransNox);
+                EPacitaEvaluation loDetail = poDao.CheckEvaulationRecord(lsTransNox);
 
                 if(loDetail == null){
 
