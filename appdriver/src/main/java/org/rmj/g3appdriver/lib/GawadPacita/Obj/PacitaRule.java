@@ -28,6 +28,36 @@ public class PacitaRule {
                                 loRule.getFieldNmx(),
                                 loJson.getString("xRatingxx"));
                         loBranch.add(loRate);
+                        break;
+                    }
+                }
+            }
+
+            return loBranch;
+        } catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static List<BranchRate> ParseCriteria(String PayLoad, List<EPacitaRule> Rules){
+        try{
+            List<BranchRate> loBranch = new ArrayList<>();
+            JSONArray laJson = new JSONArray(PayLoad);
+            for(int x = 0; x < laJson.length(); x++){
+
+                for(int i = 0; i < Rules.size(); i++) {
+                    EPacitaRule loRule = Rules.get(i);
+                    JSONObject loJson = laJson.getJSONObject(x);
+                    int lnEntryNo = loJson.getInt("nEntryNox");
+
+                    if(lnEntryNo == loRule.getEntryNox()) {
+                        BranchRate loRate = new BranchRate(
+                                loJson.getInt("nEntryNox"),
+                                loRule.getFieldNmx(),
+                                loJson.getString("xRatingxx"));
+                        loBranch.add(loRate);
+                        break;
                     }
                 }
             }

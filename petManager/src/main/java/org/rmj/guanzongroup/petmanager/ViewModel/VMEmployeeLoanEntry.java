@@ -3,6 +3,7 @@ package org.rmj.guanzongroup.petmanager.ViewModel;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
@@ -14,6 +15,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import org.rmj.g3appdriver.lib.EmployeeLoan.Obj.EmployeeLoan;
 import org.rmj.g3appdriver.lib.EmployeeLoan.pojo.LoanApplication;
 import org.rmj.g3appdriver.lib.EmployeeLoan.pojo.LoanType;
+import org.rmj.g3appdriver.lib.EmployeeLoan.pojo.LoanTerm;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -30,6 +32,9 @@ public class VMEmployeeLoanEntry extends AndroidViewModel{
         super(application);
         this.poSys = new EmployeeLoan(application);
     }
+    public List<LoanType> GetLoanTypes(){
+        return poSys.GetLoanTypes();
+    }
     public ArrayAdapter<String> getLoanTypeListAdapter(){
         ArrayList<String> loTypes = new ArrayList<>(); //declare an array type
 
@@ -44,8 +49,23 @@ public class VMEmployeeLoanEntry extends AndroidViewModel{
 
         return loAdapter;
     }
-    public List<LoanType> GetLoanTypes(){
-        return poSys.GetLoanTypes();
+    public List<LoanTerm> getTermsList(){
+        return poSys.GetLoanTerm();
+    }
+    public  ArrayAdapter<String> getTermsListAdapter(){
+        ArrayList<String> loTerms = new ArrayList<>(); //declare an array type
+
+        //create a for loop that scans the list value and store to array object
+        for(int x= 0; x < getTermsList().size(); x++){
+            LoanTerm loTerm = getTermsList().get(x);
+            loTerms.add(loTerm.getsLoanTerm());
+        }
+
+        ArrayAdapter<String> loAdapter = new ArrayAdapter<>(
+                context, android.R.layout.simple_dropdown_item_1line,
+                loTerms.toArray(new String[0]));
+
+        return loAdapter;
     }
     public Boolean validateAmtFormat(String format, String inputAmt){
         Boolean matchFormat = null;
@@ -80,9 +100,8 @@ public class VMEmployeeLoanEntry extends AndroidViewModel{
         }
         return currtext;
     }
-    public String computeTotalAmt(String sloanAmt, String sintrstAmt, String sfirstPay, String sterms, String returnAmt){
+    public String computeTotalAmt(String sloanAmt, String sfirstPay, String sterms, String returnAmt){
         double loanAmt = 0.00;
-        double intrstAmt = 0.00;
         double firstPay = 0.00;
         int terms = 0;
 
@@ -90,10 +109,6 @@ public class VMEmployeeLoanEntry extends AndroidViewModel{
 
         if (!sloanAmt.isEmpty() && !sloanAmt.equals("")){
             loanAmt = Double.parseDouble(sloanAmt);
-        }
-
-        if (!sintrstAmt.isEmpty() && !sintrstAmt.equals("")){
-            intrstAmt = Double.parseDouble(sintrstAmt);
         }
 
         if (!sfirstPay.isEmpty() && !sfirstPay.equals("")){
@@ -104,25 +119,19 @@ public class VMEmployeeLoanEntry extends AndroidViewModel{
             terms = Integer.parseInt(sterms);
         }
 
-        //INTEREST RATE / 100 * loan amount
-        double totalIntrst = (intrstAmt / 100) * loanAmt;
-
         //TOTAL BALANCE: (LOAN - FIRST PAY) + TOTAL INTEREST
-        double totalBalance = (loanAmt - firstPay) + totalIntrst;
-
-        //INTEREST PER MONTH: rate / terms
-        double intrstPerMonth = intrstAmt / terms; //get interest monthly
+        double totalBalance = (loanAmt - firstPay);
 
         //LOAN PER MONTH: (loan total - first payment) + total interest / terms
         double monthlyPayment = totalBalance / terms; //get loan monthly
 
         //TOTAL MONTHLY PAYMENT: monthly payment + interest per month
-        double totalPayperMonth = (monthlyPayment + intrstPerMonth); //sum total payment monthly
+        double totalPayperMonth = (monthlyPayment); //sum total payment monthly
 
         if(returnAmt.equals("balance")){ //return total loan balance
             sreturnCompAmt = new DecimalFormat("#,###.00").format(totalBalance);
         }else if (returnAmt.equals("interest")) { //return total interest
-            sreturnCompAmt = new DecimalFormat("#,###.00").format(totalIntrst / terms);
+            //sreturnCompAmt = new DecimalFormat("#,###.00").format(totalIntrst / terms);
         }else if (returnAmt.equals("amort")) { //return total payment per month
             sreturnCompAmt = new DecimalFormat("#,###.00").format(totalPayperMonth);
         }
@@ -147,7 +156,7 @@ public class VMEmployeeLoanEntry extends AndroidViewModel{
         }
         return output;
     }
-    public Boolean SaveLoanApplication(String sloanType, String sloanAmt, String sIntrst, String sfirstPay, String sTerms, LoanApplication loApp){
+    public Boolean SaveLoanApplication(String sloanType, String sloanAmt, String sfirstPay, String sTerms, LoanApplication loApp){
         Boolean res = true;
 
         if (sloanType.trim().isEmpty() == true) {
@@ -156,11 +165,10 @@ public class VMEmployeeLoanEntry extends AndroidViewModel{
         }
         //VALIDATE AMOUNT FORMAT FROM TEXTFIELD
         Boolean loanAmtFormat = validateAmtFormat("decimal", sloanAmt);
-        Boolean interestAmtFormat = validateAmtFormat("decimal", sIntrst);
         Boolean firstpayAmtFormat = validateAmtFormat("decimal", sfirstPay);
         Boolean termsAmtFormat = validateAmtFormat("integer", sTerms);
 
-        if(loanAmtFormat == false || interestAmtFormat == false || firstpayAmtFormat == false || termsAmtFormat == false){
+        if(loanAmtFormat == false || firstpayAmtFormat == false || termsAmtFormat == false){
             Toast.makeText(context, "Invalid Amount Format", Toast.LENGTH_SHORT).show();
             res = false;
         }

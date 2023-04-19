@@ -64,6 +64,7 @@ public interface DPacita {
     String GetUserID();
 
     @Query("SELECT " +
+            "a.sTransNox, " +
             "a.dTransact, " +
             "a.nRatingxx " +
             "FROM Pacita_Evaluation a " +
@@ -73,6 +74,7 @@ public interface DPacita {
     LiveData<List<BranchRecords>> GetBranchRecords(String BranchCD);
 
     class BranchRecords{
+        public String sTransNox;
         public String dTransact;
         public String nRatingxx;
     }

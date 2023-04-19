@@ -17,7 +17,7 @@ import android.content.Intent;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Browser;
 import org.rmj.guanzongroup.ghostrider.dataChecker.Activity.Activity_DB_Explorer;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
-import org.rmj.guanzongroup.pacitareward.Activity_Branch_Rate;
+import org.rmj.guanzongroup.pacitareward.Activity.Activity_BranchList;
 import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_DigitalGcard;
 
 public class ParentObject {
@@ -99,7 +99,7 @@ public class ParentObject {
                 break;
 
             case "pacita reward":
-                loIntent = new Intent(context, Activity_Branch_Rate.class);
+                loIntent = new Intent(context, Activity_BranchList.class);
                 break;
             default:
                 loIntent = null;
