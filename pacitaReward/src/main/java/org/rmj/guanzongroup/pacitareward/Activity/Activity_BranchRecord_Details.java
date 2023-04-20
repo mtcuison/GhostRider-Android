@@ -34,6 +34,7 @@ public class Activity_BranchRecord_Details extends AppCompatActivity {
     private VMBranchRecordDetails mViewModel;
     private String intentDataBranchcd;
     private String intentDataBranchName;
+    private String intentDataTransactNo;
     private RecyclerView branch_rec;
     private LoadDialog poLoad;
     private MessageBox poMessage;
@@ -56,8 +57,9 @@ public class Activity_BranchRecord_Details extends AppCompatActivity {
             }
         });
 
-        intentDataBranchcd = getIntent().getStringArrayExtra("Branch")[0];
-        intentDataBranchName = getIntent().getStringArrayExtra("Branch")[1];
+        intentDataBranchcd = getIntent().getStringExtra("Branch Code");
+        intentDataBranchName = getIntent().getStringExtra("Branch Name");
+        intentDataTransactNo = getIntent().getStringExtra("Transaction No");
 
         toolbar = findViewById(R.id.toolbar);
         branch_rec = findViewById(R.id.branch_rec);
@@ -81,12 +83,12 @@ public class Activity_BranchRecord_Details extends AppCompatActivity {
             @Override
             public void onInitialize(String message) {
                 poLoad.initDialog("Record Details", message, false);
+                poLoad.show();
             }
 
             @Override
-            public void onSuccess(String message, String transactNo) {
-                Log.d("TRANSACTION NUMBER BA TO?", transactNo);
-                mViewModel.getBranchEvaluation(transactNo).observe(Activity_BranchRecord_Details.this, new Observer<EPacitaEvaluation>() {
+            public void onSuccess(String message) {
+                mViewModel.getBranchEvaluation(intentDataTransactNo).observe(Activity_BranchRecord_Details.this, new Observer<EPacitaEvaluation>() {
                     @Override
                     public void onChanged(EPacitaEvaluation ePacitaEvaluation) {
                         if(ePacitaEvaluation == null){
@@ -117,8 +119,6 @@ public class Activity_BranchRecord_Details extends AppCompatActivity {
 
                                 String lsPayload = ePacitaEvaluation.getPayloadx();
                                 List<BranchRate> loRate = PacitaRule.ParseBranchRate(lsPayload, ePacitaRules);
-
-                                Log.d("LIST OF DETAILS ", String.valueOf(loRate.size()));
 
                                 RecyclerViewAdapter_RecordDetails recyclerViewAdapter_recordDetails =
                                         new RecyclerViewAdapter_RecordDetails(Activity_BranchRecord_Details.this, loRate);

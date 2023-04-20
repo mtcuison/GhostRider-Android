@@ -39,8 +39,8 @@ public class Activity_BranchRecords extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_branch_records);
 
-        intentDataBranchcd = getIntent().getStringArrayExtra("Branch")[0];
-        intentDataBranchName = getIntent().getStringArrayExtra("Branch")[1];
+        intentDataBranchcd = getIntent().getStringExtra("Branch Code");
+        intentDataBranchName = getIntent().getStringExtra("Branch Name");
 
         mviewModel = new ViewModelProvider(this).get(VMBranchRecords.class);
 
@@ -96,9 +96,11 @@ public class Activity_BranchRecords extends AppCompatActivity {
                         RecyclerViewAdapter_BranchRecord recyclerViewAdapterBranchRecord = new RecyclerViewAdapter_BranchRecord(
                                 Activity_BranchRecords.this, branchRecords, new RecyclerViewAdapter_BranchRecord.onSelectItem() {
                             @Override
-                            public void onItemSelected(String dtTransact) {
+                            public void onItemSelected(String transactNox) {
                                 Intent intent = new Intent(Activity_BranchRecords.this, Activity_BranchRecord_Details.class);
-                                intent.putExtra("Branch", new String[]{intentDataBranchcd, intentDataBranchName});
+                                intent.putExtra("Branch Code", intentDataBranchcd);
+                                intent.putExtra("Branch Name", intentDataBranchName);
+                                intent.putExtra("Transaction No", transactNox);
                                 startActivity(intent);
                             }
                         });

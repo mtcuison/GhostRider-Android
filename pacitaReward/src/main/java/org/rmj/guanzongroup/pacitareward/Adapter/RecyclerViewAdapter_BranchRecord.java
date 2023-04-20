@@ -25,7 +25,7 @@ public class RecyclerViewAdapter_BranchRecord extends RecyclerView.Adapter<Recyc
     }
 
     public interface onSelectItem {
-        void onItemSelected(String dtTransact);
+        void onItemSelected(String transactNox);
     }
 
     @NonNull
@@ -41,8 +41,8 @@ public class RecyclerViewAdapter_BranchRecord extends RecyclerView.Adapter<Recyc
         holder.mtvrecord_date.setText(branchRecords.get(position).dTransact);
         holder.mtvrecord_rate.setText(branchRecords.get(position).nRatingxx);
 
-        holder.mtvrecord_date.setOnClickListener(v -> mlistener.onItemSelected(branchRecords.get(position).dTransact));
-        holder.mtvrecord_rate.setOnClickListener(v -> mlistener.onItemSelected(branchRecords.get(position).dTransact));
+        holder.mtvrecord_date.setOnClickListener(v -> mlistener.onItemSelected(branchRecords.get(position).sTransNox));
+        holder.mtvrecord_rate.setOnClickListener(v -> mlistener.onItemSelected(branchRecords.get(position).sTransNox));
     }
 
     @Override

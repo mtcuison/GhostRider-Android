@@ -28,7 +28,7 @@ public class VMBranchRecordDetails extends AndroidViewModel {
 
     public interface BranchRecordDetailsCallBack{
         void onInitialize(String message);
-        void onSuccess(String message, String transactNo);
+        void onSuccess(String message);
         void onError(String message);
     }
     public LiveData<List<EPacitaRule>> GetCriteria(){
@@ -41,7 +41,7 @@ public class VMBranchRecordDetails extends AndroidViewModel {
         new EvaluationRecordDetails(mListener).execute(sBranchcd);
     }
 
-    public class EvaluationRecordDetails extends AsyncTask<String, Void, String>{
+    public class EvaluationRecordDetails extends AsyncTask<String, Void, Boolean>{
         private BranchRecordDetailsCallBack mListener;
         private EvaluationRecordDetails(BranchRecordDetailsCallBack mListener){
             this.mListener = mListener;
@@ -53,32 +53,27 @@ public class VMBranchRecordDetails extends AndroidViewModel {
             mListener.onInitialize("Loading Branch Record Details. Please wait . . .");
         }
         @Override
-        protected String doInBackground(String... branchCD) {
-            Log.d("BRANCHCODE", branchCD[0]);
+        protected Boolean doInBackground(String... branchCD) {
             String lsResult = posys.InitializePacitaEvaluation(branchCD[0]);
 
             if(!poConn.isDeviceConnected()){
                 message = poConn.getMessage();
-                return message;
+                return false;
             }
-            /*if (!posys.ImportPacitaEvaluations(branchCD[0])){
+            if (!posys.ImportPacitaEvaluations(branchCD[0])){
                 message = posys.getMessage();
-                return message;
-            }*/
-            if (lsResult == null){
-                message = posys.getMessage();
-                return message;
+                return false;
             }
-            return lsResult;
+            return true;
         }
         @Override
-        protected void onPostExecute(String result) {
+        protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
 
-            if (result == null){
+            if (result == false){
                 mListener.onError(message);
             }else {
-                mListener.onSuccess(message, result);
+                mListener.onSuccess(message);
             }
         }
     }

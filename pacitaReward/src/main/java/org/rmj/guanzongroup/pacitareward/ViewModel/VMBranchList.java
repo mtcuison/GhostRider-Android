@@ -34,6 +34,7 @@ public class VMBranchList extends AndroidViewModel {
         new ImportCriteriaTask().execute();
     }
 
+
     private class ImportCriteriaTask extends AsyncTask<Void, Void, Boolean>{
 
         @Override

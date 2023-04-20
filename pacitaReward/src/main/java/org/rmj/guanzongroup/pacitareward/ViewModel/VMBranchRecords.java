@@ -63,7 +63,6 @@ public class VMBranchRecords extends AndroidViewModel {
                 message = posys.getMessage();
                 return false;
             }
-
             return true;
         }
 

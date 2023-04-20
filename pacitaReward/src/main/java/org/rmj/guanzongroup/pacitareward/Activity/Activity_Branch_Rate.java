@@ -59,8 +59,8 @@ public class Activity_Branch_Rate extends AppCompatActivity {
             }
         });
 
-        intentDataBranchcd = getIntent().getStringArrayExtra("Branch")[0];
-        intentDataBranchName = getIntent().getStringArrayExtra("Branch")[1];
+        intentDataBranchcd = getIntent().getStringExtra("Branch Code");
+        intentDataBranchName = getIntent().getStringExtra("Branch Name");
 
         toolbar = findViewById(R.id.toolbar);
         rate_list = findViewById(R.id.rate_list);
@@ -101,6 +101,7 @@ public class Activity_Branch_Rate extends AppCompatActivity {
                             poMessage.show();
                             return;
                         }
+                        ePacitaEvaluation.setTransNox(transactNo);
                         mViewModel.GetCriteria().observe(Activity_Branch_Rate.this, new Observer<List<EPacitaRule>>() {
                             @Override
                             public void onChanged(List<EPacitaRule> ePacitaRules) {
