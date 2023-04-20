@@ -16,13 +16,13 @@ public class PacitaRule {
             List<BranchRate> loBranch = new ArrayList<>();
             JSONArray laJson = new JSONArray(PayLoad);
             for(int x = 0; x < laJson.length(); x++){
+                JSONObject loJson = laJson.getJSONObject(x);
+                int lnEntryNo = loJson.getInt("nEntryNox");
 
                 for(int i = 0; i < Rules.size(); i++) {
                     EPacitaRule loRule = Rules.get(i);
-                    JSONObject loJson = laJson.getJSONObject(x);
-                    int lnEntryNo = loJson.getInt("nEntryNox");
 
-                    if(lnEntryNo == Rules.get(x).getEntryNox()) {
+                    if(lnEntryNo == Rules.get(i).getEntryNox()) {
                         BranchRate loRate = new BranchRate(
                                 loJson.getInt("nEntryNox"),
                                 loRule.getFieldNmx(),
@@ -45,10 +45,10 @@ public class PacitaRule {
             List<BranchRate> loBranch = new ArrayList<>();
             JSONArray laJson = new JSONArray(PayLoad);
             for(int x = 0; x < laJson.length(); x++){
+                JSONObject loJson = laJson.getJSONObject(x);
 
                 for(int i = 0; i < Rules.size(); i++) {
                     EPacitaRule loRule = Rules.get(i);
-                    JSONObject loJson = laJson.getJSONObject(x);
                     int lnEntryNo = loJson.getInt("nEntryNox");
 
                     if(lnEntryNo == loRule.getEntryNox()) {

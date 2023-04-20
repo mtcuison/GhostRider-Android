@@ -215,7 +215,12 @@ public class Pacita {
 
     public boolean UpdateBranchRate(String TransNox, int EntryNox, String Result){
         try{
-            EPacitaEvaluation loDetail = poDao.GetEvaluationForInitialization(TransNox);
+            EPacitaEvaluation loDetail = poDao.CheckEvaulationRecord(TransNox);
+
+            if(loDetail == null){
+                message = "Unable to rate branch. No record found to update. Please try restarting the app.";
+                return false;
+            }
 
             String lsPayload = loDetail.getPayloadx();
 
