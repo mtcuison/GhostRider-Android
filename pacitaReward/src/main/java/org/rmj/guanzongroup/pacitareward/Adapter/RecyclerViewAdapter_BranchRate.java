@@ -46,8 +46,6 @@ public class RecyclerViewAdapter_BranchRate extends RecyclerView.Adapter<Recycle
                 @SuppressLint("ResourceAsColor")
                 @Override
                 public void onClick(View v) {
-                    holder.pass_btn.setBackgroundColor(R.color.cardview_shadow_start_color);
-                    holder.fail_btn.setBackgroundColor(Color.TRANSPARENT);
                     mListener.onItemSelect(questionList.get(position).getsRateIDxx().toString(), "1");
                 }
             });
@@ -56,11 +54,17 @@ public class RecyclerViewAdapter_BranchRate extends RecyclerView.Adapter<Recycle
             @SuppressLint("ResourceAsColor")
             @Override
             public void onClick(View v) {
-                holder.pass_btn.setBackgroundColor(Color.TRANSPARENT);
-                holder.fail_btn.setBackgroundColor(R.color.cardview_shadow_start_color);
                 mListener.onItemSelect(questionList.get(position).getsRateIDxx().toString(), "0");
             }
         });
+
+        if(questionList.get(position).getcPasRatex().equalsIgnoreCase("1")){
+            holder.pass_btn.setBackgroundColor(Color.GRAY);
+            holder.pass_btn.setSelected(true);
+        } else if(questionList.get(position).getcPasRatex().equalsIgnoreCase("0")){
+            holder.pass_btn.setBackgroundColor(Color.GRAY);
+            holder.fail_btn.setSelected(true);;
+        }
     }
 
     @Override

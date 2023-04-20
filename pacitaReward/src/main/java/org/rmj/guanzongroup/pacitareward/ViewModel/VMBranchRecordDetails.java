@@ -54,14 +54,8 @@ public class VMBranchRecordDetails extends AndroidViewModel {
         }
         @Override
         protected Boolean doInBackground(String... branchCD) {
-            String lsResult = posys.InitializePacitaEvaluation(branchCD[0]);
-
             if(!poConn.isDeviceConnected()){
                 message = poConn.getMessage();
-                return false;
-            }
-            if (!posys.ImportPacitaEvaluations(branchCD[0])){
-                message = posys.getMessage();
                 return false;
             }
             return true;

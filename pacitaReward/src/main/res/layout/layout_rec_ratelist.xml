@@ -31,6 +31,8 @@
         <com.google.android.material.button.MaterialButtonToggleGroup
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:singleSelection="true"
+            app:selectionRequired="true"
             android:orientation="horizontal">
 
             <com.google.android.material.button.MaterialButton
@@ -40,6 +42,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Pass"
+                app:toggleCheckedStateOnClick="true"
                 app:icon="@drawable/emoji_laugh_svgrepo_com"
                 app:iconGravity="start"
                 app:iconPadding="5dp"
@@ -52,6 +55,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Fail"
+                app:toggleCheckedStateOnClick="true"
                 app:icon="@drawable/emoji_sad_svgrepo_com"
                 app:iconGravity="start"
                 app:iconPadding="5dp"
@@ -71,7 +75,8 @@
             android:layout_height="wrap_content"
             android:text="Please Leave A Comment"
             android:layout_gravity="center"
-            android:textAlignment="center"/>
+            android:textAlignment="center"
+            android:visibility="gone"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -84,7 +89,8 @@
                 android:hint="Type a comment here . . ."
                 app:layout_constraintWidth_percent="0.90"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
+                app:layout_constraintEnd_toEndOf="parent"
+                android:visibility="gone">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"

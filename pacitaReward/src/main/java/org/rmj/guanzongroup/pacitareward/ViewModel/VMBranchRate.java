@@ -60,10 +60,6 @@ public class VMBranchRate extends AndroidViewModel {
             try{
                 message = poSys.getMessage();
 
-                if(!poConnection.isDeviceConnected()){
-                    message = poConnection.getMessage();
-                    return null;
-                }
                 if(lsResult == null){
                     message = poSys.getMessage();
                     return null;
@@ -94,10 +90,6 @@ public class VMBranchRate extends AndroidViewModel {
             String EntryNox = strings[1];
             String Result = strings[2];
 
-            if(!poConnection.isDeviceConnected()){
-                message = poConnection.getMessage();
-                return false;
-            }
             if(!poSys.UpdateBranchRate(sTransNo, Integer.parseInt(EntryNox), Result)){
                 message = poSys.getMessage();
                 return false;
