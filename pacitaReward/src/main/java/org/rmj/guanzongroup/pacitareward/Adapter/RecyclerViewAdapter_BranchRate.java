@@ -62,8 +62,8 @@ public class RecyclerViewAdapter_BranchRate extends RecyclerView.Adapter<Recycle
             holder.pass_btn.setBackgroundColor(Color.GRAY);
             holder.pass_btn.setSelected(true);
         } else if(questionList.get(position).getcPasRatex().equalsIgnoreCase("0")){
-            holder.pass_btn.setBackgroundColor(Color.GRAY);
-            holder.fail_btn.setSelected(true);;
+            holder.fail_btn.setBackgroundColor(Color.GRAY);
+            holder.fail_btn.setSelected(true);
         }
     }
 
