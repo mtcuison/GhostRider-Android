@@ -130,8 +130,8 @@ public class Activity_Branch_Rate extends AppCompatActivity {
                                     }
                                 });
 
-                                rate_list.setAdapter(viewAdapter);
                                 rate_list.setLayoutManager(new LinearLayoutManager(Activity_Branch_Rate.this, LinearLayoutManager.VERTICAL, false));
+                                rate_list.setAdapter(viewAdapter);
 
                                 poLoad.dismiss();
                             }
