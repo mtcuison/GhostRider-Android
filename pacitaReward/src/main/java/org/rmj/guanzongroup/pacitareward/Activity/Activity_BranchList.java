@@ -7,15 +7,19 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
+import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.guanzongroup.pacitareward.Adapter.RecyclerViewAdapter_BranchList;
 import org.rmj.guanzongroup.pacitareward.Dialog.Dialog_SelectAction;
@@ -31,6 +35,8 @@ public class Activity_BranchList extends AppCompatActivity {
     private RecyclerView rvc_branchlist;
     private TextInputEditText searchview;
     private RecyclerViewAdapter_BranchList rec_branchList;
+    private LoadDialog poLoad;
+    private MessageBox poMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,11 +44,12 @@ public class Activity_BranchList extends AppCompatActivity {
         setContentView(R.layout.activity_branch_list);
 
         mViewModel = new ViewModelProvider(this).get(VMBranchList.class);
-        mViewModel.importCriteria();
 
         toolbar = findViewById(R.id.toolbar);
         rvc_branchlist = findViewById(R.id.branch_list);
         searchview = findViewById(R.id.searchview);
+
+        poLoad = new LoadDialog(Activity_BranchList.this);
 
         setSupportActionBar(toolbar); //set object toolbar as default action bar for activity
         getSupportActionBar().setTitle("Branch List"); //set default title for action bar
@@ -66,6 +73,8 @@ public class Activity_BranchList extends AppCompatActivity {
                 dialog.dismiss();
             }
         });
+
+        mViewModel.importCriteria();
         mViewModel.getBranchlist().observe(Activity_BranchList.this, new Observer<List<EBranchInfo>>() {
             @Override
             public void onChanged(List<EBranchInfo> eBranchInfos) {
@@ -75,7 +84,32 @@ public class Activity_BranchList extends AppCompatActivity {
                 rec_branchList = new RecyclerViewAdapter_BranchList(eBranchInfos, new RecyclerViewAdapter_BranchList.OnBranchSelectListener() {
                     @Override
                     public void OnSelect(String BranchCode, String BranchName) {
-                        Dialog_SelectAction selectAction = new Dialog_SelectAction();
+                        Dialog_SelectAction selectAction = new Dialog_SelectAction(new Dialog_SelectAction.onDialogSelect() {
+                            @Override
+                            public void onEvaluate(Class className, String branchCd, String branchNm, Dialog dialog) {
+                                Intent intent = new Intent(Activity_BranchList.this, className);
+                                intent.putExtra("Branch Code", branchCd);
+                                intent.putExtra("Branch Name", branchNm);
+
+                                startActivity(intent);
+                                dialog.dismiss();
+                            }
+
+                            @Override
+                            public void onViewRecords(Class className, String branchCd, String branchNm, Dialog dialog) {
+                                Intent intent = new Intent(Activity_BranchList.this, className);
+                                intent.putExtra("Branch Code", branchCd);
+                                intent.putExtra("Branch Name", branchNm);
+
+                                startActivity(intent);
+                                dialog.dismiss();
+                            }
+
+                            @Override
+                            public void onCancel(Dialog dialog) {
+                                dialog.dismiss();
+                            }
+                        });
                         selectAction.initDialog(Activity_BranchList.this, BranchCode, BranchName);
                     }
                 });

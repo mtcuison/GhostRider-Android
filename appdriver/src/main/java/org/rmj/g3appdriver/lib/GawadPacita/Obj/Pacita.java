@@ -191,7 +191,7 @@ public class Pacita {
                     Date ldDate1 = SQLUtil.toDate(loDetail.getTimeStmp(), SQLUtil.FORMAT_TIMESTAMP);
                     Date ldDate2 = SQLUtil.toDate((String) loJson.get("dTimeStmp"), SQLUtil.FORMAT_TIMESTAMP);
                     if (!ldDate1.equals(ldDate2)) {
-                        loDetail.setTransNox(loJson.getString("sTransNox "));
+                        loDetail.setTransNox(loJson.getString("sTransNox"));
                         loDetail.setTransact(loJson.getString("dTransact"));
                         loDetail.setUserIDxx(poDao.GetUserID());
                         loDetail.setBranchCD(BranchCD);

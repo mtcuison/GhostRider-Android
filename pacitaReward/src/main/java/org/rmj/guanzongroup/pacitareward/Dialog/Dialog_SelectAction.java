@@ -1,6 +1,8 @@
 package org.rmj.guanzongroup.pacitareward.Dialog;
 
 import android.app.AlertDialog;
+import android.app.Application;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -19,14 +21,23 @@ import org.rmj.guanzongroup.pacitareward.Activity.Activity_Branch_Rate;
 import org.rmj.guanzongroup.pacitareward.R;
 
 public class Dialog_SelectAction  {
-    MaterialButton btn_evaluate;
-    MaterialButton btn_vrec;
-    MaterialButton btn_cancel;
-    MaterialTextView mtv_branchname;
+    private MaterialButton btn_evaluate;
+    private MaterialButton btn_vrec;
+    private MaterialButton btn_cancel;
+    private MaterialTextView mtv_branchname;
+    private onDialogSelect mListener;
+
+    public interface onDialogSelect{
+        void onEvaluate(Class className, String branchCd, String branchNm, Dialog dialog);
+        void onViewRecords(Class className, String branchCd, String branchNm, Dialog dialog);
+        void onCancel(Dialog dialog);
+    }
+
+    public Dialog_SelectAction(onDialogSelect mListener){
+        this.mListener = mListener;
+    }
 
     public void initDialog(Context context, String sBranchcode, String sBranchname){
-        Log.d(sBranchcode, sBranchname);
-
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         View view = LayoutInflater.from(context).inflate(R.layout.activity_dialog_select_action, null);
         builder.setView(view);
@@ -48,27 +59,21 @@ public class Dialog_SelectAction  {
         btn_evaluate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(view.getContext(), Activity_Branch_Rate.class);
-                intent.putExtra("Branch", new String[]{sBranchcode, sBranchname});
-                ContextCompat.startActivity(view.getContext(), intent, null);
-                alertDialog.dismiss();
+                mListener.onEvaluate(Activity_Branch_Rate.class, sBranchcode, sBranchname, alertDialog);
             }
         });
 
         btn_vrec.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(view.getContext(), Activity_BranchRecords.class);
-                intent.putExtra("Branch", new String[]{sBranchcode, sBranchname});
-                ContextCompat.startActivity(view.getContext(), intent, null);
-                alertDialog.dismiss();
+                mListener.onEvaluate(Activity_BranchRecords.class, sBranchcode, sBranchname, alertDialog);
             }
         });
 
         btn_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                alertDialog.dismiss();
+                mListener.onCancel(alertDialog);
             }
         });
     }

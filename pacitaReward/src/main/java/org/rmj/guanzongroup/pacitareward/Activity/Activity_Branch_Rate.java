@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.google.android.material.appbar.MaterialToolbar;
@@ -16,6 +17,7 @@ import com.google.android.material.textview.MaterialTextView;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EPacitaEvaluation;
 import org.rmj.g3appdriver.dev.Database.Entities.EPacitaRule;
+import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.GawadPacita.Obj.PacitaRule;
 import org.rmj.g3appdriver.lib.GawadPacita.pojo.BranchRate;
@@ -32,11 +34,10 @@ public class Activity_Branch_Rate extends AppCompatActivity {
     private MaterialToolbar toolbar;
     private MaterialTextView rate_title;
     private VMBranchRate mViewModel;
-    private MessageBox loadDialog;
+    private MessageBox poMessage;
+    private LoadDialog poLoad;
     private String intentDataBranchcd;
     private String intentDataBranchName;
-    private String dialogTitle;
-    private String dialogMessage;
     private MaterialButton btn_submit;
 
     @Override
@@ -46,20 +47,20 @@ public class Activity_Branch_Rate extends AppCompatActivity {
 
         mViewModel = new ViewModelProvider(this).get(VMBranchRate.class);
 
-        loadDialog = new MessageBox(Activity_Branch_Rate.this);
-        loadDialog.initDialog();
-        loadDialog.setTitle(dialogTitle);
-        loadDialog.setMessage(dialogMessage);
-        loadDialog.setPositiveButton("OK", new MessageBox.DialogButton() {
+        poLoad = new LoadDialog(Activity_Branch_Rate.this);
+
+        poMessage = new MessageBox(Activity_Branch_Rate.this);
+        poMessage.initDialog();
+        poMessage.setPositiveButton("OK", new MessageBox.DialogButton() {
             @Override
             public void OnButtonClick(View view, AlertDialog dialog) {
                 dialog.dismiss();
-                finish();
+                //finish();
             }
         });
 
-        intentDataBranchcd = getIntent().getStringArrayExtra("Branch")[0];
-        intentDataBranchName = getIntent().getStringArrayExtra("Branch")[1];
+        intentDataBranchcd = getIntent().getStringExtra("Branch Code");
+        intentDataBranchName = getIntent().getStringExtra("Branch Name");
 
         toolbar = findViewById(R.id.toolbar);
         rate_list = findViewById(R.id.rate_list);
@@ -83,43 +84,56 @@ public class Activity_Branch_Rate extends AppCompatActivity {
 
         mViewModel.InitializeEvaluation(intentDataBranchcd, new VMBranchRate.OnInitializeBranchEvaluationListener() {
             @Override
-            public void OnInitialize(String transactNo) {
+            public void onInitialize(String message) {
+                poLoad.initDialog("Evaluation List", message, false);
+                poLoad.show();
+            }
+
+            @Override
+            public void OnSuccess(String transactNo, String message) {
                 mViewModel.getBranchEvaluation(transactNo).observe(Activity_Branch_Rate.this, new Observer<EPacitaEvaluation>() {
                     @Override
                     public void onChanged(EPacitaEvaluation ePacitaEvaluation) {
                         if(ePacitaEvaluation == null){
-                            dialogTitle = "No Records";
-                            dialogMessage = "No records found for branch " + intentDataBranchName;
+                            poLoad.dismiss();
+                            poMessage.setTitle("No Records");
+                            poMessage.setMessage("No records found for branch " + intentDataBranchName);
+                            poMessage.show();
                             return;
                         }
+                        ePacitaEvaluation.setTransNox(transactNo);
                         mViewModel.GetCriteria().observe(Activity_Branch_Rate.this, new Observer<List<EPacitaRule>>() {
                             @Override
                             public void onChanged(List<EPacitaRule> ePacitaRules) {
                                 if(ePacitaRules == null){
-                                    dialogTitle = "No Records";
-                                    dialogMessage = "No Pacita Rules found";
-                                    loadDialog.show();
+                                    poLoad.dismiss();
+                                    poMessage.setTitle("No Records");
+                                    poMessage.setMessage("No Pacita Rules found");
+                                    poMessage.show();
                                     return;
                                 }
                                 if(ePacitaRules.size() == 0){
-                                    dialogTitle = "No Records";
-                                    dialogMessage = "No Pacita Rules found";
-                                    loadDialog.show();
+                                    poLoad.dismiss();
+                                    poMessage.setTitle("No Records");
+                                    poMessage.setMessage("No Pacita Rules found");
+                                    poMessage.show();
                                     return;
                                 }
 
                                 String lsPayload = ePacitaEvaluation.getPayloadx();
                                 List<BranchRate> loRate = PacitaRule.ParseBranchRate(lsPayload, ePacitaRules);
 
-                                RecyclerViewAdapter_BranchRate viewAdapter = new RecyclerViewAdapter_BranchRate(Activity_Branch_Rate.this, loRate,
-                                        transactNo, new RecyclerViewAdapter_BranchRate.onSelect() {
+                                RecyclerViewAdapter_BranchRate viewAdapter = new RecyclerViewAdapter_BranchRate(Activity_Branch_Rate.this, loRate, new RecyclerViewAdapter_BranchRate.onSelect() {
                                     @Override
                                     public void onItemSelect(String EntryNox, String result) {
                                         mViewModel.setEvaluationResult(transactNo, EntryNox, result);
                                     }
                                 });
-                                rate_list.setAdapter(viewAdapter);
+
                                 rate_list.setLayoutManager(new LinearLayoutManager(Activity_Branch_Rate.this, LinearLayoutManager.VERTICAL, false));
+                                rate_list.setAdapter(viewAdapter);
+
+                                poLoad.dismiss();
                             }
                         });
                     }
@@ -128,15 +142,42 @@ public class Activity_Branch_Rate extends AppCompatActivity {
                 btn_submit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mViewModel.saveBranchRatings(transactNo);
+                        if (!transactNo.isEmpty()){
+                            mViewModel.saveBranchRatings(transactNo, new VMBranchRate.BranchRatingsCallback() {
+                                @Override
+                                public void onSave(String title, String message) {
+                                    poLoad.initDialog(title, message, false);
+                                    poLoad.show();
+                                }
+
+                                @Override
+                                public void onSuccess(String message) {
+                                    poLoad.dismiss();
+                                    poMessage.setTitle("Success Saving Application");
+                                    poMessage.setMessage(message);
+                                    poMessage.show();
+                                }
+
+                                @Override
+                                public void onFailed(String message) {
+                                    poLoad.dismiss();
+                                    poMessage.setTitle("Error Saving Application");
+                                    poMessage.setMessage(message);
+                                    poMessage.show();
+                                }
+                            });
+                        }
                     }
                 });
             }
             @Override
             public void OnError(String message) {
-                dialogTitle = "Message Error";
-                dialogMessage = message;
-                loadDialog.show();
+                poLoad.dismiss();
+                poMessage.setTitle("Transaction Result");
+                poMessage.setMessage(message);
+                poMessage.show();
+
+                btn_submit.setEnabled(false);
             }
         });
     }
