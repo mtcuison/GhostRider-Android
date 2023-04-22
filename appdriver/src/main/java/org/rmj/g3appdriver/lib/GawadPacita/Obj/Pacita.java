@@ -226,11 +226,9 @@ public class Pacita {
 
             JSONArray laJson = new JSONArray(lsPayload);
             for(int x = 0; x < laJson.length(); x++){
-                JSONObject loJson = laJson.getJSONObject(x);
-                int lnEntryNo = loJson.getInt("nEntryNox");
+                int lnEntryNo = laJson.getJSONObject(x).getInt("nEntryNox");
                 if(EntryNox == lnEntryNo){
-                    loJson.put("xRatingxx", Result);
-                    laJson.put(loJson);
+                    laJson.getJSONObject(x).put("xRatingxx", Result);
                     Log.d(TAG, "Entry No. " + EntryNox + ", has been updated!");
                     break;
                 }
