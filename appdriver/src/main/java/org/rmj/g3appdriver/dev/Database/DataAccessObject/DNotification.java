@@ -52,6 +52,7 @@ public interface DNotification {
             "LEFT JOIN Notification_Info_Recepient b " +
             "ON a.sMesgIDxx = b.sTransNox " +
             "AND a.sMsgTypex == '00000'" +
+            "AND a.sMsgTitle <> 'Branch Opening'" +
             "WHERE b.sRecpntID = (SELECT sUserIDxx FROM User_Info_Master) " +
             "AND b.cMesgStat == '2'")
     LiveData<Integer> GetAllUnreadNotificationCount();
