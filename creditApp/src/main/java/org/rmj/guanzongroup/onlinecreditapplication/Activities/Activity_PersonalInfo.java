@@ -499,7 +499,7 @@ public class Activity_PersonalInfo extends AppCompatActivity {
                 poMobile[1].setMobileNo(info.getMobileNo());
                 poMobile[1].setIsPostPd(info.getIsPostPd());
                 poMobile[1].setPostYear(info.getPostYear());
-                mViewModel.getModel().setMobileNo3(info);
+                mViewModel.getModel().setMobileNo2(info);
                 if(info.getIsPostPd().equalsIgnoreCase("0")){
                     tilMobileYear[1].setVisibility(View.GONE);
                     txtMobileType2.setChecked(false);
