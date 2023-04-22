@@ -17,6 +17,20 @@
             </AndroidTestResultsTableState>
           </value>
         </entry>
+        <entry key="-1724886001">
+          <value>
+            <AndroidTestResultsTableState>
+              <option name="preferredColumnWidths">
+                <map>
+                  <entry key="Duration" value="90" />
+                  <entry key="R9YT602GSKT" value="120" />
+                  <entry key="Tests" value="360" />
+                  <entry key="samsung&#10; SM-A035F" value="120" />
+                </map>
+              </option>
+            </AndroidTestResultsTableState>
+          </value>
+        </entry>
         <entry key="-1529880844">
           <value>
             <AndroidTestResultsTableState>
@@ -171,6 +185,20 @@
             </AndroidTestResultsTableState>
           </value>
         </entry>
+        <entry key="461693089">
+          <value>
+            <AndroidTestResultsTableState>
+              <option name="preferredColumnWidths">
+                <map>
+                  <entry key="Duration" value="90" />
+                  <entry key="R9YT602GSKT" value="120" />
+                  <entry key="Tests" value="360" />
+                  <entry key="samsung&#10; SM-A035F" value="120" />
+                </map>
+              </option>
+            </AndroidTestResultsTableState>
+          </value>
+        </entry>
         <entry key="499153473">
           <value>
             <AndroidTestResultsTableState>
@@ -304,6 +332,20 @@
                   <entry key="Android_13_5.7" value="120" />
                   <entry key="Duration" value="90" />
                   <entry key="Tests" value="360" />
+                </map>
+              </option>
+            </AndroidTestResultsTableState>
+          </value>
+        </entry>
+        <entry key="1403903625">
+          <value>
+            <AndroidTestResultsTableState>
+              <option name="preferredColumnWidths">
+                <map>
+                  <entry key="Duration" value="90" />
+                  <entry key="R9YT602GSKT" value="120" />
+                  <entry key="Tests" value="360" />
+                  <entry key="samsung&#10; SM-A035F" value="120" />
                 </map>
               </option>
             </AndroidTestResultsTableState>
