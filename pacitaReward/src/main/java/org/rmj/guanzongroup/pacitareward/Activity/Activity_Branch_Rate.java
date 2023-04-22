@@ -55,7 +55,7 @@ public class Activity_Branch_Rate extends AppCompatActivity {
             @Override
             public void OnButtonClick(View view, AlertDialog dialog) {
                 dialog.dismiss();
-                //finish();
+                finish();
             }
         });
 
@@ -88,7 +88,6 @@ public class Activity_Branch_Rate extends AppCompatActivity {
                 poLoad.initDialog("Evaluation List", message, false);
                 poLoad.show();
             }
-
             @Override
             public void OnSuccess(String transactNo, String message) {
                 mViewModel.getBranchEvaluation(transactNo).observe(Activity_Branch_Rate.this, new Observer<EPacitaEvaluation>() {
@@ -138,7 +137,6 @@ public class Activity_Branch_Rate extends AppCompatActivity {
                         });
                     }
                 });
-
                 btn_submit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
