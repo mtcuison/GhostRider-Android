@@ -117,6 +117,7 @@ import org.rmj.g3appdriver.dev.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EInventoryDetail;
 import org.rmj.g3appdriver.dev.Database.Entities.EInventoryMaster;
 import org.rmj.g3appdriver.dev.Database.Entities.EItinerary;
+import org.rmj.g3appdriver.dev.Database.Entities.ELoanTerm;
 import org.rmj.g3appdriver.dev.Database.Entities.EMcBrand;
 import org.rmj.g3appdriver.dev.Database.Entities.EMcCategory;
 import org.rmj.g3appdriver.dev.Database.Entities.EMcModel;
@@ -202,7 +203,8 @@ import org.rmj.g3appdriver.dev.Database.Entities.EUncapturedClient;
         EPanaloReward.class,
         ERaffleStatus.class,
         EPacitaRule.class,
-        EPacitaEvaluation.class}, version = 37, exportSchema = false)
+        EPacitaEvaluation.class,
+        ELoanTerm.class}, version = 38, exportSchema = false)
 public abstract class GGC_GriderDB extends RoomDatabase {
     private static final String TAG = "GhostRider_DB_Manager";
     private static GGC_GriderDB instance;

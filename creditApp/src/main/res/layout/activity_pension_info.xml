@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Pension Sector">
 
-                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/spn_psnSector"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

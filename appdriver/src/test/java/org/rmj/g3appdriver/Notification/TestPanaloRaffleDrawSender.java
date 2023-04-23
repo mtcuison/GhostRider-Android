@@ -42,7 +42,7 @@ public class TestPanaloRaffleDrawSender {
     @Test
     public void test03SendBranchOpeningNotification() {
         String lsApp = "gRider";
-        String lsUser = "GAP023000254";
+        String lsUser = "GAP021002961";
         String lsTitle = "Branch Opening";
         String lsMessage = "LGK Tarlac - Honda has opened.";
 

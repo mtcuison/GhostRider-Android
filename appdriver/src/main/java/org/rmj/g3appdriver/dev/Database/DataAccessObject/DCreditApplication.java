@@ -21,6 +21,7 @@ import androidx.room.Update;
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchLoanApplication;
 import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplication;
+import org.rmj.g3appdriver.dev.Database.Entities.ELoanTerm;
 
 import java.util.List;
 
@@ -44,6 +45,18 @@ public interface DCreditApplication {
 
     @Update
     void Update(EBranchLoanApplication branchLoanApplication);
+
+    @Insert
+    void Save(ELoanTerm loanTerm);
+
+    @Update
+    void Update(ELoanTerm loanTerm);
+
+    @Query("SELECT * FROM Installment_Term WHERE nTermCode =:args")
+    ELoanTerm GetLoanTerm(int args);
+
+    @Query("SELECT * FROM Installment_Term ORDER BY nTermCode DESC")
+    LiveData<List<ELoanTerm>> GetLoanTerms();
 
     @Query("SELECT * FROM Credit_Online_Application ORDER BY dTimeStmp DESC LIMIT 1")
     ECreditApplication GetLatestRecord();

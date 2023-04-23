@@ -41,6 +41,7 @@ public class WebApi {
     private static final String URL_IMPORT_FILE_CODE = "integsys/param/download_edoc_file_type.php";
     private static final String URL_IMPORT_OCCUPATIONS = "integsys/param/download_occupation.php";
     private static final String URL_SUBMIT_ONLINE_APPLICATION = "integsys/gocas/gocas_save.php";
+    private static final String URL_GET_INSTALLMENT_TERMS = "integsys/gocas/import_installment_terms.php";
     private static final String URL_IMPORT_RAFFLE_BASIS = "promo/param/download_raffle_entry_basis_all.php";
     private static final String URL_REQUEST_ONLINE_APPLICATIONS = "integsys/gocas/gocas_request_status.php";
     private static final String URL_IMPORT_ONLINE_APPLICATIONS = "integsys/gocas/gocas_request_application.php";
@@ -966,5 +967,16 @@ public class WebApi {
             LIVE = PRIMARY_LIVE;
         }
         return LIVE + SUBMIT_PACITA_RESULT;
+    }
+
+    public String getGetInstallmentTerms(boolean isBackUp) {
+        if(isUnitTest) {
+            return LOCAL + URL_GET_INSTALLMENT_TERMS;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
+        }
+        return LIVE + URL_GET_INSTALLMENT_TERMS;
     }
 }

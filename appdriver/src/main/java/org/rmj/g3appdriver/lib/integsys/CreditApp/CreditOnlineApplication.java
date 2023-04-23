@@ -16,6 +16,7 @@ import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchLoanApplication;
 import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplication;
+import org.rmj.g3appdriver.dev.Database.Entities.ELoanTerm;
 import org.rmj.g3appdriver.dev.Database.Entities.EMcBrand;
 import org.rmj.g3appdriver.dev.Database.Entities.EMcModel;
 import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
@@ -201,6 +202,65 @@ public class CreditOnlineApplication {
             message = e.getMessage();
             return false;
         }
+    }
+
+    public boolean ImportInstallmentTerms(){
+        try{
+            String lsResponse = WebClient.sendRequest(
+                    poApi.getGetInstallmentTerms(poConfig.isBackUpServer()),
+                    new JSONObject().toString(),
+                    poHeaders.getHeaders());
+
+            if(lsResponse == null){
+                message = "Server no response.";
+                return false;
+            }
+
+            Log.d(TAG, lsResponse);
+            JSONObject loResponse = new JSONObject(lsResponse);
+            String lsResult = loResponse.getString("result");
+            if(lsResult.equalsIgnoreCase("error")){
+                JSONObject loError = loResponse.getJSONObject("error");
+                message = loError.getString("message");
+                return false;
+            }
+
+            JSONArray laJson = loResponse.getJSONArray("detail");
+            for(int x = 0; x < laJson.length(); x++){
+                JSONObject loJson = laJson.getJSONObject(x);
+
+                int lnTermCde = loJson.getInt("nTermCode");
+                ELoanTerm loDetail = poDao.GetLoanTerm(lnTermCde);
+
+                if(loDetail == null){
+                    ELoanTerm loTerm = new ELoanTerm();
+                    loTerm.setTermCode(lnTermCde);
+                    loTerm.setTermDesc(loJson.getString("sTermDesc"));
+                    loTerm.setRecdStat(loJson.getString("cRecdStat"));
+                    loTerm.setTimeStmp(loJson.getString("dTimeStmp"));
+                    poDao.Save(loTerm);
+                } else {
+                    Date ldDate1 = SQLUtil.toDate(loDetail.getTimeStmp(), SQLUtil.FORMAT_TIMESTAMP);
+                    Date ldDate2 = SQLUtil.toDate((String) loJson.getString("dTimeStmp"), SQLUtil.FORMAT_TIMESTAMP);
+                    if (!ldDate1.equals(ldDate2)) {
+                        loDetail.setTermCode(lnTermCde);
+                        loDetail.setTermDesc(loJson.getString("sTermDesc"));
+                        loDetail.setRecdStat(loJson.getString("cRecdStat"));
+                        loDetail.setTimeStmp(loJson.getString("dTimeStmp"));
+                        poDao.Update(loDetail);
+                    }
+                }
+            }
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
+    }
+
+    public LiveData<List<ELoanTerm>> GetLoanTerms(){
+        return poDao.GetLoanTerms();
     }
 
     public LiveData<List<DCreditApplication.ApplicationLog>> GetCreditApplications(){
