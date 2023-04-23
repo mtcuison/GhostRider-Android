@@ -33,6 +33,8 @@ import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.Account.SessionManager;
+import org.rmj.guanzongroup.ghostrider.dataChecker.Activity.Activity_DB_Explorer;
+import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_AppVersion;
 import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_CheckUpdate;
 import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_Developer;
 import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_HelpList;
@@ -219,7 +221,7 @@ public class Fragment_Settings  extends PreferenceFragmentCompat {
         }
         if(chkUpdate != null){
             chkUpdate.setOnPreferenceClickListener(preference -> {
-                startActivity(new Intent(getActivity(), Activity_CheckUpdate.class));
+                startActivity(new Intent(getActivity(), Activity_AppVersion.class));
                 requireActivity().overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
                 return false;
             });
