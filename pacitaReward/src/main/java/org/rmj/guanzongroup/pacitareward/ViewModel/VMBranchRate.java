@@ -142,7 +142,7 @@ public class VMBranchRate extends AndroidViewModel {
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
             if(aBoolean){
-                callback.onSuccess(message);
+                callback.onSuccess("Successfully Saved Branch Evaluation");
             } else {
                 callback.onFailed(message);
             }
