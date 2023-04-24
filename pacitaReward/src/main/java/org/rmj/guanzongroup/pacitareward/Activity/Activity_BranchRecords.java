@@ -70,6 +70,7 @@ public class Activity_BranchRecords extends AppCompatActivity {
             @Override
             public void OnButtonClick(View view, AlertDialog dialog) {
                 dialog.dismiss();
+                finish();
             }
         });
 
@@ -119,7 +120,6 @@ public class Activity_BranchRecords extends AppCompatActivity {
                 poMessage.setTitle("Error Message");
                 poMessage.setMessage(message);
                 poMessage.show();
-                return;
             }
         });
     }

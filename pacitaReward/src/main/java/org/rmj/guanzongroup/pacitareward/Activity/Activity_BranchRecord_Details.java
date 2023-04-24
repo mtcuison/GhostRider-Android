@@ -54,6 +54,7 @@ public class Activity_BranchRecord_Details extends AppCompatActivity {
             @Override
             public void OnButtonClick(View view, AlertDialog dialog) {
                 dialog.dismiss();
+                finish();
             }
         });
 
