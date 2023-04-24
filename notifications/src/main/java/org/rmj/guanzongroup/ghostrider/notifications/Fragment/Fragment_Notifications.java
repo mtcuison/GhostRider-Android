@@ -148,10 +148,9 @@ public class Fragment_Notifications extends Fragment {
 
     private static class ApplicationPageAdapter extends FragmentStatePagerAdapter {
 
-        private final String[] lsTitle = new String[]{"Announcement", "Payslip", "Message", "Notification"};
+        private final String[] lsTitle = new String[]{"Payslip", "Message", "Notification"};
 
         private final Fragment[] loFragments = new Fragment[]{
-                new Fragment_AnouncementList(),
                 new Fragment_PayslipList(),
                 new Fragment_MessageUsers(),
                 new Fragment_NotificationList()};

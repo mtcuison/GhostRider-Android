@@ -384,6 +384,7 @@
                 android:fontFamily="@font/roboto"
                 android:text="Company Anouncement"
                 android:textStyle="bold"
+                android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/rvBranchOpen" />
 
@@ -394,6 +395,7 @@
                 android:layout_marginTop="5dp"
                 android:paddingHorizontal="10dp"
                 android:scrollbars="none"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
