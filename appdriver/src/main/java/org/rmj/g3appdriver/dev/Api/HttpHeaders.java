@@ -108,7 +108,6 @@ public class HttpHeaders {
         String lsTokenxx = "f7qNSw8TRPWHSCga0g8YFF:APA91bG3i_lBPPWv9bbRasNzRH1XX1y0vzp6Ct8S_a-yMPDvSmud8FEVPMr26zZtBPHq2CmaIw9Rx0MZmf3sbuK44q3vQemUBoPPS4Meybw8pnTpcs3p0VbiTuoLHJtdncC6BgirJxt3";
         String lsProduct = "gRider";
         String lsDevcIDx = poTlphony.getDeviceID();
-        Log.e(TAG, lsDevcIDx);
         String lsDateTme = SQLUtil.dateFormat(calendar.getTime(), "yyyyMMddHHmmss");
         String lsDevcMdl = Build.MODEL;
         String lsMobileN = "09171870011";
