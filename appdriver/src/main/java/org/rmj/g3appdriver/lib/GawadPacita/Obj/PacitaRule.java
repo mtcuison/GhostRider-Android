@@ -14,7 +14,14 @@ public class PacitaRule {
     public static List<BranchRate> ParseBranchRate(String PayLoad, List<EPacitaRule> Rules){
         try{
             List<BranchRate> loBranch = new ArrayList<>();
-            JSONArray laJson = new JSONArray(PayLoad);
+
+            JSONObject loPayload = new JSONObject(PayLoad);
+            JSONArray laJson = null;
+            if(!loPayload.has("sEvalType")){
+                laJson = new JSONArray(PayLoad);
+            } else {
+                laJson = loPayload.getJSONArray("sPayloadx");
+            }
             for(int x = 0; x < laJson.length(); x++){
                 JSONObject loJson = laJson.getJSONObject(x);
                 int lnEntryNo = loJson.getInt("nEntryNox");

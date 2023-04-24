@@ -297,4 +297,20 @@ public class PacitaTest {
             }
         });
     }
+
+    @Test
+    public void test08ParseBranchRate() {
+        String lsPayload = "{\"sEvalType\":\"026\",\"sPayloadx\":[{\"nEntryNox\":1,\"xRatingxx\":\"\"},{\"nEntryNox\":2,\"xRatingxx\":\"\"},{\"nEntryNox\":3,\"xRatingxx\":\"\"},{\"nEntryNox\":4,\"xRatingxx\":\"\"},{\"nEntryNox\":5,\"xRatingxx\":\"\"},{\"nEntryNox\":6,\"xRatingxx\":\"\"},{\"nEntryNox\":7,\"xRatingxx\":\"\"},{\"nEntryNox\":8,\"xRatingxx\":\"\"}]}";
+        poSys.GetPacitaRules().observeForever(new Observer<List<EPacitaRule>>() {
+            @Override
+            public void onChanged(List<EPacitaRule> ePacitaRules) {
+                List<BranchRate> loList = PacitaRule.ParseBranchRate(lsPayload, ePacitaRules);
+                for(int x = 0; x < loList.size(); x++){
+                    BranchRate loRate = loList.get(x);
+                    Log.d(TAG, "Criteria: " + loRate.getsRateName() + ", Rate: " + loRate.getcPasRatex());
+                }
+//                assertNotNull(loList);
+            }
+        });
+    }
 }
