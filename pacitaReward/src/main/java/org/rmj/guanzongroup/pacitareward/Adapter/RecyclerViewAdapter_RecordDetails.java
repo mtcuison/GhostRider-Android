@@ -39,9 +39,9 @@ public class RecyclerViewAdapter_RecordDetails extends RecyclerView.Adapter<Recy
         holder.mtv_criteria.setText(scritera);
 
        if (cPasRate.equals("0")){
-            holder.siv_rate.setBackgroundResource(R.drawable.emoji_sad_svgrepo_com);
+            holder.siv_rate.setBackgroundResource(R.drawable.emoji_angry_fill_svgrepo_com);
         } else if (cPasRate.equals("1")) {
-            holder.siv_rate.setBackgroundResource(R.drawable.emoji_laugh_svgrepo_com);
+            holder.siv_rate.setBackgroundResource(R.drawable.emoji_laughing_fill_svgrepo_com);
         }
     }
 

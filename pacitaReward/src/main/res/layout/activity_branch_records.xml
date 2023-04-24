@@ -65,7 +65,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:paddingVertical="10dp"
-                android:text="List of Records"
+                android:text="Evaluation Records"
                 android:textSize="15sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
