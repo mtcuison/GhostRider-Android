@@ -50,14 +50,6 @@ public class Activity_Branch_Rate extends AppCompatActivity {
         poLoad = new LoadDialog(Activity_Branch_Rate.this);
 
         poMessage = new MessageBox(Activity_Branch_Rate.this);
-        poMessage.initDialog();
-        poMessage.setPositiveButton("OK", new MessageBox.DialogButton() {
-            @Override
-            public void OnButtonClick(View view, AlertDialog dialog) {
-                dialog.dismiss();
-                finish();
-            }
-        });
 
         intentDataBranchcd = getIntent().getStringExtra("Branch Code");
         intentDataBranchName = getIntent().getStringExtra("Branch Name");
@@ -90,14 +82,11 @@ public class Activity_Branch_Rate extends AppCompatActivity {
             }
             @Override
             public void OnSuccess(String transactNo, String message) {
+                poLoad.dismiss();
                 mViewModel.getBranchEvaluation(transactNo).observe(Activity_Branch_Rate.this, new Observer<EPacitaEvaluation>() {
                     @Override
                     public void onChanged(EPacitaEvaluation ePacitaEvaluation) {
                         if(ePacitaEvaluation == null){
-                            poLoad.dismiss();
-                            poMessage.setTitle("No Records");
-                            poMessage.setMessage("No records found for branch " + intentDataBranchName);
-                            poMessage.show();
                             return;
                         }
                         ePacitaEvaluation.setTransNox(transactNo);
@@ -105,17 +94,9 @@ public class Activity_Branch_Rate extends AppCompatActivity {
                             @Override
                             public void onChanged(List<EPacitaRule> ePacitaRules) {
                                 if(ePacitaRules == null){
-                                    poLoad.dismiss();
-                                    poMessage.setTitle("No Records");
-                                    poMessage.setMessage("No Pacita Rules found");
-                                    poMessage.show();
                                     return;
                                 }
                                 if(ePacitaRules.size() == 0){
-                                    poLoad.dismiss();
-                                    poMessage.setTitle("No Records");
-                                    poMessage.setMessage("No Pacita Rules found");
-                                    poMessage.show();
                                     return;
                                 }
 
@@ -131,8 +112,6 @@ public class Activity_Branch_Rate extends AppCompatActivity {
 
                                 rate_list.setLayoutManager(new LinearLayoutManager(Activity_Branch_Rate.this, LinearLayoutManager.VERTICAL, false));
                                 rate_list.setAdapter(viewAdapter);
-
-                                poLoad.dismiss();
                             }
                         });
                     }
@@ -151,16 +130,32 @@ public class Activity_Branch_Rate extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(String message) {
                                     poLoad.dismiss();
-                                    poMessage.setTitle("Success Saving Application");
+                                    poMessage.initDialog();
+                                    poMessage.setTitle("Save Evaluation");
                                     poMessage.setMessage(message);
+                                    poMessage.setPositiveButton("OK", new MessageBox.DialogButton() {
+                                        @Override
+                                        public void OnButtonClick(View view, AlertDialog dialog) {
+                                            dialog.dismiss();
+                                            finish();
+                                        }
+                                    });
                                     poMessage.show();
                                 }
 
                                 @Override
                                 public void onFailed(String message) {
                                     poLoad.dismiss();
+                                    poMessage.initDialog();
                                     poMessage.setTitle("Error Saving Application");
                                     poMessage.setMessage(message);
+                                    poMessage.setPositiveButton("OK", new MessageBox.DialogButton() {
+                                        @Override
+                                        public void OnButtonClick(View view, AlertDialog dialog) {
+                                            dialog.dismiss();
+                                            finish();
+                                        }
+                                    });
                                     poMessage.show();
                                 }
                             });
@@ -171,10 +166,17 @@ public class Activity_Branch_Rate extends AppCompatActivity {
             @Override
             public void OnError(String message) {
                 poLoad.dismiss();
+                poMessage.initDialog();
                 poMessage.setTitle("Transaction Result");
                 poMessage.setMessage(message);
+                poMessage.setPositiveButton("OK", new MessageBox.DialogButton() {
+                    @Override
+                    public void OnButtonClick(View view, AlertDialog dialog) {
+                        dialog.dismiss();
+                        finish();
+                    }
+                });
                 poMessage.show();
-
                 btn_submit.setEnabled(false);
             }
         });

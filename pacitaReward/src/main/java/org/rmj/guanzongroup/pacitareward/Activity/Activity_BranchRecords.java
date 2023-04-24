@@ -63,16 +63,7 @@ public class Activity_BranchRecords extends AppCompatActivity {
         mtv_title.setText(intentDataBranchName);
 
         poLoad = new LoadDialog(Activity_BranchRecords.this);
-
         poMessage = new MessageBox(Activity_BranchRecords.this);
-        poMessage.initDialog();
-        poMessage.setPositiveButton("OK", new MessageBox.DialogButton() {
-            @Override
-            public void OnButtonClick(View view, AlertDialog dialog) {
-                dialog.dismiss();
-                finish();
-            }
-        });
 
         mviewModel.initializeRecords(intentDataBranchcd, new VMBranchRecords.BranchRecordsCallBack() {
             @Override
@@ -83,14 +74,11 @@ public class Activity_BranchRecords extends AppCompatActivity {
 
             @Override
             public void onSuccess(String message) {
+                poLoad.dismiss();
                 mviewModel.getBranchRecords(intentDataBranchcd).observe(Activity_BranchRecords.this, new Observer<List<BranchRecords>>() {
                     @Override
                     public void onChanged(List<BranchRecords> branchRecords) {
                         if (branchRecords.size() <= 0){
-                            poLoad.dismiss();
-                            poMessage.setTitle("No Records");
-                            poMessage.setMessage(message);
-                            poMessage.show();
                             return;
                         }
 
@@ -108,8 +96,6 @@ public class Activity_BranchRecords extends AppCompatActivity {
 
                         branch_rec.setAdapter(recyclerViewAdapterBranchRecord);
                         branch_rec.setLayoutManager(new LinearLayoutManager(Activity_BranchRecords.this));
-
-                        poLoad.dismiss();
                     }
                 });
             }
@@ -117,8 +103,16 @@ public class Activity_BranchRecords extends AppCompatActivity {
             @Override
             public void onError(String message) {
                 poLoad.dismiss();
-                poMessage.setTitle("Error Message");
+                poMessage.initDialog();
+                poMessage.setTitle("Transaction Result");
                 poMessage.setMessage(message);
+                poMessage.setPositiveButton("OK", new MessageBox.DialogButton() {
+                    @Override
+                    public void OnButtonClick(View view, AlertDialog dialog) {
+                        dialog.dismiss();
+                        finish();
+                    }
+                });
                 poMessage.show();
             }
         });

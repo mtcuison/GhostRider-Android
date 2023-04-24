@@ -47,16 +47,7 @@ public class Activity_BranchRecord_Details extends AppCompatActivity {
         mViewModel = new ViewModelProvider(this).get(VMBranchRecordDetails.class);
 
         poLoad = new LoadDialog(Activity_BranchRecord_Details.this);
-
         poMessage = new MessageBox(Activity_BranchRecord_Details.this);
-        poMessage.initDialog();
-        poMessage.setPositiveButton("OK", new MessageBox.DialogButton() {
-            @Override
-            public void OnButtonClick(View view, AlertDialog dialog) {
-                dialog.dismiss();
-                finish();
-            }
-        });
 
         intentDataBranchcd = getIntent().getStringExtra("Branch Code");
         intentDataBranchName = getIntent().getStringExtra("Branch Name");
@@ -89,14 +80,11 @@ public class Activity_BranchRecord_Details extends AppCompatActivity {
 
             @Override
             public void onSuccess(String message) {
+                poLoad.dismiss();
                 mViewModel.getBranchEvaluation(intentDataTransactNo).observe(Activity_BranchRecord_Details.this, new Observer<EPacitaEvaluation>() {
                     @Override
                     public void onChanged(EPacitaEvaluation ePacitaEvaluation) {
                         if(ePacitaEvaluation == null){
-                            poLoad.dismiss();
-                            poMessage.setTitle("No Records");
-                            poMessage.setMessage("No records found for branch " + intentDataBranchName);
-                            poMessage.show();
                             return;
                         }
 
@@ -104,17 +92,9 @@ public class Activity_BranchRecord_Details extends AppCompatActivity {
                             @Override
                             public void onChanged(List<EPacitaRule> ePacitaRules) {
                                 if(ePacitaRules == null){
-                                    poLoad.dismiss();
-                                    poMessage.setTitle("No Records");
-                                    poMessage.setMessage("No Pacita Rules found for branch " + intentDataBranchName);
-                                    poMessage.show();
                                     return;
                                 }
                                 if(ePacitaRules.size() <= 0){
-                                    poLoad.dismiss();
-                                    poMessage.setTitle("No Records");
-                                    poMessage.setMessage("No Pacita Rules found for branch " + intentDataBranchName);
-                                    poMessage.show();
                                     return;
                                 }
 
@@ -125,8 +105,6 @@ public class Activity_BranchRecord_Details extends AppCompatActivity {
                                         new RecyclerViewAdapter_RecordDetails(Activity_BranchRecord_Details.this, loRate);
                                 branch_rec.setAdapter(recyclerViewAdapter_recordDetails);
                                 branch_rec.setLayoutManager(new LinearLayoutManager(Activity_BranchRecord_Details.this, RecyclerView.VERTICAL, false));
-
-                                poLoad.dismiss();
                             }
                         });
                     }
@@ -137,9 +115,16 @@ public class Activity_BranchRecord_Details extends AppCompatActivity {
             @Override
             public void onError(String message) {
                 poLoad.dismiss();
-
+                poMessage.initDialog();
                 poMessage.setTitle("Transaction Result");
                 poMessage.setMessage(message);
+                poMessage.setPositiveButton("OK", new MessageBox.DialogButton() {
+                    @Override
+                    public void OnButtonClick(View view, AlertDialog dialog) {
+                        dialog.dismiss();
+                        finish();
+                    }
+                });
                 poMessage.show();
             }
         });
