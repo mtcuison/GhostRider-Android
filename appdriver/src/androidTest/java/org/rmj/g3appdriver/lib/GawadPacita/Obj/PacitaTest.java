@@ -285,6 +285,7 @@ public class PacitaTest {
                         poSys.GetPacitaRules().observeForever(new Observer<List<EPacitaRule>>() {
                             @Override
                             public void onChanged(List<EPacitaRule> ePacitaRules) {
+                                Log.d(TAG, ePacitaEvaluation.getPayloadx());
                                 List<BranchRate> loList = PacitaRule.ParseBranchRate(ePacitaEvaluation.getPayloadx(), ePacitaRules);
                                 for(int x = 0; x < loList.size(); x++){
                                     BranchRate loRate = loList.get(x);

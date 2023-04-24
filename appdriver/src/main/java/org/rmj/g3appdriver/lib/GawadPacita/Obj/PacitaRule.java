@@ -15,13 +15,19 @@ public class PacitaRule {
         try{
             List<BranchRate> loBranch = new ArrayList<>();
 
-            JSONObject loPayload = new JSONObject(PayLoad);
-            JSONArray laJson = null;
-            if(!loPayload.has("sEvalType")){
-                laJson = new JSONArray(PayLoad);
+            JSONObject loPayload;
+            JSONArray laJson;
+            if(isJSONObject(PayLoad)) {
+                loPayload = new JSONObject(PayLoad);
+                if(loPayload.has("sEvalType")){
+                    laJson = loPayload.getJSONArray("sPayloadx");
+                } else {
+                    laJson = new JSONArray(PayLoad);
+                }
             } else {
-                laJson = loPayload.getJSONArray("sPayloadx");
+                laJson = new JSONArray(PayLoad);
             }
+
             for(int x = 0; x < laJson.length(); x++){
                 JSONObject loJson = laJson.getJSONObject(x);
                 int lnEntryNo = loJson.getInt("nEntryNox");
@@ -73,6 +79,16 @@ public class PacitaRule {
         } catch (Exception e){
             e.printStackTrace();
             return null;
+        }
+    }
+
+    private static boolean isJSONObject(String val){
+        try{
+            JSONObject loPayload = new JSONObject(val);
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            return false;
         }
     }
 }
