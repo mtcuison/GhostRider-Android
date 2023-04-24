@@ -21,8 +21,8 @@ public class AdapterRewards extends RecyclerView.Adapter<AdapterRewards.RewardsV
     private final OnClickListener mListener;
 
     public interface OnClickListener{
-        void OnClick(String args);
-        void OnUseButtonClick(String args);
+        void OnClick(PanaloRewards args);
+        void OnUseButtonClick(PanaloRewards args);
 
     }
 
@@ -47,11 +47,11 @@ public class AdapterRewards extends RecyclerView.Adapter<AdapterRewards.RewardsV
             holder.lblQty.setText("Qty: " + loDetail.getItemQtyx());
             holder.itemView.setOnClickListener(v -> {
                 //Action Done here...
-                mListener.OnClick(poList .get(position).getItemDesc());
+                mListener.OnClick(loDetail);
             });
             holder.btnUse.setOnClickListener(v -> {
                 //Action Done here...
-                mListener.OnUseButtonClick(poList .get(position).getItemDesc());
+                mListener.OnUseButtonClick(loDetail);
 
             });
         } catch (Exception e){

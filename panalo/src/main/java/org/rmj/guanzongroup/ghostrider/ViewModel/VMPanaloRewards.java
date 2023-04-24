@@ -20,7 +20,7 @@ public class VMPanaloRewards extends AndroidViewModel {
 
     public interface OnRetrieveRewardsListener{
         void OnLoad(String title, String message);
-        void OnSuccess(List<PanaloRewards> args);
+        void OnSuccess(List<PanaloRewards> earned, List<PanaloRewards> claimed);
         void OnFailed(String message);
     }
 
@@ -68,7 +68,7 @@ public class VMPanaloRewards extends AndroidViewModel {
             if(result == null){
                 listener.OnFailed(message);
             } else {
-                listener.OnSuccess(result);
+                listener.OnSuccess(result, null);
             }
         }
     }

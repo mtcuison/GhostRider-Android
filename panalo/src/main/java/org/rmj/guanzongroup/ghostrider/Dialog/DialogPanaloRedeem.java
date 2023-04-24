@@ -13,6 +13,7 @@ import org.rmj.g3appdriver.dev.encryp.CodeGenerator;
 import org.rmj.g3appdriver.lib.Panalo.model.PanaloRewards;
 import org.rmj.guanzongroup.ghostrider.R;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.imageview.ShapeableImageView;
 
 public class DialogPanaloRedeem {
 
@@ -39,6 +40,8 @@ public class DialogPanaloRedeem {
         poDialog.setCancelable(false);
 
         lblAddress = view.findViewById(R.id.lbl_dialogLocation);
+        ShapeableImageView img = view.findViewById(R.id.imgQrCode);
+        img.setImageBitmap(loBmp);
         MaterialButton btnClose = view.findViewById(R.id.btn_dialogClose);
         btnClose.setOnClickListener(view1 -> poDialog.dismiss());
     }

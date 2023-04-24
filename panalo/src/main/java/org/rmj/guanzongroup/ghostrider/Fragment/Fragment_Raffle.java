@@ -156,11 +156,10 @@ public class Fragment_Raffle extends Fragment {
                     AdapterRaffleDraw loAdapter = new AdapterRaffleDraw(args, new AdapterRaffleDraw.OnClickListener() {
 
                         @Override
-                        public void OnClick(String args) {
+                        public void OnClick(PanaloRewards args) {
                             //to display dialog here
-                            DialogPanaloRedeem dialogPanaloRedeem = new DialogPanaloRedeem(getActivity());
+                            DialogPanaloRedeem dialogPanaloRedeem = new DialogPanaloRedeem(getActivity(), args);
                             dialogPanaloRedeem.show();
-                            Toast.makeText(requireActivity(), args, Toast.LENGTH_SHORT).show();
                         }
                     }) {
                         @Override

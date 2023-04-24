@@ -54,30 +54,16 @@ public class Fragment_Rewards extends Fragment  {
         mViewModel = new ViewModelProvider(requireActivity()).get(VMPanaloRewards.class);
         View view = inflater.inflate(R.layout.fragment_rewards, container, false);
         initWidgets(view);
-        mViewModel.GetRewards(0, new VMPanaloRewards.OnRetrieveRewardsListener() {
-            @Override
-            public void OnLoad(String title, String message) {
-                progress.setVisibility(View.VISIBLE);
-            }
+        retrieveRewards();
 
+        lblNoRewards.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void OnSuccess(List<PanaloRewards> args) {
-                progress.setVisibility(View.GONE);
-                if (args.size() == 0){
-                    lblNoRewards.setVisibility(View.VISIBLE);
-                    return;
-                }
-
-                initRewardsClaimed(args);
-            }
-
-            @Override
-            public void OnFailed(String message) {
-                progress.setVisibility(View.GONE);
-                lblNoRewards.setVisibility(View.VISIBLE);
+            public void onClick(View v) {
+                lblNoRewards.setVisibility(View.GONE);
+                retrieveRewards();
             }
         });
-        return  view;
+        return view;
     }
 
     private void initWidgets(View v) {
@@ -89,21 +75,45 @@ public class Fragment_Rewards extends Fragment  {
         progress = v.findViewById(R.id.progress_circular);
     }
 
+    private void retrieveRewards(){
+        mViewModel.GetRewards(0, new VMPanaloRewards.OnRetrieveRewardsListener() {
+            @Override
+            public void OnLoad(String title, String message) {
+                progress.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void OnSuccess(List<PanaloRewards> earned, List<PanaloRewards> claimed) {
+                progress.setVisibility(View.GONE);
+                if (earned.size() == 0){
+                    lblNoRewards.setVisibility(View.VISIBLE);
+                    return;
+                }
+
+                initRewardsClaimed(earned);
+            }
+
+            @Override
+            public void OnFailed(String message) {
+                progress.setVisibility(View.GONE);
+                lblNoRewards.setVisibility(View.VISIBLE);
+            }
+        });
+    }
+
     private void initRewardsEarned(List<PanaloRewards> args){
         AdapterRewards loAdapter = new AdapterRewards(args, new AdapterRewards.OnClickListener() {
             @Override
-            public void OnClick(String args) {
+            public void OnClick(PanaloRewards args) {
                 //to display dialog here
-                DialogPanaloRedeem dialogPanaloRedeem = new DialogPanaloRedeem(getActivity());
+                DialogPanaloRedeem dialogPanaloRedeem = new DialogPanaloRedeem(getActivity(), args);
                 dialogPanaloRedeem.show();
-                Toast.makeText(requireActivity(), args, Toast.LENGTH_SHORT).show();
             }
             @Override
-            public void OnUseButtonClick(String args) {
+            public void OnUseButtonClick(PanaloRewards args) {
                 //to display dialog here
-                DialogPanaloRedeem dialogPanaloRedeem = new DialogPanaloRedeem(getActivity());
+                DialogPanaloRedeem dialogPanaloRedeem = new DialogPanaloRedeem(getActivity(), args);
                 dialogPanaloRedeem.show();
-                Toast.makeText(requireActivity(), args, Toast.LENGTH_SHORT).show();
             }
         });
         LinearLayoutManager loManager = new LinearLayoutManager(requireActivity());
@@ -116,16 +126,15 @@ public class Fragment_Rewards extends Fragment  {
     private void initRewardsClaimed(List<PanaloRewards> args){
         AdapterRewards loAdapter = new AdapterRewards(args, new AdapterRewards.OnClickListener() {
             @Override
-            public void OnClick(String args) {
+            public void OnClick(PanaloRewards args) {
                 //to display dialog here
-                DialogPanaloRedeem dialogPanaloRedeem = new DialogPanaloRedeem(getActivity());
+                DialogPanaloRedeem dialogPanaloRedeem = new DialogPanaloRedeem(getActivity(), args);
                 dialogPanaloRedeem.show();
-                Toast.makeText(requireActivity(), args, Toast.LENGTH_SHORT).show();
             }
             @Override
-            public void OnUseButtonClick(String args) {
+            public void OnUseButtonClick(PanaloRewards args) {
                 //to display dialog here
-                DialogPanaloRedeem dialogPanaloRedeem = new DialogPanaloRedeem(getActivity());
+                DialogPanaloRedeem dialogPanaloRedeem = new DialogPanaloRedeem(getActivity(), args);
                 dialogPanaloRedeem.show();
             }
         });
