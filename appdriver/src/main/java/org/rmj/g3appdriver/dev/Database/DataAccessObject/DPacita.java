@@ -36,6 +36,9 @@ public interface DPacita {
     @Query("SELECT dTimeStmp FROM Pacita_Rule ORDER BY dTimeStmp DESC LIMIT 1")
     String GetLatestRecordTimeStamp();
 
+    @Query("SELECT sDeptIDxx FROM User_Info_Master LIMIT 1")
+    String GetDepartmentID();
+
     @Query("SELECT * FROM Pacita_Evaluation WHERE sTransNox=:TransNox")
     LiveData<EPacitaEvaluation> GetPacitaEvaluation(String TransNox);
 

@@ -277,6 +277,7 @@ public class Pacita {
 
             params.put("sPayloadxx", loPayload);
 
+            Log.d(TAG, params.toString());
             String lsResponse = WebClient.sendRequest(
                     poApi.getUrlSubmitPacitaResult(poConfig.isBackUpServer()),
                     params.toString(),
@@ -297,6 +298,7 @@ public class Pacita {
             }
 
             String lsTransNo = loResponse.getString("sTransNox");
+            Log.d(TAG, "Server transaction no.: " + lsTransNo);
             poDao.UpdatePosted(loDetail.getTransNox(), lsTransNo);
             return true;
         } catch (Exception e){
@@ -373,12 +375,17 @@ public class Pacita {
 
             EPacitaEvaluation loInfo = new EPacitaEvaluation();
             String lsTransNo = CreateUniqueID();
+            String lsDeptIDxx = poDao.GetDepartmentID();
+
+            Log.d(TAG, "Department ID: " + lsDeptIDxx);
+
             loInfo.setTransNox(lsTransNo);
             loInfo.setTransact(AppConstants.CURRENT_DATE);
             loInfo.setPayloadx(laJson.toString());
             loInfo.setRatingxx(0.0);
             loInfo.setBranchCD(BranchCD);
             loInfo.setUserIDxx(poDao.GetUserID());
+            loInfo.setEvalType(lsDeptIDxx);
             loInfo.setTimeStmp(new AppConstants().DATE_MODIFIED);
             poDao.Save(loInfo);
             return loInfo.getTransNox();

@@ -51,8 +51,8 @@ public class PacitaTest {
         poUser = new EmployeeMaster(instance);
         poSys = new Pacita(instance);
 
-//        EmployeeMaster.UserAuthInfo loAuth = new EmployeeMaster.UserAuthInfo("mikegarcia8748@gmail.com", "123456", "09171870011");
-//        assertTrue(poUser.AuthenticateUser(loAuth));
+        EmployeeMaster.UserAuthInfo loAuth = new EmployeeMaster.UserAuthInfo("mikegarcia8748@gmail.com", "123456", "09171870011");
+        assertTrue(poUser.AuthenticateUser(loAuth));
     }
 
     @Test
@@ -100,17 +100,21 @@ public class PacitaTest {
 
     @Test
     public void test03BranchEvaluation() {
-        String lsResult = poSys.InitializePacitaEvaluation("M001");
+        String lsResult = poSys.InitializePacitaEvaluation("M050");
         if(lsResult == null){
             Log.e(TAG, poSys.getMessage());
         } else {
             poSys.GetEvaluationRecord(lsResult).observeForever(new Observer<EPacitaEvaluation>() {
                 @Override
-                public void onChanged(EPacitaEvaluation ePacitaEvaluation) {
-                    if(ePacitaEvaluation == null){
+                public void onChanged(EPacitaEvaluation record) {
+                    if(record == null){
                         Log.e(TAG, "No evaluation record found.");
                         return;
                     }
+
+                    Log.d(TAG, record.getBranchCD());
+                    Log.d(TAG, record.getTransact());
+                    Log.d(TAG, record.getEvalType());
 
                     poSys.GetPacitaRules().observeForever(new Observer<List<EPacitaRule>>() {
                         @Override
@@ -130,7 +134,7 @@ public class PacitaTest {
                                 Log.d(TAG, ePacitaRules.get(x).getFieldNmx());
                             }
 
-                            String lsPayload = ePacitaEvaluation.getPayloadx();
+                            String lsPayload = record.getPayloadx();
                             Log.d(TAG, "Evaluation Payload: " + lsPayload);
                             List<BranchRate> loRate = PacitaRule.ParseBranchRate(lsPayload, ePacitaRules);
 
@@ -220,7 +224,7 @@ public class PacitaTest {
 
     @Test
     public void test05PostEvaluation() {
-        String lsResult = poSys.InitializePacitaEvaluation("M001");
+        String lsResult = poSys.InitializePacitaEvaluation("M050");
         if(lsResult == null){
             Log.e(TAG, poSys.getMessage());
             assertTrue(isSuccess);
