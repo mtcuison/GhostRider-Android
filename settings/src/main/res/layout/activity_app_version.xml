@@ -30,7 +30,7 @@
             android:adjustViewBounds="true"
             android:scaleType="centerInside"
             android:layout_marginTop="20dp"
-            android:src="@drawable/ic_ghostrider_logo_day"
+            android:src="@drawable/ic_guanzon_circle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent=".45"
             app:layout_constraintStart_toStartOf="parent"
@@ -89,11 +89,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="25dp"
                 android:layout_marginRight="20dp"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rec_updatelogs"
