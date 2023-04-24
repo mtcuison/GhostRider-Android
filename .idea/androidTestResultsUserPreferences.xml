@@ -38,7 +38,9 @@
                 <map>
                   <entry key="Android_13" value="120" />
                   <entry key="Duration" value="90" />
+                  <entry key="R9YT602GSKT" value="120" />
                   <entry key="Tests" value="360" />
+                  <entry key="samsung&#10; SM-A035F" value="120" />
                 </map>
               </option>
             </AndroidTestResultsTableState>

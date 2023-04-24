@@ -127,7 +127,6 @@ public class Fragment_Rewards extends Fragment  {
                 //to display dialog here
                 DialogPanaloRedeem dialogPanaloRedeem = new DialogPanaloRedeem(getActivity());
                 dialogPanaloRedeem.show();
-                Toast.makeText(requireActivity(), args, Toast.LENGTH_SHORT).show();
             }
         });
         LinearLayoutManager loManager = new LinearLayoutManager(requireActivity());
