@@ -23,7 +23,6 @@ import android.widget.Button;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-import org.guanzongroup.com.creditevaluation.Model.AdditionalInfoModel;
 import org.guanzongroup.com.creditevaluation.R;
 import org.rmj.g3appdriver.etc.GToast;
 

@@ -1,16 +1,13 @@
 package org.rmj.g3appdriver.lib.integsys.Dcp;
 
 import android.app.Application;
-import android.content.Context;
 import android.net.Uri;
 import android.os.Environment;
-import android.os.ParcelFileDescriptor;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.rmj.apprdiver.util.LRUtil;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DAddressUpdate;
@@ -26,26 +23,26 @@ import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.dev.Database.Repositories.RCollectionRemittance;
 import org.rmj.g3appdriver.dev.Database.Repositories.RImageInfo;
 import org.rmj.g3appdriver.etc.AppConstants;
-import org.rmj.g3appdriver.etc.SessionManager;
-import org.rmj.g3appdriver.dev.HttpHeaders;
-import org.rmj.g3appdriver.dev.WebClient;
-import org.rmj.g3appdriver.dev.Telephony;
+import org.rmj.g3appdriver.lib.Account.SessionManager;
+import org.rmj.g3appdriver.dev.Api.HttpHeaders;
+import org.rmj.g3appdriver.dev.Api.WebClient;
+import org.rmj.g3appdriver.dev.Device.Telephony;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
-import org.rmj.g3appdriver.lib.integsys.Dcp.model.AddressUpdate;
-import org.rmj.g3appdriver.lib.integsys.Dcp.model.CustomerNotAround;
-import org.rmj.g3appdriver.lib.integsys.Dcp.model.ImportParams;
-import org.rmj.g3appdriver.lib.integsys.Dcp.model.LoanUnit;
-import org.rmj.g3appdriver.lib.integsys.Dcp.model.MobileUpdate;
-import org.rmj.g3appdriver.lib.integsys.Dcp.model.OtherRemCode;
-import org.rmj.g3appdriver.lib.integsys.Dcp.model.PaidDCP;
-import org.rmj.g3appdriver.lib.integsys.Dcp.model.PromiseToPay;
-import org.rmj.g3appdriver.lib.integsys.Dcp.model.Remittance;
+import org.rmj.g3appdriver.lib.integsys.Dcp.pojo.AddressUpdate;
+import org.rmj.g3appdriver.lib.integsys.Dcp.pojo.CustomerNotAround;
+import org.rmj.g3appdriver.lib.integsys.Dcp.pojo.ImportParams;
+import org.rmj.g3appdriver.lib.integsys.Dcp.pojo.LoanUnit;
+import org.rmj.g3appdriver.lib.integsys.Dcp.pojo.MobileUpdate;
+import org.rmj.g3appdriver.lib.integsys.Dcp.pojo.OtherRemCode;
+import org.rmj.g3appdriver.lib.integsys.Dcp.pojo.PaidDCP;
+import org.rmj.g3appdriver.lib.integsys.Dcp.pojo.PromiseToPay;
+import org.rmj.g3appdriver.lib.integsys.Dcp.pojo.Remittance;
 import org.rmj.g3appdriver.lib.integsys.Dcp.obj.DCPFileManager;
 import org.rmj.g3appdriver.lib.integsys.Dcp.obj.RAddressUpdate;
 import org.rmj.g3appdriver.lib.integsys.Dcp.obj.RClientUpdate;
 import org.rmj.g3appdriver.lib.integsys.Dcp.obj.RMobileUpdate;
-import org.rmj.g3appdriver.utils.WebApi;
+import org.rmj.g3appdriver.dev.Api.WebApi;
 
 import java.io.File;
 import java.io.FileOutputStream;

@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EDCPCollectionDetail;
-import org.rmj.g3appdriver.lib.integsys.Dcp.iDcp;
+import org.rmj.g3appdriver.lib.integsys.Dcp.model.iDcp;
 
 public class PAY implements iDcp {
     private static final String TAG = PAY.class.getSimpleName();

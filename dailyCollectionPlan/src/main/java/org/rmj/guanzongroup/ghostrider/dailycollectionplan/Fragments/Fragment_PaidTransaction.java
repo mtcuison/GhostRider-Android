@@ -38,7 +38,7 @@ import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.lib.integsys.Dcp.model.PaidDCP;
+import org.rmj.g3appdriver.lib.integsys.Dcp.pojo.PaidDCP;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_Transaction;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogCheckPayment;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;

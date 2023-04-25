@@ -24,6 +24,7 @@ import androidx.lifecycle.LiveData;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ERaffleBasis;
@@ -31,13 +32,12 @@ import org.rmj.g3appdriver.dev.Database.Entities.ERaffleInfo;
 import org.rmj.g3appdriver.dev.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.dev.Database.Repositories.RRaffleInfo;
 import org.rmj.g3appdriver.dev.Database.Repositories.RTown;
-import org.rmj.g3appdriver.dev.HttpHeaders;
+import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
-import org.rmj.g3appdriver.etc.SessionManager;
+import org.rmj.g3appdriver.lib.Account.SessionManager;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
-import org.rmj.g3appdriver.utils.WebApi;
-import org.rmj.g3appdriver.utils.WebClient;
+import org.rmj.g3appdriver.dev.Api.WebApi;
 import org.rmj.guanzongroup.promotions.Etc.RaffleEntryCallback;
 import org.rmj.guanzongroup.promotions.Model.RaffleEntry;
 
@@ -122,7 +122,7 @@ public class VMRaffleEntry extends AndroidViewModel {
             String response = "";
             try {
                 JSONObject loJson = new JSONObject();
-                response = WebClient.httpsPostJSon(poApi.getUrlImportRaffleBasis(loConfig.isBackUpServer()), loJson.toString(), headers.getHeaders());
+                response = WebClient.sendRequest(poApi.getUrlImportRaffleBasis(loConfig.isBackUpServer()), loJson.toString(), headers.getHeaders());
                 Log.e(TAG, response);
                 JSONObject jsonResponse = new JSONObject(response);
                 String lsResult = jsonResponse.getString("result");
@@ -219,7 +219,7 @@ public class VMRaffleEntry extends AndroidViewModel {
                     loJson.put("ent", lsUserIDx);
                     String lsUrl = "https://restgk.guanzongroup.com.ph/promo/fblike/encodex.php";
                     Log.e(TAG, lsUrl);
-                    response = WebClient.httpsPostJSon(lsUrl, loJson.toString(), headers.getHeaders());
+                    response = WebClient.sendRequest(lsUrl, loJson.toString(), headers.getHeaders());
                     if(response!=null){
                         JSONObject loResponse = new JSONObject(response);
                         String lsResult = loResponse.getString("result");

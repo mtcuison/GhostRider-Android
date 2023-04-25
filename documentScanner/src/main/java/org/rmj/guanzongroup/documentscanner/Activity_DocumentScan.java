@@ -8,9 +8,11 @@ import android.os.Environment;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+//import org.rmj.g3appdriver.etc.AppConstants;
+//import org.rmj.g3appdriver.etc.SessionManager;
+//import org.rmj.g3appdriver.etc.ImageFileCreator;
 import org.rmj.g3appdriver.etc.AppConstants;
-import org.rmj.g3appdriver.etc.SessionManager;
-import org.rmj.g3appdriver.lib.Scanner.DocScanner;
+import org.rmj.g3appdriver.lib.Account.SessionManager;
 import org.rmj.g3appdriver.etc.ImageFileCreator;
 
 import java.io.File;
@@ -29,15 +31,15 @@ public class Activity_DocumentScan extends AppCompatActivity {
             public void OnScanned(Bitmap bitmap) {
 //                imageView.setImageBitmap(bitmap);
 
-                ImageFileCreator loImage = new ImageFileCreator(
-                        Activity_DocumentScan.this,
-                        AppConstants.SUB_FOLDER_CREDIT_APP_DOCUMENTS,
-                        new SessionManager(Activity_DocumentScan.this).getUserID());
-                if(loImage.SaveDocumentScan(bitmap)){
-                    finish();
-                } else {
-                    Toast.makeText(Activity_DocumentScan.this, loImage.getMessage(), Toast.LENGTH_SHORT).show();
-                }
+//                ImageFileCreator loImage = new ImageFileCreator(
+//                        Activity_DocumentScan.this,
+//                        AppConstants.SUB_FOLDER_CREDIT_APP_DOCUMENTS,
+//                        new SessionManager(Activity_DocumentScan.this).getUserID());
+//                if(loImage.SaveDocumentScan(bitmap)){
+//                    finish();
+//                } else {
+//                    Toast.makeText(Activity_DocumentScan.this, loImage.getMessage(), Toast.LENGTH_SHORT).show();
+//                }
             }
 
             @Override

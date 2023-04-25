@@ -22,13 +22,13 @@ import androidx.lifecycle.AndroidViewModel;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.rmj.g3appdriver.dev.HttpHeaders;
-import org.rmj.g3appdriver.dev.WebClient;
+import org.rmj.g3appdriver.dev.Api.HttpHeaders;
+import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
-import org.rmj.g3appdriver.utils.WebApi;
+import org.rmj.g3appdriver.dev.Api.WebApi;
 import org.rmj.guanzongroup.ghostrider.samsungknox.Etc.KnoxErrorCode;
 import org.rmj.guanzongroup.ghostrider.samsungknox.Etc.ViewModelCallBack;
 import org.rmj.guanzongroup.ghostrider.samsungknox.Model.PinModel;

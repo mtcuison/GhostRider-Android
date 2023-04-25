@@ -14,7 +14,7 @@ package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.rmj.g3appdriver.lib.integsys.Dcp.model.AddressUpdate;
+import org.rmj.g3appdriver.lib.integsys.Dcp.pojo.AddressUpdate;
 
 public class AddressUpdateTest {
     AddressUpdate addrsUpdate;

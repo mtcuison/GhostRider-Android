@@ -13,25 +13,21 @@ package org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel;
 
 import android.app.Activity;
 import android.app.Application;
-import android.content.Context;
 import android.content.Intent;
-import android.location.LocationManager;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ESelfieLog;
 import org.rmj.g3appdriver.dev.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.etc.AppConstants;
-import org.rmj.g3appdriver.etc.LocationRetriever;
-import org.rmj.g3appdriver.etc.SessionManager;
+import org.rmj.g3appdriver.lib.Location.LocationRetriever;
+import org.rmj.g3appdriver.lib.Account.SessionManager;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.lib.SelfieLog.SelfieLog;
 import org.rmj.g3appdriver.lib.integsys.CashCount.CashCount;
