@@ -265,6 +265,16 @@ public class Pacita {
                 return false;
             }
 
+            String lsPayload = loDetail.getPayloadx();
+            JSONArray laJson = new JSONArray(lsPayload);
+            for(int x = 0; x < laJson.length(); x++){
+                JSONObject loJson = laJson.getJSONObject(x);
+                if(loJson.getString("xRatingxx").isEmpty()){
+                    message = "Please finish rating before saving.";
+                    return false;
+                }
+            }
+
             JSONObject params = new JSONObject();
             params.put("sBranchCD", loDetail.getBranchCD());
             params.put("dTransact", loDetail.getTransact());

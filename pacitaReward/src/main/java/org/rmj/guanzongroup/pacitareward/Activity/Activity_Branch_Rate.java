@@ -153,7 +153,6 @@ public class Activity_Branch_Rate extends AppCompatActivity {
                                         @Override
                                         public void OnButtonClick(View view, AlertDialog dialog) {
                                             dialog.dismiss();
-                                            finish();
                                         }
                                     });
                                     poMessage.show();
