@@ -2,6 +2,7 @@ package org.rmj.guanzongroup.ghostrider.ViewModel;
 
 import android.app.Application;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class VMPanaloRewards extends AndroidViewModel {
+    private static final String TAG = VMPanaloRewards.class.getSimpleName();
 
     private final GPanalo poSys;
 
@@ -35,10 +37,10 @@ public class VMPanaloRewards extends AndroidViewModel {
         new GetRewardsTask(listener).execute(fnArgs);
     }
 
-    private class GetRewardsTask extends AsyncTask<Integer, Void, List<PanaloRewards>>{
+    private class GetRewardsTask extends AsyncTask<Integer, Void, Boolean>{
 
         private final OnRetrieveRewardsListener listener;
-
+        private List<PanaloRewards> earned, claimed;
         private String message;
 
         public GetRewardsTask(OnRetrieveRewardsListener listener) {
@@ -52,23 +54,35 @@ public class VMPanaloRewards extends AndroidViewModel {
         }
 
         @Override
-        protected List<PanaloRewards> doInBackground(Integer... integers) {
-            String lsType = String.valueOf(integers[0]);
-            List<PanaloRewards> loResult = poSys.GetRewards(lsType);
-            if(loResult == null){
-                message = poSys.getMessage();
-                return null;
+        protected Boolean doInBackground(Integer... integers) {
+            try {
+                earned = poSys.GetRewards("0");
+                if (earned == null) {
+                    message = poSys.getMessage();
+                    Log.e(TAG, message);
+                }
+
+                Thread.sleep(1000);
+                claimed = poSys.GetRewards("1");
+                if (claimed == null) {
+                    message = poSys.getMessage();
+                    Log.e(TAG, message);
+                }
+                return true;
+            } catch (Exception e){
+                e.printStackTrace();
+                message = e.getMessage();
+                return false;
             }
-            return loResult;
         }
 
         @Override
-        protected void onPostExecute(List<PanaloRewards> result) {
-            super.onPostExecute(result);
-            if(result == null){
+        protected void onPostExecute(Boolean isSuccess) {
+            super.onPostExecute(isSuccess);
+            if(!isSuccess){
                 listener.OnFailed(message);
             } else {
-                listener.OnSuccess(result, null);
+                listener.OnSuccess(earned, claimed);
             }
         }
     }

@@ -105,6 +105,7 @@ public class WebApi {
     private static final String URL_DOWNLOAD_TEST_UPDATE = "https://restgk.guanzongroup.com.ph/apk/test/gRider.apk";
 
     private static final String GET_PANALO_REWARDS = "gconnect/upload/getUserPanalo.php";
+    private static final String CLAIM_PANALO_REWARD = "gconnect/upload/getUserPanalo.php";
     private static final String GET_RAFFLE_PARTICIPANTS = "gconnect/upload/getUserPanalo.php";
 
     private static final String GET_PACITA_RULES = "gCircle/Pacita/import_pacita_rules.php";
@@ -978,5 +979,16 @@ public class WebApi {
             LIVE = PRIMARY_LIVE;
         }
         return LIVE + URL_GET_INSTALLMENT_TERMS;
+    }
+
+    public String getClaimPanaloReward(boolean isBackUp) {
+        if(isUnitTest) {
+            return LOCAL + CLAIM_PANALO_REWARD;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
+        }
+        return LIVE + CLAIM_PANALO_REWARD;
     }
 }

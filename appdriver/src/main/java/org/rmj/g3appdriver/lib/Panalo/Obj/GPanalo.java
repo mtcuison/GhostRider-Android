@@ -109,7 +109,7 @@ public class GPanalo {
             params.put("transtat", args);
 
             String lsResponse = WebClient.sendRequest(
-                    poApis.getUrlGetPanaloRewards(poConfig.isBackUpServer()),
+                    poApis.getClaimPanaloReward(poConfig.isBackUpServer()),
                     params.toString(),
                     poHeaders.getHeaders());
             if(lsResponse == null){

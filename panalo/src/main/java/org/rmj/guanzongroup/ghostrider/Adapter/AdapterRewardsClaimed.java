@@ -15,7 +15,7 @@ import org.rmj.guanzongroup.ghostrider.R;
 
 import java.util.List;
 
-public class AdapterRewards extends RecyclerView.Adapter<AdapterRewards.RewardsViewHolder> {
+public class AdapterRewardsClaimed extends RecyclerView.Adapter<AdapterRewardsClaimed.RewardsViewHolder> {
 
     private final List<PanaloRewards> poList;
     private final OnClickListener mListener;
@@ -26,14 +26,14 @@ public class AdapterRewards extends RecyclerView.Adapter<AdapterRewards.RewardsV
 
     }
 
-    public AdapterRewards(List<PanaloRewards> poList, OnClickListener mListener) {
+    public AdapterRewardsClaimed(List<PanaloRewards> poList, OnClickListener mListener) {
         this.poList = poList;
         this.mListener = mListener;
     }
     @NonNull
     @Override
     public RewardsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_rewards, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_claim, parent, false);
         return new RewardsViewHolder(view);
     }
 
@@ -82,7 +82,7 @@ public class AdapterRewards extends RecyclerView.Adapter<AdapterRewards.RewardsV
             lblRewardNme = itemView.findViewById(R.id.lblRwrdNme);
             lblRwrdType = itemView.findViewById(R.id.lblRwrdType);
             lblRewardDte = itemView.findViewById(R.id.lblRwrdDte);
-            btnUse = itemView.findViewById(R.id.btn_dialogClaim);
+            btnUse = itemView.findViewById(R.id.btn_redeem);
         }
     }
 }
