@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DPacita.BranchRecords;
+import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.guanzongroup.pacitareward.R;
 
 import java.util.List;
@@ -38,7 +39,7 @@ public class RecyclerViewAdapter_BranchRecord extends RecyclerView.Adapter<Recyc
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewHolder_BranchRecord holder, int position) {
-        holder.mtvrecord_date.setText(branchRecords.get(position).dTransact);
+        holder.mtvrecord_date.setText(FormatUIText.formatGOCasBirthdate(branchRecords.get(position).dTransact));
         holder.mtvrecord_rate.setText(branchRecords.get(position).nRatingxx);
 
         holder.mtvrecord_date.setOnClickListener(v -> mlistener.onItemSelected(branchRecords.get(position).sTransNox));

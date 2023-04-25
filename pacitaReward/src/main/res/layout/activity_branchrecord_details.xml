@@ -63,7 +63,7 @@
                 android:id="@+id/txtv_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="List of Evaluations"
+                android:text="Evaluation Record Details"
                 android:textSize="15sp"
                 android:gravity="center"
                 android:paddingVertical="10dp"
