@@ -17,13 +17,12 @@ import androidx.lifecycle.LiveData;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.rmj.g3appdriver.dev.Api.GCircleApi;
 import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DRemittanceAccounts;
 import org.rmj.g3appdriver.dev.Database.GCircle.Entities.ERemittanceAccounts;
 import org.rmj.g3appdriver.dev.Database.GCircle.GGC_GCircleDB;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.dev.Api.WebClient;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.dev.Api.WebApi;
 
 import java.util.List;
 
@@ -31,16 +30,14 @@ public class RRemittanceAccount {
 
     private final DRemittanceAccounts poDao;
 
-    private final AppConfigPreference poConfig;
-    private final WebApi poApi;
+    private final GCircleApi poApi;
     private final HttpHeaders poHeaders;
 
     private String message;
 
     public RRemittanceAccount(Application instance) {
         this.poDao = GGC_GCircleDB.getInstance(instance).RemitanceAccDao();
-        this.poConfig = AppConfigPreference.getInstance(instance);
-        this.poApi = new WebApi(poConfig.getTestStatus());
+        this.poApi = new GCircleApi(instance);
         this.poHeaders = HttpHeaders.getInstance(instance);
     }
 
@@ -55,7 +52,7 @@ public class RRemittanceAccount {
             param.put("descript", "all");
 
             String lsResponse = WebClient.sendRequest(
-                    poApi.getUrlBranchRemittanceAcc(poConfig.isBackUpServer()),
+                    poApi.getUrlBranchRemittanceAcc(),
                     param.toString(),
                     poHeaders.getHeaders());
 
@@ -107,7 +104,7 @@ public class RRemittanceAccount {
             param.put("descript", "all");
 
             String lsResponse = WebClient.sendRequest(
-                    poApi.getUrlBranchRemittanceAcc(poConfig.isBackUpServer()),
+                    poApi.getUrlBranchRemittanceAcc(),
                     param.toString(),
                     poHeaders.getHeaders());
 
@@ -152,13 +149,5 @@ public class RRemittanceAccount {
 
     public LiveData<List<ERemittanceAccounts>> getRemittanceOtherAccount(){
         return poDao.getRemittanceOtherAccountsList();
-    }
-
-    public LiveData<ERemittanceAccounts> getDefaultRemittanceAccount(){
-        return poDao.getDefaultRemittanceAccount();
-    }
-
-    public List<ERemittanceAccounts> getRemittanceAccountIfExist(){
-        return poDao.getRemittanceAccountsIfExist();
     }
 }

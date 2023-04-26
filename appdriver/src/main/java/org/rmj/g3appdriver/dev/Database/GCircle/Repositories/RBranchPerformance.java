@@ -18,6 +18,7 @@ import androidx.lifecycle.LiveData;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.rmj.g3appdriver.dev.Api.GCircleApi;
 import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DBranchPerformance;
 import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EBranchPerformance;
@@ -25,8 +26,6 @@ import org.rmj.g3appdriver.dev.Database.GCircle.GGC_GCircleDB;
 import org.rmj.g3appdriver.lib.BullsEye.PerformancePeriod;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.dev.DeptCode;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.dev.Api.WebApi;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,16 +35,14 @@ public class RBranchPerformance {
 
     private DBranchPerformance poDao;
 
-    private final AppConfigPreference poConfig;
-    private final WebApi poApi;
+    private final GCircleApi poApi;
     private final HttpHeaders poHeaders;
 
     private String message;
 
     public RBranchPerformance(Application instance) {
         this.poDao = GGC_GCircleDB.getInstance(instance).BranchPerformanceDao();
-        this.poConfig = AppConfigPreference.getInstance(instance);
-        this.poApi = new WebApi(poConfig.getTestStatus());
+        this.poApi = new GCircleApi(instance);
         this.poHeaders = HttpHeaders.getInstance(instance);
     }
 
@@ -57,81 +54,8 @@ public class RBranchPerformance {
         poDao.insertBulkData(list);
     }
 
-    public LiveData<List<EBranchPerformance>> getBranchPerformanceForDashBoard(){
-        return poDao.getBranchPerformanceForDashBoard();
-    }
-//
-//    public LiveData<List<EBranchPerformance>> getMCSalesBranchPerformanceASC(){
-//        return poDao.getMCSalesBranchPerformanceASC();
-//    }
-//
-//    public LiveData<List<EBranchPerformance>> getMCSalesBranchPerformanceDESC(){
-//        return poDao.getMCSalesBranchPerformanceDESC();
-//    }
-//
-//    public LiveData<List<EBranchPerformance>> getSPSalesBranchPerformanceASC(){
-//        return poDao.getSPSalesBranchPerformanceASC();
-//    }
-//
-//    public LiveData<List<EBranchPerformance>> getSPSalesBranchPerformanceDESC(){
-//        return poDao.getSPSalesBranchPerformanceDESC();
-//    }
-//
-//    public LiveData<List<EBranchPerformance>> getJOBranchPerformanceASC(){
-//        return poDao.getJOBranchPerformanceASC();
-//    }
-//
-//    public LiveData<List<EBranchPerformance>> getJOBranchPerformanceDESC(){
-//        return poDao.getJOBranchPerformanceDESC();
-//    }
-
-//    public String getUserAreaCode(){
-//        return poDao.getUserAreaCode();
-//    }
-
     public LiveData<List<EBranchPerformance>> getAllBranchPerformanceInfoByBranch(String branchCD){
         return poDao.getAllBranchPerformanceInfoByBranch(branchCD);
-    }
-
-    // For Area Monitoring
-    public LiveData<List<EBranchPerformance>> getAreaBranchesMCSalesPerformance(String fsPeriodx) {
-        return poDao.getAreaBranchesMCSalesPerformance(fsPeriodx);
-    }
-
-    public LiveData<List<EBranchPerformance>> getAreaBranchesSPSalesPerformance(String fsPeriodx) {
-        return poDao.getAreaBranchesSPSalesPerformance(fsPeriodx);
-    }
-
-    public LiveData<DBranchPerformance.ActualGoal> getMCBranchPerformance(){
-        return poDao.getMCBranchPerformance();
-    }
-
-    public LiveData<DBranchPerformance.ActualGoal> getSPBranchPerformance(){
-        return poDao.getSPBranchPerformance();
-    }
-
-    public LiveData<List<DBranchPerformance.PeriodicalPerformance>> getMCBranchPeriodicalPerformance(){
-        return poDao.getMCBranchPeriodicalPerformance();
-    }
-
-    public LiveData<List<DBranchPerformance.PeriodicalPerformance>> getSPBranchPeriodicalPerformance(){
-        return poDao.getSPBranchPeriodicalPerformance();
-    }
-
-    public LiveData<EBranchPerformance> getCurrentPeriodPerformance(){
-        return poDao.getCurrentPeriodPerformance();
-    }
-
-    public LiveData<DBranchPerformance.PeriodRange> getPeriodRange(){
-        return poDao.getPeriodRange();
-    }
-
-    public LiveData<DBranchPerformance.MonthlyPieChart> getMonthlyPieChartData(String fsPeriodx) {
-        return poDao.getMonthlyPieChartData(fsPeriodx);
-    }
-
-    public LiveData<DBranchPerformance.MonthlyPieChart> get12MonthPieChartData(String fsValue1, String fsValue2) {
-        return poDao.get12MonthPieChartData(fsValue1, fsValue2);
     }
 
     public LiveData<DBranchPerformance.MonthlyPieChart> get12MonthBranchPieChartData(String sBranchCd, String fsValue1, String fsValue2) {
@@ -170,7 +94,7 @@ public class RBranchPerformance {
                 params.put("areacd", lsAreaCode);
 
                 String lsResponse = WebClient.sendRequest(
-                        poApi.getImportBranchPerformance(poConfig.isBackUpServer()),
+                        poApi.getImportBranchPerformance(),
                         params.toString(),
                         poHeaders.getHeaders());
 

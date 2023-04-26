@@ -19,6 +19,7 @@ import androidx.lifecycle.LiveData;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.apprdiver.util.SQLUtil;
+import org.rmj.g3appdriver.dev.Api.GCircleApi;
 import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DEmployeeBusinessTrip;
 import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EEmployeeBusinessTrip;
@@ -29,12 +30,10 @@ import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.dev.Api.WebClient;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.lib.PetManager.model.iPM;
 import org.rmj.g3appdriver.lib.PetManager.pojo.OBApplication;
 import org.rmj.g3appdriver.lib.PetManager.pojo.OBApprovalInfo;
-import org.rmj.g3appdriver.dev.Api.WebApi;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -45,16 +44,14 @@ public class EmployeeOB implements iPM {
     private static final String TAG = EmployeeOB.class.getSimpleName();
 
     private final DEmployeeBusinessTrip poDao;
-    private final AppConfigPreference poConfig;
-    private final WebApi poApi;
+    private final GCircleApi poApi;
     private final HttpHeaders poHeaders;
     private final EmployeeMaster poUser;
     private String message;
 
     public EmployeeOB(Application instance){
         this.poDao = GGC_GCircleDB.getInstance(instance).employeeOBDao();
-        this.poConfig = AppConfigPreference.getInstance(instance);
-        this.poApi = new WebApi(poConfig.getTestStatus());
+        this.poApi = new GCircleApi(instance);
         this.poHeaders = HttpHeaders.getInstance(instance);
         this.poUser = new EmployeeMaster(instance);
     }
@@ -72,7 +69,7 @@ public class EmployeeOB implements iPM {
     public boolean ImportApplications() {
         try{
             String obResponse = WebClient.sendRequest(
-                    poApi.getUrlGetObApplication(poConfig.isBackUpServer()),
+                    poApi.getUrlGetObApplication(),
                     new JSONObject().toString(),
                     poHeaders.getHeaders());
 

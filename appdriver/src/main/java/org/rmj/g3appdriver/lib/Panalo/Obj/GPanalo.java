@@ -1,18 +1,18 @@
 package org.rmj.g3appdriver.lib.Panalo.Obj;
 
+import android.app.Application;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.rmj.g3appdriver.dev.Api.GCircleApi;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
-import org.rmj.g3appdriver.dev.Api.WebApi;
 import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DPanalo;
 import org.rmj.g3appdriver.dev.Database.GCircle.GGC_GCircleDB;
 import org.rmj.g3appdriver.dev.encryp.CodeGenerator;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.lib.Panalo.model.PanaloRewards;
 
 import java.util.ArrayList;
@@ -25,17 +25,15 @@ public class GPanalo {
 
     private final DPanalo poDao;
 
-    private final WebApi poApis;
-    private final AppConfigPreference poConfig;
+    private final GCircleApi poApis;
     private final HttpHeaders poHeaders;
 
     private String message;
 
-    public GPanalo(Context context) {
-        this.mContext = context;
+    public GPanalo(Application instance) {
+        this.mContext = instance;
         this.poDao = GGC_GCircleDB.getInstance(mContext).panaloDao();
-        this.poConfig = AppConfigPreference.getInstance(mContext);
-        this.poApis = new WebApi(poConfig.getTestStatus());
+        this.poApis = new GCircleApi(instance);
         this.poHeaders = HttpHeaders.getInstance(mContext);
     }
 
@@ -49,7 +47,7 @@ public class GPanalo {
             params.put("transtat", args);
 
             String lsResponse = WebClient.sendRequest(
-                    poApis.getUrlGetPanaloRewards(poConfig.isBackUpServer()),
+                    poApis.getUrlGetPanaloRewards(),
                     params.toString(),
                     poHeaders.getHeaders());
             if(lsResponse == null){
@@ -106,7 +104,7 @@ public class GPanalo {
             params.put("transtat", args);
 
             String lsResponse = WebClient.sendRequest(
-                    poApis.getClaimPanaloReward(poConfig.isBackUpServer()),
+                    poApis.getClaimPanaloReward(),
                     params.toString(),
                     poHeaders.getHeaders());
             if(lsResponse == null){
@@ -154,7 +152,7 @@ public class GPanalo {
     public List<String> GetParticipants(){
         try{
             String lsResponse = WebClient.sendRequest(
-                    poApis.getUrlGetRaffleParticipants(poConfig.isBackUpServer()),
+                    poApis.getUrlGetRaffleParticipants(),
                     "",
                     poHeaders.getHeaders());
             if(lsResponse == null){

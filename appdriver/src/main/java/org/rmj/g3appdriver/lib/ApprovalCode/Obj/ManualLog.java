@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData;
 
 import org.json.JSONObject;
 import org.rmj.appdriver.mob.lib.RequestApproval;
+import org.rmj.g3appdriver.dev.Api.GCircleApi;
 import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DApprovalCode;
 import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EBranchInfo;
@@ -18,7 +19,6 @@ import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.lib.ApprovalCode.model.SCA;
 import org.rmj.g3appdriver.lib.ApprovalCode.pojo.CreditAppInfo;
 import org.rmj.g3appdriver.lib.ApprovalCode.pojo.ManualTimeLog;
-import org.rmj.g3appdriver.dev.Api.WebApi;
 
 import java.util.List;
 
@@ -28,7 +28,7 @@ public class ManualLog implements SCA {
 
     private final RBranch poBranch;
     private final AppConfigPreference poConfig;
-    private final WebApi poApi;
+    private final GCircleApi poApi;
     private final HttpHeaders poHeaders;
 
     private String message;
@@ -37,7 +37,7 @@ public class ManualLog implements SCA {
         this.poDao = GGC_GCircleDB.getInstance(instance).ApprovalDao();
         this.poBranch = new RBranch(instance);
         this.poConfig = AppConfigPreference.getInstance(instance);
-        this.poApi = new WebApi(poConfig.getTestStatus());
+        this.poApi = new GCircleApi(instance);
         this.poHeaders = HttpHeaders.getInstance(instance);
     }
 
@@ -131,7 +131,7 @@ public class ManualLog implements SCA {
             param.put("cTranStat", loCode.getTranStat());
 
             String lsResponse = WebClient.sendRequest(
-                    poApi.getUrlSaveApproval(poConfig.isBackUpServer()),
+                    poApi.getUrlSaveApproval(),
                     param.toString(),
                     poHeaders.getHeaders());
 

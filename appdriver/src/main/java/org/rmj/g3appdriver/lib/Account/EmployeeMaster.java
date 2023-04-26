@@ -20,6 +20,7 @@ import androidx.lifecycle.LiveData;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.apprdiver.util.SQLUtil;
+import org.rmj.g3appdriver.dev.Api.GCircleApi;
 import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DEmployeeRole;
@@ -30,7 +31,6 @@ import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.dev.Device.Telephony;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.dev.Api.WebApi;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -46,7 +46,7 @@ public class EmployeeMaster {
 
     private final LiveData<EEmployeeInfo> employeeInfo;
     private final SessionManager poSession;
-    private final WebApi webApi;
+    private final GCircleApi webApi;
     private final HttpHeaders headers;
     private final AppConfigPreference poConfig;
     private final Telephony poDevID;
@@ -60,7 +60,7 @@ public class EmployeeMaster {
         this.employeeInfo = poDao.getEmployeeInfo();
         this.poSession = new SessionManager(instance);
         this.poConfig = AppConfigPreference.getInstance(instance);
-        this.webApi = new WebApi(poConfig.getTestStatus());
+        this.webApi = new GCircleApi(application);
         this.headers = HttpHeaders.getInstance(instance);
         this.poDevID = new Telephony(instance);
     }
@@ -81,10 +81,6 @@ public class EmployeeMaster {
 
     public String getUserAreaCode(){
         return poDao.getUserAreaCode();
-    }
-
-    public LiveData<String> getUserAreaCodeForDashboard(){
-        return poDao.getUserAreaCodeForDashboard();
     }
 
     public LiveData<EEmployeeInfo> GetEmployeeInfo(){
@@ -128,7 +124,7 @@ public class EmployeeMaster {
             params.put("pswd", foVal.getPassword());
 
             String lsResponse = WebClient.sendRequest(
-                    webApi.getUrlAuthEmployee(poConfig.isBackUpServer()),
+                    webApi.getUrlAuthEmployee(),
                     params.toString(),
                     headers.getHeaders());
             if(lsResponse == null){
@@ -192,7 +188,7 @@ public class EmployeeMaster {
         try{
             JSONObject params = new JSONObject();
             String lsResponse = WebClient.sendRequest(
-                    webApi.getRequestUserAccess(poConfig.isBackUpServer()),
+                    webApi.getRequestUserAccess(),
                     params.toString(),
                     headers.getHeaders());
             if (lsResponse == null) {

@@ -19,13 +19,12 @@ import androidx.lifecycle.LiveData;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.apprdiver.util.SQLUtil;
+import org.rmj.g3appdriver.dev.Api.GCircleApi;
 import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DCountryInfo;
 import org.rmj.g3appdriver.dev.Database.GCircle.Entities.ECountryInfo;
 import org.rmj.g3appdriver.dev.Database.GCircle.GGC_GCircleDB;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.dev.Api.WebApi;
 
 import java.util.Date;
 import java.util.List;
@@ -34,16 +33,14 @@ public class RCountry {
     private static final String TAG = RCountry.class.getSimpleName();
     private final DCountryInfo poDao;
 
-    private final AppConfigPreference poConfig;
-    private final WebApi poApi;
+    private final GCircleApi poApi;
     private final HttpHeaders poHeaders;
 
     private String message;
 
     public RCountry(Application instance){
         this.poDao = GGC_GCircleDB.getInstance(instance).CountryDao();
-        this.poConfig = AppConfigPreference.getInstance(instance);
-        this.poApi = new WebApi(poConfig.getTestStatus());
+        this.poApi = new GCircleApi(instance);
         this.poHeaders = HttpHeaders.getInstance(instance);
     }
 
@@ -53,14 +50,6 @@ public class RCountry {
 
     public LiveData<List<ECountryInfo>> getAllCountryInfo() {
         return poDao.getAllCountryInfo();
-    }
-
-    public LiveData<String[]> getAllCountryNames(){
-        return poDao.getAllCountryNames();
-    }
-
-    public LiveData<String[]> getAllCountryCitizenName(){
-        return poDao.getAllCountryCitizenNames();
     }
 
     public void insertBulkData(List<ECountryInfo> countryInfos){
@@ -75,14 +64,6 @@ public class RCountry {
         return poDao.getCountryInfo(ID);
     }
 
-    public LiveData<String> getClientCitizenship(String CntryCde){
-        return poDao.getClientCitizenship(CntryCde);
-    }
-
-    public LiveData<String> getCountryNameFromId(String fsCntryCd) {
-        return  poDao.getCountryNameFromId(fsCntryCd);
-    }
-
     public boolean ImportCountry(){
         try {
             JSONObject params = new JSONObject();
@@ -95,7 +76,7 @@ public class RCountry {
             }
 
             String lsResponse = WebClient.sendRequest(
-                    poApi.getUrlImportCountry(poConfig.isBackUpServer()),
+                    poApi.getUrlImportCountry(),
                     params.toString(),
                     poHeaders.getHeaders());
 

@@ -19,6 +19,7 @@ import androidx.lifecycle.LiveData;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.apprdiver.util.SQLUtil;
+import org.rmj.g3appdriver.dev.Api.GCircleApi;
 import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DEmployeeLeave;
 import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EEmployeeBusinessTrip;
@@ -29,12 +30,10 @@ import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.lib.Account.SessionManager;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.dev.Api.WebClient;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.lib.PetManager.model.iPM;
 import org.rmj.g3appdriver.lib.PetManager.pojo.LeaveApplication;
 import org.rmj.g3appdriver.lib.PetManager.pojo.LeaveApprovalInfo;
-import org.rmj.g3appdriver.dev.Api.WebApi;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -44,8 +43,7 @@ import java.util.Locale;
 public class EmployeeLeave implements iPM {
     private static final String TAG = EmployeeLeave.class.getSimpleName();
     private final DEmployeeLeave poDao;
-    private final AppConfigPreference poConfig;
-    private final WebApi poApi;
+    private final GCircleApi poApi;
     private final HttpHeaders poHeaders;
     private final SessionManager poSession;
     private final EmployeeMaster poUser;
@@ -53,8 +51,7 @@ public class EmployeeLeave implements iPM {
 
     public EmployeeLeave(Application instance) {
         this.poDao = GGC_GCircleDB.getInstance(instance).employeeLeaveDao();
-        this.poConfig = AppConfigPreference.getInstance(instance);
-        this.poApi = new WebApi(poConfig.getTestStatus());
+        this.poApi = new GCircleApi(instance);
         this.poHeaders = HttpHeaders.getInstance(instance);
         this.poSession = new SessionManager(instance);
         this.poUser = new EmployeeMaster(instance);
@@ -68,7 +65,7 @@ public class EmployeeLeave implements iPM {
     @Override
     public boolean ImportApplications() {
         try{
-            String lsAddress = poApi.getUrlGetLeaveApplication(poConfig.isBackUpServer());
+            String lsAddress = poApi.getUrlGetLeaveApplication();
 
             String lsResponse = WebClient.sendRequest(
                     lsAddress,
@@ -172,7 +169,7 @@ public class EmployeeLeave implements iPM {
 
             JSONObject params = new JSONObject();
             params.put("sTransNox", args);
-            String lsAddress = poApi.getUrlGetLeaveApplication(poConfig.isBackUpServer());
+            String lsAddress = poApi.getUrlGetLeaveApplication();
             Log.d(TAG, "Connecting to " + lsAddress + "...");
             String lsResponse = WebClient.sendRequest(
                     lsAddress,
@@ -326,7 +323,7 @@ public class EmployeeLeave implements iPM {
             param.put("sModified", poSession.getEmployeeID());
 
             String lsResponse = WebClient.sendRequest(
-                    poApi.getUrlSendLeaveApplication(poConfig.isBackUpServer()),
+                    poApi.getUrlSendLeaveApplication(),
                     param.toString(),
                     poHeaders.getHeaders());
 
@@ -409,7 +406,7 @@ public class EmployeeLeave implements iPM {
             params.put("dApproved", foVal.getApproved());
 
             String lsResponse = WebClient.sendRequest(
-                    poApi.getUrlConfirmLeaveApplication(poConfig.isBackUpServer()),
+                    poApi.getUrlConfirmLeaveApplication(),
                     params.toString(),
                     poHeaders.getHeaders());
 
@@ -477,7 +474,7 @@ public class EmployeeLeave implements iPM {
 
                 Log.d(TAG, "Uploading leave application no.: " + x + " out of " + loDetail.size());
                 String lsResponse = WebClient.sendRequest(
-                        poApi.getUrlSendLeaveApplication(poConfig.isBackUpServer()),
+                        poApi.getUrlSendLeaveApplication(),
                         param.toString(),
                         poHeaders.getHeaders());
                 if(lsResponse == null){

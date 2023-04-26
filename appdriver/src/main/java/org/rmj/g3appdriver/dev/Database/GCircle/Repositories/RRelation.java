@@ -19,15 +19,13 @@ import androidx.lifecycle.LiveData;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.apprdiver.util.SQLUtil;
+import org.rmj.g3appdriver.dev.Api.GCircleApi;
 import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DRelation;
 import org.rmj.g3appdriver.dev.Database.GCircle.Entities.ERelation;
 import org.rmj.g3appdriver.dev.Database.GCircle.GGC_GCircleDB;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.dev.Api.WebApi;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -37,16 +35,14 @@ public class RRelation {
 
     private final DRelation poDao;
 
-    private final AppConfigPreference poConfig;
-    private final WebApi poApi;
+    private final GCircleApi poApi;
     private final HttpHeaders poHeaders;
 
     private String message;
 
     public RRelation(Application instance){
         this.poDao = GGC_GCircleDB.getInstance(instance).RelDao();
-        this.poConfig = AppConfigPreference.getInstance(instance);
-        this.poApi = new WebApi(poConfig.getTestStatus());
+        this.poApi = new GCircleApi(instance);
         this.poHeaders = HttpHeaders.getInstance(instance);
     }
 
@@ -54,42 +50,8 @@ public class RRelation {
         return message;
     }
 
-    public String getRelationFromId(String fsRelatId) {
-        return poDao.getRelationFromId(fsRelatId);
-    }
-
     public LiveData<List<ERelation>> getRelation(){
         return poDao.getRelation();
-    }
-
-    public LiveData<String[]> getAllRelatnDs(){
-        return poDao.getRelatnDs();
-    }
-
-    public boolean insertBulkRelation(JSONArray faJson) throws Exception {
-        try {
-            List<ERelation> relations = new ArrayList<>();
-            for (int x = 0; x < faJson.length(); x++) {
-                JSONObject loJson = faJson.getJSONObject(x);
-                if(poDao.GetRelationInfo(loJson.getString("sRelatnID")) == null) {
-                    ERelation loanInfo = new ERelation();
-                    loanInfo.setRelatnID(loJson.getString("sRelatnID"));
-                    loanInfo.setRelatnDs(loJson.getString("sRelatnDs"));
-                    loanInfo.setRecdStats(loJson.getString("cRecdStat"));
-                    loanInfo.setTimeStmp(loJson.getString("dTimeStmp"));
-                    relations.add(loanInfo);
-                }
-            }
-            poDao.insertBulkData(relations);
-            return true;
-        } catch (Exception e){
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    public Integer GetRelationRecordsCount(){
-        return poDao.GetRelationRecordsCount();
     }
 
     public boolean ImportRelations(){
@@ -103,8 +65,8 @@ public class RRelation {
                 params.put("timestamp", loDetail.getTimeStmp());
             }
 
-            String lsResponse = WebClient.sendRequest(poApi.getUrlDownloadRelation(
-                    poConfig.isBackUpServer()),
+            String lsResponse = WebClient.sendRequest(
+                    poApi.getUrlDownloadRelation(),
                     params.toString(),
                     poHeaders.getHeaders());
 

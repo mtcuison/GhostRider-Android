@@ -19,13 +19,12 @@ import androidx.lifecycle.LiveData;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.apprdiver.util.SQLUtil;
+import org.rmj.g3appdriver.dev.Api.GCircleApi;
 import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DOccupationInfo;
 import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EOccupationInfo;
 import org.rmj.g3appdriver.dev.Database.GCircle.GGC_GCircleDB;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.dev.Api.WebApi;
 
 import java.util.Date;
 import java.util.List;
@@ -35,25 +34,19 @@ public class ROccupation {
 
     private final DOccupationInfo poDao;
 
-    private final AppConfigPreference poConfig;
-    private final WebApi poApi;
+    private final GCircleApi poApi;
     private final HttpHeaders poHeaders;
 
     private String message;
 
     public ROccupation(Application instance){
         this.poDao = GGC_GCircleDB.getInstance(instance).OccupationDao();
-        this.poConfig = AppConfigPreference.getInstance(instance);
-        this.poApi = new WebApi(poConfig.getTestStatus());
+        this.poApi = new GCircleApi(instance);
         this.poHeaders = HttpHeaders.getInstance(instance);
     }
 
     public String getMessage() {
         return message;
-    }
-
-    public LiveData<String[]> getAllOccupationNameList() {
-        return poDao.getOccupationNameList();
     }
 
     public LiveData<List<EOccupationInfo>> getAllOccupationInfo() {
@@ -72,10 +65,6 @@ public class ROccupation {
         return poDao.getLatestDataTime();
     }
 
-    public LiveData<String> getLiveOccupationName(String ID) {
-        return poDao.getLiveOccupationName(ID);
-    }
-
     public boolean ImportJobTitles(){
         try{
             JSONObject params = new JSONObject();
@@ -88,7 +77,7 @@ public class ROccupation {
             }
 
             String lsResponse = WebClient.sendRequest(
-                    poApi.getUrlImportOccupations(poConfig.isBackUpServer()),
+                    poApi.getUrlImportOccupations(),
                     params.toString(),
                     poHeaders.getHeaders());
 

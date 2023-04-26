@@ -19,13 +19,12 @@ import androidx.lifecycle.LiveData;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.apprdiver.util.SQLUtil;
+import org.rmj.g3appdriver.dev.Api.GCircleApi;
 import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DBranchInfo;
 import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EBranchInfo;
 import org.rmj.g3appdriver.dev.Database.GCircle.GGC_GCircleDB;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.dev.Api.WebApi;
 
 import java.util.Date;
 import java.util.List;
@@ -34,16 +33,14 @@ public class RBranch {
     private static final String TAG = RBranch.class.getSimpleName();
 
     private final DBranchInfo poDao;
-    private final AppConfigPreference poConfig;
-    private final WebApi poApi;
+    private final GCircleApi poApi;
     private final HttpHeaders poHeaders;
 
     private String message;
 
     public RBranch(Application instance){
         this.poDao = GGC_GCircleDB.getInstance(instance).BranchDao();
-        this.poConfig = AppConfigPreference.getInstance(instance);
-        this.poApi = new WebApi(poConfig.getTestStatus());
+        this.poApi = new GCircleApi(instance);
         this.poHeaders = HttpHeaders.getInstance(instance);
     }
 
@@ -53,18 +50,6 @@ public class RBranch {
 
     public String getLatestDataTime(){
         return poDao.getLatestDataTime();
-    }
-
-    public String getBranchNameForNotification(String BranchCd){
-        return poDao.getBranchNameForNotification(BranchCd);
-    }
-
-    public LiveData<String> getBranchAreaCode(String fsBranchCd) {
-        return poDao.getBranchAreaCode(fsBranchCd);
-    }
-
-    public LiveData<List<EBranchInfo>> getAreaBranchList(){
-        return poDao.getAreaBranchList();
     }
 
     public List<EBranchInfo> getBranchList(){
@@ -82,16 +67,8 @@ public class RBranch {
         return poDao.getMCBranchNames();
     }
 
-    public LiveData<String[]> getAllBranchNames(){
-        return poDao.getAllBranchNames();
-    }
-
     public LiveData<List<EBranchInfo>> getAllBranchInfo(){
         return poDao.getAllBranchInfo();
-    }
-
-    public LiveData<String> getPromoDivision(){
-        return poDao.getPromoDivision();
     }
 
     public LiveData<EBranchInfo> getUserBranchInfo(){
@@ -122,7 +99,7 @@ public class RBranch {
             }
 
             String lsResponse = WebClient.sendRequest(
-                    poApi.getUrlImportBranches(poConfig.isBackUpServer()),
+                    poApi.getUrlImportBranches(),
                     params.toString(),
                     poHeaders.getHeaders());
 

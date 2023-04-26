@@ -19,13 +19,12 @@ import androidx.lifecycle.LiveData;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.apprdiver.util.SQLUtil;
+import org.rmj.g3appdriver.dev.Api.GCircleApi;
 import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DBarangayInfo;
 import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EBarangayInfo;
 import org.rmj.g3appdriver.dev.Database.GCircle.GGC_GCircleDB;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.dev.Api.WebApi;
 
 import java.util.Date;
 import java.util.List;
@@ -35,16 +34,14 @@ public class RBarangay {
 
     private final DBarangayInfo poDao;
 
-    private final AppConfigPreference poConfig;
-    private final WebApi poApi;
+    private final GCircleApi poApi;
     private final HttpHeaders poHeaders;
 
     private String message;
 
     public RBarangay(Application instance){
         this.poDao = GGC_GCircleDB.getInstance(instance).BarangayDao();
-        this.poConfig = AppConfigPreference.getInstance(instance);
-        this.poApi = new WebApi(poConfig.getTestStatus());
+        this.poApi = new GCircleApi(instance);
         this.poHeaders = HttpHeaders.getInstance(instance);
     }
 
@@ -57,8 +54,7 @@ public class RBarangay {
     }
 
     public LiveData<List<EBarangayInfo>> getAllBarangayFromTown(String TownID){
-        LiveData<List<EBarangayInfo>> allBarangayFromTown = poDao.getAllBarangayInfoFromTown(TownID);
-        return allBarangayFromTown;
+        return poDao.getAllBarangayInfoFromTown(TownID);
     }
 
     public LiveData<String[]> getBarangayNamesFromTown(String TownID){
@@ -73,13 +69,6 @@ public class RBarangay {
         return poDao.getLatestDataTime();
     }
 
-    public Integer GetBarangayRecordCount(){
-        return poDao.GetBarangayRecordCount();
-    }
-    public EBarangayInfo CheckIfExist(String fsVal){
-        return poDao.CheckIfExist(fsVal);
-    }
-
     public boolean ImportBarangay(){
         try{
             JSONObject params = new JSONObject();
@@ -92,7 +81,7 @@ public class RBarangay {
             }
 
             String lsResponse = WebClient.sendRequest(
-                    poApi.getUrlImportBarangay(poConfig.isBackUpServer()),
+                    poApi.getUrlImportBarangay(),
                     params.toString(),
                     poHeaders.getHeaders());
 

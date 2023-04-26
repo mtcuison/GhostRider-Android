@@ -15,6 +15,7 @@ import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.rmj.g3appdriver.dev.Api.GCircleApi;
 import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DLocatorSysLog;
 import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EEmployeeInfo;
@@ -22,8 +23,6 @@ import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EGLocatorSysLog;
 import org.rmj.g3appdriver.dev.Database.GCircle.GGC_GCircleDB;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.dev.Api.WebApi;
 
 import java.util.List;
 
@@ -31,16 +30,14 @@ public class RLocationSysLog {
     private static final String TAG = RLocationSysLog.class.getSimpleName();
     private final DLocatorSysLog poDao;
     private final HttpHeaders poHeaders;
-    private final WebApi poApi;
-    private final AppConfigPreference poConfig;
+    private final GCircleApi poApi;
 
     private String message;
 
     public RLocationSysLog(Application instance) {
         this.poDao = GGC_GCircleDB.getInstance(instance).locatorSysLogDao();
         this.poHeaders = HttpHeaders.getInstance(instance);
-        this.poConfig = AppConfigPreference.getInstance(instance);
-        this.poApi = new WebApi(poConfig.getTestStatus());
+        this.poApi = new GCircleApi(instance);
     }
 
     public String getMessage() {
@@ -66,10 +63,6 @@ public class RLocationSysLog {
             message = e.getMessage();
             return false;
         }
-    }
-
-    public void updateSysLogStatus(String dTransact){
-        poDao.updateSysLogStatus(new AppConstants().DATE_MODIFIED(), dTransact);
     }
 
     public boolean uploadUnsentLocationTracks(){
@@ -99,7 +92,7 @@ public class RLocationSysLog {
 
             loJson.put("detail", laDetail);
 
-            String lsResponse = WebClient.sendRequest(poApi.getUrlSubmitLocationTrack(poConfig.isBackUpServer()),
+            String lsResponse = WebClient.sendRequest(poApi.getUrlSubmitLocationTrack(),
                     loJson.toString(), poHeaders.getHeaders());
             if(lsResponse == null){
                 message = "No server response.";

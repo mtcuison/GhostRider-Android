@@ -7,12 +7,11 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 
 import org.json.JSONObject;
+import org.rmj.g3appdriver.dev.Api.GCircleApi;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
-import org.rmj.g3appdriver.dev.Api.WebApi;
 import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DRaffleStatus;
 import org.rmj.g3appdriver.dev.Database.GCircle.Entities.ERaffleStatus;
 import org.rmj.g3appdriver.dev.Database.GCircle.GGC_GCircleDB;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.lib.Panalo.model.PanaloRewards;
 
 import java.util.List;
@@ -22,15 +21,13 @@ public class ILOVEMYJOB extends GPanalo {
 
     private final DRaffleStatus poDao;
 
-    private final WebApi poApis;
-    private final AppConfigPreference poConfig;
+    private final GCircleApi poApis;
     private final HttpHeaders poHeaders;
 
     public ILOVEMYJOB(Application instance) {
         super(instance);
         this.poDao = GGC_GCircleDB.getInstance(instance).raffleStatusDao();
-        this.poConfig = AppConfigPreference.getInstance(instance);
-        this.poApis = new WebApi(poConfig.getTestStatus());
+        this.poApis = new GCircleApi(instance);
         this.poHeaders = HttpHeaders.getInstance(instance);
     }
 

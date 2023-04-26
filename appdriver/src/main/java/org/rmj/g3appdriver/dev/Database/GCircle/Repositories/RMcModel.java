@@ -19,13 +19,13 @@ import androidx.lifecycle.LiveData;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.apprdiver.util.SQLUtil;
+import org.rmj.g3appdriver.dev.Api.GCircleApi;
 import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DMcModel;
 import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EMcModel;
 import org.rmj.g3appdriver.dev.Database.GCircle.GGC_GCircleDB;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.dev.Api.WebApi;
 
 import java.util.Date;
 import java.util.List;
@@ -36,16 +36,14 @@ public class RMcModel {
 
     private final DMcModel poDao;
 
-    private final AppConfigPreference poConfig;
-    private final WebApi poApi;
+    private final GCircleApi poApi;
     private final HttpHeaders poHeaders;
 
     private String message;
 
     public RMcModel(Application instance){
         this.poDao = GGC_GCircleDB.getInstance(instance).McModelDao();
-        this.poConfig = AppConfigPreference.getInstance(instance);
-        this.poApi = new WebApi(poConfig.getTestStatus());
+        this.poApi = new GCircleApi(instance);
         this.poHeaders = HttpHeaders.getInstance(instance);
     }
 
@@ -95,7 +93,7 @@ public class RMcModel {
             }
 
             String lsResponse = WebClient.sendRequest(
-                    poApi.getUrlImportMcModel(poConfig.isBackUpServer()),
+                    poApi.getUrlImportMcModel(),
                     params.toString(),
                     poHeaders.getHeaders());
 

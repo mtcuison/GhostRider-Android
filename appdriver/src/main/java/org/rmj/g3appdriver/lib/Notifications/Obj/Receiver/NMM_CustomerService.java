@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData;
 import com.google.firebase.messaging.RemoteMessage;
 
 import org.json.JSONObject;
+import org.rmj.g3appdriver.dev.Api.GCircleApi;
 import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DNotificationReceiver;
 import org.rmj.g3appdriver.dev.Database.GCircle.Entities.ENotificationMaster;
@@ -20,7 +21,6 @@ import org.rmj.g3appdriver.lib.Notifications.NOTIFICATION_STATUS;
 import org.rmj.g3appdriver.lib.Notifications.RemoteMessageParser;
 import org.rmj.g3appdriver.lib.Notifications.model.iNotification;
 import org.rmj.g3appdriver.lib.Notifications.pojo.NotificationItemList;
-import org.rmj.g3appdriver.dev.Api.WebApi;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -32,14 +32,14 @@ public class NMM_CustomerService implements iNotification {
 
     private final DNotificationReceiver poDao;
     private final HttpHeaders poHeaders;
-    private final AppConfigPreference poConfig;
+    private final GCircleApi poApi;
 
     private String message;
 
     public NMM_CustomerService(Application instance) {
         this.poDao = GGC_GCircleDB.getInstance(instance).ntfReceiverDao();
         this.poHeaders = HttpHeaders.getInstance(instance);
-        this.poConfig = AppConfigPreference.getInstance(instance);
+        this.poApi = new GCircleApi(instance);
     }
 
     @Override
@@ -97,8 +97,6 @@ public class NMM_CustomerService implements iNotification {
     @Override
     public ENotificationMaster SendResponse(String mesgID, NOTIFICATION_STATUS status) {
         try{
-            WebApi loApis = new WebApi(poConfig.getTestStatus());
-
             String lsTranStat = "";
 
             switch (status){
@@ -126,7 +124,7 @@ public class NMM_CustomerService implements iNotification {
             params.put("infox", "");
 
             String lsResponse = WebClient.sendRequest(
-                    loApis.getUrlSendResponse(poConfig.isBackUpServer()),
+                    poApi.getUrlSendResponse(),
                     params.toString(),
                     poHeaders.getHeaders());
             if(lsResponse == null){

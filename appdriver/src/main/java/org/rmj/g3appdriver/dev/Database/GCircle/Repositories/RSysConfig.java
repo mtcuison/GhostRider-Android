@@ -12,73 +12,37 @@
 package org.rmj.g3appdriver.dev.Database.GCircle.Repositories;
 
 import android.app.Application;
-import android.os.AsyncTask;
 import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.apprdiver.util.SQLUtil;
+import org.rmj.g3appdriver.dev.Api.GCircleApi;
 import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DSysConfig;
 import org.rmj.g3appdriver.dev.Database.GCircle.Entities.ESysConfig;
 import org.rmj.g3appdriver.dev.Database.GCircle.GGC_GCircleDB;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.dev.Api.WebApi;
 
 import java.util.Date;
-import java.util.List;
 
 public class RSysConfig {
     private static final String TAG = RSysConfig.class.getSimpleName();
     private final DSysConfig poDao;
 
-    private final AppConfigPreference poConfig;
-    private final WebApi poApi;
+    private final GCircleApi poApi;
     private final HttpHeaders poHeaders;
 
     private String message;
 
-    public interface OnGetDataCallback{
-        void OnResult(String result);
-    }
-
     public RSysConfig(Application instance) {
         this.poDao = GGC_GCircleDB.getInstance(instance).sysConfigDao();
-        this.poConfig = AppConfigPreference.getInstance(instance);
-        this.poApi = new WebApi(poConfig.getTestStatus());
+        this.poApi = new GCircleApi(instance);
         this.poHeaders = HttpHeaders.getInstance(instance);
     }
 
     public String getMessage() {
         return message;
-    }
-
-    public void insertSysConfig(List<ESysConfig> sysConfig){
-        poDao.insertSysConfig(sysConfig);
-    }
-
-    public void getLocationInterval(OnGetDataCallback callback){
-        new GetLocationTask(callback).execute(poDao);
-    }
-
-    private static class GetLocationTask extends AsyncTask<DSysConfig, Void, String>{
-        private final OnGetDataCallback callback;
-
-        public GetLocationTask(OnGetDataCallback callback){
-            this.callback = callback;
-        }
-
-        @Override
-        protected String doInBackground(DSysConfig... dSysConfigs) {
-            return dSysConfigs[0].getLocationInterval();
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            callback.OnResult(s);
-        }
     }
 
     public boolean ImportSysConfig(){
@@ -93,7 +57,7 @@ public class RSysConfig {
             }
 
             String lsResponse = WebClient.sendRequest(
-                    poApi.getUrlImportSysConfig(poConfig.isBackUpServer()),
+                    poApi.getUrlImportSysConfig(),
                     params.toString(),
                     poHeaders.getHeaders());
 

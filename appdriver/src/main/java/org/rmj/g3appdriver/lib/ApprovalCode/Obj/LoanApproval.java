@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.lifecycle.LiveData;
 
 import org.json.JSONObject;
+import org.rmj.g3appdriver.dev.Api.GCircleApi;
 import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DApprovalCode;
 import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EBranchInfo;
@@ -12,8 +13,6 @@ import org.rmj.g3appdriver.dev.Database.GCircle.Entities.ECodeApproval;
 import org.rmj.g3appdriver.dev.Database.GCircle.GGC_GCircleDB;
 import org.rmj.g3appdriver.dev.Database.GCircle.Repositories.RBranch;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.dev.Api.WebApi;
 import org.rmj.g3appdriver.lib.ApprovalCode.model.SCA;
 import org.rmj.g3appdriver.lib.ApprovalCode.pojo.CreditApp;
 import org.rmj.g3appdriver.lib.ApprovalCode.pojo.CreditAppInfo;
@@ -25,8 +24,7 @@ public class LoanApproval implements SCA {
     private final DApprovalCode poDao;
 
     private final RBranch poBranch;
-    private final AppConfigPreference poConfig;
-    private final WebApi poApi;
+    private final GCircleApi poApi;
     private final HttpHeaders poHeaders;
 
     private String message;
@@ -34,8 +32,7 @@ public class LoanApproval implements SCA {
     public LoanApproval(Application instance) {
         this.poDao = GGC_GCircleDB.getInstance(instance).ApprovalDao();
         this.poBranch = new RBranch(instance);
-        this.poConfig = AppConfigPreference.getInstance(instance);
-        this.poApi = new WebApi(poConfig.getTestStatus());
+        this.poApi = new GCircleApi(instance);
         this.poHeaders = HttpHeaders.getInstance(instance);
     }
 
@@ -60,7 +57,7 @@ public class LoanApproval implements SCA {
             params.put("approved", foVal.getApproved());
 
             String lsResponse = WebClient.sendRequest(
-                    poApi.getUrlApplicationApprove(poConfig.isBackUpServer()),
+                    poApi.getUrlApplicationApprove(),
                     params.toString(),
                     poHeaders.getHeaders());
 
@@ -114,7 +111,7 @@ public class LoanApproval implements SCA {
             param.put("cTranStat", loCode.getTranStat());
 
             String lsResponse = WebClient.sendRequest(
-                    poApi.getUrlSaveApproval(poConfig.isBackUpServer()),
+                    poApi.getUrlSaveApproval(),
                     param.toString(),
                     poHeaders.getHeaders());
 
@@ -158,7 +155,7 @@ public class LoanApproval implements SCA {
             params.put("transnox", args2);
 
             String lsResponse = WebClient.sendRequest(
-                    poApi.getUrlLoadApplicationApproval(poConfig.isBackUpServer()),
+                    poApi.getUrlLoadApplicationApproval(),
                     params.toString(),
                     poHeaders.getHeaders());
 

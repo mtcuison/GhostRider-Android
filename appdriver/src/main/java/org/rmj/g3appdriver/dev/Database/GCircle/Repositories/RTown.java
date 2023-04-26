@@ -19,13 +19,12 @@ import androidx.lifecycle.LiveData;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.apprdiver.util.SQLUtil;
+import org.rmj.g3appdriver.dev.Api.GCircleApi;
 import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.dev.Database.GCircle.Entities.ETownInfo;
 import org.rmj.g3appdriver.dev.Database.GCircle.GGC_GCircleDB;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.dev.Api.WebApi;
 
 import java.util.Date;
 import java.util.List;
@@ -36,29 +35,19 @@ import java.util.Objects;
 
     private final DTownInfo poDao;
 
-    private final AppConfigPreference poConfig;
-    private final WebApi poApi;
+    private final GCircleApi poApi;
     private final HttpHeaders poHeaders;
 
     private String message;
 
     public RTown(Application instance){
         this.poDao = GGC_GCircleDB.getInstance(instance).TownDao();
-        this.poConfig = AppConfigPreference.getInstance(instance);
-        this.poApi = new WebApi(poConfig.getTestStatus());
+        this.poApi = new GCircleApi(instance);
         this.poHeaders = HttpHeaders.getInstance(instance);
     }
 
     public String getMessage() {
         return message;
-    }
-
-    public LiveData<List<ETownInfo>> getTownInfoFromProvince(String ProvinceID){
-        return poDao.getAllTownInfoFromProvince(ProvinceID);
-    }
-
-    public LiveData<String[]> getTownNamesFromProvince(String ProvinceID){
-        return poDao.getTownNamesFromProvince(ProvinceID);
     }
 
     public void insertBulkData(List<ETownInfo> townInfoList){
@@ -83,42 +72,6 @@ import java.util.Objects;
         return poDao.getTownProvinceNames(TownID);
     }
 
-    public LiveData<DTownInfo.TownProvinceName> getLiveTownProvinceNames(String TownID){
-        return poDao.getLiveTownProvinceNames(TownID);
-    }
-    public LiveData<DTownInfo.TownProvinceInfo> getTownProvinceByTownID(String TownID){
-        return poDao.getTownProvinceByTownID(TownID);
-    }
-    public LiveData<DTownInfo.TownProvinceInfo> getTownProvinceByTownName(String TownNm){
-        return poDao.getTownProvinceByTownName(TownNm);
-    }
-    public LiveData<DTownInfo.BrgyTownProvinceInfoWithID> getBrgyTownProvinceInfoWithID(String BrgyID){
-        return poDao.getBrgyTownProvinceInfoWithID(BrgyID);
-    }
-
-    public void saveTownInfo(JSONArray faJson) throws Exception {
-        for (int x = 0; x < faJson.length(); x++) {
-            JSONObject loJson = faJson.getJSONObject(x);
-            if(poDao.GetTown(loJson.getString("sTownIDxx")) == null){
-                ETownInfo loTown = new ETownInfo();
-                loTown.setTownIDxx(loJson.getString("sTownIDxx"));
-                loTown.setTownName(loJson.getString("sTownName"));
-                loTown.setZippCode(loJson.getString("sZippCode"));
-                loTown.setProvIDxx(loJson.getString("sProvIDxx"));
-                loTown.setMuncplCd(loJson.getString("sMuncplCd"));
-                loTown.setHasRoute(loJson.getString("cHasRoute"));
-                loTown.setBlackLst(loJson.getString("cBlackLst"));
-                loTown.setRecdStat(loJson.getString("cRecdStat"));
-                loTown.setTimeStmp(loJson.getString("dTimeStmp"));
-                poDao.insert(loTown);
-            }
-        }
-    }
-
-    public Integer GetTownRecordsCount(){
-        return poDao.GetTownRecordsCount();
-    }
-
     public boolean ImportTown(){
         try{
             JSONObject params = new JSONObject();
@@ -132,7 +85,7 @@ import java.util.Objects;
             }
 
             String lsResponse = WebClient.sendRequest(
-                    poApi.getUrlImportTown(poConfig.isBackUpServer()),
+                    poApi.getUrlImportTown(),
                     params.toString(),
                     poHeaders.getHeaders());
 

@@ -8,15 +8,14 @@ import androidx.lifecycle.LiveData;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.apprdiver.util.SQLUtil;
+import org.rmj.g3appdriver.dev.Api.GCircleApi;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
-import org.rmj.g3appdriver.dev.Api.WebApi;
 import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DPacita;
 import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EBranchInfo;
 import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EPacitaEvaluation;
 import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EPacitaRule;
 import org.rmj.g3appdriver.dev.Database.GCircle.GGC_GCircleDB;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
 
 import java.text.SimpleDateFormat;
@@ -29,16 +28,14 @@ public class Pacita {
 
     private final DPacita poDao;
     private final HttpHeaders poHeaders;
-    private final AppConfigPreference poConfig;
-    private final WebApi poApi;
+    private final GCircleApi poApi;
 
     private String message;
 
     public Pacita(Application instance) {
         this.poDao = GGC_GCircleDB.getInstance(instance).pacitaDao();
         this.poHeaders = HttpHeaders.getInstance(instance);
-        this.poConfig = AppConfigPreference.getInstance(instance);
-        this.poApi = new WebApi(poConfig.getTestStatus());
+        this.poApi = new GCircleApi(instance);
     }
 
     public String getMessage() {
@@ -67,7 +64,7 @@ public class Pacita {
             }
 
             String lsResponse = WebClient.sendRequest(
-                    poApi.getUrlGetPacitaRules(poConfig.isBackUpServer()),
+                    poApi.getUrlGetPacitaRules(),
                     params.toString(),
                     poHeaders.getHeaders());
 
@@ -148,7 +145,7 @@ public class Pacita {
             params.put("sBranchCD", BranchCD);
 
             String lsResponse = WebClient.sendRequest(
-                    poApi.getUrlGetPacitaEvaluations(poConfig.isBackUpServer()),
+                    poApi.getUrlGetPacitaEvaluations(),
                     params.toString(),
                     poHeaders.getHeaders());
 
@@ -289,7 +286,7 @@ public class Pacita {
 
             Log.d(TAG, params.toString());
             String lsResponse = WebClient.sendRequest(
-                    poApi.getUrlSubmitPacitaResult(poConfig.isBackUpServer()),
+                    poApi.getUrlSubmitPacitaResult(),
                     params.toString(),
                     poHeaders.getHeaders());
 

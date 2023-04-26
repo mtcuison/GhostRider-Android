@@ -21,6 +21,7 @@ import androidx.sqlite.db.SimpleSQLiteQuery;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.apprdiver.util.MiscUtil;
+import org.rmj.g3appdriver.dev.Api.GCircleApi;
 import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DApprovalCode;
 import org.rmj.g3appdriver.dev.Database.GCircle.Entities.ECodeApproval;
@@ -28,14 +29,12 @@ import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.GCircle.Entities.ESCA_Request;
 import org.rmj.g3appdriver.dev.Database.GCircle.GGC_GCircleDB;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.lib.ApprovalCode.Obj.LoanApproval;
 import org.rmj.g3appdriver.lib.ApprovalCode.Obj.ManualLog;
 import org.rmj.g3appdriver.lib.ApprovalCode.Obj.SystemCode;
 import org.rmj.g3appdriver.lib.ApprovalCode.model.SCA;
 import org.rmj.g3appdriver.utils.SQLUtil;
-import org.rmj.g3appdriver.dev.Api.WebApi;
 
 import java.util.List;
 
@@ -48,8 +47,7 @@ public class ApprovalCode {
 
     public final Application instance;
 
-    private final AppConfigPreference poConfig;
-    private final WebApi poApi;
+    private final GCircleApi poApi;
     private final HttpHeaders poHeaders;
 
     private String message;
@@ -58,8 +56,7 @@ public class ApprovalCode {
         this.instance = instance;
         this.poDao = GGC_GCircleDB.getInstance(instance).ApprovalDao();
         this.poUser = new EmployeeMaster(instance);
-        this.poConfig = AppConfigPreference.getInstance(instance);
-        this.poApi = new WebApi(poConfig.getTestStatus());
+        this.poApi = new GCircleApi(instance);
         this.poHeaders = HttpHeaders.getInstance(instance);
     }
 
@@ -113,7 +110,7 @@ public class ApprovalCode {
                 param.put("cTranStat", loCode.getTranStat());
 
                 String lsResponse = WebClient.sendRequest(
-                        poApi.getUrlSaveApproval(poConfig.isBackUpServer()),
+                        poApi.getUrlSaveApproval(),
                         param.toString(),
                         poHeaders.getHeaders());
 
@@ -155,7 +152,7 @@ public class ApprovalCode {
             params.put("id", "All");
 
             String lsResponse = WebClient.sendRequest(
-                    poApi.getUrlScaRequest(poConfig.isBackUpServer()),
+                    poApi.getUrlScaRequest(),
                     params.toString(),
                     poHeaders.getHeaders());
 

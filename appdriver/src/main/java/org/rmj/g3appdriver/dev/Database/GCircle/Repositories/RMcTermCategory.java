@@ -17,13 +17,12 @@ import android.util.Log;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.apprdiver.util.SQLUtil;
+import org.rmj.g3appdriver.dev.Api.GCircleApi;
 import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DMcTermCategory;
 import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EMcTermCategory;
 import org.rmj.g3appdriver.dev.Database.GCircle.GGC_GCircleDB;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.dev.Api.WebApi;
 
 import java.util.Date;
 import java.util.List;
@@ -33,16 +32,14 @@ public class RMcTermCategory {
 
     private final DMcTermCategory poDao;
 
-    private final AppConfigPreference poConfig;
-    private final WebApi poApi;
+    private final GCircleApi poApi;
     private final HttpHeaders poHeaders;
 
     private String message;
 
     public RMcTermCategory(Application instance){
         this.poDao = GGC_GCircleDB.getInstance(instance).McTermCategoryDao();
-        this.poConfig = AppConfigPreference.getInstance(instance);
-        this.poApi = new WebApi(poConfig.getTestStatus());
+        this.poApi = new GCircleApi(instance);
         this.poHeaders = HttpHeaders.getInstance(instance);
     }
 
@@ -70,7 +67,7 @@ public class RMcTermCategory {
             }
 
             String lsResponse = WebClient.sendRequest(
-                    poApi.getUrlImportTermCategory(poConfig.isBackUpServer()),
+                    poApi.getUrlImportTermCategory(),
                     params.toString(),
                     poHeaders.getHeaders());
 

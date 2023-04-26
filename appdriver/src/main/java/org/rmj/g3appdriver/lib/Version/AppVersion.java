@@ -5,6 +5,7 @@ import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.rmj.g3appdriver.dev.Api.GCircleApi;
 import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.dev.Device.Telephony;
@@ -21,7 +22,7 @@ public class AppVersion {
 
     private final AppConfigPreference poConfig;
     private final Telephony poTlphony;
-    private final WebApi poApi;
+    private final GCircleApi poApi;
     private final HttpHeaders poHeaders;
     private final EmployeeMaster poUser;
 
@@ -30,7 +31,7 @@ public class AppVersion {
     public AppVersion(Application instance) {
         this.poConfig = AppConfigPreference.getInstance(instance);
         this.poTlphony = new Telephony(instance);
-        this.poApi = new WebApi(poConfig.getTestStatus());
+        this.poApi = new GCircleApi(instance);
         this.poHeaders = HttpHeaders.getInstance(instance);
         this.poUser = new EmployeeMaster(instance);
     }
@@ -48,7 +49,7 @@ public class AppVersion {
             params.put("sIMEINoxx", poTlphony.getDeviceID());
             params.put("sAppVersn", poConfig.getVersionCode());
 
-            String lsAddress = poApi.getUrlSubmitAppVersion(poConfig.isBackUpServer());
+            String lsAddress = poApi.getUrlSubmitAppVersion();
 
             String lsResponse = WebClient.sendRequest(
                     lsAddress,
@@ -81,7 +82,7 @@ public class AppVersion {
     public List<VersionInfo> GetVersionInfo(){
         try{
             List<VersionInfo> loVersion = new ArrayList<>();
-            String lsAddress = poApi.getUrlVersionLog(poConfig.isBackUpServer());
+            String lsAddress = poApi.getUrlVersionLog();
 
             String lsResponse = WebClient.sendRequest(
                     lsAddress,
@@ -132,7 +133,7 @@ public class AppVersion {
     public VersionInfo CheckUpdate(){
         try{
             VersionInfo loVersion = new VersionInfo();
-            String lsAddress = poApi.getUrlCheckUpdate(poConfig.isBackUpServer());
+            String lsAddress = poApi.getUrlCheckUpdate();
 
             JSONObject params = new JSONObject();
             params.put("sVersnCde", poConfig.getVersionCode());

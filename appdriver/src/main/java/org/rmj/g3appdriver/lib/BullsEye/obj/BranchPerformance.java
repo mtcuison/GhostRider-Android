@@ -1,20 +1,19 @@
 package org.rmj.g3appdriver.lib.BullsEye.obj;
 
-import android.content.Context;
+import android.app.Application;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.rmj.g3appdriver.dev.Api.GCircleApi;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
-import org.rmj.g3appdriver.dev.Api.WebApi;
 import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DBranchPerformance;
 import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EBranchPerformance;
 import org.rmj.g3appdriver.dev.Database.GCircle.GGC_GCircleDB;
 import org.rmj.g3appdriver.dev.DeptCode;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.lib.BullsEye.ABPM;
 import org.rmj.g3appdriver.lib.BullsEye.PerformancePeriod;
 
@@ -26,18 +25,16 @@ public class BranchPerformance extends ABPM {
 
     private final DBranchPerformance poDao;
 
-    private final AppConfigPreference poConfig;
-    private final WebApi poApi;
+    private final GCircleApi poApi;
     private final HttpHeaders poHeaders;
 
     private String message;
 
-    public BranchPerformance(Context context) {
-        super(context);
-        this.poDao = GGC_GCircleDB.getInstance(context).BranchPerformanceDao();
-        this.poConfig = AppConfigPreference.getInstance(context);
-        this.poApi = new WebApi(poConfig.getTestStatus());
-        this.poHeaders = HttpHeaders.getInstance(context);
+    public BranchPerformance(Application instance) {
+        super(instance);
+        this.poDao = GGC_GCircleDB.getInstance(instance).BranchPerformanceDao();
+        this.poApi = new GCircleApi(instance);
+        this.poHeaders = HttpHeaders.getInstance(instance);
     }
 
     @Override
@@ -76,7 +73,7 @@ public class BranchPerformance extends ABPM {
                 params.put("areacd", lsAreaCode);
 
                 String lsResponse = WebClient.sendRequest(
-                        poApi.getImportBranchPerformance(poConfig.isBackUpServer()),
+                        poApi.getImportBranchPerformance(),
                         params.toString(),
                         poHeaders.getHeaders());
 

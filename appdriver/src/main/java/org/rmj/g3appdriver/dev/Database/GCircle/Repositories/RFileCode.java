@@ -14,37 +14,31 @@ package org.rmj.g3appdriver.dev.Database.GCircle.Repositories;
 import android.app.Application;
 import android.util.Log;
 
-import androidx.lifecycle.LiveData;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.apprdiver.util.SQLUtil;
+import org.rmj.g3appdriver.dev.Api.GCircleApi;
 import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DFileCode;
 import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EFileCode;
 import org.rmj.g3appdriver.dev.Database.GCircle.GGC_GCircleDB;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.dev.Api.WebApi;
 
 import java.util.Date;
-import java.util.List;
 
 public class RFileCode{
     private static final String TAG = RFileCode.class.getSimpleName();
     private final DFileCode poDao;
 
-    private final AppConfigPreference poConfig;
-    private final WebApi poApi;
+    private final GCircleApi poApi;
     private final HttpHeaders poHeaders;
 
     private String message;
 
     public RFileCode(Application instance) {
         this.poDao = GGC_GCircleDB.getInstance(instance).FileCodeDao();
-        this.poConfig = AppConfigPreference.getInstance(instance);
-        this.poApi = new WebApi(poConfig.getTestStatus());
+        this.poApi = new GCircleApi(instance);
         this.poHeaders = HttpHeaders.getInstance(instance);
     }
 
@@ -52,20 +46,8 @@ public class RFileCode{
         return message;
     }
 
-    public LiveData<List<EFileCode>> getAllFileCode() {
-        return poDao.selectFileCodeList();
-    }
-
-    public LiveData<List<EFileCode>> selectFileCodeList() {
-        return poDao.selectFileCodeList();
-    }
-
     public String getLatestDataTime(){
         return poDao.getLatestDataTime();
-    }
-
-    public String getLastUpdate() {
-        return poDao.getLastUpdate();
     }
 
     public boolean ImportFileCode(){
@@ -81,7 +63,7 @@ public class RFileCode{
             }
 
             String lsResponse = WebClient.sendRequest(
-                    poApi.getUrlImportFileCode(poConfig.isBackUpServer()),
+                    poApi.getUrlImportFileCode(),
                     params.toString(),
                     poHeaders.getHeaders());
 

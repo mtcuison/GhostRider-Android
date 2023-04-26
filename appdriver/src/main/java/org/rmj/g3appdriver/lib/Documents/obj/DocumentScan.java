@@ -7,14 +7,13 @@ import androidx.lifecycle.LiveData;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.rmj.g3appdriver.dev.Api.GCircleApi;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
-import org.rmj.g3appdriver.dev.Api.WebApi;
 import org.rmj.g3appdriver.dev.Api.WebFileServer;
 import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DFileCode;
 import org.rmj.g3appdriver.dev.Database.GCircle.Entities.ECreditApplicationDocuments;
 import org.rmj.g3appdriver.dev.Database.GCircle.Repositories.AppTokenManager;
 import org.rmj.g3appdriver.dev.Database.GCircle.Repositories.RImageInfo;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.lib.Documents.pojo.CreditAppDocs;
 
 import java.util.List;
@@ -24,18 +23,16 @@ public class DocumentScan {
 
     private DFileCode poDao;
 
-    private final AppConfigPreference poConfig;
     private final RImageInfo poImage;
-    private final WebApi poApi;
+    private final GCircleApi poApi;
     private final AppTokenManager poToken;
     private final HttpHeaders poHeaders;
 
     private String message;
 
     public DocumentScan(Application instance){
-        this.poConfig = AppConfigPreference.getInstance(instance);
         this.poImage = new RImageInfo(instance);
-        this.poApi = new WebApi(poConfig.getTestStatus());
+        this.poApi = new GCircleApi(instance);
         this.poToken = new AppTokenManager(instance);
         this.poHeaders = HttpHeaders.getInstance(instance);
     }

@@ -17,31 +17,28 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 
 import org.json.JSONObject;
+import org.rmj.g3appdriver.dev.Api.GCircleApi;
 import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DDCP_Remittance;
 import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EDCP_Remittance;
 import org.rmj.g3appdriver.dev.Database.GCircle.GGC_GCircleDB;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.dev.Api.WebClient;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.lib.integsys.Dcp.pojo.Remittance;
-import org.rmj.g3appdriver.dev.Api.WebApi;
 
 public class RCollectionRemittance {
     private static final String TAG = RCollectionRemittance.class.getSimpleName();
 
     private final DDCP_Remittance poDao;
 
-    private final AppConfigPreference poConfig;
-    private final WebApi poApi;
+    private final GCircleApi poApi;
     private final HttpHeaders poHeaders;
 
     private String message;
 
     public RCollectionRemittance(Application instance) {
         this.poDao = GGC_GCircleDB.getInstance(instance).DCPRemitanceDao();
-        this.poConfig = AppConfigPreference.getInstance(instance);
-        this.poApi = new WebApi(poConfig.getTestStatus());
+        this.poApi = new GCircleApi(instance);
         this.poHeaders = HttpHeaders.getInstance(instance);
     }
 
@@ -135,7 +132,7 @@ public class RCollectionRemittance {
             param.put("nAmountxx", loDetail.getAmountxx());
 
             String lsResponse = WebClient.sendRequest(
-                    poApi.getUrlDcpRemittance(poConfig.isBackUpServer()),
+                    poApi.getUrlDcpRemittance(),
                     param.toString(),
                     poHeaders.getHeaders());
 

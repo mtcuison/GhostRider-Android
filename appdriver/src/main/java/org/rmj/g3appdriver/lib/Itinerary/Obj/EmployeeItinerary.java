@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.apprdiver.util.SQLUtil;
+import org.rmj.g3appdriver.dev.Api.GCircleApi;
 import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DItinerary;
@@ -15,9 +16,7 @@ import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EItinerary;
 import org.rmj.g3appdriver.dev.Database.GCircle.GGC_GCircleDB;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
-import org.rmj.g3appdriver.dev.Api.WebApi;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -83,8 +82,7 @@ public class EmployeeItinerary {
     public boolean UploadItinerary(String TransNox){
         try{
             JSONObject params = new JSONObject();
-            AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
-            WebApi loApi = new WebApi(loConfig.getTestStatus());
+            GCircleApi loApi = new GCircleApi(instance);
             EItinerary loDetail = poDao.GetItineraryForUpload(TransNox);
             Log.d(TAG, "Employee ID: " + loDetail.getEmployID());
             if(loDetail == null){
@@ -100,7 +98,7 @@ public class EmployeeItinerary {
             params.put("sLocation", loDetail.getLocation());
             params.put("sRemarksx", loDetail.getRemarksx());
 
-            String lsResponse = WebClient.sendRequest(loApi.getUrlSaveItinerary(loConfig.isBackUpServer()),
+            String lsResponse = WebClient.sendRequest(loApi.getUrlSaveItinerary(),
                     params.toString(),
                     HttpHeaders.getInstance(instance).getHeaders());
             if(lsResponse == null){
@@ -161,14 +159,13 @@ public class EmployeeItinerary {
     public boolean DownloadItinerary(String fsArgs1, String fsArgs2){
         try {
             String lsEmployID = poEmployee.getEmployeeID();
-            AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
-            WebApi loApi = new WebApi(loConfig.getTestStatus());
+            GCircleApi loApi = new GCircleApi(instance);
             JSONObject params = new JSONObject();
             params.put("sEmployID", lsEmployID);
             params.put("dDateFrom", fsArgs1);
             params.put("dDateThru", fsArgs2);
 
-            String lsResponse = WebClient.sendRequest(loApi.getUrlDownloadItinerary(loConfig.isBackUpServer()),
+            String lsResponse = WebClient.sendRequest(loApi.getUrlDownloadItinerary(),
                     params.toString(),
                     HttpHeaders.getInstance(instance).getHeaders());
 
@@ -221,9 +218,8 @@ public class EmployeeItinerary {
 
     public List<JSONObject> GetEmployeeList(){
         try {
-            AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
-            WebApi loApi = new WebApi(loConfig.getTestStatus());
-            String lsResponse = WebClient.sendRequest(loApi.getUrlDownloadItineraryUsers(loConfig.isBackUpServer()),
+            GCircleApi loApi = new GCircleApi(instance);
+            String lsResponse = WebClient.sendRequest(loApi.getUrlDownloadItineraryUsers(),
                     new JSONObject().toString(),
                     HttpHeaders.getInstance(instance).getHeaders());
             if(lsResponse == null){
@@ -255,14 +251,13 @@ public class EmployeeItinerary {
 
     public List<EItinerary> GetItineraryListForEmployee(String args, String fsArgs1, String fsArgs2){
         try {
-            AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
-            WebApi loApi = new WebApi(loConfig.getTestStatus());
+            GCircleApi loApi = new GCircleApi(instance);
             JSONObject params = new JSONObject();
             params.put("sEmployID", args);
             params.put("dDateFrom", fsArgs1);
             params.put("dDateThru", fsArgs2);
 
-            String lsResponse = WebClient.sendRequest(loApi.getUrlDownloadItinerary(loConfig.isBackUpServer()),
+            String lsResponse = WebClient.sendRequest(loApi.getUrlDownloadItinerary(),
                     params.toString(),
                     HttpHeaders.getInstance(instance).getHeaders());
 
