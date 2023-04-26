@@ -58,7 +58,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                        <com.google.android.material.textfield.MaterialAutoCompleteTextView
                             android:id="@+id/spinner_cap_cmrBarrowerRelation"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -333,7 +333,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
                         android:id="@+id/spinner_cap_cmrIncomeSrc"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
