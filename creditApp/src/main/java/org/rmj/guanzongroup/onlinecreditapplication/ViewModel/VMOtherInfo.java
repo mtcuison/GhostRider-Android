@@ -11,22 +11,17 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
+import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DTownInfo;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditApp;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditAppInstance;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditOnlineApplication;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.OtherInfo;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.ReviewLoanInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Employment;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.OtherReference;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Reference;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.ReviewAppDetail;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class VMOtherInfo extends AndroidViewModel implements CreditAppUI {
     private static final String TAG = VMReviewLoanApp.class.getSimpleName();

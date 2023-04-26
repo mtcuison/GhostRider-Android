@@ -8,11 +8,11 @@ import com.google.firebase.messaging.RemoteMessage;
 
 import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Api.WebClient;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DNotificationReceiver;
-import org.rmj.g3appdriver.dev.Database.Entities.ENotificationMaster;
-import org.rmj.g3appdriver.dev.Database.Entities.ENotificationRecipient;
-import org.rmj.g3appdriver.dev.Database.Entities.ENotificationUser;
-import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
+import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DNotificationReceiver;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.ENotificationMaster;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.ENotificationRecipient;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.ENotificationUser;
+import org.rmj.g3appdriver.dev.Database.GCircle.GGC_GCircleDB;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
@@ -37,7 +37,7 @@ public class NMM_Events implements iNotification {
     private String message;
 
     public NMM_Events(Application instance) {
-        this.poDao = GGC_GriderDB.getInstance(instance).ntfReceiverDao();
+        this.poDao = GGC_GCircleDB.getInstance(instance).ntfReceiverDao();
         this.poHeaders = HttpHeaders.getInstance(instance);
         this.poConfig = AppConfigPreference.getInstance(instance);
     }

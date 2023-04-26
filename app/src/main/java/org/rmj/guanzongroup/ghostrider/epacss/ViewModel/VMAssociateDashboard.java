@@ -20,11 +20,11 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeBusinessTrip;
-import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeLeave;
-import org.rmj.g3appdriver.dev.Database.Repositories.RBranch;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EBranchInfo;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EEmployeeBusinessTrip;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EEmployeeInfo;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EEmployeeLeave;
+import org.rmj.g3appdriver.dev.Database.GCircle.Repositories.RBranch;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.lib.PetManager.OnCheckEmployeeApplicationListener;

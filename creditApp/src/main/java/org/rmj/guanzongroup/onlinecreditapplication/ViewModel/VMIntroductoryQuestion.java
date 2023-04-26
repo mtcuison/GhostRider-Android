@@ -4,23 +4,21 @@ import android.app.Application;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEmployeeInfo;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DMcModel;
-import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.EMcBrand;
-import org.rmj.g3appdriver.dev.Database.Entities.EMcModel;
+import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DEmployeeInfo;
+import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DMcModel;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EBranchInfo;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.ECreditApplicantInfo;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EMcBrand;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EMcModel;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditOnlineApplication;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.LoanInfo;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditAppConstants;
 
 import java.util.List;
 

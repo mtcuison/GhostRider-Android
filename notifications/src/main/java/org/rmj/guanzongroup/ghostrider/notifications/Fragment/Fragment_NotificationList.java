@@ -24,22 +24,17 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DNotification;
+import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DNotification;
 import org.rmj.g3appdriver.etc.GToast;
 import org.rmj.guanzongroup.ghostrider.notifications.Activity.Activity_ViewNotification;
 import org.rmj.guanzongroup.ghostrider.notifications.Adapter.NotificationListAdapter;
-import org.rmj.guanzongroup.ghostrider.notifications.Notifications.NotificationItemList;
 import org.rmj.guanzongroup.ghostrider.notifications.R;
 import org.rmj.guanzongroup.ghostrider.notifications.ViewModel.VMNotificationList;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Fragment_NotificationList extends Fragment {

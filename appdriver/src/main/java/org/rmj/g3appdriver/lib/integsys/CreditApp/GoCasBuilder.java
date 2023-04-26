@@ -16,7 +16,7 @@ import android.util.Log;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.ECreditApplicantInfo;
 import org.rmj.gocas.base.GOCASApplication;
 
 import java.util.Objects;

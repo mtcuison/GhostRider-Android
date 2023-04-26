@@ -8,13 +8,13 @@ import androidx.lifecycle.LiveData;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.apprdiver.util.SQLUtil;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DCreditOnlineApplicationCI;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEmployeeInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.EBranchLoanApplication;
-import org.rmj.g3appdriver.dev.Database.Entities.ECreditOnlineApplicationCI;
-import org.rmj.g3appdriver.dev.Database.Entities.EImageInfo;
-import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
-import org.rmj.g3appdriver.dev.Database.Repositories.RImageInfo;
+import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DCreditOnlineApplicationCI;
+import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DEmployeeInfo;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EBranchLoanApplication;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.ECreditOnlineApplicationCI;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EImageInfo;
+import org.rmj.g3appdriver.dev.Database.GCircle.GGC_GCircleDB;
+import org.rmj.g3appdriver.dev.Database.GCircle.Repositories.RImageInfo;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.lib.Account.SessionManager;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
@@ -52,7 +52,7 @@ public class CITagging {
     }
 
     public CITagging(Application instance) {
-        this.poDao = GGC_GriderDB.getInstance(instance).creditEvaluationDao();
+        this.poDao = GGC_GCircleDB.getInstance(instance).creditEvaluationDao();
         this.poUser = new EmployeeMaster(instance);
         this.poHeaders = HttpHeaders.getInstance(instance);
         this.poSession = new SessionManager(instance);

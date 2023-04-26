@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import org.rmj.g3appdriver.dev.Database.Entities.EBranchLoanApplication;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EBranchLoanApplication;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditOnlineApplication;
 
 import java.util.List;

@@ -19,7 +19,7 @@ import com.google.android.material.badge.ExperimentalBadgeUtils;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.tabs.TabLayout;
 
-import org.rmj.g3appdriver.dev.Database.Entities.ERaffleStatus;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.ERaffleStatus;
 import org.rmj.guanzongroup.ghostrider.Adapter.FragmentAdapter;
 import org.rmj.guanzongroup.ghostrider.Dialog.DialogMechanics;
 import org.rmj.guanzongroup.ghostrider.R;

@@ -23,8 +23,8 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DRawDao;
-import org.rmj.g3appdriver.dev.Database.Repositories.RRawData;
+import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DRawDao;
+import org.rmj.g3appdriver.dev.Database.GCircle.Repositories.RRawData;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.lib.ImportData.Obj.ImportBarangay;
 import org.rmj.g3appdriver.lib.ImportData.Obj.ImportBranch;

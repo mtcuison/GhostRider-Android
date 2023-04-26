@@ -21,8 +21,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
-import org.rmj.g3appdriver.dev.Database.Repositories.RBranch;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EBranchInfo;
 import org.rmj.g3appdriver.lib.integsys.CashCount.CashCount;
 
 import java.util.List;

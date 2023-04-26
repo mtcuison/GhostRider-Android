@@ -18,11 +18,11 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import org.rmj.g3appdriver.dev.Database.Entities.EDCPCollectionDetail;
-import org.rmj.g3appdriver.dev.Database.Entities.EImageInfo;
-import org.rmj.g3appdriver.dev.Database.Repositories.RBranch;
-import org.rmj.g3appdriver.dev.Database.Repositories.RDailyCollectionPlan;
-import org.rmj.g3appdriver.dev.Database.Repositories.RImageInfo;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EDCPCollectionDetail;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EImageInfo;
+import org.rmj.g3appdriver.dev.Database.GCircle.Repositories.RBranch;
+import org.rmj.g3appdriver.dev.Database.GCircle.Repositories.RDailyCollectionPlan;
+import org.rmj.g3appdriver.dev.Database.GCircle.Repositories.RImageInfo;
 
 public class VMLogPromiseToPay extends AndroidViewModel {
     private RDailyCollectionPlan poCollect;

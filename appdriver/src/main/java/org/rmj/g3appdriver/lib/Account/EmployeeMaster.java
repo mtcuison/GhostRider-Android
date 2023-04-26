@@ -21,11 +21,11 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.apprdiver.util.SQLUtil;
 import org.rmj.g3appdriver.dev.Api.WebClient;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEmployeeInfo;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEmployeeRole;
-import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeRole;
-import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
+import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DEmployeeInfo;
+import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DEmployeeRole;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EEmployeeInfo;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EEmployeeRole;
+import org.rmj.g3appdriver.dev.Database.GCircle.GGC_GCircleDB;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.dev.Device.Telephony;
@@ -55,8 +55,8 @@ public class EmployeeMaster {
 
     public EmployeeMaster(Application application){
         this.instance = application;
-        this.poDao = GGC_GriderDB.getInstance(instance).EmployeeDao();
-        this.roleDao = GGC_GriderDB.getInstance(instance).employeeRoleDao();
+        this.poDao = GGC_GCircleDB.getInstance(instance).EmployeeDao();
+        this.roleDao = GGC_GCircleDB.getInstance(instance).employeeRoleDao();
         this.employeeInfo = poDao.getEmployeeInfo();
         this.poSession = new SessionManager(instance);
         this.poConfig = AppConfigPreference.getInstance(instance);

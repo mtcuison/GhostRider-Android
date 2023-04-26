@@ -13,10 +13,10 @@ package org.rmj.g3appdriver.lib.BullsEye;
 
 import android.util.Log;
 
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DAreaPerformance;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DBranchPerformance;
-import org.rmj.g3appdriver.dev.Database.Entities.EAreaPerformance;
-import org.rmj.g3appdriver.dev.Database.Entities.EBranchPerformance;
+import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DAreaPerformance;
+import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DBranchPerformance;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EAreaPerformance;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EBranchPerformance;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

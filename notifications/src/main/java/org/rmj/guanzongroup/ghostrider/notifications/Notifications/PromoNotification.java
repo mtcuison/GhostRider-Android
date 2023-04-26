@@ -10,7 +10,7 @@ import android.os.Build;
 import androidx.core.app.TaskStackBuilder;
 
 import org.json.JSONObject;
-import org.rmj.g3appdriver.dev.Database.Entities.ENotificationMaster;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.ENotificationMaster;
 import org.rmj.guanzongroup.ghostrider.notifications.Etc.iNotificationUI;
 
 import java.util.Date;

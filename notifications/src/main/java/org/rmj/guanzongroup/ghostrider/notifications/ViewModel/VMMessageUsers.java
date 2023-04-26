@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DMessages;
+import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DMessages;
 import org.rmj.g3appdriver.lib.Notifications.Obj.Message;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 

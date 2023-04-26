@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.guanzongroup.com.itinerary.R;
-import org.rmj.g3appdriver.dev.Database.Entities.EItinerary;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EItinerary;
 import org.rmj.g3appdriver.etc.FormatUIText;
 
 import java.util.List;

@@ -10,21 +10,18 @@ import androidx.lifecycle.Observer;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.runner.AndroidJUnit4;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DPacita;
-import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.EPacitaEvaluation;
-import org.rmj.g3appdriver.dev.Database.Entities.EPacitaRule;
+import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DPacita;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EPacitaEvaluation;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EPacitaRule;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.lib.GawadPacita.pojo.BranchRate;
-import org.rmj.g3appdriver.lib.Panalo.Obj.GPanalo;
 
 import java.util.List;
 import java.util.Random;

@@ -18,9 +18,9 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 
 import org.json.JSONObject;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DClientUpdate;
-import org.rmj.g3appdriver.dev.Database.Entities.EClientUpdate;
-import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
+import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DClientUpdate;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EClientUpdate;
+import org.rmj.g3appdriver.dev.Database.GCircle.GGC_GCircleDB;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.lib.integsys.Dcp.pojo.LoanUnit;
 
@@ -37,7 +37,7 @@ public class RClientUpdate {
     private String message;
 
     public RClientUpdate(Application application){
-        this.poDao = GGC_GriderDB.getInstance(application).ClientUpdateDao();
+        this.poDao = GGC_GCircleDB.getInstance(application).ClientUpdateDao();
     }
 
     public String getMessage() {

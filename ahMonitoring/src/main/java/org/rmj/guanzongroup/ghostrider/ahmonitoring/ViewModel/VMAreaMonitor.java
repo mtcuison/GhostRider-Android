@@ -13,15 +13,12 @@ package org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel;
 
 import android.app.Application;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import org.rmj.g3appdriver.dev.Database.Entities.EAreaPerformance;
-import org.rmj.g3appdriver.dev.Database.Entities.EBranchPerformance;
-import org.rmj.g3appdriver.dev.Database.Repositories.RAreaPerformance;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EBranchPerformance;
 import org.rmj.g3appdriver.lib.BullsEye.OnImportPerformanceListener;
 import org.rmj.g3appdriver.lib.BullsEye.obj.AreaPerformance;
 import org.rmj.g3appdriver.lib.BullsEye.obj.BranchPerformance;

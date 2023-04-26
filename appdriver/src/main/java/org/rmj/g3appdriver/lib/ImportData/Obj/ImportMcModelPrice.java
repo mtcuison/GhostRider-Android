@@ -13,7 +13,7 @@ package org.rmj.g3appdriver.lib.ImportData.Obj;
 
 import android.app.Application;
 
-import org.rmj.g3appdriver.dev.Database.Repositories.RMcModelPrice;
+import org.rmj.g3appdriver.dev.Database.GCircle.Repositories.RMcModelPrice;
 import org.rmj.g3appdriver.lib.ImportData.model.ImportDataCallback;
 import org.rmj.g3appdriver.lib.ImportData.model.ImportInstance;
 

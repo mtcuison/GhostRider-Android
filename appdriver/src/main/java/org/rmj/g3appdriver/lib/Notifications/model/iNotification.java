@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData;
 
 import com.google.firebase.messaging.RemoteMessage;
 
-import org.rmj.g3appdriver.dev.Database.Entities.ENotificationMaster;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.ENotificationMaster;
 import org.rmj.g3appdriver.lib.Notifications.NOTIFICATION_STATUS;
 import org.rmj.g3appdriver.lib.Notifications.pojo.NotificationItemList;
 

@@ -11,9 +11,25 @@
 
 package org.rmj.g3appdriver.dev.Api;
 
-public class WebApi {
+import android.app.Application;
 
-    private boolean isUnitTest = false;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
+
+public class WebApi {
+    private static final String TAG = WebApi.class.getSimpleName();
+
+    private final Application instance;
+    private final AppConfigPreference poConfig;
+    private final boolean isUnitTest;
+    private final boolean isLiveData;
+
+    public WebApi(Application instance) {
+        this.instance = instance;
+        this.poConfig = AppConfigPreference.getInstance(instance);
+        this.isUnitTest = poConfig.getTestStatus();
+        this.isLiveData = poConfig.isLiveDataServer();
+    }
+
 
     private static final String LOCAL = "http://192.168.10.27/";
     private String LIVE = "";
@@ -112,14 +128,10 @@ public class WebApi {
     private static final String GET_PACITA_EVALUATIONS = "gCircle/Pacita/import_pacita_evaluations.php";
     private static final String SUBMIT_PACITA_RESULT = "gCircle/Pacita/submit_pacita_result.php";
 
-    public WebApi(boolean isTestCase){
-        this.isUnitTest = isTestCase;
-    }
-
-    public String getUrlAuthEmployee(boolean isBackUp) {
+    public String getUrlAuthEmployee(boolean isLiveData) {
         if(isUnitTest){
             return LOCAL + URL_AUTH_EMPLOYEE;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -127,10 +139,10 @@ public class WebApi {
         return LIVE + URL_AUTH_EMPLOYEE;
     }
 
-    public String getUrlCreateAccount(boolean isBackUp) {
+    public String getUrlCreateAccount(boolean isLiveData) {
         if(isUnitTest){
             return LOCAL + URL_CREATE_ACCOUNT;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -138,10 +150,10 @@ public class WebApi {
         return LIVE + URL_CREATE_ACCOUNT;
     }
 
-    public String getUrlForgotPassword(boolean isBackUp) {
+    public String getUrlForgotPassword(boolean isLiveData) {
         if(isUnitTest){
             return LOCAL + URL_FORGOT_PASSWORD;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -149,10 +161,10 @@ public class WebApi {
         return LIVE + URL_FORGOT_PASSWORD;
     }
 
-    public String getUrlKnox(boolean isBackUp) {
+    public String getUrlKnox(boolean isLiveData) {
         if(isUnitTest){
             return LOCAL + URL_KNOX;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -160,10 +172,10 @@ public class WebApi {
         return LIVE + URL_KNOX;
     }
 
-    public String getUrlChangePassword(boolean isBackUp) {
+    public String getUrlChangePassword(boolean isLiveData) {
         if(isUnitTest){
             return LOCAL + URL_CHANGE_PASSWORD;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -171,10 +183,10 @@ public class WebApi {
         return LIVE + URL_CHANGE_PASSWORD;
     }
 
-    public String getImportBranchPerformance(boolean isBackUp) {
+    public String getImportBranchPerformance(boolean isLiveData) {
         if(isUnitTest){
             return LOCAL + IMPORT_BRANCH_PERFORMANCE;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -182,10 +194,10 @@ public class WebApi {
         return LIVE + IMPORT_BRANCH_PERFORMANCE;
     }
 
-    public String getImportAreaPerformance(boolean isBackUp) {
+    public String getImportAreaPerformance(boolean isLiveData) {
         if(isUnitTest){
             return LOCAL + IMPORT_AREA_PERFORMANCE;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -193,10 +205,10 @@ public class WebApi {
         return LIVE + IMPORT_AREA_PERFORMANCE;
     }
 
-    public String getUrlImportBarangay(boolean isBackUp) {
+    public String getUrlImportBarangay(boolean isLiveData) {
         if(isUnitTest){
             return LOCAL + URL_IMPORT_BARANGAY;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -204,10 +216,10 @@ public class WebApi {
         return LIVE + URL_IMPORT_BARANGAY;
     }
 
-    public String getUrlImportTown(boolean isBackUp) {
+    public String getUrlImportTown(boolean isLiveData) {
         if(isUnitTest){
             return LOCAL + URL_IMPORT_TOWN;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -215,10 +227,10 @@ public class WebApi {
         return LIVE + URL_IMPORT_TOWN;
     }
 
-    public String getUrlImportProvince(boolean isBackUp) {
+    public String getUrlImportProvince(boolean isLiveData) {
         if(isUnitTest){
             return LOCAL + URL_IMPORT_PROVINCE;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -226,10 +238,10 @@ public class WebApi {
         return LIVE + URL_IMPORT_PROVINCE;
     }
 
-    public String getUrlImportCountry(boolean isBackUp) {
+    public String getUrlImportCountry(boolean isLiveData) {
         if(isUnitTest){
             return LOCAL + URL_IMPORT_COUNTRY;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -237,10 +249,10 @@ public class WebApi {
         return LIVE + URL_IMPORT_COUNTRY;
     }
 
-    public String getUrlImportMcModel(boolean isBackUp) {
+    public String getUrlImportMcModel(boolean isLiveData) {
         if(isUnitTest){
             return LOCAL + URL_IMPORT_MC_MODEL;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -248,10 +260,10 @@ public class WebApi {
         return LIVE + URL_IMPORT_MC_MODEL;
     }
 
-    public String getUrlImportMcModelPrice(boolean isBackUp) {
+    public String getUrlImportMcModelPrice(boolean isLiveData) {
         if(isUnitTest){
             return LOCAL + URL_IMPORT_MC_MODEL_PRICE;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -259,10 +271,10 @@ public class WebApi {
         return LIVE + URL_IMPORT_MC_MODEL_PRICE;
     }
 
-    public String getUrlImportBrand(boolean isBackUp) {
+    public String getUrlImportBrand(boolean isLiveData) {
         if(isUnitTest){
             return LOCAL + URL_IMPORT_BRAND;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -270,10 +282,10 @@ public class WebApi {
         return LIVE + URL_IMPORT_BRAND;
     }
 
-    public String getUrlImportMcCategory(boolean isBackUp) {
+    public String getUrlImportMcCategory(boolean isLiveData) {
         if(isUnitTest){
             return LOCAL + URL_IMPORT_MC_CATEGORY;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -281,10 +293,10 @@ public class WebApi {
         return LIVE + URL_IMPORT_MC_CATEGORY;
     }
 
-    public String getUrlImportTermCategory(boolean isBackUp) {
+    public String getUrlImportTermCategory(boolean isLiveData) {
         if(isUnitTest){
             return LOCAL + URL_IMPORT_TERM_CATEGORY;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -292,10 +304,10 @@ public class WebApi {
         return LIVE + URL_IMPORT_TERM_CATEGORY;
     }
 
-    public String getUrlImportBranches(boolean isBackUp) {
+    public String getUrlImportBranches(boolean isLiveData) {
         if(isUnitTest){
             return LOCAL + URL_IMPORT_BRANCHES;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -303,10 +315,10 @@ public class WebApi {
         return LIVE + URL_IMPORT_BRANCHES;
     }
 
-    public String getUrlImportFileCode(boolean isBackUp) {
+    public String getUrlImportFileCode(boolean isLiveData) {
         if(isUnitTest){
             return LOCAL + URL_IMPORT_FILE_CODE;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -314,10 +326,10 @@ public class WebApi {
         return LIVE + URL_IMPORT_FILE_CODE;
     }
 
-    public String getUrlImportOccupations(boolean isBackUp) {
+    public String getUrlImportOccupations(boolean isLiveData) {
         if(isUnitTest){
             return LOCAL + URL_IMPORT_OCCUPATIONS;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -325,10 +337,10 @@ public class WebApi {
         return LIVE + URL_IMPORT_OCCUPATIONS;
     }
 
-    public String getUrlSubmitOnlineApplication(boolean isBackUp) {
+    public String getUrlSubmitOnlineApplication(boolean isLiveData) {
         if(isUnitTest){
             return LOCAL + URL_SUBMIT_ONLINE_APPLICATION;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -336,10 +348,10 @@ public class WebApi {
         return LIVE + URL_SUBMIT_ONLINE_APPLICATION;
     }
 
-    public String getUrlImportRaffleBasis(boolean isBackUp) {
+    public String getUrlImportRaffleBasis(boolean isLiveData) {
         if(isUnitTest){
             return LOCAL + URL_IMPORT_RAFFLE_BASIS;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -347,10 +359,10 @@ public class WebApi {
         return LIVE + URL_IMPORT_RAFFLE_BASIS;
     }
 
-    public String getUrlRequestOnlineApplications(boolean isBackUp) {
+    public String getUrlRequestOnlineApplications(boolean isLiveData) {
         if(isUnitTest){
             return LOCAL + URL_REQUEST_ONLINE_APPLICATIONS;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -358,10 +370,10 @@ public class WebApi {
         return LIVE + URL_REQUEST_ONLINE_APPLICATIONS;
     }
 
-    public String getUrlImportOnlineApplications(boolean isBackUp) {
+    public String getUrlImportOnlineApplications(boolean isLiveData) {
         if(isUnitTest){
             return LOCAL + URL_IMPORT_ONLINE_APPLICATIONS;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -369,10 +381,10 @@ public class WebApi {
         return LIVE + URL_IMPORT_ONLINE_APPLICATIONS;
     }
 
-    public String getUrlSubmitCashcount(boolean isBackUp) {
+    public String getUrlSubmitCashcount(boolean isLiveData) {
         if(isUnitTest){
             return LOCAL + URL_SUBMIT_CASHCOUNT;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -380,10 +392,10 @@ public class WebApi {
         return LIVE + URL_SUBMIT_CASHCOUNT;
     }
 
-    public String getUrlQuickSearch(boolean isBackUp) {
+    public String getUrlQuickSearch(boolean isLiveData) {
         if(isUnitTest){
             return LOCAL + URL_QUICK_SEARCH;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -391,10 +403,10 @@ public class WebApi {
         return LIVE + URL_QUICK_SEARCH;
     }
 
-    public String getUrlScaRequest(boolean isBackUp) {
+    public String getUrlScaRequest(boolean isLiveData) {
         if(isUnitTest){
             return LOCAL + URL_SCA_REQUEST;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -402,10 +414,10 @@ public class WebApi {
         return LIVE + URL_SCA_REQUEST;
     }
 
-    public String getUrlSaveApproval(boolean isBackUp) {
+    public String getUrlSaveApproval(boolean isLiveData) {
         if(isUnitTest){
             return LOCAL + URL_SAVE_APPROVAL;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -413,10 +425,10 @@ public class WebApi {
         return LIVE + URL_SAVE_APPROVAL;
     }
 
-    public String getUrlLoadApplicationApproval(boolean isBackUp) {
+    public String getUrlLoadApplicationApproval(boolean isLiveData) {
         if(isUnitTest){
             return LOCAL + URL_LOAD_APPLICATION_APPROVAL;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -424,10 +436,10 @@ public class WebApi {
         return LIVE + URL_LOAD_APPLICATION_APPROVAL;
     }
 
-    public String getUrlApplicationApprove(boolean isBackUp) {
+    public String getUrlApplicationApprove(boolean isLiveData) {
         if(isUnitTest){
             return LOCAL + URL_APPLICATION_APPROVE;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -435,10 +447,10 @@ public class WebApi {
         return LIVE + URL_APPLICATION_APPROVE;
     }
 
-    public String getUrlDownloadDcp(boolean isBackUp) {
+    public String getUrlDownloadDcp(boolean isLiveData) {
         if(isUnitTest){
             return LOCAL + URL_DOWNLOAD_DCP;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -446,10 +458,10 @@ public class WebApi {
         return LIVE + URL_DOWNLOAD_DCP;
     }
 
-    public String getUrlDcpSubmit(boolean isBackUp) {
+    public String getUrlDcpSubmit(boolean isLiveData) {
         if(isUnitTest){
             return LOCAL + URL_DCP_SUBMIT;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -457,10 +469,10 @@ public class WebApi {
         return LIVE + URL_DCP_SUBMIT;
     }
 
-    public String getUrlPostDcpMaster(boolean isBackUp) {
+    public String getUrlPostDcpMaster(boolean isLiveData) {
         if(isUnitTest){
             return LOCAL + URL_POST_DCP_MASTER;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -468,10 +480,10 @@ public class WebApi {
         return LIVE + URL_POST_DCP_MASTER;
     }
 
-    public String getUrlGetArClient(boolean isBackUp) {
+    public String getUrlGetArClient(boolean isLiveData) {
         if(isUnitTest){
             return LOCAL + URL_GET_AR_CLIENT;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -479,10 +491,10 @@ public class WebApi {
         return LIVE + URL_GET_AR_CLIENT;
     }
 
-    public String getUrlGetRegClient(boolean isBackUp) {
+    public String getUrlGetRegClient(boolean isLiveData) {
         if(isUnitTest){
             return LOCAL + URL_GET_REG_CLIENT;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -490,10 +502,10 @@ public class WebApi {
         return LIVE + URL_GET_REG_CLIENT;
     }
 
-    public String getUrlUpdateAddress(boolean isBackUp) {
+    public String getUrlUpdateAddress(boolean isLiveData) {
         if(isUnitTest){
             return LOCAL + URL_UPDATE_ADDRESS;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -501,10 +513,10 @@ public class WebApi {
         return LIVE + URL_UPDATE_ADDRESS;
     }
 
-    public String getUrlUpdateMobile(boolean isBackUp) {
+    public String getUrlUpdateMobile(boolean isLiveData) {
         if(isUnitTest){
             return LOCAL + URL_UPDATE_MOBILE;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -512,10 +524,10 @@ public class WebApi {
         return LIVE + URL_UPDATE_MOBILE;
     }
 
-    public String getUrlDownloadBankInfo(boolean isBackUp) {
+    public String getUrlDownloadBankInfo(boolean isLiveData) {
         if(isUnitTest){
             return LOCAL + URL_DOWNLOAD_BANK_INFO;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -523,10 +535,10 @@ public class WebApi {
         return LIVE + URL_DOWNLOAD_BANK_INFO;
     }
 
-    public String getUrlPostSelfielog(boolean isBackUp) {
+    public String getUrlPostSelfielog(boolean isLiveData) {
         if(isUnitTest){
             return LOCAL + URL_POST_SELFIELOG;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -534,10 +546,10 @@ public class WebApi {
         return LIVE + URL_POST_SELFIELOG;
     }
 
-    public String getUrlBranchLoanApp(boolean isBackUp) {
+    public String getUrlBranchLoanApp(boolean isLiveData) {
         if(isUnitTest){
             return LOCAL + URL_BRANCH_LOAN_APP;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -545,10 +557,10 @@ public class WebApi {
         return LIVE + URL_BRANCH_LOAN_APP;
     }
 
-    public String getUrlDcpRemittance(boolean isBackUp) {
+    public String getUrlDcpRemittance(boolean isLiveData) {
         if(isUnitTest){
             return LOCAL + URL_DCP_REMITTANCE;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -556,10 +568,10 @@ public class WebApi {
         return LIVE + URL_DCP_REMITTANCE;
     }
 
-    public String getUrlDcpLocationReport(boolean isBackUp) {
+    public String getUrlDcpLocationReport(boolean isLiveData) {
         if(isUnitTest){
             return LOCAL + URL_DCP_LOCATION_REPORT;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -567,10 +579,10 @@ public class WebApi {
         return LIVE + URL_DCP_LOCATION_REPORT;
     }
 
-    public String getUrlBranchRemittanceAcc(boolean isBackUp) {
+    public String getUrlBranchRemittanceAcc(boolean isLiveData) {
         if(isUnitTest){
             return LOCAL + URL_BRANCH_REMITTANCE_ACC;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -578,10 +590,10 @@ public class WebApi {
         return LIVE + URL_BRANCH_REMITTANCE_ACC;
     }
 
-    public String getUrlImportSysConfig(boolean isBackUp) {
+    public String getUrlImportSysConfig(boolean isLiveData) {
         if(isUnitTest){
             return LOCAL + URL_IMPORT_SYS_CONFIG;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -589,10 +601,10 @@ public class WebApi {
         return LIVE + URL_IMPORT_SYS_CONFIG;
     }
 
-    public String getUrlDownloadCreditOnlineApp(boolean isBackUp) {
+    public String getUrlDownloadCreditOnlineApp(boolean isLiveData) {
         if(isUnitTest){
             return LOCAL + URL_DOWNLOAD_CREDIT_ONLINE_APP;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -600,10 +612,10 @@ public class WebApi {
         return LIVE + URL_DOWNLOAD_CREDIT_ONLINE_APP;
     }
 
-    public String getUrlDownloadRelation(boolean isBackUp) {
+    public String getUrlDownloadRelation(boolean isLiveData) {
         if(isUnitTest){
             return LOCAL + URL_DOWNLOAD_RELATION;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -611,10 +623,10 @@ public class WebApi {
         return LIVE + URL_DOWNLOAD_RELATION;
     }
 
-    public String getUrlUploadCiResult(boolean isBackUp) {
+    public String getUrlUploadCiResult(boolean isLiveData) {
         if(isUnitTest){
             return LOCAL + URL_UPLOAD_CI_RESULT;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -622,10 +634,10 @@ public class WebApi {
         return LIVE + URL_UPLOAD_CI_RESULT;
     }
 
-    public String getUrlSendResponse(boolean isBackUp) {
+    public String getUrlSendResponse(boolean isLiveData) {
         if(isUnitTest){
             return LOCAL + URL_SEND_RESPONSE;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -633,10 +645,10 @@ public class WebApi {
         return LIVE + URL_SEND_RESPONSE;
     }
 
-    public String getUrlSendRequest(boolean isBackUp) {
+    public String getUrlSendRequest(boolean isLiveData) {
         if(isUnitTest){
             return LOCAL + URL_SEND_REQUEST;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -644,10 +656,10 @@ public class WebApi {
         return LIVE + URL_SEND_REQUEST;
     }
 
-    public String getUrlKwiksearch(boolean isBackUp) {
+    public String getUrlKwiksearch(boolean isLiveData) {
         if(isUnitTest){
             return LOCAL + URL_KWIKSEARCH;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -655,10 +667,10 @@ public class WebApi {
         return LIVE + URL_KWIKSEARCH;
     }
 
-    public String getUrlSendLeaveApplication(boolean isBackUp) {
+    public String getUrlSendLeaveApplication(boolean isLiveData) {
         if(isUnitTest){
             return LOCAL + URL_SEND_LEAVE_APPLICATION;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -666,10 +678,10 @@ public class WebApi {
         return LIVE + URL_SEND_LEAVE_APPLICATION;
     }
 
-    public String getUrlGetLeaveApplication(boolean isBackUp) {
+    public String getUrlGetLeaveApplication(boolean isLiveData) {
         if(isUnitTest){
             return LOCAL + URL_GET_LEAVE_APPLICATION;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -677,10 +689,10 @@ public class WebApi {
         return LIVE + URL_GET_LEAVE_APPLICATION;
     }
 
-    public String getUrlConfirmLeaveApplication(boolean isBackUp) {
+    public String getUrlConfirmLeaveApplication(boolean isLiveData) {
         if(isUnitTest){
             return LOCAL + URL_CONFIRM_LEAVE_APPLICATION;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -688,10 +700,10 @@ public class WebApi {
         return LIVE + URL_CONFIRM_LEAVE_APPLICATION;
     }
 
-    public String getUrlSendObApplication(boolean isBackUp) {
+    public String getUrlSendObApplication(boolean isLiveData) {
         if(isUnitTest){
             return LOCAL + URL_SEND_OB_APPLICATION;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -699,10 +711,10 @@ public class WebApi {
         return LIVE + URL_SEND_OB_APPLICATION;
     }
 
-    public String getUrlGetObApplication(boolean isBackUp) {
+    public String getUrlGetObApplication(boolean isLiveData) {
         if(isUnitTest){
             return LOCAL + URL_GET_OB_APPLICATION;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -710,10 +722,10 @@ public class WebApi {
         return LIVE + URL_GET_OB_APPLICATION;
     }
 
-    public String getUrlConfirmObApplication(boolean isBackUp) {
+    public String getUrlConfirmObApplication(boolean isLiveData) {
         if(isUnitTest){
             return LOCAL + URL_CONFIRM_OB_APPLICATION;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -721,10 +733,10 @@ public class WebApi {
         return LIVE + URL_CONFIRM_OB_APPLICATION;
     }
 
-    public String getUrlRequestRandomStockInventory(boolean isBackUp) {
+    public String getUrlRequestRandomStockInventory(boolean isLiveData) {
         if(isUnitTest){
             return LOCAL + URL_REQUEST_RANDOM_STOCK_INVENTORY;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -732,10 +744,10 @@ public class WebApi {
         return LIVE + URL_REQUEST_RANDOM_STOCK_INVENTORY;
     }
 
-    public String getUrlSubmitRandomStockInventory(boolean isBackUp) {
+    public String getUrlSubmitRandomStockInventory(boolean isLiveData) {
         if(isUnitTest){
             return LOCAL + URL_SUBMIT_RANDOM_STOCK_INVENTORY;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -743,10 +755,10 @@ public class WebApi {
         return LIVE + URL_SUBMIT_RANDOM_STOCK_INVENTORY;
     }
 
-    public String getRequestUserAccess(boolean isBackUp) {
+    public String getRequestUserAccess(boolean isLiveData) {
         if(isUnitTest){
             return LOCAL + REQUEST_USER_ACCESS;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -762,10 +774,10 @@ public class WebApi {
         return URL_DOWNLOAD_TEST_UPDATE;
     }
 
-    public String getUrlDownloadCIApplications(boolean isBackUp) {
+    public String getUrlDownloadCIApplications(boolean isLiveData) {
         if(isUnitTest){
             return LOCAL + URL_REQUEST_FOR_EVALUATIONS;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -773,10 +785,10 @@ public class WebApi {
         return LIVE + URL_REQUEST_FOR_EVALUATIONS;
     }
 
-    public String getUrlSubmitCIResult(boolean isBackUp) {
+    public String getUrlSubmitCIResult(boolean isLiveData) {
         if(isUnitTest){
             return LOCAL + URL_SUBMIT_RESULT;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -784,10 +796,10 @@ public class WebApi {
         return LIVE + URL_SUBMIT_RESULT;
     }
 
-    public String getUrlPostCiApproval(boolean isBackUp){
+    public String getUrlPostCiApproval(boolean isLiveData){
         if(isUnitTest) {
             return LOCAL + URL_POST_CI_APPROVAL;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -795,10 +807,10 @@ public class WebApi {
         return LIVE + URL_POST_CI_APPROVAL;
     }
 
-    public String getUrlPostBhApproval(boolean isBackUp){
+    public String getUrlPostBhApproval(boolean isLiveData){
         if(isUnitTest) {
             return LOCAL + URL_POST_BH_APPROVAL;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -806,10 +818,10 @@ public class WebApi {
         return LIVE + URL_POST_BH_APPROVAL;
     }
 
-    public String getUrlDownloadBhPreview(boolean isBackUp){
+    public String getUrlDownloadBhPreview(boolean isLiveData){
         if(isUnitTest) {
             return LOCAL + URL_DOWNLOAD_BH_PREVIEW;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -817,10 +829,10 @@ public class WebApi {
         return LIVE + URL_DOWNLOAD_BH_PREVIEW;
     }
 
-    public String getUrlAddForEvaluation(boolean isBackUp) {
+    public String getUrlAddForEvaluation(boolean isLiveData) {
         if(isUnitTest) {
             return LOCAL + URL_REQUEST_FOR_EVALUATIONS;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -828,20 +840,20 @@ public class WebApi {
         return LIVE + URL_REQUEST_FOR_EVALUATIONS;
     }
 
-    public String getUrlDownloadCreditAppForCI(boolean isBackUp) {
+    public String getUrlDownloadCreditAppForCI(boolean isLiveData) {
         if(isUnitTest) {
             return LOCAL + URL_DOWNLOAD_CREDIT_APP;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
         }
         return LIVE + URL_DOWNLOAD_CREDIT_APP;
     }
-    public String getUrlSaveItinerary(boolean isBackUp) {
+    public String getUrlSaveItinerary(boolean isLiveData) {
         if(isUnitTest) {
             return LOCAL + URL_SAVE_ITINERARY;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -849,10 +861,10 @@ public class WebApi {
         return LIVE + URL_SAVE_ITINERARY;
     }
 
-    public String getUrlDownloadItinerary(boolean isBackUp) {
+    public String getUrlDownloadItinerary(boolean isLiveData) {
         if(isUnitTest) {
             return LOCAL + URL_DOWNLOAD_ITINERARY;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -860,10 +872,10 @@ public class WebApi {
         return LIVE + URL_DOWNLOAD_ITINERARY;
     }
 
-    public String getUrlDownloadItineraryUsers(boolean isBackUp) {
+    public String getUrlDownloadItineraryUsers(boolean isLiveData) {
         if(isUnitTest) {
             return LOCAL + URL_DOWNLOAD_ITINERARY_USERS;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -871,10 +883,10 @@ public class WebApi {
         return LIVE + URL_DOWNLOAD_ITINERARY_USERS;
     }
 
-    public String getUrlSubmitLocationTrack(boolean isBackUp) {
+    public String getUrlSubmitLocationTrack(boolean isLiveData) {
         if(isUnitTest) {
             return LOCAL + LOCAL_COORDINATES_TRACKER;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -882,10 +894,10 @@ public class WebApi {
         return LIVE + LOCAL_COORDINATES_TRACKER;
     }
 
-    public String getUrlSubmitAppVersion(boolean isBackUp) {
+    public String getUrlSubmitAppVersion(boolean isLiveData) {
         if(isUnitTest) {
             return LOCAL + URL_SUBMIT_APP_VERSION;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -893,10 +905,10 @@ public class WebApi {
         return LIVE + URL_SUBMIT_APP_VERSION;
     }
 
-    public String getUrlVersionLog(boolean isBackUp) {
+    public String getUrlVersionLog(boolean isLiveData) {
         if(isUnitTest) {
             return LOCAL + URL_VERSION_LOG;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -904,10 +916,10 @@ public class WebApi {
         return LIVE + URL_VERSION_LOG;
     }
 
-    public String getUrlCheckUpdate(boolean isBackUp) {
+    public String getUrlCheckUpdate(boolean isLiveData) {
         if(isUnitTest) {
             return LOCAL + URL_CHECK_UPDATE;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -915,10 +927,10 @@ public class WebApi {
         return LIVE + URL_CHECK_UPDATE;
     }
 
-    public String getUrlGetPanaloRewards(boolean isBackUp) {
+    public String getUrlGetPanaloRewards(boolean isLiveData) {
         if(isUnitTest) {
             return LOCAL + GET_PANALO_REWARDS;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -926,10 +938,10 @@ public class WebApi {
         return LIVE + GET_PANALO_REWARDS;
     }
 
-    public String getUrlGetRaffleParticipants(boolean isBackUp) {
+    public String getUrlGetRaffleParticipants(boolean isLiveData) {
         if(isUnitTest) {
             return LOCAL + GET_RAFFLE_PARTICIPANTS;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -937,10 +949,10 @@ public class WebApi {
         return LIVE + GET_RAFFLE_PARTICIPANTS;
     }
 
-    public String getUrlGetPacitaRules(boolean isBackUp) {
+    public String getUrlGetPacitaRules(boolean isLiveData) {
         if(isUnitTest) {
             return LOCAL + GET_PACITA_RULES;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -948,10 +960,10 @@ public class WebApi {
         return LIVE + GET_PACITA_RULES;
     }
 
-    public String getUrlGetPacitaEvaluations(boolean isBackUp) {
+    public String getUrlGetPacitaEvaluations(boolean isLiveData) {
         if(isUnitTest) {
             return LOCAL + GET_PACITA_EVALUATIONS;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -959,10 +971,10 @@ public class WebApi {
         return LIVE + GET_PACITA_EVALUATIONS;
     }
 
-    public String getUrlSubmitPacitaResult(boolean isBackUp) {
+    public String getUrlSubmitPacitaResult(boolean isLiveData) {
         if(isUnitTest) {
             return LOCAL + SUBMIT_PACITA_RESULT;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -970,10 +982,10 @@ public class WebApi {
         return LIVE + SUBMIT_PACITA_RESULT;
     }
 
-    public String getGetInstallmentTerms(boolean isBackUp) {
+    public String getGetInstallmentTerms(boolean isLiveData) {
         if(isUnitTest) {
             return LOCAL + URL_GET_INSTALLMENT_TERMS;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
@@ -981,10 +993,10 @@ public class WebApi {
         return LIVE + URL_GET_INSTALLMENT_TERMS;
     }
 
-    public String getClaimPanaloReward(boolean isBackUp) {
+    public String getClaimPanaloReward(boolean isLiveData) {
         if(isUnitTest) {
             return LOCAL + CLAIM_PANALO_REWARD;
-        } else if(isBackUp){
+        } else if(isLiveData){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;

@@ -15,9 +15,9 @@ import android.app.Application;
 
 import androidx.lifecycle.LiveData;
 
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DBranchOpeningMonitor;
-import org.rmj.g3appdriver.dev.Database.Entities.EBranchOpenMonitor;
-import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
+import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DBranchOpeningMonitor;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EBranchOpenMonitor;
+import org.rmj.g3appdriver.dev.Database.GCircle.GGC_GCircleDB;
 import org.rmj.g3appdriver.etc.AppConstants;
 
 import java.util.List;
@@ -29,7 +29,7 @@ public class BranchOpeningMonitor {
 
     public BranchOpeningMonitor(Application application) {
         this.instance = application;
-        this.dao = GGC_GriderDB.getInstance(instance).openingMonitoryDao();
+        this.dao = GGC_GCircleDB.getInstance(instance).openingMonitoryDao();
     }
 
     public void insert(EBranchOpenMonitor branchOpenMonitor) {

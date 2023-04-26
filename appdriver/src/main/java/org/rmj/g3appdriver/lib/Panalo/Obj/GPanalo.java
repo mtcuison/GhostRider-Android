@@ -4,16 +4,13 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
 
-import androidx.lifecycle.LiveData;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.dev.Api.WebApi;
 import org.rmj.g3appdriver.dev.Api.WebClient;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DPanalo;
-import org.rmj.g3appdriver.dev.Database.Entities.EPanaloReward;
-import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
+import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DPanalo;
+import org.rmj.g3appdriver.dev.Database.GCircle.GGC_GCircleDB;
 import org.rmj.g3appdriver.dev.encryp.CodeGenerator;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.lib.Panalo.model.PanaloRewards;
@@ -36,7 +33,7 @@ public class GPanalo {
 
     public GPanalo(Context context) {
         this.mContext = context;
-        this.poDao = GGC_GriderDB.getInstance(mContext).panaloDao();
+        this.poDao = GGC_GCircleDB.getInstance(mContext).panaloDao();
         this.poConfig = AppConfigPreference.getInstance(mContext);
         this.poApis = new WebApi(poConfig.getTestStatus());
         this.poHeaders = HttpHeaders.getInstance(mContext);

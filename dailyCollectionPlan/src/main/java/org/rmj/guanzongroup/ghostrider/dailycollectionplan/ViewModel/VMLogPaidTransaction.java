@@ -18,9 +18,9 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import org.rmj.g3appdriver.dev.Database.Entities.EDCPCollectionDetail;
-import org.rmj.g3appdriver.dev.Database.Repositories.RBankInfo;
-import org.rmj.g3appdriver.dev.Database.Repositories.RDailyCollectionPlan;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EDCPCollectionDetail;
+import org.rmj.g3appdriver.dev.Database.GCircle.Repositories.RBankInfo;
+import org.rmj.g3appdriver.dev.Database.GCircle.Repositories.RDailyCollectionPlan;
 
 public class VMLogPaidTransaction extends AndroidViewModel {
     private RDailyCollectionPlan poCollect;

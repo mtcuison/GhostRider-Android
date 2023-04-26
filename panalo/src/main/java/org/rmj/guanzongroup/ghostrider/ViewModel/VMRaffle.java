@@ -6,9 +6,8 @@ import android.os.AsyncTask;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.ViewModel;
 
-import org.rmj.g3appdriver.dev.Database.Entities.ERaffleStatus;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.ERaffleStatus;
 import org.rmj.g3appdriver.lib.Panalo.Obj.GPanalo;
 import org.rmj.g3appdriver.lib.Panalo.Obj.ILOVEMYJOB;
 import org.rmj.g3appdriver.lib.Panalo.model.PanaloRewards;

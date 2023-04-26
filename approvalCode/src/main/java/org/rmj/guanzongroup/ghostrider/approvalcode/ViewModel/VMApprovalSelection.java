@@ -17,7 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import org.rmj.g3appdriver.dev.Database.Entities.ESCA_Request;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.ESCA_Request;
 
 import org.rmj.g3appdriver.lib.ApprovalCode.ApprovalCode;
 

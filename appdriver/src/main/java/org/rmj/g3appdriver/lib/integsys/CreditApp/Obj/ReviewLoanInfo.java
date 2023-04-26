@@ -5,29 +5,27 @@ import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DBarangayInfo;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DCreditApplication;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.EBarangayInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.EBranchLoanApplication;
-import org.rmj.g3appdriver.dev.Database.Entities.ECountryInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplication;
-import org.rmj.g3appdriver.dev.Database.Entities.EMcModel;
-import org.rmj.g3appdriver.dev.Database.Entities.EOccupationInfo;
-import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
-import org.rmj.g3appdriver.dev.Database.Repositories.RBarangay;
-import org.rmj.g3appdriver.dev.Database.Repositories.RCountry;
-import org.rmj.g3appdriver.dev.Database.Repositories.RMcModel;
-import org.rmj.g3appdriver.dev.Database.Repositories.ROccupation;
-import org.rmj.g3appdriver.dev.Database.Repositories.RTown;
+import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DBarangayInfo;
+import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DCreditApplication;
+import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DTownInfo;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EBarangayInfo;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.ECountryInfo;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.ECreditApplicantInfo;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.ECreditApplication;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EMcModel;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EOccupationInfo;
+import org.rmj.g3appdriver.dev.Database.GCircle.GGC_GCircleDB;
+import org.rmj.g3appdriver.dev.Database.GCircle.Repositories.RBarangay;
+import org.rmj.g3appdriver.dev.Database.GCircle.Repositories.RCountry;
+import org.rmj.g3appdriver.dev.Database.GCircle.Repositories.RMcModel;
+import org.rmj.g3appdriver.dev.Database.GCircle.Repositories.ROccupation;
+import org.rmj.g3appdriver.dev.Database.GCircle.Repositories.RTown;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditApp;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditAppConstants;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.GoCasBuilder;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.ReviewAppDetail;
-import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.gocas.base.GOCASApplication;
 
 import java.text.SimpleDateFormat;
@@ -49,7 +47,7 @@ public class ReviewLoanInfo implements CreditApp {
     private String message;
 
     public ReviewLoanInfo(Application instance) {
-        this.poDao = GGC_GriderDB.getInstance(instance).CreditApplicationDao();
+        this.poDao = GGC_GCircleDB.getInstance(instance).CreditApplicationDao();
         this.poTown = new RTown(instance);
         this.poModel = new RMcModel(instance);
         this.poBarangay = new RBarangay(instance);

@@ -2,8 +2,8 @@ package org.rmj.g3appdriver.lib.integsys.Dcp.obj;
 
 import androidx.lifecycle.LiveData;
 
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEmployeeInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.EDCPCollectionDetail;
+import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DEmployeeInfo;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.lib.integsys.Dcp.model.iDcp;
 
 public class PAY implements iDcp {

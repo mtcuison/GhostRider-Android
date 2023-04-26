@@ -10,10 +10,10 @@ import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.dev.Api.WebApi;
 import org.rmj.g3appdriver.dev.Api.WebClient;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DAreaPerformance;
-import org.rmj.g3appdriver.dev.Database.Entities.EAreaPerformance;
-import org.rmj.g3appdriver.dev.Database.Entities.EBranchPerformance;
-import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
+import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DAreaPerformance;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EAreaPerformance;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EBranchPerformance;
+import org.rmj.g3appdriver.dev.Database.GCircle.GGC_GCircleDB;
 import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.lib.BullsEye.ABPM;
@@ -35,7 +35,7 @@ public class AreaPerformance extends ABPM {
 
     public AreaPerformance(Context context) {
         super(context);
-        this.poDao = GGC_GriderDB.getInstance(context).AreaPerformanceDao();
+        this.poDao = GGC_GCircleDB.getInstance(context).AreaPerformanceDao();
         this.poConfig = AppConfigPreference.getInstance(context);
         this.poApi = new WebApi(poConfig.getTestStatus());
         this.poHeaders = HttpHeaders.getInstance(context);

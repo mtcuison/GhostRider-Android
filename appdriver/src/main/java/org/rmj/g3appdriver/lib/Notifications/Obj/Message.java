@@ -5,8 +5,8 @@ import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DMessages;
-import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
+import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DMessages;
+import org.rmj.g3appdriver.dev.Database.GCircle.GGC_GCircleDB;
 import org.rmj.g3appdriver.lib.Notifications.NOTIFICATION_STATUS;
 import org.rmj.g3appdriver.lib.Notifications.Obj.Receiver.NMM_Regular;
 
@@ -21,7 +21,7 @@ public class Message extends NMM_Regular {
 
     public Message(Application application) {
         super(application);
-        this.poDao = GGC_GriderDB.getInstance(application).messagesDao();
+        this.poDao = GGC_GCircleDB.getInstance(application).messagesDao();
     }
 
     public LiveData<List<DMessages.MessageUsers>> GetUsersMessages(){

@@ -9,10 +9,10 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.apprdiver.util.SQLUtil;
 import org.rmj.g3appdriver.dev.Api.WebClient;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEmployeeInfo;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DItinerary;
-import org.rmj.g3appdriver.dev.Database.Entities.EItinerary;
-import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
+import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DEmployeeInfo;
+import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DItinerary;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EItinerary;
+import org.rmj.g3appdriver.dev.Database.GCircle.GGC_GCircleDB;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
@@ -37,7 +37,7 @@ public class EmployeeItinerary {
 
     public EmployeeItinerary(Application instance) {
         this.instance = instance;
-        this.poDao = GGC_GriderDB.getInstance(instance).itineraryDao();
+        this.poDao = GGC_GCircleDB.getInstance(instance).itineraryDao();
         this.poEmployee = new EmployeeMaster(instance);
     }
 

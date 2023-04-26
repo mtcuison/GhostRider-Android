@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import org.guanzongroup.com.itinerary.R;
-import org.rmj.g3appdriver.dev.Database.Entities.EItinerary;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EItinerary;
 import org.rmj.g3appdriver.etc.FormatUIText;
 
 public class DialogEntryDetail {

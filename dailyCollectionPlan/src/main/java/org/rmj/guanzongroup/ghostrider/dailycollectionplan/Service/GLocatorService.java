@@ -25,7 +25,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 
-import org.rmj.g3appdriver.dev.Database.Repositories.RSysConfig;
+import org.rmj.g3appdriver.dev.Database.GCircle.Repositories.RSysConfig;
 import org.rmj.g3appdriver.lib.Location.LocationRetriever;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_CollectionList;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;

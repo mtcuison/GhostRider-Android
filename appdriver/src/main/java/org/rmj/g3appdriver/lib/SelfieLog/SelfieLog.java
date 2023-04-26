@@ -17,12 +17,12 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 
 import org.json.JSONObject;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEmployeeInfo;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DSelfieLog;
-import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.ESelfieLog;
-import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
-import org.rmj.g3appdriver.dev.Database.Repositories.RImageInfo;
+import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DEmployeeInfo;
+import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DSelfieLog;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EBranchInfo;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.ESelfieLog;
+import org.rmj.g3appdriver.dev.Database.GCircle.GGC_GCircleDB;
+import org.rmj.g3appdriver.dev.Database.GCircle.Repositories.RImageInfo;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.lib.Account.SessionManager;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
@@ -52,7 +52,7 @@ public class SelfieLog {
     private String message;
 
     public SelfieLog(Application instance){
-        this.poDao = GGC_GriderDB.getInstance(instance).SelfieDao();
+        this.poDao = GGC_GCircleDB.getInstance(instance).SelfieDao();
         this.poUser = new EmployeeMaster(instance);
         this.poConfig = AppConfigPreference.getInstance(instance);
         this.poImage = new RImageInfo(instance);

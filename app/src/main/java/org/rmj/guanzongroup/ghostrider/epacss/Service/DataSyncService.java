@@ -19,7 +19,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import org.rmj.g3appdriver.dev.Database.Repositories.RLocationSysLog;
+import org.rmj.g3appdriver.dev.Database.GCircle.Repositories.RLocationSysLog;
 import org.rmj.g3appdriver.lib.ApprovalCode.ApprovalCode;
 import org.rmj.g3appdriver.lib.Itinerary.Obj.EmployeeItinerary;
 import org.rmj.g3appdriver.lib.PetManager.PetManager;

@@ -20,7 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 
-import org.rmj.g3appdriver.dev.Database.Entities.ESCA_Request;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.ESCA_Request;
 import org.rmj.guanzongroup.ghostrider.approvalcode.R;
 
 import java.util.List;

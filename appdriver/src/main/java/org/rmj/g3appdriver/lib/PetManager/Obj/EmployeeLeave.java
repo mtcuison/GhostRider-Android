@@ -19,12 +19,12 @@ import androidx.lifecycle.LiveData;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.apprdiver.util.SQLUtil;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEmployeeInfo;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEmployeeLeave;
-import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeBusinessTrip;
-import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeLeave;
-import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
+import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DEmployeeInfo;
+import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DEmployeeLeave;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EEmployeeBusinessTrip;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EEmployeeInfo;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EEmployeeLeave;
+import org.rmj.g3appdriver.dev.Database.GCircle.GGC_GCircleDB;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.lib.Account.SessionManager;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
@@ -52,7 +52,7 @@ public class EmployeeLeave implements iPM {
     private String message;
 
     public EmployeeLeave(Application instance) {
-        this.poDao = GGC_GriderDB.getInstance(instance).employeeLeaveDao();
+        this.poDao = GGC_GCircleDB.getInstance(instance).employeeLeaveDao();
         this.poConfig = AppConfigPreference.getInstance(instance);
         this.poApi = new WebApi(poConfig.getTestStatus());
         this.poHeaders = HttpHeaders.getInstance(instance);

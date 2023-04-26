@@ -14,7 +14,7 @@ package org.rmj.g3appdriver.lib.ImportData.Obj;
 import android.annotation.SuppressLint;
 import android.app.Application;
 
-import org.rmj.g3appdriver.dev.Database.Repositories.RFileCode;
+import org.rmj.g3appdriver.dev.Database.GCircle.Repositories.RFileCode;
 import org.rmj.g3appdriver.lib.ImportData.model.ImportDataCallback;
 import org.rmj.g3appdriver.lib.ImportData.model.ImportInstance;
 

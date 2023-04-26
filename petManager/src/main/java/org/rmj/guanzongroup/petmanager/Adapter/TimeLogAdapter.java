@@ -23,12 +23,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
 
-import org.rmj.g3appdriver.dev.Database.Entities.ESelfieLog;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.ESelfieLog;
 import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.guanzongroup.petmanager.R;
 
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
 import java.util.List;
 
 public class TimeLogAdapter extends RecyclerView.Adapter<TimeLogAdapter.TimeLogViewHolder> {

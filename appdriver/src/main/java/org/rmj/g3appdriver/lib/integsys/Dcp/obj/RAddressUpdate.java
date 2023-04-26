@@ -6,9 +6,9 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 
 import org.json.JSONObject;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DAddressUpdate;
-import org.rmj.g3appdriver.dev.Database.Entities.EAddressUpdate;
-import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
+import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DAddressUpdate;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EAddressUpdate;
+import org.rmj.g3appdriver.dev.Database.GCircle.GGC_GCircleDB;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.lib.integsys.Dcp.pojo.AddressUpdate;
 
@@ -25,7 +25,7 @@ public class RAddressUpdate {
     private String message;
 
     public RAddressUpdate(Application instance) {
-        this.poDao = GGC_GriderDB.getInstance(instance).addressUpdateDao();
+        this.poDao = GGC_GCircleDB.getInstance(instance).addressUpdateDao();
     }
 
     /**

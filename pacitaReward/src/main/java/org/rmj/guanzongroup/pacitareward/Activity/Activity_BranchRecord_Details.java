@@ -2,7 +2,6 @@ package org.rmj.guanzongroup.pacitareward.Activity;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -15,8 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.textview.MaterialTextView;
 
-import org.rmj.g3appdriver.dev.Database.Entities.EPacitaEvaluation;
-import org.rmj.g3appdriver.dev.Database.Entities.EPacitaRule;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EPacitaEvaluation;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EPacitaRule;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.GawadPacita.Obj.PacitaRule;

@@ -10,9 +10,9 @@ import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.dev.Api.WebApi;
 import org.rmj.g3appdriver.dev.Api.WebClient;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DBranchPerformance;
-import org.rmj.g3appdriver.dev.Database.Entities.EBranchPerformance;
-import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
+import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DBranchPerformance;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EBranchPerformance;
+import org.rmj.g3appdriver.dev.Database.GCircle.GGC_GCircleDB;
 import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.lib.BullsEye.ABPM;
@@ -34,7 +34,7 @@ public class BranchPerformance extends ABPM {
 
     public BranchPerformance(Context context) {
         super(context);
-        this.poDao = GGC_GriderDB.getInstance(context).BranchPerformanceDao();
+        this.poDao = GGC_GCircleDB.getInstance(context).BranchPerformanceDao();
         this.poConfig = AppConfigPreference.getInstance(context);
         this.poApi = new WebApi(poConfig.getTestStatus());
         this.poHeaders = HttpHeaders.getInstance(context);

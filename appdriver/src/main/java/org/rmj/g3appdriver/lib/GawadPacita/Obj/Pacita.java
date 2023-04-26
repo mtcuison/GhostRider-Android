@@ -11,11 +11,11 @@ import org.rmj.apprdiver.util.SQLUtil;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.dev.Api.WebApi;
 import org.rmj.g3appdriver.dev.Api.WebClient;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DPacita;
-import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.EPacitaEvaluation;
-import org.rmj.g3appdriver.dev.Database.Entities.EPacitaRule;
-import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
+import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DPacita;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EBranchInfo;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EPacitaEvaluation;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EPacitaRule;
+import org.rmj.g3appdriver.dev.Database.GCircle.GGC_GCircleDB;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
 
@@ -35,7 +35,7 @@ public class Pacita {
     private String message;
 
     public Pacita(Application instance) {
-        this.poDao = GGC_GriderDB.getInstance(instance).pacitaDao();
+        this.poDao = GGC_GCircleDB.getInstance(instance).pacitaDao();
         this.poHeaders = HttpHeaders.getInstance(instance);
         this.poConfig = AppConfigPreference.getInstance(instance);
         this.poApi = new WebApi(poConfig.getTestStatus());

@@ -22,11 +22,11 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.apprdiver.util.MiscUtil;
 import org.rmj.g3appdriver.dev.Api.WebClient;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DApprovalCode;
-import org.rmj.g3appdriver.dev.Database.Entities.ECodeApproval;
-import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.ESCA_Request;
-import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
+import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DApprovalCode;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.ECodeApproval;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EEmployeeInfo;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.ESCA_Request;
+import org.rmj.g3appdriver.dev.Database.GCircle.GGC_GCircleDB;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
@@ -56,7 +56,7 @@ public class ApprovalCode {
 
     public ApprovalCode(Application instance) {
         this.instance = instance;
-        this.poDao = GGC_GriderDB.getInstance(instance).ApprovalDao();
+        this.poDao = GGC_GCircleDB.getInstance(instance).ApprovalDao();
         this.poUser = new EmployeeMaster(instance);
         this.poConfig = AppConfigPreference.getInstance(instance);
         this.poApi = new WebApi(poConfig.getTestStatus());

@@ -6,11 +6,11 @@ import androidx.lifecycle.LiveData;
 
 import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Api.WebClient;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DApprovalCode;
-import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.ECodeApproval;
-import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
-import org.rmj.g3appdriver.dev.Database.Repositories.RBranch;
+import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DApprovalCode;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EBranchInfo;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.ECodeApproval;
+import org.rmj.g3appdriver.dev.Database.GCircle.GGC_GCircleDB;
+import org.rmj.g3appdriver.dev.Database.GCircle.Repositories.RBranch;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.dev.Api.WebApi;
@@ -32,7 +32,7 @@ public class LoanApproval implements SCA {
     private String message;
 
     public LoanApproval(Application instance) {
-        this.poDao = GGC_GriderDB.getInstance(instance).ApprovalDao();
+        this.poDao = GGC_GCircleDB.getInstance(instance).ApprovalDao();
         this.poBranch = new RBranch(instance);
         this.poConfig = AppConfigPreference.getInstance(instance);
         this.poApi = new WebApi(poConfig.getTestStatus());

@@ -6,19 +6,17 @@ import androidx.lifecycle.LiveData;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DCreditApplication;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.EBarangayInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.ECountryInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.EOccupationInfo;
-import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
-import org.rmj.g3appdriver.dev.Database.Repositories.RBarangay;
-import org.rmj.g3appdriver.dev.Database.Repositories.RCountry;
-import org.rmj.g3appdriver.dev.Database.Repositories.ROccupation;
-import org.rmj.g3appdriver.dev.Database.Repositories.RTown;
+import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DCreditApplication;
+import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DTownInfo;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EBarangayInfo;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.ECountryInfo;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.ECreditApplicantInfo;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EOccupationInfo;
+import org.rmj.g3appdriver.dev.Database.GCircle.GGC_GCircleDB;
+import org.rmj.g3appdriver.dev.Database.GCircle.Repositories.RCountry;
+import org.rmj.g3appdriver.dev.Database.GCircle.Repositories.ROccupation;
+import org.rmj.g3appdriver.dev.Database.GCircle.Repositories.RTown;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditApp;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Employment;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.SpouseEmployments;
 import org.rmj.gocas.base.GOCASApplication;
 
@@ -37,7 +35,7 @@ public class SpouseEmploymentInfo implements CreditApp {
     private String message;
 
     public SpouseEmploymentInfo(Application instance) {
-        this.poDao = GGC_GriderDB.getInstance(instance).CreditApplicationDao();
+        this.poDao = GGC_GCircleDB.getInstance(instance).CreditApplicationDao();
         this.poTown = new RTown(instance);
         this.poCountry = new RCountry(instance);
         this.poPosition = new ROccupation(instance);

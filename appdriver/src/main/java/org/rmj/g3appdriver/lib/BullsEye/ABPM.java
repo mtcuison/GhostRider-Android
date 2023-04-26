@@ -4,12 +4,6 @@ import android.content.Context;
 
 import androidx.lifecycle.LiveData;
 
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DAreaPerformance;
-import org.rmj.g3appdriver.dev.Database.Entities.EAreaPerformance;
-import org.rmj.g3appdriver.dev.Database.Entities.EBranchPerformance;
-
-import java.util.List;
-
 public class ABPM {
     private final Context context;
 

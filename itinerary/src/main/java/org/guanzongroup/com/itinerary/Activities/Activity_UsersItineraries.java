@@ -22,7 +22,7 @@ import org.guanzongroup.com.itinerary.Adapter.AdapterItineraries;
 import org.guanzongroup.com.itinerary.Dialog.DialogEntryDetail;
 import org.guanzongroup.com.itinerary.R;
 import org.guanzongroup.com.itinerary.ViewModel.VMUsersItineraries;
-import org.rmj.g3appdriver.dev.Database.Entities.EItinerary;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EItinerary;
 import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.FormatUIText;

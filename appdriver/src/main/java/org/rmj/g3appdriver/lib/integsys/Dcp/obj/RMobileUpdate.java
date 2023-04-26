@@ -6,9 +6,9 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 
 import org.json.JSONObject;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DMobileUpdate;
-import org.rmj.g3appdriver.dev.Database.Entities.EMobileUpdate;
-import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
+import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DMobileUpdate;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EMobileUpdate;
+import org.rmj.g3appdriver.dev.Database.GCircle.GGC_GCircleDB;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.lib.integsys.Dcp.pojo.MobileUpdate;
 
@@ -25,7 +25,7 @@ public class RMobileUpdate {
     private String message;
 
     public RMobileUpdate(Application instance) {
-        this.poDao = GGC_GriderDB.getInstance(instance).mobileUpdateDao();
+        this.poDao = GGC_GCircleDB.getInstance(instance).mobileUpdateDao();
     }
 
     /**

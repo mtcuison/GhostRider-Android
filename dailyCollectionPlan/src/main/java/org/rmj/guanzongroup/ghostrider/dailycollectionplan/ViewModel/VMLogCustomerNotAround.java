@@ -18,11 +18,11 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DAddressRequest;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DMobileRequest;
-import org.rmj.g3appdriver.dev.Database.Entities.EImageInfo;
-import org.rmj.g3appdriver.dev.Database.Repositories.RCollectionUpdate;
-import org.rmj.g3appdriver.dev.Database.Repositories.RImageInfo;
+import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DAddressRequest;
+import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DMobileRequest;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EImageInfo;
+import org.rmj.g3appdriver.dev.Database.GCircle.Repositories.RCollectionUpdate;
+import org.rmj.g3appdriver.dev.Database.GCircle.Repositories.RImageInfo;
 
 import java.util.List;
 

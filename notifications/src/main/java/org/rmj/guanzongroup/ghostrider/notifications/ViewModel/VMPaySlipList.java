@@ -8,15 +8,13 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.ViewModel;
 
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DPayslip;
-import org.rmj.g3appdriver.dev.Database.Entities.ENotificationMaster;
+import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DPayslip;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.ENotificationMaster;
 import org.rmj.g3appdriver.lib.Notifications.NOTIFICATION_STATUS;
 import org.rmj.g3appdriver.lib.Notifications.Obj.Payslip;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 
-import java.io.File;
 import java.util.List;
 
 public class VMPaySlipList extends AndroidViewModel {

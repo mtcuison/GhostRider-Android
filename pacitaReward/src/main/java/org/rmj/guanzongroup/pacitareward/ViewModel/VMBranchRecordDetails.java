@@ -2,14 +2,13 @@ package org.rmj.guanzongroup.pacitareward.ViewModel;
 
 import android.app.Application;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import org.rmj.g3appdriver.dev.Database.Entities.EPacitaEvaluation;
-import org.rmj.g3appdriver.dev.Database.Entities.EPacitaRule;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EPacitaEvaluation;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EPacitaRule;
 import org.rmj.g3appdriver.lib.GawadPacita.Obj.Pacita;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 

@@ -30,8 +30,8 @@ import android.view.ViewGroup;
 
 import com.google.android.material.textview.MaterialTextView;
 
-import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeBusinessTrip;
-import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeLeave;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EEmployeeBusinessTrip;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EEmployeeLeave;
 import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.lib.Notifications.data.SampleData;
 import org.rmj.g3appdriver.lib.PetManager.OnCheckEmployeeApplicationListener;

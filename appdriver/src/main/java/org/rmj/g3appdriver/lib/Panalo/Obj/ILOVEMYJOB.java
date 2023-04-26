@@ -9,14 +9,12 @@ import androidx.lifecycle.LiveData;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.dev.Api.WebApi;
-import org.rmj.g3appdriver.dev.Api.WebClient;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DRaffleStatus;
-import org.rmj.g3appdriver.dev.Database.Entities.ERaffleStatus;
-import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
+import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DRaffleStatus;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.ERaffleStatus;
+import org.rmj.g3appdriver.dev.Database.GCircle.GGC_GCircleDB;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.lib.Panalo.model.PanaloRewards;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ILOVEMYJOB extends GPanalo {
@@ -30,7 +28,7 @@ public class ILOVEMYJOB extends GPanalo {
 
     public ILOVEMYJOB(Application instance) {
         super(instance);
-        this.poDao = GGC_GriderDB.getInstance(instance).raffleStatusDao();
+        this.poDao = GGC_GCircleDB.getInstance(instance).raffleStatusDao();
         this.poConfig = AppConfigPreference.getInstance(instance);
         this.poApis = new WebApi(poConfig.getTestStatus());
         this.poHeaders = HttpHeaders.getInstance(instance);

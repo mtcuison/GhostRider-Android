@@ -4,10 +4,10 @@ import android.app.Application;
 
 import androidx.lifecycle.LiveData;
 
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DCreditApplicationDocuments;
-import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicationDocuments;
-import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
-import org.rmj.g3appdriver.dev.Database.Repositories.RImageInfo;
+import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DCreditApplicationDocuments;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.ECreditApplicationDocuments;
+import org.rmj.g3appdriver.dev.Database.GCircle.GGC_GCircleDB;
+import org.rmj.g3appdriver.dev.Database.GCircle.Repositories.RImageInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.CreditAppDocs;
 
 import java.util.List;
@@ -27,7 +27,7 @@ public class CreditAppDocuments {
 
     public CreditAppDocuments(Application instance) {
         this.instance = instance;
-        this.poDao = GGC_GriderDB.getInstance(instance).DocumentInfoDao();
+        this.poDao = GGC_GCircleDB.getInstance(instance).DocumentInfoDao();
         this.poImage = new RImageInfo(instance);
     }
 
