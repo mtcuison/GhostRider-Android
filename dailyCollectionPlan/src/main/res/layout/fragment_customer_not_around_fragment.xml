@@ -174,7 +174,8 @@
             android:layout_height="wrap_content"
             android:hint="Request Code"
             android:layout_weight="1.4">
-            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
                 android:id="@+id/spn_requestCode"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

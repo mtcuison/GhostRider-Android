@@ -86,7 +86,7 @@ public class Fragment_PromiseToPay extends Fragment {
 
     private String transNox;
 
-    private MaterialAutoCompleteTextView lblBranch, lblAddress, lblAccNo, lblClientNm, lblTransNo;
+    private MaterialTextView lblBranch, lblAddress, lblAccNo, lblClientNm, lblTransNo;
 
     ActivityResultLauncher<String[]> poRequest = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), result -> InitializeCamera());
 
