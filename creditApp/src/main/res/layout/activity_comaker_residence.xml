@@ -262,7 +262,7 @@
                         android:layout_weight="2"
                         android:hint="Lenght of Stay">
 
-                        <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                        <com.google.android.material.textfield.MaterialAutoCompleteTextView
                             android:id="@+id/spn_lenghtStay"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -312,7 +312,7 @@
                         android:layout_weight="1"
                         android:hint="Households (Required)">
 
-                        <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                        <com.google.android.material.textfield.MaterialAutoCompleteTextView
                             android:id="@+id/spn_houseHold"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -333,7 +333,7 @@
                         android:layout_weight="1"
                         android:hint="House Type (Required)">
 
-                        <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                        <com.google.android.material.textfield.MaterialAutoCompleteTextView
                             android:id="@+id/spn_houseType"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
