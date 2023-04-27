@@ -19,29 +19,19 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.Spinner;
-import android.widget.TextView;
-
-import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.MaterialAutoCompleteTextView;
-import com.google.android.material.textfield.TextInputLayout;
-import com.google.android.material.textview.MaterialTextView;
-import com.google.android.material.divider.MaterialDivider;
-import com.google.android.material.card.MaterialCardView;
-import com.google.android.material.imageview.ShapeableImageView;
-import  com.google.android.material.checkbox.MaterialCheckBox;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.checkbox.MaterialCheckBox;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
 
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.FormatUIText;
@@ -185,7 +175,7 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
 
         mViewModel.GetPaymentType().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
             spnType.setAdapter(stringArrayAdapter);
-            spnType.setSelection(1);
+            spnType.setSelection(0);
         });
 
         mViewModel.GetPrNumber().observe(getViewLifecycleOwner(), s -> {
