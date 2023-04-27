@@ -14,16 +14,11 @@ package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.CheckedTextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatDelegate;
-
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 
 public class DCP_Constants {
 
@@ -183,12 +178,12 @@ public class DCP_Constants {
             @Override
             public View getView(int position, View convertView, @NonNull ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
-                //change the color to which ever you want
-                if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
-                    ((CheckedTextView) view).setTextColor(Color.WHITE);
-                }else{
-                    ((CheckedTextView) view).setTextColor(getContext().getResources().getColor(R.color.material_black));
-                }
+//                //change the color to which ever you want
+//                if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
+//                    ((CheckedTextView) view).setTextColor(Color.WHITE);
+//                }else{
+//                    ((CheckedTextView) view).setTextColor(getContext().getResources().getColor(R.color.material_black));
+//                }
                 return view;
             }
         };

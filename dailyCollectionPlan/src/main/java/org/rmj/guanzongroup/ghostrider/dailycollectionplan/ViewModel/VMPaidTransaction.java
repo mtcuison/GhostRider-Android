@@ -13,7 +13,6 @@ package org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel;
 
 import android.app.Application;
 import android.os.AsyncTask;
-import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -30,7 +29,6 @@ import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.lib.integsys.Dcp.LRDcp;
 import org.rmj.g3appdriver.lib.integsys.Dcp.pojo.PaidDCP;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -80,13 +78,6 @@ public class VMPaidTransaction extends AndroidViewModel {
 
     public LiveData<EDCPCollectionDetail> GetCollectionDetail(String TransNo, int EntryNo, String Accountno){
         return poSys.GetAccountDetailForTransaction(TransNo, Accountno, String.valueOf(EntryNo));
-    }
-
-    public LiveData<ArrayAdapter<String>> GetPaymentType(){
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_dropdown_item, DCP_Constants.PAYMENT_TYPE);
-        MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
-        liveData.setValue(adapter);
-        return liveData;
     }
 
     public LiveData<String> GetPrNumber(){
