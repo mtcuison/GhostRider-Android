@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.apprdiver.util.SQLUtil;
+import org.rmj.g3appdriver.dev.Api.GCircleApi;
 import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DCreditOnlineApplicationCI;
 import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EBranchLoanApplication;
@@ -21,7 +22,6 @@ import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
-import org.rmj.g3appdriver.dev.Api.WebApi;
 import org.rmj.g3appdriver.lib.integsys.CreditInvestigator.pojo.BarangayRecord;
 import org.rmj.g3appdriver.lib.integsys.CreditInvestigator.pojo.CIImage;
 import org.rmj.g3appdriver.lib.integsys.CreditInvestigator.pojo.oChildFndg;
@@ -41,8 +41,7 @@ public class CITagging {
     private final HttpHeaders poHeaders;
     private final SessionManager poSession;
     private final RImageInfo poImage;
-    private final WebApi poApis;
-    private final AppConfigPreference poConfig;
+    private final GCircleApi poApis;
 
     private String message;
 
@@ -57,8 +56,7 @@ public class CITagging {
         this.poHeaders = HttpHeaders.getInstance(instance);
         this.poSession = new SessionManager(instance);
         this.poImage = new RImageInfo(instance);
-        this.poConfig = AppConfigPreference.getInstance(instance);
-        this.poApis = new WebApi(poConfig.getTestStatus());
+        this.poApis = new GCircleApi(instance);
     }
 
     public String getMessage() {
@@ -74,7 +72,7 @@ public class CITagging {
             JSONObject params = new JSONObject();
             params.put("sEmployID", poSession.getEmployeeID());
             String lsResponse = WebClient.sendRequest(
-                    poApis.getUrlDownloadCIApplications(poConfig.isBackUpServer()),
+                    poApis.getUrlDownloadCIApplications(),
                     params.toString(),
                     poHeaders.getHeaders());
 
@@ -213,7 +211,7 @@ public class CITagging {
         try{
             JSONObject params = new JSONObject();
             params.put("sTransNox", TransNox);
-            String lsAddress = poApis.getUrlDownloadCreditAppForCI(poConfig.isBackUpServer());
+            String lsAddress = poApis.getUrlDownloadCreditAppForCI();
             String lsResponse = WebClient.sendRequest(
                     lsAddress,
                     params.toString(),
@@ -290,7 +288,7 @@ public class CITagging {
             JSONObject params = new JSONObject();
             params.put("sTransNox", TransNox);
             String lsResponse = WebClient.sendRequest(
-                    poApis.getUrlDownloadCIApplications(poConfig.isBackUpServer()),
+                    poApis.getUrlDownloadCIApplications(),
                     params.toString(),
                     poHeaders.getHeaders());
 
@@ -586,7 +584,7 @@ public class CITagging {
             params.put("sNeighBr3", loDetail.getNeighBr3());
 
             String lsResponse = WebClient.sendRequest(
-                    poApis.getUrlSubmitCIResult(poConfig.isBackUpServer()),
+                    poApis.getUrlSubmitCIResult(),
                     params.toString(),
                     poHeaders.getHeaders());
 
@@ -659,7 +657,7 @@ public class CITagging {
             params.put("dApproved", loDetail.getDapprovd());
 
             String lsResponse = WebClient.sendRequest(
-                    poApis.getUrlPostCiApproval(poConfig.isBackUpServer()),
+                    poApis.getUrlPostCiApproval(),
                     params.toString(),
                     poHeaders.getHeaders());
 
@@ -689,7 +687,7 @@ public class CITagging {
         try{
             JSONObject params = new JSONObject();
             params.put("sEmployID", poSession.getEmployeeID());
-            String lsResponse = WebClient.sendRequest(poApis.getUrlDownloadBhPreview(poConfig.isBackUpServer()),
+            String lsResponse = WebClient.sendRequest(poApis.getUrlDownloadBhPreview(),
                     params.toString(), poHeaders.getHeaders());
             if(lsResponse == null){
                 message = "Sever no response.";
@@ -758,7 +756,7 @@ public class CITagging {
             params.put("dRcmdtnx2", loDetail.getRcmdRcd2());
             params.put("cRcmdtnx2", loDetail.getRcmdtnc2());
             params.put("sRcmdtnx2", loDetail.getRcmdtns2());
-            String lsResponse = WebClient.sendRequest(poApis.getUrlPostBhApproval(poConfig.isBackUpServer()), params.toString(), poHeaders.getHeaders());
+            String lsResponse = WebClient.sendRequest(poApis.getUrlPostBhApproval(), params.toString(), poHeaders.getHeaders());
             if (lsResponse == null) {
                 message = "Server no response.";
                 return false;
@@ -809,7 +807,7 @@ public class CITagging {
                 params.put("dApproved", loDetail.getDapprovd());
 
                 String lsResponse = WebClient.sendRequest(
-                        poApis.getUrlPostCiApproval(poConfig.isBackUpServer()),
+                        poApis.getUrlPostCiApproval(),
                         params.toString(),
                         poHeaders.getHeaders());
 

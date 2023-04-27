@@ -701,7 +701,7 @@ public class GCircleApi extends WebApi {
         return LIVE + URL_SUBMIT_RESULT;
     }
 
-    public String getUrlPostCiApproval(boolean isLiveData){
+    public String getUrlPostCiApproval(){
         if(isUnitTest()) {
             Log.d(TAG, "Initialize api:" + LOCAL + URL_POST_CI_APPROVAL);
             return LOCAL + URL_POST_CI_APPROVAL;
@@ -710,7 +710,7 @@ public class GCircleApi extends WebApi {
         return LIVE + URL_POST_CI_APPROVAL;
     }
 
-    public String getUrlPostBhApproval(boolean isLiveData){
+    public String getUrlPostBhApproval(){
         if(isUnitTest()) {
             Log.d(TAG, "Initialize api:" + LOCAL + URL_POST_BH_APPROVAL);
             return LOCAL + URL_POST_BH_APPROVAL;
@@ -719,7 +719,7 @@ public class GCircleApi extends WebApi {
         return LIVE + URL_POST_BH_APPROVAL;
     }
 
-    public String getUrlDownloadBhPreview(boolean isLiveData){
+    public String getUrlDownloadBhPreview(){
         if(isUnitTest()) {
             Log.d(TAG, "Initialize api:" + LOCAL + URL_DOWNLOAD_BH_PREVIEW);
             return LOCAL + URL_DOWNLOAD_BH_PREVIEW;

@@ -12,7 +12,6 @@ import org.rmj.g3appdriver.dev.Device.Telephony;
 import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
-import org.rmj.g3appdriver.dev.Api.WebApi;
 
 import java.util.ArrayList;
 import java.util.List;

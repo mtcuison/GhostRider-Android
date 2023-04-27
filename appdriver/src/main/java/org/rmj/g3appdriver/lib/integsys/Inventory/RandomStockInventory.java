@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.rmj.g3appdriver.dev.Api.GCircleApi;
 import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DInventoryDao;
 import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EBranchInfo;
@@ -16,9 +17,7 @@ import org.rmj.g3appdriver.dev.Database.GCircle.GGC_GCircleDB;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.dev.Api.WebClient;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
-import org.rmj.g3appdriver.dev.Api.WebApi;
 
 import java.util.List;
 
@@ -29,8 +28,7 @@ public class RandomStockInventory {
 
     private final EmployeeMaster poUser;
 
-    private final AppConfigPreference poConfig;
-    private final WebApi poApi;
+    private final GCircleApi poApi;
     private final HttpHeaders poHeaders;
 
     private String message;
@@ -38,8 +36,7 @@ public class RandomStockInventory {
     public RandomStockInventory(Application instance) {
         this.poDao = GGC_GCircleDB.getInstance(instance).InventoryDao();
         this.poUser = new EmployeeMaster(instance);
-        this.poConfig = AppConfigPreference.getInstance(instance);
-        this.poApi = new WebApi(poConfig.getTestStatus());
+        this.poApi = new GCircleApi(instance);
         this.poHeaders = HttpHeaders.getInstance(instance);
     }
 
@@ -119,7 +116,7 @@ public class RandomStockInventory {
             JSONObject params = new JSONObject();
             params.put("branchcd", fsVal);
             String lsResponse = WebClient.sendRequest(
-                    poApi.getUrlRequestRandomStockInventory(poConfig.isBackUpServer()),
+                    poApi.getUrlRequestRandomStockInventory(),
                     params.toString(),
                     poHeaders.getHeaders());
 
@@ -321,7 +318,7 @@ public class RandomStockInventory {
             params.put("detail", jaDetail);
 
             String lsResponse = WebClient.sendRequest(
-                    poApi.getUrlSubmitRandomStockInventory(poConfig.isBackUpServer()),
+                    poApi.getUrlSubmitRandomStockInventory(),
                     params.toString(),
                     poHeaders.getHeaders());
 
@@ -414,7 +411,7 @@ public class RandomStockInventory {
                 params.put("detail", jaDetail);
 
                 String lsResponse = WebClient.sendRequest(
-                        poApi.getUrlSubmitRandomStockInventory(poConfig.isBackUpServer()),
+                        poApi.getUrlSubmitRandomStockInventory(),
                         params.toString(),
                         poHeaders.getHeaders());
 

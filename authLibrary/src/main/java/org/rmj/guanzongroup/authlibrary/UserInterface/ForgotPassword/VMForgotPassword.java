@@ -23,17 +23,17 @@ import androidx.annotation.RequiresApi;
 import androidx.lifecycle.AndroidViewModel;
 
 import org.json.JSONObject;
+import org.rmj.g3appdriver.dev.Api.GCircleApi;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
-import org.rmj.g3appdriver.dev.Api.WebApi;
 
 import java.io.IOException;
 
 public class VMForgotPassword extends AndroidViewModel {
     public static final String TAG = VMForgotPassword.class.getSimpleName();
-    private WebApi webApi;
+    private GCircleApi webApi;
     private HttpHeaders headers;
     private ConnectionUtil conn;
     private Application instance;

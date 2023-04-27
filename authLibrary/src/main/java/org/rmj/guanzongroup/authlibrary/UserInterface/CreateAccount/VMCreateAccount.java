@@ -21,12 +21,12 @@ import androidx.annotation.RequiresApi;
 import androidx.lifecycle.AndroidViewModel;
 
 import org.json.JSONObject;
+import org.rmj.g3appdriver.dev.Api.GCircleApi;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
-import org.rmj.g3appdriver.dev.Api.WebApi;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -34,17 +34,10 @@ import java.util.HashMap;
 public class VMCreateAccount extends AndroidViewModel{
     public static final String TAG = VMCreateAccount.class.getSimpleName();
     private final Application instance;
-    private WebApi webApi;
-    private HttpHeaders headers;
-    private ConnectionUtil conn;
 
     public VMCreateAccount(@NonNull Application application) {
         super(application);
         this.instance = application;
-        AppConfigPreference loConfig = AppConfigPreference.getInstance(application);
-        this.webApi = new WebApi(loConfig.getTestStatus());
-        headers = HttpHeaders.getInstance(application);
-        conn = new ConnectionUtil(application);
     }
 
     public void SubmitInfo(AccountInfo accountInfo, CreateAccountCallBack callBack){
@@ -66,7 +59,7 @@ public class VMCreateAccount extends AndroidViewModel{
 
     private static class CreateAccountTask extends AsyncTask<JSONObject, Void, String>{
         private final Application instance;
-        private WebApi webApi;
+        private GCircleApi webApi;
         private HttpHeaders headers;
         private ConnectionUtil poConn;
         private CreateAccountCallBack callBack;
@@ -89,10 +82,10 @@ public class VMCreateAccount extends AndroidViewModel{
             String response = "";
             try {
                 AppConfigPreference poConfig = AppConfigPreference.getInstance(instance);
-                webApi = new WebApi(poConfig.getTestStatus());
+                webApi = new GCircleApi(instance);
                 headers = HttpHeaders.getInstance(instance);
                 if (poConn.isDeviceConnected()) {
-                    response = WebClient.sendRequest(webApi.getUrlCreateAccount(poConfig.isBackUpServer()), jsonObjects[0].toString(), (HashMap<String, String>) headers.getHeaders());
+                    response = WebClient.sendRequest(webApi.getUrlCreateAccount(), jsonObjects[0].toString(), (HashMap<String, String>) headers.getHeaders());
                     Log.e(TAG, response);
                 } else {
                     response = AppConstants.LOCAL_EXCEPTION_ERROR("Unable to connect. Please check your internet connection.");

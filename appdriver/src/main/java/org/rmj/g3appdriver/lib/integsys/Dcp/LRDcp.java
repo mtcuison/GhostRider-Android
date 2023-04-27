@@ -10,6 +10,7 @@ import androidx.lifecycle.LiveData;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.apprdiver.util.LRUtil;
+import org.rmj.g3appdriver.dev.Api.GCircleApi;
 import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DAddressUpdate;
 import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DLRDcp;
@@ -42,7 +43,6 @@ import org.rmj.g3appdriver.lib.integsys.Dcp.obj.DCPFileManager;
 import org.rmj.g3appdriver.lib.integsys.Dcp.obj.RAddressUpdate;
 import org.rmj.g3appdriver.lib.integsys.Dcp.obj.RClientUpdate;
 import org.rmj.g3appdriver.lib.integsys.Dcp.obj.RMobileUpdate;
-import org.rmj.g3appdriver.dev.Api.WebApi;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -61,7 +61,7 @@ public class LRDcp {
     private final EmployeeMaster poUser;
 
     private final AppConfigPreference poConfig;
-    private final WebApi poApi;
+    private final GCircleApi poApi;
     private final HttpHeaders poHeaders;
     private final SessionManager poSession;
     private final Telephony poDevice;
@@ -79,7 +79,7 @@ public class LRDcp {
         this.poDao = GGC_GCircleDB.getInstance(instance).DcpDao();
         this.poUser = new EmployeeMaster(instance);
         this.poConfig = AppConfigPreference.getInstance(instance);
-        this.poApi = new WebApi(poConfig.getTestStatus());
+        this.poApi = new GCircleApi(instance);
         this.poHeaders = HttpHeaders.getInstance(instance);
         this.poSession = new SessionManager(instance);
         this.poDevice = new Telephony(instance);
@@ -390,7 +390,7 @@ public class LRDcp {
             params.put("cDCPTypex", "1");
 
             String lsResponse = WebClient.sendRequest(
-                    poApi.getUrlDownloadDcp(poConfig.isBackUpServer()),
+                    poApi.getUrlDownloadDcp(),
                     params.toString(),
                     poHeaders.getHeaders());
 
@@ -508,7 +508,7 @@ public class LRDcp {
             params.put("bycode", false);
 
             String lsResponse = WebClient.sendRequest(
-                    poApi.getUrlGetArClient(poConfig.isBackUpServer()),
+                    poApi.getUrlGetArClient(),
                     params.toString(),
                     poHeaders.getHeaders());
 
@@ -689,7 +689,7 @@ public class LRDcp {
             params.put("sDeviceID", poDevice.getDeviceID());
 
             String lsResponse = WebClient.sendRequest(
-                    poApi.getUrlDcpSubmit(poConfig.isBackUpServer()),
+                    poApi.getUrlDcpSubmit(),
                     params.toString(),
                     poHeaders.getHeaders());
 
@@ -1270,7 +1270,7 @@ public class LRDcp {
                 Log.d(TAG, "DCP posting data: " + params);
 
                 String lsResponse = WebClient.sendRequest(
-                        poApi.getUrlDcpSubmit(poConfig.isBackUpServer()),
+                        poApi.getUrlDcpSubmit(),
                         params.toString(),
                         poHeaders.getHeaders());
 
@@ -1323,7 +1323,7 @@ public class LRDcp {
             loJson.put("sTransNox", TransNox);
 
             String lsResponse = WebClient.sendRequest(
-                    poApi.getUrlPostDcpMaster(poConfig.isBackUpServer()),
+                    poApi.getUrlPostDcpMaster(),
                     loJson.toString(),
                     poHeaders.getHeaders());
 

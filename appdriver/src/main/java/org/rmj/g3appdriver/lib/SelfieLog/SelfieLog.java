@@ -17,6 +17,7 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 
 import org.json.JSONObject;
+import org.rmj.g3appdriver.dev.Api.GCircleApi;
 import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DSelfieLog;
 import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EBranchInfo;
@@ -28,9 +29,7 @@ import org.rmj.g3appdriver.lib.Account.SessionManager;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.dev.DeptCode;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
-import org.rmj.g3appdriver.dev.Api.WebApi;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -44,9 +43,8 @@ public class SelfieLog {
 
     private final EmployeeMaster poUser;
 
-    private final AppConfigPreference poConfig;
     private final RImageInfo poImage;
-    private final WebApi poApi;
+    private final GCircleApi poApi;
     private final HttpHeaders poHeaders;
     private final SessionManager poSession;
     private String message;
@@ -54,9 +52,8 @@ public class SelfieLog {
     public SelfieLog(Application instance){
         this.poDao = GGC_GCircleDB.getInstance(instance).SelfieDao();
         this.poUser = new EmployeeMaster(instance);
-        this.poConfig = AppConfigPreference.getInstance(instance);
         this.poImage = new RImageInfo(instance);
-        this.poApi = new WebApi(poConfig.getTestStatus());
+        this.poApi = new GCircleApi(instance);
         this.poHeaders = HttpHeaders.getInstance(instance);
         this.poSession = new SessionManager(instance);
     }
@@ -225,7 +222,7 @@ public class SelfieLog {
             params.put("sRemarksx", loDetail.getRemarksx());
 
             String lsResponse = WebClient.sendRequest(
-                    poApi.getUrlPostSelfielog(poConfig.isBackUpServer()),
+                    poApi.getUrlPostSelfielog(),
                     params.toString(),
                     poHeaders.getHeaders());
 
@@ -295,7 +292,7 @@ public class SelfieLog {
                 params.put("sRemarksx", loDetail.getRemarksx());
 
                 String lsResponse = WebClient.sendRequest(
-                        poApi.getUrlPostSelfielog(poConfig.isBackUpServer()),
+                        poApi.getUrlPostSelfielog(),
                         params.toString(),
                         poHeaders.getHeaders());
 

@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.apprdiver.util.SQLUtil;
+import org.rmj.g3appdriver.dev.Api.GCircleApi;
 import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DCreditApplication;
 import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DEmployeeInfo;
@@ -24,7 +25,6 @@ import org.rmj.g3appdriver.dev.Database.GCircle.Repositories.RBranch;
 import org.rmj.g3appdriver.dev.Database.GCircle.Repositories.RMcBrand;
 import org.rmj.g3appdriver.dev.Database.GCircle.Repositories.RMcModel;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.lib.Account.SessionManager;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
@@ -49,7 +49,6 @@ import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.SpouseInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.SpousePensionInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.SpouseResidenceInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.LoanInfo;
-import org.rmj.g3appdriver.dev.Api.WebApi;
 import org.rmj.gocas.base.GOCASApplication;
 import org.rmj.gocas.pricelist.PriceFactory;
 import org.rmj.gocas.pricelist.Pricelist;
@@ -73,9 +72,8 @@ public class CreditOnlineApplication {
     private final RMcModel poModel;
     private final Pricelist poPrice;
 
-    private final AppConfigPreference poConfig;
     private final SessionManager poSession;
-    private final WebApi poApi;
+    private final GCircleApi poApi;
     private final HttpHeaders poHeaders;
 
     private String message;
@@ -84,9 +82,8 @@ public class CreditOnlineApplication {
         this.instance = instance;
         this.poDao = GGC_GCircleDB.getInstance(instance).CreditApplicationDao();
         this.poUser = new EmployeeMaster(instance);
-        this.poConfig = AppConfigPreference.getInstance(instance);
         this.poSession = new SessionManager(instance);
-        this.poApi = new WebApi(poConfig.getTestStatus());
+        this.poApi = new GCircleApi(instance);
         this.poHeaders = HttpHeaders.getInstance(instance);
         this.poBranch = new RBranch(instance);
         this.poBrand = new RMcBrand(instance);
@@ -115,7 +112,7 @@ public class CreditOnlineApplication {
             }
 
             String lsResponse = WebClient.sendRequest(
-                    poApi.getUrlImportOnlineApplications(poConfig.isBackUpServer()),
+                    poApi.getUrlImportOnlineApplications(),
                     params.toString(),
                     poHeaders.getHeaders());
 
@@ -207,7 +204,7 @@ public class CreditOnlineApplication {
     public boolean ImportInstallmentTerms(){
         try{
             String lsResponse = WebClient.sendRequest(
-                    poApi.getGetInstallmentTerms(poConfig.isBackUpServer()),
+                    poApi.getGetInstallmentTerms(),
                     new JSONObject().toString(),
                     poHeaders.getHeaders());
 
@@ -274,7 +271,7 @@ public class CreditOnlineApplication {
             params.put("value", poSession.getBranchCode());
 
             String lsResponse = WebClient.sendRequest(
-                    poApi.getUrlBranchLoanApp(poConfig.isBackUpServer()),
+                    poApi.getUrlBranchLoanApp(),
                     params.toString(),
                     poHeaders.getHeaders());
 
@@ -409,7 +406,7 @@ public class CreditOnlineApplication {
             params.put("dCreatedx", loApp.getCreatedx());
 
             String lsResponse = WebClient.sendRequest(
-                    poApi.getUrlSubmitOnlineApplication(poConfig.isBackUpServer()),
+                    poApi.getUrlSubmitOnlineApplication(),
                     params.toString(),
                     poHeaders.getHeaders());
 
@@ -458,7 +455,7 @@ public class CreditOnlineApplication {
                 params.put("dCreatedx", loApp.getCreatedx());
 
                 String lsResponse = WebClient.sendRequest(
-                        poApi.getUrlSubmitOnlineApplication(poConfig.isBackUpServer()),
+                        poApi.getUrlSubmitOnlineApplication(),
                         params.toString(),
                         poHeaders.getHeaders());
 

@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.rmj.g3appdriver.dev.Api.GCircleApi;
 import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DCashCount;
 import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EBranchInfo;
@@ -17,9 +18,7 @@ import org.rmj.g3appdriver.lib.Account.SessionManager;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.dev.DeptCode;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
-import org.rmj.g3appdriver.dev.Api.WebApi;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -34,8 +33,7 @@ public class CashCount {
 
     private final EmployeeMaster poUser;
 
-    private final AppConfigPreference poConfig;
-    private final WebApi poApi;
+    private final GCircleApi poApi;
     private final HttpHeaders poHeaders;
     private final SessionManager poSession;
 
@@ -44,8 +42,7 @@ public class CashCount {
     public CashCount(Application instance) {
         this.poDao = GGC_GCircleDB.getInstance(instance).CashCountDao();
         this.poUser = new EmployeeMaster(instance);
-        this.poConfig = AppConfigPreference.getInstance(instance);
-        this.poApi = new WebApi(poConfig.getTestStatus());
+        this.poApi = new GCircleApi(instance);
         this.poHeaders = HttpHeaders.getInstance(instance);
         this.poSession = new SessionManager(instance);
     }
@@ -134,7 +131,7 @@ public class CashCount {
             params.put("bsearch", true);
 
             String lsResponse = WebClient.sendRequest(
-                    poApi.getUrlKwiksearch(poConfig.isBackUpServer()),
+                    poApi.getUrlKwiksearch(),
                     params.toString(),
                     poHeaders.getHeaders());
 
@@ -209,7 +206,7 @@ public class CashCount {
 
             Log.d(TAG, params.toString());
             String lsResponse = WebClient.sendRequest(
-                    poApi.getUrlSubmitCashcount(poConfig.isBackUpServer()),
+                    poApi.getUrlSubmitCashcount(),
                     params.toString(),
                     poHeaders.getHeaders());
 
@@ -288,7 +285,7 @@ public class CashCount {
 
                 Log.d(TAG, params.toString());
                 String lsResponse = WebClient.sendRequest(
-                        poApi.getUrlSubmitCashcount(poConfig.isBackUpServer()),
+                        poApi.getUrlSubmitCashcount(),
                         params.toString(),
                         poHeaders.getHeaders());
 

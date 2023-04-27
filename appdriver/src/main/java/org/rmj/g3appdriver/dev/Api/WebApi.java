@@ -33,7 +33,7 @@ public class WebApi {
         this.poConfig = AppConfigPreference.getInstance(instance);
         this.isUnitTest = poConfig.getTestStatus();
         boolean isLiveData = poConfig.isBackUpServer();
-        if(poConfig.isBackUpServer()){
+        if(isLiveData){
             Log.d(TAG, "Device connected to backup server.");
             LIVE = SECONDARY_LIVE;
         } else {
