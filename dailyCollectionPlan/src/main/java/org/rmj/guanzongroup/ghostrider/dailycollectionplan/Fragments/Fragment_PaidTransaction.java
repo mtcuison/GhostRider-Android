@@ -19,6 +19,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -40,6 +41,7 @@ import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.integsys.Dcp.pojo.PaidDCP;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_Transaction;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogCheckPayment;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMPaidTransaction;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.ViewModelCallback;
@@ -173,10 +175,8 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
             }
         });
 
-        mViewModel.GetPaymentType().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
-            spnType.setAdapter(stringArrayAdapter);
-            spnType.setSelection(0);
-        });
+        spnType.setAdapter(new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_dropdown_item, DCP_Constants.PAYMENT_TYPE));
+        spnType.setSelection(0);
 
         mViewModel.GetPrNumber().observe(getViewLifecycleOwner(), s -> {
             if(s != null){
