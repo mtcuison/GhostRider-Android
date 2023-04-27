@@ -63,7 +63,7 @@ public class Activity_CashCounter extends AppCompatActivity {
     private MaterialTextView[] cpriceCoin;
 
     private MaterialTextView lblPesoTotal, lblCoinsTotal, lblGrandTotal;
-    private MaterialTextView lblBranch, lblAddxx;
+    private MaterialTextView lblBranch;
     private MaterialButton btnNext;
 
     private MessageBox poMessage;
@@ -127,7 +127,7 @@ public class Activity_CashCounter extends AppCompatActivity {
         mViewModel.GetBranchCd().observe(Activity_CashCounter.this, branchCd -> mViewModel.GetBranchForCashCount(branchCd).observe(Activity_CashCounter.this, eBranchInfo -> {
             try {
                 lblBranch.setText(eBranchInfo.getBranchNm());
-                lblAddxx.setText(eBranchInfo.getAddressx());
+//                lblAddxx.setText(eBranchInfo.getAddressx());
 
                 if(branchCd.isEmpty()){
                     btnNext.setEnabled(false);
@@ -304,7 +304,6 @@ public class Activity_CashCounter extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         lblBranch = findViewById(R.id.lbl_headerBranch);
-        lblAddxx = findViewById(R.id.lbl_headerAddress);
         btnNext = findViewById(R.id.btn_cash_count);
         lblPesoTotal = findViewById(R.id.lblPesoTotal);
         lblCoinsTotal = findViewById(R.id.lblCoinsTotal);

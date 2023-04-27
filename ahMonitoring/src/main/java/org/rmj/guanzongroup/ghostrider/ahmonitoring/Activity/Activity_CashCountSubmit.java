@@ -68,7 +68,9 @@ public class Activity_CashCountSubmit extends AppCompatActivity {
             txtRemarksx;
     private MaterialButton btnSendToServer;
 
-    private MaterialTextView lblBranch, lblAddxx, btnQuickSearch;
+    private MaterialTextView lblBranch, lblAddxx;
+
+    private MaterialButton btnQuickSearch;
 
     private LoadDialog poDialogx;
     private MessageBox poMessage;
