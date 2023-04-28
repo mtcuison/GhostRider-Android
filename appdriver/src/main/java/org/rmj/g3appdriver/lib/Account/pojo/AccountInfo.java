@@ -9,7 +9,7 @@
  * project file last modified : 4/24/21 3:17 PM
  */
 
-package org.rmj.g3appdriver.lib.Account.gCircle.pojo;
+package org.rmj.g3appdriver.lib.Account.pojo;
 
 import android.text.TextUtils;
 import android.util.Patterns;

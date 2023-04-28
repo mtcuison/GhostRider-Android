@@ -8,21 +8,21 @@ import org.rmj.g3appdriver.dev.Api.GCircleApi;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.lib.Account.Model.iAuth;
-import org.rmj.g3appdriver.lib.Account.gCircle.pojo.AccountInfo;
+import org.rmj.g3appdriver.lib.Account.pojo.AccountInfo;
 
 public class Register implements iAuth {
     private static final String TAG = Register.class.getSimpleName();
 
     private final Application instance;
-    private final GCircleApi webApi;
-    private final HttpHeaders headers;
+    private final GCircleApi poApi;
+    private final HttpHeaders poHeaders;
 
     private String message;
 
     public Register(Application instance) {
         this.instance = instance;
-        this.webApi = new GCircleApi(instance);
-        this.headers = HttpHeaders.getInstance(instance);
+        this.poApi = new GCircleApi(instance);
+        this.poHeaders = HttpHeaders.getInstance(instance);
     }
     @Override
     public int DoAction(Object args) {
@@ -40,9 +40,9 @@ public class Register implements iAuth {
             params.put("mobile", loInfo.getMobileNo());
 
             String lsResponse = WebClient.sendRequest(
-                    webApi.getUrlCreateAccount(),
+                    poApi.getUrlCreateAccount(),
                     params.toString(),
-                    headers.getHeaders());
+                    poHeaders.getHeaders());
             if(lsResponse == null){
                 message = "No server response.";
                 return 0;

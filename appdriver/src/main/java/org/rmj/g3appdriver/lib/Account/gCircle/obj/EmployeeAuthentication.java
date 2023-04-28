@@ -20,7 +20,7 @@ import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.lib.Account.Model.iAuth;
 import org.rmj.g3appdriver.lib.Account.SessionManager;
-import org.rmj.g3appdriver.lib.Account.gCircle.pojo.UserAuthInfo;
+import org.rmj.g3appdriver.lib.Account.pojo.UserAuthInfo;
 
 import java.util.Date;
 
@@ -32,8 +32,8 @@ public class EmployeeAuthentication implements iAuth {
     private final DEmployeeInfo poDao;
     private final DEmployeeRole roleDao;
     private final SessionManager poSession;
-    private final GCircleApi webApi;
-    private final HttpHeaders headers;
+    private final GCircleApi poApi;
+    private final HttpHeaders poHeaders;
     private final AppConfigPreference poConfig;
     private final Telephony poDevID;
 
@@ -45,8 +45,8 @@ public class EmployeeAuthentication implements iAuth {
         this.roleDao = GGC_GCircleDB.getInstance(instance).employeeRoleDao();
         this.poSession = new SessionManager(instance);
         this.poConfig = AppConfigPreference.getInstance(instance);
-        this.webApi = new GCircleApi(instance);
-        this.headers = HttpHeaders.getInstance(instance);
+        this.poApi = new GCircleApi(instance);
+        this.poHeaders = HttpHeaders.getInstance(instance);
         this.poDevID = new Telephony(instance);
     }
 
@@ -64,9 +64,9 @@ public class EmployeeAuthentication implements iAuth {
             params.put("pswd", loInfo.getPassword());
 
             String lsResponse = WebClient.sendRequest(
-                    webApi.getUrlAuthEmployee(),
+                    poApi.getUrlAuthEmployee(),
                     params.toString(),
-                    headers.getHeaders());
+                    poHeaders.getHeaders());
             if(lsResponse == null){
                 message = "No server response.";
                 return 0;
@@ -133,9 +133,9 @@ public class EmployeeAuthentication implements iAuth {
         try{
             JSONObject params = new JSONObject();
             String lsResponse = WebClient.sendRequest(
-                    webApi.getRequestUserAccess(),
+                    poApi.getRequestUserAccess(),
                     params.toString(),
-                    headers.getHeaders());
+                    poHeaders.getHeaders());
             if (lsResponse == null) {
                 message = "No server response.";
                 return 0;

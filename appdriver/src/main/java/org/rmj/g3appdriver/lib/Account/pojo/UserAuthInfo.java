@@ -1,4 +1,4 @@
-package org.rmj.g3appdriver.lib.Account.gCircle.pojo;
+package org.rmj.g3appdriver.lib.Account.pojo;
 
 public class UserAuthInfo {
     private final String Email;
