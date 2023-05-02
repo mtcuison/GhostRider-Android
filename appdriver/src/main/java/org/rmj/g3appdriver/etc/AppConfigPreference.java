@@ -126,7 +126,7 @@ public class AppConfigPreference {
 //        return pref.getString(AppServer, "http://192.168.10.141/");
     }
 
-    public void setTemp_ProductID(String ProductID){
+    public void setProductID(String ProductID){
         editor.putString(APP_PRODUCT_ID, ProductID);
         editor.commit();
 

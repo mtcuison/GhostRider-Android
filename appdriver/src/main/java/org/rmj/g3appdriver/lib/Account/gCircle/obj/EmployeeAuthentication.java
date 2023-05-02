@@ -59,6 +59,11 @@ public class EmployeeAuthentication implements iAuth {
                 return 0;
             }
 
+            if(poConfig.getMobileNo().isEmpty()){
+                poConfig.setMobileNo(loInfo.getMobileNo());
+                Log.d(TAG, "Mobile number has been initialized.");
+            }
+
             JSONObject params = new JSONObject();
             params.put("user", loInfo.getEmail());
             params.put("pswd", loInfo.getPassword());

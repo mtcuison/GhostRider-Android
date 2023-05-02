@@ -59,7 +59,7 @@ public class NewLocationTrackingApi {
         poTlphny = new Telephony(instance);
         poConfig.setTestCase(true);
         poConfig.setMobileNo("09171870011");
-        poConfig.setTemp_ProductID("gRider");
+        poConfig.setProductID("gRider");
         poConfig.setAppToken("f7qNSw8TRPWHSCga0g8YFF:APA91bG3i_lBPPWv9bbRasNzRH1XX1y0vzp6Ct8S_a-yMPDvSmud8FEVPMr26zZtBPHq2CmaIw9Rx0MZmf3sbuK44q3vQemUBoPPS4Meybw8pnTpcs3p0VbiTuoLHJtdncC6BgirJxt3");
     }
 

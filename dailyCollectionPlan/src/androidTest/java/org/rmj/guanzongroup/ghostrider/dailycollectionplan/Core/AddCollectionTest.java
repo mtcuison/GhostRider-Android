@@ -24,8 +24,6 @@ import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.lib.Account.gCircle.EmployeeMaster;
 import org.rmj.g3appdriver.lib.Account.gCircle.EmployeeSession;
 
-import java.util.List;
-
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(AndroidJUnit4.class)
 public class AddCollectionTest {
@@ -55,7 +53,7 @@ public class AddCollectionTest {
         poTlphny = new Telephony(instance);
         poConfig.setTestCase(true);
         poConfig.setMobileNo("09171870011");
-        poConfig.setTemp_ProductID("gRider");
+        poConfig.setProductID("gRider");
         poConfig.setAppToken("f7qNSw8TRPWHSCga0g8YFF:APA91bG3i_lBPPWv9bbRasNzRH1XX1y0vzp6Ct8S_a-yMPDvSmud8FEVPMr26zZtBPHq2CmaIw9Rx0MZmf3sbuK44q3vQemUBoPPS4Meybw8pnTpcs3p0VbiTuoLHJtdncC6BgirJxt3");
     }
 
