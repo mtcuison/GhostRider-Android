@@ -5,15 +5,13 @@ import android.app.Application;
 import androidx.lifecycle.LiveData;
 
 import org.json.JSONObject;
-import org.rmj.g3appdriver.dev.Api.GCircleApi;
 import org.rmj.g3appdriver.dev.Api.GConnectApi;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.dev.Api.WebClient;
-import org.rmj.g3appdriver.dev.Database.GConnect.DataAccessObject.DGcardApp;
-import org.rmj.g3appdriver.dev.Database.GConnect.Entities.EGcardApp;
-import org.rmj.g3appdriver.dev.Database.GConnect.GGC_GConnectDB;
+import org.rmj.g3appdriver.GConnect.room.DataAccessObject.DGcardApp;
+import org.rmj.g3appdriver.GConnect.room.Entities.EGcardApp;
+import org.rmj.g3appdriver.GConnect.room.GGC_GConnectDB;
 import org.rmj.g3appdriver.lib.gConnect.GCard.DigitalGcard.pojo.GcardCredentials;
-import org.rmj.g3appdriver.utils.ConnectionUtil;
 
 public class GCard {
     private static final String TAG = GCard.class.getSimpleName();
