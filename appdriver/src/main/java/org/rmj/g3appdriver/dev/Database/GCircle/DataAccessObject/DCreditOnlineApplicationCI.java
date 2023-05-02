@@ -231,10 +231,7 @@ public interface DCreditOnlineApplicationCI {
         public String sClientNm;
         public String dTransact;
         public String sBranchNm;
-        public String sMobileNo;
         public String nDownPaym;
-        public String sModelIDx;
-        public String nAcctTerm;
         public String sRcmdtnx1;
         public String cRcmdtnx1;
     }

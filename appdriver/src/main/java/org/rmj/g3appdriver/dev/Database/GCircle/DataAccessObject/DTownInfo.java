@@ -67,13 +67,26 @@ public interface DTownInfo {
             "ON a.sProvIDxx = b.sProvIDxx")
     LiveData<List<TownProvinceInfo>> getTownProvinceInfo();
 
-    @Query("SELECT a.sTownName, b.sProvName , c.sBrgyName FROM Town_Info a INNER JOIN Province_Info b INNER JOIN Barangay_Info c ON\n" +
-            "    a.sProvIDxx = b.sProvIDxx AND a.sTownIDxx = c.sTownIDxx AND c.sBrgyIDxx =:BrgyID")
+    @Query("SELECT " +
+            "a.sTownName, " +
+            "b.sProvName, " +
+            "c.sBrgyName " +
+            "FROM Town_Info a " +
+            "INNER JOIN Province_Info b " +
+            "INNER JOIN Barangay_Info c " +
+            "ON a.sProvIDxx = b.sProvIDxx " +
+            "AND a.sTownIDxx = c.sTownIDxx " +
+            "AND c.sBrgyIDxx =:BrgyID")
     LiveData<BrgyTownProvinceInfo> getBrgyTownProvinceInfo(String BrgyID);
 
-    @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
-    @Query("SELECT a.sTownName, b.sProvName FROM Town_Info a INNER JOIN Province_Info b ON \n" +
-            "a.sProvIDxx = b.sProvIDxx AND a.sTownIDxx  =:townID")
+    @Query("SELECT " +
+            "a.sTownName, " +
+            "b.sProvName," +
+            "'' AS sBrgyName " +
+            "FROM Town_Info a " +
+            "INNER JOIN Province_Info b " +
+            "ON a.sProvIDxx = b.sProvIDxx " +
+            "AND a.sTownIDxx  =:townID")
     LiveData<BrgyTownProvinceInfo> getTownProvinceInfo(String townID);
 
     @Query("SELECT a.sTownName, b.sProvName " +

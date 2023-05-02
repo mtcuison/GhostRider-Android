@@ -105,7 +105,7 @@ public class SubmitCIResult {
         params.put("sApproved", "M00117000702");
         params.put("dApproved", AppConstants.CURRENT_DATE);
 
-        String lsResponse = WebClient.httpPostJSon(poApis.getUrlSubmitCIResult(),
+        String lsResponse = WebClient.sendRequest(poApis.getUrlSubmitCIResult(),
                 params.toString(), (HashMap<String, String>) headers);
         if(lsResponse == null){
             isSuccess = false;
@@ -128,7 +128,7 @@ public class SubmitCIResult {
         JSONObject params = new JSONObject();
         params.put("sEmployID", "M00117000702");
 
-        String lsResponse = WebClient.httpPostJSon(poApis.getUrlDownloadBhPreview(),
+        String lsResponse = WebClient.sendRequest(poApis.getUrlDownloadBhPreview(),
                 params.toString(), (HashMap<String, String>) headers);
         if(lsResponse == null){
             isSuccess = false;
@@ -155,7 +155,7 @@ public class SubmitCIResult {
         params.put("cRcmdtnx1", "1");
         params.put("sRcmdtnx1", "sample");
 
-        String lsResponse = WebClient.httpPostJSon(poApis.getUrlPostCiApproval(false),
+        String lsResponse = WebClient.sendRequest(poApis.getUrlPostCiApproval(),
                 params.toString(), (HashMap<String, String>) headers);
         if(lsResponse == null){
             isSuccess = false;
@@ -178,7 +178,7 @@ public class SubmitCIResult {
         JSONObject params = new JSONObject();
         params.put("sEmployID", "sEmployID");
 
-        String lsResponse = WebClient.httpPostJSon(poApis.getUrlDownloadBhPreview(),
+        String lsResponse = WebClient.sendRequest(poApis.getUrlDownloadBhPreview(),
                 params.toString(), (HashMap<String, String>) headers);
         if(lsResponse == null){
             isSuccess = false;
@@ -205,7 +205,7 @@ public class SubmitCIResult {
         params.put("cRcmdtnx2", "1");
         params.put("sRcmdtnx2", "sample");
 
-        String lsResponse = WebClient.httpPostJSon(poApis.getUrlPostBhApproval(false),
+        String lsResponse = WebClient.sendRequest(poApis.getUrlPostBhApproval(),
                 params.toString(), (HashMap<String, String>) headers);
         if(lsResponse == null){
             isSuccess = false;

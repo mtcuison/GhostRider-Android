@@ -10,10 +10,10 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
+import org.rmj.g3appdriver.dev.Api.WebClient;
+import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.utils.SQLUtil;
 import org.rmj.g3appdriver.utils.SecUtil;
-import org.rmj.g3appdriver.utils.WebClient;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -61,7 +61,7 @@ public class CashCountTest {
         JSONObject params = new JSONObject();
         params.put("user", "mikegarcia8748@gmail.com");
         params.put("pswd", "123456");
-        String lsResponse = WebClient.httpPostJSon(LOCAL_LOGIN,
+        String lsResponse = WebClient.sendRequest(LOCAL_LOGIN,
                 params.toString(), (HashMap<String, String>) headers);
         if(lsResponse == null){
             isSuccess = false;
@@ -113,7 +113,7 @@ public class CashCountTest {
         params.put("dEntryDte", new AppConstants().DATE_MODIFIED);
         params.put("sReqstdBy", "");
 
-        String lsResponse = WebClient.httpPostJSon(LOCAL_CashCount,
+        String lsResponse = WebClient.sendRequest(LOCAL_CashCount,
                 params.toString(), (HashMap<String, String>) headers);
         if(lsResponse == null){
             isSuccess = false;

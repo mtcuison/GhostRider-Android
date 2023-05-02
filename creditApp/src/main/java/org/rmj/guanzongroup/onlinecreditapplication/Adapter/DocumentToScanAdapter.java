@@ -56,13 +56,13 @@ public class DocumentToScanAdapter extends RecyclerView.Adapter<DocumentToScanAd
             DCreditApplicationDocuments.ApplicationDocument document = documentsInfo.get(position);
 
             holder.lbl_fileDsc.setText(document.sBriefDsc);
-            holder.lbl_fileLoc.setText(document.sFileLoc);
+            holder.lbl_fileLoc.setText(document.sFileLoct);
             if (document.sImageNme != null){
                 holder.fileStat.setImageResource(R.drawable.ic_baseline_done_24);
                 holder.fileStat.setTag(R.drawable.ic_baseline_done_24);
             }
 
-            if (document.sSendStat != null){
+            if (document.cSendStat != null){
                 holder.imgDB.setVisibility(View.VISIBLE);
             }
 
@@ -70,7 +70,7 @@ public class DocumentToScanAdapter extends RecyclerView.Adapter<DocumentToScanAd
                 if (position != RecyclerView.NO_POSITION && holder.fileStat.getTag() == null) {
                     mListener.OnClick(position);
                 }else {
-                    mListener.OnClick(document.sTransNox, document.sFileLoc);
+                    mListener.OnClick(document.sTransNox, document.sFileLoct);
                 }
             });
         } catch (Exception e){

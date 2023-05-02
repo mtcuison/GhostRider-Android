@@ -105,37 +105,37 @@ public interface DNotificationReceiver {
             "AND a.sMsgTypex == '00000' " +
             "AND b.sRecpntID = (SELECT sUserIDxx FROM User_Info_Master)")
     LiveData<List<UserNotificationInfo>> getUserMessageList();
-
-    @Query("SELECT a.sMesgIDxx AS MesgIDxx, " +
-            "a.sMsgTitle AS MsgTitle, " +
-            "a.sCreatrID AS CreatrID, " +
-            "a.sCreatrNm AS CreatrNm, " +
-            "a.sMessagex AS Messagex, " +
-            "b.dReceived AS Received " +
-            "FROM Notification_Info_Master a " +
-            "LEFT JOIN Notification_Info_Recepient b " +
-            "ON a.sMesgIDxx = b.sTransNox " +
-            "WHERE b.cMesgStat <> '5' " +
-            "AND a.sMsgTypex == '00000' " +
-            "AND b.sRecpntID = (SELECT sUserIDxx FROM User_Info_Master) " +
-            "AND a.sCreatrID=:SenderID")
-    LiveData<List<UserNotificationInfo>> getUserMessageListFromSender(String SenderID);
-
-    @Query("SELECT a.sMesgIDxx AS MesgIDxx, " +
-            "a.sMsgTitle AS MsgTitle, " +
-            "a.sCreatrID AS CreatrID, " +
-            "a.sCreatrNm AS CreatrNm, " +
-            "a.sMessagex AS Messagex, " +
-            "b.dReceived AS Received " +
-            "FROM Notification_Info_Master a " +
-            "LEFT JOIN Notification_Info_Recepient b " +
-            "ON a.sMesgIDxx = b.sTransNox " +
-            "WHERE b.cMesgStat <> '5'" +
-            "AND a.sMsgTypex == '00000' " +
-            "AND a.sMsgTypex == '00000' " +
-            "AND b.sRecpntID = (SELECT sUserIDxx FROM User_Info_Master) " +
-            "GROUP BY a.sCreatrID")
-    LiveData<List<UserNotificationInfo>> getUserMessageListGroupByUser();
+//
+//    @Query("SELECT a.sMesgIDxx AS MesgIDxx, " +
+//            "a.sMsgTitle AS MsgTitle, " +
+//            "a.sCreatrID AS CreatrID, " +
+//            "a.sCreatrNm AS CreatrNm, " +
+//            "a.sMessagex AS Messagex, " +
+//            "b.dReceived AS Received " +
+//            "FROM Notification_Info_Master a " +
+//            "LEFT JOIN Notification_Info_Recepient b " +
+//            "ON a.sMesgIDxx = b.sTransNox " +
+//            "WHERE b.cMesgStat <> '5' " +
+//            "AND a.sMsgTypex == '00000' " +
+//            "AND b.sRecpntID = (SELECT sUserIDxx FROM User_Info_Master) " +
+//            "AND a.sCreatrID=:SenderID")
+//    LiveData<List<UserNotificationInfo>> getUserMessageListFromSender(String SenderID);
+//
+//    @Query("SELECT a.sMesgIDxx AS MesgIDxx, " +
+//            "a.sMsgTitle AS MsgTitle, " +
+//            "a.sCreatrID AS CreatrID, " +
+//            "a.sCreatrNm AS CreatrNm, " +
+//            "a.sMessagex AS Messagex, " +
+//            "b.dReceived AS Received " +
+//            "FROM Notification_Info_Master a " +
+//            "LEFT JOIN Notification_Info_Recepient b " +
+//            "ON a.sMesgIDxx = b.sTransNox " +
+//            "WHERE b.cMesgStat <> '5'" +
+//            "AND a.sMsgTypex == '00000' " +
+//            "AND a.sMsgTypex == '00000' " +
+//            "AND b.sRecpntID = (SELECT sUserIDxx FROM User_Info_Master) " +
+//            "GROUP BY a.sCreatrID")
+//    LiveData<List<UserNotificationInfo>> getUserMessageListGroupByUser();
 
     @Query("SELECT COUNT(*) FROM Notification_Info_Recepient a " +
             "LEFT JOIN Notification_Info_Master b " +

@@ -137,6 +137,7 @@
             <AndroidTestResultsTableState>
               <option name="preferredColumnWidths">
                 <map>
+                  <entry key="Android_13" value="120" />
                   <entry key="Android_13_5.7" value="120" />
                   <entry key="Duration" value="90" />
                   <entry key="Tests" value="360" />

@@ -16,7 +16,6 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
-import androidx.room.RewriteQueriesToDropUnusedColumns;
 import androidx.room.RoomWarnings;
 import androidx.room.Update;
 
@@ -38,20 +37,34 @@ import java.util.List;
     ECreditApplicationDocuments GetCreditAppDocs(String args);
 
     @Query("UPDATE Credit_Online_Application_Documents " +
-            "SET sFileLoc = (SELECT sFileLoct FROM Image_Information WHERE sSourceNo =:TransNox AND sFileCode=:sFileCD), " +
+            "SET sFileLoct = (SELECT sFileLoct FROM Image_Information WHERE sSourceNo =:TransNox AND sFileCode=:sFileCD), " +
             "sImageNme = (SELECT sImageNme FROM Image_Information WHERE sSourceNo =:TransNox AND sFileCode=:sFileCD) " +
             "WHERE sTransNox =:TransNox " +
             "AND sFileCode =:sFileCD")
     void updateDocumentsInfo(String TransNox, String sFileCD);
 
     @Query("UPDATE Credit_Online_Application_Documents " +
-            "SET sFileLoc = (SELECT sFileLoct FROM Image_Information WHERE sSourceNo =:TransNox AND sFileCode = Credit_Online_Application_Documents.sFileCode), " +
+            "SET sFileLoct = (SELECT sFileLoct FROM Image_Information WHERE sSourceNo =:TransNox AND sFileCode = Credit_Online_Application_Documents.sFileCode), " +
             "sImageNme = (SELECT sImageNme FROM Image_Information WHERE sSourceNo =:TransNox AND sFileCode = Credit_Online_Application_Documents.sFileCode) " +
             "WHERE sTransNox =:TransNox ")
     void updateDocumentsInfos(String TransNox);
 
-    @RewriteQueriesToDropUnusedColumns
-    @Query("SELECT a.sTransNox, a.sFileCode, a.nEntryNox, b.sImageNme, b.sFileLoct FROM Credit_Online_Application_Documents a LEFT JOIN image_information b ON a.sFileCode = b.sFileCode AND a.sTransNox = b.sSourceNo WHERE a.sTransNox =:TransNox  AND b.sSourceNo =:TransNox  GROUP BY a.sFileCode  ORDER BY a.nEntryNox ASC")
+    @Query("SELECT " +
+            "a.sTransNox, " +
+            "a.sFileCode, " +
+            "a.nEntryNox, " +
+            "b.sImageNme, " +
+            "b.sFileLoct, " +
+            "(SELECT sBriefDsc FROM EDocSys_File WHERE sFileCode = a.sFileCode) AS sBriefDsc, " +
+            "b.cSendStat " +
+            "FROM Credit_Online_Application_Documents a " +
+            "LEFT JOIN image_information b " +
+            "ON a.sFileCode = b.sFileCode " +
+            "AND a.sTransNox = b.sSourceNo " +
+            "WHERE a.sTransNox =:TransNox " +
+            "AND b.sSourceNo =:TransNox " +
+            "GROUP BY a.sFileCode " +
+            "ORDER BY a.nEntryNox ASC")
     LiveData<List<ApplicationDocument>> getDocument(String TransNox);
 
     @Query("INSERT INTO Credit_Online_Application_Documents (sTransNox, sFileCode, nEntryNox) " +
@@ -62,24 +75,32 @@ import java.util.List;
     @Query("SELECT * FROM Credit_Online_Application_Documents WHERE sTransNox =:TransNox")
     List<ECreditApplicationDocuments> getDuplicateTransNox(String TransNox);
 
-    @Query("SELECT a.sTransNox, a.sFileCode, b.sBriefDsc, a.nEntryNox, a.sImageNme, a.sFileLoc, a.sSendStat " +
-            "FROM Credit_Online_Application_Documents a LEFT JOIN EDocSys_File b " +
-            "ON a.sFileCode = b.sFileCode WHERE a.sTransNox =:TransNox " +
+    @Query("SELECT a.sTransNox, " +
+            "a.sFileCode, " +
+            "b.sBriefDsc, " +
+            "a.nEntryNox, " +
+            "a.sImageNme, " +
+            "a.sFileLoct, " +
+            "a.cSendStat " +
+            "FROM Credit_Online_Application_Documents a " +
+            "LEFT JOIN EDocSys_File b " +
+            "ON a.sFileCode = b.sFileCode " +
+            "WHERE a.sTransNox =:TransNox " +
             "ORDER BY a.nEntryNox ASC")
     LiveData<List<ApplicationDocument>> GetCreditAppDocuments(String TransNox);
 
     @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
-    @Query("SELECT a.sTransNox, a.sFileCode, a.nEntryNox, a.sImageNme, a.sFileLoc FROM Credit_Online_Application_Documents a LEFT JOIN Image_Information b ON a.sFileCode = b.sFileCode AND a.sTransNox = b.sSourceNo WHERE b.cSendStat != 1")
+    @Query("SELECT a.sTransNox, a.sFileCode, a.nEntryNox, a.sImageNme, a.sFileLoct FROM Credit_Online_Application_Documents a LEFT JOIN Image_Information b ON a.sFileCode = b.sFileCode AND a.sTransNox = b.sSourceNo WHERE b.cSendStat != 1")
     LiveData<List<ApplicationDocument>> getDocumentDetailForPosting();
 
     @Query("SELECT * FROM EDocSys_File WHERE  sFileCode !='0021' AND sFileCode !='0020' ")
     LiveData<List<EFileCode>> getDocumentInfoByFile();
 
-    @Query("SELECT * FROM Credit_Online_Application_Documents WHERE sSendStat != '1' GROUP BY sTransNox")
+    @Query("SELECT * FROM Credit_Online_Application_Documents WHERE cSendStat != '1' GROUP BY sTransNox")
     List<ECreditApplicationDocuments> getUnsentApplicationDocumentss();
 
     @Query("UPDATE Credit_Online_Application_Documents " +
-            "SET sSendStat = '1' " +
+            "SET cSendStat = '1' " +
             "WHERE sTransNox =:TransNox " +
             "AND sFileCode =:fileCode ")
     void updateDocumentsInfoByFile(String TransNox, String fileCode);
@@ -89,8 +110,8 @@ import java.util.List;
         public String sFileCode;
         public int nEntryNox;
         public String sImageNme;
-        public String sFileLoc;
+        public String sFileLoct;
         public String sBriefDsc;
-        public String sSendStat;
+        public String cSendStat;
     }
 }

@@ -118,6 +118,7 @@ public interface DCashCount {
         public String sReqstdBy;
         public String dModified;
         public String sSendStat;
+        public String sRemarksx;
         public String sBranchNm;
     }
 }

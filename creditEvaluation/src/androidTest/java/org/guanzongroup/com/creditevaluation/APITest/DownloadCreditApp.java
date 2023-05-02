@@ -12,9 +12,9 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
+import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.utils.SQLUtil;
 import org.rmj.g3appdriver.utils.SecUtil;
-import org.rmj.g3appdriver.utils.WebClient;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -61,7 +61,7 @@ public class DownloadCreditApp {
         JSONObject params = new JSONObject();
         params.put("user", "mikegarcia8748@gmail.com");
         params.put("pswd", "123456");
-        String lsResponse = WebClient.httpPostJSon(LOCAL_LOGIN,
+        String lsResponse = WebClient.sendRequest(LOCAL_LOGIN,
                 params.toString(), (HashMap<String, String>) headers);
         if(lsResponse == null){
             isSuccess = false;
@@ -87,7 +87,7 @@ public class DownloadCreditApp {
         JSONObject params = new JSONObject();
         params.put("sTransNox", "C0ZIY2000034");
 
-        String lsResponse = WebClient.httpPostJSon(CREDIT_APP_DOWNLOAD,
+        String lsResponse = WebClient.sendRequest(CREDIT_APP_DOWNLOAD,
                 params.toString(), (HashMap<String, String>) headers);
         if(lsResponse == null){
             isSuccess = false;

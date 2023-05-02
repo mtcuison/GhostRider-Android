@@ -38,8 +38,8 @@ public interface  DBranchOpeningMonitor {
             "b.sTimeOpen, " +
             "b.sOpenNowx, " +
             "b.dSendDate, " +
-            "b.dNotified, " +
-            "b.dTimeStmp FROM Branch_Info a " +
+            "b.dNotified " +
+            "FROM Branch_Info a " +
             "LEFT JOIN Branch_Opening b " +
             "ON a.sBranchCd = b.sBranchCD " +
             "WHERE b.dTransact =:dTransact " +
@@ -52,8 +52,8 @@ public interface  DBranchOpeningMonitor {
             "b.sTimeOpen, " +
             "b.sOpenNowx, " +
             "b.dSendDate, " +
-            "b.dNotified, " +
-            "b.dTimeStmp FROM Branch_Info a " +
+            "b.dNotified " +
+            "FROM Branch_Info a " +
             "LEFT JOIN Branch_Opening b " +
             "ON a.sBranchCd = b.sBranchCD " +
             "WHERE b.dTransact =:dTransact " +

@@ -43,21 +43,46 @@ public interface DBranchLoanApplication {
 //            "WHERE cTranStat != 4 AND " +
 //            "sCredInvx  = (SELECT sEmployID FROM User_Info_Master)")
 
-    @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
-    @Query("SELECT a.*, " +
-        "b.cTranStat As ciTranStat " +
-        "FROM Credit_Online_Application_List a " +
-        "LEFT JOIN Credit_Online_Application_List_CI b " +
-        "ON a.sTransNox = b.sTransNox  " +
-        "WHERE b.cTranStat <> \"0\" " +
-        "AND b.sCredInvx = (SELECT sEmployID FROM User_Info_Master)")
+    @Query("SELECT " +
+            "a.sTransNox," +
+            "a.dTransact," +
+            "a.sCredInvx," +
+            "a.sCompnyNm," +
+            "a.sSpouseNm," +
+            "a.sAddressx," +
+            "a.sMobileNo," +
+            "a.sQMAppCde," +
+            "a.sModelNme," +
+            "a.nDownPaym," +
+            "a.nAcctTerm," +
+            "a.cTranStat," +
+            "a.dTimeStmp," +
+            "b.cTranStat As ciTranStat " +
+            "FROM Credit_Online_Application_List a " +
+            "LEFT JOIN Credit_Online_Application_List_CI b " +
+            "ON a.sTransNox = b.sTransNox  " +
+            "WHERE b.cTranStat <> \"0\" " +
+            "AND b.sCredInvx = (SELECT sEmployID FROM User_Info_Master)")
     LiveData<List<CIEvaluationList>> getAllCICreditApplicationLog();
 
     @Query("SELECT * FROM Credit_Online_Application_List WHERE sTransNox =:TransNox ")
     List<EBranchLoanApplication> getDuplicateTransNox(String TransNox);
 
-    @RewriteQueriesToDropUnusedColumns
-    @Query("SELECT a.*, b.cTranStat AS ciTranStat " +
+    @Query("SELECT " +
+            "a.sTransNox," +
+            "a.dTransact," +
+            "a.sCredInvx," +
+            "a.sCompnyNm," +
+            "a.sSpouseNm," +
+            "a.sAddressx," +
+            "a.sMobileNo," +
+            "a.sQMAppCde," +
+            "a.sModelNme," +
+            "a.nDownPaym," +
+            "a.nAcctTerm," +
+            "a.cTranStat," +
+            "a.dTimeStmp," +
+            "b.cTranStat AS ciTranStat " +
             "FROM Credit_Online_Application_List a " +
             "LEFT JOIN Credit_Online_Application_List_CI b " +
             "ON a.sTransNox = b.sTransNox " +

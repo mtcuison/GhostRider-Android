@@ -197,7 +197,7 @@ public class Activity_CIEvaluationList extends AppCompatActivity  implements VME
                         loan.dTransact = (ciList.get(x).dTransact);
                         loan.sCredInvx = (ciList.get(x).sCredInvx);
                         loan.sClientNm = (ciList.get(x).sClientNm);
-                        loan.nAcctTerm = (ciList.get(x).nAcctTerm);
+//                        loan.nAcctTerm = (ciList.get(x).nAcctTerm);
                         loan.nDownPaym = (ciList.get(x).nDownPaym);
                         loan.sAddressx = (ciList.get(x).sAddressx);
                         loan.sAddrFndg = (ciList.get(x).sAddrFndg);

@@ -50,19 +50,19 @@ public class EItemCart {
         ListIDxx = listIDxx;
     }
 
-    public int getQuantity() {
+    public Integer getQuantity() {
         return Quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(Integer quantity) {
         Quantity = quantity;
     }
 
-    public int getAvlQtyxx() {
+    public Integer getAvlQtyxx() {
         return AvlQtyxx;
     }
 
-    public void setAvlQtyxx(int avlQtyxx) {
+    public void setAvlQtyxx(Integer avlQtyxx) {
         AvlQtyxx = avlQtyxx;
     }
 

@@ -45,7 +45,6 @@ public interface DAddressRequest {
     @Query("SELECT * FROM Address_Update_Request WHERE sClientID=:ClientID")
     EAddressUpdate getAddressUpdateInfoForPosting(String ClientID);
 
-    @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
     @Query("SELECT AU.sTransNox, " +
             "AU.sClientID, " +
             "AU.cReqstCDe, " +
@@ -119,8 +118,6 @@ public interface DAddressRequest {
         public String sBrgyName;
         public String sTownName;
         public String sProvName;
-        public String sLongitud;
-        public String sLatitude;
     }
 
 }

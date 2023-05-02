@@ -94,7 +94,7 @@ public class DocumentScan {
             loDocs.setEntryNox(args.getEntryNox());
             loDocs.setImageNme(args.getImageNme());
             loDocs.setImageIDx(lsImageID);
-            loDocs.setFileLoc(args.getFileLoct());
+            loDocs.setFileLoct(args.getFileLoct());
 
             poDao.update(loDocs);
             return true;

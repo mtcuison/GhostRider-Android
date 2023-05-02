@@ -17,7 +17,7 @@ public interface DNotificationDetail {
     @Update
     void Update(ENotificationRecipient foVal);
 
-    @Query("SELECT * FROM Notification_Info_Recepient")
-    ENotificationMaster GetNotificationDetail();
+//    @Query("SELECT * FROM Notification_Info_Recepient")
+//    ENotificationMaster GetNotificationDetail();
 
 }

@@ -61,19 +61,19 @@ public interface DFileCode {
     void InitializeDocumentsList(String TransNox);
 
     @Query("UPDATE Credit_Online_Application_Documents " +
-            "SET sFileLoc = (SELECT sFileLoct FROM Image_Information WHERE sSourceNo =:TransNox AND sFileCode = Credit_Online_Application_Documents.sFileCode), " +
+            "SET sFileLoct = (SELECT sFileLoct FROM Image_Information WHERE sSourceNo =:TransNox AND sFileCode = Credit_Online_Application_Documents.sFileCode), " +
             "sImageNme = (SELECT sImageNme FROM Image_Information WHERE sSourceNo =:TransNox AND sFileCode = Credit_Online_Application_Documents.sFileCode) " +
             "WHERE sTransNox =:TransNox ")
     void UpdateDocumentsList(String TransNox);
 
     @Query("UPDATE Credit_Online_Application_Documents " +
-            "SET sSendStat = '1' " +
+            "SET cSendStat = '1' " +
             "WHERE sTransNox =:TransNox " +
             "AND sFileCode =:fileCode ")
     void UpdateCheckedFile(String TransNox, String fileCode);
 
 
-    @Query("SELECT a.sTransNox, a.sFileCode, b.sBriefDsc, a.nEntryNox, a.sImageNme, a.sFileLoc, a.sSendStat " +
+    @Query("SELECT a.sTransNox, a.sFileCode, b.sBriefDsc, a.nEntryNox, a.sImageNme, a.sFileLoct, a.cSendStat " +
             "FROM Credit_Online_Application_Documents a LEFT JOIN EDocSys_File b " +
             "ON a.sFileCode = b.sFileCode WHERE a.sTransNox =:TransNox " +
             "ORDER BY a.nEntryNox ASC")
@@ -84,8 +84,8 @@ public interface DFileCode {
         public String sFileCode;
         public int nEntryNox;
         public String sImageNme;
-        public String sFileLoc;
+        public String sFileLoct;
         public String sBriefDsc;
-        public String sSendStat;
+        public String cSendStat;
     }
 }

@@ -167,8 +167,6 @@ public interface DCreditApplication {
         public String cTranStat;
         public String dReceived;
         public String dVerified;
-        public String cCaptured;
-        public String sFileLoct;
     }
 
     @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
