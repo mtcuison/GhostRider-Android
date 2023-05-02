@@ -67,7 +67,7 @@ public class ChangePassword implements iAuth {
     }
 
     @Override
-    public String getString() {
+    public String getMessage() {
         return message;
     }
 }

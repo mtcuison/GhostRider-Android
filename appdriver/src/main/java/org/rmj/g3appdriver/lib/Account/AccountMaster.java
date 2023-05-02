@@ -1,8 +1,10 @@
-package org.rmj.g3appdriver.lib.Account.Model;
+package org.rmj.g3appdriver.lib.Account;
 
 import android.app.Application;
+import android.util.Log;
 
 import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.lib.Account.Model.iAccount;
 import org.rmj.g3appdriver.lib.Account.gCircle.gCircleAuth;
 import org.rmj.g3appdriver.lib.Account.gConnect.gConnectAuth;
 
@@ -17,11 +19,13 @@ public class AccountMaster {
         this.poConfig = AppConfigPreference.getInstance(instance);
     }
 
-    public iAccount getInstance(){
+    public iAccount initGuanzonApp(){
         String lsProdctID = poConfig.ProducID();
         if ("gRider".equals(lsProdctID)) {
+            Log.d(TAG, "Initialize employee authentication");
             return new gCircleAuth(instance);
         }
+        Log.d(TAG, "Initialize client sign in");
         return new gConnectAuth(instance);
     }
 }

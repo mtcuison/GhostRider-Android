@@ -21,7 +21,7 @@ import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DImageInfo;
 import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EImageInfo;
 import org.rmj.g3appdriver.dev.Database.GCircle.GGC_GCircleDB;
 import org.rmj.g3appdriver.etc.AppConstants;
-import org.rmj.g3appdriver.lib.Account.SessionManager;
+import org.rmj.g3appdriver.lib.Account.gCircle.EmployeeSession;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.dev.Api.WebFileServer;
 
@@ -35,7 +35,7 @@ public class RImageInfo {
     private final DImageInfo poDao;
 
     private final AppConfigPreference poConfig;
-    private final SessionManager poSession;
+    private final EmployeeSession poSession;
     private final AppTokenManager poToken;
 
     private String message;
@@ -43,7 +43,7 @@ public class RImageInfo {
     public RImageInfo(Application instance){
         this.poDao = GGC_GCircleDB.getInstance(instance).ImageInfoDao();
         this.poConfig = AppConfigPreference.getInstance(instance);
-        this.poSession = new SessionManager(instance);
+        this.poSession = new EmployeeSession(instance);
         this.poToken = new AppTokenManager(instance);
     }
 

@@ -26,8 +26,8 @@ import org.rmj.g3appdriver.dev.Database.GCircle.Repositories.RBranch;
 import org.rmj.g3appdriver.dev.Database.GCircle.Repositories.RProvince;
 import org.rmj.g3appdriver.dev.Database.GCircle.Repositories.RTown;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.lib.Account.SessionManager;
-import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
+import org.rmj.g3appdriver.lib.Account.gCircle.EmployeeSession;
+import org.rmj.g3appdriver.lib.Account.gCircle.EmployeeMaster;
 import org.rmj.g3appdriver.lib.integsys.Dcp.LRDcp;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.guanzongroup.ghostrider.epacss.BuildConfig;
@@ -113,7 +113,7 @@ public class VMSplashScreen extends AndroidViewModel {
         private final ConnectionUtil poConn;
         private final AppConfigPreference poConfig;
         private final EmployeeMaster poUser;
-        private final SessionManager poSession;
+        private final EmployeeSession poSession;
 
         private String message;
 
@@ -123,7 +123,7 @@ public class VMSplashScreen extends AndroidViewModel {
             this.poConn = new ConnectionUtil(instance);
             this.poConfig = AppConfigPreference.getInstance(instance);
             this.poUser = new EmployeeMaster(instance);
-            this.poSession = new SessionManager(instance);
+            this.poSession = new EmployeeSession(instance);
         }
 
         @Override

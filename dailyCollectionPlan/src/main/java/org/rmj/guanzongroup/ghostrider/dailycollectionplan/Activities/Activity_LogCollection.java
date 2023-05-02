@@ -42,7 +42,7 @@ import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.FormatUIText;
-import org.rmj.g3appdriver.lib.Account.SessionManager;
+import org.rmj.g3appdriver.lib.Account.gCircle.EmployeeSession;
 import org.rmj.g3appdriver.dev.Api.WebFileServer;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.DayCheck;
@@ -361,13 +361,13 @@ public class Activity_LogCollection extends AppCompatActivity {
     private static class DownloadDcpImageTask extends AsyncTask<List<EDCPCollectionDetail>, Void, String> {
 
         private final ConnectionUtil poConn;
-        private final SessionManager poUser;
+        private final EmployeeSession poUser;
         private final AppConfigPreference poConfig;
         private final OnDCPDownloadListener callBack;
 
         DownloadDcpImageTask(Application application, OnDCPDownloadListener callBack) {
             this.poConn = new ConnectionUtil(application);
-            this.poUser = new SessionManager(application);
+            this.poUser = new EmployeeSession(application);
             this.poConfig = AppConfigPreference.getInstance(application);
             this.callBack = callBack;
         }

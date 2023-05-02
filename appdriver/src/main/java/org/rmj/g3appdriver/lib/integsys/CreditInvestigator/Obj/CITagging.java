@@ -17,11 +17,10 @@ import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EImageInfo;
 import org.rmj.g3appdriver.dev.Database.GCircle.GGC_GCircleDB;
 import org.rmj.g3appdriver.dev.Database.GCircle.Repositories.RImageInfo;
 import org.rmj.g3appdriver.etc.AppConstants;
-import org.rmj.g3appdriver.lib.Account.SessionManager;
+import org.rmj.g3appdriver.lib.Account.gCircle.EmployeeSession;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.dev.Api.WebClient;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
+import org.rmj.g3appdriver.lib.Account.gCircle.EmployeeMaster;
 import org.rmj.g3appdriver.lib.integsys.CreditInvestigator.pojo.BarangayRecord;
 import org.rmj.g3appdriver.lib.integsys.CreditInvestigator.pojo.CIImage;
 import org.rmj.g3appdriver.lib.integsys.CreditInvestigator.pojo.oChildFndg;
@@ -39,7 +38,7 @@ public class CITagging {
     private final EmployeeMaster poUser;
 
     private final HttpHeaders poHeaders;
-    private final SessionManager poSession;
+    private final EmployeeSession poSession;
     private final RImageInfo poImage;
     private final GCircleApi poApis;
 
@@ -54,7 +53,7 @@ public class CITagging {
         this.poDao = GGC_GCircleDB.getInstance(instance).creditEvaluationDao();
         this.poUser = new EmployeeMaster(instance);
         this.poHeaders = HttpHeaders.getInstance(instance);
-        this.poSession = new SessionManager(instance);
+        this.poSession = new EmployeeSession(instance);
         this.poImage = new RImageInfo(instance);
         this.poApis = new GCircleApi(instance);
     }

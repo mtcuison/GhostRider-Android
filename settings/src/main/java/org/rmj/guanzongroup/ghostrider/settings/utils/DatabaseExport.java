@@ -37,12 +37,12 @@ import com.google.firebase.storage.UploadTask;
 
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.lib.Account.SessionManager;
+import org.rmj.g3appdriver.lib.Account.gCircle.EmployeeSession;
 
 public class DatabaseExport {
     private static final String TAG = DatabaseExport.class.getSimpleName();
     private final Context context;
-    private final SessionManager poSession;
+    private final EmployeeSession poSession;
     private final FirebaseStorage storage = FirebaseStorage.getInstance();
     private final StorageReference poRefrnce = storage.getReference().child("database");
     private final LoadDialog poDiaLoad;
@@ -53,7 +53,7 @@ public class DatabaseExport {
     public DatabaseExport(Context context, String usage, String dataName) {
         Log.e(TAG, "Initialized.");
         this.context = context;
-        this.poSession = new SessionManager(context);
+        this.poSession = new EmployeeSession(context);
         this.poDiaLoad = new LoadDialog(context);
         this.poMessage = new MessageBox(context);
         this.FILE_FOLDER = usage;

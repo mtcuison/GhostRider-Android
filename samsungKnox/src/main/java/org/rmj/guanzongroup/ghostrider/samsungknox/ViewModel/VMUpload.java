@@ -21,6 +21,7 @@ import androidx.annotation.RequiresApi;
 import androidx.lifecycle.AndroidViewModel;
 
 import org.json.JSONObject;
+import org.rmj.g3appdriver.dev.Api.GCircleApi;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
@@ -49,7 +50,7 @@ public class VMUpload extends AndroidViewModel {
     private static class UploadTask extends AsyncTask<String, Void, String>{
         private final ConnectionUtil conn;
         private final HttpHeaders headers;
-        private final WebApi poApi;
+        private final GCircleApi poApi;
         private final AppConfigPreference loConfig;
         private final ViewModelCallBack callBack;
 
@@ -57,7 +58,7 @@ public class VMUpload extends AndroidViewModel {
             this.conn = new ConnectionUtil(instance);
             this.headers = HttpHeaders.getInstance(instance);
             this.loConfig = AppConfigPreference.getInstance(instance);
-            this.poApi = new WebApi(loConfig.getTestStatus());
+            this.poApi = new GCircleApi(instance);
             this.callBack = callBack;
         }
 
@@ -68,7 +69,7 @@ public class VMUpload extends AndroidViewModel {
             try {
                 if (conn.isDeviceConnected()) {
                     JSONObject loJSon = new JSONObject();
-                    response = WebClient.sendRequest(poApi.getUrlKnox(loConfig.isBackUpServer()), loJSon.toString(), headers.getHeaders());
+                    response = WebClient.sendRequest(poApi.getUrlKnox(), loJSon.toString(), headers.getHeaders());
                 } else {
                     response = AppConstants.NO_INTERNET();
                 }

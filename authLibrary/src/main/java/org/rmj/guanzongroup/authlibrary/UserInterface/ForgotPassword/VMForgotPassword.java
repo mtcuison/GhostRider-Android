@@ -42,7 +42,7 @@ public class VMForgotPassword extends AndroidViewModel {
         super(application);
         this.instance = application;
         AppConfigPreference loConfig = AppConfigPreference.getInstance(application);
-        this.webApi = new WebApi(loConfig.getTestStatus());
+        this.webApi = new GCircleApi(application);
         headers = HttpHeaders.getInstance(application);
         conn = new ConnectionUtil(application);
     }
@@ -71,14 +71,14 @@ public class VMForgotPassword extends AndroidViewModel {
     }
 
     public static class RequestPasswordTask extends AsyncTask<JSONObject, Void, String>{
-        private WebApi webApi;
+        private GCircleApi webApi;
         private HttpHeaders headers;
         private final AppConfigPreference loConfig;
         private RequestPasswordCallback callBack;
 
         public RequestPasswordTask(Application instance, RequestPasswordCallback callBack){
             this.loConfig = AppConfigPreference.getInstance(instance);
-            this.webApi = new WebApi(loConfig.getTestStatus());
+            this.webApi = new GCircleApi(instance);
             this.headers = HttpHeaders.getInstance(instance);
             this.callBack = callBack;
         }
@@ -94,7 +94,7 @@ public class VMForgotPassword extends AndroidViewModel {
         protected String doInBackground(JSONObject... jsonObjects) {
             String response = "";
             try {
-                response = WebClient.sendRequest(webApi.getUrlForgotPassword(loConfig.isBackUpServer()), jsonObjects[0].toString(), headers.getHeaders());
+                response = WebClient.sendRequest(webApi.getUrlForgotPassword(), jsonObjects[0].toString(), headers.getHeaders());
                 Log.e(TAG, response);
             } catch (IOException e) {
                 e.printStackTrace();

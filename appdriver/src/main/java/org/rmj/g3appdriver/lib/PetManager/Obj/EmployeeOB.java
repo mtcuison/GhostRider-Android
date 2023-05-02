@@ -30,7 +30,7 @@ import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.dev.Api.WebClient;
-import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
+import org.rmj.g3appdriver.lib.Account.gCircle.EmployeeMaster;
 import org.rmj.g3appdriver.lib.PetManager.model.iPM;
 import org.rmj.g3appdriver.lib.PetManager.pojo.OBApplication;
 import org.rmj.g3appdriver.lib.PetManager.pojo.OBApprovalInfo;
@@ -149,7 +149,7 @@ public class EmployeeOB implements iPM {
             params.put("sTransNox", fsArgs);
 
             String lsResponse = WebClient.sendRequest(
-                    poApi.getUrlGetObApplication(poConfig.isBackUpServer()),
+                    poApi.getUrlGetObApplication(),
                     new JSONObject().toString(),
                     poHeaders.getHeaders());
             if (lsResponse == null) {
@@ -257,7 +257,7 @@ public class EmployeeOB implements iPM {
             param.put("dApproved", foVal.getDateAppv());
             param.put("cTranStat", foVal.getTranStat());
             String lsResponse = WebClient.sendRequest(
-                    poApi.getUrlConfirmObApplication(poConfig.isBackUpServer()),
+                    poApi.getUrlConfirmObApplication(),
                     param.toString(), poHeaders.getHeaders());
             if (lsResponse == null) {
                 message = "No server response. Restart app or try again later.";
@@ -319,7 +319,7 @@ public class EmployeeOB implements iPM {
                 loJson.put("dModified", "");
 
                 String lsResponse = WebClient.sendRequest(
-                        poApi.getUrlSendObApplication(poConfig.isBackUpServer()),
+                        poApi.getUrlSendObApplication(),
                         loJson.toString(),
                         poHeaders.getHeaders());
 
@@ -376,7 +376,7 @@ public class EmployeeOB implements iPM {
                 param.put("dApproved", loDetail.getDapprove());
                 param.put("cTranStat", loDetail.getTranStat());
                 String lsResponse = WebClient.sendRequest(
-                        poApi.getUrlConfirmObApplication(poConfig.isBackUpServer()),
+                        poApi.getUrlConfirmObApplication(),
                         param.toString(), poHeaders.getHeaders());
                 if (lsResponse == null) {
                     message = "No server response. Restart app or try again later.";
@@ -518,7 +518,7 @@ public class EmployeeOB implements iPM {
             loJson.put("dModified", "");
 
             String lsResponse = WebClient.sendRequest(
-                    poApi.getUrlSendObApplication(poConfig.isBackUpServer()),
+                    poApi.getUrlSendObApplication(),
                     loJson.toString(),
                     poHeaders.getHeaders());
 

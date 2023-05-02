@@ -26,6 +26,10 @@ public class WebApi {
     private static final String PRIMARY_LIVE = "https://restgk.guanzongroup.com.ph/";
     private static final String SECONDARY_LIVE = "https://restgk1.guanzongroup.com.ph/";
 
+    protected static final String GCARD = "gcard/ms/";
+    protected static final String GCARDs = "gcard/mx/";
+    protected static final String SECURITY = "security/";
+
     private final boolean isUnitTest;
     protected String LIVE;
 

@@ -14,8 +14,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.etc.AppConstants;
-import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
+import org.rmj.g3appdriver.lib.Account.gCircle.EmployeeMaster;
 import org.rmj.g3appdriver.lib.Version.AppVersion;
 import org.rmj.g3appdriver.lib.Version.VersionInfo;
 

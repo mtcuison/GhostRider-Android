@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.lifecycle.LiveData;
 
 import org.json.JSONObject;
+import org.rmj.g3appdriver.dev.Api.GCircleApi;
 import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EAddressUpdate;
 import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EImageInfo;
@@ -15,21 +16,20 @@ import org.rmj.g3appdriver.dev.Device.Telephony;
 import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
-import org.rmj.g3appdriver.lib.Account.SessionManager;
-import org.rmj.g3appdriver.dev.Api.WebApi;
+import org.rmj.g3appdriver.lib.Account.gCircle.EmployeeSession;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Core.iDCPTransaction;
 
 public class Paid implements iDCPTransaction {
 
     private final Application instance;
     private final RDailyCollectionPlan poDcp;
-    private final WebApi poApi;
+    private final GCircleApi poApi;
 
     public Paid(Application application) {
         this.instance = application;
         this.poDcp = new RDailyCollectionPlan(instance);
         AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
-        this.poApi = new WebApi(loConfig.getTestStatus());
+        this.poApi = new GCircleApi(application);
     }
 
     @Override
@@ -57,7 +57,7 @@ public class Paid implements iDCPTransaction {
         try{
             HttpHeaders loHeaders = HttpHeaders.getInstance(instance);
             AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
-            SessionManager loUser = new SessionManager(instance);
+            EmployeeSession loUser = new EmployeeSession(instance);
             Telephony loTlphny = new Telephony(instance);
 
             foDetail.setTranStat("2");
@@ -95,7 +95,7 @@ public class Paid implements iDCPTransaction {
             loJson.put("sUserIDxx", loUser.getUserID());
             loJson.put("sDeviceID", loTlphny.getDeviceID());
 
-            String lsResponse = WebClient.sendRequest(poApi.getUrlDcpSubmit(loConfig.isBackUpServer()), loJson.toString(), loHeaders.getHeaders());
+            String lsResponse = WebClient.sendRequest(poApi.getUrlDcpSubmit(), loJson.toString(), loHeaders.getHeaders());
 
             if(lsResponse == null){
                 callback.OnFailed("Server no response");

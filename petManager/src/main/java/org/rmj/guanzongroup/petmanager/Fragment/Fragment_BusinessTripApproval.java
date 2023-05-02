@@ -34,7 +34,7 @@ import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.lib.Account.SessionManager;
+import org.rmj.g3appdriver.lib.Account.gCircle.EmployeeSession;
 import org.rmj.g3appdriver.lib.PetManager.pojo.OBApprovalInfo;
 import org.rmj.guanzongroup.petmanager.Activity.Activity_Application;
 import org.rmj.guanzongroup.petmanager.R;
@@ -121,7 +121,7 @@ public class Fragment_BusinessTripApproval extends Fragment implements VMObAppro
                             poModel.setAppldFrx(eEmployeeBusinessTrip.getDateFrom());
                             poModel.setAppldTox(eEmployeeBusinessTrip.getDateThru());
                             poModel.setDateAppv(eEmployeeBusinessTrip.getDapprove());
-                            poModel.setApproved(new SessionManager(requireActivity()).getEmployeeID());
+                            poModel.setApproved(new EmployeeSession(requireActivity()).getEmployeeID());
                         }
                     } catch (Exception e){
                         e.printStackTrace();

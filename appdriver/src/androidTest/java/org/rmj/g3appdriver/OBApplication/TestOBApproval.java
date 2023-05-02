@@ -8,7 +8,7 @@ import androidx.test.runner.AndroidJUnit4;
 import org.junit.FixMethodOrder;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
-import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
+import org.rmj.g3appdriver.lib.Account.gCircle.EmployeeMaster;
 import org.rmj.g3appdriver.lib.PetManager.Obj.EmployeeOB;
 
 import static org.junit.Assert.assertTrue;

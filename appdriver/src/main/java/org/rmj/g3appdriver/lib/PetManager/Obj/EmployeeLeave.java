@@ -27,10 +27,10 @@ import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EEmployeeLeave;
 import org.rmj.g3appdriver.dev.Database.GCircle.GGC_GCircleDB;
 import org.rmj.g3appdriver.etc.AppConstants;
-import org.rmj.g3appdriver.lib.Account.SessionManager;
+import org.rmj.g3appdriver.lib.Account.gCircle.EmployeeSession;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.dev.Api.WebClient;
-import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
+import org.rmj.g3appdriver.lib.Account.gCircle.EmployeeMaster;
 import org.rmj.g3appdriver.lib.PetManager.model.iPM;
 import org.rmj.g3appdriver.lib.PetManager.pojo.LeaveApplication;
 import org.rmj.g3appdriver.lib.PetManager.pojo.LeaveApprovalInfo;
@@ -45,7 +45,7 @@ public class EmployeeLeave implements iPM {
     private final DEmployeeLeave poDao;
     private final GCircleApi poApi;
     private final HttpHeaders poHeaders;
-    private final SessionManager poSession;
+    private final EmployeeSession poSession;
     private final EmployeeMaster poUser;
     private String message;
 
@@ -53,7 +53,7 @@ public class EmployeeLeave implements iPM {
         this.poDao = GGC_GCircleDB.getInstance(instance).employeeLeaveDao();
         this.poApi = new GCircleApi(instance);
         this.poHeaders = HttpHeaders.getInstance(instance);
-        this.poSession = new SessionManager(instance);
+        this.poSession = new EmployeeSession(instance);
         this.poUser = new EmployeeMaster(instance);
     }
 

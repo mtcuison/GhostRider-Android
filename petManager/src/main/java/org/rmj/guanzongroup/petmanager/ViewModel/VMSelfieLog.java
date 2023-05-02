@@ -28,8 +28,8 @@ import org.rmj.g3appdriver.dev.Database.GCircle.Repositories.RBranch;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.ImageFileCreator;
 import org.rmj.g3appdriver.etc.OnInitializeCameraCallback;
-import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
-import org.rmj.g3appdriver.lib.Account.SessionManager;
+import org.rmj.g3appdriver.lib.Account.gCircle.EmployeeMaster;
+import org.rmj.g3appdriver.lib.Account.gCircle.EmployeeSession;
 import org.rmj.g3appdriver.lib.Location.LocationRetriever;
 import org.rmj.g3appdriver.lib.SelfieLog.SelfieLog;
 import org.rmj.g3appdriver.lib.integsys.CashCount.CashCount;
@@ -194,7 +194,7 @@ public class VMSelfieLog extends AndroidViewModel {
             this.activity = activity;
             this.instance = instance;
             this.callback = callback;
-            SessionManager poSession = new SessionManager(instance);
+            EmployeeSession poSession = new EmployeeSession(instance);
             this.loImage = new ImageFileCreator(instance, AppConstants.SUB_FOLDER_SELFIE_LOG, poSession.getUserID());
         }
 

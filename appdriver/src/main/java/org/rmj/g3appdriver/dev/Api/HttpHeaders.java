@@ -15,10 +15,9 @@ import android.app.Application;
 import android.content.Context;
 import android.os.Build;
 import android.os.StrictMode;
-import android.util.Log;
 
 import org.rmj.g3appdriver.dev.Device.Telephony;
-import org.rmj.g3appdriver.lib.Account.SessionManager;
+import org.rmj.g3appdriver.lib.Account.gCircle.EmployeeSession;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.SQLUtil;
 import org.rmj.g3appdriver.utils.SecUtil;
@@ -32,12 +31,12 @@ public class HttpHeaders {
 
     private final Telephony poTlphony;
     private final AppConfigPreference poConfigx;
-    private final SessionManager poSession;
+    private final EmployeeSession poSession;
 
     private HttpHeaders(Context application){
         this.poTlphony = new Telephony(application);
         this.poConfigx = AppConfigPreference.getInstance(application);
-        this.poSession = new SessionManager(application);
+        this.poSession = new EmployeeSession(application);
     }
 
     private static HttpHeaders mHeaders;

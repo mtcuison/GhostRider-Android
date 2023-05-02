@@ -19,7 +19,7 @@ import org.rmj.g3appdriver.dev.Device.Telephony;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.lib.Account.Model.iAuth;
-import org.rmj.g3appdriver.lib.Account.SessionManager;
+import org.rmj.g3appdriver.lib.Account.gCircle.EmployeeSession;
 import org.rmj.g3appdriver.lib.Account.pojo.UserAuthInfo;
 
 import java.util.Date;
@@ -31,7 +31,7 @@ public class EmployeeAuthentication implements iAuth {
 
     private final DEmployeeInfo poDao;
     private final DEmployeeRole roleDao;
-    private final SessionManager poSession;
+    private final EmployeeSession poSession;
     private final GCircleApi poApi;
     private final HttpHeaders poHeaders;
     private final AppConfigPreference poConfig;
@@ -43,7 +43,7 @@ public class EmployeeAuthentication implements iAuth {
         this.instance = instance;
         this.poDao = GGC_GCircleDB.getInstance(instance).EmployeeDao();
         this.roleDao = GGC_GCircleDB.getInstance(instance).employeeRoleDao();
-        this.poSession = new SessionManager(instance);
+        this.poSession = new EmployeeSession(instance);
         this.poConfig = AppConfigPreference.getInstance(instance);
         this.poApi = new GCircleApi(instance);
         this.poHeaders = HttpHeaders.getInstance(instance);
@@ -125,7 +125,7 @@ public class EmployeeAuthentication implements iAuth {
     }
 
     @Override
-    public String getString() {
+    public String getMessage() {
         return message;
     }
 

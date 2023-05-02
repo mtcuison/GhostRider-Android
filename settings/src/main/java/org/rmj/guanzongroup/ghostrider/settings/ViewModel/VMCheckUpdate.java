@@ -27,6 +27,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.rmj.g3appdriver.dev.Api.GCircleApi;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
@@ -81,14 +82,14 @@ public class VMCheckUpdate extends AndroidViewModel {
         private final CheckUpdateCallback callback;
         private final ConnectionUtil poConn;
         private final HttpHeaders poHeaders;
-        private final WebApi poApi;
+        private final GCircleApi poApi;
 
         public CheckUpdate(Application application, CheckUpdateCallback callback){
             this.callback = callback;
             this.poConn = new ConnectionUtil(application);
             this.poHeaders = HttpHeaders.getInstance(application);
             AppConfigPreference loConfig = AppConfigPreference.getInstance(application);
-            this.poApi = new WebApi(loConfig.getTestStatus());
+            this.poApi = new GCircleApi(application);
         }
 
         @Override
@@ -153,7 +154,7 @@ public class VMCheckUpdate extends AndroidViewModel {
         private final ConnectionUtil poConn;
         private final HttpHeaders poHeaders;
         private final String PATH;
-        private final WebApi poApi;
+        private final GCircleApi poApi;
 
         public DownloadUpdate(Application application, SystemUpateCallback callback) {
             this.instance = application;
@@ -162,7 +163,7 @@ public class VMCheckUpdate extends AndroidViewModel {
             this.poHeaders = HttpHeaders.getInstance(application);
             PATH = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/";
             AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
-            this.poApi = new WebApi(loConfig.getTestStatus());
+            this.poApi = new GCircleApi(application);
         }
 
         @Override

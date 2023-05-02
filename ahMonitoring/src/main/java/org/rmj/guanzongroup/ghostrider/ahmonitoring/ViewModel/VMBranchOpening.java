@@ -23,8 +23,8 @@ import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DBranchOpeningM
 import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.lib.Notifications.Obj.BranchOpeningMonitor;
 import org.rmj.g3appdriver.etc.AppConstants;
-import org.rmj.g3appdriver.lib.Account.SessionManager;
-import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
+import org.rmj.g3appdriver.lib.Account.gCircle.EmployeeSession;
+import org.rmj.g3appdriver.lib.Account.gCircle.EmployeeMaster;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -36,7 +36,7 @@ public class VMBranchOpening extends AndroidViewModel {
 
     private final Application instance;
     private final BranchOpeningMonitor poOpening;
-    private final SessionManager poSession;
+    private final EmployeeSession poSession;
     private final EmployeeMaster poUser;
 
     private final MutableLiveData<String> psDateSelected = new MutableLiveData<>();
@@ -44,7 +44,7 @@ public class VMBranchOpening extends AndroidViewModel {
     public VMBranchOpening(@NonNull Application application) {
         super(application);
         this.instance = application;
-        this.poSession = new SessionManager(instance);
+        this.poSession = new EmployeeSession(instance);
         this.poOpening = new BranchOpeningMonitor(instance);
         psDateSelected.setValue(new AppConstants().CURRENT_DATE);
         this.poUser = new EmployeeMaster(instance);

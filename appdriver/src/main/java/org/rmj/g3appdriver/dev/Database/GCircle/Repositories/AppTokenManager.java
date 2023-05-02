@@ -19,7 +19,7 @@ import org.rmj.g3appdriver.dev.Database.GCircle.Entities.ETokenInfo;
 import org.rmj.g3appdriver.dev.Database.GCircle.GGC_GCircleDB;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
-import org.rmj.g3appdriver.lib.Account.SessionManager;
+import org.rmj.g3appdriver.lib.Account.gCircle.EmployeeSession;
 import org.rmj.g3appdriver.dev.Api.WebFileServer;
 
 import java.text.SimpleDateFormat;
@@ -33,13 +33,13 @@ public class AppTokenManager {
     private final DToken poDao;
 
     private final AppConfigPreference poConfig;
-    private final SessionManager poSession;
+    private final EmployeeSession poSession;
     private String message;
 
     public AppTokenManager(Application instance){
         this.poDao = GGC_GCircleDB.getInstance(instance).dToken();
         this.poConfig = AppConfigPreference.getInstance(instance);
-        this.poSession = new SessionManager(instance);
+        this.poSession = new EmployeeSession(instance);
     }
 
     public String getMessage() {

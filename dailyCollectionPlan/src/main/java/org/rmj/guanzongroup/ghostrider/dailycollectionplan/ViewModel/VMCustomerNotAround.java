@@ -32,7 +32,7 @@ import org.rmj.g3appdriver.dev.Database.GCircle.Repositories.RBarangay;
 import org.rmj.g3appdriver.dev.Database.GCircle.Repositories.RTown;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.lib.Location.LocationRetriever;
-import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
+import org.rmj.g3appdriver.lib.Account.gCircle.EmployeeMaster;
 import org.rmj.g3appdriver.lib.integsys.Dcp.pojo.AddressUpdate;
 import org.rmj.g3appdriver.lib.integsys.Dcp.pojo.CustomerNotAround;
 import org.rmj.g3appdriver.lib.integsys.Dcp.LRDcp;

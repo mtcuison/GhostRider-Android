@@ -5,6 +5,8 @@ import android.app.Application;
 import androidx.lifecycle.LiveData;
 
 import org.json.JSONObject;
+import org.rmj.g3appdriver.dev.Api.GCircleApi;
+import org.rmj.g3appdriver.dev.Api.GConnectApi;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.dev.Database.GConnect.DataAccessObject.DGcardApp;
@@ -20,6 +22,7 @@ public class GCard {
 
     private final DGcardApp poDao;
     private final HttpHeaders poHeaders;
+    private final GConnectApi poApi;
 
     private String message;
 
@@ -27,6 +30,7 @@ public class GCard {
         this.instance = instance;
         this.poDao = GGC_GConnectDB.getInstance(instance).EGcardAppDao();
         this.poHeaders = HttpHeaders.getInstance(instance);
+        this.poApi = new GConnectApi(instance);
     }
 
     public String getMessage() {
@@ -58,7 +62,7 @@ public class GCard {
                 return 0;
             }
 
-            String lsResponse = WebClient.sendRequest(poAPI.getAddNewGCardAPI(), gcardInfo.getJSONParameters(), poHeaders.getHeaders());
+            String lsResponse = WebClient.sendRequest(poApi.getAddNewGCardAPI(), Gcard.getJSONParameters(), poHeaders.getHeaders());
             if(lsResponse == null){
                 message = "No server response.";
                 return 0;

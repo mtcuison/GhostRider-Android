@@ -26,8 +26,8 @@ import org.rmj.g3appdriver.dev.Database.GCircle.Repositories.RMcBrand;
 import org.rmj.g3appdriver.dev.Database.GCircle.Repositories.RMcModel;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.etc.AppConstants;
-import org.rmj.g3appdriver.lib.Account.SessionManager;
-import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
+import org.rmj.g3appdriver.lib.Account.gCircle.EmployeeSession;
+import org.rmj.g3appdriver.lib.Account.gCircle.EmployeeMaster;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.ApplicationInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.BusinessInfo;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.CoMakerInfo;
@@ -72,7 +72,7 @@ public class CreditOnlineApplication {
     private final RMcModel poModel;
     private final Pricelist poPrice;
 
-    private final SessionManager poSession;
+    private final EmployeeSession poSession;
     private final GCircleApi poApi;
     private final HttpHeaders poHeaders;
 
@@ -82,7 +82,7 @@ public class CreditOnlineApplication {
         this.instance = instance;
         this.poDao = GGC_GCircleDB.getInstance(instance).CreditApplicationDao();
         this.poUser = new EmployeeMaster(instance);
-        this.poSession = new SessionManager(instance);
+        this.poSession = new EmployeeSession(instance);
         this.poApi = new GCircleApi(instance);
         this.poHeaders = HttpHeaders.getInstance(instance);
         this.poBranch = new RBranch(instance);

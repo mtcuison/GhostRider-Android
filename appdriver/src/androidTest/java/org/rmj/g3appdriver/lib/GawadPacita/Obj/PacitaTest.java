@@ -20,7 +20,7 @@ import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DPacita;
 import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EPacitaEvaluation;
 import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EPacitaRule;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
+import org.rmj.g3appdriver.lib.Account.gCircle.EmployeeMaster;
 import org.rmj.g3appdriver.lib.GawadPacita.pojo.BranchRate;
 
 import java.util.List;

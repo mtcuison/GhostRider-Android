@@ -11,5 +11,5 @@ public interface iAuth {
      */
     int DoAction(Object params);
 
-    String getString();
+    String getMessage();
 }

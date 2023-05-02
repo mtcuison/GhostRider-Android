@@ -3,7 +3,7 @@ package org.rmj.g3appdriver.lib.ImportData;
 import android.app.Application;
 import android.os.AsyncTask;
 
-import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
+import org.rmj.g3appdriver.lib.Account.gCircle.EmployeeMaster;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 
 public class ImportEmployeeRole {

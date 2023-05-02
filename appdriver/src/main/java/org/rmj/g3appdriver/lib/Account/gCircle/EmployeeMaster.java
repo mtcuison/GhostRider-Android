@@ -9,7 +9,7 @@
  * project file last modified : 4/24/21 3:18 PM
  */
 
-package org.rmj.g3appdriver.lib.Account;
+package org.rmj.g3appdriver.lib.Account.gCircle;
 
 import android.app.Application;
 import android.os.Build;
@@ -45,7 +45,7 @@ public class EmployeeMaster {
     private final DEmployeeRole roleDao;
 
     private final LiveData<EEmployeeInfo> employeeInfo;
-    private final SessionManager poSession;
+    private final EmployeeSession poSession;
     private final GCircleApi webApi;
     private final HttpHeaders headers;
     private final AppConfigPreference poConfig;
@@ -58,7 +58,7 @@ public class EmployeeMaster {
         this.poDao = GGC_GCircleDB.getInstance(instance).EmployeeDao();
         this.roleDao = GGC_GCircleDB.getInstance(instance).employeeRoleDao();
         this.employeeInfo = poDao.getEmployeeInfo();
-        this.poSession = new SessionManager(instance);
+        this.poSession = new EmployeeSession(instance);
         this.poConfig = AppConfigPreference.getInstance(instance);
         this.webApi = new GCircleApi(application);
         this.headers = HttpHeaders.getInstance(instance);

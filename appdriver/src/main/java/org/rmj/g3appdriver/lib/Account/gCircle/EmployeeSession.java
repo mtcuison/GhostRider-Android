@@ -9,7 +9,7 @@
  * project file last modified : 4/24/21 3:19 PM
  */
 
-package org.rmj.g3appdriver.lib.Account;
+package org.rmj.g3appdriver.lib.Account.gCircle;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -17,9 +17,9 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.util.Log;
 
-public class SessionManager {
+public class EmployeeSession {
     //LOG CAT TAG
-    private static final String TAG = SessionManager.class.getSimpleName();
+    private static final String TAG = EmployeeSession.class.getSimpleName();
 
     //SHARED PREFERENCES
     private final SharedPreferences pref;
@@ -54,7 +54,7 @@ public class SessionManager {
     private static final String KEY_AUTO_LOG = "cPrivatex";
 
     @SuppressLint("CommitPrefEdits")
-    public SessionManager(Context context){
+    public EmployeeSession(Context context){
         //Shared pref mode
         int PRIVATE_MODE = 0;
         pref = context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);

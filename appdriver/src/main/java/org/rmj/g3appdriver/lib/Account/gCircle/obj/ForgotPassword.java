@@ -78,7 +78,7 @@ public class ForgotPassword implements iAuth {
     }
 
     @Override
-    public String getString() {
+    public String getMessage() {
         return message;
     }
 }

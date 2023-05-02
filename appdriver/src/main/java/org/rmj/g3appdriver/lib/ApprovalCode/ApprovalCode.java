@@ -29,7 +29,7 @@ import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.GCircle.Entities.ESCA_Request;
 import org.rmj.g3appdriver.dev.Database.GCircle.GGC_GCircleDB;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
-import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
+import org.rmj.g3appdriver.lib.Account.gCircle.EmployeeMaster;
 import org.rmj.g3appdriver.lib.ApprovalCode.Obj.LoanApproval;
 import org.rmj.g3appdriver.lib.ApprovalCode.Obj.ManualLog;
 import org.rmj.g3appdriver.lib.ApprovalCode.Obj.SystemCode;

@@ -107,7 +107,6 @@ public class GCircleApi extends WebApi {
             return LOCAL + URL_AUTH_EMPLOYEE;
         }
         Log.d(TAG, "Initialize api:" + LIVE + URL_AUTH_EMPLOYEE);
-        Log.d(TAG, "Initialize api:" + LIVE + URL_AUTH_EMPLOYEE);
         return LIVE + URL_AUTH_EMPLOYEE;
     }
 
@@ -116,7 +115,6 @@ public class GCircleApi extends WebApi {
             Log.d(TAG, "Initialize api:" + LOCAL + URL_CREATE_ACCOUNT);
             return LOCAL + URL_CREATE_ACCOUNT;
         }
-        Log.d(TAG, "Initialize api:" + LIVE + URL_CREATE_ACCOUNT);
         Log.d(TAG, "Initialize api:" + LIVE + URL_CREATE_ACCOUNT);
         return LIVE + URL_CREATE_ACCOUNT;
     }
@@ -127,7 +125,6 @@ public class GCircleApi extends WebApi {
             return LOCAL + URL_FORGOT_PASSWORD;
         }
         Log.d(TAG, "Initialize api:" + LIVE + URL_FORGOT_PASSWORD);
-        Log.d(TAG, "Initialize api:" + LIVE + URL_FORGOT_PASSWORD);
         return LIVE + URL_FORGOT_PASSWORD;
     }
 
@@ -136,7 +133,6 @@ public class GCircleApi extends WebApi {
             Log.d(TAG, "Initialize api:" + LOCAL + URL_KNOX);
             return LOCAL + URL_KNOX;
         }
-        Log.d(TAG, "Initialize api:" + LIVE + URL_KNOX);
         Log.d(TAG, "Initialize api:" + LIVE + URL_KNOX);
         return LIVE + URL_KNOX;
     }
@@ -147,7 +143,6 @@ public class GCircleApi extends WebApi {
             return LOCAL + URL_CHANGE_PASSWORD;
         }
         Log.d(TAG, "Initialize api:" + LIVE + URL_CHANGE_PASSWORD);
-        Log.d(TAG, "Initialize api:" + LIVE + URL_CHANGE_PASSWORD);
         return LIVE + URL_CHANGE_PASSWORD;
     }
 
@@ -156,7 +151,6 @@ public class GCircleApi extends WebApi {
             Log.d(TAG, "Initialize api:" + LOCAL + IMPORT_BRANCH_PERFORMANCE);
             return LOCAL + IMPORT_BRANCH_PERFORMANCE;
         }
-        Log.d(TAG, "Initialize api:" + LIVE + IMPORT_BRANCH_PERFORMANCE);
         Log.d(TAG, "Initialize api:" + LIVE + IMPORT_BRANCH_PERFORMANCE);
         return LIVE + IMPORT_BRANCH_PERFORMANCE;
     }
@@ -167,7 +161,6 @@ public class GCircleApi extends WebApi {
             return LOCAL + IMPORT_AREA_PERFORMANCE;
         }
         Log.d(TAG, "Initialize api:" + LIVE + IMPORT_AREA_PERFORMANCE);
-        Log.d(TAG, "Initialize api:" + LIVE + IMPORT_AREA_PERFORMANCE);
         return LIVE + IMPORT_AREA_PERFORMANCE;
     }
 
@@ -176,7 +169,6 @@ public class GCircleApi extends WebApi {
             Log.d(TAG, "Initialize api:" + LOCAL + URL_IMPORT_BARANGAY);
             return LOCAL + URL_IMPORT_BARANGAY;
         }
-        Log.d(TAG, "Initialize api:" + LIVE + URL_IMPORT_BARANGAY);
         Log.d(TAG, "Initialize api:" + LIVE + URL_IMPORT_BARANGAY);
         return LIVE + URL_IMPORT_BARANGAY;
     }
@@ -187,7 +179,6 @@ public class GCircleApi extends WebApi {
             return LOCAL + URL_IMPORT_TOWN;
         }
         Log.d(TAG, "Initialize api:" + LIVE + URL_IMPORT_TOWN);
-        Log.d(TAG, "Initialize api:" + LIVE + URL_IMPORT_TOWN);
         return LIVE + URL_IMPORT_TOWN;
     }
 
@@ -196,7 +187,6 @@ public class GCircleApi extends WebApi {
             Log.d(TAG, "Initialize api:" + LOCAL + URL_IMPORT_PROVINCE);
             return LOCAL + URL_IMPORT_PROVINCE;
         }
-        Log.d(TAG, "Initialize api:" + LIVE + URL_IMPORT_PROVINCE);
         Log.d(TAG, "Initialize api:" + LIVE + URL_IMPORT_PROVINCE);
         return LIVE + URL_IMPORT_PROVINCE;
     }
@@ -207,7 +197,6 @@ public class GCircleApi extends WebApi {
             return LOCAL + URL_IMPORT_COUNTRY;
         }
         Log.d(TAG, "Initialize api:" + LIVE + URL_IMPORT_COUNTRY);
-        Log.d(TAG, "Initialize api:" + LIVE + URL_IMPORT_COUNTRY);
         return LIVE + URL_IMPORT_COUNTRY;
     }
 
@@ -216,7 +205,6 @@ public class GCircleApi extends WebApi {
             Log.d(TAG, "Initialize api:" + LOCAL + URL_IMPORT_MC_MODEL);
             return LOCAL + URL_IMPORT_MC_MODEL;
         }
-        Log.d(TAG, "Initialize api:" + LIVE + URL_IMPORT_MC_MODEL);
         Log.d(TAG, "Initialize api:" + LIVE + URL_IMPORT_MC_MODEL);
         return LIVE + URL_IMPORT_MC_MODEL;
     }
@@ -227,7 +215,6 @@ public class GCircleApi extends WebApi {
             return LOCAL + URL_IMPORT_MC_MODEL_PRICE;
         }
         Log.d(TAG, "Initialize api:" + LIVE + URL_IMPORT_MC_MODEL_PRICE);
-        Log.d(TAG, "Initialize api:" + LIVE + URL_IMPORT_MC_MODEL_PRICE);
         return LIVE + URL_IMPORT_MC_MODEL_PRICE;
     }
 
@@ -236,7 +223,6 @@ public class GCircleApi extends WebApi {
             Log.d(TAG, "Initialize api:" + LOCAL + URL_IMPORT_BRAND);
             return LOCAL + URL_IMPORT_BRAND;
         }
-        Log.d(TAG, "Initialize api:" + LIVE + URL_IMPORT_BRAND);
         Log.d(TAG, "Initialize api:" + LIVE + URL_IMPORT_BRAND);
         return LIVE + URL_IMPORT_BRAND;
     }
@@ -247,7 +233,6 @@ public class GCircleApi extends WebApi {
             return LOCAL + URL_IMPORT_MC_CATEGORY;
         }
         Log.d(TAG, "Initialize api:" + LIVE + URL_IMPORT_MC_CATEGORY);
-        Log.d(TAG, "Initialize api:" + LIVE + URL_IMPORT_MC_CATEGORY);
         return LIVE + URL_IMPORT_MC_CATEGORY;
     }
 
@@ -256,7 +241,6 @@ public class GCircleApi extends WebApi {
             Log.d(TAG, "Initialize api:" + LOCAL + URL_IMPORT_TERM_CATEGORY);
             return LOCAL + URL_IMPORT_TERM_CATEGORY;
         }
-        Log.d(TAG, "Initialize api:" + LIVE + URL_IMPORT_TERM_CATEGORY);
         Log.d(TAG, "Initialize api:" + LIVE + URL_IMPORT_TERM_CATEGORY);
         return LIVE + URL_IMPORT_TERM_CATEGORY;
     }
@@ -267,7 +251,6 @@ public class GCircleApi extends WebApi {
             return LOCAL + URL_IMPORT_BRANCHES;
         }
         Log.d(TAG, "Initialize api:" + LIVE + URL_IMPORT_BRANCHES);
-        Log.d(TAG, "Initialize api:" + LIVE + URL_IMPORT_BRANCHES);
         return LIVE + URL_IMPORT_BRANCHES;
     }
 
@@ -276,7 +259,6 @@ public class GCircleApi extends WebApi {
             Log.d(TAG, "Initialize api:" + LOCAL + URL_IMPORT_FILE_CODE);
             return LOCAL + URL_IMPORT_FILE_CODE;
         }
-        Log.d(TAG, "Initialize api:" + LIVE + URL_IMPORT_FILE_CODE);
         Log.d(TAG, "Initialize api:" + LIVE + URL_IMPORT_FILE_CODE);
         return LIVE + URL_IMPORT_FILE_CODE;
     }
@@ -287,7 +269,6 @@ public class GCircleApi extends WebApi {
             return LOCAL + URL_IMPORT_OCCUPATIONS;
         }
         Log.d(TAG, "Initialize api:" + LIVE + URL_IMPORT_OCCUPATIONS);
-        Log.d(TAG, "Initialize api:" + LIVE + URL_IMPORT_OCCUPATIONS);
         return LIVE + URL_IMPORT_OCCUPATIONS;
     }
 
@@ -296,7 +277,6 @@ public class GCircleApi extends WebApi {
             Log.d(TAG, "Initialize api:" + LOCAL + URL_SUBMIT_ONLINE_APPLICATION);
             return LOCAL + URL_SUBMIT_ONLINE_APPLICATION;
         }
-        Log.d(TAG, "Initialize api:" + LIVE + URL_SUBMIT_ONLINE_APPLICATION);
         Log.d(TAG, "Initialize api:" + LIVE + URL_SUBMIT_ONLINE_APPLICATION);
         return LIVE + URL_SUBMIT_ONLINE_APPLICATION;
     }
@@ -307,7 +287,6 @@ public class GCircleApi extends WebApi {
             return LOCAL + URL_IMPORT_RAFFLE_BASIS;
         }
         Log.d(TAG, "Initialize api:" + LIVE + URL_IMPORT_RAFFLE_BASIS);
-        Log.d(TAG, "Initialize api:" + LIVE + URL_IMPORT_RAFFLE_BASIS);
         return LIVE + URL_IMPORT_RAFFLE_BASIS;
     }
 
@@ -316,7 +295,6 @@ public class GCircleApi extends WebApi {
             Log.d(TAG, "Initialize api:" + LOCAL + URL_REQUEST_ONLINE_APPLICATIONS);
             return LOCAL + URL_REQUEST_ONLINE_APPLICATIONS;
         }
-        Log.d(TAG, "Initialize api:" + LIVE + URL_REQUEST_ONLINE_APPLICATIONS);
         Log.d(TAG, "Initialize api:" + LIVE + URL_REQUEST_ONLINE_APPLICATIONS);
         return LIVE + URL_REQUEST_ONLINE_APPLICATIONS;
     }
@@ -327,7 +305,6 @@ public class GCircleApi extends WebApi {
             return LOCAL + URL_IMPORT_ONLINE_APPLICATIONS;
         }
         Log.d(TAG, "Initialize api:" + LIVE + URL_IMPORT_ONLINE_APPLICATIONS);
-        Log.d(TAG, "Initialize api:" + LIVE + URL_IMPORT_ONLINE_APPLICATIONS);
         return LIVE + URL_IMPORT_ONLINE_APPLICATIONS;
     }
 
@@ -336,7 +313,6 @@ public class GCircleApi extends WebApi {
             Log.d(TAG, "Initialize api:" + LOCAL + URL_SUBMIT_CASHCOUNT);
             return LOCAL + URL_SUBMIT_CASHCOUNT;
         }
-        Log.d(TAG, "Initialize api:" + LIVE + URL_SUBMIT_CASHCOUNT);
         Log.d(TAG, "Initialize api:" + LIVE + URL_SUBMIT_CASHCOUNT);
         return LIVE + URL_SUBMIT_CASHCOUNT;
     }
@@ -347,7 +323,6 @@ public class GCircleApi extends WebApi {
             return LOCAL + URL_QUICK_SEARCH;
         }
         Log.d(TAG, "Initialize api:" + LIVE + URL_QUICK_SEARCH);
-        Log.d(TAG, "Initialize api:" + LIVE + URL_QUICK_SEARCH);
         return LIVE + URL_QUICK_SEARCH;
     }
 
@@ -356,7 +331,6 @@ public class GCircleApi extends WebApi {
             Log.d(TAG, "Initialize api:" + LOCAL + URL_SCA_REQUEST);
             return LOCAL + URL_SCA_REQUEST;
         }
-        Log.d(TAG, "Initialize api:" + LIVE + URL_SCA_REQUEST);
         Log.d(TAG, "Initialize api:" + LIVE + URL_SCA_REQUEST);
         return LIVE + URL_SCA_REQUEST;
     }
@@ -367,7 +341,6 @@ public class GCircleApi extends WebApi {
             return LOCAL + URL_SAVE_APPROVAL;
         }
         Log.d(TAG, "Initialize api:" + LIVE + URL_SAVE_APPROVAL);
-        Log.d(TAG, "Initialize api:" + LIVE + URL_SAVE_APPROVAL);
         return LIVE + URL_SAVE_APPROVAL;
     }
 
@@ -376,7 +349,6 @@ public class GCircleApi extends WebApi {
             Log.d(TAG, "Initialize api:" + LOCAL + URL_LOAD_APPLICATION_APPROVAL);
             return LOCAL + URL_LOAD_APPLICATION_APPROVAL;
         }
-        Log.d(TAG, "Initialize api:" + LIVE + URL_LOAD_APPLICATION_APPROVAL);
         Log.d(TAG, "Initialize api:" + LIVE + URL_LOAD_APPLICATION_APPROVAL);
         return LIVE + URL_LOAD_APPLICATION_APPROVAL;
     }
@@ -387,7 +359,6 @@ public class GCircleApi extends WebApi {
             return LOCAL + URL_APPLICATION_APPROVE;
         }
         Log.d(TAG, "Initialize api:" + LIVE + URL_APPLICATION_APPROVE);
-        Log.d(TAG, "Initialize api:" + LIVE + URL_APPLICATION_APPROVE);
         return LIVE + URL_APPLICATION_APPROVE;
     }
 
@@ -396,7 +367,6 @@ public class GCircleApi extends WebApi {
             Log.d(TAG, "Initialize api:" + LOCAL + URL_DOWNLOAD_DCP);
             return LOCAL + URL_DOWNLOAD_DCP;
         }
-        Log.d(TAG, "Initialize api:" + LIVE + URL_DOWNLOAD_DCP);
         Log.d(TAG, "Initialize api:" + LIVE + URL_DOWNLOAD_DCP);
         return LIVE + URL_DOWNLOAD_DCP;
     }
@@ -407,7 +377,6 @@ public class GCircleApi extends WebApi {
             return LOCAL + URL_DCP_SUBMIT;
         }
         Log.d(TAG, "Initialize api:" + LIVE + URL_DCP_SUBMIT);
-        Log.d(TAG, "Initialize api:" + LIVE + URL_DCP_SUBMIT);
         return LIVE + URL_DCP_SUBMIT;
     }
 
@@ -416,7 +385,6 @@ public class GCircleApi extends WebApi {
             Log.d(TAG, "Initialize api:" + LOCAL + URL_POST_DCP_MASTER);
             return LOCAL + URL_POST_DCP_MASTER;
         }
-        Log.d(TAG, "Initialize api:" + LIVE + URL_POST_DCP_MASTER);
         Log.d(TAG, "Initialize api:" + LIVE + URL_POST_DCP_MASTER);
         return LIVE + URL_POST_DCP_MASTER;
     }
@@ -427,7 +395,6 @@ public class GCircleApi extends WebApi {
             return LOCAL + URL_GET_AR_CLIENT;
         }
         Log.d(TAG, "Initialize api:" + LIVE + URL_GET_AR_CLIENT);
-        Log.d(TAG, "Initialize api:" + LIVE + URL_GET_AR_CLIENT);
         return LIVE + URL_GET_AR_CLIENT;
     }
 
@@ -436,7 +403,6 @@ public class GCircleApi extends WebApi {
             Log.d(TAG, "Initialize api:" + LOCAL + URL_GET_REG_CLIENT);
             return LOCAL + URL_GET_REG_CLIENT;
         }
-        Log.d(TAG, "Initialize api:" + LIVE + URL_GET_REG_CLIENT);
         Log.d(TAG, "Initialize api:" + LIVE + URL_GET_REG_CLIENT);
         return LIVE + URL_GET_REG_CLIENT;
     }
@@ -447,7 +413,6 @@ public class GCircleApi extends WebApi {
             return LOCAL + URL_UPDATE_ADDRESS;
         }
         Log.d(TAG, "Initialize api:" + LIVE + URL_UPDATE_ADDRESS);
-        Log.d(TAG, "Initialize api:" + LIVE + URL_UPDATE_ADDRESS);
         return LIVE + URL_UPDATE_ADDRESS;
     }
 
@@ -456,7 +421,6 @@ public class GCircleApi extends WebApi {
             Log.d(TAG, "Initialize api:" + LOCAL + URL_UPDATE_MOBILE);
             return LOCAL + URL_UPDATE_MOBILE;
         }
-        Log.d(TAG, "Initialize api:" + LIVE + URL_UPDATE_MOBILE);
         Log.d(TAG, "Initialize api:" + LIVE + URL_UPDATE_MOBILE);
         return LIVE + URL_UPDATE_MOBILE;
     }
@@ -467,7 +431,6 @@ public class GCircleApi extends WebApi {
             return LOCAL + URL_DOWNLOAD_BANK_INFO;
         }
         Log.d(TAG, "Initialize api:" + LIVE + URL_DOWNLOAD_BANK_INFO);
-        Log.d(TAG, "Initialize api:" + LIVE + URL_DOWNLOAD_BANK_INFO);
         return LIVE + URL_DOWNLOAD_BANK_INFO;
     }
 
@@ -476,7 +439,6 @@ public class GCircleApi extends WebApi {
             Log.d(TAG, "Initialize api:" + LOCAL + URL_POST_SELFIELOG);
             return LOCAL + URL_POST_SELFIELOG;
         }
-        Log.d(TAG, "Initialize api:" + LIVE + URL_POST_SELFIELOG);
         Log.d(TAG, "Initialize api:" + LIVE + URL_POST_SELFIELOG);
         return LIVE + URL_POST_SELFIELOG;
     }
@@ -487,7 +449,6 @@ public class GCircleApi extends WebApi {
             return LOCAL + URL_BRANCH_LOAN_APP;
         }
         Log.d(TAG, "Initialize api:" + LIVE + URL_BRANCH_LOAN_APP);
-        Log.d(TAG, "Initialize api:" + LIVE + URL_BRANCH_LOAN_APP);
         return LIVE + URL_BRANCH_LOAN_APP;
     }
 
@@ -496,7 +457,6 @@ public class GCircleApi extends WebApi {
             Log.d(TAG, "Initialize api:" + LOCAL + URL_DCP_REMITTANCE);
             return LOCAL + URL_DCP_REMITTANCE;
         }
-        Log.d(TAG, "Initialize api:" + LIVE + URL_DCP_REMITTANCE);
         Log.d(TAG, "Initialize api:" + LIVE + URL_DCP_REMITTANCE);
         return LIVE + URL_DCP_REMITTANCE;
     }
@@ -507,7 +467,6 @@ public class GCircleApi extends WebApi {
             return LOCAL + URL_DCP_LOCATION_REPORT;
         }
         Log.d(TAG, "Initialize api:" + LIVE + URL_DCP_LOCATION_REPORT);
-        Log.d(TAG, "Initialize api:" + LIVE + URL_DCP_LOCATION_REPORT);
         return LIVE + URL_DCP_LOCATION_REPORT;
     }
 
@@ -516,7 +475,6 @@ public class GCircleApi extends WebApi {
             Log.d(TAG, "Initialize api:" + LOCAL + URL_BRANCH_REMITTANCE_ACC);
             return LOCAL + URL_BRANCH_REMITTANCE_ACC;
         }
-        Log.d(TAG, "Initialize api:" + LIVE + URL_BRANCH_REMITTANCE_ACC);
         Log.d(TAG, "Initialize api:" + LIVE + URL_BRANCH_REMITTANCE_ACC);
         return LIVE + URL_BRANCH_REMITTANCE_ACC;
     }
@@ -527,7 +485,6 @@ public class GCircleApi extends WebApi {
             return LOCAL + URL_IMPORT_SYS_CONFIG;
         }
         Log.d(TAG, "Initialize api:" + LIVE + URL_IMPORT_SYS_CONFIG);
-        Log.d(TAG, "Initialize api:" + LIVE + URL_IMPORT_SYS_CONFIG);
         return LIVE + URL_IMPORT_SYS_CONFIG;
     }
 
@@ -536,7 +493,6 @@ public class GCircleApi extends WebApi {
             Log.d(TAG, "Initialize api:" + LOCAL + URL_DOWNLOAD_CREDIT_ONLINE_APP);
             return LOCAL + URL_DOWNLOAD_CREDIT_ONLINE_APP;
         }
-        Log.d(TAG, "Initialize api:" + LIVE + URL_DOWNLOAD_CREDIT_ONLINE_APP);
         Log.d(TAG, "Initialize api:" + LIVE + URL_DOWNLOAD_CREDIT_ONLINE_APP);
         return LIVE + URL_DOWNLOAD_CREDIT_ONLINE_APP;
     }
@@ -547,7 +503,6 @@ public class GCircleApi extends WebApi {
             return LOCAL + URL_DOWNLOAD_RELATION;
         }
         Log.d(TAG, "Initialize api:" + LIVE + URL_DOWNLOAD_RELATION);
-        Log.d(TAG, "Initialize api:" + LIVE + URL_DOWNLOAD_RELATION);
         return LIVE + URL_DOWNLOAD_RELATION;
     }
 
@@ -556,7 +511,6 @@ public class GCircleApi extends WebApi {
             Log.d(TAG, "Initialize api:" + LOCAL + URL_UPLOAD_CI_RESULT);
             return LOCAL + URL_UPLOAD_CI_RESULT;
         }
-        Log.d(TAG, "Initialize api:" + LIVE + URL_UPLOAD_CI_RESULT);
         Log.d(TAG, "Initialize api:" + LIVE + URL_UPLOAD_CI_RESULT);
         return LIVE + URL_UPLOAD_CI_RESULT;
     }
@@ -567,7 +521,6 @@ public class GCircleApi extends WebApi {
             return LOCAL + URL_SEND_RESPONSE;
         }
         Log.d(TAG, "Initialize api:" + LIVE + URL_SEND_RESPONSE);
-        Log.d(TAG, "Initialize api:" + LIVE + URL_SEND_RESPONSE);
         return LIVE + URL_SEND_RESPONSE;
     }
 
@@ -576,7 +529,6 @@ public class GCircleApi extends WebApi {
             Log.d(TAG, "Initialize api:" + LOCAL + URL_SEND_REQUEST);
             return LOCAL + URL_SEND_REQUEST;
         }
-        Log.d(TAG, "Initialize api:" + LIVE + URL_SEND_REQUEST);
         Log.d(TAG, "Initialize api:" + LIVE + URL_SEND_REQUEST);
         return LIVE + URL_SEND_REQUEST;
     }
@@ -587,7 +539,6 @@ public class GCircleApi extends WebApi {
             return LOCAL + URL_KWIKSEARCH;
         }
         Log.d(TAG, "Initialize api:" + LIVE + URL_KWIKSEARCH);
-        Log.d(TAG, "Initialize api:" + LIVE + URL_KWIKSEARCH);
         return LIVE + URL_KWIKSEARCH;
     }
 
@@ -596,7 +547,6 @@ public class GCircleApi extends WebApi {
             Log.d(TAG, "Initialize api:" + LOCAL + URL_SEND_LEAVE_APPLICATION);
             return LOCAL + URL_SEND_LEAVE_APPLICATION;
         }
-        Log.d(TAG, "Initialize api:" + LIVE + URL_SEND_LEAVE_APPLICATION);
         Log.d(TAG, "Initialize api:" + LIVE + URL_SEND_LEAVE_APPLICATION);
         return LIVE + URL_SEND_LEAVE_APPLICATION;
     }
@@ -607,7 +557,6 @@ public class GCircleApi extends WebApi {
             return LOCAL + URL_GET_LEAVE_APPLICATION;
         }
         Log.d(TAG, "Initialize api:" + LIVE + URL_GET_LEAVE_APPLICATION);
-        Log.d(TAG, "Initialize api:" + LIVE + URL_GET_LEAVE_APPLICATION);
         return LIVE + URL_GET_LEAVE_APPLICATION;
     }
 
@@ -616,7 +565,6 @@ public class GCircleApi extends WebApi {
             Log.d(TAG, "Initialize api:" + LOCAL + URL_CONFIRM_LEAVE_APPLICATION);
             return LOCAL + URL_CONFIRM_LEAVE_APPLICATION;
         }
-        Log.d(TAG, "Initialize api:" + LIVE + URL_CONFIRM_LEAVE_APPLICATION);
         Log.d(TAG, "Initialize api:" + LIVE + URL_CONFIRM_LEAVE_APPLICATION);
         return LIVE + URL_CONFIRM_LEAVE_APPLICATION;
     }
@@ -627,7 +575,6 @@ public class GCircleApi extends WebApi {
             return LOCAL + URL_SEND_OB_APPLICATION;
         }
         Log.d(TAG, "Initialize api:" + LIVE + URL_SEND_OB_APPLICATION);
-        Log.d(TAG, "Initialize api:" + LIVE + URL_SEND_OB_APPLICATION);
         return LIVE + URL_SEND_OB_APPLICATION;
     }
 
@@ -636,7 +583,6 @@ public class GCircleApi extends WebApi {
             Log.d(TAG, "Initialize api:" + LOCAL + URL_GET_OB_APPLICATION);
             return LOCAL + URL_GET_OB_APPLICATION;
         }
-        Log.d(TAG, "Initialize api:" + LIVE + URL_GET_OB_APPLICATION);
         Log.d(TAG, "Initialize api:" + LIVE + URL_GET_OB_APPLICATION);
         return LIVE + URL_GET_OB_APPLICATION;
     }
@@ -647,7 +593,6 @@ public class GCircleApi extends WebApi {
             return LOCAL + URL_CONFIRM_OB_APPLICATION;
         }
         Log.d(TAG, "Initialize api:" + LIVE + URL_CONFIRM_OB_APPLICATION);
-        Log.d(TAG, "Initialize api:" + LIVE + URL_CONFIRM_OB_APPLICATION);
         return LIVE + URL_CONFIRM_OB_APPLICATION;
     }
 
@@ -656,7 +601,6 @@ public class GCircleApi extends WebApi {
             Log.d(TAG, "Initialize api:" + LOCAL + URL_REQUEST_RANDOM_STOCK_INVENTORY);
             return LOCAL + URL_REQUEST_RANDOM_STOCK_INVENTORY;
         }
-        Log.d(TAG, "Initialize api:" + LIVE + URL_REQUEST_RANDOM_STOCK_INVENTORY);
         Log.d(TAG, "Initialize api:" + LIVE + URL_REQUEST_RANDOM_STOCK_INVENTORY);
         return LIVE + URL_REQUEST_RANDOM_STOCK_INVENTORY;
     }
@@ -667,7 +611,6 @@ public class GCircleApi extends WebApi {
             return LOCAL + URL_SUBMIT_RANDOM_STOCK_INVENTORY;
         }
         Log.d(TAG, "Initialize api:" + LIVE + URL_SUBMIT_RANDOM_STOCK_INVENTORY);
-        Log.d(TAG, "Initialize api:" + LIVE + URL_SUBMIT_RANDOM_STOCK_INVENTORY);
         return LIVE + URL_SUBMIT_RANDOM_STOCK_INVENTORY;
     }
 
@@ -676,7 +619,6 @@ public class GCircleApi extends WebApi {
             Log.d(TAG, "Initialize api:" + LOCAL + REQUEST_USER_ACCESS);
             return LOCAL + REQUEST_USER_ACCESS;
         }
-        Log.d(TAG, "Initialize api:" + LIVE + REQUEST_USER_ACCESS);
         Log.d(TAG, "Initialize api:" + LIVE + REQUEST_USER_ACCESS);
         return LIVE + REQUEST_USER_ACCESS;
     }
@@ -687,7 +629,6 @@ public class GCircleApi extends WebApi {
             return LOCAL + URL_REQUEST_FOR_EVALUATIONS;
         }
         Log.d(TAG, "Initialize api:" + LIVE + URL_REQUEST_FOR_EVALUATIONS);
-        Log.d(TAG, "Initialize api:" + LIVE + URL_REQUEST_FOR_EVALUATIONS);
         return LIVE + URL_REQUEST_FOR_EVALUATIONS;
     }
 
@@ -696,7 +637,6 @@ public class GCircleApi extends WebApi {
             Log.d(TAG, "Initialize api:" + LOCAL + URL_SUBMIT_RESULT);
             return LOCAL + URL_SUBMIT_RESULT;
         }
-        Log.d(TAG, "Initialize api:" + LIVE + URL_SUBMIT_RESULT);
         Log.d(TAG, "Initialize api:" + LIVE + URL_SUBMIT_RESULT);
         return LIVE + URL_SUBMIT_RESULT;
     }

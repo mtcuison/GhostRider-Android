@@ -8,8 +8,8 @@ import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DevTool;
 import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.GCircle.GGC_GCircleDB;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
-import org.rmj.g3appdriver.lib.Account.SessionManager;
+import org.rmj.g3appdriver.lib.Account.gCircle.EmployeeMaster;
+import org.rmj.g3appdriver.lib.Account.gCircle.EmployeeSession;
 
 public class DevTools {
     private static final String TAG = DevTools.class.getSimpleName();
@@ -17,7 +17,7 @@ public class DevTools {
     private final Application instance;
 
     private final DevTool poDao;
-    private final SessionManager poSession;
+    private final EmployeeSession poSession;
     private final AppConfigPreference poConfig;
     private final EmployeeMaster poUser;
 
@@ -26,7 +26,7 @@ public class DevTools {
     public DevTools(Application instance) {
         this.instance = instance;
         this.poDao = GGC_GCircleDB.getInstance(instance).devTool();
-        this.poSession = new SessionManager(instance);
+        this.poSession = new EmployeeSession(instance);
         this.poConfig = AppConfigPreference.getInstance(instance);
         this.poUser = new EmployeeMaster(instance);
     }

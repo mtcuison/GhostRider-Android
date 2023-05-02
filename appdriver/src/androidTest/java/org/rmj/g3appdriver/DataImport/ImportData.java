@@ -31,7 +31,7 @@ import org.rmj.g3appdriver.dev.Database.GCircle.Repositories.RRelation;
 import org.rmj.g3appdriver.dev.Database.GCircle.Repositories.RSysConfig;
 import org.rmj.g3appdriver.dev.Database.GCircle.Repositories.RTown;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
+import org.rmj.g3appdriver.lib.Account.gCircle.EmployeeMaster;
 import org.rmj.g3appdriver.lib.ApprovalCode.ApprovalCode;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)

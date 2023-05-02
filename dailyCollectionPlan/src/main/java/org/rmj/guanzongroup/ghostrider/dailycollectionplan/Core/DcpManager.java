@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import org.json.JSONObject;
+import org.rmj.g3appdriver.dev.Api.GCircleApi;
 import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EAddressUpdate;
 import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EClientUpdate;
 import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EDCPCollectionDetail;
@@ -18,10 +19,9 @@ import org.rmj.g3appdriver.dev.Device.Telephony;
 import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
-import org.rmj.g3appdriver.lib.Account.SessionManager;
+import org.rmj.g3appdriver.lib.Account.gCircle.EmployeeSession;
 import org.rmj.g3appdriver.dev.Api.WebFileServer;
 import org.rmj.g3appdriver.lib.integsys.Dcp.obj.RClientUpdate;
-import org.rmj.g3appdriver.dev.Api.WebApi;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Core.Transaction.CustomerNotAround;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Core.Transaction.OthTransaction;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Core.Transaction.Paid;
@@ -38,9 +38,9 @@ public class DcpManager {
     private final RDailyCollectionPlan poDcp;
     private final AppConfigPreference poConfig;
     private final RCollectionUpdate poUpdate;
-    private final WebApi poApis;
+    private final GCircleApi poApis;
     private final HttpHeaders poHeaders;
-    private final SessionManager poUser;
+    private final EmployeeSession poUser;
     private final RImageInfo poImage;
     private final Telephony poTlphny;
     private final RClientUpdate poClient;
@@ -67,12 +67,12 @@ public class DcpManager {
         this.poUpdate = new RCollectionUpdate(instance);
         this.poConfig = AppConfigPreference.getInstance(instance);
         this.poHeaders = HttpHeaders.getInstance(instance);
-        this.poUser = new SessionManager(instance);
+        this.poUser = new EmployeeSession(instance);
         this.poImage = new RImageInfo(instance);
         this.poTlphny = new Telephony(instance);
         this.poClient = new RClientUpdate(instance);
         this.poDcpUpdte = new RCollectionUpdate(instance);
-        this.poApis = new WebApi(poConfig.getTestStatus());
+        this.poApis = new GCircleApi(instance);
     }
 
 //    public void ImportDcpMaster(String EmployID, String ReferDte, OnActionCallback callback) {
@@ -96,7 +96,7 @@ public class DcpManager {
 //
 //                Log.d(TAG, loJson.toString());
 //
-//                String lsResponse = WebClient.sendRequest(poApis.getUrlDownloadDcp(poConfig.isBackUpServer()), loJson.toString(), poHeaders.getHeaders());
+//                String lsResponse = WebClient.sendRequest(poApis.getUrlDownloadDcp(), loJson.toString(), poHeaders.getHeaders());
 //                if(lsResponse == null){
 //                    callback.OnSuccess("Server no response");
 //                } else {
@@ -193,7 +193,7 @@ public class DcpManager {
 //                    }
 //                }
 //
-//                String lsResponse = WebClient.sendRequest(poApis.getUrlGetArClient(poConfig.isBackUpServer()), loJson.toString(), poHeaders.getHeaders());
+//                String lsResponse = WebClient.sendRequest(poApis.getUrlGetArClient(), loJson.toString(), poHeaders.getHeaders());
 //                if(lsResponse == null){
 //                    callback.OnFailed("Server no response");
 //                } else {
@@ -408,7 +408,7 @@ public class DcpManager {
             loJson.put("sDeviceID", poTlphny.getDeviceID());
             Log.d(TAG, "DCP posting data: " + loJson.toString());
 
-            String lsResponse = WebClient.sendRequest(poApis.getUrlDcpSubmit(poConfig.isBackUpServer()), loJson.toString(), poHeaders.getHeaders());
+            String lsResponse = WebClient.sendRequest(poApis.getUrlDcpSubmit(), loJson.toString(), poHeaders.getHeaders());
 
             if(lsResponse == null) {
                 Log.e(TAG, "Posting collection Image with account no. :" + loDcp.getAcctNmbr() + ", " + loDcp.getRemCodex() + "Failed!");
@@ -614,7 +614,7 @@ public class DcpManager {
                     loJson.put("sUserIDxx", poUser.getUserID());
                     loJson.put("sDeviceID", poTlphny.getDeviceID());
 
-                    String lsResponse = WebClient.sendRequest(poApis.getUrlDcpSubmit(poConfig.isBackUpServer()), loJson.toString(), poHeaders.getHeaders());
+                    String lsResponse = WebClient.sendRequest(poApis.getUrlDcpSubmit(), loJson.toString(), poHeaders.getHeaders());
 
                     if(lsResponse == null) {
                         Log.e(TAG, "Posting collection Image with account no. :" + loDcp.getAcctNmbr() + ", " + loDcp.getRemCodex() + "Failed!");
@@ -689,7 +689,7 @@ public class DcpManager {
                     lsStatus == null){
                 JSONObject loJson = new JSONObject();
                 loJson.put("sTransNox", lsTransNox);
-                String lsResponse = WebClient.sendRequest(poApis.getUrlPostDcpMaster(poConfig.isBackUpServer()), loJson.toString(), poHeaders.getHeaders());
+                String lsResponse = WebClient.sendRequest(poApis.getUrlPostDcpMaster(), loJson.toString(), poHeaders.getHeaders());
                 if (lsResponse == null) {
                     callback.OnFailed("Posting dcp master failed. Server no response");
                 } else {
