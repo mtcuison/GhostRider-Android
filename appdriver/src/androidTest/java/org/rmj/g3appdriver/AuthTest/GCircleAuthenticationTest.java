@@ -34,14 +34,11 @@ public class GCircleAuthenticationTest {
     private boolean isSuccess = false;
     private String message;
 
-
-
-
-
     @Before
     public void setUp() throws Exception {
         this.instance = ApplicationProvider.getApplicationContext();
         AppConfigPreference.getInstance(instance).setProductID("gRider");
+        AppConfigPreference.getInstance(instance).setTestCase(true);
         this.poAccount = new AccountMaster(instance);
         this.poSys = poAccount.initGuanzonApp().getInstance(Auth.AUTHENTICATE);
     }

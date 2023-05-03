@@ -16,8 +16,6 @@ public class gCircleAuth implements iAccount {
 
     private final Application instance;
 
-    private String message;
-
     public gCircleAuth(Application instance) {
         this.instance = instance;
     }

@@ -25,7 +25,7 @@ public class AccountMaster {
             Log.d(TAG, "Initialize employee authentication");
             return new gCircleAuth(instance);
         }
-        Log.d(TAG, "Initialize client sign in");
+        Log.d(TAG, "Initialize client account");
         return new gConnectAuth(instance);
     }
 }

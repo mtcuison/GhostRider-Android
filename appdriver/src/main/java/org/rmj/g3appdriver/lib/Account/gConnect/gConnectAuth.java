@@ -1,6 +1,7 @@
 package org.rmj.g3appdriver.lib.Account.gConnect;
 
 import android.app.Application;
+import android.util.Log;
 
 import org.rmj.g3appdriver.GConnect.Api.GConnectApi;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
@@ -27,12 +28,16 @@ public class gConnectAuth implements iAccount {
     public iAuth getInstance(Auth params) {
         switch (params){
             case AUTHENTICATE:
+                Log.d(TAG, "Initialize client sign in.");
                 return new SignIn(instance);
             case CREATE_ACCOUNT:
+                Log.d(TAG, "Initialize client sign up.");
                 return new SignUp(instance);
             case CHANGE_PASSWORD:
+                Log.d(TAG, "Initialize update password.");
                 return new UpdatePassword(instance);
             default:
+                Log.d(TAG, "Initialize reset password.");
                 return new ResetPassword(instance);
         }
     }
