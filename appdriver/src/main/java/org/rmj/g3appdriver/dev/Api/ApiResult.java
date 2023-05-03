@@ -15,8 +15,11 @@ public class ApiResult {
             case "40020":
                 return "For security reasons, your session has expired. Please log in again.";
 
-//            We're currently experiencing high API traffic. Please try your request again in a few moments.
             default:
+                String lsMessage = args.getString("message");
+                if(lsMessage.equalsIgnoreCase("Reload failed...")){
+                   return "We're currently experiencing high network traffic. Please try your request again in a few moments.";
+                }
                 return args.getString("message");
         }
     }

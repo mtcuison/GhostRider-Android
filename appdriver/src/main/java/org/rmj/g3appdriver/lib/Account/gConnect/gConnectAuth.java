@@ -3,10 +3,6 @@ package org.rmj.g3appdriver.lib.Account.gConnect;
 import android.app.Application;
 import android.util.Log;
 
-import org.rmj.g3appdriver.GConnect.Api.GConnectApi;
-import org.rmj.g3appdriver.dev.Api.HttpHeaders;
-import org.rmj.g3appdriver.dev.Device.Telephony;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.lib.Account.Model.Auth;
 import org.rmj.g3appdriver.lib.Account.Model.iAccount;
 import org.rmj.g3appdriver.lib.Account.Model.iAuth;
