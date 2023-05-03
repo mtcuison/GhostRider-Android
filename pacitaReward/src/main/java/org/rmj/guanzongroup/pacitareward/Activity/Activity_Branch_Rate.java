@@ -14,12 +14,12 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
 
-import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EPacitaEvaluation;
-import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EPacitaRule;
+import org.rmj.g3appdriver.GCircle.room.Entities.EPacitaEvaluation;
+import org.rmj.g3appdriver.GCircle.room.Entities.EPacitaRule;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.lib.GawadPacita.Obj.PacitaRule;
-import org.rmj.g3appdriver.lib.GawadPacita.pojo.BranchRate;
+import org.rmj.g3appdriver.GCircle.Apps.GawadPacita.Obj.PacitaRule;
+import org.rmj.g3appdriver.GCircle.Apps.GawadPacita.pojo.BranchRate;
 import org.rmj.guanzongroup.pacitareward.Adapter.RecyclerViewAdapter_BranchRate;
 import org.rmj.guanzongroup.pacitareward.R;
 import org.rmj.guanzongroup.pacitareward.ViewModel.VMBranchRate;

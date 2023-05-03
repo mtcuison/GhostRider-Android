@@ -16,10 +16,10 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
-import org.rmj.g3appdriver.dev.Database.GCircle.Entities.ELoanTerm;
+import org.rmj.g3appdriver.GCircle.room.Entities.ELoanTerm;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.lib.Account.gCircle.EmployeeMaster;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditOnlineApplication;
+import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.CreditOnlineApplication;
 
 import java.util.List;
 

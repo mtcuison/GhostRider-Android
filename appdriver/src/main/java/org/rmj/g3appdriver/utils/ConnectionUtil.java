@@ -11,7 +11,10 @@
 
 package org.rmj.g3appdriver.utils;
 
-import android.annotation.SuppressLint;
+import static org.rmj.g3appdriver.dev.Api.ApiResult.NOT_CONNECTED;
+import static org.rmj.g3appdriver.dev.Api.ApiResult.UNABLE_TO_REACH_LOCAL;
+import static org.rmj.g3appdriver.dev.Api.ApiResult.UNABLE_TO_REACH_SERVER;
+
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -53,7 +56,7 @@ public class ConnectionUtil {
     public boolean isDeviceConnected(){
         try {
             if (!deviceConnected()) {
-                message = "Please enable wifi or data to connect.";
+                message = NOT_CONNECTED;
                 return false;
             } else {
                 String lsAddress;
@@ -62,7 +65,7 @@ public class ConnectionUtil {
                 if (isTestCase) {
                     lsAddress = LOCAL;
                     if (!isReachable(lsAddress)) {
-                        message = "Unable to reach local server.";
+                        message = UNABLE_TO_REACH_LOCAL;
                         return false;
                     } else {
                         return true;
@@ -79,7 +82,7 @@ public class ConnectionUtil {
                                 loConfig.setIfBackUpServer(false);
                                 return true;
                             } else {
-                                message = "Unable to connect to our servers.";
+                                message = UNABLE_TO_REACH_SERVER;
                                 return false;
                             }
                         } else {
@@ -95,7 +98,7 @@ public class ConnectionUtil {
                                 loConfig.setIfBackUpServer(true);
                                 return true;
                             } else {
-                                message = "Unable to connect to our servers.";
+                                message = UNABLE_TO_REACH_SERVER;
                                 return false;
                             }
                         } else {

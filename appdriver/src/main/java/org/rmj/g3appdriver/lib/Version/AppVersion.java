@@ -1,17 +1,20 @@
 package org.rmj.g3appdriver.lib.Version;
 
+import static org.rmj.g3appdriver.dev.Api.ApiResult.SERVER_NO_RESPONSE;
+import static org.rmj.g3appdriver.dev.Api.ApiResult.getErrorMessage;
+
 import android.app.Application;
 import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.rmj.g3appdriver.dev.Api.GCircleApi;
-import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EEmployeeInfo;
+import org.rmj.g3appdriver.GCircle.Api.GCircleApi;
+import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.dev.Device.Telephony;
 import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.lib.Account.gCircle.EmployeeMaster;
+import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +59,7 @@ public class AppVersion {
                     poHeaders.getHeaders());
 
             if(lsResponse == null){
-                message = "Server no response.";
+                message = SERVER_NO_RESPONSE;
                 Log.e(TAG, message);
                 return false;
             }
@@ -65,7 +68,7 @@ public class AppVersion {
             String lsResult = loResponse.getString("result");
             if(lsResult.equalsIgnoreCase("error")){
                 JSONObject loError = loResponse.getJSONObject("error");
-                message = loError.getString("message");
+                message = getErrorMessage(loError);
                 Log.e(TAG, loError.toString());
                 return false;
             }
@@ -89,7 +92,7 @@ public class AppVersion {
                     poHeaders.getHeaders());
 
             if(lsResponse == null){
-                message = "Server no response.";
+                message = SERVER_NO_RESPONSE;
                 return null;
             }
 
@@ -97,7 +100,7 @@ public class AppVersion {
             String lsResult = loResponse.getString("result");
             if(lsResult.equalsIgnoreCase("error")){
                 JSONObject loError = loResponse.getJSONObject("error");
-                message = loError.getString("message");
+                message = getErrorMessage(loError);
                 Log.e(TAG, loError.toString());
                 return null;
             }
@@ -143,7 +146,7 @@ public class AppVersion {
                     poHeaders.getHeaders());
 
             if(lsResponse == null){
-                message = "Server no response.";
+                message = SERVER_NO_RESPONSE;
                 return null;
             }
 
@@ -151,7 +154,7 @@ public class AppVersion {
             String lsResult = loResponse.getString("result");
             if(lsResult.equalsIgnoreCase("error")){
                 JSONObject loError = loResponse.getJSONObject("error");
-                message = loError.getString("message");
+                message = getErrorMessage(loError);
                 Log.e(TAG, loError.toString());
                 return null;
             }

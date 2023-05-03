@@ -16,7 +16,7 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.textfield.TextInputEditText;
 
 
-import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DCreditApplication;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DCreditApplication;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.guanzongroup.onlinecreditapplication.Adapter.CreditApplicationsAdapter;

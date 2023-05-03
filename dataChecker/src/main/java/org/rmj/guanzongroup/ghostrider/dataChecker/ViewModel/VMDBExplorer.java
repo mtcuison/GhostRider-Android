@@ -11,6 +11,8 @@
 
 package org.rmj.guanzongroup.ghostrider.dataChecker.ViewModel;
 
+import static org.rmj.g3appdriver.dev.Api.ApiResult.getErrorMessage;
+
 import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Intent;
@@ -31,7 +33,7 @@ import androidx.annotation.RequiresApi;
 import androidx.lifecycle.AndroidViewModel;
 
 import org.json.JSONObject;
-import org.rmj.g3appdriver.dev.Api.GCircleApi;
+import org.rmj.g3appdriver.GCircle.Api.GCircleApi;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
@@ -536,7 +538,7 @@ public class VMDBExplorer extends AndroidViewModel {
                                 isDataSent[x] = true;
                             } else {
                                 JSONObject loError = loResponse.getJSONObject("error");
-                                String lsMessage = loError.getString("message");
+                                String lsMessage = getErrorMessage(loError);
                                 isDataSent[x] = false;
                                 reason[x] = lsMessage + "\n";
                             }

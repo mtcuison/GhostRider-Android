@@ -13,7 +13,7 @@ package org.rmj.guanzongroup.ghostrider.settings.etc;
 
 import android.content.Context;
 
-import org.rmj.g3appdriver.lib.Account.gCircle.EmployeeSession;
+import org.rmj.g3appdriver.GCircle.Account.EmployeeSession;
 import org.rmj.guanzongroup.ghostrider.settings.Model.SettingsModel;
 import org.rmj.guanzongroup.ghostrider.settings.R;
 

@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.guanzongroup.com.creditevaluation.R;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EOccupationInfo;
+import org.rmj.g3appdriver.GCircle.room.Entities.EOccupationInfo;
 import org.rmj.g3appdriver.etc.FormatUIText;
 
 import java.util.List;

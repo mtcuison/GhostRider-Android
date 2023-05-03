@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
-import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EBranchInfo;
+import org.rmj.g3appdriver.GCircle.room.Entities.EBranchInfo;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.guanzongroup.petmanager.Adapter.AdapterInventoryBranch;
 import org.rmj.guanzongroup.petmanager.R;

@@ -7,9 +7,9 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DCreditApplication;
-import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DEmployeeInfo;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditOnlineApplication;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DCreditApplication;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DEmployeeInfo;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.CreditOnlineApplication;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 
 import java.util.List;

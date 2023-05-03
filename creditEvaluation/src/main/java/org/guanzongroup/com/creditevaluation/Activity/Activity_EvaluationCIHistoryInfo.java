@@ -34,7 +34,7 @@ import org.guanzongroup.com.creditevaluation.R;
 import org.guanzongroup.com.creditevaluation.ViewModel.VMEvaluationCIHistoryInfo;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.rmj.g3appdriver.dev.Database.GCircle.Entities.ECreditOnlineApplicationCI;
+import org.rmj.g3appdriver.GCircle.room.Entities.ECreditOnlineApplicationCI;
 import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;

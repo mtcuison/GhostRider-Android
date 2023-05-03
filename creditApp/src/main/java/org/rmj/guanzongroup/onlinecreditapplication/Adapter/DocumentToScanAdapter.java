@@ -19,7 +19,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DCreditApplicationDocuments;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DCreditApplicationDocuments;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 
 import com.google.android.material.textview.MaterialTextView;

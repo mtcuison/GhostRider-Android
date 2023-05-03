@@ -23,13 +23,13 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import org.json.JSONException;
-import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DTownInfo;
-import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EBarangayInfo;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DTownInfo;
+import org.rmj.g3appdriver.GCircle.room.Entities.EBarangayInfo;
 import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.CoMakerResidence;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditAppConstants;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.OnSaveInfoListener;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.model.CoMakerResidence;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.OnParseListener;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMComakerResidence;

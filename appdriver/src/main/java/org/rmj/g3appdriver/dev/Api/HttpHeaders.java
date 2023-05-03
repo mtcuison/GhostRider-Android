@@ -17,7 +17,7 @@ import android.os.Build;
 import android.os.StrictMode;
 
 import org.rmj.g3appdriver.dev.Device.Telephony;
-import org.rmj.g3appdriver.lib.Account.gCircle.EmployeeSession;
+import org.rmj.g3appdriver.GCircle.Account.EmployeeSession;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.SQLUtil;
 import org.rmj.g3appdriver.utils.SecUtil;

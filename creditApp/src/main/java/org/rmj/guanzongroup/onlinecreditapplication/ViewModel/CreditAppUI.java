@@ -4,8 +4,8 @@ import android.content.Intent;
 
 import androidx.lifecycle.LiveData;
 
-import org.rmj.g3appdriver.dev.Database.GCircle.Entities.ECreditApplicantInfo;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
+import org.rmj.g3appdriver.GCircle.room.Entities.ECreditApplicantInfo;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.OnSaveInfoListener;
 
 public interface CreditAppUI {
     void InitializeApplication(Intent params);

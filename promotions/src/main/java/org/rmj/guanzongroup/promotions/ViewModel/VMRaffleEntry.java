@@ -11,6 +11,8 @@
 
 package org.rmj.guanzongroup.promotions.ViewModel;
 
+import static org.rmj.g3appdriver.dev.Api.ApiResult.getErrorMessage;
+
 import android.annotation.SuppressLint;
 import android.app.Application;
 import android.os.AsyncTask;
@@ -24,19 +26,19 @@ import androidx.lifecycle.LiveData;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.rmj.g3appdriver.dev.Api.GCircleApi;
+import org.rmj.g3appdriver.GCircle.Api.GCircleApi;
 import org.rmj.g3appdriver.dev.Api.WebClient;
-import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DTownInfo;
-import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EBranchInfo;
-import org.rmj.g3appdriver.dev.Database.GCircle.Entities.ERaffleBasis;
-import org.rmj.g3appdriver.dev.Database.GCircle.Entities.ERaffleInfo;
-import org.rmj.g3appdriver.dev.Database.GCircle.Repositories.RBranch;
-import org.rmj.g3appdriver.dev.Database.GCircle.Repositories.RRaffleInfo;
-import org.rmj.g3appdriver.dev.Database.GCircle.Repositories.RTown;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DTownInfo;
+import org.rmj.g3appdriver.GCircle.room.Entities.EBranchInfo;
+import org.rmj.g3appdriver.GCircle.room.Entities.ERaffleBasis;
+import org.rmj.g3appdriver.GCircle.room.Entities.ERaffleInfo;
+import org.rmj.g3appdriver.GCircle.room.Repositories.RBranch;
+import org.rmj.g3appdriver.GCircle.room.Repositories.RRaffleInfo;
+import org.rmj.g3appdriver.GCircle.room.Repositories.RTown;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
-import org.rmj.g3appdriver.lib.Account.gCircle.EmployeeSession;
+import org.rmj.g3appdriver.GCircle.Account.EmployeeSession;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.guanzongroup.promotions.Etc.RaffleEntryCallback;
 import org.rmj.guanzongroup.promotions.Model.RaffleEntry;
@@ -252,7 +254,7 @@ public class VMRaffleEntry extends AndroidViewModel {
                 } else {
                     Log.e(TAG, loJson.toString());
                     JSONObject loError = loJson.getJSONObject("error");
-                    String message = loError.getString("message");
+                    String message = getErrorMessage(loError);
                     callBack.OnFailedEntry(message);
                 }
             } catch (Exception e){

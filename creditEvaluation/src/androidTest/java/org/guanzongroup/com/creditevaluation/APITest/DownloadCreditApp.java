@@ -1,6 +1,7 @@
 package org.guanzongroup.com.creditevaluation.APITest;
 
 import static org.junit.Assert.assertTrue;
+import static org.rmj.g3appdriver.dev.Api.ApiResult.getErrorMessage;
 
 import android.util.Log;
 
@@ -75,7 +76,7 @@ public class DownloadCreditApp {
                 isSuccess = true;
             } else {
                 JSONObject loError = loResponse.getJSONObject("error");
-                String lsMessage = loError.getString("message");
+                String lsMessage = getErrorMessage(loError);
                 isSuccess = false;
             }
         }
@@ -99,7 +100,7 @@ public class DownloadCreditApp {
                 isSuccess = true;
             } else {
                 JSONObject loError = loResponse.getJSONObject("error");
-                String lsMessage = loError.getString("message");
+                String lsMessage = getErrorMessage(loError);
                 isSuccess = false;
             }
         }

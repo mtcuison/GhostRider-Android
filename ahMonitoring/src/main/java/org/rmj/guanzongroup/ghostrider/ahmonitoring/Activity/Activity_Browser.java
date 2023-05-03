@@ -32,7 +32,7 @@ import android.webkit.WebView;
 import android.widget.ProgressBar;
 
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.lib.Account.gCircle.EmployeeSession;
+import org.rmj.g3appdriver.GCircle.Account.EmployeeSession;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 
 import java.io.File;

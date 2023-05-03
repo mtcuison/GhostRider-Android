@@ -23,7 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
 
-import org.rmj.g3appdriver.dev.Database.GCircle.Entities.ESelfieLog;
+import org.rmj.g3appdriver.GCircle.room.Entities.ESelfieLog;
 import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.guanzongroup.petmanager.R;
 

@@ -28,10 +28,10 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
-import org.rmj.g3appdriver.dev.DeptCode;
+import org.rmj.g3appdriver.GCircle.Etc.DeptCode;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.lib.Account.gCircle.EmployeeSession;
+import org.rmj.g3appdriver.GCircle.Account.EmployeeSession;
 import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_AppVersion;
 import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_Developer;
 import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_HelpList;

@@ -22,7 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.textview.MaterialTextView;
 import com.google.android.material.imageview.ShapeableImageView;
 
-import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EInventoryDetail;
+import org.rmj.g3appdriver.GCircle.room.Entities.EInventoryDetail;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 
 import java.util.List;

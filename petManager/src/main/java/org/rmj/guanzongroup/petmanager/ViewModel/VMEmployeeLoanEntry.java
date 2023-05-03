@@ -3,7 +3,6 @@ package org.rmj.guanzongroup.petmanager.ViewModel;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
-import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
@@ -12,10 +11,10 @@ import androidx.lifecycle.AndroidViewModel;
 
 import com.google.android.material.textfield.TextInputEditText;
 
-import org.rmj.g3appdriver.lib.EmployeeLoan.Obj.EmployeeLoan;
-import org.rmj.g3appdriver.lib.EmployeeLoan.pojo.LoanApplication;
-import org.rmj.g3appdriver.lib.EmployeeLoan.pojo.LoanType;
-import org.rmj.g3appdriver.lib.EmployeeLoan.pojo.LoanTerm;
+import org.rmj.g3appdriver.GCircle.Apps.EmployeeLoan.Obj.EmployeeLoan;
+import org.rmj.g3appdriver.GCircle.Apps.EmployeeLoan.pojo.LoanApplication;
+import org.rmj.g3appdriver.GCircle.Apps.EmployeeLoan.pojo.LoanType;
+import org.rmj.g3appdriver.GCircle.Apps.EmployeeLoan.pojo.LoanTerm;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;

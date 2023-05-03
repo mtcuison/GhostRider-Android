@@ -3,7 +3,7 @@ package org.rmj.guanzongroup.ghostrider.notifications.Notifications.Regular;
 import android.app.NotificationManager;
 import android.content.Context;
 
-import org.rmj.g3appdriver.dev.Database.GCircle.Entities.ENotificationMaster;
+import org.rmj.g3appdriver.GCircle.room.Entities.ENotificationMaster;
 import org.rmj.guanzongroup.ghostrider.notifications.Etc.iNotificationUI;
 
 public class RegularNotification implements iNotificationUI {

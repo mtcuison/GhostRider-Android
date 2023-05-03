@@ -1,5 +1,7 @@
 package org.rmj.g3appdriver.lib.Notifications.Obj.Receiver;
 
+import static org.rmj.g3appdriver.dev.Api.ApiResult.getErrorMessage;
+
 import android.app.Application;
 
 import androidx.lifecycle.LiveData;
@@ -7,15 +9,14 @@ import androidx.lifecycle.LiveData;
 import com.google.firebase.messaging.RemoteMessage;
 
 import org.json.JSONObject;
-import org.rmj.g3appdriver.dev.Api.GCircleApi;
+import org.rmj.g3appdriver.GCircle.Api.GCircleApi;
 import org.rmj.g3appdriver.dev.Api.WebClient;
-import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DNotificationReceiver;
-import org.rmj.g3appdriver.dev.Database.GCircle.Entities.ENotificationMaster;
-import org.rmj.g3appdriver.dev.Database.GCircle.Entities.ENotificationRecipient;
-import org.rmj.g3appdriver.dev.Database.GCircle.Entities.ENotificationUser;
-import org.rmj.g3appdriver.dev.Database.GCircle.GGC_GCircleDB;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DNotificationReceiver;
+import org.rmj.g3appdriver.GCircle.room.Entities.ENotificationMaster;
+import org.rmj.g3appdriver.GCircle.room.Entities.ENotificationRecipient;
+import org.rmj.g3appdriver.GCircle.room.Entities.ENotificationUser;
+import org.rmj.g3appdriver.GCircle.room.GGC_GCircleDB;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.lib.Notifications.NOTIFICATION_STATUS;
 import org.rmj.g3appdriver.lib.Notifications.RemoteMessageParser;
@@ -136,7 +137,7 @@ public class NMM_CustomerService implements iNotification {
             String lsResult = loResponse.getString("result");
             if (!lsResult.equalsIgnoreCase("success")) {
                 JSONObject loError = loResponse.getJSONObject("error");
-                message = loError.getString("message");
+                message = getErrorMessage(loError);
                 return null;
             }
 

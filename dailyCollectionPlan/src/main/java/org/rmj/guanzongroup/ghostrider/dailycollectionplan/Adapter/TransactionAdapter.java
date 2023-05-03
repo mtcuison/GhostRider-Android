@@ -21,7 +21,7 @@ import com.google.android.material.textview.MaterialTextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DDCPCollectionDetail;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DDCPCollectionDetail;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 

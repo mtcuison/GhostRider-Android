@@ -42,7 +42,7 @@ import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.g3appdriver.etc.GToast;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.lib.PetManager.pojo.LeaveApprovalInfo;
+import org.rmj.g3appdriver.GCircle.Apps.PetManager.pojo.LeaveApprovalInfo;
 import org.rmj.guanzongroup.petmanager.Activity.Activity_Application;
 import org.rmj.guanzongroup.petmanager.R;
 import org.rmj.guanzongroup.petmanager.ViewModel.VMLeaveApproval;

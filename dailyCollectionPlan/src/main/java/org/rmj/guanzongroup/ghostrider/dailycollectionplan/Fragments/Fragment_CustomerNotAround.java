@@ -26,13 +26,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
@@ -46,25 +43,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.google.android.material.radiobutton.MaterialRadioButton;
-import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
-import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.textview.MaterialTextView;
-import com.google.android.material.divider.MaterialDivider;
-import com.google.android.material.card.MaterialCardView;
-import com.google.android.material.imageview.ShapeableImageView;
 import  com.google.android.material.checkbox.MaterialCheckBox;
 
 
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.lib.integsys.Dcp.pojo.AddressUpdate;
-import org.rmj.g3appdriver.lib.integsys.Dcp.pojo.CustomerNotAround;
-import org.rmj.g3appdriver.lib.integsys.Dcp.pojo.MobileUpdate;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.Dcp.pojo.AddressUpdate;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.Dcp.pojo.CustomerNotAround;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.Dcp.pojo.MobileUpdate;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_Transaction;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter.AddressInfoAdapter;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter.MobileInfoAdapter;

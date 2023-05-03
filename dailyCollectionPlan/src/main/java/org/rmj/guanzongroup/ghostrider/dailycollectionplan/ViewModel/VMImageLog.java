@@ -17,8 +17,8 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EBranchInfo;
-import org.rmj.g3appdriver.dev.Database.GCircle.Repositories.RBranch;
+import org.rmj.g3appdriver.GCircle.room.Entities.EBranchInfo;
+import org.rmj.g3appdriver.GCircle.room.Repositories.RBranch;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Core.DcpManager;
 
 public class VMImageLog extends AndroidViewModel {

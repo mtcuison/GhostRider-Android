@@ -17,7 +17,7 @@ import android.view.View;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.textfield.TextInputEditText;
 
-import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EBranchInfo;
+import org.rmj.g3appdriver.GCircle.room.Entities.EBranchInfo;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.guanzongroup.pacitareward.Adapter.RecyclerViewAdapter_BranchList;

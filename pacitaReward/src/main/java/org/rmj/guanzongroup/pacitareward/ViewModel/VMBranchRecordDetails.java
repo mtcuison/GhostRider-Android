@@ -7,9 +7,9 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EPacitaEvaluation;
-import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EPacitaRule;
-import org.rmj.g3appdriver.lib.GawadPacita.Obj.Pacita;
+import org.rmj.g3appdriver.GCircle.room.Entities.EPacitaEvaluation;
+import org.rmj.g3appdriver.GCircle.room.Entities.EPacitaRule;
+import org.rmj.g3appdriver.GCircle.Apps.GawadPacita.Obj.Pacita;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 
 import java.util.List;

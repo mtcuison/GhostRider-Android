@@ -20,11 +20,11 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EDCPCollectionDetail;
+import org.rmj.g3appdriver.GCircle.room.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.lib.Location.LocationRetriever;
-import org.rmj.g3appdriver.lib.integsys.Dcp.LRDcp;
-import org.rmj.g3appdriver.lib.integsys.Dcp.pojo.OtherRemCode;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.Dcp.LRDcp;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.Dcp.pojo.OtherRemCode;
 import org.rmj.g3appdriver.etc.ImageFileCreator;
 
 public class VMIncompleteTransaction extends AndroidViewModel {

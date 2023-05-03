@@ -9,12 +9,12 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import org.rmj.g3appdriver.dev.Database.GCircle.Entities.ECreditApplicantInfo;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditApp;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditAppInstance;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditOnlineApplication;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Means;
+import org.rmj.g3appdriver.GCircle.room.Entities.ECreditApplicantInfo;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.CreditApp;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.CreditAppInstance;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.CreditOnlineApplication;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.OnSaveInfoListener;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.model.Means;
 
 public class VMMeasnInfo extends AndroidViewModel implements CreditAppUI {
     private static final String TAG = VMPersonalInfo.class.getSimpleName();

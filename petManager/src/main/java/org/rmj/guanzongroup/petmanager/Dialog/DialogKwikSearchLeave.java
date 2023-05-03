@@ -24,7 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 
-import org.rmj.g3appdriver.lib.PetManager.pojo.LeaveApprovalInfo;
+import org.rmj.g3appdriver.GCircle.Apps.PetManager.pojo.LeaveApprovalInfo;
 import org.rmj.guanzongroup.petmanager.Adapter.Adapter_RequestLeaveObApplication;
 import org.rmj.guanzongroup.petmanager.R;
 

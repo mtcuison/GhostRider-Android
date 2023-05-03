@@ -19,10 +19,10 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EBranchInfo;
-import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EInventoryDetail;
-import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EInventoryMaster;
-import org.rmj.g3appdriver.lib.integsys.Inventory.RandomStockInventory;
+import org.rmj.g3appdriver.GCircle.room.Entities.EBranchInfo;
+import org.rmj.g3appdriver.GCircle.room.Entities.EInventoryDetail;
+import org.rmj.g3appdriver.GCircle.room.Entities.EInventoryMaster;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.Inventory.RandomStockInventory;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 
 import java.util.List;

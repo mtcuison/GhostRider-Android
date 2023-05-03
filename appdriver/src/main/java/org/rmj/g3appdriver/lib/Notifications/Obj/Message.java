@@ -5,8 +5,8 @@ import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
-import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DMessages;
-import org.rmj.g3appdriver.dev.Database.GCircle.GGC_GCircleDB;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DMessages;
+import org.rmj.g3appdriver.GCircle.room.GGC_GCircleDB;
 import org.rmj.g3appdriver.lib.Notifications.NOTIFICATION_STATUS;
 import org.rmj.g3appdriver.lib.Notifications.Obj.Receiver.NMM_Regular;
 

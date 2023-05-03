@@ -8,8 +8,8 @@ import androidx.test.runner.AndroidJUnit4;
 import org.junit.FixMethodOrder;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
-import org.rmj.g3appdriver.lib.Account.gCircle.EmployeeMaster;
-import org.rmj.g3appdriver.lib.PetManager.Obj.EmployeeOB;
+import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
+import org.rmj.g3appdriver.GCircle.Apps.PetManager.Obj.EmployeeOB;
 
 import static org.junit.Assert.assertTrue;
 
@@ -18,7 +18,7 @@ import android.util.Log;
 import org.junit.Before;
 import org.junit.Test;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.lib.PetManager.pojo.OBApprovalInfo;
+import org.rmj.g3appdriver.GCircle.Apps.PetManager.pojo.OBApprovalInfo;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(AndroidJUnit4.class)

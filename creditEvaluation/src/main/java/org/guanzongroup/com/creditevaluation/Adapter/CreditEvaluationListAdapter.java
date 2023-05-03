@@ -27,7 +27,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.guanzongroup.com.creditevaluation.R;
-import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DCreditOnlineApplicationCI;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DCreditOnlineApplicationCI;
 import org.rmj.g3appdriver.etc.FormatUIText;
 
 import java.util.ArrayList;

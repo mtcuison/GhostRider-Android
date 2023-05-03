@@ -7,11 +7,11 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 
 import org.json.JSONObject;
-import org.rmj.g3appdriver.dev.Api.GCircleApi;
+import org.rmj.g3appdriver.GCircle.Api.GCircleApi;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
-import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DRaffleStatus;
-import org.rmj.g3appdriver.dev.Database.GCircle.Entities.ERaffleStatus;
-import org.rmj.g3appdriver.dev.Database.GCircle.GGC_GCircleDB;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DRaffleStatus;
+import org.rmj.g3appdriver.GCircle.room.Entities.ERaffleStatus;
+import org.rmj.g3appdriver.GCircle.room.GGC_GCircleDB;
 import org.rmj.g3appdriver.lib.Panalo.model.PanaloRewards;
 
 import java.util.List;

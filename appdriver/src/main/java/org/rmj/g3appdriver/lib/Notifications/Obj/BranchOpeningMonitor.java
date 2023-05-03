@@ -15,9 +15,9 @@ import android.app.Application;
 
 import androidx.lifecycle.LiveData;
 
-import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DBranchOpeningMonitor;
-import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EBranchOpenMonitor;
-import org.rmj.g3appdriver.dev.Database.GCircle.GGC_GCircleDB;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DBranchOpeningMonitor;
+import org.rmj.g3appdriver.GCircle.room.Entities.EBranchOpenMonitor;
+import org.rmj.g3appdriver.GCircle.room.GGC_GCircleDB;
 import org.rmj.g3appdriver.etc.AppConstants;
 
 import java.util.List;

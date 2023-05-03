@@ -18,16 +18,16 @@ import android.os.AsyncTask;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
-import org.rmj.g3appdriver.dev.Database.GCircle.Entities.ECreditApplication;
-import org.rmj.g3appdriver.dev.Database.GCircle.Entities.ECreditApplicationDocuments;
-import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EDCPCollectionDetail;
-import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EImageInfo;
-import org.rmj.g3appdriver.dev.Database.GCircle.Repositories.RBranchLoanApplication;
-import org.rmj.g3appdriver.dev.Database.GCircle.Repositories.RCreditApplication;
-import org.rmj.g3appdriver.dev.Database.GCircle.Repositories.RCreditApplicationDocument;
-import org.rmj.g3appdriver.dev.Database.GCircle.Repositories.RDailyCollectionPlan;
-import org.rmj.g3appdriver.dev.Database.GCircle.Repositories.RImageInfo;
-import org.rmj.g3appdriver.lib.SelfieLog.SelfieLog;
+import org.rmj.g3appdriver.GCircle.room.Entities.ECreditApplication;
+import org.rmj.g3appdriver.GCircle.room.Entities.ECreditApplicationDocuments;
+import org.rmj.g3appdriver.GCircle.room.Entities.EDCPCollectionDetail;
+import org.rmj.g3appdriver.GCircle.room.Entities.EImageInfo;
+import org.rmj.g3appdriver.GCircle.room.Repositories.RBranchLoanApplication;
+import org.rmj.g3appdriver.GCircle.room.Repositories.RCreditApplication;
+import org.rmj.g3appdriver.GCircle.room.Repositories.RCreditApplicationDocument;
+import org.rmj.g3appdriver.GCircle.room.Repositories.RDailyCollectionPlan;
+import org.rmj.g3appdriver.GCircle.room.Repositories.RImageInfo;
+import org.rmj.g3appdriver.GCircle.Apps.SelfieLog.SelfieLog;
 
 import java.util.List;
 

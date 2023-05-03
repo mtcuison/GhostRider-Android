@@ -11,6 +11,8 @@
 
 package org.rmj.guanzongroup.ghostrider.samsungknox.ViewModel;
 
+import static org.rmj.g3appdriver.dev.Api.ApiResult.getErrorMessage;
+
 import android.app.Application;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -22,7 +24,7 @@ import androidx.lifecycle.AndroidViewModel;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.rmj.g3appdriver.dev.Api.GCircleApi;
+import org.rmj.g3appdriver.GCircle.Api.GCircleApi;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
@@ -105,7 +107,7 @@ public class VMGetPin extends AndroidViewModel {
                     callBack.OnRequestSuccess(jsonArray.getString(0));
                 } else {
                     JSONObject loError = loResponse.getJSONObject("error");
-                    String lsMessage = loError.getString("message");
+                    String lsMessage = getErrorMessage(loError);
                     String lsErrCode = loError.getString("code");
                     callBack.OnRequestFailed(KnoxErrorCode.getMessage(lsErrCode, lsMessage));
                     Log.e(TAG, s);

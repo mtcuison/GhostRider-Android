@@ -1,5 +1,7 @@
 package org.rmj.g3appdriver.lib.Panalo.Obj;
 
+import static org.rmj.g3appdriver.dev.Api.ApiResult.getErrorMessage;
+
 import android.app.Application;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -7,11 +9,11 @@ import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.rmj.g3appdriver.dev.Api.GCircleApi;
+import org.rmj.g3appdriver.GCircle.Api.GCircleApi;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.dev.Api.WebClient;
-import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DPanalo;
-import org.rmj.g3appdriver.dev.Database.GCircle.GGC_GCircleDB;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DPanalo;
+import org.rmj.g3appdriver.GCircle.room.GGC_GCircleDB;
 import org.rmj.g3appdriver.dev.encryp.CodeGenerator;
 import org.rmj.g3appdriver.lib.Panalo.model.PanaloRewards;
 
@@ -59,7 +61,7 @@ public class GPanalo {
             String lsResult = loResponse.getString("result");
             if (!lsResult.equalsIgnoreCase("success")) {
                 JSONObject loError = loResponse.getJSONObject("error");
-                message = loError.getString("message");
+                message = getErrorMessage(loError);
                 return null;
             }
 
@@ -116,7 +118,7 @@ public class GPanalo {
             String lsResult = loResponse.getString("result");
             if (!lsResult.equalsIgnoreCase("success")) {
                 JSONObject loError = loResponse.getJSONObject("error");
-                message = loError.getString("message");
+                message = getErrorMessage(loError);
                 return false;
             }
 

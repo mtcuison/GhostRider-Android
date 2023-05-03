@@ -11,6 +11,8 @@
 
 package org.rmj.guanzongroup.ghostrider.settings.ViewModel;
 
+import static org.rmj.g3appdriver.dev.Api.ApiResult.getErrorMessage;
+
 import android.app.Application;
 import android.content.Intent;
 import android.net.Uri;
@@ -27,7 +29,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.rmj.g3appdriver.dev.Api.GCircleApi;
+import org.rmj.g3appdriver.GCircle.Api.GCircleApi;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
@@ -129,7 +131,7 @@ public class VMCheckUpdate extends AndroidViewModel {
                     callback.OnSuccess();
                 } else {
                     JSONObject loError = loJson.getJSONObject("error");
-                    String message = loError.getString("message");
+                    String message = getErrorMessage(loError);
                     callback.OnFailed(message);
                 }
             } catch (JSONException e) {
@@ -243,7 +245,7 @@ public class VMCheckUpdate extends AndroidViewModel {
                     callback.OnFinishDownload(intent);
                 } else {
                     JSONObject loError = loJson.getJSONObject("error");
-                    callback.OnFailedDownload(loError.getString("message"));
+                    callback.OnFailedDownload(getErrorMessage(loError));
                 }
             } catch (Exception e){
                 e.printStackTrace();

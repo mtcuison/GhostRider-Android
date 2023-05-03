@@ -25,7 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.textview.MaterialTextView;
 
-import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DBranchOpeningMonitor;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DBranchOpeningMonitor;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 
 import java.text.SimpleDateFormat;

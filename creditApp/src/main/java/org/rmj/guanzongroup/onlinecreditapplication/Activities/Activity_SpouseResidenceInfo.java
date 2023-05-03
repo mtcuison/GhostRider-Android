@@ -23,13 +23,13 @@ import  com.google.android.material.checkbox.MaterialCheckBox;
 
 
 import org.json.JSONException;
-import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DTownInfo;
-import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EBarangayInfo;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DTownInfo;
+import org.rmj.g3appdriver.GCircle.room.Entities.EBarangayInfo;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.SpouseResidenceInfo;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.ClientResidence;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.SpouseResidence;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.Obj.SpouseResidenceInfo;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.OnSaveInfoListener;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.model.ClientResidence;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.model.SpouseResidence;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMSpouseResidence;
 

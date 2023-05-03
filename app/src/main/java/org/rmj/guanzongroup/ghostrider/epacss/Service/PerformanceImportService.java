@@ -18,10 +18,10 @@ import android.util.Log;
 
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
-import org.rmj.g3appdriver.lib.ImportData.model.ImportDataCallback;
-import org.rmj.g3appdriver.lib.ImportData.model.ImportInstance;
-import org.rmj.g3appdriver.lib.ImportData.Obj.Import_AreaPerformance;
-import org.rmj.g3appdriver.lib.ImportData.Obj.Import_BranchPerformance;
+import org.rmj.g3appdriver.GCircle.ImportData.model.ImportDataCallback;
+import org.rmj.g3appdriver.GCircle.ImportData.model.ImportInstance;
+import org.rmj.g3appdriver.GCircle.ImportData.Obj.Import_AreaPerformance;
+import org.rmj.g3appdriver.GCircle.ImportData.Obj.Import_BranchPerformance;
 
 
 @SuppressLint("SpecifyJobSchedulerIdRange")

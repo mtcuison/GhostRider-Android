@@ -11,6 +11,8 @@
 
 package org.rmj.guanzongroup.ghostrider.settings.ViewModel;
 
+import static org.rmj.g3appdriver.dev.Api.ApiResult.getErrorMessage;
+
 import android.Manifest;
 import android.app.Application;
 import android.content.Context;
@@ -30,13 +32,12 @@ import androidx.lifecycle.MutableLiveData;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.rmj.g3appdriver.dev.Api.GCircleApi;
+import org.rmj.g3appdriver.GCircle.Api.GCircleApi;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
-import org.rmj.g3appdriver.dev.Api.GCircleApi;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -242,7 +243,7 @@ public class VMSettings extends AndroidViewModel {
                     callback.OnSuccess();
                 } else {
                     JSONObject loError = loJson.getJSONObject("error");
-                    String message = loError.getString("message");
+                    String message = getErrorMessage(loError);
                     callback.OnFailed(message);
                 }
             } catch (JSONException e) {
@@ -320,7 +321,7 @@ public class VMSettings extends AndroidViewModel {
                     callback.OnSuccess();
                 } else {
                     JSONObject loError = loJson.getJSONObject("error");
-                    String message = loError.getString("message");
+                    String message = getErrorMessage(loError);;
                     callback.OnFailed(message);
                 }
             } catch (JSONException e) {

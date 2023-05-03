@@ -1,6 +1,7 @@
 package org.guanzongroup.com.creditevaluation.APITest;
 
 import static org.junit.Assert.assertTrue;
+import static org.rmj.g3appdriver.dev.Api.ApiResult.getErrorMessage;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
@@ -10,7 +11,7 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
-import org.rmj.g3appdriver.dev.Api.GCircleApi;
+import org.rmj.g3appdriver.GCircle.Api.GCircleApi;
 import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.utils.SQLUtil;
@@ -76,7 +77,7 @@ public class SubmitCIResult {
                 isSuccess = true;
             } else {
                 JSONObject loError = loResponse.getJSONObject("error");
-                String lsMessage = loError.getString("message");
+                String lsMessage = getErrorMessage(loError);
                 isSuccess = false;
             }
         }
@@ -116,7 +117,7 @@ public class SubmitCIResult {
                 isSuccess = true;
             } else {
                 JSONObject loError = loResponse.getJSONObject("error");
-                String lsMessage = loError.getString("message");
+                String lsMessage = getErrorMessage(loError);
                 isSuccess = false;
             }
         }
@@ -139,7 +140,7 @@ public class SubmitCIResult {
                 isSuccess = true;
             } else {
                 JSONObject loError = loResponse.getJSONObject("error");
-                String lsMessage = loError.getString("message");
+                String lsMessage = getErrorMessage(loError);
                 isSuccess = false;
             }
         }
@@ -166,7 +167,7 @@ public class SubmitCIResult {
                 isSuccess = true;
             } else {
                 JSONObject loError = loResponse.getJSONObject("error");
-                String lsMessage = loError.getString("message");
+                String lsMessage = getErrorMessage(loError);
                 isSuccess = false;
             }
         }
@@ -189,7 +190,7 @@ public class SubmitCIResult {
                 isSuccess = true;
             } else {
                 JSONObject loError = loResponse.getJSONObject("error");
-                String lsMessage = loError.getString("message");
+                String lsMessage = getErrorMessage(loError);
                 isSuccess = false;
             }
         }
@@ -216,7 +217,7 @@ public class SubmitCIResult {
                 isSuccess = true;
             } else {
                 JSONObject loError = loResponse.getJSONObject("error");
-                String lsMessage = loError.getString("message");
+                String lsMessage = getErrorMessage(loError);
                 isSuccess = false;
             }
         }

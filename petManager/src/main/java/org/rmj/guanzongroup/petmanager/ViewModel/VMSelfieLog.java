@@ -21,18 +21,18 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DEmployeeInfo;
-import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EBranchInfo;
-import org.rmj.g3appdriver.dev.Database.GCircle.Entities.ESelfieLog;
-import org.rmj.g3appdriver.dev.Database.GCircle.Repositories.RBranch;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DEmployeeInfo;
+import org.rmj.g3appdriver.GCircle.room.Entities.EBranchInfo;
+import org.rmj.g3appdriver.GCircle.room.Entities.ESelfieLog;
+import org.rmj.g3appdriver.GCircle.room.Repositories.RBranch;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.ImageFileCreator;
 import org.rmj.g3appdriver.etc.OnInitializeCameraCallback;
-import org.rmj.g3appdriver.lib.Account.gCircle.EmployeeMaster;
-import org.rmj.g3appdriver.lib.Account.gCircle.EmployeeSession;
+import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
+import org.rmj.g3appdriver.GCircle.Account.EmployeeSession;
 import org.rmj.g3appdriver.lib.Location.LocationRetriever;
-import org.rmj.g3appdriver.lib.SelfieLog.SelfieLog;
-import org.rmj.g3appdriver.lib.integsys.CashCount.CashCount;
+import org.rmj.g3appdriver.GCircle.Apps.SelfieLog.SelfieLog;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.CashCount.CashCount;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 
 import java.util.List;

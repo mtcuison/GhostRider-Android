@@ -18,7 +18,7 @@ import com.google.android.material.badge.BadgeUtils;
 import com.google.android.material.badge.ExperimentalBadgeUtils;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import org.rmj.g3appdriver.dev.Database.GCircle.Entities.ERaffleStatus;
+import org.rmj.g3appdriver.GCircle.room.Entities.ERaffleStatus;
 import org.rmj.guanzongroup.ghostrider.Fragment.Fragment_PanaloContainer;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Etc.FragmentAdapter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_BranchMonitor;

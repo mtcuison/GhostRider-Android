@@ -1,6 +1,5 @@
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-import org.rmj.g3appdriver.lib.integsys.CashCount.QuickSearchNames;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.CashCount.QuickSearchNames;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 
 import java.util.List;

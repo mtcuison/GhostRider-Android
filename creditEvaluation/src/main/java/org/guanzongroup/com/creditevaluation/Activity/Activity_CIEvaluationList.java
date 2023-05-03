@@ -40,7 +40,7 @@ import org.guanzongroup.com.creditevaluation.Dialog.DialogAddApplication;
 import org.guanzongroup.com.creditevaluation.R;
 import org.guanzongroup.com.creditevaluation.ViewModel.VMEvaluationList;
 import org.guanzongroup.com.creditevaluation.ViewModel.ViewModelCallback;
-import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DCreditOnlineApplicationCI;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DCreditOnlineApplicationCI;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
 

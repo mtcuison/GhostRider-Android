@@ -30,11 +30,11 @@ import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DCreditApplicat
 import org.rmj.g3appdriver.dev.Database.GCircle.Entities.ECreditApplicationDocuments;
 import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EFileCode;
 import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EImageInfo;
-import org.rmj.g3appdriver.dev.Database.GCircle.Repositories.RCollectionUpdate;
-import org.rmj.g3appdriver.dev.Database.GCircle.Repositories.RCreditApplicationDocument;
-import org.rmj.g3appdriver.dev.Database.GCircle.Repositories.RDailyCollectionPlan;
-import org.rmj.g3appdriver.dev.Database.GCircle.Repositories.RFileCode;
-import org.rmj.g3appdriver.dev.Database.GCircle.Repositories.RImageInfo;
+import org.rmj.g3appdriver.GCircle.room.Repositories.RCollectionUpdate;
+import org.rmj.g3appdriver.GCircle.room.Repositories.RCreditApplicationDocument;
+import org.rmj.g3appdriver.GCircle.room.Repositories.RDailyCollectionPlan;
+import org.rmj.g3appdriver.GCircle.room.Repositories.RFileCode;
+import org.rmj.g3appdriver.GCircle.room.Repositories.RImageInfo;
 import org.rmj.g3appdriver.dev.HttpHeaders;
 import org.rmj.g3appdriver.dev.Telephony;
 import org.rmj.g3appdriver.etc.AppConfigPreference;

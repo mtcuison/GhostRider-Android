@@ -1,5 +1,8 @@
 package org.rmj.g3appdriver.lib.Account.gCircle.obj;
 
+import static org.rmj.g3appdriver.dev.Api.ApiResult.SERVER_NO_RESPONSE;
+import static org.rmj.g3appdriver.dev.Api.ApiResult.getErrorMessage;
+
 import android.app.Application;
 import android.os.Build;
 import android.util.Log;
@@ -7,27 +10,25 @@ import android.util.Log;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.apprdiver.util.SQLUtil;
-import org.rmj.g3appdriver.dev.Api.GCircleApi;
+import org.rmj.g3appdriver.lib.Account.pojo.UserAuthInfo;
+import org.rmj.g3appdriver.GCircle.Api.GCircleApi;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.dev.Api.WebClient;
-import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DEmployeeInfo;
-import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DEmployeeRole;
-import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EEmployeeInfo;
-import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EEmployeeRole;
-import org.rmj.g3appdriver.dev.Database.GCircle.GGC_GCircleDB;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DEmployeeInfo;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DEmployeeRole;
+import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeInfo;
+import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeRole;
+import org.rmj.g3appdriver.GCircle.room.GGC_GCircleDB;
 import org.rmj.g3appdriver.dev.Device.Telephony;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.lib.Account.Model.iAuth;
-import org.rmj.g3appdriver.lib.Account.gCircle.EmployeeSession;
-import org.rmj.g3appdriver.lib.Account.pojo.UserAuthInfo;
+import org.rmj.g3appdriver.GCircle.Account.EmployeeSession;
 
 import java.util.Date;
 
 public class EmployeeAuthentication implements iAuth {
     private static final String TAG = EmployeeAuthentication.class.getSimpleName();
-
-    private final Application instance;
 
     private final DEmployeeInfo poDao;
     private final DEmployeeRole roleDao;
@@ -40,7 +41,6 @@ public class EmployeeAuthentication implements iAuth {
     private String message;
 
     public EmployeeAuthentication(Application instance) {
-        this.instance = instance;
         this.poDao = GGC_GCircleDB.getInstance(instance).EmployeeDao();
         this.roleDao = GGC_GCircleDB.getInstance(instance).employeeRoleDao();
         this.poSession = new EmployeeSession(instance);
@@ -73,7 +73,7 @@ public class EmployeeAuthentication implements iAuth {
                     params.toString(),
                     poHeaders.getHeaders());
             if(lsResponse == null){
-                message = "No server response.";
+                message = SERVER_NO_RESPONSE;
                 return 0;
             }
 
@@ -81,7 +81,7 @@ public class EmployeeAuthentication implements iAuth {
             String lsResult = loResponse.getString("result");
             if (lsResult.equalsIgnoreCase("error")) {
                 JSONObject loError = loResponse.getJSONObject("error");
-                message = loError.getString("message");
+                message = getErrorMessage(loError);
                 return 0;
             }
 
@@ -142,7 +142,7 @@ public class EmployeeAuthentication implements iAuth {
                     params.toString(),
                     poHeaders.getHeaders());
             if (lsResponse == null) {
-                message = "No server response.";
+                message = SERVER_NO_RESPONSE;
                 return 0;
             }
 
@@ -150,9 +150,8 @@ public class EmployeeAuthentication implements iAuth {
             String lsResult = loResponse.getString("result");
             if (lsResult.equalsIgnoreCase("error")) {
                 JSONObject loError = loResponse.getJSONObject("error");
-                String lsMessage = loError.getString("message");
-                Log.e(TAG, lsMessage);
-                message = lsMessage;
+                message = getErrorMessage(loError);
+                Log.e(TAG, message);
                 return 0;
             }
 

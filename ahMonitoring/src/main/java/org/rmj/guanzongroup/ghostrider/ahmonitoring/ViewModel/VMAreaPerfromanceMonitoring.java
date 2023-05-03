@@ -19,8 +19,8 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DAreaPerformance;
-import org.rmj.g3appdriver.lib.BullsEye.obj.AreaPerformance;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DAreaPerformance;
+import org.rmj.g3appdriver.GCircle.Apps.BullsEye.obj.AreaPerformance;
 
 import java.util.List;
 

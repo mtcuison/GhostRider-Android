@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.button.MaterialButton;
 
 
-import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EBranchInfo;
+import org.rmj.g3appdriver.GCircle.room.Entities.EBranchInfo;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.AdapterInventoryBranch;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;

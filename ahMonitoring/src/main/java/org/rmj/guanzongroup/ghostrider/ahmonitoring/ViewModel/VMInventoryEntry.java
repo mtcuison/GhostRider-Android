@@ -7,8 +7,8 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EInventoryDetail;
-import org.rmj.g3appdriver.dev.Database.GCircle.Repositories.RInventoryDetail;
+import org.rmj.g3appdriver.GCircle.room.Entities.EInventoryDetail;
+import org.rmj.g3appdriver.GCircle.room.Repositories.RInventoryDetail;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.RandomItem;
 
 public class VMInventoryEntry extends AndroidViewModel {

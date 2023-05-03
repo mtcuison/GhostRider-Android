@@ -3,10 +3,10 @@ package org.rmj.g3appdriver.lib.Account;
 import android.app.Application;
 import android.util.Log;
 
-import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.lib.Account.Model.iAccount;
 import org.rmj.g3appdriver.lib.Account.gCircle.gCircleAuth;
 import org.rmj.g3appdriver.lib.Account.gConnect.gConnectAuth;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 
 public class AccountMaster {
     private static final String TAG = AccountMaster.class.getSimpleName();

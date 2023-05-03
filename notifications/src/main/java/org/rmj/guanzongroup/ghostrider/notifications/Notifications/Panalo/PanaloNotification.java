@@ -4,7 +4,7 @@ import android.app.NotificationManager;
 import android.content.Context;
 
 import org.json.JSONObject;
-import org.rmj.g3appdriver.dev.Database.GCircle.Entities.ENotificationMaster;
+import org.rmj.g3appdriver.GCircle.room.Entities.ENotificationMaster;
 import org.rmj.guanzongroup.ghostrider.notifications.Etc.iNotificationUI;
 
 public class PanaloNotification implements iNotificationUI {

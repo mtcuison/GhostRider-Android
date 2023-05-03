@@ -15,11 +15,11 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
-import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EItinerary;
+import org.rmj.g3appdriver.GCircle.room.Entities.EItinerary;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
-import org.rmj.g3appdriver.lib.Account.gCircle.EmployeeMaster;
-import org.rmj.g3appdriver.lib.Itinerary.Obj.EmployeeItinerary;
+import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
+import org.rmj.g3appdriver.GCircle.Apps.Itinerary.Obj.EmployeeItinerary;
 
 import java.util.ArrayList;
 import java.util.List;

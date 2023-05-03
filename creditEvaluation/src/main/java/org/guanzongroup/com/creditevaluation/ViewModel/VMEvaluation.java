@@ -9,15 +9,15 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DEmployeeInfo;
-import org.rmj.g3appdriver.dev.Database.GCircle.Entities.ECreditOnlineApplicationCI;
-import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EOccupationInfo;
-import org.rmj.g3appdriver.dev.Database.GCircle.Repositories.ROccupation;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DEmployeeInfo;
+import org.rmj.g3appdriver.GCircle.room.Entities.ECreditOnlineApplicationCI;
+import org.rmj.g3appdriver.GCircle.room.Entities.EOccupationInfo;
+import org.rmj.g3appdriver.GCircle.room.Repositories.ROccupation;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.lib.Location.LocationRetriever;
-import org.rmj.g3appdriver.lib.integsys.CreditInvestigator.pojo.BarangayRecord;
-import org.rmj.g3appdriver.lib.integsys.CreditInvestigator.pojo.CIImage;
-import org.rmj.g3appdriver.lib.integsys.CreditInvestigator.Obj.CITagging;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditInvestigator.pojo.BarangayRecord;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditInvestigator.pojo.CIImage;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditInvestigator.Obj.CITagging;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.etc.ImageFileCreator;
 

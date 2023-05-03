@@ -19,7 +19,7 @@ import com.google.android.material.textview.MaterialTextView;
 
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.CreditAppDocs;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.model.CreditAppDocs;
 import org.rmj.guanzongroup.documentscanner.Activity_DocumentScan;
 import org.rmj.guanzongroup.documentscanner.xxxImageStatic;
 import org.rmj.guanzongroup.onlinecreditapplication.Adapter.DocumentToScanAdapter;

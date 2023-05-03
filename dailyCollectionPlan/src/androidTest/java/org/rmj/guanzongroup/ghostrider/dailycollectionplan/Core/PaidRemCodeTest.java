@@ -1,6 +1,7 @@
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Core;
 
 import static org.junit.Assert.assertTrue;
+import static org.rmj.g3appdriver.dev.Api.ApiResult.getErrorMessage;
 
 import android.app.Application;
 import android.os.Build;
@@ -18,13 +19,13 @@ import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.dev.Api.WebClient;
-import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EDCPCollectionDetail;
-import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EEmployeeInfo;
+import org.rmj.g3appdriver.GCircle.room.Entities.EDCPCollectionDetail;
+import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.dev.Device.Telephony;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
-import org.rmj.g3appdriver.lib.Account.gCircle.EmployeeMaster;
-import org.rmj.g3appdriver.lib.Account.gCircle.EmployeeSession;
+import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
+import org.rmj.g3appdriver.GCircle.Account.EmployeeSession;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(AndroidJUnit4.class)
@@ -110,7 +111,7 @@ public class PaidRemCodeTest {
                 poSession.initUserSession(lsUserIDx, lsClientx, lsLogNoxx, lsBranchx, lsBranchN, lsDeptIDx, lsEmpIDxx, lsPostIDx, lsEmpLvlx, "1");
             } else {
                 JSONObject loError = loResponse.getJSONObject("error");
-                String lsMessage = loError.getString("message");
+                String lsMessage = getErrorMessage(loError);
                 isSuccess = false;
             }
         }

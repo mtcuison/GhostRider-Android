@@ -11,8 +11,8 @@
 
 package org.rmj.guanzongroup.ghostrider.settings.Activity;
 
-import static org.rmj.g3appdriver.dev.DeptCode.Departments;
-import static org.rmj.g3appdriver.dev.PositionCode.Positions;
+import static org.rmj.g3appdriver.GCircle.Etc.DeptCode.Departments;
+import static org.rmj.g3appdriver.GCircle.Etc.PositionCode.Positions;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,9 +32,9 @@ import android.widget.Toast;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
-import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EEmployeeInfo;
-import org.rmj.g3appdriver.dev.DeptCode;
-import org.rmj.g3appdriver.dev.PositionCode;
+import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeInfo;
+import org.rmj.g3appdriver.GCircle.Etc.DeptCode;
+import org.rmj.g3appdriver.GCircle.Etc.PositionCode;
 import org.rmj.guanzongroup.ghostrider.settings.R;
 import org.rmj.guanzongroup.ghostrider.settings.ViewModel.VMDevMode;
 

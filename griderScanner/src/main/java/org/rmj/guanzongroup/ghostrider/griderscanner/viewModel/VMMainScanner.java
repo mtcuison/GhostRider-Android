@@ -28,8 +28,8 @@ import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EBranchLoanApplication;
 import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EFileCode;
-import org.rmj.g3appdriver.dev.Database.GCircle.Repositories.RBranchLoanApplication;
-import org.rmj.g3appdriver.dev.Database.GCircle.Repositories.RFileCode;
+import org.rmj.g3appdriver.GCircle.room.Repositories.RBranchLoanApplication;
+import org.rmj.g3appdriver.GCircle.room.Repositories.RFileCode;
 import org.rmj.g3appdriver.dev.HttpHeaders;
 import org.rmj.g3appdriver.dev.WebClient;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
@@ -145,7 +145,7 @@ public class VMMainScanner extends AndroidViewModel {
                     callback.onSuccessImport();
                 } else {
                     JSONObject loError = loJson.getJSONObject("error");
-                    String message = loError.getString("message");
+                    String message = getErrorMessage(loError);
                     callback.onImportFailed(message);
                 }
             } catch (JSONException e) {

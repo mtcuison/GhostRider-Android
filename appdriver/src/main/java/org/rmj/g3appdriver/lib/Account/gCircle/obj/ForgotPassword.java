@@ -1,12 +1,15 @@
 package org.rmj.g3appdriver.lib.Account.gCircle.obj;
 
+import static org.rmj.g3appdriver.dev.Api.ApiResult.SERVER_NO_RESPONSE;
+import static org.rmj.g3appdriver.dev.Api.ApiResult.getErrorMessage;
+
 import android.app.Application;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Patterns;
 
 import org.json.JSONObject;
-import org.rmj.g3appdriver.dev.Api.GCircleApi;
+import org.rmj.g3appdriver.GCircle.Api.GCircleApi;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.lib.Account.Model.iAuth;
@@ -54,7 +57,7 @@ public class ForgotPassword implements iAuth {
                     params.toString(),
                     poHeaders.getHeaders());
             if(lsResponse == null){
-                message = "No server response.";
+                message = SERVER_NO_RESPONSE;
                 return 0;
             }
 
@@ -62,13 +65,12 @@ public class ForgotPassword implements iAuth {
             String lsResult = loResponse.getString("result");
             if (lsResult.equalsIgnoreCase("error")) {
                 JSONObject loError = loResponse.getJSONObject("error");
-                String lsMessage = loError.getString("message");
-                Log.e(TAG, lsMessage);
-                message = lsMessage;
+                message = getErrorMessage(loError);
+                Log.e(TAG, message);
                 return 0;
             }
 
-            message = "Please check your email for password retrieval.";
+            message = "We've sent an email to your registered address with instructions for password recovery.";
             return 1;
         } catch (Exception e){
             e.printStackTrace();

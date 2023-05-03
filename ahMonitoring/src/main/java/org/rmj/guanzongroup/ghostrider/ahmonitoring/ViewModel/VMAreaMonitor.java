@@ -18,10 +18,10 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EBranchPerformance;
-import org.rmj.g3appdriver.lib.BullsEye.OnImportPerformanceListener;
-import org.rmj.g3appdriver.lib.BullsEye.obj.AreaPerformance;
-import org.rmj.g3appdriver.lib.BullsEye.obj.BranchPerformance;
+import org.rmj.g3appdriver.GCircle.room.Entities.EBranchPerformance;
+import org.rmj.g3appdriver.GCircle.Apps.BullsEye.OnImportPerformanceListener;
+import org.rmj.g3appdriver.GCircle.Apps.BullsEye.obj.AreaPerformance;
+import org.rmj.g3appdriver.GCircle.Apps.BullsEye.obj.BranchPerformance;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 
 import java.util.List;

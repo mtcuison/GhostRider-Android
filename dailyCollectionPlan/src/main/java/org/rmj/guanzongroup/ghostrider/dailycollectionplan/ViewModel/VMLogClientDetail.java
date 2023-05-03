@@ -17,12 +17,12 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DTownInfo;
-import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EClientUpdate;
-import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EImageInfo;
-import org.rmj.g3appdriver.dev.Database.GCircle.Repositories.RDailyCollectionPlan;
-import org.rmj.g3appdriver.dev.Database.GCircle.Repositories.RImageInfo;
-import org.rmj.g3appdriver.dev.Database.GCircle.Repositories.RTown;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DTownInfo;
+import org.rmj.g3appdriver.GCircle.room.Entities.EClientUpdate;
+import org.rmj.g3appdriver.GCircle.room.Entities.EImageInfo;
+import org.rmj.g3appdriver.GCircle.room.Repositories.RDailyCollectionPlan;
+import org.rmj.g3appdriver.GCircle.room.Repositories.RImageInfo;
+import org.rmj.g3appdriver.GCircle.room.Repositories.RTown;
 
 public class VMLogClientDetail extends AndroidViewModel {
     private static final String TAG = VMLogClientDetail.class.getSimpleName();

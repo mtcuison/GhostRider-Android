@@ -19,7 +19,7 @@ import androidx.annotation.ColorInt;
 
 import org.json.JSONObject;
 import org.rmj.g3appdriver.R;
-import org.rmj.g3appdriver.dev.DeptCode;
+import org.rmj.g3appdriver.GCircle.Etc.DeptCode;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;

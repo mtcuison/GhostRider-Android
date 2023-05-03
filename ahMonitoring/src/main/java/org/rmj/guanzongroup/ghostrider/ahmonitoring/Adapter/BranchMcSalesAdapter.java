@@ -18,7 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EBranchPerformance;
+import org.rmj.g3appdriver.GCircle.room.Entities.EBranchPerformance;
 
 public class BranchMcSalesAdapter extends RecyclerView.Adapter<BranchMcSalesAdapter.McSalesViewHolder> {
 

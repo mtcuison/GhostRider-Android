@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DPacita.BranchRecords;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DPacita.BranchRecords;
 import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.guanzongroup.pacitareward.R;
 

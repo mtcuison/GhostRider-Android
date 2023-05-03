@@ -2,7 +2,7 @@ package org.rmj.g3appdriver.lib.Account.gConnect;
 
 import android.app.Application;
 
-import org.rmj.g3appdriver.dev.Api.GConnectApi;
+import org.rmj.g3appdriver.GConnect.Api.GConnectApi;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.dev.Device.Telephony;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
@@ -18,19 +18,9 @@ public class gConnectAuth implements iAccount {
     private static final String TAG = gConnectAuth.class.getSimpleName();
 
     private final Application instance;
-    private final GConnectApi poApi;
-    private final HttpHeaders poHeaders;
-    private final AppConfigPreference poConfig;
-    private final Telephony poDevID;
-
-    private String message;
 
     public gConnectAuth(Application instance) {
         this.instance = instance;
-        this.poApi = new GConnectApi(instance);
-        this.poConfig = AppConfigPreference.getInstance(instance);
-        this.poHeaders = HttpHeaders.getInstance(instance);
-        this.poDevID = new Telephony(instance);
     }
 
     @Override
@@ -39,11 +29,11 @@ public class gConnectAuth implements iAccount {
             case AUTHENTICATE:
                 return new SignIn(instance);
             case CREATE_ACCOUNT:
-                return new SignUp();
+                return new SignUp(instance);
             case CHANGE_PASSWORD:
-                return new UpdatePassword();
+                return new UpdatePassword(instance);
             default:
-                return new ResetPassword();
+                return new ResetPassword(instance);
         }
     }
 }

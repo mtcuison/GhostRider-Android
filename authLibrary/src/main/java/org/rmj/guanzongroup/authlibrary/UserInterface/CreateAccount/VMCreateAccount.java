@@ -11,6 +11,8 @@
 
 package org.rmj.guanzongroup.authlibrary.UserInterface.CreateAccount;
 
+import static org.rmj.g3appdriver.dev.Api.ApiResult.getErrorMessage;
+
 import android.app.Application;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -21,7 +23,7 @@ import androidx.annotation.RequiresApi;
 import androidx.lifecycle.AndroidViewModel;
 
 import org.json.JSONObject;
-import org.rmj.g3appdriver.dev.Api.GCircleApi;
+import org.rmj.g3appdriver.GCircle.Api.GCircleApi;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
@@ -106,7 +108,7 @@ public class VMCreateAccount extends AndroidViewModel{
                     callBack.OnSuccessRegistration();
                 } else {
                     JSONObject loError = loResponse.getJSONObject("error");
-                    String lsMessage = loError.getString("message");
+                    String lsMessage = getErrorMessage(loError);
                     callBack.OnFailedRegistration(lsMessage);
                     Log.e(TAG, s);
                 }

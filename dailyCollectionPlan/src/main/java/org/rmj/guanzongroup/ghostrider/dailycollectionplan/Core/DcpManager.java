@@ -1,27 +1,29 @@
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Core;
 
+import static org.rmj.g3appdriver.dev.Api.ApiResult.getErrorMessage;
+
 import android.app.Application;
 import android.content.Intent;
 import android.util.Log;
 
 import org.json.JSONObject;
-import org.rmj.g3appdriver.dev.Api.GCircleApi;
-import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EAddressUpdate;
-import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EClientUpdate;
-import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EDCPCollectionDetail;
-import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EImageInfo;
-import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EMobileUpdate;
-import org.rmj.g3appdriver.dev.Database.GCircle.Repositories.RCollectionUpdate;
-import org.rmj.g3appdriver.dev.Database.GCircle.Repositories.RDailyCollectionPlan;
-import org.rmj.g3appdriver.dev.Database.GCircle.Repositories.RImageInfo;
+import org.rmj.g3appdriver.GCircle.Api.GCircleApi;
+import org.rmj.g3appdriver.GCircle.room.Entities.EAddressUpdate;
+import org.rmj.g3appdriver.GCircle.room.Entities.EClientUpdate;
+import org.rmj.g3appdriver.GCircle.room.Entities.EDCPCollectionDetail;
+import org.rmj.g3appdriver.GCircle.room.Entities.EImageInfo;
+import org.rmj.g3appdriver.GCircle.room.Entities.EMobileUpdate;
+import org.rmj.g3appdriver.GCircle.room.Repositories.RCollectionUpdate;
+import org.rmj.g3appdriver.GCircle.room.Repositories.RDailyCollectionPlan;
+import org.rmj.g3appdriver.GCircle.room.Repositories.RImageInfo;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.dev.Device.Telephony;
 import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
-import org.rmj.g3appdriver.lib.Account.gCircle.EmployeeSession;
+import org.rmj.g3appdriver.GCircle.Account.EmployeeSession;
 import org.rmj.g3appdriver.dev.Api.WebFileServer;
-import org.rmj.g3appdriver.lib.integsys.Dcp.obj.RClientUpdate;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.Dcp.obj.RClientUpdate;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Core.Transaction.CustomerNotAround;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Core.Transaction.OthTransaction;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Core.Transaction.Paid;
@@ -422,7 +424,7 @@ public class DcpManager {
                     poDcp.updateCollectionDetailStatus(loDcp.getTransNox(), loDcp.getEntryNox());
                 } else {
                     JSONObject loError = loResponse.getJSONObject("error");
-                    String lsMessage = loError.getString("message");
+                    String lsMessage = getErrorMessage(loError);
                     callback.OnFailed(lsMessage);
                     Log.e(TAG, "Posting collection Image with account no. :" + loDcp.getAcctNmbr() + ", " + loDcp.getRemCodex() + "Failed!");
                     Log.e(TAG, "Error : " + lsMessage);
@@ -451,7 +453,7 @@ public class DcpManager {
 //                        String lsResult = (String) loUpload.get("result");
 //                        if (lsResult == null) {
 //                            Log.e(TAG, "Posting collection Image with account no. :" + loDcp.getAcctNmbr() + ", " + loDcp.getRemCodex() + "Failed!");
-//                            Log.d(TAG, "Error : Server no response.");
+//                            Log.d(TAG, "Error : SERVER_NO_RESPONSE);
 //                        } else {
 //                            if (lsResult.equalsIgnoreCase("success")) {
 //                                String lsImageID = (String) loUpload.get("sTransNox");
@@ -627,7 +629,7 @@ public class DcpManager {
                             poDcp.updateCollectionDetailStatus(loDcp.getTransNox(), loDcp.getEntryNox());
                         } else {
                             JSONObject loError = loResponse.getJSONObject("error");
-                            String lsMessage = loError.getString("message");
+                            String lsMessage = getErrorMessage(loError);
                             Log.e(TAG, "Posting collection with account no. :" + loDcp.getAcctNmbr() + ", " + loDcp.getRemCodex() + "Failed!");
                             Log.e(TAG, "Error : " + lsMessage);
                         }
@@ -653,7 +655,7 @@ public class DcpManager {
 //                        String lsResult = (String) loUpload.get("result");
 //                        if (lsResult == null) {
 //                            Log.e(TAG, "Posting collection Image with account no. :" + loDcp.getAcctNmbr() + ", " + loDcp.getRemCodex() + "Failed!");
-//                            Log.d(TAG, "Error : Server no response.");
+//                            Log.d(TAG, "Error : SERVER_NO_RESPONSE);
 //                        } else {
 //                            if (lsResult.equalsIgnoreCase("success")) {
 //                                String lsImageID = (String) loUpload.get("sTransNox");
@@ -701,7 +703,7 @@ public class DcpManager {
                         instance.stopService(new Intent(instance, GLocatorService.class));
                     } else {
                         JSONObject loError = loResponse.getJSONObject("error");
-                        String lsMessage = loError.getString("message");
+                        String lsMessage = getErrorMessage(loError);
                         callback.OnFailed("Posting dcp master failed." + lsMessage);
                     }
                 }

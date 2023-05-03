@@ -17,9 +17,9 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EEmployeeBusinessTrip;
-import org.rmj.g3appdriver.lib.PetManager.PetManager;
-import org.rmj.g3appdriver.lib.PetManager.model.iPM;
+import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeBusinessTrip;
+import org.rmj.g3appdriver.GCircle.Apps.PetManager.PetManager;
+import org.rmj.g3appdriver.GCircle.Apps.PetManager.model.iPM;
 
 import java.util.List;
 

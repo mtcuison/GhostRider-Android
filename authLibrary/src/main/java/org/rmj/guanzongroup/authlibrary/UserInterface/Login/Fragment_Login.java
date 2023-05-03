@@ -39,7 +39,7 @@ import  com.google.android.material.checkbox.MaterialCheckBox;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.lib.Account.gCircle.EmployeeMaster;
+import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
 import org.rmj.guanzongroup.authlibrary.R;
 
 import java.util.Map;
