@@ -15,6 +15,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -38,6 +39,7 @@ import org.rmj.g3appdriver.lib.PetManager.OnCheckEmployeeApplicationListener;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMAssociateDashboard;
 import org.rmj.guanzongroup.ghostrider.notifications.Adapter.AdapterAnnouncements;
+import org.rmj.guanzongroup.petmanager.Activity.Activity_Employee_Applications;
 import org.rmj.guanzongroup.petmanager.Adapter.EmployeeApplicationAdapter;
 
 import java.util.List;
@@ -166,7 +168,8 @@ public class Fragment_Associate_Dashboard extends Fragment {
                     EmployeeApplicationAdapter loAdapter = new EmployeeApplicationAdapter(app, false, new EmployeeApplicationAdapter.OnLeaveItemClickListener() {
                         @Override
                         public void OnClick(String TransNox) {
-
+                            Intent loIntent = new Intent(requireActivity(), Activity_Employee_Applications.class);
+                            loIntent.putExtra("type", true);
                         }
                     });
 
@@ -195,7 +198,8 @@ public class Fragment_Associate_Dashboard extends Fragment {
                     EmployeeApplicationAdapter loAdapter = new EmployeeApplicationAdapter(app, new EmployeeApplicationAdapter.OnOBItemClickListener() {
                         @Override
                         public void OnClick(String TransNox) {
-
+                            Intent loIntent = new Intent(requireActivity(), Activity_Employee_Applications.class);
+                            loIntent.putExtra("type", true);
                         }
                     });
 

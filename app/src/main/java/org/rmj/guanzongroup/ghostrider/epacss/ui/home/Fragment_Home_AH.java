@@ -293,7 +293,7 @@ public class Fragment_Home_AH extends Fragment {
                         public void OnClick(String TransNox) {
                             Intent loIntent = new Intent(requireActivity(), Activity_Application.class);
                             loIntent.putExtra("app", AppConstants.INTENT_LEAVE_APPROVAL);
-                            loIntent.putExtra("sTransNox", "");
+                            loIntent.putExtra("sTransNox", TransNox);
                             startActivity(loIntent);
                         }
                     });
@@ -325,7 +325,7 @@ public class Fragment_Home_AH extends Fragment {
                         public void OnClick(String TransNox) {
                             Intent loIntent = new Intent(requireActivity(), Activity_Application.class);
                             loIntent.putExtra("app", AppConstants.INTENT_OB_APPROVAL);
-                            loIntent.putExtra("sTransNox", "");
+                            loIntent.putExtra("sTransNox", TransNox);
                             startActivity(loIntent);
                         }
                     });
