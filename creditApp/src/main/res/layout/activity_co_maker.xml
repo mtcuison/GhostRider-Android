@@ -62,11 +62,8 @@
                             android:id="@+id/spinner_cap_cmrBarrowerRelation"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:clickable="false"
-                            android:cursorVisible="false"
-                            android:focusable="false"
+                            style="@style/DropdownStyleTheme"
                             android:hint="Co-Maker Relationship"
-                            android:inputType="none"
                             android:padding="16dp" />
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -337,11 +334,8 @@
                         android:id="@+id/spinner_cap_cmrIncomeSrc"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:clickable="false"
-                        android:cursorVisible="false"
-                        android:focusable="false"
+                        style="@style/DropdownStyleTheme"
                         android:hint="Source of Income"
-                        android:inputType="none"
                         android:padding="16dp" />
                 </com.google.android.material.textfield.TextInputLayout>
 

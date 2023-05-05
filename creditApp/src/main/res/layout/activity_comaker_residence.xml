@@ -266,10 +266,7 @@
                             android:id="@+id/spn_lenghtStay"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:clickable="false"
-                            android:cursorVisible="false"
-                            android:focusable="false"
-                            android:inputType="none"
+                            style="@style/DropdownStyleTheme"
                             android:nextFocusForward="@id/txt_citizenship"
                             android:padding="16dp" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -316,10 +313,7 @@
                             android:id="@+id/spn_houseHold"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:clickable="false"
-                            android:cursorVisible="false"
-                            android:focusable="false"
-                            android:inputType="none"
+                            style="@style/DropdownStyleTheme"
                             android:nextFocusForward="@id/txt_citizenship"
                             android:padding="16dp" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -337,10 +331,7 @@
                             android:id="@+id/spn_houseType"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:clickable="false"
-                            android:cursorVisible="false"
-                            android:focusable="false"
-                            android:inputType="none"
+                            style="@style/DropdownStyleTheme"
                             android:nextFocusForward="@id/txt_citizenship"
                             android:padding="16dp" />
                     </com.google.android.material.textfield.TextInputLayout>

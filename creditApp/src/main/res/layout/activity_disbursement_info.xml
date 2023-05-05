@@ -138,11 +138,7 @@
                     android:id="@+id/spinner_cap_dbmAccountType"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:clickable="false"
-                    android:cursorVisible="false"
-                    android:focusable="false"
-                    android:inputType="none"
-                    android:padding="16dp"
+                    style="@style/DropdownStyleTheme"
                     android:imeOptions="actionNext"
                     android:nextFocusForward="@+id/tie_cap_dbmBankNameCC"/>
             </com.google.android.material.textfield.TextInputLayout>

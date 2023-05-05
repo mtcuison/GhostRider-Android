@@ -52,10 +52,7 @@
                     android:id="@+id/spinner_cap_unitUser"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:clickable="false"
-                    android:cursorVisible="false"
-                    android:focusable="false"
-                    android:inputType="none"
+                    style="@style/DropdownStyleTheme"
                     android:padding="16dp" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -70,10 +67,7 @@
                     android:id="@+id/spinner_cap_otherUser"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:clickable="false"
-                    android:cursorVisible="false"
-                    android:focusable="false"
-                    android:inputType="none"
+                    style="@style/DropdownStyleTheme"
                     android:padding="16dp" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -92,10 +86,7 @@
                     android:id="@+id/spinner_cap_purposeOfBuying"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:clickable="false"
-                    android:cursorVisible="false"
-                    android:focusable="false"
-                    android:inputType="none"
+                    style="@style/DropdownStyleTheme"
                     android:padding="16dp" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -114,10 +105,7 @@
                     android:id="@+id/spinner_cap_monthlyPayer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:clickable="false"
-                    android:cursorVisible="false"
-                    android:focusable="false"
-                    android:inputType="none"
+                    style="@style/DropdownStyleTheme"
                     android:padding="16dp" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -132,10 +120,7 @@
                     android:id="@+id/spinner_cap_otherPayer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:clickable="false"
-                    android:cursorVisible="false"
-                    android:focusable="false"
-                    android:inputType="none"
+                    style="@style/DropdownStyleTheme"
                     android:padding="16dp" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -154,10 +139,7 @@
                     android:id="@+id/spinner_cap_source"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:clickable="false"
-                    android:cursorVisible="false"
-                    android:focusable="false"
-                    android:inputType="none"
+                    style="@style/DropdownStyleTheme"
                     android:padding="16dp" />
             </com.google.android.material.textfield.TextInputLayout>
 

@@ -76,7 +76,7 @@ public class Fragment_PromiseToPay extends Fragment {
     private LoadDialog poDialog;
     private MessageBox poMessage;
 
-    private TextInputLayout tilBranchName;
+    private TextInputLayout tilBranchName, tilCollct;
     private TextInputEditText txtDate,
             txtCollct,
             txtRemarks;
@@ -229,6 +229,7 @@ public class Fragment_PromiseToPay extends Fragment {
         lblTransNo = v.findViewById(R.id.lbl_dcpTransNo);
 
         tilBranchName = v.findViewById(R.id.til_ptp_branchName);
+        tilCollct = v.findViewById(R.id.til_CollectrName);
         txtDate = v.findViewById(R.id.pToPayDate);
         txtBranch = v.findViewById(R.id.txt_ptp_branchName);
         rgPtpAppUnit = v.findViewById(R.id.rb_ap_ptpBranch);
@@ -252,10 +253,10 @@ public class Fragment_PromiseToPay extends Fragment {
                 if(checkedId == R.id.rb_ptpBranch) {
                     appointment = "1";
                     tilBranchName.setVisibility(View.VISIBLE);
-                    txtCollct.setVisibility(View.GONE);
+                    tilCollct.setVisibility(View.GONE);
                 } else {
                     tilBranchName.setVisibility(View.GONE);
-                    txtCollct.setVisibility(View.VISIBLE);
+                    tilCollct.setVisibility(View.VISIBLE);
                     appointment = "0";
                 }
                 poPtp.setPaymntxx(appointment);
