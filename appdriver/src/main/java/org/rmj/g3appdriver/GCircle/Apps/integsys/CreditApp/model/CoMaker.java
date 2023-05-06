@@ -209,10 +209,10 @@ public class CoMaker {
             return false;
         }
 
-        if(BrthDate.trim().isEmpty() || BrthDate.trim().equalsIgnoreCase("")){
-            message = "Please enter birth date";
-            return false;
-        }
+//        if(BrthDate.trim().isEmpty() || BrthDate.trim().equalsIgnoreCase("")){
+//            message = "Please enter birth date";
+//            return false;
+//        }
 
         if(BrthPlce == null || BrthPlce.equalsIgnoreCase("")){
             message = "Please enter birth place";

@@ -24,6 +24,7 @@ import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeBusinessTrip;
 import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeLeave;
 import org.rmj.g3appdriver.GCircle.Etc.DeptCode;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
 import org.rmj.g3appdriver.lib.Notifications.data.SampleData;
@@ -34,6 +35,7 @@ import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMHomeBH;
 import org.rmj.guanzongroup.ghostrider.epacss.adapter.NewsEventsModel;
 import org.rmj.guanzongroup.ghostrider.notifications.Adapter.AdapterAnnouncements;
+import org.rmj.guanzongroup.petmanager.Activity.Activity_Application;
 import org.rmj.guanzongroup.petmanager.Adapter.EmployeeApplicationAdapter;
 
 import java.util.ArrayList;
@@ -259,7 +261,10 @@ public class Fragment_Home_BH extends Fragment {
                     EmployeeApplicationAdapter loAdapter = new EmployeeApplicationAdapter(app, false, new EmployeeApplicationAdapter.OnLeaveItemClickListener() {
                         @Override
                         public void OnClick(String TransNox) {
-
+                            Intent loIntent = new Intent(requireActivity(), Activity_Application.class);
+                            loIntent.putExtra("app", AppConstants.INTENT_LEAVE_APPROVAL);
+                            loIntent.putExtra("sTransNox", TransNox);
+                            startActivity(loIntent);
                         }
                     });
 
@@ -288,7 +293,10 @@ public class Fragment_Home_BH extends Fragment {
                     EmployeeApplicationAdapter loAdapter = new EmployeeApplicationAdapter(app, new EmployeeApplicationAdapter.OnOBItemClickListener() {
                         @Override
                         public void OnClick(String TransNox) {
-
+                            Intent loIntent = new Intent(requireActivity(), Activity_Application.class);
+                            loIntent.putExtra("app", AppConstants.INTENT_OB_APPROVAL);
+                            loIntent.putExtra("sTransNox", TransNox);
+                            startActivity(loIntent);
                         }
                     });
 

@@ -15,7 +15,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
-    android:background="@drawable/bg_gradient_light"
     tools:context=".Fragment.Fragment_Upload">
 
     <com.google.android.material.textview.MaterialTextView

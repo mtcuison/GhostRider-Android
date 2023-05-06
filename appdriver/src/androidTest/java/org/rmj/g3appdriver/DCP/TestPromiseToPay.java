@@ -94,4 +94,28 @@ public class TestPromiseToPay {
         }
         assertTrue(isSuccess);
     }
+
+    @Test
+    public void test03ValidateEntry() {
+        PromiseToPay loPtp = new PromiseToPay();
+        loPtp.setTransNox("M01422000120");
+        loPtp.setAccntNox("M014180113");
+        loPtp.setPaymntxx("1");
+//        loPtp.setBranchCd("M001");
+        loPtp.setCollctNm("Garcia, Michael");
+        loPtp.setEntryNox("2");
+        loPtp.setRemarks("Sample entry");
+        loPtp.setTransact("2022-10-01");
+        loPtp.setFileName("Sample");
+        loPtp.setFilePath("Sample");
+        loPtp.setLongtude(121.0000);
+        loPtp.setLongtude(-13.0988);
+
+        if(!loPtp.isDataValid()){
+            Log.d(TAG, loPtp.getMessage());
+        } else {
+            isSuccess = true;
+        }
+        assertTrue(isSuccess);
+    }
 }

@@ -134,7 +134,8 @@ public class PromiseToPay {
             message = "Please enter remarks.";
             return false;
         }
-        if (BranchCd.trim().isEmpty()){
+        if (Paymntxx.equalsIgnoreCase("1") &&
+                BranchCd.trim().isEmpty()){
             message = "Please enter branch.";
             return false;
         }

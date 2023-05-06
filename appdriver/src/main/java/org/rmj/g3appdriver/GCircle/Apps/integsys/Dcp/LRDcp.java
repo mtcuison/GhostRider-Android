@@ -50,9 +50,12 @@ import org.rmj.g3appdriver.GCircle.Apps.integsys.Dcp.obj.RMobileUpdate;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class LRDcp {
     private static final String TAG = LRDcp.class.getSimpleName();
@@ -77,6 +80,8 @@ public class LRDcp {
 
     private String message;
 
+    private String CURRENT_DATE;
+
     public LRDcp(Application instance) {
         this.instance = instance;
         this.poDao = GGC_GCircleDB.getInstance(instance).DcpDao();
@@ -92,6 +97,7 @@ public class LRDcp {
         this.poClient = new RClientUpdate(instance);
         this.poReader = new DCPFileManager(instance);
         this.poRemit = new RCollectionRemittance(instance);
+        this.CURRENT_DATE = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Calendar.getInstance().getTime());
     }
 
     public String getMessage() {
@@ -387,7 +393,7 @@ public class LRDcp {
                 params.put("dTransact", foVal.getTransact());
             } else {
                 params.put("sEmployID", lsEmployID);
-                params.put("dTransact", AppConstants.CURRENT_DATE);
+                params.put("dTransact", CURRENT_DATE);
             }
 
             params.put("cDCPTypex", "1");

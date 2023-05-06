@@ -176,6 +176,7 @@
                     android:text="Branch"/>
 
                 <com.google.android.material.radiobutton.MaterialRadioButton
+                    android:id="@+id/rg_ptpCollectr"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight=".7"
@@ -229,6 +230,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_CollectrName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Collector\'s Name"

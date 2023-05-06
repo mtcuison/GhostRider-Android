@@ -87,11 +87,8 @@
                                 android:id="@+id/spinner_cap_dpdRelation"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:clickable="false"
-                                android:focusable="false"
+                                style="@style/DropdownStyleTheme"
                                 android:hint="Dependent Relationship"
-                                android:inputType="none"
-                                android:imeOptions="actionNext"
                                 android:nextFocusForward="@+id/tie_cap_dpdAge"
                                 android:padding="16dp" />
                         </com.google.android.material.textfield.TextInputLayout>
@@ -188,10 +185,8 @@
                                     android:id="@+id/spinner_cap_educLevel"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:clickable="false"
-                                    android:focusable="false"
+                                    style="@style/DropdownStyleTheme"
                                     android:hint="Educational Level"
-                                    android:inputType="none"
                                     android:padding="16dp" />
                             </com.google.android.material.textfield.TextInputLayout>
 

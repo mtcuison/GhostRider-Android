@@ -113,7 +113,7 @@ public class ChildObject {
 //                loIntent.putExtra("app", AppConstants.INTENT_APPLICATION_APPROVAL);
                 break;
 
-            case "applications":
+            case "application history":
                 loIntent = new Intent(context, Activity_Employee_Applications.class);
                 loIntent.putExtra("type", true);
                 break;

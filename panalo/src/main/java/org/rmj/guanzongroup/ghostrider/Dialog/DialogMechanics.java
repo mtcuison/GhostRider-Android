@@ -30,8 +30,29 @@ public class DialogMechanics {
         dialogMsg = view.findViewById(R.id.lbl_dialogMessage);
 
         btnClose.setOnClickListener(view1 -> poDialog.dismiss());
-        dialogMsg.setText("What is Lorem Ipsum?\n" +
-                        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.");
+        dialogMsg.setText("DRAW MECHANICS \n" +
+                " \n" +
+                "1.\tDraw will be every Monday of the week. First draw will be on  o June 26/June 28/ July 3 \n" +
+                "2.\tThe draw will be done electronically c/o MIS \n" +
+                "3.\tMs. Aprilyn Garcia with the assistance of MIS will facilitate the draw every Monday. In case of her absence, she will assign someone on her behalf \n" +
+                "\n" +
+                "DRAW PROCEDURE \n" +
+                " \n" +
+                "a. Every Monday, MIS will prepare three (3) initial sets of possible winners. One (1) set includes the ff: \n" +
+                "\t\tOne (1) winner from the entries of officers \n" +
+                "\t\tOne (1) winner from the entries of eligible associate \n" +
+                "\t\tOne (1) winner from the entries of customer \n" +
+                "\t\tSelling branch of where the customer buys the unit will automatically win a prize of Jollibee Food Pack \n" +
+                "b.\tAll winners will be announced thru FB live and email c/o HCM every Monday at AM and PM Breaks \n" +
+                "c.\tFor customers, they will be informed by the selling branch via SMS or phone call. Upon claiming, winning customer must present one (1) valid government-issued ID as proof of identity \n" +
+                " \n" +
+                "PRIZES \n" +
+                " \n" +
+                "Every week, there will be four (4) winners \n" +
+                "\t\tOfficer: Baguio Trip \n" +
+                "\t\tAssociate: Gift Certificates (Pedritos, Monarch, Xtreme Appliances) \n" +
+                "\t\tCustomer: In a month, there will be Php1000.00 winners for three (3) draws; a winner of Php3000.00 for one (1) draw o Include provision for 1 MC unit (surprise draw) \n" +
+                "\t\tBranch: Jollibee Food Pack worth Php600.00 ");
         dialogMsg.setMovementMethod(new ScrollingMovementMethod());
         //        lblAddress = view.findViewById(R.id.lbl_dialogLocation);
 //        MaterialButton btnClose = view.findViewById(R.id.btn_dialogClose);

@@ -194,7 +194,7 @@ public class VMLocalData extends AndroidViewModel {
     }
 
     public void ExportDatabase(){
-        DatabaseExport loExport = new DatabaseExport(instance, "Database", "GGC_ISysDBF.db");
+        DatabaseExport loExport = new DatabaseExport(instance);
         loExport.export();
     }
 

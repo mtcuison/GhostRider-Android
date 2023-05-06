@@ -45,19 +45,16 @@ public class DatabaseExport {
     private final EmployeeSession poSession;
     private final FirebaseStorage storage = FirebaseStorage.getInstance();
     private final StorageReference poRefrnce = storage.getReference().child("database");
+    private final SessionManager poSession;
     private final LoadDialog poDiaLoad;
     private final MessageBox poMessage;
-    private final String FILE_FOLDER;
-    private String dataName;
 
-    public DatabaseExport(Context context, String usage, String dataName) {
+    public DatabaseExport(Context context) {
         Log.e(TAG, "Initialized.");
         this.context = context;
         this.poSession = new EmployeeSession(context);
         this.poDiaLoad = new LoadDialog(context);
         this.poMessage = new MessageBox(context);
-        this.FILE_FOLDER = usage;
-        this.dataName = dataName;
     }
 
     public void export(){
@@ -75,9 +72,9 @@ public class DatabaseExport {
         File data = Environment.getDataDirectory();
         FileChannel source;
         FileChannel destination;
-        String currentDBPath = "/data/"+ context.getPackageName() + "/databases/" +  dataName;
+        String currentDBPath = "/data/"+ context.getPackageName() + "/databases/GGC_ISysDBF.db";
         File currentDB = new File(data, currentDBPath);
-        File backupDB = new File(sd, dataName);
+        File backupDB = new File(sd, "GGC_ISysDBF.db");
 
         try {
             // UPLOAD TO EXTERNAL STORAGE
@@ -108,7 +105,6 @@ public class DatabaseExport {
 
             UploadTask uploadTask = getReference().putStream(stream);
             poDiaLoad.initDialog("Export Database","Exporting database. Please wait...", false);
-
             uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
@@ -150,18 +146,11 @@ public class DatabaseExport {
 
     private StorageReference getReference() {
         try {
-            Calendar loCalendr = Calendar.getInstance(TimeZone.getTimeZone("Asia/Manila"));
             String lsBranchN = poSession.getBranchName();
-            int lnMonthxx = loCalendr.get(Calendar.MONTH) + 1;
-            String lsMonthxx = (lnMonthxx < 10) ? "0" + lnMonthxx : String.valueOf(lnMonthxx);
-            String lsMnthDay = (loCalendr.get(Calendar.DAY_OF_MONTH) < 10) ?
-                    "0" + loCalendr.get(Calendar.DAY_OF_MONTH)
-                    : String.valueOf(loCalendr.get(Calendar.DAY_OF_MONTH));
-            String lsYearxxx = String.valueOf(loCalendr.get(Calendar.YEAR)).substring(2, 4);
-            String lsFileNme = lsBranchN + " - " + lsMonthxx + lsMnthDay + lsYearxxx + ".db";
-            Log.e("Sampal Date", lsFileNme);
+            FirebaseStorage storage = FirebaseStorage.getInstance();
+            StorageReference poRefrnce = storage.getReference().child("database/" + lsBranchN);
 
-            return poRefrnce.child(lsFileNme);
+            return poRefrnce.child(poSession.getUserID() + ".db");
 
         } catch (NullPointerException e) {
             e.printStackTrace();
