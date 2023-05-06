@@ -269,7 +269,7 @@ public class EmployeeLeave implements iPM {
             loApp.setTransNox(lsTransNo);
             loApp.setEmployID(loUser.getEmployID());
             loApp.setEntryByx(loUser.getEmployID());
-            loApp.setTransact(AppConstants.CURRENT_DATE);
+            loApp.setTransact(AppConstants.CURRENT_DATE());
             loApp.setEmployID(foVal.getEmploName());
             loApp.setBranchNm(foVal.getBranchNme());
             loApp.setDateFrom(foVal.getDateFromx());
@@ -280,7 +280,7 @@ public class EmployeeLeave implements iPM {
             loApp.setPurposex(foVal.getRemarksxx());
             loApp.setEqualHrs(foVal.getNoOfHours());
             loApp.setLeaveTyp(foVal.getLeaveType());
-            loApp.setEntryDte(AppConstants.CURRENT_DATE);
+            loApp.setEntryDte(AppConstants.CURRENT_DATE());
             loApp.setWithOPay(0);
             loApp.setApproved("0");
             loApp.setTranStat("0");
@@ -369,7 +369,7 @@ public class EmployeeLeave implements iPM {
                 return null;
             }
             loDetail.setTransNox(foVal.getTransNox());
-            loDetail.setTransact(AppConstants.CURRENT_DATE);
+            loDetail.setTransact(AppConstants.CURRENT_DATE());
             loDetail.setAppldFrx(foVal.getAppldFrx());
             loDetail.setAppldTox(foVal.getAppldTox());
             loDetail.setTranStat(foVal.getTranStat());
@@ -470,7 +470,7 @@ public class EmployeeLeave implements iPM {
                 param.put("nEqualHrs", leave.getEqualHrs());
                 param.put("sApproved", leave.getApproved());
                 param.put("dApproved", leave.getApproved());
-                param.put("dSendDate", AppConstants.CURRENT_DATE);
+                param.put("dSendDate", AppConstants.CURRENT_DATE());
                 param.put("cTranStat", leave.getTranStat());
                 param.put("sModified", poSession.getEmployeeID());
 

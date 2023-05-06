@@ -84,7 +84,7 @@ public class SelfieLog {
                 return true;
             }
 
-            int lnExist = poDao.checkBranchCodeIfExist(args, new AppConstants().CURRENT_DATE);
+            int lnExist = poDao.checkBranchCodeIfExist(args, AppConstants.CURRENT_DATE());
             if(lnExist >= 2){
                 message = "Only 2 Selfie log per branch is allowed.";
                 return false;
@@ -130,7 +130,7 @@ public class SelfieLog {
                 return 5;
             }
 
-            ESelfieLog loSelfie = poDao.CheckSelfieLogIfExist(args, new AppConstants().CURRENT_DATE);
+            ESelfieLog loSelfie = poDao.CheckSelfieLogIfExist(args, AppConstants.CURRENT_DATE());
             if(loSelfie != null){
                 message = "Proceed Selfie Log without remarks.";
                 return 4;
@@ -159,9 +159,9 @@ public class SelfieLog {
             loSelfie.setLatitude(foVal.getLatitude());
             loSelfie.setLongitud(foVal.getLongitude());
             loSelfie.setRemarksx(foVal.getRemarksx());
-            loSelfie.setTransact(AppConstants.CURRENT_DATE);
+            loSelfie.setTransact(AppConstants.CURRENT_DATE());
             loSelfie.setEmployID(poSession.getEmployeeID());
-            loSelfie.setLogTimex(new AppConstants().DATE_MODIFIED());
+            loSelfie.setLogTimex(AppConstants.DATE_MODIFIED());
             loSelfie.setSendStat("0");
 
             if(foVal.getBranchCode().isEmpty()){

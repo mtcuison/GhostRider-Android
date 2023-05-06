@@ -21,7 +21,7 @@ public class CollectionRemittanceInfoModel {
     private String TransNox;
 
     private String EntryNox;
-    private String Transact = new AppConstants().CURRENT_DATE;
+    private String Transact = AppConstants.CURRENT_DATE();
     private String PaymForm;
     private String RemitTyp;
     private String CompnyNm;

@@ -99,7 +99,7 @@ public class Fragment_ObApplication extends Fragment {
                 lblUsername.setText(eEmployeeInfo.sUserName);
                 lblPosition.setText(DeptCode.getDepartmentName(eEmployeeInfo.sDeptIDxx));
                 infoModel.setEmployID(eEmployeeInfo.sEmployID);
-                infoModel.setTransact(AppConstants.CURRENT_DATE);
+                infoModel.setTransact(AppConstants.CURRENT_DATE());
             } catch (Exception e){
                 e.printStackTrace();
             }

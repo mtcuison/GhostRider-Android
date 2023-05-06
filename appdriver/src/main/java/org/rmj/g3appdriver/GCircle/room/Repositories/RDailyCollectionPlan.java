@@ -73,7 +73,7 @@ public class RDailyCollectionPlan {
     }
 
     public EDCPCollectionDetail CheckIFAccountExist(String AccNmbr){
-        return detailDao.CheckIFAccountExist(AppConstants.CURRENT_DATE, AccNmbr);
+        return detailDao.CheckIFAccountExist(AppConstants.CURRENT_DATE(), AccNmbr);
     }
 
     public LiveData<List<EDCPCollectionMaster>> getCollectioMasterList(){
@@ -150,11 +150,11 @@ public class RDailyCollectionPlan {
     }
 
     public LiveData<EDCPCollectionDetail> getCollectionLastEntry(){
-        return detailDao.getCollectionLastEntry(new AppConstants().CURRENT_DATE);
+        return detailDao.getCollectionLastEntry(AppConstants.CURRENT_DATE());
     }
 
     public String getCurrentDateTransNox(){
-        return detailDao.getCurrentDateTransNox(new AppConstants().CURRENT_DATE);
+        return detailDao.getCurrentDateTransNox(AppConstants.CURRENT_DATE());
     }
 
     public LiveData<List<EDCPCollectionDetail>> getCollectionDetailForDate(String dTransact){
@@ -194,15 +194,15 @@ public class RDailyCollectionPlan {
     }
 
     public LiveData<DDCPCollectionDetail.Location_Data_Trigger> getDCP_COH_StatusForTracking(){
-        return detailDao.getDCP_COH_StatusForTracking(new AppConstants().CURRENT_DATE);
+        return detailDao.getDCP_COH_StatusForTracking(AppConstants.CURRENT_DATE());
     }
 
     public DDCPCollectionDetail.DCP_Posting_Validation_Data getValidationData(){
-        return detailDao.getValidationData(new AppConstants().CURRENT_DATE);
+        return detailDao.getValidationData(AppConstants.CURRENT_DATE());
     }
 
     public Integer getDCPStatus(){
-        return detailDao.getDCPStatus(new AppConstants().CURRENT_DATE);
+        return detailDao.getDCPStatus(AppConstants.CURRENT_DATE());
     }
 
     public List<EDCPCollectionDetail> checkCollectionRemarksCode(){
@@ -250,7 +250,7 @@ public class RDailyCollectionPlan {
     }
 
     public LiveData<List<EDCPCollectionDetail>> getDCPDetailForPosting(){
-        return detailDao.getDCPDetailForPosting(AppConstants.CURRENT_DATE);
+        return detailDao.getDCPDetailForPosting(AppConstants.CURRENT_DATE());
     }
 
     public List<EDCPCollectionDetail> getCheckPostedCollectionDetail(String TransNox){

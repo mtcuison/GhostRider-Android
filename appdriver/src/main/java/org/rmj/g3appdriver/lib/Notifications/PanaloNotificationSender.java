@@ -199,7 +199,7 @@ public class PanaloNotificationSender {
             String lsTime = new SimpleDateFormat("HH:mm:ss a", Locale.getDefault()).format(Calendar.getInstance().getTime());
 
             JSONObject loData = new JSONObject();
-            loData.put("dTransact", AppConstants.CURRENT_DATE);
+            loData.put("dTransact", AppConstants.CURRENT_DATE());
             loData.put("sBranchCD", "M174");
             loData.put("sTimeOpen", "08:30:00 AM");
             loData.put("sOpenNowx", lsTime);

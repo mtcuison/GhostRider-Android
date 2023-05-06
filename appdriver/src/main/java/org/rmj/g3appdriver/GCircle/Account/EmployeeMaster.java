@@ -157,7 +157,7 @@ public class EmployeeMaster {
                     employeeInfo.setModelIDx(Build.MODEL);
                     employeeInfo.setMobileNo(poConfig.getMobileNo());
                     employeeInfo.setLoginxxx(new AppConstants().DATE_MODIFIED());
-                    employeeInfo.setSessionx(AppConstants.CURRENT_DATE);
+                    employeeInfo.setSessionx(AppConstants.CURRENT_DATE());
                     poDao.SaveNewEmployeeSession(employeeInfo);
 
                     String lsClientx = loResponse.getString("sClientID");
@@ -257,7 +257,7 @@ public class EmployeeMaster {
         try{
             String lsLoginxx = poDao.getSessionTime();
             Date loLogin = new SimpleDateFormat("yyyy-MM-dd").parse(lsLoginxx);
-            Date loCrrnt = new SimpleDateFormat("yyyy-MM-dd").parse(AppConstants.CURRENT_DATE);
+            Date loCrrnt = new SimpleDateFormat("yyyy-MM-dd").parse(AppConstants.CURRENT_DATE());
             int lnResult = loLogin.compareTo(loCrrnt);
 
             if(lnResult != 0){

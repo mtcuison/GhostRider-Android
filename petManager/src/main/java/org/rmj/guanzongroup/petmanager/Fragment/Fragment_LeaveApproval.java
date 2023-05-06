@@ -133,7 +133,7 @@ public class Fragment_LeaveApproval extends Fragment implements VMLeaveApproval.
                             pnLeaveTp = Integer.parseInt(eEmployeeLeave.getLeaveTyp());
                             lblLeaveCrd.setText("Leave Credits : " + eEmployeeLeave.getLveCredt());
                             lblLeaveStx.setText(getLeaveStatus(eEmployeeLeave.getTranStat()));
-                            lblDateAppr.setText(FormatUIText.formatGOCasBirthdate(AppConstants.CURRENT_DATE));
+                            lblDateAppr.setText(FormatUIText.formatGOCasBirthdate(AppConstants.CURRENT_DATE()));
                             lblDateAppl.setText(FormatUIText.formatGOCasBirthdate(eEmployeeLeave.getTransact()));
                             lblDateFrom.setText(FormatUIText.formatGOCasBirthdate(eEmployeeLeave.getDateFrom()));
                             lblDateThru.setText(FormatUIText.formatGOCasBirthdate(eEmployeeLeave.getDateThru()));
@@ -157,7 +157,7 @@ public class Fragment_LeaveApproval extends Fragment implements VMLeaveApproval.
 
         mViewModel.getUserInfo().observe(requireActivity(), eEmployeeInfo -> {
             try{
-                poModel.setApproved(AppConstants.CURRENT_DATE);
+                poModel.setApproved(AppConstants.CURRENT_DATE());
                 poModel.setApprovex(eEmployeeInfo.sUserIDxx);
             } catch (Exception e){
                 e.printStackTrace();
