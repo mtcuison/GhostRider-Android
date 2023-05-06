@@ -30,19 +30,12 @@ import org.rmj.g3appdriver.GCircle.room.Repositories.RBarangay;
 import org.rmj.g3appdriver.GCircle.room.Repositories.RTown;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.ImageFileCreator;
-import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.lib.Location.LocationRetriever;
 import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
 import org.rmj.g3appdriver.GCircle.Apps.integsys.Dcp.pojo.AddressUpdate;
 import org.rmj.g3appdriver.GCircle.Apps.integsys.Dcp.pojo.CustomerNotAround;
 import org.rmj.g3appdriver.GCircle.Apps.integsys.Dcp.LRDcp;
 import org.rmj.g3appdriver.GCircle.Apps.integsys.Dcp.pojo.MobileUpdate;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
-import org.rmj.g3appdriver.etc.ImageFileCreator;
-import org.rmj.g3appdriver.lib.integsys.Dcp.LRDcp;
-import org.rmj.g3appdriver.lib.integsys.Dcp.pojo.AddressUpdate;
-import org.rmj.g3appdriver.lib.integsys.Dcp.pojo.CustomerNotAround;
-import org.rmj.g3appdriver.lib.integsys.Dcp.pojo.MobileUpdate;
 
 import java.util.List;
 

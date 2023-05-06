@@ -45,7 +45,6 @@ public class DatabaseExport {
     private final EmployeeSession poSession;
     private final FirebaseStorage storage = FirebaseStorage.getInstance();
     private final StorageReference poRefrnce = storage.getReference().child("database");
-    private final SessionManager poSession;
     private final LoadDialog poDiaLoad;
     private final MessageBox poMessage;
 
