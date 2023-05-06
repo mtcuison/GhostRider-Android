@@ -73,7 +73,7 @@ public class Activity_InventoryEntry extends AppCompatActivity {
                 lblItemxx.setText(item.getDescript());
                 lblBarcode.setText(item.getBarrCode());
                 lblTransNox.setText(item.getTransNox());
-                txtDate.setText(FormatUIText.formatGOCasBirthdate(AppConstants.CURRENT_DATE));
+                txtDate.setText(FormatUIText.formatGOCasBirthdate(AppConstants.CURRENT_DATE()));
                 txtEntryNox1.setText(String.valueOf(item.getEntryNox()));
                 txtQtyOnHand.setText(String.valueOf(item.getQtyOnHnd()));
                 txtWareHouse.setText(item.getWHouseNm());

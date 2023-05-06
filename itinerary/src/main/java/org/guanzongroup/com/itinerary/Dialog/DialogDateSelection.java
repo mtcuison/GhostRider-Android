@@ -28,7 +28,7 @@ public class DialogDateSelection {
 
     private TextInputEditText txtFrom, txtThru;
 
-    private String psFrom = AppConstants.CURRENT_DATE, psThru = AppConstants.CURRENT_DATE;
+    private String psFrom = AppConstants.CURRENT_DATE(), psThru = AppConstants.CURRENT_DATE();
 
     public interface OnConfirmListener{
         void OnConfirm(String args, String args1);

@@ -342,7 +342,7 @@ public class Pacita {
                 return null;
             }
 
-            if(!loDetail.getTransact().equalsIgnoreCase(AppConstants.CURRENT_DATE)){
+            if(!loDetail.getTransact().equalsIgnoreCase(AppConstants.CURRENT_DATE())){
                 poDao.ResetPacitaRewardForBranch(loDetail.getTransNox());
                 Log.e(TAG, "Evaluation record has been reset.");
                 return CreateNewEvaluation(BranchCD);
@@ -390,7 +390,7 @@ public class Pacita {
             Log.d(TAG, "Department ID: " + lsDeptIDxx);
 
             loInfo.setTransNox(lsTransNo);
-            loInfo.setTransact(AppConstants.CURRENT_DATE);
+            loInfo.setTransact(AppConstants.CURRENT_DATE());
             loInfo.setPayloadx(laJson.toString());
             loInfo.setRatingxx(0.0);
             loInfo.setBranchCD(BranchCD);

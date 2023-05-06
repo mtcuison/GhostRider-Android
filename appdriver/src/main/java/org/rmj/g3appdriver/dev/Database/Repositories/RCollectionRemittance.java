@@ -90,7 +90,7 @@ public class RCollectionRemittance {
             EDCP_Remittance loDetail = new EDCP_Remittance();
             loDetail.setTransNox(foVal.getsTransNox());
             loDetail.setEntryNox(Integer.parseInt(lsEntryNo));
-            loDetail.setTransact(AppConstants.CURRENT_DATE);
+            loDetail.setTransact(AppConstants.CURRENT_DATE());
             loDetail.setPaymForm(foVal.getcPaymForm());
             loDetail.setRemitTyp(foVal.getcRemitTyp());
             loDetail.setCompnyNm(foVal.getsCompnyNm());

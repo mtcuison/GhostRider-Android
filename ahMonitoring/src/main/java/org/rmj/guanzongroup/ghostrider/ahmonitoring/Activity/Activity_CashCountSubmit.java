@@ -148,7 +148,7 @@ public class Activity_CashCountSubmit extends AppCompatActivity {
                 params.put("sORNoxNPt", Objects.requireNonNull(txtORNorthPoint.getText()).toString());
                 params.put("sPRNoxNPt", Objects.requireNonNull(txtPRNorthPoint.getText()).toString());
                 params.put("sDRNoxxxx", Objects.requireNonNull(txtDeliveryRcpt.getText()).toString());
-                params.put("dTransact", AppConstants.CURRENT_DATE);
+                params.put("dTransact", AppConstants.CURRENT_DATE());
                 params.put("dEntryDte", new AppConstants().DATE_MODIFIED);
                 params.put("sReqstdBy", EmployID);
                 params.put("sRemarksx", Objects.requireNonNull(txtRemarksx.getText()).toString());

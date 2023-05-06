@@ -124,7 +124,7 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
                 //Check here if the due date is on the maximum days per month
                 // if true check the maximum day of month and set it as the due date for this current month...
                 if(lsDayDuex.equalsIgnoreCase("31")) {
-                    LocalDate lastDayOfMonth = LocalDate.parse(AppConstants.CURRENT_DATE, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+                    LocalDate lastDayOfMonth = LocalDate.parse(AppConstants.CURRENT_DATE(), DateTimeFormatter.ofPattern("yyyy-MM-dd"))
                             .with(TemporalAdjusters.lastDayOfMonth());
                     lsDayDuex = String.valueOf(lastDayOfMonth.getDayOfMonth());
                 }
@@ -132,7 +132,7 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
                 String lsCrtMnth = new SimpleDateFormat("MM", Locale.getDefault()).format(Calendar.getInstance().getTime());
                 String lsDueDate = lsCrtYear + "-" + lsCrtMnth + "-" + lsDayDuex;
                 Date ldDueDatex = new SimpleDateFormat("yyyy-MM-dd").parse(lsDueDate);
-                Date loCrtDate = loFormatter.parse(AppConstants.CURRENT_DATE);
+                Date loCrtDate = loFormatter.parse(AppConstants.CURRENT_DATE());
                 int lnResult = loCrtDate.compareTo(ldDueDatex);
 
                 // If result is less than 0 current date is before the due date

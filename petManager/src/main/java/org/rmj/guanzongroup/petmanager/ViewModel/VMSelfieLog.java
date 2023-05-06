@@ -82,7 +82,7 @@ public class VMSelfieLog extends AndroidViewModel {
         this.poLog = new SelfieLog(instance);
         this.pobranch = new RBranch(instance);
         this.poCash = new CashCount(instance);
-        this.pdTransact.setValue(AppConstants.CURRENT_DATE);
+        this.pdTransact.setValue(AppConstants.CURRENT_DATE());
     }
 
     public LiveData<DEmployeeInfo.EmployeeBranch> GetUserInfo(){

@@ -190,11 +190,14 @@ public class AppConstants {
 
     public String DATE_MODIFIED = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Calendar.getInstance().getTime());
 
-    public String DATE_MODIFIED(){
+    public static String DATE_MODIFIED(){
         return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Calendar.getInstance().getTime());
     }
 
-    public static String CURRENT_DATE = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Calendar.getInstance().getTime());
+    public static String CURRENT_DATE(){
+        return new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Calendar.getInstance().getTime());
+    }
+
     public static String PERFORMANCE_CURRENT_PERIOD = new SimpleDateFormat("yyyyMM", Locale.getDefault()).format(Calendar.getInstance().getTime());
     public String CURRENT_DATE_WORD = new SimpleDateFormat("MMMM dd, yyyy", Locale.getDefault()).format(Calendar.getInstance().getTime());
 

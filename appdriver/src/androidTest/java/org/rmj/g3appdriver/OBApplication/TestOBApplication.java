@@ -44,7 +44,7 @@ public class TestOBApplication {
     @Test
     public void test01SaveBusinessTrip() {
         OBApplication loApp = new OBApplication();
-        loApp.setTransact(AppConstants.CURRENT_DATE);
+        loApp.setTransact(AppConstants.CURRENT_DATE());
         loApp.setEmployID(poUser.getEmployeeID());
         loApp.setDateFrom("2022-09-21");
         loApp.setDateThru("2022-09-21");

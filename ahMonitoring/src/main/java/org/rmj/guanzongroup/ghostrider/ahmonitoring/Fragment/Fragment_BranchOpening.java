@@ -74,7 +74,7 @@ public class Fragment_BranchOpening extends Fragment {
         lblBranch = view.findViewById(R.id.lbl_userBranch);
         lblDate = view.findViewById(R.id.lbl_date);
         recyclerView = view.findViewById(R.id.recyclerview_openings);
-        lblDate.setText(FormatUIText.formatGOCasBirthdate(new AppConstants().CURRENT_DATE));
+        lblDate.setText(FormatUIText.formatGOCasBirthdate(AppConstants.CURRENT_DATE()));
         return view;
     }
 

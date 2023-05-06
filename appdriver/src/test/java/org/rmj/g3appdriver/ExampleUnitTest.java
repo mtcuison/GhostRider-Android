@@ -50,8 +50,8 @@ public class ExampleUnitTest {
         String lsDueDate = lsCrtYear + "-" + lsCrtMnth + "-" + lsDayOfMn;
         SimpleDateFormat loFormatter = new SimpleDateFormat("yyyy-MM-dd");
         Date loDueDate = loFormatter.parse(lsDueDate);
-        Date loCrtDate = loFormatter.parse(AppConstants.CURRENT_DATE);
-        Log.d("TESTING", lsDueDate + " is equal to " + AppConstants.CURRENT_DATE);
+        Date loCrtDate = loFormatter.parse(AppConstants.CURRENT_DATE());
+        Log.d("TESTING", lsDueDate + " is equal to " + AppConstants.CURRENT_DATE());
         int lnResult = loCrtDate.compareTo(loDueDate);
         assertEquals(-1, lnResult);
     }
@@ -59,7 +59,7 @@ public class ExampleUnitTest {
     @Test
     public void test02GetLastDayOfMonth() {
         String date = "2022-10-03";
-        LocalDate lastDayOfMonth = LocalDate.parse(AppConstants.CURRENT_DATE, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+        LocalDate lastDayOfMonth = LocalDate.parse(AppConstants.CURRENT_DATE(), DateTimeFormatter.ofPattern("yyyy-MM-dd"))
                 .with(TemporalAdjusters.lastDayOfMonth());
         String lsDay = String.valueOf(lastDayOfMonth.getDayOfMonth());
         Log.d("TESTING", lsDay);

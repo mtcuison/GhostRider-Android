@@ -37,7 +37,7 @@ public class BranchOpeningMonitor {
     }
 
     public LiveData<List<EBranchOpenMonitor>> getBranchOpeningForDashBoard() {
-        return dao.getBranchOpeningForDashBoard(AppConstants.CURRENT_DATE);
+        return dao.getBranchOpeningForDashBoard(AppConstants.CURRENT_DATE());
     }
 
     public LiveData<List<EBranchOpenMonitor>> getBranchOpeningForDate(String dTransact) {
@@ -45,7 +45,7 @@ public class BranchOpeningMonitor {
     }
 
     public LiveData<List<DBranchOpeningMonitor.BranchOpeningInfo>> GetBranchOpeningForDashboard() {
-        return dao.GetBranchOpeningInfoForDashBoard(AppConstants.CURRENT_DATE);
+        return dao.GetBranchOpeningInfoForDashBoard(AppConstants.CURRENT_DATE());
     }
 
     public LiveData<List<DBranchOpeningMonitor.BranchOpeningInfo>> getBranchOpeningInfo(String dTransact) {
