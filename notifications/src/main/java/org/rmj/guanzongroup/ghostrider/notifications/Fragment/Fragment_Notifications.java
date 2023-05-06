@@ -132,12 +132,12 @@ public class Fragment_Notifications extends Fragment {
                         return;
                     }
 
-                    if(count == 0){
-                        Objects.requireNonNull(tabLayout.getTabAt(3)).removeBadge();
-                        return;
-                    }
-
-                    Objects.requireNonNull(Objects.requireNonNull(tabLayout.getTabAt(3)).getOrCreateBadge()).setNumber(count);
+//                    if(count == 0){
+//                        Objects.requireNonNull(tabLayout.getTabAt(3)).removeBadge();
+//                        return;
+//                    }
+//
+//                    Objects.requireNonNull(Objects.requireNonNull(tabLayout.getTabAt(3)).getOrCreateBadge()).setNumber(count);
                 } catch (Exception e){
                     e.printStackTrace();
                 }
