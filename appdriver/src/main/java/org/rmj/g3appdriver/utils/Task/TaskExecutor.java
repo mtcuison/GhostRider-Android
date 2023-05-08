@@ -1,8 +1,11 @@
 package org.rmj.g3appdriver.utils.Task;
 
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+
+import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -10,31 +13,28 @@ import java.util.concurrent.Executors;
 public class TaskExecutor {
     private static final String TAG = TaskExecutor.class.getSimpleName();
 
-    private Object poResult;
+    private final OnTaskExecuteListener mListener;
 
-    public TaskExecutor(){
-
+    public TaskExecutor(OnTaskExecuteListener listener){
+        this.mListener = listener;
     }
 
-    public void Execute(Object params, OnTaskExecuteListener listener){
+    public void Execute(Object params){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Handler handler = new Handler(Looper.getMainLooper());
 
-        listener.OnPreExecute();
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                //Background work here...
-                for(int x = 0; x < 10; x++){
-                    Log.d(TAG, "Sample: " + x);
-                }
-            }
-        });
+        executor.execute(() -> {
+            try {
+                //start handler
+                handler.post(mListener::OnPreExecute);
 
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                listener.OnPostExecute(poResult);
+                //Background work here...
+                Object loResult = mListener.DoInBackground(params);
+
+                //result handler
+                handler.post(() -> mListener.OnPostExecute(loResult));
+            } catch (Exception e){
+                e.printStackTrace();
             }
         });
     }

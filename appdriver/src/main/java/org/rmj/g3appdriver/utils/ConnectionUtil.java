@@ -42,8 +42,8 @@ public class ConnectionUtil {
     private final Context context;
     private String message;
 
-    private static final String LOCAL = "192.168.10.27";
-    private static final String PRIMARY_LIVE = "restgk.guanzongroup.com.ph";
+    private static final String LOCAL = "http://192.168.10.27";
+    private static final String PRIMARY_LIVE = "https://restgk.guanzongroup.com.ph";
 //    private static final String SECONDARY_LIVE = "restgk1.guanzongroup.com.ph";
 
     public ConnectionUtil(Context context){
@@ -133,24 +133,24 @@ public class ConnectionUtil {
 
     private boolean isReachable(String lsAddress)
     {
-//        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-//        StrictMode.setThreadPolicy(policy);
-//
-//        trustAllCertificates();
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        trustAllCertificates();
 
         try
         {
-//            HttpURLConnection httpUrlConnection = (HttpURLConnection) new URL(
-//                    lsAddress).
-//                    openConnection();
-//            httpUrlConnection.setRequestProperty("Connection", "close");
-//            httpUrlConnection.setRequestMethod("HEAD");
-//            httpUrlConnection.setConnectTimeout(7000);
-//            int responseCode = httpUrlConnection.getResponseCode();
-//
-//            return responseCode == HttpURLConnection.HTTP_OK;
-            InetAddress ipAddress = InetAddress.getByName(lsAddress);
-            return ipAddress.isReachable(5000); // Adjust the timeout value as needed
+            HttpURLConnection httpUrlConnection = (HttpURLConnection) new URL(
+                    lsAddress).
+                    openConnection();
+            httpUrlConnection.setRequestProperty("Connection", "close");
+            httpUrlConnection.setRequestMethod("HEAD");
+            httpUrlConnection.setConnectTimeout(5000);
+            int responseCode = httpUrlConnection.getResponseCode();
+
+            return responseCode == HttpURLConnection.HTTP_OK;
+//            InetAddress ipAddress = InetAddress.getByName(lsAddress);
+//            return ipAddress.isReachable(5000); // Adjust the timeout value as needed
         } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();

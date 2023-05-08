@@ -94,7 +94,7 @@ public class PaidRemCodeTest {
                 employeeInfo.setModelIDx(Build.MODEL);
                 employeeInfo.setMobileNo(poConfig.getMobileNo());
                 employeeInfo.setLoginxxx(new AppConstants().DATE_MODIFIED);
-                employeeInfo.setSessionx(AppConstants.CURRENT_DATE);
+                employeeInfo.setSessionx(AppConstants.CURRENT_DATE());
 //                poUser.insertEmployee(employeeInfo);
 
                 String lsClientx = loResponse.getString("sClientID");

@@ -24,6 +24,7 @@ import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.lib.Account.Model.iAuth;
 import org.rmj.g3appdriver.GCircle.Account.EmployeeSession;
+import org.rmj.g3appdriver.lib.Version.AppVersion;
 
 import java.util.Date;
 
@@ -37,6 +38,7 @@ public class EmployeeAuthentication implements iAuth {
     private final HttpHeaders poHeaders;
     private final AppConfigPreference poConfig;
     private final Telephony poDevID;
+    private final AppVersion poVersion;
 
     private String message;
 
@@ -46,6 +48,7 @@ public class EmployeeAuthentication implements iAuth {
         this.poSession = new EmployeeSession(instance);
         this.poConfig = AppConfigPreference.getInstance(instance);
         this.poApi = new GCircleApi(instance);
+        this.poVersion = new AppVersion(instance);
         this.poHeaders = HttpHeaders.getInstance(instance);
         this.poDevID = new Telephony(instance);
     }
@@ -103,8 +106,8 @@ public class EmployeeAuthentication implements iAuth {
             employeeInfo.setDeviceID(poDevID.getDeviceID());
             employeeInfo.setModelIDx(Build.MODEL);
             employeeInfo.setMobileNo(poConfig.getMobileNo());
-            employeeInfo.setLoginxxx(new AppConstants().DATE_MODIFIED());
-            employeeInfo.setSessionx(AppConstants.CURRENT_DATE);
+            employeeInfo.setLoginxxx(AppConstants.DATE_MODIFIED());
+            employeeInfo.setSessionx(AppConstants.CURRENT_DATE());
             poDao.SaveNewEmployeeSession(employeeInfo);
 
             String lsClientx = loResponse.getString("sClientID");
@@ -118,6 +121,13 @@ public class EmployeeAuthentication implements iAuth {
             String lsEmpLvlx = loResponse.getString("sEmpLevID");
             poSession.initUserSession(lsUserIDx, lsClientx, lsLogNoxx, lsBranchx, lsBranchN, lsDeptIDx, lsEmpIDxx, lsPostIDx, lsEmpLvlx, "1");
             message = "Login success";
+
+            Thread.sleep(1000);
+            if (poVersion.SubmitUserAppVersion()){
+                Log.d(TAG, "User app version uploaded.");
+            } else {
+                Log.d(TAG, poVersion.getMessage());
+            }
 
             Thread.sleep(1000);
 
