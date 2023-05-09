@@ -71,7 +71,7 @@ public class VMLogin extends AndroidViewModel {
     }
 
     public void Login(UserAuthInfo authInfo, LoginCallback callback){
-        new TaskExecutor(new OnTaskExecuteListener() {
+        TaskExecutor.Execute(authInfo, new OnTaskExecuteListener() {
             @Override
             public void OnPreExecute() {
                 callback.OnAuthenticationLoad("Guanzon Circle", "Authenticating to ghostrider app. Please wait...");
@@ -108,6 +108,6 @@ public class VMLogin extends AndroidViewModel {
                     callback.OnFailedLoginResult(message);
                 }
             }
-        }).Execute(authInfo);
+        });
     }
 }

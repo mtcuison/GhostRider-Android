@@ -13,25 +13,37 @@ import java.util.concurrent.Executors;
 public class TaskExecutor {
     private static final String TAG = TaskExecutor.class.getSimpleName();
 
-    private final OnTaskExecuteListener mListener;
+    public TaskExecutor(){
 
-    public TaskExecutor(OnTaskExecuteListener listener){
-        this.mListener = listener;
     }
 
-    public void Execute(Object params){
+    public static void Execute(Object params, OnTaskExecuteListener mListener){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Handler handler = new Handler(Looper.getMainLooper());
 
         executor.execute(() -> {
             try {
-                //start handler
                 handler.post(mListener::OnPreExecute);
 
                 //Background work here...
                 Object loResult = mListener.DoInBackground(params);
 
-                //result handler
+                handler.post(() -> mListener.OnPostExecute(loResult));
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+    }
+
+    public static void Execute(Object params, OnDoBackgroundTaskListener mListener){
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Handler handler = new Handler(Looper.getMainLooper());
+
+        executor.execute(() -> {
+            try {
+                //Background work here...
+                Object loResult = mListener.DoInBackground(params);
+
                 handler.post(() -> mListener.OnPostExecute(loResult));
             } catch (Exception e){
                 e.printStackTrace();
