@@ -121,7 +121,7 @@ public class GNotifBuilder {
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setAutoCancel(true)
                 .setChannelId(NotificationID)
-                .setSmallIcon(R.drawable.ic_ghostrider_logo_day)
+                .setSmallIcon(R.drawable.ic_guanzon_circle)
                 .setContentTitle(Title)
                 .setContentText(Message);
     }

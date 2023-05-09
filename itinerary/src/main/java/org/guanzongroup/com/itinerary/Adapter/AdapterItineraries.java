@@ -41,7 +41,7 @@ public class AdapterItineraries extends RecyclerView.Adapter<AdapterItineraries.
             EItinerary loDetail = poList.get(position);
             holder.lblLocation.setText("Location: " + loDetail.getLocation());
             holder.lblDateSchd.setText(FormatUIText.formatGOCasBirthdate(loDetail.getTransact()));
-            String lsTripTme = FormatUIText.formatTime_HHMMSS_to_HHMMAA(loDetail.getTimeFrom()) + " - " + FormatUIText.formatTime_HHMMSS_to_HHMMAA(loDetail.getTimeThru());
+            String lsTripTme = FormatUIText.formatTime_HHMMSS_to_HHMMAA(loDetail.getTimeFrom()) + "\n To \n" + FormatUIText.formatTime_HHMMSS_to_HHMMAA(loDetail.getTimeThru());
             holder.lblTripTime.setText(lsTripTme);
             holder.lblPurposex.setText("Purpose: " + loDetail.getRemarksx());
 

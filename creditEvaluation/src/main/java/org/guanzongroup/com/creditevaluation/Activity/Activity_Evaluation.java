@@ -7,25 +7,26 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 import android.widget.Toast;
+
+
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+
 
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 
 import org.guanzongroup.com.creditevaluation.Adapter.Adapter_CIEvaluation_Headers;
 import org.guanzongroup.com.creditevaluation.Adapter.onEvaluate;
@@ -57,11 +58,11 @@ public class Activity_Evaluation extends AppCompatActivity {
     private TextInputEditText txtNeighbor1, txtNeighbor2, txtNeighbor3;
     private TextInputLayout tilRecordRemarks;
     private RadioGroup rgHasRecord;
-    private TextView lblTransNox,lblClientName,lblDTransact, lblBranch;
+    private MaterialTextView lblTransNox,lblClientName,lblDTransact, lblBranch;
     private MaterialButton btnSaveNeighbor1,
 
     btnSaveNeighbor2,btnSaveNeighbor3;
-    private Button btnSave,btnUpload, btnSaveBrgyRcrd;
+    private MaterialButton btnSave,btnUpload, btnSaveBrgyRcrd;
 
     private BarangayRecord poBrgy;
     private LoadDialog poDialogx;
@@ -409,7 +410,7 @@ public class Activity_Evaluation extends AppCompatActivity {
         lblBranch.setText(getIntent().getStringExtra("Branch"));
     }
     private void initWidgets(){
-        Toolbar toolbar = findViewById(R.id.toolbar_ci_evaluation);
+        MaterialToolbar toolbar = findViewById(R.id.toolbar_ci_evaluation);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
@@ -653,7 +654,7 @@ public class Activity_Evaluation extends AppCompatActivity {
                     }
                 });
 
-                RecyclerView recyclerView = findViewById(R.id.recyclerView);
+                RecyclerView recyclerView = findViewById(R.id.recyclerview);
                 LinearLayoutManager loManager = new LinearLayoutManager(Activity_Evaluation.this);
                 loManager.setOrientation(RecyclerView.VERTICAL);
                 recyclerView.setLayoutManager(loManager);

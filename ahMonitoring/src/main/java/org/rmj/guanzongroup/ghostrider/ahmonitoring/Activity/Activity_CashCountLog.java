@@ -13,11 +13,17 @@ package org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.*;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -37,7 +43,7 @@ import java.util.List;
 
 public class Activity_CashCountLog extends AppCompatActivity {
 
-    private TextView lblBranch, lblAddrxx;
+    private MaterialTextView lblBranch, lblAddrxx;
     private CashCountLogAdapter adapter;
     private VMCashCountLog mViewModel;
     private RecyclerView recyclerView;
@@ -87,7 +93,7 @@ public class Activity_CashCountLog extends AppCompatActivity {
         });
     }
     public void initWidgets(){
-        Toolbar toolbar = findViewById(R.id.toolbar_cashCountLog);
+        MaterialToolbar toolbar = findViewById(R.id.toolbar_cashCountLog);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         recyclerView = findViewById(R.id.recyclerview_cashcountLog);

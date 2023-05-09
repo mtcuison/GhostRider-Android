@@ -1,40 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:gravity="center"
+    android:theme="@style/GhostRiderMaterialTheme"
     app:cardCornerRadius="15dp"
     app:cardUseCompatPadding="true"
     app:cardPreventCornerOverlap="true"
-    android:background="@color/material_lightgrey"
     android:layout_marginHorizontal="30dp">
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@drawable/background_dialog">
+        android:orientation="vertical">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lbl_dialogTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Randon Stock Inventory"
-            android:textColor="@color/material_black"
             android:textSize="21sp"
             android:gravity="center"
             android:textAlignment="center"
             android:paddingTop="20dp"
             android:fontFamily="@font/roboto_bold"/>
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Please enter remarks for overall inventory for this branch."
-            android:textColor="@color/material_black"
             android:gravity="center"
             android:paddingHorizontal="10dp"
             android:textAlignment="center"
@@ -61,10 +59,9 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <View
+        <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/guanzon_orange" />
+            android:layout_height="1dp"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_confirm"
@@ -72,15 +69,12 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Confirm"
-            app:rippleColor="@color/guanzon_digital_orange"
-            android:textColor="@color/material_black"
             android:fontFamily="@font/roboto_medium"
-            style="@style/Widget.AppCompat.Button.Borderless"/>
+            style="@style/Widget.MaterialComponents.Button.TextButton"/>
 
-        <View
+        <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/guanzon_orange" />
+            android:layout_height="1dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_cancel"
@@ -88,10 +82,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Cancel"
-            app:rippleColor="@color/guanzon_digital_orange"
-            android:textColor="@color/material_black"
             android:fontFamily="@font/roboto_medium"
-            style="@style/Widget.AppCompat.Button.Borderless"/>
+            style="@style/Widget.MaterialComponents.Button.TextButton"/>
     </LinearLayout>
 
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

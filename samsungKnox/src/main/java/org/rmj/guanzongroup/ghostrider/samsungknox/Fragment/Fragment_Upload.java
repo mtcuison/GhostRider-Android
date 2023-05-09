@@ -26,7 +26,8 @@ import android.view.ViewGroup;
 import org.rmj.guanzongroup.ghostrider.samsungknox.R;
 import org.rmj.guanzongroup.ghostrider.samsungknox.ViewModel.VMUpload;
 
-public class Fragment_Upload extends Fragment {
+public class
+Fragment_Upload extends Fragment {
 
     private VMUpload mViewModel;
 

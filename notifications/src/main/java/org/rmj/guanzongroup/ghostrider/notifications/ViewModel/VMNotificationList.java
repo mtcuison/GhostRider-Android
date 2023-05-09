@@ -16,27 +16,33 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DNotifications;
-import org.rmj.g3appdriver.dev.Database.Repositories.RNotificationInfo;
-import org.rmj.guanzongroup.ghostrider.notifications.Obj.NotificationItemList;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DNotification;
+import org.rmj.g3appdriver.dev.Database.Entities.ENotificationMaster;
+import org.rmj.g3appdriver.dev.Database.Entities.ENotificationRecipient;
+import org.rmj.g3appdriver.lib.Notifications.Obj.Notification;
 
 import java.util.List;
 
 public class VMNotificationList extends AndroidViewModel {
 
-    private MutableLiveData<List<NotificationItemList>> plMessage = new MutableLiveData<>();
-    private final RNotificationInfo poNotification;
-    private final LiveData<List<DNotifications.UserNotificationInfoWithRcpt>> userNotificationList;
+    private final Notification poSys;
 
     public VMNotificationList(@NonNull Application application) {
         super(application);
-        this.poNotification = new RNotificationInfo(application);
-        this.userNotificationList = poNotification.getUserNotificationList();
+        this.poSys = new Notification(application);
     }
 
-    public LiveData<List<DNotifications.UserNotificationInfoWithRcpt>> getUserNotificationList() {
-        return userNotificationList;
+
+    public LiveData<List<DNotification.NotificationListDetail>> GetOtherNotificationList(){
+        return poSys.GetOtherNotificationList();
+    }
+
+    public LiveData<ENotificationMaster> GetNotificationMaster(String args){
+        return poSys.GetNotificationMaster(args);
+    }
+
+    public LiveData<ENotificationRecipient> GetNotificationDetail(String args){
+        return poSys.GetNotificationDetail(args);
     }
 }

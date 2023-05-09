@@ -20,8 +20,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
 
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.FormatUIText;
@@ -41,7 +47,7 @@ public class Activity_InventoryEntry extends AppCompatActivity {
 
     private MessageBox poMessage;
 
-    private TextView lblTransNox, lblItemxx, lblBarcode;
+    private MaterialTextView lblTransNox, lblItemxx, lblBarcode;
     private TextInputEditText txtDate,
             txtRemarks1,
             txtEntryNox1,
@@ -67,7 +73,7 @@ public class Activity_InventoryEntry extends AppCompatActivity {
                 lblItemxx.setText(item.getDescript());
                 lblBarcode.setText(item.getBarrCode());
                 lblTransNox.setText(item.getTransNox());
-                txtDate.setText(FormatUIText.formatGOCasBirthdate(AppConstants.CURRENT_DATE));
+                txtDate.setText(FormatUIText.formatGOCasBirthdate(AppConstants.CURRENT_DATE()));
                 txtEntryNox1.setText(String.valueOf(item.getEntryNox()));
                 txtQtyOnHand.setText(String.valueOf(item.getQtyOnHnd()));
                 txtWareHouse.setText(item.getWHouseNm());

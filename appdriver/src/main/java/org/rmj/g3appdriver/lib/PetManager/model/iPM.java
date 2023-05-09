@@ -12,6 +12,7 @@ public interface iPM {
     LiveData<DEmployeeInfo.EmployeeBranch> GetUserInfo();
     boolean ImportApplications();
     boolean DownloadApplication(String args);
+
     String SaveApplication(Object foVal);
     boolean UploadApplication(String args);
     String SaveApproval(Object foVal);

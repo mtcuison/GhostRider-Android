@@ -65,7 +65,6 @@ public class Activity_Settings extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
         Toolbar toolbar = findViewById(R.id.toolbar_settings);
         setSupportActionBar(toolbar);
-        setTitle("Settings");
         mViewModel = new ViewModelProvider(this).get(VMSettings.class);
         loMessage = new MessageBox(Activity_Settings.this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

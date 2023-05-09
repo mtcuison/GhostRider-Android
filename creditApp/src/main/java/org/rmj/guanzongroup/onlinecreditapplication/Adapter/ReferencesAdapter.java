@@ -19,6 +19,20 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+import  com.google.android.material.checkbox.MaterialCheckBox;
+
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -72,11 +86,11 @@ public class ReferencesAdapter extends RecyclerView.Adapter<ReferencesAdapter.It
     }
 
     public static class ItemViewHolder extends RecyclerView.ViewHolder{
-        private TextView lblRefName;
-        private TextView lblRefTown;
-        private TextView lblRefContact;
-        private TextView lblReferenceNo;
-        private ImageView imgRemove;
+        private MaterialTextView lblRefName;
+        private MaterialTextView lblRefTown;
+        private MaterialTextView lblRefContact;
+        private MaterialTextView lblReferenceNo;
+        private ShapeableImageView imgRemove;
         private LinearLayout referenceLayout;
 
         public ItemViewHolder(@NonNull View itemView, OnAdapterClick listener) {

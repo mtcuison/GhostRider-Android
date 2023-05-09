@@ -16,21 +16,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:theme="@style/GhostRiderMaterialTheme"
     tools:context=".Activity.Activity_BranchOpeningHistory">
 
-    <com.google.android.material.appbar.AppBarLayout
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar_branch_opening"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/GhostRiderMaterialTheme.AppBarOverlay">
+        android:layout_height="?attr/actionBarSize"
+        app:popupTheme="@style/GhostRiderMaterialTheme.PopupOverlay" />
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar_branch_opening"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/material_tool_bar"
-            app:popupTheme="@style/GhostRiderMaterialTheme.PopupOverlay" />
+<!--    <com.google.android.material.appbar.AppBarLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:theme="@style/GhostRiderMaterialTheme.AppBarOverlay">-->
 
-    </com.google.android.material.appbar.AppBarLayout>
+
+<!--    </com.google.android.material.appbar.AppBarLayout>-->
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recylcerView_branch_opening_history"

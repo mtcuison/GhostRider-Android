@@ -11,6 +11,7 @@
 
 package org.rmj.guanzongroup.ghostrider.epacss.ui.home;
 
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
@@ -20,48 +21,42 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.switchmaterial.SwitchMaterial;
+import com.google.android.material.textview.MaterialTextView;
 
+import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeBusinessTrip;
+import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeLeave;
 import org.rmj.g3appdriver.dev.DeptCode;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
-import org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_Main;
-import org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_SplashScreen;
+import org.rmj.g3appdriver.lib.Notifications.data.SampleData;
+import org.rmj.g3appdriver.lib.PetManager.OnCheckEmployeeApplicationListener;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
-import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMAHDashboard;
-import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_Settings;
+import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMAssociateDashboard;
+import org.rmj.guanzongroup.ghostrider.notifications.Adapter.AdapterAnnouncements;
+import org.rmj.guanzongroup.petmanager.Activity.Activity_Employee_Applications;
+import org.rmj.guanzongroup.petmanager.Adapter.EmployeeApplicationAdapter;
 
-import static android.app.Activity.RESULT_OK;
-import static org.rmj.g3appdriver.etc.AppConstants.SETTINGS;
+import java.util.List;
 
 public class Fragment_Associate_Dashboard extends Fragment {
+    private static final String TAG = Fragment_Associate_Dashboard.class.getSimpleName();
 
-    private VMAHDashboard mViewModel;
+    private VMAssociateDashboard mViewModel;
 
-    private TextView lblFullNme,
-            lblEmail,
+    private View view;
+
+    private MaterialTextView lblFullNme,
             lblUserLvl,
             lblDept,
-            lblBranch,
-            lblAddx,
-            lblVersion,
-            lblServerStat;
-    private LinearLayout lnDevMode;
-    private SwitchMaterial poSwitch;
-    private AppConfigPreference poConfig;
-//    private ImageView imgUser;
+            lblVersion;
 
-    private MaterialButton btnSettings, btnLogout;
+    private RecyclerView rvCompnyAnouncemnt, rvLeaveApp, rvBusTripApp;
 
     public static Fragment_Associate_Dashboard newInstance() {
         return new Fragment_Associate_Dashboard();
@@ -72,119 +67,26 @@ public class Fragment_Associate_Dashboard extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_associate_dashboard, container, false);
-        poConfig = AppConfigPreference.getInstance(requireActivity());
-        lblFullNme = view.findViewById(R.id.lbl_userFullName);
-        lblEmail = view.findViewById(R.id.lbl_userEmail);
-        lblUserLvl = view.findViewById(R.id.lbl_userLevel);
-        lblDept = view.findViewById(R.id.lbl_userDepartment);
-        lblBranch = view.findViewById(R.id.lbl_userBranch);
-        lblAddx = view.findViewById(R.id.lbl_userAddress);
-        lnDevMode = view.findViewById(R.id.ln_devMode);
-        poSwitch = view.findViewById(R.id.sm_dcpTest);
-        lblServerStat = view.findViewById(R.id.lbl_serverStatus);
-//        imgUser = view.findViewById(R.id.img_userLogo);
-        lblVersion = view.findViewById(R.id.lbl_versionInfo);
-        btnLogout = view.findViewById(R.id.btn_logout);
-        btnSettings = view.findViewById(R.id.btn_settings);
+        mViewModel = new ViewModelProvider(this).get(VMAssociateDashboard.class);
+        view = inflater.inflate(R.layout.fragment_associate_dashboard, container, false);
 
-        poSwitch.setChecked(poConfig.getTestStatus());
-        if(!poConfig.isBackUpServer()) {
-            lblServerStat.setText("Connection : Live");
-        } else {
-            lblServerStat.setText("Connection : Back Up");
-        }
+        initWidgets();
 
-        poSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean switchOn) {
-                MessageBox loMessage = new MessageBox(getActivity());
-                loMessage.initDialog();
-                if(switchOn) {
-                    loMessage.setNegativeButton("Cancel", (view1, dialog) -> {
-                        poSwitch.setOnCheckedChangeListener(null);
-                        poSwitch.setChecked(false);
-                        poSwitch.setOnCheckedChangeListener(this);
-                        dialog.dismiss();
-                    });
-                    loMessage.setPositiveButton("Continue", (view1, dialog) -> {
-                        dialog.dismiss();
-                        poConfig.setTestCase(switchOn);
-                        new EmployeeMaster(requireActivity().getApplication()).LogoutUserSession();
-                        AppConfigPreference.getInstance(getActivity()).setIsAppFirstLaunch(false);
-                        requireActivity().finish();
-                        startActivity(new Intent(getActivity(), Activity_SplashScreen.class));
-                    });
-                    loMessage.setTitle("GhostRider Dev Mode");
-                    loMessage.setMessage("Test mode changes connection of this app \n From LIVE (240) to LOCAL(192.168.10.141) \n NOTE: Features that requires taking images will still be require but images will not be uploaded. \n Requires re-login account.");
-                    loMessage.show();
-                } else {
-                    loMessage.setNegativeButton("Cancel", (view1, dialog) -> {
-                        poSwitch.setOnCheckedChangeListener(null);
-                        poSwitch.setChecked(false);
-                        poSwitch.setOnCheckedChangeListener(this);
-                        dialog.dismiss();
-                    });
-                    loMessage.setPositiveButton("Continue", (view1, dialog) -> {
-                        dialog.dismiss();
-                        poConfig.setTestCase(switchOn);
-                        new EmployeeMaster(requireActivity().getApplication()).LogoutUserSession();
-                        AppConfigPreference.getInstance(getActivity()).setIsAppFirstLaunch(false);
-                        requireActivity().finish();
-                        startActivity(new Intent(getActivity(), Activity_SplashScreen.class));
-                    });
-                    loMessage.setTitle("GhostRider Dev Mode");
-                    loMessage.setMessage("Switching to Live Data Requires re-login account.");
-                    loMessage.show();
-                }
-            }
-        });
-
-        btnSettings.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), Activity_Settings.class);
-            startActivityForResult(intent, SETTINGS);
-            requireActivity().overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
-        });
-
-        btnLogout.setOnClickListener(v -> {
-            MessageBox loMessage = new MessageBox(getActivity());
-            loMessage.initDialog();
-            loMessage.setNegativeButton("No", (view1, dialog) -> dialog.dismiss());
-            loMessage.setPositiveButton("Yes", (view1, dialog) -> {
-                dialog.dismiss();
-                new EmployeeMaster(requireActivity().getApplication()).LogoutUserSession();
-                AppConfigPreference.getInstance(getActivity()).setIsAppFirstLaunch(false);
-                requireActivity().finish();
-                startActivity(new Intent(getActivity(), Activity_SplashScreen.class));
-            });
-            loMessage.setTitle("GhostRider Session");
-            loMessage.setMessage("Are you sure you want to end session/logout?");
-            loMessage.show();
-        });
-
-        return view;
-    }
-
-    @SuppressLint({"UseCompatLoadingForDrawables", "SetTextI18n"})
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(VMAHDashboard.class);
 
         mViewModel.getVersionInfo().observe(getViewLifecycleOwner(), s -> lblVersion.setText(s));
 
         mViewModel.getEmployeeInfo().observe(getViewLifecycleOwner(), eEmployeeInfo -> {
             try {
                 lblFullNme.setText(eEmployeeInfo.getUserName());
-                lblEmail.setText(eEmployeeInfo.getEmailAdd());
+//                lblEmail.setText(eEmployeeInfo.getEmailAdd());
                 lblUserLvl.setText(DeptCode.parseUserLevel(eEmployeeInfo.getEmpLevID()));
                 lblDept.setText(DeptCode.getDepartmentName(eEmployeeInfo.getDeptIDxx()));
 //                imgUser.setImageResource(AppConstants.getUserIcon(eEmployeeInfo.getUserLevl()));
-                if(eEmployeeInfo.getDeptIDxx().equalsIgnoreCase(DeptCode.MANAGEMENT_INFORMATION_SYSTEM)){
-                    lnDevMode.setVisibility(View.VISIBLE);
-                } else {
-                    lnDevMode.setVisibility(View.GONE);
-                }
+//                if(eEmployeeInfo.getDeptIDxx().equalsIgnoreCase(DeptCode.MANAGEMENT_INFORMATION_SYSTEM)){
+//                    lnDevMode.setVisibility(View.VISIBLE);
+//                } else {
+//                    lnDevMode.setVisibility(View.GONE);
+//                }
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -193,26 +95,122 @@ public class Fragment_Associate_Dashboard extends Fragment {
         mViewModel.getUserBranchInfo().observe(getViewLifecycleOwner(), eBranchInfo -> {
             try {
                 if(eBranchInfo != null) {
-                    lblBranch.setText(eBranchInfo.getBranchNm());
-                    lblAddx.setText(eBranchInfo.getAddressx());
+//                    lblBranch.setText(eBranchInfo.getBranchNm());
+//                    lblAddx.setText(eBranchInfo.getAddressx());
                 } else {
-                    lblBranch.setText("Downloading Data");
-                    lblAddx.setText("Please wait...");
+//                    lblBranch.setText("Downloading Data");
+//                    lblAddx.setText("Please wait...");
                 }
             } catch (Exception e){
                 e.printStackTrace();
             }
         });
+
+        initCompanyNotice();
+        initEmployeeApp();
+        return view;
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if(requestCode == SETTINGS){
-            if(resultCode == RESULT_OK) {
-                Intent loIntent = new Intent(getActivity(), Activity_Main.class);
-                requireActivity().finish();
-                startActivity(loIntent);
+    private void initWidgets(){
+        lblFullNme = view.findViewById(R.id.lbl_userFullName);
+        lblUserLvl = view.findViewById(R.id.lbl_userLevel);
+        lblDept = view.findViewById(R.id.lbl_userDepartment);
+        rvCompnyAnouncemnt = view.findViewById(R.id.rvCompnyAnouncemnt);
+        rvLeaveApp = view.findViewById(R.id.rvLeaveApp);
+        rvBusTripApp = view.findViewById(R.id.rvBusTripApp);
+//        imgUser = view.findViewById(R.id.img_userLogo);
+        lblVersion = view.findViewById(R.id.lbl_versionInfo);
+    }
+
+    private void initCompanyNotice(){
+        AdapterAnnouncements loAdapter = new AdapterAnnouncements(SampleData.GetAnnouncementList(), new AdapterAnnouncements.OnItemClickListener() {
+            @Override
+            public void OnClick(String args) {
+
             }
-        }
+        });
+        LinearLayoutManager loManager = new LinearLayoutManager(requireActivity());
+        loManager.setOrientation(RecyclerView.VERTICAL);
+        rvCompnyAnouncemnt.setLayoutManager(loManager);
+        rvCompnyAnouncemnt.setAdapter(loAdapter);
+    }
+
+    private void initEmployeeApp(){
+        mViewModel.CheckApplicationsForApproval(new OnCheckEmployeeApplicationListener() {
+            @Override
+            public void OnCheck() {
+                Log.d(TAG, "Checking employee leave and business trip applications...");
+            }
+
+            @Override
+            public void OnSuccess() {
+                Log.d(TAG, "Leave and business trip applications checked!");
+            }
+
+            @Override
+            public void OnFailed(String message) {
+                Log.e(TAG, message);
+            }
+        });
+
+        mViewModel.GetLeaveForApproval().observe(requireActivity(), new Observer<List<EEmployeeLeave>>() {
+            @Override
+            public void onChanged(List<EEmployeeLeave> app) {
+                try{
+                    if(app == null){
+                        return;
+                    }
+
+                    if(app.size() == 0){
+                        return;
+                    }
+
+                    EmployeeApplicationAdapter loAdapter = new EmployeeApplicationAdapter(app, false, new EmployeeApplicationAdapter.OnLeaveItemClickListener() {
+                        @Override
+                        public void OnClick(String TransNox) {
+                            Intent loIntent = new Intent(requireActivity(), Activity_Employee_Applications.class);
+                            loIntent.putExtra("type", true);
+                        }
+                    });
+
+                    LinearLayoutManager loManager = new LinearLayoutManager(requireActivity());
+                    loManager.setOrientation(RecyclerView.VERTICAL);
+                    rvLeaveApp.setLayoutManager(loManager);
+                    rvLeaveApp.setAdapter(loAdapter);
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        mViewModel.GetOBForApproval().observe(requireActivity(), new Observer<List<EEmployeeBusinessTrip>>() {
+            @Override
+            public void onChanged(List<EEmployeeBusinessTrip> app) {
+                try{
+                    if(app == null){
+                        return;
+                    }
+
+                    if(app.size() == 0){
+                        return;
+                    }
+
+                    EmployeeApplicationAdapter loAdapter = new EmployeeApplicationAdapter(app, new EmployeeApplicationAdapter.OnOBItemClickListener() {
+                        @Override
+                        public void OnClick(String TransNox) {
+                            Intent loIntent = new Intent(requireActivity(), Activity_Employee_Applications.class);
+                            loIntent.putExtra("type", true);
+                        }
+                    });
+
+                    LinearLayoutManager loManager = new LinearLayoutManager(requireActivity());
+                    loManager.setOrientation(RecyclerView.VERTICAL);
+                    rvBusTripApp.setLayoutManager(loManager);
+                    rvBusTripApp.setAdapter(loAdapter);
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 }

@@ -20,6 +20,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.textview.MaterialTextView;
+
 import org.rmj.guanzongroup.ghostrider.settings.R;
 import org.rmj.guanzongroup.ghostrider.settings.ViewModel.VMLocalData;
 
@@ -67,8 +69,8 @@ public class AdapterLocalData extends RecyclerView.Adapter<AdapterLocalData.Data
 
     public static class DataHolder extends RecyclerView.ViewHolder{
 
-        public TextView lblDataNme;
-        public TextView lblRefresh;
+        public MaterialTextView lblDataNme;
+        public MaterialTextView lblRefresh;
 
         public DataHolder(@NonNull View itemView) {
             super(itemView);

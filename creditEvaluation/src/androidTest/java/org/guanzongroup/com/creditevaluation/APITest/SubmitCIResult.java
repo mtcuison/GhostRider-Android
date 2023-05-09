@@ -10,11 +10,11 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
+import org.rmj.g3appdriver.dev.Api.WebApi;
+import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.utils.SQLUtil;
 import org.rmj.g3appdriver.utils.SecUtil;
-import org.rmj.g3appdriver.utils.WebApi;
-import org.rmj.g3appdriver.utils.WebClient;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -103,7 +103,7 @@ public class SubmitCIResult {
         params.put("sNeighBr3", "sample neighbor 3");
         params.put("cTranStat", "2");
         params.put("sApproved", "M00117000702");
-        params.put("dApproved", AppConstants.CURRENT_DATE);
+        params.put("dApproved", AppConstants.CURRENT_DATE());
 
         String lsResponse = WebClient.httpPostJSon(poApis.getUrlSubmitCIResult(false),
                 params.toString(), (HashMap<String, String>) headers);

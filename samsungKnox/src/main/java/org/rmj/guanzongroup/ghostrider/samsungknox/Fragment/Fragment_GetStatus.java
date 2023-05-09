@@ -27,6 +27,7 @@ import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textview.MaterialTextView;
 
 import org.json.JSONObject;
 import org.rmj.g3appdriver.etc.LoadDialog;
@@ -46,7 +47,7 @@ public class Fragment_GetStatus extends Fragment implements ViewModelCallBack {
     private MessageBox loMessage;
     private LoadDialog dialog;
 
-    private TextView lblDeviceID, lblStatus, lblDetails, lblLastUpdate;
+    private MaterialTextView lblDeviceID, lblStatus, lblDetails, lblLastUpdate;
     private TextInputEditText txtDeviceID;
     private MaterialButton btnCheck;
     private ConstraintLayout consStatus;

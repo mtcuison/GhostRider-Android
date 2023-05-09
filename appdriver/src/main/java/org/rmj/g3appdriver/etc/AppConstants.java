@@ -11,6 +11,12 @@
 
 package org.rmj.g3appdriver.etc;
 
+import android.content.Context;
+import android.content.res.Resources;
+import android.util.TypedValue;
+
+import androidx.annotation.ColorInt;
+
 import org.json.JSONObject;
 import org.rmj.g3appdriver.R;
 import org.rmj.g3appdriver.dev.DeptCode;
@@ -113,6 +119,8 @@ public class AppConstants {
 
     public static int DataServiceID = 213;
 
+    public static int PerformanceServiceID = 214;
+
     public static int GLocatorServiceID = 913;
 
     public static int INTENT_OB_APPLICATION = 101;
@@ -165,6 +173,8 @@ public class AppConstants {
             "Nov",
             "Dec"};
 
+
+
     public String getPeriodName(int period){
         return CHART_MONTH_LABEL[period];
     }
@@ -180,11 +190,14 @@ public class AppConstants {
 
     public String DATE_MODIFIED = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Calendar.getInstance().getTime());
 
-    public String DATE_MODIFIED(){
+    public static String DATE_MODIFIED(){
         return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Calendar.getInstance().getTime());
     }
 
-    public static String CURRENT_DATE = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Calendar.getInstance().getTime());
+    public static String CURRENT_DATE(){
+        return new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Calendar.getInstance().getTime());
+    }
+
     public static String PERFORMANCE_CURRENT_PERIOD = new SimpleDateFormat("yyyyMM", Locale.getDefault()).format(Calendar.getInstance().getTime());
     public String CURRENT_DATE_WORD = new SimpleDateFormat("MMMM dd, yyyy", Locale.getDefault()).format(Calendar.getInstance().getTime());
 
@@ -209,5 +222,13 @@ public class AppConstants {
         } else {
             return R.drawable.ic_user_supervisor;
         }
+    }
+
+    public static int getThemeTextColor(Context context) {
+        TypedValue typedValue = new TypedValue();
+        Resources.Theme theme = context.getTheme();
+        theme.resolveAttribute(R.attr.colorOnPrimary, typedValue, true);
+        @ColorInt int color = typedValue.data;
+        return color;
     }
 }

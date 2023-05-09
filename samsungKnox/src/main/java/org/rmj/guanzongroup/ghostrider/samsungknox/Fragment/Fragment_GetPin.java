@@ -60,7 +60,7 @@ public class Fragment_GetPin extends Fragment implements ViewModelCallBack {
         loMessage = new MessageBox(getActivity());
         txtImei = v.findViewById(R.id.txt_knoxImei);
         txtPIN = v.findViewById(R.id.txt_KnoxPIN);
-        ImageButton btnCopy = v.findViewById(R.id.btn_CopyToClipboard);
+        MaterialButton btnCopy = v.findViewById(R.id.btn_CopyToClipboard);
         btnCopy.setOnClickListener(view -> {
             String KnoxPin = txtPIN.getText().toString();
             String message;

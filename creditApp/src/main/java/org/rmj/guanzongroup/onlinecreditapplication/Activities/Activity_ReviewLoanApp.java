@@ -14,6 +14,19 @@ import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+import  com.google.android.material.checkbox.MaterialCheckBox;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -45,18 +58,18 @@ import java.util.Objects;
 public class Activity_ReviewLoanApp extends AppCompatActivity {
 
     private String TransNox;
-    private TextView lblClientNm;
+    private MaterialTextView lblClientNm;
 //    private ListView recyclerView;
     private RecyclerView recyclerView;
-    private ImageView imgClient;
-    private ImageButton btnCamera;
-    private Button btnSave, btnPrvs;
+    private ShapeableImageView imgClient;
+    private MaterialButton btnCamera;
+    private MaterialButton btnSave, btnPrvs;
 
     private LoadDialog poDialogx;
     private MessageBox poMessage;
 
     private VMReviewLoanApp mViewModel;
-    private Toolbar toolbar;
+    private MaterialToolbar toolbar;
 
 
     @Override
@@ -73,6 +86,7 @@ public class Activity_ReviewLoanApp extends AppCompatActivity {
             try {
                 TransNox = app.getTransNox();
                 mViewModel.setInfo(app);
+                lblClientNm.setText(app.getClientNm());
                 mViewModel.ParseData(app, new OnParseListener() {
                     @Override
                     public void OnParse(Object args) {

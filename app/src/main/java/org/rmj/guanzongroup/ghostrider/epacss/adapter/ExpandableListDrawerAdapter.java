@@ -17,12 +17,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.rmj.guanzongroup.ghostrider.epacss.Object.ChildObject;
 import org.rmj.guanzongroup.ghostrider.epacss.Object.ParentObject;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
+
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.imageview.ShapeableImageView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -106,8 +108,8 @@ public class ExpandableListDrawerAdapter extends BaseExpandableListAdapter {
             convertView = infalInflater.inflate(R.layout.drawer_list_header, null);
         }
 
-        TextView lblListHeader = convertView.findViewById(R.id.lblHeader);
-        ImageView iconImg = convertView.findViewById(R.id.iconimage);
+        MaterialTextView lblListHeader = convertView.findViewById(R.id.lblHeader);
+        ShapeableImageView iconImg = convertView.findViewById(R.id.iconimage);
         iconImg.setImageResource(headerIcon);
         lblListHeader.setTypeface(null, Typeface.NORMAL);
         lblListHeader.setText(headerTitle);

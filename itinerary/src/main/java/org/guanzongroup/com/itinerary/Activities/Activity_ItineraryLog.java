@@ -51,7 +51,7 @@ public class Activity_ItineraryLog extends AppCompatActivity {
     private RecyclerView recyclerView;
     private MaterialButton btnFilter;
 
-    private String psFrom = AppConstants.CURRENT_DATE, psThru = AppConstants.CURRENT_DATE;
+    private String psFrom = AppConstants.CURRENT_DATE(), psThru = AppConstants.CURRENT_DATE();
 
     public boolean isFiltered = false;
 
@@ -161,7 +161,7 @@ public class Activity_ItineraryLog extends AppCompatActivity {
             if(txtThru.getText().toString().trim().isEmpty()) {
                 final Calendar newCalendar = Calendar.getInstance();
                 @SuppressLint("SimpleDateFormat") final SimpleDateFormat dateFormatter = new SimpleDateFormat("MMMM dd, yyyy");
-                final DatePickerDialog StartTime = new DatePickerDialog(Activity_ItineraryLog.this, R.style.MyTimePickerDialogTheme, (view131, year, monthOfYear, dayOfMonth) -> {
+                final DatePickerDialog StartTime = new DatePickerDialog(Activity_ItineraryLog.this, (view131, year, monthOfYear, dayOfMonth) -> {
                     try{
                         Calendar newDate = Calendar.getInstance();
                         newDate.set(year, monthOfYear, dayOfMonth);
@@ -178,7 +178,7 @@ public class Activity_ItineraryLog extends AppCompatActivity {
             } else {
                 final Calendar newCalendar = Calendar.getInstance();
                 @SuppressLint("SimpleDateFormat") final SimpleDateFormat dateFormatter = new SimpleDateFormat("MMMM dd, yyyy");
-                final DatePickerDialog StartTime = new DatePickerDialog(Activity_ItineraryLog.this, R.style.MyTimePickerDialogTheme, (view131, year, monthOfYear, dayOfMonth) -> {
+                final DatePickerDialog StartTime = new DatePickerDialog(Activity_ItineraryLog.this, (view131, year, monthOfYear, dayOfMonth) -> {
                     try{
                         Date loThru = new SimpleDateFormat("MMMM dd, yyyy").parse(txtThru.getText().toString().trim());
                         Calendar newDate = Calendar.getInstance();
@@ -205,7 +205,7 @@ public class Activity_ItineraryLog extends AppCompatActivity {
             } else {
                 final Calendar newCalendar = Calendar.getInstance();
                 @SuppressLint("SimpleDateFormat") final SimpleDateFormat dateFormatter = new SimpleDateFormat("MMMM dd, yyyy");
-                final DatePickerDialog StartTime = new DatePickerDialog(Activity_ItineraryLog.this, R.style.MyTimePickerDialogTheme, (view131, year, monthOfYear, dayOfMonth) -> {
+                final DatePickerDialog StartTime = new DatePickerDialog(Activity_ItineraryLog.this, (view131, year, monthOfYear, dayOfMonth) -> {
                     try{
                         Date loFrom = new SimpleDateFormat("MMMM dd, yyyy").parse(txtFrom.getText().toString().trim());
                         Calendar newDate = Calendar.getInstance();

@@ -60,16 +60,22 @@ import org.rmj.g3appdriver.dev.Database.DataAccessObject.DMcCategory;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DMcModel;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DMcModelPrice;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DMcTermCategory;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DMessages;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DMobileRequest;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DMobileUpdate;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DNNDMRequest;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DNotification;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DNotificationDetail;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DNotificationMaster;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DNotificationReceiver;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DNotificationUser;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DNotifications;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DOccupationInfo;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DPacita;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DPanalo;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DPayslip;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DProvinceInfo;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DRaffleInfo;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DRaffleStatus;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DRawDao;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DRelation;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DRemittanceAccounts;
@@ -111,6 +117,7 @@ import org.rmj.g3appdriver.dev.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EInventoryDetail;
 import org.rmj.g3appdriver.dev.Database.Entities.EInventoryMaster;
 import org.rmj.g3appdriver.dev.Database.Entities.EItinerary;
+import org.rmj.g3appdriver.dev.Database.Entities.ELoanTerm;
 import org.rmj.g3appdriver.dev.Database.Entities.EMcBrand;
 import org.rmj.g3appdriver.dev.Database.Entities.EMcCategory;
 import org.rmj.g3appdriver.dev.Database.Entities.EMcModel;
@@ -122,9 +129,13 @@ import org.rmj.g3appdriver.dev.Database.Entities.ENotificationMaster;
 import org.rmj.g3appdriver.dev.Database.Entities.ENotificationRecipient;
 import org.rmj.g3appdriver.dev.Database.Entities.ENotificationUser;
 import org.rmj.g3appdriver.dev.Database.Entities.EOccupationInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.EPacitaEvaluation;
+import org.rmj.g3appdriver.dev.Database.Entities.EPacitaRule;
+import org.rmj.g3appdriver.dev.Database.Entities.EPanaloReward;
 import org.rmj.g3appdriver.dev.Database.Entities.EProvinceInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ERaffleBasis;
 import org.rmj.g3appdriver.dev.Database.Entities.ERaffleInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.ERaffleStatus;
 import org.rmj.g3appdriver.dev.Database.Entities.ERelation;
 import org.rmj.g3appdriver.dev.Database.Entities.ERemittanceAccounts;
 import org.rmj.g3appdriver.dev.Database.Entities.ESCA_Request;
@@ -188,7 +199,12 @@ import org.rmj.g3appdriver.dev.Database.Entities.EUncapturedClient;
         EInventoryMaster.class,
         EInventoryDetail.class,
         ECreditOnlineApplicationCI.class,
-        EItinerary.class}, version = 36, exportSchema = false)
+        EItinerary.class,
+        EPanaloReward.class,
+        ERaffleStatus.class,
+        EPacitaRule.class,
+        EPacitaEvaluation.class,
+        ELoanTerm.class}, version = 38, exportSchema = false)
 public abstract class GGC_GriderDB extends RoomDatabase {
     private static final String TAG = "GhostRider_DB_Manager";
     private static GGC_GriderDB instance;
@@ -213,7 +229,7 @@ public abstract class GGC_GriderDB extends RoomDatabase {
     public abstract DBranchPerformance BranchPerformanceDao();
     public abstract DRawDao RawDao();
     public abstract DRaffleInfo RaffleDao();
-    public abstract DNotifications NotificationDao();
+    public abstract DNotificationReceiver ntfReceiverDao();
     public abstract DApprovalCode ApprovalDao();
     public abstract DLRDcp DcpDao();
     public abstract DDCPCollectionMaster DcpMasterDao();
@@ -252,6 +268,12 @@ public abstract class GGC_GriderDB extends RoomDatabase {
     public abstract DNotificationMaster nMasterDao();
     public abstract DNotificationDetail nDetailDao();
     public abstract DNotificationUser nUserDao();
+    public abstract DPanalo panaloDao();
+    public abstract DPayslip payslipDao();
+    public abstract DRaffleStatus raffleStatusDao();
+    public abstract DMessages messagesDao();
+    public abstract DNotification notificationDao();
+    public abstract DPacita pacitaDao();
 
     public static synchronized GGC_GriderDB getInstance(Context context){
         if(instance == null){

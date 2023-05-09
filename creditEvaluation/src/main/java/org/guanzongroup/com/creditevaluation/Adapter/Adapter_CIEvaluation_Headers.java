@@ -4,7 +4,9 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+
+
+import com.google.android.material.textview.MaterialTextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -103,11 +105,11 @@ public class Adapter_CIEvaluation_Headers extends RecyclerView.Adapter<Adapter_C
     public static class VHEvaluationHeaders extends RecyclerView.ViewHolder{
 
         public RecyclerView recyclerView;
-        public TextView lblHeader;
+        public MaterialTextView lblHeader;
 
         public VHEvaluationHeaders(@NonNull View itemView) {
             super(itemView);
-            recyclerView = itemView.findViewById(R.id.recyclerView);
+            recyclerView = itemView.findViewById(R.id.recyclerview);
             lblHeader = itemView.findViewById(R.id.textview);
         }
     }

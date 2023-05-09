@@ -13,27 +13,25 @@ package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.TextView;
+
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.textview.MaterialTextView;
 
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMImageLog;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class Activity_ImageLog extends AppCompatActivity {
 
     private VMImageLog mViewModel;
-    private TextView lblBranch, lblAddrss, lblNoImgs;
+    private MaterialTextView lblBranch, lblAddrss, lblNoImgs;
     private RecyclerView recyclerV;
 
     @Override
@@ -60,13 +58,13 @@ public class Activity_ImageLog extends AppCompatActivity {
     }
 
     private void initWidgets() {
-        Toolbar toolbar = findViewById(R.id.toolbar_collectionList);
+        MaterialToolbar toolbar = findViewById(R.id.toolbar_collectionList);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         lblBranch = findViewById(R.id.lbl_headerBranch);
         lblAddrss = findViewById(R.id.lbl_headerAddress);
         lblNoImgs = findViewById(R.id.lbl_noAvailable);
-        recyclerV = findViewById(R.id.recyclerView);
+        recyclerV = findViewById(R.id.recyclerview);
         LinearLayoutManager lnManager = new LinearLayoutManager(Activity_ImageLog.this);
         lnManager.setOrientation(RecyclerView.VERTICAL);
         recyclerV.setLayoutManager(lnManager);

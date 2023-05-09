@@ -16,7 +16,7 @@
     android:layout_height="match_parent"
     tools:context=".Fragments.Fragment_IncTransaction"
     android:orientation="vertical"
-    android:theme="@style/GhostRiderMaterialTheme.WhiteBG"
+    android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
     android:padding="10dp">
 
     <LinearLayout
@@ -26,37 +26,34 @@
         android:orientation="vertical"
         android:layout_centerInParent="true">
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/img_userSelfie"
             android:layout_width="130dp"
             android:layout_height="130dp"
-            android:src="@drawable/ic_guanzon_logo"
+            android:src="@drawable/ic_guanzon_circle"
             android:layout_marginBottom="20dp"/>
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lbl_customerName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:fontFamily="@font/roboto_black"
-            android:textColor="@color/material_black"
             android:textSize="20sp" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lbl_AccountNo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
-            android:fontFamily="@font/roboto_medium"
-            android:textColor="@color/material_black" />
+            android:fontFamily="@font/roboto_medium"/>
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lbl_transaction"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
-            android:fontFamily="@font/roboto_medium"
-            android:textColor="@color/material_black" />
+            android:fontFamily="@font/roboto_medium"/>
 
 
         <com.google.android.material.textfield.TextInputLayout

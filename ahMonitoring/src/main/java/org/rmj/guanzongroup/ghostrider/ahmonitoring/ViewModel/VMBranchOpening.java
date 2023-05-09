@@ -21,7 +21,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DBranchOpeningMonitor;
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
-import org.rmj.g3appdriver.lib.Notifications.BranchOpeningMonitor;
+import org.rmj.g3appdriver.lib.Notifications.Obj.BranchOpeningMonitor;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.lib.Account.SessionManager;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
@@ -46,7 +46,7 @@ public class VMBranchOpening extends AndroidViewModel {
         this.instance = application;
         this.poSession = new SessionManager(instance);
         this.poOpening = new BranchOpeningMonitor(instance);
-        psDateSelected.setValue(new AppConstants().CURRENT_DATE);
+        psDateSelected.setValue(AppConstants.CURRENT_DATE());
         this.poUser = new EmployeeMaster(instance);
     }
 

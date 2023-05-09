@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:theme="@style/GhostRiderMaterialTheme.WhiteBG"
+    android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
     tools:context=".Activities.Activity_Finance">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -12,11 +12,10 @@
         android:layout_height="wrap_content"
         android:theme="@style/GhostRiderMaterialTheme.AppBarOverlay">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar_Finance"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/material_tool_bar"
             android:popupTheme="@style/GhostRiderMaterialTheme.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -42,15 +41,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/spn_financierRelation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:clickable="false"
-                    android:cursorVisible="false"
-                    android:focusable="false"
+                    style="@style/DropdownStyleTheme"
                     android:hint="Tap here to select financier relationship."
-                    android:inputType="none"
                     android:padding="16dp"
                     android:nextFocusForward="@+id/TextInputStyle"/>
             </com.google.android.material.textfield.TextInputLayout>
@@ -93,7 +89,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/sHintCountryNm">
 
-                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/txt_financierCntry"
                     style="@style/AutoCompleteStyleTheme"
                     android:layout_width="match_parent"
@@ -159,7 +155,7 @@
                 android:layout_marginBottom="300dp"
                 android:orientation="horizontal">
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_creditAppPrvs"
                     style="@style/NavigationButton"
                     android:layout_width="wrap_content"
@@ -167,11 +163,10 @@
                     android:layout_alignParentStart="true"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
-                    android:drawableLeft="@drawable/ic_nav_left"
                     android:text="@string/sbtnPrvs"
                     tools:ignore="RelativeOverlap" />
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_creditAppNext"
                     style="@style/NavigationButton"
                     android:layout_width="wrap_content"
@@ -179,8 +174,6 @@
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:drawableEnd="@drawable/ic_nav_right"
-                    android:drawableRight="@drawable/ic_nav_right"
                     android:text="@string/sbtnNext"
                     tools:ignore="RelativeOverlap" />
             </RelativeLayout>

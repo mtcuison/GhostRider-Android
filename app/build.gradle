@@ -21,10 +21,10 @@ android {
 
     defaultConfig {
         applicationId "org.rmj.guanzongroup.ghostrider.epacss"
-        minSdkVersion 21
+        minSdkVersion 24
         targetSdkVersion 33
-        versionCode 48
-        versionName "Build Version v.2.13.048 b"
+        versionCode 52
+        versionName "Build Version v.3.16.052 b"
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -63,7 +63,7 @@ allprojects {
 dependencies {
 
     implementation 'androidx.appcompat:appcompat:1.6.0'
-    implementation 'com.google.android.material:material:1.6.1'
+    implementation 'com.google.android.material:material:1.8.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.navigation:navigation-fragment:2.5.3'
     implementation 'androidx.navigation:navigation-ui:2.5.3'
@@ -108,17 +108,16 @@ dependencies {
     implementation project(path: ':promotions')
     implementation project(path: ':samsungKnox')
     implementation project(path: ':approvalCode')
+    implementation project(path: ':panalo')
     implementation project(path: ':notifications')
-//    implementation project(path: ':imgCapture')
-//    implementation project(path: ':griderScanner')
     implementation project(path: ':dailyCollectionPlan')
     implementation project(path: ':dataChecker')
-
-//    implementation project(path: ':griderScanner')
     implementation project(path: ':itinerary')
     implementation project(path: ':appDriver')
+    implementation project(path: ':petManager')
     implementation project(':settings')
     implementation project(':creditApp')
     implementation project(':creditEvaluation')
+    implementation project(':pacitaReward')
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 }

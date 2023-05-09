@@ -23,7 +23,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.guanzongroup.ghostrider.notifications.Obj.NotificationItemList;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DNotification;
+import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.guanzongroup.ghostrider.notifications.R;
 
 import java.util.List;
@@ -33,10 +34,10 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
     private final int VIEW_TYPE_ITEM = 0;
     private final int VIEW_TYPE_LOADING = 1;
 
-    private final List<NotificationItemList> notificationItemLists;
+    private final List<DNotification.NotificationListDetail> notificationItemLists;
     private final OnItemClickListener mListener;
 
-    public NotificationListAdapter(List<NotificationItemList> notificationItemLists, OnItemClickListener listener) {
+    public NotificationListAdapter(List<DNotification.NotificationListDetail> notificationItemLists, OnItemClickListener listener) {
         this.notificationItemLists = notificationItemLists;
         this.mListener = listener;
     }
@@ -45,7 +46,7 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == VIEW_TYPE_ITEM) {
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.notification_list_item, parent, false);
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_notification, parent, false);
             return new ItemViewHolder(v);
         } else {
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_loading, parent, false);
@@ -57,20 +58,14 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ItemViewHolder) {
-            NotificationItemList message = notificationItemLists.get(position);
+            DNotification.NotificationListDetail message = notificationItemLists.get(position);
             ((ItemViewHolder) holder).message = message;
-            if (!message.getName().equalsIgnoreCase("null")) {
-                ((ItemViewHolder) holder).lblSender.setText(message.getName());
-                ((ItemViewHolder) holder).imgSendr.setImageResource(R.drawable.ic_user_profile);
-            } else {
-                ((ItemViewHolder) holder).lblSender.setText("SYSTEM NOTIFICATION");
-                ((ItemViewHolder) holder).imgSendr.setImageResource(R.drawable.ic_guanzon_logo);
-            }
-            ((ItemViewHolder) holder).lblTitlex.setText(message.getTitle());
-            ((ItemViewHolder) holder).lblBodyxx.setText(message.getMessage());
-            ((ItemViewHolder) holder).lblDateTm.setText(message.getDateTime());
+            ((ItemViewHolder) holder).lblSender.setText(message.sCreatrNm == null ? "null" : "SYSTEM");
+            ((ItemViewHolder) holder).lblTitlex.setText(message.sMsgTitle);
+            ((ItemViewHolder) holder).lblBodyxx.setText(message.sMessagex);
+            ((ItemViewHolder) holder).lblDateTm.setText(FormatUIText.getParseDateTime(message.dReceived));
 
-            if (message.getStatus().equalsIgnoreCase("2")) {
+            if (message.cMesgStat.equalsIgnoreCase("2")) {
                 ((ItemViewHolder) holder).lblSender.setTypeface(Typeface.DEFAULT_BOLD);
                 ((ItemViewHolder) holder).lblTitlex.setTypeface(Typeface.DEFAULT_BOLD);
                 ((ItemViewHolder) holder).lblBodyxx.setTypeface(Typeface.DEFAULT_BOLD);
@@ -91,10 +86,9 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
         return notificationItemLists.get(position) == null ? VIEW_TYPE_LOADING : VIEW_TYPE_ITEM;
     }
 
-
     public class ItemViewHolder extends RecyclerView.ViewHolder{
 
-        public NotificationItemList message;
+        public DNotification.NotificationListDetail message;
         public ImageView imgSendr;
         public TextView lblSender;
         public TextView lblTitlex;
@@ -113,7 +107,7 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
             itemView.setOnClickListener(view -> {
                 int position = getAdapterPosition();
                 if(position != RecyclerView.NO_POSITION){
-                    mListener.OnClick(message.getMessageID(), message.getTitle(), message.getMessage(), message.getName(), message.getDateTime(), message.getReceipt());
+                    mListener.OnClick(message.sMesgIDxx);
                 }
             });
         }
@@ -135,7 +129,7 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
     }
 
     public interface OnItemClickListener{
-        void OnClick(String ID, String Title, String Message, String Sender, String Date, String Receipt);
+        void OnClick(String ID);
         void OnActionButtonClick(String message);
     }
 }

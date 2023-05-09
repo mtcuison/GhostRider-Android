@@ -10,13 +10,13 @@
   ~ project file last modified : 4/24/21 3:17 PM
   -->
 
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:theme="@style/GhostRiderMaterialTheme"
     android:orientation="vertical"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    app:cardBackgroundColor="#E2E2E2"
     app:cardUseCompatPadding="true"
     app:cardPreventCornerOverlap="true"
     app:cardCornerRadius="25dp">
@@ -27,10 +27,9 @@
         android:orientation="vertical"
         android:gravity="center"
         android:paddingVertical="20dp"
-        android:paddingHorizontal="50dp"
-        android:background="@drawable/background_dialog">
+        android:paddingHorizontal="50dp">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lbl_dialogTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -38,26 +37,24 @@
             android:textSize="21sp"
             android:textAlignment="center"
             android:gravity="center"
-            android:fontFamily="@font/roboto_bold"
-            android:textColor="@color/material_black"/>
+            android:fontFamily="@font/roboto_bold"/>
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lbl_dialogMessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Activating. Please wait..."
             android:textAlignment="center"
             android:layout_marginTop="10dp"
-            android:fontFamily="@font/roboto"
-            android:textColor="@color/material_black"/>
+            android:fontFamily="@font/roboto"/>
 
-        <ProgressBar
+        <com.google.android.material.progressindicator.CircularProgressIndicator
             android:id="@+id/progress_loading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            tools:targetApi="lollipop" />
+            android:indeterminate="true"/>
 
     </LinearLayout>
 
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

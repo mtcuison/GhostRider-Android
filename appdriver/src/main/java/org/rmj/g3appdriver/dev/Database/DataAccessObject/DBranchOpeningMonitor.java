@@ -21,7 +21,7 @@ import org.rmj.g3appdriver.dev.Database.Entities.EBranchOpenMonitor;
 import java.util.List;
 
 @Dao
-public interface DBranchOpeningMonitor {
+public interface  DBranchOpeningMonitor {
 
     @Insert
     void insert(EBranchOpenMonitor branchOpenMonitor);
@@ -44,7 +44,7 @@ public interface DBranchOpeningMonitor {
             "ON a.sBranchCd = b.sBranchCD " +
             "WHERE b.dTransact =:dTransact " +
             "ORDER BY b.dTimeStmp DESC LIMIT 5")
-    LiveData<List<BranchOpeningInfo>> getBranchOpeningInfoForDashBoard(String dTransact);
+    LiveData<List<BranchOpeningInfo>> GetBranchOpeningInfoForDashBoard(String dTransact);
 
     @Query("SELECT a.sBranchNm," +
             "b.sBranchCD, " +

@@ -16,6 +16,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -71,7 +81,7 @@ public class CashCountLogAdapter extends RecyclerView.Adapter<CashCountLogAdapte
 
     public static class CashCountViewHolder extends RecyclerView.ViewHolder{
 
-        TextView lblTransNox, lblEntryDte, lblBranchCde, lblSendStat, lblTotalEntry;
+        MaterialTextView lblTransNox, lblEntryDte, lblBranchCde, lblSendStat, lblTotalEntry;
 
         public CashCountViewHolder(@NonNull View itemView) {
             super(itemView);

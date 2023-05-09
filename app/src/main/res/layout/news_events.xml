@@ -10,10 +10,11 @@
   ~ project file last modified : 5/5/21 11:35 AM
   -->
 
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:theme="@style/GhostRiderMaterialTheme"
     android:orientation="vertical"
     app:cardBackgroundColor="@color/material_lightgrey"
     app:cardCornerRadius="8dp"
@@ -27,7 +28,7 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/newsImg"
             android:layout_width="fill_parent"
             android:layout_height="160dp"
@@ -48,27 +49,25 @@
                 android:layout_marginRight="20dp"
                 android:orientation="vertical">
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/newsDay"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_bold"
                     android:text="24"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@color/textColor_White" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/newsMonth"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
-                    android:text="Feb"
-                    android:textColor="@color/textColor_White" />
+                    android:text="Feb"/>
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/newsTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -76,9 +75,8 @@
         android:text="Grand Opening of Guanzon Mobitek SM City North Edsa-Annex branch"
         android:textSize="12sp"
         android:paddingLeft="5dp"
-        android:paddingTop="5dp"
-        android:textColor="@color/textColor_Black" />
-    <TextView
+        android:paddingTop="5dp"/>
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/newsPostedBy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -86,7 +84,6 @@
         android:text="POSTED ON FEBRUARY 24, 2021 BY GUANZON_ADMIN"
         android:textSize="11sp"
         android:paddingLeft="5dp"
-        android:layout_marginBottom="5dp"
-        android:textColor="@color/textColor_Black" />
+        android:layout_marginBottom="5dp"/>
     </LinearLayout>
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

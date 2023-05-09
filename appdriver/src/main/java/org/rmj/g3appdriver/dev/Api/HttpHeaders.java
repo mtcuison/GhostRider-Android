@@ -15,6 +15,7 @@ import android.app.Application;
 import android.content.Context;
 import android.os.Build;
 import android.os.StrictMode;
+import android.util.Log;
 
 import org.rmj.g3appdriver.dev.Device.Telephony;
 import org.rmj.g3appdriver.lib.Account.SessionManager;
@@ -64,7 +65,6 @@ public class HttpHeaders {
         Calendar calendar = Calendar.getInstance();
 
 
-        //TODO: Change Values on user testing and production
         String lsUserIDx = poSession.getUserID();
         String lsClientx = poSession.getClientId();
         String lsLogNoxx = poSession.getLogNumber();
@@ -102,7 +102,6 @@ public class HttpHeaders {
         Calendar calendar = Calendar.getInstance();
 
 
-        //TODO: Change Values on user testing and production
         String lsUserIDx = poSession.getUserID();
         String lsClientx = poSession.getClientId();
         String lsLogNoxx = poSession.getLogNumber();

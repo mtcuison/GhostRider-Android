@@ -27,8 +27,19 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+
 
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
@@ -47,9 +58,9 @@ public class Fragment_CreditAppApproval extends Fragment {
     private VMCreditAppApproval mViewModel;
 
     private TextInputEditText txtTransNox, txtReqDate, txtMiscInfo, txtRemarks, txtAppNotes;
-    private AutoCompleteTextView txtBranch, txtReBranch;
-    private EditText txtAppCode;
-    private ImageButton btnCopy;
+    private MaterialAutoCompleteTextView txtBranch, txtReBranch;
+    private TextInputEditText txtAppCode;
+    private MaterialButton btnCopy;
     private MaterialButton btnLoadApp, btnApprove, btnDApprove, btnAppNoCI;
     private LoadDialog poDialog;
     private MessageBox poMsgBox;

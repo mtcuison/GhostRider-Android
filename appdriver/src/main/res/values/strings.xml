@@ -16,7 +16,7 @@
 
     <!-- Kent -->
     <string name="sLblCompName">Guanzon Group of Companies</string>
-    <string name="sLblCopyright">© All Rights Reserved MIS-SEG 2021</string>
+    <string name="sLblCopyright">© All Rights Reserved MIS-SEG 2023</string>
     <string name="sLblSamsungKnox_Activate">Activate Mobile</string>
     <string name="sLblSamsungKnox_Unlock">Unlock Mobile</string>
     <string name="sLblSamsungKnox_Pin">Generate PIN</string>
@@ -28,7 +28,7 @@
     <string name="forgot_password">Forgot Password?</string>
     <string name="agree">I agree</string>
     <string name="terms_and_conditions">with the <b>Terms and Conditions.</b></string>
-    <string name="user_authentication">User Authentication</string>
+    <string name="user_authentication">Login</string>
     <string name="lblRetrievePassword">Retrieve Password</string>
     <string name="create_account_description">Please provide all information requested to create your account.</string>
     <string name="email_retrieval_message">Please enter your email address to receive password info.</string>
@@ -47,11 +47,10 @@
     <string name="button_send_email">Send Email</string>
     <string name="button_send_verification">Send Verification</string>
 
-    <string name="darkmode_summary">Dark Theme Mode On</string>
-    <string name="lightmode_summary">Dark Theme Mode Off</string>
-
 
     <string name="location_on_summary">Location Permission Enabled</string>
     <string name="location_off_summary">Location Permission Disabled</string>
     <string name="peso_sign">₱</string>
+
+    <string name="summary_settings_dMode">Use by developers and implementors for testing phase. Only MIS-SEG are able to use this mode.</string>
 </resources>

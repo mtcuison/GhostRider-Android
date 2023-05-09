@@ -4,14 +4,15 @@ import android.app.Application;
 
 import com.google.firebase.messaging.RemoteMessage;
 
-import org.rmj.g3appdriver.lib.Notifications.Obj.NMM_CustomerService;
-import org.rmj.g3appdriver.lib.Notifications.Obj.NMM_Events;
-import org.rmj.g3appdriver.lib.Notifications.Obj.NMM_MPOrderStatus;
-import org.rmj.g3appdriver.lib.Notifications.Obj.NMM_MPQuestions;
-import org.rmj.g3appdriver.lib.Notifications.Obj.NMM_MPReview;
-import org.rmj.g3appdriver.lib.Notifications.Obj.NMM_Promotions;
-import org.rmj.g3appdriver.lib.Notifications.Obj.NMM_Regular;
-import org.rmj.g3appdriver.lib.Notifications.Obj.NMM_TableUpdate;
+import org.rmj.g3appdriver.lib.Notifications.Obj.Receiver.NMM_CustomerService;
+import org.rmj.g3appdriver.lib.Notifications.Obj.Receiver.NMM_Events;
+import org.rmj.g3appdriver.lib.Notifications.Obj.Receiver.NMM_MPOrderStatus;
+import org.rmj.g3appdriver.lib.Notifications.Obj.Receiver.NMM_MPQuestions;
+import org.rmj.g3appdriver.lib.Notifications.Obj.Receiver.NMM_MPReview;
+import org.rmj.g3appdriver.lib.Notifications.Obj.Receiver.NMM_Panalo;
+import org.rmj.g3appdriver.lib.Notifications.Obj.Receiver.NMM_Promotions;
+import org.rmj.g3appdriver.lib.Notifications.Obj.Receiver.NMM_Regular;
+import org.rmj.g3appdriver.lib.Notifications.Obj.Receiver.NMM_TableUpdate;
 import org.rmj.g3appdriver.lib.Notifications.RemoteMessageParser;
 
 public class NMM {
@@ -43,7 +44,7 @@ public class NMM {
             case "00007":
                 return new NMM_CustomerService(instance);
             default:
-                return null;
+                return new NMM_Panalo(instance);
         }
     }
 }

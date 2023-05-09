@@ -7,6 +7,8 @@ import androidx.lifecycle.LiveData;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DevTool;
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.lib.Account.SessionManager;
 
 public class DevTools {
@@ -16,6 +18,8 @@ public class DevTools {
 
     private final DevTool poDao;
     private final SessionManager poSession;
+    private final AppConfigPreference poConfig;
+    private final EmployeeMaster poUser;
 
     private String message;
 
@@ -23,6 +27,8 @@ public class DevTools {
         this.instance = instance;
         this.poDao = GGC_GriderDB.getInstance(instance).devTool();
         this.poSession = new SessionManager(instance);
+        this.poConfig = AppConfigPreference.getInstance(instance);
+        this.poUser = new EmployeeMaster(instance);
     }
 
     public String getMessage() {
@@ -51,6 +57,22 @@ public class DevTools {
             loDetail.setEmpLevID(Integer.parseInt(poSession.getEmployeeLevel()));
             loDetail.setDeptIDxx(poSession.getDeptID());
             poDao.Update(loDetail);
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
+    }
+
+    public boolean GetTestStatus(){
+        return poConfig.getTestStatus();
+    }
+
+    public boolean SetTestStatus(boolean isTest){
+        try {
+            poConfig.setTestCase(isTest);
+            poUser.LogoutUserSession();
             return true;
         } catch (Exception e){
             e.printStackTrace();

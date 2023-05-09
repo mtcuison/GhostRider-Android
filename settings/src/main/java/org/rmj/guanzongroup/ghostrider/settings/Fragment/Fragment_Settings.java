@@ -33,6 +33,8 @@ import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.Account.SessionManager;
+import org.rmj.guanzongroup.ghostrider.dataChecker.Activity.Activity_DB_Explorer;
+import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_AppVersion;
 import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_CheckUpdate;
 import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_Developer;
 import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_HelpList;
@@ -40,7 +42,6 @@ import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_LocalData;
 import org.rmj.guanzongroup.ghostrider.settings.Dialog.Dialog_ChangePassword;
 import org.rmj.guanzongroup.ghostrider.settings.R;
 import org.rmj.guanzongroup.ghostrider.settings.ViewModel.VMSettings;
-import org.rmj.guanzongroup.ghostrider.settings.themeController.ThemeHelper;
 import org.rmj.guanzongroup.ghostrider.settings.utils.DatabaseExport;
 
 import static android.Manifest.permission.CAMERA;
@@ -52,7 +53,7 @@ import static org.rmj.g3appdriver.etc.AppConstants.STORAGE_REQUEST;
 
 public class Fragment_Settings  extends PreferenceFragmentCompat {
 
-    private SwitchPreferenceCompat themePreference;
+//    private SwitchPreferenceCompat themePreference;
     private Preference locationPref,
             cameraPref,
             phonePref,
@@ -70,7 +71,7 @@ public class Fragment_Settings  extends PreferenceFragmentCompat {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        themePreference = getPreferenceManager().findPreference("themePrefs");
+//        themePreference = getPreferenceManager().findPreference("themePrefs");
         cameraPref = getPreferenceManager().findPreference("cameraPrefs");
         locationPref = getPreferenceManager().findPreference("locationPrefs");
         phonePref = getPreferenceManager().findPreference("phonePrefs");
@@ -81,9 +82,9 @@ public class Fragment_Settings  extends PreferenceFragmentCompat {
         debugMode = getPreferenceScreen().findPreference("appDebugModePref");
         helpPref = getPreferenceManager().findPreference("appHelpPrefs");
 
-        dbExport = new DatabaseExport(getActivity(), "Database", "GGC_ISysDBF.db");
-        loMessage = new MessageBox(getActivity());
-        poDialog = new LoadDialog(getActivity());
+        dbExport = new DatabaseExport(requireActivity());
+        loMessage = new MessageBox(requireActivity());
+        poDialog = new LoadDialog(requireActivity());
         mViewModel = new ViewModelProvider(this).get(VMSettings.class);
 
         mViewModel.isLocPermissionGranted().observe(getViewLifecycleOwner(), isGranted -> {
@@ -97,23 +98,23 @@ public class Fragment_Settings  extends PreferenceFragmentCompat {
 
         mViewModel.getCameraSummary().observe(getViewLifecycleOwner(),s -> cameraPref.setSummary(s));
 
-        if (themePreference != null) {
-            themePreference.setOnPreferenceChangeListener((preference, newValue) -> {
-                Boolean themeOption = (Boolean) newValue;
-                if (themeOption) {
-                    themePreference.getSummaryOn();
-                } else {
-                    themePreference.getSummaryOff();
-                }
-                ThemeHelper.applyTheme(themeOption);
-                return true;
-            });
-        }
+//        if (themePreference != null) {
+//            themePreference.setOnPreferenceChangeListener((preference, newValue) -> {
+//                Boolean themeOption = (Boolean) newValue;
+//                if (themeOption) {
+//                    themePreference.getSummaryOn();
+//                } else {
+//                    themePreference.getSummaryOff();
+//                }
+////                ThemeHelper.applyTheme(themeOption);
+//                return true;
+//            });
+//        }
         if (cameraPref != null) {
             cameraPref.setOnPreferenceClickListener(preference -> {
                 if ((ActivityCompat.checkSelfPermission(requireActivity(), CAMERA) != PackageManager.PERMISSION_GRANTED)) {
                     mViewModel.getCamPermissions().observe(getViewLifecycleOwner(), strings -> {
-                        ActivityCompat.requestPermissions(getActivity(),strings, CAMERA_REQUEST);
+                        ActivityCompat.requestPermissions(requireActivity(),strings, CAMERA_REQUEST);
                     });
                 }else {
                     loMessage.initDialog();
@@ -137,7 +138,7 @@ public class Fragment_Settings  extends PreferenceFragmentCompat {
             phonePref.setOnPreferenceClickListener(preference -> {
                 if ((ActivityCompat.checkSelfPermission(requireActivity(), READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED)) {
                     mViewModel.getPhPermissions().observe(getViewLifecycleOwner(), strings -> {
-                        ActivityCompat.requestPermissions(getActivity(),strings, STORAGE_REQUEST);
+                        ActivityCompat.requestPermissions(requireActivity(),strings, STORAGE_REQUEST);
 
                     });
                 }else {
@@ -154,15 +155,15 @@ public class Fragment_Settings  extends PreferenceFragmentCompat {
         if (exportPref != null) {
            exportPref.setOnPreferenceClickListener(preference -> {
                try {
-                   mViewModel.isStoragePermissionGranted().observe(getViewLifecycleOwner(), isGranted -> {
-                      if (!isGranted){
-                          mViewModel.getStoragePermission().observe(getViewLifecycleOwner(), strings -> {
-                              ActivityCompat.requestPermissions(requireActivity(),strings, STORAGE_REQUEST);
-                          });
-                      }else {
-                          dbExport.export();
-                      }
-                   });
+                   dbExport.export();
+//                   mViewModel.isStoragePermissionGranted().observe(getViewLifecycleOwner(), isGranted -> {
+//                      if (!isGranted){
+//                          mViewModel.getStoragePermission().observe(getViewLifecycleOwner(), strings -> {
+//                              ActivityCompat.requestPermissions(requireActivity(),strings, STORAGE_REQUEST);
+//                          });
+//                      }else {
+//                      }
+//                   });
 
                }catch (SecurityException e){
                    Log.e("Security Exception " , e.getMessage());
@@ -177,7 +178,7 @@ public class Fragment_Settings  extends PreferenceFragmentCompat {
 
         if(localData != null){
             localData.setOnPreferenceClickListener(preference -> {
-                Intent loIntent = new Intent(getActivity(), Activity_LocalData.class);
+                Intent loIntent = new Intent(requireActivity(), Activity_LocalData.class);
                 startActivity(loIntent);
                 requireActivity().overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
                 return false;
@@ -186,7 +187,7 @@ public class Fragment_Settings  extends PreferenceFragmentCompat {
 
         if(Accountxx != null){
             Accountxx.setOnPreferenceClickListener(preference -> {
-                Dialog_ChangePassword loPass = new Dialog_ChangePassword(getActivity(), (OldPass, NewPass, dialog) -> mViewModel.ChangePassword(OldPass, NewPass, new VMSettings.ChangePasswordCallback() {
+                Dialog_ChangePassword loPass = new Dialog_ChangePassword(requireActivity(), (OldPass, NewPass, dialog) -> mViewModel.ChangePassword(OldPass, NewPass, new VMSettings.ChangePasswordCallback() {
                     @Override
                     public void OnLoad(String Title, String Message) {
                         poDialog.initDialog(Title, Message, false);
@@ -220,7 +221,7 @@ public class Fragment_Settings  extends PreferenceFragmentCompat {
         }
         if(chkUpdate != null){
             chkUpdate.setOnPreferenceClickListener(preference -> {
-                startActivity(new Intent(getActivity(), Activity_CheckUpdate.class));
+                startActivity(new Intent(requireActivity(), Activity_AppVersion.class));
                 requireActivity().overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
                 return false;
             });
@@ -234,14 +235,14 @@ public class Fragment_Settings  extends PreferenceFragmentCompat {
                 debugMode.setVisible(true);
             }
             debugMode.setOnPreferenceClickListener(preference -> {
-                startActivity(new Intent(getActivity(), Activity_Developer.class));
+                startActivity(new Intent(requireActivity(), Activity_Developer.class));
                 requireActivity().overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
                 return false;
             });
         }
         if(helpPref != null){
             helpPref.setOnPreferenceClickListener(preference -> {
-                startActivity(new Intent(getActivity(), Activity_HelpList.class));
+                startActivity(new Intent(requireActivity(), Activity_HelpList.class));
                 requireActivity().overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
                 return false;
             });

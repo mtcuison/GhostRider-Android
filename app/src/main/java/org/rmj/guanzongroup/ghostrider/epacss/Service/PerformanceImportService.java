@@ -11,6 +11,7 @@
 
 package org.rmj.guanzongroup.ghostrider.epacss.Service;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.app.job.JobParameters;
 import android.app.job.JobService;
@@ -25,7 +26,7 @@ import org.rmj.g3appdriver.dev.Database.Repositories.RBranchPerformance;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
-import org.rmj.g3appdriver.lib.BullsEye.BranchPerformancePeriod;
+import org.rmj.g3appdriver.lib.BullsEye.PerformancePeriod;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.lib.ImportData.model.ImportDataCallback;
 import org.rmj.g3appdriver.lib.ImportData.model.ImportInstance;
@@ -38,6 +39,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 
+@SuppressLint("SpecifyJobSchedulerIdRange")
 public class PerformanceImportService extends JobService {
     public static final String TAG = PerformanceImportService.class.getSimpleName();
 
@@ -82,99 +84,8 @@ public class PerformanceImportService extends JobService {
                     e.printStackTrace();
                 }
             }
-            AppConfigPreference.getInstance(PerformanceImportService.this).setLastSyncDate(new AppConstants().CURRENT_DATE);
+            AppConfigPreference.getInstance(PerformanceImportService.this).setLastSyncDate(AppConstants.CURRENT_DATE());
             jobFinished(params, false);
         }).start();
-    }
-
-    private static class DownloadAreaBranchesPerformanceTask extends AsyncTask<String, Void, String> {
-
-        private final RAreaPerformance poArea;
-        private final RBranchPerformance poBranch;
-        private final EmployeeMaster poUser;
-        private final ConnectionUtil poConn;
-        private final HttpHeaders poHeaders;
-        private final WebApi poApi;
-        private final AppConfigPreference loConfig;
-
-        public DownloadAreaBranchesPerformanceTask(Application instance) {
-            this.poArea = new RAreaPerformance(instance);
-            this.poBranch = new RBranchPerformance(instance);
-            this.poConn = new ConnectionUtil(instance);
-            this.poUser = new EmployeeMaster(instance);
-            this.poHeaders = HttpHeaders.getInstance(instance);
-            this.loConfig = AppConfigPreference.getInstance(instance);
-            this.poApi = new WebApi(loConfig.getTestStatus());
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-
-        }
-
-        @Override
-        protected String doInBackground(String... strings) {
-            String response = "";
-            try {
-                ArrayList<String> lsPeriod = BranchPerformancePeriod.getList();
-                if(poConn.isDeviceConnected()) {
-                    if(lsPeriod.size() > 0) {
-                        for(int x = 0 ; x < lsPeriod.size(); x++) {
-                            JSONObject loJSon = new JSONObject();
-                            loJSon.put("period", lsPeriod.get(x));
-                            loJSon.put("areacd", poUser.getUserAreaCode());
-                            response = WebClient.sendRequest(poApi.getImportAreaPerformance(loConfig.isBackUpServer()), loJSon.toString(), poHeaders.getHeaders());
-                            JSONObject loJson = new JSONObject(response);
-                            Log.e(TAG, loJson.getString("result"));
-                            String lsResult = loJson.getString("result");
-                            if (lsResult.equalsIgnoreCase("success")) {
-                                JSONArray laJson = loJson.getJSONArray("detail");
-//                                saveDataToLocal(laJson);
-//                                for(int x = 0; x < strings[0].size(); x++) {
-//                                    JSONObject loJSon = new JSONObject();
-//                                    loJSon.put("period", strings[0].get(x));
-//                                    loJSon.put("areacd", poUser.getUserAreaCode());
-//                                    response = WebClient.httpsPostJSon(IMPORT_BRANCH_PERFORMANCE, loJSon.toString(), loHeaders.getHeaders());
-//                                    if(response == null){
-//                                        response = AppConstants.SERVER_NO_RESPONSE();
-//                                    } else {
-//                                        JSONObject loJson = new JSONObject(response);
-//                                        Log.e(TAG, loJson.getString("result"));
-//                                        String lsResult = loJson.getString("result");
-//                                        if (lsResult.equalsIgnoreCase("success")) {
-//                                            JSONArray laJson = loJson.getJSONArray("detail");
-//                                            Log.e(TAG, laJson.toString());
-//                                            saveDataToLocal(laJson);
-//                                        } else {
-//                                            JSONObject loError = loJson.getJSONObject("error");
-//                                            String message = loError.getString("message");
-//                                            callback.OnFailedImportData(message);
-//                                        }
-//                                    }
-//                                    Thread.sleep(1000);
-//                                }
-                            } else {
-                                JSONObject loError = loJson.getJSONObject("error");
-                                String message = loError.getString("message");
-//                                callback.OnFailedImportData(message);
-                            }
-                            Thread.sleep(1000);
-                        }
-                    }
-                } else {
-                    response = AppConstants.NO_INTERNET();
-                }
-            } catch (Exception e) {
-                Log.e(TAG, Arrays.toString(e.getStackTrace()));
-                e.printStackTrace();
-            }
-            return response;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-        }
     }
 }
