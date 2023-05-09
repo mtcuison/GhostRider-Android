@@ -17,6 +17,8 @@ import android.app.Application;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Handler;
+import android.os.Looper;
+import android.telecom.Call;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Patterns;
@@ -43,9 +45,11 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 public class VMForgotPassword extends AndroidViewModel {
     public static final String TAG = VMForgotPassword.class.getSimpleName();
+    private List<Future<String>> futureList;
 
     private final iAuth poSys;
 //    private GCircleApi webApi;
@@ -139,64 +143,115 @@ public class VMForgotPassword extends AndroidViewModel {
 //        }
 //    }
 
-    private Boolean RequestPassword(String Email, RequestPasswordCallback mListener){
+    public String RequestPassword(String Email, RequestPasswordCallback mListener){
         try {
+
             //initialize thread executor object
             ExecutorService executorService = Executors.newFixedThreadPool(2);
 
             //create callback methods, will handle the operation to be executed
-            Callable<Boolean> checkDeviceConn = new Callable<Boolean>() {
+            Callable<String> checkDeviceConn = new Callable<String>() {
                 @Override
-                public Boolean call() throws Exception {
-                    return conn.isDeviceConnected();
+                public String call() throws Exception {
+                    if (conn.isDeviceConnected()){
+                        return "Device Connected";
+                    }else {
+                        return "Offline Mdde";
+                    }
                 }
             };
 
-            Callable<Boolean> requestPassword = new Callable<Boolean>() {
+            Callable<String> requestPassword = new Callable<String>() {
                 @Override
-                public Boolean call() throws Exception {
+                public String call() throws Exception {
                     int result = poSys.DoAction(Email);
 
                     if (result == 0){
-                        return false;
-                    }else if (result == 1){
-                        return true;
-                    }else {
-                        return false;
+                        return "Request Failed";
+                    }else{
+                        return "Successfully Finished Request";
                     }
                 }
             };
 
             //create List of Callables
-            List<Callable<Boolean>> callableList = new ArrayList<>();
+            List<Callable<String>> callableList = new ArrayList<>();
 
             //add callables to list
             callableList.add(checkDeviceConn);
             callableList.add(requestPassword);
 
             //create List of Future, for result after execution of callables
-            List<Future<Boolean>> futureList = new ArrayList<>();
+            futureList = new ArrayList<>();
 
-            //execute the list of callables/threads
-            do {
-                mListener.OnSendRequest("Sending Request", "Sending Request");
-            }while ((futureList = executorService.invokeAll(callableList)) == null);
+            Runnable runnable = new Runnable() {
+                @Override
+                public void run() {
+                    mListener.OnSendRequest("Send Request", "Sending Request . . .");
 
-            //shutdown thread executor
-            executorService.shutdown();
+                    try {
+                        futureList = executorService.invokeAll(callableList);
 
-            Boolean threadResult = false;
-            if (executorService.isShutdown()){
-                threadResult = futureList.get(1).get();
-                mListener.OnSuccessRequest();
-            }
+                        executorService.shutdown();
 
-            //return final result
-            return threadResult;
-        }catch (InterruptedException | ExecutionException e){
-            Log.d("Thread Result", e.getMessage());
-            return false;
+                        if (executorService.isShutdown()){
+                            mListener.OnSuccessRequest();
+                        }
+                    } catch (InterruptedException e) {
+                        mListener.OnFailedRequest(e.getMessage());
+                    }
+                }
+            };
+            runnable.run();
+
+            return "futureList.get(1).get()";
+        }catch (Exception e){
+            mListener.OnFailedRequest(e.getMessage());
+            return e.getMessage();
         }
+    }
+    public void RequestPassword2(String Email, RequestPasswordCallback mListener){
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        Handler handler = new Handler(Looper.getMainLooper());
+
+        executorService.execute(new Runnable() {
+
+            @Override
+            public void run() {
+                try {
+                    //Background work here...
+                    for (int x = 0; x < 10; x++) {
+                        mListener.OnSendRequest("Send Request", "Sending Request . . .");
+                        Thread.sleep(1000);
+                    }
+
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            conn.isDeviceConnected();
+                        }
+                    });
+
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            poSys.DoAction(Email);
+                        }
+                    });
+
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            mListener.OnSuccessRequest();
+                        }
+                    });
+
+                }catch (Exception e){
+                    mListener.OnFailedRequest(e.getMessage());
+                }
+            }
+        });
+
     }
 
     public interface RequestPasswordCallback{

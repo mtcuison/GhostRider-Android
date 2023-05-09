@@ -11,10 +11,7 @@
 
 package org.rmj.g3appdriver.utils;
 
-import static org.rmj.g3appdriver.dev.Api.ApiResult.NOT_CONNECTED;
-import static org.rmj.g3appdriver.dev.Api.ApiResult.UNABLE_TO_REACH_LOCAL;
-import static org.rmj.g3appdriver.dev.Api.ApiResult.UNABLE_TO_REACH_SERVER;
-
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -42,7 +39,7 @@ public class ConnectionUtil {
     private final Context context;
     private String message;
 
-    private static final String LOCAL = "192.168.10.27";
+    private static final String LOCAL = "http://192.168.10.27";
     private static final String PRIMARY_LIVE = "restgk.guanzongroup.com.ph";
 //    private static final String SECONDARY_LIVE = "restgk1.guanzongroup.com.ph";
 
@@ -57,7 +54,7 @@ public class ConnectionUtil {
     public boolean isDeviceConnected(){
         try {
             if (!deviceConnected()) {
-                message = NOT_CONNECTED;
+                message = "Please enable wifi or data to connect.";
                 return false;
             }
 
@@ -133,24 +130,24 @@ public class ConnectionUtil {
 
     private boolean isReachable(String lsAddress)
     {
-//        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-//        StrictMode.setThreadPolicy(policy);
-//
-//        trustAllCertificates();
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        trustAllCertificates();
 
         try
         {
-//            HttpURLConnection httpUrlConnection = (HttpURLConnection) new URL(
-//                    lsAddress).
-//                    openConnection();
-//            httpUrlConnection.setRequestProperty("Connection", "close");
-//            httpUrlConnection.setRequestMethod("HEAD");
-//            httpUrlConnection.setConnectTimeout(7000);
-//            int responseCode = httpUrlConnection.getResponseCode();
-//
-//            return responseCode == HttpURLConnection.HTTP_OK;
-            InetAddress ipAddress = InetAddress.getByName(lsAddress);
-            return ipAddress.isReachable(5000); // Adjust the timeout value as needed
+            HttpURLConnection httpUrlConnection = (HttpURLConnection) new URL(
+                    lsAddress).
+                    openConnection();
+            httpUrlConnection.setRequestProperty("Connection", "close");
+            httpUrlConnection.setRequestMethod("HEAD");
+            httpUrlConnection.setConnectTimeout(7000);
+            int responseCode = httpUrlConnection.getResponseCode();
+
+            return responseCode == HttpURLConnection.HTTP_OK;
+//            InetAddress ipAddress = InetAddress.getByName(lsAddress);
+//            return ipAddress.isReachable(5000); // Adjust the timeout value as needed
         } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();
