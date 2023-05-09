@@ -13,6 +13,8 @@ package org.rmj.guanzongroup.ghostrider.epacss.ViewModel;
 
 import android.app.Application;
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -30,7 +32,13 @@ import org.rmj.g3appdriver.GCircle.Account.EmployeeSession;
 import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
 import org.rmj.g3appdriver.GCircle.Apps.integsys.Dcp.LRDcp;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
+import org.rmj.g3appdriver.utils.Task.OnDoBackgroundTaskListener;
+import org.rmj.g3appdriver.utils.Task.OnLoadApplicationListener;
+import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 import org.rmj.guanzongroup.ghostrider.epacss.BuildConfig;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class VMSplashScreen extends AndroidViewModel {
     private static final String TAG = VMSplashScreen.class.getSimpleName();
@@ -38,64 +46,162 @@ public class VMSplashScreen extends AndroidViewModel {
     private final Application instance;
 
     private final AppConfigPreference poConfigx;
+    private final ConnectionUtil poConn;
+    private final AppConfigPreference poConfig;
+    private final EmployeeMaster poUser;
+    private final EmployeeSession poSession;
+
+    private String message;
+
+    private int lnResult;
 
     public VMSplashScreen(@NonNull Application application) {
         super(application);
         this.instance = application;
         this.poConfigx = AppConfigPreference.getInstance(application);
+        this.poConn = new ConnectionUtil(instance);
+        this.poConfig = AppConfigPreference.getInstance(instance);
+        this.poUser = new EmployeeMaster(instance);
+        this.poSession = new EmployeeSession(instance);
         this.poConfigx.setPackageName(BuildConfig.APPLICATION_ID);
         this.poConfigx.setProductID("gRider");
         this.poConfigx.setUpdateLocally(false);
+        this.poConfigx.setTestCase(true);
         this.poConfigx.setupAppVersionInfo(BuildConfig.VERSION_CODE, BuildConfig.VERSION_NAME, "");
         ETokenInfo loToken = new ETokenInfo();
         loToken.setTokenInf("temp_token");
-        new CheckConnectionTask(application).execute();
+        CheckConnection();
     }
 
     public void SaveFirebaseToken(String fsVal){
-        new SaveTokenTask().execute(fsVal);
-    }
-
-    private class SaveTokenTask extends AsyncTask<String, Void, Boolean>{
-
-        @Override
-        protected Boolean doInBackground(String... strings) {
-            new AppTokenManager(instance).SaveFirebaseToken(strings[0]);
-            return null;
-        }
-    }
-
-    private static class CheckConnectionTask extends AsyncTask<String, Void, Boolean>{
-
-        private final Application instance;
-        private final ConnectionUtil poConn;
-
-        public CheckConnectionTask(Application instance) {
-            this.instance = instance;
-            this.poConn = new ConnectionUtil(instance);
-        }
-
-        @Override
-        protected Boolean doInBackground(String... strings) {
-            if(!poConn.isDeviceConnected()){
-                return false;
+        TaskExecutor.Execute(fsVal, new OnDoBackgroundTaskListener() {
+            @Override
+            public Object DoInBackground(Object args) {
+                return new AppTokenManager(instance).SaveFirebaseToken((String) args);
             }
-            return true;
-        }
 
-        @Override
-        protected void onPostExecute(Boolean isSuccess) {
-            super.onPostExecute(isSuccess);
-            if(isSuccess){
-                Toast.makeText(instance, "Device connected", Toast.LENGTH_LONG).show();
-            } else {
-                Toast.makeText(instance, "Offline mode", Toast.LENGTH_LONG).show();
+            @Override
+            public void OnPostExecute(Object object) {
             }
-        }
+        });
     }
 
-    public void InitializeData(OnInitializeCallback onInitializecallback){
-        new InitializeDataTask(instance, onInitializecallback).execute();
+    private void CheckConnection(){
+        TaskExecutor.Execute(null, new OnDoBackgroundTaskListener() {
+            @Override
+            public Object DoInBackground(Object args) {
+                if(!poConn.isDeviceConnected()){
+                    message = poConn.getMessage();
+                    return false;
+                }
+
+                return true;
+            }
+
+            @Override
+            public void OnPostExecute(Object object) {
+                boolean isSuccess = (boolean) object;
+                if(isSuccess){
+                    Toast.makeText(instance, "Device connected", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(instance, "Offline mode", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+
+    public void InitializeData(OnInitializeCallback mListener){
+        TaskExecutor loTask = new TaskExecutor();
+        loTask.setOnLoadApplicationListener(new OnLoadApplicationListener() {
+            @Override
+            public Object DoInBackground() {
+                try{
+                    if(poConn.isDeviceConnected()){
+                        Log.d(TAG, "Initializing barangay data.");
+                        if(!new RBarangay(instance).ImportBarangay()){
+                            Log.e(TAG, "Unable to import barangay");
+                        }
+                        loTask.publishProgress(1);
+
+                        Log.d(TAG, "Initializing town data.");
+                        if(!new RTown(instance).ImportTown()){
+                            Log.e(TAG, "Unable to import town");
+                        }
+                        loTask.publishProgress(2);
+
+                        Log.d(TAG, "Initializing province data.");
+                        if(!new RProvince(instance).ImportProvince()){
+                            Log.e(TAG, "Unable to import province");
+                        }
+                        loTask.publishProgress(3);
+
+                        if(!new RBranch(instance).ImportBranches()){
+                            Log.e(TAG, "Unable to import branches");
+                        }
+                        loTask.publishProgress(4);
+
+                        LRDcp loDcp = new LRDcp(instance);
+                        if(loDcp.HasCollection()){
+                            loTask.publishProgress(5);
+                        }
+
+                        if(!poSession.isLoggedIn()){
+                            return 2;
+                        }
+
+                        if(!poUser.IsSessionValid()){
+                            return 2;
+                        }
+
+                        return 1;
+                    } else {
+                        if(!poConfig.isAppFirstLaunch()){
+                            message = "Offline Mode.";
+                            return 1;
+                        }
+
+                        message = "Please connect you device to internet to download data.";
+                        return 0;
+                    }
+                } catch (Exception e){
+                    e.printStackTrace();
+                    message = e.getMessage();
+                    return 0;
+                }
+            }
+
+            @Override
+            public void OnProgress(int progress) {
+                String lsArgs;
+                if(poConfig.isAppFirstLaunch()){
+                    lsArgs = "Importing Data...";
+                } else {
+                    lsArgs = "Updating Data...";
+                }
+                if(progress < 5) {
+                    mListener.OnProgress(lsArgs, progress);
+                } else {
+                    mListener.OnHasDCP();
+                }
+            }
+
+            @Override
+            public void OnPostExecute(Object object) {
+                int result = (int) object;
+                switch (result){
+                    case 0:
+                        mListener.OnFailed(message);
+                        break;
+                    case 1:
+                        mListener.OnSuccess();
+                        break;
+                    default:
+                        mListener.OnNoSession();
+                        break;
+                }
+            }
+        });
+        loTask.Execute();
     }
 
     public interface OnInitializeCallback {
@@ -105,115 +211,4 @@ public class VMSplashScreen extends AndroidViewModel {
         void OnNoSession();
         void OnFailed(String message);
     }
-
-    private static class InitializeDataTask extends AsyncTask<String, Integer, Integer>{
-
-        private final Application instance;
-        private final OnInitializeCallback callback;
-        private final ConnectionUtil poConn;
-        private final AppConfigPreference poConfig;
-        private final EmployeeMaster poUser;
-        private final EmployeeSession poSession;
-
-        private String message;
-
-        public InitializeDataTask(Application instance, OnInitializeCallback callback) {
-            this.instance = instance;
-            this.callback = callback;
-            this.poConn = new ConnectionUtil(instance);
-            this.poConfig = AppConfigPreference.getInstance(instance);
-            this.poUser = new EmployeeMaster(instance);
-            this.poSession = new EmployeeSession(instance);
-        }
-
-        @Override
-        protected Integer doInBackground(String... strings) {
-            try{
-                if(poConn.isDeviceConnected()){
-                    Log.d(TAG, "Initializing barangay data.");
-                    if(!new RBarangay(instance).ImportBarangay()){
-                        Log.e(TAG, "Unable to import barangay");
-                    }
-                    publishProgress(1);
-
-                    Log.d(TAG, "Initializing town data.");
-                    if(!new RTown(instance).ImportTown()){
-                        Log.e(TAG, "Unable to import town");
-                    }
-                    publishProgress(2);
-
-                    Log.d(TAG, "Initializing province data.");
-                    if(!new RProvince(instance).ImportProvince()){
-                        Log.e(TAG, "Unable to import province");
-                    }
-                    publishProgress(3);
-
-                    if(!new RBranch(instance).ImportBranches()){
-                        Log.e(TAG, "Unable to import branches");
-                    }
-                    publishProgress(4);
-
-                    LRDcp loDcp = new LRDcp(instance);
-                    if(loDcp.HasCollection()){
-                        publishProgress(5);
-                    }
-
-                    if(!poSession.isLoggedIn()){
-                        return 2;
-                    }
-
-                    if(!poUser.IsSessionValid()){
-                        return 2;
-                    }
-
-                    return 1;
-                } else {
-                    if(!poConfig.isAppFirstLaunch()){
-                        message = "Offline Mode.";
-                        return 1;
-                    }
-
-                    message = "Please connect you device to internet to download data.";
-                    return 0;
-                }
-            } catch (Exception e){
-                e.printStackTrace();
-                message = e.getMessage();
-                return 0;
-            }
-        }
-
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            super.onProgressUpdate(values);
-            String lsArgs;
-            if(poConfig.isAppFirstLaunch()){
-                lsArgs = "Importing Data...";
-            } else {
-                lsArgs = "Updating Data...";
-            }
-            if(values[0] < 5) {
-                callback.OnProgress(lsArgs, values[0]);
-            } else {
-                callback.OnHasDCP();
-            }
-        }
-
-        @Override
-        protected void onPostExecute(Integer result) {
-            super.onPostExecute(result);
-            switch (result){
-                case 0:
-                    callback.OnFailed(message);
-                    break;
-                case 1:
-                    callback.OnSuccess();
-                    break;
-                default:
-                    callback.OnNoSession();
-                    break;
-            }
-        }
-    }
-
 }

@@ -67,7 +67,7 @@ public class ConnectionUtil {
             if (isTestCase) {
                 lsAddress = LOCAL;
                 if (!isReachable(lsAddress)) {
-                    message = "We're experiencing difficulties reaching the local server. Please ensure it is accessible and try again.";
+                    message = UNABLE_TO_REACH_LOCAL;
                     return false;
                 }
 
@@ -76,8 +76,7 @@ public class ConnectionUtil {
 
             lsAddress = PRIMARY_LIVE;
             if(!isReachable(lsAddress)){
-                Log.e(TAG, "We're unable to establish a connection with our servers at the moment. Please check your internet connection and try again.");
-                message = "We're unable to establish a connection with our servers at the moment. Please check your internet connection and try again.";
+                message = UNABLE_TO_REACH_SERVER;
                 return false;
             }
 

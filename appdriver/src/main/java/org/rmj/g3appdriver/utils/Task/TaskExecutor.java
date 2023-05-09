@@ -11,6 +11,8 @@ public class TaskExecutor {
 
     private Object poResult;
 
+    private OnLoadApplicationListener onLoadApplicationListener;
+
     public TaskExecutor(){
 
     }
@@ -47,5 +49,41 @@ public class TaskExecutor {
                 e.printStackTrace();
             }
         });
+    }
+
+    public void setOnLoadApplicationListener(OnLoadApplicationListener onLoadApplicationListener) {
+        this.onLoadApplicationListener = onLoadApplicationListener;
+    }
+
+    public void Execute(){
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Handler handler = new Handler(Looper.getMainLooper());
+
+        executor.execute(() -> {
+            try {
+                //Background work here...
+                Object loResult = onLoadApplicationListener.DoInBackground();
+
+                handler.post(() -> onLoadApplicationListener.OnPostExecute(loResult));
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+    }
+
+    public interface OnShowProgress{
+        void OnProgress();
+    }
+
+    public static void ShowProgress(OnShowProgress listener){
+        Handler handler = new Handler(Looper.getMainLooper());
+
+        handler.post(() -> listener.OnProgress());
+    }
+
+    public void publishProgress(int progress){
+        Handler handler = new Handler(Looper.getMainLooper());
+
+        handler.post(() -> onLoadApplicationListener.OnProgress(progress));
     }
 }
