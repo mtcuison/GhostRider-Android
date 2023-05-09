@@ -93,11 +93,11 @@ public class Fragment_Notifications extends Fragment {
                     }
 
                     if(count == 0){
-                        Objects.requireNonNull(tabLayout.getTabAt(1)).removeBadge();
+                        Objects.requireNonNull(tabLayout.getTabAt(0)).removeBadge();
                         return;
                     }
 
-                    Objects.requireNonNull(Objects.requireNonNull(tabLayout.getTabAt(1)).getOrCreateBadge()).setNumber(count);
+                    Objects.requireNonNull(Objects.requireNonNull(tabLayout.getTabAt(0)).getOrCreateBadge()).setNumber(count);
                 } catch (Exception e){
                     e.printStackTrace();
                 }
@@ -113,11 +113,11 @@ public class Fragment_Notifications extends Fragment {
                     }
 
                     if(count == 0){
-                        Objects.requireNonNull(tabLayout.getTabAt(2)).removeBadge();
+                        Objects.requireNonNull(tabLayout.getTabAt(1)).removeBadge();
                         return;
                     }
 
-                    Objects.requireNonNull(Objects.requireNonNull(tabLayout.getTabAt(2)).getOrCreateBadge()).setNumber(count);
+                    Objects.requireNonNull(Objects.requireNonNull(tabLayout.getTabAt(1)).getOrCreateBadge()).setNumber(count);
                 } catch (Exception e){
                     e.printStackTrace();
                 }
@@ -132,12 +132,12 @@ public class Fragment_Notifications extends Fragment {
                         return;
                     }
 
-//                    if(count == 0){
-//                        Objects.requireNonNull(tabLayout.getTabAt(3)).removeBadge();
-//                        return;
-//                    }
-//
-//                    Objects.requireNonNull(Objects.requireNonNull(tabLayout.getTabAt(3)).getOrCreateBadge()).setNumber(count);
+                    if(count == 0){
+                        Objects.requireNonNull(tabLayout.getTabAt(2)).removeBadge();
+                        return;
+                    }
+
+                    Objects.requireNonNull(Objects.requireNonNull(tabLayout.getTabAt(2)).getOrCreateBadge()).setNumber(count);
                 } catch (Exception e){
                     e.printStackTrace();
                 }

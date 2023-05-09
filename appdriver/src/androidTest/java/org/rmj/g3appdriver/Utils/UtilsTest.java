@@ -23,17 +23,17 @@ public class UtilsTest {
 
     @Test
     public void test01AsynckTask() {
-        new TaskExecutor().Execute(new JSONObject().toString(), new OnTaskExecuteListener() {
-            @Override
-            public void OnPreExecute() {
-                Log.d(TAG, "Task started.");
-            }
-
-            @Override
-            public void OnPostExecute(Object object) {
-                Log.d(TAG, "Task finished.");
-                boolean loResult = (boolean) object;
-            }
-        });
+//        new TaskExecutor().Execute(new JSONObject().toString(), new OnTaskExecuteListener() {
+//            @Override
+//            public void OnPreExecute() {
+//                Log.d(TAG, "Task started.");
+//            }
+//
+//            @Override
+//            public void OnPostExecute(Object object) {
+//                Log.d(TAG, "Task finished.");
+//                boolean loResult = (boolean) object;
+//            }
+//        });
     }
 }

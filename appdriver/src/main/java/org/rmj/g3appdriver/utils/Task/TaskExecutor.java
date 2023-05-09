@@ -1,17 +1,15 @@
 package org.rmj.g3appdriver.utils.Task;
 
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
-
-import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class TaskExecutor {
     private static final String TAG = TaskExecutor.class.getSimpleName();
+
+    private Object poResult;
 
     public TaskExecutor(){
 
