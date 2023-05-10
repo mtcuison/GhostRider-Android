@@ -192,10 +192,13 @@ public class VMForgotPassword extends AndroidViewModel {
                     try {
                         futureList = executorService.invokeAll(callableList);
 
-                        executorService.shutdown();
+                        if (futureList.get(1).isDone()){
 
-                        if (executorService.isShutdown()){
-                            mListener.OnSuccessRequest();
+                            executorService.shutdown();
+
+                            if (executorService.isShutdown()){
+                                mListener.OnSuccessRequest();
+                            }
                         }
                     } catch (InterruptedException e) {
                         mListener.OnFailedRequest(e.getMessage());
