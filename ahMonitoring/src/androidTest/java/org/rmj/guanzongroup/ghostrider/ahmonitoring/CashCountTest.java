@@ -109,7 +109,7 @@ public class CashCountTest {
         params.put("sORNoxNPt", "123123");
         params.put("sPRNoxNPt", "123123");
         params.put("sDRNoxxxx", "123123");
-        params.put("dTransact", AppConstants.CURRENT_DATE);
+        params.put("dTransact", AppConstants.CURRENT_DATE());
         params.put("dEntryDte", new AppConstants().DATE_MODIFIED);
         params.put("sReqstdBy", "");
 

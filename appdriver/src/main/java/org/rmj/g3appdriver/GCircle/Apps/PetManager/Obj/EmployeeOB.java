@@ -471,7 +471,7 @@ public class EmployeeOB implements iPM {
             detail.setTransNox(lsTransNo);
             detail.setFullName(loUser.getUserName());
             detail.setDeptName(DeptCode.getDepartmentName(loUser.getDeptIDxx()));
-            detail.setTransact(AppConstants.CURRENT_DATE);
+            detail.setTransact(AppConstants.CURRENT_DATE());
             detail.setEmployee(loUser.getEmployID());
             detail.setBranchNm(foVal.getDestinat());
             detail.setDateFrom(foVal.getDateFrom());

@@ -64,7 +64,7 @@ public class Activity_ItineraryEntry extends AppCompatActivity {
         lblDept = findViewById(R.id.lbl_userPosition);
 
         //init default itinerary values
-        loDetail.setTransact(AppConstants.CURRENT_DATE);
+        loDetail.setTransact(AppConstants.CURRENT_DATE());
 
         poLoad = new LoadDialog(Activity_ItineraryEntry.this);
         poDialog = new MessageBox(Activity_ItineraryEntry.this);

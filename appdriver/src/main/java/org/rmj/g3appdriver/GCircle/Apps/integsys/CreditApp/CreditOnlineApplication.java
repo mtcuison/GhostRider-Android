@@ -383,7 +383,7 @@ public class CreditOnlineApplication {
             loApp.setAppliedx(loGocas.PurchaseInfo().getAppliedFor());
             loApp.setDownPaym(loGocas.PurchaseInfo().getDownPayment());
             loApp.setCreatedx(new AppConstants().DATE_MODIFIED);
-            loApp.setTransact(AppConstants.CURRENT_DATE);
+            loApp.setTransact(AppConstants.CURRENT_DATE());
             loApp.setTranStat("0");
             poDao.Save(loApp);
 

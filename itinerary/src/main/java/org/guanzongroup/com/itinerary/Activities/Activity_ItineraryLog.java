@@ -51,7 +51,7 @@ public class Activity_ItineraryLog extends AppCompatActivity {
     private RecyclerView recyclerView;
     private MaterialButton btnFilter;
 
-    private String psFrom = AppConstants.CURRENT_DATE, psThru = AppConstants.CURRENT_DATE;
+    private String psFrom = AppConstants.CURRENT_DATE(), psThru = AppConstants.CURRENT_DATE();
 
     public boolean isFiltered = false;
 

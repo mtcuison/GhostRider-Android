@@ -72,7 +72,7 @@ public class Dialog_DebugEntry {
         MaterialButton btnConfirm = view.findViewById(R.id.btn_dcpConfirm);
         MaterialButton btnCancel = view.findViewById(R.id.btn_cancel);
 
-        txtDateEnt.setText(new AppConstants().CURRENT_DATE);
+        txtDateEnt.setText(AppConstants.CURRENT_DATE());
         txtDateEnt.setOnClickListener(v -> {
             final Calendar newCalendar = Calendar.getInstance();
             @SuppressLint("SimpleDateFormat") final SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");

@@ -69,7 +69,7 @@ public class PerformanceImportService extends JobService {
                     e.printStackTrace();
                 }
             }
-            AppConfigPreference.getInstance(PerformanceImportService.this).setLastSyncDate(new AppConstants().CURRENT_DATE);
+            AppConfigPreference.getInstance(PerformanceImportService.this).setLastSyncDate(AppConstants.CURRENT_DATE());
             jobFinished(params, false);
         }).start();
     }

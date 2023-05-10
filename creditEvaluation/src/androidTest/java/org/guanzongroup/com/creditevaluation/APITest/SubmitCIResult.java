@@ -104,7 +104,7 @@ public class SubmitCIResult {
         params.put("sNeighBr3", "sample neighbor 3");
         params.put("cTranStat", "2");
         params.put("sApproved", "M00117000702");
-        params.put("dApproved", AppConstants.CURRENT_DATE);
+        params.put("dApproved", AppConstants.CURRENT_DATE());
 
         String lsResponse = WebClient.sendRequest(poApis.getUrlSubmitCIResult(),
                 params.toString(), (HashMap<String, String>) headers);

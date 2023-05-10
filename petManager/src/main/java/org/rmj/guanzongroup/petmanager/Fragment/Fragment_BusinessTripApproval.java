@@ -109,7 +109,7 @@ public class Fragment_BusinessTripApproval extends Fragment implements VMObAppro
                         } else {
                             lblTransNox.setText(eEmployeeBusinessTrip.getTransNox());
                             lblDateAppd.setText(FormatUIText.formatGOCasBirthdate(eEmployeeBusinessTrip.getTransact()));
-                            lblDateAppx.setText(FormatUIText.formatGOCasBirthdate(AppConstants.CURRENT_DATE));
+                            lblDateAppx.setText(FormatUIText.formatGOCasBirthdate(AppConstants.CURRENT_DATE()));
                             lblEmployeNm.setText(eEmployeeBusinessTrip.getFullName());
                             lblDateFrom.setText(FormatUIText.formatGOCasBirthdate(eEmployeeBusinessTrip.getDateFrom()));
                             lblDateThru.setText(FormatUIText.formatGOCasBirthdate(eEmployeeBusinessTrip.getDateThru()));

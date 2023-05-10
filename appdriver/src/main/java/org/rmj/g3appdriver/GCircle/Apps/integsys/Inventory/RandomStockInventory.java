@@ -53,13 +53,13 @@ public class RandomStockInventory {
 
     public List<EBranchInfo> GetBranchesForInventory(){
         try{
-            int lnLogsxx = poDao.CheckIfHasSelfieLog(AppConstants.CURRENT_DATE);
+            int lnLogsxx = poDao.CheckIfHasSelfieLog(AppConstants.CURRENT_DATE());
             if(lnLogsxx == 0){
                 message = "No selfie log record found for this day.";
                 return null;
             }
 
-            List<EBranchInfo> loList = poDao.GetBranchesForInventory(AppConstants.CURRENT_DATE);
+            List<EBranchInfo> loList = poDao.GetBranchesForInventory(AppConstants.CURRENT_DATE());
             if(loList.size() == 0){
                 message = "All branches on selfie log has inventory record.";
                 return null;
@@ -79,7 +79,7 @@ public class RandomStockInventory {
 
     public Boolean CheckInventoryRecord(String fsVal){
         try{
-            EInventoryMaster loMaster = poDao.GetMasterIfExists(fsVal, AppConstants.CURRENT_DATE);
+            EInventoryMaster loMaster = poDao.GetMasterIfExists(fsVal, AppConstants.CURRENT_DATE());
 
             if(loMaster != null){
 
@@ -105,7 +105,7 @@ public class RandomStockInventory {
 
     public boolean ImportInventory(String fsVal){
         try{
-            EInventoryMaster loMaster = poDao.GetMasterIfExists(fsVal, AppConstants.CURRENT_DATE);
+            EInventoryMaster loMaster = poDao.GetMasterIfExists(fsVal, AppConstants.CURRENT_DATE());
 
             if(loMaster != null){
                 if(loMaster.getTranStat().equalsIgnoreCase("2")) {
@@ -245,7 +245,7 @@ public class RandomStockInventory {
     }
 
     public LiveData<EInventoryMaster> GetInventoryMaster(String BranchCd){
-        return poDao.GetInventoryMaster(BranchCd, AppConstants.CURRENT_DATE);
+        return poDao.GetInventoryMaster(BranchCd, AppConstants.CURRENT_DATE());
     }
 
     public LiveData<List<EInventoryDetail>> GetInventoryItems(String fsVal){
@@ -286,7 +286,7 @@ public class RandomStockInventory {
 
     public boolean UploadInventory(String fsVal){
         try{
-            EInventoryMaster loMaster = poDao.GetMasterIfExists(fsVal, AppConstants.CURRENT_DATE);
+            EInventoryMaster loMaster = poDao.GetMasterIfExists(fsVal, AppConstants.CURRENT_DATE());
 
             if(loMaster == null){
                 message = "Unable to find record for uploading.";
@@ -353,7 +353,7 @@ public class RandomStockInventory {
 
     public String SaveMasterForPosting(String fsVal, String Remarks){
         try{
-            EInventoryMaster loMaster = poDao.GetMasterIfExists(fsVal, AppConstants.CURRENT_DATE);
+            EInventoryMaster loMaster = poDao.GetMasterIfExists(fsVal, AppConstants.CURRENT_DATE());
 
             if(loMaster == null){
                 message = "Unable to find record for uploading.";

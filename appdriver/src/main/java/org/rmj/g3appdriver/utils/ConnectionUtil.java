@@ -40,7 +40,7 @@ public class ConnectionUtil {
     private String message;
 
     private static final String LOCAL = "http://192.168.10.27";
-    private static final String PRIMARY_LIVE = "restgk.guanzongroup.com.ph";
+    private static final String PRIMARY_LIVE = "https://restgk.guanzongroup.com.ph";
 //    private static final String SECONDARY_LIVE = "restgk1.guanzongroup.com.ph";
 
     public ConnectionUtil(Context context){
@@ -54,7 +54,7 @@ public class ConnectionUtil {
     public boolean isDeviceConnected(){
         try {
             if (!deviceConnected()) {
-                message = "Please enable wifi or data to connect.";
+                message = NOT_CONNECTED;
                 return false;
             }
 
@@ -64,7 +64,7 @@ public class ConnectionUtil {
             if (isTestCase) {
                 lsAddress = LOCAL;
                 if (!isReachable(lsAddress)) {
-                    message = "We're experiencing difficulties reaching the local server. Please ensure it is accessible and try again.";
+                    message = UNABLE_TO_REACH_LOCAL;
                     return false;
                 }
 
@@ -73,8 +73,7 @@ public class ConnectionUtil {
 
             lsAddress = PRIMARY_LIVE;
             if(!isReachable(lsAddress)){
-                Log.e(TAG, "We're unable to establish a connection with our servers at the moment. Please check your internet connection and try again.");
-                message = "We're unable to establish a connection with our servers at the moment. Please check your internet connection and try again.";
+                message = UNABLE_TO_REACH_SERVER;
                 return false;
             }
 
@@ -142,7 +141,7 @@ public class ConnectionUtil {
                     openConnection();
             httpUrlConnection.setRequestProperty("Connection", "close");
             httpUrlConnection.setRequestMethod("HEAD");
-            httpUrlConnection.setConnectTimeout(7000);
+            httpUrlConnection.setConnectTimeout(5000);
             int responseCode = httpUrlConnection.getResponseCode();
 
             return responseCode == HttpURLConnection.HTTP_OK;

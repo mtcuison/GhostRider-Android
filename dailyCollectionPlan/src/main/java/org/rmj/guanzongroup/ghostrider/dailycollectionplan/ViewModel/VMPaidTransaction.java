@@ -194,7 +194,7 @@ public class VMPaidTransaction extends AndroidViewModel {
                 //Check here if the due date is on the maximum days per month
                 // if true check the maximum day of month and set it as the due date for this current month...
                 if(lsDayDuex.equalsIgnoreCase("31")) {
-                    LocalDate lastDayOfMonth = LocalDate.parse(AppConstants.CURRENT_DATE, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+                    LocalDate lastDayOfMonth = LocalDate.parse(AppConstants.CURRENT_DATE(), DateTimeFormatter.ofPattern("yyyy-MM-dd"))
                             .with(TemporalAdjusters.lastDayOfMonth());
                     lsDayDuex = String.valueOf(lastDayOfMonth.getDayOfMonth());
                 }
