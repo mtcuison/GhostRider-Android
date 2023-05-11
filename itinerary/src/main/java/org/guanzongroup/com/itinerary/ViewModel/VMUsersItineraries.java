@@ -31,7 +31,8 @@ public class VMUsersItineraries extends AndroidViewModel {
     }
 
     public void DownloadItineraryForUser(String args, String args1, String args2, OnDownloadUserEntriesListener listener){
-        new DownloadItineraryTask(listener).execute(args, args1, args2);
+//        new DownloadItineraryTask(listener).execute(args, args1, args2);
+
     }
 
     public class DownloadItineraryTask extends AsyncTask<String, Void, List<EItinerary>>{

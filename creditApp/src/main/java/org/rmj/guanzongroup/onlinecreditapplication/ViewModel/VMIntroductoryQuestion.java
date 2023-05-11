@@ -2,7 +2,6 @@ package org.rmj.guanzongroup.onlinecreditapplication.ViewModel;
 
 import android.app.Application;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -10,19 +9,21 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.CreditOnlineApplication;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.OnSaveInfoListener;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.model.LoanInfo;
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DMcModel;
 import org.rmj.g3appdriver.GCircle.room.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.EMcBrand;
 import org.rmj.g3appdriver.GCircle.room.Entities.EMcModel;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.CreditOnlineApplication;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.OnSaveInfoListener;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.model.LoanInfo;
+import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
+import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 
 import java.util.List;
 
-public class VMIntroductoryQuestion extends AndroidViewModel implements CreditAppUI{
+public class VMIntroductoryQuestion extends AndroidViewModel implements CreditAppUI {
     private static final String TAG = VMIntroductoryQuestion.class.getSimpleName();
 
     private final CreditOnlineApplication poApp;
@@ -44,63 +45,63 @@ public class VMIntroductoryQuestion extends AndroidViewModel implements CreditAp
         return poModel;
     }
 
-    public void setBrandID(String args){
+    public void setBrandID(String args) {
         this.psBrandID.setValue(args);
     }
 
-    public LiveData<String> GetBrandID(){
+    public LiveData<String> GetBrandID() {
         return psBrandID;
     }
 
-    public void setModelID(String args){
+    public void setModelID(String args) {
         this.psModelID.setValue(args);
     }
 
-    public LiveData<String> GetModelID(){
+    public LiveData<String> GetModelID() {
         return psModelID;
     }
 
-    public void setModelAmortization(DMcModel.McAmortInfo args){
+    public void setModelAmortization(DMcModel.McAmortInfo args) {
         this.poAmort.setValue(args);
     }
 
-    public LiveData<DEmployeeInfo.EmployeeBranch> GetUserInfo(){
+    public LiveData<DEmployeeInfo.EmployeeBranch> GetUserInfo() {
         return poApp.GetUserInfo();
     }
 
-    public LiveData<List<EBranchInfo>> GetAllBranchInfo(){
+    public LiveData<List<EBranchInfo>> GetAllBranchInfo() {
         return poApp.getAllBranchInfo();
     }
 
-    public LiveData<List<EMcBrand>> GetAllMcBrand(){
+    public LiveData<List<EMcBrand>> GetAllMcBrand() {
         return poApp.getAllMcBrand();
     }
 
-    public LiveData<List<EMcModel>> GetAllBrandModelInfo(String args){
+    public LiveData<List<EMcModel>> GetAllBrandModelInfo(String args) {
         return poApp.getAllBrandModelInfo(args);
     }
 
-    public LiveData<DMcModel.McDPInfo> GetInstallmentPlanDetail(String ModelID){
+    public LiveData<DMcModel.McDPInfo> GetInstallmentPlanDetail(String ModelID) {
         return poApp.GetInstallmentPlanDetail(ModelID);
     }
 
-    public boolean InitializeTermAndDownpayment(DMcModel.McDPInfo args){
+    public boolean InitializeTermAndDownpayment(DMcModel.McDPInfo args) {
         return poApp.InitializeMcInstallmentTerms(args);
     }
 
-    public LiveData<DMcModel.McAmortInfo> GetAmortizationDetail(String args, int args1){
+    public LiveData<DMcModel.McAmortInfo> GetAmortizationDetail(String args, int args1) {
         return poApp.GetMonthlyPayment(args, args1);
     }
 
-    public double GetMinimumDownpayment(){
+    public double GetMinimumDownpayment() {
         return poApp.GetMinimumDownpayment();
     }
 
-    public double GetMonthlyPayment(double args1){
+    public double GetMonthlyPayment(double args1) {
         return poApp.GetMonthlyAmortization(poAmort.getValue(), args1);
     }
 
-    public double GetMonthlyPayment(int args1){
+    public double GetMonthlyPayment(int args1) {
         return poApp.GetMonthlyAmortization(poAmort.getValue(), args1);
     }
 
@@ -125,50 +126,92 @@ public class VMIntroductoryQuestion extends AndroidViewModel implements CreditAp
 
     @Override
     public void SaveData(OnSaveInfoListener listener) {
-        new CreateNewApplicationTask(listener).execute(poModel);
-    }
+//        new CreateNewApplicationTask(listener).execute(poModel);
+        TaskExecutor.Execute(listener, new OnTaskExecuteListener() {
+            @Override
+            public void OnPreExecute() {
 
-    private class CreateNewApplicationTask extends AsyncTask<LoanInfo, Void, String>{
+            }
 
-        private final OnSaveInfoListener listener;
+            @Override
+            public Object DoInBackground(Object args) {
+                LoanInfo lsLoanInfo = (LoanInfo) args;
+                try {
+                    LoanInfo loDetail = lsLoanInfo;
 
-        public CreateNewApplicationTask(OnSaveInfoListener listener) {
-            this.listener = listener;
-        }
+                    if (!loDetail.isDataValid()) {
+                        message = loDetail.getMessage();
+                        return null;
+                    }
 
-        @Override
-        protected String doInBackground(LoanInfo... loanInfos) {
-            try {
-                LoanInfo loDetail = loanInfos[0];
+                    String lsResult = poApp.CreateApplication(loDetail);
 
-                if (!loDetail.isDataValid()) {
-                    message = loDetail.getMessage();
+                    if (lsResult == null) {
+                        message = poApp.getMessage();
+                        return null;
+                    }
+
+                    return lsResult;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    message = e.getMessage();
                     return null;
                 }
+            }
 
-                String lsResult = poApp.CreateApplication(loDetail);
-
-                if (lsResult == null){
-                    message = poApp.getMessage();
-                    return null;
+            @Override
+            public void OnPostExecute(Object object) {
+                String lsResult = (String) object;
+                if (lsResult == null) {
+                    listener.OnFailed(message);
+                } else {
+                    listener.OnSave(lsResult);
                 }
-
-                return lsResult;
-            } catch (Exception e){
-                e.printStackTrace();
-                message = e.getMessage();
-                return null;
             }
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-            if(result == null){
-                listener.OnFailed(message);
-            } else {
-                listener.OnSave(result);
-            }
-        }
+        });
     }
 }
+//    private class CreateNewApplicationTask extends AsyncTask<LoanInfo, Void, String>{
+//
+//        private final OnSaveInfoListener listener;
+//
+//        public CreateNewApplicationTask(OnSaveInfoListener listener) {
+//            this.listener = listener;
+//        }
+//
+//        @Override
+//        protected String doInBackground(LoanInfo... loanInfos) {
+//            try {
+//                LoanInfo loDetail = loanInfos[0];
+//
+//                if (!loDetail.isDataValid()) {
+//                    message = loDetail.getMessage();
+//                    return null;
+//                }
+//
+//                String lsResult = poApp.CreateApplication(loDetail);
+//
+//                if (lsResult == null){
+//                    message = poApp.getMessage();
+//                    return null;
+//                }
+//
+//                return lsResult;
+//            } catch (Exception e){
+//                e.printStackTrace();
+//                message = e.getMessage();
+//                return null;
+//            }
+//        }
+//
+//        @Override
+//        protected void onPostExecute(String result) {
+//            super.onPostExecute(result);
+//            if(result == null){
+//                listener.OnFailed(message);
+//            } else {
+//                listener.OnSave(result);
+//            }
+//        }
+//    }
+//}

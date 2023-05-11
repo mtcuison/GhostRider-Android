@@ -12,17 +12,18 @@
 package org.rmj.guanzongroup.ghostrider.epacss.ViewModel;
 
 import android.app.Application;
-import android.os.AsyncTask;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
 import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeRole;
-import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
 import org.rmj.g3appdriver.lib.Panalo.Obj.ILOVEMYJOB;
+import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
+import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 import org.rmj.guanzongroup.ghostrider.epacss.Service.DataSyncService;
 import org.rmj.guanzongroup.ghostrider.epacss.ui.Dashboard.Fragment_AHDashboard;
 import org.rmj.guanzongroup.ghostrider.epacss.ui.Dashboard.Fragment_BHDashboard;
@@ -37,6 +38,7 @@ public class VMMainActivity extends AndroidViewModel {
     private final DataSyncService poNetRecvr;
     private final EmployeeMaster poUser;
     private final ILOVEMYJOB poPanalo;
+    private String message;
 
     public VMMainActivity(@NonNull Application application) {
         super(application);
@@ -46,25 +48,25 @@ public class VMMainActivity extends AndroidViewModel {
         this.poPanalo = new ILOVEMYJOB(app);
     }
 
-    public DataSyncService getInternetReceiver(){
+    public DataSyncService getInternetReceiver() {
         return poNetRecvr;
     }
 
-    public LiveData<List<EEmployeeRole>> getEmployeeRole(){
+    public LiveData<List<EEmployeeRole>> getEmployeeRole() {
         return poUser.getEmployeeRoles();
     }
 
-    public LiveData<List<EEmployeeRole>> getChildRoles(){
+    public LiveData<List<EEmployeeRole>> getChildRoles() {
         return poUser.getChildRoles();
     }
 
-    public LiveData<EEmployeeInfo> getEmployeeInfo(){
+    public LiveData<EEmployeeInfo> getEmployeeInfo() {
         return poUser.GetEmployeeInfo();
     }
 
-    public Fragment GetUserFragments(EEmployeeInfo args){
+    public Fragment GetUserFragments(EEmployeeInfo args) {
         Fragment userLevel;
-        switch (args.getEmpLevID()){
+        switch (args.getEmpLevID()) {
             case 3:
                 userLevel = new Fragment_BHDashboard();
                 break;
@@ -72,7 +74,7 @@ public class VMMainActivity extends AndroidViewModel {
                 userLevel = new Fragment_AHDashboard();
                 break;
             default:
-                switch (args.getDeptIDxx()){
+                switch (args.getDeptIDxx()) {
                     case "032":
                         userLevel = new Fragment_Eng_Dashboard();
                         break;
@@ -84,21 +86,41 @@ public class VMMainActivity extends AndroidViewModel {
         return userLevel;
     }
 
-    public void ResetRaffleStatus(){
-        new ResetPanaloStatusTask().execute();
-    }
+    public void ResetRaffleStatus() {
+//        new ResetPanaloStatusTask().execute();
+        TaskExecutor.Execute(null, new OnTaskExecuteListener() {
+            @Override
+            public void OnPreExecute() {
 
-    private class ResetPanaloStatusTask extends AsyncTask<Void, Void, Boolean>{
-
-        private String message;
-
-        @Override
-        protected Boolean doInBackground(Void... voids) {
-            if(!poPanalo.ResetRaffleStatus()){
-                message = poPanalo.getMessage();
-                return false;
             }
-            return true;
-        }
+
+            @Override
+            public Object DoInBackground(Object args) {
+                if (!poPanalo.ResetRaffleStatus()) {
+                    message = poPanalo.getMessage();
+                    return false;
+                }
+                return true;
+            }
+
+            @Override
+            public void OnPostExecute(Object object) {
+
+            }
+        });
     }
 }
+//    private class ResetPanaloStatusTask extends AsyncTask<Void, Void, Boolean>{
+//
+//        private String message;
+//
+//        @Override
+//        protected Boolean doInBackground(Void... voids) {
+//            if(!poPanalo.ResetRaffleStatus()){
+//                message = poPanalo.getMessage();
+//                return false;
+//            }
+//            return true;
+//        }
+//    }
+//}

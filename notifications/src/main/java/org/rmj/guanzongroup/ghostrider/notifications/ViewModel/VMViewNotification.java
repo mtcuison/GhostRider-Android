@@ -12,7 +12,6 @@
 package org.rmj.guanzongroup.ghostrider.notifications.ViewModel;
 
 import android.app.Application;
-import android.os.AsyncTask;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -25,6 +24,8 @@ import org.rmj.g3appdriver.GCircle.room.Entities.ENotificationRecipient;
 import org.rmj.g3appdriver.lib.Notifications.NOTIFICATION_STATUS;
 import org.rmj.g3appdriver.lib.Notifications.Obj.Notification;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
+import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
+import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 
 import java.util.List;
 
@@ -40,43 +41,76 @@ public class VMViewNotification extends AndroidViewModel {
         this.poConn = new ConnectionUtil(application);
     }
 
-    public LiveData<List<DNotification.NotificationListDetail>> GetOtherNotificationList(){
+    public LiveData<List<DNotification.NotificationListDetail>> GetOtherNotificationList() {
         return poSys.GetOtherNotificationList();
     }
 
-    public LiveData<ENotificationMaster> GetNotificationMaster(String args){
+    public LiveData<ENotificationMaster> GetNotificationMaster(String args) {
         return poSys.GetNotificationMaster(args);
     }
 
-    public LiveData<ENotificationRecipient> GetNotificationDetail(String args){
+    public LiveData<ENotificationRecipient> GetNotificationDetail(String args) {
         return poSys.GetNotificationDetail(args);
     }
 
-    public void SendResponse(String args){
-        new SendResponseTask().execute(args);
-    }
+    public void SendResponse(String args) {
+//        new SendResponseTask().execute(args);
+        TaskExecutor.Execute(null, new OnTaskExecuteListener() {
+            @Override
+            public void OnPreExecute() {
 
-    private class SendResponseTask extends AsyncTask<String, Void, Boolean>{
-
-        @Override
-        protected Boolean doInBackground(String... voids) {
-            try{
-                if(!poConn.isDeviceConnected()){
-                    Log.e(TAG, poConn.getMessage());
-                    return false;
-                }
-
-                String lsMessageID = voids[0];
-                if(poSys.SendResponse(lsMessageID, NOTIFICATION_STATUS.READ) == null){
-                    Log.e(TAG, poSys.getMessage());
-                    return false;
-                }
-
-                return true;
-            } catch (Exception e){
-                e.printStackTrace();
-                return false;
             }
-        }
+
+            @Override
+            public Object DoInBackground(Object args) {
+                String lsVoid = (String) args;
+                try {
+                    if (!poConn.isDeviceConnected()) {
+                        Log.e(TAG, poConn.getMessage());
+                        return false;
+                    }
+
+                    String lsMessageID = lsVoid;
+                    if (poSys.SendResponse(lsMessageID, NOTIFICATION_STATUS.READ) == null) {
+                        Log.e(TAG, poSys.getMessage());
+                        return false;
+                    }
+
+                    return true;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return false;
+                }
+            }
+
+            @Override
+            public void OnPostExecute(Object object) {
+
+            }
+        });
     }
 }
+//    private class SendResponseTask extends AsyncTask<String, Void, Boolean>{
+//
+//        @Override
+//        protected Boolean doInBackground(String... voids) {
+//            try{
+//                if(!poConn.isDeviceConnected()){
+//                    Log.e(TAG, poConn.getMessage());
+//                    return false;
+//                }
+//
+//                String lsMessageID = voids[0];
+//                if(poSys.SendResponse(lsMessageID, NOTIFICATION_STATUS.READ) == null){
+//                    Log.e(TAG, poSys.getMessage());
+//                    return false;
+//                }
+//
+//                return true;
+//            } catch (Exception e){
+//                e.printStackTrace();
+//                return false;
+//            }
+//        }
+//    }
+//}

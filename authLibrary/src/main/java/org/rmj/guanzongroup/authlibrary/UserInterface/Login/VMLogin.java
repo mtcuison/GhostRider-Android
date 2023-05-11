@@ -12,8 +12,6 @@ package org.rmj.guanzongroup.authlibrary.UserInterface.Login;
 
 import android.annotation.SuppressLint;
 import android.app.Application;
-import android.os.AsyncTask;
-import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -21,13 +19,10 @@ import androidx.lifecycle.AndroidViewModel;
 
 import org.rmj.g3appdriver.dev.Device.Telephony;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
 import org.rmj.g3appdriver.lib.Account.AccountMaster;
 import org.rmj.g3appdriver.lib.Account.Model.Auth;
 import org.rmj.g3appdriver.lib.Account.Model.iAuth;
 import org.rmj.g3appdriver.lib.Account.pojo.UserAuthInfo;
-import org.rmj.g3appdriver.lib.Version.AppVersion;
-import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
 import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 
@@ -80,6 +75,7 @@ public class VMLogin extends AndroidViewModel {
             @Override
             public Object DoInBackground(Object args) {
                 try{
+                    String lsSample = (String) args;
                     int lnResult = poSys.DoAction(args);
                     if(lnResult == 0){
                         message = poSys.getMessage();
