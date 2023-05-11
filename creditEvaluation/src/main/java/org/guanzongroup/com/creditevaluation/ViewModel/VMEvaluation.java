@@ -3,7 +3,6 @@ package org.guanzongroup.com.creditevaluation.ViewModel;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Intent;
-import android.os.AsyncTask;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -20,6 +19,9 @@ import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditInvestigator.pojo.CIImage
 import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditInvestigator.Obj.CITagging;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.etc.ImageFileCreator;
+import org.rmj.g3appdriver.utils.Task.OnDoBackgroundTaskListener;
+import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
+import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 
 import java.util.List;
 
@@ -89,7 +91,7 @@ public class VMEvaluation extends AndroidViewModel {
         new ValidateTaggingTask(TransNox, fsKeyxx, listener).execute(foList);
     }
 
-    private class ValidateTaggingTask extends AsyncTask<List<String>, Void, Boolean>{
+    /*private class ValidateTaggingTask extends AsyncTask<List<String>, Void, Boolean>{
 
         private final OnValidateTaggingResult mListener;
         private final String TransNox;
@@ -122,13 +124,49 @@ public class VMEvaluation extends AndroidViewModel {
                 mListener.OnValid();
             }
         }
+    }*/
+    private class ValidateTaggingTask{
+        private final OnValidateTaggingResult mListener;
+        private final String TransNox;
+        private final String fsKeyxx;
+
+        private String message;
+
+        public ValidateTaggingTask(String TransNox, String fsKeyxx, OnValidateTaggingResult listener) {
+            this.TransNox = TransNox;
+            this.fsKeyxx = fsKeyxx;
+            this.mListener = listener;
+        }
+
+        public void execute(List<String> lists){
+            TaskExecutor.Execute(lists, new OnDoBackgroundTaskListener() {
+                @Override
+                public Object DoInBackground(Object args) {
+                    if(!poSys.ValidateTagging(TransNox, fsKeyxx, (List<String>) args)){
+                        message = poSys.getMessage();
+                        return false;
+                    }
+                    return true;
+                }
+
+                @Override
+                public void OnPostExecute(Object object) {
+                    Boolean isSuccess = (Boolean) object;
+                    if(!isSuccess){
+                        mListener.OnInvalid(message);
+                    } else {
+                        mListener.OnValid();
+                    }
+                }
+            });
+        }
     }
 
     public void SaveCIResult(String args, String fsPar, String fsKey, String fsRes, List<String> foList, OnSaveCIResultListener listener){
         new SaveCIResult(foList, listener).execute(args, fsPar, fsKey, fsRes);
     }
 
-    private class SaveCIResult extends AsyncTask<String, Void, Boolean>{
+    /*private class SaveCIResult extends AsyncTask<String, Void, Boolean>{
 
         private final OnSaveCIResultListener listener;
 
@@ -169,13 +207,57 @@ public class VMEvaluation extends AndroidViewModel {
                 listener.OnSuccess();
             }
         }
+    }*/
+    private class SaveCIResult{
+        private final OnSaveCIResultListener listener;
+        private String message;
+        public SaveCIResult(List<String> foList, OnSaveCIResultListener listener) {
+            this.listener = listener;
+        }
+        public void execute(String args, String fsPar, String fsKey, String fsRes){
+            String[] params = {args, fsPar, fsKey, fsRes};
+            TaskExecutor.Execute(params, new OnDoBackgroundTaskListener() {
+                @Override
+                public Object DoInBackground(Object args) {
+                    try{
+                        String[] array = (String[]) args;
+                        String TransNox = array[0];
+                        String Parentxx = array[1];
+                        String KeyNamex = array[2];
+                        String Resultxx = array[3];
+
+
+                        if (!poSys.SaveCIResult(TransNox, Parentxx, KeyNamex, Resultxx)) {
+                            message = poSys.getMessage();
+                            return false;
+                        }
+
+                        return true;
+                    } catch (Exception e){
+                        e.printStackTrace();
+                        message = e.getMessage();
+                        return false;
+                    }
+                }
+
+                @Override
+                public void OnPostExecute(Object object) {
+                    Boolean isSuccess = (Boolean) object;
+                    if(!isSuccess){
+                        listener.OnError(message);
+                    } else {
+                        listener.OnSuccess();
+                    }
+                }
+            });
+        }
     }
 
     public void SaveBarangayRecord(BarangayRecord foVal, OnUpdateOtherDetail callback){
         new SaveBarangayRecordCallback(callback).execute(foVal);
     }
 
-    private class SaveBarangayRecordCallback extends AsyncTask<BarangayRecord, Void, Boolean>{
+    /*private class SaveBarangayRecordCallback extends AsyncTask<BarangayRecord, Void, Boolean>{
 
         private final OnUpdateOtherDetail callback;
 
@@ -210,13 +292,49 @@ public class VMEvaluation extends AndroidViewModel {
                 callback.OnSuccess();
             }
         }
+    }*/
+    private class SaveBarangayRecordCallback{
+        private final OnUpdateOtherDetail callback;
+        private String message;
+        public SaveBarangayRecordCallback(OnUpdateOtherDetail callback) {
+            this.callback = callback;
+        }
+        public void execute(BarangayRecord record){
+            TaskExecutor.Execute(record, new OnDoBackgroundTaskListener() {
+                @Override
+                public Object DoInBackground(Object args) {
+                    try{
+                        if(!poSys.UpdateBarangayRecord((BarangayRecord) args)){
+                            message = poSys.getMessage();
+                            return false;
+                        }
+
+                        return true;
+                    } catch (Exception e){
+                        e.printStackTrace();
+                        message = e.getMessage();
+                        return false;
+                    }
+                }
+
+                @Override
+                public void OnPostExecute(Object object) {
+                    Boolean isSuccess = (Boolean) object;
+                    if(!isSuccess){
+                        callback.OnError(message);
+                    } else {
+                        callback.OnSuccess();
+                    }
+                }
+            });
+        }
     }
 
     public void UpdateOtherDetail(String args, String args1, String args2, OnUpdateOtherDetail callback){
         new UpdateOtherDetailTask(callback).execute(args, args1, args2);
     }
 
-    private class UpdateOtherDetailTask extends AsyncTask<String, Void, Boolean>{
+    /*private class UpdateOtherDetailTask extends AsyncTask<String, Void, Boolean>{
 
         private final OnUpdateOtherDetail callback;
 
@@ -260,13 +378,62 @@ public class VMEvaluation extends AndroidViewModel {
                 callback.OnSuccess();
             }
         }
+    }*/
+    private class UpdateOtherDetailTask{
+        private final OnUpdateOtherDetail callback;
+        private String message;
+        public UpdateOtherDetailTask(OnUpdateOtherDetail callback) {
+            this.callback = callback;
+        }
+        public void execute(String args, String args1, String args2){
+            String[] array = {args, args1, args2};
+            TaskExecutor.Execute(array, new OnDoBackgroundTaskListener() {
+                @Override
+                public Object DoInBackground(Object args) {
+                    try {
+                        String[] vals = (String[]) args;
+
+                        String lsTransN = vals[0];
+                        String lsUpdate = vals[1];
+                        String lsValuex = vals[2];
+
+                        switch (lsUpdate) {
+                            case "n1":
+                                poSys.UpdateNeighbor1(lsTransN, lsValuex);
+                                break;
+                            case "n2":
+                                poSys.UpdateNeighbor2(lsTransN, lsValuex);
+                                break;
+                            case "n3":
+                                poSys.UpdateNeighbor3(lsTransN, lsValuex);
+                                break;
+                        }
+                        return true;
+                    } catch (Exception e){
+                        e.printStackTrace();
+                        message = e.getMessage();
+                        return false;
+                    }
+                }
+
+                @Override
+                public void OnPostExecute(Object object) {
+                    Boolean isSuccess = (Boolean) object;
+                    if(!isSuccess){
+                        callback.OnError(message);
+                    } else {
+                        callback.OnSuccess();
+                    }
+                }
+            });
+        }
     }
 
     public void UploadResult(String args, OnUploadResultListener listener){
         new UploadResultTask(listener).execute(args);
     }
 
-    private class UploadResultTask extends AsyncTask<String, Void, Boolean>{
+    /*private class UploadResultTask extends AsyncTask<String, Void, Boolean>{
 
         private final OnUploadResultListener listener;
 
@@ -312,13 +479,59 @@ public class VMEvaluation extends AndroidViewModel {
                 listener.OnSuccess();
             }
         }
+    }*/
+    private class UploadResultTask{
+        private final OnUploadResultListener listener;
+        private String message;
+        public UploadResultTask(OnUploadResultListener listener) {
+            this.listener = listener;
+        }
+        public void execute(String args){
+            TaskExecutor.Execute(args, new OnTaskExecuteListener() {
+                @Override
+                public void OnPreExecute() {
+                    listener.OnUpload();
+                }
+
+                @Override
+                public Object DoInBackground(Object args) {
+                    try{
+                        if(!poConn.isDeviceConnected()){
+                            message = poConn.getMessage();
+                            return false;
+                        }
+
+                        if(!poSys.UploadEvaluationResult((String) args)){
+                            message = poSys.getMessage();
+                            return false;
+                        }
+
+                        return true;
+                    } catch (Exception e){
+                        e.printStackTrace();
+                        message = e.getMessage();
+                        return false;
+                    }
+                }
+
+                @Override
+                public void OnPostExecute(Object object) {
+                    Boolean isSuccess = (Boolean) object;
+                    if(!isSuccess){
+                        listener.OnFailed(message);
+                    } else {
+                        listener.OnSuccess();
+                    }
+                }
+            });
+        }
     }
 
     public void SaveRecommendation(String args, String args1, String args2, OnPostRecommendationCallback callback){
         new PostRecommendationTask(callback).execute(args, args1, args2);
     }
 
-    private class PostRecommendationTask extends AsyncTask<String, Void, Boolean>{
+    /*private class PostRecommendationTask extends AsyncTask<String, Void, Boolean>{
 
         private final OnPostRecommendationCallback callback;
 
@@ -371,13 +584,69 @@ public class VMEvaluation extends AndroidViewModel {
                 callback.OnSuccess();
             }
         }
+    }*/
+    private class PostRecommendationTask{
+        private final OnPostRecommendationCallback callback;
+        private String message;
+        public PostRecommendationTask(OnPostRecommendationCallback callback) {
+            this.callback = callback;
+        }
+        public void execute(String args, String args1, String args2){
+            String[] array = {args, args1, args2};
+            TaskExecutor.Execute(array, new OnTaskExecuteListener() {
+                @Override
+                public void OnPreExecute() {
+                    callback.OnPost();
+                }
+
+                @Override
+                public Object DoInBackground(Object args) {
+                    String[] array = (String[]) args;
+
+                    try{
+                        String TransNox = array[0];
+                        String cApprove = array[1];
+                        String sRemarks = array[2];
+                        if(!poSys.SaveCIApproval(TransNox, cApprove, sRemarks)){
+                            message = poSys.getMessage();
+                            return false;
+                        }
+
+                        if(!poConn.isDeviceConnected()){
+                            message = poConn.getMessage();
+                            return false;
+                        }
+
+                        if(!poSys.PostCIApproval(TransNox)){
+                            message = poSys.getMessage();
+                            return false;
+                        }
+                        return true;
+                    } catch (Exception e){
+                        e.printStackTrace();
+                        message = e.getMessage();
+                        return false;
+                    }
+                }
+
+                @Override
+                public void OnPostExecute(Object object) {
+                    Boolean isSuccess = (Boolean) object;
+                    if(!isSuccess){
+                        callback.OnFailed(message);
+                    } else {
+                        callback.OnSuccess();
+                    }
+                }
+            });
+        }
     }
 
     public void InitCameraLaunch(Activity activity, String TransNox, OnInitializeCameraCallback callback){
         new InitializeCameraTask(activity, TransNox, instance, callback).execute();
     }
 
-    private static class InitializeCameraTask extends AsyncTask<String, Void, Boolean>{
+  /*  private static class InitializeCameraTask extends AsyncTask<String, Void, Boolean>{
 
         private final Activity activity;
         private final Application instance;
@@ -436,13 +705,75 @@ public class VMEvaluation extends AndroidViewModel {
                 callback.OnFailed(message, loIntent, args);
             }
         }
-    }
+    } */
+      private static class InitializeCameraTask{
+          private final Activity activity;
+          private final Application instance;
+          private final OnInitializeCameraCallback callback;
+          private final ImageFileCreator loImage;
+
+          private Intent loIntent;
+          private String[] argsList = new String[4];
+          private String message;
+
+          public InitializeCameraTask(Activity activity, String TransNox, Application instance, OnInitializeCameraCallback callback){
+              this.activity = activity;
+              this.instance = instance;
+              this.callback = callback;
+              this.loImage = new ImageFileCreator(instance, AppConstants.SUB_FOLDER_CI_ADDRESS, TransNox);
+          }
+
+          public void execute(){
+              TaskExecutor.Execute(null, new OnTaskExecuteListener() {
+                  @Override
+                  public void OnPreExecute() {
+                      callback.OnInit();
+                  }
+
+                  @Override
+                  public Object DoInBackground(Object args) {
+                      if(!loImage.IsFileCreated(false)){
+                          message = loImage.getMessage();
+                          return false;
+                      } else {
+                          LocationRetriever loLrt = new LocationRetriever(instance, activity);
+                          if(loLrt.HasLocation()){
+                              argsList[0] = loImage.getFilePath();
+                              argsList[1] = loImage.getFileName();
+                              argsList[2] = loLrt.getLatitude();
+                              argsList[3] = loLrt.getLongitude();
+                              loIntent = loImage.getCameraIntent();
+                              return true;
+                          } else {
+                              argsList[0] = loImage.getFilePath();
+                              argsList[1] = loImage.getFileName();
+                              argsList[2] = loLrt.getLatitude();
+                              argsList[3] = loLrt.getLongitude();
+                              loIntent = loImage.getCameraIntent();
+                              message = loLrt.getMessage();
+                              return false;
+                          }
+                      }
+                  }
+
+                  @Override
+                  public void OnPostExecute(Object object) {
+                      Boolean isSuccess = (Boolean) object;
+                      if(isSuccess){
+                          callback.OnSuccess(loIntent, argsList);
+                      } else {
+                          callback.OnFailed(message, loIntent, argsList);
+                      }
+                  }
+              });
+          }
+      }
 
     public void SaveAddressImage(CIImage foVal, OnSaveAddressResult listener){
         new SaveAddressImageTask(listener).execute(foVal);
     }
 
-    private class SaveAddressImageTask extends AsyncTask<CIImage, Void, Boolean>{
+    /*private class SaveAddressImageTask extends AsyncTask<CIImage, Void, Boolean>{
 
         private final OnSaveAddressResult listener;
 
@@ -480,6 +811,46 @@ public class VMEvaluation extends AndroidViewModel {
             } else {
                 listener.OnSuccess(args, args1, args2);
             }
+        }
+    }*/
+    private class SaveAddressImageTask{
+        private final OnSaveAddressResult listener;
+        private String message;
+        private String argsVal, args1, args2;
+        public SaveAddressImageTask(OnSaveAddressResult listener) {
+            this.listener = listener;
+        }
+        public void execute(CIImage foVal){
+            TaskExecutor.Execute(foVal, new OnDoBackgroundTaskListener() {
+                @Override
+                public Object DoInBackground(Object args) {
+                    CIImage foval = (CIImage) args;
+                    try{
+                        if(!poSys.SaveImageInfo((foval))){
+                            message = poSys.getMessage();
+                            return false;
+                        }
+                        argsVal = foval.getsParentxx();
+                        args1 = foval.getsKeyNamex();
+                        args2 = foval.getcResultxx();
+                        return true;
+                    } catch (Exception e){
+                        e.printStackTrace();
+                        message = e.getMessage();
+                        return false;
+                    }
+                }
+
+                @Override
+                public void OnPostExecute(Object object) {
+                    Boolean isSuccess = (Boolean) object;
+                    if(!isSuccess){
+                        listener.OnError(message);
+                    } else {
+                        listener.OnSuccess(argsVal, args1, args2);
+                    }
+                }
+            });
         }
     }
 }

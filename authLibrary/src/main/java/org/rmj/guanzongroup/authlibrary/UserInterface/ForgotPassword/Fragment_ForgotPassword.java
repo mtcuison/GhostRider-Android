@@ -89,19 +89,19 @@ public class Fragment_ForgotPassword extends Fragment implements VMForgotPasswor
             btnSendEmail.setOnClickListener(view -> {
                 String email = Objects.requireNonNull(tieEmail.getText()).toString().trim();
                 //mViewModel.RequestPassword(email, Fragment_ForgotPassword.this);
-                mViewModel.RequestPassword("ggutoman@gmail.com", new VMForgotPassword.RequestPasswordCallback() {
+                mViewModel.RequestPassword(email, new VMForgotPassword.RequestPasswordCallback() {
                     @Override
                     public void OnSendRequest(String title, String message) {
                         poDialog.initDialog(title, message, false);
                         poDialog.show();
 
-                        //poMsgBox.initDialog();
+                        poMsgBox.initDialog();
                     }
 
                     @Override
                     public void OnSuccessRequest() {
                         poDialog.dismiss();
-                       /* poMsgBox.setTitle("Result");
+                        poMsgBox.setTitle("Result");
                         poMsgBox.setMessage("Successfully sent request.");
                         poMsgBox.setPositiveButton("OK", new MessageBox.DialogButton() {
                             @Override
@@ -110,7 +110,7 @@ public class Fragment_ForgotPassword extends Fragment implements VMForgotPasswor
                             }
                         });
 
-                        poMsgBox.show();*/
+                        poMsgBox.show();
                     }
 
                     @Override

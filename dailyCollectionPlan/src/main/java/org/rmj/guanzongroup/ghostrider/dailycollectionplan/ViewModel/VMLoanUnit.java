@@ -14,7 +14,6 @@ package org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +39,9 @@ import org.rmj.g3appdriver.lib.Location.LocationRetriever;
 import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
 import org.rmj.g3appdriver.GCircle.Apps.integsys.Dcp.LRDcp;
 import org.rmj.g3appdriver.GCircle.Apps.integsys.Dcp.pojo.LoanUnit;
+import org.rmj.g3appdriver.utils.Task.OnDoBackgroundTaskListener;
+import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
+import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 import org.rmj.g3appdriver.etc.ImageFileCreator;
@@ -82,7 +84,7 @@ public class VMLoanUnit extends AndroidViewModel {
         new InitializeCameraTask(activity, TransNox, instance, callback).execute();
     }
 
-    private static class InitializeCameraTask extends AsyncTask<String, Void, Boolean>{
+    /*private static class InitializeCameraTask extends AsyncTask<String, Void, Boolean>{
 
         private final OnInitializeCameraCallback callback;
         private final ImageFileCreator loImage;
@@ -138,13 +140,71 @@ public class VMLoanUnit extends AndroidViewModel {
                 callback.OnFailed(message, loIntent, args);
             }
         }
+    }*/
+    private static class InitializeCameraTask{
+        private final OnInitializeCameraCallback callback;
+        private final ImageFileCreator loImage;
+        private final LocationRetriever loLrt;
+
+        private Intent loIntent;
+        private String[] argsList = new String[4];
+        private String message;
+
+        public InitializeCameraTask(Activity activity, String TransNox, Application instance, OnInitializeCameraCallback callback){
+            this.callback = callback;
+            this.loImage = new ImageFileCreator(instance, AppConstants.SUB_FOLDER_SELFIE_LOG, TransNox);
+            this.loLrt = new LocationRetriever(instance, activity);
+        }
+        public void execute(){
+            TaskExecutor.Execute(null, new OnTaskExecuteListener() {
+                @Override
+                public void OnPreExecute() {
+                    callback.OnInit();
+                }
+
+                @Override
+                public Object DoInBackground(Object args) {
+                    if(!loImage.IsFileCreated(true)){
+                        message = loImage.getMessage();
+                        return false;
+                    } else {
+                        if(loLrt.HasLocation()){
+                            argsList[0] = loImage.getFilePath();
+                            argsList[1] = loImage.getFileName();
+                            argsList[2] = loLrt.getLatitude();
+                            argsList[3] = loLrt.getLongitude();
+                            loIntent = loImage.getCameraIntent();
+                            return true;
+                        } else {
+                            argsList[0] = loImage.getFilePath();
+                            argsList[1] = loImage.getFileName();
+                            argsList[2] = loLrt.getLatitude();
+                            argsList[3] = loLrt.getLongitude();
+                            loIntent = loImage.getCameraIntent();
+                            message = loLrt.getMessage();
+                            return false;
+                        }
+                    }
+                }
+
+                @Override
+                public void OnPostExecute(Object object) {
+                    Boolean isSuccess = (Boolean) object;
+                    if(isSuccess){
+                        callback.OnSuccess(loIntent, argsList);
+                    } else {
+                        callback.OnFailed(message, loIntent, argsList);
+                    }
+                }
+            });
+        }
     }
 
     public void SaveTransaction(LoanUnit foVal, ViewModelCallback callback){
         new SaveTransactionTask(callback).execute(foVal);
     }
 
-    private class SaveTransactionTask extends AsyncTask<LoanUnit, Void, Boolean>{
+    /*private class SaveTransactionTask extends AsyncTask<LoanUnit, Void, Boolean>{
 
         private final ViewModelCallback callback;
 
@@ -177,6 +237,36 @@ public class VMLoanUnit extends AndroidViewModel {
             } else {
                 callback.OnSuccessResult();
             }
+        }
+    }*/
+    private class SaveTransactionTask{
+        private final ViewModelCallback callback;
+        private String message;
+
+        public SaveTransactionTask(ViewModelCallback callback) {
+            this.callback = callback;
+        }
+        public void execute(LoanUnit foVal){
+            TaskExecutor.Execute(foVal, new OnDoBackgroundTaskListener() {
+                @Override
+                public Object DoInBackground(Object args) {
+                    if(!poSys.SaveLoanUnit((LoanUnit) args)){
+                        message = poSys.getMessage();
+                        return false;
+                    }
+                    return true;
+                }
+
+                @Override
+                public void OnPostExecute(Object object) {
+                    Boolean isSuccess = (Boolean) object;
+                    if(!isSuccess){
+                        callback.OnFailedResult(message);
+                    } else {
+                        callback.OnSuccessResult();
+                    }
+                }
+            });
         }
     }
 

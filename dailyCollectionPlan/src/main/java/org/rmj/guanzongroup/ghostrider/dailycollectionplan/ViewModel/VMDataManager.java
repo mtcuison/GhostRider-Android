@@ -11,9 +11,7 @@
 
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel;
 
-import android.annotation.SuppressLint;
 import android.app.Application;
-import android.os.AsyncTask;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -28,6 +26,9 @@ import org.rmj.g3appdriver.GCircle.room.Repositories.RCreditApplicationDocument;
 import org.rmj.g3appdriver.GCircle.room.Repositories.RDailyCollectionPlan;
 import org.rmj.g3appdriver.GCircle.room.Repositories.RImageInfo;
 import org.rmj.g3appdriver.GCircle.Apps.SelfieLog.SelfieLog;
+import org.rmj.g3appdriver.utils.Task.OnDoBackgroundTaskListener;
+import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
+import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 
 import java.util.List;
 
@@ -60,7 +61,7 @@ public class VMDataManager extends AndroidViewModel {
         new CheckDataTask(listener).execute();
     }
 
-    @SuppressLint("StaticFieldLeak")
+    /*@SuppressLint("StaticFieldLeak")
     private class CheckDataTask extends AsyncTask<String, Integer, Boolean>{
 
         OnDataFetchListener mListener;
@@ -119,6 +120,60 @@ public class VMDataManager extends AndroidViewModel {
         protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate(values);
             mListener.OnCheckProgress(values[0]);
+        }
+    }*/
+    private class CheckDataTask{
+        OnDataFetchListener mListener;
+        public CheckDataTask(OnDataFetchListener mListener) {
+            this.mListener = mListener;
+        }
+        public void execute(){
+            TaskExecutor.Execute(null, new OnTaskExecuteListener() {
+                @Override
+                public void OnPreExecute() {
+                    mListener.OnCheck();
+                }
+
+                @Override
+                public Object DoInBackground(Object args) {
+                    boolean hasData = false;
+                    try{
+                        List<EImageInfo> loginImageInfo = poImage.getUnsentSelfieLogImageList();
+                        if(loginImageInfo.size() > 0){
+                            hasData = true;
+                        }
+                        TaskExecutor.ShowProgress(() -> mListener.OnCheckProgress(1));
+
+                        List<EDCPCollectionDetail> collectionDetails = poDcp.getUnsentPaidCollection();
+                        if(collectionDetails.size() > 0){
+                            hasData = true;
+                        }
+                        TaskExecutor.ShowProgress(() -> mListener.OnCheckProgress(1));
+
+                        List<ECreditApplication> loanApplications = poCreditApp.getUnsentLoanApplication();
+                        if(loanApplications.size() > 0){
+                            hasData = true;
+                        }
+                        TaskExecutor.ShowProgress(() -> mListener.OnCheckProgress(1));
+
+                        List<ECreditApplicationDocuments> docsFile = poDocs.getUnsentApplicationDocumentss();
+                        if(docsFile.size() > 0){
+                            hasData = true;
+                        }
+                        TaskExecutor.ShowProgress(() -> mListener.OnCheckProgress(1));
+
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
+                    return hasData;
+                }
+
+                @Override
+                public void OnPostExecute(Object object) {
+                    Boolean aBoolean = (Boolean) object;
+                    mListener.OnCheckLocalData(aBoolean);
+                }
+            });
         }
     }
 

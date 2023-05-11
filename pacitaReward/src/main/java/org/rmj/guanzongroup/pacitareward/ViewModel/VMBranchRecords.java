@@ -1,7 +1,6 @@
 package org.rmj.guanzongroup.pacitareward.ViewModel;
 
 import android.app.Application;
-import android.os.AsyncTask;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -10,6 +9,8 @@ import androidx.lifecycle.LiveData;
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DPacita.BranchRecords;
 import org.rmj.g3appdriver.GCircle.Apps.GawadPacita.Obj.Pacita;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
+import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
+import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 
 import java.util.List;
 
@@ -37,7 +38,7 @@ public class VMBranchRecords extends AndroidViewModel {
     public void initializeRecords(String sBranchcd, BranchRecordsCallBack mListener){
         new OnInitializeRecords(mListener).execute(sBranchcd);
     }
-    public class OnInitializeRecords extends AsyncTask<String, Void, Boolean>{
+    /*public class OnInitializeRecords extends AsyncTask<String, Void, Boolean>{
         private BranchRecordsCallBack mListener;
         private OnInitializeRecords(BranchRecordsCallBack mListener){
             this.mListener = mListener;
@@ -73,6 +74,45 @@ public class VMBranchRecords extends AndroidViewModel {
             }else {
                 mListener.onSuccess(message);
             }
+        }
+    }*/
+    public class OnInitializeRecords{
+        private BranchRecordsCallBack mListener;
+        private OnInitializeRecords(BranchRecordsCallBack mListener){
+            this.mListener = mListener;
+        }
+        public void execute(String sBranchcd){
+            TaskExecutor.Execute(sBranchcd, new OnTaskExecuteListener() {
+                @Override
+                public void OnPreExecute() {
+                    mListener.onInitialize("Loading Branch Records. Please wait . . .");
+                }
+
+                @Override
+                public Object DoInBackground(Object args) {
+                    Boolean importResult = posys.ImportPacitaEvaluations((String) args);
+
+                    if (!poConn.isDeviceConnected()){
+                        message = poConn.getMessage();
+                        return false;
+                    }
+                    if (!importResult){
+                        message = posys.getMessage();
+                        return false;
+                    }
+                    return true;
+                }
+
+                @Override
+                public void OnPostExecute(Object object) {
+                    Boolean aBoolean = (Boolean) object;
+                    if (aBoolean == false){
+                        mListener.onError(message);
+                    }else {
+                        mListener.onSuccess(message);
+                    }
+                }
+            });
         }
     }
 }

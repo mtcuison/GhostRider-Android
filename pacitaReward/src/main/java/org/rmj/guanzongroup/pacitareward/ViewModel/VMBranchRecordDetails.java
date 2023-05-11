@@ -1,7 +1,6 @@
 package org.rmj.guanzongroup.pacitareward.ViewModel;
 
 import android.app.Application;
-import android.os.AsyncTask;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -11,6 +10,8 @@ import org.rmj.g3appdriver.GCircle.room.Entities.EPacitaEvaluation;
 import org.rmj.g3appdriver.GCircle.room.Entities.EPacitaRule;
 import org.rmj.g3appdriver.GCircle.Apps.GawadPacita.Obj.Pacita;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
+import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
+import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 
 import java.util.List;
 
@@ -40,7 +41,7 @@ public class VMBranchRecordDetails extends AndroidViewModel {
         new EvaluationRecordDetails(mListener).execute(sBranchcd);
     }
 
-    public class EvaluationRecordDetails extends AsyncTask<String, Void, Boolean>{
+    /*public class EvaluationRecordDetails extends AsyncTask<String, Void, Boolean>{
         private BranchRecordDetailsCallBack mListener;
         private EvaluationRecordDetails(BranchRecordDetailsCallBack mListener){
             this.mListener = mListener;
@@ -68,6 +69,39 @@ public class VMBranchRecordDetails extends AndroidViewModel {
             }else {
                 mListener.onSuccess(message);
             }
+        }
+    }*/
+    public class EvaluationRecordDetails{
+        private BranchRecordDetailsCallBack mListener;
+        private EvaluationRecordDetails(BranchRecordDetailsCallBack mListener){
+            this.mListener = mListener;
+        }
+        public void execute(String sBranchcd){
+            TaskExecutor.Execute(sBranchcd, new OnTaskExecuteListener() {
+                @Override
+                public void OnPreExecute() {
+                    mListener.onInitialize("Loading Branch Record Details. Please wait . . .");
+                }
+
+                @Override
+                public Object DoInBackground(Object args) {
+                    if(!poConn.isDeviceConnected()){
+                        message = poConn.getMessage();
+                        return false;
+                    }
+                    return true;
+                }
+
+                @Override
+                public void OnPostExecute(Object object) {
+                    Boolean result = (Boolean) object;
+                    if (result == false){
+                        mListener.onError(message);
+                    }else {
+                        mListener.onSuccess(message);
+                    }
+                }
+            });
         }
     }
 }

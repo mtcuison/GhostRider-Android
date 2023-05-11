@@ -1,7 +1,6 @@
 package org.rmj.guanzongroup.pacitareward.ViewModel;
 
 import android.app.Application;
-import android.os.AsyncTask;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -11,6 +10,8 @@ import androidx.lifecycle.LiveData;
 import org.rmj.g3appdriver.GCircle.room.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GCircle.Apps.GawadPacita.Obj.Pacita;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
+import org.rmj.g3appdriver.utils.Task.OnDoBackgroundTaskListener;
+import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 
 import java.util.List;
 
@@ -35,7 +36,7 @@ public class VMBranchList extends AndroidViewModel {
     }
 
 
-    private class ImportCriteriaTask extends AsyncTask<Void, Void, Boolean>{
+    /*private class ImportCriteriaTask extends AsyncTask<Void, Void, Boolean>{
 
         @Override
         protected Boolean doInBackground(Void... voids) {
@@ -48,6 +49,28 @@ public class VMBranchList extends AndroidViewModel {
                 return false;
             }
             return true;
+        }
+    }*/
+    private class ImportCriteriaTask{
+        private String TAG = getClass().getSimpleName();
+        public void execute(){
+            TaskExecutor.Execute(null, new OnDoBackgroundTaskListener() {
+                @Override
+                public Object DoInBackground(Object args) {
+                    if (!poConn.isDeviceConnected()){
+                        return poConn.getMessage();
+                    }
+                    if (!poSys.ImportPacitaRules()){
+                        return poSys.getMessage();
+                    }
+                    return "";
+                }
+
+                @Override
+                public void OnPostExecute(Object object) {
+                    Log.d(TAG, object.toString());
+                }
+            });
         }
     }
 }
