@@ -204,6 +204,10 @@ public class AppConstants {
         return new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Calendar.getInstance().getTime());
     }
 
+    public static String GCARD_DATE_TIME (){
+        return new SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault()).format(new Date());
+    }
+
     public static String PERFORMANCE_CURRENT_PERIOD = new SimpleDateFormat("yyyyMM", Locale.getDefault()).format(Calendar.getInstance().getTime());
     public String CURRENT_DATE_WORD = new SimpleDateFormat("MMMM dd, yyyy", Locale.getDefault()).format(Calendar.getInstance().getTime());
 

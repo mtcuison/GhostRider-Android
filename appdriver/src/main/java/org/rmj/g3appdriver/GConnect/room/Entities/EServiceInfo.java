@@ -6,7 +6,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "Service")
+@Entity(tableName = "MC_Service")
 public class EServiceInfo {
     @NonNull
     @PrimaryKey

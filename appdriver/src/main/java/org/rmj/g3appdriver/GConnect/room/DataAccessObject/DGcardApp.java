@@ -15,7 +15,7 @@ import java.util.List;
 public interface DGcardApp {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(EGcardApp gCardApp);
+    void Save(EGcardApp gCardApp);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertBulkData(List<EGcardApp> gCardAppList);
