@@ -11,6 +11,10 @@
 
 package org.rmj.g3appdriver.utils;
 
+import static org.rmj.g3appdriver.dev.Api.ApiResult.NOT_CONNECTED;
+import static org.rmj.g3appdriver.dev.Api.ApiResult.UNABLE_TO_REACH_LOCAL;
+import static org.rmj.g3appdriver.dev.Api.ApiResult.UNABLE_TO_REACH_SERVER;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.ConnectivityManager;
