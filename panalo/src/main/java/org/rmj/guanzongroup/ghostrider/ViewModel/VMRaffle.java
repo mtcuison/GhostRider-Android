@@ -1,7 +1,6 @@
 package org.rmj.guanzongroup.ghostrider.ViewModel;
 
 import android.app.Application;
-import android.os.AsyncTask;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -11,6 +10,8 @@ import org.rmj.g3appdriver.GCircle.room.Entities.ERaffleStatus;
 import org.rmj.g3appdriver.lib.Panalo.Obj.GPanalo;
 import org.rmj.g3appdriver.lib.Panalo.Obj.ILOVEMYJOB;
 import org.rmj.g3appdriver.lib.Panalo.model.PanaloRewards;
+import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
+import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 
 import java.util.List;
 
@@ -41,7 +42,7 @@ public class VMRaffle extends AndroidViewModel {
         new VMRaffle.GetRewardsTask(listener).execute(fnArgs);
     }
 
-    private class GetRewardsTask extends AsyncTask<Integer, Void, List<PanaloRewards>> {
+    /*private class GetRewardsTask extends AsyncTask<Integer, Void, List<PanaloRewards>> {
 
         private final VMRaffle.OnRetrieveRaffleListener listener;
 
@@ -77,6 +78,43 @@ public class VMRaffle extends AndroidViewModel {
             } else {
                 listener.OnSuccess(result);
             }
+        }
+    }*/
+    private class GetRewardsTask{
+        private final VMRaffle.OnRetrieveRaffleListener listener;
+        private String message;
+
+        public GetRewardsTask(VMRaffle.OnRetrieveRaffleListener listener) {
+            this.listener = listener;
+        }
+        public void execute(int fnArgs){
+            TaskExecutor.Execute(fnArgs, new OnTaskExecuteListener() {
+                @Override
+                public void OnPreExecute() {
+                    listener.OnLoad("Panalo Rewards", "Checking rewards. Please wait...");
+                }
+
+                @Override
+                public Object DoInBackground(Object args) {
+                    String lsType = String.valueOf(args);
+                    List<PanaloRewards> loResult = poSys.GetRewards(lsType);
+                    if(loResult == null){
+                        message = poSys.getMessage();
+
+                        return null;
+                    }
+                    return loResult;
+                }
+
+                @Override
+                public void OnPostExecute(Object object) {
+                    if(object == null){
+                        listener.OnFailed(message);
+                    } else {
+                        listener.OnSuccess((List<PanaloRewards>) object);
+                    }
+                }
+            });
         }
     }
 
