@@ -1,5 +1,7 @@
 package org.rmj.g3appdriver.lib.Notifications.Obj;
 
+import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
+
 import android.app.Application;
 import android.util.Log;
 
@@ -74,7 +76,7 @@ public class Message extends NMM_Regular {
             return true;
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return false;
         }
     }

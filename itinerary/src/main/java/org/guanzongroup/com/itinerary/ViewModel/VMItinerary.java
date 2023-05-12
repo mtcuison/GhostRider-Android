@@ -1,5 +1,7 @@
 package org.guanzongroup.com.itinerary.ViewModel;
 
+import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
+
 import android.app.Application;
 import android.util.Log;
 
@@ -102,7 +104,7 @@ public class VMItinerary extends AndroidViewModel {
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
-                    message = e.getMessage();
+                    message = getLocalMessage(e);
                     return false;
                 }
             }
@@ -153,7 +155,7 @@ public class VMItinerary extends AndroidViewModel {
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
-                    message = e.getMessage();
+                    message = getLocalMessage(e);
                     return false;
                 }
             }
@@ -197,7 +199,7 @@ public class VMItinerary extends AndroidViewModel {
                     return loList;
                 } catch (Exception e) {
                     e.printStackTrace();
-                    message = e.getMessage();
+                    message = getLocalMessage(e);
                     return null;
                 }
             }
@@ -247,7 +249,7 @@ public class VMItinerary extends AndroidViewModel {
 //                return loList;
 //            } catch (Exception e){
 //                e.printStackTrace();
-//                message = e.getMessage();
+//                message = getLocalMessage(e);
 //                return null;
 //            }
 //        }
@@ -310,7 +312,7 @@ public class VMItinerary extends AndroidViewModel {
 //                }
 //            } catch (Exception e){
 //                e.printStackTrace();
-//                message = e.getMessage();
+//                message = getLocalMessage(e);
 //                return false;
 //            }
 //        }
@@ -348,7 +350,7 @@ public class VMItinerary extends AndroidViewModel {
 //                }
 //            } catch (Exception e){
 //                e.printStackTrace();
-//                message = e.getMessage();
+//                message = getLocalMessage(e);
 //                return false;
 //            }
 //        }

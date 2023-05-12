@@ -11,6 +11,8 @@
 
 package org.rmj.guanzongroup.ghostrider.epacss.Service;
 
+import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
+
 import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.BroadcastReceiver;
@@ -143,7 +145,7 @@ public class DataSyncService extends BroadcastReceiver {
                     return true;
                 } catch (Exception e){
                     e.printStackTrace();
-                    message = e.getMessage();
+                    message = getLocalMessage(e);
                     Log.e(TAG, message);
                     return false;
                 }

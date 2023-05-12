@@ -1,5 +1,7 @@
 package org.rmj.g3appdriver.GCircle.Apps.EmployeeLoan.Obj;
 
+import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
+
 import android.app.Application;
 
 import org.rmj.g3appdriver.GCircle.Apps.EmployeeLoan.pojo.LoanTerm;
@@ -70,7 +72,7 @@ public class EmployeeLoan {
             return loList;
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return null;
         }
     }
@@ -95,7 +97,7 @@ public class EmployeeLoan {
             return loTerms;
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return null;
         }
     }
@@ -106,7 +108,7 @@ public class EmployeeLoan {
             return true;
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return false;
         }
     }

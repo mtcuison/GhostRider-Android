@@ -1,5 +1,7 @@
 package org.rmj.guanzongroup.onlinecreditapplication.ViewModel;
 
+import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
+
 import android.app.Application;
 import android.content.Intent;
 
@@ -70,11 +72,11 @@ public class VMSpouseEmployment extends AndroidViewModel implements CreditAppUI 
                     return loDetail;
                 } catch (NullPointerException e) {
                     e.printStackTrace();
-                    message = e.getMessage();
+                    message = getLocalMessage(e);
                     return null;
                 } catch (Exception e) {
                     e.printStackTrace();
-                    message = e.getMessage();
+                    message = getLocalMessage(e);
                     return null;
                 }
             }
@@ -156,11 +158,11 @@ public class VMSpouseEmployment extends AndroidViewModel implements CreditAppUI 
 //                return loDetail;
 //            } catch (NullPointerException e){
 //                e.printStackTrace();
-//                message = e.getMessage();
+//                message = getLocalMessage(e);
 //                return null;
 //            }catch (Exception e){
 //                e.printStackTrace();
-//                message = e.getMessage();
+//                message = getLocalMessage(e);
 //                return null;
 //            }
 //        }

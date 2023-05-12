@@ -1,6 +1,7 @@
 package org.rmj.g3appdriver.lib.Panalo.Obj;
 
 import static org.rmj.g3appdriver.dev.Api.ApiResult.getErrorMessage;
+import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
 
 import android.app.Application;
 import android.content.Context;
@@ -95,7 +96,7 @@ public class GPanalo {
             return loRewards;
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return null;
         }
     }
@@ -125,7 +126,7 @@ public class GPanalo {
             return true;
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return false;
         }
     }
@@ -146,7 +147,7 @@ public class GPanalo {
             return loBmp;
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return null;
         }
     }

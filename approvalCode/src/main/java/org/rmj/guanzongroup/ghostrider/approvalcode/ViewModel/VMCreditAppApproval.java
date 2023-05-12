@@ -11,6 +11,8 @@
 
 package org.rmj.guanzongroup.ghostrider.approvalcode.ViewModel;
 
+import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
+
 import android.app.Application;
 import android.os.AsyncTask;
 
@@ -80,7 +82,7 @@ public class VMCreditAppApproval extends AndroidViewModel {
                 return loApp;
             } catch (Exception e) {
                 e.printStackTrace();
-                message = e.getMessage();
+                message = getLocalMessage(e);
                 return null;
             }
         }
@@ -141,7 +143,7 @@ public class VMCreditAppApproval extends AndroidViewModel {
                 return lsCode;
             } catch (Exception e){
                 e.printStackTrace();
-                message = e.getMessage();
+                message = getLocalMessage(e);
                 return null;
             }
         }

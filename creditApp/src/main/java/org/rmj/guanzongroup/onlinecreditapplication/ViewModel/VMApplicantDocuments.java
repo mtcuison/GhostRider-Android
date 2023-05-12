@@ -1,5 +1,7 @@
 package org.rmj.guanzongroup.onlinecreditapplication.ViewModel;
 
+import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
+
 import android.app.Application;
 
 import androidx.annotation.NonNull;
@@ -64,11 +66,11 @@ public class VMApplicantDocuments extends AndroidViewModel {
                     return true;
                 } catch (NullPointerException e) {
                     e.printStackTrace();
-                    message = e.getMessage();
+                    message = getLocalMessage(e);
                     return null;
                 } catch (Exception e) {
                     e.printStackTrace();
-                    message = e.getMessage();
+                    message = getLocalMessage(e);
                     return null;
                 }
             }
@@ -103,11 +105,11 @@ public class VMApplicantDocuments extends AndroidViewModel {
 //                return true;
 //            } catch (NullPointerException e) {
 //                e.printStackTrace();
-//                message = e.getMessage();
+//                message = getLocalMessage(e);
 //                return null;
 //            } catch (Exception e) {
 //                e.printStackTrace();
-//                message = e.getMessage();
+//                message = getLocalMessage(e);
 //                return null;
 //            }
 //        }
@@ -155,7 +157,7 @@ public class VMApplicantDocuments extends AndroidViewModel {
                 return true;
             } catch (Exception e){
                 e.printStackTrace();
-                message = e.getMessage();
+                message = getLocalMessage(e);
                 return false;
             }
             }
@@ -200,7 +202,7 @@ public class VMApplicantDocuments extends AndroidViewModel {
 //                return true;
 //            } catch (Exception e){
 //                e.printStackTrace();
-//                message = e.getMessage();
+//                message = getLocalMessage(e);
 //                return false;
 //            }
 //        }

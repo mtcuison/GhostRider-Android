@@ -1,6 +1,7 @@
 package org.rmj.g3appdriver.lib.Account.gConnect.obj;
 
 import static org.rmj.g3appdriver.dev.Api.ApiResult.getErrorMessage;
+import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
 
 import android.app.Application;
 import android.util.Log;
@@ -94,7 +95,7 @@ public class SignIn implements iAuth {
             return 1;
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return 0;
         }
     }

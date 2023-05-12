@@ -1,5 +1,7 @@
 package org.rmj.guanzongroup.ghostrider.ViewModel;
 
+import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
+
 import android.app.Application;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -71,7 +73,7 @@ public class VMPanaloRewards extends AndroidViewModel {
                 return true;
             } catch (Exception e){
                 e.printStackTrace();
-                message = e.getMessage();
+                message = getLocalMessage(e);
                 return false;
             }
         }

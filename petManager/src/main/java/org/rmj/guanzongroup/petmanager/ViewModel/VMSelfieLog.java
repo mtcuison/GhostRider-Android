@@ -11,6 +11,8 @@
 
 package org.rmj.guanzongroup.petmanager.ViewModel;
 
+import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
+
 import android.app.Activity;
 import android.app.Application;
 import android.content.Intent;
@@ -273,7 +275,7 @@ public class VMSelfieLog extends AndroidViewModel {
                 }
             } catch (Exception e){
                 e.printStackTrace();
-                message = e.getMessage();
+                message = getLocalMessage(e);
                 return false;
             }
         }
@@ -383,7 +385,7 @@ public class VMSelfieLog extends AndroidViewModel {
                 return 1;
             } catch (Exception e){
                 e.printStackTrace();
-                message = e.getMessage();
+                message = getLocalMessage(e);
                 return 0;
             }
         }

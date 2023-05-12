@@ -2,6 +2,7 @@ package org.rmj.g3appdriver.GCircle.Apps.ApprovalCode.Obj;
 
 import static org.rmj.g3appdriver.dev.Api.ApiResult.SERVER_NO_RESPONSE;
 import static org.rmj.g3appdriver.dev.Api.ApiResult.getErrorMessage;
+import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
 
 import android.app.Application;
 
@@ -96,7 +97,7 @@ public class ManualLog implements SCA {
             return lsAppCode;
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return null;
         }
     }
@@ -159,7 +160,7 @@ public class ManualLog implements SCA {
 
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return false;
         }
     }

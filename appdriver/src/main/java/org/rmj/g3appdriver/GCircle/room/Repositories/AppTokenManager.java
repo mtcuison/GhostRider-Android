@@ -11,6 +11,8 @@
 
 package org.rmj.g3appdriver.GCircle.room.Repositories;
 
+import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
+
 import android.app.Application;
 import android.util.Log;
 
@@ -74,7 +76,7 @@ public class AppTokenManager {
             return true;
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return false;
         }
     }
@@ -156,7 +158,7 @@ public class AppTokenManager {
             return loClientx.getTokenInf();
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return null;
         }
     }
@@ -216,7 +218,7 @@ public class AppTokenManager {
             return loAccessx.getTokenInf();
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return null;
         }
     }
@@ -252,7 +254,7 @@ public class AppTokenManager {
             return lsClient;
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return null;
         }
     }
@@ -286,7 +288,7 @@ public class AppTokenManager {
             return lsAccess;
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return null;
         }
     }

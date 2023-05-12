@@ -1,5 +1,7 @@
 package org.guanzongroup.com.creditevaluation.ViewModel;
 
+import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
+
 import android.app.Activity;
 import android.app.Application;
 import android.content.Intent;
@@ -155,7 +157,7 @@ public class VMEvaluation extends AndroidViewModel {
                 return true;
             } catch (Exception e){
                 e.printStackTrace();
-                message = e.getMessage();
+                message = getLocalMessage(e);
                 return false;
             }
         }
@@ -196,7 +198,7 @@ public class VMEvaluation extends AndroidViewModel {
                 return true;
             } catch (Exception e){
                 e.printStackTrace();
-                message = e.getMessage();
+                message = getLocalMessage(e);
                 return false;
             }
         }
@@ -246,7 +248,7 @@ public class VMEvaluation extends AndroidViewModel {
                 return true;
             } catch (Exception e){
                 e.printStackTrace();
-                message = e.getMessage();
+                message = getLocalMessage(e);
                 return false;
             }
         }
@@ -298,7 +300,7 @@ public class VMEvaluation extends AndroidViewModel {
                 return true;
             } catch (Exception e){
                 e.printStackTrace();
-                message = e.getMessage();
+                message = getLocalMessage(e);
                 return false;
             }
         }
@@ -357,7 +359,7 @@ public class VMEvaluation extends AndroidViewModel {
                 return true;
             } catch (Exception e){
                 e.printStackTrace();
-                message = e.getMessage();
+                message = getLocalMessage(e);
                 return false;
             }
         }
@@ -467,7 +469,7 @@ public class VMEvaluation extends AndroidViewModel {
                 return true;
             } catch (Exception e){
                 e.printStackTrace();
-                message = e.getMessage();
+                message = getLocalMessage(e);
                 return false;
             }
         }

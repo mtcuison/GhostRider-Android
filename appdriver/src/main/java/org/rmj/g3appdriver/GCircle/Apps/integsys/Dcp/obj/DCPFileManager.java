@@ -1,5 +1,7 @@
 package org.rmj.g3appdriver.GCircle.Apps.integsys.Dcp.obj;
 
+import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
+
 import android.app.Application;
 import android.net.Uri;
 import android.os.ParcelFileDescriptor;
@@ -43,7 +45,7 @@ public class DCPFileManager {
             return loJson.toString();
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return null;
         }
     }
@@ -61,7 +63,7 @@ public class DCPFileManager {
             return true;
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return false;
         }
     }

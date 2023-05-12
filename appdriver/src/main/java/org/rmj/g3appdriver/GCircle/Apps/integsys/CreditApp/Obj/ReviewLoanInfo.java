@@ -1,5 +1,7 @@
 package org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.Obj;
 
+import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
+
 import android.app.Application;
 import android.util.Log;
 
@@ -635,7 +637,7 @@ public class ReviewLoanInfo implements CreditApp {
 
         } catch (Exception e) {
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return null;
         }
     }
@@ -671,7 +673,7 @@ public class ReviewLoanInfo implements CreditApp {
             return lsTransNo;
         } catch (Exception e) {
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return null;
         }
     }

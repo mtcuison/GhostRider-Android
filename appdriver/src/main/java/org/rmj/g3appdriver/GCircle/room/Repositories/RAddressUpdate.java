@@ -1,5 +1,7 @@
 package org.rmj.g3appdriver.GCircle.room.Repositories;
 
+import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
+
 import android.app.Application;
 import android.util.Log;
 
@@ -74,7 +76,7 @@ public class RAddressUpdate {
             return lsTransNox;
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return null;
         }
     }
@@ -100,7 +102,7 @@ public class RAddressUpdate {
             return true;
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return false;
         }
     }
@@ -132,7 +134,7 @@ public class RAddressUpdate {
             return params;
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return null;
         }
     }

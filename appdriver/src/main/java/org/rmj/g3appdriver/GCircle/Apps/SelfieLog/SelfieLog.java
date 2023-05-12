@@ -12,6 +12,7 @@
 package org.rmj.g3appdriver.GCircle.Apps.SelfieLog;
 
 import static org.rmj.g3appdriver.dev.Api.ApiResult.getErrorMessage;
+import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
 
 import android.app.Application;
 import android.util.Log;
@@ -93,7 +94,7 @@ public class SelfieLog {
             return true;
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return false;
         }
     }
@@ -146,7 +147,7 @@ public class SelfieLog {
             return 3;
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return 0;
         }
     }
@@ -188,7 +189,7 @@ public class SelfieLog {
             return lsTransNo;
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return null;
         }
     }
@@ -250,7 +251,7 @@ public class SelfieLog {
             return true;
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return false;
         }
     }
@@ -335,7 +336,7 @@ public class SelfieLog {
             return true;
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return false;
         }
     }
@@ -350,7 +351,7 @@ public class SelfieLog {
             return true;
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return false;
         }
     }

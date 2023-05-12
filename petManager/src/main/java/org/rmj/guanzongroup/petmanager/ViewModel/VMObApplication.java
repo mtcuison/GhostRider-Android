@@ -11,6 +11,8 @@
 
 package org.rmj.guanzongroup.petmanager.ViewModel;
 
+import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
+
 import android.app.Application;
 import android.os.AsyncTask;
 
@@ -104,7 +106,7 @@ public class VMObApplication extends AndroidViewModel {
                 return true;
             } catch (Exception e){
                 e.printStackTrace();
-                message = e.getMessage();
+                message = getLocalMessage(e);
                 return false;
             }
         }

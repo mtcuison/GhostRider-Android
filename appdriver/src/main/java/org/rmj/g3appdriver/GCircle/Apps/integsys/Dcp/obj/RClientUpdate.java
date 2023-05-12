@@ -11,6 +11,8 @@
 
 package org.rmj.g3appdriver.GCircle.Apps.integsys.Dcp.obj;
 
+import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
+
 import android.app.Application;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -163,7 +165,7 @@ public class RClientUpdate {
             return lsTransNo;
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return null;
         }
     }
