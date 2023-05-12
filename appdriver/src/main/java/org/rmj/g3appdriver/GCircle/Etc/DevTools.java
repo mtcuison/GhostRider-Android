@@ -1,5 +1,7 @@
 package org.rmj.g3appdriver.GCircle.Etc;
 
+import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
+
 import android.app.Application;
 
 import androidx.lifecycle.LiveData;
@@ -45,7 +47,7 @@ public class DevTools {
             return true;
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return false;
         }
     }
@@ -60,7 +62,7 @@ public class DevTools {
             return true;
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return false;
         }
     }
@@ -76,7 +78,7 @@ public class DevTools {
             return true;
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return false;
         }
     }

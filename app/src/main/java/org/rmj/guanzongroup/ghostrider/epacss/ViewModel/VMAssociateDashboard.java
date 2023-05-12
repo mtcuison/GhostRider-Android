@@ -11,6 +11,8 @@
 
 package org.rmj.guanzongroup.ghostrider.epacss.ViewModel;
 
+import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
+
 import android.app.Application;
 import android.util.Log;
 
@@ -113,7 +115,7 @@ public class VMAssociateDashboard extends AndroidViewModel {
                     return true;
                 } catch (Exception e) {
                     e.printStackTrace();
-                    message = e.getMessage();
+                    message = getLocalMessage(e);
                     return false;
                 }
             }

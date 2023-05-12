@@ -1,6 +1,7 @@
 package org.rmj.g3appdriver.GCircle.Apps.BullsEye.obj;
 
 import static org.rmj.g3appdriver.dev.Api.ApiResult.getErrorMessage;
+import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
 
 import android.app.Application;
 import android.util.Log;
@@ -133,7 +134,7 @@ public class BranchPerformance extends ABPM {
             return true;
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return false;
         }
     }

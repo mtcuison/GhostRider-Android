@@ -12,7 +12,6 @@
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel;
 
 import android.app.Application;
-import android.os.AsyncTask;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -29,6 +28,8 @@ import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
 import org.rmj.g3appdriver.GCircle.Apps.integsys.Dcp.LRDcp;
 import org.rmj.g3appdriver.GCircle.Apps.integsys.Dcp.pojo.PaidDCP;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
+import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
+import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -226,7 +227,7 @@ public class VMPaidTransaction extends AndroidViewModel {
         new SavePaymentTask(callback).execute(foVal);
     }
 
-    private class SavePaymentTask extends AsyncTask<PaidDCP, Void, Boolean>{
+    /*private class SavePaymentTask extends AsyncTask<PaidDCP, Void, Boolean>{
         private final ViewModelCallback callback;
 
         private String message;
@@ -270,6 +271,51 @@ public class VMPaidTransaction extends AndroidViewModel {
             } else {
                 callback.OnSuccessResult();
             }
+        }
+    }*/
+    private class SavePaymentTask{
+        private final ViewModelCallback callback;
+        private String message;
+        public SavePaymentTask(ViewModelCallback callback) {
+            this.callback = callback;
+        }
+        public void execute(PaidDCP paidDCPS){
+            TaskExecutor.Execute(paidDCPS, new OnTaskExecuteListener() {
+                @Override
+                public void OnPreExecute() {
+                    callback.OnStartSaving();
+                }
+
+                @Override
+                public Object DoInBackground(Object args) {
+                    String lsResult = poSys.SavePaidTransaction((PaidDCP) args);
+                    if(lsResult == null){
+                        message = poSys.getMessage();
+                        return false;
+                    }
+
+                    if(!poConn.isDeviceConnected()){
+                        message = "Payment info has been save to local device.";
+                        return true;
+                    }
+
+                    if(!poSys.UploadPaidTransaction(lsResult)){
+                        message = poSys.getMessage();
+                        return false;
+                    }
+                    return true;
+                }
+
+                @Override
+                public void OnPostExecute(Object object) {
+                    Boolean isSuccess = (Boolean) object;
+                    if(!isSuccess){
+                        callback.OnFailedResult(message);
+                    } else {
+                        callback.OnSuccessResult();
+                    }
+                }
+            });
         }
     }
 }

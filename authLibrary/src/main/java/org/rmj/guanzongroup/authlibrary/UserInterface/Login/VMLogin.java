@@ -10,6 +10,8 @@
  */
 package org.rmj.guanzongroup.authlibrary.UserInterface.Login;
 
+import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
+
 import android.annotation.SuppressLint;
 import android.app.Application;
 import android.view.View;
@@ -75,7 +77,6 @@ public class VMLogin extends AndroidViewModel {
             @Override
             public Object DoInBackground(Object args) {
                 try{
-                    String lsSample = (String) args;
                     int lnResult = poSys.DoAction(args);
                     if(lnResult == 0){
                         message = poSys.getMessage();
@@ -90,7 +91,7 @@ public class VMLogin extends AndroidViewModel {
                     return true;
                 } catch (Exception e){
                     e.printStackTrace();
-                    message = e.getMessage();
+                    message = getLocalMessage(e);
                     return false;
                 }
             }

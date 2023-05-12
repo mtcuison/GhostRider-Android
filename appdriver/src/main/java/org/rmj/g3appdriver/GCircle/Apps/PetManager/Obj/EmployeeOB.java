@@ -13,6 +13,7 @@ package org.rmj.g3appdriver.GCircle.Apps.PetManager.Obj;
 
 import static org.rmj.g3appdriver.dev.Api.ApiResult.SERVER_NO_RESPONSE;
 import static org.rmj.g3appdriver.dev.Api.ApiResult.getErrorMessage;
+import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
 
 import android.app.Application;
 import android.util.Log;
@@ -130,7 +131,7 @@ public class EmployeeOB implements iPM {
             return true;
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return false;
         }
     }
@@ -210,7 +211,7 @@ public class EmployeeOB implements iPM {
             return true;
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return false;
         }
     }
@@ -237,7 +238,7 @@ public class EmployeeOB implements iPM {
             return loDetail.getTransNox();
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return null;
         }
     }
@@ -283,7 +284,7 @@ public class EmployeeOB implements iPM {
             }
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return false;
         }
     }
@@ -348,7 +349,7 @@ public class EmployeeOB implements iPM {
             return true;
         } catch(Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return false;
         }
     }
@@ -406,7 +407,7 @@ public class EmployeeOB implements iPM {
             return true;
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return false;
         }
     }
@@ -489,7 +490,7 @@ public class EmployeeOB implements iPM {
             return lsTransNo;
         }catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return null;
         }
     }
@@ -543,7 +544,7 @@ public class EmployeeOB implements iPM {
             }
         }catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return false;
         }
     }

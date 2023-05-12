@@ -11,6 +11,8 @@
 
 package org.rmj.guanzongroup.ghostrider.epacss.ViewModel;
 
+import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
+
 import android.app.Application;
 import android.os.AsyncTask;
 import android.os.Handler;
@@ -165,7 +167,7 @@ public class VMSplashScreen extends AndroidViewModel {
                     }
                 } catch (Exception e){
                     e.printStackTrace();
-                    message = e.getMessage();
+                    message = getLocalMessage(e);
                     return 0;
                 }
             }

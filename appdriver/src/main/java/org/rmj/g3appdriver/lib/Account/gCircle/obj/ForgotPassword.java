@@ -2,6 +2,7 @@ package org.rmj.g3appdriver.lib.Account.gCircle.obj;
 
 import static org.rmj.g3appdriver.dev.Api.ApiResult.SERVER_NO_RESPONSE;
 import static org.rmj.g3appdriver.dev.Api.ApiResult.getErrorMessage;
+import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
 
 import android.app.Application;
 import android.text.TextUtils;
@@ -74,7 +75,7 @@ public class ForgotPassword implements iAuth {
             return 1;
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return 0;
         }
     }

@@ -1,6 +1,7 @@
 package org.rmj.g3appdriver.lib.Notifications.Obj.Receiver;
 
 import static org.rmj.g3appdriver.dev.Api.ApiResult.getErrorMessage;
+import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
 
 import android.app.Application;
 
@@ -109,7 +110,7 @@ public class NMM_TableUpdate implements iNotification {
             return lsMesgIDx;
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return null;
         }
     }
@@ -164,7 +165,7 @@ public class NMM_TableUpdate implements iNotification {
             return poDao.CheckIfMasterExist(mesgID);
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return null;
         }
     }
@@ -176,7 +177,7 @@ public class NMM_TableUpdate implements iNotification {
             return true;
         } catch (Exception e){
             e.printStackTrace();
-            this.message = e.getMessage();
+            this.message = getLocalMessage(e);
             return false;
         }
     }
@@ -219,7 +220,7 @@ public class NMM_TableUpdate implements iNotification {
             return true;
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return false;
         }
     }
@@ -237,7 +238,7 @@ public class NMM_TableUpdate implements iNotification {
             return true;
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return false;
         }
     }

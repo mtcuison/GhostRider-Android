@@ -11,25 +11,26 @@
 
 package org.rmj.guanzongroup.petmanager.ViewModel;
 
+import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
+
 import android.annotation.SuppressLint;
 import android.app.Application;
+import android.os.AsyncTask;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import org.rmj.g3appdriver.GCircle.Apps.PetManager.Obj.EmployeeLeave;
-import org.rmj.g3appdriver.GCircle.Apps.PetManager.PetManager;
-import org.rmj.g3appdriver.GCircle.Apps.PetManager.model.iPM;
-import org.rmj.g3appdriver.GCircle.Apps.PetManager.pojo.LeaveApprovalInfo;
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeLeave;
 import org.rmj.g3appdriver.GCircle.room.Repositories.RBranch;
+import org.rmj.g3appdriver.GCircle.Apps.PetManager.Obj.EmployeeLeave;
+import org.rmj.g3appdriver.GCircle.Apps.PetManager.PetManager;
+import org.rmj.g3appdriver.GCircle.Apps.PetManager.model.iPM;
+import org.rmj.g3appdriver.GCircle.Apps.PetManager.pojo.LeaveApprovalInfo;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
-import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
-import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -44,9 +45,7 @@ public class VMLeaveApproval extends AndroidViewModel {
     private final RBranch pobranch;
     private final iPM poSys;
     private final ConnectionUtil poConn;
-    private final EmployeeLeave poLeave;
 
-    private String transno, message;
 
     private final MutableLiveData<String> TransNox = new MutableLiveData<>();
     private final MutableLiveData<Integer> pnCredit = new MutableLiveData<>();
@@ -61,7 +60,6 @@ public class VMLeaveApproval extends AndroidViewModel {
         this.poSys = new PetManager(instance).GetInstance(PetManager.ePetManager.LEAVE_APPLICATION);
         this.poConn = new ConnectionUtil(instance);
         this.TransNox.setValue("");
-        this.poLeave = new EmployeeLeave(instance);
     }
 
     public interface OnDownloadLeaveAppInfo {
@@ -97,110 +95,127 @@ public class VMLeaveApproval extends AndroidViewModel {
     }
 
     public void downloadLeaveApplication(String transNox, OnDownloadLeaveAppInfo callBack){
-//        new DownloadLeaveAppTask(instance, callBack).execute(transNox);
-        TaskExecutor.Execute(callBack, new OnTaskExecuteListener() {
-            @Override
-            public void OnPreExecute() {
-                callBack.OnDownload();
-            }
-
-            @Override
-            public Object DoInBackground(Object args) {
-                String lsString = (String) args;
-                try{
-                    if(!poConn.isDeviceConnected()) {
-                        message = poConn.getMessage();
-                        return false;
-                    }
-
-                    if(!poLeave.DownloadApplication(lsString)){
-                        message = poLeave.getMessage();
-                        return false;
-                    }
-
-                    transno = lsString;
-                    return true;
-                } catch (Exception e){
-                    e.printStackTrace();
-                    message = e.getMessage();
-                    return false;
-                }
-            }
-
-            @Override
-            public void OnPostExecute(Object object) {
-                Boolean lsSuccess = (Boolean) object;
-                if(lsSuccess){
-                    callBack.OnSuccessDownload(transno);
-                } else {
-                    callBack.OnFailedDownload(message);
-                }
-            }
-        });
+        new DownloadLeaveAppTask(instance, callBack).execute(transNox);
     }
 
+    private static class DownloadLeaveAppTask extends AsyncTask<String, Void, Boolean> {
+        private final ConnectionUtil conn;
+        private final EmployeeLeave poLeave;
+        private final OnDownloadLeaveAppInfo callback;
 
+        private String transno, message;
 
+        public DownloadLeaveAppTask(Application instance, OnDownloadLeaveAppInfo callback) {
+            this.conn = new ConnectionUtil(instance);
+            this.poLeave = new EmployeeLeave(instance);
+            this.callback = callback;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            callback.OnDownload();
+        }
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            try{
+                if(!conn.isDeviceConnected()) {
+                    message = conn.getMessage();
+                    return false;
+                }
+
+                if(!poLeave.DownloadApplication(strings[0])){
+                    message = poLeave.getMessage();
+                    return false;
+                }
+
+                transno = strings[0];
+                return true;
+            } catch (Exception e){
+                e.printStackTrace();
+                message = getLocalMessage(e);
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Boolean isSuccess) {
+            super.onPostExecute(isSuccess);
+            if(isSuccess){
+                callback.OnSuccessDownload(transno);
+            } else {
+                callback.OnFailedDownload(message);
+            }
+        }
+    }
 
     public void confirmLeaveApplication(LeaveApprovalInfo infoModel, OnConfirmLeaveAppCallback callBack){
-//        new ConfirmLeaveTask(callBack).execute(infoModel);
-        TaskExecutor.Execute(callBack, new OnTaskExecuteListener() {
-            @Override
-            public void OnPreExecute() {
-                callBack.onConfirm();
-            }
-
-            @Override
-            public Object DoInBackground(Object args) {
-                LeaveApprovalInfo lsInfo = (LeaveApprovalInfo) args;
-                try{
-                    if(!lsInfo.isDataValid()){
-                        message = lsInfo.getMessage();
-                        return false;
-                    }
-
-                    if(!poConn.isDeviceConnected()){
-                        message = poConn.getMessage() + " Your approval will be automatically send if device is reconnected to internet.";
-                        return false;
-                    }
-
-                    if(!poSys.UploadApproval(lsInfo)){
-                        message = poSys.getMessage();
-                        return false;
-                    }
-
-                    String lsTransNox = poSys.SaveApproval(lsInfo);
-                    if(lsTransNox == null){
-                        message = poSys.getMessage();
-                        return false;
-                    }
-
-                    return true;
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    message = e.getMessage();
-                    return false;
-                }
-            }
-
-            @Override
-            public void OnPostExecute(Object object) {
-                Boolean lsSuccess = (Boolean) object;
-                try {
-                    if (lsSuccess){
-                        callBack.onSuccess(message);
-                    } else {
-                        callBack.onFailed(message);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    callBack.onFailed(e.getMessage());
-                }
-            }
-        });
+        new ConfirmLeaveTask(callBack).execute(infoModel);
     }
 
-//
+    private  class ConfirmLeaveTask extends AsyncTask<LeaveApprovalInfo, Void, Boolean> {
+        private final OnConfirmLeaveAppCallback callback;
+
+        private String message;
+
+        public ConfirmLeaveTask(OnConfirmLeaveAppCallback callback) {
+            this.callback = callback;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            callback.onConfirm();
+        }
+
+        @Override
+        protected Boolean doInBackground(LeaveApprovalInfo... infos) {
+            try{
+                if(!infos[0].isDataValid()){
+                    message = infos[0].getMessage();
+                    return false;
+                }
+
+                if(!poConn.isDeviceConnected()){
+                    message = poConn.getMessage() + " Your approval will be automatically send if device is reconnected to internet.";
+                    return false;
+                }
+
+                if(!poSys.UploadApproval(infos[0])){
+                    message = poSys.getMessage();
+                    return false;
+                }
+
+                String lsTransNox = poSys.SaveApproval(infos[0]);
+                if(lsTransNox == null){
+                    message = poSys.getMessage();
+                    return false;
+                }
+
+                return true;
+            } catch (Exception e) {
+                e.printStackTrace();
+                message = getLocalMessage(e);
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Boolean isSuccess) {
+            super.onPostExecute(isSuccess);
+            try {
+                if (isSuccess){
+                    callback.onSuccess(message);
+                } else {
+                    callback.onFailed(message);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                callback.onFailed(e.getMessage());
+            }
+        }
+    }
 
     public void setCredits(int value){
         this.pnCredit.setValue(value);
@@ -330,115 +345,3 @@ public class VMLeaveApproval extends AndroidViewModel {
         }
     }
 }
-//private static class DownloadLeaveAppTask extends AsyncTask<String, Void, Boolean> {
-//    private final ConnectionUtil conn;
-//    private final EmployeeLeave poLeave;
-//    private final VMLeaveApproval.OnDownloadLeaveAppInfo callback;
-//
-//    private String transno, message;
-//
-//    public DownloadLeaveAppTask(Application instance, VMLeaveApproval.OnDownloadLeaveAppInfo callback) {
-//        this.conn = new ConnectionUtil(instance);
-//        this.poLeave = new EmployeeLeave(instance);
-//        this.callback = callback;
-//    }
-//
-//    @Override
-//    protected void onPreExecute() {
-//        super.onPreExecute();
-//        callback.OnDownload();
-//    }
-//
-//    @Override
-//    protected Boolean doInBackground(String... strings) {
-//        try{
-//            if(!conn.isDeviceConnected()) {
-//                message = conn.getMessage();
-//                return false;
-//            }
-//
-//            if(!poLeave.DownloadApplication(strings[0])){
-//                message = poLeave.getMessage();
-//                return false;
-//            }
-//
-//            transno = strings[0];
-//            return true;
-//        } catch (Exception e){
-//            e.printStackTrace();
-//            message = e.getMessage();
-//            return false;
-//        }
-//    }
-//
-//    @Override
-//    protected void onPostExecute(Boolean isSuccess) {
-//        super.onPostExecute(isSuccess);
-//        if(isSuccess){
-//            callback.OnSuccessDownload(transno);
-//        } else {
-//            callback.OnFailedDownload(message);
-//        }
-//    }
-//}private  class ConfirmLeaveTask extends AsyncTask<LeaveApprovalInfo, Void, Boolean> {
-////        private final OnConfirmLeaveAppCallback callback;
-////
-////        private String message;
-////
-////        public ConfirmLeaveTask(OnConfirmLeaveAppCallback callback) {
-////            this.callback = callback;
-////        }
-////
-////        @Override
-////        protected void onPreExecute() {
-////            super.onPreExecute();
-////            callback.onConfirm();
-////        }
-////
-////        @Override
-////        protected Boolean doInBackground(LeaveApprovalInfo... infos) {
-////            try{
-////                if(!infos[0].isDataValid()){
-////                    message = infos[0].getMessage();
-////                    return false;
-////                }
-////
-////                if(!poConn.isDeviceConnected()){
-////                    message = poConn.getMessage() + " Your approval will be automatically send if device is reconnected to internet.";
-////                    return false;
-////                }
-////
-////                if(!poSys.UploadApproval(infos[0])){
-////                    message = poSys.getMessage();
-////                    return false;
-////                }
-////
-////                String lsTransNox = poSys.SaveApproval(infos[0]);
-////                if(lsTransNox == null){
-////                    message = poSys.getMessage();
-////                    return false;
-////                }
-////
-////                return true;
-////            } catch (Exception e) {
-////                e.printStackTrace();
-////                message = e.getMessage();
-////                return false;
-////            }
-////        }
-////
-////        @Override
-////        protected void onPostExecute(Boolean isSuccess) {
-////            super.onPostExecute(isSuccess);
-////            try {
-////                if (isSuccess){
-////                    callback.onSuccess(message);
-////                } else {
-////                    callback.onFailed(message);
-////                }
-////            } catch (Exception e) {
-////                e.printStackTrace();
-////                callback.onFailed(e.getMessage());
-////            }
-////        }
-////    }

@@ -11,6 +11,8 @@
 
 package org.rmj.guanzongroup.ghostrider.approvalcode.ViewModel;
 
+import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
+
 import android.app.Application;
 import android.util.Log;
 
@@ -80,7 +82,7 @@ public class VMManualLog extends AndroidViewModel {
                     return lsCode;
                 } catch (Exception e){
                     e.printStackTrace();
-                    message = e.getMessage();
+                    message = getLocalMessage(e);
                     return null;
                 }
             }

@@ -1,5 +1,7 @@
 package org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.Obj;
 
+import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
+
 import android.app.Application;
 
 import androidx.lifecycle.LiveData;
@@ -63,11 +65,11 @@ public class MeansSelectionInfo implements CreditApp {
             return loDetail;
         } catch (NullPointerException e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return null;
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return null;
         }
     }
@@ -120,7 +122,7 @@ public class MeansSelectionInfo implements CreditApp {
             return loDetail.getTransNox();
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return null;
         }
     }

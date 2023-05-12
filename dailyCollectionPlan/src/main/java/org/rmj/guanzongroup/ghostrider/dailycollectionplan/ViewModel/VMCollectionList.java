@@ -12,7 +12,6 @@
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel;
 
 import android.app.Application;
-import android.os.AsyncTask;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -26,6 +25,8 @@ import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
 import org.rmj.g3appdriver.GCircle.Apps.integsys.Dcp.pojo.ImportParams;
 import org.rmj.g3appdriver.GCircle.Apps.integsys.Dcp.LRDcp;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
+import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
+import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 
 import java.util.List;
 
@@ -80,7 +81,7 @@ public class VMCollectionList extends AndroidViewModel {
         new DownloadDcpTask(callback).execute(foVal);
     }
 
-    private class DownloadDcpTask extends AsyncTask<ImportParams, Void, Boolean>{
+    /*private class DownloadDcpTask extends AsyncTask<ImportParams, Void, Boolean>{
 
         private String message;
 
@@ -119,13 +120,53 @@ public class VMCollectionList extends AndroidViewModel {
                 callback.OnFailed(message);
             }
         }
+    }*/
+    private class DownloadDcpTask{
+        private String message;
+        private final OnActionCallback callback;
+        public DownloadDcpTask(OnActionCallback callback) {
+            this.callback = callback;
+        }
+
+        public void execute(ImportParams foVal){
+            TaskExecutor.Execute(foVal, new OnTaskExecuteListener() {
+                @Override
+                public void OnPreExecute() {
+                    callback.OnLoad();
+                }
+
+                @Override
+                public Object DoInBackground(Object args) {
+                    if(!poConn.isDeviceConnected()){
+                        message = poSys.getMessage();
+                        return false;
+                    }
+
+                    if(!poSys.DownloadCollection((ImportParams) args)){
+                        message = poSys.getMessage();
+                        return false;
+                    }
+                    return true;
+                }
+
+                @Override
+                public void OnPostExecute(Object object) {
+                    Boolean isSuccess = (Boolean) object;
+                    if(isSuccess){
+                        callback.OnSuccess();
+                    } else {
+                        callback.OnFailed(message);
+                    }
+                }
+            });
+        }
     }
 
     public void SearchClient(String fsVal, OnDownloadClientList callback){
         new SearchClientTask(callback).execute(fsVal);
     }
 
-    private class SearchClientTask extends AsyncTask<String, Void, List<EDCPCollectionDetail>>{
+    /*private class SearchClientTask extends AsyncTask<String, Void, List<EDCPCollectionDetail>>{
 
         private final OnDownloadClientList callback;
 
@@ -166,13 +207,53 @@ public class VMCollectionList extends AndroidViewModel {
                 callback.OnSuccessDownload(searchlist);
             }
         }
+    }*/
+    private class SearchClientTask{
+        private final OnDownloadClientList callback;
+        private String message;
+        public SearchClientTask(OnDownloadClientList callback) {
+            this.callback = callback;
+        }
+        public void execute(String fsVal){
+            TaskExecutor.Execute(fsVal, new OnTaskExecuteListener() {
+                @Override
+                public void OnPreExecute() {
+                    callback.OnDownload();
+                }
+
+                @Override
+                public Object DoInBackground(Object args) {
+                    if(!poConn.isDeviceConnected()){
+                        message = poConn.getMessage();
+                        return null;
+                    }
+
+                    List<EDCPCollectionDetail> loList = poSys.GetSearchList((String) args);
+                    if(loList == null){
+                        message = poSys.getMessage();
+                        return null;
+                    }
+                    return loList;
+                }
+
+                @Override
+                public void OnPostExecute(Object object) {
+                    if(object == null){
+                        callback.OnFailedDownload(message);
+                    } else {
+                        callback.OnSuccessDownload((List<EDCPCollectionDetail>) object);
+                    }
+                }
+            });
+        }
     }
+
 
     public void AddCollection(EDCPCollectionDetail foVal, OnActionCallback callback){
         new AddCollectionTask(callback).execute(foVal);
     }
 
-    private class AddCollectionTask extends AsyncTask<EDCPCollectionDetail, Void, Boolean>{
+    /*private class AddCollectionTask extends AsyncTask<EDCPCollectionDetail, Void, Boolean>{
 
         private final OnActionCallback callback;
 
@@ -206,13 +287,47 @@ public class VMCollectionList extends AndroidViewModel {
                 callback.OnSuccess();
             }
         }
+    }*/
+    private class AddCollectionTask{
+        private final OnActionCallback callback;
+        private String message;
+        public AddCollectionTask(OnActionCallback callback) {
+            this.callback = callback;
+        }
+        public void execute(EDCPCollectionDetail dcpDetail){
+            TaskExecutor.Execute(dcpDetail, new OnTaskExecuteListener() {
+                @Override
+                public void OnPreExecute() {
+                    callback.OnLoad();
+                }
+
+                @Override
+                public Object DoInBackground(Object args) {
+                    if(!poSys.AddCollection((EDCPCollectionDetail) args)){
+                        message = poSys.getMessage();
+                        return false;
+                    }
+                    return true;
+                }
+
+                @Override
+                public void OnPostExecute(Object object) {
+                    Boolean isSuccess = (Boolean) object;
+                    if(!isSuccess){
+                        callback.OnFailed(message);
+                    } else {
+                        callback.OnSuccess();
+                    }
+                }
+            });
+        }
     }
 
     public void CheckDcpForPosting(OnCheckDcpForPosting callback){
         new CheckDcpTask(callback).execute();
     }
 
-    private class CheckDcpTask extends AsyncTask<String, Void, Integer>{
+    /*private class CheckDcpTask extends AsyncTask<String, Void, Integer>{
 
         private final OnCheckDcpForPosting callback;
 
@@ -256,8 +371,50 @@ public class VMCollectionList extends AndroidViewModel {
                 default: //Need remittance
                     callback.OnFailed(message);
                     break;
-
             }
+        }
+    }*/
+    private class CheckDcpTask{
+        private final OnCheckDcpForPosting callback;
+        private String message;
+        public CheckDcpTask(OnCheckDcpForPosting callback) {
+            this.callback = callback;
+        }
+        public void execute(){
+            TaskExecutor.Execute(null, new OnTaskExecuteListener() {
+                @Override
+                public void OnPreExecute() {
+                    callback.OnLoad();
+                }
+
+                @Override
+                public Object DoInBackground(Object args) {
+                    if(!poSys.HasRemittedCollection()){
+                        message = poSys.getMessage();
+                        return 2;
+                    }
+                    if(poSys.HasNotVisitedCollection()){
+                        message = poSys.getMessage();
+                        return 0;
+                    }
+                    return 1;
+                }
+
+                @Override
+                public void OnPostExecute(Object object) {
+                    switch ((Integer) object) {
+                        case 0: //Failed
+                            callback.OnIncompleteDcp();
+                            break;
+                        case 1: //Success
+                            callback.OnSuccess();
+                            break;
+                        default: //Need remittance
+                            callback.OnFailed(message);
+                            break;
+                    }
+                }
+            });
         }
     }
 
@@ -265,7 +422,7 @@ public class VMCollectionList extends AndroidViewModel {
         new PostCollectionTask(callback).execute(fsVal);
     }
 
-    private class PostCollectionTask extends AsyncTask<String, Void, Boolean>{
+    /*private class PostCollectionTask extends AsyncTask<String, Void, Boolean>{
 
         private final OnActionCallback callback;
 
@@ -317,13 +474,64 @@ public class VMCollectionList extends AndroidViewModel {
                 callback.OnSuccess();
             }
         }
+    }*/
+    private class PostCollectionTask{
+        private final OnActionCallback callback;
+        private String message;
+        public PostCollectionTask(OnActionCallback callback) {
+            this.callback = callback;
+        }
+        public void execute(String fsVal){
+            TaskExecutor.Execute(fsVal, new OnTaskExecuteListener() {
+                @Override
+                public void OnPreExecute() {
+                    callback.OnLoad();
+                }
+
+                @Override
+                public Object DoInBackground(Object args) {
+                    if(!poSys.ExportToFile()){
+                        message = poSys.getMessage();
+                        Log.e(TAG, message);
+                    }
+
+                    if(!poConn.isDeviceConnected()){
+                        message = poConn.getMessage();
+                        return false;
+                    }
+
+
+                    String lsResult = poSys.PostCollection((String) args);
+                    if(lsResult == null){
+                        message = poSys.getMessage();
+                        return false;
+                    }
+
+                    if(!poSys.PostDcpMaster(lsResult)){
+                        message = poSys.getMessage();
+                        return false;
+                    }
+                    return true;
+                }
+
+                @Override
+                public void OnPostExecute(Object object) {
+                    Boolean isSuccess = (Boolean) object;
+                    if(!isSuccess){
+                        callback.OnFailed(message);
+                    } else {
+                        callback.OnSuccess();
+                    }
+                }
+            });
+        }
     }
 
     public void ClearDCPRecords(OnActionCallback callback){
         new ClearDCPRecordsTask(callback).execute();
     }
 
-    private class ClearDCPRecordsTask extends AsyncTask<Void, Void, Boolean>{
+    /*private class ClearDCPRecordsTask extends AsyncTask<Void, Void, Boolean>{
 
         private final OnActionCallback callback;
 
@@ -356,6 +564,40 @@ public class VMCollectionList extends AndroidViewModel {
             } else {
                 callback.OnSuccess();
             }
+        }
+    }*/
+    private class ClearDCPRecordsTask{
+        private final OnActionCallback callback;
+        private String message;
+        public ClearDCPRecordsTask(OnActionCallback callback) {
+            this.callback = callback;
+        }
+        public void execute(){
+            TaskExecutor.Execute(null, new OnTaskExecuteListener() {
+                @Override
+                public void OnPreExecute() {
+                    callback.OnLoad();
+                }
+
+                @Override
+                public Object DoInBackground(Object args) {
+                    if(!poSys.ClearDCPData()){
+                        message = poSys.getMessage();
+                        return false;
+                    }
+                    return true;
+                }
+
+                @Override
+                public void OnPostExecute(Object object) {
+                    Boolean isSuccess = (Boolean) object;
+                    if(!isSuccess){
+                        callback.OnFailed(message);
+                    } else {
+                        callback.OnSuccess();
+                    }
+                }
+            });
         }
     }
 }

@@ -14,6 +14,7 @@ package org.rmj.g3appdriver.utils;
 import static org.rmj.g3appdriver.dev.Api.ApiResult.NOT_CONNECTED;
 import static org.rmj.g3appdriver.dev.Api.ApiResult.UNABLE_TO_REACH_LOCAL;
 import static org.rmj.g3appdriver.dev.Api.ApiResult.UNABLE_TO_REACH_SERVER;
+import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -118,7 +119,7 @@ public class ConnectionUtil {
 //                    }
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return false;
         }
     }
@@ -152,7 +153,7 @@ public class ConnectionUtil {
 //            return ipAddress.isReachable(5000); // Adjust the timeout value as needed
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return false;
         }
     }

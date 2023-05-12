@@ -1,5 +1,7 @@
 package org.rmj.g3appdriver.GCircle.ImportData;
 
+import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
+
 import android.app.Application;
 import android.os.AsyncTask;
 
@@ -61,7 +63,7 @@ public class ImportEmployeeRole {
                 }
             } catch (Exception e){
                 e.printStackTrace();
-                message = e.getMessage();
+                message = getLocalMessage(e);
                 return false;
             }
         }

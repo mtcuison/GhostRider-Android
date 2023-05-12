@@ -2,6 +2,7 @@ package org.rmj.g3appdriver.GCircle.Apps.integsys.CreditInvestigator.Obj;
 
 import static org.rmj.g3appdriver.dev.Api.ApiResult.SERVER_NO_RESPONSE;
 import static org.rmj.g3appdriver.dev.Api.ApiResult.getErrorMessage;
+import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
 
 import android.app.Application;
 import android.util.Log;
@@ -204,7 +205,7 @@ public class CITagging {
             return true;
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return false;
         }
     }
@@ -280,7 +281,7 @@ public class CITagging {
             return true;
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return false;
         }
     }
@@ -352,7 +353,7 @@ public class CITagging {
             return true;
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return false;
         }
     }
@@ -403,7 +404,7 @@ public class CITagging {
             return true;
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return false;
         }
     }
@@ -439,7 +440,7 @@ public class CITagging {
             return true;
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return false;
         }
     }
@@ -482,7 +483,7 @@ public class CITagging {
             return true;
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return false;
         }
     }
@@ -495,7 +496,7 @@ public class CITagging {
             return true;
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return false;
         }
     }
@@ -506,7 +507,7 @@ public class CITagging {
             return true;
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return false;
         }
     }
@@ -562,7 +563,7 @@ public class CITagging {
             return true;
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return false;
         }
     }
@@ -636,7 +637,7 @@ public class CITagging {
             return true;
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return false;
         }
     }
@@ -680,7 +681,7 @@ public class CITagging {
             return true;
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return false;
         }
     }
@@ -744,7 +745,7 @@ public class CITagging {
             return true;
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return false;
         }
     }
@@ -776,7 +777,7 @@ public class CITagging {
             return true;
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return false;
         }
     }
@@ -836,7 +837,7 @@ public class CITagging {
             return true;
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return false;
         }
     }
@@ -846,7 +847,7 @@ public class CITagging {
             return true;
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return false;
         }
     }

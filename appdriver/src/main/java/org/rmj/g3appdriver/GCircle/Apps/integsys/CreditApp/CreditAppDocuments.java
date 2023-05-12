@@ -1,5 +1,7 @@
 package org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp;
 
+import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
+
 import android.app.Application;
 
 import androidx.lifecycle.LiveData;
@@ -49,7 +51,7 @@ public class CreditAppDocuments {
             return true;
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return false;
         }
     }
@@ -79,7 +81,7 @@ public class CreditAppDocuments {
             return lsResult;
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return null;
         }
     }
@@ -95,7 +97,7 @@ public class CreditAppDocuments {
             return true;
         }catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return false;
         }
     }
