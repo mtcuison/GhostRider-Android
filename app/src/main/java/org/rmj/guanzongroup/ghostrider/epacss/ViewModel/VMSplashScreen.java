@@ -14,9 +14,6 @@ package org.rmj.guanzongroup.ghostrider.epacss.ViewModel;
 import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
 
 import android.app.Application;
-import android.os.AsyncTask;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -39,9 +36,6 @@ import org.rmj.g3appdriver.utils.Task.OnLoadApplicationListener;
 import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 import org.rmj.guanzongroup.ghostrider.epacss.BuildConfig;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 public class VMSplashScreen extends AndroidViewModel {
     private static final String TAG = VMSplashScreen.class.getSimpleName();
 
@@ -55,8 +49,6 @@ public class VMSplashScreen extends AndroidViewModel {
 
     private String message;
 
-    private int lnResult;
-
     public VMSplashScreen(@NonNull Application application) {
         super(application);
         this.instance = application;
@@ -68,7 +60,6 @@ public class VMSplashScreen extends AndroidViewModel {
         this.poConfigx.setPackageName(BuildConfig.APPLICATION_ID);
         this.poConfigx.setProductID("gRider");
         this.poConfigx.setUpdateLocally(false);
-        this.poConfigx.setTestCase(true);
         this.poConfigx.setupAppVersionInfo(BuildConfig.VERSION_CODE, BuildConfig.VERSION_NAME, "");
         ETokenInfo loToken = new ETokenInfo();
         loToken.setTokenInf("temp_token");

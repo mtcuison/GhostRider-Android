@@ -1,8 +1,8 @@
 package org.rmj.g3appdriver.dev.Api;
 
 import org.json.JSONObject;
-
 public class ApiResult {
+
 
     public static String SERVER_NO_RESPONSE = "Apologies, the server is not responding at the moment. Please try again later.";
     public static String NOT_CONNECTED = "Connectivity required. Please enable WiFi or enable mobile data to proceed.";

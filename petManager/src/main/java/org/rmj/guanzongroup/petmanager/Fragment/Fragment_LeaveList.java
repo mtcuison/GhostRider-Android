@@ -72,7 +72,7 @@ public class Fragment_LeaveList extends Fragment {
             LinearLayoutManager loManager = new LinearLayoutManager(getActivity());
             loManager.setOrientation(RecyclerView.VERTICAL);
             recyclerView.setLayoutManager(loManager);
-            recyclerView.setAdapter(new EmployeeApplicationAdapter(fsList, forViewing, TransNox -> {
+            recyclerView.setAdapter(new EmployeeApplicationAdapter(fsList, forViewing, (TransNox, EmpName) -> {
                 if(!forViewing) {
                     Intent loIntent = new Intent(requireActivity(), Activity_Application.class);
                     loIntent.putExtra("app", AppConstants.INTENT_LEAVE_APPROVAL);
