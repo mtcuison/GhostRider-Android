@@ -68,21 +68,27 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/lbl_list_logDate"
+                android:id="@+id/lbl_time_in_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_regular"
+                android:layout_marginTop="10dp"
+                android:drawableStart="@drawable/ic_access_time"
+                android:drawablePadding="5dp"
                 app:layout_constraintStart_toStartOf="@+id/lbl_list_logTime"
-                app:layout_constraintTop_toBottomOf="@+id/lbl_list_logTime"/>
+                app:layout_constraintTop_toBottomOf="@+id/lbl_list_logTime" />
+
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/lbl_list_logStatus"
+                android:id="@+id/lbl_selfie_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_medium"
-                android:gravity="end"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                android:drawableStart="@drawable/ic_image_preview"
+                android:drawablePadding="5dp"
+                android:fontFamily="@font/roboto_regular"
+                app:layout_constraintBottom_toBottomOf="@+id/lbl_time_in_status"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/lbl_time_in_status" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

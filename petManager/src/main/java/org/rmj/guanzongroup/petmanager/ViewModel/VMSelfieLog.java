@@ -22,6 +22,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEmployeeInfo;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DSelfieLog;
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ESelfieLog;
 import org.rmj.g3appdriver.dev.Database.Repositories.RBranch;
@@ -107,6 +108,10 @@ public class VMSelfieLog extends AndroidViewModel {
 
     public LiveData<List<ESelfieLog>> getAllEmployeeTimeLog(String fsVal){
         return poLog.GetAllEmployeeTimeLog(fsVal);
+    }
+
+    public LiveData<List<DSelfieLog.LogTime>> GetTimeLogForTheDay(String date){
+        return poLog.GetAllTimeLog(date);
     }
 
     public interface OnBranchCheckListener{

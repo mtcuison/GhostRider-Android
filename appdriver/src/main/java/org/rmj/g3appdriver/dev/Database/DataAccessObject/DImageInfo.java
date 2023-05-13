@@ -19,7 +19,6 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EImageInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.ETokenInfo;
 
 import java.util.List;
 
@@ -51,19 +50,6 @@ public interface DImageInfo {
             "WHERE sTransNox =:oldTransNox")
     void updateImageInfo(String TransNox, String DateModifield, String oldTransNox);
 
-    @Query("UPDATE Image_Information " +
-            "SET sTransNox =:TransNox, " +
-            "cSendStat = '1', " +
-            "dSendDate =:DateModifield " +
-            "WHERE sFileCode =:fileCode")
-    void updateImageInfos(String TransNox, String DateModifield, String fileCode);
-
-    @Query("SELECT * FROM Image_Information " +
-            "WHERE sSourceNo = (SELECT sTransNox " +
-            "FROM LR_DCP_Collection_Master " +
-            "ORDER BY dTransact DESC LIMIT 1)")
-    LiveData<EImageInfo> getImageInfo();
-
     /**
      *
      * @return returns a LiveData List of all unsent DCP image info...
@@ -76,26 +62,10 @@ public interface DImageInfo {
             "AND sFileCode = (SELECT sFileCode FROM EDocSys_File WHERE sBarrcode = 'DCP001')")
     LiveData<List<EImageInfo>> getUnsentDCPImageInfoList();
 
-    @Query("SELECT * FROM Image_Information")
-    LiveData<List<EImageInfo>> getImageInfoList();
-
-
-    @Query("SELECT * FROM Image_Information WHERE sSourceNo =:TransNox")
-    LiveData<List<EImageInfo>> getImageListInfo(String TransNox);
-
-    @Query("SELECT * FROM Image_Information WHERE sSourceNo =:TransNox AND sFileCode='0029'")
-    LiveData<EImageInfo> getImageLogPreview(String TransNox);
-
-    @Update
-    void updateImageInfo(EImageInfo imageInfo);
-
     @Query("SELECT * FROM Image_Information " +
             "WHERE sDtlSrcNo = :sDtlSrcNo AND " +
             "sImageNme = :sImageNme")
     LiveData<EImageInfo> getImageLocation(String sDtlSrcNo, String sImageNme);
-
-    @Query("SELECT * FROM Image_Information WHERE dCaptured LIKE:DateLog")
-    LiveData<List<EImageInfo>> getCurrentLogTimeIfExist(String DateLog);
 
     @Query("SELECT * FROM Image_Information WHERE sFileCode = '0021' AND cSendStat <> '1'")
     List<EImageInfo> getUnsentLoginImageInfo();
@@ -106,33 +76,6 @@ public interface DImageInfo {
     @Query("SELECT * FROM Image_Information WHERE sSourceNo =:fsSource AND sFileCode =:FileCode")
     EImageInfo CheckCreditAppDocumentIfExist(String fsSource, String FileCode);
 
-    /**
-     *
-     * @param oldTransNox pass the old SourceNo of Image_Information which is not sent to server
-     * @param TransNox pass the new Transaction No which is return by API after sending Credit_Online_Application
-     */
-    @Query("UPDATE Image_Information SET sSourceNo =:TransNox WHERE sSourceNo =:oldTransNox AND cSendStat <> '1'")
-    void updateLoanApplicationImageSourceNo(String oldTransNox, String TransNox);
-
-    /**
-     *
-     * @param TransNox pass the transaction no. of Credit_Online_Application
-     * @return list of all scanned documents which are stored in local while internet is not available
-     */
-    @Query("SELECT * FROM Image_Information " +
-            "WHERE sSourceNo = (SELECT sTransNox " +
-            "FROM Credit_Online_Application WHERE sTransNox =:TransNox) " +
-            "AND cSendStat <>'1' " +
-            "AND sFileCode <> '0020' " +
-            "AND sFileCode <> '0021'")
-    List<EImageInfo> getUnsentLoanAppDocFiles(String TransNox);
-
-    @Query("SELECT sFileLoct FROM Image_Information WHERE sSourceNo = :fsSource")
-    LiveData<String> getImageLocationFromSrcId(String fsSource);
-
     @Query("SELECT * FROM Image_Information WHERE sSourceNo =:TransNox AND sDtlSrcNo=:AccntNo")
     EImageInfo getDCPImageInfoForPosting(String TransNox, String AccntNo);
-
-    @Query("SELECT * FROM Image_Information WHERE sSourceNo =:TransNox ORDER BY dCaptured DESC LIMIT 1")
-    EImageInfo getCIImageForPosting(String TransNox);
 }

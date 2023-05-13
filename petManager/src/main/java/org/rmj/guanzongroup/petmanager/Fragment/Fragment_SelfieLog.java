@@ -140,7 +140,7 @@ public class Fragment_SelfieLog extends Fragment {
 
         mViewModel.GetSelectedDate().observe(getViewLifecycleOwner(), date -> {
             try{
-                mViewModel.getAllEmployeeTimeLog(date).observe(getViewLifecycleOwner(), eLog_selfies -> {
+                mViewModel.GetTimeLogForTheDay(date).observe(getViewLifecycleOwner(), eLog_selfies -> {
                     TimeLogAdapter logAdapter = new TimeLogAdapter(eLog_selfies, sTransNox -> GToast.CreateMessage(requireActivity(), "Feature not yet implemented", GToast.INFORMATION).show());
                     LinearLayoutManager loManager = new LinearLayoutManager(requireActivity());
                     loManager.setOrientation(RecyclerView.VERTICAL);

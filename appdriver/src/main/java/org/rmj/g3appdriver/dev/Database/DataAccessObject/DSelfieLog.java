@@ -33,9 +33,6 @@ public interface DSelfieLog {
     @Query("SELECT * FROM Employee_Log_Selfie WHERE sTransNox =:TransNo")
     ESelfieLog GetSelfieLog(String TransNo);
 
-    @Query("SELECT * FROM Employee_Log_Selfie WHERE dLogTimex LIKE:DateLog AND cSendStat = \"1\" ")
-    LiveData<List<ESelfieLog>> getCurrentTimeLogIfExist(String DateLog);
-
     @Query("UPDATE Employee_Log_Selfie " +
             "SET sTransNox =:TransNox, " +
             "sImageIDx =:sImageID, " +
@@ -63,7 +60,37 @@ public interface DSelfieLog {
     ESelfieLog CheckSelfieLogIfExist(String BranchCd, String Transact);
 
     @Query("SELECT * FROM Branch_Info WHERE sBranchCd =:args")
+
     EBranchInfo GetSelfieLogBranch(String args);
 
+    @Query("SELECT " +
+            "a.sTransNox, " +
+            "a.sBranchCd, " +
+            "(SELECT sBranchNm FROM Branch_Info WHERE sBranchCd = a.sBranchCd) AS sBranchNm, " +
+            "a.dTransact, " +
+            "a.dLogTimex, " +
+            "a.cSendStat AS cSlfSentx," +
+            "b.sTransNox AS sImageIDx, " +
+            "b.sImageNme, " +
+            "b.cSendStat AS cImgSentx, " +
+            "b.dSendDate " +
+            "FROM Employee_Log_Selfie a " +
+            "LEFT JOIN Image_Information b " +
+            "ON a.sImageIDx = b.sTransNox " +
+            "WHERE a.dTransact =:args " +
+            "ORDER BY a.dLogTimex DESC")
+    LiveData<List<LogTime>> GetAllEmployeeTimeLog(String args);
 
+    class LogTime{
+        public String sTransNox;
+        public String sBranchCd;
+        public String sBranchNm;
+        public String dTransact;
+        public String dLogTimex;
+        public String cSlfSentx;
+        public String sImageIDx;
+        public String sImageNme;
+        public String cImgSentx;
+        public String dSendDate;
+    }
 }

@@ -23,17 +23,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
 
-import org.rmj.g3appdriver.dev.Database.Entities.ESelfieLog;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DSelfieLog;
 import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.guanzongroup.petmanager.R;
 
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
 import java.util.List;
 
 public class TimeLogAdapter extends RecyclerView.Adapter<TimeLogAdapter.TimeLogViewHolder> {
 
-    private final List<ESelfieLog> selfieLogList;
+    private final List<DSelfieLog.LogTime> selfieLogList;
 
     private final OnTimeLogActionListener mListener;
 
@@ -41,7 +39,7 @@ public class TimeLogAdapter extends RecyclerView.Adapter<TimeLogAdapter.TimeLogV
         void OnImagePreview(String sTransNox);
     }
 
-    public TimeLogAdapter(List<ESelfieLog> selfieLogList, OnTimeLogActionListener listener) {
+    public TimeLogAdapter(List<DSelfieLog.LogTime> selfieLogList, OnTimeLogActionListener listener) {
         this.selfieLogList = selfieLogList;
         this.mListener = listener;
     }
@@ -50,29 +48,43 @@ public class TimeLogAdapter extends RecyclerView.Adapter<TimeLogAdapter.TimeLogV
     @Override
     public TimeLogViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_time_log, parent, false);
-        return new TimeLogViewHolder(view, mListener);
+        return new TimeLogViewHolder(view);
     }
 
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull TimeLogViewHolder holder, int position) {
         try {
-            holder.logSelfie = selfieLogList.get(position);
-            String[] dTime = selfieLogList.get(position).getLogTimex().split(" ");
-            holder.lblDateLog.setText(FormatUIText.formatGOCasBirthdate(dTime[0]));
+            DSelfieLog.LogTime logSelfie = selfieLogList.get(position);
+            String[] dTime = logSelfie.dLogTimex.split(" ");
             holder.lblTimeLog.setText(FormatUIText.HHMMSS_TO_HHMMA_12(dTime[1]));
-            if(selfieLogList.get(position).getBranchCd() != null) {
-                holder.lblBranchCD.setText(selfieLogList.get(position).getBranchCd());
+            if(logSelfie.sBranchCd != null) {
+                holder.lblBranchCD.setText(logSelfie.sBranchNm);
             } else {
                 holder.lblBranchCD.setVisibility(View.GONE);
             }
-            if (selfieLogList.get(position).getSendStat().equalsIgnoreCase("1")) {
-                holder.lblStatusx.setText("Uploaded");
+
+            if (logSelfie.cSlfSentx.equalsIgnoreCase("1")) {
+                holder.lblStatusx.setText("Sent");
                 holder.lblStatusx.setTextColor(Color.parseColor("#008000"));
             } else {
                 holder.lblStatusx.setText("Sending");
                 holder.lblStatusx.setTextColor(Color.RED);
             }
+
+            if (logSelfie.cImgSentx.equalsIgnoreCase("1")) {
+                holder.lblImgStatus.setText("Uploaded");
+                holder.lblImgStatus.setTextColor(Color.parseColor("#008000"));
+            } else {
+                holder.lblImgStatus.setText("Uploading");
+                holder.lblImgStatus.setTextColor(Color.RED);
+            }
+
+            holder.btnPreview.setOnClickListener(v -> {
+                if(position != RecyclerView.NO_POSITION){
+                    mListener.OnImagePreview(logSelfie.sTransNox);
+                }
+            });
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -85,25 +97,18 @@ public class TimeLogAdapter extends RecyclerView.Adapter<TimeLogAdapter.TimeLogV
 
     public static class TimeLogViewHolder extends RecyclerView.ViewHolder {
 
-        ESelfieLog logSelfie;
-        MaterialTextView lblBranchCD,lblTimeLog,lblDateLog, lblStatusx;
+        MaterialTextView lblBranchCD,lblTimeLog, lblImgStatus, lblStatusx;
         MaterialButton btnPreview;
 
-        public TimeLogViewHolder(@NonNull View itemView, OnTimeLogActionListener listener) {
+        public TimeLogViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            lblDateLog = itemView.findViewById(R.id.lbl_list_logDate);
+            lblImgStatus = itemView.findViewById(R.id.lbl_selfie_status);
             lblBranchCD = itemView.findViewById(R.id.lbl_list_BranchCD);
             lblTimeLog = itemView.findViewById(R.id.lbl_list_logTime);
-            lblStatusx = itemView.findViewById(R.id.lbl_list_logStatus);
+            lblStatusx = itemView.findViewById(R.id.lbl_time_in_status);
             btnPreview = itemView.findViewById(R.id.btn_list_logImagePreview);
 
-            btnPreview.setOnClickListener(v -> {
-                int position = getAdapterPosition();
-                if(position != RecyclerView.NO_POSITION){
-                    listener.OnImagePreview(logSelfie.getTransNox());
-                }
-            });
         }
     }
 }

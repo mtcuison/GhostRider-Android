@@ -69,13 +69,12 @@ public class SelfieLog {
         return poUser.GetEmployeeBranch();
     }
 
-    public LiveData<List<ESelfieLog>> getCurrentLogTimeIfExist(String fsDate){
-        String DateLog = "%"+fsDate+"%";
-        return poDao.getCurrentTimeLogIfExist(DateLog);
-    }
-
     public LiveData<List<ESelfieLog>> GetAllEmployeeTimeLog(String fsVal){
         return poDao.getAllEmployeeTimeLog(fsVal);
+    }
+
+    public LiveData<List<DSelfieLog.LogTime>> GetAllTimeLog(String args){
+        return poDao.GetAllEmployeeTimeLog(args);
     }
 
     public boolean ValidateExistingBranch(String args){

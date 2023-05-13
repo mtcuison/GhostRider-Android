@@ -46,7 +46,7 @@ public class EImageInfo implements Serializable {
     @ColumnInfo(name = "dCaptured")
     private String Captured;
     @ColumnInfo(name = "cSendStat")
-    private String SendStat;
+    private String SendStat = "0";
     @ColumnInfo(name = "dSendDate")
     private String SendDate;
 
