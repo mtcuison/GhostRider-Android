@@ -23,8 +23,8 @@ android {
         applicationId "org.rmj.guanzongroup.ghostrider.epacss"
         minSdkVersion 24
         targetSdkVersion 33
-        versionCode 52
-        versionName "Build Version v.3.16.052 b"
+        versionCode 53
+        versionName "Build Version v.3.16.053 b"
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

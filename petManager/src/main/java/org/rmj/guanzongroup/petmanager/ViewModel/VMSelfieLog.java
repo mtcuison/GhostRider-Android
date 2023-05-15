@@ -413,6 +413,64 @@ public class VMSelfieLog extends AndroidViewModel {
         }
     }
 
+    public void ResendTimeIn(String args, OnLoginTimekeeperListener callback){
+        new ResentTimeInTask(instance, callback).execute(args);
+    }
+
+    public static class ResentTimeInTask extends AsyncTask<String, Void, Boolean>{
+
+        private final SelfieLog poSys;
+        private final OnLoginTimekeeperListener callback;
+
+        private final ConnectionUtil poConn;
+
+        private String message;
+
+        public ResentTimeInTask(Application instance, OnLoginTimekeeperListener callback) {
+            this.poSys = new SelfieLog(instance);
+            this.callback = callback;
+            this.poConn = new ConnectionUtil(instance);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            callback.OnLogin();
+        }
+
+        @Override
+        protected Boolean doInBackground(String... selfieLogs) {
+            try{
+                if(!poConn.isDeviceConnected()){
+                    message = poConn.getMessage();
+                    return false;
+                }
+
+                if (!poSys.UploadSelfieLog(selfieLogs[0])) {
+                    message = poSys.getMessage();
+                    return false;
+                }
+
+                return true;
+            } catch (Exception e){
+                e.printStackTrace();
+                message = e.getMessage();
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Boolean isSuccess) {
+            super.onPostExecute(isSuccess);
+            if(!isSuccess){
+                callback.OnFailed(message);
+                return;
+            }
+
+            callback.OnSuccess("");
+        }
+    }
+
     public void ValidateCashCount(String fsVal, OnValidateCashCount callback){
         new ValidateUserCashCount(callback).execute(fsVal);
     }

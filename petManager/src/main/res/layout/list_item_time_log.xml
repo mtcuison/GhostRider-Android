@@ -68,6 +68,18 @@
                 app:layout_constraintStart_toStartOf="@+id/lbl_list_logTime"
                 app:layout_constraintTop_toBottomOf="@+id/lbl_list_logTime" />
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_resend"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:drawablePadding="5dp"
+                android:fontFamily="@font/roboto_regular"
+                android:text="Resend"
+                app:layout_constraintEnd_toEndOf="@+id/lbl_selfie_status"
+                app:layout_constraintStart_toStartOf="@+id/lbl_time_in_status"
+                app:layout_constraintTop_toBottomOf="@+id/lbl_time_in_status" />
+
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_time_in_status"
                 android:layout_width="wrap_content"
@@ -78,7 +90,6 @@
                 android:fontFamily="@font/roboto_regular"
                 app:layout_constraintStart_toStartOf="@+id/lbl_list_BranchCD"
                 app:layout_constraintTop_toBottomOf="@+id/lbl_list_BranchCD" />
-
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_selfie_status"

@@ -45,7 +45,10 @@ public interface DSelfieLog {
     @Query("UPDATE Employee_Log_Selfie SET sImageIDx =:ImageID WHERE sTransNox =:TransNox")
     void updateSelfieLogImageID(String TransNox, String ImageID);
 
-    @Query("UPDATE Employee_Log_Selfie SET sImageIDx =:NewImgID WHERE sImageIDx =:OldImgID")
+    @Query("UPDATE Employee_Log_Selfie " +
+            "SET cSendStat = '1', " +
+            "sImageIDx =:NewImgID " +
+            "WHERE sImageIDx =:OldImgID")
     void UpdateUploadedSelfieImageToLog(String OldImgID, String NewImgID);
 
     @Query("SELECT * FROM Employee_Log_Selfie WHERE cSendStat <> '1'")

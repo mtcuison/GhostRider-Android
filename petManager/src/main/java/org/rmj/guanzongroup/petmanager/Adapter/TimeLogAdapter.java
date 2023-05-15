@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.textview.MaterialTextView;
 
@@ -38,6 +39,7 @@ public class TimeLogAdapter extends RecyclerView.Adapter<TimeLogAdapter.TimeLogV
 
     public interface OnTimeLogActionListener{
         void OnImagePreview(String sTransNox);
+        void OnClickResend(String TransNox);
     }
 
     public TimeLogAdapter(List<DSelfieLog.LogTime> selfieLogList, OnTimeLogActionListener listener) {
@@ -68,9 +70,11 @@ public class TimeLogAdapter extends RecyclerView.Adapter<TimeLogAdapter.TimeLogV
             if (logSelfie.cSlfSentx.equalsIgnoreCase("1")) {
                 holder.lblStatusx.setText("Sent");
                 holder.lblStatusx.setTextColor(Color.parseColor("#008000"));
+                holder.btnResend.setVisibility(View.GONE);
             } else {
                 holder.lblStatusx.setText("Sending");
                 holder.lblStatusx.setTextColor(Color.RED);
+                holder.btnResend.setVisibility(View.VISIBLE);
             }
 
             if (logSelfie.cImgSentx.equalsIgnoreCase("1")) {
@@ -80,6 +84,12 @@ public class TimeLogAdapter extends RecyclerView.Adapter<TimeLogAdapter.TimeLogV
                 holder.lblImgStatus.setText("Uploading");
                 holder.lblImgStatus.setTextColor(Color.RED);
             }
+
+            holder.btnResend.setOnClickListener(v -> {
+                if(position != RecyclerView.NO_POSITION){
+                    mListener.OnClickResend(logSelfie.sTransNox);
+                }
+            });
 
             holder.imgPreview.setOnClickListener(v -> {
                 if(position != RecyclerView.NO_POSITION){
@@ -102,6 +112,7 @@ public class TimeLogAdapter extends RecyclerView.Adapter<TimeLogAdapter.TimeLogV
 
         MaterialTextView lblBranchCD,lblTimeLog, lblImgStatus, lblStatusx;
         ShapeableImageView imgPreview;
+        MaterialButton btnResend;
 
         public TimeLogViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -111,7 +122,7 @@ public class TimeLogAdapter extends RecyclerView.Adapter<TimeLogAdapter.TimeLogV
             lblTimeLog = itemView.findViewById(R.id.lbl_list_logTime);
             lblStatusx = itemView.findViewById(R.id.lbl_time_in_status);
             imgPreview = itemView.findViewById(R.id.img_selfie);
-
+            btnResend = itemView.findViewById(R.id.btn_resend);
         }
     }
 }
