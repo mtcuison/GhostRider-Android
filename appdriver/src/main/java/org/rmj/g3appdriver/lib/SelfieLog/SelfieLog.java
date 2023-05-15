@@ -12,6 +12,9 @@
 package org.rmj.g3appdriver.lib.SelfieLog;
 
 import android.app.Application;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
@@ -20,6 +23,7 @@ import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DSelfieLog;
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ESelfieLog;
 import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.dev.Database.Repositories.RImageInfo;
@@ -208,7 +212,7 @@ public class SelfieLog {
             lsImageID = poImage.UploadImage(lsImageID);
             if(lsImageID == null){
                 message = poImage.getMessage();
-                return false;
+                lsImageID = loDetail.getImageIDx();
             }
 
             poDao.updateSelfieLogImageID(loDetail.getTransNox(), lsImageID);
@@ -245,7 +249,7 @@ public class SelfieLog {
                     loResponse.getString("sTransNox"),
                     fsVal,
                     lsImageID,
-                    new AppConstants().DATE_MODIFIED());
+                    AppConstants.DATE_MODIFIED());
 
             return true;
         } catch (Exception e){
@@ -273,58 +277,10 @@ public class SelfieLog {
             for(int x = 0; x < loSelfies.size(); x++){
                 ESelfieLog loDetail = loSelfies.get(x);
 
-                String lsImageID = loDetail.getImageIDx();
-
-                lsImageID = poImage.UploadImage(lsImageID);
-                if(lsImageID == null){
-                    message = poImage.getMessage();
-                    isSuccess = false;
-                    continue;
-                }
-
-
-                Thread.sleep(1000);
-
-                JSONObject params = new JSONObject();
-                params.put("sEmployID", loDetail.getEmployID());
-                params.put("dLogTimex", loDetail.getLogTimex());
-                params.put("nLatitude", loDetail.getLatitude());
-                params.put("nLongitud", loDetail.getLongitud());
-                params.put("sBranchCd", loDetail.getBranchCd());
-                params.put("sRemarksx", loDetail.getRemarksx());
-
-                String lsResponse = WebClient.sendRequest(
-                        poApi.getUrlPostSelfielog(poConfig.isBackUpServer()),
-                        params.toString(),
-                        poHeaders.getHeaders());
-
-                if(lsResponse == null){
-                    message = "Server no response";
+                if(!UploadSelfieLog(loDetail.getTransNox())){
                     Log.e(TAG, message);
-                    Thread.sleep(1000);
-                    isSuccess = false;
-                    continue;
                 }
 
-                JSONObject loResponse = new JSONObject(lsResponse);
-                String lsResult = loResponse.getString("result");
-                if(lsResult.equalsIgnoreCase("error")){
-                    JSONObject loError = loResponse.getJSONObject("error");
-                    message = loError.getString("message");
-                    Log.e(TAG, message);
-                    Thread.sleep(1000);
-                    isSuccess = false;
-                    continue;
-                }
-
-                String lsTransNo = loDetail.getTransNox();
-
-                poDao.updateEmployeeLogStat(
-                        loResponse.getString("sTransNox"),
-                        lsTransNo,
-                        lsImageID,
-                        new AppConstants().DATE_MODIFIED());
-                Log.d(TAG, "Selfie log image uploaded successfully");
                 Thread.sleep(1000);
             }
 
@@ -332,6 +288,40 @@ public class SelfieLog {
                 message = "Failed to upload Selfie Log/s";
                 return false;
             }
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
+    }
+
+    public boolean UploadImages(){
+        try{
+            List<EImageInfo> loDetail = poDao.GetSelfieImagesForUpload();
+            if(loDetail == null){
+                message = "No images to upload.";
+                return false;
+            }
+
+            if(loDetail.size() == 0){
+                message = "No images to upload.";
+                return false;
+            }
+
+            for (int x = 0; x < loDetail.size(); x++){
+                String lsImageID = loDetail.get(x).getTransNox();
+
+                String lsResult = poImage.UploadImage(lsImageID);
+                if(lsResult == null){
+                    message = poImage.getMessage();
+                    continue;
+                }
+                poDao.UpdateUploadedSelfieImageToLog(lsImageID, lsResult);
+
+                Thread.sleep(1000);
+            }
+
             return true;
         } catch (Exception e){
             e.printStackTrace();

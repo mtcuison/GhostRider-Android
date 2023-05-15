@@ -14,6 +14,7 @@ package org.rmj.guanzongroup.petmanager.ViewModel;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 
 import androidx.annotation.NonNull;

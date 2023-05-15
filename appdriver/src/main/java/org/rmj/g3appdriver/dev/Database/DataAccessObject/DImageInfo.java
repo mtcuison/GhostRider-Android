@@ -67,6 +67,9 @@ public interface DImageInfo {
             "sImageNme = :sImageNme")
     LiveData<EImageInfo> getImageLocation(String sDtlSrcNo, String sImageNme);
 
+    @Query("SELECT sFileLoct FROM Image_Information WHERE sTransNox =:TrasNox")
+    String GetImageFileLocation(String TrasNox);
+
     @Query("SELECT * FROM Image_Information WHERE sFileCode = '0021' AND cSendStat <> '1'")
     List<EImageInfo> getUnsentLoginImageInfo();
 

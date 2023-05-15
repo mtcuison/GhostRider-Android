@@ -20,11 +20,12 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.button.MaterialButton;
+import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.textview.MaterialTextView;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DSelfieLog;
 import org.rmj.g3appdriver.etc.FormatUIText;
+import org.rmj.g3appdriver.lib.FileManager.GImage;
 import org.rmj.guanzongroup.petmanager.R;
 
 import java.util.List;
@@ -80,11 +81,13 @@ public class TimeLogAdapter extends RecyclerView.Adapter<TimeLogAdapter.TimeLogV
                 holder.lblImgStatus.setTextColor(Color.RED);
             }
 
-            holder.btnPreview.setOnClickListener(v -> {
+            holder.imgPreview.setOnClickListener(v -> {
                 if(position != RecyclerView.NO_POSITION){
-                    mListener.OnImagePreview(logSelfie.sTransNox);
+                    mListener.OnImagePreview(logSelfie.sFileLoct);
                 }
             });
+
+            holder.imgPreview.setImageBitmap(GImage.GetImagePreview(logSelfie.sFileLoct));
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -98,7 +101,7 @@ public class TimeLogAdapter extends RecyclerView.Adapter<TimeLogAdapter.TimeLogV
     public static class TimeLogViewHolder extends RecyclerView.ViewHolder {
 
         MaterialTextView lblBranchCD,lblTimeLog, lblImgStatus, lblStatusx;
-        MaterialButton btnPreview;
+        ShapeableImageView imgPreview;
 
         public TimeLogViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -107,7 +110,7 @@ public class TimeLogAdapter extends RecyclerView.Adapter<TimeLogAdapter.TimeLogV
             lblBranchCD = itemView.findViewById(R.id.lbl_list_BranchCD);
             lblTimeLog = itemView.findViewById(R.id.lbl_list_logTime);
             lblStatusx = itemView.findViewById(R.id.lbl_time_in_status);
-            btnPreview = itemView.findViewById(R.id.btn_list_logImagePreview);
+            imgPreview = itemView.findViewById(R.id.img_selfie);
 
         }
     }

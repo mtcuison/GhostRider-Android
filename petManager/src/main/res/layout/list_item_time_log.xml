@@ -17,21 +17,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:gravity="center"
-    android:theme="@style/GhostRiderMaterialTheme"
-    android:paddingHorizontal="5dp">
+    android:theme="@style/GhostRiderMaterialTheme">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_list_logImagePreview"
-        style="@style/Widget.App.Button.OutlinedButton.IconOnly"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/img_selfie"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="centerInside"
         android:adjustViewBounds="true"
         app:icon="@drawable/ic_image_preview"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/materialCardView"
+        app:layout_constraintWidth_percent=".18" />
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/materialCardView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:cardCornerRadius="10dp"
@@ -39,7 +40,7 @@
         app:cardUseCompatPadding="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btn_list_logImagePreview"
+        app:layout_constraintStart_toEndOf="@+id/img_selfie"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -64,19 +65,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_regular"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintStart_toStartOf="@+id/lbl_list_logTime"
+                app:layout_constraintTop_toBottomOf="@+id/lbl_list_logTime" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_time_in_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_regular"
                 android:layout_marginTop="10dp"
                 android:drawableStart="@drawable/ic_access_time"
                 android:drawablePadding="5dp"
-                app:layout_constraintStart_toStartOf="@+id/lbl_list_logTime"
-                app:layout_constraintTop_toBottomOf="@+id/lbl_list_logTime" />
+                android:fontFamily="@font/roboto_regular"
+                app:layout_constraintStart_toStartOf="@+id/lbl_list_BranchCD"
+                app:layout_constraintTop_toBottomOf="@+id/lbl_list_BranchCD" />
 
 
             <com.google.android.material.textview.MaterialTextView
