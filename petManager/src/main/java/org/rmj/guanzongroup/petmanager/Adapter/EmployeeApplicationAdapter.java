@@ -42,10 +42,10 @@ public class EmployeeApplicationAdapter extends RecyclerView.Adapter<EmployeeApp
     private boolean forViewing = false;
 
     public interface OnLeaveItemClickListener{
-        void OnClick(String TransNox);
+        void OnClick(String TransNox, String EmpName);
     }
     public interface OnOBItemClickListener{
-        void OnClick(String TransNox);
+        void OnClick(String TransNox, String EmpName);
     }
 
     public EmployeeApplicationAdapter(List<EEmployeeLeave> poLeave, boolean value, OnLeaveItemClickListener listener) {
@@ -88,7 +88,7 @@ public class EmployeeApplicationAdapter extends RecyclerView.Adapter<EmployeeApp
             holder.lblRemarksx.setText(loLeave.getPurposex());
             holder.itemView.setOnClickListener(v -> {
                 if(mLvListener != null){
-                    mLvListener.OnClick(loLeave.getTransNox());
+                    mLvListener.OnClick(loLeave.getTransNox(), loLeave.getEmployID());
                 }
             });
         } else if(poBusTrip != null){
@@ -103,7 +103,7 @@ public class EmployeeApplicationAdapter extends RecyclerView.Adapter<EmployeeApp
             holder.lblRemarksx.setText(loBusTrip.getRemarksx());
             holder.itemView.setOnClickListener(v -> {
                 if(mObListener != null){
-                    mObListener.OnClick(loBusTrip.getTransNox());
+                    mObListener.OnClick(loBusTrip.getTransNox(), loBusTrip.getEmployee());
                 }
             });
         }

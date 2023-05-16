@@ -73,13 +73,11 @@ public class Fragment_BusinessTripList extends Fragment {
             LinearLayoutManager loManager = new LinearLayoutManager(getActivity());
             loManager.setOrientation(RecyclerView.VERTICAL);
             recyclerView.setLayoutManager(loManager);
-            recyclerView.setAdapter(new EmployeeApplicationAdapter(fsList, TransNox -> {
-                if (!forViewing) {
-                    Intent loIntent = new Intent(requireActivity(), Activity_Application.class);
-                    loIntent.putExtra("app", AppConstants.INTENT_OB_APPROVAL);
-                    loIntent.putExtra("sTransNox", TransNox);
-                    startActivity(loIntent);
-                }
+            recyclerView.setAdapter(new EmployeeApplicationAdapter(fsList, (TransNox, EmpName) -> {
+                Intent loIntent = new Intent(requireActivity(), Activity_Application.class);
+                loIntent.putExtra("app", AppConstants.INTENT_OB_APPROVAL);
+                loIntent.putExtra("sTransNox", TransNox);
+                startActivity(loIntent);
             }));
         } catch (Exception e) {
             e.printStackTrace();

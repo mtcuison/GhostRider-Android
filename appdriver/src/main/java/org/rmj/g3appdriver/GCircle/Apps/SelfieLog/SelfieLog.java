@@ -209,7 +209,7 @@ public class SelfieLog {
             lsImageID = poImage.UploadImage(lsImageID);
             if(lsImageID == null){
                 message = poImage.getMessage();
-                return false;
+                lsImageID = loDetail.getImageIDx();
             }
 
             poDao.updateSelfieLogImageID(loDetail.getTransNox(), lsImageID);
@@ -246,7 +246,7 @@ public class SelfieLog {
                     loResponse.getString("sTransNox"),
                     fsVal,
                     lsImageID,
-                    new AppConstants().DATE_MODIFIED());
+                    AppConstants.DATE_MODIFIED());
 
             return true;
         } catch (Exception e){

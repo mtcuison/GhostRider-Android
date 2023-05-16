@@ -20,9 +20,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
-import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
-import org.rmj.g3appdriver.GCircle.Account.EmployeeSession;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.Dcp.LRDcp;
 import org.rmj.g3appdriver.GCircle.room.Entities.ETokenInfo;
 import org.rmj.g3appdriver.GCircle.room.Repositories.AppTokenManager;
 import org.rmj.g3appdriver.GCircle.room.Repositories.RBarangay;
@@ -30,6 +27,9 @@ import org.rmj.g3appdriver.GCircle.room.Repositories.RBranch;
 import org.rmj.g3appdriver.GCircle.room.Repositories.RProvince;
 import org.rmj.g3appdriver.GCircle.room.Repositories.RTown;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.GCircle.Account.EmployeeSession;
+import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.Dcp.LRDcp;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.Task.OnDoBackgroundTaskListener;
 import org.rmj.g3appdriver.utils.Task.OnLoadApplicationListener;
@@ -49,8 +49,6 @@ public class VMSplashScreen extends AndroidViewModel {
 
     private String message;
 
-    private int lnResult;
-
     public VMSplashScreen(@NonNull Application application) {
         super(application);
         this.instance = application;
@@ -62,7 +60,6 @@ public class VMSplashScreen extends AndroidViewModel {
         this.poConfigx.setPackageName(BuildConfig.APPLICATION_ID);
         this.poConfigx.setProductID("gRider");
         this.poConfigx.setUpdateLocally(false);
-        this.poConfigx.setTestCase(false);
         this.poConfigx.setupAppVersionInfo(BuildConfig.VERSION_CODE, BuildConfig.VERSION_NAME, "");
         ETokenInfo loToken = new ETokenInfo();
         loToken.setTokenInf("temp_token");

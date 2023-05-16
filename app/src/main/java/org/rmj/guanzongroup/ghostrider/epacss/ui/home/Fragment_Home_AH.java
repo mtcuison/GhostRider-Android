@@ -22,6 +22,7 @@ import com.google.android.material.textview.MaterialTextView;
 
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DBranchOpeningMonitor;
 import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeBusinessTrip;
+import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeLeave;
 import org.rmj.g3appdriver.GCircle.Etc.DeptCode;
 import org.rmj.g3appdriver.etc.AppConstants;
@@ -69,7 +70,6 @@ public class Fragment_Home_AH extends Fragment {
         initGoals();
         initBranchOpening();
         initCompanyNotice();
-        initEmployeeApp();
         return view;
     }
 
@@ -210,6 +210,7 @@ public class Fragment_Home_AH extends Fragment {
                 lblFullNme.setText(eEmployeeInfo.getUserName());
                 lblDept.setText(DeptCode.parseUserLevel(eEmployeeInfo.getEmpLevID()));
 
+                initEmployeeApp(eEmployeeInfo);
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -258,7 +259,7 @@ public class Fragment_Home_AH extends Fragment {
     }
 
 
-    private void initEmployeeApp(){
+    private void initEmployeeApp(EEmployeeInfo loInfo){
         mViewModel.CheckApplicationsForApproval(new OnCheckEmployeeApplicationListener() {
             @Override
             public void OnCheck() {
@@ -290,10 +291,11 @@ public class Fragment_Home_AH extends Fragment {
 
                     EmployeeApplicationAdapter loAdapter = new EmployeeApplicationAdapter(app, false, new EmployeeApplicationAdapter.OnLeaveItemClickListener() {
                         @Override
-                        public void OnClick(String TransNox) {
+                        public void OnClick(String TransNox, String EmpName) {
                             Intent loIntent = new Intent(requireActivity(), Activity_Application.class);
                             loIntent.putExtra("app", AppConstants.INTENT_LEAVE_APPROVAL);
                             loIntent.putExtra("sTransNox", TransNox);
+                            loIntent.putExtra("type", !loInfo.getUserName().equalsIgnoreCase(EmpName));
                             startActivity(loIntent);
                         }
                     });
@@ -322,9 +324,10 @@ public class Fragment_Home_AH extends Fragment {
 
                     EmployeeApplicationAdapter loAdapter = new EmployeeApplicationAdapter(app, new EmployeeApplicationAdapter.OnOBItemClickListener() {
                         @Override
-                        public void OnClick(String TransNox) {
+                        public void OnClick(String TransNox, String EmpName) {
                             Intent loIntent = new Intent(requireActivity(), Activity_Application.class);
                             loIntent.putExtra("app", AppConstants.INTENT_OB_APPROVAL);
+                            loIntent.putExtra("type", !loInfo.getUserName().equalsIgnoreCase(EmpName));
                             loIntent.putExtra("sTransNox", TransNox);
                             startActivity(loIntent);
                         }

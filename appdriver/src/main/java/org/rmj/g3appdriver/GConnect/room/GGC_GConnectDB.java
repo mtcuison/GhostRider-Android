@@ -40,7 +40,7 @@ import org.rmj.g3appdriver.GConnect.room.Entities.ECountryInfo;
 import org.rmj.g3appdriver.GConnect.room.Entities.EEmailInfo;
 import org.rmj.g3appdriver.GConnect.room.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GConnect.room.Entities.EEvents;
-import org.rmj.g3appdriver.GConnect.room.Entities.EGCardTransactionLedger;
+import org.rmj.g3appdriver.GConnect.room.Entities.EGCardLedger;
 import org.rmj.g3appdriver.GConnect.room.Entities.EGcardApp;
 import org.rmj.g3appdriver.GConnect.room.Entities.EGuanzonPanalo;
 import org.rmj.g3appdriver.GConnect.room.Entities.EItemCart;
@@ -68,7 +68,7 @@ import org.rmj.g3appdriver.GConnect.room.Entities.EUserInfo;
         EBranchInfo.class,
         EClientInfo.class,
         EGcardApp.class,
-        EGCardTransactionLedger.class,
+        EGCardLedger.class,
         EMCSerialRegistration.class,
         EPromo.class,
         ENotificationMaster.class,
@@ -103,7 +103,7 @@ public abstract class GGC_GConnectDB extends RoomDatabase {
     public abstract DBranchInfo EBranchDao();
     public abstract DClientInfo EClientDao();
     public abstract DGcardApp EGcardAppDao();
-    public abstract DGCardTransactionLedger EGCardTransactionLedgerDao();
+    public abstract DGCardTransactionLedger gcardLedgerDao();
     public abstract DMCSerialRegistration EMCSerialRegistrationDao();
     public abstract DPromo EPromoDao();
     public abstract DRedeemablesInfo ERedeemablesDao();

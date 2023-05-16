@@ -33,9 +33,18 @@ public class ClientSession {
 
     private static final String SESSION_ACTIVE = "cLoggedin";
 
-    public ClientSession(Context context) {
+    private static ClientSession instance;
+
+    private ClientSession(Context context) {
         pref = context.getSharedPreferences(ACCOUNT_CREDENTIALS, Context.MODE_PRIVATE);
         editor = pref.edit();
+    }
+
+    public static ClientSession getInstance(Context context){
+        if(instance == null){
+            instance = new ClientSession(context);
+        }
+        return instance;
     }
 
     public void setUserID(String userID){

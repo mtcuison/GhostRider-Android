@@ -23,7 +23,10 @@ public interface DServiceInfo {
     @Update
     void update(EServiceInfo eServiceInforInfo);
 
-    @Query("SELECT S.* FROM Service as S " +
+    @Query("SELECT sCardNmbr FROM Gcard_App_Master WHERE cActvStat = '1'")
+    String getCardNo();
+
+    @Query("SELECT S.* FROM MC_Service as S " +
             "LEFT JOIN GCard_App_Master as G " +
             "ON S.sGCardNox = G.sGCardNox " +
             "WHERE G.cActvStat = '1'")

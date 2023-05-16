@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class CodeGenerator {
 
-    private String EncryptionKEY = "20190625";
+    private static String EncryptionKEY = "20190625";
     MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
     MySQLAESCrypt poEncrypt = new MySQLAESCrypt();
     BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
@@ -59,8 +59,12 @@ public class CodeGenerator {
         return bitmap;
     }
 
-    public Bitmap GeneratePanaloOtherRedemptionQC(PanaloRewards rewards){
+    public static Bitmap GeneratePanaloOtherRedemptionQC(PanaloRewards rewards){
         Bitmap bitmap = null;
+        MySQLAESCrypt poEncrypt = new MySQLAESCrypt();
+        MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
+        BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
+
         String UnEncryptedString =
                 rewards.getPanaloQC() + ";" +
                         rewards.getPanaloCD() + ";" +
@@ -108,7 +112,7 @@ public class CodeGenerator {
         return bitmap;
     }
 
-    public Bitmap generateGCardCodex(String SOURCE,
+    public static Bitmap generateGCardCodex(String SOURCE,
                                      String DeviceImei,
                                      String CardNumber,
                                      String UserID,
@@ -118,6 +122,9 @@ public class CodeGenerator {
                                      String sModelCde,
                                      String TransNox){
         Bitmap GcardCodex = null;
+        MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
+        BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
+
         String UnEncryptedString = SOURCE + "»" + DeviceImei + "»" + CardNumber + "»" + UserID + "»" + MobileNumber + "»" + DateTime + "»" + AvailablePoints + "»" + sModelCde + "»" + TransNox;
         String EncryptedCode = MySQLAESCrypt.Encrypt(UnEncryptedString, EncryptionKEY);
         try {
@@ -130,7 +137,7 @@ public class CodeGenerator {
         }
     }
 
-    public String generateSecureNo(String SecureNo){
+    public static String generateSecureNo(String SecureNo){
         return MySQLAESCrypt.Encrypt(SecureNo, EncryptionKEY);
     }
 

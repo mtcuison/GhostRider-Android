@@ -23,21 +23,20 @@ public class AppConfigPreference {
 
     private final SharedPreferences.Editor editor;
 
-    private static final String PACKAGE_NAME = "gRider_PackageName";
-    private static final String isAppFirstLaunch = "AppFirstLaunch";
-    private static final String isTestingPhase = "gRider_TestingPhase";
-    private static final String isServerBackUp = "gRider_SecondaryLive";
-    private static final String AppServer = "ApplicationServer";
+    private static final String PACKAGE_NAME = "cPackageN";
+    private static final String IS_APP_FIRST_LAUNCH = "cFrstLnch";
+    private static final String IS_TESTING_PHASE = "cTestingx";
+    private static final String IS_SERVER_BACK_UP = "cServerBU";
+    private static final String APP_SERVER = "cServerxx";
     private static final String CONFIG_NAME = "GGC_AndroidLocalConfig";
-    private static final String APP_PRODUCT_ID = "gRider_ProductID";
-    private static final String APP_DATE_LOGIN = "gRider_DateLogin";
-    private static final String temp_PIN = "ConfirmationPIN";
-    private static final String APP_FIREBASE_TOKEN = "Firebase_Token";
-    private static final String DCP_CustomerRebate = "DCP_CustomerRebate";
-    private static final String DCP_PRNox = "DCP_PR_Noxxx";
-    private static final String Application_Agreement = "gRider_TermAndConditions";
-    private static final String MobileNo = "Mobile_Number";
-    private static boolean isAgreedOnTerms = false;
+    private static final String APP_PRODUCT_ID = "sProdctID";
+    private static final String APP_DATE_LOGIN = "dDateLogn";
+    private static final String APP_FIREBASE_TOKEN = "sAppToken";
+    private static final String DCP_CUSTOMER_REBATE = "nDcpRebte";
+    private static final String DCP_PR_NOX = "sDcpORNox";
+    private static final String APPLICATION_AGREEMENT = "cTnCAggrx";
+    private static final String MOBILE_NO = "sMobileNo";
+    private static final String DEVICE_ID = "sDeviceID";
     private static final String APP_CODE_VERSION = "gRider_VersionCode";
     private static final String APP_NAME_VERSION = "gRider_VersionName";
     private static final String APP_DATE_RELEASE = "gRider_DateRelease";
@@ -74,10 +73,6 @@ public class AppConfigPreference {
         editor.commit();
     }
 
-    public boolean isMainActive(){
-        return pref.getBoolean(MAIN_ACTIVITY, false);
-    }
-
     public void setPackageName(String fsVal){
         editor.putString(PACKAGE_NAME, fsVal);
         editor.commit();
@@ -88,29 +83,29 @@ public class AppConfigPreference {
     }
 
     public void setIsAppFirstLaunch(boolean isFirstLaunch){
-        editor.putBoolean(isAppFirstLaunch, isFirstLaunch);
+        editor.putBoolean(IS_APP_FIRST_LAUNCH, isFirstLaunch);
         editor.commit();
     }
 
     public boolean isAppFirstLaunch(){
-        return pref.getBoolean(isAppFirstLaunch, true);
+        return pref.getBoolean(IS_APP_FIRST_LAUNCH, true);
     }
 
     public boolean getTestStatus() {
-        return pref.getBoolean(isTestingPhase, false);
+        return pref.getBoolean(IS_TESTING_PHASE, false);
     }
 
     public void setTestCase(boolean isTesting){
-        editor.putBoolean(isTestingPhase, isTesting);
+        editor.putBoolean(IS_TESTING_PHASE, isTesting);
         editor.commit();
     }
 
     public boolean isTesting_Phase(){
-        return pref.getBoolean(isTestingPhase, false);
+        return pref.getBoolean(IS_TESTING_PHASE, false);
     }
 
     public void setAppServer(String LocalDataServer){
-        editor.putString(AppServer, LocalDataServer);
+        editor.putString(APP_SERVER, LocalDataServer);
         if(editor.commit()){
             Log.e(TAG, "Server has been set to localhost");
         }
@@ -122,7 +117,7 @@ public class AppConfigPreference {
      * live data address
      */
     public String getAppServer(){
-        return pref.getString(AppServer, "https://restgk.guanzongroup.com.ph/");
+        return pref.getString(APP_SERVER, "https://restgk.guanzongroup.com.ph/");
 //        return pref.getString(AppServer, "http://192.168.10.141/");
     }
 
@@ -136,23 +131,12 @@ public class AppConfigPreference {
         return  pref.getString(APP_PRODUCT_ID,"");
     }
 
-    public void setTemp_DateLogin(String DateLogin){
+    public void setDateLogin(String DateLogin){
         editor.putString(APP_DATE_LOGIN, DateLogin);
         editor.commit();
     }
-    public String DateLogin(){
+    public String getDateLogin(){
         return  pref.getString(APP_DATE_LOGIN, "");
-    }
-
-    public void setTemp_PIN(String PIN){
-        editor.putString(temp_PIN, PIN);
-        editor.commit();
-    }
-
-
-
-    public String getPIN(){
-        return pref.getString(temp_PIN, "");
     }
 
     public void setAppToken(String AppToken){
@@ -165,12 +149,12 @@ public class AppConfigPreference {
     }
 
     public void setDCP_CustomerRebate(String fnRebate){
-        editor.putString(DCP_CustomerRebate, fnRebate);
+        editor.putString(DCP_CUSTOMER_REBATE, fnRebate);
         editor.commit();
     }
 
     public String getDCP_CustomerRebate(){
-        return pref.getString(DCP_CustomerRebate, "100");
+        return pref.getString(DCP_CUSTOMER_REBATE, "100");
     }
 
     public void setIfBackUpServer(boolean fbval){
@@ -179,50 +163,51 @@ public class AppConfigPreference {
         } else {
             Log.e(TAG, "Live server set as active");
         }
-        editor.putBoolean(isServerBackUp, fbval);
+        editor.putBoolean(IS_SERVER_BACK_UP, fbval);
         editor.commit();
     }
 
     public boolean isBackUpServer(){
-        return pref.getBoolean(isServerBackUp, false);
+        return pref.getBoolean(IS_SERVER_BACK_UP, false);
     }
 
 
     public void setDCP_PRNox(String fnPrNox){
-        editor.putInt(DCP_PRNox, Integer.parseInt(fnPrNox));
+        editor.putInt(DCP_PR_NOX, Integer.parseInt(fnPrNox));
         editor.commit();
     }
 
     public String getDCP_PRNox(){
-        int lnPrNox = pref.getInt(DCP_PRNox, 0) + 1;
+        int lnPrNox = pref.getInt(DCP_PR_NOX, 0) + 1;
         @SuppressLint("DefaultLocale") String lsPrNox = String.format("%08d", lnPrNox);
         return lsPrNox;
     }
 
     public void setAgreement(boolean isAgree){
-        editor.putBoolean(Application_Agreement, isAgree);
+        editor.putBoolean(APPLICATION_AGREEMENT, isAgree);
         editor.commit();
     }
 
     public boolean isAgreedOnTermsAndConditions(){
-        return pref.getBoolean(Application_Agreement, false);
-    }
-
-    public boolean isAgreedOnTerms() {
-        return isAgreedOnTerms;
+        return pref.getBoolean(APPLICATION_AGREEMENT, false);
     }
 
     public String getMobileNo(){
-        return pref.getString(MobileNo, "");
+        return pref.getString(MOBILE_NO, "");
     }
 
     public void setMobileNo(String mobileNo){
-        editor.putString(MobileNo, mobileNo);
+        editor.putString(MOBILE_NO, mobileNo);
         editor.commit();
     }
 
-    public void setIsAgreedOnTerms(boolean isAgreed) {
-        this.isAgreedOnTerms = isAgreed;
+    public String getDeviceID(){
+        return pref.getString(DEVICE_ID, "");
+    }
+
+    public void setDeviceID(String val){
+        editor.putString(DEVICE_ID, val);
+        editor.commit();
     }
 
     public void setupAppVersionInfo(int VersionCode, String VersionName, String DateRelease){

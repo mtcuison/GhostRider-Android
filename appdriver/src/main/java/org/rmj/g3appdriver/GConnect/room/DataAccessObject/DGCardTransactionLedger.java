@@ -7,7 +7,7 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import org.rmj.g3appdriver.GConnect.room.Entities.EGCardTransactionLedger;
+import org.rmj.g3appdriver.GConnect.room.Entities.EGCardLedger;
 
 import java.util.List;
 
@@ -15,33 +15,36 @@ import java.util.List;
 public interface DGCardTransactionLedger {
     
     @Insert
-    void Save(EGCardTransactionLedger egCardTransactionLedger);
+    void Save(EGCardLedger egCardTransactionLedger);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertBulkData(List<EGCardTransactionLedger> egCardTransactionLedgerList);
+    void insertBulkData(List<EGCardLedger> egCardTransactionLedgerList);
 
     @Update
-    void update(EGCardTransactionLedger egCardTransactionLedger);
+    void update(EGCardLedger egCardTransactionLedger);
 
     @Query("DELETE FROM G_Card_Transaction_Ledger")
     void deleteGCardTrans();
+
+    @Query("SELECT sGCardNox FROM Gcard_App_Master WHERE cActvStat = '1'")
+    String getCardNox();
 
     @Query("SELECT * FROM G_Card_Transaction_Ledger " +
             "WHERE sGCardNox = (SELECT sGCardNox FROM GCard_App_Master WHERE cActvStat = '1') " +
             "AND sSourceDs = 'REDEMPTION'" +
             "OR sSourceDs = 'PREORDER'")
-    LiveData<List<EGCardTransactionLedger>> getRedemptionTransactionsList();
+    LiveData<List<EGCardLedger>> GetRedemptionTransactionsList();
 
     @Query("SELECT * FROM G_Card_Transaction_Ledger " +
             "WHERE sGCardNox = (SELECT sGCardNox FROM GCard_App_Master WHERE cActvStat = '1') " +
             "ORDER BY dTransact DESC")
-    LiveData<List<EGCardTransactionLedger>> getAllTransactionsList();
+    LiveData<List<EGCardLedger>> GetAllTransactionsList();
 
     @Query("SELECT * FROM G_Card_Transaction_Ledger " +
             "WHERE sGCardNox = (SELECT sGCardNox FROM GCard_App_Master WHERE cActvStat = '1') " +
             "AND sSourceDs = 'ONLINE' " +
             "OR sSourceDs = 'OFFLINE'")
-    LiveData<List<EGCardTransactionLedger>> getPointsEntryTransactionsList();
+    LiveData<List<EGCardLedger>> GetPointsEntryTransactionsList();
 
     @Query("SELECT * FROM G_Card_Transaction_Ledger WHERE "  +
                 "sGCardNox =:gcardNo AND " +
@@ -50,5 +53,5 @@ public interface DGCardTransactionLedger {
                 "sTranDesc =:trandsc AND " +
                 "sSourceNo =:srcenox AND " +
                 "nPointsxx =:pointsx ")
-    EGCardTransactionLedger isTransactionValid(String gcardNo, String srcedsc, String referno, String trandsc, String srcenox, String pointsx);
+    EGCardLedger isTransactionValid(String gcardNo, String srcedsc, String referno, String trandsc, String srcenox, String pointsx);
 }
