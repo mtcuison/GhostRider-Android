@@ -23,45 +23,29 @@ public interface DGcardApp {
     @Update
     void update(EGcardApp gCardApp);
 
-    @Query("DELETE FROM GCard_App_Master")
-    void deleteGCard();
-
     @Query("UPDATE Gcard_App_Master SET cActvStat = '0'")
-    void updateGCardDeactiveStatus();
+    void DeactivateGCard();
 
     @Query("UPDATE Gcard_App_Master SET cActvStat = '1' WHERE sCardNmbr =:GCardNmbr")
-    void updateGCardActiveStatus(String GCardNmbr);
+    void SetActiveGCard(String GCardNmbr);
 
-    @Query("UPDATE Gcard_App_Master SET cActvStat = '1' WHERE sCardNmbr = (SELECT sCardNmbr FROM Gcard_App_Master WHERE sTotPoint IN (SELECT MAX(sTotPoint) FROM Gcard_App_Master))")
-    void updateGCardAppWithHighestPoints();
-
-    @Query("SELECT * FROM GCard_App_Master ")
-    List<EGcardApp> hasGcard();
-
-    @Query("SELECT * FROM GCard_App_Master WHERE cActvStat = '1' ")
-    LiveData<EGcardApp> hasNoGcard();
-
-    @Query("SELECT * FROM GCard_App_Master WHERE cActvStat = '0' ")
-    LiveData<List<EGcardApp>> hasUnCheckGCard();
-
-    @Query("SELECT * FROM Gcard_App_Master WHERE cActvStat = '1'")
-    List<EGcardApp> hasActiveGcard();
+    @Query("UPDATE Gcard_App_Master " +
+            "SET cActvStat = '1' " +
+            "WHERE sCardNmbr = " +
+            "(SELECT sCardNmbr FROM Gcard_App_Master WHERE sTotPoint IN (SELECT MAX(sTotPoint) FROM Gcard_App_Master))")
+    void InitDefaultActiveGCard();
 
     @Query("SELECT sCardNmbr FROM Gcard_App_Master WHERE cActvStat = '1'")
-    String getCardNo();
+    String GetGCardNumber();
 
     @Query("SELECT sGCardNox FROM Gcard_App_Master WHERE cActvStat = '1'")
-    String getCardNox();
-
-    @Query("SELECT * FROM GCard_App_Master ")
-    List<EGcardApp> hasMultipleGCard();
-
+    String GetCardNox();
 
     @Query("SELECT * FROM GCard_App_Master WHERE cActvStat = '1'")
     LiveData<EGcardApp> GetActiveGCcardInfo();
 
     @Query("SELECT * FROM GCard_App_Master")
-    LiveData<List<EGcardApp>> getAllGCardInfo();
+    LiveData<List<EGcardApp>> GetAllGCardInfo();
 
     @Query("SELECT * FROM GCard_App_Master")
     List<EGcardApp> getAllGCard();

@@ -77,7 +77,7 @@ public class SignIn implements iAuth {
                 return 0;
             }
 
-            ClientSession loAccount = new ClientSession(instance);
+            ClientSession loAccount = ClientSession.getInstance(instance);
             loAccount.setUserID(loResponse.getString("sUserIDxx"));
             loAccount.setFullName(loResponse.getString("sUserName"));
 //                    loInfo.setEmailAdd(loResponse.getString("sEmailAdd"));

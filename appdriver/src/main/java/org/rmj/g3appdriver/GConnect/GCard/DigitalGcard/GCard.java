@@ -24,6 +24,8 @@ import org.rmj.g3appdriver.dev.encryp.CodeGenerator;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
 
+import java.util.List;
+
 public class GCard {
     private static final String TAG = GCard.class.getSimpleName();
 
@@ -34,6 +36,11 @@ public class GCard {
     private final AppConfigPreference poConfig;
 
     private String message;
+
+    public enum QrCodeType{
+        NEW_GCARD,
+        TRANSACTION
+    }
 
     public GCard(Application instance) {
         this.poDao = GGC_GConnectDB.getInstance(instance).EGcardAppDao();
@@ -85,6 +92,20 @@ public class GCard {
                 loGCard.setNotified("1");
                 poDao.Save(loGCard);
             }
+
+            poDao.InitDefaultActiveGCard();
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = getLocalMessage(e);
+            return false;
+        }
+    }
+
+    public boolean SetActiveGCard(String GcardNmbr){
+        try{
+            poDao.SetActiveGCard(GcardNmbr);
+
             return true;
         } catch (Exception e){
             e.printStackTrace();
@@ -126,6 +147,20 @@ public class GCard {
                 message = getErrorMessage(loError);
                 return 0;
             }
+
+            EGcardApp loGCard = new EGcardApp();
+            loGCard.setGCardNox(loResponse.getString("sGCardNox"));
+            loGCard.setCardNmbr(loResponse.getString("sCardNmbr"));
+            loGCard.setUserIDxx(poSession.getUserID());
+            loGCard.setNmOnCard(loResponse.getString("sNmOnCard"));
+            loGCard.setMemberxx(loResponse.getString("dMemberxx"));
+            loGCard.setCardType(loResponse.getString("cCardType"));
+            loGCard.setAvlPoint(loResponse.getString("nAvlPoint"));
+            loGCard.setTotPoint(loResponse.getString("nTotPoint"));
+            loGCard.setTranStat(loResponse.getString("cCardStat"));
+            loGCard.setActvStat("0");
+            loGCard.setNotified("1");
+            poDao.Save(loGCard);
             return 1;
         } catch (Exception e){
             e.printStackTrace();
@@ -134,9 +169,41 @@ public class GCard {
         }
     }
 
-    public boolean SetActiveGCard(String GCardNo){
+    public boolean ConfirmGCard(GcardCredentials Gcard){
         try{
+            Gcard.setsConfirmx("1");
+            if(!Gcard.isDataValid()){
+                message = Gcard.getMessage();
+                return false;
+            }
 
+            String lsResponse = WebClient.sendRequest(poApi.getAddNewGCardAPI(), Gcard.getJSONParameters(), poHeaders.getHeaders());
+            if(lsResponse == null){
+                message = SERVER_NO_RESPONSE;
+                return false;
+            }
+
+            JSONObject loResponse = new JSONObject(lsResponse);
+            String lsResult = loResponse.getString("result");
+            if(lsResult.equalsIgnoreCase("error")){
+                JSONObject loError = loResponse.getJSONObject("error");
+                message = getErrorMessage(loError);
+                return false;
+            }
+
+            EGcardApp loGCard = new EGcardApp();
+            loGCard.setGCardNox(loResponse.getString("sGCardNox"));
+            loGCard.setCardNmbr(loResponse.getString("sCardNmbr"));
+            loGCard.setUserIDxx(poSession.getUserID());
+            loGCard.setNmOnCard(loResponse.getString("sNmOnCard"));
+            loGCard.setMemberxx(loResponse.getString("dMemberxx"));
+            loGCard.setCardType(loResponse.getString("cCardType"));
+            loGCard.setAvlPoint(loResponse.getString("nAvlPoint"));
+            loGCard.setTotPoint(loResponse.getString("nTotPoint"));
+            loGCard.setTranStat(loResponse.getString("cCardStat"));
+            loGCard.setActvStat("0");
+            loGCard.setNotified("1");
+            poDao.Save(loGCard);
             return true;
         } catch (Exception e){
             e.printStackTrace();
@@ -149,7 +216,7 @@ public class GCard {
         try{
             String lsSource = "CARD";
             String lsDevcID = poConfig.getDeviceID();
-            String lsCardNo = poDao.getCardNo();
+            String lsCardNo = poDao.GetGCardNumber();
             String lsUserID = poSession.getUserID();
             String lsMobNox = poConfig.getMobileNo();
             String lsDateTm = AppConstants.GCARD_DATE_TIME();
@@ -177,24 +244,21 @@ public class GCard {
         }
     }
 
-    public String GetScanResult(String QrCode){
+    public QrCodeType ParseQrCode(String QrCode){
         try{
-            String lsMobileNo = poSession.getMobileNo();
-            String lsUserIDxx = poSession.getUserID();
-            String lsGCardNox = poDao.getCardNox();
+            CodeGenerator loCode = new CodeGenerator();
+            loCode.setEncryptedQrCode(QrCode);
 
-            if(lsGCardNox == null){
-                message = "";
+            if(!loCode.isCodeValid()){
+                message = "Invalid QR Code. The scanned QR code is not recognized or supported.";
                 return null;
             }
 
-            if(lsGCardNox.isEmpty()){
-                message = "";
-                return null;
+            if(loCode.isQrCodeTransaction()){
+                return QrCodeType.TRANSACTION;
             }
 
-
-
+            return QrCodeType.NEW_GCARD;
         } catch (Exception e){
             e.printStackTrace();
             message = getLocalMessage(e);
@@ -202,7 +266,78 @@ public class GCard {
         }
     }
 
-    LiveData<EGcardApp> GetActiveGCardInfo(){
+    public String GetTransactionPIN(String QrCode){
+        try{
+            String lsMobileNo = poSession.getMobileNo();
+            String lsUserIDxx = poSession.getUserID();
+            String lsGCardNox = poDao.GetCardNox();
+
+            CodeGenerator loCode = new CodeGenerator();
+            loCode.setEncryptedQrCode(QrCode);
+
+            if(loCode.isTransactionVoid()){
+                return loCode.getTransactionPIN();
+            }
+
+            if(lsUserIDxx.isEmpty()){
+                message = "No user account detected. Please make sure you login account before proceeding.";
+                return null;
+            }
+
+            if(lsMobileNo.isEmpty()){
+                message = "Unable to retrieve device mobile no. Please make sure your device has mobile no.";
+                return null;
+            }
+
+            if(lsGCardNox.isEmpty()){
+                message = "No GCard number is registered or active in this account. Please make sure a GCard is active.";
+                return null;
+            }
+
+            if(!loCode.isDeviceValid(lsMobileNo, lsUserIDxx, lsGCardNox)) {
+                message = "Transaction Confirmation Error. The Provided Mobile Number or Account is Invalid for Transaction Confirmation.";
+                return null;
+            }
+
+            return loCode.getTransactionPIN();
+        } catch (Exception e){
+            e.printStackTrace();
+            message = getLocalMessage(e);
+            return null;
+        }
+    }
+
+    public String GetNewGCardNumber(String QrCode){
+        try{
+            String lsMobileNo = poSession.getMobileNo();
+            String lsUserIDxx = poSession.getUserID();
+
+            CodeGenerator loCode = new CodeGenerator();
+            loCode.setEncryptedQrCode(QrCode);
+
+            if(lsUserIDxx.isEmpty()){
+                message = "User Account Not Found. Please Log In to Your Account Before Proceeding.";
+                return null;
+            }
+
+            if(lsMobileNo.isEmpty()){
+                message = "Unable to retrieve device mobile no. Please make sure your device has mobile no.";
+                return null;
+            }
+
+            return loCode.getGCardNumber();
+        } catch (Exception e){
+            e.printStackTrace();
+            message = getLocalMessage(e);
+            return null;
+        }
+    }
+
+    public LiveData<EGcardApp> GetActiveGCardInfo(){
         return poDao.GetActiveGCcardInfo();
+    }
+
+    public LiveData<List<EGcardApp>> GetGCardList(){
+        return poDao.GetAllGCardInfo();
     }
 }

@@ -6,7 +6,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "G_Card_Transaction_Ledger")
-public class EGCardTransactionLedger {
+public class EGCardLedger {
 
     @NonNull
     @PrimaryKey
@@ -44,7 +44,7 @@ public class EGCardTransactionLedger {
     @ColumnInfo(name = "cReceived")
     private String Received;
 
-    public EGCardTransactionLedger() {
+    public EGCardLedger() {
     }
 
     @NonNull

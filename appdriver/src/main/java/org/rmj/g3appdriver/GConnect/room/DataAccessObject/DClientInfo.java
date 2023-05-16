@@ -45,13 +45,13 @@ public interface DClientInfo {
     @Query("DELETE FROM MarketPlace_Cart")
     void LogoutItemCart();
 
-    @Query("DELETE FROM G_Card_Transaction_Ledger")
+    @Query("DELETE FROM GCard_App_Master")
     void LogoutGcardLedger();
 
     @Query("DELETE FROM Redeem_Item")
     void LogoutRedeemItem();
 
-    @Query("DELETE FROM SERVICE")
+    @Query("DELETE FROM MC_Service")
     void LogoutServiceInfo();
 
     @Query("DELETE FROM MC_Serial_Registration")
