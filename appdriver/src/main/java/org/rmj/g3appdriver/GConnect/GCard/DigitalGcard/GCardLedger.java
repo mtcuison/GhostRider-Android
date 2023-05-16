@@ -76,7 +76,7 @@ public class GCardLedger {
 
             JSONObject loResponse = new JSONObject(lsResponse);
             String lsResult = loResponse.getString("result");
-            if (lsResult.equalsIgnoreCase("success")) {
+            if (lsResult.equalsIgnoreCase("error")) {
                 JSONObject loError = loResponse.getJSONObject("error");
                 message = getErrorMessage(loError);
                 return false;
@@ -123,7 +123,7 @@ public class GCardLedger {
 
             JSONObject loResponse = new JSONObject(lsResponse);
             String lsResult = loResponse.getString("result");
-            if (lsResult.equalsIgnoreCase("success")) {
+            if (lsResult.equalsIgnoreCase("error")) {
                 JSONObject loError = loResponse.getJSONObject("error");
                 message = getErrorMessage(loError);
                 return false;
@@ -170,7 +170,7 @@ public class GCardLedger {
 
             JSONObject loResponse = new JSONObject(lsResponse);
             String lsResult = loResponse.getString("result");
-            if (lsResult.equalsIgnoreCase("success")) {
+            if (lsResult.equalsIgnoreCase("error")) {
                 JSONObject loError = loResponse.getJSONObject("error");
                 message = getErrorMessage(loError);
                 return false;
@@ -217,7 +217,7 @@ public class GCardLedger {
 
             JSONObject loResponse = new JSONObject(lsResponse);
             String lsResult = loResponse.getString("result");
-            if (lsResult.equalsIgnoreCase("success")) {
+            if (lsResult.equalsIgnoreCase("error")) {
                 JSONObject loError = loResponse.getJSONObject("error");
                 message = getErrorMessage(loError);
                 return false;

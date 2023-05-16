@@ -106,8 +106,8 @@ public abstract class GGC_GConnectDB extends RoomDatabase {
     public abstract DGCardTransactionLedger gcardLedgerDao();
     public abstract DMCSerialRegistration EMCSerialRegistrationDao();
     public abstract DPromo EPromoDao();
-    public abstract DRedeemablesInfo ERedeemablesDao();
-    public abstract DRedeemItemInfo ERedeemItemDao();
+    public abstract DRedeemablesInfo redeemablesDao();
+    public abstract DRedeemItemInfo redeemedDao();
     public abstract DServiceInfo EServiceDao();
     public abstract DUserInfo EUserInfoDao();
     public abstract DRawDao RawDao();

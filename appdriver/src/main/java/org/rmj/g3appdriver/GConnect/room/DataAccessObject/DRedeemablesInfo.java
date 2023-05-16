@@ -17,16 +17,24 @@ import java.util.List;
 public interface DRedeemablesInfo {
 
     @Insert
-    void insert(ERedeemablesInfo redeemablesInfo);
+    void insert(ERedeemItemInfo foVal);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertBulkData(List<ERedeemablesInfo> redeemablesInfoList);
+    void insertBulkData(List<ERedeemablesInfo> foVal);
 
     @Update
     void update(ERedeemablesInfo redeemablesInfo);
 
     @Query("SELECT COUNT(sTransNox) FROM Redeemables")
     LiveData<Integer> countRedeemables();
+
+    @Query("SELECT * FROM Redeem_Item WHERE sTransNox =:TransNox AND sPromoIDx=:PromoIDx")
+    List<ERedeemItemInfo> getRedeemableIfExist(String TransNox, String PromoIDx);
+
+    @Query("UPDATE Redeem_Item SET " +
+            "nItemQtyx =:ItemQty " +
+            "WHERE sTransNox=:TransNox AND sTransNox =:PromoIDx")
+    void UpdateExistingItemOnCart(String TransNox, String PromoIDx, int ItemQty);
 
     @Query("SELECT COUNT(*) FROM Redeemables")
     int GetRedeemablesCount();

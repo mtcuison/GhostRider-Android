@@ -1,4 +1,4 @@
-package org.rmj.g3appdriver.GConnect.marketplace;
+package org.rmj.g3appdriver.GConnect.Marketplace;
 
 import android.app.Application;
 
