@@ -3,21 +3,29 @@ package org.rmj.g3appdriver.GConnect.room.DataAccessObject;
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import org.rmj.g3appdriver.GConnect.room.Entities.EItemCart;
 import org.rmj.g3appdriver.GConnect.room.Entities.EOrderMaster;
 
 import java.util.List;
 
 @Dao
-public interface DOrderMaster {
+public interface DOrder {
 
     @Insert
     void SaveOrderMaster(EOrderMaster foVal);
 
     @Update
     void UpdateMaster(EOrderMaster foVal);
+
+    @Insert
+    void SaveItemInfo(EItemCart foVal);
+
+    @Query("DELETE FROM MarketPlace_Cart WHERE cBuyNowxx = '1' AND cCheckOut = '1'")
+    void RemoveItemFromCart();
 
     @Query("SELECT * FROM MarketPlace_Order_Master WHERE sTransNox=:fsTransNo")
     EOrderMaster CheckOrderMasterIfExist(String fsTransNo);

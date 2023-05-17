@@ -5,6 +5,7 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import org.rmj.g3appdriver.GConnect.room.Entities.EItemCart;
 
@@ -13,8 +14,14 @@ import java.util.List;
 @Dao
 public interface DItemCart {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert
     void SaveItemInfo(EItemCart foVal);
+
+    @Update
+    void UpdateItemInfo(EItemCart foVal);
+
+    @Query("SELECT * FROM MarketPlace_Cart WHERE sListIDxx =:ListngID")
+    EItemCart GetItemCart(String ListngID);
 
     @Query("SELECT COUNT(*) FROM MarketPlace_Cart WHERE sUserIDxx = (SELECT sUserIDxx FROM Client_Profile_Info)")
     LiveData<Integer> GetMartketplaceCartItemCount();
@@ -78,6 +85,15 @@ public interface DItemCart {
             "AND cCheckOut = '1'")
     LiveData<Double> GetSelectedItemCartTotalPrice();
 
+    @Query("UPDATE Product_Inventory " +
+            "SET nTotalQty =:nTotalQty, " +
+            "nQtyOnHnd =:nQtyOnHnd, " +
+            "nResvOrdr =:nResvOrdr, " +
+            "nSoldQtyx =:nSoldQtyx, " +
+            "nUnitPrce =:nUnitPrce " +
+            "WHERE sListngID=:fsLstID")
+    void UpdateProdcutQuantity(String fsLstID, String nTotalQty, String nQtyOnHnd,
+                               String nResvOrdr, String nSoldQtyx, String nUnitPrce);
 
     @Query("SELECT IFNULL(SUM(b.nUnitPrce * a.nQuantity), 0) " +
             "AS CART_TOTAL " +
