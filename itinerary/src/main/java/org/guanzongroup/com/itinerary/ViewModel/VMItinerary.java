@@ -133,7 +133,7 @@ public class VMItinerary extends AndroidViewModel {
 
             @Override
             public Object DoInBackground(Object args) {
-                String lsString = (String) args;
+
                 try {
                     if (!poConn.isDeviceConnected()) {
                         Log.e(TAG, "Unable to connect to download entries.");

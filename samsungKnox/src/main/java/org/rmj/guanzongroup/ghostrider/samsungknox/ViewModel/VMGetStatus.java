@@ -49,7 +49,7 @@ public class VMGetStatus extends AndroidViewModel {
     public void GetDeviceStatus(String DeviceID, ViewModelCallBack callBack) {
         if (!DeviceID.trim().isEmpty()) {
 //            new GetDeviceStatusTask(instance, callBack).execute(DeviceID);
-            TaskExecutor.Execute(callBack, new OnTaskExecuteListener() {
+            TaskExecutor.Execute(DeviceID, new OnTaskExecuteListener() {
                 @Override
                 public void OnPreExecute() {
                     callBack.OnLoadRequest("Status", "Checking device status", false);

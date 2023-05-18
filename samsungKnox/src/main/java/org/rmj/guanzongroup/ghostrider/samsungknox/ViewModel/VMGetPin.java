@@ -49,7 +49,7 @@ public class VMGetPin extends AndroidViewModel {
     public void GetPIN(String DeviceID, ViewModelCallBack callBack) {
         if (!DeviceID.trim().isEmpty()) {
 //            new GetPinRequest(instance, callBack).execute(DeviceID);
-            TaskExecutor.Execute(callBack, new OnTaskExecuteListener() {
+            TaskExecutor.Execute(DeviceID, new OnTaskExecuteListener() {
                 @Override
                 public void OnPreExecute() {
                     callBack.OnLoadRequest("Samsung Knox", "Getting unlock PIN. Please wait...", false);
