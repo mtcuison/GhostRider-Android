@@ -31,6 +31,8 @@ import org.rmj.g3appdriver.GCircle.Apps.PetManager.PetManager;
 import org.rmj.g3appdriver.GCircle.Apps.PetManager.model.iPM;
 import org.rmj.g3appdriver.GCircle.Apps.PetManager.pojo.LeaveApprovalInfo;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
+import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
+import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -45,7 +47,7 @@ public class VMLeaveApproval extends AndroidViewModel {
     private final RBranch pobranch;
     private final iPM poSys;
     private final ConnectionUtil poConn;
-
+    private String message;
 
     private final MutableLiveData<String> TransNox = new MutableLiveData<>();
     private final MutableLiveData<Integer> pnCredit = new MutableLiveData<>();
@@ -151,71 +153,63 @@ public class VMLeaveApproval extends AndroidViewModel {
     }
 
     public void confirmLeaveApplication(LeaveApprovalInfo infoModel, OnConfirmLeaveAppCallback callBack){
-        new ConfirmLeaveTask(callBack).execute(infoModel);
+//        new ConfirmLeaveTask(callBack).execute(infoModel);
+        TaskExecutor.Execute(callBack, new OnTaskExecuteListener() {
+            @Override
+            public void OnPreExecute() {
+                callBack.onConfirm();
+            }
+
+            @Override
+            public Object DoInBackground(Object args) {
+                LeaveApprovalInfo lsLeaveInfo = (LeaveApprovalInfo) args;
+                try{
+                    if(!lsLeaveInfo.isDataValid()){
+                        message = lsLeaveInfo.getMessage();
+                        return false;
+                    }
+
+                    if(!poConn.isDeviceConnected()){
+                        message = poConn.getMessage() + " Your approval will be automatically send if device is reconnected to internet.";
+                        return false;
+                    }
+
+                    if(!poSys.UploadApproval(lsLeaveInfo)){
+                        message = poSys.getMessage();
+                        return false;
+                    }
+
+                    String lsTransNox = poSys.SaveApproval(lsLeaveInfo);
+                    if(lsTransNox == null){
+                        message = poSys.getMessage();
+                        return false;
+                    }
+
+                    return true;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    message = getLocalMessage(e);
+                    return false;
+                }
+            }
+
+            @Override
+            public void OnPostExecute(Object object) {
+                Boolean lsSuccess = (Boolean) object;
+                try {
+                    if (lsSuccess){
+                        callBack.onSuccess(message);
+                    } else {
+                        callBack.onFailed(message);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    callBack.onFailed(e.getMessage());
+                }
+            }
+        });
     }
 
-    private  class ConfirmLeaveTask extends AsyncTask<LeaveApprovalInfo, Void, Boolean> {
-        private final OnConfirmLeaveAppCallback callback;
-
-        private String message;
-
-        public ConfirmLeaveTask(OnConfirmLeaveAppCallback callback) {
-            this.callback = callback;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            callback.onConfirm();
-        }
-
-        @Override
-        protected Boolean doInBackground(LeaveApprovalInfo... infos) {
-            try{
-                if(!infos[0].isDataValid()){
-                    message = infos[0].getMessage();
-                    return false;
-                }
-
-                if(!poConn.isDeviceConnected()){
-                    message = poConn.getMessage() + " Your approval will be automatically send if device is reconnected to internet.";
-                    return false;
-                }
-
-                if(!poSys.UploadApproval(infos[0])){
-                    message = poSys.getMessage();
-                    return false;
-                }
-
-                String lsTransNox = poSys.SaveApproval(infos[0]);
-                if(lsTransNox == null){
-                    message = poSys.getMessage();
-                    return false;
-                }
-
-                return true;
-            } catch (Exception e) {
-                e.printStackTrace();
-                message = getLocalMessage(e);
-                return false;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(Boolean isSuccess) {
-            super.onPostExecute(isSuccess);
-            try {
-                if (isSuccess){
-                    callback.onSuccess(message);
-                } else {
-                    callback.onFailed(message);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                callback.onFailed(e.getMessage());
-            }
-        }
-    }
 
     public void setCredits(int value){
         this.pnCredit.setValue(value);
@@ -345,3 +339,68 @@ public class VMLeaveApproval extends AndroidViewModel {
         }
     }
 }
+
+
+
+//private  class ConfirmLeaveTask extends AsyncTask<LeaveApprovalInfo, Void, Boolean> {
+//    private final VMLeaveApproval.OnConfirmLeaveAppCallback callback;
+//
+//    private String message;
+//
+//    public ConfirmLeaveTask(VMLeaveApproval.OnConfirmLeaveAppCallback callback) {
+//        this.callback = callback;
+//    }
+//
+//    @Override
+//    protected void onPreExecute() {
+//        super.onPreExecute();
+//        callback.onConfirm();
+//    }
+//
+//    @Override
+//    protected Boolean doInBackground(LeaveApprovalInfo... infos) {
+//        try{
+//            if(!infos[0].isDataValid()){
+//                message = infos[0].getMessage();
+//                return false;
+//            }
+//
+//            if(!poConn.isDeviceConnected()){
+//                message = poConn.getMessage() + " Your approval will be automatically send if device is reconnected to internet.";
+//                return false;
+//            }
+//
+//            if(!poSys.UploadApproval(infos[0])){
+//                message = poSys.getMessage();
+//                return false;
+//            }
+//
+//            String lsTransNox = poSys.SaveApproval(infos[0]);
+//            if(lsTransNox == null){
+//                message = poSys.getMessage();
+//                return false;
+//            }
+//
+//            return true;
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            message = getLocalMessage(e);
+//            return false;
+//        }
+//    }
+//
+//    @Override
+//    protected void onPostExecute(Boolean isSuccess) {
+//        super.onPostExecute(isSuccess);
+//        try {
+//            if (isSuccess){
+//                callback.onSuccess(message);
+//            } else {
+//                callback.onFailed(message);
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            callback.onFailed(e.getMessage());
+//        }
+//    }
+//}
