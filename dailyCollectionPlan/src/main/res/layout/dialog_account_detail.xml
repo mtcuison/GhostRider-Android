@@ -611,7 +611,7 @@
             style="@style/CustomDropDownTilStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Leave Type">
+            android:hint="Transaction Type">
 
             <com.google.android.material.textfield.MaterialAutoCompleteTextView
                 android:id="@+id/spn_transaction"

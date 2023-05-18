@@ -59,16 +59,16 @@ public class AppTokenManager {
                 loToken.setTokenInf(fsVal);
                 loToken.setTokenTpe("0");
                 loToken.setDescript("Firebase token.");
-                loToken.setGeneratd(new AppConstants().DATE_MODIFIED());
-                loToken.setTimeStmp(new AppConstants().DATE_MODIFIED());
+                loToken.setGeneratd(AppConstants.DATE_MODIFIED());
+                loToken.setTimeStmp(AppConstants.DATE_MODIFIED());
                 poDao.SaveToken(loToken);
                 Log.d(TAG, "Firebase token save!");
             } else {
                 loDetail.setTokenInf(fsVal);
                 loDetail.setTokenTpe("0");
                 loDetail.setDescript("Firebase token.");
-                loDetail.setGeneratd(new AppConstants().DATE_MODIFIED());
-                loDetail.setTimeStmp(new AppConstants().DATE_MODIFIED());
+                loDetail.setGeneratd(AppConstants.DATE_MODIFIED());
+                loDetail.setTimeStmp(AppConstants.DATE_MODIFIED());
                 poDao.UpdateToken(loDetail);
                 Log.d(TAG, "Firebase token updated!");
             }
@@ -130,30 +130,30 @@ public class AppTokenManager {
                 loToken.setTokenInf(lsClient);
                 loToken.setDescript("Image upload client token");
                 loToken.setTokenTpe("1");
-                loToken.setGeneratd(new AppConstants().DATE_MODIFIED());
+                loToken.setGeneratd(AppConstants.DATE_MODIFIED());
                 loToken.setExpirexx(lsExpiryx);
-                loToken.setTimeStmp(new AppConstants().DATE_MODIFIED());
+                loToken.setTimeStmp(AppConstants.DATE_MODIFIED());
                 poDao.SaveToken(loToken);
                 Log.d(TAG, "New client token has been saved.");
                 return loToken.getTokenInf();
             }
 
             //Check here if client token is still valid...
-            String lsExpiryx = loClientx.getExpirexx();
-            Date loExpiryx = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(lsExpiryx);
-            Date loCurrent = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(new AppConstants().DATE_MODIFIED());
-
-            int lnResult = loCurrent.compareTo(loExpiryx);
-
-            // If result is less than 0 current date is before the due date
-            // If result is equal to 0 current date is equal to due date
-            // if result is more than 0 current date is after the due date
-            if (lnResult >= 0) {
-
-                // Client token might be expired already so we generate another client token...
-                String lsClient = refreshClientToken();
-                return lsClient;
-            }
+//            String lsExpiryx = loClientx.getExpirexx();
+//            Date loExpiryx = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(lsExpiryx);
+//            Date loCurrent = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(new AppConstants().DATE_MODIFIED());
+//
+//            int lnResult = loCurrent.compareTo(loExpiryx);
+//
+//            // If result is less than 0 current date is before the due date
+//            // If result is equal to 0 current date is equal to due date
+//            // if result is more than 0 current date is after the due date
+//            if (lnResult >= 0) {
+//
+//                // Client token might be expired already so we generate another client token...
+//                String lsClient = refreshClientToken();
+//                return lsClient;
+//            }
 
             return loClientx.getTokenInf();
         } catch (Exception e){
@@ -190,9 +190,9 @@ public class AppTokenManager {
                 loToken.setTokenInf(lsAccess);
                 loToken.setDescript("Image upload access token");
                 loToken.setTokenTpe("2");
-                loToken.setGeneratd(new AppConstants().DATE_MODIFIED());
+                loToken.setGeneratd(AppConstants.DATE_MODIFIED());
                 loToken.setExpirexx(lsExpiryx);
-                loToken.setTimeStmp(new AppConstants().DATE_MODIFIED());
+                loToken.setTimeStmp(AppConstants.DATE_MODIFIED());
                 poDao.SaveToken(loToken);
                 Log.d(TAG, "New access token has been saved.");
                 return loToken.getTokenInf();
@@ -201,7 +201,7 @@ public class AppTokenManager {
             //Check here if client token is still valid...
             String lsExpiryx = loAccessx.getExpirexx();
             Date loExpiryx = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(lsExpiryx);
-            Date loCurrent = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(new AppConstants().DATE_MODIFIED());
+            Date loCurrent = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(AppConstants.DATE_MODIFIED());
 
             int lnResult = loCurrent.compareTo(loExpiryx);
 
@@ -244,10 +244,10 @@ public class AppTokenManager {
             String lsExpiryx = TokenExpiry();
 
             loClientx.setTokenInf(lsClient);
-            loClientx.setGeneratd(new AppConstants().DATE_MODIFIED());
+            loClientx.setGeneratd(AppConstants.DATE_MODIFIED());
             loClientx.setExpirexx(lsExpiryx);
-            loClientx.setModified(new AppConstants().DATE_MODIFIED());
-            loClientx.setTimeStmp(new AppConstants().DATE_MODIFIED());
+            loClientx.setModified(AppConstants.DATE_MODIFIED());
+            loClientx.setTimeStmp(AppConstants.DATE_MODIFIED());
             poDao.UpdateToken(loClientx);
             Log.d(TAG, "Client token has been updated.");
 
@@ -278,10 +278,10 @@ public class AppTokenManager {
             String lsExpiryx = TokenExpiry();
 
             loAccessx.setTokenInf(lsAccess);
-            loAccessx.setGeneratd(new AppConstants().DATE_MODIFIED());
+            loAccessx.setGeneratd(AppConstants.DATE_MODIFIED());
             loAccessx.setExpirexx(lsExpiryx);
-            loAccessx.setModified(new AppConstants().DATE_MODIFIED());
-            loAccessx.setTimeStmp(new AppConstants().DATE_MODIFIED());
+            loAccessx.setModified(AppConstants.DATE_MODIFIED());
+            loAccessx.setTimeStmp(AppConstants.DATE_MODIFIED());
             poDao.UpdateToken(loAccessx);
             Log.d(TAG, "Client token has been updated.");
 

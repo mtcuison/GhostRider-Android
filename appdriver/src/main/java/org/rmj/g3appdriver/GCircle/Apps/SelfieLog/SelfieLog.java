@@ -69,13 +69,12 @@ public class SelfieLog {
         return poUser.GetEmployeeBranch();
     }
 
-    public LiveData<List<ESelfieLog>> getCurrentLogTimeIfExist(String fsDate){
-        String DateLog = "%"+fsDate+"%";
-        return poDao.getCurrentTimeLogIfExist(DateLog);
-    }
-
     public LiveData<List<ESelfieLog>> GetAllEmployeeTimeLog(String fsVal){
         return poDao.getAllEmployeeTimeLog(fsVal);
+    }
+
+    public LiveData<List<DSelfieLog.LogTime>> GetAllTimeLog(String args){
+        return poDao.GetAllEmployeeTimeLog(args);
     }
 
     public boolean ValidateExistingBranch(String args){
@@ -301,7 +300,10 @@ public class SelfieLog {
 
                 if(lsResponse == null){
                     message = "Server no response";
+                if(!UploadSelfieLog(loDetail.getTransNox())){
                     Log.e(TAG, message);
+                }
+
                     Thread.sleep(1000);
                     isSuccess = false;
                     continue;
@@ -324,7 +326,7 @@ public class SelfieLog {
                         loResponse.getString("sTransNox"),
                         lsTransNo,
                         lsImageID,
-                        new AppConstants().DATE_MODIFIED());
+                        AppConstants.DATE_MODIFIED());
                 Log.d(TAG, "Selfie log image uploaded successfully");
                 Thread.sleep(1000);
             }
@@ -337,6 +339,40 @@ public class SelfieLog {
         } catch (Exception e){
             e.printStackTrace();
             message = getLocalMessage(e);
+            return false;
+        }
+    }
+
+    public boolean UploadImages(){
+        try{
+            List<EImageInfo> loDetail = poDao.GetSelfieImagesForUpload();
+            if(loDetail == null){
+                message = "No images to upload.";
+                return false;
+            }
+
+            if(loDetail.size() == 0){
+                message = "No images to upload.";
+                return false;
+            }
+
+            for (int x = 0; x < loDetail.size(); x++){
+                String lsImageID = loDetail.get(x).getTransNox();
+
+                String lsResult = poImage.UploadImage(lsImageID);
+                if(lsResult == null){
+                    message = poImage.getMessage();
+                    continue;
+                }
+                poDao.UpdateUploadedSelfieImageToLog(lsImageID, lsResult);
+
+                Thread.sleep(1000);
+            }
+
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
             return false;
         }
     }

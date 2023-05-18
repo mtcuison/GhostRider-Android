@@ -139,8 +139,44 @@ public class Fragment_SelfieLog extends Fragment {
 
         mViewModel.GetSelectedDate().observe(getViewLifecycleOwner(), date -> {
             try{
-                mViewModel.getAllEmployeeTimeLog(date).observe(getViewLifecycleOwner(), eLog_selfies -> {
-                    TimeLogAdapter logAdapter = new TimeLogAdapter(eLog_selfies, sTransNox -> GToast.CreateMessage(requireActivity(), "Feature not yet implemented", GToast.INFORMATION).show());
+                mViewModel.GetTimeLogForTheDay(date).observe(getViewLifecycleOwner(), eLog_selfies -> {
+                    TimeLogAdapter logAdapter = new TimeLogAdapter(eLog_selfies, new TimeLogAdapter.OnTimeLogActionListener() {
+                        @Override
+                        public void OnImagePreview(String sTransNox) {
+
+                        }
+
+                        @Override
+                        public void OnClickResend(String TransNox) {
+                            mViewModel.ResendTimeIn(TransNox, new VMSelfieLog.OnLoginTimekeeperListener() {
+                                @Override
+                                public void OnLogin() {
+                                    poLoad.initDialog("Selfie Log", "Sending your selfie log. Please wait...", false);
+                                    poLoad.show();
+                                }
+
+                                @Override
+                                public void OnSuccess(String args) {
+                                    poLoad.dismiss();
+                                }
+
+                                @Override
+                                public void SaveOffline(String args) {
+
+                                }
+
+                                @Override
+                                public void OnFailed(String message) {
+                                    poLoad.dismiss();
+                                    poMessage.initDialog();
+                                    poMessage.setTitle("Selfie Login");
+                                    poMessage.setMessage(message);
+                                    poMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
+                                    poMessage.show();
+                                }
+                            });
+                        }
+                    });
                     LinearLayoutManager loManager = new LinearLayoutManager(requireActivity());
                     loManager.setOrientation(RecyclerView.VERTICAL);
                     recyclerView.setLayoutManager(loManager);

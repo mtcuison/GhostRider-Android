@@ -72,6 +72,14 @@ public class DataSyncService extends BroadcastReceiver {
                     }
                     Thread.sleep(1000);
 
+                    if(loSelfie.UploadImages()){
+                        publishProgress("Selfie log image/s uploaded successfully");
+                    } else {
+                        message = loSelfie.getMessage();
+                        Log.e(TAG, message);
+                    }
+                    Thread.sleep(1000);
+
                     iPM loLeave = new PetManager(instance).GetInstance(PetManager.ePetManager.LEAVE_APPLICATION);
                     if(loLeave.UploadApplications()){
                         message = "Leave application/s uploaded successfully";

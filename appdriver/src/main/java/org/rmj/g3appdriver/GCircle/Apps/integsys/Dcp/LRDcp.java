@@ -643,7 +643,7 @@ public class LRDcp {
             loDetail.setTranTotl(foVal.getTotAmnt());
             loDetail.setRemarksx(foVal.getRemarks());
             loDetail.setTranStat("2");
-            loDetail.setModified(new AppConstants().DATE_MODIFIED());
+            loDetail.setModified(AppConstants.DATE_MODIFIED());
             poDao.UpdateCollectionDetail(loDetail);
             poConfig.setDCP_PRNox(loDetail.getPRNoxxxx());
 
@@ -717,8 +717,8 @@ public class LRDcp {
             }
 
             loDetail.setSendStat("1");
-            loDetail.setSendDate(new AppConstants().DATE_MODIFIED());
-            loDetail.setModified(new AppConstants().DATE_MODIFIED());
+            loDetail.setSendDate(AppConstants.DATE_MODIFIED());
+            loDetail.setModified(AppConstants.DATE_MODIFIED());
             poDao.UpdateCollectionDetail(loDetail);
             return true;
 
@@ -758,7 +758,7 @@ public class LRDcp {
             loDetail.setLatitude(foVal.getLatitude());
             loDetail.setLongitud(foVal.getLongtude());
             loDetail.setImageNme(foVal.getFileName());
-            loDetail.setModified(new AppConstants().DATE_MODIFIED());
+            loDetail.setModified(AppConstants.DATE_MODIFIED());
 
             String lsImageID = poImage.SaveDcpImage(
                     foVal.getAccntNox(),
@@ -854,7 +854,7 @@ public class LRDcp {
             loDetail.setTranStat("1");
             loDetail.setRemCodex("CNA");
             loDetail.setRemarksx(foVal.getRemarksx());
-            loDetail.setModified(new AppConstants().DATE_MODIFIED());
+            loDetail.setModified(AppConstants.DATE_MODIFIED());
 
             String lsImageID = poImage.SaveDcpImage(
                     foVal.getAccountNo(),
@@ -926,7 +926,7 @@ public class LRDcp {
             loDetail.setAddressx(foVal.getStreetxx());
             loDetail.setTownName(foVal.getTownIDxx());
             loDetail.setMobileNo(foVal.getMobileNo());
-            loDetail.setModified(new AppConstants().DATE_MODIFIED());
+            loDetail.setModified(AppConstants.DATE_MODIFIED());
 
             loDetail.setTranStat("1");
             loDetail.setRemCodex("LUn");
@@ -978,7 +978,7 @@ public class LRDcp {
             loDetail.setTranStat("1");
             loDetail.setRemCodex(foVal.getRemCodex());
             loDetail.setRemarksx(foVal.getRemarksx());
-            loDetail.setModified(new AppConstants().DATE_MODIFIED());
+            loDetail.setModified(AppConstants.DATE_MODIFIED());
 
             String lsImageID = poImage.SaveDcpImage(
                     foVal.getAccountNo(),
@@ -1122,7 +1122,7 @@ public class LRDcp {
                     EDCPCollectionDetail notVstd = loNoVstd.get(x);
                     notVstd.setRemarksx(Remarks);
                     notVstd.setRemCodex("NV");
-                    notVstd.setModified(new AppConstants().DATE_MODIFIED());
+                    notVstd.setModified(AppConstants.DATE_MODIFIED());
                     poDao.UpdateCollectionDetail(notVstd);
                     Log.d(TAG, "Not visited collection has been updated.");
                 }
@@ -1305,7 +1305,7 @@ public class LRDcp {
 
                 detail.setSendStat("1");
                 detail.setTranStat("2");
-                detail.setSendDate(new AppConstants().DATE_MODIFIED());
+                detail.setSendDate(AppConstants.DATE_MODIFIED());
                 poDao.UpdateCollectionDetail(detail);
                 Log.d(TAG, "Collection detail has been posted.");
                 Thread.sleep(1000);
@@ -1351,7 +1351,7 @@ public class LRDcp {
                 return false;
             }
 
-            poDao.UpdatePostedDcpMaster(TransNox, new AppConstants().DATE_MODIFIED());
+            poDao.UpdatePostedDcpMaster(TransNox, AppConstants.DATE_MODIFIED());
 
             return true;
         } catch (Exception e){

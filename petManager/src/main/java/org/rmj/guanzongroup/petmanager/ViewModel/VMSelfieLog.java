@@ -16,6 +16,7 @@ import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 
 import androidx.annotation.NonNull;
@@ -109,6 +110,10 @@ public class VMSelfieLog extends AndroidViewModel {
 
     public LiveData<List<ESelfieLog>> getAllEmployeeTimeLog(String fsVal){
         return poLog.GetAllEmployeeTimeLog(fsVal);
+    }
+
+    public LiveData<List<DSelfieLog.LogTime>> GetTimeLogForTheDay(String date){
+        return poLog.GetAllTimeLog(date);
     }
 
     public interface OnBranchCheckListener{
@@ -406,6 +411,64 @@ public class VMSelfieLog extends AndroidViewModel {
                     break;
             }
 
+        }
+    }
+
+    public void ResendTimeIn(String args, OnLoginTimekeeperListener callback){
+        new ResentTimeInTask(instance, callback).execute(args);
+    }
+
+    public static class ResentTimeInTask extends AsyncTask<String, Void, Boolean>{
+
+        private final SelfieLog poSys;
+        private final OnLoginTimekeeperListener callback;
+
+        private final ConnectionUtil poConn;
+
+        private String message;
+
+        public ResentTimeInTask(Application instance, OnLoginTimekeeperListener callback) {
+            this.poSys = new SelfieLog(instance);
+            this.callback = callback;
+            this.poConn = new ConnectionUtil(instance);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            callback.OnLogin();
+        }
+
+        @Override
+        protected Boolean doInBackground(String... selfieLogs) {
+            try{
+                if(!poConn.isDeviceConnected()){
+                    message = poConn.getMessage();
+                    return false;
+                }
+
+                if (!poSys.UploadSelfieLog(selfieLogs[0])) {
+                    message = poSys.getMessage();
+                    return false;
+                }
+
+                return true;
+            } catch (Exception e){
+                e.printStackTrace();
+                message = e.getMessage();
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Boolean isSuccess) {
+            super.onPostExecute(isSuccess);
+            if(!isSuccess){
+                callback.OnFailed(message);
+                return;
+            }
+
+            callback.OnSuccess("");
         }
     }
 

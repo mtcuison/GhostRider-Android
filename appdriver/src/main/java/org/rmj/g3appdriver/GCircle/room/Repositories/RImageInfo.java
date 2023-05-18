@@ -15,6 +15,8 @@ import static org.rmj.g3appdriver.dev.Api.ApiResult.SERVER_NO_RESPONSE;
 import static org.rmj.g3appdriver.dev.Api.ApiResult.getErrorMessage;
 import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
 
+import static org.rmj.g3appdriver.lib.Firebase.CrashReportingUtil.reportException;
+
 import android.app.Application;
 import android.util.Log;
 
@@ -57,6 +59,10 @@ public class RImageInfo {
 
     public LiveData<EImageInfo> getImageLocation(String sDtlSrcNo, String sImageNme) {
         return poDao.getImageLocation(sDtlSrcNo, sImageNme);
+    }
+
+    public String GetImageFileLocation(String TransNox){
+        return poDao.GetImageFileLocation(TransNox);
     }
 
     public List<EImageInfo> getUnsentSelfieLogImageList(){
@@ -109,7 +115,7 @@ public class RImageInfo {
             loImage.setDtlSrcNo(TransNox); //Credit App TransNox
             loImage.setSourceCD("COAD");
             loImage.setMD5Hashx(WebFileServer.createMD5Hash(FileLoct));
-            loImage.setCaptured(new AppConstants().DATE_MODIFIED());
+            loImage.setCaptured(AppConstants.DATE_MODIFIED());
             loImage.setImageNme(FileName);
             loImage.setFileLoct(FileLoct);
             loImage.setLatitude("0.0");
@@ -143,7 +149,7 @@ public class RImageInfo {
             loImage.setDtlSrcNo(poSession.getUserID());
             loImage.setSourceCD("LOGa");
             loImage.setMD5Hashx(WebFileServer.createMD5Hash(args1));
-            loImage.setCaptured(new AppConstants().DATE_MODIFIED());
+            loImage.setCaptured(AppConstants.DATE_MODIFIED());
             loImage.setImageNme(args);
             loImage.setFileLoct(args1);
             loImage.setLatitude(args2);
@@ -182,7 +188,7 @@ public class RImageInfo {
             loImage.setLatitude(args4);
             loImage.setLongitud(args5);
             loImage.setMD5Hashx(WebFileServer.createMD5Hash(args3));
-            loImage.setCaptured(new AppConstants().DATE_MODIFIED());
+            loImage.setCaptured(AppConstants.DATE_MODIFIED());
             poDao.SaveImageInfo(loImage);
             Log.d(TAG, "DCP Selfie has been saved.");
             return lsTransNo;
@@ -219,7 +225,7 @@ public class RImageInfo {
                 loImage.setLatitude(args3);
                 loImage.setLongitud(args4);
                 loImage.setMD5Hashx(WebFileServer.createMD5Hash(loImage.getFileLoct()));
-                loImage.setCaptured(new AppConstants().DATE_MODIFIED());
+                loImage.setCaptured(AppConstants.DATE_MODIFIED());
                 poDao.SaveImageInfo(loImage);
                 Log.d(TAG, "CI tagging image has been saved.");
                 return lsTransNo;
@@ -234,7 +240,7 @@ public class RImageInfo {
             loDetail.setLatitude(args3);
             loDetail.setLongitud(args4);
             loDetail.setMD5Hashx(WebFileServer.createMD5Hash(loDetail.getFileLoct()));
-            loDetail.setCaptured(new AppConstants().DATE_MODIFIED());
+            loDetail.setCaptured(AppConstants.DATE_MODIFIED());
             Log.d(TAG, "CI tagging image has been updated.");
             lsTransNo = loDetail.getTransNox();
             return lsTransNo;
@@ -272,7 +278,7 @@ public class RImageInfo {
                 loImage.setLatitude(args4);
                 loImage.setLongitud(args5);
                 loImage.setMD5Hashx(WebFileServer.createMD5Hash(loImage.getFileLoct()));
-                loImage.setCaptured(new AppConstants().DATE_MODIFIED());
+                loImage.setCaptured(AppConstants.DATE_MODIFIED());
                 poDao.SaveImageInfo(loImage);
                 Log.d(TAG, "Document scan image has been saved.");
                 return lsTransNo;
@@ -287,7 +293,7 @@ public class RImageInfo {
             loDetail.setLatitude(args4);
             loDetail.setLongitud(args5);
             loDetail.setMD5Hashx(WebFileServer.createMD5Hash(loDetail.getFileLoct()));
-            loDetail.setCaptured(new AppConstants().DATE_MODIFIED());
+            loDetail.setCaptured(AppConstants.DATE_MODIFIED());
             poDao.update(loDetail);
             Log.d(TAG, "Document scan image has been updated.");
             lsTransNo = loDetail.getTransNox();
@@ -308,7 +314,7 @@ public class RImageInfo {
         try{
             if(poConfig.getTestStatus()){
                 message = "This feature is not available for testing...";
-                return "";
+                return fsVal;
             }
 
             EImageInfo loDetail = poDao.GetImageInfo(fsVal);
@@ -317,7 +323,7 @@ public class RImageInfo {
                 return null;
             }
 
-            if(loDetail.getSendStat() != null){
+            if(loDetail.getSendStat().equalsIgnoreCase("1")){
                 message = "Image is already uploaded.";
                 return fsVal;
             }
@@ -351,6 +357,7 @@ public class RImageInfo {
 
             if (loUpload == null) {
                 message = SERVER_NO_RESPONSE;
+                reportException(poSession.getUserID(), message);
                 return null;
             }
 
@@ -361,6 +368,7 @@ public class RImageInfo {
                 if (lsImgResult.equalsIgnoreCase("error")) {
                     JSONObject loError = loResult.getJSONObject("error");
                     message = getErrorMessage(loError);
+                    reportException(poSession.getUserID(), message);
                     return null;
                 }
             } else {
@@ -369,17 +377,19 @@ public class RImageInfo {
                 if (lsImgResult.equalsIgnoreCase("error")) {
                     JSONObject loError = loResult.getJSONObject("error");
                     message = getErrorMessage(loError);
+                    reportException(poSession.getUserID(), message);
                     return null;
                 }
             }
 
 
             String lsTransnox = (String) loUpload.get("sTransNox");
-            poDao.updateImageInfo(lsTransnox, new AppConstants().DATE_MODIFIED(), loDetail.getTransNox());
+            poDao.updateImageInfo(lsTransnox, AppConstants.DATE_MODIFIED(), loDetail.getTransNox());
             return lsTransnox;
         } catch (Exception e){
             e.printStackTrace();
             message = getLocalMessage(e);
+            reportException(poSession.getUserID(), message);
             return null;
         }
     }
