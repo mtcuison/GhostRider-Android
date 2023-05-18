@@ -33,7 +33,7 @@ public class MCService {
 
     public boolean ImportServiceInfo(){
         try{
-            String lsGcardNo = poDao.getCardNo();
+            String lsGcardNo = poDao.GetGCardNumber();
 
             JSONObject params = new JSONObject();
             String lsSecureNo = CodeGenerator.generateSecureNo(lsGcardNo);

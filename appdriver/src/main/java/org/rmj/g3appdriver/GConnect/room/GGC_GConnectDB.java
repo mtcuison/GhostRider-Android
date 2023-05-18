@@ -22,7 +22,7 @@ import org.rmj.g3appdriver.GConnect.room.DataAccessObject.DMCSerialRegistration;
 import org.rmj.g3appdriver.GConnect.room.DataAccessObject.DMobileAddressInfo;
 import org.rmj.g3appdriver.GConnect.room.DataAccessObject.DNotifications;
 import org.rmj.g3appdriver.GConnect.room.DataAccessObject.DOrderDetail;
-import org.rmj.g3appdriver.GConnect.room.DataAccessObject.DOrderMaster;
+import org.rmj.g3appdriver.GConnect.room.DataAccessObject.DOrder;
 import org.rmj.g3appdriver.GConnect.room.DataAccessObject.DPanalo;
 import org.rmj.g3appdriver.GConnect.room.DataAccessObject.DProduct;
 import org.rmj.g3appdriver.GConnect.room.DataAccessObject.DPromo;
@@ -106,8 +106,8 @@ public abstract class GGC_GConnectDB extends RoomDatabase {
     public abstract DGCardTransactionLedger gcardLedgerDao();
     public abstract DMCSerialRegistration EMCSerialRegistrationDao();
     public abstract DPromo EPromoDao();
-    public abstract DRedeemablesInfo ERedeemablesDao();
-    public abstract DRedeemItemInfo ERedeemItemDao();
+    public abstract DRedeemablesInfo redeemablesDao();
+    public abstract DRedeemItemInfo redeemedDao();
     public abstract DServiceInfo EServiceDao();
     public abstract DUserInfo EUserInfoDao();
     public abstract DRawDao RawDao();
@@ -118,7 +118,7 @@ public abstract class GGC_GConnectDB extends RoomDatabase {
     public abstract DMobileAddressInfo mobAddDao();
     public abstract DProduct prodctDao();
     public abstract DItemCart itemCartDao();
-    public abstract DOrderMaster orderMasterDao();
+    public abstract DOrder ordersDao();
     public abstract DOrderDetail orderDetailDao();
     public abstract DSearchLog searchDao();
     public abstract DPanalo panaloDao();
