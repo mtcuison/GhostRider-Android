@@ -40,7 +40,7 @@ public class EEmployeeRole {
     @ColumnInfo(name = "dModified")
     private String Modified = "";
     @ColumnInfo(name = "dTimeStmp")
-    private String TimeStmp = new AppConstants().DATE_MODIFIED();
+    private String TimeStmp = AppConstants.DATE_MODIFIED();
 
     public EEmployeeRole() {
     }

@@ -69,8 +69,8 @@ public class RAddressUpdate {
             loAddress.setClientID(foVal.getClientID());
             loAddress.setLatitude(foVal.getLatitude());
             loAddress.setLongitud(foVal.getLongitude());
-            loAddress.setModified(new AppConstants().DATE_MODIFIED());
-            loAddress.setTimeStmp(new AppConstants().DATE_MODIFIED());
+            loAddress.setModified(AppConstants.DATE_MODIFIED());
+            loAddress.setTimeStmp(AppConstants.DATE_MODIFIED());
             poDao.SaveAddressUpdate(loAddress);
 
             return lsTransNox;

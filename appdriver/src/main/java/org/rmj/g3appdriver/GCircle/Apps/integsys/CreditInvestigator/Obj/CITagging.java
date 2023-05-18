@@ -110,7 +110,7 @@ public class CITagging {
                     loApp.setAsstFndg(loJson.getString("sAsstFndg"));
                     loApp.setIncomexx(loJson.getString("sIncomexx"));
                     loApp.setIncmFndg(loJson.getString("sIncmFndg"));
-                    loApp.setRcmdRcd1(new AppConstants().DATE_MODIFIED());
+                    loApp.setRcmdRcd1(AppConstants.DATE_MODIFIED());
                     loApp.setTimeStmp(loJson.getString("dTimeStmp"));
 //                    if(loJson.getString("dRcmdRcd1").equalsIgnoreCase("null")){
 //                    } else if(loJson.getString("dRcmdRcd2").equalsIgnoreCase("null")) {
@@ -126,8 +126,8 @@ public class CITagging {
 //                        loApp.setRcmdtnx1(loJson.getString("dRcmdtnx1"));
 //                        loApp.setRcmdtnc1(loJson.getString("cRcmdtnx1"));
 //                        loApp.setRcmdtns1(loJson.getString("sRcmdtnx1"));
-//                        loApp.setRcmdRcd2(new AppConstants().DATE_MODIFIED());
-//                        loApp.setRcmdtnx2(new AppConstants().DATE_MODIFIED());
+//                        loApp.setRcmdRcd2(AppConstants.DATE_MODIFIED());
+//                        loApp.setRcmdtnx2(AppConstants.DATE_MODIFIED());
 //                        loApp.setTranStat(loJson.getString("cTranStat"));
 //                    } else {
 //                        loApp.setHasRecrd(loJson.getString("cHasRecrd"));
@@ -490,7 +490,7 @@ public class CITagging {
 
     public boolean SaveCIApproval(String TransNox, String fsResult, String fsRemarks){
         try{
-            String lsDate = new AppConstants().DATE_MODIFIED();
+            String lsDate = AppConstants.DATE_MODIFIED();
             Log.d(TAG, lsDate);
             poDao.SaveCIApproval(TransNox, fsResult, fsRemarks, lsDate);
             return true;
@@ -729,8 +729,8 @@ public class CITagging {
                 loApp.setRcmdtnx1(loJson.getString("dRcmdtnx1"));
                 loApp.setRcmdtnc1(loJson.getString("cRcmdtnx1"));
                 loApp.setRcmdtns1(loJson.getString("sRcmdtnx1"));
-                loApp.setRcmdRcd2(new AppConstants().DATE_MODIFIED());
-                loApp.setRcmdtnx2(new AppConstants().DATE_MODIFIED());
+                loApp.setRcmdRcd2(AppConstants.DATE_MODIFIED());
+                loApp.setRcmdtnx2(AppConstants.DATE_MODIFIED());
                 loApp.setTranStat(loJson.getString("cTranStat"));
                 poDao.SaveApplicationInfo(loApp);
 

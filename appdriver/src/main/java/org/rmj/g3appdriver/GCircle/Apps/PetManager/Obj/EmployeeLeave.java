@@ -347,7 +347,7 @@ public class EmployeeLeave implements iPM {
             }
 
             poDao.updateSendStatus(
-                    new AppConstants().DATE_MODIFIED(),
+                    AppConstants.DATE_MODIFIED(),
                     args,
                     loResponse.getString("sTransNox"));
             Log.d("Employee Leave", "Leave info updated!");
@@ -497,7 +497,7 @@ public class EmployeeLeave implements iPM {
                 }
 
                 poDao.updateSendStatus(
-                        new AppConstants().DATE_MODIFIED(),
+                        AppConstants.DATE_MODIFIED(),
                         leave.getTransNox(),
                         loResponse.getString("sTransNox"));
                 Log.d("Employee Leave", "Leave info updated!");

@@ -72,7 +72,7 @@ public class EmployeeItinerary {
                 loDetail.setTimeThru(foVal.getTimeEndx());
                 loDetail.setLocation(foVal.getLocation());
                 loDetail.setRemarksx(foVal.getRemarksx());
-                loDetail.setTimeStmp(new AppConstants().DATE_MODIFIED());
+                loDetail.setTimeStmp(AppConstants.DATE_MODIFIED());
                 poDao.Save(loDetail);
                 return lsTransno;
             }

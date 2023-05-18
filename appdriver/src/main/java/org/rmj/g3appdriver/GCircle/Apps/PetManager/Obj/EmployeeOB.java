@@ -483,7 +483,7 @@ public class EmployeeOB implements iPM {
             detail.setAppldTox(null);
             detail.setTranStat("0");
             detail.setSendStat("0");
-            detail.setTimeStmp(new AppConstants().DATE_MODIFIED());
+            detail.setTimeStmp(AppConstants.DATE_MODIFIED());
             poDao.insert(detail);
             Log.d(TAG, "Business trip application save locally.");
             Log.d(TAG, "Business trip transaction no. :" + lsTransNo);

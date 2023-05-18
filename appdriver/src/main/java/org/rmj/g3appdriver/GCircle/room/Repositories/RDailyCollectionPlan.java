@@ -57,7 +57,7 @@ public class RDailyCollectionPlan {
     }
 
     public void updateSentPostedDCPMaster(String TransNox){
-        masterDao.updateSentPostedDCPMaster(TransNox, new AppConstants().DATE_MODIFIED());
+        masterDao.updateSentPostedDCPMaster(TransNox, AppConstants.DATE_MODIFIED());
     }
 
     public List<EDCPCollectionMaster> getCollectionMasterIfExist(String TransNox){
@@ -97,7 +97,7 @@ public class RDailyCollectionPlan {
     }
 
     public void updateCNADetail(String AccNmbr, int EntryNo, String Remarks){
-        detailDao.UpdateCNADetails(AccNmbr, EntryNo, Remarks, new AppConstants().DATE_MODIFIED());
+        detailDao.UpdateCNADetails(AccNmbr, EntryNo, Remarks, AppConstants.DATE_MODIFIED());
     }
 
     public EDCPCollectionMaster CheckIfHasCollection(){
@@ -109,15 +109,15 @@ public class RDailyCollectionPlan {
     }
 
     public void updateCollectionDetail(int EntryNox, String RemCode, String Remarks){
-        detailDao.updateCollectionDetailInfo(EntryNox, RemCode, Remarks, new AppConstants().DATE_MODIFIED());
+        detailDao.updateCollectionDetailInfo(EntryNox, RemCode, Remarks, AppConstants.DATE_MODIFIED());
     }
 
     public void updateNotVisitedCollections(String Remarks, String TransNox){
-        detailDao.updateNotVisitedCollections(Remarks, TransNox, new AppConstants().DATE_MODIFIED());
+        detailDao.updateNotVisitedCollections(Remarks, TransNox, AppConstants.DATE_MODIFIED());
     }
 
     public void updateCollectionDetailStatus(String TransNox, int EntryNox){
-        detailDao.updateCollectionDetailStatus(TransNox, EntryNox, new AppConstants().DATE_MODIFIED());
+        detailDao.updateCollectionDetailStatus(TransNox, EntryNox, AppConstants.DATE_MODIFIED());
     }
 
     public List<EDCPCollectionDetail> CheckCollectionDetailNoRemCode(String TransNox){
@@ -125,7 +125,7 @@ public class RDailyCollectionPlan {
     }
 
     public void updateCollectionDetailStatusWithRemarks(String TransNox, int EntryNox, String Remarks){
-        detailDao.updateCollectionDetailStatusWithRemarks(TransNox, EntryNox, new AppConstants().DATE_MODIFIED(), Remarks);
+        detailDao.updateCollectionDetailStatusWithRemarks(TransNox, EntryNox, AppConstants.DATE_MODIFIED(), Remarks);
     }
 
     public int getAccountNoCount(String TransNox){

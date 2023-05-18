@@ -99,7 +99,7 @@ public class RCollectionRemittance {
             loDetail.setReferNox(foVal.getsReferNox());
             loDetail.setAmountxx(foVal.getnAmountxx());
             loDetail.setSendStat("0");
-            loDetail.setTimeStmp(new AppConstants().DATE_MODIFIED());
+            loDetail.setTimeStmp(AppConstants.DATE_MODIFIED());
 
             poDao.SaveRemittance(loDetail);
 
@@ -155,8 +155,8 @@ public class RCollectionRemittance {
             }
 
             loDetail.setSendStat("1");
-            loDetail.setDateSent(new AppConstants().DATE_MODIFIED());
-            loDetail.setTimeStmp(new AppConstants().DATE_MODIFIED());
+            loDetail.setDateSent(AppConstants.DATE_MODIFIED());
+            loDetail.setTimeStmp(AppConstants.DATE_MODIFIED());
             poDao.Update(loDetail);
 
             return true;

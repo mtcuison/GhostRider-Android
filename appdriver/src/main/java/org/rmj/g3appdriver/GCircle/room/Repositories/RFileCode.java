@@ -97,7 +97,7 @@ public class RFileCode{
                         loFile.setBriefDsc(loJson.getString("sBriefDsc"));
                         loFile.setRecdStat(loJson.getString("cRecdStat"));
                         loFile.setEntryNox(loJson.getInt("nEntryNox"));
-                        loFile.setLstUpdte(new AppConstants().DATE_MODIFIED());
+                        loFile.setLstUpdte(AppConstants.DATE_MODIFIED());
                         loFile.setTimeStmp(loJson.getString("dTimeStmp"));
                         poDao.insert(loFile);
                         Log.d(TAG, "File code info has been saved.");
@@ -113,7 +113,7 @@ public class RFileCode{
                         loDetail.setBriefDsc(loJson.getString("sBriefDsc"));
                         loDetail.setRecdStat(loJson.getString("cRecdStat"));
                         loDetail.setEntryNox(loJson.getInt("nEntryNox"));
-                        loDetail.setFileCode(new AppConstants().DATE_MODIFIED());
+                        loDetail.setFileCode(AppConstants.DATE_MODIFIED());
                         loDetail.setTimeStmp(loJson.getString("dTimeStmp"));
                         poDao.update(loDetail);
                         Log.d(TAG, "File code info has been updated.");

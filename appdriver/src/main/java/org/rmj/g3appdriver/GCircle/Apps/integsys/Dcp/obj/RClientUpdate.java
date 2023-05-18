@@ -62,7 +62,7 @@ public class RClientUpdate {
     }
 
     public void UpdateClientInfoStatus(String ClientID){
-        this.poDao.updateClientInfoImage(ClientID, new AppConstants().DATE_MODIFIED());
+        this.poDao.updateClientInfoImage(ClientID, AppConstants.DATE_MODIFIED());
     }
 
     public void UpdateClientImage(String ClientID, String ImageName){
@@ -156,7 +156,7 @@ public class RClientUpdate {
             loClient.setBarangay(foVal.getBrgyIDxx());
             loClient.setGenderxx(foVal.getGenderxx());
             loClient.setCivlStat(foVal.getCvilStat());
-            loClient.setModified(new AppConstants().DATE_MODIFIED());
+            loClient.setModified(AppConstants.DATE_MODIFIED());
             loClient.setSendStat("0");
             loClient.setSourceCd("DCPa");
             poDao.SaveClientUpdate(loClient);

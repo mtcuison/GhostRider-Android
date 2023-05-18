@@ -59,8 +59,8 @@ public class RMobileUpdate {
             loMobile.setPrimaryx(foVal.getPrimaryx());
             loMobile.setRemarksx(foVal.getsRemarksx());
             loMobile.setReqstCDe(foVal.getReqstCode());
-            loMobile.setModified(new AppConstants().DATE_MODIFIED());
-            loMobile.setTimeStmp(new AppConstants().DATE_MODIFIED());
+            loMobile.setModified(AppConstants.DATE_MODIFIED());
+            loMobile.setTimeStmp(AppConstants.DATE_MODIFIED());
             poDao.SaveMobileUpdate(loMobile);
             return lsTransNo;
         } catch (Exception e){

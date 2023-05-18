@@ -373,7 +373,7 @@ public class CreditOnlineApplication {
             loGocas.PurchaseInfo().setModelID(foVal.getModelIDxx());
             loGocas.PurchaseInfo().setDownPayment(foVal.getDownPaymt());
             loGocas.PurchaseInfo().setAccountTerm(foVal.getAccTermxx());
-            loGocas.PurchaseInfo().setDateApplied(new AppConstants().DATE_MODIFIED());
+            loGocas.PurchaseInfo().setDateApplied(AppConstants.DATE_MODIFIED());
             loGocas.PurchaseInfo().setMonthlyAmortization(foVal.getMonthlyAm());
 
             lsTransNo = CreateUniqueIDForApplicant();

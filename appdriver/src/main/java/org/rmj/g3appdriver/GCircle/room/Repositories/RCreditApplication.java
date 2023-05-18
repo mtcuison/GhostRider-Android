@@ -60,7 +60,7 @@ public class RCreditApplication {
     }
 
     public void updateSentLoanAppl(String oldTransNox, String TransNox){
-        creditApplicationDao.updateSentLoanAppl(oldTransNox, TransNox, new AppConstants().DATE_MODIFIED());
+        creditApplicationDao.updateSentLoanAppl(oldTransNox, TransNox, AppConstants.DATE_MODIFIED());
     }
 
     public void updateApplicationListTransNox(String oldTransNox, String TransNox){

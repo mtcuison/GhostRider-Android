@@ -57,8 +57,8 @@ public class RLocationSysLog {
                 return false;
             }
 
-            sysLog.setTimeStmp(new AppConstants().DATE_MODIFIED());
-            sysLog.setTransact(new AppConstants().DATE_MODIFIED());
+            sysLog.setTimeStmp(AppConstants.DATE_MODIFIED());
+            sysLog.setTransact(AppConstants.DATE_MODIFIED());
             sysLog.setUserIDxx(loUser.getUserIDxx());
             poDao.insertLocation(sysLog);
             return true;
@@ -112,7 +112,7 @@ public class RLocationSysLog {
             }
 
             for(int x = 0; x < loLocations.size(); x++){
-                poDao.updateSysLogStatus(new AppConstants().DATE_MODIFIED(), loLocations.get(x).getTransact());
+                poDao.updateSysLogStatus(AppConstants.DATE_MODIFIED(), loLocations.get(x).getTransact());
             }
 
             return true;

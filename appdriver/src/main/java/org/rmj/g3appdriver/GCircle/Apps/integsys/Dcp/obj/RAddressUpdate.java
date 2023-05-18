@@ -67,8 +67,8 @@ public class RAddressUpdate {
             loAddress.setRemarksx(foVal.getRemarks());
             loAddress.setTranStat("1");
             loAddress.setSendStat("0");
-            loAddress.setModified(new AppConstants().DATE_MODIFIED());
-            loAddress.setTimeStmp(new AppConstants().DATE_MODIFIED());
+            loAddress.setModified(AppConstants.DATE_MODIFIED());
+            loAddress.setTimeStmp(AppConstants.DATE_MODIFIED());
             poDao.SaveAddressUpdate(loAddress);
             return lsTransNox;
         } catch (Exception e){
