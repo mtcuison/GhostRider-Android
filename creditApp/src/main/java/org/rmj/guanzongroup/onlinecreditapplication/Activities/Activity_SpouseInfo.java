@@ -121,7 +121,6 @@ public class Activity_SpouseInfo extends AppCompatActivity {
 
                     ArrayAdapter<String> adapter = new ArrayAdapter<>(Activity_SpouseInfo.this, android.R.layout.simple_spinner_dropdown_item, strings.toArray(new String[0]));
                     txtTownxx.setAdapter(adapter);
-                    txtTownxx.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
 
                     txtTownxx.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
@@ -146,7 +145,6 @@ public class Activity_SpouseInfo extends AppCompatActivity {
 
         ArrayAdapter<String> loAdapter = new ArrayAdapter<>(Activity_SpouseInfo.this, android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.CIVIL_STATUS);
         txtCitizenx.setAdapter(loAdapter);
-        txtCitizenx.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
 
         //TODO: Replace the spinner(dropdown list) for selection of mobile number type into check box with label 'PostPaid'
         // The default value for mobile no type will be prepaid if not check.
@@ -244,7 +242,6 @@ public class Activity_SpouseInfo extends AppCompatActivity {
 
                     ArrayAdapter<String> adapter = new ArrayAdapter<>(Activity_SpouseInfo.this, android.R.layout.simple_spinner_dropdown_item, strings.toArray(new String[0]));
                     txtCitizenx.setAdapter(adapter);
-                    txtCitizenx.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
 
                     txtCitizenx.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override

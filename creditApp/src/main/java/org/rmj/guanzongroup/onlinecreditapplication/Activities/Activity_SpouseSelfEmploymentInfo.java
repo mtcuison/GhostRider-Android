@@ -102,7 +102,6 @@ public class Activity_SpouseSelfEmploymentInfo extends AppCompatActivity {
 
                     ArrayAdapter<String> adapters = new ArrayAdapter<>(Activity_SpouseSelfEmploymentInfo.this, android.R.layout.simple_spinner_dropdown_item, string.toArray(new String[0]));
                     txtTown.setAdapter(adapters);
-                    txtTown.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
                     txtTown.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -126,7 +125,6 @@ public class Activity_SpouseSelfEmploymentInfo extends AppCompatActivity {
 
         spnBizIndustry.setAdapter(new ArrayAdapter<>(Activity_SpouseSelfEmploymentInfo.this,
                 android.R.layout.simple_list_item_1, CreditAppConstants.BUSINESS_NATURE));
-        spnBizIndustry.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         spnBizIndustry.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -136,7 +134,6 @@ public class Activity_SpouseSelfEmploymentInfo extends AppCompatActivity {
 
         spnBizType.setAdapter(new ArrayAdapter<>(Activity_SpouseSelfEmploymentInfo.this,
                 android.R.layout.simple_list_item_1, CreditAppConstants.BUSINESS_TYPE));
-        spnBizType.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         spnBizType.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -146,7 +143,6 @@ public class Activity_SpouseSelfEmploymentInfo extends AppCompatActivity {
 
         spnBizSize.setAdapter(new ArrayAdapter<>(Activity_SpouseSelfEmploymentInfo.this,
                 android.R.layout.simple_list_item_1, CreditAppConstants.BUSINESS_SIZE));
-        spnBizSize.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         spnBizSize.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -156,7 +152,6 @@ public class Activity_SpouseSelfEmploymentInfo extends AppCompatActivity {
 
         spnMonthOrYr.setAdapter(new ArrayAdapter<>(Activity_SpouseSelfEmploymentInfo.this,
                 android.R.layout.simple_list_item_1, CreditAppConstants.LENGTH_OF_STAY));
-        spnMonthOrYr.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         spnMonthOrYr.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -244,7 +239,6 @@ public class Activity_SpouseSelfEmploymentInfo extends AppCompatActivity {
 
         spnMonthOrYr.setAdapter(new ArrayAdapter<>(Activity_SpouseSelfEmploymentInfo.this,
                 android.R.layout.simple_list_item_1, CreditAppConstants.LENGTH_OF_STAY));
-        spnMonthOrYr.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
 
     }
 

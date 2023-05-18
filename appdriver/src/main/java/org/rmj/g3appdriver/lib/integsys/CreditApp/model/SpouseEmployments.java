@@ -3,7 +3,7 @@ package org.rmj.g3appdriver.lib.integsys.CreditApp.model;
 public class SpouseEmployments {
 
     private String sTransNox = "";
-    private String sSectorxx = "";
+    private String sSectorxx = "1";
     private String cUniformP = "";
     private String cMilitary = "";
     private String cCompLevl = "";
@@ -231,6 +231,14 @@ public class SpouseEmployments {
     }
 
     public boolean isDataValid(){
+        boolean isValid1 = isEmploymentSectorValid();
+        boolean isValid2 = isCompanyNameValid();
+        boolean isValid3 = isCompanyAddressValid();
+        if(!isValid1 &&
+                isValid2 &&
+                isValid3){
+            return true;
+        }
         return isEmploymentSectorValid() &&
                 isUniformPersonalValid() &&
                 isMilitaryPersonalValid() &&

@@ -70,6 +70,9 @@ public class SpousePension {
     }
 
     public boolean isDataValid() {
+        if(!isSectorValid() && !isPensionIncomeValid()){
+            return true;
+        }
         return isSectorValid() &&
                 isPensionIncomeValid() &&
                 isRetirementYearValid() &&

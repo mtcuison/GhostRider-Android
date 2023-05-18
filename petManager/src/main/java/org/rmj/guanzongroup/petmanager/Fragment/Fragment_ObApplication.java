@@ -176,7 +176,6 @@ public class Fragment_ObApplication extends Fragment {
         mViewModel.getAllBranchNames().observe(getViewLifecycleOwner(), strings -> {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
             txtBranchDestination.setAdapter(adapter);
-            txtBranchDestination.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
 
         txtBranchDestination.setOnItemClickListener((adapterView, viewx, i, l) -> mViewModel.getAllBranchInfo().observe(getViewLifecycleOwner(), eBranchInfos -> {

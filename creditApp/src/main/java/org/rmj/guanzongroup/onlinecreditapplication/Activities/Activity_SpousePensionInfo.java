@@ -82,7 +82,6 @@ public class Activity_SpousePensionInfo extends AppCompatActivity {
 
         spnSector.setAdapter(new ArrayAdapter<>(Activity_SpousePensionInfo.this,
                 android.R.layout.simple_list_item_1, CreditAppConstants.PENSION_SECTOR));
-        spnSector.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         spnSector.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

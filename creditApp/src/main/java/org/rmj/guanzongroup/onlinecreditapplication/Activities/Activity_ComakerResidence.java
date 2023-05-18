@@ -113,7 +113,6 @@ public class Activity_ComakerResidence extends AppCompatActivity {
 
                     ArrayAdapter<String> adapters = new ArrayAdapter<>(Activity_ComakerResidence.this, android.R.layout.simple_spinner_dropdown_item, string.toArray(new String[0]));
                     txtMunicipality.setAdapter(adapters);
-                    txtMunicipality.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
                     txtMunicipality.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -139,7 +138,6 @@ public class Activity_ComakerResidence extends AppCompatActivity {
                                         ArrayAdapter<String> adapters = new ArrayAdapter<>(Activity_ComakerResidence.this,
                                                 android.R.layout.simple_spinner_dropdown_item, string.toArray(new String[0]));
                                         txtBarangay.setAdapter(adapters);
-                                        txtBarangay.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
                                         txtBarangay.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                             @Override
                                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -216,7 +214,6 @@ public class Activity_ComakerResidence extends AppCompatActivity {
 
         spnHouseHold.setAdapter(new ArrayAdapter<>(Activity_ComakerResidence.this,
                 android.R.layout.simple_list_item_1, CreditAppConstants.HOUSEHOLDS));
-        spnHouseHold.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         spnHouseHold.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -227,7 +224,6 @@ public class Activity_ComakerResidence extends AppCompatActivity {
 
         spnHouseType.setAdapter(new ArrayAdapter<>(Activity_ComakerResidence.this,
                 android.R.layout.simple_list_item_1, CreditAppConstants.HOUSE_TYPE));
-        spnHouseType.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         spnHouseType.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -238,7 +234,6 @@ public class Activity_ComakerResidence extends AppCompatActivity {
 
         spnLgnthStay.setAdapter(new ArrayAdapter<>(Activity_ComakerResidence.this,
                 android.R.layout.simple_list_item_1, CreditAppConstants.LENGTH_OF_STAY));
-        spnLgnthStay.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         spnLgnthStay.setOnItemClickListener((parent, view, position, id) ->
                 mViewModel.getModel().setIsYear(position));
 

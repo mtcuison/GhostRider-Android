@@ -128,9 +128,9 @@ public class EmploymentInfo implements CreditApp {
                     message = loDetail.getMessage();
                     return 0;
                 }
-            }else{
-                return 1;
             }
+
+            return 1;
         } else {
 
             //TODO: if all information inside each old object and new object is not the same,
