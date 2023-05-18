@@ -39,7 +39,7 @@ public class Activity_SpouseSelfEmploymentInfo extends AppCompatActivity {
     private VMSpouseBusiness mViewModel;
     private MessageBox poMessage;
     private TextInputEditText txtBizName, txtBizAddrss, txtBizLength, txtMonthlyInc, txtMonthlyExp;
-    private AppCompatMultiAutoCompleteTextView spnBizIndustry, spnMonthOrYr, txtProvince, txtTown,
+    private MaterialAutoCompleteTextView spnBizIndustry, spnMonthOrYr, txtProvince, txtTown,
             spnBizType, spnBizSize;
     private MaterialButton btnNext, btnPrvs;
     private MaterialToolbar toolbar;
