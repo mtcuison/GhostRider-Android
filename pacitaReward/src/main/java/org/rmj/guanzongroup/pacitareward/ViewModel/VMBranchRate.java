@@ -94,16 +94,13 @@ public class VMBranchRate extends AndroidViewModel {
             TaskExecutor.Execute(BranchCD, new OnTaskExecuteListener() {
                 @Override
                 public void OnPreExecute() {
-                    message = "Loading Evaluations. Please wait . . .";
-                    mListener.onInitialize(message);
+                    mListener.onInitialize("Loading Evaluations. Please wait . . .");
                 }
 
                 @Override
                 public Object DoInBackground(Object args) {
                     String lsResult = poSys.InitializePacitaEvaluation((String) args);
                     try{
-                        message = poSys.getMessage();
-
                         if(lsResult == null){
                             message = poSys.getMessage();
                             return null;
@@ -125,6 +122,7 @@ public class VMBranchRate extends AndroidViewModel {
             });
         }
     }
+
     public void setEvaluationResult(String TransNox, String EntryNox, String Result){
         new SetEvaluationResultTask().execute(TransNox, EntryNox, Result);
     }

@@ -119,7 +119,7 @@ public class ConnectionUtil {
 //                    }
         } catch (Exception e){
             e.printStackTrace();
-            message = getLocalMessage(e);
+            message = e.getMessage();
             return false;
         }
     }
