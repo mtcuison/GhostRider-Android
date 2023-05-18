@@ -122,7 +122,6 @@ public class Activity_SpouseResidenceInfo extends AppCompatActivity {
                     ArrayAdapter<String> adapter = new ArrayAdapter<>(Activity_SpouseResidenceInfo.this,
                             android.R.layout.simple_spinner_dropdown_item, strings.toArray(new String[0]));
                     txtTown.setAdapter(adapter);
-                    txtTown.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
                     txtTown.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -146,7 +145,6 @@ public class Activity_SpouseResidenceInfo extends AppCompatActivity {
                                     ArrayAdapter<String> adapters = new ArrayAdapter<>(Activity_SpouseResidenceInfo.this,
                                             android.R.layout.simple_spinner_dropdown_item, string.toArray(new String[0]));
                                     txtBarangay.setAdapter(adapters);
-                                    txtBarangay.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
                                     txtBarangay.setOnItemClickListener((parent1, view1, position1, id1) -> {
                                         for (int x = 0; x < BrgyList.size(); x++) {
                                             String lsLabel = BrgyList.get(x).getBrgyName();

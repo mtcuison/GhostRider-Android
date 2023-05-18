@@ -123,6 +123,11 @@ public class SpouseBusiness {
     }
 
     public boolean isDataValid(){
+        if(!isBusinessNatureValid() &&
+                !isBusinessNameValid() &&
+                !isBusinessAddressValid()){
+            return true;
+        }
         return isBusinessNatureValid() &&
                 isBusinessNameValid() &&
                 isBusinessAddressValid() &&

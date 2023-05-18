@@ -134,7 +134,6 @@ public class Fragment_LoanUnit extends Fragment {
 
         mViewModel.getSpnCivilStats().observe(getViewLifecycleOwner(), stringArrayAdapter ->{
             spnCivilStats.setAdapter(stringArrayAdapter);
-            spnCivilStats.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
 
         mViewModel.getTownProvinceInfo().observe(getViewLifecycleOwner(), townProvinceInfos -> {
@@ -145,8 +144,6 @@ public class Fragment_LoanUnit extends Fragment {
             ArrayAdapter<String> loAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, townProvince);
             tieTown.setAdapter(loAdapter);
             tieBPlace.setAdapter(loAdapter);
-            tieTown.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
-            tieBPlace.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
 
         tieTown.setOnItemClickListener((adapterView, v, i, l) -> {
@@ -163,7 +160,6 @@ public class Fragment_LoanUnit extends Fragment {
                 mViewModel.getBarangayNameList(poLUn.getTownIDxx()).observe(getViewLifecycleOwner(), strings -> {
                     ArrayAdapter<String> loAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
                     tieBrgy.setAdapter(loAdapter);
-                    tieBrgy.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
                 });
             });
         });
@@ -192,7 +188,6 @@ public class Fragment_LoanUnit extends Fragment {
                 mViewModel.getBarangayNameList(poLUn.getTownIDxx()).observe(getViewLifecycleOwner(), strings -> {
                     ArrayAdapter<String> loAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
                     tieBrgy.setAdapter(loAdapter);
-                    tieBrgy.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
                 });
             });
         });
