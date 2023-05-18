@@ -10,26 +10,24 @@ import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-
-import com.google.android.material.radiobutton.MaterialRadioButton;
-import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.MaterialAutoCompleteTextView;
-import  com.google.android.material.checkbox.MaterialCheckBox;
-
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.checkbox.MaterialCheckBox;
+import com.google.android.material.radiobutton.MaterialRadioButton;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputEditText;
+
 import org.json.JSONException;
-import org.rmj.g3appdriver.etc.MessageBox;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.CreditAppConstants;
 import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.OnSaveInfoListener;
 import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.model.Dependent;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.CreditAppConstants;
+import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.guanzongroup.onlinecreditapplication.Adapter.DependentAdapter;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.OnParseListener;
@@ -246,7 +244,7 @@ public class Activity_Dependent extends AppCompatActivity {
 
         actRelationx.setAdapter(new ArrayAdapter<>(Activity_Dependent.this,
                 android.R.layout.simple_list_item_1, CreditAppConstants.DEPENDENT_RELATIONSHIP));
-        actRelationx.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+
         actRelationx.setOnItemClickListener((parent, view, position, id) -> {
             switch (position) {
                 case 0:
@@ -274,7 +272,6 @@ public class Activity_Dependent extends AppCompatActivity {
 
         actSchoolLvl.setAdapter(new ArrayAdapter<>(Activity_Dependent.this,
                 android.R.layout.simple_list_item_1, CreditAppConstants.SCHOOL_LEVEL));
-        actSchoolLvl.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         actSchoolLvl.setOnItemClickListener((parent, view, position, id) -> {
             switch (position){
                 case 0:
@@ -347,7 +344,6 @@ public class Activity_Dependent extends AppCompatActivity {
 
                 ArrayAdapter<String> loAdapter = new ArrayAdapter<>(Activity_Dependent.this, android.R.layout.simple_spinner_dropdown_item, loList.toArray(new String[0]));
                 tieSchlTown.setAdapter(loAdapter);
-                tieSchlTown.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
                 tieSchlTown.setOnItemClickListener((parent, view, position, id) -> {
                     for (int x = 0; x < town.size(); x++) {
                         String lsLabel = town.get(x).sTownName + ", " + town.get(x).sProvName;
