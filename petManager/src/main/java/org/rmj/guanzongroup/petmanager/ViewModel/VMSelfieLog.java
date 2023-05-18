@@ -16,7 +16,6 @@ import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.AsyncTask;
 
 import androidx.annotation.NonNull;
@@ -25,6 +24,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DEmployeeInfo;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DSelfieLog;
 import org.rmj.g3appdriver.GCircle.room.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.ESelfieLog;
 import org.rmj.g3appdriver.GCircle.room.Repositories.RBranch;

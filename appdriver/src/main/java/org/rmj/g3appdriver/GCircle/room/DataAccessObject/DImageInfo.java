@@ -19,7 +19,6 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import org.rmj.g3appdriver.GCircle.room.Entities.EImageInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.EImageInfo;
 
 import java.util.List;
 

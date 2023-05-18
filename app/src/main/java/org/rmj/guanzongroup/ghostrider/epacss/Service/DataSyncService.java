@@ -73,7 +73,8 @@ public class DataSyncService extends BroadcastReceiver {
                     Thread.sleep(1000);
 
                     if(loSelfie.UploadImages()){
-                        publishProgress("Selfie log image/s uploaded successfully");
+                        message = "Selfie log image/s uploaded successfully";
+                        TaskExecutor.ShowProgress(() -> GNotifBuilder.createNotification(instance, GNotifBuilder.BROADCAST_RECEIVER, message, GNotifBuilder.SYNC_PROGRESS).show());
                     } else {
                         message = loSelfie.getMessage();
                         Log.e(TAG, message);
