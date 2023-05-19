@@ -26,4 +26,13 @@ public class Means {
     public void setIncmeSrc(String incmeSrc) {
         IncmeSrc = incmeSrc;
     }
+
+    public boolean isDataValid(){
+        if(IncmeSrc.isEmpty()){
+            message = "Please select applicant primary source of income";
+            return false;
+        }
+
+        return true;
+    }
 }
