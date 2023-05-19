@@ -79,7 +79,7 @@ public class VMCreateAccount extends AndroidViewModel{
 
         @Override
         protected void onPreExecute() {
-            callBack.OnAccountLoad("GhostRider Android", "Sending account info. Please wait...");
+            callBack.OnAccountLoad("Guanzon Circle", "Sending account info. Please wait...");
             super.onPreExecute();
         }
 

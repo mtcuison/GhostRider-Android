@@ -88,7 +88,7 @@ public class VMLogin extends AndroidViewModel {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            callback.OnAuthenticationLoad("GhostRider Android", "Authenticating to ghostrider app. Please wait...");
+            callback.OnAuthenticationLoad("Guanzon Circle", "Authenticating to Guanzon Circle. Please wait...");
         }
 
         @Override
