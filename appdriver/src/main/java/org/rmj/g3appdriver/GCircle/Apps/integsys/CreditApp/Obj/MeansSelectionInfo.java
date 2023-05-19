@@ -77,6 +77,10 @@ public class MeansSelectionInfo implements CreditApp {
     @Override
     public int Validate(Object args) {
         Means loDetail = (Means) args;
+        if(!loDetail.isDataValid()){
+            message = loDetail.getMessage();
+            return 0;
+        }
 
 //        if(poDetail == null){
 //
