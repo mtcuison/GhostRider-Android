@@ -184,7 +184,7 @@ public class Activity_SplashScreen extends AppCompatActivity {
             @Override
             public void OnFailed(String message) {
                 poDialog.initDialog();
-                poDialog.setTitle("GhostRider Android");
+                poDialog.setTitle("Guanzon Circle");
                 poDialog.setMessage(message);
                 poDialog.setPositiveButton("Okay", (view, dialog) -> {
                     dialog.dismiss();

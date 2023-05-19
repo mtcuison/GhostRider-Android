@@ -3,7 +3,7 @@ package org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.model;
 public class SpouseEmployments {
 
     private String sTransNox = "";
-    private String sSectorxx = "1";
+    private String sSectorxx = "";
     private String cUniformP = "";
     private String cMilitary = "";
     private String cCompLevl = "";
@@ -12,7 +12,6 @@ public class SpouseEmployments {
     private String sCountryx = "";
     private String sCompName = "";
     private String sCompAddx = "";
-    private String sProvIDxx = "";
     private String sTownIDxx = "";
     private String sJobTitle = "";
     private String sSpceficx = "";
@@ -146,14 +145,6 @@ public class SpouseEmployments {
         this.sCompAddx = sCompAddx;
     }
 
-    public String getProvinceID() {
-        return sProvIDxx;
-    }
-
-    public void setProvinceID(String sProvIDxx) {
-        this.sProvIDxx = sProvIDxx;
-    }
-
     public String getTownID() {
         return sTownIDxx;
     }
@@ -239,6 +230,7 @@ public class SpouseEmployments {
                 isValid3){
             return true;
         }
+
         return isEmploymentSectorValid() &&
                 isUniformPersonalValid() &&
                 isMilitaryPersonalValid() &&

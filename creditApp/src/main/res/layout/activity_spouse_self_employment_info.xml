@@ -104,7 +104,7 @@
 <!--                    android:layout_weight="1"-->
 <!--                    android:hint="@string/sHintProvince">-->
 
-<!--                    <androidx.appcompat.widget.AppCompatAutoCompleteTextView-->
+<!--                    <com.google.android.material.textfield.MaterialAutoCompleteTextView-->
 <!--                        android:id="@+id/txt_province"-->
 <!--                        style="@style/AutoCompleteStyleTheme"-->
 <!--                        android:layout_width="match_parent"-->
@@ -147,7 +147,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/sHintBizType">
 
-                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/spn_bizType"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -163,7 +163,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/sHintBizSize">
 
-                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/spn_bizSize"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -203,7 +203,7 @@
                     android:layout_weight="1.5"
                     android:hint="@string/sHintDuration">
 
-                    <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
                         android:id="@+id/spn_monthOrYr"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
