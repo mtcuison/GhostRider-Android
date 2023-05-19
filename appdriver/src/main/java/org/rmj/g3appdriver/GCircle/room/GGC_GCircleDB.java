@@ -48,6 +48,7 @@ import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DEmployeeLeave;
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DEmployeeRole;
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DFileCode;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DGanadoOnline;
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DImageInfo;
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DInventoryDao;
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DInventoryDetail;
@@ -113,6 +114,7 @@ import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeLeave;
 import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeRole;
 import org.rmj.g3appdriver.GCircle.room.Entities.EFileCode;
 import org.rmj.g3appdriver.GCircle.room.Entities.EGLocatorSysLog;
+import org.rmj.g3appdriver.GCircle.room.Entities.EGanadoOnline;
 import org.rmj.g3appdriver.GCircle.room.Entities.EImageInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.EInventoryDetail;
 import org.rmj.g3appdriver.GCircle.room.Entities.EInventoryMaster;
@@ -204,7 +206,8 @@ import org.rmj.g3appdriver.GCircle.room.Entities.EUncapturedClient;
         ERaffleStatus.class,
         EPacitaRule.class,
         EPacitaEvaluation.class,
-        ELoanTerm.class}, version = 38, exportSchema = false)
+        ELoanTerm.class,
+        EGanadoOnline.class}, version = 39, exportSchema = false)
 public abstract class GGC_GCircleDB extends RoomDatabase {
     private static final String TAG = "GhostRider_DB_Manager";
     private static GGC_GCircleDB instance;
@@ -274,6 +277,8 @@ public abstract class GGC_GCircleDB extends RoomDatabase {
     public abstract DMessages messagesDao();
     public abstract DNotification notificationDao();
     public abstract DPacita pacitaDao();
+
+    public abstract DGanadoOnline ganadoDao();
 
     public static synchronized GGC_GCircleDB getInstance(Context context){
         if(instance == null){
