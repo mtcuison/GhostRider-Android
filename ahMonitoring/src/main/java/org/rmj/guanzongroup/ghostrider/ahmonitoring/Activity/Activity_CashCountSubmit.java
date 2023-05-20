@@ -162,7 +162,11 @@ public class Activity_CashCountSubmit extends AppCompatActivity {
                                 startActivity(loIntent);
                             }
                             dialog.dismiss();
-                            Activity_CashCounter.getInstance().finish();
+                            try {
+                                Activity_CashCounter.getInstance().finish();
+                            } catch (Exception e){
+                                e.printStackTrace();
+                            }
                             finish();
                         });
                         poMessage.show();

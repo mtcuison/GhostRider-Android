@@ -12,7 +12,6 @@ public class SpouseEmployments {
     private String sCountryx = "";
     private String sCompName = "";
     private String sCompAddx = "";
-    private String sProvIDxx = "";
     private String sTownIDxx = "";
     private String sJobTitle = "";
     private String sSpceficx = "";
@@ -146,14 +145,6 @@ public class SpouseEmployments {
         this.sCompAddx = sCompAddx;
     }
 
-    public String getProvinceID() {
-        return sProvIDxx;
-    }
-
-    public void setProvinceID(String sProvIDxx) {
-        this.sProvIDxx = sProvIDxx;
-    }
-
     public String getTownID() {
         return sTownIDxx;
     }
@@ -231,6 +222,15 @@ public class SpouseEmployments {
     }
 
     public boolean isDataValid(){
+        boolean isValid1 = isEmploymentSectorValid();
+        boolean isValid2 = isCompanyNameValid();
+        boolean isValid3 = isCompanyAddressValid();
+        if(!isValid1 &&
+                isValid2 &&
+                isValid3){
+            return true;
+        }
+
         return isEmploymentSectorValid() &&
                 isUniformPersonalValid() &&
                 isMilitaryPersonalValid() &&

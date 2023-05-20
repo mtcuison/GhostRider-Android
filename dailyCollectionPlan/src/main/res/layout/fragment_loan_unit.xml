@@ -354,7 +354,8 @@
                 android:layout_width="match_parent"
                 android:hint="@string/sLabelCivilStatus"
                 android:layout_height="wrap_content">
-                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/spn_lun_cstatus"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

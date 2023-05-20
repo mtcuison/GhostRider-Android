@@ -364,7 +364,6 @@ public class Activity_PersonalInfo extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar_PersonalInfo);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Guanzon Group OACS");
 
         txtLastNm = findViewById(R.id.txt_lastname);
         txtFrstNm = findViewById(R.id.txt_firstname);

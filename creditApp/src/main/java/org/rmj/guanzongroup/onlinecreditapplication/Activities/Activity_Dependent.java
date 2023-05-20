@@ -246,7 +246,6 @@ public class Activity_Dependent extends AppCompatActivity {
 
         actRelationx.setAdapter(new ArrayAdapter<>(Activity_Dependent.this,
                 android.R.layout.simple_list_item_1, CreditAppConstants.DEPENDENT_RELATIONSHIP));
-        actRelationx.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         actRelationx.setOnItemClickListener((parent, view, position, id) -> {
             switch (position) {
                 case 0:
@@ -274,7 +273,6 @@ public class Activity_Dependent extends AppCompatActivity {
 
         actSchoolLvl.setAdapter(new ArrayAdapter<>(Activity_Dependent.this,
                 android.R.layout.simple_list_item_1, CreditAppConstants.SCHOOL_LEVEL));
-        actSchoolLvl.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         actSchoolLvl.setOnItemClickListener((parent, view, position, id) -> {
             switch (position){
                 case 0:
@@ -347,7 +345,6 @@ public class Activity_Dependent extends AppCompatActivity {
 
                 ArrayAdapter<String> loAdapter = new ArrayAdapter<>(Activity_Dependent.this, android.R.layout.simple_spinner_dropdown_item, loList.toArray(new String[0]));
                 tieSchlTown.setAdapter(loAdapter);
-                tieSchlTown.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
                 tieSchlTown.setOnItemClickListener((parent, view, position, id) -> {
                     for (int x = 0; x < town.size(); x++) {
                         String lsLabel = town.get(x).sTownName + ", " + town.get(x).sProvName;

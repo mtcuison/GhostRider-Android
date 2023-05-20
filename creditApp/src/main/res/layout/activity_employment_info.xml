@@ -236,7 +236,7 @@
 <!--                        android:layout_weight="1"-->
 <!--                        android:hint="@string/sHintProvince">-->
 
-<!--                        <androidx.appcompat.widget.AppCompatAutoCompleteTextView-->
+<!--                        <com.google.android.material.textfield.MaterialAutoCompleteTextView-->
 <!--                            android:id="@+id/txt_province"-->
 <!--                            style="@style/AutoCompleteStyleTheme"-->
 <!--                            android:layout_width="match_parent"-->
