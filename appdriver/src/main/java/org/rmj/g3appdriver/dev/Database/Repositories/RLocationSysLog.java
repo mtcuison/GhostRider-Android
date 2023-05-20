@@ -56,8 +56,8 @@ public class RLocationSysLog {
                 return false;
             }
 
-            sysLog.setTimeStmp(new AppConstants().DATE_MODIFIED());
-            sysLog.setTransact(new AppConstants().DATE_MODIFIED());
+            sysLog.setTimeStmp(AppConstants.DATE_MODIFIED());
+            sysLog.setTransact(AppConstants.DATE_MODIFIED());
             sysLog.setUserIDxx(loUser.getUserIDxx());
             poDao.insertLocation(sysLog);
             return true;
