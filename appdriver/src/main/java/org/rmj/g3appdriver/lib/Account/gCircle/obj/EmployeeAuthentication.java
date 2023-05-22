@@ -46,7 +46,7 @@ public class EmployeeAuthentication implements iAuth {
     public EmployeeAuthentication(Application instance) {
         this.poDao = GGC_GCircleDB.getInstance(instance).EmployeeDao();
         this.roleDao = GGC_GCircleDB.getInstance(instance).employeeRoleDao();
-        this.poSession = new EmployeeSession(instance);
+        this.poSession = EmployeeSession.getInstance(instance);
         this.poConfig = AppConfigPreference.getInstance(instance);
         this.poApi = new GCircleApi(instance);
         this.poVersion = new AppVersion(instance);

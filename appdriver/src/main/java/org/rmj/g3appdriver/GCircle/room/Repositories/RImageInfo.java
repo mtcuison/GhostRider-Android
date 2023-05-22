@@ -49,7 +49,7 @@ public class RImageInfo {
     public RImageInfo(Application instance){
         this.poDao = GGC_GCircleDB.getInstance(instance).ImageInfoDao();
         this.poConfig = AppConfigPreference.getInstance(instance);
-        this.poSession = new EmployeeSession(instance);
+        this.poSession = EmployeeSession.getInstance(instance);
         this.poToken = new AppTokenManager(instance);
     }
 

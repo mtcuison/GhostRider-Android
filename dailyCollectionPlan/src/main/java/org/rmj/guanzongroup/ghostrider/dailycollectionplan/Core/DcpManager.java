@@ -69,7 +69,7 @@ public class DcpManager {
         this.poUpdate = new RCollectionUpdate(instance);
         this.poConfig = AppConfigPreference.getInstance(instance);
         this.poHeaders = HttpHeaders.getInstance(instance);
-        this.poUser = new EmployeeSession(instance);
+        this.poUser = EmployeeSession.getInstance(instance);
         this.poImage = new RImageInfo(instance);
         this.poTlphny = new Telephony(instance);
         this.poClient = new RClientUpdate(instance);

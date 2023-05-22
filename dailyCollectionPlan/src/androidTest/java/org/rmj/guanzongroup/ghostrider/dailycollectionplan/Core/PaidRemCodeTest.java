@@ -52,7 +52,7 @@ public class PaidRemCodeTest {
         instance = ApplicationProvider.getApplicationContext();
         poConfig = AppConfigPreference.getInstance(instance);
         poHeaders = HttpHeaders.getInstance(instance);
-        poSession = new EmployeeSession(instance);
+        poSession = EmployeeSession.getInstance(instance);
         poDcp = new DcpManager(instance);
         poUser = new EmployeeMaster(instance);
         poTlphny = new Telephony(instance);

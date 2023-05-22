@@ -65,7 +65,7 @@ public class Activity_Browser extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar_gBrowser);
         progressBar = findViewById(R.id.progress_gBrowser);
         wbBrowser = findViewById(R.id.webview_gBrowser);
-        poSession = new EmployeeSession(Activity_Browser.this);
+        poSession = EmployeeSession.getInstance(Activity_Browser.this);
         toolbar.setTitle("Health Checklist");
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
