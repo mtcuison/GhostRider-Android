@@ -28,7 +28,7 @@ public class DevTools {
     public DevTools(Application instance) {
         this.instance = instance;
         this.poDao = GGC_GCircleDB.getInstance(instance).devTool();
-        this.poSession = new EmployeeSession(instance);
+        this.poSession = EmployeeSession.getInstance(instance);
         this.poConfig = AppConfigPreference.getInstance(instance);
         this.poUser = new EmployeeMaster(instance);
     }

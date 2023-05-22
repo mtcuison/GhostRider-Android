@@ -225,7 +225,7 @@ public class Fragment_Settings  extends PreferenceFragmentCompat {
         }
 
         if(debugMode != null){
-            EmployeeSession poUser = new EmployeeSession(requireActivity());
+            EmployeeSession poUser = EmployeeSession.getInstance(requireActivity());
             if (!poUser.getDeptID().equalsIgnoreCase(DeptCode.MANAGEMENT_INFORMATION_SYSTEM)){
                 debugMode.setVisible(false);
             } else {

@@ -48,7 +48,7 @@ public class CashCount {
         this.poUser = new EmployeeMaster(instance);
         this.poApi = new GCircleApi(instance);
         this.poHeaders = HttpHeaders.getInstance(instance);
-        this.poSession = new EmployeeSession(instance);
+        this.poSession = EmployeeSession.getInstance(instance);
     }
 
     public String getMessage() {

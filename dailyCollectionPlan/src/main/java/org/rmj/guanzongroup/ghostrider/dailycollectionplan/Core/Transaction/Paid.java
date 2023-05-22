@@ -59,7 +59,7 @@ public class Paid implements iDCPTransaction {
         try{
             HttpHeaders loHeaders = HttpHeaders.getInstance(instance);
             AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
-            EmployeeSession loUser = new EmployeeSession(instance);
+            EmployeeSession loUser = EmployeeSession.getInstance(instance);
             Telephony loTlphny = new Telephony(instance);
 
             foDetail.setTranStat("2");

@@ -41,7 +41,7 @@ public class AppTokenManager {
     public AppTokenManager(Application instance){
         this.poDao = GGC_GCircleDB.getInstance(instance).dToken();
         this.poConfig = AppConfigPreference.getInstance(instance);
-        this.poSession = new EmployeeSession(instance);
+        this.poSession = EmployeeSession.getInstance(instance);
     }
 
     public String getMessage() {

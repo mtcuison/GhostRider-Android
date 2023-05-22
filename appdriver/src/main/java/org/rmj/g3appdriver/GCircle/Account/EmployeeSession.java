@@ -53,12 +53,21 @@ public class EmployeeSession {
 
     private static final String KEY_AUTO_LOG = "cPrivatex";
 
-    @SuppressLint("CommitPrefEdits")
-    public EmployeeSession(Context context){
+    private static EmployeeSession instance;
+
+    private EmployeeSession(Context context){
         //Shared pref mode
         int PRIVATE_MODE = 0;
         pref = context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
         editor = pref.edit();
+    }
+
+    public static EmployeeSession getInstance(Context context){
+        if(instance == null){
+            instance = new EmployeeSession(context);
+        }
+
+        return instance;
     }
 
     public void initUserSession(String UserID,

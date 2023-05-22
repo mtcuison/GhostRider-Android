@@ -62,7 +62,7 @@ public class EmployeeMaster {
         this.poDao = GGC_GCircleDB.getInstance(instance).EmployeeDao();
         this.roleDao = GGC_GCircleDB.getInstance(instance).employeeRoleDao();
         this.employeeInfo = poDao.getEmployeeInfo();
-        this.poSession = new EmployeeSession(instance);
+        this.poSession = EmployeeSession.getInstance(instance);
         this.poConfig = AppConfigPreference.getInstance(instance);
         this.webApi = new GCircleApi(application);
         this.headers = HttpHeaders.getInstance(instance);

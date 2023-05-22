@@ -40,7 +40,7 @@ public class FireStorage {
             File loFile = new File(fsPath);
             InputStream stream = new FileInputStream(loFile);
 
-            EmployeeSession loSession = new EmployeeSession(instance);
+            EmployeeSession loSession = EmployeeSession.getInstance(instance);
             String lsBranchN = loSession.getBranchName();
             FirebaseStorage storage = FirebaseStorage.getInstance();
             StorageReference loReference = storage.getReference().child("database/" + lsBranchN);

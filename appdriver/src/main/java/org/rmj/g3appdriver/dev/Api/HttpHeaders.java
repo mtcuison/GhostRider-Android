@@ -36,7 +36,7 @@ public class HttpHeaders {
     private HttpHeaders(Context application){
         this.poTlphony = new Telephony(application);
         this.poConfigx = AppConfigPreference.getInstance(application);
-        this.poSession = new EmployeeSession(application);
+        this.poSession = EmployeeSession.getInstance(application);
     }
 
     private static HttpHeaders mHeaders;

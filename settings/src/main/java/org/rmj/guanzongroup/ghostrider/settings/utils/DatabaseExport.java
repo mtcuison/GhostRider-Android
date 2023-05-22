@@ -51,7 +51,7 @@ public class DatabaseExport {
     public DatabaseExport(Context context) {
         Log.e(TAG, "Initialized.");
         this.context = context;
-        this.poSession = new EmployeeSession(context);
+        this.poSession = EmployeeSession.getInstance(context);
         this.poDiaLoad = new LoadDialog(context);
         this.poMessage = new MessageBox(context);
     }
