@@ -39,7 +39,7 @@ public class EGanadoOnline {
     @ColumnInfo(name = "cTranStat")
     private String TranStat = "";
     @ColumnInfo(name = "cSendStat")
-    private String SendStat = "";
+    private String SendStat = "0";
     @ColumnInfo(name = "dModified")
     private String Modified = "";
     @ColumnInfo(name = "dLastUpdt")

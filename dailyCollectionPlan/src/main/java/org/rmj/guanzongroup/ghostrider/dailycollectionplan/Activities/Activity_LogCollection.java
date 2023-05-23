@@ -367,7 +367,7 @@ public class Activity_LogCollection extends AppCompatActivity {
 
         DownloadDcpImageTask(Application application, OnDCPDownloadListener callBack) {
             this.poConn = new ConnectionUtil(application);
-            this.poUser = new EmployeeSession(application);
+            this.poUser = EmployeeSession.getInstance(application);
             this.poConfig = AppConfigPreference.getInstance(application);
             this.callBack = callBack;
         }

@@ -201,7 +201,7 @@ public class VMSelfieLog extends AndroidViewModel {
             this.activity = activity;
             this.instance = instance;
             this.callback = callback;
-            EmployeeSession poSession = new EmployeeSession(instance);
+            EmployeeSession poSession = EmployeeSession.getInstance(instance);
             this.loImage = new ImageFileCreator(instance, AppConstants.SUB_FOLDER_SELFIE_LOG, poSession.getUserID());
         }
 

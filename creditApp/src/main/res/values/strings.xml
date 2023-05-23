@@ -21,6 +21,7 @@
     <string name="sHintFbAccount">Facebook Account</string>
     <string name="sHintViberAcc">Viber Account</string>
     <string name="sLabelCivilStatus">Civil Status</string>
+    <string name="sbtnSkip">Skip</string>
     <string name="sbtnNext">Next</string>
     <string name="sLabelPresAddress">Present Address</string>
     <string name="sLabelSpousePresAddress">Spouse Residence Information</string>

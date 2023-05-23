@@ -70,7 +70,7 @@ public class VMRaffleEntry extends AndroidViewModel {
         raffleRepo = new RRaffleInfo(application);
         raffleBasisDesc = raffleRepo.getAllRaffleBasisDesc();
         raffleBasis = raffleRepo.getAllRaffleBasis();
-        session = new EmployeeSession(application);
+        session = EmployeeSession.getInstance(application);
         this.poTown = new RTown(application);
         this.poBranch = new RBranch(application);
     }

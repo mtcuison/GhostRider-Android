@@ -29,7 +29,7 @@ public class SettingsData {
     public void SettingsData(Context mContext) {
         listHelpDataHeader.clear();
         listHelpDataChild.clear();
-        sessionManager = new EmployeeSession(mContext);
+        sessionManager = EmployeeSession.getInstance(mContext);
         SettingsModel helpModel = new SettingsModel("SelfieLogin", R.drawable.ic_camera_black_24, true, false, VISIBLE);
         listHelpDataHeader.add(helpModel);
 

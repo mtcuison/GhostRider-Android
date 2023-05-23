@@ -44,7 +44,7 @@ public class VMBranchOpening extends AndroidViewModel {
     public VMBranchOpening(@NonNull Application application) {
         super(application);
         this.instance = application;
-        this.poSession = new EmployeeSession(instance);
+        this.poSession = EmployeeSession.getInstance(instance);
         this.poOpening = new BranchOpeningMonitor(instance);
         psDateSelected.setValue(AppConstants.CURRENT_DATE());
         this.poUser = new EmployeeMaster(instance);

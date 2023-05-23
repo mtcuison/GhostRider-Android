@@ -109,7 +109,7 @@
             android:layout_height="wrap_content"
             android:hint="Department">
 
-            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
                 android:id="@+id/txt_department"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -132,7 +132,7 @@
             android:layout_height="wrap_content"
             android:hint="Position">
 
-            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
                 android:id="@+id/txt_position"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

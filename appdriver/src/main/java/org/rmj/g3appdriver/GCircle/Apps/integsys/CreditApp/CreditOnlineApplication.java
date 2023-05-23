@@ -86,7 +86,7 @@ public class CreditOnlineApplication {
         this.instance = instance;
         this.poDao = GGC_GCircleDB.getInstance(instance).CreditApplicationDao();
         this.poUser = new EmployeeMaster(instance);
-        this.poSession = new EmployeeSession(instance);
+        this.poSession = EmployeeSession.getInstance(instance);
         this.poApi = new GCircleApi(instance);
         this.poHeaders = HttpHeaders.getInstance(instance);
         this.poBranch = new RBranch(instance);

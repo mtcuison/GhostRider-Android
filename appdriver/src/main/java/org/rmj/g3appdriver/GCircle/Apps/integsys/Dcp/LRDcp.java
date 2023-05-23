@@ -90,7 +90,7 @@ public class LRDcp {
         this.poConfig = AppConfigPreference.getInstance(instance);
         this.poApi = new GCircleApi(instance);
         this.poHeaders = HttpHeaders.getInstance(instance);
-        this.poSession = new EmployeeSession(instance);
+        this.poSession = EmployeeSession.getInstance(instance);
         this.poDevice = new Telephony(instance);
         this.poImage = new RImageInfo(instance);
         this.poAddress = new RAddressUpdate(instance);

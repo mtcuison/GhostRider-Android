@@ -97,7 +97,7 @@
                         android:layout_height="wrap_content"
                         android:imeOptions="actionNext"
                         android:inputType="textPersonName|textCapWords"
-                        android:maxLength="5"
+                        android:maxLength="50"
                         android:nextFocusForward="@id/tie_suffix" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -131,7 +131,7 @@
                         android:layout_height="wrap_content"
                         android:imeOptions="actionNext"
                         android:inputType="textPersonName|textCapWords"
-                        android:maxLength="5" />
+                        android:maxLength="20" />
                 </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
@@ -234,7 +234,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    style="@style/Widget.Material3.CompoundButton.RadioButton"
                     android:text="Postpaid"
                     android:imeOptions="actionNext"
                     android:inputType="none"
@@ -290,7 +289,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    style="@style/Widget.Material3.CompoundButton.RadioButton"
                     android:text="Postpaid"
                     android:imeOptions="actionNext"
                     android:inputType="none"
@@ -345,7 +343,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    style="@style/Widget.Material3.CompoundButton.RadioButton"
                     android:text="Postpaid"
                     android:imeOptions="actionNext"
                     android:inputType="none"

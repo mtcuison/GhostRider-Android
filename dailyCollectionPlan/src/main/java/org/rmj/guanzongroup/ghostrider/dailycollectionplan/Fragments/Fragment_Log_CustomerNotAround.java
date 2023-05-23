@@ -58,7 +58,7 @@ public class Fragment_Log_CustomerNotAround extends Fragment {
     private MobileInfoAdapter_Log mobileAdapter;
     private AddressInfoAdapter_Log addressAdapter;
     private DialogDisplayImage poDialogx;
-    private MaterialAutoCompleteTextView txtAcctNo, txtClientName, txtClientAddress, txtTransNo, txtTransTp, txtCoord;
+    private MaterialTextView txtAcctNo, txtClientName, txtClientAddress, txtTransNo, txtTransTp, txtCoord;
     private RecyclerView rvMobileNox, rvAddress;
     private ShapeableImageView ivTransImage;
     private LinearLayout lnMobilenox, lnAddressx;

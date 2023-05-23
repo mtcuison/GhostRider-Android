@@ -57,7 +57,7 @@ public class CITagging {
         this.poDao = GGC_GCircleDB.getInstance(instance).creditEvaluationDao();
         this.poUser = new EmployeeMaster(instance);
         this.poHeaders = HttpHeaders.getInstance(instance);
-        this.poSession = new EmployeeSession(instance);
+        this.poSession = EmployeeSession.getInstance(instance);
         this.poImage = new RImageInfo(instance);
         this.poApis = new GCircleApi(instance);
     }

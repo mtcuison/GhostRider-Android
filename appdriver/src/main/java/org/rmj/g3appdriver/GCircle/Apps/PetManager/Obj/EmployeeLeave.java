@@ -57,7 +57,7 @@ public class EmployeeLeave implements iPM {
         this.poDao = GGC_GCircleDB.getInstance(instance).employeeLeaveDao();
         this.poApi = new GCircleApi(instance);
         this.poHeaders = HttpHeaders.getInstance(instance);
-        this.poSession = new EmployeeSession(instance);
+        this.poSession = EmployeeSession.getInstance(instance);
         this.poUser = new EmployeeMaster(instance);
     }
 

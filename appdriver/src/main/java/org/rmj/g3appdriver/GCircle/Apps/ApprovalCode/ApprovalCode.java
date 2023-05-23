@@ -247,7 +247,7 @@ public class ApprovalCode {
         String lsDeptIDx = loUser.getDeptIDxx();
         String lsPostion = loUser.getPositnID();
 
-        if (lsEmpLvID == 4){
+        if (lsEmpLvID == 4 || lsEmpLvID == 5){
             lsCondition  = "cAreaHead = '1'";
         } else{
             switch (lsDeptIDx){

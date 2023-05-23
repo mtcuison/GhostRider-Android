@@ -121,7 +121,7 @@ public class Fragment_BusinessTripApproval extends Fragment implements VMObAppro
                             poModel.setAppldFrx(eEmployeeBusinessTrip.getDateFrom());
                             poModel.setAppldTox(eEmployeeBusinessTrip.getDateThru());
                             poModel.setDateAppv(eEmployeeBusinessTrip.getDapprove());
-                            poModel.setApproved(new EmployeeSession(requireActivity()).getEmployeeID());
+                            poModel.setApproved(EmployeeSession.getInstance(requireActivity()).getEmployeeID());
                         }
                     } catch (Exception e){
                         e.printStackTrace();
