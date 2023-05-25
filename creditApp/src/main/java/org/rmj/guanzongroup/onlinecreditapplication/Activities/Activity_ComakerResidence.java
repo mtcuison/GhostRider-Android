@@ -177,10 +177,21 @@ public class Activity_ComakerResidence extends AppCompatActivity {
         mViewModel.getModel().setHouseNox(txtHouseNox.getText().toString().trim());
         mViewModel.getModel().setAddress1(txtAddress1.getText().toString().trim());
         mViewModel.getModel().setAddress2(txtAddress2.getText().toString().trim());
-
-        mViewModel.getModel().setLenghtOfStay(Double.parseDouble(txtLgnthStay.getText().toString()));
-
         mViewModel.getModel().setOwnerRelation(Objects.requireNonNull(txtRelationship.getText()).toString());
+
+        if (mViewModel.getModel().getHouseOwn().equalsIgnoreCase("1") ||
+                mViewModel.getModel().getHouseOwn().equalsIgnoreCase("2")) {
+            if (txtLgnthStay.getText().toString().isEmpty()) {
+                mViewModel.getModel().setLenghtOfStay(0);
+            } else {
+                mViewModel.getModel().setLenghtOfStay(Double.parseDouble(txtLgnthStay.getText().toString()));
+            }
+            if (txtMonthlyExp.getText().toString().isEmpty()) {
+                mViewModel.getModel().setMonthlyExpenses(0);
+            } else {
+                mViewModel.getModel().setMonthlyExpenses(Double.parseDouble(txtMonthlyExp.getText().toString()));
+            }
+        }
 
         mViewModel.SaveData(new OnSaveInfoListener() {
             @Override
