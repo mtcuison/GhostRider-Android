@@ -159,11 +159,12 @@ public class Activity_ComakerResidence extends AppCompatActivity {
     }
 
     private void SaveComakerResidenceInfo() {
-
         mViewModel.getModel().setLandMark(txtLandMark.getText().toString().trim());
         mViewModel.getModel().setHouseNox(txtHouseNox.getText().toString().trim());
         mViewModel.getModel().setAddress1(txtAddress1.getText().toString().trim());
         mViewModel.getModel().setAddress2(txtAddress2.getText().toString().trim());
+
+        mViewModel.getModel().setLenghtOfStay(Double.parseDouble(txtLgnthStay.getText().toString()));
 
         mViewModel.getModel().setOwnerRelation(Objects.requireNonNull(txtRelationship.getText()).toString());
 
@@ -313,7 +314,7 @@ public class Activity_ComakerResidence extends AppCompatActivity {
                     txtMonthlyExp.setText(FormatUIText.getCurrencyUIFormat(String.valueOf(infoModel.getMonthlyExpenses())));
                 }
 
-                int nlength = (int) (infoModel.getLenghtofStay() * 12);
+                double nlength = (int) (infoModel.getLenghtofStay() * 12);
                 if (nlength < 12) {
                     txtLgnthStay.setText(String.valueOf(nlength));
                     spnLgnthStay.setText(CreditAppConstants.LENGTH_OF_STAY[0], false);
