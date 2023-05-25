@@ -48,11 +48,6 @@ public class GmsLocationRetriever implements LocationRetriever.iLocationRetrieve
     }
 
     private LocationRequest GetGoogleLocationRequest(){
-        LocationRequest loRequest = LocationRequest.create();
-
-        loRequest.setPriority(Priority.PRIORITY_HIGH_ACCURACY);
-        loRequest.setInterval(300000); //5mins
-        loRequest.setFastestInterval(600000); //10mins
-        return loRequest;
+        return new LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 30000).build();
     }
 }
