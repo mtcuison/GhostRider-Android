@@ -21,19 +21,31 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.GCircle.Api.GCircleApi;
 import org.rmj.g3appdriver.dev.Api.WebClient;
+<<<<<<<< HEAD:appdriver/src/main/java/org/rmj/g3appdriver/GCircle/room/Repositories/RLocationSysLog.java
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DLocatorSysLog;
 import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.EGLocatorSysLog;
 import org.rmj.g3appdriver.GCircle.room.GGC_GCircleDB;
+========
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DLocatorSysLog;
+import org.rmj.g3appdriver.dev.Database.Entities.EGLocatorSysLog;
+import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
+import org.rmj.g3appdriver.dev.Device.Telephony;
+>>>>>>>> bd1b81ee6 (Revise the retrieval of LocationRetriever):appdriver/src/main/java/org/rmj/g3appdriver/GCircle/room/Repositories/DeviceLocationRecords.java
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
-public class RLocationSysLog {
-    private static final String TAG = RLocationSysLog.class.getSimpleName();
+public class DeviceLocationRecords {
+    private static final String TAG = DeviceLocationRecords.class.getSimpleName();
+
     private final DLocatorSysLog poDao;
     private final HttpHeaders poHeaders;
+<<<<<<<< HEAD:appdriver/src/main/java/org/rmj/g3appdriver/GCircle/room/Repositories/RLocationSysLog.java
     private final GCircleApi poApi;
 
     private String message;
@@ -42,25 +54,48 @@ public class RLocationSysLog {
         this.poDao = GGC_GCircleDB.getInstance(instance).locatorSysLogDao();
         this.poHeaders = HttpHeaders.getInstance(instance);
         this.poApi = new GCircleApi(instance);
+========
+    private final WebApi poApi;
+    private final AppConfigPreference poConfig;
+    private final Telephony poDevID;
+
+    private String message;
+
+    public DeviceLocationRecords(Application instance) {
+        this.poDao = GGC_GriderDB.getInstance(instance).locatorSysLogDao();
+        this.poHeaders = HttpHeaders.getInstance(instance);
+        this.poConfig = AppConfigPreference.getInstance(instance);
+        this.poApi = new WebApi(poConfig.getTestStatus());
+        this.poDevID = new Telephony(instance);
+>>>>>>>> bd1b81ee6 (Revise the retrieval of LocationRetriever):appdriver/src/main/java/org/rmj/g3appdriver/GCircle/room/Repositories/DeviceLocationRecords.java
     }
 
     public String getMessage() {
         return message;
     }
 
-    public boolean saveCurrentLocation(EGLocatorSysLog sysLog){
+    public boolean saveCurrentLocation(double nLatitude, double nLongtude, String cServicex, String sRemarksx){
         try {
-            EEmployeeInfo loUser = poDao.GetUserInfo();
+            String lsUserID = poDao.getUserID();
 
-            if (loUser == null) {
+            if (lsUserID == null) {
                 Log.d(TAG, "Unable to save location no user detected.");
                 return false;
             }
 
-            sysLog.setTimeStmp(AppConstants.DATE_MODIFIED());
-            sysLog.setTransact(AppConstants.DATE_MODIFIED());
-            sysLog.setUserIDxx(loUser.getUserIDxx());
-            poDao.insertLocation(sysLog);
+            EGLocatorSysLog loDetail = new EGLocatorSysLog();
+
+            String lsLoctID = CreateUniqueID();
+            loDetail.setLoctnIDx(lsLoctID);
+            loDetail.setUserIDxx(lsUserID);
+            loDetail.setDeviceID(poDevID.getDeviceID());
+            loDetail.setTransact(AppConstants.DATE_MODIFIED());
+            loDetail.setLatitude(nLatitude);
+            loDetail.setLongitud(nLongtude);
+            loDetail.setGpsEnbld(cServicex);
+            loDetail.setRemarksx(sRemarksx);
+            loDetail.setTimeStmp(AppConstants.DATE_MODIFIED());
+            poDao.insertLocation(loDetail);
             return true;
         } catch (Exception e){
             e.printStackTrace();
@@ -96,8 +131,15 @@ public class RLocationSysLog {
 
             loJson.put("detail", laDetail);
 
+<<<<<<<< HEAD:appdriver/src/main/java/org/rmj/g3appdriver/GCircle/room/Repositories/RLocationSysLog.java
             String lsResponse = WebClient.sendRequest(poApi.getUrlSubmitLocationTrack(),
                     loJson.toString(), poHeaders.getHeaders());
+========
+            String lsResponse = WebClient.sendRequest(
+                    poApi.getUrlSubmitLocationTrack(poConfig.isBackUpServer()),
+                    loJson.toString(),
+                    poHeaders.getHeaders());
+>>>>>>>> bd1b81ee6 (Revise the retrieval of LocationRetriever):appdriver/src/main/java/org/rmj/g3appdriver/GCircle/room/Repositories/DeviceLocationRecords.java
             if(lsResponse == null){
                 message = SERVER_NO_RESPONSE;
                 return false;
@@ -112,7 +154,11 @@ public class RLocationSysLog {
             }
 
             for(int x = 0; x < loLocations.size(); x++){
+<<<<<<<< HEAD:appdriver/src/main/java/org/rmj/g3appdriver/GCircle/room/Repositories/RLocationSysLog.java
                 poDao.updateSysLogStatus(AppConstants.DATE_MODIFIED(), loLocations.get(x).getTransact());
+========
+                poDao.updateSysLogStatus(AppConstants.DATE_MODIFIED(), loLocations.get(x).getLoctnIDx());
+>>>>>>>> bd1b81ee6 (Revise the retrieval of LocationRetriever):appdriver/src/main/java/org/rmj/g3appdriver/GCircle/room/Repositories/DeviceLocationRecords.java
             }
 
             return true;
@@ -121,5 +167,25 @@ public class RLocationSysLog {
             message = getLocalMessage(e);
             return false;
         }
+    }
+
+    private String CreateUniqueID() {
+        String lsUniqIDx = "";
+        try {
+            String lsBranchCd = "MX01";
+            String lsCrrYear = new SimpleDateFormat("yy", Locale.getDefault()).format(new Date());
+            StringBuilder loBuilder = new StringBuilder(lsBranchCd);
+            loBuilder.append(lsCrrYear);
+
+            int lnLocalID = poDao.GetRowsCountForID() + 1;
+            String lsPadNumx = String.format("%05d", lnLocalID);
+            loBuilder.append(lsPadNumx);
+            lsUniqIDx = loBuilder.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.e(TAG, e.getMessage());
+        }
+        Log.d(TAG, lsUniqIDx);
+        return lsUniqIDx;
     }
 }

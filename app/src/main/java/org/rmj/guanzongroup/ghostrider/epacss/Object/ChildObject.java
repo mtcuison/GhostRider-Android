@@ -62,9 +62,9 @@ public class ChildObject {
                 loIntent.putExtra("syscode", "2");
                 break;
             case "loan application":
-//                loIntent = new Intent(context, Activity_IntroductoryQuestion.class);
-                loIntent = new Intent(context, Activity_SpouseResidenceInfo.class);
-                loIntent.putExtra("sTransNox", "MX012300001");
+                loIntent = new Intent(context, Activity_IntroductoryQuestion.class);
+//                loIntent = new Intent(context, Activity_SpouseResidenceInfo.class);
+//                loIntent.putExtra("sTransNox", "MX012300001");
 //                loIntent = new Intent(context, Activity_CreditAppHome.class);
                 break;
             case "user application list":

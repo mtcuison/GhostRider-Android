@@ -258,7 +258,8 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:imeOptions="flagNoExtractUi"
-                                android:inputType="number|none"
+                                android:inputType="number"
+                                android:digits="@string/decimal_only"
                                 android:maxLength="10"
                                 android:textSize="16sp"
                                 android:textStyle="normal" />
