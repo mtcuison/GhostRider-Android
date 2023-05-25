@@ -13,6 +13,7 @@
     <string name="app_name">g3appdriver</string>
 
     <string name="free_text_restriction">ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz1234567890ēāéñễấũ.,/-</string>
+    <string name="decimal_only">123456789.</string>
 
     <!-- Kent -->
     <string name="sLblCompName">Guanzon Group of Companies</string>

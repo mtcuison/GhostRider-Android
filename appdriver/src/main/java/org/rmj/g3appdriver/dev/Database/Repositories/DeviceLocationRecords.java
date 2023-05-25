@@ -17,59 +17,70 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DLocatorSysLog;
-import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EGLocatorSysLog;
 import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
+import org.rmj.g3appdriver.dev.Device.Telephony;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.dev.Api.WebApi;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
-public class RLocationSysLog {
-    private static final String TAG = RLocationSysLog.class.getSimpleName();
+public class DeviceLocationRecords {
+    private static final String TAG = DeviceLocationRecords.class.getSimpleName();
+
     private final DLocatorSysLog poDao;
     private final HttpHeaders poHeaders;
     private final WebApi poApi;
     private final AppConfigPreference poConfig;
+    private final Telephony poDevID;
 
     private String message;
 
-    public RLocationSysLog(Application instance) {
+    public DeviceLocationRecords(Application instance) {
         this.poDao = GGC_GriderDB.getInstance(instance).locatorSysLogDao();
         this.poHeaders = HttpHeaders.getInstance(instance);
         this.poConfig = AppConfigPreference.getInstance(instance);
         this.poApi = new WebApi(poConfig.getTestStatus());
+        this.poDevID = new Telephony(instance);
     }
 
     public String getMessage() {
         return message;
     }
 
-    public boolean saveCurrentLocation(EGLocatorSysLog sysLog){
+    public boolean saveCurrentLocation(double nLatitude, double nLongtude, String cServicex, String sRemarksx){
         try {
-            EEmployeeInfo loUser = poDao.GetUserInfo();
+            String lsUserID = poDao.getUserID();
 
-            if (loUser == null) {
+            if (lsUserID == null) {
                 Log.d(TAG, "Unable to save location no user detected.");
                 return false;
             }
 
-            sysLog.setTimeStmp(AppConstants.DATE_MODIFIED());
-            sysLog.setTransact(AppConstants.DATE_MODIFIED());
-            sysLog.setUserIDxx(loUser.getUserIDxx());
-            poDao.insertLocation(sysLog);
+            EGLocatorSysLog loDetail = new EGLocatorSysLog();
+
+            String lsLoctID = CreateUniqueID();
+            loDetail.setLoctnIDx(lsLoctID);
+            loDetail.setUserIDxx(lsUserID);
+            loDetail.setDeviceID(poDevID.getDeviceID());
+            loDetail.setTransact(AppConstants.DATE_MODIFIED());
+            loDetail.setLatitude(nLatitude);
+            loDetail.setLongitud(nLongtude);
+            loDetail.setGpsEnbld(cServicex);
+            loDetail.setRemarksx(sRemarksx);
+            loDetail.setTimeStmp(AppConstants.DATE_MODIFIED());
+            poDao.insertLocation(loDetail);
             return true;
         } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();
             return false;
         }
-    }
-
-    public void updateSysLogStatus(String dTransact){
-        poDao.updateSysLogStatus(new AppConstants().DATE_MODIFIED(), dTransact);
     }
 
     public boolean uploadUnsentLocationTracks(){
@@ -99,8 +110,10 @@ public class RLocationSysLog {
 
             loJson.put("detail", laDetail);
 
-            String lsResponse = WebClient.sendRequest(poApi.getUrlSubmitLocationTrack(poConfig.isBackUpServer()),
-                    loJson.toString(), poHeaders.getHeaders());
+            String lsResponse = WebClient.sendRequest(
+                    poApi.getUrlSubmitLocationTrack(poConfig.isBackUpServer()),
+                    loJson.toString(),
+                    poHeaders.getHeaders());
             if(lsResponse == null){
                 message = "No server response.";
                 return false;
@@ -116,7 +129,7 @@ public class RLocationSysLog {
             }
 
             for(int x = 0; x < loLocations.size(); x++){
-                poDao.updateSysLogStatus(new AppConstants().DATE_MODIFIED(), loLocations.get(x).getTransact());
+                poDao.updateSysLogStatus(AppConstants.DATE_MODIFIED(), loLocations.get(x).getLoctnIDx());
             }
 
             return true;
@@ -125,5 +138,25 @@ public class RLocationSysLog {
             message = e.getMessage();
             return false;
         }
+    }
+
+    private String CreateUniqueID() {
+        String lsUniqIDx = "";
+        try {
+            String lsBranchCd = "MX01";
+            String lsCrrYear = new SimpleDateFormat("yy", Locale.getDefault()).format(new Date());
+            StringBuilder loBuilder = new StringBuilder(lsBranchCd);
+            loBuilder.append(lsCrrYear);
+
+            int lnLocalID = poDao.GetRowsCountForID() + 1;
+            String lsPadNumx = String.format("%05d", lnLocalID);
+            loBuilder.append(lsPadNumx);
+            lsUniqIDx = loBuilder.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.e(TAG, e.getMessage());
+        }
+        Log.d(TAG, lsUniqIDx);
+        return lsUniqIDx;
     }
 }

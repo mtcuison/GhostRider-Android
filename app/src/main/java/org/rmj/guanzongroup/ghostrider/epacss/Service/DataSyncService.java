@@ -19,7 +19,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import org.rmj.g3appdriver.dev.Database.Repositories.RLocationSysLog;
+import org.rmj.g3appdriver.dev.Database.Repositories.DeviceLocationRecords;
 import org.rmj.g3appdriver.lib.ApprovalCode.ApprovalCode;
 import org.rmj.g3appdriver.lib.Itinerary.Obj.EmployeeItinerary;
 import org.rmj.g3appdriver.lib.PetManager.PetManager;
@@ -130,7 +130,7 @@ public class DataSyncService extends BroadcastReceiver {
                 }
                 Thread.sleep(1000);
 
-                RLocationSysLog loLoct = new RLocationSysLog(instance);
+                DeviceLocationRecords loLoct = new DeviceLocationRecords(instance);
                 if(loLoct.uploadUnsentLocationTracks()){
                     Log.d(TAG, "Location tracking uploaded successfully");
                 } else {

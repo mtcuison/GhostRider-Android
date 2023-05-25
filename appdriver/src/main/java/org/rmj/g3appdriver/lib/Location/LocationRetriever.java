@@ -8,7 +8,7 @@ import android.provider.Settings;
 import android.util.Log;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EGLocatorSysLog;
-import org.rmj.g3appdriver.dev.Database.Repositories.RLocationSysLog;
+import org.rmj.g3appdriver.dev.Database.Repositories.DeviceLocationRecords;
 import org.rmj.g3appdriver.dev.Device.Telephony;
 
 public class LocationRetriever {
@@ -120,22 +120,19 @@ public class LocationRetriever {
                 location = new HmsLocationRetriever();
             }
 
-            RLocationSysLog loSys = new RLocationSysLog(instance);
-            Telephony loDevID = new Telephony(instance);
+            DeviceLocationRecords loSys = new DeviceLocationRecords(instance);
 
             location.StartLocationTracking(instance, (args, args1) -> {
-                EGLocatorSysLog loLog = new EGLocatorSysLog();
-                loLog.setDeviceID(loDevID.getDeviceID());
-                loLog.setLatitude(String.valueOf(args));
-                loLog.setLongitud(String.valueOf(args1));
+                String lsService;
+                String lsRemarks;
                 if(isLocationEnabled(instance)) {
-                    loLog.setGpsEnbld("1");
-                    loLog.setRemarksx("Location Retrieve.");
+                    lsService = "1";
+                    lsRemarks = "Location Retrieve.";
                 } else {
-                    loLog.setGpsEnbld("0");
-                    loLog.setRemarksx("Location service is not enabled.");
+                    lsService = "0";
+                    lsRemarks = "Location service is not enabled.";
                 }
-                loSys.saveCurrentLocation(loLog);
+                loSys.saveCurrentLocation(args, args1, lsService, lsRemarks);
             });
         } catch (Exception e){
             e.printStackTrace();
