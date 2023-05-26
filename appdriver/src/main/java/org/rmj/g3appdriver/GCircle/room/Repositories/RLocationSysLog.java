@@ -10,30 +10,22 @@
  */
 package org.rmj.g3appdriver.GCircle.room.Repositories;
 
-import static org.rmj.g3appdriver.dev.Api.ApiResult.SERVER_NO_RESPONSE;
-import static org.rmj.g3appdriver.dev.Api.ApiResult.getErrorMessage;
-import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
-
 import android.app.Application;
 import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.GCircle.Api.GCircleApi;
-import org.rmj.g3appdriver.dev.Api.WebClient;
-<<<<<<<< HEAD:appdriver/src/main/java/org/rmj/g3appdriver/GCircle/room/Repositories/RLocationSysLog.java
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DLocatorSysLog;
-import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.EGLocatorSysLog;
 import org.rmj.g3appdriver.GCircle.room.GGC_GCircleDB;
-========
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DLocatorSysLog;
-import org.rmj.g3appdriver.dev.Database.Entities.EGLocatorSysLog;
-import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
+import org.rmj.g3appdriver.GConnect.Api.GConnectApi;
+import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.dev.Device.Telephony;
->>>>>>>> bd1b81ee6 (Revise the retrieval of LocationRetriever):appdriver/src/main/java/org/rmj/g3appdriver/GCircle/room/Repositories/DeviceLocationRecords.java
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.dev.Api.WebApi;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -45,29 +37,18 @@ public class DeviceLocationRecords {
 
     private final DLocatorSysLog poDao;
     private final HttpHeaders poHeaders;
-<<<<<<<< HEAD:appdriver/src/main/java/org/rmj/g3appdriver/GCircle/room/Repositories/RLocationSysLog.java
     private final GCircleApi poApi;
-
-    private String message;
-
-    public RLocationSysLog(Application instance) {
-        this.poDao = GGC_GCircleDB.getInstance(instance).locatorSysLogDao();
-        this.poHeaders = HttpHeaders.getInstance(instance);
-        this.poApi = new GCircleApi(instance);
-========
-    private final WebApi poApi;
     private final AppConfigPreference poConfig;
     private final Telephony poDevID;
 
     private String message;
 
     public DeviceLocationRecords(Application instance) {
-        this.poDao = GGC_GriderDB.getInstance(instance).locatorSysLogDao();
+        this.poDao = GGC_GCircleDB.getInstance(instance).locatorSysLogDao();
         this.poHeaders = HttpHeaders.getInstance(instance);
         this.poConfig = AppConfigPreference.getInstance(instance);
-        this.poApi = new WebApi(poConfig.getTestStatus());
+        this.poApi = new GCircleApi(instance);
         this.poDevID = new Telephony(instance);
->>>>>>>> bd1b81ee6 (Revise the retrieval of LocationRetriever):appdriver/src/main/java/org/rmj/g3appdriver/GCircle/room/Repositories/DeviceLocationRecords.java
     }
 
     public String getMessage() {
@@ -99,7 +80,7 @@ public class DeviceLocationRecords {
             return true;
         } catch (Exception e){
             e.printStackTrace();
-            message = getLocalMessage(e);
+            message = e.getMessage();
             return false;
         }
     }
@@ -131,17 +112,12 @@ public class DeviceLocationRecords {
 
             loJson.put("detail", laDetail);
 
-<<<<<<<< HEAD:appdriver/src/main/java/org/rmj/g3appdriver/GCircle/room/Repositories/RLocationSysLog.java
-            String lsResponse = WebClient.sendRequest(poApi.getUrlSubmitLocationTrack(),
-                    loJson.toString(), poHeaders.getHeaders());
-========
             String lsResponse = WebClient.sendRequest(
-                    poApi.getUrlSubmitLocationTrack(poConfig.isBackUpServer()),
+                    poApi.getUrlSubmitLocationTrack(),
                     loJson.toString(),
                     poHeaders.getHeaders());
->>>>>>>> bd1b81ee6 (Revise the retrieval of LocationRetriever):appdriver/src/main/java/org/rmj/g3appdriver/GCircle/room/Repositories/DeviceLocationRecords.java
             if(lsResponse == null){
-                message = SERVER_NO_RESPONSE;
+                message = "No server response.";
                 return false;
             }
 
@@ -149,22 +125,19 @@ public class DeviceLocationRecords {
             String lsResult = loResponse.getString("result");
             if(lsResult.equalsIgnoreCase("error")){
                 JSONObject loError = loResponse.getJSONObject("error");
-                message = getErrorMessage(loError);
+                String lsMessage = loError.getString("message");
+                message = lsMessage;
                 return false;
             }
 
             for(int x = 0; x < loLocations.size(); x++){
-<<<<<<<< HEAD:appdriver/src/main/java/org/rmj/g3appdriver/GCircle/room/Repositories/RLocationSysLog.java
-                poDao.updateSysLogStatus(AppConstants.DATE_MODIFIED(), loLocations.get(x).getTransact());
-========
                 poDao.updateSysLogStatus(AppConstants.DATE_MODIFIED(), loLocations.get(x).getLoctnIDx());
->>>>>>>> bd1b81ee6 (Revise the retrieval of LocationRetriever):appdriver/src/main/java/org/rmj/g3appdriver/GCircle/room/Repositories/DeviceLocationRecords.java
             }
 
             return true;
         } catch (Exception e){
             e.printStackTrace();
-            message = getLocalMessage(e);
+            message = e.getMessage();
             return false;
         }
     }
