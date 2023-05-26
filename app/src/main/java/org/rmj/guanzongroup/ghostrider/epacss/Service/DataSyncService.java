@@ -21,7 +21,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import org.rmj.g3appdriver.GCircle.room.Repositories.RLocationSysLog;
 import org.rmj.g3appdriver.GCircle.Apps.ApprovalCode.ApprovalCode;
 import org.rmj.g3appdriver.GCircle.Apps.Itinerary.Obj.EmployeeItinerary;
 import org.rmj.g3appdriver.GCircle.Apps.PetManager.PetManager;
@@ -29,6 +28,7 @@ import org.rmj.g3appdriver.GCircle.Apps.PetManager.model.iPM;
 import org.rmj.g3appdriver.GCircle.Apps.SelfieLog.SelfieLog;
 import org.rmj.g3appdriver.GCircle.Apps.integsys.CashCount.CashCount;
 import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.CreditOnlineApplication;
+import org.rmj.g3appdriver.GCircle.room.Repositories.DeviceLocationRecords;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.Task.OnDoBackgroundTaskListener;
 import org.rmj.g3appdriver.utils.Task.TaskExecutor;

@@ -14,6 +14,7 @@ package org.rmj.g3appdriver.GCircle.room.Entities;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
 @Entity(tableName = "GLocator_Sys_log")
 public class EGLocatorSysLog {

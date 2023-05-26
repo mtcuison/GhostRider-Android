@@ -8,17 +8,19 @@
  * project file created : 4/28/21 8:56 AM
  * project file last modified : 4/28/21 8:56 AM
  */
-package org.rmj.g3appdriver.dev.Database.Repositories;
+package org.rmj.g3appdriver.GCircle.room.Repositories;
 
 import android.app.Application;
 import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.rmj.g3appdriver.GCircle.Api.GCircleApi;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DLocatorSysLog;
+import org.rmj.g3appdriver.GCircle.room.Entities.EGLocatorSysLog;
+import org.rmj.g3appdriver.GCircle.room.GGC_GCircleDB;
+import org.rmj.g3appdriver.GConnect.Api.GConnectApi;
 import org.rmj.g3appdriver.dev.Api.WebClient;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DLocatorSysLog;
-import org.rmj.g3appdriver.dev.Database.Entities.EGLocatorSysLog;
-import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.dev.Device.Telephony;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
@@ -35,17 +37,17 @@ public class DeviceLocationRecords {
 
     private final DLocatorSysLog poDao;
     private final HttpHeaders poHeaders;
-    private final WebApi poApi;
+    private final GCircleApi poApi;
     private final AppConfigPreference poConfig;
     private final Telephony poDevID;
 
     private String message;
 
     public DeviceLocationRecords(Application instance) {
-        this.poDao = GGC_GriderDB.getInstance(instance).locatorSysLogDao();
+        this.poDao = GGC_GCircleDB.getInstance(instance).locatorSysLogDao();
         this.poHeaders = HttpHeaders.getInstance(instance);
         this.poConfig = AppConfigPreference.getInstance(instance);
-        this.poApi = new WebApi(poConfig.getTestStatus());
+        this.poApi = new GCircleApi(instance);
         this.poDevID = new Telephony(instance);
     }
 
@@ -111,7 +113,7 @@ public class DeviceLocationRecords {
             loJson.put("detail", laDetail);
 
             String lsResponse = WebClient.sendRequest(
-                    poApi.getUrlSubmitLocationTrack(poConfig.isBackUpServer()),
+                    poApi.getUrlSubmitLocationTrack(),
                     loJson.toString(),
                     poHeaders.getHeaders());
             if(lsResponse == null){

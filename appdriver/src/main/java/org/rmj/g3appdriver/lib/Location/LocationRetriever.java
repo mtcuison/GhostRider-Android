@@ -8,7 +8,7 @@ import android.provider.Settings;
 import android.util.Log;
 
 import org.rmj.g3appdriver.GCircle.room.Entities.EGLocatorSysLog;
-import org.rmj.g3appdriver.GCircle.room.Repositories.RLocationSysLog;
+import org.rmj.g3appdriver.GCircle.room.Repositories.DeviceLocationRecords;
 import org.rmj.g3appdriver.dev.Device.Telephony;
 
 public class LocationRetriever {
