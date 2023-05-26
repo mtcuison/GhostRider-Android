@@ -48,6 +48,6 @@ public class GmsLocationRetriever implements LocationRetriever.iLocationRetrieve
     }
 
     private LocationRequest GetGoogleLocationRequest(){
-        return new LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 30000).build();
+        return new LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 300000).build();
     }
 }
