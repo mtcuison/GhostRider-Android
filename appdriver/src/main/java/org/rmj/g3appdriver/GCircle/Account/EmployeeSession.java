@@ -9,7 +9,7 @@
  * project file last modified : 4/24/21 3:19 PM
  */
 
-package org.rmj.g3appdriver.GCircle.Account;
+package org.rmj.g3appdriver.lib.Account;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -17,9 +17,9 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.util.Log;
 
-public class EmployeeSession {
+public class SessionManager {
     //LOG CAT TAG
-    private static final String TAG = EmployeeSession.class.getSimpleName();
+    private static final String TAG = SessionManager.class.getSimpleName();
 
     //SHARED PREFERENCES
     private final SharedPreferences pref;
@@ -53,24 +53,18 @@ public class EmployeeSession {
 
     private static final String KEY_AUTO_LOG = "cPrivatex";
 
-    private static EmployeeSession instance;
+    private static final String KEY_USER_NAME = "sUserName";
 
-    private EmployeeSession(Context context){
+    @SuppressLint("CommitPrefEdits")
+    public SessionManager(Context context){
         //Shared pref mode
         int PRIVATE_MODE = 0;
         pref = context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
         editor = pref.edit();
     }
 
-    public static EmployeeSession getInstance(Context context){
-        if(instance == null){
-            instance = new EmployeeSession(context);
-        }
-
-        return instance;
-    }
-
     public void initUserSession(String UserID,
+                                String UserName,
                                 String Client,
                                 String LogNo,
                                 String Branch,
@@ -83,6 +77,11 @@ public class EmployeeSession {
         editor.putString(KEY_USER_ID, UserID);
         if(editor.commit()){
             Log.e(TAG, "User ID for this session has been set.");
+        }
+
+        editor.putString(KEY_USER_NAME, UserID);
+        if(editor.commit()){
+            Log.e(TAG, "User name for this session has been set.");
         }
 
         editor.putString(KEY_CLIENT_ID, Client);
@@ -142,6 +141,11 @@ public class EmployeeSession {
             Log.e(TAG, "User ID for this session has been set.");
         }
 
+        editor.putString(KEY_USER_NAME, "");
+        if(editor.commit()){
+            Log.e(TAG, "User name for this session has been set.");
+        }
+
         editor.putString(KEY_CLIENT_ID, "");
         if(editor.commit()){
             Log.e(TAG, "Client ID for this session has been set.");
@@ -176,6 +180,10 @@ public class EmployeeSession {
 
     public String getUserID(){
         return pref.getString(KEY_USER_ID, "");
+    }
+
+    public String getUserName(){
+        return pref.getString(KEY_USER_NAME, "");
     }
 
     public String getClientId(){

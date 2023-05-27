@@ -73,6 +73,16 @@ public class CoMakerResidenceInfo implements CreditApp {
                 loDetail.setMunicipalNm(loBrgy.sTownName);
                 loDetail.setBarangayName(loBrgy.sBrgyName);
 
+                //TODO: make a validation of value for length of stay which
+                // will display if the applicant stays for a year or only for a month
+                double lnLength = gocas.CoMakerInfo().ResidenceInfo().getRentNoYears();
+
+                if(lnLength % 1 == 0){
+                    loDetail.setIsYear(1);
+                } else {
+                    loDetail.setIsYear(0);
+                }
+
                 Log.d(TAG, "House Ownership: " + gocas.CoMakerInfo().ResidenceInfo().getOwnership());
                 loDetail.setOwnerRelation(gocas.CoMakerInfo().ResidenceInfo().getCareTakerRelation());
 
@@ -84,23 +94,13 @@ public class CoMakerResidenceInfo implements CreditApp {
 
                 loDetail.setHouseOwn(gocas.CoMakerInfo().ResidenceInfo().getOwnership());
 
-                loDetail.setHouseHold(gocas.CoMakerInfo().ResidenceInfo().getOwnedResidenceInfo());
+                loDetail.setHouseHold(gocas.CoMakerInfo().ResidenceInfo().getRentedResidenceInfo());
                 loDetail.setHouseType(gocas.CoMakerInfo().ResidenceInfo().getHouseType());
                 loDetail.setHasGarage(gocas.CoMakerInfo().ResidenceInfo().hasGarage());
 
-//                loDetail.setOwnerRelation(gocas.CoMakerInfo().ResidenceInfo().getOwnership());
-//                loDetail.setLenghtOfStay(gocas.CoMakerInfo().ResidenceInfo().getRentNoYears());
-//                loDetail.setMonthlyExpenses(gocas.CoMakerInfo().ResidenceInfo().getRentExpenses());
-
-                //TODO: make a validation of value for length of stay which
-                // will display if the applicant stays for a year or only for a month
-                double lnLength = gocas.CoMakerInfo().ResidenceInfo().getRentNoYears();
-
-                if(lnLength % 1 == 0){
-                    loDetail.setIsYear(1);
-                } else {
-                    loDetail.setIsYear(0);
-                }
+                loDetail.setOwnerRelation(gocas.CoMakerInfo().ResidenceInfo().getOwnership());
+                loDetail.setLenghtOfStay(gocas.CoMakerInfo().ResidenceInfo().getRentNoYears());
+                loDetail.setMonthlyExpenses(gocas.CoMakerInfo().ResidenceInfo().getRentExpenses());
 
                 poDetail = loDetail;
             }
@@ -170,6 +170,7 @@ public class CoMakerResidenceInfo implements CreditApp {
             gocas.CoMakerInfo().ResidenceInfo().setRentExpenses(loDetail.getMonthlyExpenses());
             gocas.CoMakerInfo().ResidenceInfo().setRentNoYears(loDetail.getLenghtofStay());
             gocas.CoMakerInfo().ResidenceInfo().hasGarage(loDetail.getHasGarage());
+            Log.d(TAG, gocas.CoMakerInfo().ResidenceInfo().toJSONString());
             loApp.setCmResidx(gocas.CoMakerInfo().ResidenceInfo().toJSONString());
             poDao.Update(loApp);
             return loDetail.getTransNox();

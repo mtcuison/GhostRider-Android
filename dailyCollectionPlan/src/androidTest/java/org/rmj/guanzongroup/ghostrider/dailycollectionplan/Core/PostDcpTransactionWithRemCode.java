@@ -1,7 +1,5 @@
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Core;
 
-import static org.rmj.g3appdriver.dev.Api.ApiResult.getErrorMessage;
-
 import android.app.Application;
 import android.os.Build;
 
@@ -17,12 +15,12 @@ import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.dev.Api.WebClient;
-import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.dev.Device.Telephony;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
-import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
-import org.rmj.g3appdriver.GCircle.Account.EmployeeSession;
+import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
+import org.rmj.g3appdriver.lib.Account.SessionManager;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(AndroidJUnit4.class)
@@ -33,7 +31,7 @@ public class PostDcpTransactionWithRemCode {
     private Application instance;
 
     private AppConfigPreference poConfig;
-    private EmployeeSession poSession;
+    private SessionManager poSession;
     private HttpHeaders poHeaders;
     private DcpManager poDcp;
 
@@ -47,12 +45,12 @@ public class PostDcpTransactionWithRemCode {
         instance = ApplicationProvider.getApplicationContext();
         poConfig = AppConfigPreference.getInstance(instance);
         poHeaders = HttpHeaders.getInstance(instance);
-        poSession = EmployeeSession.getInstance(instance);
+        poSession = new SessionManager(instance);
         poDcp = new DcpManager(instance);
         poUser = new EmployeeMaster(instance);
         poTlphny = new Telephony(instance);
         poConfig.setMobileNo("09171870011");
-        poConfig.setProductID("gRider");
+        poConfig.setTemp_ProductID("gRider");
         poConfig.setAppToken("f7qNSw8TRPWHSCga0g8YFF:APA91bG3i_lBPPWv9bbRasNzRH1XX1y0vzp6Ct8S_a-yMPDvSmud8FEVPMr26zZtBPHq2CmaIw9Rx0MZmf3sbuK44q3vQemUBoPPS4Meybw8pnTpcs3p0VbiTuoLHJtdncC6BgirJxt3");
     }
 
@@ -68,7 +66,7 @@ public class PostDcpTransactionWithRemCode {
         JSONObject params = new JSONObject();
         params.put("user", "mikegarcia8748@gmail.com");
         params.put("pswd", "123456");
-        String lsResponse = WebClient.sendRequest(LOCAL_LOGIN,
+        String lsResponse = WebClient.httpPostJSon(LOCAL_LOGIN,
                 params.toString(), poHeaders.getHeaders());
         if(lsResponse == null){
             isSuccess = false;
@@ -93,12 +91,13 @@ public class PostDcpTransactionWithRemCode {
                 employeeInfo.setDeviceID(poTlphny.getDeviceID());
                 employeeInfo.setModelIDx(Build.MODEL);
                 employeeInfo.setMobileNo(poConfig.getMobileNo());
-                employeeInfo.setLoginxxx(new AppConstants().DATE_MODIFIED);
+                employeeInfo.setLoginxxx(AppConstants.DATE_MODIFIED());
                 employeeInfo.setSessionx(AppConstants.CURRENT_DATE());
 //                poUser.insertEmployee(employeeInfo);
 
                 String lsClientx = loResponse.getString("sClientID");
                 String lsUserIDx = loResponse.getString("sUserIDxx");
+                String lsUserNme = loResponse.getString("sUserName");
                 String lsLogNoxx = loResponse.getString("sLogNoxxx");
                 String lsBranchx = loResponse.getString("sBranchCD");
                 String lsBranchN = loResponse.getString("sBranchNm");
@@ -108,10 +107,10 @@ public class PostDcpTransactionWithRemCode {
                 String lsEmpLvlx = loResponse.getString("sEmpLevID");
                 isSuccess = true;
 
-                poSession.initUserSession(lsUserIDx, lsClientx, lsLogNoxx, lsBranchx, lsBranchN, lsDeptIDx, lsEmpIDxx, lsPostIDx, lsEmpLvlx, "1");
+                poSession.initUserSession(lsUserIDx, lsUserNme, lsClientx, lsLogNoxx, lsBranchx, lsBranchN, lsDeptIDx, lsEmpIDxx, lsPostIDx, lsEmpLvlx, "1");
             } else {
                 JSONObject loError = loResponse.getJSONObject("error");
-                String lsMessage = getErrorMessage(loError);
+                String lsMessage = loError.getString("message");
                 isSuccess = false;
             }
         }
