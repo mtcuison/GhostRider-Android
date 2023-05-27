@@ -88,7 +88,7 @@ public class EmployeeSession {
             Log.e(TAG, "User ID for this session has been set.");
         }
 
-        editor.putString(KEY_USER_NAME, UserID);
+        editor.putString(KEY_USER_NAME, UserName);
         if(editor.commit()){
             Log.e(TAG, "User name for this session has been set.");
         }
