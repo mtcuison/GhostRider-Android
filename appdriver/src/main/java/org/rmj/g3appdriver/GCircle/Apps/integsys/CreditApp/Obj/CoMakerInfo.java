@@ -194,7 +194,6 @@ public class CoMakerInfo implements CreditApp {
             }
 
             gocas.CoMakerInfo().setFBAccount(loDetail.getFbAccntx());
-            Log.d(TAG, gocas.CoMakerInfo().toJSONString());
             loApp.setComakerx(gocas.CoMakerInfo().toJSONString());
 
             poDao.Update(loApp);
