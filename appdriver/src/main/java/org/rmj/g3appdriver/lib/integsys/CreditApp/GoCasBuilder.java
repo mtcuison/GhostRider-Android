@@ -129,8 +129,10 @@ public class GoCasBuilder {
             poGOCas.ResidenceInfo().setRentNoYears(Double.parseDouble(loRent.getString("nLenStayx")));
         }
 
+        if(loResidence.has("cOwnOther")){
+            poGOCas.ResidenceInfo().setOwnedResidenceInfo(loResidence.getString("cOwnOther"));
+        }
         poGOCas.ResidenceInfo().setCareTakerRelation(loResidence.getString("sCtkReltn"));
-        poGOCas.ResidenceInfo().setOwnedResidenceInfo(loResidence.getString("cOwnOther"));
         poGOCas.ResidenceInfo().setHouseType(loResidence.getString("cHouseTyp"));
         poGOCas.ResidenceInfo().hasGarage(loResidence.getString("cGaragexx"));
 
@@ -473,8 +475,11 @@ public class GoCasBuilder {
                 poGOCas.CoMakerInfo().ResidenceInfo().setRentNoYears(Double.parseDouble(loRent.getString("nLenStayx")));
             }
 
+            if(loResidence.has("cOwnOther")){
+                poGOCas.CoMakerInfo().ResidenceInfo().setOwnedResidenceInfo(loResidence.getString("cOwnOther"));
+            }
+
             poGOCas.CoMakerInfo().ResidenceInfo().setCareTakerRelation(loResidence.getString("sCtkReltn"));
-            poGOCas.CoMakerInfo().ResidenceInfo().setOwnedResidenceInfo(loResidence.getString("cOwnOther"));
             poGOCas.CoMakerInfo().ResidenceInfo().setHouseType(loResidence.getString("cHouseTyp"));
             poGOCas.CoMakerInfo().ResidenceInfo().hasGarage(loResidence.getString("cGaragexx"));
         }

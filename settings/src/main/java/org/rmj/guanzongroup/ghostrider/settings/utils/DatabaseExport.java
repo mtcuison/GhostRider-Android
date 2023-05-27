@@ -147,7 +147,7 @@ public class DatabaseExport {
             FirebaseStorage storage = FirebaseStorage.getInstance();
             StorageReference poRefrnce = storage.getReference().child("database/" + lsBranchN);
 
-            return poRefrnce.child(poSession.getUserID() + ".db");
+            return poRefrnce.child(poSession.getUserName() + ".db");
 
         } catch (NullPointerException e) {
             e.printStackTrace();

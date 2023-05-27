@@ -98,6 +98,7 @@ public class PaidRemCodeTest {
 
                 String lsClientx = loResponse.getString("sClientID");
                 String lsUserIDx = loResponse.getString("sUserIDxx");
+                String lsUserNme = loResponse.getString("sUserName");
                 String lsLogNoxx = loResponse.getString("sLogNoxxx");
                 String lsBranchx = loResponse.getString("sBranchCD");
                 String lsBranchN = loResponse.getString("sBranchNm");
@@ -107,7 +108,7 @@ public class PaidRemCodeTest {
                 String lsEmpLvlx = loResponse.getString("sEmpLevID");
                 isSuccess = true;
 
-                poSession.initUserSession(lsUserIDx, lsClientx, lsLogNoxx, lsBranchx, lsBranchN, lsDeptIDx, lsEmpIDxx, lsPostIDx, lsEmpLvlx, "1");
+                poSession.initUserSession(lsUserIDx, lsUserNme, lsClientx, lsLogNoxx, lsBranchx, lsBranchN, lsDeptIDx, lsEmpIDxx, lsPostIDx, lsEmpLvlx, "1");
             } else {
                 JSONObject loError = loResponse.getJSONObject("error");
                 String lsMessage = loError.getString("message");

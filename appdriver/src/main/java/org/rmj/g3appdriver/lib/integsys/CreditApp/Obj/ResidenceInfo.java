@@ -183,6 +183,7 @@ public class ResidenceInfo implements CreditApp {
             gocas.ResidenceInfo().PermanentAddress().setAddress2(loDetail.getPermanentAddress2());
             gocas.ResidenceInfo().PermanentAddress().setTownCity(loDetail.getPermanentMunicipalID());
             gocas.ResidenceInfo().PermanentAddress().setBarangay(loDetail.getPermanentBarangayID());
+            Log.d(TAG, gocas.ResidenceInfo().toJSONString());
             loApp.setResidnce(gocas.ResidenceInfo().toJSONString());
             if(loDetail.isOneAddress()){
                 loApp.setSameAddx("1");

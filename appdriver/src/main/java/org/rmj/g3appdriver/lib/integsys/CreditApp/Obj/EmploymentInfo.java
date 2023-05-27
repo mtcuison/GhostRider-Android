@@ -90,6 +90,8 @@ public class EmploymentInfo implements CreditApp {
                 String lsJobID = gocas.MeansInfo().EmployedInfo().getPosition();
                 String lsJobNm = poPosition.getOccupationName(lsJobID);
 
+
+
                 loDetail.setJobTitle(lsJobID);
                 loDetail.setsJobName(lsJobNm);
 
