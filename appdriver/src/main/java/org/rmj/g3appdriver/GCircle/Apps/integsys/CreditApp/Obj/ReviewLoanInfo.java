@@ -128,8 +128,10 @@ public class ReviewLoanInfo implements CreditApp {
             loListDetl.add(new ReviewAppDetail(false, "", "Province", loPresent.sProvName));
 
             loListDetl.add(new ReviewAppDetail(false, "", "House Ownership", parseHouseOwn(loGOCas.ResidenceInfo().getOwnership())));
-            if (loGOCas.ResidenceInfo().getOwnership().equalsIgnoreCase("1")) {
-                loListDetl.add(new ReviewAppDetail(false, "", "HouseHolds", parseHouseHold(loGOCas.ResidenceInfo().getRentedResidenceInfo())));
+            if (loGOCas.ResidenceInfo().getOwnership().equalsIgnoreCase("0")) {
+                loListDetl.add(new ReviewAppDetail(false, "", "House Hold", parseHouseHold(loGOCas.ResidenceInfo().getOwnedResidenceInfo())));
+            } else if (loGOCas.ResidenceInfo().getOwnership().equalsIgnoreCase("1")) {
+                loListDetl.add(new ReviewAppDetail(false, "", "House Holds", parseHouseHold(loGOCas.ResidenceInfo().getRentedResidenceInfo())));
 
                 String lsExp = String.valueOf(loGOCas.ResidenceInfo().getRentExpenses());
                 loListDetl.add(new ReviewAppDetail(false, "", "Monthly Rent", lsExp));
@@ -137,7 +139,7 @@ public class ReviewLoanInfo implements CreditApp {
             } else if (loGOCas.ResidenceInfo().getOwnership().equalsIgnoreCase("2")) {
                 loListDetl.add(new ReviewAppDetail(false, "", "House Owner", loGOCas.ResidenceInfo().getCareTakerRelation()));
             }
-            loListDetl.add(new ReviewAppDetail(false, "", "House Hold", parseHouseHold(loGOCas.ResidenceInfo().getOwnedResidenceInfo())));
+
             loListDetl.add(new ReviewAppDetail(false, "", "House Type", parseHouseType(loGOCas.ResidenceInfo().getHouseType())));
             loListDetl.add(new ReviewAppDetail(false, "", "Has Garage", parseGarage(loGOCas.ResidenceInfo().hasGarage())));
 
@@ -620,16 +622,19 @@ public class ReviewLoanInfo implements CreditApp {
             loListDetl.add(new ReviewAppDetail(false, "", "Province", coPresent.sProvName));
 
             loListDetl.add(new ReviewAppDetail(false, "", "House Ownership", parseHouseOwn(coResIdx.get("cOwnershp").toString())));
-            if (coResIdx.get("cOwnershp").toString().equalsIgnoreCase("1")) {
-                loListDetl.add(new ReviewAppDetail(false, "", "HouseHolds", parseHouseHold(loGOCas.CoMakerInfo().ResidenceInfo().getRentedResidenceInfo())));
+            if(coResIdx.get("cOwnershp").toString().equalsIgnoreCase("0")){
+                loListDetl.add(new ReviewAppDetail(false, "", "House Hold", parseHouseHold(coResIdx.get("cOwnOther").toString())));
+            } else if (coResIdx.get("cOwnershp").toString().equalsIgnoreCase("1")) {
+                org.json.JSONObject joRent = coResIdx.getJSONObject("rent_others");
+                loListDetl.add(new ReviewAppDetail(false, "", "HouseHolds", parseHouseHold(joRent.get("cRntOther").toString())));
 
-                String lsExp = String.valueOf(loGOCas.CoMakerInfo().ResidenceInfo().getRentExpenses());
+                String lsExp = joRent.get("nRentExps").toString();
                 loListDetl.add(new ReviewAppDetail(false, "", "Monthly Rent", lsExp));
-                //loListDetl.add(new ReviewAppDetail(false, "", "Length of Stay", loGOCas.ResidenceInfo().getRentNoYears()));
+                loListDetl.add(new ReviewAppDetail(false, "", "Length of Stay", joRent.get("nLenStayx").toString()));
             } else if (coResIdx.get("cOwnershp").toString().equalsIgnoreCase("2")) {
                 loListDetl.add(new ReviewAppDetail(false, "", "House Owner", loGOCas.CoMakerInfo().ResidenceInfo().getCareTakerRelation()));
             }
-            loListDetl.add(new ReviewAppDetail(false, "", "House Hold", parseHouseHold(coResIdx.get("cOwnOther").toString())));
+
             loListDetl.add(new ReviewAppDetail(false, "", "House Type", parseHouseType(coResIdx.get("cHouseTyp").toString())));
             loListDetl.add(new ReviewAppDetail(false, "", "Has Garage", parseGarage(coResIdx.get("cGaragexx").toString())));
             loListDetail = loListDetl;

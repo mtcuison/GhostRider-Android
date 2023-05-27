@@ -163,6 +163,7 @@ public class EmployeeMaster {
 
                     String lsClientx = loResponse.getString("sClientID");
                     String lsUserIDx = loResponse.getString("sUserIDxx");
+                    String lsUserNme = loResponse.getString("sUserName");
                     String lsLogNoxx = loResponse.getString("sLogNoxxx");
                     String lsBranchx = loResponse.getString("sBranchCD");
                     String lsBranchN = loResponse.getString("sBranchNm");
@@ -170,7 +171,7 @@ public class EmployeeMaster {
                     String lsEmpIDxx = loResponse.getString("sEmployID");
                     String lsPostIDx = loResponse.getString("sPositnID");
                     String lsEmpLvlx = loResponse.getString("sEmpLevID");
-                    poSession.initUserSession(lsUserIDx, lsClientx, lsLogNoxx, lsBranchx, lsBranchN, lsDeptIDx, lsEmpIDxx, lsPostIDx, lsEmpLvlx, "1");
+                    poSession.initUserSession(lsUserIDx, lsUserNme, lsClientx, lsLogNoxx, lsBranchx, lsBranchN, lsDeptIDx, lsEmpIDxx, lsPostIDx, lsEmpLvlx, "1");
                     message = "Login success";
                     return true;
                 } else {

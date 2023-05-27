@@ -53,6 +53,8 @@ public class EmployeeSession {
 
     private static final String KEY_AUTO_LOG = "cPrivatex";
 
+    private static final String KEY_USER_NAME = "sUserName";
+
     private static EmployeeSession instance;
 
     private EmployeeSession(Context context){
@@ -71,6 +73,7 @@ public class EmployeeSession {
     }
 
     public void initUserSession(String UserID,
+                                String UserName,
                                 String Client,
                                 String LogNo,
                                 String Branch,
@@ -83,6 +86,11 @@ public class EmployeeSession {
         editor.putString(KEY_USER_ID, UserID);
         if(editor.commit()){
             Log.e(TAG, "User ID for this session has been set.");
+        }
+
+        editor.putString(KEY_USER_NAME, UserID);
+        if(editor.commit()){
+            Log.e(TAG, "User name for this session has been set.");
         }
 
         editor.putString(KEY_CLIENT_ID, Client);
@@ -142,6 +150,11 @@ public class EmployeeSession {
             Log.e(TAG, "User ID for this session has been set.");
         }
 
+        editor.putString(KEY_USER_NAME, "");
+        if(editor.commit()){
+            Log.e(TAG, "User name for this session has been set.");
+        }
+
         editor.putString(KEY_CLIENT_ID, "");
         if(editor.commit()){
             Log.e(TAG, "Client ID for this session has been set.");
@@ -176,6 +189,10 @@ public class EmployeeSession {
 
     public String getUserID(){
         return pref.getString(KEY_USER_ID, "");
+    }
+
+    public String getUserName(){
+        return pref.getString(KEY_USER_NAME, "");
     }
 
     public String getClientId(){
