@@ -26,7 +26,7 @@ import org.rmj.g3appdriver.GCircle.room.Entities.EDCPCollectionMaster;
 import org.rmj.g3appdriver.GCircle.room.Entities.EImageInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.EMobileUpdate;
 import org.rmj.g3appdriver.GCircle.room.Repositories.RBankInfo;
-import org.rmj.g3appdriver.GCircle.room.Repositories.RBranch;
+import org.rmj.g3appdriver.lib.Etc.Branch;
 import org.rmj.g3appdriver.GCircle.room.Repositories.RCollectionUpdate;
 import org.rmj.g3appdriver.GCircle.room.Repositories.RImageInfo;
 import org.rmj.g3appdriver.etc.AppConstants;
@@ -41,7 +41,7 @@ import java.util.Objects;
 public class VMCollectionLog extends AndroidViewModel {
     private static final String TAG = VMCollectionLog.class.getSimpleName();
     private final LRDcp poSys;
-    private final RBranch poBranch;
+    private final Branch poBranch;
     private final RImageInfo poImage;
     private final LRDcp poRemit;
     private final RCollectionUpdate poUpdate;
@@ -56,7 +56,7 @@ public class VMCollectionLog extends AndroidViewModel {
     public VMCollectionLog(@NonNull Application application) {
         super(application);
         this.poSys = new LRDcp(application);
-        this.poBranch = new RBranch(application);
+        this.poBranch = new Branch(application);
         this.poImage = new RImageInfo(application);
         this.poUpdate = new RCollectionUpdate(application);
         this.dTransact.setValue(AppConstants.CURRENT_DATE());

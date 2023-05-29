@@ -15,15 +15,15 @@ import android.app.Application;
 
 import org.rmj.g3appdriver.GCircle.ImportData.model.ImportDataCallback;
 import org.rmj.g3appdriver.GCircle.ImportData.model.ImportInstance;
-import org.rmj.g3appdriver.GCircle.room.Repositories.RBarangay;
+import org.rmj.g3appdriver.lib.Etc.Barangay;
 
 public class ImportBarangay implements ImportInstance {
     public static final String TAG = ImportBarangay.class.getSimpleName();
 
-    private final RBarangay poSys;
+    private final Barangay poSys;
 
     public ImportBarangay(Application application){
-        this.poSys = new RBarangay(application);
+        this.poSys = new Barangay(application);
     }
 
     @Override

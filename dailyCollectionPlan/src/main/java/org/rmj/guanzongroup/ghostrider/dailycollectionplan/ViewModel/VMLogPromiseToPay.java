@@ -20,14 +20,14 @@ import androidx.lifecycle.MutableLiveData;
 
 import org.rmj.g3appdriver.GCircle.room.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GCircle.room.Entities.EImageInfo;
-import org.rmj.g3appdriver.GCircle.room.Repositories.RBranch;
+import org.rmj.g3appdriver.lib.Etc.Branch;
 import org.rmj.g3appdriver.GCircle.room.Repositories.RDailyCollectionPlan;
 import org.rmj.g3appdriver.GCircle.room.Repositories.RImageInfo;
 
 public class VMLogPromiseToPay extends AndroidViewModel {
     private RDailyCollectionPlan poCollect;
     private RImageInfo poImage;
-    private RBranch poBranch;
+    private Branch poBranch;
 
     private final MutableLiveData<String> psTransNox = new MutableLiveData<>();
     private final MutableLiveData<String> psAcctNox = new MutableLiveData<>();
@@ -37,7 +37,7 @@ public class VMLogPromiseToPay extends AndroidViewModel {
         super(application);
         this.poCollect = new RDailyCollectionPlan(application);
         this.poImage = new RImageInfo(application);
-        this.poBranch = new RBranch(application);
+        this.poBranch = new Branch(application);
     }
 
     public void setParameters(String TransNox, String Acctnox, String RemCodex) {

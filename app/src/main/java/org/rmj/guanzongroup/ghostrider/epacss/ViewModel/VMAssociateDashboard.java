@@ -29,7 +29,7 @@ import org.rmj.g3appdriver.GCircle.room.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeBusinessTrip;
 import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeLeave;
-import org.rmj.g3appdriver.GCircle.room.Repositories.RBranch;
+import org.rmj.g3appdriver.lib.Etc.Branch;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
@@ -44,7 +44,7 @@ public class VMAssociateDashboard extends AndroidViewModel {
 
     private final EmployeeMaster poEmployee;
     private iPM poApp;
-    private final RBranch pobranch;
+    private final Branch pobranch;
     private final ConnectionUtil poConn;
 
     private final AppConfigPreference poConfigx;
@@ -56,7 +56,7 @@ public class VMAssociateDashboard extends AndroidViewModel {
         super(application);
         this.instance = application;
         this.poEmployee = new EmployeeMaster(application);
-        this.pobranch = new RBranch(application);
+        this.pobranch = new Branch(application);
         this.poConfigx = AppConfigPreference.getInstance(application);
         this.psVersion.setValue(poConfigx.getVersionInfo());
         this.poConn = new ConnectionUtil(application);

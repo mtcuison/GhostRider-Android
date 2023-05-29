@@ -20,7 +20,7 @@ import org.rmj.g3appdriver.GCircle.room.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.ECodeApproval;
 import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GCircle.room.GGC_GCircleDB;
-import org.rmj.g3appdriver.GCircle.room.Repositories.RBranch;
+import org.rmj.g3appdriver.lib.Etc.Branch;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 
@@ -30,7 +30,7 @@ public class SystemCode implements SCA {
 
     private final DApprovalCode poDao;
 
-    private final RBranch poBranch;
+    private final Branch poBranch;
     private final AppConfigPreference poConfig;
     private final GCircleApi poApi;
     private final HttpHeaders poHeaders;
@@ -39,7 +39,7 @@ public class SystemCode implements SCA {
 
     public SystemCode(Application instance) {
         this.poDao = GGC_GCircleDB.getInstance(instance).ApprovalDao();
-        this.poBranch = new RBranch(instance);
+        this.poBranch = new Branch(instance);
         this.poConfig = AppConfigPreference.getInstance(instance);
         this.poApi = new GCircleApi(instance);
         this.poHeaders = HttpHeaders.getInstance(instance);

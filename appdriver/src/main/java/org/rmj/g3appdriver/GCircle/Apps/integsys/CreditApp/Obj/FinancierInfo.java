@@ -16,7 +16,7 @@ import org.rmj.g3appdriver.GCircle.room.Entities.ECountryInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.EOccupationInfo;
 import org.rmj.g3appdriver.GCircle.room.GGC_GCircleDB;
-import org.rmj.g3appdriver.GCircle.room.Repositories.RCountry;
+import org.rmj.g3appdriver.lib.Etc.Country;
 import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.CreditApp;
 import org.rmj.gocas.base.GOCASApplication;
 
@@ -26,7 +26,7 @@ public class FinancierInfo implements CreditApp {
     private static final String TAG = FinancierInfo.class.getSimpleName();
 
     private final DCreditApplication poDao;
-    private final RCountry poCountry;
+    private final Country poCountry;
 
     private Financier poDetail;
 
@@ -34,7 +34,7 @@ public class FinancierInfo implements CreditApp {
 
     public FinancierInfo(Application instance) {
         this.poDao = GGC_GCircleDB.getInstance(instance).CreditApplicationDao();
-        this.poCountry = new RCountry(instance);
+        this.poCountry = new Country(instance);
     }
 
     @Override

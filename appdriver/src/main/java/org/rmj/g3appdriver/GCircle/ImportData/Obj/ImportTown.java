@@ -13,17 +13,17 @@ package org.rmj.g3appdriver.GCircle.ImportData.Obj;
 
 import android.app.Application;
 
-import org.rmj.g3appdriver.GCircle.room.Repositories.RTown;
+import org.rmj.g3appdriver.lib.Etc.Town;
 import org.rmj.g3appdriver.GCircle.ImportData.model.ImportDataCallback;
 import org.rmj.g3appdriver.GCircle.ImportData.model.ImportInstance;
 
 public class ImportTown implements ImportInstance {
     public static final String TAG = ImportTown.class.getSimpleName();
 
-    private final RTown poSys;
+    private final Town poSys;
 
     public ImportTown(Application instance){
-        this.poSys = new RTown(instance);
+        this.poSys = new Town(instance);
     }
 
     @Override
