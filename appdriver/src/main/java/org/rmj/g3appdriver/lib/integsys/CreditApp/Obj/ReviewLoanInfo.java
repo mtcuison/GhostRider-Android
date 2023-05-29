@@ -301,7 +301,7 @@ public class ReviewLoanInfo implements CreditApp {
                 loListDetl.add(new ReviewAppDetail(false, "", "Suffix", loGOCas.SpouseInfo().PersonalInfo().getSuffixName()));
                 loListDetl.add(new ReviewAppDetail(false, "", "Nickname", loGOCas.SpouseInfo().PersonalInfo().getNickName()));
 
-                String lsBirthDte = FormatUIText.getBirthDateUIFormat(loGOCas.SpouseInfo().PersonalInfo().getBirthdate());
+                String lsBirthDte = FormatUIText.formatGOCasBirthdate(loGOCas.SpouseInfo().PersonalInfo().getBirthdate());
                 loListDetl.add(new ReviewAppDetail(false, "", "Birthdate", lsBirthDte));
 
                 DTownInfo.TownProvinceName loBPlaceS = poTown.getTownProvinceName(loGOCas.SpouseInfo().PersonalInfo().getBirthPlace());
@@ -354,8 +354,10 @@ public class ReviewLoanInfo implements CreditApp {
                 //Spouse Residence Info End
 
                 // TODO: Spouse Employment Info Start
-                if (!loGOCas.SpouseMeansInfo().EmployedInfo().getCompanyLevel().equalsIgnoreCase("null") &&
-                        !loGOCas.SpouseMeansInfo().EmployedInfo().getEmployeeLevel().equalsIgnoreCase("null")) {
+                String lsCompLvl = loGOCas.SpouseMeansInfo().EmployedInfo().getCompanyLevel();
+                String lsEmpLvel = loGOCas.SpouseMeansInfo().EmployedInfo().getEmployeeLevel();
+                if (lsCompLvl != null &&
+                lsEmpLvel != null) {
                     loListDetl.add(new ReviewAppDetail(true, "Spouse Employment Information", "", ""));
                     if (loGOCas.SpouseMeansInfo().EmployedInfo().getEmploymentSector().equalsIgnoreCase("1")) {
                         // Private Sector
@@ -444,7 +446,8 @@ public class ReviewLoanInfo implements CreditApp {
                     int lnBzNatur = Integer.parseInt(loGOCas.SpouseMeansInfo().SelfEmployedInfo().getNatureOfBusiness());
                     loListDetl.add(new ReviewAppDetail(false, "", "Nature of Business", CreditAppConstants.BUSINESS_NATURE[lnBzNatur]));
 
-                    DTownInfo.TownProvinceName loAddrs = poTown.getTownProvinceName(loGOCas.SpouseMeansInfo().SelfEmployedInfo().getBusinessTown());
+                    String lsTown = loGOCas.SpouseMeansInfo().SelfEmployedInfo().getBusinessTown();
+                    DTownInfo.TownProvinceName loAddrs = poTown.getTownProvinceName(lsTown);
                     loListDetl.add(new ReviewAppDetail(false, "", "Street/Bldg./Barangay", loGOCas.SpouseMeansInfo().SelfEmployedInfo().getBusinessAddress()));
                     loListDetl.add(new ReviewAppDetail(false, "", "Province", loAddrs.sProvName));
                     loListDetl.add(new ReviewAppDetail(false, "", "Town/City", loAddrs.sTownName));
