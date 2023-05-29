@@ -25,8 +25,8 @@ import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DMobileUpdate;
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.EBarangayInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.EDCPCollectionDetail;
-import org.rmj.g3appdriver.GCircle.room.Repositories.RBarangay;
-import org.rmj.g3appdriver.GCircle.room.Repositories.RTown;
+import org.rmj.g3appdriver.lib.Etc.Barangay;
+import org.rmj.g3appdriver.lib.Etc.Town;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.ImageFileCreator;
 import org.rmj.g3appdriver.lib.Location.LocationRetriever;
@@ -49,16 +49,16 @@ public class VMCustomerNotAround extends AndroidViewModel {
     private final LRDcp poSys;
     private final EmployeeMaster poUser;
 
-    private final RTown poTown;
-    private final RBarangay poBrgy;
+    private final Town poTown;
+    private final Barangay poBrgy;
 
     public VMCustomerNotAround(@NonNull Application application) {
         super(application);
         this.instance = application;
         this.poSys = new LRDcp(application);
         this.poUser = new EmployeeMaster(application);
-        this.poTown = new RTown(application);
-        this.poBrgy = new RBarangay(application);
+        this.poTown = new Town(application);
+        this.poBrgy = new Barangay(application);
     }
 
     public LiveData<DEmployeeInfo.EmployeeBranch> GetUserInfo(){

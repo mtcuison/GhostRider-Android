@@ -15,10 +15,10 @@ import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.rmj.g3appdriver.GCircle.room.Repositories.RAreaPerformance;
 import org.rmj.g3appdriver.GCircle.room.Repositories.RBankInfo;
-import org.rmj.g3appdriver.GCircle.room.Repositories.RBarangay;
-import org.rmj.g3appdriver.GCircle.room.Repositories.RBranch;
+import org.rmj.g3appdriver.lib.Etc.Barangay;
+import org.rmj.g3appdriver.lib.Etc.Branch;
 import org.rmj.g3appdriver.GCircle.room.Repositories.RBranchPerformance;
-import org.rmj.g3appdriver.GCircle.room.Repositories.RCountry;
+import org.rmj.g3appdriver.lib.Etc.Country;
 import org.rmj.g3appdriver.GCircle.room.Repositories.RFileCode;
 import org.rmj.g3appdriver.GCircle.room.Repositories.RMcBrand;
 import org.rmj.g3appdriver.GCircle.room.Repositories.RMcCategory;
@@ -26,10 +26,10 @@ import org.rmj.g3appdriver.GCircle.room.Repositories.RMcModel;
 import org.rmj.g3appdriver.GCircle.room.Repositories.RMcModelPrice;
 import org.rmj.g3appdriver.GCircle.room.Repositories.RMcTermCategory;
 import org.rmj.g3appdriver.GCircle.room.Repositories.ROccupation;
-import org.rmj.g3appdriver.GCircle.room.Repositories.RProvince;
+import org.rmj.g3appdriver.lib.Etc.Province;
 import org.rmj.g3appdriver.GCircle.room.Repositories.RRelation;
 import org.rmj.g3appdriver.GCircle.room.Repositories.RSysConfig;
-import org.rmj.g3appdriver.GCircle.room.Repositories.RTown;
+import org.rmj.g3appdriver.lib.Etc.Town;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
 import org.rmj.g3appdriver.GCircle.Apps.ApprovalCode.ApprovalCode;
@@ -121,7 +121,7 @@ public class ImportData {
 
     @Test
     public void test06ImportBarangay() {
-        RBarangay loSys = new RBarangay(instance);
+        Barangay loSys = new Barangay(instance);
         if(!loSys.ImportBarangay()){
             message = loSys.getMessage();
             Log.e(TAG, message);
@@ -133,7 +133,7 @@ public class ImportData {
 
     @Test
     public void test07ImportBranch() {
-        RBranch loSys = new RBranch(instance);
+        Branch loSys = new Branch(instance);
         if(!loSys.ImportBranches()) {
             message = loSys.getMessage();
             Log.e(TAG, message);
@@ -181,7 +181,7 @@ public class ImportData {
 
     @Test
     public void test11ImportCountry() {
-        RCountry loSys = new RCountry(instance);
+        Country loSys = new Country(instance);
         if(!loSys.ImportCountry()){
             message = loSys.getMessage();
             Log.e(TAG, message);
@@ -229,7 +229,7 @@ public class ImportData {
 
     @Test
     public void test15ImportTown() {
-        RTown loSys = new RTown(instance);
+        Town loSys = new Town(instance);
         if(!loSys.ImportTown()){
             message = loSys.getMessage();
             Log.e(TAG, message);
@@ -241,7 +241,7 @@ public class ImportData {
 
     @Test
     public void test16ImportProvince() {
-        RProvince loSys = new RProvince(instance);
+        Province loSys = new Province(instance);
         if(!loSys.ImportProvince()){
             message = loSys.getMessage();
             Log.e(TAG, message);

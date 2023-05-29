@@ -32,9 +32,9 @@ import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.ERaffleBasis;
 import org.rmj.g3appdriver.GCircle.room.Entities.ERaffleInfo;
-import org.rmj.g3appdriver.GCircle.room.Repositories.RBranch;
+import org.rmj.g3appdriver.lib.Etc.Branch;
 import org.rmj.g3appdriver.GCircle.room.Repositories.RRaffleInfo;
-import org.rmj.g3appdriver.GCircle.room.Repositories.RTown;
+import org.rmj.g3appdriver.lib.Etc.Town;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
@@ -57,8 +57,8 @@ public class VMRaffleEntry extends AndroidViewModel {
     private static LiveData<String[]> raffleBasisDesc;
     private final RRaffleInfo raffleRepo;
     private final EmployeeSession session;
-    private final RTown poTown;
-    private final RBranch poBranch;
+    private final Town poTown;
+    private final Branch poBranch;
 
     private final Application instance;
 
@@ -71,8 +71,8 @@ public class VMRaffleEntry extends AndroidViewModel {
         raffleBasisDesc = raffleRepo.getAllRaffleBasisDesc();
         raffleBasis = raffleRepo.getAllRaffleBasis();
         session = EmployeeSession.getInstance(application);
-        this.poTown = new RTown(application);
-        this.poBranch = new RBranch(application);
+        this.poTown = new Town(application);
+        this.poBranch = new Branch(application);
     }
 
     public LiveData<EBranchInfo> getUserBranchInfo(){

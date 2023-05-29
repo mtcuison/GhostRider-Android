@@ -27,7 +27,7 @@ import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DSelfieLog;
 import org.rmj.g3appdriver.GCircle.room.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.ESelfieLog;
-import org.rmj.g3appdriver.GCircle.room.Repositories.RBranch;
+import org.rmj.g3appdriver.lib.Etc.Branch;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.ImageFileCreator;
 import org.rmj.g3appdriver.etc.OnInitializeCameraCallback;
@@ -46,7 +46,7 @@ public class VMSelfieLog extends AndroidViewModel {
     private final Application instance;
     private final SelfieLog poLog;
     private final CashCount poCash;
-    private final RBranch pobranch;
+    private final Branch pobranch;
     private final EmployeeMaster poUser;
     private final MutableLiveData<String> pdTransact = new MutableLiveData<>();
 
@@ -83,7 +83,7 @@ public class VMSelfieLog extends AndroidViewModel {
         this.instance = application;
         this.poUser = new EmployeeMaster(instance);
         this.poLog = new SelfieLog(instance);
-        this.pobranch = new RBranch(instance);
+        this.pobranch = new Branch(instance);
         this.poCash = new CashCount(instance);
         this.pdTransact.setValue(AppConstants.CURRENT_DATE());
     }
@@ -250,13 +250,13 @@ public class VMSelfieLog extends AndroidViewModel {
 
     private static class CheckBranchListTask extends AsyncTask<String, Void, Boolean>{
 
-        private final RBranch poBranch;
+        private final Branch poBranch;
         private final OnBranchCheckListener mListener;
 
         private List<EBranchInfo> area, all;
         private String message;
 
-        public CheckBranchListTask(RBranch poBranch, OnBranchCheckListener mListener) {
+        public CheckBranchListTask(Branch poBranch, OnBranchCheckListener mListener) {
             this.poBranch = poBranch;
             this.mListener = mListener;
         }

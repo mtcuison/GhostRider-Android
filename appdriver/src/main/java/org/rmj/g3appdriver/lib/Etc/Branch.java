@@ -9,7 +9,7 @@
  * project file last modified : 4/24/21 3:18 PM
  */
 
-package org.rmj.g3appdriver.GCircle.room.Repositories;
+package org.rmj.g3appdriver.lib.Etc;
 
 import static org.rmj.g3appdriver.dev.Api.ApiResult.SERVER_NO_RESPONSE;
 import static org.rmj.g3appdriver.dev.Api.ApiResult.getErrorMessage;
@@ -33,8 +33,8 @@ import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import java.util.Date;
 import java.util.List;
 
-public class RBranch {
-    private static final String TAG = RBranch.class.getSimpleName();
+public class Branch {
+    private static final String TAG = Branch.class.getSimpleName();
 
     private final DBranchInfo poDao;
     private final GCircleApi poApi;
@@ -42,7 +42,7 @@ public class RBranch {
 
     private String message;
 
-    public RBranch(Application instance){
+    public Branch(Application instance){
         this.poDao = GGC_GCircleDB.getInstance(instance).BranchDao();
         this.poApi = new GCircleApi(instance);
         this.poHeaders = HttpHeaders.getInstance(instance);

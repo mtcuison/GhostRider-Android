@@ -22,7 +22,7 @@ import androidx.lifecycle.LiveData;
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.EDCPCollectionDetail;
-import org.rmj.g3appdriver.GCircle.room.Repositories.RBranch;
+import org.rmj.g3appdriver.lib.Etc.Branch;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.lib.Location.LocationRetriever;
 import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
@@ -41,14 +41,14 @@ public class VMPromiseToPay extends AndroidViewModel {
     private final LRDcp poSys;
     private final EmployeeMaster poUser;
 
-    private final RBranch poBranch;
+    private final Branch poBranch;
     private final Application instance;
 
     public VMPromiseToPay(@NonNull Application application) {
         super(application);
         this.instance = application;
         this.poSys = new LRDcp(application);
-        this.poBranch = new RBranch(application);
+        this.poBranch = new Branch(application);
         this.poUser = new EmployeeMaster(application);
     }
 

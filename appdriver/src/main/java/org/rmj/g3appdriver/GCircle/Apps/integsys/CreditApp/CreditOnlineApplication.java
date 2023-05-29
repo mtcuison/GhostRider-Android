@@ -37,7 +37,7 @@ import org.rmj.g3appdriver.GCircle.room.Entities.ELoanTerm;
 import org.rmj.g3appdriver.GCircle.room.Entities.EMcBrand;
 import org.rmj.g3appdriver.GCircle.room.Entities.EMcModel;
 import org.rmj.g3appdriver.GCircle.room.GGC_GCircleDB;
-import org.rmj.g3appdriver.GCircle.room.Repositories.RBranch;
+import org.rmj.g3appdriver.lib.Etc.Branch;
 import org.rmj.g3appdriver.GCircle.room.Repositories.RMcBrand;
 import org.rmj.g3appdriver.GCircle.room.Repositories.RMcModel;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
@@ -71,7 +71,7 @@ public class CreditOnlineApplication {
 
     private final EmployeeMaster poUser;
 
-    private final RBranch poBranch;
+    private final Branch poBranch;
     private final RMcBrand poBrand;
     private final RMcModel poModel;
     private final Pricelist poPrice;
@@ -89,7 +89,7 @@ public class CreditOnlineApplication {
         this.poSession = EmployeeSession.getInstance(instance);
         this.poApi = new GCircleApi(instance);
         this.poHeaders = HttpHeaders.getInstance(instance);
-        this.poBranch = new RBranch(instance);
+        this.poBranch = new Branch(instance);
         this.poBrand = new RMcBrand(instance);
         this.poModel = new RMcModel(instance);
         this.poPrice = PriceFactory.make(PriceFactory.ProductType.MOTORCYCLE);

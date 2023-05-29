@@ -30,10 +30,10 @@ import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.EBarangayInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.EDCPCollectionDetail;
-import org.rmj.g3appdriver.GCircle.room.Repositories.RBarangay;
-import org.rmj.g3appdriver.GCircle.room.Repositories.RBranch;
-import org.rmj.g3appdriver.GCircle.room.Repositories.RProvince;
-import org.rmj.g3appdriver.GCircle.room.Repositories.RTown;
+import org.rmj.g3appdriver.lib.Etc.Barangay;
+import org.rmj.g3appdriver.lib.Etc.Branch;
+import org.rmj.g3appdriver.lib.Etc.Province;
+import org.rmj.g3appdriver.lib.Etc.Town;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.lib.Location.LocationRetriever;
 import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
@@ -55,21 +55,21 @@ public class VMLoanUnit extends AndroidViewModel {
     private final Application instance;
     private final LRDcp poSys;
     private final EmployeeMaster poUser;
-    private final RBranch poBranch;
+    private final Branch poBranch;
 
-    private final RProvince poProv;
-    private final RTown poTown;
-    private final RBarangay Brgy;
+    private final Province poProv;
+    private final Town poTown;
+    private final Barangay Brgy;
 
     public VMLoanUnit(@NonNull Application application) {
         super(application);
         this.instance = application;
         this.poSys = new LRDcp(application);
         this.poUser = new EmployeeMaster(application);
-        this.poBranch = new RBranch(application);
-        poProv = new RProvince(application);
-        poTown = new RTown(application);
-        Brgy = new RBarangay(application);
+        this.poBranch = new Branch(application);
+        poProv = new Province(application);
+        poTown = new Town(application);
+        Brgy = new Barangay(application);
     }
 
     public LiveData<DEmployeeInfo.EmployeeBranch> GetUserInfo(){

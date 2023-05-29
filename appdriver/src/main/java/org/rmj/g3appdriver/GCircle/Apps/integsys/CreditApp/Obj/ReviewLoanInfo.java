@@ -17,11 +17,11 @@ import org.rmj.g3appdriver.GCircle.room.Entities.ECreditApplication;
 import org.rmj.g3appdriver.GCircle.room.Entities.EMcModel;
 import org.rmj.g3appdriver.GCircle.room.Entities.EOccupationInfo;
 import org.rmj.g3appdriver.GCircle.room.GGC_GCircleDB;
-import org.rmj.g3appdriver.GCircle.room.Repositories.RBarangay;
-import org.rmj.g3appdriver.GCircle.room.Repositories.RCountry;
+import org.rmj.g3appdriver.lib.Etc.Barangay;
+import org.rmj.g3appdriver.lib.Etc.Country;
 import org.rmj.g3appdriver.GCircle.room.Repositories.RMcModel;
 import org.rmj.g3appdriver.GCircle.room.Repositories.ROccupation;
-import org.rmj.g3appdriver.GCircle.room.Repositories.RTown;
+import org.rmj.g3appdriver.lib.Etc.Town;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.CreditApp;
@@ -40,20 +40,20 @@ public class ReviewLoanInfo implements CreditApp {
     private static final String TAG = ReviewLoanInfo.class.getSimpleName();
 
     private final DCreditApplication poDao;
-    private final RTown poTown;
+    private final Town poTown;
     private final RMcModel poModel;
-    private final RBarangay poBarangay;
-    private final RCountry poCountry;
+    private final Barangay poBarangay;
+    private final Country poCountry;
     private final ROccupation poJobx;
     private List<ReviewAppDetail> loListDetail;
     private String message;
 
     public ReviewLoanInfo(Application instance) {
         this.poDao = GGC_GCircleDB.getInstance(instance).CreditApplicationDao();
-        this.poTown = new RTown(instance);
+        this.poTown = new Town(instance);
         this.poModel = new RMcModel(instance);
-        this.poBarangay = new RBarangay(instance);
-        this.poCountry = new RCountry(instance);
+        this.poBarangay = new Barangay(instance);
+        this.poCountry = new Country(instance);
         this.poJobx = new ROccupation(instance);
         this.loListDetail = new ArrayList<>();
     }

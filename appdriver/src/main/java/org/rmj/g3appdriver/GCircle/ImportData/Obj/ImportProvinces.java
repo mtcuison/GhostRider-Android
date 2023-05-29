@@ -13,17 +13,17 @@ package org.rmj.g3appdriver.GCircle.ImportData.Obj;
 
 import android.app.Application;
 
-import org.rmj.g3appdriver.GCircle.room.Repositories.RProvince;
+import org.rmj.g3appdriver.lib.Etc.Province;
 import org.rmj.g3appdriver.GCircle.ImportData.model.ImportDataCallback;
 import org.rmj.g3appdriver.GCircle.ImportData.model.ImportInstance;
 
 public class ImportProvinces implements ImportInstance {
     public static final String TAG = ImportProvinces.class.getSimpleName();
 
-    private final RProvince poSys;
+    private final Province poSys;
 
     public ImportProvinces(Application application) {
-        this.poSys = new RProvince(application);
+        this.poSys = new Province(application);
     }
 
     @Override

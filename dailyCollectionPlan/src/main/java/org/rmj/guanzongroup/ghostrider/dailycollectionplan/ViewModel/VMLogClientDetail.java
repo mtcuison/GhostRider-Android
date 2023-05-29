@@ -22,19 +22,19 @@ import org.rmj.g3appdriver.GCircle.room.Entities.EClientUpdate;
 import org.rmj.g3appdriver.GCircle.room.Entities.EImageInfo;
 import org.rmj.g3appdriver.GCircle.room.Repositories.RDailyCollectionPlan;
 import org.rmj.g3appdriver.GCircle.room.Repositories.RImageInfo;
-import org.rmj.g3appdriver.GCircle.room.Repositories.RTown;
+import org.rmj.g3appdriver.lib.Etc.Town;
 
 public class VMLogClientDetail extends AndroidViewModel {
     private static final String TAG = VMLogClientDetail.class.getSimpleName();
     private RImageInfo poImage;
     private RDailyCollectionPlan poCollect;
-    private RTown poTown;
+    private Town poTown;
 
     public VMLogClientDetail(@NonNull Application application){
         super(application);
         this.poImage = new RImageInfo(application);
         this.poCollect = new RDailyCollectionPlan(application);
-        this.poTown = new RTown(application);
+        this.poTown = new Town(application);
     }
 
     public LiveData<EImageInfo> getImageLocation(String sDtlSrcNo, String sImageNme) {

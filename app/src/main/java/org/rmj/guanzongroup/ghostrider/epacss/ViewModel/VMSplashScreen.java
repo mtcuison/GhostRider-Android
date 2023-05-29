@@ -25,10 +25,10 @@ import org.rmj.g3appdriver.GCircle.Account.EmployeeSession;
 import org.rmj.g3appdriver.GCircle.Apps.integsys.Dcp.LRDcp;
 import org.rmj.g3appdriver.GCircle.room.Entities.ETokenInfo;
 import org.rmj.g3appdriver.GCircle.room.Repositories.AppTokenManager;
-import org.rmj.g3appdriver.GCircle.room.Repositories.RBarangay;
-import org.rmj.g3appdriver.GCircle.room.Repositories.RBranch;
-import org.rmj.g3appdriver.GCircle.room.Repositories.RProvince;
-import org.rmj.g3appdriver.GCircle.room.Repositories.RTown;
+import org.rmj.g3appdriver.lib.Etc.Barangay;
+import org.rmj.g3appdriver.lib.Etc.Branch;
+import org.rmj.g3appdriver.lib.Etc.Province;
+import org.rmj.g3appdriver.lib.Etc.Town;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.Task.OnDoBackgroundTaskListener;
@@ -112,24 +112,24 @@ public class VMSplashScreen extends AndroidViewModel {
                 try{
                     if(poConn.isDeviceConnected()){
                         Log.d(TAG, "Initializing barangay data.");
-                        if(!new RBarangay(instance).ImportBarangay()){
+                        if(!new Barangay(instance).ImportBarangay()){
                             Log.e(TAG, "Unable to import barangay");
                         }
                         loTask.publishProgress(1);
 
                         Log.d(TAG, "Initializing town data.");
-                        if(!new RTown(instance).ImportTown()){
+                        if(!new Town(instance).ImportTown()){
                             Log.e(TAG, "Unable to import town");
                         }
                         loTask.publishProgress(2);
 
                         Log.d(TAG, "Initializing province data.");
-                        if(!new RProvince(instance).ImportProvince()){
+                        if(!new Province(instance).ImportProvince()){
                             Log.e(TAG, "Unable to import province");
                         }
                         loTask.publishProgress(3);
 
-                        if(!new RBranch(instance).ImportBranches()){
+                        if(!new Branch(instance).ImportBranches()){
                             Log.e(TAG, "Unable to import branches");
                         }
                         loTask.publishProgress(4);

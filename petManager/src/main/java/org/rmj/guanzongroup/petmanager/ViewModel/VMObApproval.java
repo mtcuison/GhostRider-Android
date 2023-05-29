@@ -24,7 +24,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import org.rmj.g3appdriver.GCircle.room.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeBusinessTrip;
-import org.rmj.g3appdriver.GCircle.room.Repositories.RBranch;
+import org.rmj.g3appdriver.lib.Etc.Branch;
 import org.rmj.g3appdriver.GCircle.Apps.PetManager.Obj.EmployeeOB;
 import org.rmj.g3appdriver.GCircle.Apps.PetManager.PetManager;
 import org.rmj.g3appdriver.GCircle.Apps.PetManager.model.iPM;
@@ -37,7 +37,7 @@ public class VMObApproval extends AndroidViewModel {
     private final Application instance;
 
     private final iPM poSys;
-    private final RBranch poBranch;
+    private final Branch poBranch;
     private final ConnectionUtil poConn;
 
     private final MutableLiveData<String> TransNox = new MutableLiveData<>();
@@ -58,7 +58,7 @@ public class VMObApproval extends AndroidViewModel {
         super(application);
         this.instance = application;
         this.poSys = new PetManager(instance).GetInstance(PetManager.ePetManager.BUSINESS_TRIP_APPLICATION);
-        this.poBranch = new RBranch(instance);
+        this.poBranch = new Branch(instance);
         this.poConn = new ConnectionUtil(instance);
         this.TransNox.setValue("");
     }

@@ -18,17 +18,17 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import org.rmj.g3appdriver.GCircle.room.Entities.EBranchInfo;
-import org.rmj.g3appdriver.GCircle.room.Repositories.RBranch;
+import org.rmj.g3appdriver.lib.Etc.Branch;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Core.DcpManager;
 
 public class VMImageLog extends AndroidViewModel {
     private final DcpManager poDcpMngr;
-    private final RBranch poBranchx;
+    private final Branch poBranchx;
 
     public VMImageLog(@NonNull Application application) {
         super(application);
         this.poDcpMngr = new DcpManager(application);
-        this.poBranchx = new RBranch(application);
+        this.poBranchx = new Branch(application);
     }
 
     public LiveData<EBranchInfo> getUserBranchInfo(){

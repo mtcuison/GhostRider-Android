@@ -15,15 +15,15 @@ import android.app.Application;
 
 import org.rmj.g3appdriver.GCircle.ImportData.model.ImportDataCallback;
 import org.rmj.g3appdriver.GCircle.ImportData.model.ImportInstance;
-import org.rmj.g3appdriver.GCircle.room.Repositories.RCountry;
+import org.rmj.g3appdriver.lib.Etc.Country;
 
 public class ImportCountry implements ImportInstance {
     public static final String TAG = ImportBarangay.class.getSimpleName();
 
-    private final RCountry poSys;
+    private final Country poSys;
 
     public ImportCountry(Application instance) {
-        this.poSys = new RCountry(instance);
+        this.poSys = new Country(instance);
     }
 
     @Override
