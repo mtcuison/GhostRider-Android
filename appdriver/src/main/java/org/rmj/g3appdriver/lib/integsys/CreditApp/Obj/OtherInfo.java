@@ -64,13 +64,16 @@ public class OtherInfo implements CreditApp {
                 loDetail.setSource(gocas.OtherInfo().getSourceInfo());
 
                 JSONArray reference = (JSONArray) joDetail.get("personal_reference");
-
                 for(int x = 0; x < reference.size(); x++){
                     JSONObject joRef = (JSONObject) reference.get(x);
+                    String lsTownID = (String) joRef.get("sRefrTown");
+                    DTownInfo.TownProvinceName loTown = poTown.getTownProvinceName(lsTownID);
+                    String lsTown = loTown.sTownName + ", " + loTown.sProvName;
                     loDetail.AddReference(new Reference(
                             (String) joRef.get("sRefrNmex"),
                             (String) joRef.get("sRefrAddx"),
-                            (String) joRef.get("sRefrTown"),
+                            lsTownID,
+                            lsTown,
                             (String) joRef.get("sRefrMPNx")));
                 }
 

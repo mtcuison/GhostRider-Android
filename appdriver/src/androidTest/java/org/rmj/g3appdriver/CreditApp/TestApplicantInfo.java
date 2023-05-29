@@ -853,9 +853,9 @@ public class TestApplicantInfo {
         loDetail.setsPyr2Buyr("sample");
         loDetail.setsUnitPayr("0");
         loDetail.setsUnitUser("0");
-        loDetail.AddReference(new Reference("sample", "sample1", "0346", "09123456789"));
-        loDetail.AddReference(new Reference("sample1", "sample11", "0346", "09987456321"));
-        loDetail.AddReference(new Reference("sample2", "sample12", "0346", "09365214789"));
+        loDetail.AddReference(new Reference("sample", "sample1", "0346", "", "09123456789"));
+        loDetail.AddReference(new Reference("sample1", "sample11", "0346", "", "09987456321"));
+        loDetail.AddReference(new Reference("sample2", "sample12", "0346", "", "09365214789"));
 
         if(loApp.Validate(loDetail) == 0){
             message = loApp.getMessage();

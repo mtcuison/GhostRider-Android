@@ -2,19 +2,19 @@ package org.rmj.g3appdriver.lib.integsys.CreditApp.model;
 
 public class Reference {
 
-    private  String Fullname = "";
-    private  String Address1 = "";
-    private  String TownCity = "";
-
+    private String Fullname = "";
+    private String Address1 = "";
+    private String TownCity = "";
     private String TownName = "";
-    private  String ContactN = "";
+    private String ContactN = "";
     public Reference(){
 
     }
-    public Reference(String fullname, String address1, String townCity, String contactN) {
+    public Reference(String fullname, String address1, String townCity, String townName, String contactN) {
         Fullname = fullname;
         Address1 = address1;
         TownCity = townCity;
+        TownName = townName;
         ContactN = contactN;
     }
 
