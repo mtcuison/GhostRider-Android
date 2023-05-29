@@ -325,18 +325,19 @@ public class GoCasBuilder {
 
     private void setupSpsPension() throws Exception {
         if(poInfo.getSpsPensn() != null){
-            JSONObject loMeans = new JSONObject(poInfo.getSpsPensn());
-            JSONObject loPension = loMeans.getJSONObject("pensioner");
+            JSONObject loPension = new JSONObject(poInfo.getSpsPensn());
             poGOCas.SpouseMeansInfo().PensionerInfo().setSource(loPension.getString("cPenTypex"));
             poGOCas.SpouseMeansInfo().PensionerInfo().setAmount(Long.parseLong(loPension.getString("nPensionx")));
             poGOCas.SpouseMeansInfo().PensionerInfo().setYearRetired(Integer.parseInt(loPension.getString("nRetrYear")));
 
-            JSONObject loOther = loMeans.getJSONObject("other_income");
-            try {
-                poGOCas.SpouseMeansInfo().setOtherIncomeNature(loOther.getString("sOthrIncm"));
-                //poGOCas.SpouseMeansInfo().setOtherIncomeAmount(Long.parseLong(loOther.getString("nOthrIncm")));
-            } catch (Exception e){
-                e.printStackTrace();
+            if(loPension.has("other_income")) {
+                JSONObject loOther = loPension.getJSONObject("other_income");
+                try {
+                    poGOCas.SpouseMeansInfo().setOtherIncomeNature(loOther.getString("sOthrIncm"));
+                    //poGOCas.SpouseMeansInfo().setOtherIncomeAmount(Long.parseLong(loOther.getString("nOthrIncm")));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

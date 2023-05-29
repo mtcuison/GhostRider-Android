@@ -97,7 +97,6 @@ public class Activity_SpouseSelfEmploymentInfo extends AppCompatActivity {
                                 String lsSlctd = txtTown.getText().toString().trim();
                                 if (lsSlctd.equalsIgnoreCase(lsLabel)) {
                                     mViewModel.getModel().setTown(loList.get(x).sTownIDxx);
-                                    mViewModel.getModel().setTown(lsLabel);
                                     break;
                                 }
                             }
