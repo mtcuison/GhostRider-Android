@@ -13,17 +13,17 @@ package org.rmj.g3appdriver.GCircle.ImportData.Obj;
 
 import android.app.Application;
 
-import org.rmj.g3appdriver.GCircle.room.Repositories.RRelation;
+import org.rmj.g3appdriver.lib.Etc.Relation;
 import org.rmj.g3appdriver.GCircle.ImportData.model.ImportDataCallback;
 import org.rmj.g3appdriver.GCircle.ImportData.model.ImportInstance;
 
 public class Import_Relation implements ImportInstance {
     private static final String TAG = Import_Relation.class.getSimpleName();
 
-    private final RRelation poSys;
+    private final Relation poSys;
 
     public Import_Relation(Application application){
-        this.poSys = new RRelation(application);
+        this.poSys = new Relation(application);
     }
 
     @Override

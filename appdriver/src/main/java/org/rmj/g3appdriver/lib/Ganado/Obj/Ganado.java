@@ -7,40 +7,52 @@ import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
 import android.app.Application;
 import android.util.Log;
 
+import androidx.lifecycle.LiveData;
+
 import org.json.JSONObject;
 import org.rmj.g3appdriver.GCircle.Account.EmployeeSession;
+import org.rmj.g3appdriver.GCircle.Api.GCircleApi;
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DGanadoOnline;
 import org.rmj.g3appdriver.GCircle.room.Entities.EGanadoOnline;
+import org.rmj.g3appdriver.GCircle.room.Entities.ERelation;
 import org.rmj.g3appdriver.GCircle.room.GGC_GCircleDB;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.lib.Etc.Relation;
 import org.rmj.g3appdriver.lib.Ganado.pojo.ClientInfo;
 import org.rmj.g3appdriver.lib.Ganado.pojo.InquiryInfo;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class Ganado {
     private static final String TAG = Ganado.class.getSimpleName();
 
-    private final Application instance;
     private final DGanadoOnline poDao;
     private final EmployeeSession poSession;
+    private final GCircleApi poApi;
     private final HttpHeaders poHeaders;
+    private final Relation poRelate;
 
     private String message;
 
     public Ganado(Application instance) {
-        this.instance = instance;
         this.poDao = GGC_GCircleDB.getInstance(instance).ganadoDao();
         this.poSession = EmployeeSession.getInstance(instance);
+        this.poApi = new GCircleApi(instance);
         this.poHeaders = HttpHeaders.getInstance(instance);
+        this.poRelate = new Relation(instance);
     }
 
     public String getMessage() {
         return message;
+    }
+
+    public LiveData<List<ERelation>> GetRelations(){
+        return poRelate.GetRelations();
     }
 
     public String CreateInquiry(InquiryInfo loInfo){
@@ -59,15 +71,14 @@ public class Ganado {
             loDetail.setPaymForm(loInfo.getPaymForm());
 
             JSONObject joProdct = new JSONObject();
-            joProdct.put("sInvTypCd", "");
-            joProdct.put("sBrandIDx", "");
-            joProdct.put("sModelIDx", "");
-            joProdct.put("sColorIDx", "");
+            joProdct.put("sBrandIDx", loInfo.getBrandIDx());
+            joProdct.put("sModelIDx", loInfo.getModelIDx());
+            joProdct.put("sColorIDx", loInfo.getColorIDx());
             loDetail.setProdInfo(joProdct.toString());
 
             JSONObject joPayment = new JSONObject();
-            joPayment.put("sTermIDxx", "");
-            joPayment.put("nDownPaym", "");
+            joPayment.put("sTermIDxx", loInfo.getTermIDxx());
+            joPayment.put("nDownPaym", loInfo.getDownPaym());
             loDetail.setPaymInfo(joPayment.toString());
 
             loDetail.setTargetxx("");
@@ -120,6 +131,17 @@ public class Ganado {
             joClient.put("sMobileNo", loInfo.getMobileNo());
             joClient.put("sEmailAdd", loInfo.getEmailAdd());
 
+            String lsClient = loInfo.getLastName() + ", " + loInfo.getFrstName();
+
+            if(!loInfo.getMiddName().isEmpty()){
+                lsClient = lsClient + " " + loInfo.getMiddName();
+            }
+
+            if(!loInfo.getSuffixNm().isEmpty()){
+                lsClient = lsClient + " " + loInfo.getSuffixNm();
+            }
+
+            loDetail.setClientNm(lsClient);
             loDetail.setClntInfo(joClient.toString());
             poDao.Update(loDetail);
 
@@ -141,17 +163,21 @@ public class Ganado {
             }
 
             JSONObject params = new JSONObject();
-            params.put("dTransact", loDetail.getTransact());
+            params.put("sClientNm", loDetail.getClientNm());
             params.put("cGanadoTp", loDetail.getGanadoTp());
             params.put("cPaymForm", loDetail.getPaymForm());
+            params.put("dCreatedx", loDetail.getCreatedx());
+            params.put("dTargetxx", loDetail.getTargetxx());
+            params.put("sRelatnID", loDetail.getRelatnID());
+            params.put("nlatitude", 1.00);
+            params.put("nLongitud", 2.00);
+
             params.put("sClntInfo", loDetail.getClntInfo());
             params.put("sProdInfo", loDetail.getProdInfo());
             params.put("sPaymInfo", loDetail.getPaymInfo());
-            params.put("sReferdBy", loDetail.getReferdBy());
-            params.put("dCreatedx", loDetail.getCreatedx());
 
             String lsResponse = WebClient.sendRequest(
-                    "",
+                    poApi.getSubmitInquiry(),
                     params.toString(),
                     poHeaders.getHeaders());
 

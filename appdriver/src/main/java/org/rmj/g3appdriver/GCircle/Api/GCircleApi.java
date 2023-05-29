@@ -60,7 +60,7 @@ public class GCircleApi extends WebApi {
     private static final String URL_BRANCH_REMITTANCE_ACC = "integsys/param/download_branch_bank_account.php";
     private static final String URL_IMPORT_SYS_CONFIG = "integsys/param/download_system_config.php";
     private static final String URL_DOWNLOAD_CREDIT_ONLINE_APP = "integsys/param/download_credit_online_application_list.php";
-    private static final String URL_DOWNLOAD_RELATION = "integsys/param/download_relation.php";
+    private static final String URL_DOWNLOAD_RELATION = "gcircle/params/download_relation.php";
     private static final String URL_UPLOAD_CI_RESULT = "integsys/gocas/upload_ci_result.php";
     private static final String URL_SEND_RESPONSE = "nmm/send_response.php";
     private static final String URL_SEND_REQUEST = "nmm/send_request.php";
@@ -96,6 +96,8 @@ public class GCircleApi extends WebApi {
     private static final String GET_PACITA_RULES = "gCircle/Pacita/import_pacita_rules.php";
     private static final String GET_PACITA_EVALUATIONS = "gCircle/Pacita/import_pacita_evaluations.php";
     private static final String SUBMIT_PACITA_RESULT = "gCircle/Pacita/submit_pacita_result.php";
+
+    private static final String URL_SUBMIT_INQUIRY = "gcircle/ganado/submit_inquiry.php";
 
     public GCircleApi(Application instance) {
         super(instance);
@@ -809,6 +811,15 @@ public class GCircleApi extends WebApi {
         }
         Log.d(TAG, "Initialize api:" + LIVE + CLAIM_PANALO_REWARD);
         return LIVE + CLAIM_PANALO_REWARD;
+    }
+
+    public String getSubmitInquiry() {
+        if(isUnitTest()) {
+            Log.d(TAG, "Initialize api:" + LOCAL + URL_SUBMIT_INQUIRY);
+            return LOCAL + URL_SUBMIT_INQUIRY;
+        }
+        Log.d(TAG, "Initialize api:" + LIVE + URL_SUBMIT_INQUIRY);
+        return LIVE + URL_SUBMIT_INQUIRY;
     }
 
 }

@@ -27,7 +27,7 @@ import org.rmj.g3appdriver.GCircle.room.Repositories.RMcModelPrice;
 import org.rmj.g3appdriver.GCircle.room.Repositories.RMcTermCategory;
 import org.rmj.g3appdriver.GCircle.room.Repositories.ROccupation;
 import org.rmj.g3appdriver.lib.Etc.Province;
-import org.rmj.g3appdriver.GCircle.room.Repositories.RRelation;
+import org.rmj.g3appdriver.lib.Etc.Relation;
 import org.rmj.g3appdriver.GCircle.room.Repositories.RSysConfig;
 import org.rmj.g3appdriver.lib.Etc.Town;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
@@ -85,7 +85,7 @@ public class ImportData {
 
     @Test
     public void test03ImportRelations() {
-        RRelation loSys = new RRelation(instance);
+        Relation loSys = new Relation(instance);
         if(!loSys.ImportRelations()){
             message = loSys.getMessage();
             Log.e(TAG, message);

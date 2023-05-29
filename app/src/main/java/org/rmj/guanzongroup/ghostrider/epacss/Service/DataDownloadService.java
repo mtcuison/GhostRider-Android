@@ -64,7 +64,6 @@ public class DataDownloadService extends JobService {
 
     private void doBackgroundTask(JobParameters params) {
         instance = getApplication();
-        ConnectionUtil loConn = new ConnectionUtil(instance);
         ImportInstance[]  importInstances = {
                 new Import_BranchAccounts(getApplication()),
                 new Import_BankList(getApplication()),
