@@ -40,7 +40,7 @@ public class VMSplashScreen extends AndroidViewModel {
     private final AppConfigPreference poConfigx;
 
     public VMSplashScreen(@NonNull Application application) {
-        super(application);
+        super(application); 
         this.instance = application;
         this.poConfigx = AppConfigPreference.getInstance(application);
         this.poConfigx.setPackageName(BuildConfig.APPLICATION_ID);
