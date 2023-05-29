@@ -10,10 +10,13 @@ public class ClientInfo {
     private String sMaidenNm = "";
     private String cGenderCd = "";
     private String dBirthDte = "";
+    private String sBirthIDx = "";
     private String sBirthPlc = "";
     private String sHouseNox = "";
     private String sAddressx = "";
     private String sTownIDxx = "";
+
+    private String sMncplNme = "";
     private String sMobileNo = "";
     private String sEmailAdd = "";
 
@@ -136,6 +139,23 @@ public class ClientInfo {
 
     public void setEmailAdd(String sEmailAdd) {
         this.sEmailAdd = sEmailAdd;
+    }
+
+
+    public String getsBirthIDx() {
+        return sBirthIDx;
+    }
+
+    public void setsBirthIDx(String sBirthIDx) {
+        this.sBirthIDx = sBirthIDx;
+    }
+
+    public String getsMncplNme() {
+        return sMncplNme;
+    }
+
+    public void setsMncplNme(String sMncplNme) {
+        this.sMncplNme = sMncplNme;
     }
 
     public boolean isDataValid(){

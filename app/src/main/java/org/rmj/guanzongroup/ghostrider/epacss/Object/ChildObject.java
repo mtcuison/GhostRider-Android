@@ -20,6 +20,7 @@ import org.guanzongroup.com.itinerary.Activities.Activity_ItineraryEntry;
 import org.guanzongroup.com.itinerary.Activities.Activity_ItineraryLog;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.guanzongroup.documentscanner.Activity_DocumentScan;
+import org.rmj.guanzongroup.ganado.Activities.Activity_ProductInquiry;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_AreaPerformanceMonitoring;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_CashCountLog;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_CashCounter;
@@ -31,7 +32,6 @@ import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_L
 import org.rmj.guanzongroup.ghostrider.samsungknox.Activity_Knox;
 import org.rmj.guanzongroup.onlinecreditapplication.Activities.Activity_BranchApplications;
 import org.rmj.guanzongroup.onlinecreditapplication.Activities.Activity_CreditApplications;
-import org.rmj.guanzongroup.onlinecreditapplication.Activities.Activity_IntroductoryQuestion;
 import org.rmj.guanzongroup.onlinecreditapplication.Activities.Activity_SpouseResidenceInfo;
 import org.rmj.guanzongroup.petmanager.Activity.Activity_Application;
 import org.rmj.guanzongroup.petmanager.Activity.Activity_EmployeeLoanEntry;
@@ -83,7 +83,8 @@ public class ChildObject {
 //                break;
 
             case "ci evaluation list":
-                loIntent = new Intent(context, Activity_CIEvaluationList.class);
+                loIntent = new Intent(context, Activity_ProductInquiry.class);
+//                loIntent = new Intent(context, Activity_CIEvaluationList.class);
                 break;
 
             case "ci evaluation history":

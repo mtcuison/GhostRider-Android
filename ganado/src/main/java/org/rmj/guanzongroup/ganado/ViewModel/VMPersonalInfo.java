@@ -1,4 +1,110 @@
 package org.rmj.guanzongroup.ganado.ViewModel;
 
-public class VMPersonalInfo {
+import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
+
+import android.app.Application;
+import android.content.Intent;
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.OnSaveInfoListener;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DTownInfo;
+import org.rmj.g3appdriver.GCircle.room.Entities.EGanadoOnline;
+import org.rmj.g3appdriver.GCircle.room.Repositories.RTown;
+import org.rmj.g3appdriver.lib.Ganado.Obj.Ganado;
+import org.rmj.g3appdriver.lib.Ganado.pojo.ClientInfo;
+import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
+import org.rmj.g3appdriver.utils.Task.TaskExecutor;
+
+import java.util.List;
+
+public class VMPersonalInfo extends AndroidViewModel implements GanadoUI {
+    private static final String TAG = VMPersonalInfo.class.getSimpleName();
+
+    private final Ganado poApp;
+    private final ClientInfo poModel;
+
+    private String TransNox;
+
+    private String message;
+    private final RTown poTown;
+
+    public VMPersonalInfo(@NonNull Application application) {
+        super(application);
+        this.poApp = new Ganado(application);
+        this.poModel = new ClientInfo();
+        this.poTown = new RTown(application);
+    }
+
+    public ClientInfo getModel() {
+        return poModel;
+    }
+
+    @Override
+    public void InitializeApplication(Intent params) {
+        TransNox = params.getStringExtra("sTransNox");
+        poModel.setsTransNox(TransNox);
+    }
+
+    @Override
+    public LiveData<EGanadoOnline> GetApplication() {
+        return null;
+    }
+
+    @Override
+    public void ParseData(EGanadoOnline args, OnParseListener listener) {
+
+    }
+
+
+    @Override
+    public void Validate(Object args) {
+
+    }
+
+    public LiveData<List<DTownInfo.TownProvinceInfo>> GetTownProvinceList() {
+        return poTown.getTownProvinceInfo();
+    }
+
+    @Override
+    public void SaveData(OnSaveInfoListener listener) {
+//        new SaveDetailTask(listener).execute(poModel);
+        TaskExecutor.Execute(poModel, new OnTaskExecuteListener() {
+            @Override
+            public void OnPreExecute() {
+
+            }
+
+            @Override
+            public Object DoInBackground(Object args) {
+                ClientInfo lsInfo = (ClientInfo) poModel;
+
+                TransNox = lsInfo.getsTransNox();
+                String lsResult = (poApp.SaveClientInfo(lsInfo)) ? "" : null;
+                if (lsResult == null) {
+                    message = poApp.getMessage();
+                    return null;
+                }
+                String lsResult1 = (poApp.SaveInquiry(lsInfo.getsTransNox())) ? "" : null;
+                if (lsResult1 == null) {
+                    message = poApp.getMessage();
+                    return null;
+                }
+
+                return "success";
+            }
+
+            @Override
+            public void OnPostExecute(Object object) {
+                String lsResult = (String) object;
+                if (lsResult == null) {
+                    listener.OnFailed(message);
+                } else {
+                    listener.OnSave(lsResult);
+                }
+            }
+        });
+    }
 }

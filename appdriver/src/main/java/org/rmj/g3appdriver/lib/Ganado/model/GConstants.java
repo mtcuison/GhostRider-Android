@@ -1,6 +1,14 @@
 package org.rmj.g3appdriver.lib.Ganado.model;
 
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+
+import androidx.annotation.NonNull;
+
 public class GConstants {
     public static String[] CATEGORY = {
             "AUTO",
@@ -24,5 +32,27 @@ public class GConstants {
                 return "M0W1003";
         }
         return "";
+    }
+
+    public static String[] INSTALLMENT_TERM = {
+            "36 Months/3 Years",
+            "24 Months/2 Years",
+            "18 Months",
+            "12 Months/1 Year",
+            "6 Months"
+    };
+    public static String[] PAYMENT_FORM = {"Cash", "Installment"};
+
+    public static ArrayAdapter<String> getAdapter(Context mContext, String[] data) {
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_dropdown_item, data){
+            @SuppressLint("ResourceAsColor")
+            @Override
+            public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+                //change the color to which ever you want
+                return view;
+            }
+        };
+        return adapter;
     }
 }

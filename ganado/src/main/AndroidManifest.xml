@@ -9,7 +9,7 @@
             android:name=".Activities.Activity_ContactInfo"
             android:exported="false" />
         <activity
-            android:name=".Activities.Activity_PersonalInfo"
+            android:name=".Activities.Activity_ClientInfo"
             android:exported="false" />
     </application>
 
