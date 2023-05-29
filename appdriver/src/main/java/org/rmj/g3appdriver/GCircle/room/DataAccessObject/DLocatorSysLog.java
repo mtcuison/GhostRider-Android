@@ -33,7 +33,7 @@ public interface DLocatorSysLog {
     @Query("UPDATE GLocator_Sys_log SET cSendStat = '1', dTimeStmp =:dTimeStmp WHERE sLoctnIDx =:LoctID")
     void updateSysLogStatus(String dTimeStmp, String LoctID);
 
-    @Query("SELECT * FROM GLocator_Sys_log WHERE cSendStat == '0'")
+    @Query("SELECT * FROM GLocator_Sys_log WHERE cSendStat == '0' ORDER BY dTransact DESC")
     List<EGLocatorSysLog> GetTrackingLocations();
 
     @Query("SELECT * FROM User_Info_Master")
