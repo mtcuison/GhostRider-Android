@@ -9,6 +9,9 @@ public class InquiryInfo {
     private String sColorIDx = "";
     private String sTermIDxx = "";
     private String nDownPaym = "";
+
+
+    private String nMonthAmr = "";
     private String sRelatnID = "";
 
     private String message;
@@ -97,6 +100,13 @@ public class InquiryInfo {
         this.nDownPaym = nDownPaym;
     }
 
+    public String getnMonthAmr() {
+        return nMonthAmr;
+    }
+
+    public void setMonthAmr(String nMonthAmr) {
+        this.nMonthAmr = nMonthAmr;
+    }
     public String getRelatnID() {
         return sRelatnID;
     }
@@ -142,6 +152,6 @@ public class InquiryInfo {
             }
         }
 
-        return false;
+        return true;
     }
 }

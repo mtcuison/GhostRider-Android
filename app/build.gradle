@@ -119,5 +119,6 @@ dependencies {
     implementation project(':creditApp')
     implementation project(':creditEvaluation')
     implementation project(':pacitaReward')
+    implementation project(':ganado')
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 }
