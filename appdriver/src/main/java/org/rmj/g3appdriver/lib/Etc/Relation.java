@@ -9,7 +9,7 @@
  * project file last modified : 5/14/21 3:59 PM
  */
 
-package org.rmj.g3appdriver.GCircle.room.Repositories;
+package org.rmj.g3appdriver.lib.Etc;
 
 import static org.rmj.g3appdriver.dev.Api.ApiResult.SERVER_NO_RESPONSE;
 import static org.rmj.g3appdriver.dev.Api.ApiResult.getErrorMessage;
@@ -34,8 +34,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-public class RRelation {
-    private static final String TAG = RRelation.class.getSimpleName();
+public class Relation {
+    private static final String TAG = Relation.class.getSimpleName();
 
     private final DRelation poDao;
 
@@ -44,7 +44,7 @@ public class RRelation {
 
     private String message;
 
-    public RRelation(Application instance){
+    public Relation(Application instance){
         this.poDao = GGC_GCircleDB.getInstance(instance).RelDao();
         this.poApi = new GCircleApi(instance);
         this.poHeaders = HttpHeaders.getInstance(instance);
@@ -54,7 +54,7 @@ public class RRelation {
         return message;
     }
 
-    public LiveData<List<ERelation>> getRelation(){
+    public LiveData<List<ERelation>> GetRelations(){
         return poDao.getRelation();
     }
 

@@ -14,25 +14,25 @@ package org.rmj.g3appdriver.GCircle.room.Entities;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
-@Entity(tableName = "GLocator_Sys_log", primaryKeys = {"sUserIDxx", "sDeviceID", "dTransact"})
+@Entity(tableName = "GLocator_Sys_log")
 public class EGLocatorSysLog {
 
+    @PrimaryKey
     @NonNull
+    @ColumnInfo(name = "sLoctnIDx")
+    private String LoctnIDx = "";
     @ColumnInfo(name = "sUserIDxx")
-    private String UserIDxx;
-
-    @NonNull
+    private String UserIDxx = "";
     @ColumnInfo(name = "sDeviceID")
-    private String DeviceID;
-
-    @NonNull
+    private String DeviceID = "";
     @ColumnInfo(name = "dTransact")
     private String Transact = "";
     @ColumnInfo(name = "nLongitud")
-    private String Longitud = "0.00";
+    private Double Longitud = 0.0;
     @ColumnInfo(name = "nLatitude")
-    private String Latitude = "0.00";
+    private Double Latitude = 0.0;
     @ColumnInfo(name = "cSendStat")
     private String SendStat = "0";
     @ColumnInfo(name = "cGpsEnbld")
@@ -47,11 +47,20 @@ public class EGLocatorSysLog {
     public EGLocatorSysLog() {
     }
 
+    @NonNull
+    public String getLoctnIDx() {
+        return LoctnIDx;
+    }
+
+    public void setLoctnIDx(@NonNull String sLoctnIDx) {
+        this.LoctnIDx = sLoctnIDx;
+    }
+
     public String getUserIDxx() {
         return UserIDxx;
     }
 
-    public void setUserIDxx(@NonNull String userIDxx) {
+    public void setUserIDxx(String userIDxx) {
         UserIDxx = userIDxx;
     }
 
@@ -59,7 +68,7 @@ public class EGLocatorSysLog {
         return DeviceID;
     }
 
-    public void setDeviceID(@NonNull String deviceID) {
+    public void setDeviceID(String deviceID) {
         DeviceID = deviceID;
     }
 
@@ -67,23 +76,23 @@ public class EGLocatorSysLog {
         return Transact;
     }
 
-    public void setTransact(@NonNull String transact) {
+    public void setTransact(String transact) {
         Transact = transact;
     }
 
-    public String getLongitud() {
+    public Double getLongitud() {
         return Longitud;
     }
 
-    public void setLongitud(String longitud) {
+    public void setLongitud(Double longitud) {
         Longitud = longitud;
     }
 
-    public String getLatitude() {
+    public Double getLatitude() {
         return Latitude;
     }
 
-    public void setLatitude(String latitude) {
+    public void setLatitude(Double latitude) {
         Latitude = latitude;
     }
 
@@ -93,6 +102,14 @@ public class EGLocatorSysLog {
 
     public void setSendStat(String sendStat) {
         SendStat = sendStat;
+    }
+
+    public String getGpsEnbld() {
+        return GpsEnbld;
+    }
+
+    public void setGpsEnbld(String gpsEnbld) {
+        GpsEnbld = gpsEnbld;
     }
 
     public String getRemarksx() {
@@ -117,13 +134,5 @@ public class EGLocatorSysLog {
 
     public void setLstUpdte(String lstUpdte) {
         LstUpdte = lstUpdte;
-    }
-
-    public String getGpsEnbld() {
-        return GpsEnbld;
-    }
-
-    public void setGpsEnbld(String cGpsEnbld) {
-        this.GpsEnbld = cGpsEnbld;
     }
 }

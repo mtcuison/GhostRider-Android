@@ -19,7 +19,7 @@ import androidx.lifecycle.LiveData;
 
 import org.rmj.g3appdriver.GCircle.room.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeLeave;
-import org.rmj.g3appdriver.GCircle.room.Repositories.RBranch;
+import org.rmj.g3appdriver.lib.Etc.Branch;
 import org.rmj.g3appdriver.GCircle.Apps.PetManager.Obj.EmployeeLeave;
 
 import java.util.List;
@@ -29,13 +29,13 @@ public class VMLeaveList extends AndroidViewModel {
 
     private final Application instance;
     private final EmployeeLeave poLeave;
-    private final RBranch poBranch;
+    private final Branch poBranch;
 
     public VMLeaveList(@NonNull Application application) {
         super(application);
         this.instance = application;
         this.poLeave = new EmployeeLeave(instance);
-        this.poBranch = new RBranch(instance);
+        this.poBranch = new Branch(instance);
     }
 
     public LiveData<List<EEmployeeLeave>> getForApprovalList(){

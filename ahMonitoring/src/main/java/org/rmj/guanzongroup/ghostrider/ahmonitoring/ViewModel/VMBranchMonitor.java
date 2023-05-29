@@ -21,7 +21,7 @@ import androidx.lifecycle.MutableLiveData;
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DBranchPerformance;
 import org.rmj.g3appdriver.GCircle.room.Entities.EBranchPerformance;
 import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeInfo;
-import org.rmj.g3appdriver.GCircle.room.Repositories.RBranch;
+import org.rmj.g3appdriver.lib.Etc.Branch;
 import org.rmj.g3appdriver.GCircle.room.Repositories.RBranchPerformance;
 import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
 import org.rmj.g3appdriver.GCircle.Apps.BullsEye.obj.BranchPerformance;
@@ -33,14 +33,14 @@ public class VMBranchMonitor extends AndroidViewModel {
     private final EmployeeMaster poEmploye;
     private final RBranchPerformance poDatabse;
     private  final BranchPerformance poSys;
-    private final RBranch poBranch;
+    private final Branch poBranch;
     private final MutableLiveData<String> psType = new MutableLiveData<>();
 
     public VMBranchMonitor(@NonNull Application application) {
         super(application);
         poDatabse = new RBranchPerformance(application);
         poSys = new BranchPerformance(application);
-        poBranch = new RBranch(application);
+        poBranch = new Branch(application);
         psType.setValue("MC");
         poEmploye = new EmployeeMaster(application);
     }

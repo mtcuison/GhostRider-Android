@@ -129,8 +129,10 @@ public class GoCasBuilder {
             poGOCas.ResidenceInfo().setRentNoYears(Double.parseDouble(loRent.getString("nLenStayx")));
         }
 
+        if(loResidence.has("cOwnOther")){
+            poGOCas.ResidenceInfo().setOwnedResidenceInfo(loResidence.getString("cOwnOther"));
+        }
         poGOCas.ResidenceInfo().setCareTakerRelation(loResidence.getString("sCtkReltn"));
-        poGOCas.ResidenceInfo().setOwnedResidenceInfo(loResidence.getString("cOwnOther"));
         poGOCas.ResidenceInfo().setHouseType(loResidence.getString("cHouseTyp"));
         poGOCas.ResidenceInfo().hasGarage(loResidence.getString("cGaragexx"));
 
@@ -323,18 +325,19 @@ public class GoCasBuilder {
 
     private void setupSpsPension() throws Exception {
         if(poInfo.getSpsPensn() != null){
-            JSONObject loMeans = new JSONObject(poInfo.getSpsPensn());
-            JSONObject loPension = loMeans.getJSONObject("pensioner");
+            JSONObject loPension = new JSONObject(poInfo.getSpsPensn());
             poGOCas.SpouseMeansInfo().PensionerInfo().setSource(loPension.getString("cPenTypex"));
             poGOCas.SpouseMeansInfo().PensionerInfo().setAmount(Long.parseLong(loPension.getString("nPensionx")));
             poGOCas.SpouseMeansInfo().PensionerInfo().setYearRetired(Integer.parseInt(loPension.getString("nRetrYear")));
 
-            JSONObject loOther = loMeans.getJSONObject("other_income");
-            try {
-                poGOCas.SpouseMeansInfo().setOtherIncomeNature(loOther.getString("sOthrIncm"));
-                //poGOCas.SpouseMeansInfo().setOtherIncomeAmount(Long.parseLong(loOther.getString("nOthrIncm")));
-            } catch (Exception e){
-                e.printStackTrace();
+            if(loPension.has("other_income")) {
+                JSONObject loOther = loPension.getJSONObject("other_income");
+                try {
+                    poGOCas.SpouseMeansInfo().setOtherIncomeNature(loOther.getString("sOthrIncm"));
+                    //poGOCas.SpouseMeansInfo().setOtherIncomeAmount(Long.parseLong(loOther.getString("nOthrIncm")));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -473,8 +476,11 @@ public class GoCasBuilder {
                 poGOCas.CoMakerInfo().ResidenceInfo().setRentNoYears(Double.parseDouble(loRent.getString("nLenStayx")));
             }
 
+            if(loResidence.has("cOwnOther")){
+                poGOCas.CoMakerInfo().ResidenceInfo().setOwnedResidenceInfo(loResidence.getString("cOwnOther"));
+            }
+
             poGOCas.CoMakerInfo().ResidenceInfo().setCareTakerRelation(loResidence.getString("sCtkReltn"));
-            poGOCas.CoMakerInfo().ResidenceInfo().setOwnedResidenceInfo(loResidence.getString("cOwnOther"));
             poGOCas.CoMakerInfo().ResidenceInfo().setHouseType(loResidence.getString("cHouseTyp"));
             poGOCas.CoMakerInfo().ResidenceInfo().hasGarage(loResidence.getString("cGaragexx"));
         }

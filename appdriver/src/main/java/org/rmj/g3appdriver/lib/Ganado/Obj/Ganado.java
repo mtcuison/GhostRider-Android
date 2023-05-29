@@ -59,15 +59,15 @@ public class Ganado {
             loDetail.setPaymForm(loInfo.getPaymForm());
 
             JSONObject joProdct = new JSONObject();
-            joProdct.put("sInvTypCd", loInfo.getInvTypCd());
-            joProdct.put("sBrandIDx", loInfo.getBrandIDx());
-            joProdct.put("sModelIDx", loInfo.getModelIDx());
-            joProdct.put("sColorIDx", loInfo.getColorIDx());
+            joProdct.put("sInvTypCd", "");
+            joProdct.put("sBrandIDx", "");
+            joProdct.put("sModelIDx", "");
+            joProdct.put("sColorIDx", "");
             loDetail.setProdInfo(joProdct.toString());
 
             JSONObject joPayment = new JSONObject();
-            joPayment.put("sTermIDxx", loInfo.getTermIDxx());
-            joPayment.put("nDownPaym", loInfo.getDownPaym());
+            joPayment.put("sTermIDxx", "");
+            joPayment.put("nDownPaym", "");
             loDetail.setPaymInfo(joPayment.toString());
 
             loDetail.setTargetxx("");

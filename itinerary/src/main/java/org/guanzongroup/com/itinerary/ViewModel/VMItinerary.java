@@ -14,7 +14,7 @@ import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
 import org.rmj.g3appdriver.GCircle.Apps.Itinerary.Obj.EmployeeItinerary;
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.EItinerary;
-import org.rmj.g3appdriver.GCircle.room.Repositories.RBranch;
+import org.rmj.g3appdriver.lib.Etc.Branch;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
 import org.rmj.g3appdriver.utils.Task.TaskExecutor;
@@ -26,7 +26,7 @@ public class VMItinerary extends AndroidViewModel {
 
     private final Application instance;
     private final EmployeeItinerary poSys;
-    private final RBranch poBranch;
+    private final Branch poBranch;
     private final EmployeeMaster poUser;
     private final ConnectionUtil poConn;
     private String message;
@@ -51,7 +51,7 @@ public class VMItinerary extends AndroidViewModel {
         super(application);
         this.instance = application;
         this.poSys = new EmployeeItinerary(instance);
-        this.poBranch = new RBranch(instance);
+        this.poBranch = new Branch(instance);
         this.poUser = new EmployeeMaster(instance);
         this.poConn = new ConnectionUtil(instance);
     }

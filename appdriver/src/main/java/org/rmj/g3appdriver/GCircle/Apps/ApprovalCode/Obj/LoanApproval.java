@@ -18,7 +18,7 @@ import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DApprovalCode;
 import org.rmj.g3appdriver.GCircle.room.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.ECodeApproval;
 import org.rmj.g3appdriver.GCircle.room.GGC_GCircleDB;
-import org.rmj.g3appdriver.GCircle.room.Repositories.RBranch;
+import org.rmj.g3appdriver.lib.Etc.Branch;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 
 import java.util.List;
@@ -27,7 +27,7 @@ public class LoanApproval implements SCA {
 
     private final DApprovalCode poDao;
 
-    private final RBranch poBranch;
+    private final Branch poBranch;
     private final GCircleApi poApi;
     private final HttpHeaders poHeaders;
 
@@ -35,7 +35,7 @@ public class LoanApproval implements SCA {
 
     public LoanApproval(Application instance) {
         this.poDao = GGC_GCircleDB.getInstance(instance).ApprovalDao();
-        this.poBranch = new RBranch(instance);
+        this.poBranch = new Branch(instance);
         this.poApi = new GCircleApi(instance);
         this.poHeaders = HttpHeaders.getInstance(instance);
     }

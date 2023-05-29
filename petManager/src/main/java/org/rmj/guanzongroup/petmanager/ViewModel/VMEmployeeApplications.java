@@ -25,7 +25,7 @@ import androidx.lifecycle.MutableLiveData;
 import org.rmj.g3appdriver.GCircle.room.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeBusinessTrip;
 import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeLeave;
-import org.rmj.g3appdriver.GCircle.room.Repositories.RBranch;
+import org.rmj.g3appdriver.lib.Etc.Branch;
 import org.rmj.g3appdriver.GCircle.Apps.PetManager.Obj.EmployeeLeave;
 import org.rmj.g3appdriver.GCircle.Apps.PetManager.Obj.EmployeeOB;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
@@ -38,7 +38,7 @@ public class VMEmployeeApplications extends AndroidViewModel {
     private final Application instance;
     private final EmployeeLeave poLeave;
     private final EmployeeOB poBuss;
-    private final RBranch poBranch;
+    private final Branch poBranch;
 
     private final MutableLiveData<Integer> pnLeave = new MutableLiveData<>();
 
@@ -52,7 +52,7 @@ public class VMEmployeeApplications extends AndroidViewModel {
         super(application);
         this.instance = application;
         this.poLeave = new EmployeeLeave(instance);
-        this.poBranch = new RBranch(instance);
+        this.poBranch = new Branch(instance);
         this.poBuss = new EmployeeOB(instance);
         this.pnLeave.setValue(0);
     }

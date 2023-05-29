@@ -157,6 +157,7 @@
             <ScrollView
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:scrollbars="none"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -258,7 +259,8 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:imeOptions="flagNoExtractUi"
-                                android:inputType="number|none"
+                                android:inputType="number"
+                                android:digits="@string/decimal_only"
                                 android:maxLength="10"
                                 android:textSize="16sp"
                                 android:textStyle="normal" />

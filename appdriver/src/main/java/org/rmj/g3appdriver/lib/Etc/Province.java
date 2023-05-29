@@ -9,7 +9,7 @@
  * project file last modified : 4/24/21 3:18 PM
  */
 
-package org.rmj.g3appdriver.GCircle.room.Repositories;
+package org.rmj.g3appdriver.lib.Etc;
 
 import static org.rmj.g3appdriver.dev.Api.ApiResult.SERVER_NO_RESPONSE;
 import static org.rmj.g3appdriver.dev.Api.ApiResult.getErrorMessage;
@@ -33,8 +33,8 @@ import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import java.util.Date;
 import java.util.List;
 
-public class RProvince {
-    private static final String TAG = RProvince.class.getSimpleName();
+public class Province {
+    private static final String TAG = Province.class.getSimpleName();
 
     private DProvinceInfo poDao;
 
@@ -43,7 +43,7 @@ public class RProvince {
 
     private String message;
 
-    public RProvince(Application instance){
+    public Province(Application instance){
         this.poDao = GGC_GCircleDB.getInstance(instance).ProvinceDao();
         this.poApi = new GCircleApi(instance);
         this.poHeaders = HttpHeaders.getInstance(instance);

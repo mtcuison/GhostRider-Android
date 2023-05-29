@@ -8,6 +8,7 @@ public class InquiryInfo {
     private String sModelIDx = "";
     private String sColorIDx = "";
     private String sTermIDxx = "";
+    private String dTargetxx = "";
     private String nDownPaym = "";
 
 
@@ -92,6 +93,14 @@ public class InquiryInfo {
         this.sTermIDxx = sTermIDxx;
     }
 
+    public String getdTargetxx() {
+        return dTargetxx;
+    }
+
+    public void setdTargetxx(String dTargetxx) {
+        this.dTargetxx = dTargetxx;
+    }
+
     public String getDownPaym() {
         return nDownPaym;
     }
@@ -133,6 +142,11 @@ public class InquiryInfo {
 
         if(sColorIDx.isEmpty()) {
             message = "Please select which color you prefer.";
+            return false;
+        }
+
+        if(dTargetxx.isEmpty()){
+            message = "Please select the target date for getting the unit.";
             return false;
         }
 

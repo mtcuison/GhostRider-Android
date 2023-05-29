@@ -34,7 +34,7 @@ import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.EClientUpdate;
 import org.rmj.g3appdriver.GCircle.room.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GCircle.room.Repositories.RDailyCollectionPlan;
-import org.rmj.g3appdriver.GCircle.room.Repositories.RTown;
+import org.rmj.g3appdriver.lib.Etc.Town;
 import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_CollectionList;
@@ -45,7 +45,7 @@ public class DialogAccountDetail {
     private static final String TAG = DialogAccountDetail.class.getSimpleName();
     private AlertDialog poDialogx;
     private final Context context;
-    private RTown poTown;
+    private Town poTown;
     private RDailyCollectionPlan poDCPRepo;
     private MessageBox poMessage;
 
@@ -69,7 +69,7 @@ public class DialogAccountDetail {
         poDialogx = loBuilder.create();
         poDialogx.setCancelable(false);
 
-        poTown = new RTown(activity.getApplication());
+        poTown = new Town(activity.getApplication());
         poDCPRepo = new RDailyCollectionPlan(activity.getApplication());
         MaterialTextView lblReferNo = view.findViewById(R.id.lbl_dcpReferNo);
         MaterialTextView lblTransNo = view.findViewById(R.id.lbl_dcpTransNo);

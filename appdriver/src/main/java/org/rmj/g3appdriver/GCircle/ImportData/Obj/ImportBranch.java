@@ -13,15 +13,15 @@ package org.rmj.g3appdriver.GCircle.ImportData.Obj;
 
 import android.app.Application;
 
-import org.rmj.g3appdriver.GCircle.room.Repositories.RBranch;
+import org.rmj.g3appdriver.lib.Etc.Branch;
 import org.rmj.g3appdriver.GCircle.ImportData.model.ImportDataCallback;
 import org.rmj.g3appdriver.GCircle.ImportData.model.ImportInstance;
 
 public class ImportBranch implements ImportInstance {
-    private final RBranch poSys;
+    private final Branch poSys;
 
     public ImportBranch(Application instance){
-        this.poSys = new RBranch(instance);
+        this.poSys = new Branch(instance);
     }
 
     @Override

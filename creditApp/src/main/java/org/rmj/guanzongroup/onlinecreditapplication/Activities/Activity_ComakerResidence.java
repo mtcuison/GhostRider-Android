@@ -159,13 +159,25 @@ public class Activity_ComakerResidence extends AppCompatActivity {
     }
 
     private void SaveComakerResidenceInfo() {
-
         mViewModel.getModel().setLandMark(txtLandMark.getText().toString().trim());
         mViewModel.getModel().setHouseNox(txtHouseNox.getText().toString().trim());
         mViewModel.getModel().setAddress1(txtAddress1.getText().toString().trim());
         mViewModel.getModel().setAddress2(txtAddress2.getText().toString().trim());
-
         mViewModel.getModel().setOwnerRelation(Objects.requireNonNull(txtRelationship.getText()).toString());
+
+        if (mViewModel.getModel().getHouseOwn().equalsIgnoreCase("1") ||
+                mViewModel.getModel().getHouseOwn().equalsIgnoreCase("2")) {
+            if (txtLgnthStay.getText().toString().isEmpty()) {
+                mViewModel.getModel().setLenghtOfStay(0);
+            } else {
+                mViewModel.getModel().setLenghtOfStay(Double.parseDouble(txtLgnthStay.getText().toString()));
+            }
+            if (txtMonthlyExp.getText().toString().isEmpty()) {
+                mViewModel.getModel().setMonthlyExpenses(0);
+            } else {
+                mViewModel.getModel().setMonthlyExpenses(Double.parseDouble(txtMonthlyExp.getText().toString()));
+            }
+        }
 
         mViewModel.SaveData(new OnSaveInfoListener() {
             @Override
@@ -313,7 +325,7 @@ public class Activity_ComakerResidence extends AppCompatActivity {
                     txtMonthlyExp.setText(FormatUIText.getCurrencyUIFormat(String.valueOf(infoModel.getMonthlyExpenses())));
                 }
 
-                int nlength = (int) (infoModel.getLenghtofStay() * 12);
+                double nlength = (int) (infoModel.getLenghtofStay() * 12);
                 if (nlength < 12) {
                     txtLgnthStay.setText(String.valueOf(nlength));
                     spnLgnthStay.setText(CreditAppConstants.LENGTH_OF_STAY[0], false);

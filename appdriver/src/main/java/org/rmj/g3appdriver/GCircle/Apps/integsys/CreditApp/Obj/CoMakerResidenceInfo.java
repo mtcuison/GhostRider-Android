@@ -18,8 +18,8 @@ import org.rmj.g3appdriver.GCircle.room.Entities.ECountryInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.EOccupationInfo;
 import org.rmj.g3appdriver.GCircle.room.GGC_GCircleDB;
-import org.rmj.g3appdriver.GCircle.room.Repositories.RBarangay;
-import org.rmj.g3appdriver.GCircle.room.Repositories.RTown;
+import org.rmj.g3appdriver.lib.Etc.Barangay;
+import org.rmj.g3appdriver.lib.Etc.Town;
 import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.CreditApp;
 import org.rmj.gocas.base.GOCASApplication;
 
@@ -29,8 +29,8 @@ public class CoMakerResidenceInfo implements CreditApp {
     private static final String TAG = CoMakerResidenceInfo.class.getSimpleName();
 
     private final DCreditApplication poDao;
-    private final RTown poTown;
-    private final RBarangay poBrgy;
+    private final Town poTown;
+    private final Barangay poBrgy;
 
     private CoMakerResidence poDetail;
 
@@ -38,8 +38,8 @@ public class CoMakerResidenceInfo implements CreditApp {
 
     public CoMakerResidenceInfo(Application instance) {
         this.poDao = GGC_GCircleDB.getInstance(instance).CreditApplicationDao();
-        this.poTown = new RTown(instance);
-        this.poBrgy = new RBarangay(instance);
+        this.poTown = new Town(instance);
+        this.poBrgy = new Barangay(instance);
     }
 
     @Override
@@ -73,6 +73,16 @@ public class CoMakerResidenceInfo implements CreditApp {
                 loDetail.setMunicipalNm(loBrgy.sTownName);
                 loDetail.setBarangayName(loBrgy.sBrgyName);
 
+                //TODO: make a validation of value for length of stay which
+                // will display if the applicant stays for a year or only for a month
+                double lnLength = gocas.CoMakerInfo().ResidenceInfo().getRentNoYears();
+
+                if(lnLength % 1 == 0){
+                    loDetail.setIsYear(1);
+                } else {
+                    loDetail.setIsYear(0);
+                }
+
                 Log.d(TAG, "House Ownership: " + gocas.CoMakerInfo().ResidenceInfo().getOwnership());
                 loDetail.setOwnerRelation(gocas.CoMakerInfo().ResidenceInfo().getCareTakerRelation());
 
@@ -84,23 +94,13 @@ public class CoMakerResidenceInfo implements CreditApp {
 
                 loDetail.setHouseOwn(gocas.CoMakerInfo().ResidenceInfo().getOwnership());
 
-                loDetail.setHouseHold(gocas.CoMakerInfo().ResidenceInfo().getOwnedResidenceInfo());
+                loDetail.setHouseHold(gocas.CoMakerInfo().ResidenceInfo().getRentedResidenceInfo());
                 loDetail.setHouseType(gocas.CoMakerInfo().ResidenceInfo().getHouseType());
                 loDetail.setHasGarage(gocas.CoMakerInfo().ResidenceInfo().hasGarage());
 
-//                loDetail.setOwnerRelation(gocas.CoMakerInfo().ResidenceInfo().getOwnership());
-//                loDetail.setLenghtOfStay(gocas.CoMakerInfo().ResidenceInfo().getRentNoYears());
-//                loDetail.setMonthlyExpenses(gocas.CoMakerInfo().ResidenceInfo().getRentExpenses());
-
-                //TODO: make a validation of value for length of stay which
-                // will display if the applicant stays for a year or only for a month
-                double lnLength = gocas.CoMakerInfo().ResidenceInfo().getRentNoYears();
-
-                if(lnLength % 1 == 0){
-                    loDetail.setIsYear(1);
-                } else {
-                    loDetail.setIsYear(0);
-                }
+                loDetail.setOwnerRelation(gocas.CoMakerInfo().ResidenceInfo().getOwnership());
+                loDetail.setLenghtOfStay(gocas.CoMakerInfo().ResidenceInfo().getRentNoYears());
+                loDetail.setMonthlyExpenses(gocas.CoMakerInfo().ResidenceInfo().getRentExpenses());
 
                 poDetail = loDetail;
             }
@@ -170,6 +170,7 @@ public class CoMakerResidenceInfo implements CreditApp {
             gocas.CoMakerInfo().ResidenceInfo().setRentExpenses(loDetail.getMonthlyExpenses());
             gocas.CoMakerInfo().ResidenceInfo().setRentNoYears(loDetail.getLenghtofStay());
             gocas.CoMakerInfo().ResidenceInfo().hasGarage(loDetail.getHasGarage());
+            Log.d(TAG, gocas.CoMakerInfo().ResidenceInfo().toJSONString());
             loApp.setCmResidx(gocas.CoMakerInfo().ResidenceInfo().toJSONString());
             poDao.Update(loApp);
             return loDetail.getTransNox();

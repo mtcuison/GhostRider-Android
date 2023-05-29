@@ -30,7 +30,7 @@ public interface DGanadoOnline {
     @Query("UPDATE Ganado_Online SET cSendStat = '1', sTransNox =:NewTransNo WHERE sTransNox=:TransNox")
     void UpdateSentInquiry(String TransNox, String NewTransNo);
 
-    @Query("SELECT * FROM MC_Brand WHERE sBrandNme")
+    @Query("SELECT * FROM MC_Brand WHERE sBrandNme IN ('HONDA', 'SUZUKI', 'KAWASAKI', 'YAMAHA')")
     LiveData<List<EMcBrand>> getAllMcBrand();
 
     @Query("SELECT * FROM Mc_Model WHERE sBrandIDx = :BrandID")

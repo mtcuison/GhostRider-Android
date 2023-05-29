@@ -17,11 +17,11 @@ import org.rmj.g3appdriver.GCircle.room.Entities.ECreditApplication;
 import org.rmj.g3appdriver.GCircle.room.Entities.EMcModel;
 import org.rmj.g3appdriver.GCircle.room.Entities.EOccupationInfo;
 import org.rmj.g3appdriver.GCircle.room.GGC_GCircleDB;
-import org.rmj.g3appdriver.GCircle.room.Repositories.RBarangay;
-import org.rmj.g3appdriver.GCircle.room.Repositories.RCountry;
+import org.rmj.g3appdriver.lib.Etc.Barangay;
+import org.rmj.g3appdriver.lib.Etc.Country;
 import org.rmj.g3appdriver.GCircle.room.Repositories.RMcModel;
 import org.rmj.g3appdriver.GCircle.room.Repositories.ROccupation;
-import org.rmj.g3appdriver.GCircle.room.Repositories.RTown;
+import org.rmj.g3appdriver.lib.Etc.Town;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.CreditApp;
@@ -40,20 +40,20 @@ public class ReviewLoanInfo implements CreditApp {
     private static final String TAG = ReviewLoanInfo.class.getSimpleName();
 
     private final DCreditApplication poDao;
-    private final RTown poTown;
+    private final Town poTown;
     private final RMcModel poModel;
-    private final RBarangay poBarangay;
-    private final RCountry poCountry;
+    private final Barangay poBarangay;
+    private final Country poCountry;
     private final ROccupation poJobx;
     private List<ReviewAppDetail> loListDetail;
     private String message;
 
     public ReviewLoanInfo(Application instance) {
         this.poDao = GGC_GCircleDB.getInstance(instance).CreditApplicationDao();
-        this.poTown = new RTown(instance);
+        this.poTown = new Town(instance);
         this.poModel = new RMcModel(instance);
-        this.poBarangay = new RBarangay(instance);
-        this.poCountry = new RCountry(instance);
+        this.poBarangay = new Barangay(instance);
+        this.poCountry = new Country(instance);
         this.poJobx = new ROccupation(instance);
         this.loListDetail = new ArrayList<>();
     }
@@ -128,8 +128,10 @@ public class ReviewLoanInfo implements CreditApp {
             loListDetl.add(new ReviewAppDetail(false, "", "Province", loPresent.sProvName));
 
             loListDetl.add(new ReviewAppDetail(false, "", "House Ownership", parseHouseOwn(loGOCas.ResidenceInfo().getOwnership())));
-            if (loGOCas.ResidenceInfo().getOwnership().equalsIgnoreCase("1")) {
-                loListDetl.add(new ReviewAppDetail(false, "", "HouseHolds", parseHouseHold(loGOCas.ResidenceInfo().getRentedResidenceInfo())));
+            if (loGOCas.ResidenceInfo().getOwnership().equalsIgnoreCase("0")) {
+                loListDetl.add(new ReviewAppDetail(false, "", "House Hold", parseHouseHold(loGOCas.ResidenceInfo().getOwnedResidenceInfo())));
+            } else if (loGOCas.ResidenceInfo().getOwnership().equalsIgnoreCase("1")) {
+                loListDetl.add(new ReviewAppDetail(false, "", "House Holds", parseHouseHold(loGOCas.ResidenceInfo().getRentedResidenceInfo())));
 
                 String lsExp = String.valueOf(loGOCas.ResidenceInfo().getRentExpenses());
                 loListDetl.add(new ReviewAppDetail(false, "", "Monthly Rent", lsExp));
@@ -137,7 +139,7 @@ public class ReviewLoanInfo implements CreditApp {
             } else if (loGOCas.ResidenceInfo().getOwnership().equalsIgnoreCase("2")) {
                 loListDetl.add(new ReviewAppDetail(false, "", "House Owner", loGOCas.ResidenceInfo().getCareTakerRelation()));
             }
-            loListDetl.add(new ReviewAppDetail(false, "", "House Hold", parseHouseHold(loGOCas.ResidenceInfo().getOwnedResidenceInfo())));
+
             loListDetl.add(new ReviewAppDetail(false, "", "House Type", parseHouseType(loGOCas.ResidenceInfo().getHouseType())));
             loListDetl.add(new ReviewAppDetail(false, "", "Has Garage", parseGarage(loGOCas.ResidenceInfo().hasGarage())));
 
@@ -299,7 +301,7 @@ public class ReviewLoanInfo implements CreditApp {
                 loListDetl.add(new ReviewAppDetail(false, "", "Suffix", loGOCas.SpouseInfo().PersonalInfo().getSuffixName()));
                 loListDetl.add(new ReviewAppDetail(false, "", "Nickname", loGOCas.SpouseInfo().PersonalInfo().getNickName()));
 
-                String lsBirthDte = FormatUIText.getBirthDateUIFormat(loGOCas.SpouseInfo().PersonalInfo().getBirthdate());
+                String lsBirthDte = FormatUIText.formatGOCasBirthdate(loGOCas.SpouseInfo().PersonalInfo().getBirthdate());
                 loListDetl.add(new ReviewAppDetail(false, "", "Birthdate", lsBirthDte));
 
                 DTownInfo.TownProvinceName loBPlaceS = poTown.getTownProvinceName(loGOCas.SpouseInfo().PersonalInfo().getBirthPlace());
@@ -352,8 +354,10 @@ public class ReviewLoanInfo implements CreditApp {
                 //Spouse Residence Info End
 
                 // TODO: Spouse Employment Info Start
-                if (!loGOCas.SpouseMeansInfo().EmployedInfo().getCompanyLevel().equalsIgnoreCase("null") &&
-                        !loGOCas.SpouseMeansInfo().EmployedInfo().getEmployeeLevel().equalsIgnoreCase("null")) {
+                String lsCompLvl = loGOCas.SpouseMeansInfo().EmployedInfo().getCompanyLevel();
+                String lsEmpLvel = loGOCas.SpouseMeansInfo().EmployedInfo().getEmployeeLevel();
+                if (lsCompLvl != null &&
+                lsEmpLvel != null) {
                     loListDetl.add(new ReviewAppDetail(true, "Spouse Employment Information", "", ""));
                     if (loGOCas.SpouseMeansInfo().EmployedInfo().getEmploymentSector().equalsIgnoreCase("1")) {
                         // Private Sector
@@ -442,7 +446,8 @@ public class ReviewLoanInfo implements CreditApp {
                     int lnBzNatur = Integer.parseInt(loGOCas.SpouseMeansInfo().SelfEmployedInfo().getNatureOfBusiness());
                     loListDetl.add(new ReviewAppDetail(false, "", "Nature of Business", CreditAppConstants.BUSINESS_NATURE[lnBzNatur]));
 
-                    DTownInfo.TownProvinceName loAddrs = poTown.getTownProvinceName(loGOCas.SpouseMeansInfo().SelfEmployedInfo().getBusinessTown());
+                    String lsTown = loGOCas.SpouseMeansInfo().SelfEmployedInfo().getBusinessTown();
+                    DTownInfo.TownProvinceName loAddrs = poTown.getTownProvinceName(lsTown);
                     loListDetl.add(new ReviewAppDetail(false, "", "Street/Bldg./Barangay", loGOCas.SpouseMeansInfo().SelfEmployedInfo().getBusinessAddress()));
                     loListDetl.add(new ReviewAppDetail(false, "", "Province", loAddrs.sProvName));
                     loListDetl.add(new ReviewAppDetail(false, "", "Town/City", loAddrs.sTownName));
@@ -620,16 +625,19 @@ public class ReviewLoanInfo implements CreditApp {
             loListDetl.add(new ReviewAppDetail(false, "", "Province", coPresent.sProvName));
 
             loListDetl.add(new ReviewAppDetail(false, "", "House Ownership", parseHouseOwn(coResIdx.get("cOwnershp").toString())));
-            if (coResIdx.get("cOwnershp").toString().equalsIgnoreCase("1")) {
-                loListDetl.add(new ReviewAppDetail(false, "", "HouseHolds", parseHouseHold(loGOCas.CoMakerInfo().ResidenceInfo().getRentedResidenceInfo())));
+            if(coResIdx.get("cOwnershp").toString().equalsIgnoreCase("0")){
+                loListDetl.add(new ReviewAppDetail(false, "", "House Hold", parseHouseHold(coResIdx.get("cOwnOther").toString())));
+            } else if (coResIdx.get("cOwnershp").toString().equalsIgnoreCase("1")) {
+                org.json.JSONObject joRent = coResIdx.getJSONObject("rent_others");
+                loListDetl.add(new ReviewAppDetail(false, "", "HouseHolds", parseHouseHold(joRent.get("cRntOther").toString())));
 
-                String lsExp = String.valueOf(loGOCas.CoMakerInfo().ResidenceInfo().getRentExpenses());
+                String lsExp = joRent.get("nRentExps").toString();
                 loListDetl.add(new ReviewAppDetail(false, "", "Monthly Rent", lsExp));
-                //loListDetl.add(new ReviewAppDetail(false, "", "Length of Stay", loGOCas.ResidenceInfo().getRentNoYears()));
+                loListDetl.add(new ReviewAppDetail(false, "", "Length of Stay", joRent.get("nLenStayx").toString()));
             } else if (coResIdx.get("cOwnershp").toString().equalsIgnoreCase("2")) {
                 loListDetl.add(new ReviewAppDetail(false, "", "House Owner", loGOCas.CoMakerInfo().ResidenceInfo().getCareTakerRelation()));
             }
-            loListDetl.add(new ReviewAppDetail(false, "", "House Hold", parseHouseHold(coResIdx.get("cOwnOther").toString())));
+
             loListDetl.add(new ReviewAppDetail(false, "", "House Type", parseHouseType(coResIdx.get("cHouseTyp").toString())));
             loListDetl.add(new ReviewAppDetail(false, "", "Has Garage", parseGarage(coResIdx.get("cGaragexx").toString())));
             loListDetail = loListDetl;

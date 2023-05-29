@@ -17,8 +17,8 @@ import org.rmj.g3appdriver.GCircle.room.Entities.ECountryInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.EOccupationInfo;
 import org.rmj.g3appdriver.GCircle.room.GGC_GCircleDB;
-import org.rmj.g3appdriver.GCircle.room.Repositories.RBarangay;
-import org.rmj.g3appdriver.GCircle.room.Repositories.RTown;
+import org.rmj.g3appdriver.lib.Etc.Barangay;
+import org.rmj.g3appdriver.lib.Etc.Town;
 import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.CreditApp;
 import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.model.ClientResidence;
 import org.rmj.gocas.base.GOCASApplication;
@@ -29,8 +29,8 @@ public class ResidenceInfo implements CreditApp {
     private static final String TAG = ResidenceInfo.class.getSimpleName();
 
     private final DCreditApplication poDao;
-    private final RTown poTown;
-    private final RBarangay poBrgy;
+    private final Town poTown;
+    private final Barangay poBrgy;
 
     private ClientResidence poDetail;
 
@@ -38,8 +38,8 @@ public class ResidenceInfo implements CreditApp {
 
     public ResidenceInfo(Application instance) {
         this.poDao = GGC_GCircleDB.getInstance(instance).CreditApplicationDao();
-        this.poTown = new RTown(instance);
-        this.poBrgy = new RBarangay(instance);
+        this.poTown = new Town(instance);
+        this.poBrgy = new Barangay(instance);
     }
 
     @Override
@@ -185,6 +185,7 @@ public class ResidenceInfo implements CreditApp {
             gocas.ResidenceInfo().PermanentAddress().setAddress2(loDetail.getPermanentAddress2());
             gocas.ResidenceInfo().PermanentAddress().setTownCity(loDetail.getPermanentMunicipalID());
             gocas.ResidenceInfo().PermanentAddress().setBarangay(loDetail.getPermanentBarangayID());
+            Log.d(TAG, gocas.ResidenceInfo().toJSONString());
             loApp.setResidnce(gocas.ResidenceInfo().toJSONString());
             if(loDetail.isOneAddress()){
                 loApp.setSameAddx("1");

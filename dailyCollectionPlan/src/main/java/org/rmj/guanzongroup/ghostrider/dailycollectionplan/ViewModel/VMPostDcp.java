@@ -19,7 +19,7 @@ import androidx.lifecycle.LiveData;
 
 import org.rmj.g3appdriver.GCircle.room.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.EDCPCollectionDetail;
-import org.rmj.g3appdriver.GCircle.room.Repositories.RBranch;
+import org.rmj.g3appdriver.lib.Etc.Branch;
 import org.rmj.g3appdriver.GCircle.room.Repositories.RDailyCollectionPlan;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
@@ -33,13 +33,13 @@ public class VMPostDcp extends AndroidViewModel {
     private static final String TAG = VMPostDcp.class.getSimpleName();
     private final Application instance;
     private final RDailyCollectionPlan poDcpRepo;
-    private final RBranch poBranchx;
+    private final Branch poBranchx;
 
     public VMPostDcp(@NonNull Application application) {
         super(application);
         this.instance = application;
         this.poDcpRepo = new RDailyCollectionPlan(instance);
-        this.poBranchx = new RBranch(application);
+        this.poBranchx = new Branch(application);
     }
 
     public LiveData<EBranchInfo> getUserBranchInfo(){

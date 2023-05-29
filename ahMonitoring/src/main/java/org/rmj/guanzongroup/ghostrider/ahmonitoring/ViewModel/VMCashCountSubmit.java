@@ -20,7 +20,7 @@ import androidx.lifecycle.LiveData;
 
 import org.json.JSONObject;
 import org.rmj.g3appdriver.GCircle.room.Entities.EBranchInfo;
-import org.rmj.g3appdriver.GCircle.room.Repositories.RBranch;
+import org.rmj.g3appdriver.lib.Etc.Branch;
 import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
 import org.rmj.g3appdriver.GCircle.Apps.integsys.CashCount.CashCount;
 import org.rmj.g3appdriver.GCircle.Apps.integsys.CashCount.QuickSearchNames;
@@ -37,14 +37,14 @@ public class VMCashCountSubmit extends AndroidViewModel {
     private final EmployeeMaster poEmploye;
     private final CashCount poSys;
     private final ConnectionUtil poConn;
-    private final RBranch poBranch;
+    private final Branch poBranch;
     private String message;
     public VMCashCountSubmit(@NonNull Application application) {
         super(application);
         this.instance = application;
         this.poSys = new CashCount(application);
         this.poEmploye = new EmployeeMaster(application);
-        this.poBranch = new RBranch(application);
+        this.poBranch = new Branch(application);
         this.poConn = new ConnectionUtil(application);
     }
 
