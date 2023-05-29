@@ -1,25 +1,50 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="20dp"
-    android:gravity="center">
+    android:gravity="center"
+    app:cardCornerRadius="15dp"
+    android:theme="@style/GhostRiderMaterialTheme">
+
+
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="162dp"
         android:layout_height="200dp"
         android:scaleType="centerCrop"
         android:id="@+id/imageView"
+        app:cardBackgroundColor="@color/cardview_shadow_start_color"
         app:cardCornerRadius="20dp">
-
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/imagebrand0"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/itemName"
+                style="@style/GhostRiderMaterialTheme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto"
+                android:text="HONDA"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                android:layout_marginBottom="5dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/imagemodel0"
+            android:layout_width="match_parent"
+            android:layout_height="165dp"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
-            android:src="@drawable/brand0"
+            android:src="@drawable/honda1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -27,18 +52,5 @@
 
     </com.google.android.material.card.MaterialCardView>
 
-
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/itemName"
-        android:text="HONDA"
-        style="@style/GhostRiderMaterialTheme"
-        android:textSize="28sp"
-        android:fontFamily="@font/roboto"
-        android:layout_marginTop="-115dp"
-        android:textAlignment="center"
-        />
 
 </LinearLayout>
