@@ -1,18 +1,16 @@
 package org.rmj.guanzongroup.ganado.ViewModel;
 
-import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
-
 import android.app.Application;
 import android.content.Intent;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+
 import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.OnSaveInfoListener;
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.EGanadoOnline;
-import org.rmj.g3appdriver.GCircle.room.Repositories.RTown;
+import org.rmj.g3appdriver.lib.Etc.Town;
 import org.rmj.g3appdriver.lib.Ganado.Obj.Ganado;
 import org.rmj.g3appdriver.lib.Ganado.pojo.ClientInfo;
 import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
@@ -29,13 +27,13 @@ public class VMPersonalInfo extends AndroidViewModel implements GanadoUI {
     private String TransNox;
 
     private String message;
-    private final RTown poTown;
+    private final Town poTown;
 
     public VMPersonalInfo(@NonNull Application application) {
         super(application);
         this.poApp = new Ganado(application);
         this.poModel = new ClientInfo();
-        this.poTown = new RTown(application);
+        this.poTown = new Town(application);
     }
 
     public ClientInfo getModel() {
