@@ -7,6 +7,7 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import org.rmj.g3appdriver.GCircle.room.Entities.EGanadoOnline;
+import org.rmj.g3appdriver.GCircle.room.Entities.EMCColor;
 import org.rmj.g3appdriver.GCircle.room.Entities.EMcBrand;
 import org.rmj.g3appdriver.GCircle.room.Entities.EMcModel;
 
@@ -35,6 +36,9 @@ public interface DGanadoOnline {
 
     @Query("SELECT * FROM Mc_Model WHERE sBrandIDx = :BrandID")
     LiveData<List<EMcModel>> getAllModeFromBrand(String BrandID);
+
+    @Query("SELECT * FROM MC_Model_Color WHERE sModelIDx =:ModelID")
+    LiveData<List<EMCColor>> GetModelColors(String ModelID);
 
     @Query("SELECT  " +
             "a.nSelPrice, " +
