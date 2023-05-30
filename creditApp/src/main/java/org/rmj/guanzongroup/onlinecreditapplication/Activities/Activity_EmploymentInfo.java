@@ -47,7 +47,7 @@ public class Activity_EmploymentInfo extends AppCompatActivity {
             poMessage;
     private MaterialAutoCompleteTextView
             spnCmpLvl, spnEmpLvl, spnBusNtr, spnEmpSts, spnServce,
-            txtCntryx, txtProvNm, txtTownNm, txtJobNme;
+            txtCntryx, txtTownNm, txtJobNme;
     private TextInputLayout
             tilCntryx, tilCompNm, tilBizNatr, tilEmpLevel, tilEmpntLevel;
     private TextInputEditText
