@@ -120,6 +120,7 @@ import org.rmj.g3appdriver.GCircle.room.Entities.EInventoryDetail;
 import org.rmj.g3appdriver.GCircle.room.Entities.EInventoryMaster;
 import org.rmj.g3appdriver.GCircle.room.Entities.EItinerary;
 import org.rmj.g3appdriver.GCircle.room.Entities.ELoanTerm;
+import org.rmj.g3appdriver.GCircle.room.Entities.EMCColor;
 import org.rmj.g3appdriver.GCircle.room.Entities.EMcBrand;
 import org.rmj.g3appdriver.GCircle.room.Entities.EMcCategory;
 import org.rmj.g3appdriver.GCircle.room.Entities.EMcModel;
@@ -154,6 +155,7 @@ import org.rmj.g3appdriver.GCircle.room.Entities.EUncapturedClient;
         EMcCategory.class,
         EProvinceInfo.class,
         EMcModelPrice.class,
+        EMCColor.class,
         ETownInfo.class,
         EBarangayInfo.class,
         EMcTermCategory.class,

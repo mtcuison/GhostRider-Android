@@ -95,4 +95,17 @@ public class TestImportData {
 
         assertTrue(isSuccess);
     }
+
+    @Test
+    public void test06ImportMcColor() {
+        boolean isSuccess = false;
+        RMcModel loSys = new RMcModel(instance);
+        if(!loSys.ImportModelColor()){
+            Log.e(TAG, loSys.getMessage());
+        } else {
+            isSuccess = true;
+        }
+
+        assertTrue(isSuccess);
+    }
 }

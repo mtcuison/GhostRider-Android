@@ -28,7 +28,17 @@ public class ImportBrandModel implements ImportInstance {
     @Override
     public void ImportData(ImportDataCallback callback) {
         if(!poSys.ImportMCModel()){
-            callback.OnFailedImportData(poSys.getMessage());
+            try {
+                Thread.sleep(1000);
+
+                if(!poSys.ImportModelColor()) {
+                    callback.OnFailedImportData(poSys.getMessage());
+                } else {
+                    callback.OnSuccessImportData();
+                }
+            } catch (Exception e){
+                e.printStackTrace();
+            }
         } else {
             callback.OnSuccessImportData();
         }

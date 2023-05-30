@@ -24,6 +24,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.apprdiver.util.SQLUtil;
 import org.rmj.g3appdriver.GCircle.Api.GCircleApi;
+import org.rmj.g3appdriver.GCircle.room.Entities.EMCColor;
 import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DMcModel;
 import org.rmj.g3appdriver.GCircle.room.Entities.EMcModel;
@@ -58,18 +59,8 @@ public class RMcModel {
         return poDao.getAllModeFromBrand(BrandID);
     }
 
-    public LiveData<String[]> getAllMcModelName(String BrandID){
-        return poDao.getAllModelName(BrandID);
-    }
-    public String getModelName(String ModelIDx){
-       return poDao.getModelName(ModelIDx);
-    }
     public String getLatestDataTime(){
         return poDao.getLatestDataTime();
-    }
-
-    public void insertBulkData(List<EMcModel> modelList){
-        poDao.insertBulkData(modelList);
     }
 
     public EMcModel getModelInfo(String TransNox){
@@ -116,6 +107,7 @@ public class RMcModel {
             JSONArray laJson = loResponse.getJSONArray("detail");
             for(int x = 0; x < laJson.length(); x++){
                 JSONObject loJson = laJson.getJSONObject(x);
+                Log.d(TAG, "Json value: " + loJson.toString());
                 EMcModel loDetail = poDao.GetMCModel(loJson.getString("sModelIDx"));
 
                 if(loDetail == null) {
@@ -149,6 +141,72 @@ public class RMcModel {
                         loDetail.setEngineTp(loJson.getString("cEngineTp"));
                         loDetail.setHotItemx(loJson.getString("cHotItemx"));
                         loDetail.setRecdStat(loJson.getString("cRecdStat"));
+                        loDetail.setTimeStmp(loJson.getString("dTimeStmp"));
+                        poDao.update(loDetail);
+                        Log.d(TAG, "Mc model info has been updated.");
+                    }
+                }
+            }
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = getLocalMessage(e);
+            return false;
+        }
+    }
+
+    public boolean ImportModelColor(){
+        try{
+            JSONObject params = new JSONObject();
+            params.put("bsearch", true);
+            params.put("descript", "All");
+
+            EMCColor loObj = poDao.GetLatestMcColorTimeStamp();
+            if(loObj != null) {
+                params.put("timestamp", loObj.getTimeStmp());
+            }
+
+            String lsResponse = WebClient.sendRequest(
+                    poApi.getUrlImportMcModelColor(),
+                    params.toString(),
+                    poHeaders.getHeaders());
+
+            if(lsResponse == null){
+                message = SERVER_NO_RESPONSE;
+                return false;
+            }
+
+            JSONObject loResponse = new JSONObject(Objects.requireNonNull(lsResponse));
+            String lsResult = loResponse.getString("result");
+            if(lsResult.equalsIgnoreCase("error")){
+                JSONObject loError = loResponse.getJSONObject("error");
+                message = getErrorMessage(loError);
+                return false;
+            }
+
+            JSONArray laJson = loResponse.getJSONArray("detail");
+            for(int x = 0; x < laJson.length(); x++){
+                JSONObject loJson = laJson.getJSONObject(x);
+                Log.d(TAG, "Json value: " + loJson.toString());
+                String lsModelID = loJson.getString("sModelIDx");
+                String lsColorID = loJson.getString("sColorIDx");
+                EMCColor loDetail = poDao.GetModelColor(lsModelID, lsColorID);
+
+                if(loDetail == null) {
+                    EMCColor loModel = new EMCColor();
+                    loModel.setModelIDx(loJson.getString("sModelIDx"));
+                    loModel.setColorIDx(loJson.getString("sColorIDx"));
+                    loModel.setColorNme(loJson.getString("sColorNme"));
+                    loModel.setTimeStmp(loJson.getString("dTimeStmp"));
+                    poDao.insert(loModel);
+                    Log.d(TAG, "Mc model info has been saved.");
+                } else {
+                    Date ldDate1 = SQLUtil.toDate(loDetail.getTimeStmp(), SQLUtil.FORMAT_TIMESTAMP);
+                    Date ldDate2 = SQLUtil.toDate((String) loJson.get("dTimeStmp"), SQLUtil.FORMAT_TIMESTAMP);
+                    if (!ldDate1.equals(ldDate2)) {
+                        loDetail.setModelIDx(loJson.getString("sModelIDx"));
+                        loDetail.setColorIDx(loJson.getString("sColorIDx"));
+                        loDetail.setColorNme(loJson.getString("sColorNme"));
                         loDetail.setTimeStmp(loJson.getString("dTimeStmp"));
                         poDao.update(loDetail);
                         Log.d(TAG, "Mc model info has been updated.");

@@ -7,6 +7,8 @@ import android.app.Application;
 import androidx.lifecycle.LiveData;
 
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DGanadoOnline;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DMcModel;
+import org.rmj.g3appdriver.GCircle.room.Entities.EMCColor;
 import org.rmj.g3appdriver.GCircle.room.Entities.EMcBrand;
 import org.rmj.g3appdriver.GCircle.room.Entities.EMcModel;
 import org.rmj.g3appdriver.GCircle.room.GGC_GCircleDB;
@@ -45,6 +47,10 @@ public class ProductInquiry {
 
     public LiveData<List<EMcModel>> GetModelsList(String BrandID){
         return poDao.getAllModeFromBrand(BrandID);
+    }
+
+    public LiveData<List<EMCColor>> GetModelColor(String ModelID){
+        return poDao.GetModelColors(ModelID);
     }
 
     public DGanadoOnline.McAmortization GetMonthlyPayment(String ModelID, int Term){
@@ -159,49 +165,4 @@ public class ProductInquiry {
             return 0;
         }
     }
-    public double GetMonthlyAmortization(String ModelID, int Term, double args1){
-        try{
-            DGanadoOnline.McAmortization loAmort = poDao.GetMonthlyPayment(ModelID, Term);
-
-            if(loAmort == null){
-                message = "Apologies, we are unable to calculate the monthly amortization at the moment.";
-                return 0;
-            }
-
-            org.json.simple.JSONObject joAmort = new org.json.simple.JSONObject();
-            joAmort.put("nSelPrice", loAmort.nSelPrice);
-            joAmort.put("nMinDownx", loAmort.nMinDownx);
-            joAmort.put("nMiscChrg", loAmort.nMiscChrg);
-            joAmort.put("nRebatesx", loAmort.nRebatesx);
-            joAmort.put("nEndMrtgg", loAmort.nEndMrtgg);
-            joAmort.put("nAcctThru", loAmort.nAcctThru);
-            joAmort.put("nFactorRt", loAmort.nFactorRt);
-            poPrice.setDownPayment(args1);
-            return poPrice.getMonthlyAmort(joAmort);
-        } catch (Exception e){
-            e.printStackTrace();
-            message = getLocalMessage(e);
-            return 0;
-        }
-    }
-    public double GetMonthlyAmortization(DGanadoOnline.McAmortization args, double args1){
-        try{
-            org.json.simple.JSONObject loJson = new org.json.simple.JSONObject();
-            loJson.put("nSelPrice", ((args.nSelPrice == null) ? 0:args.nSelPrice));
-            loJson.put("nMinDownx", args.nMinDownx);
-            loJson.put("nMiscChrg", args.nMiscChrg);
-            loJson.put("nRebatesx", args.nRebatesx);
-            loJson.put("nEndMrtgg", args.nEndMrtgg);
-            loJson.put("nAcctThru", args.nAcctThru);
-            loJson.put("nFactorRt", args.nFactorRt);
-
-            poPrice.setDownPayment(args1);
-            return poPrice.getMonthlyAmort(loJson);
-        } catch (Exception e){
-            e.printStackTrace();
-            message = getLocalMessage(e);
-            return 0;
-        }
-    }
-
 }

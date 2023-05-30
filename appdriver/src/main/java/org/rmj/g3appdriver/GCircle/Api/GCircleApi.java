@@ -21,6 +21,7 @@ public class GCircleApi extends WebApi {
     private static final String URL_IMPORT_PROVINCE = "integsys/param/download_province.php";
     private static final String URL_IMPORT_COUNTRY = "integsys/param/download_country.php";
     private static final String URL_IMPORT_MC_MODEL = "integsys/param/download_mc_model.php";
+    private static final String URL_IMPORT_MC_COLOR = "integsys/param/download_mc_model_color.php";
     private static final String URL_IMPORT_MC_MODEL_PRICE = "integsys/param/download_mc_model_price.php";
     private static final String URL_IMPORT_BRAND = "integsys/param/download_brand.php";
     private static final String URL_IMPORT_MC_CATEGORY = "integsys/param/download_mc_category.php";
@@ -209,6 +210,15 @@ public class GCircleApi extends WebApi {
         }
         Log.d(TAG, "Initialize api:" + LIVE + URL_IMPORT_MC_MODEL);
         return LIVE + URL_IMPORT_MC_MODEL;
+    }
+
+    public String getUrlImportMcModelColor() {
+        if(isUnitTest()){
+            Log.d(TAG, "Initialize api:" + LOCAL + URL_IMPORT_MC_COLOR);
+            return LOCAL + URL_IMPORT_MC_COLOR;
+        }
+        Log.d(TAG, "Initialize api:" + LIVE + URL_IMPORT_MC_COLOR);
+        return LIVE + URL_IMPORT_MC_COLOR;
     }
 
     public String getUrlImportMcModelPrice() {
