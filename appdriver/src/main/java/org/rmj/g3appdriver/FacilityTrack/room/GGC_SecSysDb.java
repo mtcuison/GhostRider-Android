@@ -11,15 +11,14 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import org.rmj.g3appdriver.FacilityTrack.room.DataAccessObject.DAccountInfo;
 import org.rmj.g3appdriver.FacilityTrack.room.DataAccessObject.DItinerary;
-import org.rmj.g3appdriver.FacilityTrack.room.Entities.EAccountInfo;
+import org.rmj.g3appdriver.FacilityTrack.room.Entities.EPersonnelInfo;
 import org.rmj.g3appdriver.FacilityTrack.room.Entities.EBuildingVisit;
 import org.rmj.g3appdriver.FacilityTrack.room.Entities.EBuildingVisitRequest;
-import org.rmj.g3appdriver.FacilityTrack.room.Entities.EPersonnels;
 import org.rmj.g3appdriver.FacilityTrack.room.Entities.EWarehouse;
 
 @Database(entities = {
-        EAccountInfo.class,
-        EPersonnels.class,
+        EPersonnelInfo.class,
+        EPersonnelInfo.EPersonnels.class,
         EWarehouse.class,
         EBuildingVisit.class,
         EBuildingVisitRequest.class}, version = 1)

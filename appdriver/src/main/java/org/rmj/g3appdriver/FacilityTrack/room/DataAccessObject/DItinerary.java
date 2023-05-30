@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Query;
 
-import org.rmj.guanzongroup.appdriver.Data.Entity.EBuildingVisit;
+import org.rmj.g3appdriver.FacilityTrack.room.Entities.EBuildingVisit;
 
 import java.util.List;
 

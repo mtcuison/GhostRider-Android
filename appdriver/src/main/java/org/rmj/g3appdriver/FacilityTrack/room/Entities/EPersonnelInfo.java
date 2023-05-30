@@ -6,7 +6,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "User_Info_Master")
-public class EAccountInfo {
+public class EPersonnelInfo {
 
     @PrimaryKey
     @NonNull
@@ -51,7 +51,7 @@ public class EAccountInfo {
     @ColumnInfo(name = "sModelIDx")
     private String ModelIDx;
 
-    public EAccountInfo() {
+    public EPersonnelInfo() {
     }
 
     @NonNull
@@ -216,4 +216,35 @@ public class EAccountInfo {
         SlfieLog = slfieLog;
     }
 
+    @Entity(tableName = "Facility_Personnel")
+    public static class EPersonnels {
+
+        @PrimaryKey
+        @NonNull
+        @ColumnInfo(name = "sUserIDxx")
+        private String UserIDxx = "";
+
+        @ColumnInfo(name = "sUserName")
+        private String UserName = "";
+
+        public EPersonnels() {
+        }
+
+        @NonNull
+        public String getUserIDxx() {
+            return UserIDxx;
+        }
+
+        public void setUserIDxx(@NonNull String userIDxx) {
+            UserIDxx = userIDxx;
+        }
+
+        public String getUserName() {
+            return UserName;
+        }
+
+        public void setUserName(String userName) {
+            UserName = userName;
+        }
+    }
 }
