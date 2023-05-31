@@ -50,7 +50,7 @@ public class VMSplashScreen extends AndroidViewModel {
     private String message;
 
     public VMSplashScreen(@NonNull Application application) {
-        super(application);
+        super(application); 
         this.instance = application;
         this.poConfigx = AppConfigPreference.getInstance(application);
         this.poConn = new ConnectionUtil(instance);

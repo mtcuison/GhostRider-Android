@@ -579,7 +579,7 @@ public class ReviewLoanInfo implements CreditApp {
                 loListDetl.add(new ReviewAppDetail(false, "", "Mobile No. ", loExp.get("sRefrMPNx").toString()));
                 String rfBirthPlace = loExp.get("sRefrTown").toString();
 
-                DTownInfo.TownProvinceName loTown = poTown.getTownProvinceName(loExp.get("sRefrTown").toString());
+                DTownInfo.TownProvinceName loTown = poTown.getTownProvinceName(rfBirthPlace);
                 String lsTown = loTown.sTownName + ", " + loTown.sProvName;
                 loListDetl.add(new ReviewAppDetail(false, "", "Address ", loExp.get("sRefrAddx").toString()));
                 loListDetl.add(new ReviewAppDetail(false, "", "Town ", lsTown));

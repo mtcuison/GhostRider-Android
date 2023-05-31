@@ -137,7 +137,20 @@ public class Activity_SpouseEmploymentInfo extends AppCompatActivity {
         spnEmpSts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mViewModel.getModel().setEmployeeStatus(String.valueOf(position));
+                switch (position){
+                    case 0:
+                        mViewModel.getModel().setEmployeeStatus("R");
+                        break;
+                    case 1:
+                        mViewModel.getModel().setEmployeeStatus("P");
+                        break;
+                    case 2:
+                        mViewModel.getModel().setEmployeeStatus("C");
+                        break;
+                    default:
+                        mViewModel.getModel().setEmployeeStatus("S");
+                        break;
+                }
             }
         });
 

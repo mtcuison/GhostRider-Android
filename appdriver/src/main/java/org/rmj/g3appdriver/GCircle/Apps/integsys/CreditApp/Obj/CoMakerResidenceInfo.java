@@ -93,8 +93,11 @@ public class CoMakerResidenceInfo implements CreditApp {
                 loDetail.setMonthlyExpenses(gocas.CoMakerInfo().ResidenceInfo().getRentExpenses());
 
                 loDetail.setHouseOwn(gocas.CoMakerInfo().ResidenceInfo().getOwnership());
-
-                loDetail.setHouseHold(gocas.CoMakerInfo().ResidenceInfo().getRentedResidenceInfo());
+                if ("0".equals(gocas.CoMakerInfo().ResidenceInfo().getOwnership())) {
+                    loDetail.setHouseHold(gocas.CoMakerInfo().ResidenceInfo().getOwnedResidenceInfo());
+                } else {
+                    loDetail.setHouseHold(gocas.CoMakerInfo().ResidenceInfo().getRentedResidenceInfo());
+                }
                 loDetail.setHouseType(gocas.CoMakerInfo().ResidenceInfo().getHouseType());
                 loDetail.setHasGarage(gocas.CoMakerInfo().ResidenceInfo().hasGarage());
 
