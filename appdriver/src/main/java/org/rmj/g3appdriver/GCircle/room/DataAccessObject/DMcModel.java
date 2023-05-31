@@ -18,6 +18,7 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import org.rmj.g3appdriver.GCircle.room.Entities.EMCColor;
 import org.rmj.g3appdriver.GCircle.room.Entities.EMcModel;
 
 import java.util.List;
@@ -28,11 +29,17 @@ public interface DMcModel {
     @Insert
     void insert(EMcModel mcModel);
 
+    @Insert
+    void insert(EMCColor mcColor);
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertBulkData(List<EMcModel> models);
 
     @Update
     void update(EMcModel mcModel);
+
+    @Update
+    void update(EMCColor mcColor);
 
     @Query("SELECT * FROM MC_Model WHERE sModelIDx =:fsVal")
     EMcModel GetMCModel(String fsVal);
@@ -40,12 +47,17 @@ public interface DMcModel {
     @Query("SELECT * FROM MC_Model ORDER BY dTimeStmp DESC LIMIT 1")
     EMcModel GetLatestMCModel();
 
+    @Query("SELECT * FROM MC_Model_Color ORDER BY dTimeStmp DESC LIMIT 1")
+    EMCColor GetLatestMcColorTimeStamp();
+
+    @Query("SELECT * FROM MC_Model_Color WHERE sModelIDx =:ModelID AND sColorIDx =:ColorID")
+    EMCColor GetModelColor(String ModelID, String ColorID);
+
     @Query("SELECT * FROM Mc_Model WHERE sBrandIDx = :BrandID")
     LiveData<List<EMcModel>> getAllModeFromBrand(String BrandID);
 
     @Query("SELECT (sModelNme || \" \" || sModelCde) AS ModelInfo FROM Mc_Model WHERE sBrandIDx = :BrandID")
     LiveData<String[]> getAllModelName(String BrandID);
-
 
     @Query("SELECT sModelNme FROM Mc_Model WHERE sModelIDx = :ModelIDx")
     String getModelName(String ModelIDx);
@@ -73,7 +85,6 @@ public interface DMcModel {
             "AND a.sModelIDx = :ModelID " +
             "AND c.nAcctThru = :Term")
     LiveData<McAmortInfo> GetMonthlyPayment(String ModelID, int Term);
-
 
     @Query("SELECT  " +
             "a.sModelIDx AS ModelIDx, " +
@@ -113,5 +124,4 @@ public interface DMcModel {
         public String nAcctThru;
         public String nFactorRt;
     }
-
 }

@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DGanadoOnline;
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DMcModel;
+import org.rmj.g3appdriver.GCircle.room.Entities.EMCColor;
 import org.rmj.g3appdriver.GCircle.room.Entities.EMcBrand;
 import org.rmj.g3appdriver.GCircle.room.Entities.EMcModel;
 import org.rmj.g3appdriver.GCircle.room.GGC_GCircleDB;
@@ -46,6 +47,10 @@ public class ProductInquiry {
 
     public LiveData<List<EMcModel>> GetModelsList(String BrandID){
         return poDao.getAllModeFromBrand(BrandID);
+    }
+
+    public LiveData<List<EMCColor>> GetModelColor(String ModelID){
+        return poDao.GetModelColors(ModelID);
     }
 
     public DGanadoOnline.McAmortization GetMonthlyPayment(String ModelID, int Term){
