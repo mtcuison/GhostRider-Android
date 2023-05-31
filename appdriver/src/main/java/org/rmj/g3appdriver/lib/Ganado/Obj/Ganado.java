@@ -81,11 +81,11 @@ public class Ganado {
             joPayment.put("nDownPaym", loInfo.getDownPaym());
             loDetail.setPaymInfo(joPayment.toString());
 
-            loDetail.setTargetxx("");
+            loDetail.setTargetxx(loInfo.getTargetxx());
             loDetail.setFollowUp("");
             loDetail.setRemarksx("");
             loDetail.setReferdBy(poSession.getUserID());
-            loDetail.setRelatnID("");
+            loDetail.setRelatnID(loInfo.getRelatnID());
             loDetail.setCreatedx(AppConstants.DATE_MODIFIED());
             loDetail.setTranStat("0");
             loDetail.setSendStat("");
@@ -175,6 +175,7 @@ public class Ganado {
             params.put("sClntInfo", loDetail.getClntInfo());
             params.put("sProdInfo", loDetail.getProdInfo());
             params.put("sPaymInfo", loDetail.getPaymInfo());
+            Log.d(TAG, params.toString());
 
             String lsResponse = WebClient.sendRequest(
                     poApi.getSubmitInquiry(),
