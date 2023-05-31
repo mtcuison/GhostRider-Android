@@ -264,30 +264,41 @@ public class EmployeeLeave implements iPM {
                 return null;
             }
 
-            String lsTransNo = CreateUniqueID();
-            EEmployeeLeave loApp = new EEmployeeLeave();
-            loApp.setTransNox(lsTransNo);
-            loApp.setEmployID(loUser.getEmployID());
-            loApp.setEntryByx(loUser.getEmployID());
-            loApp.setTransact(AppConstants.CURRENT_DATE());
-            loApp.setEmployID(foVal.getEmploName());
-            loApp.setBranchNm(foVal.getBranchNme());
-            loApp.setDateFrom(foVal.getDateFromx());
-            loApp.setDateThru(foVal.getDateThrux());
-            loApp.setAppldFrx(foVal.getDateFromx());
-            loApp.setAppldTox(foVal.getDateThrux());
-            loApp.setNoDaysxx(foVal.getNoOfDaysx());
-            loApp.setPurposex(foVal.getRemarksxx());
-            loApp.setEqualHrs(foVal.getNoOfHours());
-            loApp.setLeaveTyp(foVal.getLeaveType());
-            loApp.setEntryDte(AppConstants.CURRENT_DATE());
-            loApp.setWithOPay(0);
-            loApp.setApproved("0");
-            loApp.setTranStat("0");
-            poDao.insertApplication(loApp);
-            Log.d(TAG, "Leave application has been save to local.");
-            message = "Leave application has been save to local";
-            return lsTransNo;
+            EEmployeeLeave loDetail = poDao.CheckIfApplicationExist(
+                    loUser.getEmployID(),
+                    foVal.getRemarksxx(),
+                    foVal.getLeaveType(),
+                    foVal.getDateFromx(),
+                    foVal.getDateThrux());
+            if(loDetail == null) {
+
+                String lsTransNo = CreateUniqueID();
+                EEmployeeLeave loApp = new EEmployeeLeave();
+                loApp.setTransNox(lsTransNo);
+                loApp.setEmployID(loUser.getEmployID());
+                loApp.setEntryByx(loUser.getEmployID());
+                loApp.setTransact(AppConstants.CURRENT_DATE());
+                loApp.setEmployID(foVal.getEmploName());
+                loApp.setBranchNm(foVal.getBranchNme());
+                loApp.setDateFrom(foVal.getDateFromx());
+                loApp.setDateThru(foVal.getDateThrux());
+                loApp.setAppldFrx(foVal.getDateFromx());
+                loApp.setAppldTox(foVal.getDateThrux());
+                loApp.setNoDaysxx(foVal.getNoOfDaysx());
+                loApp.setPurposex(foVal.getRemarksxx());
+                loApp.setEqualHrs(foVal.getNoOfHours());
+                loApp.setLeaveTyp(foVal.getLeaveType());
+                loApp.setEntryDte(AppConstants.CURRENT_DATE());
+                loApp.setWithOPay(0);
+                loApp.setApproved("0");
+                loApp.setTranStat("0");
+                poDao.insertApplication(loApp);
+                Log.d(TAG, "Leave application has been save to local.");
+                message = "Leave application has been save to local";
+                return lsTransNo;
+            }
+
+            return loDetail.getTransNox();
         } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();
