@@ -182,12 +182,14 @@ public class Ganado {
                     params.toString(),
                     poHeaders.getHeaders());
 
+            Log.d(TAG, "Result: " + lsResponse);
+
             if(lsResponse == null){
                 message = SERVER_NO_RESPONSE;
                 return false;
             }
 
-            JSONObject loResponse = new JSONObject();
+            JSONObject loResponse = new JSONObject(lsResponse);
             String lsResult = loResponse.getString("result");
             if(lsResult.equalsIgnoreCase("error")){
                 JSONObject loError = loResponse.getJSONObject("error");

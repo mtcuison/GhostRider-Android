@@ -98,7 +98,7 @@ public class TestSubmitInquiry {
         if(poSys.SaveClientInfo(loClient)){
 
             if(poSys.SaveInquiry(lsResult)){
-                isSuccess = false;
+                isSuccess = true;
             } else {
                 Log.e(TAG, poSys.getMessage());
             }
