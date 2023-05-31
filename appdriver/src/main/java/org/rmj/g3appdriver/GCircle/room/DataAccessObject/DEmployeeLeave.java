@@ -31,6 +31,18 @@ public interface DEmployeeLeave {
     @Update
     void updateApplication(EEmployeeLeave poLeave);
 
+    @Query("SELECT * FROM Employee_Leave " +
+            "WHERE sEntryByx=:EmployID " +
+            "AND sPurposex=:Remarks " +
+            "AND cLeaveTyp=:LeaveTp " +
+            "AND dDateFrom=:DateFrom " +
+            "AND dDateThru=:DateThru")
+    EEmployeeLeave CheckIfApplicationExist(String EmployID,
+                                           String Remarks,
+                                           String LeaveTp,
+                                           String DateFrom,
+                                           String DateThru);
+
     @Query("SELECT COUNT (*) FROM Employee_Leave")
     int GetRowsCountForID();
 
