@@ -14,6 +14,7 @@ package org.rmj.guanzongroup.ghostrider.epacss.Object;
 import android.content.Context;
 import android.content.Intent;
 
+import org.rmj.guanzongroup.ganado.Activities.Activity_ProductInquiry;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Browser;
 import org.rmj.guanzongroup.ghostrider.dataChecker.Activity.Activity_DB_Explorer;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
@@ -73,6 +74,9 @@ public class ParentObject {
             case "pacita reward":
                 lnIcon = R.drawable.ic_rating_24;
                 break;
+            case "product inquiry":
+                lnIcon = R.drawable.ic_product_inquiry;
+                break;
         }
         return lnIcon;
     }
@@ -101,6 +105,11 @@ public class ParentObject {
             case "pacita reward":
                 loIntent = new Intent(context, Activity_BranchList.class);
                 break;
+
+            case "product inquiry":
+                loIntent = new Intent(context, Activity_ProductInquiry.class);
+                break;
+
             default:
                 loIntent = null;
         }

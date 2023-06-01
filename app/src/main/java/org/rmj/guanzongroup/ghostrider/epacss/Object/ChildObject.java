@@ -85,8 +85,7 @@ public class ChildObject {
 //                break;
 
             case "ci evaluation list":
-                loIntent = new Intent(context, Activity_ProductInquiry.class);
-//                loIntent = new Intent(context, Activity_CIEvaluationList.class);
+                loIntent = new Intent(context, Activity_CIEvaluationList.class);
                 break;
 
             case "ci evaluation history":
@@ -183,9 +182,6 @@ public class ChildObject {
                 loIntent = new Intent(context, Activity_ItineraryEntry.class);
                 break;
             case "employee loan":
-                loIntent = new Intent(context, Activity_EmployeeLoanEntry.class);
-                break;
-            case "product inquiry":
                 loIntent = new Intent(context, Activity_EmployeeLoanEntry.class);
                 break;
             default:
