@@ -16,6 +16,7 @@ import android.content.Context;
 import android.os.Build;
 import android.os.StrictMode;
 
+import org.rmj.g3appdriver.GConnect.Account.ClientSession;
 import org.rmj.g3appdriver.dev.Device.Telephony;
 import org.rmj.g3appdriver.GCircle.Account.EmployeeSession;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
@@ -29,14 +30,14 @@ import java.util.Map;
 public class HttpHeaders {
     private static final String TAG = HttpHeaders.class.getSimpleName();
 
+    private final Context instance;
     private final Telephony poTlphony;
     private final AppConfigPreference poConfigx;
-    private final EmployeeSession poSession;
 
     private HttpHeaders(Context application){
+        this.instance = application;
         this.poTlphony = new Telephony(application);
         this.poConfigx = AppConfigPreference.getInstance(application);
-        this.poSession = EmployeeSession.getInstance(application);
     }
 
     private static HttpHeaders mHeaders;
@@ -55,18 +56,24 @@ public class HttpHeaders {
         return mHeaders;
     }
 
-    private Map<String, String> initHttpHeaders() {
+    public HashMap<String, String> getHeaders(){
+        if("gRider".equalsIgnoreCase(poConfigx.ProducID())) {
+            return (HashMap<String, String>) InitGCircle();
+        }
+        return (HashMap<String, String>) InitGConnect();
+    }
 
+    private Map<String, String> InitGCircle(){
+        EmployeeSession loSession = EmployeeSession.getInstance(instance);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
                 .permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
         Calendar calendar = Calendar.getInstance();
 
-
-        String lsUserIDx = poSession.getUserID();
-        String lsClientx = poSession.getClientId();
-        String lsLogNoxx = poSession.getLogNumber();
+        String lsUserIDx = loSession.getUserID();
+        String lsClientx = loSession.getClientId();
+        String lsLogNoxx = loSession.getLogNumber();
         String lsTokenxx = poConfigx.getAppToken();
         String lsProduct = poConfigx.ProducID();
         String lsDevcIDx = poTlphony.getDeviceID();
@@ -74,6 +81,10 @@ public class HttpHeaders {
         String lsDevcMdl = Build.MODEL;
         String lsMobileN = poConfigx.getMobileNo();
 
+        if(lsTokenxx.isEmpty()){
+            lsTokenxx = "f7qNSw8TRPWHSCga0g8YFF:APA91bG3i_lBPPWv9bbRasNzRH1XX1y0vzp6Ct8S_a-yMPDvSmud8FEVPMr26zZtBPHq2CmaIw9Rx0MZmf3sbuK44q3vQemUBoPPS4Meybw8pnTpcs3p0VbiTuoLHJtdncC6BgirJxt3";
+        }
+
         Map<String, String> headers = new HashMap<>();
         headers.put("Accept", "application/json");
         headers.put("Content-Type", "application/json");
@@ -92,24 +103,27 @@ public class HttpHeaders {
         return headers;
     }
 
-    private Map<String, String> initTestHeaders() {
-
+    private Map<String, String> InitGConnect(){
+        ClientSession loSession = ClientSession.getInstance(instance);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
                 .permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
         Calendar calendar = Calendar.getInstance();
 
-
-        String lsUserIDx = poSession.getUserID();
-        String lsClientx = poSession.getClientId();
-        String lsLogNoxx = poSession.getLogNumber();
-        String lsTokenxx = "f7qNSw8TRPWHSCga0g8YFF:APA91bG3i_lBPPWv9bbRasNzRH1XX1y0vzp6Ct8S_a-yMPDvSmud8FEVPMr26zZtBPHq2CmaIw9Rx0MZmf3sbuK44q3vQemUBoPPS4Meybw8pnTpcs3p0VbiTuoLHJtdncC6BgirJxt3";
-        String lsProduct = "gRider";
+        String lsUserIDx = loSession.getUserID();
+        String lsClientx = loSession.getClientID();
+        String lsLogNoxx = loSession.getLogNumber();
+        String lsTokenxx = poConfigx.getAppToken();
+        String lsProduct = poConfigx.ProducID();
         String lsDevcIDx = poTlphony.getDeviceID();
         String lsDateTme = SQLUtil.dateFormat(calendar.getTime(), "yyyyMMddHHmmss");
         String lsDevcMdl = Build.MODEL;
-        String lsMobileN = "09171870011";
+        String lsMobileN = poConfigx.getMobileNo();
+
+        if(lsTokenxx.isEmpty()){
+            lsTokenxx = "f7qNSw8TRPWHSCga0g8YFF:APA91bG3i_lBPPWv9bbRasNzRH1XX1y0vzp6Ct8S_a-yMPDvSmud8FEVPMr26zZtBPHq2CmaIw9Rx0MZmf3sbuK44q3vQemUBoPPS4Meybw8pnTpcs3p0VbiTuoLHJtdncC6BgirJxt3";
+        }
 
         Map<String, String> headers = new HashMap<>();
         headers.put("Accept", "application/json");
@@ -127,12 +141,5 @@ public class HttpHeaders {
         headers.put("g-api-hash", hash_toLower);
         headers.put("g-api-log", lsLogNoxx);
         return headers;
-    }
-
-    public HashMap<String, String> getHeaders(){
-        if(!poConfigx.getTestStatus()) {
-            return (HashMap<String, String>) initHttpHeaders();
-        }
-        return (HashMap<String, String>) initTestHeaders();
     }
 }

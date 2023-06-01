@@ -161,6 +161,10 @@ public class ClientSession {
         return pref.getString(CLIENTID, "");
     }
 
+    public String getLogNumber(){
+        return "";
+    }
+
     public String getFullName(){
         return pref.getString(FULLNAME, "");
     }

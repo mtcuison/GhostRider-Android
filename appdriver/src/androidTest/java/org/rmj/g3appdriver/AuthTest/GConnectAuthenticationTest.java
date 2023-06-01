@@ -38,7 +38,7 @@ public class GConnectAuthenticationTest {
     public void setUp() throws Exception {
         this.instance = ApplicationProvider.getApplicationContext();
         AppConfigPreference.getInstance(instance).setProductID("GuanzonApp");
-        AppConfigPreference.getInstance(instance).setTestCase(true);
+        AppConfigPreference.getInstance(instance).setTestCase(false);
         this.poAccount = new AccountMaster(instance);
         this.poSys = poAccount.initGuanzonApp().getInstance(Auth.AUTHENTICATE);
     }
