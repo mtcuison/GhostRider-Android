@@ -38,7 +38,7 @@ public class TestFacilityMaster {
 
     @Before
     public void setUp() throws Exception {
-        Log.d(TAG, "Test ended...");
+        Log.d(TAG, "Test started...");
         instance = ApplicationProvider.getApplicationContext();
         poSys = new FacilityMaster(instance);
     }
@@ -69,10 +69,36 @@ public class TestFacilityMaster {
         });
 
         assertTrue(isSuccess);
+        isSuccess = false;
     }
 
     @Test
-    public void test02GetItinerary() {
+    public void test02UpdateVisited() {
+        poSys.GetFacilities().observeForever(facilities -> isSuccess = poSys.PlaceVisited(facilities.get(4).getWarehouseID()));
+        assertTrue(isSuccess);
+    }
 
+    @Test
+    public void test03CheckVisited() {
+        poSys.GetFacilities().observeForever(facilities -> {
+            if(facilities == null){
+                return;
+            }
+
+            if(facilities.size() == 0){
+                return;
+            }
+
+            for(int x = 0; x < facilities.size(); x++){
+                Log.d(TAG, "Facility ID: " + facilities.get(x).getWarehouseID());
+                Log.d(TAG, "Facility Name: " + facilities.get(x).getWarehouseName());
+                Log.d(TAG, "Last Checked: " + facilities.get(x).getLastCheck());
+                Log.d(TAG, "Last Checked: " + facilities.get(x).getNumberOfVisits());
+            }
+
+            isSuccess = true;
+        });
+
+        assertTrue(isSuccess);
     }
 }

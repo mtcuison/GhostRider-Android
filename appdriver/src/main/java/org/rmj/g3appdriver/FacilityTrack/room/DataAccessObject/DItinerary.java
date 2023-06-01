@@ -12,5 +12,8 @@ import java.util.List;
 public interface DItinerary {
 
     @Query("SELECT * FROM Building_Visit")
-    LiveData<List<EBuildingVisit>> GetItinerary();
+    LiveData<List<EBuildingVisit>> GetItineraries();
+
+    @Query("SELECT * FROM Building_Visit")
+    List<EBuildingVisit> GetItinerary();
 }

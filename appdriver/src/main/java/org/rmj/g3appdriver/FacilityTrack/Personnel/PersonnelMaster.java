@@ -58,17 +58,17 @@ public class PersonnelMaster {
 
         loList.add(new Personnel("MX0123456783",
                 "Davis, Noah",
-                "1",
+                "0",
                 ""));
 
         loList.add(new Personnel("MX0123456784",
                 "Wilson, Ava",
-                "1",
+                "0",
                 ""));
 
         loList.add(new Personnel("MX0123456785",
                 "Miller, Isabella",
-                "1",
+                "0",
                 ""));
         loPersonnel.postValue(loList);
         return loPersonnel;
