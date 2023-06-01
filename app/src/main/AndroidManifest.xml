@@ -90,6 +90,7 @@
             android:screenOrientation="userPortrait"
             android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan"
+            android:launchMode="singleTask"
             android:exported="true">
 
             <intent-filter>

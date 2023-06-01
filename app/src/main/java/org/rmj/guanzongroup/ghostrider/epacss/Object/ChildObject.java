@@ -185,6 +185,9 @@ public class ChildObject {
             case "employee loan":
                 loIntent = new Intent(context, Activity_EmployeeLoanEntry.class);
                 break;
+            case "product inquiry":
+                loIntent = new Intent(context, Activity_EmployeeLoanEntry.class);
+                break;
             default:
                 loIntent = null;
         }

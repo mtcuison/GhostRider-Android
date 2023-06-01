@@ -56,6 +56,7 @@ public class Ganado {
     public LiveData<List<ERelation>> GetRelations(){
         return poRelate.GetRelations();
     }
+
     public String CreateInquiry(InquiryInfo loInfo){
         try{
             if(!loInfo.isDataValid()){
@@ -82,11 +83,11 @@ public class Ganado {
             joPayment.put("nDownPaym", loInfo.getDownPaym());
             loDetail.setPaymInfo(joPayment.toString());
 
-            loDetail.setTargetxx(loInfo.getdTargetxx());
+            loDetail.setTargetxx(loInfo.getTargetxx());
             loDetail.setFollowUp("");
             loDetail.setRemarksx("");
             loDetail.setReferdBy(poSession.getUserID());
-            loDetail.setRelatnID("");
+            loDetail.setRelatnID(loInfo.getRelatnID());
             loDetail.setCreatedx(AppConstants.DATE_MODIFIED());
             loDetail.setTranStat("0");
             loDetail.setSendStat("");
@@ -156,7 +157,6 @@ public class Ganado {
 
     public boolean SaveInquiry(String TransNox){
         try{
-            Log.e("transnox",TransNox);
             EGanadoOnline loDetail = poDao.GetInquiry(TransNox);
 
             if(loDetail == null){
@@ -188,7 +188,7 @@ public class Ganado {
                 return false;
             }
 
-            JSONObject loResponse = new JSONObject();
+            JSONObject loResponse = new JSONObject(lsResponse);
             String lsResult = loResponse.getString("result");
             if(lsResult.equalsIgnoreCase("error")){
                 JSONObject loError = loResponse.getJSONObject("error");

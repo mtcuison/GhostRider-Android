@@ -95,7 +95,11 @@ public class ResidenceInfo implements CreditApp {
 
                 loDetail.setHouseOwn(gocas.ResidenceInfo().getOwnership());
 
-                loDetail.setHouseHold(gocas.ResidenceInfo().getRentedResidenceInfo());
+                if ("0".equals(gocas.ResidenceInfo().getOwnership())) {
+                    loDetail.setHouseHold(gocas.ResidenceInfo().getOwnedResidenceInfo());
+                } else {
+                    loDetail.setHouseHold(gocas.ResidenceInfo().getRentedResidenceInfo());
+                }
                 loDetail.setHouseType(gocas.ResidenceInfo().getHouseType());
                 loDetail.setHasGarage(gocas.ResidenceInfo().hasGarage());
 

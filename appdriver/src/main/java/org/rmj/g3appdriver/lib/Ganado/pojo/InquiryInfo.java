@@ -93,11 +93,11 @@ public class InquiryInfo {
         this.sTermIDxx = sTermIDxx;
     }
 
-    public String getdTargetxx() {
+    public String getTargetxx() {
         return dTargetxx;
     }
 
-    public void setdTargetxx(String dTargetxx) {
+    public void setTargetxx(String dTargetxx) {
         this.dTargetxx = dTargetxx;
     }
 

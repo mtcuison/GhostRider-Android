@@ -51,7 +51,6 @@ public class ReferencesAdapter extends RecyclerView.Adapter<ReferencesAdapter.It
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
         Reference reference = referenceInfoModels.get(position);
-        Reference poRef = new Reference(reference.getFullname(),reference.getAddress1(),reference.getTownCity(),reference.getContactN());
         String lsRefNoxx = String.valueOf(position+1);
 
         holder.lblReferenceNo.setText("Reference No. " + lsRefNoxx);
