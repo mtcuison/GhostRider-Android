@@ -20,7 +20,7 @@ public class RecyclerViewAdapter_BranchList extends RecyclerView.Adapter<Recycle
     private final BranchFilter poFilter;
     private final OnBranchSelectListener listener;
 
-    public interface OnBranchSelectListener{
+    public interface  OnBranchSelectListener{
         void OnSelect(String BranchCode, String BranchName);
     }
     public RecyclerViewAdapter_BranchList(List<EBranchInfo> paBranch, OnBranchSelectListener listener) {
