@@ -1,0 +1,44 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    android:gravity="center">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="162dp"
+        android:layout_height="200dp"
+        android:scaleType="centerCrop"
+        android:id="@+id/imageView"
+        app:cardCornerRadius="20dp">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/imagebrand0"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/brand0"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/itemName"
+        android:text="HONDA"
+        style="@style/GhostRiderMaterialTheme"
+        android:textSize="28sp"
+        android:fontFamily="@font/roboto"
+        android:layout_marginTop="-115dp"
+        android:textAlignment="center"
+        />
+
+</LinearLayout>

@@ -10,12 +10,17 @@ public class ClientInfo {
     private String sMaidenNm = "";
     private String cGenderCd = "";
     private String dBirthDte = "";
+    private String sBirthIDx = "";
     private String sBirthPlc = "";
     private String sHouseNox = "";
     private String sAddressx = "";
     private String sTownIDxx = "";
+
+    private String sMncplNme = "";
     private String sMobileNo = "";
     private String sEmailAdd = "";
+
+    private String sReltionx = "";
 
     private String message;
 
@@ -138,6 +143,32 @@ public class ClientInfo {
         this.sEmailAdd = sEmailAdd;
     }
 
+
+    public String getsBirthIDx() {
+        return sBirthIDx;
+    }
+
+    public void setsBirthIDx(String sBirthIDx) {
+        this.sBirthIDx = sBirthIDx;
+    }
+
+    public String getsMncplNme() {
+        return sMncplNme;
+    }
+
+    public void setsMncplNme(String sMncplNme) {
+        this.sMncplNme = sMncplNme;
+    }
+
+    public String getsReltionx() {
+        return sReltionx;
+    }
+
+    public void setsReltionx(String sReltionx) {
+        this.sReltionx = sReltionx;
+    }
+
+
     public boolean isDataValid(){
         if(sTransNox.isEmpty()){
             message = "Transaction No. is empty.";
@@ -187,6 +218,10 @@ public class ClientInfo {
 
         if(sEmailAdd.isEmpty()){
             message = "Please enter email address.";
+            return false;
+        }
+        if(sReltionx.isEmpty()){
+            message = "Please select relationship.";
             return false;
         }
 

@@ -31,6 +31,7 @@ import java.util.Locale;
 public class Ganado {
     private static final String TAG = Ganado.class.getSimpleName();
 
+    private final Application instance;
     private final DGanadoOnline poDao;
     private final EmployeeSession poSession;
     private final GCircleApi poApi;
@@ -40,6 +41,7 @@ public class Ganado {
     private String message;
 
     public Ganado(Application instance) {
+        this.instance = instance;
         this.poDao = GGC_GCircleDB.getInstance(instance).ganadoDao();
         this.poSession = EmployeeSession.getInstance(instance);
         this.poApi = new GCircleApi(instance);
@@ -143,6 +145,7 @@ public class Ganado {
 
             loDetail.setClientNm(lsClient);
             loDetail.setClntInfo(joClient.toString());
+            loDetail.setRelatnID(loInfo.getsReltionx());
             poDao.Update(loDetail);
 
             return true;
@@ -175,14 +178,11 @@ public class Ganado {
             params.put("sClntInfo", loDetail.getClntInfo());
             params.put("sProdInfo", loDetail.getProdInfo());
             params.put("sPaymInfo", loDetail.getPaymInfo());
-            Log.d(TAG, params.toString());
 
             String lsResponse = WebClient.sendRequest(
                     poApi.getSubmitInquiry(),
                     params.toString(),
                     poHeaders.getHeaders());
-
-            Log.d(TAG, "Result: " + lsResponse);
 
             if(lsResponse == null){
                 message = SERVER_NO_RESPONSE;

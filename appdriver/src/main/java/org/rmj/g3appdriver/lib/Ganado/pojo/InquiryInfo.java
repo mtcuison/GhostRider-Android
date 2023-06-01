@@ -10,6 +10,9 @@ public class InquiryInfo {
     private String sTermIDxx = "";
     private String dTargetxx = "";
     private String nDownPaym = "";
+
+
+    private String nMonthAmr = "";
     private String sRelatnID = "";
 
     private String message;
@@ -106,6 +109,13 @@ public class InquiryInfo {
         this.nDownPaym = nDownPaym;
     }
 
+    public String getnMonthAmr() {
+        return nMonthAmr;
+    }
+
+    public void setMonthAmr(String nMonthAmr) {
+        this.nMonthAmr = nMonthAmr;
+    }
     public String getRelatnID() {
         return sRelatnID;
     }
