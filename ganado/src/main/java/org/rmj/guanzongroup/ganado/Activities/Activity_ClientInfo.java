@@ -21,12 +21,15 @@ import com.google.android.material.checkbox.MaterialCheckBox;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
 
+import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.CreditAppConstants;
 import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.OnSaveInfoListener;
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DTownInfo;
+import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.guanzongroup.ganado.R;
 import org.rmj.guanzongroup.ganado.ViewModel.VMPersonalInfo;
+import org.rmj.guanzongroup.ganado.ViewModel.VMProductInquiry;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -46,7 +49,7 @@ public class Activity_ClientInfo extends AppCompatActivity {
 
     private MaterialAutoCompleteTextView txtMunicipl,txtBPlace;
     private RadioGroup rgGender;
-    private MaterialAutoCompleteTextView spnCivilStatus;
+    private MaterialAutoCompleteTextView spinner_relation;
     private MaterialButton btnContinue, btnPrev;
     private MaterialCheckBox txtMobileType1, txtMobileType2, txtMobileType3;
 
@@ -61,6 +64,23 @@ public class Activity_ClientInfo extends AppCompatActivity {
         setContentView(R.layout.activity_client_info);
         initWidgets();
         mViewModel.InitializeApplication(getIntent());
+
+        mViewModel.getRelation().observe(Activity_ClientInfo.this, eRelations->{
+            ArrayList<String> string = new ArrayList<>();
+            for (int x = 0; x < eRelations.size(); x++) {
+                String lsColor = eRelations.get(x).getRelatnDs();
+//                        String lsTown =  loList.get(x).sProvName ;
+                string.add(lsColor);
+
+            }
+            ArrayAdapter<String> adapters = new ArrayAdapter<>(Activity_ClientInfo.this, android.R.layout.simple_spinner_dropdown_item, string.toArray(new String[0]));
+            spinner_relation.setText(eRelations.get(0).getRelatnDs());
+            spinner_relation.setText(eRelations.get(0).getRelatnDs());
+            mViewModel.getModel().setsReltionx(eRelations.get(0).getRelatnID());
+            spinner_relation.setAdapter(adapters);
+        });
+
+        spinner_relation.setOnItemClickListener(new Activity_ClientInfo.OnItemClickListener(spinner_relation));
         mViewModel.GetTownProvinceList().observe(Activity_ClientInfo.this, new Observer<List<DTownInfo.TownProvinceInfo>>() {
             @Override
             public void onChanged(List<DTownInfo.TownProvinceInfo> loList) {
@@ -188,33 +208,6 @@ public class Activity_ClientInfo extends AppCompatActivity {
                 }
             });
         });
-//        btnContinue.setOnClickListener(view ->{
-//            mViewModel.getModel().setFrstName(txtFrstNm.getText().toString());
-//            mViewModel.getModel().setMiddName(txtMiddNm.getText().toString());
-//            mViewModel.getModel().setLastName(txtLastNm.getText().toString());
-//            mViewModel.getModel().setSuffixNm(txtSuffixx.getText().toString());
-//            mViewModel.getModel().setHouseNox(txtHouseNox.getText().toString());
-//            mViewModel.getModel().setAddressx(txtAddress.getText().toString());
-//            mViewModel.getModel().setEmailAdd(txtEmailAdd.getText().toString());
-//            mViewModel.getModel().setMobileNo(txtMobileNo.getText().toString());
-//
-//            mViewModel.SaveData(new OnSaveInfoListener() {
-//                @Override
-//                public void OnSave(String args) {
-//                    finish();
-//                    overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
-//                }
-//
-//                @Override
-//                public void OnFailed(String message) {
-//                    poMessage.initDialog();
-//                    poMessage.setTitle("Product Inquiry");
-//                    poMessage.setMessage(message);
-//                    poMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
-//                    poMessage.show();
-//                }
-//            });
-//        });
     }
 
     private void initWidgets() {
@@ -237,6 +230,7 @@ public class Activity_ClientInfo extends AppCompatActivity {
         txtHouseNox = findViewById(R.id.txt_houseNox);
         txtAddress = findViewById(R.id.txt_address);
         txtMunicipl = findViewById(R.id.txt_town);
+        spinner_relation = findViewById(R.id.spinner_relation);
 
         btnContinue = findViewById(R.id.btnContinue);
     }
@@ -247,6 +241,25 @@ public class Activity_ClientInfo extends AppCompatActivity {
             finish();
         }
         return super.onOptionsItemSelected(item);
+    }
+    private class OnItemClickListener implements AdapterView.OnItemClickListener {
+
+        private final View loView;
+
+        public OnItemClickListener(View loView) {
+            this.loView = loView;
+        }
+
+        @SuppressLint("ResourceAsColor")
+        @Override
+        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            if(loView == spinner_relation){
+                mViewModel.getRelation().observe(Activity_ClientInfo.this, relations->{
+                    mViewModel.getModel().setsReltionx(relations.get(i).getRelatnID());
+
+                });
+            }
+        }
     }
 
 }

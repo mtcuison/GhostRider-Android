@@ -122,7 +122,7 @@ public class Activity_ProductInquiry extends AppCompatActivity {
                     txtDTarget.setText(lsDate);
                     Date loDate = new SimpleDateFormat("MMMM dd, yyyy").parse(lsDate);
                     lsDate = new SimpleDateFormat("yyyy-MM-dd").format(loDate);
-                    mViewModel.getModel().setdTargetxx(lsDate);
+                    mViewModel.getModel().setTargetxx(lsDate);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

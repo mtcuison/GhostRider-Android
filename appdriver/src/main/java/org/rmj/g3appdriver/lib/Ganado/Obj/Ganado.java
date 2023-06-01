@@ -145,6 +145,7 @@ public class Ganado {
 
             loDetail.setClientNm(lsClient);
             loDetail.setClntInfo(joClient.toString());
+            loDetail.setRelatnID(loInfo.getsReltionx());
             poDao.Update(loDetail);
 
             return true;

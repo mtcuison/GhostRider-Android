@@ -10,6 +10,7 @@ import androidx.lifecycle.LiveData;
 import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.OnSaveInfoListener;
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.EGanadoOnline;
+import org.rmj.g3appdriver.GCircle.room.Entities.ERelation;
 import org.rmj.g3appdriver.lib.Etc.Town;
 import org.rmj.g3appdriver.lib.Ganado.Obj.Ganado;
 import org.rmj.g3appdriver.lib.Ganado.pojo.ClientInfo;
@@ -47,6 +48,10 @@ public class VMPersonalInfo extends AndroidViewModel implements GanadoUI {
 
     public ClientInfo getModel() {
         return poModel;
+    }
+
+    public LiveData<List<ERelation>> getRelation() {
+        return poApp.GetRelations();
     }
 
     @Override

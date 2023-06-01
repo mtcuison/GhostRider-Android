@@ -20,6 +20,8 @@ public class ClientInfo {
     private String sMobileNo = "";
     private String sEmailAdd = "";
 
+    private String sReltionx = "";
+
     private String message;
 
     public ClientInfo() {
@@ -158,6 +160,15 @@ public class ClientInfo {
         this.sMncplNme = sMncplNme;
     }
 
+    public String getsReltionx() {
+        return sReltionx;
+    }
+
+    public void setsReltionx(String sReltionx) {
+        this.sReltionx = sReltionx;
+    }
+
+
     public boolean isDataValid(){
         if(sTransNox.isEmpty()){
             message = "Transaction No. is empty.";
@@ -207,6 +218,10 @@ public class ClientInfo {
 
         if(sEmailAdd.isEmpty()){
             message = "Please enter email address.";
+            return false;
+        }
+        if(sReltionx.isEmpty()){
+            message = "Please select relationship.";
             return false;
         }
 
