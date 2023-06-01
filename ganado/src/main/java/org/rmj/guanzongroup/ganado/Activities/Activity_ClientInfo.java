@@ -23,6 +23,7 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.OnSaveInfoListener;
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DTownInfo;
+import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.guanzongroup.ganado.R;
 import org.rmj.guanzongroup.ganado.ViewModel.VMPersonalInfo;
@@ -38,6 +39,7 @@ public class Activity_ClientInfo extends AppCompatActivity {
 
     private VMPersonalInfo mViewModel;
     private MessageBox poMessage;
+    private LoadDialog poDialogx;
 
     private TextInputEditText txtLastNm, txtFrstNm, txtMiddNm, txtSuffixx,  txtBirthDt,
             txtEmailAdd, txtMobileNo,  txtHouseNox, txtAddress;
@@ -55,6 +57,7 @@ public class Activity_ClientInfo extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         poMessage = new MessageBox(Activity_ClientInfo.this);
+        poDialogx = new LoadDialog(Activity_ClientInfo.this);
         setContentView(R.layout.activity_client_info);
         initWidgets();
         mViewModel.InitializeApplication(getIntent());
@@ -143,7 +146,8 @@ public class Activity_ClientInfo extends AppCompatActivity {
             }
         });
 
-        btnContinue.setOnClickListener(view ->{
+        btnContinue.setOnClickListener(v ->{
+
             mViewModel.getModel().setFrstName(txtFrstNm.getText().toString());
             mViewModel.getModel().setMiddName(txtMiddNm.getText().toString());
             mViewModel.getModel().setLastName(txtLastNm.getText().toString());
@@ -152,23 +156,65 @@ public class Activity_ClientInfo extends AppCompatActivity {
             mViewModel.getModel().setAddressx(txtAddress.getText().toString());
             mViewModel.getModel().setEmailAdd(txtEmailAdd.getText().toString());
             mViewModel.getModel().setMobileNo(txtMobileNo.getText().toString());
-            mViewModel.SaveData(new OnSaveInfoListener() {
+            mViewModel.SaveData(new VMPersonalInfo.OnSaveInquiry() {
                 @Override
-                public void OnSave(String args) {
-                    finish();
-                    overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
+                public void OnSave() {
+                    poDialogx.initDialog("Ganado", "Saving inquiry. Please wait...", false);
+                    poDialogx.show();
                 }
 
                 @Override
-                public void OnFailed(String message) {
+                public void OnSuccess(String args) {
+                    poDialogx.dismiss();
                     poMessage.initDialog();
-                    poMessage.setTitle("Product Inquiry");
+                    poMessage.setTitle("Ganado");
+                    poMessage.setMessage(args);
+                    poMessage.setPositiveButton("Okay", (view, dialog) -> {
+                        dialog.dismiss();
+                        finish();
+                    });
+                    poMessage.show();
+                }
+
+
+                @Override
+                public void OnFailed(String message) {
+                    poDialogx.dismiss();
+                    poMessage.initDialog();
+                    poMessage.setTitle("Ganado");
                     poMessage.setMessage(message);
                     poMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
                     poMessage.show();
                 }
             });
         });
+//        btnContinue.setOnClickListener(view ->{
+//            mViewModel.getModel().setFrstName(txtFrstNm.getText().toString());
+//            mViewModel.getModel().setMiddName(txtMiddNm.getText().toString());
+//            mViewModel.getModel().setLastName(txtLastNm.getText().toString());
+//            mViewModel.getModel().setSuffixNm(txtSuffixx.getText().toString());
+//            mViewModel.getModel().setHouseNox(txtHouseNox.getText().toString());
+//            mViewModel.getModel().setAddressx(txtAddress.getText().toString());
+//            mViewModel.getModel().setEmailAdd(txtEmailAdd.getText().toString());
+//            mViewModel.getModel().setMobileNo(txtMobileNo.getText().toString());
+//
+//            mViewModel.SaveData(new OnSaveInfoListener() {
+//                @Override
+//                public void OnSave(String args) {
+//                    finish();
+//                    overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
+//                }
+//
+//                @Override
+//                public void OnFailed(String message) {
+//                    poMessage.initDialog();
+//                    poMessage.setTitle("Product Inquiry");
+//                    poMessage.setMessage(message);
+//                    poMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
+//                    poMessage.show();
+//                }
+//            });
+//        });
     }
 
     private void initWidgets() {

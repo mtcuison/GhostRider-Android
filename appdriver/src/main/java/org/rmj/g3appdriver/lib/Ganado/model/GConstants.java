@@ -9,6 +9,11 @@ import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 
+import org.rmj.g3appdriver.GCircle.room.Entities.EMCColor;
+
+import java.util.Collections;
+import java.util.List;
+
 public class GConstants {
     public static String[] CATEGORY = {
             "AUTO",
@@ -55,4 +60,5 @@ public class GConstants {
         };
         return adapter;
     }
+
 }

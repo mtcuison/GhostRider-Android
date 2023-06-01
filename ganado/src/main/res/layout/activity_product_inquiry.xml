@@ -146,7 +146,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="10dp"
                     />
-
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/CustomDropDownTilStyle"
                     android:layout_width="match_parent"
@@ -232,6 +231,25 @@
                         android:inputType="number|none"
                         android:maxLength="50"
                         android:layout_marginBottom="10dp"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/TextInputStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Target Date">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txt_targetDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:focusedByDefault="false"
+                        android:imeOptions="actionNext"
+                        android:inputType="number|none"
+                        android:maxLength="20"
+                        android:nextFocusForward="@+id/txt_bpProvince" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.button.MaterialButton

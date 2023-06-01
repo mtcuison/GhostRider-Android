@@ -82,7 +82,7 @@ public class Ganado {
             joPayment.put("nDownPaym", loInfo.getDownPaym());
             loDetail.setPaymInfo(joPayment.toString());
 
-            loDetail.setTargetxx("");
+            loDetail.setTargetxx(loInfo.getdTargetxx());
             loDetail.setFollowUp("");
             loDetail.setRemarksx("");
             loDetail.setReferdBy(poSession.getUserID());
@@ -156,6 +156,7 @@ public class Ganado {
 
     public boolean SaveInquiry(String TransNox){
         try{
+            Log.e("transnox",TransNox);
             EGanadoOnline loDetail = poDao.GetInquiry(TransNox);
 
             if(loDetail == null){

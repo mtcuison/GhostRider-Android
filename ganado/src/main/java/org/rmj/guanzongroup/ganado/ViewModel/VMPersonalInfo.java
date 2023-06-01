@@ -29,6 +29,15 @@ public class VMPersonalInfo extends AndroidViewModel implements GanadoUI {
     private String message;
     private final Town poTown;
 
+    public interface OnSaveInquiry {
+        void OnSave();
+
+        void OnSuccess(String args);
+
+
+        void OnFailed(String message);
+    }
+
     public VMPersonalInfo(@NonNull Application application) {
         super(application);
         this.poApp = new Ganado(application);
@@ -62,17 +71,21 @@ public class VMPersonalInfo extends AndroidViewModel implements GanadoUI {
 
     }
 
+    @Override
+    public void SaveData(OnSaveInfoListener listener) {
+
+    }
+
     public LiveData<List<DTownInfo.TownProvinceInfo>> GetTownProvinceList() {
         return poTown.getTownProvinceInfo();
     }
 
-    @Override
-    public void SaveData(OnSaveInfoListener listener) {
+    public void SaveData(OnSaveInquiry listener) {
 //        new SaveDetailTask(listener).execute(poModel);
         TaskExecutor.Execute(poModel, new OnTaskExecuteListener() {
             @Override
             public void OnPreExecute() {
-
+                listener.OnSave();
             }
 
             @Override
@@ -86,7 +99,7 @@ public class VMPersonalInfo extends AndroidViewModel implements GanadoUI {
                     return null;
                 }
                 String lsResult1 = (poApp.SaveInquiry(lsInfo.getsTransNox())) ? "" : null;
-                if (lsResult1 == null) {
+;                if (lsResult1 == null) {
                     message = poApp.getMessage();
                     return null;
                 }
@@ -100,7 +113,7 @@ public class VMPersonalInfo extends AndroidViewModel implements GanadoUI {
                 if (lsResult == null) {
                     listener.OnFailed(message);
                 } else {
-                    listener.OnSave(lsResult);
+                    listener.OnSuccess(lsResult);
                 }
             }
         });

@@ -2,15 +2,18 @@ package org.rmj.guanzongroup.ganado.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
@@ -19,6 +22,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textview.MaterialTextView;
 
 import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.OnSaveInfoListener;
+import org.rmj.g3appdriver.GCircle.room.Entities.EMCColor;
 import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.Ganado.model.GConstants;
@@ -26,6 +30,11 @@ import org.rmj.g3appdriver.lib.Ganado.pojo.InstallmentInfo;
 import org.rmj.guanzongroup.ganado.R;
 import org.rmj.guanzongroup.ganado.ViewModel.VMProductInquiry;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 public class Activity_ProductInquiry extends AppCompatActivity {
@@ -60,7 +69,23 @@ public class Activity_ProductInquiry extends AppCompatActivity {
         mViewModel.getModel().setBrandIDx(lsBrandID);
         mViewModel.getModel().setModelIDx(lsModelID);
         mViewModel.getModel().setTermIDxx("36");
+//        mViewModel.GetModelColor(lsModelID).observe(Activity_ProductInquiry.this, colorList->{
+//
+//        });
 
+        mViewModel.GetModelColor(lsModelID).observe(Activity_ProductInquiry.this, colorList->{
+            ArrayList<String> string = new ArrayList<>();
+            for (int x = 0; x < colorList.size(); x++) {
+                String lsColor = colorList.get(x).getColorNme();
+//                        String lsTown =  loList.get(x).sProvName ;
+                string.add(lsColor);
+
+            }
+            ArrayAdapter<String> adapters = new ArrayAdapter<>(Activity_ProductInquiry.this, android.R.layout.simple_spinner_dropdown_item, string.toArray(new String[0]));
+            spn_color.setText(colorList.get(0).getColorNme());
+            spn_color.setAdapter(adapters);
+        });
+        spn_color.setOnItemClickListener(new OnItemClickListener(spn_color));
         spnAcctTerm.setOnItemClickListener(new OnItemClickListener(spnAcctTerm));
         txtDownPymnt.addTextChangedListener(new FormatUIText.CurrencyFormat(txtDownPymnt));
 
@@ -83,6 +108,27 @@ public class Activity_ProductInquiry extends AppCompatActivity {
             } catch (Exception e){
                 e.printStackTrace();
             }
+        });
+
+        txtDTarget.setOnClickListener(v -> {
+            final Calendar newCalendar = Calendar.getInstance();
+            @SuppressLint("SimpleDateFormat") final SimpleDateFormat dateFormatter = new SimpleDateFormat("MMMM dd, yyyy");
+            final DatePickerDialog StartTime = new DatePickerDialog(Activity_ProductInquiry.this,
+                    android.R.style.Theme_Holo_Dialog, (view131, year, monthOfYear, dayOfMonth) -> {
+                try {
+                    Calendar newDate = Calendar.getInstance();
+                    newDate.set(year, monthOfYear, dayOfMonth);
+                    String lsDate = dateFormatter.format(newDate.getTime());
+                    txtDTarget.setText(lsDate);
+                    Date loDate = new SimpleDateFormat("MMMM dd, yyyy").parse(lsDate);
+                    lsDate = new SimpleDateFormat("yyyy-MM-dd").format(loDate);
+                    mViewModel.getModel().setdTargetxx(lsDate);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+            StartTime.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+            StartTime.show();
         });
 
         btnCalculate.setOnClickListener(view -> {
@@ -135,8 +181,10 @@ public class Activity_ProductInquiry extends AppCompatActivity {
         txtModelNm = findViewById(R.id.lblModelNme);
         txtDownPymnt = findViewById(R.id.txt_downpayment);
         txtAmort = findViewById(R.id.txt_monthlyAmort);
+        txtDTarget = findViewById(R.id.txt_targetDate);
         spnPayment = findViewById(R.id.spn_paymentMethod);
         spnAcctTerm = findViewById(R.id.spn_installmentTerm);
+        spn_color = findViewById(R.id.spn_color);
 //        imgMC = findViewById(R.id.imgMC);
 
         btnContinue = findViewById(R.id.btnContinue);
@@ -161,10 +209,12 @@ public class Activity_ProductInquiry extends AppCompatActivity {
         @SuppressLint("ResourceAsColor")
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//            if(loView == spnPayment){
-//                mViewModel.getModel().(i);
-//            } else
-            if(loView == spnAcctTerm){
+            if(loView == spn_color){
+                mViewModel.GetModelColor(lsModelID).observe(Activity_ProductInquiry.this, colorList->{
+                    mViewModel.getModel().setColorIDx(colorList.get(i).getColorIDx());
+
+                });
+            } else if(loView == spnAcctTerm){
                 if(i==0){
                     mViewModel.getModel().setTermIDxx("36");
                 }else if(i==1){

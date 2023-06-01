@@ -16,6 +16,7 @@ import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DGanadoOnline;
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DMcModel;
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.EGanadoOnline;
+import org.rmj.g3appdriver.GCircle.room.Entities.EMCColor;
 import org.rmj.g3appdriver.GCircle.room.Entities.EMcBrand;
 import org.rmj.g3appdriver.lib.Ganado.Obj.Ganado;
 import org.rmj.g3appdriver.lib.Ganado.Obj.ProductInquiry;
@@ -78,6 +79,10 @@ public class VMProductInquiry extends AndroidViewModel implements GanadoUI {
 
     public LiveData<String> GetModelID() {
         return psModelID;
+    }
+
+    public LiveData<List<EMCColor>> GetModelColor(String ModelID){
+        return poApp.GetModelColor(ModelID);
     }
 
     public void setModelAmortization(DGanadoOnline.McAmortization args) {
