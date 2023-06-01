@@ -155,6 +155,9 @@ public interface DCreditApplication {
             "GROUP BY sTransNox ")
     LiveData<List<ECreditApplicantInfo>> getAllCreditApp();
 
+    @Query("SELECT sUserIDxx FROM User_Info_Master")
+    String GetUserID();
+
     class ApplicationLog{
         public String sGOCASNox;
         public String sTransNox;

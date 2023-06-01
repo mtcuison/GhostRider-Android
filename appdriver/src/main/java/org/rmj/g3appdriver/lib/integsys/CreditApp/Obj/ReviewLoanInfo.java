@@ -672,9 +672,11 @@ public class ReviewLoanInfo implements CreditApp {
             loDetail.setSourceCD("APP");
             loDetail.setDetlInfo(loModel.getConstructedDetailedInfo());
             loDetail.setDownPaym(loInfo.getDownPaym());
-            loDetail.setCreatedx(loInfo.getCreatedx());
+            loDetail.setCreatedx(poDao.GetUserID());
+            loDetail.setDateCreatedx(loInfo.getCreatedx());
             loDetail.setTransact(loInfo.getTransact());
-            loDetail.setTimeStmp(new AppConstants().DATE_MODIFIED);
+            loDetail.setTimeStmp(AppConstants.DATE_MODIFIED());
+            loDetail.setTranStat("0");
             loDetail.setSendStat("0");
             poDao.Save(loDetail);
 
