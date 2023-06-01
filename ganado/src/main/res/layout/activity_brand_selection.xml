@@ -44,7 +44,7 @@
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="SELECT BRAND"
+                android:text="@string/select_brand"
                 android:textSize="28sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -65,8 +65,8 @@
             android:fontFamily="@font/roboto_medium"
             android:gravity="center"
             android:padding="50dp"
-            android:text="No item found for keyword 'Xiaomi'"
-            android:textSize="15dp"
+            android:text="@string/no_item_found_for_keyword_xiaomi"
+            android:textSize="15sp"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -76,7 +76,6 @@
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="30dp"
             android:id="@+id/rv_brands"
 
             tools:layout_editor_absoluteX="30dp">

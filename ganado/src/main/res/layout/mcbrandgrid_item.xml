@@ -2,24 +2,23 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="horizontal"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="20dp"
-    android:gravity="center"
+    android:layout_width="195dp"
+    android:layout_height="230dp"
     app:cardCornerRadius="15dp"
+    android:paddingTop="25dp"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
     android:theme="@style/GhostRiderMaterialTheme">
 
 
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/imageView"
-        android:layout_width="164dp"
-        android:layout_height="199dp"
-        android:layout_marginTop="30dp"
+        android:layout_width="165dp"
+        android:layout_height="200dp"
         android:scaleType="centerCrop"
         app:cardCornerRadius="20dp"
-        android:layout_margin="30dp"
+
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -45,7 +44,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto"
-                android:text="HONDA"
+                android:text="YAMAHA"
                 android:textAlignment="center"
                 android:textSize="22sp"
                 app:layout_constraintBottom_toBottomOf="parent"

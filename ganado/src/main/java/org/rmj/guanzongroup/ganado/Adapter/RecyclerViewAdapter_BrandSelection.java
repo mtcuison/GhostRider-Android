@@ -3,94 +3,83 @@ package org.rmj.guanzongroup.ganado.Adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.Filter;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.squareup.picasso.Picasso;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DMcBrand;
-import org.rmj.g3appdriver.etc.CashFormatter;
+import org.rmj.g3appdriver.GCircle.room.Entities.EMcBrand;
 import org.rmj.guanzongroup.ganado.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class RecyclerViewAdapter_BrandSelection extends RecyclerView.Adapter<RecyclerViewAdapter_BrandSelection.ViewHolderItem> {
+public class RecyclerViewAdapter_BrandSelection extends RecyclerView.Adapter<RecyclerViewHolder_BrandSelection> {
+    private final List<EMcBrand> paBrand;
+    private List<EMcBrand> paBrandFilter;
+    private final BrandFilter poFilter;
+    private final OnBrandSelectListener listener;
 
-    private final List<DMcBrand.oProduct> poProdcts;
-    private final OnItemClick poCallBck;
-
-    public RecyclerViewAdapter_BrandSelection(List<DMcBrand.oProduct> foProdcts, OnItemClick foCallBck){
-        this.poProdcts = foProdcts;
-        this.poCallBck = foCallBck;
+    public interface  OnBrandSelectListener{
+        void OnSelect(String BrandCode, String BranchName);
+    }
+    public RecyclerViewAdapter_BrandSelection(List<EMcBrand> paBrand, OnBrandSelectListener listener) {
+        this.paBrandFilter = paBrand;
+        this.paBrand = paBrand;
+        this.poFilter = new BrandFilter(this);
+        this.listener = listener;
+    }
+    public BrandFilter getFilter(){
+        return poFilter;
     }
 
     @NonNull
     @Override
-    public ViewHolderItem onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View viewItem = LayoutInflater.from(parent.getContext()).inflate(R.layout.mcbrandgrid_item, parent, false);
-        return new ViewHolderItem(viewItem, poCallBck);
+    public RecyclerViewHolder_BrandSelection onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.mcbrandgrid_item, parent, false);
+        return new RecyclerViewHolder_BrandSelection(view);
     }
-
     @Override
-    public void onBindViewHolder(ViewHolderItem holder, int position) {
-        try {
-            DMcBrand.oProduct loBrand = poProdcts.get(position);
-            holder.txtBrandNm.setText(loBrand.xBrandNme);
-            holder.setImage(loBrand.sImagesxx);
-            // TODO: Set product image url ~> Picasso.get().load(stringUrl).into(holder.imgProdct);
-            // TODO: Display promo banner if there is any (8:1 aspect ratio)
-//            boolean isThereAPromoForThisItem = true;
-//            if(isThereAPromoForThisItem) {
-//                holder.imgPromox.setVisibility(View.VISIBLE);
-//                Picasso.get().load(stringUrl).into(holder.imgPromox);
-//            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void onBindViewHolder(@NonNull RecyclerViewHolder_BrandSelection holder, int position) {
+        EMcBrand loBranch = paBrandFilter.get(position);
+        /*holder.item_brandImage.setimage(loBranch.getBrandIDx());*/
+        holder.item_brand.setText(loBranch.getBrandNme());
+        holder.itemView.setOnClickListener(v -> listener.OnSelect(loBranch.getBrandIDx(), loBranch.getBrandNme()));
     }
-
     @Override
     public int getItemCount() {
-        return poProdcts.size();
+        return paBrandFilter.size();
     }
+    public class BrandFilter extends Filter{
+        private final RecyclerViewAdapter_BrandSelection poAdapter;
+        public BrandFilter(RecyclerViewAdapter_BrandSelection poAdapter) {
+            super();
+            this.poAdapter = poAdapter;
+        }
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            final FilterResults results = new FilterResults();
 
-    public static class ViewHolderItem extends RecyclerView.ViewHolder{
-
-        public String sBrandIDxx = "";
-        public ImageView imgBrand;
-        public TextView txtBrandNm;
-
-        public ViewHolderItem(@NonNull View itemView, OnItemClick foCallBck) {
-            super(itemView);
-            imgBrand = itemView.findViewById(R.id.imagebrand0);
-            txtBrandNm = itemView.findViewById(R.id.itemName0);
-
-            itemView.setOnClickListener(v -> {
-                int position = getAdapterPosition();
-                if(position != RecyclerView.NO_POSITION) {
-                    foCallBck.onClick(sBrandIDxx);
+            if(constraint.length() == 0){
+                paBrandFilter = paBrand;
+            } else {
+                List<EMcBrand> filterSearch = new ArrayList<>();
+                for (EMcBrand brand:paBrand){
+                    String lsBranchNm = brand.getBrandNme();
+                    if(lsBranchNm.toLowerCase().contains(constraint.toString().toLowerCase())){
+                        filterSearch.add(brand);
+                    }
                 }
-            });
-        }
-
-        public void setImage(String image){
-            try {
-                JSONArray laJson = new JSONArray(image);
-                String lsImgVal = laJson.getJSONObject(0).getString("sImageURL");
-                Picasso.get().load(lsImgVal).placeholder(R.drawable.honda1)
-                        .error(R.drawable.honda1).into(imgBrand);
-            } catch (Exception e){
-                e.printStackTrace();
+                paBrandFilter = filterSearch;
             }
+            results.values = paBrandFilter;
+            results.count = paBrandFilter.size();
+            return results;
         }
-    }
-
-    public interface OnItemClick {
-        void onClick(String fsListIdx);
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            poAdapter.paBrandFilter = (List<EMcBrand>) results.values;
+            this.poAdapter.notifyDataSetChanged();
+        }
     }
 }
