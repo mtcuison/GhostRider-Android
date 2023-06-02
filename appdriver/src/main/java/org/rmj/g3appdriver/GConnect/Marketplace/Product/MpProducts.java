@@ -7,10 +7,13 @@ import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
 import android.app.Application;
 import android.util.Log;
 
+import androidx.lifecycle.LiveData;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.apprdiver.util.SQLUtil;
 import org.rmj.g3appdriver.GConnect.Api.GConnectApi;
+import org.rmj.g3appdriver.GConnect.Marketplace.Product.pojo.FilterType;
 import org.rmj.g3appdriver.GConnect.room.DataAccessObject.DProduct;
 import org.rmj.g3appdriver.GConnect.room.Entities.EProducts;
 import org.rmj.g3appdriver.GConnect.room.GGC_GConnectDB;
@@ -18,6 +21,7 @@ import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.dev.Api.WebClient;
 
 import java.util.Date;
+import java.util.List;
 
 public class MpProducts {
     private static final String TAG = MpProducts.class.getSimpleName();
@@ -239,5 +243,82 @@ public class MpProducts {
             message = e.getMessage();
             return false;
         }
+    }
+
+    public LiveData<List<EProducts>> GetProductsList(int fnIndex){
+        return poDao.GetProductList(fnIndex);
+    }
+
+    public LiveData<EProducts> GetProductInfo(String fsListID){
+        return poDao.GetProductInfo(fsListID);
+    }
+//
+//
+//    public void setFilterType(oFilterx foVal){
+//        this.poProdType.setValue(foVal);
+//    }
+//
+//    public LiveData<oFilterx> GetFilterType(){
+//        return poProdType;
+//    }
+
+    public LiveData<List<DProduct.oProduct>> GetProductsList(int fnIndex, FilterType foType, String fsArgs1, String fsArgs2){
+        switch (foType){
+            case PRICE_DESCENDING:
+                return poDao.GetProductsListPriceSortDESC(fnIndex);
+            case PRICE_ASCENDING:
+                return poDao.GetProductsListPriceSortASC(fnIndex);
+            case CATEGORY:
+                return poDao.GetProductsListFilterCategory(fnIndex, fsArgs1);
+            case BRAND_NAME:
+                return poDao.GetProductsListFilterBrandName(fnIndex, fsArgs1);
+            case PRICE_RANGE:
+                return poDao.GetProductsListFilterPriceRange(fnIndex, fsArgs1, fsArgs2);
+            default:
+                return poDao.GetProductsList(fnIndex);
+        }
+    }
+
+    public LiveData<List<DProduct.oProduct>> GetProductsForLoanApplication(){
+        return poDao.GetProductsForLoanApplication();
+    }
+
+    public LiveData<List<DProduct.oProduct>> SearchLoanProducts(String fsVal){
+        return poDao.SearchLoanProducts(fsVal);
+    }
+
+    public static class oFilterx{
+        private final FilterType oFilter;
+        private final String fnArgs1, fnArgs2;
+
+        public oFilterx(FilterType oFilter, String fnArgs1, String fnArgs2) {
+            this.oFilter = oFilter;
+            this.fnArgs1 = fnArgs1;
+            this.fnArgs2 = fnArgs2;
+        }
+
+        public FilterType getFilter() {
+            return oFilter;
+        }
+
+        public String getArgs1() {
+            return fnArgs1;
+        }
+
+        public String getArgs2() {
+            return fnArgs2;
+        }
+    }
+
+    public LiveData<List<DProduct.oProduct>> SearchProducts(String fsVal){
+        return poDao.SearchProducts(fsVal);
+    }
+
+    public LiveData<List<String>> GetBrandNames(){
+        return poDao.GetBrandNames();
+    }
+
+    public LiveData<List<DProduct.oProduct>> GetProductsOnBrand(String fsArgs, String fsArgs1){
+        return poDao.GetProductsOnBrand(fsArgs, fsArgs1);
     }
 }

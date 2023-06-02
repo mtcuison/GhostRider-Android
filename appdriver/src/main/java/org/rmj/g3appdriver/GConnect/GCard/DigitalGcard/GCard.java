@@ -7,6 +7,7 @@ import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
 import android.app.Application;
 import android.graphics.Bitmap;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
@@ -105,6 +106,35 @@ public class GCard {
     public boolean SetActiveGCard(String GcardNmbr){
         try{
             poDao.SetActiveGCard(GcardNmbr);
+
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = getLocalMessage(e);
+            return false;
+        }
+    }
+
+    public boolean AddGCard(String fsVal){
+        try{
+            JSONObject params = new JSONObject();
+            params.put("secureno", CodeGenerator.generateSecureNo(fsVal));
+            String lsResponse = WebClient.sendRequest(
+                    poApi.getAddNewGCardAPI(),
+                    params.toString(),
+                    poHeaders.getHeaders());
+            if(lsResponse == null){
+                message = SERVER_NO_RESPONSE;
+                return false;
+            }
+
+            JSONObject loResponse = new JSONObject(lsResponse);
+            String lsResult = loResponse.getString("result");
+            if(lsResult.equalsIgnoreCase("error")){
+                JSONObject loError = loResponse.getJSONObject("error");
+                message = getErrorMessage(loError);
+                return false;
+            }
 
             return true;
         } catch (Exception e){
@@ -294,7 +324,9 @@ public class GCard {
                 return null;
             }
 
-            if(!loCode.isDeviceValid(lsMobileNo, lsUserIDxx, lsGCardNox)) {
+            if(!loCode.isDeviceValid(lsMobileNo, lsGCardNox)) {
+                Log.d(TAG, "Device Mobile number: " + lsMobileNo);
+                Log.d(TAG, "Current GCard number: " + lsGCardNox);
                 message = "Transaction Confirmation Error. The Provided Mobile Number or Account is Invalid for Transaction Confirmation.";
                 return null;
             }

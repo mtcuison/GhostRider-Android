@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.util.Log;
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
+import androidx.lifecycle.Observer;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
@@ -19,6 +20,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.rmj.g3appdriver.GConnect.GCard.DigitalGcard.GCard;
 import org.rmj.g3appdriver.GConnect.GCard.DigitalGcard.pojo.GcardCredentials;
+import org.rmj.g3appdriver.GConnect.room.Entities.EGcardApp;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(AndroidJUnit4.class)
@@ -82,10 +84,56 @@ public class TestGCard {
         } else {
             Log.e(TAG, poSys.getMessage());
         }
+
+        assertTrue(isSuccess);
+        isSuccess = false;
     }
 
     @Test
     public void test04ParseQrCode() {
         String lsQrCode = "B3A89CE2F6A538BCF076887F2926078765E79DBBD014572F9BC3691AD4C7F92A99B97768F421FFA4C93EB518B1067A71BA8EACFE597E85CE778605EF84D524C396850E40D2AECBFFA90F1B369458A432275BF197EAE5362DFFA9070A84DFBE235E9F94F3E3A65E800C0F9149FA44119E3A50050EAFA3656345E76CA0CDD4D1BA";
+
+        GCard.QrCodeType loResult = poSys.ParseQrCode(lsQrCode);
+        if(loResult != null){
+            switch (loResult){
+                case NEW_GCARD:
+                    String lsGCard = poSys.GetNewGCardNumber(lsQrCode);
+                    if(poSys.AddGCard(lsGCard)){
+                        isSuccess = true;
+                        break;
+                    }
+
+                    Log.e(TAG, poSys.getMessage());
+                    break;
+                default:
+                    String lsResult = poSys.GetTransactionPIN(lsQrCode);
+                    if(lsResult != null){
+                        isSuccess = true;
+                        break;
+                    }
+
+                    Log.e(TAG, poSys.getMessage());
+                    break;
+            }
+        } else {
+            Log.e(TAG, poSys.getMessage());
+        }
+
+        assertTrue(isSuccess);
+        isSuccess = false;
+    }
+
+    @Test
+    public void test05GetActiveGCard() {
+        poSys.GetActiveGCardInfo().observeForever(eGcardApp -> {
+            if(eGcardApp == null){
+                Log.d(TAG, "No GCard detected.");
+                return;
+            }
+            isSuccess = true;
+        });
+
+        assertTrue(isSuccess);
+        isSuccess = false;
     }
 }

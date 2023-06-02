@@ -50,6 +50,7 @@ public class MpCart {
         try{
             JSONObject params = new JSONObject();
             if(poDao.CheckIfCartHasRecord() > 0){
+                Log.d(TAG, "Has local record...");
                 params.put("dTimeStmp", poDao.GetLatestCartTimeStamp());
             }
 
@@ -124,11 +125,12 @@ public class MpCart {
                 return false;
             }
 
-            if(poSession.getVerificationStatus() == 0){
-                message = "Incomplete Account Setup. Please complete your account setup to proceed.";
-                return true;
-            }
+//            if(poSession.getVerificationStatus() == 0){
+//                message = "Incomplete Account Setup. Please complete your account setup to proceed.";
+//                return false;
+//            }
 
+            Log.d(TAG, "Validating quantity...");
             if(!ValidateItemQuantity(ListngID, Quantity)) {
                 return false;
             }
@@ -155,6 +157,7 @@ public class MpCart {
                 return false;
             }
 
+            Log.d(TAG, "Add to cart result: " + lsResponse);
             JSONObject loResponse = new JSONObject(lsResponse);
             String lsResult = loResponse.getString("result");
             if (lsResult.equalsIgnoreCase("error")) {
@@ -177,6 +180,7 @@ public class MpCart {
                 poDao.UpdateItem(ListngID, Quantity);
             }
 
+            Log.d(TAG, "Added to cart");
             return true;
         } catch (Exception e){
             e.printStackTrace();
@@ -201,6 +205,7 @@ public class MpCart {
             return false;
         }
 
+        Log.d(TAG, "Quantity validation result: " + lsResponse);
         JSONObject loResponse = new JSONObject(lsResponse);
         String lsResult = loResponse.getString("result");
         if(lsResult.equalsIgnoreCase("error")){

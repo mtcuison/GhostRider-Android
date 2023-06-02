@@ -6,15 +6,20 @@ import static org.rmj.g3appdriver.dev.Api.ApiResult.getErrorMessage;
 import android.app.Application;
 import android.util.Log;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import org.rmj.g3appdriver.GConnect.Account.ClientSession;
 import org.rmj.g3appdriver.GConnect.Api.GConnectApi;
+import org.rmj.g3appdriver.GConnect.Marketplace.Product.pojo.ProductInquiry;
 import org.rmj.g3appdriver.GConnect.room.DataAccessObject.DProduct;
 import org.rmj.g3appdriver.GConnect.room.GGC_GConnectDB;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.etc.AppConstants;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MpQuestion {
     private static final String TAG = MpQuestion.class.getSimpleName();
@@ -39,7 +44,7 @@ public class MpQuestion {
         return message;
     }
 
-    public boolean GetProductInquiries(String fsVal){
+    public List<ProductInquiry> GetProductInquiries(String fsVal){
         try{
             JSONObject params = new JSONObject();
             params.put("sListIDxx", fsVal);
@@ -51,7 +56,7 @@ public class MpQuestion {
 
             if(lsResponse == null){
                 message = SERVER_NO_RESPONSE;
-                return false;
+                return null;
             }
 
             JSONObject loResponse = new JSONObject(lsResponse);
@@ -59,14 +64,25 @@ public class MpQuestion {
             if(lsResult.equalsIgnoreCase("error")){
                 JSONObject loError = loResponse.getJSONObject("error");
                 message = getErrorMessage(loError);
-                return false;
+                return null;
             }
 
-            return true;
+            JSONArray laJson = loResponse.getJSONArray("detail");
+            List<ProductInquiry> loInquiries = new ArrayList<>();
+            for(int x = 0; x < laJson.length(); x++) {
+                JSONObject loJson = laJson.getJSONObject(x);
+                loInquiries.add(new ProductInquiry(
+                        loJson.getString("sUserName"),
+                        loJson.getString("dCreatedx"),
+                        loJson.getString("sQuestion"),
+                        loJson.getString("sReplyxxx")));
+            }
+
+            return loInquiries;
         }catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();
-            return false;
+            return null;
         }
     }
 

@@ -9,12 +9,15 @@ import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.rmj.g3appdriver.GConnect.Account.ClientSession;
 import org.rmj.g3appdriver.GConnect.Api.GConnectApi;
+import org.rmj.g3appdriver.GConnect.Marketplace.Product.pojo.OrderReview;
 import org.rmj.g3appdriver.GConnect.Marketplace.Product.pojo.ProductReview;
 import org.rmj.g3appdriver.GConnect.room.DataAccessObject.DProduct;
 import org.rmj.g3appdriver.GConnect.room.GGC_GConnectDB;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.dev.Api.WebClient;
+import org.rmj.g3appdriver.etc.AppConstants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +29,7 @@ public class MpReview {
     private final DProduct poDao;
     private final HttpHeaders poHeaders;
     private final GConnectApi poApi;
+    private final ClientSession poSession;
 
     private String message;
 
@@ -34,6 +38,11 @@ public class MpReview {
         this.poDao = GGC_GConnectDB.getInstance(instance).prodctDao();
         this.poHeaders = HttpHeaders.getInstance(instance);
         this.poApi = new GConnectApi(instance);
+        this.poSession = ClientSession.getInstance(instance);
+    }
+
+    public String getMessage() {
+        return message;
     }
 
     public List<ProductReview> GetProductRatings(String fsVal){
@@ -81,8 +90,39 @@ public class MpReview {
         }
     }
 
-    public boolean SendReview(){
+    public boolean SendReview(OrderReview foVal){
         try{
+            if(!foVal.isDataValid()){
+                message = foVal.getMessage();
+                return false;
+            }
+
+            JSONObject params = new JSONObject();
+            params.put("sTransNox", foVal.getOrderID());
+            params.put("sListngID", foVal.getListID());
+            params.put("nRatingxx", foVal.getRate());
+            params.put("sRemarksx", foVal.getRemarks());
+            params.put("sCreatedx", poSession.getUserID());
+            params.put("dCreatedx", AppConstants.DATE_MODIFIED());
+
+            String lsResponse = WebClient.sendRequest(
+                    poApi.getSubmitReviewAPI(),
+                    params.toString(),
+                    poHeaders.getHeaders());
+
+            if(lsResponse == null){
+                message = SERVER_NO_RESPONSE;
+                return false;
+            }
+
+            JSONObject loResponse = new JSONObject(lsResponse);
+            String lsResult = loResponse.getString("result");
+            if(lsResult.equalsIgnoreCase("error")){
+                JSONObject loError = loResponse.getJSONObject("error");
+                message = getErrorMessage(loError);
+                return false;
+            }
+
             return true;
         } catch (Exception e){
             e.printStackTrace();

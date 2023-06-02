@@ -1,6 +1,7 @@
 package org.rmj.g3appdriver.dev.encryp;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
@@ -13,6 +14,7 @@ import org.rmj.g3appdriver.lib.Panalo.model.PanaloRewards;
 import java.util.ArrayList;
 
 public class CodeGenerator {
+    private static final String TAG = CodeGenerator.class.getSimpleName();
 
     private static String EncryptionKEY = "20190625";
     MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
@@ -310,15 +312,15 @@ public class CodeGenerator {
         return !getTransSource().equalsIgnoreCase("INVALID");
     }
 
-    public boolean isDeviceValid(String MobileNo, String UserID, String GCardNumber) {
+    public boolean isDeviceValid(String MobileNo, String GCardNumber) {
         String gcard = getGCardNumber();
         String mobileNo = getMobileNumber();
-        String user = getUserID();
+        Log.d(TAG, "GCard Mobile number: " + mobileNo);
+        Log.d(TAG, "GCard number: " + gcard);
 
         if(getSourceCD().equalsIgnoreCase("PREORDER")){
             return gcard.equalsIgnoreCase(GCardNumber) &&
-                    mobileNo.equalsIgnoreCase(MobileNo) &&
-                    user.equalsIgnoreCase(UserID);
+                    mobileNo.equalsIgnoreCase(MobileNo);
         } else {
             return mobileNo.equalsIgnoreCase(MobileNo);
         }
