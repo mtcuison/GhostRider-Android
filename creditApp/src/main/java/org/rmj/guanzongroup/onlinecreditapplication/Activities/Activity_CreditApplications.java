@@ -103,6 +103,7 @@ public class Activity_CreditApplications extends AppCompatActivity {
                 }));
             } catch (Exception e){
                 e.printStackTrace();
+
             }
         });
     }

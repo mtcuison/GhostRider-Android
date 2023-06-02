@@ -380,10 +380,10 @@ public class CreditOnlineApplication {
             ECreditApplicantInfo loApp = new ECreditApplicantInfo();
             loApp.setTransNox(lsTransNo);
             loApp.setPurchase(loGocas.PurchaseInfo().toJSONString());
-            loApp.setBranchCd(loGocas.PurchaseInfo().getPreferedBranch());
+            loApp.setBranchCd(foVal.getBranchCde());
             loApp.setAppliedx(loGocas.PurchaseInfo().getAppliedFor());
             loApp.setDownPaym(loGocas.PurchaseInfo().getDownPayment());
-            loApp.setCreatedx(new AppConstants().DATE_MODIFIED);
+            loApp.setCreatedx(AppConstants.DATE_MODIFIED());
             loApp.setTransact(AppConstants.CURRENT_DATE());
             loApp.setTranStat("0");
             poDao.Save(loApp);
