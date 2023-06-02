@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
@@ -27,6 +29,7 @@ import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.Ganado.model.GConstants;
 import org.rmj.g3appdriver.lib.Ganado.pojo.InstallmentInfo;
+import org.rmj.guanzongroup.ganado.Adapter.ProductSelectionAdapter;
 import org.rmj.guanzongroup.ganado.R;
 import org.rmj.guanzongroup.ganado.ViewModel.VMProductInquiry;
 
@@ -58,14 +61,14 @@ public class Activity_ProductInquiry extends AppCompatActivity {
         spnPayment.setAdapter(GConstants.getAdapter(Activity_ProductInquiry.this, GConstants.PAYMENT_FORM));
         spnAcctTerm.setText(GConstants.INSTALLMENT_TERM[0]);
         spnAcctTerm.setAdapter(GConstants.getAdapter(Activity_ProductInquiry.this, GConstants.INSTALLMENT_TERM));
-        mViewModel.setBrandID("M0W1001");
-        mViewModel.setModelID("M00117059");
+        mViewModel.setBrandID(getIntent().getStringExtra("lsBrandID"));
+        mViewModel.setModelID(getIntent().getStringExtra("lsModelID"));
         mViewModel.getModel().setTermIDxx("36");
         mViewModel.getModel().setColorIDx("M001223");
         mViewModel.getModel().setPaymForm("1");
 
-        lsBrandID = "M0W1001";
-        lsModelID = "M00117059";
+        lsBrandID = getIntent().getStringExtra("lsBrandID");
+        lsModelID = getIntent().getStringExtra("lsModelID");
         mViewModel.getModel().setBrandIDx(lsBrandID);
         mViewModel.getModel().setModelIDx(lsModelID);
         mViewModel.getModel().setTermIDxx("36");
@@ -73,6 +76,12 @@ public class Activity_ProductInquiry extends AppCompatActivity {
 //
 //        });
 
+        mViewModel.GetModelBrand(lsBrandID, lsModelID).observe(Activity_ProductInquiry.this, eMcModel -> {
+            txtModelCd.setText(eMcModel.getModelCde());
+            txtModelNm.setText(eMcModel.getModelNme());
+            txtBrandNm.setText(getIntent().getStringExtra("lsBrandNm"));
+
+        });
         mViewModel.GetModelColor(lsModelID).observe(Activity_ProductInquiry.this, colorList->{
             ArrayList<String> string = new ArrayList<>();
             for (int x = 0; x < colorList.size(); x++) {

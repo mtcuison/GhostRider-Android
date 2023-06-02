@@ -44,7 +44,12 @@ public class RecyclerViewAdapter_BrandSelection extends RecyclerView.Adapter<Rec
         EMcBrand loBranch = paBrandFilter.get(position);
         /*holder.item_brandImage.setimage(loBranch.getBrandIDx());*/
         holder.item_brand.setText(loBranch.getBrandNme());
-        holder.itemView.setOnClickListener(v -> listener.OnSelect(loBranch.getBrandIDx(), loBranch.getBrandNme()));
+//        holder.itemView.setOnClickListener(v -> listener.OnSelect(loBranch.getBrandIDx(), loBranch.getBrandNme()));
+        holder.itemView.setOnClickListener(v -> {
+            if(listener != null){
+                listener.OnSelect(loBranch.getBrandIDx(), loBranch.getBrandNme());
+            }
+        });
     }
     @Override
     public int getItemCount() {

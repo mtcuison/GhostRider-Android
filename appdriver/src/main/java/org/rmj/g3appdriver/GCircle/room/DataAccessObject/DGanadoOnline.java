@@ -34,8 +34,10 @@ public interface DGanadoOnline {
     @Query("SELECT * FROM MC_Brand WHERE sBrandNme IN ('HONDA', 'SUZUKI', 'KAWASAKI', 'YAMAHA')")
     LiveData<List<EMcBrand>> getAllMcBrand();
 
-    @Query("SELECT * FROM Mc_Model WHERE sBrandIDx = :BrandID")
+    @Query("SELECT * FROM Mc_Model WHERE cRecdStat = '1' AND sBrandIDx = :BrandID")
     LiveData<List<EMcModel>> getAllModeFromBrand(String BrandID);
+    @Query("SELECT * FROM Mc_Model WHERE cRecdStat = '1' AND sBrandIDx = :BrandID AND sModelIDx = :ModelID")
+    LiveData<EMcModel> getModeFromBrand(String BrandID, String ModelID);
 
     @Query("SELECT * FROM MC_Model_Color WHERE sModelIDx =:ModelID")
     LiveData<List<EMCColor>> GetModelColors(String ModelID);

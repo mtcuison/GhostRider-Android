@@ -1,7 +1,11 @@
 package org.rmj.guanzongroup.ganado.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MenuItem;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -56,6 +60,10 @@ public class Activity_BrandSelection extends AppCompatActivity {
                 rec_brandList = new RecyclerViewAdapter_BrandSelection(brandList, new RecyclerViewAdapter_BrandSelection.OnBrandSelectListener() {
                     @Override
                     public void OnSelect(String BrandID, String BrandName) {
+                        Intent intent = new Intent(Activity_BrandSelection.this, Activity_ProductSelection.class);
+                        intent.putExtra("lsBrandID",BrandID);
+                        intent.putExtra("lsBrandNm",BrandName);
+                        startActivity(intent);
 
                     }
                 });
@@ -69,5 +77,14 @@ public class Activity_BrandSelection extends AppCompatActivity {
     }
     private void intWidgets(){
         rvc_brandlist = findViewById(R.id.rv_brands);
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == android.R.id.home){
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
