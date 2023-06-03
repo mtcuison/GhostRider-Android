@@ -14,31 +14,30 @@ package org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Intent;
-import android.os.AsyncTask;
-import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DAddressUpdate;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEmployeeInfo;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DMobileUpdate;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.EBarangayInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.EDCPCollectionDetail;
-import org.rmj.g3appdriver.dev.Database.Repositories.RBarangay;
-import org.rmj.g3appdriver.dev.Database.Repositories.RTown;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DAddressUpdate;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DEmployeeInfo;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DMobileUpdate;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DTownInfo;
+import org.rmj.g3appdriver.GCircle.room.Entities.EBarangayInfo;
+import org.rmj.g3appdriver.GCircle.room.Entities.EDCPCollectionDetail;
+import org.rmj.g3appdriver.lib.Etc.Barangay;
+import org.rmj.g3appdriver.lib.Etc.Town;
 import org.rmj.g3appdriver.etc.AppConstants;
-import org.rmj.g3appdriver.lib.Location.LocationRetriever;
-import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
-import org.rmj.g3appdriver.lib.integsys.Dcp.pojo.AddressUpdate;
-import org.rmj.g3appdriver.lib.integsys.Dcp.pojo.CustomerNotAround;
-import org.rmj.g3appdriver.lib.integsys.Dcp.LRDcp;
-import org.rmj.g3appdriver.lib.integsys.Dcp.pojo.MobileUpdate;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
 import org.rmj.g3appdriver.etc.ImageFileCreator;
+import org.rmj.g3appdriver.lib.Location.LocationRetriever;
+import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.Dcp.pojo.AddressUpdate;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.Dcp.pojo.CustomerNotAround;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.Dcp.LRDcp;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.Dcp.pojo.MobileUpdate;
+import org.rmj.g3appdriver.utils.Task.OnDoBackgroundTaskListener;
+import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
+import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 
 import java.util.List;
 
@@ -50,16 +49,16 @@ public class VMCustomerNotAround extends AndroidViewModel {
     private final LRDcp poSys;
     private final EmployeeMaster poUser;
 
-    private final RTown poTown;
-    private final RBarangay poBrgy;
+    private final Town poTown;
+    private final Barangay poBrgy;
 
     public VMCustomerNotAround(@NonNull Application application) {
         super(application);
         this.instance = application;
         this.poSys = new LRDcp(application);
         this.poUser = new EmployeeMaster(application);
-        this.poTown = new RTown(application);
-        this.poBrgy = new RBarangay(application);
+        this.poTown = new Town(application);
+        this.poBrgy = new Barangay(application);
     }
 
     public LiveData<DEmployeeInfo.EmployeeBranch> GetUserInfo(){
@@ -74,7 +73,7 @@ public class VMCustomerNotAround extends AndroidViewModel {
         new SaveAddressTask(callback).execute(foVal);
     }
 
-    private class SaveAddressTask extends AsyncTask<AddressUpdate, Void, Boolean>{
+    /*private class SaveAddressTask extends AsyncTask<AddressUpdate, Void, Boolean>{
 
         private final ViewModelCallback callback;
 
@@ -109,13 +108,48 @@ public class VMCustomerNotAround extends AndroidViewModel {
                 callback.OnSuccessResult();
             }
         }
+    }*/
+    private class SaveAddressTask{
+        private final ViewModelCallback callback;
+        private String message;
+        public SaveAddressTask(ViewModelCallback callback) {
+            this.callback = callback;
+        }
+        public void execute(AddressUpdate foVal){
+            TaskExecutor.Execute(foVal, new OnTaskExecuteListener() {
+                @Override
+                public void OnPreExecute() {
+                    callback.OnStartSaving();
+                }
+
+                @Override
+                public Object DoInBackground(Object args) {
+                    if(!poSys.SaveAddressUpdate((AddressUpdate) args)){
+                        message = poSys.getMessage();
+                        return false;
+                    }
+
+                    return true;
+                }
+
+                @Override
+                public void OnPostExecute(Object object) {
+                    Boolean isSuccess = (Boolean) object;
+                    if(!isSuccess){
+                        callback.OnFailedResult(message);
+                    } else {
+                        callback.OnSuccessResult();
+                    }
+                }
+            });
+        }
     }
 
     public void SaveNewMobile(MobileUpdate foVal, ViewModelCallback callback){
         new SaveMobileTask(callback).execute(foVal);
     }
 
-    private class SaveMobileTask extends AsyncTask<MobileUpdate, Void, Boolean>{
+    /*private class SaveMobileTask extends AsyncTask<MobileUpdate, Void, Boolean>{
 
         private final ViewModelCallback callback;
 
@@ -150,6 +184,40 @@ public class VMCustomerNotAround extends AndroidViewModel {
                 callback.OnSuccessResult();
             }
         }
+    }*/
+    private class SaveMobileTask{
+        private final ViewModelCallback callback;
+        private String message;
+        public SaveMobileTask(ViewModelCallback callback) {
+            this.callback = callback;
+        }
+        public void execute(MobileUpdate foVal){
+            TaskExecutor.Execute(foVal, new OnTaskExecuteListener() {
+                @Override
+                public void OnPreExecute() {
+                    callback.OnStartSaving();
+                }
+
+                @Override
+                public Object DoInBackground(Object args) {
+                    if(!poSys.SaveMobileUpdate((MobileUpdate) args)){
+                        message = poSys.getMessage();
+                        return false;
+                    }
+                    return true;
+                }
+
+                @Override
+                public void OnPostExecute(Object object) {
+                    Boolean isSuccess = (Boolean) object;
+                    if(!isSuccess){
+                        callback.OnFailedResult(message);
+                    } else {
+                        callback.OnSuccessResult();
+                    }
+                }
+            });
+        }
     }
 
     public LiveData<List<DMobileUpdate.MobileUpdateInfo>> GetMobileUpdates(String fsVal){
@@ -173,7 +241,7 @@ public class VMCustomerNotAround extends AndroidViewModel {
         new RemoveMobileTask(callback).execute(fsVal);
     }
 
-    public class RemoveAddressTask extends AsyncTask<String, Void, Boolean>{
+    /*public class RemoveAddressTask extends AsyncTask<String, Void, Boolean>{
 
         private final OnRemoveDetailCallback callback;
 
@@ -203,9 +271,38 @@ public class VMCustomerNotAround extends AndroidViewModel {
                 callback.OnSuccess();
             }
         }
+    }*/
+    public class RemoveAddressTask{
+        private final OnRemoveDetailCallback callback;
+        private String message;
+        public RemoveAddressTask(OnRemoveDetailCallback callback) {
+            this.callback = callback;
+        }
+        public void execute(String fsVal){
+            TaskExecutor.Execute(fsVal, new OnDoBackgroundTaskListener() {
+                @Override
+                public Object DoInBackground(Object args) {
+                    if(!poSys.DeleteAddressUpdate((String) args)){
+                        message = poSys.getMessage();
+                        return false;
+                    }
+                    return true;
+                }
+
+                @Override
+                public void OnPostExecute(Object object) {
+                    Boolean isSuccess = (Boolean) object;
+                    if(!isSuccess){
+                        callback.OnFailed(message);
+                    } else {
+                        callback.OnSuccess();
+                    }
+                }
+            });
+        }
     }
 
-    public class RemoveMobileTask extends AsyncTask<String, Void, Boolean>{
+    /*public class RemoveMobileTask extends AsyncTask<String, Void, Boolean>{
 
         private final OnRemoveDetailCallback callback;
 
@@ -235,13 +332,42 @@ public class VMCustomerNotAround extends AndroidViewModel {
                 callback.OnSuccess();
             }
         }
+    }*/
+    public class RemoveMobileTask{
+        private final OnRemoveDetailCallback callback;
+        private String message;
+        public RemoveMobileTask(OnRemoveDetailCallback callback) {
+            this.callback = callback;
+        }
+        public void execute(String fsVal){
+            TaskExecutor.Execute(fsVal, new OnDoBackgroundTaskListener() {
+                @Override
+                public Object DoInBackground(Object args) {
+                    if(!poSys.DeleteMobileUpdate((String) args)){
+                        message = poSys.getMessage();
+                        return false;
+                    }
+                    return true;
+                }
+
+                @Override
+                public void OnPostExecute(Object object) {
+                    Boolean isSuccess = (Boolean) object;
+                    if(!isSuccess){
+                        callback.OnFailed(message);
+                    } else {
+                        callback.OnSuccess();
+                    }
+                }
+            });
+        }
     }
 
     public void SaveTransaction(CustomerNotAround foVal, ViewModelCallback callback){
         new SaveCNATask(callback).execute(foVal);
     }
 
-    private class SaveCNATask extends AsyncTask<CustomerNotAround, Void, Boolean>{
+    /*private class SaveCNATask extends AsyncTask<CustomerNotAround, Void, Boolean>{
 
         private final ViewModelCallback callback;
 
@@ -275,13 +401,47 @@ public class VMCustomerNotAround extends AndroidViewModel {
                 callback.OnSuccessResult();
             }
         }
+    }*/
+    private class SaveCNATask{
+        private final ViewModelCallback callback;
+        private String message;
+        public SaveCNATask(ViewModelCallback callback) {
+            this.callback = callback;
+        }
+        public void execute(CustomerNotAround foVal){
+            TaskExecutor.Execute(foVal, new OnTaskExecuteListener() {
+                @Override
+                public void OnPreExecute() {
+                    callback.OnStartSaving();
+                }
+
+                @Override
+                public Object DoInBackground(Object args) {
+                    if(!poSys.SaveCustomerNotAround((CustomerNotAround) args)){
+                        message = poSys.getMessage();
+                        return false;
+                    }
+                    return true;
+                }
+
+                @Override
+                public void OnPostExecute(Object object) {
+                    Boolean isSuccess = (Boolean) object;
+                    if(!isSuccess){
+                        callback.OnFailedResult(message);
+                    } else {
+                        callback.OnSuccessResult();
+                    }
+                }
+            });
+        }
     }
 
     public void InitCameraLaunch(Activity activity, String TransNox, OnInitializeCameraCallback callback){
         new InitializeCameraTask(activity, TransNox, instance, callback).execute();
     }
 
-    private static class InitializeCameraTask extends AsyncTask<String, Void, Boolean>{
+    /*private static class InitializeCameraTask extends AsyncTask<String, Void, Boolean>{
 
         private final OnInitializeCameraCallback callback;
         private final ImageFileCreator loImage;
@@ -337,12 +497,64 @@ public class VMCustomerNotAround extends AndroidViewModel {
                 callback.OnFailed(message, loIntent, args);
             }
         }
-    }
+    }*/
+    private static class InitializeCameraTask{
+        private final OnInitializeCameraCallback callback;
+        private final ImageFileCreator loImage;
+        private final LocationRetriever loLrt;
 
-    public LiveData<ArrayAdapter<String>> getRequestCodeOptions() {
-        MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
-        liveData.setValue(DCP_Constants.getAdapter(getApplication(), DCP_Constants.REQUEST_CODE));
-        return liveData;
+        private Intent loIntent;
+        private String[] argsList = new String[4];
+        private String message;
+
+        public InitializeCameraTask(Activity activity, String TransNox, Application instance, OnInitializeCameraCallback callback){
+            this.callback = callback;
+            this.loImage = new ImageFileCreator(instance, AppConstants.SUB_FOLDER_SELFIE_LOG, TransNox);
+            this.loLrt = new LocationRetriever(instance, activity);
+        }
+        public void execute(){
+            TaskExecutor.Execute(null, new OnTaskExecuteListener() {
+                @Override
+                public void OnPreExecute() {
+                    callback.OnInit();
+                }
+
+                @Override
+                public Object DoInBackground(Object args) {
+                    if(!loImage.IsFileCreated(true)){
+                        message = loImage.getMessage();
+                        return false;
+                    } else {
+                        if(loLrt.HasLocation()){
+                            argsList[0] = loImage.getFilePath();
+                            argsList[1] = loImage.getFileName();
+                            argsList[2] = loLrt.getLatitude();
+                            argsList[3] = loLrt.getLongitude();
+                            loIntent = loImage.getCameraIntent();
+                            return true;
+                        } else {
+                            argsList[0] = loImage.getFilePath();
+                            argsList[1] = loImage.getFileName();
+                            argsList[2] = loLrt.getLatitude();
+                            argsList[3] = loLrt.getLongitude();
+                            loIntent = loImage.getCameraIntent();
+                            message = loLrt.getMessage();
+                            return false;
+                        }
+                    }
+                }
+
+                @Override
+                public void OnPostExecute(Object object) {
+                    Boolean isSuccess = (Boolean) object;
+                    if(isSuccess){
+                        callback.OnSuccess(loIntent, argsList);
+                    } else {
+                        callback.OnFailed(message, loIntent, argsList);
+                    }
+                }
+            });
+        }
     }
 
     public LiveData<List<DTownInfo.TownProvinceInfo>> getTownProvinceInfo(){

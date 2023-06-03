@@ -93,6 +93,26 @@ public class Fragment_Notifications extends Fragment {
                     }
 
                     if(count == 0){
+                        Objects.requireNonNull(tabLayout.getTabAt(0)).removeBadge();
+                        return;
+                    }
+
+                    Objects.requireNonNull(Objects.requireNonNull(tabLayout.getTabAt(0)).getOrCreateBadge()).setNumber(count);
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        mViewModel.GetUnreadMessagesCount().observe(requireActivity(), new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer count) {
+                try{
+                    if(count == null){
+                        return;
+                    }
+
+                    if(count == 0){
                         Objects.requireNonNull(tabLayout.getTabAt(1)).removeBadge();
                         return;
                     }
@@ -104,7 +124,7 @@ public class Fragment_Notifications extends Fragment {
             }
         });
 
-        mViewModel.GetUnreadMessagesCount().observe(requireActivity(), new Observer<Integer>() {
+        mViewModel.GetUnreadNotificationCount().observe(requireActivity(), new Observer<Integer>() {
             @Override
             public void onChanged(Integer count) {
                 try{
@@ -123,35 +143,14 @@ public class Fragment_Notifications extends Fragment {
                 }
             }
         });
-
-        mViewModel.GetUnreadNotificationCount().observe(requireActivity(), new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer count) {
-                try{
-                    if(count == null){
-                        return;
-                    }
-
-                    if(count == 0){
-                        Objects.requireNonNull(tabLayout.getTabAt(3)).removeBadge();
-                        return;
-                    }
-
-                    Objects.requireNonNull(Objects.requireNonNull(tabLayout.getTabAt(3)).getOrCreateBadge()).setNumber(count);
-                } catch (Exception e){
-                    e.printStackTrace();
-                }
-            }
-        });
         return view;
     }
 
     private static class ApplicationPageAdapter extends FragmentStatePagerAdapter {
 
-        private final String[] lsTitle = new String[]{"Announcement", "Payslip", "Message", "Notification"};
+        private final String[] lsTitle = new String[]{"Payslip", "Message", "Notification"};
 
         private final Fragment[] loFragments = new Fragment[]{
-                new Fragment_AnouncementList(),
                 new Fragment_PayslipList(),
                 new Fragment_MessageUsers(),
                 new Fragment_NotificationList()};

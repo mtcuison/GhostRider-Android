@@ -4,57 +4,37 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
-import android.widget.RadioButton;
-
-import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.MaterialAutoCompleteTextView;
-import com.google.android.material.textfield.TextInputLayout;
-import com.google.android.material.textview.MaterialTextView;
-import com.google.android.material.divider.MaterialDivider;
-import com.google.android.material.card.MaterialCardView;
-import com.google.android.material.imageview.ShapeableImageView;
-import  com.google.android.material.checkbox.MaterialCheckBox;
-
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
-import org.rmj.g3appdriver.etc.FormatUIText;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.etc.GToast;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditAppConstants;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.MobileNo;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.OtherReference;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Personal;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Reference;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.ReviewAppDetail;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.CreditAppConstants;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.OnSaveInfoListener;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.model.OtherReference;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.model.Reference;
 import org.rmj.guanzongroup.onlinecreditapplication.Adapter.ReferencesAdapter;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.OnParseListener;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMOtherInfo;
-import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMReviewLoanApp;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -208,22 +188,16 @@ public class Activity_OtherInfo extends AppCompatActivity {
 
         spnUnitUser.setAdapter(new ArrayAdapter<>(Activity_OtherInfo.this,
                 android.R.layout.simple_list_item_1, CreditAppConstants.UNIT_USER));
-        spnUnitUser.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         spnOthrUser.setAdapter(new ArrayAdapter<>(Activity_OtherInfo.this,
                 android.R.layout.simple_list_item_1, CreditAppConstants.UNIT_USER_OTHERS));
-        spnOthrUser.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         spnUnitPrps.setAdapter(new ArrayAdapter<>(Activity_OtherInfo.this,
                 android.R.layout.simple_list_item_1, CreditAppConstants.UNIT_PURPOSE));
-        spnUnitPrps.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         spnUnitPayr.setAdapter(new ArrayAdapter<>(Activity_OtherInfo.this,
                 android.R.layout.simple_list_item_1, CreditAppConstants.UNIT_USER));
-        spnUnitPayr.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         spnOthrPayr.setAdapter(new ArrayAdapter<>(Activity_OtherInfo.this,
                 android.R.layout.simple_list_item_1, CreditAppConstants.UNIT_PAYER));
-        spnOthrPayr.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         spnSourcexx.setAdapter(new ArrayAdapter<>(Activity_OtherInfo.this,
                 android.R.layout.simple_list_item_1, CreditAppConstants.UNIT_PAYER));
-        spnSourcexx.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
 
         spnUnitUser.setOnItemClickListener(new Activity_OtherInfo.SpinnerSelectionListener(spnUnitUser));
         spnUnitPayr.setOnItemClickListener(new Activity_OtherInfo.SpinnerSelectionListener(spnUnitPayr));
@@ -245,20 +219,17 @@ public class Activity_OtherInfo extends AppCompatActivity {
 
                     ArrayAdapter<String> adapter = new ArrayAdapter<>(Activity_OtherInfo.this, android.R.layout.simple_spinner_dropdown_item, strings.toArray(new String[0]));
                     tieAddTown.setAdapter(adapter);
-                    tieAddTown.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
                     tieAddTown.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                             for (int x = 0; x < loList.size(); x++) {
                                 String lsLabel = loList.get(x).sTownName + ", " + loList.get(x).sProvName;
                                 String lsSlctd = tieAddTown.getText().toString().trim();
-                                reference.setTownCity(loList.get(x).sTownIDxx);
-//                                if (lsSlctd.equalsIgnoreCase(lsLabel)) {
-//                                    mViewModel.getModel().getR
-//                                    mViewModel.getModel().setBirthPlc(lsLabel);
-
-//                                    break;
-//                                }
+                                if (lsSlctd.equalsIgnoreCase(lsLabel)) {
+                                    reference.setTownCity(loList.get(x).sTownIDxx);
+                                    reference.setTownName(lsLabel);
+                                    break;
+                                }
                             }
                         }
                     });

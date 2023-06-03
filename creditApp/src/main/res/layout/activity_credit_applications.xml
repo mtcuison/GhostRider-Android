@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".Activities.Activity_CreditApplications"
-    android:background="@drawable/bg_gradient_light"
     android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
     tools:ignore="MissingDefaultResource">
 

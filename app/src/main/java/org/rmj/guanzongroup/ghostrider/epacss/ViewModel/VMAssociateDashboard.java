@@ -11,8 +11,9 @@
 
 package org.rmj.guanzongroup.ghostrider.epacss.ViewModel;
 
+import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
+
 import android.app.Application;
-import android.os.AsyncTask;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -20,116 +21,163 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeBusinessTrip;
-import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeLeave;
-import org.rmj.g3appdriver.dev.Database.Repositories.RBranch;
+import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
+import org.rmj.g3appdriver.GCircle.Apps.PetManager.OnCheckEmployeeApplicationListener;
+import org.rmj.g3appdriver.GCircle.Apps.PetManager.PetManager;
+import org.rmj.g3appdriver.GCircle.Apps.PetManager.model.iPM;
+import org.rmj.g3appdriver.GCircle.room.Entities.EBranchInfo;
+import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeBusinessTrip;
+import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeInfo;
+import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeLeave;
+import org.rmj.g3appdriver.lib.Etc.Branch;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
-import org.rmj.g3appdriver.lib.PetManager.OnCheckEmployeeApplicationListener;
-import org.rmj.g3appdriver.lib.PetManager.PetManager;
-import org.rmj.g3appdriver.lib.PetManager.model.iPM;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
+import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
+import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 
 import java.util.List;
 
 public class VMAssociateDashboard extends AndroidViewModel {
-    private static final String TAG =  VMAssociateDashboard.class.getSimpleName();
+    private static final String TAG = VMAssociateDashboard.class.getSimpleName();
 
     private final Application instance;
 
     private final EmployeeMaster poEmployee;
     private iPM poApp;
-    private final RBranch pobranch;
+    private final Branch pobranch;
     private final ConnectionUtil poConn;
 
     private final AppConfigPreference poConfigx;
 
     private final MutableLiveData<String> psVersion = new MutableLiveData<>();
+    private String message;
 
     public VMAssociateDashboard(@NonNull Application application) {
         super(application);
         this.instance = application;
         this.poEmployee = new EmployeeMaster(application);
-        this.pobranch = new RBranch(application);
+        this.pobranch = new Branch(application);
         this.poConfigx = AppConfigPreference.getInstance(application);
         this.psVersion.setValue(poConfigx.getVersionInfo());
         this.poConn = new ConnectionUtil(application);
     }
 
-    public LiveData<EEmployeeInfo> getEmployeeInfo(){
+    public LiveData<EEmployeeInfo> getEmployeeInfo() {
         return poEmployee.GetEmployeeInfo();
     }
 
-    public LiveData<String> getVersionInfo(){
+    public LiveData<String> getVersionInfo() {
         return psVersion;
     }
 
-    public LiveData<EBranchInfo> getUserBranchInfo(){
+    public LiveData<EBranchInfo> getUserBranchInfo() {
         return pobranch.getUserBranchInfo();
     }
 
-    public LiveData<List<EEmployeeLeave>> GetLeaveForApproval(){
+    public LiveData<List<EEmployeeLeave>> GetLeaveForApproval() {
         this.poApp = new PetManager(instance).GetInstance(PetManager.ePetManager.LEAVE_APPLICATION);
         return poApp.GetLeaveApplicationsForApproval();
     }
 
-    public LiveData<List<EEmployeeBusinessTrip>> GetOBForApproval(){
+    public LiveData<List<EEmployeeBusinessTrip>> GetOBForApproval() {
         this.poApp = new PetManager(instance).GetInstance(PetManager.ePetManager.BUSINESS_TRIP_APPLICATION);
         return poApp.GetOBApplicationsForApproval();
     }
 
-    public void CheckApplicationsForApproval(OnCheckEmployeeApplicationListener listener){
-        new CheckApplicationForApprovalTask(listener).execute();
-    }
+    public void CheckApplicationsForApproval(OnCheckEmployeeApplicationListener listener) {
+//        new CheckApplicationForApprovalTask(listener).execute();
+        TaskExecutor.Execute(listener, new OnTaskExecuteListener() {
+            @Override
+            public void OnPreExecute() {
 
-    private class CheckApplicationForApprovalTask extends AsyncTask<Void, Void, Boolean>{
+            }
 
-        private final OnCheckEmployeeApplicationListener mListener;
+            @Override
+            public Object DoInBackground(Object args) {
+                try {
+                    if (!poConn.isDeviceConnected()) {
+                        message = poConn.getMessage();
+                        return false;
+                    }
 
-        private String message;
+                    poApp = new PetManager(instance).GetInstance(PetManager.ePetManager.LEAVE_APPLICATION);
+                    if (!poApp.ImportApplications()) {
+                        Log.e(TAG, poApp.getMessage());
+                    }
 
-        public CheckApplicationForApprovalTask(OnCheckEmployeeApplicationListener mListener) {
-            this.mListener = mListener;
-        }
+                    Thread.sleep(1000);
 
-        @Override
-        protected Boolean doInBackground(Void... voids) {
-            try{
-                if(!poConn.isDeviceConnected()){
-                    message = poConn.getMessage();
+                    poApp = new PetManager(instance).GetInstance(PetManager.ePetManager.BUSINESS_TRIP_APPLICATION);
+                    if (!poApp.ImportApplications()) {
+                        Log.e(TAG, poApp.getMessage());
+                    }
+
+                    return true;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    message = getLocalMessage(e);
                     return false;
                 }
-
-                poApp = new PetManager(instance).GetInstance(PetManager.ePetManager.LEAVE_APPLICATION);
-                if(!poApp.ImportApplications()){
-                    Log.e(TAG, poApp.getMessage());
-                }
-
-                Thread.sleep(1000);
-
-                poApp = new PetManager(instance).GetInstance(PetManager.ePetManager.BUSINESS_TRIP_APPLICATION);
-                if(!poApp.ImportApplications()){
-                    Log.e(TAG, poApp.getMessage());
-                }
-
-                return true;
-            } catch (Exception e){
-                e.printStackTrace();
-                message = e.getMessage();
-                return false;
             }
-        }
 
-        @Override
-        protected void onPostExecute(Boolean isSuccess) {
-            super.onPostExecute(isSuccess);
-            if(!isSuccess){
-                mListener.OnFailed(message);
-            } else {
-                mListener.OnSuccess();
+            @Override
+            public void OnPostExecute(Object object) {
+                Boolean lsSuccess = (Boolean) object;
+                if (!lsSuccess) {
+                    listener.OnFailed(message);
+                } else {
+                    listener.OnSuccess();
+                }
             }
-        }
+        });
     }
 }
+//    private class CheckApplicationForApprovalTask extends AsyncTask<Void, Void, Boolean>{
+//
+//        private final OnCheckEmployeeApplicationListener mListener;
+//
+//        private String message;
+//
+//        public CheckApplicationForApprovalTask(OnCheckEmployeeApplicationListener mListener) {
+//            this.mListener = mListener;
+//        }
+//
+//        @Override
+//        protected Boolean doInBackground(Void... voids) {
+//            try{
+//                if(!poConn.isDeviceConnected()){
+//                    message = poConn.getMessage();
+//                    return false;
+//                }
+//
+//                poApp = new PetManager(instance).GetInstance(PetManager.ePetManager.LEAVE_APPLICATION);
+//                if(!poApp.ImportApplications()){
+//                    Log.e(TAG, poApp.getMessage());
+//                }
+//
+//                Thread.sleep(1000);
+//
+//                poApp = new PetManager(instance).GetInstance(PetManager.ePetManager.BUSINESS_TRIP_APPLICATION);
+//                if(!poApp.ImportApplications()){
+//                    Log.e(TAG, poApp.getMessage());
+//                }
+//
+//                return true;
+//            } catch (Exception e){
+//                e.printStackTrace();
+//                message = e.getMessage();
+//                return false;
+//            }
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Boolean isSuccess) {
+//            super.onPostExecute(isSuccess);
+//            if(!isSuccess){
+//                mListener.OnFailed(message);
+//            } else {
+//                mListener.OnSuccess();
+//            }
+//        }
+//    }
+//}

@@ -19,12 +19,14 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import org.json.JSONObject;
-import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
-import org.rmj.g3appdriver.dev.Database.Repositories.RBranch;
-import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
-import org.rmj.g3appdriver.lib.integsys.CashCount.CashCount;
-import org.rmj.g3appdriver.lib.integsys.CashCount.QuickSearchNames;
+import org.rmj.g3appdriver.GCircle.room.Entities.EBranchInfo;
+import org.rmj.g3appdriver.lib.Etc.Branch;
+import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.CashCount.CashCount;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.CashCount.QuickSearchNames;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
+import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
+import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 
 import java.util.List;
 
@@ -35,14 +37,14 @@ public class VMCashCountSubmit extends AndroidViewModel {
     private final EmployeeMaster poEmploye;
     private final CashCount poSys;
     private final ConnectionUtil poConn;
-    private final RBranch poBranch;
-
+    private final Branch poBranch;
+    private String message;
     public VMCashCountSubmit(@NonNull Application application) {
         super(application);
         this.instance = application;
         this.poSys = new CashCount(application);
         this.poEmploye = new EmployeeMaster(application);
-        this.poBranch = new RBranch(application);
+        this.poBranch = new Branch(application);
         this.poConn = new ConnectionUtil(application);
     }
 
@@ -71,108 +73,188 @@ public class VMCashCountSubmit extends AndroidViewModel {
         return poBranch.getSelfieLogBranchInfo();
     }
 
-    public void GetSearchList(String name, OnKwikSearchCallBack callBack){
-        new GetSearchListTask(callBack).execute(name);
-    }
+//    public void GetSearchList(String name, OnKwikSearchCallBack callBack){
+////        new GetSearchListTask(callBack).execute(name);
+//    }
 
-    private class GetSearchListTask extends AsyncTask<String, Void, List<QuickSearchNames>> {
-        private final OnKwikSearchCallBack callback;
+    public void GetSearchList(String name, OnKwikSearchCallBack callback){
+        TaskExecutor.Execute(callback, new OnTaskExecuteListener() {
 
-        private String message;
-
-        public GetSearchListTask(OnKwikSearchCallBack callback) {
-            this.callback = callback;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            callback.onStartKwikSearch();
-        }
-
-        @Override
-        protected List<QuickSearchNames> doInBackground(String... name) {
-            if(!poConn.isDeviceConnected()){
-                message = poConn.getMessage();
-                return null;
+            @Override
+            public void OnPreExecute() {
+                callback.onStartKwikSearch();
             }
 
-            List<QuickSearchNames> loList = poSys.GetQuickSearchNames(name[0]);
-            if(loList == null){
-                message = poSys.getMessage();
-                return null;
-            }
-            return loList;
-        }
+            @Override
+            public Object DoInBackground(Object args) {
+                if(!poConn.isDeviceConnected()){
+                    message = poConn.getMessage();
+                    return null;
+                }
 
-        @Override
-        protected void onPostExecute(List<QuickSearchNames> searchList) {
-            super.onPostExecute(searchList);
-            if(searchList == null){
+                String lsName = (String) args;
+                List<QuickSearchNames> loList = poSys.GetQuickSearchNames(lsName);
+                if(loList == null){
+                    message = poSys.getMessage();
+                    return null;
+                }
+                return loList;
+            }
+
+            @Override
+            public void OnPostExecute(Object object) {
+                Object lssearchList = (Object) object;
+            if(lssearchList == null){
                 callback.onKwikSearchFailed(message);
             } else {
-                callback.onSuccessKwikSearch(searchList);
+                callback.onSuccessKwikSearch((List<QuickSearchNames>) lssearchList);
             }
-        }
+            }
+        });
     }
+//    private class GetSearchListTask extends AsyncTask<String, Void, List<QuickSearchNames>> {
+//        private final OnKwikSearchCallBack callback;
+//
+//        private String message;
+//
+//        public GetSearchListTask(OnKwikSearchCallBack callback) {
+//            this.callback = callback;
+//        }
+//
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//            callback.onStartKwikSearch();
+//        }
+//
+//        @Override
+//        protected List<QuickSearchNames> doInBackground(String... name) {
+//            if(!poConn.isDeviceConnected()){
+//                message = poConn.getMessage();
+//                return null;
+//            }
+//
+//            List<QuickSearchNames> loList = poSys.GetQuickSearchNames(name[0]);
+//            if(loList == null){
+//                message = poSys.getMessage();
+//                return null;
+//            }
+//            return loList;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(List<QuickSearchNames> searchList) {
+//            super.onPostExecute(searchList);
+//            if(searchList == null){
+//                callback.onKwikSearchFailed(message);
+//            } else {
+//                callback.onSuccessKwikSearch(searchList);
+//            }
+//        }
+//    }
 
     public void SaveCashCount(JSONObject foVal, OnSaveCashCountCallBack callback) {
-        new SaveCashCountTask(callback).execute(foVal);
+        TaskExecutor.Execute(callback, new OnTaskExecuteListener() {
+
+            @Override
+            public void OnPreExecute() {
+                callback.OnSaving();
+            }
+
+            @Override
+            public Object DoInBackground(Object args) {
+                Object lsentries = (Object) args;
+                String lsResult = poSys.SaveCashCount((JSONObject) lsentries);
+                if (lsResult == null){
+                    message = poSys.getMessage();
+                    return 0;
+                }
+
+                if(!poConn.isDeviceConnected()){
+                    message = "Cash count entry has been save to local device.";
+                    return 2;
+                }
+
+                if(!poSys.UploadCashCount(lsResult)){
+                    message = poSys.getMessage();
+                    return 0;
+                }
+
+                return 1;
+
+            }
+
+            @Override
+            public void OnPostExecute(Object object) {
+                Integer lsResult = (Integer) object;
+                switch (lsResult){
+                    case 0:
+                        callback.OnFailed(message);
+                        break;
+                    case 1:
+                        callback.OnSuccess();
+                        break;
+                    case 2:
+                        callback.OnSaveToLocal(message);
+                        break;
+                }
+            }
+        });
     }
 
-    private class SaveCashCountTask extends AsyncTask<JSONObject, Void, Integer>{
-
-        private final OnSaveCashCountCallBack callBack;
-
-        private String message;
-
-        public SaveCashCountTask(OnSaveCashCountCallBack callBack) {
-            this.callBack = callBack;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            callBack.OnSaving();
-        }
-
-        @Override
-        protected Integer doInBackground(JSONObject... entries) {
-            String lsResult = poSys.SaveCashCount(entries[0]);
-            if (lsResult == null){
-                message = poSys.getMessage();
-                return 0;
-            }
-
-            if(!poConn.isDeviceConnected()){
-                message = "Cash count entry has been save to local device.";
-                return 2;
-            }
-
-            if(!poSys.UploadCashCount(lsResult)){
-                message = poSys.getMessage();
-                return 0;
-            }
-
-            return 1;
-        }
-
-        @Override
-        protected void onPostExecute(Integer result) {
-            super.onPostExecute(result);
-            switch (result){
-                case 0:
-                    callBack.OnFailed(message);
-                    break;
-                case 1:
-                    callBack.OnSuccess();
-                    break;
-                case 2:
-                    callBack.OnSaveToLocal(message);
-                    break;
-            }
-        }
-    }
+//    private class SaveCashCountTask extends AsyncTask<JSONObject, Void, Integer>{
+//
+//        private final OnSaveCashCountCallBack callBack;
+//
+//        private String message;
+//
+//        public SaveCashCountTask(OnSaveCashCountCallBack callBack) {
+//            this.callBack = callBack;
+//        }
+//
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//            callBack.OnSaving();
+//        }
+//
+//        @Override
+//        protected Integer doInBackground(JSONObject... entries) {
+//            String lsResult = poSys.SaveCashCount(entries[0]);
+//            if (lsResult == null){
+//                message = poSys.getMessage();
+//                return 0;
+//            }
+//
+//            if(!poConn.isDeviceConnected()){
+//                message = "Cash count entry has been save to local device.";
+//                return 2;
+//            }
+//
+//            if(!poSys.UploadCashCount(lsResult)){
+//                message = poSys.getMessage();
+//                return 0;
+//            }
+//
+//            return 1;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Integer result) {
+//            super.onPostExecute(result);
+//            switch (result){
+//                case 0:
+//                    callBack.OnFailed(message);
+//                    break;
+//                case 1:
+//                    callBack.OnSuccess();
+//                    break;
+//                case 2:
+//                    callBack.OnSaveToLocal(message);
+//                    break;
+//            }
+//        }
+//    }
 
 
 

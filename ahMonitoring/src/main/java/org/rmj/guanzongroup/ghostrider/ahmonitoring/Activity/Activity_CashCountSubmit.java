@@ -14,25 +14,15 @@ package org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.TextView;
 
-import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.MaterialAutoCompleteTextView;
-import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.textview.MaterialTextView;
-import com.google.android.material.divider.MaterialDivider;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
-
-import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -40,9 +30,8 @@ import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.lib.integsys.CashCount.QuickSearchNames;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.CashCount.QuickSearchNames;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Etc.DialogKwikSearch;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.CashCountInfoModel;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMCashCountSubmit;
 
@@ -68,7 +57,9 @@ public class Activity_CashCountSubmit extends AppCompatActivity {
             txtRemarksx;
     private MaterialButton btnSendToServer;
 
-    private MaterialTextView lblBranch, lblAddxx, btnQuickSearch;
+    private MaterialTextView lblBranch, lblAddxx;
+
+    private MaterialButton btnQuickSearch;
 
     private LoadDialog poDialogx;
     private MessageBox poMessage;
@@ -146,7 +137,7 @@ public class Activity_CashCountSubmit extends AppCompatActivity {
                 params.put("sORNoxNPt", Objects.requireNonNull(txtORNorthPoint.getText()).toString());
                 params.put("sPRNoxNPt", Objects.requireNonNull(txtPRNorthPoint.getText()).toString());
                 params.put("sDRNoxxxx", Objects.requireNonNull(txtDeliveryRcpt.getText()).toString());
-                params.put("dTransact", AppConstants.CURRENT_DATE);
+                params.put("dTransact", AppConstants.CURRENT_DATE());
                 params.put("dEntryDte", new AppConstants().DATE_MODIFIED);
                 params.put("sReqstdBy", EmployID);
                 params.put("sRemarksx", Objects.requireNonNull(txtRemarksx.getText()).toString());
@@ -171,7 +162,11 @@ public class Activity_CashCountSubmit extends AppCompatActivity {
                                 startActivity(loIntent);
                             }
                             dialog.dismiss();
-                            Activity_CashCounter.getInstance().finish();
+                            try {
+                                Activity_CashCounter.getInstance().finish();
+                            } catch (Exception e){
+                                e.printStackTrace();
+                            }
                             finish();
                         });
                         poMessage.show();

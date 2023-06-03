@@ -24,7 +24,7 @@ public abstract class AdapterRaffleDraw extends RecyclerView.Adapter<AdapterRaff
     public abstract void OnClick(String args);
 
     public interface OnClickListener{
-        void OnClick(String args);
+        void OnClick(PanaloRewards args);
 
     }
     public AdapterRaffleDraw(List<PanaloRewards> poList, OnClickListener mListener) {
@@ -46,7 +46,7 @@ public abstract class AdapterRaffleDraw extends RecyclerView.Adapter<AdapterRaff
             holder.lblBranch.setText(loDetail.getItemDesc());
             holder.itemView.setOnClickListener(v -> {
                 //Action Done here...
-                mListener.OnClick(poList .get(position).getItemDesc());
+                mListener.OnClick(loDetail);
             });
 
 

@@ -1,5 +1,7 @@
 package org.rmj.g3appdriver.lib.Notifications.Obj;
 
+import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
+
 import android.app.Application;
 import android.net.Uri;
 import android.os.Environment;
@@ -8,9 +10,9 @@ import android.util.Log;
 import androidx.core.content.FileProvider;
 import androidx.lifecycle.LiveData;
 
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DPayslip;
-import org.rmj.g3appdriver.dev.Database.Entities.ENotificationMaster;
-import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DPayslip;
+import org.rmj.g3appdriver.GCircle.room.Entities.ENotificationMaster;
+import org.rmj.g3appdriver.GCircle.room.GGC_GCircleDB;
 import org.rmj.g3appdriver.lib.Notifications.NOTIFICATION_STATUS;
 import org.rmj.g3appdriver.lib.Notifications.Obj.Receiver.NMM_Regular;
 
@@ -33,7 +35,7 @@ public class Payslip extends NMM_Regular {
     public Payslip(Application instance) {
         super(instance);
         this.instance = instance;
-        this.poDao = GGC_GriderDB.getInstance(instance).payslipDao();
+        this.poDao = GGC_GCircleDB.getInstance(instance).payslipDao();
     }
 
     public LiveData<List<DPayslip.Payslip>> GetPaySliplist(){
@@ -101,7 +103,7 @@ public class Payslip extends NMM_Regular {
             return FileProvider.getUriForFile(instance, "org.rmj.guanzongroup.ghostrider.epacss" + ".provider", pdfFile);
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return null;
         }
     }

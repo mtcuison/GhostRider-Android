@@ -121,11 +121,8 @@
                         android:id="@+id/spn_applicationType"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:focusable="false"
-                        android:padding="16dp"
-                        android:cursorVisible="false"
-                        android:clickable="false"
-                        android:inputType="none" />
+                        style="@style/DropdownStyleTheme"
+                        android:padding="16dp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -139,11 +136,8 @@
                         android:id="@+id/spn_customerType"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:focusable="false"
-                        android:padding="16dp"
-                        android:cursorVisible="false"
-                        android:clickable="false"
-                        android:inputType="none" />
+                        style="@style/DropdownStyleTheme"
+                        android:padding="16dp"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -227,11 +221,8 @@
                         android:id="@+id/spn_installmentTerm"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:focusable="false"
-                        android:padding="16dp"
-                        android:cursorVisible="false"
-                        android:clickable="false"
-                        android:inputType="none" />
+                        style="@style/DropdownStyleTheme"
+                        android:padding="16dp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout

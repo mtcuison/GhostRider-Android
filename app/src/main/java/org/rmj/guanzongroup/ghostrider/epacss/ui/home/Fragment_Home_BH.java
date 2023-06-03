@@ -20,20 +20,23 @@ import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.android.material.textview.MaterialTextView;
 
-import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeBusinessTrip;
-import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeLeave;
-import org.rmj.g3appdriver.dev.DeptCode;
+import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeBusinessTrip;
+import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeInfo;
+import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeLeave;
+import org.rmj.g3appdriver.GCircle.Etc.DeptCode;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
+import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
 import org.rmj.g3appdriver.lib.Notifications.data.SampleData;
-import org.rmj.g3appdriver.lib.PetManager.OnCheckEmployeeApplicationListener;
+import org.rmj.g3appdriver.GCircle.Apps.PetManager.OnCheckEmployeeApplicationListener;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_BranchPerformanceMonitoring;
 import org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_SplashScreen;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMHomeBH;
 import org.rmj.guanzongroup.ghostrider.epacss.adapter.NewsEventsModel;
 import org.rmj.guanzongroup.ghostrider.notifications.Adapter.AdapterAnnouncements;
+import org.rmj.guanzongroup.petmanager.Activity.Activity_Application;
 import org.rmj.guanzongroup.petmanager.Adapter.EmployeeApplicationAdapter;
 
 import java.util.ArrayList;
@@ -174,25 +177,13 @@ public class Fragment_Home_BH extends Fragment {
                 lblDept.setText(DeptCode.parseUserLevel(eEmployeeInfo.getEmpLevID()));
                 lblBranchCD = eEmployeeInfo.getBranchCD();
                 lblBranchNM = eEmployeeInfo.getBranchNm();
+                initEmployeeApp(eEmployeeInfo);
             } catch (Exception e){
                 e.printStackTrace();
             }
         });
     }
-    public void showDialog(){
-        loMessage.initDialog();
-        loMessage.setNegativeButton("No", (view, dialog) -> dialog.dismiss());
-        loMessage.setPositiveButton("Yes", (view, dialog) -> {
-            dialog.dismiss();
-            requireActivity().finish();
-            new EmployeeMaster(requireActivity().getApplication()).LogoutUserSession();
-            AppConfigPreference.getInstance(getActivity()).setIsAppFirstLaunch(false);
-            startActivity(new Intent(getActivity(), Activity_SplashScreen.class));
-        });
-        loMessage.setTitle("GhostRider Session");
-        loMessage.setMessage("Are you sure you want to end session/logout?");
-        loMessage.show();
-    }
+
     public void initButton(){
         btnPerformance.setOnClickListener(new View.OnClickListener() {
             Intent loIntent;
@@ -208,12 +199,6 @@ public class Fragment_Home_BH extends Fragment {
         });
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(VMHomeBH.class);
-        // TODO: Use the ViewModel
-    }
     private void initCompanyNotice(){
         AdapterAnnouncements loAdapter = new AdapterAnnouncements(SampleData.GetAnnouncementList(), new AdapterAnnouncements.OnItemClickListener() {
             @Override
@@ -226,7 +211,7 @@ public class Fragment_Home_BH extends Fragment {
         rvCompnyAnouncemnt.setLayoutManager(loManager);
         rvCompnyAnouncemnt.setAdapter(loAdapter);
     }
-    private void initEmployeeApp(){
+    private void initEmployeeApp(EEmployeeInfo loInfo){
         mViewModel.CheckApplicationsForApproval(new OnCheckEmployeeApplicationListener() {
             @Override
             public void OnCheck() {
@@ -258,8 +243,12 @@ public class Fragment_Home_BH extends Fragment {
 
                     EmployeeApplicationAdapter loAdapter = new EmployeeApplicationAdapter(app, false, new EmployeeApplicationAdapter.OnLeaveItemClickListener() {
                         @Override
-                        public void OnClick(String TransNox) {
-
+                        public void OnClick(String TransNox, String EmpName) {
+                            Intent loIntent = new Intent(requireActivity(), Activity_Application.class);
+                            loIntent.putExtra("app", AppConstants.INTENT_LEAVE_APPROVAL);
+                            loIntent.putExtra("sTransNox", TransNox);
+                            loIntent.putExtra("type", !loInfo.getUserName().equalsIgnoreCase(EmpName));
+                            startActivity(loIntent);
                         }
                     });
 
@@ -287,8 +276,12 @@ public class Fragment_Home_BH extends Fragment {
 
                     EmployeeApplicationAdapter loAdapter = new EmployeeApplicationAdapter(app, new EmployeeApplicationAdapter.OnOBItemClickListener() {
                         @Override
-                        public void OnClick(String TransNox) {
-
+                        public void OnClick(String TransNox, String EmpName) {
+                            Intent loIntent = new Intent(requireActivity(), Activity_Application.class);
+                            loIntent.putExtra("app", AppConstants.INTENT_OB_APPROVAL);
+                            loIntent.putExtra("sTransNox", TransNox);
+                            loIntent.putExtra("type", !loInfo.getUserName().equalsIgnoreCase(EmpName));
+                            startActivity(loIntent);
                         }
                     });
 

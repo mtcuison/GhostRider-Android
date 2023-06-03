@@ -1,4 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <application>
+        <activity
+            android:name=".Activities.Activity_ProductInquiry"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.Activity_ContactInfo"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.Activity_ClientInfo"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.Activity_CategorySelection"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.Activity_BrandSelection"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.Activity_ProductSelection"
+            android:exported="false" />
+    </application>
+
 </manifest>

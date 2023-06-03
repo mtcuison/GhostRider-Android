@@ -8,7 +8,7 @@ import android.widget.Filter;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
+import org.rmj.g3appdriver.GCircle.room.Entities.EBranchInfo;
 import org.rmj.guanzongroup.pacitareward.R;
 
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ public class RecyclerViewAdapter_BranchList extends RecyclerView.Adapter<Recycle
     private final BranchFilter poFilter;
     private final OnBranchSelectListener listener;
 
-    public interface OnBranchSelectListener{
+    public interface  OnBranchSelectListener{
         void OnSelect(String BranchCode, String BranchName);
     }
     public RecyclerViewAdapter_BranchList(List<EBranchInfo> paBranch, OnBranchSelectListener listener) {

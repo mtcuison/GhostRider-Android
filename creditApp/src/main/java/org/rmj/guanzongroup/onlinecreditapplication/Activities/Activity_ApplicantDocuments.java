@@ -1,40 +1,25 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Activities;
 
-import static org.rmj.guanzongroup.documentscanner.xxxImageStatic.FileCode;
-
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
 
-import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.MaterialAutoCompleteTextView;
-import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.textview.MaterialTextView;
-import com.google.android.material.divider.MaterialDivider;
-import com.google.android.material.card.MaterialCardView;
-import com.google.android.material.imageview.ShapeableImageView;
-import  com.google.android.material.checkbox.MaterialCheckBox;
 
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.CreditAppDocs;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.model.CreditAppDocs;
 import org.rmj.guanzongroup.documentscanner.Activity_DocumentScan;
 import org.rmj.guanzongroup.documentscanner.xxxImageStatic;
 import org.rmj.guanzongroup.onlinecreditapplication.Adapter.DocumentToScanAdapter;
@@ -97,7 +82,7 @@ public class Activity_ApplicantDocuments extends AppCompatActivity {
                 DocumentToScanAdapter loAdapter = new DocumentToScanAdapter(documents, new DocumentToScanAdapter.OnItemClickListener() {
                     @Override
                     public void OnClick(int position) {
-                        if (documents.get(position).sSendStat == null && documents.get(position).sImageNme == null){
+                        if (documents.get(position).cSendStat == null && documents.get(position).sImageNme == null){
                             poDetail = new CreditAppDocs();
                             poDetail.setTransNox(TransNox);
                             poDetail.setFileCode(documents.get(position).sFileCode);

@@ -1,21 +1,21 @@
 package org.rmj.g3appdriver.lib.Panalo.Obj;
 
+import static org.rmj.g3appdriver.dev.Api.ApiResult.getErrorMessage;
+import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
+
+import android.app.Application;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
 
-import androidx.lifecycle.LiveData;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.rmj.g3appdriver.GCircle.Api.GCircleApi;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
-import org.rmj.g3appdriver.dev.Api.WebApi;
 import org.rmj.g3appdriver.dev.Api.WebClient;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DPanalo;
-import org.rmj.g3appdriver.dev.Database.Entities.EPanaloReward;
-import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DPanalo;
+import org.rmj.g3appdriver.GCircle.room.GGC_GCircleDB;
 import org.rmj.g3appdriver.dev.encryp.CodeGenerator;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.lib.Panalo.model.PanaloRewards;
 
 import java.util.ArrayList;
@@ -28,17 +28,15 @@ public class GPanalo {
 
     private final DPanalo poDao;
 
-    private final WebApi poApis;
-    private final AppConfigPreference poConfig;
+    private final GCircleApi poApis;
     private final HttpHeaders poHeaders;
 
     private String message;
 
-    public GPanalo(Context context) {
-        this.mContext = context;
-        this.poDao = GGC_GriderDB.getInstance(mContext).panaloDao();
-        this.poConfig = AppConfigPreference.getInstance(mContext);
-        this.poApis = new WebApi(poConfig.getTestStatus());
+    public GPanalo(Application instance) {
+        this.mContext = instance;
+        this.poDao = GGC_GCircleDB.getInstance(mContext).panaloDao();
+        this.poApis = new GCircleApi(instance);
         this.poHeaders = HttpHeaders.getInstance(mContext);
     }
 
@@ -52,7 +50,7 @@ public class GPanalo {
             params.put("transtat", args);
 
             String lsResponse = WebClient.sendRequest(
-                    poApis.getUrlGetPanaloRewards(poConfig.isBackUpServer()),
+                    poApis.getUrlGetPanaloRewards(),
                     params.toString(),
                     poHeaders.getHeaders());
             if(lsResponse == null){
@@ -64,7 +62,7 @@ public class GPanalo {
             String lsResult = loResponse.getString("result");
             if (!lsResult.equalsIgnoreCase("success")) {
                 JSONObject loError = loResponse.getJSONObject("error");
-                message = loError.getString("message");
+                message = getErrorMessage(loError);
                 return null;
             }
 
@@ -98,7 +96,7 @@ public class GPanalo {
             return loRewards;
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return null;
         }
     }
@@ -109,7 +107,7 @@ public class GPanalo {
             params.put("transtat", args);
 
             String lsResponse = WebClient.sendRequest(
-                    poApis.getUrlGetPanaloRewards(poConfig.isBackUpServer()),
+                    poApis.getClaimPanaloReward(),
                     params.toString(),
                     poHeaders.getHeaders());
             if(lsResponse == null){
@@ -121,14 +119,14 @@ public class GPanalo {
             String lsResult = loResponse.getString("result");
             if (!lsResult.equalsIgnoreCase("success")) {
                 JSONObject loError = loResponse.getJSONObject("error");
-                message = loError.getString("message");
+                message = getErrorMessage(loError);
                 return false;
             }
 
             return true;
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return false;
         }
     }
@@ -149,7 +147,7 @@ public class GPanalo {
             return loBmp;
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return null;
         }
     }
@@ -157,7 +155,7 @@ public class GPanalo {
     public List<String> GetParticipants(){
         try{
             String lsResponse = WebClient.sendRequest(
-                    poApis.getUrlGetRaffleParticipants(poConfig.isBackUpServer()),
+                    poApis.getUrlGetRaffleParticipants(),
                     "",
                     poHeaders.getHeaders());
             if(lsResponse == null){

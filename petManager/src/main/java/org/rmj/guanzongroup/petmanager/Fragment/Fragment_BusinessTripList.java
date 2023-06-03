@@ -24,7 +24,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeBusinessTrip;
+import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeBusinessTrip;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
@@ -73,13 +73,11 @@ public class Fragment_BusinessTripList extends Fragment {
             LinearLayoutManager loManager = new LinearLayoutManager(getActivity());
             loManager.setOrientation(RecyclerView.VERTICAL);
             recyclerView.setLayoutManager(loManager);
-            recyclerView.setAdapter(new EmployeeApplicationAdapter(fsList, TransNox -> {
-                if (!forViewing) {
-                    Intent loIntent = new Intent(requireActivity(), Activity_Application.class);
-                    loIntent.putExtra("app", AppConstants.INTENT_OB_APPROVAL);
-                    loIntent.putExtra("sTransNox", TransNox);
-                    startActivity(loIntent);
-                }
+            recyclerView.setAdapter(new EmployeeApplicationAdapter(fsList, (TransNox, EmpName) -> {
+                Intent loIntent = new Intent(requireActivity(), Activity_Application.class);
+                loIntent.putExtra("app", AppConstants.INTENT_OB_APPROVAL);
+                loIntent.putExtra("sTransNox", TransNox);
+                startActivity(loIntent);
             }));
         } catch (Exception e) {
             e.printStackTrace();

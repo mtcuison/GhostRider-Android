@@ -11,21 +11,22 @@
 
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel;
 
+import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
+
 import android.app.Application;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import org.rmj.g3appdriver.dev.Database.Entities.EAreaPerformance;
-import org.rmj.g3appdriver.dev.Database.Entities.EBranchPerformance;
-import org.rmj.g3appdriver.dev.Database.Repositories.RAreaPerformance;
-import org.rmj.g3appdriver.lib.BullsEye.OnImportPerformanceListener;
-import org.rmj.g3appdriver.lib.BullsEye.obj.AreaPerformance;
-import org.rmj.g3appdriver.lib.BullsEye.obj.BranchPerformance;
+import org.rmj.g3appdriver.GCircle.room.Entities.EBranchPerformance;
+import org.rmj.g3appdriver.GCircle.Apps.BullsEye.OnImportPerformanceListener;
+import org.rmj.g3appdriver.GCircle.Apps.BullsEye.obj.AreaPerformance;
+import org.rmj.g3appdriver.GCircle.Apps.BullsEye.obj.BranchPerformance;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
+import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
+import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 
 import java.util.List;
 
@@ -35,12 +36,16 @@ public class VMAreaMonitor extends AndroidViewModel {
     private final Application instance;
     private final AreaPerformance poSys;
     private final ConnectionUtil poConn;
+    private final BranchPerformance loBranch;
+
+    private String message;
 
     public VMAreaMonitor(@NonNull Application application) {
         super(application);
         this.instance = application;
         this.poSys = new AreaPerformance(application);
         this.poConn = new ConnectionUtil(application);
+        this.loBranch = new BranchPerformance(instance);
     }
 
     public LiveData<List<EBranchPerformance>> GetTopBranchPerformerForJobOrder() {
@@ -65,19 +70,59 @@ public class VMAreaMonitor extends AndroidViewModel {
     }
 
     public void ImportPerformance(OnImportPerformanceListener listener){
-        new ImportDataTask(listener).execute();
+        TaskExecutor.Execute(null, new OnTaskExecuteListener() {
+            @Override
+            public void OnPreExecute() {
+                listener.OnImport();
+            }
+
+            @Override
+            public Object DoInBackground(Object args) {
+                try{
+                    if(!poConn.isDeviceConnected()){
+                        message = poConn.getMessage();
+                        return false;
+                    }
+
+                    if(!poSys.ImportData()){
+                        message = poSys.getMessage();
+                        return false;
+                    }
+
+                    if(!loBranch.ImportData()){
+                        message = loBranch.getMessage();
+                        return false;
+                    }
+                    return true;
+                } catch (Exception e){
+                    e.printStackTrace();
+                    message = getLocalMessage(e);
+                    return false;
+                }
+            }
+
+            @Override
+            public void OnPostExecute(Object object) {
+                boolean isSuccess = (boolean) object;
+                if(!isSuccess){
+                    listener.OnFailed(message);
+                    return;
+                }
+
+                listener.OnSuccess();
+            }
+        });
+//        new ImportDataTask(listener).execute();
     }
 
     private class ImportDataTask extends AsyncTask<Void, Void, Boolean> {
 
         private final OnImportPerformanceListener mListener;
-        private final BranchPerformance loBranch;
 
         private String message;
 
         public ImportDataTask(OnImportPerformanceListener listener) {
             this.mListener = listener;
-            this.loBranch = new BranchPerformance(instance);
         }
 
         @Override
@@ -106,7 +151,7 @@ public class VMAreaMonitor extends AndroidViewModel {
                 return true;
             } catch (Exception e){
                 e.printStackTrace();
-                message = e.getMessage();
+                message = getLocalMessage(e);
                 return false;
             }
         }

@@ -20,6 +20,7 @@ import org.guanzongroup.com.itinerary.Activities.Activity_ItineraryEntry;
 import org.guanzongroup.com.itinerary.Activities.Activity_ItineraryLog;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.guanzongroup.documentscanner.Activity_DocumentScan;
+import org.rmj.guanzongroup.ganado.Activities.Activity_ProductInquiry;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_AreaPerformanceMonitoring;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_CashCountLog;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_CashCounter;
@@ -30,8 +31,10 @@ import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_C
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_LogCollection;
 import org.rmj.guanzongroup.ghostrider.samsungknox.Activity_Knox;
 import org.rmj.guanzongroup.onlinecreditapplication.Activities.Activity_BranchApplications;
+import org.rmj.guanzongroup.onlinecreditapplication.Activities.Activity_CoMaker;
 import org.rmj.guanzongroup.onlinecreditapplication.Activities.Activity_CreditApplications;
 import org.rmj.guanzongroup.onlinecreditapplication.Activities.Activity_IntroductoryQuestion;
+import org.rmj.guanzongroup.onlinecreditapplication.Activities.Activity_SpouseResidenceInfo;
 import org.rmj.guanzongroup.petmanager.Activity.Activity_Application;
 import org.rmj.guanzongroup.petmanager.Activity.Activity_EmployeeLoanEntry;
 import org.rmj.guanzongroup.petmanager.Activity.Activity_Employee_Applications;
@@ -62,6 +65,8 @@ public class ChildObject {
                 break;
             case "loan application":
                 loIntent = new Intent(context, Activity_IntroductoryQuestion.class);
+//                loIntent = new Intent(context, Activity_CoMaker.class);
+//                loIntent.putExtra("sTransNox", "MX012300001");
 //                loIntent = new Intent(context, Activity_CreditAppHome.class);
                 break;
             case "user application list":
@@ -113,7 +118,7 @@ public class ChildObject {
 //                loIntent.putExtra("app", AppConstants.INTENT_APPLICATION_APPROVAL);
                 break;
 
-            case "applications":
+            case "application history":
                 loIntent = new Intent(context, Activity_Employee_Applications.class);
                 loIntent.putExtra("type", true);
                 break;

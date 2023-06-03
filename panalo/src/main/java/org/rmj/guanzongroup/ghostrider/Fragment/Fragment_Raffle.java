@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,7 +17,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.g3appdriver.dev.Database.Entities.ERaffleStatus;
+import org.rmj.g3appdriver.GCircle.room.Entities.ERaffleStatus;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.Panalo.model.PanaloRewards;
 import org.rmj.guanzongroup.ghostrider.Adapter.AdapterRaffleDraw;
@@ -156,11 +155,10 @@ public class Fragment_Raffle extends Fragment {
                     AdapterRaffleDraw loAdapter = new AdapterRaffleDraw(args, new AdapterRaffleDraw.OnClickListener() {
 
                         @Override
-                        public void OnClick(String args) {
+                        public void OnClick(PanaloRewards args) {
                             //to display dialog here
-                            DialogPanaloRedeem dialogPanaloRedeem = new DialogPanaloRedeem(getActivity());
+                            DialogPanaloRedeem dialogPanaloRedeem = new DialogPanaloRedeem(getActivity(), args);
                             dialogPanaloRedeem.show();
-                            Toast.makeText(requireActivity(), args, Toast.LENGTH_SHORT).show();
                         }
                     }) {
                         @Override

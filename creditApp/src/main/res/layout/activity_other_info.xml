@@ -38,11 +38,9 @@
                 android:text="@string/sLblOtherInfo" />
 
             <com.google.android.material.textview.MaterialTextView
-                style="@style/Regular_Label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/sLabelQUnitUser"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                android:text="@string/sLabelQUnitUser" />
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/CustomDropDownTilStyle"
@@ -50,14 +48,11 @@
                 android:layout_height="wrap_content"
                 android:hint="Unit User">
 
-                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/spinner_cap_unitUser"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:clickable="false"
-                    android:cursorVisible="false"
-                    android:focusable="false"
-                    android:inputType="none"
+                    style="@style/DropdownStyleTheme"
                     android:padding="16dp" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -72,19 +67,14 @@
                     android:id="@+id/spinner_cap_otherUser"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:clickable="false"
-                    android:cursorVisible="false"
-                    android:focusable="false"
-                    android:inputType="none"
+                    style="@style/DropdownStyleTheme"
                     android:padding="16dp" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textview.MaterialTextView
-                style="@style/Regular_Label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/sLabelQUnitPurpose"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                android:text="@string/sLabelQUnitPurpose" />
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/CustomDropDownTilStyle"
@@ -96,19 +86,14 @@
                     android:id="@+id/spinner_cap_purposeOfBuying"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:clickable="false"
-                    android:cursorVisible="false"
-                    android:focusable="false"
-                    android:inputType="none"
+                    style="@style/DropdownStyleTheme"
                     android:padding="16dp" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
-                style="@style/Regular_Label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/sLabelQMonthlyAmort"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                android:text="@string/sLabelQMonthlyAmort" />
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/CustomDropDownTilStyle"
@@ -116,14 +101,11 @@
                 android:layout_height="wrap_content"
                 android:hint="Unit Payer">
 
-                <androidx.appcompat.widget.AppCompatMultiAutoCompleteTextView
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/spinner_cap_monthlyPayer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:clickable="false"
-                    android:cursorVisible="false"
-                    android:focusable="false"
-                    android:inputType="none"
+                    style="@style/DropdownStyleTheme"
                     android:padding="16dp" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -138,19 +120,14 @@
                     android:id="@+id/spinner_cap_otherPayer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:clickable="false"
-                    android:cursorVisible="false"
-                    android:focusable="false"
-                    android:inputType="none"
+                    style="@style/DropdownStyleTheme"
                     android:padding="16dp" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textview.MaterialTextView
-                style="@style/Regular_Label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/sLabelQDiscoverUs"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                android:text="@string/sLabelQDiscoverUs" />
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/CustomDropDownTilStyle"
@@ -162,10 +139,7 @@
                     android:id="@+id/spinner_cap_source"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:clickable="false"
-                    android:cursorVisible="false"
-                    android:focusable="false"
-                    android:inputType="none"
+                    style="@style/DropdownStyleTheme"
                     android:padding="16dp" />
             </com.google.android.material.textfield.TextInputLayout>
 

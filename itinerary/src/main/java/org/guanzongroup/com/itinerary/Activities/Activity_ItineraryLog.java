@@ -27,7 +27,7 @@ import org.guanzongroup.com.itinerary.Dialog.DialogEntryDetail;
 import org.guanzongroup.com.itinerary.R;
 import org.guanzongroup.com.itinerary.ViewModel.VMItinerary;
 import org.json.JSONObject;
-import org.rmj.g3appdriver.dev.DeptCode;
+import org.rmj.g3appdriver.GCircle.Etc.DeptCode;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
@@ -51,7 +51,7 @@ public class Activity_ItineraryLog extends AppCompatActivity {
     private RecyclerView recyclerView;
     private MaterialButton btnFilter;
 
-    private String psFrom = AppConstants.CURRENT_DATE, psThru = AppConstants.CURRENT_DATE;
+    private String psFrom = AppConstants.CURRENT_DATE(), psThru = AppConstants.CURRENT_DATE();
 
     public boolean isFiltered = false;
 

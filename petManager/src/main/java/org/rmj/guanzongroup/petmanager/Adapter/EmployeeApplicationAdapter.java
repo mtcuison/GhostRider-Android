@@ -23,11 +23,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.imageview.ShapeableImageView;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textview.MaterialTextView;
 
-import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeBusinessTrip;
-import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeLeave;
+import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeBusinessTrip;
+import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeLeave;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.guanzongroup.petmanager.R;
@@ -43,10 +42,10 @@ public class EmployeeApplicationAdapter extends RecyclerView.Adapter<EmployeeApp
     private boolean forViewing = false;
 
     public interface OnLeaveItemClickListener{
-        void OnClick(String TransNox);
+        void OnClick(String TransNox, String EmpName);
     }
     public interface OnOBItemClickListener{
-        void OnClick(String TransNox);
+        void OnClick(String TransNox, String EmpName);
     }
 
     public EmployeeApplicationAdapter(List<EEmployeeLeave> poLeave, boolean value, OnLeaveItemClickListener listener) {
@@ -89,7 +88,7 @@ public class EmployeeApplicationAdapter extends RecyclerView.Adapter<EmployeeApp
             holder.lblRemarksx.setText(loLeave.getPurposex());
             holder.itemView.setOnClickListener(v -> {
                 if(mLvListener != null){
-                    mLvListener.OnClick(loLeave.getTransNox());
+                    mLvListener.OnClick(loLeave.getTransNox(), loLeave.getEmployID());
                 }
             });
         } else if(poBusTrip != null){
@@ -104,7 +103,7 @@ public class EmployeeApplicationAdapter extends RecyclerView.Adapter<EmployeeApp
             holder.lblRemarksx.setText(loBusTrip.getRemarksx());
             holder.itemView.setOnClickListener(v -> {
                 if(mObListener != null){
-                    mObListener.OnClick(loBusTrip.getTransNox());
+                    mObListener.OnClick(loBusTrip.getTransNox(), loBusTrip.getEmployee());
                 }
             });
         }

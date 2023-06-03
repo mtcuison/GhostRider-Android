@@ -7,39 +7,29 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 
-import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.textview.MaterialTextView;
-import com.google.android.material.divider.MaterialDivider;
-import com.google.android.material.card.MaterialCardView;
-import com.google.android.material.imageview.ShapeableImageView;
 import  com.google.android.material.checkbox.MaterialCheckBox;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import org.json.JSONException;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.SpouseEmployments;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditAppConstants;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.OnSaveInfoListener;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.model.SpouseEmployments;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.OnParseListener;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMSpouseEmployment;
@@ -97,9 +87,26 @@ public class Activity_SpouseEmploymentInfo extends AppCompatActivity {
             }
         });
 
+        cbMilitaryYes.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if(isChecked) {
+                mViewModel.getModel().setMilitaryPersonal("1");
+                return;
+            }
+
+            mViewModel.getModel().setMilitaryPersonal("0");
+        });
+
+        cbUniformYes.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if(isChecked) {
+                mViewModel.getModel().setUniformPersonal("1");
+                return;
+            }
+
+            mViewModel.getModel().setUniformPersonal("0");
+        });
+
         spnCmpLvl.setAdapter(new ArrayAdapter<>(Activity_SpouseEmploymentInfo.this,
                 android.R.layout.simple_list_item_1, CreditAppConstants.COMPANY_LEVEL));
-        spnCmpLvl.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         spnCmpLvl.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -109,7 +116,6 @@ public class Activity_SpouseEmploymentInfo extends AppCompatActivity {
 
         spnEmpLvl.setAdapter(new ArrayAdapter<>(Activity_SpouseEmploymentInfo.this,
                 android.R.layout.simple_list_item_1, CreditAppConstants.EMPLOYEE_LEVEL));
-        spnEmpLvl.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         spnEmpLvl.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -119,7 +125,6 @@ public class Activity_SpouseEmploymentInfo extends AppCompatActivity {
 
         spnBusNtr.setAdapter(new ArrayAdapter<>(Activity_SpouseEmploymentInfo.this,
                 android.R.layout.simple_list_item_1, CreditAppConstants.BUSINESS_NATURE));
-        spnBusNtr.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         spnBusNtr.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -129,17 +134,28 @@ public class Activity_SpouseEmploymentInfo extends AppCompatActivity {
 
         spnEmpSts.setAdapter(new ArrayAdapter<>(Activity_SpouseEmploymentInfo.this,
                 android.R.layout.simple_list_item_1, CreditAppConstants.EMPLOYMENT_STATUS));
-        spnEmpSts.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         spnEmpSts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mViewModel.getModel().setEmployeeStatus(String.valueOf(position));
+                switch (position){
+                    case 0:
+                        mViewModel.getModel().setEmployeeStatus("R");
+                        break;
+                    case 1:
+                        mViewModel.getModel().setEmployeeStatus("P");
+                        break;
+                    case 2:
+                        mViewModel.getModel().setEmployeeStatus("C");
+                        break;
+                    default:
+                        mViewModel.getModel().setEmployeeStatus("S");
+                        break;
+                }
             }
         });
 
         spnServce.setAdapter(new ArrayAdapter<>(Activity_SpouseEmploymentInfo.this,
                 android.R.layout.simple_list_item_1, CreditAppConstants.LENGTH_OF_STAY));
-        spnServce.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         spnServce.setOnItemClickListener((parent, view, position, id) ->
                 mViewModel.getModel().setIsYear(String.valueOf(position)));
 
@@ -157,7 +173,6 @@ public class Activity_SpouseEmploymentInfo extends AppCompatActivity {
 
                     ArrayAdapter<String> adapter = new ArrayAdapter<>(Activity_SpouseEmploymentInfo.this, android.R.layout.simple_spinner_dropdown_item, strings.toArray(new String[0]));
                     txtTownNm.setAdapter(adapter);
-                    txtTownNm.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
                     txtTownNm.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

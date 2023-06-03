@@ -9,45 +9,38 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 
 
-import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.android.material.textview.MaterialTextView;
-import com.google.android.material.divider.MaterialDivider;
-import com.google.android.material.card.MaterialCardView;
-import com.google.android.material.imageview.ShapeableImageView;
 import  com.google.android.material.checkbox.MaterialCheckBox;
 
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.checkbox.MaterialCheckBox;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import org.json.JSONException;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
-import org.rmj.g3appdriver.etc.FormatUIText;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DTownInfo;
+import org.rmj.g3appdriver.GCircle.room.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.CoMaker;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.MobileNo;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditAppConstants;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.OnSaveInfoListener;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.model.CoMaker;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.model.MobileNo;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.OnParseListener;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMCoMaker;
@@ -395,11 +388,11 @@ public class Activity_CoMaker extends AppCompatActivity {
             tieMiddname.setText(infoModel.getMiddName());
             tieSuffixxx.setText(infoModel.getSuffix());
             tieNickname.setText(infoModel.getNickName());
-
-            if(!"".equalsIgnoreCase(infoModel.getBirthDte())){
-                tieBrthDate.setText(FormatUIText.formatGOCasBirthdate(infoModel.getBirthDte()));
-                mViewModel.getModel().setBrthDate(infoModel.getBirthDte());
-            }
+//
+//            if(!"".equalsIgnoreCase(infoModel.getBirthDte())){
+//                tieBrthDate.setText(FormatUIText.formatGOCasBirthdate(infoModel.getBirthDte()));
+//                mViewModel.getModel().setBrthDate(infoModel.getBirthDte());
+//            }
             if(!"".equalsIgnoreCase(infoModel.getIncomexx())){
                 spnIncmSrce .setText(CreditAppConstants.CO_MAKER_INCOME_SOURCE[Integer.parseInt(infoModel.getIncomexx())]);
                 spnIncmSrce.setSelection(Integer.parseInt(infoModel.getIncomexx()));

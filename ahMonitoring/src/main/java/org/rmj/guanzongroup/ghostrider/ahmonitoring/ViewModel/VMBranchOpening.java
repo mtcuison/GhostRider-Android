@@ -19,12 +19,12 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DBranchOpeningMonitor;
-import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DBranchOpeningMonitor;
+import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.lib.Notifications.Obj.BranchOpeningMonitor;
 import org.rmj.g3appdriver.etc.AppConstants;
-import org.rmj.g3appdriver.lib.Account.SessionManager;
-import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
+import org.rmj.g3appdriver.GCircle.Account.EmployeeSession;
+import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -36,7 +36,7 @@ public class VMBranchOpening extends AndroidViewModel {
 
     private final Application instance;
     private final BranchOpeningMonitor poOpening;
-    private final SessionManager poSession;
+    private final EmployeeSession poSession;
     private final EmployeeMaster poUser;
 
     private final MutableLiveData<String> psDateSelected = new MutableLiveData<>();
@@ -44,9 +44,9 @@ public class VMBranchOpening extends AndroidViewModel {
     public VMBranchOpening(@NonNull Application application) {
         super(application);
         this.instance = application;
-        this.poSession = new SessionManager(instance);
+        this.poSession = EmployeeSession.getInstance(instance);
         this.poOpening = new BranchOpeningMonitor(instance);
-        psDateSelected.setValue(new AppConstants().CURRENT_DATE);
+        psDateSelected.setValue(AppConstants.CURRENT_DATE());
         this.poUser = new EmployeeMaster(instance);
     }
 

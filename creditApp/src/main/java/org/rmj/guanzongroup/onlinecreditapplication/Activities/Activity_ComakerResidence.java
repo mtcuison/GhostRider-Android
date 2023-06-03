@@ -8,42 +8,28 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 
-import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.android.material.textview.MaterialTextView;
-import com.google.android.material.divider.MaterialDivider;
-import com.google.android.material.card.MaterialCardView;
-import com.google.android.material.imageview.ShapeableImageView;
-import  com.google.android.material.checkbox.MaterialCheckBox;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
-
 import org.json.JSONException;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.EBarangayInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DTownInfo;
+import org.rmj.g3appdriver.GCircle.room.Entities.EBarangayInfo;
 import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.CoMakerResidence;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditAppConstants;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.OnSaveInfoListener;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.model.CoMakerResidence;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.OnParseListener;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMComakerResidence;
@@ -113,7 +99,6 @@ public class Activity_ComakerResidence extends AppCompatActivity {
 
                     ArrayAdapter<String> adapters = new ArrayAdapter<>(Activity_ComakerResidence.this, android.R.layout.simple_spinner_dropdown_item, string.toArray(new String[0]));
                     txtMunicipality.setAdapter(adapters);
-                    txtMunicipality.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
                     txtMunicipality.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -139,7 +124,6 @@ public class Activity_ComakerResidence extends AppCompatActivity {
                                         ArrayAdapter<String> adapters = new ArrayAdapter<>(Activity_ComakerResidence.this,
                                                 android.R.layout.simple_spinner_dropdown_item, string.toArray(new String[0]));
                                         txtBarangay.setAdapter(adapters);
-                                        txtBarangay.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
                                         txtBarangay.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                             @Override
                                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -175,13 +159,25 @@ public class Activity_ComakerResidence extends AppCompatActivity {
     }
 
     private void SaveComakerResidenceInfo() {
-
         mViewModel.getModel().setLandMark(txtLandMark.getText().toString().trim());
         mViewModel.getModel().setHouseNox(txtHouseNox.getText().toString().trim());
         mViewModel.getModel().setAddress1(txtAddress1.getText().toString().trim());
         mViewModel.getModel().setAddress2(txtAddress2.getText().toString().trim());
-
         mViewModel.getModel().setOwnerRelation(Objects.requireNonNull(txtRelationship.getText()).toString());
+
+        if (mViewModel.getModel().getHouseOwn().equalsIgnoreCase("1") ||
+                mViewModel.getModel().getHouseOwn().equalsIgnoreCase("2")) {
+            if (txtLgnthStay.getText().toString().isEmpty()) {
+                mViewModel.getModel().setLenghtOfStay(0);
+            } else {
+                mViewModel.getModel().setLenghtOfStay(Double.parseDouble(txtLgnthStay.getText().toString()));
+            }
+            if (txtMonthlyExp.getText().toString().isEmpty()) {
+                mViewModel.getModel().setMonthlyExpenses(0);
+            } else {
+                mViewModel.getModel().setMonthlyExpenses(Double.parseDouble(txtMonthlyExp.getText().toString()));
+            }
+        }
 
         mViewModel.SaveData(new OnSaveInfoListener() {
             @Override
@@ -216,7 +212,6 @@ public class Activity_ComakerResidence extends AppCompatActivity {
 
         spnHouseHold.setAdapter(new ArrayAdapter<>(Activity_ComakerResidence.this,
                 android.R.layout.simple_list_item_1, CreditAppConstants.HOUSEHOLDS));
-        spnHouseHold.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         spnHouseHold.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -227,7 +222,6 @@ public class Activity_ComakerResidence extends AppCompatActivity {
 
         spnHouseType.setAdapter(new ArrayAdapter<>(Activity_ComakerResidence.this,
                 android.R.layout.simple_list_item_1, CreditAppConstants.HOUSE_TYPE));
-        spnHouseType.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         spnHouseType.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -238,7 +232,6 @@ public class Activity_ComakerResidence extends AppCompatActivity {
 
         spnLgnthStay.setAdapter(new ArrayAdapter<>(Activity_ComakerResidence.this,
                 android.R.layout.simple_list_item_1, CreditAppConstants.LENGTH_OF_STAY));
-        spnLgnthStay.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         spnLgnthStay.setOnItemClickListener((parent, view, position, id) ->
                 mViewModel.getModel().setIsYear(position));
 
@@ -332,7 +325,7 @@ public class Activity_ComakerResidence extends AppCompatActivity {
                     txtMonthlyExp.setText(FormatUIText.getCurrencyUIFormat(String.valueOf(infoModel.getMonthlyExpenses())));
                 }
 
-                int nlength = (int) (infoModel.getLenghtofStay() * 12);
+                double nlength = (int) (infoModel.getLenghtofStay() * 12);
                 if (nlength < 12) {
                     txtLgnthStay.setText(String.valueOf(nlength));
                     spnLgnthStay.setText(CreditAppConstants.LENGTH_OF_STAY[0], false);

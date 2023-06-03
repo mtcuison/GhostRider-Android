@@ -13,11 +13,10 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textview.MaterialTextView;
 
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.lib.EmployeeLoan.pojo.LoanApplication;
-import org.rmj.g3appdriver.lib.EmployeeLoan.pojo.LoanType;
+import org.rmj.g3appdriver.GCircle.Apps.EmployeeLoan.pojo.LoanApplication;
+import org.rmj.g3appdriver.GCircle.Apps.EmployeeLoan.pojo.LoanType;
 import org.rmj.guanzongroup.petmanager.R;
 import org.rmj.guanzongroup.petmanager.ViewModel.VMEmployeeLoanEntry;
 

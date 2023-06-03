@@ -14,10 +14,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
-import org.rmj.g3appdriver.lib.integsys.Dcp.pojo.ImportParams;
-import org.rmj.g3appdriver.lib.integsys.Dcp.LRDcp;
-import org.rmj.g3appdriver.lib.integsys.Dcp.pojo.PromiseToPay;
+import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.Dcp.pojo.ImportParams;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.Dcp.LRDcp;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.Dcp.pojo.PromiseToPay;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(AndroidJUnit4.class)
@@ -89,6 +89,30 @@ public class TestPromiseToPay {
         if(!loSys.SavePTP(loPtp)){
             message = loSys.getMessage();
             Log.e(TAG, message);
+        } else {
+            isSuccess = true;
+        }
+        assertTrue(isSuccess);
+    }
+
+    @Test
+    public void test03ValidateEntry() {
+        PromiseToPay loPtp = new PromiseToPay();
+        loPtp.setTransNox("M01422000120");
+        loPtp.setAccntNox("M014180113");
+        loPtp.setPaymntxx("1");
+//        loPtp.setBranchCd("M001");
+        loPtp.setCollctNm("Garcia, Michael");
+        loPtp.setEntryNox("2");
+        loPtp.setRemarks("Sample entry");
+        loPtp.setTransact("2022-10-01");
+        loPtp.setFileName("Sample");
+        loPtp.setFilePath("Sample");
+        loPtp.setLongtude(121.0000);
+        loPtp.setLongtude(-13.0988);
+
+        if(!loPtp.isDataValid()){
+            Log.d(TAG, loPtp.getMessage());
         } else {
             isSuccess = true;
         }

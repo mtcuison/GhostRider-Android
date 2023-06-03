@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textview.MaterialTextView;
 
-import org.rmj.g3appdriver.lib.PetManager.pojo.LeaveApprovalInfo;
+import org.rmj.g3appdriver.GCircle.Apps.PetManager.pojo.LeaveApprovalInfo;
 import org.rmj.guanzongroup.petmanager.R;
 
 import java.util.List;

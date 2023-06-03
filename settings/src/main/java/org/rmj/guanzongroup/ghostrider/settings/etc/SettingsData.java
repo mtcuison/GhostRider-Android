@@ -13,7 +13,7 @@ package org.rmj.guanzongroup.ghostrider.settings.etc;
 
 import android.content.Context;
 
-import org.rmj.g3appdriver.lib.Account.SessionManager;
+import org.rmj.g3appdriver.GCircle.Account.EmployeeSession;
 import org.rmj.guanzongroup.ghostrider.settings.Model.SettingsModel;
 import org.rmj.guanzongroup.ghostrider.settings.R;
 
@@ -25,11 +25,11 @@ import static org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_HelpLis
 import static org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_HelpList.listHelpDataHeader;
 
 public class SettingsData {
-    SessionManager sessionManager;
+    EmployeeSession sessionManager;
     public void SettingsData(Context mContext) {
         listHelpDataHeader.clear();
         listHelpDataChild.clear();
-        sessionManager = new SessionManager(mContext);
+        sessionManager = EmployeeSession.getInstance(mContext);
         SettingsModel helpModel = new SettingsModel("SelfieLogin", R.drawable.ic_camera_black_24, true, false, VISIBLE);
         listHelpDataHeader.add(helpModel);
 

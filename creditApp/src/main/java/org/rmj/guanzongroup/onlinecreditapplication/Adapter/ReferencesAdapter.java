@@ -15,28 +15,16 @@ import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.MaterialAutoCompleteTextView;
-import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.textview.MaterialTextView;
-import com.google.android.material.divider.MaterialDivider;
-import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.imageview.ShapeableImageView;
-import  com.google.android.material.checkbox.MaterialCheckBox;
 
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Reference;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.model.Reference;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 
 import java.util.List;
@@ -63,7 +51,6 @@ public class ReferencesAdapter extends RecyclerView.Adapter<ReferencesAdapter.It
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
         Reference reference = referenceInfoModels.get(position);
-        Reference poRef = new Reference(reference.getFullname(),reference.getAddress1(),reference.getTownCity(),reference.getContactN());
         String lsRefNoxx = String.valueOf(position+1);
 
         holder.lblReferenceNo.setText("Reference No. " + lsRefNoxx);

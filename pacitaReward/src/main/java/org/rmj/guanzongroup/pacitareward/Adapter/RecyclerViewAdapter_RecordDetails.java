@@ -1,7 +1,6 @@
 package org.rmj.guanzongroup.pacitareward.Adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.g3appdriver.lib.GawadPacita.pojo.BranchRate;
+import org.rmj.g3appdriver.GCircle.Apps.GawadPacita.pojo.BranchRate;
 import org.rmj.guanzongroup.pacitareward.R;
 
 import java.util.List;
@@ -36,15 +35,15 @@ public class RecyclerViewAdapter_RecordDetails extends RecyclerView.Adapter<Recy
         String cPasRate = evaluationList.get(position).getcPasRatex();
         String scritera = evaluationList.get(position).getsRateName();
 
-        Log.d("RATE LIST SIZE", String.valueOf(evaluationList.size()));
-
         holder.mtv_criteria.setText(scritera);
 
        if (cPasRate.equals("0")){
-            holder.siv_rate.setBackgroundResource(R.drawable.emoji_sad_svgrepo_com);
+            holder.siv_rate.setBackgroundResource(R.drawable.emoji_angry_fill_svgrepo_com);
         } else if (cPasRate.equals("1")) {
-            holder.siv_rate.setBackgroundResource(R.drawable.emoji_laugh_svgrepo_com);
-        }
+            holder.siv_rate.setBackgroundResource(R.drawable.emoji_laughing_fill_svgrepo_com);
+        }else {
+           holder.siv_rate.setVisibility(View.GONE);
+       }
     }
 
     @Override

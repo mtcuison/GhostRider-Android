@@ -58,15 +58,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                        <com.google.android.material.textfield.MaterialAutoCompleteTextView
                             android:id="@+id/spinner_cap_cmrBarrowerRelation"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:clickable="false"
-                            android:cursorVisible="false"
-                            android:focusable="false"
+                            style="@style/DropdownStyleTheme"
                             android:hint="Co-Maker Relationship"
-                            android:inputType="none"
                             android:padding="16dp" />
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -231,7 +228,7 @@
                 android:layout_height="wrap_content"
                 android:baselineAligned="false"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
 <!--                <com.google.android.material.textfield.TextInputLayout-->
 <!--                    android:id="@+id/til_cap_cmrBirthProv"-->
@@ -255,11 +252,30 @@
 <!--                </com.google.android.material.textfield.TextInputLayout>-->
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_cap_cmrBirthdate1"
+                    style="@style/TextInputStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/sHintBirthDate">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tie_cap_cmrBirthdate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:focusedByDefault="false"
+                    android:imeOptions="actionNext"
+                    android:inputType="number|none"
+                    android:maxLength="20"
+                    android:nextFocusForward="@id/tie_cap_cmrBirthTown" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/til_cap_cmrBirthTown"
                     style="@style/TextInputStyle"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1.2"
                     android:hint="@string/sHintBpTown">
 
                     <com.google.android.material.textfield.MaterialAutoCompleteTextView
@@ -274,17 +290,6 @@
                         android:padding="14dp"
                         tools:ignore="LabelFor,RtlSymmetry" />
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/tie_cap_cmrBirthdate"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:focusable="false"
-                        android:focusableInTouchMode="false"
-                        android:focusedByDefault="false"
-                        android:imeOptions="actionNext"
-                        android:inputType="number|none"
-                        android:maxLength="20"
-                        android:nextFocusForward="@id/tie_cap_cmrBirthTown" />
                 </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
@@ -326,15 +331,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
                         android:id="@+id/spinner_cap_cmrIncomeSrc"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:clickable="false"
-                        android:cursorVisible="false"
-                        android:focusable="false"
+                        style="@style/DropdownStyleTheme"
                         android:hint="Source of Income"
-                        android:inputType="none"
                         android:padding="16dp" />
                 </com.google.android.material.textfield.TextInputLayout>
 

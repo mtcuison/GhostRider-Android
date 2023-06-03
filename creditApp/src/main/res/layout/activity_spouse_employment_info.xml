@@ -48,6 +48,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:checked="true"
                     android:text="@string/sLabelPrivate" />
 
                 <com.google.android.material.radiobutton.MaterialRadioButton
@@ -115,10 +116,7 @@
                     android:id="@+id/spn_employmentLevel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:clickable="false"
-                    android:cursorVisible="false"
-                    android:focusable="false"
-                    android:inputType="none"
+                    style="@style/DropdownStyleTheme"
                     android:padding="16dp"
                     android:nextFocusForward="@+id/spn_employeeLevel"/>
             </com.google.android.material.textfield.TextInputLayout>
@@ -134,10 +132,7 @@
                     android:id="@+id/spn_employeeLevel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:clickable="false"
-                    android:cursorVisible="false"
-                    android:focusable="false"
-                    android:inputType="none"
+                    style="@style/DropdownStyleTheme"
                     android:padding="16dp"
                     android:nextFocusForward="@+id/txt_countryNme"/>
             </com.google.android.material.textfield.TextInputLayout>
@@ -171,11 +166,8 @@
                     android:id="@+id/spn_businessNature"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:clickable="false"
-                    android:cursorVisible="false"
-                    android:focusable="false"
+                    style="@style/DropdownStyleTheme"
                     android:hint="Nature of Business (Required)"
-                    android:inputType="none"
                     android:padding="16dp"
                     android:nextFocusForward="@+id/txt_companyNme"/>
             </com.google.android.material.textfield.TextInputLayout>
@@ -313,11 +305,8 @@
                         android:id="@+id/spn_employmentStatus"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:clickable="false"
-                        android:cursorVisible="false"
-                        android:focusable="false"
+                        style="@style/DropdownStyleTheme"
                         android:hint="Employment Status (Required)"
-                        android:inputType="none"
                         android:padding="16dp"
                         android:nextFocusForward="@+id/txt_lenghtService"/>
                 </com.google.android.material.textfield.TextInputLayout>
@@ -354,11 +343,8 @@
                             android:id="@+id/spn_lengthService"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:clickable="false"
-                            android:cursorVisible="false"
-                            android:focusable="false"
+                            style="@style/DropdownStyleTheme"
                             android:hint="Legnth of Stay (Required)"
-                            android:inputType="none"
                             android:padding="16dp"
                             android:nextFocusForward="@+id/txt_monthlySalary"/>
                     </com.google.android.material.textfield.TextInputLayout>

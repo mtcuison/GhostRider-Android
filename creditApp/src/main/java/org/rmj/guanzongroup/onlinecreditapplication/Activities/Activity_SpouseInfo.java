@@ -9,43 +9,32 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 
-import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.android.material.textview.MaterialTextView;
-import com.google.android.material.divider.MaterialDivider;
-import com.google.android.material.card.MaterialCardView;
-import com.google.android.material.imageview.ShapeableImageView;
 import  com.google.android.material.checkbox.MaterialCheckBox;
 
 
 import org.json.JSONException;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.ECountryInfo;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DTownInfo;
+import org.rmj.g3appdriver.GCircle.room.Entities.ECountryInfo;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.ClientSpouseInfo;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.MobileNo;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditAppConstants;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.OnSaveInfoListener;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.model.ClientSpouseInfo;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.model.MobileNo;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
-import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.OnParseListener;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMSpouseInfo;
 
 import java.text.SimpleDateFormat;
@@ -121,7 +110,6 @@ public class Activity_SpouseInfo extends AppCompatActivity {
 
                     ArrayAdapter<String> adapter = new ArrayAdapter<>(Activity_SpouseInfo.this, android.R.layout.simple_spinner_dropdown_item, strings.toArray(new String[0]));
                     txtTownxx.setAdapter(adapter);
-                    txtTownxx.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
 
                     txtTownxx.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
@@ -146,7 +134,6 @@ public class Activity_SpouseInfo extends AppCompatActivity {
 
         ArrayAdapter<String> loAdapter = new ArrayAdapter<>(Activity_SpouseInfo.this, android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.CIVIL_STATUS);
         txtCitizenx.setAdapter(loAdapter);
-        txtCitizenx.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
 
         //TODO: Replace the spinner(dropdown list) for selection of mobile number type into check box with label 'PostPaid'
         // The default value for mobile no type will be prepaid if not check.
@@ -244,7 +231,6 @@ public class Activity_SpouseInfo extends AppCompatActivity {
 
                     ArrayAdapter<String> adapter = new ArrayAdapter<>(Activity_SpouseInfo.this, android.R.layout.simple_spinner_dropdown_item, strings.toArray(new String[0]));
                     txtCitizenx.setAdapter(adapter);
-                    txtCitizenx.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
 
                     txtCitizenx.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override

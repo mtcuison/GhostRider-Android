@@ -19,11 +19,11 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import org.guanzongroup.com.itinerary.R;
 import org.guanzongroup.com.itinerary.ViewModel.VMItinerary;
-import org.rmj.g3appdriver.dev.DeptCode;
+import org.rmj.g3appdriver.GCircle.Etc.DeptCode;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.lib.Itinerary.Obj.EmployeeItinerary;
+import org.rmj.g3appdriver.GCircle.Apps.Itinerary.Obj.EmployeeItinerary;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -64,7 +64,7 @@ public class Activity_ItineraryEntry extends AppCompatActivity {
         lblDept = findViewById(R.id.lbl_userPosition);
 
         //init default itinerary values
-        loDetail.setTransact(AppConstants.CURRENT_DATE);
+        loDetail.setTransact(AppConstants.CURRENT_DATE());
 
         poLoad = new LoadDialog(Activity_ItineraryEntry.this);
         poDialog = new MessageBox(Activity_ItineraryEntry.this);

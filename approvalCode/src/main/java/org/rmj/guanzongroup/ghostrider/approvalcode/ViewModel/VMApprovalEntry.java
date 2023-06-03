@@ -11,19 +11,22 @@
 
 package org.rmj.guanzongroup.ghostrider.approvalcode.ViewModel;
 
+import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
+
 import android.app.Application;
-import android.os.AsyncTask;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
-import org.rmj.g3appdriver.lib.ApprovalCode.ApprovalCode;
-import org.rmj.g3appdriver.lib.ApprovalCode.model.SCA;
+import org.rmj.g3appdriver.GCircle.Apps.ApprovalCode.ApprovalCode;
+import org.rmj.g3appdriver.GCircle.Apps.ApprovalCode.model.SCA;
+import org.rmj.g3appdriver.GCircle.Apps.ApprovalCode.pojo.AppCodeParams;
+import org.rmj.g3appdriver.GCircle.room.Entities.EBranchInfo;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
-import org.rmj.g3appdriver.lib.ApprovalCode.pojo.AppCodeParams;
+import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
+import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 
 import java.util.List;
 
@@ -31,10 +34,13 @@ public class VMApprovalEntry extends AndroidViewModel {
     private static final String TAG = VMApprovalEntry.class.getSimpleName();
     private final SCA poSys;
     private final ConnectionUtil poConn;
+    private String message;
 
-    public interface OnGenerateApprovalCodeListener{
+    public interface OnGenerateApprovalCodeListener {
         void OnGenerate(String title, String message);
+
         void OnSuccess(String args);
+
         void OnFailed(String message);
     }
 
@@ -44,75 +50,125 @@ public class VMApprovalEntry extends AndroidViewModel {
         this.poConn = new ConnectionUtil(application);
     }
 
-    public LiveData<String> GetApprovalCodeDescription(String AppCode){
+    public LiveData<String> GetApprovalCodeDescription(String AppCode) {
         return poSys.GetApprovalCodeDescription(AppCode);
     }
 
-    public LiveData<List<EBranchInfo>> GetAllBranchInfo(){
+    public LiveData<List<EBranchInfo>> GetAllBranchInfo() {
         return poSys.GetBranchList();
     }
 
-    public void GenerateCode(AppCodeParams foVal, OnGenerateApprovalCodeListener listener){
-        new GenerateCodeTask(listener).execute(foVal);
-    }
+    public void GenerateCode(AppCodeParams foVal, OnGenerateApprovalCodeListener listener) {
+//        new GenerateCodeTask(listener).execute(foVal);
+        TaskExecutor.Execute(null, new OnTaskExecuteListener() {
+            @Override
+            public void OnPreExecute() {
+                listener.OnGenerate("Approval Code", "Generating approval code. Please wait...");
+            }
 
-    private class GenerateCodeTask extends AsyncTask<AppCodeParams, Void, String>{
+            @Override
+            public Object DoInBackground(Object args) {
+                AppCodeParams lsParams = (AppCodeParams) args;
+                try {
+                    if (!lsParams.isDataValid()) {
+                        message = lsParams.getMessage();
+                        return null;
+                    }
 
-        private final OnGenerateApprovalCodeListener listener;
+                    String lsCode = poSys.GenerateCode(lsParams);
 
-        private String message;
+                    if (lsCode == null) {
+                        message = poSys.getMessage();
+                        return null;
+                    }
 
-        public GenerateCodeTask(OnGenerateApprovalCodeListener listener) {
-            this.listener = listener;
-        }
+                    if (!poConn.isDeviceConnected()) {
+                        message = poConn.getMessage();
+                        Log.e(TAG, message);
+                    }
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            listener.OnGenerate("Approval Code", "Generating approval code. Please wait...");
-        }
+                    if (!poSys.Upload(lsCode)) {
+                        message = poSys.getMessage();
+                        Log.e(TAG, message);
+                    }
 
-        @Override
-        protected String doInBackground(AppCodeParams... params) {
-            try{
-                if(!params[0].isDataValid()){
-                    message = params[0].getMessage();
+                    return lsCode;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    message = getLocalMessage(e);
                     return null;
                 }
-
-                String lsCode = poSys.GenerateCode(params[0]);
-
-                if(lsCode == null){
-                    message = poSys.getMessage();
-                    return null;
-                }
-
-                if(!poConn.isDeviceConnected()){
-                    message = poConn.getMessage();
-                    Log.e(TAG, message);
-                }
-
-                if(!poSys.Upload(lsCode)){
-                    message = poSys.getMessage();
-                    Log.e(TAG, message);
-                }
-
-                return lsCode;
-            } catch (Exception e){
-                e.printStackTrace();
-                message = e.getMessage();
-                return null;
             }
-        }
 
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-            if(result == null){
-                listener.OnFailed(message);
-            } else {
-                listener.OnSuccess(result);
+            @Override
+            public void OnPostExecute(Object object) {
+                String lsResult = (String) object;
+                if (lsResult == null) {
+                    listener.OnFailed(message);
+                } else {
+                    listener.OnSuccess(lsResult);
+                }
             }
-        }
+        });
     }
 }
+//    private class GenerateCodeTask extends AsyncTask<AppCodeParams, Void, String>{
+//
+//        private final OnGenerateApprovalCodeListener listener;
+//
+//        private String message;
+//
+//        public GenerateCodeTask(OnGenerateApprovalCodeListener listener) {
+//            this.listener = listener;
+//        }
+//
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//            listener.OnGenerate("Approval Code", "Generating approval code. Please wait...");
+//        }
+//
+//        @Override
+//        protected String doInBackground(AppCodeParams... params) {
+//            try{
+//                if(!params[0].isDataValid()){
+//                    message = params[0].getMessage();
+//                    return null;
+//                }
+//
+//                String lsCode = poSys.GenerateCode(params[0]);
+//
+//                if(lsCode == null){
+//                    message = poSys.getMessage();
+//                    return null;
+//                }
+//
+//                if(!poConn.isDeviceConnected()){
+//                    message = poConn.getMessage();
+//                    Log.e(TAG, message);
+//                }
+//
+//                if(!poSys.Upload(lsCode)){
+//                    message = poSys.getMessage();
+//                    Log.e(TAG, message);
+//                }
+//
+//                return lsCode;
+//            } catch (Exception e){
+//                e.printStackTrace();
+//                message = getLocalMessage(e);
+//                return null;
+//            }
+//        }
+//
+//        @Override
+//        protected void onPostExecute(String result) {
+//            super.onPostExecute(result);
+//            if(result == null){
+//                listener.OnFailed(message);
+//            } else {
+//                listener.OnSuccess(result);
+//            }
+//        }
+//    }
+//}

@@ -13,9 +13,9 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
+import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.utils.SQLUtil;
 import org.rmj.g3appdriver.utils.SecUtil;
-import org.rmj.g3appdriver.utils.WebClient;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -64,7 +64,7 @@ public class CashCountAPITest {
         JSONObject params = new JSONObject();
         params.put("user", "mikegarcia8748@gmail.com");
         params.put("pswd", "123456");
-        String lsResponse = WebClient.httpPostJSon(LOCAL_LOGIN,
+        String lsResponse = WebClient.sendRequest(LOCAL_LOGIN,
                 params.toString(), (HashMap<String, String>) headers);
         if(lsResponse == null){
             isSuccess = false;
@@ -138,7 +138,7 @@ public class CashCountAPITest {
     public void test03DownloadForEvaluator() throws Exception {
         JSONObject params = new JSONObject();
         params.put("sEmployID", "M00119001131");
-        String lsResponse = WebClient.httpPostJSon(IMPORT_FOR_EVALUATION,
+        String lsResponse = WebClient.sendRequest(IMPORT_FOR_EVALUATION,
                 params.toString(), (HashMap<String, String>) headers);
         if(lsResponse == null){
             isSuccess = false;

@@ -11,17 +11,20 @@
 
 package org.guanzongroup.com.creditevaluation.ViewModel;
 
+import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
+
 import android.app.Application;
-import android.os.AsyncTask;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DCreditOnlineApplicationCI;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEmployeeInfo;
-import org.rmj.g3appdriver.lib.integsys.CreditInvestigator.Obj.CITagging;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DCreditOnlineApplicationCI;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DEmployeeInfo;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditInvestigator.Obj.CITagging;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
+import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
+import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 
 import java.util.List;
 
@@ -51,7 +54,7 @@ public class VMEvaluationList extends AndroidViewModel {
         }
     }
 
-    public class AddApplicationInfoTask extends AsyncTask<String, Void, Boolean> {
+    /*public class AddApplicationInfoTask extends AsyncTask<String, Void, Boolean> {
 
         private final ConnectionUtil poConn;
         private final ViewModelCallback callback;
@@ -85,7 +88,7 @@ public class VMEvaluationList extends AndroidViewModel {
                 return true;
             } catch (Exception e) {
                 e.printStackTrace();
-                message = e.getMessage();
+                message = getLocalMessage(e);
                 return false;
             }
         }
@@ -98,6 +101,56 @@ public class VMEvaluationList extends AndroidViewModel {
             } else {
                 callback.OnSuccessResult();
             }
+        }
+    }*/
+    public class AddApplicationInfoTask{
+        private final ConnectionUtil poConn;
+        private final ViewModelCallback callback;
+
+        private String message;
+
+        public AddApplicationInfoTask(Application application, ViewModelCallback callback) {
+            this.poConn = new ConnectionUtil(application);
+            this.callback = callback;
+        }
+        public void execute(String fsTransno){
+            TaskExecutor.Execute(fsTransno.trim(), new OnTaskExecuteListener() {
+                @Override
+                public void OnPreExecute() {
+                    callback.OnStartSaving();
+                }
+
+                @Override
+                public Object DoInBackground(Object args) {
+                    try {
+                        if (!poConn.isDeviceConnected()) {
+                            message = poConn.getMessage();
+                            return false;
+                        }
+
+                        String transno = (String) args;
+                        if(!poSys.AddApplication(transno)){
+                            message = poSys.getMessage();
+                            return false;
+                        }
+                        return true;
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        message = e.getMessage();
+                        return false;
+                    }
+                }
+
+                @Override
+                public void OnPostExecute(Object object) {
+                    Boolean isSuccess = (Boolean) object;
+                    if (!isSuccess) {
+                        callback.OnFailedResult(message);
+                    } else {
+                        callback.OnSuccessResult();
+                    }
+                }
+            });
         }
     }
 
@@ -117,7 +170,7 @@ public class VMEvaluationList extends AndroidViewModel {
     public void DownloadForCIApplications(OnImportCallBack callBack){
         new DownloadForCIApplications(callBack).execute();
     }
-    private class DownloadForCIApplications extends AsyncTask<Void, Void, Boolean> {
+    /*private class DownloadForCIApplications extends AsyncTask<Void, Void, Boolean> {
 
         private final OnImportCallBack callback;
 
@@ -147,7 +200,7 @@ public class VMEvaluationList extends AndroidViewModel {
                 return true;
             } catch (Exception e){
                 e.printStackTrace();
-                message = e.getMessage();
+                message = getLocalMessage(e);
                 return false;
             }
         }
@@ -161,6 +214,52 @@ public class VMEvaluationList extends AndroidViewModel {
             } else {
                 callback.onSuccessImport();
             }
+        }
+    }*/
+    private class DownloadForCIApplications{
+        private final OnImportCallBack callback;
+        private String message;
+        public DownloadForCIApplications(OnImportCallBack callback) {
+            this.callback = callback;
+        }
+
+        public void execute(){
+            TaskExecutor.Execute(null, new OnTaskExecuteListener() {
+                @Override
+                public void OnPreExecute() {
+                    callback.onStartImport();
+                }
+
+                @Override
+                public Object DoInBackground(Object args) {
+                    try {
+                        if (!poConn.isDeviceConnected()) {
+                            message = poConn.getMessage();
+                        }
+
+                        if(!poSys.DownloadForCIApplications()){
+                            message = poSys.getMessage();
+                            return false;
+                        }
+
+                        return true;
+                    } catch (Exception e){
+                        e.printStackTrace();
+                        message = e.getMessage();
+                        return false;
+                    }
+                }
+
+                @Override
+                public void OnPostExecute(Object object) {
+                    boolean isSuccess = (boolean) object;
+                    if(!isSuccess){
+                        callback.onImportFailed(message);
+                    } else {
+                        callback.onSuccessImport();
+                    }
+                }
+            });
         }
     }
 }

@@ -7,43 +7,30 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 
-import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
-import com.google.android.material.textfield.TextInputLayout;
-import com.google.android.material.textview.MaterialTextView;
-import com.google.android.material.divider.MaterialDivider;
-import com.google.android.material.card.MaterialCardView;
-import com.google.android.material.imageview.ShapeableImageView;
 import  com.google.android.material.checkbox.MaterialCheckBox;
 
 
 import org.json.JSONException;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.EBarangayInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DTownInfo;
+import org.rmj.g3appdriver.GCircle.room.Entities.EBarangayInfo;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.SpouseResidenceInfo;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.ClientResidence;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.SpouseResidence;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.Obj.SpouseResidenceInfo;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.OnSaveInfoListener;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.model.ClientResidence;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.model.SpouseResidence;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
-import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.OnParseListener;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMSpouseResidence;
 
 import java.util.ArrayList;
@@ -135,7 +122,6 @@ public class Activity_SpouseResidenceInfo extends AppCompatActivity {
                     ArrayAdapter<String> adapter = new ArrayAdapter<>(Activity_SpouseResidenceInfo.this,
                             android.R.layout.simple_spinner_dropdown_item, strings.toArray(new String[0]));
                     txtTown.setAdapter(adapter);
-                    txtTown.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
                     txtTown.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -159,7 +145,6 @@ public class Activity_SpouseResidenceInfo extends AppCompatActivity {
                                     ArrayAdapter<String> adapters = new ArrayAdapter<>(Activity_SpouseResidenceInfo.this,
                                             android.R.layout.simple_spinner_dropdown_item, string.toArray(new String[0]));
                                     txtBarangay.setAdapter(adapters);
-                                    txtBarangay.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
                                     txtBarangay.setOnItemClickListener((parent1, view1, position1, id1) -> {
                                         for (int x = 0; x < BrgyList.size(); x++) {
                                             String lsLabel = BrgyList.get(x).getBrgyName();

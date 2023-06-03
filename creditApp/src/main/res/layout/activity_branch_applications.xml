@@ -17,7 +17,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".Activities.Activity_BranchApplications"
-    android:background="@drawable/bg_gradient_light"
     android:theme="@style/GhostRiderMaterialTheme"
     tools:ignore="MissingDefaultResource">
     <com.google.android.material.appbar.AppBarLayout

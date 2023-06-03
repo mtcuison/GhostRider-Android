@@ -1,35 +1,37 @@
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Core.Transaction;
 
+import static org.rmj.g3appdriver.dev.Api.ApiResult.getErrorMessage;
+
 import android.app.Application;
 
 import androidx.lifecycle.LiveData;
 
 import org.json.JSONObject;
-import org.rmj.g3appdriver.dev.Database.Entities.EAddressUpdate;
-import org.rmj.g3appdriver.dev.Database.Entities.EDCPCollectionDetail;
-import org.rmj.g3appdriver.dev.Database.Entities.EImageInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.EMobileUpdate;
-import org.rmj.g3appdriver.dev.Database.Repositories.RDailyCollectionPlan;
+import org.rmj.g3appdriver.GCircle.Api.GCircleApi;
+import org.rmj.g3appdriver.GCircle.room.Entities.EAddressUpdate;
+import org.rmj.g3appdriver.GCircle.room.Entities.EDCPCollectionDetail;
+import org.rmj.g3appdriver.GCircle.room.Entities.EImageInfo;
+import org.rmj.g3appdriver.GCircle.room.Entities.EMobileUpdate;
+import org.rmj.g3appdriver.GCircle.room.Repositories.RDailyCollectionPlan;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.dev.Device.Telephony;
 import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
-import org.rmj.g3appdriver.lib.Account.SessionManager;
-import org.rmj.g3appdriver.dev.Api.WebApi;
+import org.rmj.g3appdriver.GCircle.Account.EmployeeSession;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Core.iDCPTransaction;
 
 public class Paid implements iDCPTransaction {
 
     private final Application instance;
     private final RDailyCollectionPlan poDcp;
-    private final WebApi poApi;
+    private final GCircleApi poApi;
 
     public Paid(Application application) {
         this.instance = application;
         this.poDcp = new RDailyCollectionPlan(instance);
         AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
-        this.poApi = new WebApi(loConfig.getTestStatus());
+        this.poApi = new GCircleApi(application);
     }
 
     @Override
@@ -57,7 +59,7 @@ public class Paid implements iDCPTransaction {
         try{
             HttpHeaders loHeaders = HttpHeaders.getInstance(instance);
             AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
-            SessionManager loUser = new SessionManager(instance);
+            EmployeeSession loUser = EmployeeSession.getInstance(instance);
             Telephony loTlphny = new Telephony(instance);
 
             foDetail.setTranStat("2");
@@ -95,7 +97,7 @@ public class Paid implements iDCPTransaction {
             loJson.put("sUserIDxx", loUser.getUserID());
             loJson.put("sDeviceID", loTlphny.getDeviceID());
 
-            String lsResponse = WebClient.sendRequest(poApi.getUrlDcpSubmit(loConfig.isBackUpServer()), loJson.toString(), loHeaders.getHeaders());
+            String lsResponse = WebClient.sendRequest(poApi.getUrlDcpSubmit(), loJson.toString(), loHeaders.getHeaders());
 
             if(lsResponse == null){
                 callback.OnFailed("Server no response");
@@ -110,7 +112,7 @@ public class Paid implements iDCPTransaction {
                     callback.OnSuccess();
                 } else {
                     JSONObject loError = loResponse.getJSONObject("error");
-                    String lsMessage = loError.getString("message");
+                    String lsMessage = getErrorMessage(loError);
                     callback.OnFailed(lsMessage);
                 }
             }

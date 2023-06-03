@@ -11,22 +11,25 @@
 
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel;
 
+import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
+
 import android.app.Application;
-import android.os.AsyncTask;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import org.json.JSONObject;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEmployeeInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.EDCPCollectionMaster;
-import org.rmj.g3appdriver.dev.Database.Entities.ERemittanceAccounts;
-import org.rmj.g3appdriver.dev.Database.Repositories.RRemittanceAccount;
-import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
-import org.rmj.g3appdriver.lib.integsys.Dcp.LRDcp;
-import org.rmj.g3appdriver.lib.integsys.Dcp.pojo.Remittance;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DEmployeeInfo;
+import org.rmj.g3appdriver.GCircle.room.Entities.EDCPCollectionMaster;
+import org.rmj.g3appdriver.GCircle.room.Entities.ERemittanceAccounts;
+import org.rmj.g3appdriver.GCircle.room.Repositories.RRemittanceAccount;
+import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.Dcp.LRDcp;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.Dcp.pojo.Remittance;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
+import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
+import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 
 import java.util.List;
 
@@ -104,7 +107,7 @@ public class VMCollectionRemittance extends AndroidViewModel {
         new RemitCollectionTask(callback).execute(foVal);
     }
 
-    private class RemitCollectionTask extends AsyncTask<Remittance, Void, Boolean>{
+    /*private class RemitCollectionTask extends AsyncTask<Remittance, Void, Boolean>{
 
         private final OnRemitCollectionCallback callback;
 
@@ -145,7 +148,7 @@ public class VMCollectionRemittance extends AndroidViewModel {
                 return true;
             } catch (Exception e){
                 e.printStackTrace();
-                message = e.getMessage();
+                message = getLocalMessage(e);
                 return false;
             }
         }
@@ -158,6 +161,61 @@ public class VMCollectionRemittance extends AndroidViewModel {
             } else {
                 callback.OnSuccess(message);
             }
+        }
+    }*/
+    private class RemitCollectionTask{
+        private final OnRemitCollectionCallback callback;
+        private String message;
+        public RemitCollectionTask(OnRemitCollectionCallback callback) {
+            this.callback = callback;
+        }
+        public void execute(Remittance foVal){
+            TaskExecutor.Execute(foVal, new OnTaskExecuteListener() {
+                @Override
+                public void OnPreExecute() {
+                    callback.OnRemit();
+                }
+
+                @Override
+                public Object DoInBackground(Object args) {
+                    try {
+                        JSONObject params = poSys.SaveRemittanceEntry((Remittance) args);
+                        if (params == null) {
+                            message = poSys.getMessage();
+                            return false;
+                        }
+
+                        if (!poConn.isDeviceConnected()) {
+                            message = "Remittance has been save to local device.";
+                            return true;
+                        }
+
+                        String lsTransNo = params.getString("sTransNox");
+                        String lsEntryNo = params.getString("nEntryNox");
+                        if (!poSys.UploadRemittance(lsTransNo, lsEntryNo)) {
+                            message = poSys.getMessage();
+                            return false;
+                        }
+
+                        message = "Collection remittance has been save to server.";
+                        return true;
+                    } catch (Exception e){
+                        e.printStackTrace();
+                        message = e.getMessage();
+                        return false;
+                    }
+                }
+
+                @Override
+                public void OnPostExecute(Object object) {
+                    Boolean isSuccess = (Boolean) object;
+                    if(!isSuccess){
+                        callback.OnFailed(message);
+                    } else {
+                        callback.OnSuccess(message);
+                    }
+                }
+            });
         }
     }
 }

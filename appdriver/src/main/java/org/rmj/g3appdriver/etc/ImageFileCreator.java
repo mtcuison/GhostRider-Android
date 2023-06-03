@@ -11,6 +11,8 @@
 
 package org.rmj.g3appdriver.etc;
 
+import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -171,7 +173,7 @@ public class ImageFileCreator {
 
     public File generateMainStorageDir() {
         String root = String.valueOf(poContext.getExternalFilesDir(null));
-        File sd = new File(root + "/" + SUB_FOLDER + "/" + TransNox +"/");
+        File sd = new File(root + "/" + SUB_FOLDER + "/");
         if (!sd.exists()) {
             sd.mkdirs();
         }
@@ -281,7 +283,7 @@ public class ImageFileCreator {
             return false;
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+                    message = getLocalMessage(e);
             return false;
         }
     }
@@ -318,7 +320,7 @@ public class ImageFileCreator {
             return false;
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return false;
         }
     }

@@ -14,10 +14,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.rmj.g3appdriver.etc.AppConstants;
-import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
-import org.rmj.g3appdriver.lib.PetManager.Obj.EmployeeOB;
+import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
+import org.rmj.g3appdriver.GCircle.Apps.PetManager.Obj.EmployeeOB;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.lib.PetManager.pojo.OBApplication;
+import org.rmj.g3appdriver.GCircle.Apps.PetManager.pojo.OBApplication;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(AndroidJUnit4.class)
@@ -44,7 +44,7 @@ public class TestOBApplication {
     @Test
     public void test01SaveBusinessTrip() {
         OBApplication loApp = new OBApplication();
-        loApp.setTransact(AppConstants.CURRENT_DATE);
+        loApp.setTransact(AppConstants.CURRENT_DATE());
         loApp.setEmployID(poUser.getEmployeeID());
         loApp.setDateFrom("2022-09-21");
         loApp.setDateThru("2022-09-21");

@@ -6,8 +6,8 @@ import android.os.AsyncTask;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
-import org.rmj.g3appdriver.dev.Database.Entities.EItinerary;
-import org.rmj.g3appdriver.lib.Itinerary.Obj.EmployeeItinerary;
+import org.rmj.g3appdriver.GCircle.room.Entities.EItinerary;
+import org.rmj.g3appdriver.GCircle.Apps.Itinerary.Obj.EmployeeItinerary;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 
 import java.util.List;
@@ -31,7 +31,8 @@ public class VMUsersItineraries extends AndroidViewModel {
     }
 
     public void DownloadItineraryForUser(String args, String args1, String args2, OnDownloadUserEntriesListener listener){
-        new DownloadItineraryTask(listener).execute(args, args1, args2);
+//        new DownloadItineraryTask(listener).execute(args, args1, args2);
+
     }
 
     public class DownloadItineraryTask extends AsyncTask<String, Void, List<EItinerary>>{

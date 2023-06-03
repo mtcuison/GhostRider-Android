@@ -10,7 +10,13 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application>
-        <activity android:name=".Activity.Activity_Developer"
+        <activity
+            android:name=".Activity.Activity_AppVersion"
+            android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".Activity.Activity_Developer"
             android:label="Developer Test"
             android:screenOrientation="portrait"
             android:theme="@style/GhostRiderMaterialTheme.NoActionBar"/>

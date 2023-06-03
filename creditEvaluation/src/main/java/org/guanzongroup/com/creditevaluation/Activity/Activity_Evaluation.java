@@ -39,11 +39,11 @@ import org.guanzongroup.com.creditevaluation.ViewModel.OnInitializeCameraCallbac
 import org.guanzongroup.com.creditevaluation.ViewModel.VMEvaluation;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.rmj.g3appdriver.dev.Database.Entities.ECreditOnlineApplicationCI;
+import org.rmj.g3appdriver.GCircle.room.Entities.ECreditOnlineApplicationCI;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.lib.integsys.CreditInvestigator.pojo.BarangayRecord;
-import org.rmj.g3appdriver.lib.integsys.CreditInvestigator.pojo.CIImage;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditInvestigator.pojo.BarangayRecord;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditInvestigator.pojo.CIImage;
 
 import java.util.ArrayList;
 import java.util.List;

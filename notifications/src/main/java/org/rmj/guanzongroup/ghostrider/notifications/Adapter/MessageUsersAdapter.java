@@ -20,9 +20,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DMessages;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DMessages;
 import org.rmj.g3appdriver.etc.FormatUIText;
-import org.rmj.guanzongroup.ghostrider.notifications.Notifications.MessageItemList;
 import org.rmj.guanzongroup.ghostrider.notifications.R;
 
 import java.util.List;

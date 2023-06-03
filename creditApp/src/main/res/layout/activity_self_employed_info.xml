@@ -52,9 +52,7 @@
                     android:id="@+id/spn_businessNature"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:clickable="false"
-                    android:cursorVisible="false"
-                    android:focusable="false"
+                    style="@style/DropdownStyleTheme"
                     android:hint="Nature of Business (Required)"
                     android:inputType="none"
                     android:padding="16dp" />
@@ -161,11 +159,8 @@
                     android:id="@+id/spn_businessType"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:clickable="false"
-                    android:cursorVisible="false"
-                    android:focusable="false"
+                    style="@style/DropdownStyleTheme"
                     android:hint="Type of Business (Required)"
-                    android:inputType="none"
                     android:padding="16dp" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -178,11 +173,8 @@
                     android:id="@+id/spn_businessSize"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:clickable="false"
-                    android:cursorVisible="false"
-                    android:focusable="false"
+                    style="@style/DropdownStyleTheme"
                     android:hint="Size of Business (Required)"
-                    android:inputType="none"
                     android:padding="16dp" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -220,11 +212,8 @@
                         android:id="@+id/spn_lenghtSrvc"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:clickable="false"
-                        android:cursorVisible="false"
-                        android:focusable="false"
+                        style="@style/DropdownStyleTheme"
                         android:hint="Length of Stay (Required)"
-                        android:inputType="none"
                         android:padding="16dp" />
                 </com.google.android.material.textfield.TextInputLayout>
 

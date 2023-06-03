@@ -27,13 +27,12 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
-import androidx.preference.SwitchPreferenceCompat;
 
-import org.rmj.g3appdriver.dev.DeptCode;
+import org.rmj.g3appdriver.GCircle.Etc.DeptCode;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.lib.Account.SessionManager;
-import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_CheckUpdate;
+import org.rmj.g3appdriver.GCircle.Account.EmployeeSession;
+import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_AppVersion;
 import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_Developer;
 import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_HelpList;
 import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_LocalData;
@@ -80,9 +79,9 @@ public class Fragment_Settings  extends PreferenceFragmentCompat {
         debugMode = getPreferenceScreen().findPreference("appDebugModePref");
         helpPref = getPreferenceManager().findPreference("appHelpPrefs");
 
-        dbExport = new DatabaseExport(getActivity(), "Database", "GGC_ISysDBF.db");
-        loMessage = new MessageBox(getActivity());
-        poDialog = new LoadDialog(getActivity());
+        dbExport = new DatabaseExport(requireActivity());
+        loMessage = new MessageBox(requireActivity());
+        poDialog = new LoadDialog(requireActivity());
         mViewModel = new ViewModelProvider(this).get(VMSettings.class);
 
         mViewModel.isLocPermissionGranted().observe(getViewLifecycleOwner(), isGranted -> {
@@ -112,7 +111,7 @@ public class Fragment_Settings  extends PreferenceFragmentCompat {
             cameraPref.setOnPreferenceClickListener(preference -> {
                 if ((ActivityCompat.checkSelfPermission(requireActivity(), CAMERA) != PackageManager.PERMISSION_GRANTED)) {
                     mViewModel.getCamPermissions().observe(getViewLifecycleOwner(), strings -> {
-                        ActivityCompat.requestPermissions(getActivity(),strings, CAMERA_REQUEST);
+                        ActivityCompat.requestPermissions(requireActivity(),strings, CAMERA_REQUEST);
                     });
                 }else {
                     loMessage.initDialog();
@@ -136,7 +135,7 @@ public class Fragment_Settings  extends PreferenceFragmentCompat {
             phonePref.setOnPreferenceClickListener(preference -> {
                 if ((ActivityCompat.checkSelfPermission(requireActivity(), READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED)) {
                     mViewModel.getPhPermissions().observe(getViewLifecycleOwner(), strings -> {
-                        ActivityCompat.requestPermissions(getActivity(),strings, STORAGE_REQUEST);
+                        ActivityCompat.requestPermissions(requireActivity(),strings, STORAGE_REQUEST);
 
                     });
                 }else {
@@ -153,15 +152,15 @@ public class Fragment_Settings  extends PreferenceFragmentCompat {
         if (exportPref != null) {
            exportPref.setOnPreferenceClickListener(preference -> {
                try {
-                   mViewModel.isStoragePermissionGranted().observe(getViewLifecycleOwner(), isGranted -> {
-                      if (!isGranted){
-                          mViewModel.getStoragePermission().observe(getViewLifecycleOwner(), strings -> {
-                              ActivityCompat.requestPermissions(requireActivity(),strings, STORAGE_REQUEST);
-                          });
-                      }else {
-                          dbExport.export();
-                      }
-                   });
+                   dbExport.export();
+//                   mViewModel.isStoragePermissionGranted().observe(getViewLifecycleOwner(), isGranted -> {
+//                      if (!isGranted){
+//                          mViewModel.getStoragePermission().observe(getViewLifecycleOwner(), strings -> {
+//                              ActivityCompat.requestPermissions(requireActivity(),strings, STORAGE_REQUEST);
+//                          });
+//                      }else {
+//                      }
+//                   });
 
                }catch (SecurityException e){
                    Log.e("Security Exception " , e.getMessage());
@@ -176,7 +175,7 @@ public class Fragment_Settings  extends PreferenceFragmentCompat {
 
         if(localData != null){
             localData.setOnPreferenceClickListener(preference -> {
-                Intent loIntent = new Intent(getActivity(), Activity_LocalData.class);
+                Intent loIntent = new Intent(requireActivity(), Activity_LocalData.class);
                 startActivity(loIntent);
                 requireActivity().overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
                 return false;
@@ -185,7 +184,7 @@ public class Fragment_Settings  extends PreferenceFragmentCompat {
 
         if(Accountxx != null){
             Accountxx.setOnPreferenceClickListener(preference -> {
-                Dialog_ChangePassword loPass = new Dialog_ChangePassword(getActivity(), (OldPass, NewPass, dialog) -> mViewModel.ChangePassword(OldPass, NewPass, new VMSettings.ChangePasswordCallback() {
+                Dialog_ChangePassword loPass = new Dialog_ChangePassword(requireActivity(), (OldPass, NewPass, dialog) -> mViewModel.ChangePassword(OldPass, NewPass, new VMSettings.ChangePasswordCallback() {
                     @Override
                     public void OnLoad(String Title, String Message) {
                         poDialog.initDialog(Title, Message, false);
@@ -219,28 +218,28 @@ public class Fragment_Settings  extends PreferenceFragmentCompat {
         }
         if(chkUpdate != null){
             chkUpdate.setOnPreferenceClickListener(preference -> {
-                startActivity(new Intent(getActivity(), Activity_CheckUpdate.class));
+                startActivity(new Intent(requireActivity(), Activity_AppVersion.class));
                 requireActivity().overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
                 return false;
             });
         }
 
         if(debugMode != null){
-            SessionManager poUser = new SessionManager(requireActivity());
+            EmployeeSession poUser = EmployeeSession.getInstance(requireActivity());
             if (!poUser.getDeptID().equalsIgnoreCase(DeptCode.MANAGEMENT_INFORMATION_SYSTEM)){
                 debugMode.setVisible(false);
             } else {
                 debugMode.setVisible(true);
             }
             debugMode.setOnPreferenceClickListener(preference -> {
-                startActivity(new Intent(getActivity(), Activity_Developer.class));
+                startActivity(new Intent(requireActivity(), Activity_Developer.class));
                 requireActivity().overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
                 return false;
             });
         }
         if(helpPref != null){
             helpPref.setOnPreferenceClickListener(preference -> {
-                startActivity(new Intent(getActivity(), Activity_HelpList.class));
+                startActivity(new Intent(requireActivity(), Activity_HelpList.class));
                 requireActivity().overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
                 return false;
             });

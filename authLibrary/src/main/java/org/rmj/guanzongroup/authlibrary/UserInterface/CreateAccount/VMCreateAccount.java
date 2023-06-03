@@ -11,6 +11,8 @@
 
 package org.rmj.guanzongroup.authlibrary.UserInterface.CreateAccount;
 
+import static org.rmj.g3appdriver.dev.Api.ApiResult.getErrorMessage;
+
 import android.app.Application;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -21,12 +23,14 @@ import androidx.annotation.RequiresApi;
 import androidx.lifecycle.AndroidViewModel;
 
 import org.json.JSONObject;
+import org.rmj.g3appdriver.GCircle.Api.GCircleApi;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
-import org.rmj.g3appdriver.dev.Api.WebApi;
+import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
+import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -34,17 +38,10 @@ import java.util.HashMap;
 public class VMCreateAccount extends AndroidViewModel{
     public static final String TAG = VMCreateAccount.class.getSimpleName();
     private final Application instance;
-    private WebApi webApi;
-    private HttpHeaders headers;
-    private ConnectionUtil conn;
 
     public VMCreateAccount(@NonNull Application application) {
         super(application);
         this.instance = application;
-        AppConfigPreference loConfig = AppConfigPreference.getInstance(application);
-        this.webApi = new WebApi(loConfig.getTestStatus());
-        headers = HttpHeaders.getInstance(application);
-        conn = new ConnectionUtil(application);
     }
 
     public void SubmitInfo(AccountInfo accountInfo, CreateAccountCallBack callBack){
@@ -64,9 +61,9 @@ public class VMCreateAccount extends AndroidViewModel{
         }
     }
 
-    private static class CreateAccountTask extends AsyncTask<JSONObject, Void, String>{
+   /* private static class CreateAccountTask extends AsyncTask<JSONObject, Void, String>{
         private final Application instance;
-        private WebApi webApi;
+        private GCircleApi webApi;
         private HttpHeaders headers;
         private ConnectionUtil poConn;
         private CreateAccountCallBack callBack;
@@ -79,7 +76,7 @@ public class VMCreateAccount extends AndroidViewModel{
 
         @Override
         protected void onPreExecute() {
-            callBack.OnAccountLoad("GhostRider Android", "Sending account info. Please wait...");
+            callBack.OnAccountLoad("Guanzon Circle", "Sending account info. Please wait...");
             super.onPreExecute();
         }
 
@@ -89,10 +86,10 @@ public class VMCreateAccount extends AndroidViewModel{
             String response = "";
             try {
                 AppConfigPreference poConfig = AppConfigPreference.getInstance(instance);
-                webApi = new WebApi(poConfig.getTestStatus());
+                webApi = new GCircleApi(instance);
                 headers = HttpHeaders.getInstance(instance);
                 if (poConn.isDeviceConnected()) {
-                    response = WebClient.sendRequest(webApi.getUrlCreateAccount(poConfig.isBackUpServer()), jsonObjects[0].toString(), (HashMap<String, String>) headers.getHeaders());
+                    response = WebClient.sendRequest(webApi.getUrlCreateAccount(), jsonObjects[0].toString(), (HashMap<String, String>) headers.getHeaders());
                     Log.e(TAG, response);
                 } else {
                     response = AppConstants.LOCAL_EXCEPTION_ERROR("Unable to connect. Please check your internet connection.");
@@ -113,7 +110,7 @@ public class VMCreateAccount extends AndroidViewModel{
                     callBack.OnSuccessRegistration();
                 } else {
                     JSONObject loError = loResponse.getJSONObject("error");
-                    String lsMessage = loError.getString("message");
+                    String lsMessage = getErrorMessage(loError);
                     callBack.OnFailedRegistration(lsMessage);
                     Log.e(TAG, s);
                 }
@@ -122,5 +119,64 @@ public class VMCreateAccount extends AndroidViewModel{
             }
             this.cancel(true);
         }
-    }
+    }*/
+   private static class CreateAccountTask{
+       private final Application instance;
+       private GCircleApi webApi;
+       private HttpHeaders headers;
+       private ConnectionUtil poConn;
+       private CreateAccountCallBack callBack;
+
+       public CreateAccountTask(Application instance, CreateAccountCallBack callBack){
+           this.instance = instance;
+           this.callBack = callBack;
+           this.poConn = new ConnectionUtil(instance);
+       }
+
+       public void execute(JSONObject jsonObjects){
+           TaskExecutor.Execute(jsonObjects, new OnTaskExecuteListener() {
+               @Override
+               public void OnPreExecute() {
+                   callBack.OnAccountLoad("GhostRider Android", "Sending account info. Please wait...");
+               }
+
+               @Override
+               public Object DoInBackground(Object args) {
+                   String response = "";
+                   try {
+                       AppConfigPreference poConfig = AppConfigPreference.getInstance(instance);
+                       webApi = new GCircleApi(instance);
+                       headers = HttpHeaders.getInstance(instance);
+                       if (poConn.isDeviceConnected()) {
+                           response = WebClient.sendRequest(webApi.getUrlCreateAccount(), args.toString(), (HashMap<String, String>) headers.getHeaders());
+                           Log.e(TAG, response);
+                       } else {
+                           response = AppConstants.LOCAL_EXCEPTION_ERROR("Unable to connect. Please check your internet connection.");
+                       }
+                   } catch (IOException e) {
+                       e.printStackTrace();
+                   }
+                   return response;
+               }
+
+               @Override
+               public void OnPostExecute(Object object) {
+                   try {
+                       JSONObject loResponse = new JSONObject(object.toString());
+                       String lsResult = loResponse.getString("result");
+                       if(lsResult.equalsIgnoreCase("success")){
+                           callBack.OnSuccessRegistration();
+                       } else {
+                           JSONObject loError = loResponse.getJSONObject("error");
+                           String lsMessage = getErrorMessage(loError);
+                           callBack.OnFailedRegistration(lsMessage);
+                           Log.e(TAG, object.toString());
+                       }
+                   } catch (Exception e){
+                       e.printStackTrace();
+                   }
+               }
+           });
+       }
+   }
 }

@@ -42,7 +42,7 @@ public class TestPanaloRaffleDrawSender {
     @Test
     public void test03SendBranchOpeningNotification() {
         String lsApp = "gRider";
-        String lsUser = "GAP023000254";
+        String lsUser = "GAP021002961";
         String lsTitle = "Branch Opening";
         String lsMessage = "LGK Tarlac - Honda has opened.";
 
@@ -56,15 +56,13 @@ public class TestPanaloRaffleDrawSender {
     @Test
     public void test04SendRegularSystemNotification() {
         String lsApp = "gRider";
-        String lsUser = "GAP023000254";
-        String lsTitle = "I LOVE MY JOB";
-        String lsMessage = "Congratulations! \n " +
-                "You win a token Trip To Baguio for 1 Year. " +
-                "Raffle token prizes will be automatically redeemed and HR will be responsible " +
-                "for the schedule of your trip. \n" +
+        String lsUser = "GAP023000972";
+        String lsTitle = "PAYSLIP (2023-04-01 - 2023-04-15)";
+        String lsMessage = "Good day! \n" +
                 "\n" +
+                " Attached is your payslip for the payroll period 2023-04-01 - 2023-04-15.\n" +
                 "\n" +
-                "Have a Safe Trip!";
+                " [http://gts1.guanzongroup.com.ph:2007/repl/misc/download_ps.php?period=TTAwMTIzMjA=&client=TTAwMTIwMDAwMzI5]";
 
         boolean isSuccess = PanaloNotificationSender.SendRegularSystemNotification(lsApp,
                 lsUser,

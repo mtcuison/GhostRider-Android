@@ -1,5 +1,8 @@
 package org.rmj.g3appdriver.lib.Notifications.Obj.Receiver;
 
+import static org.rmj.g3appdriver.dev.Api.ApiResult.getErrorMessage;
+import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
+
 import android.app.Application;
 import android.util.Log;
 
@@ -8,19 +11,18 @@ import androidx.lifecycle.LiveData;
 import com.google.firebase.messaging.RemoteMessage;
 
 import org.json.JSONObject;
+import org.rmj.g3appdriver.GCircle.Api.GCircleApi;
 import org.rmj.g3appdriver.dev.Api.WebClient;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DNotificationReceiver;
-import org.rmj.g3appdriver.dev.Database.Entities.EBranchOpenMonitor;
-import org.rmj.g3appdriver.dev.Database.Entities.ENotificationMaster;
-import org.rmj.g3appdriver.dev.Database.Entities.ENotificationRecipient;
-import org.rmj.g3appdriver.dev.Database.Entities.ENotificationUser;
-import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DNotificationReceiver;
+import org.rmj.g3appdriver.GCircle.room.Entities.EBranchOpenMonitor;
+import org.rmj.g3appdriver.GCircle.room.Entities.ENotificationMaster;
+import org.rmj.g3appdriver.GCircle.room.Entities.ENotificationRecipient;
+import org.rmj.g3appdriver.GCircle.room.Entities.ENotificationUser;
+import org.rmj.g3appdriver.GCircle.room.GGC_GCircleDB;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.lib.Notifications.NOTIFICATION_STATUS;
 import org.rmj.g3appdriver.lib.Notifications.RemoteMessageParser;
-import org.rmj.g3appdriver.dev.Api.WebApi;
 import org.rmj.g3appdriver.lib.Notifications.model.iNotification;
 import org.rmj.g3appdriver.lib.Notifications.pojo.NotificationItemList;
 
@@ -34,14 +36,14 @@ public class NMM_Regular implements iNotification {
 
     private final DNotificationReceiver poDao;
     private final HttpHeaders poHeaders;
-    private final AppConfigPreference poConfig;
+    private final GCircleApi poApi;
 
     protected String message;
 
     public NMM_Regular(Application instance) {
-        this.poDao = GGC_GriderDB.getInstance(instance).ntfReceiverDao();
+        this.poDao = GGC_GCircleDB.getInstance(instance).ntfReceiverDao();
         this.poHeaders = HttpHeaders.getInstance(instance);
-        this.poConfig = AppConfigPreference.getInstance(instance);
+        this.poApi = new GCircleApi(instance);
     }
 
     @Override
@@ -117,7 +119,7 @@ public class NMM_Regular implements iNotification {
             return lsMesgIDx;
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return null;
         }
     }
@@ -125,8 +127,6 @@ public class NMM_Regular implements iNotification {
     @Override
     public ENotificationMaster SendResponse(String mesgID, NOTIFICATION_STATUS status) {
         try{
-            WebApi loApis = new WebApi(poConfig.getTestStatus());
-
             ENotificationRecipient loDetail = poDao.GetNotification(mesgID);
 
             if(loDetail == null){
@@ -170,7 +170,7 @@ public class NMM_Regular implements iNotification {
             params.put("infox", "");
 
             String lsResponse = WebClient.sendRequest(
-                    loApis.getUrlSendResponse(poConfig.isBackUpServer()),
+                    poApi.getUrlSendResponse(),
                     params.toString(),
                     poHeaders.getHeaders());
             if(lsResponse == null){
@@ -182,7 +182,7 @@ public class NMM_Regular implements iNotification {
             String lsResult = loResponse.getString("result");
             if (!lsResult.equalsIgnoreCase("success")) {
                 JSONObject loError = loResponse.getJSONObject("error");
-                message = loError.getString("message");
+                message = getErrorMessage(loError);
                 return null;
             }
 
@@ -191,7 +191,7 @@ public class NMM_Regular implements iNotification {
             return poDao.CheckIfMasterExist(mesgID);
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return null;
         }
     }
@@ -203,7 +203,7 @@ public class NMM_Regular implements iNotification {
             return true;
         } catch (Exception e){
             e.printStackTrace();
-            this.message = e.getMessage();
+            this.message = getLocalMessage(e);
             return false;
         }
     }
@@ -249,7 +249,7 @@ public class NMM_Regular implements iNotification {
             return true;
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return false;
         }
     }

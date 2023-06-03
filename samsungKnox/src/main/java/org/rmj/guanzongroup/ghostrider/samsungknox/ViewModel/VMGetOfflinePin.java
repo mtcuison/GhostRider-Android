@@ -11,24 +11,24 @@
 
 package org.rmj.guanzongroup.ghostrider.samsungknox.ViewModel;
 
+import static org.rmj.g3appdriver.dev.Api.ApiResult.getErrorMessage;
+
 import android.app.Application;
-import android.os.AsyncTask;
-import android.os.Build;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.lifecycle.AndroidViewModel;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.rmj.g3appdriver.GCircle.Api.GCircleApi;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.dev.Api.WebClient;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
-import org.rmj.g3appdriver.dev.Api.WebApi;
+import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
+import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 import org.rmj.guanzongroup.ghostrider.samsungknox.Etc.KnoxErrorCode;
 import org.rmj.guanzongroup.ghostrider.samsungknox.Etc.ViewModelCallBack;
 import org.rmj.guanzongroup.ghostrider.samsungknox.Model.PinModel;
@@ -39,90 +39,142 @@ public class VMGetOfflinePin extends AndroidViewModel {
     private final HttpHeaders header;
     private final LoadDialog dialog;
     private final Application instance;
+    private final GCircleApi poApi;
 
     public VMGetOfflinePin(@NonNull Application application) {
         super(application);
         this.instance = application;
+        this.poApi = new GCircleApi(instance);
         conn = new ConnectionUtil(application);
         header = HttpHeaders.getInstance(application);
         dialog = new LoadDialog(application);
     }
 
-    public void UnlockWithPasskey(PinModel model, ViewModelCallBack callBack){
-        if(model.isParameterValid()){
-            new GetOfflinePINTask(instance, callBack).execute(model);
+    public void UnlockWithPasskey(PinModel model, ViewModelCallBack callBack) {
+        if (model.isParameterValid()) {
+//            new GetOfflinePINTask(instance, callBack).execute(model);
+            TaskExecutor.Execute(callBack, new OnTaskExecuteListener() {
+                @Override
+                public void OnPreExecute() {
+                    callBack.OnLoadRequest("Samsung Knox", "Getting unlock PIN. Please wait...", false);
+                }
+
+                @Override
+                public Object DoInBackground(Object args) {
+                    PinModel lsPinModel = (PinModel) args;
+                    String response = "";
+                    try {
+                        if (conn.isDeviceConnected()) {
+                            JSONObject loJSon = new JSONObject();
+                            JSONObject loParam = new JSONObject();
+                            loJSon.put("deviceUid", lsPinModel.getDeviceID());
+                            loJSon.put("challenge", lsPinModel.getPassKey());
+                            loParam.put("request", AppConstants.OFFLINE_PIN_REQUEST);
+                            loParam.put("param", loJSon.toString());
+                            Log.e(TAG, loParam.toString());
+                            response = WebClient.sendRequest(poApi.getUrlKnox(), loParam.toString(), header.getHeaders());
+                        } else {
+                            response = AppConstants.NO_INTERNET();
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    return response;
+                }
+
+                @Override
+                public void OnPostExecute(Object object) {
+                    String lsString = (String) object;
+                    try {
+                        JSONObject loResponse = new JSONObject(lsString);
+                        String lsResult = loResponse.getString("result");
+                        if (lsResult.equalsIgnoreCase("success")) {
+                            JSONArray jsonArray = loResponse.getJSONArray("pinNumber");
+                            callBack.OnRequestSuccess(jsonArray.getString(0));
+                        } else {
+                            JSONObject loError = loResponse.getJSONObject("error");
+                            String lsMessage = getErrorMessage(loError);
+                            String lsErrCode = loError.getString("code");
+                            callBack.OnRequestFailed(KnoxErrorCode.getMessage(lsErrCode, lsMessage));
+                            Log.e(TAG, lsString);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
         } else {
             callBack.OnRequestFailed(model.getPsMessage());
         }
     }
-
-
-    private static class GetOfflinePINTask extends AsyncTask<PinModel, Void, String>{
-        private final ConnectionUtil conn;
-        private final HttpHeaders header;
-        private final LoadDialog dialog;
-        private final WebApi poApi;
-        private final AppConfigPreference loConfig;
-        private final ViewModelCallBack callBack;
-
-        public GetOfflinePINTask(Application instance, ViewModelCallBack callBack) {
-            this.conn = new ConnectionUtil(instance);
-            this.header = HttpHeaders.getInstance(instance);
-            this.dialog = new LoadDialog(instance);
-            this.loConfig = AppConfigPreference.getInstance(instance);
-            this.poApi = new WebApi(loConfig.getTestStatus());
-            this.callBack = callBack;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            callBack.OnLoadRequest("Samsung Knox", "Getting unlock PIN. Please wait...", false);
-        }
-
-        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-        @Override
-        protected String doInBackground(PinModel... pinModels) {
-            String response = "";
-            try {
-                if (conn.isDeviceConnected()) {
-                    JSONObject loJSon = new JSONObject();
-                    JSONObject loParam = new JSONObject();
-                    loJSon.put("deviceUid", pinModels[0].getDeviceID());
-                    loJSon.put("challenge", pinModels[0].getPassKey());
-                    loParam.put("request", AppConstants.OFFLINE_PIN_REQUEST);
-                    loParam.put("param", loJSon.toString());
-                    Log.e(TAG, loParam.toString());
-                    response = WebClient.sendRequest(poApi.getUrlKnox(loConfig.isBackUpServer()), loParam.toString(), header.getHeaders());
-                } else {
-                    response = AppConstants.NO_INTERNET();
-                }
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-            return response;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            try {
-                JSONObject loResponse = new JSONObject(s);
-                String lsResult = loResponse.getString("result");
-                if(lsResult.equalsIgnoreCase("success")){
-                    JSONArray jsonArray = loResponse.getJSONArray("pinNumber");
-                    callBack.OnRequestSuccess(jsonArray.getString(0));
-                } else {
-                    JSONObject loError = loResponse.getJSONObject("error");
-                    String lsMessage = loError.getString("message");
-                    String lsErrCode = loError.getString("code");
-                    callBack.OnRequestFailed(KnoxErrorCode.getMessage(lsErrCode, lsMessage));
-                    Log.e(TAG, s);
-                }
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-            this.cancel(false);
-        }
-    }
 }
+
+//    private static class GetOfflinePINTask extends AsyncTask<PinModel, Void, String>{
+//        private final ConnectionUtil conn;
+//        private final HttpHeaders header;
+//        private final LoadDialog dialog;
+//        private final GCircleApi poApi;
+//        private final AppConfigPreference loConfig;
+//        private final ViewModelCallBack callBack;
+//
+//        public GetOfflinePINTask(Application instance, ViewModelCallBack callBack) {
+//            this.conn = new ConnectionUtil(instance);
+//            this.header = HttpHeaders.getInstance(instance);
+//            this.dialog = new LoadDialog(instance);
+//            this.loConfig = AppConfigPreference.getInstance(instance);
+//            this.poApi = new GCircleApi(instance);
+//            this.callBack = callBack;
+//        }
+//
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//            callBack.OnLoadRequest("Samsung Knox", "Getting unlock PIN. Please wait...", false);
+//        }
+//
+//        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+//        @Override
+//        protected String doInBackground(PinModel... pinModels) {
+//            String response = "";
+//            try {
+//                if (conn.isDeviceConnected()) {
+//                    JSONObject loJSon = new JSONObject();
+//                    JSONObject loParam = new JSONObject();
+//                    loJSon.put("deviceUid", pinModels[0].getDeviceID());
+//                    loJSon.put("challenge", pinModels[0].getPassKey());
+//                    loParam.put("request", AppConstants.OFFLINE_PIN_REQUEST);
+//                    loParam.put("param", loJSon.toString());
+//                    Log.e(TAG, loParam.toString());
+//                    response = WebClient.sendRequest(poApi.getUrlKnox(), loParam.toString(), header.getHeaders());
+//                } else {
+//                    response = AppConstants.NO_INTERNET();
+//                }
+//            } catch (Exception e){
+//                e.printStackTrace();
+//            }
+//            return response;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(String s) {
+//            super.onPostExecute(s);
+//            try {
+//                JSONObject loResponse = new JSONObject(s);
+//                String lsResult = loResponse.getString("result");
+//                if(lsResult.equalsIgnoreCase("success")){
+//                    JSONArray jsonArray = loResponse.getJSONArray("pinNumber");
+//                    callBack.OnRequestSuccess(jsonArray.getString(0));
+//                } else {
+//                    JSONObject loError = loResponse.getJSONObject("error");
+//                    String lsMessage = getErrorMessage(loError);
+//                    String lsErrCode = loError.getString("code");
+//                    callBack.OnRequestFailed(KnoxErrorCode.getMessage(lsErrCode, lsMessage));
+//                    Log.e(TAG, s);
+//                }
+//            } catch (Exception e){
+//                e.printStackTrace();
+//            }
+//            this.cancel(false);
+//        }
+//    }
+//}

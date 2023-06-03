@@ -46,15 +46,15 @@
         android:textSize="24sp"
         android:textStyle="bold"
         android:layout_marginTop="10dp"
-        app:layout_constraintEnd_toStartOf="@+id/btn_dialogClaim"
+        app:layout_constraintEnd_toStartOf="@+id/btn_claim"
         app:layout_constraintStart_toStartOf="@+id/lblRwrdType"
         app:layout_constraintTop_toBottomOf="@+id/lblRwrdType" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_dialogClaim"
+        android:id="@+id/btn_claim"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:text="Use Now"
+        android:text="Claim"
         app:cornerRadius="25dp"
         app:layout_constraintBottom_toBottomOf="@+id/lblRwrdNme"
         app:layout_constraintEnd_toEndOf="parent"

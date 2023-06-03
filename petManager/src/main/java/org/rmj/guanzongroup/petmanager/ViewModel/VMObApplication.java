@@ -11,6 +11,8 @@
 
 package org.rmj.guanzongroup.petmanager.ViewModel;
 
+import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
+
 import android.app.Application;
 import android.os.AsyncTask;
 
@@ -18,12 +20,12 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEmployeeInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
-import org.rmj.g3appdriver.dev.Database.Repositories.RBranch;
-import org.rmj.g3appdriver.lib.PetManager.PetManager;
-import org.rmj.g3appdriver.lib.PetManager.model.iPM;
-import org.rmj.g3appdriver.lib.PetManager.pojo.OBApplication;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DEmployeeInfo;
+import org.rmj.g3appdriver.GCircle.room.Entities.EBranchInfo;
+import org.rmj.g3appdriver.lib.Etc.Branch;
+import org.rmj.g3appdriver.GCircle.Apps.PetManager.PetManager;
+import org.rmj.g3appdriver.GCircle.Apps.PetManager.model.iPM;
+import org.rmj.g3appdriver.GCircle.Apps.PetManager.pojo.OBApplication;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 
 import java.util.List;
@@ -32,7 +34,7 @@ public class VMObApplication extends AndroidViewModel {
 
     public static final String TAG = VMObApplication.class.getSimpleName();
     private final Application instance;
-    private final RBranch pobranch;
+    private final Branch pobranch;
     private final ConnectionUtil poConn;
     private final iPM poSys;
     private final LiveData<String[]> paBranchNm;
@@ -40,7 +42,7 @@ public class VMObApplication extends AndroidViewModel {
     public VMObApplication(@NonNull Application application) {
         super(application);
         this.instance = application;
-        this.pobranch = new RBranch(instance);
+        this.pobranch = new Branch(instance);
         this.poConn = new ConnectionUtil(instance);
         this.poSys = new PetManager(instance).GetInstance(PetManager.ePetManager.BUSINESS_TRIP_APPLICATION);
         paBranchNm = pobranch.getAllMcBranchNames();
@@ -104,7 +106,7 @@ public class VMObApplication extends AndroidViewModel {
                 return true;
             } catch (Exception e){
                 e.printStackTrace();
-                message = e.getMessage();
+                message = getLocalMessage(e);
                 return false;
             }
         }

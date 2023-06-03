@@ -128,10 +128,7 @@
                     android:id="@+id/spn_employmentLevel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:clickable="false"
-                    android:cursorVisible="false"
-                    android:focusable="false"
-                    android:inputType="none"
+                    style="@style/DropdownStyleTheme"
                     android:padding="16dp" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -146,10 +143,7 @@
                     android:id="@+id/spn_employeeLevel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:clickable="false"
-                    android:cursorVisible="false"
-                    android:focusable="false"
-                    android:inputType="none"
+                    style="@style/DropdownStyleTheme"
                     android:padding="16dp" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -185,10 +179,7 @@
                     android:id="@+id/spn_businessNature"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:clickable="false"
-                    android:cursorVisible="false"
-                    android:focusable="false"
-                    android:inputType="none"
+                    style="@style/DropdownStyleTheme"
                     android:padding="16dp" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -245,7 +236,7 @@
 <!--                        android:layout_weight="1"-->
 <!--                        android:hint="@string/sHintProvince">-->
 
-<!--                        <androidx.appcompat.widget.AppCompatAutoCompleteTextView-->
+<!--                        <com.google.android.material.textfield.MaterialAutoCompleteTextView-->
 <!--                            android:id="@+id/txt_province"-->
 <!--                            style="@style/AutoCompleteStyleTheme"-->
 <!--                            android:layout_width="match_parent"-->
@@ -328,11 +319,8 @@
                         android:id="@+id/spn_employmentStatus"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:clickable="false"
-                        android:cursorVisible="false"
-                        android:focusable="false"
+                        style="@style/DropdownStyleTheme"
                         android:hint="Employment Status (Required)"
-                        android:inputType="none"
                         android:nextFocusForward="@+id/txt_lenghtService"
                         android:padding="16dp" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -370,10 +358,7 @@
                             android:id="@+id/spn_lengthService"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:clickable="false"
-                            android:cursorVisible="false"
-                            android:focusable="false"
-                            android:inputType="none"
+                            style="@style/DropdownStyleTheme"
                             android:nextFocusForward="@+id/txt_monthlySalary"
                             android:padding="16dp" />
                     </com.google.android.material.textfield.TextInputLayout>

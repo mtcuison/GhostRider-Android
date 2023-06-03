@@ -130,12 +130,13 @@
             style="@style/CustomDropDownTilStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint=" Payment Type">
+            android:hint="Payment Type">
             <com.google.android.material.textfield.MaterialAutoCompleteTextView
                 android:id="@+id/spn_paymentType"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                style="@style/DropdownStyleTheme"
                 android:padding="10dp"/>
 
         </com.google.android.material.textfield.TextInputLayout>

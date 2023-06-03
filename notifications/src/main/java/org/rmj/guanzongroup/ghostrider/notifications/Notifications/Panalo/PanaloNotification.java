@@ -1,19 +1,11 @@
 package org.rmj.guanzongroup.ghostrider.notifications.Notifications.Panalo;
 
-import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.os.Build;
-
-import androidx.core.app.NotificationCompat;
 
 import org.json.JSONObject;
-import org.rmj.g3appdriver.dev.Database.Entities.ENotificationMaster;
+import org.rmj.g3appdriver.GCircle.room.Entities.ENotificationMaster;
 import org.rmj.guanzongroup.ghostrider.notifications.Etc.iNotificationUI;
-import org.rmj.guanzongroup.ghostrider.notifications.R;
 
 public class PanaloNotification implements iNotificationUI {
     private static final String TAG = PanaloNotification.class.getSimpleName();

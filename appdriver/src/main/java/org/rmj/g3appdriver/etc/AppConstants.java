@@ -19,7 +19,7 @@ import androidx.annotation.ColorInt;
 
 import org.json.JSONObject;
 import org.rmj.g3appdriver.R;
-import org.rmj.g3appdriver.dev.DeptCode;
+import org.rmj.g3appdriver.GCircle.Etc.DeptCode;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -35,6 +35,12 @@ public class AppConstants {
     public static final String SUB_FOLDER_CREDIT_APP_DOCUMENTS = "/COAD";
     public static final String SUB_FOLDER_EXPORTS = "/Exported Files";
     public static final String SUB_FOLDER_CI_ADDRESS = "/CI Address";
+
+    private static final String LOCAL_MESSAGE = "We apologize for the inconvenience. An error has occurred during the processing of your request";
+
+    public static String getLocalMessage(Exception val){
+        return LOCAL_MESSAGE + "\n \n" + val.getMessage();
+    }
 
     public static String ALL_DATA_SENT() throws Exception{
         JSONObject loJson = new JSONObject();
@@ -190,11 +196,18 @@ public class AppConstants {
 
     public String DATE_MODIFIED = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Calendar.getInstance().getTime());
 
-    public String DATE_MODIFIED(){
+    public static String DATE_MODIFIED(){
         return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Calendar.getInstance().getTime());
     }
 
-    public static String CURRENT_DATE = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Calendar.getInstance().getTime());
+    public static String CURRENT_DATE(){
+        return new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Calendar.getInstance().getTime());
+    }
+
+    public static String GCARD_DATE_TIME (){
+        return new SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault()).format(new Date());
+    }
+
     public static String PERFORMANCE_CURRENT_PERIOD = new SimpleDateFormat("yyyyMM", Locale.getDefault()).format(Calendar.getInstance().getTime());
     public String CURRENT_DATE_WORD = new SimpleDateFormat("MMMM dd, yyyy", Locale.getDefault()).format(Calendar.getInstance().getTime());
 

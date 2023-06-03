@@ -15,6 +15,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -30,14 +31,18 @@ import android.view.ViewGroup;
 
 import com.google.android.material.textview.MaterialTextView;
 
-import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeBusinessTrip;
-import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeLeave;
-import org.rmj.g3appdriver.dev.DeptCode;
+import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeBusinessTrip;
+import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeInfo;
+import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeLeave;
+import org.rmj.g3appdriver.GCircle.Etc.DeptCode;
+import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.lib.Notifications.data.SampleData;
-import org.rmj.g3appdriver.lib.PetManager.OnCheckEmployeeApplicationListener;
+import org.rmj.g3appdriver.GCircle.Apps.PetManager.OnCheckEmployeeApplicationListener;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMAssociateDashboard;
 import org.rmj.guanzongroup.ghostrider.notifications.Adapter.AdapterAnnouncements;
+import org.rmj.guanzongroup.petmanager.Activity.Activity_Application;
+import org.rmj.guanzongroup.petmanager.Activity.Activity_Employee_Applications;
 import org.rmj.guanzongroup.petmanager.Adapter.EmployeeApplicationAdapter;
 
 import java.util.List;
@@ -85,6 +90,8 @@ public class Fragment_Associate_Dashboard extends Fragment {
 //                } else {
 //                    lnDevMode.setVisibility(View.GONE);
 //                }
+
+                initEmployeeApp(eEmployeeInfo);
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -105,7 +112,6 @@ public class Fragment_Associate_Dashboard extends Fragment {
         });
 
         initCompanyNotice();
-        initEmployeeApp();
         return view;
     }
 
@@ -133,7 +139,7 @@ public class Fragment_Associate_Dashboard extends Fragment {
         rvCompnyAnouncemnt.setAdapter(loAdapter);
     }
 
-    private void initEmployeeApp(){
+    private void initEmployeeApp(EEmployeeInfo loInfo){
         mViewModel.CheckApplicationsForApproval(new OnCheckEmployeeApplicationListener() {
             @Override
             public void OnCheck() {
@@ -165,8 +171,12 @@ public class Fragment_Associate_Dashboard extends Fragment {
 
                     EmployeeApplicationAdapter loAdapter = new EmployeeApplicationAdapter(app, false, new EmployeeApplicationAdapter.OnLeaveItemClickListener() {
                         @Override
-                        public void OnClick(String TransNox) {
-
+                        public void OnClick(String TransNox, String EmpName) {
+                            Intent loIntent = new Intent(requireActivity(), Activity_Application.class);
+                            loIntent.putExtra("app", AppConstants.INTENT_LEAVE_APPROVAL);
+                            loIntent.putExtra("sTransNox", TransNox);
+                            loIntent.putExtra("type", !loInfo.getUserName().equalsIgnoreCase(EmpName));
+                            startActivity(loIntent);
                         }
                     });
 
@@ -194,8 +204,12 @@ public class Fragment_Associate_Dashboard extends Fragment {
 
                     EmployeeApplicationAdapter loAdapter = new EmployeeApplicationAdapter(app, new EmployeeApplicationAdapter.OnOBItemClickListener() {
                         @Override
-                        public void OnClick(String TransNox) {
-
+                        public void OnClick(String TransNox, String EmpName) {
+                            Intent loIntent = new Intent(requireActivity(), Activity_Application.class);
+                            loIntent.putExtra("app", AppConstants.INTENT_OB_APPROVAL);
+                            loIntent.putExtra("type", !loInfo.getUserName().equalsIgnoreCase(EmpName));
+                            loIntent.putExtra("sTransNox", TransNox);
+                            startActivity(loIntent);
                         }
                     });
 

@@ -11,6 +11,8 @@
 
 package org.rmj.guanzongroup.petmanager.ViewModel;
 
+import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
+
 import android.app.Application;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -20,12 +22,12 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeBusinessTrip;
-import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeLeave;
-import org.rmj.g3appdriver.dev.Database.Repositories.RBranch;
-import org.rmj.g3appdriver.lib.PetManager.Obj.EmployeeLeave;
-import org.rmj.g3appdriver.lib.PetManager.Obj.EmployeeOB;
+import org.rmj.g3appdriver.GCircle.room.Entities.EBranchInfo;
+import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeBusinessTrip;
+import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeLeave;
+import org.rmj.g3appdriver.lib.Etc.Branch;
+import org.rmj.g3appdriver.GCircle.Apps.PetManager.Obj.EmployeeLeave;
+import org.rmj.g3appdriver.GCircle.Apps.PetManager.Obj.EmployeeOB;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 
 import java.util.List;
@@ -36,7 +38,7 @@ public class VMEmployeeApplications extends AndroidViewModel {
     private final Application instance;
     private final EmployeeLeave poLeave;
     private final EmployeeOB poBuss;
-    private final RBranch poBranch;
+    private final Branch poBranch;
 
     private final MutableLiveData<Integer> pnLeave = new MutableLiveData<>();
 
@@ -50,7 +52,7 @@ public class VMEmployeeApplications extends AndroidViewModel {
         super(application);
         this.instance = application;
         this.poLeave = new EmployeeLeave(instance);
-        this.poBranch = new RBranch(instance);
+        this.poBranch = new Branch(instance);
         this.poBuss = new EmployeeOB(instance);
         this.pnLeave.setValue(0);
     }
@@ -128,7 +130,7 @@ public class VMEmployeeApplications extends AndroidViewModel {
                 return true;
             } catch (Exception e){
                 e.printStackTrace();
-                message = e.getMessage();
+                message = getLocalMessage(e);
                 return false;
             }
         }

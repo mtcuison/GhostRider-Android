@@ -23,8 +23,8 @@ android {
         applicationId "org.rmj.guanzongroup.ghostrider.epacss"
         minSdkVersion 24
         targetSdkVersion 33
-        versionCode 48
-        versionName "Build Version v.2.13.048 b"
+        versionCode 54
+        versionName "Build Version v.3.16.054 b"
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -79,6 +79,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics:21.2.0'
 
     implementation 'com.google.firebase:firebase-messaging:23.1.1'
+    implementation 'androidx.core:core-splashscreen:1.0.1'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
@@ -119,5 +120,6 @@ dependencies {
     implementation project(':creditApp')
     implementation project(':creditEvaluation')
     implementation project(':pacitaReward')
+    implementation project(':ganado')
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 }

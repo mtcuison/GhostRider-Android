@@ -11,6 +11,8 @@
 
 package org.rmj.guanzongroup.petmanager.ViewModel;
 
+import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
+
 import android.app.Activity;
 import android.app.Application;
 import android.content.Intent;
@@ -21,18 +23,19 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEmployeeInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.ESelfieLog;
-import org.rmj.g3appdriver.dev.Database.Repositories.RBranch;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DEmployeeInfo;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DSelfieLog;
+import org.rmj.g3appdriver.GCircle.room.Entities.EBranchInfo;
+import org.rmj.g3appdriver.GCircle.room.Entities.ESelfieLog;
+import org.rmj.g3appdriver.lib.Etc.Branch;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.ImageFileCreator;
 import org.rmj.g3appdriver.etc.OnInitializeCameraCallback;
-import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
-import org.rmj.g3appdriver.lib.Account.SessionManager;
+import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
+import org.rmj.g3appdriver.GCircle.Account.EmployeeSession;
 import org.rmj.g3appdriver.lib.Location.LocationRetriever;
-import org.rmj.g3appdriver.lib.SelfieLog.SelfieLog;
-import org.rmj.g3appdriver.lib.integsys.CashCount.CashCount;
+import org.rmj.g3appdriver.GCircle.Apps.SelfieLog.SelfieLog;
+import org.rmj.g3appdriver.GCircle.Apps.integsys.CashCount.CashCount;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 
 import java.util.List;
@@ -43,7 +46,7 @@ public class VMSelfieLog extends AndroidViewModel {
     private final Application instance;
     private final SelfieLog poLog;
     private final CashCount poCash;
-    private final RBranch pobranch;
+    private final Branch pobranch;
     private final EmployeeMaster poUser;
     private final MutableLiveData<String> pdTransact = new MutableLiveData<>();
 
@@ -80,9 +83,9 @@ public class VMSelfieLog extends AndroidViewModel {
         this.instance = application;
         this.poUser = new EmployeeMaster(instance);
         this.poLog = new SelfieLog(instance);
-        this.pobranch = new RBranch(instance);
+        this.pobranch = new Branch(instance);
         this.poCash = new CashCount(instance);
-        this.pdTransact.setValue(AppConstants.CURRENT_DATE);
+        this.pdTransact.setValue(AppConstants.CURRENT_DATE());
     }
 
     public LiveData<DEmployeeInfo.EmployeeBranch> GetUserInfo(){
@@ -107,6 +110,10 @@ public class VMSelfieLog extends AndroidViewModel {
 
     public LiveData<List<ESelfieLog>> getAllEmployeeTimeLog(String fsVal){
         return poLog.GetAllEmployeeTimeLog(fsVal);
+    }
+
+    public LiveData<List<DSelfieLog.LogTime>> GetTimeLogForTheDay(String date){
+        return poLog.GetAllTimeLog(date);
     }
 
     public interface OnBranchCheckListener{
@@ -194,7 +201,7 @@ public class VMSelfieLog extends AndroidViewModel {
             this.activity = activity;
             this.instance = instance;
             this.callback = callback;
-            SessionManager poSession = new SessionManager(instance);
+            EmployeeSession poSession = EmployeeSession.getInstance(instance);
             this.loImage = new ImageFileCreator(instance, AppConstants.SUB_FOLDER_SELFIE_LOG, poSession.getUserID());
         }
 
@@ -243,13 +250,13 @@ public class VMSelfieLog extends AndroidViewModel {
 
     private static class CheckBranchListTask extends AsyncTask<String, Void, Boolean>{
 
-        private final RBranch poBranch;
+        private final Branch poBranch;
         private final OnBranchCheckListener mListener;
 
         private List<EBranchInfo> area, all;
         private String message;
 
-        public CheckBranchListTask(RBranch poBranch, OnBranchCheckListener mListener) {
+        public CheckBranchListTask(Branch poBranch, OnBranchCheckListener mListener) {
             this.poBranch = poBranch;
             this.mListener = mListener;
         }
@@ -273,7 +280,7 @@ public class VMSelfieLog extends AndroidViewModel {
                 }
             } catch (Exception e){
                 e.printStackTrace();
-                message = e.getMessage();
+                message = getLocalMessage(e);
                 return false;
             }
         }
@@ -383,7 +390,7 @@ public class VMSelfieLog extends AndroidViewModel {
                 return 1;
             } catch (Exception e){
                 e.printStackTrace();
-                message = e.getMessage();
+                message = getLocalMessage(e);
                 return 0;
             }
         }
@@ -404,6 +411,64 @@ public class VMSelfieLog extends AndroidViewModel {
                     break;
             }
 
+        }
+    }
+
+    public void ResendTimeIn(String args, OnLoginTimekeeperListener callback){
+        new ResentTimeInTask(instance, callback).execute(args);
+    }
+
+    public static class ResentTimeInTask extends AsyncTask<String, Void, Boolean>{
+
+        private final SelfieLog poSys;
+        private final OnLoginTimekeeperListener callback;
+
+        private final ConnectionUtil poConn;
+
+        private String message;
+
+        public ResentTimeInTask(Application instance, OnLoginTimekeeperListener callback) {
+            this.poSys = new SelfieLog(instance);
+            this.callback = callback;
+            this.poConn = new ConnectionUtil(instance);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            callback.OnLogin();
+        }
+
+        @Override
+        protected Boolean doInBackground(String... selfieLogs) {
+            try{
+                if(!poConn.isDeviceConnected()){
+                    message = poConn.getMessage();
+                    return false;
+                }
+
+                if (!poSys.UploadSelfieLog(selfieLogs[0])) {
+                    message = poSys.getMessage();
+                    return false;
+                }
+
+                return true;
+            } catch (Exception e){
+                e.printStackTrace();
+                message = e.getMessage();
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Boolean isSuccess) {
+            super.onPostExecute(isSuccess);
+            if(!isSuccess){
+                callback.OnFailed(message);
+                return;
+            }
+
+            callback.OnSuccess("");
         }
     }
 
