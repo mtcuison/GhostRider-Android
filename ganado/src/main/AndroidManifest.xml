@@ -11,6 +11,15 @@
         <activity
             android:name=".Activities.Activity_ClientInfo"
             android:exported="false" />
+        <activity
+            android:name=".Activities.Activity_CategorySelection"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.Activity_BrandSelection"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.Activity_ProductSelection"
+            android:exported="false" />
     </application>
 
 </manifest>

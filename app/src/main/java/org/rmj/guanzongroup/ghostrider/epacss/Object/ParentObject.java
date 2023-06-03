@@ -14,6 +14,7 @@ package org.rmj.guanzongroup.ghostrider.epacss.Object;
 import android.content.Context;
 import android.content.Intent;
 
+import org.rmj.guanzongroup.ganado.Activities.Activity_CategorySelection;
 import org.rmj.guanzongroup.ganado.Activities.Activity_ProductInquiry;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Browser;
 import org.rmj.guanzongroup.ghostrider.dataChecker.Activity.Activity_DB_Explorer;
@@ -107,7 +108,7 @@ public class ParentObject {
                 break;
 
             case "product inquiry":
-                loIntent = new Intent(context, Activity_ProductInquiry.class);
+                loIntent = new Intent(context, Activity_CategorySelection.class);
                 break;
 
             default:

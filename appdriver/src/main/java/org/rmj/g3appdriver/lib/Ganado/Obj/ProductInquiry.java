@@ -48,6 +48,9 @@ public class ProductInquiry {
     public LiveData<List<EMcModel>> GetModelsList(String BrandID){
         return poDao.getAllModeFromBrand(BrandID);
     }
+    public LiveData<EMcModel> GetModel(String BrandID, String ModelID){
+        return poDao.getModeFromBrand(BrandID,ModelID);
+    }
 
     public LiveData<List<EMCColor>> GetModelColor(String ModelID){
         return poDao.GetModelColors(ModelID);
