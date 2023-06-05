@@ -48,6 +48,8 @@ public class EGanadoOnline {
     private String LastUpdt = "";
     @ColumnInfo(name = "sBranchCD")
     private String BranchCD = "";
+    @ColumnInfo(name = "dTimeStmp")
+    private String TimeStmp = "";
 
     public EGanadoOnline() {
     }
@@ -203,5 +205,13 @@ public class EGanadoOnline {
 
     public void setBranchCD(String branchCD) {
         BranchCD = branchCD;
+    }
+
+    public String getTimeStmp() {
+        return TimeStmp;
+    }
+
+    public void setTimeStmp(String timeStmp) {
+        TimeStmp = timeStmp;
     }
 }

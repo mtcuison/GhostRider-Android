@@ -20,6 +20,8 @@ import org.guanzongroup.com.itinerary.Activities.Activity_ItineraryEntry;
 import org.guanzongroup.com.itinerary.Activities.Activity_ItineraryLog;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.guanzongroup.documentscanner.Activity_DocumentScan;
+import org.rmj.guanzongroup.ganado.Activities.Activity_CategorySelection;
+import org.rmj.guanzongroup.ganado.Activities.Activity_Inquiries;
 import org.rmj.guanzongroup.ganado.Activities.Activity_ProductInquiry;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_AreaPerformanceMonitoring;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_CashCountLog;
@@ -183,6 +185,14 @@ public class ChildObject {
                 break;
             case "employee loan":
                 loIntent = new Intent(context, Activity_EmployeeLoanEntry.class);
+                break;
+
+            case "inquiry":
+                loIntent = new Intent(context, Activity_CategorySelection.class);
+                break;
+
+            case "inquiries":
+                loIntent = new Intent(context, Activity_Inquiries.class);
                 break;
             default:
                 loIntent = null;

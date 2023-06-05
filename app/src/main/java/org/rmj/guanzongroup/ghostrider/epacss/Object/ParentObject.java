@@ -107,10 +107,6 @@ public class ParentObject {
                 loIntent = new Intent(context, Activity_BranchList.class);
                 break;
 
-            case "product inquiry":
-                loIntent = new Intent(context, Activity_CategorySelection.class);
-                break;
-
             default:
                 loIntent = null;
         }

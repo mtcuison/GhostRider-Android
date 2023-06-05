@@ -3,6 +3,9 @@
 
     <application>
         <activity
+            android:name=".Activities.Activity_Inquiries"
+            android:exported="false" />
+        <activity
             android:name=".Activities.Activity_ProductInquiry"
             android:exported="false" />
         <activity

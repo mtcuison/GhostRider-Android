@@ -25,6 +25,9 @@ public interface DGanadoOnline {
     @Query("SELECT * FROM Ganado_Online WHERE sTransNox =:TransNox")
     EGanadoOnline GetInquiry(String TransNox);
 
+    @Query("SELECT * FROM Ganado_Online ORDER BY dTimeStmp DESC LIMIT 1")
+    EGanadoOnline GetLatestData();
+
     @Query("SELECT COUNT(sTransNox) FROM GANADO_ONLINE")
     int GetRowsCountForID();
 
@@ -41,6 +44,10 @@ public interface DGanadoOnline {
 
     @Query("SELECT * FROM MC_Model_Color WHERE sModelIDx =:ModelID")
     LiveData<List<EMCColor>> GetModelColors(String ModelID);
+
+    @Query("SELECT * FROM Ganado_Online " +
+            "WHERE sReferdBy = (SELECT sUserIDxx FROM User_Info_Master)")
+    LiveData<List<EGanadoOnline>> GetInquiries();
 
     @Query("SELECT  " +
             "a.nSelPrice, " +
