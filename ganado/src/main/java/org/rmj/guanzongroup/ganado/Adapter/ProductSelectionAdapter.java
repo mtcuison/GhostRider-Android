@@ -11,8 +11,6 @@
 
 package org.rmj.guanzongroup.ganado.Adapter;
 
-import static org.rmj.g3appdriver.etc.AppConstants.LEAVE_TYPE;
-
 import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,12 +22,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.textview.MaterialTextView;
+import com.squareup.picasso.Picasso;
 
-import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeBusinessTrip;
 import org.rmj.g3appdriver.GCircle.room.Entities.EMcModel;
-import org.rmj.g3appdriver.etc.AppConstants;
-import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.guanzongroup.ganado.R;
+import org.rmj.guanzongroup.ganado.ViewModel.MCHondaImages;
+import org.rmj.guanzongroup.ganado.ViewModel.MCKawasakiImages;
+import org.rmj.guanzongroup.ganado.ViewModel.MCSuzukiImages;
+import org.rmj.guanzongroup.ganado.ViewModel.MCYamahaImages;
 
 import java.util.List;
 
@@ -37,10 +37,9 @@ public class ProductSelectionAdapter extends RecyclerView.Adapter<ProductSelecti
 
     private List<EMcModel> poModel;
     private OnModelClickListener listener;
-    private boolean forViewing = false;
 
 
-    public interface OnModelClickListener{
+    public interface OnModelClickListener {
         void OnClick(String ModelID, String BrandID);
     }
 
@@ -60,13 +59,41 @@ public class ProductSelectionAdapter extends RecyclerView.Adapter<ProductSelecti
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ApplicationViewHolder holder, int position) {
+
+        String lsImgUrl = "";
         EMcModel loModel = poModel.get(position);
         holder.itemName.setText(loModel.getModelNme());
-        holder.itemView.setOnClickListener(v -> {
-            if(listener != null){
-                listener.OnClick(loModel.getModelIDx(), loModel.getBrandIDx());
+//        holder.setImage(loModel.getModelIDx(),loModel.getBrandIDx());
+        try {
+
+            switch (loModel.getBrandIDx()) {
+
+                case "M0W1001"://honda
+                    lsImgUrl = MCHondaImages.getModelImageResource(loModel.getModelIDx());
+                    break;
+                case "M0W1002"://suzuki
+                    lsImgUrl = MCSuzukiImages.getModelImageResource(loModel.getModelIDx());
+                    break;
+                case "M0W1003": // yamaha
+                    lsImgUrl = MCYamahaImages.getModelImageResource(loModel.getModelIDx());
+                    break;
+                case "M0W1009": // kawasaki
+                    lsImgUrl = MCKawasakiImages.getModelImageResource(loModel.getModelIDx());
+                    break;
             }
-        });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if (lsImgUrl != "") {
+            Picasso.get().load(lsImgUrl).placeholder(R.drawable.ganado_gradient)
+                    .error(R.drawable.ganado_gradient).into(holder.itemImg);
+            holder.itemView.setOnClickListener(v -> {
+                if (listener != null) {
+                    listener.OnClick(loModel.getModelIDx(), loModel.getBrandIDx());
+                }
+            });
+        }
     }
 
     @Override
@@ -74,17 +101,46 @@ public class ProductSelectionAdapter extends RecyclerView.Adapter<ProductSelecti
         return poModel.size();
     }
 
-    public static class ApplicationViewHolder extends RecyclerView.ViewHolder{
+    public static class ApplicationViewHolder extends RecyclerView.ViewHolder {
 
         MaterialTextView itemName;
 
         LinearLayout lnStatus;
 
-        ShapeableImageView imgType;
+        ShapeableImageView itemImg;
+
 
         public ApplicationViewHolder(@NonNull View view) {
             super(view);
             itemName = view.findViewById(R.id.itemName);
+            itemImg = view.findViewById(R.id.imagemodel0);
         }
+
+//        public void setImage(String ModelName, String BrandID){
+//            String lsImgVal ="";
+//            try {
+//                switch (BrandID) {
+//                    case "M0W1001":
+//                        lsImgVal = HondaImages.getModelImageResource(ModelName);
+//                        break;
+//                    case "M0W1002":
+//                        lsImgVal = HondaImages.getModelImageResource(ModelName);
+//                        break;
+//                    case "M0W1003":
+//                        lsImgVal = HondaImages.getModelImageResource(ModelName);
+//                        break;
+//                    case "M0W1009":
+//                        lsImgVal = HondaImages.getModelImageResource(ModelName);
+//                        break;
+//                }
+//
+//
+//
+//            } catch (Exception e){
+//                e.printStackTrace();
+//            }
+//    }
+
     }
 }
+

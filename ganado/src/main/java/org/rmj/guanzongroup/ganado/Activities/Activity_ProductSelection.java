@@ -12,10 +12,15 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.imageview.ShapeableImageView;
+
 import org.rmj.guanzongroup.ganado.Adapter.ProductSelectionAdapter;
 import org.rmj.guanzongroup.ganado.Adapter.RecyclerViewAdapter_BrandSelection;
 import org.rmj.guanzongroup.ganado.R;
 import org.rmj.guanzongroup.ganado.ViewModel.VMProductSelection;
+
+import java.util.Objects;
 
 public class Activity_ProductSelection extends AppCompatActivity {
     private RecyclerView rvMcModel;
@@ -23,11 +28,18 @@ public class Activity_ProductSelection extends AppCompatActivity {
     private VMProductSelection mViewModel;
     private ProductSelectionAdapter adapter;
 
+    private ShapeableImageView brandselectedimg;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_selection);
         initView();
+
+        int backgroundResId = getIntent().getIntExtra("background", 0);
+
+        brandselectedimg = findViewById(R.id.imageprodselection);
+        brandselectedimg.setImageResource(backgroundResId);
+
         mViewModel = new ViewModelProvider(Activity_ProductSelection.this).get(VMProductSelection.class);
 
         mViewModel.GetModelsList(getIntent().getStringExtra("lsBrandID")).observe(Activity_ProductSelection.this, eMcModels -> {
@@ -54,6 +66,12 @@ public class Activity_ProductSelection extends AppCompatActivity {
     private void initView(){
         rvMcModel = findViewById(R.id.rvMcModel);
         txtBrandNm = findViewById(R.id.lblBrand);
+
+        MaterialToolbar toolbar = findViewById(R.id.toolbar_selection);
+        toolbar.setTitle("");
+        setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+
 
     }
 

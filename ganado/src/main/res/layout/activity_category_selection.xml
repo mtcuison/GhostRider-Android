@@ -6,6 +6,22 @@
     android:layout_height="match_parent"
     android:theme="@style/GhostRiderMaterialTheme">
 
+    <LinearLayout
+        android:id="@+id/linear_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="3dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar_category"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:popupTheme="@style/GhostRiderMaterialTheme.PopupOverlay" />
+
+    </LinearLayout>
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
@@ -20,13 +36,13 @@
         app:layout_constraintWidth_percent=".92">
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/imagecat"
+            android:id="@+id/imagecattop"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
-            android:src="@drawable/category1"
-
+            android:src="@drawable/ganado_gradient"
+            android:alpha="0.70"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
