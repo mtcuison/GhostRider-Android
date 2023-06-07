@@ -1,0 +1,152 @@
+package org.rmj.guanzongroup.ganado.ViewModel;
+
+public class MCKawasakiImages {
+
+    public static String getModelImageResource(String ModelName) {
+        switch (ModelName) {
+            case "M00114028"://fury
+                return "";
+            case "M00114029":
+                return "";
+            case "M00115008":
+            case "M00121071":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2020/08/kawasaki-ct-100-1.jpg";
+            case "M00115014":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2021/12/ninja-zx-25r-1.jpg";
+            case "M00115042":
+            case "M00120005":
+            case "M00120035":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2020/08/ct-100-b-1.jpg";
+            case "M00116047":
+            case "M00118044":
+            case "M00119041":
+            case "M00119042":
+            case "M00120020":
+            case "M00120036":
+            case "M00121124":
+            case "M00122036":
+            case "M00122204":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2018/11/BARAKO-175-RED-4-oCLOCK.png";
+            case "M00117030":
+            case "M00119036":
+            case "M00120076":
+            case "M00121054":
+            case "M14720001":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2018/11/ct125-2021-1.png";
+            case "M00117047":
+            case "M00121042":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2018/11/ct150-1.png";
+            case "M00117055":
+            case "M00122015":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2020/08/kawasaki-ns160-fi-1.jpg";
+            case "M00120004":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2020/08/rouser-ns125-fi-1.jpg";
+            case "M00121050":
+            case "M00122037":
+            case "M00122205":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2018/11/barako-II-2021-1.jpg";
+            case "M00121110":
+                case "M00121111":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2020/08/rouser-ns200-fi-abs-2021-1.png";
+            case "M00121116":
+                return "";
+            case "M00121117":
+            case "M00122206":
+            case "M00122207"://barako iii
+                return "";
+            case "M00121126":
+            case "M00122108":
+            case "M00123040":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2021/12/KLX-150L-1.jpg";
+            case "M00121139":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2021/12/ninja-zx-14r-1.jpg";
+            case "M00121141":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2021/12/ninja-zx-10r-1.jpg";
+            case "M00122085":
+            case "M00122104":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2021/12/ninja-zx-10rr-1.jpg";
+            case "M00121144":
+            case "M00122087":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2021/12/z-h2-1.jpg";
+            case "M00121146":
+            case "M00122105":
+            case "M00122106":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2021/12/ninja-zx-25r-1.jpg";
+            case "M00121149":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2021/12/gtr-1400-1.jpg";
+            case "M00121153":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2021/12/z900rs-cafe-1.jpg";
+            case "M00121154":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2021/12/Z900RS-1.jpg";
+            case "M00122093":
+            case "M00122097":
+                return  "https://www.guanzongroup.com.ph/wp-content/uploads/2021/12/z900-std-1.jpg";
+
+            case "M00121155":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2021/12/w800-1.jpg";
+            case "M00121156":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2021/12/w800-street-1.jpg";
+            case "M00121157":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2021/12/w800-cafe-1.jpg";
+            case "M00121159":
+                return "";
+            case "M00121162":
+            case "M00121179":
+            case "M00122055":
+            case "M00122091":
+            case "M00123039":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2021/12/Z650-1.jpg";
+            case "M00121163":
+            case "M00121180":
+            case "M00122107":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2021/12/Ninja-650-1.jpg";
+            case "M00121165":
+                case "M00122209":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2021/12/W175-1.jpg";
+            case "M00121169":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2021/12/vulcan-900-custom-1.jpg";
+            case "M00121170":
+            case "M00122084":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2021/12/vulcan-s-1.jpg";
+            case "M00121174":
+            case "M00121175":
+            case "M00121178":
+            case "M00122095":
+            case "M00122096":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2022/02/kx65-1.jpg";
+            case "M00121176":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2021/12/KLX-300R-1.jpg";
+            case "M00121184":
+            case "M00123047":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2022/03/kawasaki-dominar-400-ug-1.jpg";
+            case "M00122045":
+                return "https://www.guanzongroup.com.ph/product/rouser-rs200-abs/";
+            case "M00122072":
+            case "M00122073":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2021/12/z400-1.jpg";
+            case "M00122074":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2021/12/Ninja-1000SX-1.jpg";
+            case "M00122075":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2021/12/z1000-r-edition-1.jpg";
+            case "M00122086":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2021/12/vulcan-1700-vaquero-1.jpg";
+            case "M00122092":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2021/12/versys-650-1.jpg";
+            case "M00122094":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2021/12/ninja-zx-6r-1.jpg";
+            case "M00122109":
+            case "M00122212":
+            case "M00122213":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2021/12/KLX-230-1.jpg";
+            case "M00122201":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2021/12/versys-1000-se-1.jpg";
+            case "M00123022"://4rr
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2021/12/ninja-zx-6r-1.jpg";
+
+
+            default:
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2020/06/";
+        }
+    }
+}
+

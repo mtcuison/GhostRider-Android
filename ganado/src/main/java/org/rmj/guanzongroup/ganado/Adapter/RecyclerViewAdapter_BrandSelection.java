@@ -20,16 +20,18 @@ public class RecyclerViewAdapter_BrandSelection extends RecyclerView.Adapter<Rec
     private final BrandFilter poFilter;
     private final OnBrandSelectListener listener;
 
-    public interface  OnBrandSelectListener{
+    public interface OnBrandSelectListener {
         void OnSelect(String BrandCode, String BranchName);
     }
+
     public RecyclerViewAdapter_BrandSelection(List<EMcBrand> paBrand, OnBrandSelectListener listener) {
         this.paBrandFilter = paBrand;
         this.paBrand = paBrand;
         this.poFilter = new BrandFilter(this);
         this.listener = listener;
     }
-    public BrandFilter getFilter(){
+
+    public BrandFilter getFilter() {
         return poFilter;
     }
 
@@ -39,39 +41,44 @@ public class RecyclerViewAdapter_BrandSelection extends RecyclerView.Adapter<Rec
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.mcbrandgrid_item, parent, false);
         return new RecyclerViewHolder_BrandSelection(view);
     }
+
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewHolder_BrandSelection holder, int position) {
         EMcBrand loBranch = paBrandFilter.get(position);
-        /*holder.item_brandImage.setimage(loBranch.getBrandIDx());*/
+        holder.item_brandImage.setImageResource(getBrandImageResource(loBranch.getBrandIDx()));
         holder.item_brand.setText(loBranch.getBrandNme());
 //        holder.itemView.setOnClickListener(v -> listener.OnSelect(loBranch.getBrandIDx(), loBranch.getBrandNme()));
         holder.itemView.setOnClickListener(v -> {
-            if(listener != null){
+            if (listener != null) {
                 listener.OnSelect(loBranch.getBrandIDx(), loBranch.getBrandNme());
             }
         });
     }
+
     @Override
     public int getItemCount() {
         return paBrandFilter.size();
     }
-    public class BrandFilter extends Filter{
+
+    public class BrandFilter extends Filter {
         private final RecyclerViewAdapter_BrandSelection poAdapter;
+
         public BrandFilter(RecyclerViewAdapter_BrandSelection poAdapter) {
             super();
             this.poAdapter = poAdapter;
         }
+
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             final FilterResults results = new FilterResults();
 
-            if(constraint.length() == 0){
+            if (constraint.length() == 0) {
                 paBrandFilter = paBrand;
             } else {
                 List<EMcBrand> filterSearch = new ArrayList<>();
-                for (EMcBrand brand:paBrand){
+                for (EMcBrand brand : paBrand) {
                     String lsBranchNm = brand.getBrandNme();
-                    if(lsBranchNm.toLowerCase().contains(constraint.toString().toLowerCase())){
+                    if (lsBranchNm.toLowerCase().contains(constraint.toString().toLowerCase())) {
                         filterSearch.add(brand);
                     }
                 }
@@ -81,10 +88,27 @@ public class RecyclerViewAdapter_BrandSelection extends RecyclerView.Adapter<Rec
             results.count = paBrandFilter.size();
             return results;
         }
+
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             poAdapter.paBrandFilter = (List<EMcBrand>) results.values;
             this.poAdapter.notifyDataSetChanged();
         }
+    }
+
+    private int getBrandImageResource(String brandIndex) {
+        switch (brandIndex) {
+            case "M0W1001":
+                return R.drawable.brand0; // Replace with your actual image resource
+            case "M0W1002":
+                return R.drawable.brand1; // Replace with your actual image resource
+            case "M0W1003":
+                return R.drawable.brand2; // Replace with your actual image resource
+            case "M0W1009":
+                return R.drawable.brand3; // Replace with your actual image resource
+            default:
+                return R.drawable.ganado_gradient; // Replace with your default image resource
+        }
+
     }
 }

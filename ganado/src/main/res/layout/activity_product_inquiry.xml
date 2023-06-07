@@ -30,11 +30,12 @@
         android:layout_height="0dp"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
-        app:srcCompat="@drawable/img_gheader"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent=".35"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/img_gheader" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/lblProdcutInquiryTitle"
