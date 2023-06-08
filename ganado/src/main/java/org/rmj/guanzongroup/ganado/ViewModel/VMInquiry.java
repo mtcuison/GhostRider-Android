@@ -13,15 +13,24 @@ import org.rmj.g3appdriver.lib.Ganado.Obj.Ganado;
 import org.rmj.g3appdriver.lib.Ganado.Obj.ProductInquiry;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.Task.OnDoBackgroundTaskListener;
+import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
 import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 
 import java.util.List;
 
 public class VMInquiry extends AndroidViewModel {
+    private static final String TAG = VMInquiry.class.getSimpleName();
 
     private final Ganado poSys;
     private final ConnectionUtil poConn;
 
+    private String message;
+
+    public interface OnTaskExecute{
+        void OnExecute();
+        void OnSuccess();
+        void OnFailed(String message);
+    }
 
     public VMInquiry(@NonNull Application application) {
         super(application);
@@ -33,29 +42,39 @@ public class VMInquiry extends AndroidViewModel {
     public LiveData<List<EGanadoOnline>> GetInquiries(){
         return poSys.GetInquiries();
     }
-    public void importCriteria(){
-        new ImportCriteriaTask().execute();
-    }
 
+    public void ImportCriteria(OnTaskExecute listener){
+        TaskExecutor.Execute(null, new OnTaskExecuteListener() {
+            @Override
+            public void OnPreExecute() {
+                listener.OnExecute();
+            }
 
-    private class ImportCriteriaTask{
-        private String TAG = getClass().getSimpleName();
-        public void execute(){
-            TaskExecutor.Execute(null, new OnDoBackgroundTaskListener() {
-                @Override
-                public Object DoInBackground(Object args) {
-                    if (!poConn.isDeviceConnected()){
-                        return poConn.getMessage();
-                    }
-
-                    return "";
+            @Override
+            public Object DoInBackground(Object args) {
+                if (!poConn.isDeviceConnected()){
+                    message = poConn.getMessage();
+                    return false;
                 }
 
-                @Override
-                public void OnPostExecute(Object object) {
-                    Log.d(TAG, object.toString());
+                if(!poSys.ImportInquiries()){
+                    message = poSys.getMessage();
+                    return false;
                 }
-            });
-        }
+
+                return true;
+            }
+
+            @Override
+            public void OnPostExecute(Object object) {
+                boolean isSuccess = (boolean) object;
+                if(!isSuccess){
+                    listener.OnFailed(message);
+                    return;
+                }
+
+                listener.OnSuccess();
+            }
+        });
     }
 }

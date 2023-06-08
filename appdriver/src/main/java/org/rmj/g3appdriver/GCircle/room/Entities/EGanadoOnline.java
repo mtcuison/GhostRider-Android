@@ -168,21 +168,7 @@ public class EGanadoOnline {
     }
 
     public String getTranStat() {
-        if(TranStat.equalsIgnoreCase("0") ){
-            return "Open";
-
-        }else if(TranStat.equalsIgnoreCase("1") ){
-            return "Extracted";
-
-        }else if(TranStat.equalsIgnoreCase("2") ){
-            return "Engaged";
-
-        }else if(TranStat.equalsIgnoreCase("3") ){
-            return "Lost Sales";
-
-        }else {
-            return "Bought";
-        }
+        return TranStat;
     }
 
     public void setTranStat(String tranStat) {

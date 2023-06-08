@@ -46,11 +46,12 @@ public class Activity_ProductSelection extends AppCompatActivity {
             if (eMcModels.size() > 0){
                 adapter = new ProductSelectionAdapter(eMcModels, new ProductSelectionAdapter.OnModelClickListener() {
                     @Override
-                    public void OnClick(String ModelID, String BrandID) {
+                    public void OnClick(String ModelID, String BrandID, String ImgLink) {
                         Intent intent = new Intent(Activity_ProductSelection.this, Activity_ProductInquiry.class);
                         intent.putExtra("lsBrandID",BrandID);
                         intent.putExtra("lsModelID",ModelID);
                         intent.putExtra("lsBrandNm",getIntent().getStringExtra("lsBrandNm"));
+                        intent.putExtra("lsImgLink",ImgLink);
                         startActivity(intent);
 
                     }
@@ -71,8 +72,6 @@ public class Activity_ProductSelection extends AppCompatActivity {
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-
-
     }
 
 

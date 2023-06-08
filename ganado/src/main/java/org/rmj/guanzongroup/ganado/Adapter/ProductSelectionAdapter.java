@@ -25,6 +25,7 @@ import com.google.android.material.textview.MaterialTextView;
 import com.squareup.picasso.Picasso;
 
 import org.rmj.g3appdriver.GCircle.room.Entities.EMcModel;
+import org.rmj.g3appdriver.utils.ImageFileManager;
 import org.rmj.guanzongroup.ganado.R;
 import org.rmj.guanzongroup.ganado.ViewModel.MCHondaImages;
 import org.rmj.guanzongroup.ganado.ViewModel.MCKawasakiImages;
@@ -40,7 +41,7 @@ public class ProductSelectionAdapter extends RecyclerView.Adapter<ProductSelecti
 
 
     public interface OnModelClickListener {
-        void OnClick(String ModelID, String BrandID);
+        void OnClick(String ModelID, String BrandID, String ImgLink);
     }
 
     public ProductSelectionAdapter(List<EMcModel> poModel, OnModelClickListener listener) {
@@ -86,11 +87,14 @@ public class ProductSelectionAdapter extends RecyclerView.Adapter<ProductSelecti
         }
 
         if (lsImgUrl != "") {
-            Picasso.get().load(lsImgUrl).placeholder(R.drawable.ganado_gradient)
-                    .error(R.drawable.ganado_gradient).into(holder.itemImg);
+            ImageFileManager.LoadImageToView(lsImgUrl, holder.itemImg);
+            String finalLsImgUrl = lsImgUrl;
             holder.itemView.setOnClickListener(v -> {
                 if (listener != null) {
-                    listener.OnClick(loModel.getModelIDx(), loModel.getBrandIDx());
+                    listener.OnClick(
+                            loModel.getModelIDx(),
+                            loModel.getBrandIDx(),
+                            finalLsImgUrl);
                 }
             });
         }
@@ -115,32 +119,6 @@ public class ProductSelectionAdapter extends RecyclerView.Adapter<ProductSelecti
             itemName = view.findViewById(R.id.itemName);
             itemImg = view.findViewById(R.id.imagemodel0);
         }
-
-//        public void setImage(String ModelName, String BrandID){
-//            String lsImgVal ="";
-//            try {
-//                switch (BrandID) {
-//                    case "M0W1001":
-//                        lsImgVal = HondaImages.getModelImageResource(ModelName);
-//                        break;
-//                    case "M0W1002":
-//                        lsImgVal = HondaImages.getModelImageResource(ModelName);
-//                        break;
-//                    case "M0W1003":
-//                        lsImgVal = HondaImages.getModelImageResource(ModelName);
-//                        break;
-//                    case "M0W1009":
-//                        lsImgVal = HondaImages.getModelImageResource(ModelName);
-//                        break;
-//                }
-//
-//
-//
-//            } catch (Exception e){
-//                e.printStackTrace();
-//            }
-//    }
-
     }
 }
 

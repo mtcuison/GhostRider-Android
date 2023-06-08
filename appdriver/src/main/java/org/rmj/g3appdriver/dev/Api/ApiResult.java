@@ -17,18 +17,26 @@ public class ApiResult {
 
             default:
                 String lsMessage = args.getString("message");
-                if(lsMessage.equalsIgnoreCase("Reload failed...")){
-                   return "We're currently experiencing high network traffic. Please try your request again in a few moments.";
-                }
+                return getMessage(lsMessage);
+        }
+    }
 
-                if(lsMessage.equalsIgnoreCase("Invalid password detected.")){
-                    return "Authentication Failed. Please check your Password and try again.";
-                }
+    private static String getMessage(String lsMessage){
+        switch (lsMessage){
+            case "Reload failed...":
+                return "We're currently experiencing high network traffic. Please try your request again in a few moments.";
 
-                if(lsMessage.equalsIgnoreCase("Invalid email detected.")){
-                    return "Email Error. The provided email is not recognized. Please review your entry.";
-                }
-                return args.getString("message");
+            case "Invalid password detected.":
+                return "Authentication Failed. Please check your Password and try again.";
+
+            case "Invalid email detected.":
+                return "Email Error. The provided email is not recognized. Please review your entry.";
+
+            case "No inquiries found":
+                return "Oops! No updated inquiries found.";
+
+            default:
+                return lsMessage;
         }
     }
 }
