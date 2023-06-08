@@ -31,21 +31,25 @@ import org.rmj.guanzongroup.ganado.ViewModel.MCKawasakiImages;
 import org.rmj.guanzongroup.ganado.ViewModel.MCSuzukiImages;
 import org.rmj.guanzongroup.ganado.ViewModel.MCYamahaImages;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class ProductSelectionAdapter extends RecyclerView.Adapter<ProductSelectionAdapter.ApplicationViewHolder> {
 
     private List<EMcModel> poModel;
+    private List<EMcModel> poModelFilteredList;
     private OnModelClickListener listener;
-
 
     public interface OnModelClickListener {
         void OnClick(String ModelID, String BrandID);
     }
 
+
     public ProductSelectionAdapter(List<EMcModel> poModel, OnModelClickListener listener) {
         this.poModel = poModel;
         this.listener = listener;
+        this.poModelFilteredList = new ArrayList<>(poModel);
     }
 
 
@@ -61,7 +65,8 @@ public class ProductSelectionAdapter extends RecyclerView.Adapter<ProductSelecti
     public void onBindViewHolder(@NonNull ApplicationViewHolder holder, int position) {
 
         String lsImgUrl = "";
-        EMcModel loModel = poModel.get(position);
+         //loModel = poModel.get(position);
+        EMcModel loModel = poModelFilteredList.get(position);
         holder.itemName.setText(loModel.getModelNme());
 //        holder.setImage(loModel.getModelIDx(),loModel.getBrandIDx());
         try {
@@ -86,26 +91,27 @@ public class ProductSelectionAdapter extends RecyclerView.Adapter<ProductSelecti
         }
 
         if (lsImgUrl != "") {
-            Picasso.get().load(lsImgUrl).placeholder(R.drawable.ganado_gradient)
-                    .error(R.drawable.ganado_gradient).into(holder.itemImg);
+            Picasso.get().load(lsImgUrl).placeholder(R.drawable.no_imageavailable)
+                    .error(R.drawable.no_imageavailable).into(holder.itemImg);
             holder.itemView.setOnClickListener(v -> {
                 if (listener != null) {
                     listener.OnClick(loModel.getModelIDx(), loModel.getBrandIDx());
                 }
             });
         }
+
     }
+
 
     @Override
     public int getItemCount() {
-        return poModel.size();
+        return poModelFilteredList.size();
     }
 
-    public static class ApplicationViewHolder extends RecyclerView.ViewHolder {
+
+    public class ApplicationViewHolder extends RecyclerView.ViewHolder {
 
         MaterialTextView itemName;
-
-        LinearLayout lnStatus;
 
         ShapeableImageView itemImg;
 
@@ -142,5 +148,24 @@ public class ProductSelectionAdapter extends RecyclerView.Adapter<ProductSelecti
 //    }
 
     }
-}
+    public void filterModel(String query) {
+        poModelFilteredList.clear();
 
+        if (query.isEmpty()) {
+            poModelFilteredList.addAll(poModel);
+        } else {
+            query = query.toLowerCase(Locale.getDefault());
+
+            for (EMcModel model : poModel) {
+                if (model.getModelNme().toLowerCase(Locale.getDefault()).contains(query)) {
+                    poModelFilteredList.add(model);
+                }
+            }
+        }
+
+        notifyDataSetChanged();
+    }
+
+
+
+}
