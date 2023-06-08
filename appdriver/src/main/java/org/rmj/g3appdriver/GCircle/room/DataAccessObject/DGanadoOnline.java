@@ -49,6 +49,21 @@ public interface DGanadoOnline {
             "WHERE sReferdBy = (SELECT sUserIDxx FROM User_Info_Master)")
     LiveData<List<EGanadoOnline>> GetInquiries();
 
+
+    @Query("SELECT " +
+            "a.sModelIDx AS ModelIDx " +
+            ",a.sModelNme AS ModelNme " +
+            ",a.sBrandIDx AS BrandIDx" +
+            ",c.sColorIDx AS ColorIDx" +
+            ",c.sColorNme AS ColorNme " +
+            "FROM MC_MODEL a " +
+            ", MC_Model_Color c " +
+            "   ON a.sModelIDx = c.sModelIDx " +
+            " WHERE a.sModelIDx =:ModelID"+
+            " AND a.sBrandIDx =:BrandID"+
+            " AND c.sColorIDx =:ColorID")
+    McInfo GetMCInfo(String ModelID,String BrandID,String ColorID);
+
     @Query("SELECT  " +
             "a.nSelPrice, " +
             "a.nMinDownx, " +
@@ -100,5 +115,13 @@ public interface DGanadoOnline {
         public String nEndMrtgg;
         public String nAcctThru;
         public String nFactorRt;
+    }
+    class McInfo{
+        public String ModelIDx;
+        public String ModelNme;
+        public String BrandIDx;
+        public String sBrandNme;
+        public String ColorIDx;
+        public String ColorNme;
     }
 }

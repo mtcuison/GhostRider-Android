@@ -64,36 +64,50 @@ public class Activity_ProductInquiry extends AppCompatActivity {
         mViewModel.setBrandID(getIntent().getStringExtra("lsBrandID"));
         mViewModel.setModelID(getIntent().getStringExtra("lsModelID"));
         mViewModel.getModel().setTermIDxx("36");
-        mViewModel.getModel().setColorIDx("M001223");
+//        mViewModel.getModel().setColorIDx("M001223");
         mViewModel.getModel().setPaymForm("1");
 
         lsBrandID = getIntent().getStringExtra("lsBrandID");
         lsModelID = getIntent().getStringExtra("lsModelID");
+        Log.e("lsBrandID",lsBrandID);
+        Log.e("lsModelID",lsModelID);
         mViewModel.getModel().setBrandIDx(lsBrandID);
         mViewModel.getModel().setModelIDx(lsModelID);
         mViewModel.getModel().setTermIDxx("36");
 //        mViewModel.GetModelColor(lsModelID).observe(Activity_ProductInquiry.this, colorList->{
-//
-//        });
+//  M0W1001
+//        });M00113038
 
         mViewModel.GetModelBrand(lsBrandID, lsModelID).observe(Activity_ProductInquiry.this, eMcModel -> {
-            txtModelCd.setText(eMcModel.getModelCde());
-            txtModelNm.setText(eMcModel.getModelNme());
-            txtBrandNm.setText(getIntent().getStringExtra("lsBrandNm"));
-
+            try {
+                txtModelCd.setText(eMcModel.getModelCde());
+                txtModelNm.setText(eMcModel.getModelNme());
+                txtBrandNm.setText(getIntent().getStringExtra("lsBrandNm"));
+            }catch (NullPointerException e){
+                e.printStackTrace();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         });
         mViewModel.GetModelColor(lsModelID).observe(Activity_ProductInquiry.this, colorList->{
-            ArrayList<String> string = new ArrayList<>();
-            for (int x = 0; x < colorList.size(); x++) {
-                String lsColor = colorList.get(x).getColorNme();
-//                        String lsTown =  loList.get(x).sProvName ;
-                string.add(lsColor);
+            try {
+                ArrayList<String> string = new ArrayList<>();
+                for (int x = 0; x < colorList.size(); x++) {
+                    String lsColor = colorList.get(x).getColorNme();
+                    //                        String lsTown =  loList.get(x).sProvName ;
+                    string.add(lsColor);
 
+                }
+                ArrayAdapter<String> adapters = new ArrayAdapter<>(Activity_ProductInquiry.this, android.R.layout.simple_spinner_dropdown_item, string.toArray(new String[0]));
+                spn_color.setText(colorList.get(0).getColorNme());
+                spn_color.setAdapter(adapters);
+            }catch (NullPointerException e){
+                e.printStackTrace();
+            }catch (Exception e){
+                e.printStackTrace();
             }
-            ArrayAdapter<String> adapters = new ArrayAdapter<>(Activity_ProductInquiry.this, android.R.layout.simple_spinner_dropdown_item, string.toArray(new String[0]));
-            spn_color.setText(colorList.get(0).getColorNme());
-            spn_color.setAdapter(adapters);
         });
+        spn_color.setSelection(0);
         spn_color.setOnItemClickListener(new OnItemClickListener(spn_color));
         spnAcctTerm.setOnItemClickListener(new OnItemClickListener(spnAcctTerm));
         txtDownPymnt.addTextChangedListener(new FormatUIText.CurrencyFormat(txtDownPymnt));
@@ -114,6 +128,8 @@ public class Activity_ProductInquiry extends AppCompatActivity {
 
                     }
                 });
+            } catch (NullPointerException e){
+                e.printStackTrace();
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -152,6 +168,11 @@ public class Activity_ProductInquiry extends AppCompatActivity {
 
                 @Override
                 public void OnFailed(String message) {
+                    poMessage.initDialog();
+                    poMessage.setTitle("Product Inquiry");
+                    poMessage.setMessage(message);
+                    poMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
+                    poMessage.show();
                     txtAmort.setText("0");
                 }
             });
