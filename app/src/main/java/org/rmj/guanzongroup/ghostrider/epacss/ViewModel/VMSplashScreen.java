@@ -130,9 +130,8 @@ public class VMSplashScreen extends AndroidViewModel {
         protected Integer doInBackground(String... strings) {
             try{
                 if(poConn.isDeviceConnected()){
-                    Log.d(TAG, "Initializing barangay data.");
-                    if(!new RBarangay(instance).ImportBarangay()){
-                        Log.e(TAG, "Unable to import barangay");
+                    if(!new RBranch(instance).ImportBranches()){
+                        Log.e(TAG, "Unable to import branches");
                     }
                     publishProgress(1);
 
@@ -148,8 +147,9 @@ public class VMSplashScreen extends AndroidViewModel {
                     }
                     publishProgress(3);
 
-                    if(!new RBranch(instance).ImportBranches()){
-                        Log.e(TAG, "Unable to import branches");
+                    Log.d(TAG, "Initializing barangay data.");
+                    if(!new RBarangay(instance).ImportBarangay()){
+                        Log.e(TAG, "Unable to import barangay");
                     }
                     publishProgress(4);
 
