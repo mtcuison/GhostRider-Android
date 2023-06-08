@@ -89,7 +89,7 @@ public class InquiryListAdapter extends RecyclerView.Adapter<InquiryListAdapter.
                     listener.OnClick(loModel.getTransNox());
                 }
             });
-        } catch (JSONException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
 

@@ -7,9 +7,11 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.google.android.material.appbar.MaterialToolbar;
 
@@ -34,9 +36,40 @@ public class Activity_Inquiries extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mViewModel = new ViewModelProvider(this).get(VMInquiry.class);
         setContentView(R.layout.activity_inquiries);
         intWidgets();
-        mViewModel = new ViewModelProvider(this).get(VMInquiry.class);
+
+        poLoad = new LoadDialog(Activity_Inquiries.this);
+        poMessage = new MessageBox(Activity_Inquiries.this);
+
+        mViewModel.ImportCriteria(new VMInquiry.OnTaskExecute() {
+            @Override
+            public void OnExecute() {
+                poLoad.initDialog("Product Inquiry", "Checking data. Please wait...", false);
+                poLoad.show();
+            }
+
+            @Override
+            public void OnSuccess() {
+                poLoad.dismiss();
+            }
+
+            @Override
+            public void OnFailed(String message) {
+                poLoad.dismiss();
+                poMessage.initDialog();
+                poMessage.setTitle("Product Inquiry");
+                poMessage.setMessage(message);
+                poMessage.setPositiveButton("Okay", new MessageBox.DialogButton() {
+                    @Override
+                    public void OnButtonClick(View view, AlertDialog dialog) {
+                        dialog.dismiss();
+                    }
+                });
+                poMessage.show();
+            }
+        });
         mViewModel.GetInquiries().observe(Activity_Inquiries.this, inquiries ->{
             if (inquiries.size() > 0){
                 InquiryListAdapter adapter= new InquiryListAdapter(getApplication(), inquiries, new InquiryListAdapter.OnModelClickListener() {

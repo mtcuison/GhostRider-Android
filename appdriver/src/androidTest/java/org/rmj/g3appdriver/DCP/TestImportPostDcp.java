@@ -31,23 +31,6 @@ public class TestImportPostDcp {
     @Before
     public void setUp() throws Exception {
         instance = (Application) InstrumentationRegistry.getInstrumentation().getTargetContext().getApplicationContext();
-        AppConfigPreference.getInstance(instance).setTestCase(false);
-    }
-
-    @Test
-    public void test00LoginUser() {
-        EmployeeMaster loSys = new EmployeeMaster(instance);
-        if(!loSys.AuthenticateUser(
-                new EmployeeMaster.UserAuthInfo(
-                        "mikegarcia8748@gmail.com",
-                        "123456",
-                        "09171870011"))){
-            message = loSys.getMessage();
-            Log.e(TAG, message);
-        } else {
-            isSuccess = true;
-        }
-        assertTrue(isSuccess);
     }
 
     @Test
@@ -55,8 +38,8 @@ public class TestImportPostDcp {
         LRDcp loSys = new LRDcp(instance);
         if(!loSys.DownloadCollection(
                 new ImportParams(
-                        "M00119001584",
-                        "2022-10-03",
+                        "M04108000065",
+                        "2023-06-08",
                         "1"))){
             message = loSys.getMessage();
             Log.e(TAG, message);
@@ -66,7 +49,7 @@ public class TestImportPostDcp {
         assertTrue(isSuccess);
     }
 
-//    @Test
+    @Test
     public void test01PostDcp() {
         LRDcp loSys = new LRDcp(instance);
         String lsTransNo = loSys.PostCollection("Sample Remarksx");

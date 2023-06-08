@@ -19,6 +19,7 @@ import android.widget.ArrayAdapter;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textview.MaterialTextView;
@@ -29,6 +30,7 @@ import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.Ganado.model.GConstants;
 import org.rmj.g3appdriver.lib.Ganado.pojo.InstallmentInfo;
+import org.rmj.g3appdriver.utils.ImageFileManager;
 import org.rmj.guanzongroup.ganado.Adapter.ProductSelectionAdapter;
 import org.rmj.guanzongroup.ganado.R;
 import org.rmj.guanzongroup.ganado.ViewModel.VMProductInquiry;
@@ -47,16 +49,14 @@ public class Activity_ProductInquiry extends AppCompatActivity {
     private TextInputEditText txtDownPymnt, txtAmort, txtDTarget;
     private MaterialAutoCompleteTextView spn_color, spnPayment, spnAcctTerm;
     private MaterialButton btnContinue,btnCalculate;
-//    private ShapeableImageView imgMC;
-    private String lsModelID, lsBrandID;
+    private ShapeableImageView imgMC;
+    private String lsModelID, lsBrandID, lsImgLink;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_inquiry);
         initWidgets();
-////        spn_color.setText(GConstants.APPLICATION_TYPE[0]);
-//
-        Log.e("TAG", GConstants.PAYMENT_FORM[0]);
+
         spnPayment.setText(GConstants.PAYMENT_FORM[0]);
         spnPayment.setAdapter(GConstants.getAdapter(Activity_ProductInquiry.this, GConstants.PAYMENT_FORM));
         spnAcctTerm.setText(GConstants.INSTALLMENT_TERM[0]);
@@ -64,25 +64,22 @@ public class Activity_ProductInquiry extends AppCompatActivity {
         mViewModel.setBrandID(getIntent().getStringExtra("lsBrandID"));
         mViewModel.setModelID(getIntent().getStringExtra("lsModelID"));
         mViewModel.getModel().setTermIDxx("36");
-//        mViewModel.getModel().setColorIDx("M001223");
         mViewModel.getModel().setPaymForm("1");
 
         lsBrandID = getIntent().getStringExtra("lsBrandID");
         lsModelID = getIntent().getStringExtra("lsModelID");
-        Log.e("lsBrandID",lsBrandID);
-        Log.e("lsModelID",lsModelID);
+        lsImgLink = getIntent().getStringExtra("lsImgLink");
+
         mViewModel.getModel().setBrandIDx(lsBrandID);
         mViewModel.getModel().setModelIDx(lsModelID);
         mViewModel.getModel().setTermIDxx("36");
-//        mViewModel.GetModelColor(lsModelID).observe(Activity_ProductInquiry.this, colorList->{
-//  M0W1001
-//        });M00113038
 
         mViewModel.GetModelBrand(lsBrandID, lsModelID).observe(Activity_ProductInquiry.this, eMcModel -> {
             try {
                 txtModelCd.setText(eMcModel.getModelCde());
                 txtModelNm.setText(eMcModel.getModelNme());
                 txtBrandNm.setText(getIntent().getStringExtra("lsBrandNm"));
+                ImageFileManager.LoadImageToView(lsImgLink, imgMC);
             }catch (NullPointerException e){
                 e.printStackTrace();
             }catch (Exception e){
@@ -215,7 +212,7 @@ public class Activity_ProductInquiry extends AppCompatActivity {
         spnPayment = findViewById(R.id.spn_paymentMethod);
         spnAcctTerm = findViewById(R.id.spn_installmentTerm);
         spn_color = findViewById(R.id.spn_color);
-//        imgMC = findViewById(R.id.imgMC);
+        imgMC = findViewById(R.id.imgMC);
 
         btnContinue = findViewById(R.id.btnContinue);
         btnCalculate = findViewById(R.id.btnCalculate);

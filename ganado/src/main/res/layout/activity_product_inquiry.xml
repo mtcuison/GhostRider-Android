@@ -88,21 +88,13 @@
                     android:layout_marginTop="5dp"
                     android:layout_gravity="bottom"
                     android:orientation="horizontal">
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/cardView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:cardCornerRadius="8dp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
 
-                        <com.google.android.material.imageview.ShapeableImageView
-                            android:id="@+id/imgMC"
-                            android:layout_width="160dp"
-                            android:layout_height="180dp"
-                            app:srcCompat="@drawable/img_mc" />
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/imgMC"
+                        android:layout_width="160dp"
+                        android:layout_height="180dp"
+                        app:srcCompat="@drawable/img_mc" />
 
-                    </com.google.android.material.card.MaterialCardView>
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
