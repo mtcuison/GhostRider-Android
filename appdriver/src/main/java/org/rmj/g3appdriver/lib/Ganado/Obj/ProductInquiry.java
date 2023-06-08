@@ -55,6 +55,9 @@ public class ProductInquiry {
     public LiveData<List<EMCColor>> GetModelColor(String ModelID){
         return poDao.GetModelColors(ModelID);
     }
+    public DGanadoOnline.McInfo GetMCInfo(String ModelID, String BrandID, String ColorID){
+        return poDao.GetMCInfo(ModelID, BrandID, ColorID);
+    }
 
     public DGanadoOnline.McAmortization GetMonthlyPayment(String ModelID, int Term){
         return poDao.GetMonthlyPayment(ModelID, Term);
