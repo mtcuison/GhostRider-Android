@@ -50,12 +50,17 @@ public class Activity_ProductInquiry extends AppCompatActivity {
     private MaterialAutoCompleteTextView spn_color, spnPayment, spnAcctTerm;
     private MaterialButton btnContinue,btnCalculate;
     private ShapeableImageView imgMC;
-    private String lsModelID, lsBrandID, lsImgLink;
+    private String lsModelID, lsBrandID, lsImgLink, lsBrandNm;
+    private int backgroundResIdBrand;
+    private String backgroundResIdCat;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_inquiry);
         initWidgets();
+        backgroundResIdBrand = getIntent().getIntExtra("bgbrandimage", 0);
+        backgroundResIdCat = getIntent().getStringExtra("backgroundold");
+
 
         spnPayment.setText(GConstants.PAYMENT_FORM[0]);
         spnPayment.setAdapter(GConstants.getAdapter(Activity_ProductInquiry.this, GConstants.PAYMENT_FORM));
@@ -69,6 +74,7 @@ public class Activity_ProductInquiry extends AppCompatActivity {
         lsBrandID = getIntent().getStringExtra("lsBrandID");
         lsModelID = getIntent().getStringExtra("lsModelID");
         lsImgLink = getIntent().getStringExtra("lsImgLink");
+        lsBrandNm = getIntent().getStringExtra("lsBrandNm");
 
         mViewModel.getModel().setBrandIDx(lsBrandID);
         mViewModel.getModel().setModelIDx(lsModelID);
@@ -220,10 +226,35 @@ public class Activity_ProductInquiry extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() == android.R.id.home){
+
+        if (item.getItemId() == android.R.id.home) {
+            Intent loIntent = new Intent(Activity_ProductInquiry.this, Activity_ProductSelection.class);
+            loIntent.putExtra("lsBrandID", lsBrandID);
+            loIntent.putExtra("lsBrandNm", lsBrandNm);
+            loIntent.putExtra("background", backgroundResIdBrand);
+            loIntent.putExtra("backgroundold", backgroundResIdCat);
+            startActivity(loIntent);
+            overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
             finish();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed () {
+        Intent loIntent = new Intent(Activity_ProductInquiry.this, Activity_ProductSelection.class);
+        loIntent.putExtra("lsBrandID", lsBrandID);
+        loIntent.putExtra("lsBrandNm", lsBrandNm);
+        loIntent.putExtra("background", backgroundResIdBrand);
+        loIntent.putExtra("backgroundold", backgroundResIdCat);
+        startActivity(loIntent);
+        finish();
+    }
+
+    @Override
+    protected void onDestroy () {
+        getViewModelStore().clear();
+        super.onDestroy();
     }
     private class OnItemClickListener implements AdapterView.OnItemClickListener {
 

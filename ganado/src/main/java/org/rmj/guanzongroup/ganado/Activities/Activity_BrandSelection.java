@@ -49,6 +49,8 @@ public class Activity_BrandSelection extends AppCompatActivity {
                         intent.putExtra("lsBrandID", BrandID);
                         intent.putExtra("lsBrandNm", BrandName);
                         startActivity(intent);
+                        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
+                        finish();
 
                     }
                 });
@@ -75,6 +77,9 @@ public class Activity_BrandSelection extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
+            Intent loIntent = new Intent(Activity_BrandSelection.this, Activity_CategorySelection.class);
+            startActivity(loIntent);
+            overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
             finish();
         }
         return super.onOptionsItemSelected(item);

@@ -2,6 +2,7 @@ package org.rmj.guanzongroup.ganado.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,11 +16,12 @@ import android.widget.TextView;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.imageview.ShapeableImageView;
 
+import org.rmj.g3appdriver.GCircle.room.Entities.EMcModel;
 import org.rmj.guanzongroup.ganado.Adapter.ProductSelectionAdapter;
-import org.rmj.guanzongroup.ganado.Adapter.RecyclerViewAdapter_BrandSelection;
 import org.rmj.guanzongroup.ganado.R;
 import org.rmj.guanzongroup.ganado.ViewModel.VMProductSelection;
 
+import java.util.List;
 import java.util.Objects;
 
 public class Activity_ProductSelection extends AppCompatActivity {
@@ -27,8 +29,14 @@ public class Activity_ProductSelection extends AppCompatActivity {
     private TextView txtBrandNm;
     private VMProductSelection mViewModel;
     private ProductSelectionAdapter adapter;
+    private SearchView searchView;
+    private List<EMcModel> poModel;
+    private List<EMcModel> poModelFilteredList;
 
     private ShapeableImageView brandselectedimg;
+    private int backgroundResId;
+    private String backgroundResIdCat;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,23 +55,39 @@ public class Activity_ProductSelection extends AppCompatActivity {
                     @Override
                     public void OnClick(String ModelID, String BrandID, String ImgLink) {
                         Intent intent = new Intent(Activity_ProductSelection.this, Activity_ProductInquiry.class);
-                        intent.putExtra("lsBrandID",BrandID);
-                        intent.putExtra("lsModelID",ModelID);
-                        intent.putExtra("lsBrandNm",getIntent().getStringExtra("lsBrandNm"));
-                        intent.putExtra("lsImgLink",ImgLink);
+                        intent.putExtra("lsBrandID", BrandID);
+                        intent.putExtra("lsModelID", ModelID);
+                        intent.putExtra("lsBrandNm", getIntent().getStringExtra("lsBrandNm"));
+                        intent.putExtra("lsImgLink", ImgLink);
+                        intent.putExtra("bgbrandimage", backgroundResId);
+                        intent.putExtra("backgroundold", backgroundResIdCat);
                         startActivity(intent);
-
+                        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
+                        finish();
                     }
                 });
 
                 rvMcModel.setAdapter(adapter);
-                rvMcModel.setLayoutManager(new GridLayoutManager(Activity_ProductSelection.this,2,RecyclerView.VERTICAL,false));
+                rvMcModel.setLayoutManager(new GridLayoutManager(Activity_ProductSelection.this, 2, RecyclerView.VERTICAL, false));
 
             }
         });
         txtBrandNm.setText(getIntent().getStringExtra("lsBrandNm"));
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.filterModel(newText);
+                return true;
+            }
+        });
     }
-    private void initView(){
+
+    private void initView() {
         rvMcModel = findViewById(R.id.rvMcModel);
         txtBrandNm = findViewById(R.id.lblBrand);
 
