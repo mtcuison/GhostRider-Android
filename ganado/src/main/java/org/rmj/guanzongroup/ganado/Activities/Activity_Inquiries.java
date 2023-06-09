@@ -78,6 +78,8 @@ public class Activity_Inquiries extends AppCompatActivity {
                         Intent intent = new Intent(Activity_Inquiries.this, Activity_ProductSelection.class);
                         intent.putExtra("TransNox",TransNox);
                         startActivity(intent);
+                        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
+                        finish();
 
                     }
 

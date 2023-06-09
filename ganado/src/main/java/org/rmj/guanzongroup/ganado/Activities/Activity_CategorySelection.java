@@ -1,5 +1,6 @@
 package org.rmj.guanzongroup.ganado.Activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -7,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.google.android.material.appbar.MaterialToolbar;
@@ -38,44 +40,68 @@ public class Activity_CategorySelection extends AppCompatActivity {
         selectAuto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    // Perform the action you want for button 1
-                    // For example, switch to a new activity
 
-                    Intent intent1 = new Intent(Activity_CategorySelection.this, Activity_BrandSelection.class);
-                intent1.putExtra("background", R.drawable.category2);
-                    startActivity(intent1);
-                }
-            });
+                Intent intent1 = new Intent(Activity_CategorySelection.this, Activity_BrandSelection.class);
+                //intent1.putExtra("background", R.drawable.category2);
+                intent1.putExtra("background", "AUTO");
+                startActivity(intent1);
+                overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
+                finish();
+            }
+        });
         selectCP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Perform the action you want for button 1
-                // For example, switch to a new activity
 
                 Intent intent1 = new Intent(Activity_CategorySelection.this, Activity_BrandSelection.class);
-                intent1.putExtra("background", R.drawable.category1);
+                //intent1.putExtra("background", R.drawable.category1);
+                intent1.putExtra("background", "CP");
                 startActivity(intent1);
+                overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
+                finish();
             }
         });
         selectMC.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Perform the action you want for button 1
-                // For example, switch to a new activity
 
                 Intent intent1 = new Intent(Activity_CategorySelection.this, Activity_BrandSelection.class);
-                intent1.putExtra("background", R.drawable.category2);
+                //intent1.putExtra("background", R.drawable.category2);
+                intent1.putExtra("background", "MC");
                 startActivity(intent1);
+                overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
+                finish();
             }
         });
 
-        }
+    }
     private void initWidgets(){
         MaterialToolbar toolbar = findViewById(R.id.toolbar_category);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        if (item.getItemId() == android.R.id.home) {
+            overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed () {
+        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
+        finish();
+    }
+
+    @Override
+    protected void onDestroy () {
+        getViewModelStore().clear();
+        super.onDestroy();
     }
 }
 

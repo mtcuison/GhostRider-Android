@@ -42,10 +42,10 @@ public class Activity_BrandSelection extends AppCompatActivity {
         setContentView(R.layout.activity_brand_selection);
         intWidgets();
         mViewModel = new ViewModelProvider(this).get(VMBrandList.class);
-        int backgroundResId = getIntent().getIntExtra("background", 0);
+        String backgroundResId = getIntent().getStringExtra("background");
 
         brandcatimg = findViewById(R.id.imagebrandtop);
-        brandcatimg.setImageResource(backgroundResId);
+        brandcatimg.setImageResource(getCatImageResource(backgroundResId));
 
         mViewModel.getBrandList().observe(Activity_BrandSelection.this, brandList -> {
             if (brandList.size() > 0) {
@@ -56,7 +56,10 @@ public class Activity_BrandSelection extends AppCompatActivity {
                         intent.putExtra("lsBrandID", BrandID);
                         intent.putExtra("lsBrandNm", BrandName);
                         intent.putExtra("background", getBrandImageResource(BrandID));
+                        intent.putExtra("backgroundold", backgroundResId);
                         startActivity(intent);
+                        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
+                        finish();
 
                     }
                 });
@@ -83,6 +86,9 @@ public class Activity_BrandSelection extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
+            Intent loIntent = new Intent(Activity_BrandSelection.this, Activity_CategorySelection.class);
+            startActivity(loIntent);
+            overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
             finish();
         }
         return super.onOptionsItemSelected(item);
@@ -101,5 +107,19 @@ public class Activity_BrandSelection extends AppCompatActivity {
             default:
                 return R.drawable.ganado_gradient; // Replace with your default image resource
         }
+    }
+    private int getCatImageResource(String CategoryType) {
+        switch (CategoryType) {
+            case "AUTO":
+                return R.drawable.category2;
+            case "CP":
+                return R.drawable.category1;
+            case "MC":
+                return R.drawable.category2;
+            default:
+                return R.drawable.category2;
+        }
+
+
     }
 }

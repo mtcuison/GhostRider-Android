@@ -34,36 +34,42 @@ public class Activity_ProductSelection extends AppCompatActivity {
     private List<EMcModel> poModelFilteredList;
 
     private ShapeableImageView brandselectedimg;
+    private int backgroundResId;
+    private String backgroundResIdCat;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_selection);
         initView();
 
-        int backgroundResId = getIntent().getIntExtra("background", 0);
-
+        backgroundResId = getIntent().getIntExtra("background", 0);
+        backgroundResIdCat = getIntent().getStringExtra("backgroundold");
         brandselectedimg = findViewById(R.id.imageprodselection);
         brandselectedimg.setImageResource(backgroundResId);
         searchView = findViewById(R.id.searchview);
         mViewModel = new ViewModelProvider(Activity_ProductSelection.this).get(VMProductSelection.class);
 
         mViewModel.GetModelsList(getIntent().getStringExtra("lsBrandID")).observe(Activity_ProductSelection.this, eMcModels -> {
-            if (eMcModels.size() > 0){
+            if (eMcModels.size() > 0) {
                 adapter = new ProductSelectionAdapter(eMcModels, new ProductSelectionAdapter.OnModelClickListener() {
                     @Override
                     public void OnClick(String ModelID, String BrandID, String ImgLink) {
                         Intent intent = new Intent(Activity_ProductSelection.this, Activity_ProductInquiry.class);
-                        intent.putExtra("lsBrandID",BrandID);
-                        intent.putExtra("lsModelID",ModelID);
-                        intent.putExtra("lsBrandNm",getIntent().getStringExtra("lsBrandNm"));
-                        intent.putExtra("lsImgLink",ImgLink);
+                        intent.putExtra("lsBrandID", BrandID);
+                        intent.putExtra("lsModelID", ModelID);
+                        intent.putExtra("lsBrandNm", getIntent().getStringExtra("lsBrandNm"));
+                        intent.putExtra("lsImgLink", ImgLink);
+                        intent.putExtra("bgbrandimage", backgroundResId);
+                        intent.putExtra("backgroundold", backgroundResIdCat);
                         startActivity(intent);
-
+                        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
+                        finish();
                     }
                 });
 
                 rvMcModel.setAdapter(adapter);
-                rvMcModel.setLayoutManager(new GridLayoutManager(Activity_ProductSelection.this,2,RecyclerView.VERTICAL,false));
+                rvMcModel.setLayoutManager(new GridLayoutManager(Activity_ProductSelection.this, 2, RecyclerView.VERTICAL, false));
 
             }
         });
@@ -81,7 +87,8 @@ public class Activity_ProductSelection extends AppCompatActivity {
             }
         });
     }
-    private void initView(){
+
+    private void initView() {
         rvMcModel = findViewById(R.id.rvMcModel);
         txtBrandNm = findViewById(R.id.lblBrand);
 
@@ -94,9 +101,29 @@ public class Activity_ProductSelection extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() == android.R.id.home){
+
+            if (item.getItemId() == android.R.id.home) {
+                Intent loIntent = new Intent(Activity_ProductSelection.this, Activity_BrandSelection.class);
+                loIntent.putExtra("background", backgroundResIdCat);
+                startActivity(loIntent);
+                overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
+                finish();
+            }
+            return super.onOptionsItemSelected(item);
+        }
+
+        @Override
+        public void onBackPressed () {
+            Intent loIntent = new Intent(Activity_ProductSelection.this, Activity_BrandSelection.class);
+            loIntent.putExtra("background", backgroundResIdCat);
+            overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
+            startActivity(loIntent);
             finish();
         }
-        return super.onOptionsItemSelected(item);
+
+        @Override
+        protected void onDestroy () {
+            getViewModelStore().clear();
+            super.onDestroy();
+        }
     }
-}
