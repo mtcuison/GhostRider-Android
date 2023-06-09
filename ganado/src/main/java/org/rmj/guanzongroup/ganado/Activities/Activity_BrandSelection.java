@@ -1,12 +1,7 @@
 package org.rmj.guanzongroup.ganado.Activities;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
@@ -42,10 +37,8 @@ public class Activity_BrandSelection extends AppCompatActivity {
         setContentView(R.layout.activity_brand_selection);
         intWidgets();
         mViewModel = new ViewModelProvider(this).get(VMBrandList.class);
-        int backgroundResId = getIntent().getIntExtra("background", 0);
 
         brandcatimg = findViewById(R.id.imagebrandtop);
-        brandcatimg.setImageResource(backgroundResId);
 
         mViewModel.getBrandList().observe(Activity_BrandSelection.this, brandList -> {
             if (brandList.size() > 0) {
@@ -55,7 +48,6 @@ public class Activity_BrandSelection extends AppCompatActivity {
                         Intent intent = new Intent(Activity_BrandSelection.this, Activity_ProductSelection.class);
                         intent.putExtra("lsBrandID", BrandID);
                         intent.putExtra("lsBrandNm", BrandName);
-                        intent.putExtra("background", getBrandImageResource(BrandID));
                         startActivity(intent);
 
                     }
@@ -75,7 +67,7 @@ public class Activity_BrandSelection extends AppCompatActivity {
         MaterialToolbar toolbar = findViewById(R.id.toolbar_brand);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+                Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
     }
 
@@ -86,20 +78,5 @@ public class Activity_BrandSelection extends AppCompatActivity {
             finish();
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private int getBrandImageResource(String brandIndex) {
-        switch (brandIndex) {
-            case "M0W1001":
-                return R.drawable.brand0; // Replace with your actual image resource
-            case "M0W1002":
-                return R.drawable.brand1; // Replace with your actual image resource
-            case "M0W1003":
-                return R.drawable.brand2; // Replace with your actual image resource
-            case "M0W1009":
-                return R.drawable.brand3; // Replace with your actual image resource
-            default:
-                return R.drawable.ganado_gradient; // Replace with your default image resource
-        }
     }
 }

@@ -4,24 +4,38 @@
     <application>
         <activity
             android:name=".Activities.Activity_Inquiries"
+            android:screenOrientation="userPortrait"
+            android:theme="@style/GhostRiderMaterialTheme"
             android:exported="false" />
         <activity
             android:name=".Activities.Activity_ProductInquiry"
+            android:screenOrientation="userPortrait"
+            android:theme="@style/GhostRiderMaterialTheme"
             android:exported="false" />
         <activity
             android:name=".Activities.Activity_ContactInfo"
+            android:screenOrientation="userPortrait"
+            android:theme="@style/GhostRiderMaterialTheme"
             android:exported="false" />
         <activity
             android:name=".Activities.Activity_ClientInfo"
+            android:screenOrientation="userPortrait"
+            android:theme="@style/GhostRiderMaterialTheme"
             android:exported="false" />
         <activity
             android:name=".Activities.Activity_CategorySelection"
+            android:screenOrientation="userPortrait"
+            android:theme="@style/GhostRiderMaterialTheme"
             android:exported="false" />
         <activity
             android:name=".Activities.Activity_BrandSelection"
+            android:screenOrientation="userPortrait"
+            android:theme="@style/GhostRiderMaterialTheme"
             android:exported="false" />
         <activity
             android:name=".Activities.Activity_ProductSelection"
+            android:screenOrientation="userPortrait"
+            android:theme="@style/GhostRiderMaterialTheme"
             android:exported="false" />
     </application>
 

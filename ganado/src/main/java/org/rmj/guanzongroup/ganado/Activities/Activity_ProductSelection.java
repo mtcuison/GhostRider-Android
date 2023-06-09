@@ -32,18 +32,17 @@ public class Activity_ProductSelection extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mViewModel = new ViewModelProvider(Activity_ProductSelection.this).get(VMProductSelection.class);
         setContentView(R.layout.activity_product_selection);
         initView();
 
-        int backgroundResId = getIntent().getIntExtra("background", 0);
-
         brandselectedimg = findViewById(R.id.imageprodselection);
-        brandselectedimg.setImageResource(backgroundResId);
 
-        mViewModel = new ViewModelProvider(Activity_ProductSelection.this).get(VMProductSelection.class);
+        String lsBrandID = getIntent().getStringExtra("lsBrandID");
 
-        mViewModel.GetModelsList(getIntent().getStringExtra("lsBrandID")).observe(Activity_ProductSelection.this, eMcModels -> {
+        mViewModel.GetModelsList(lsBrandID).observe(Activity_ProductSelection.this, eMcModels -> {
             if (eMcModels.size() > 0){
+                brandselectedimg.setImageResource(getBrandImageResource(lsBrandID));
                 adapter = new ProductSelectionAdapter(eMcModels, new ProductSelectionAdapter.OnModelClickListener() {
                     @Override
                     public void OnClick(String ModelID, String BrandID, String ImgLink) {
@@ -81,5 +80,20 @@ public class Activity_ProductSelection extends AppCompatActivity {
             finish();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private int getBrandImageResource(String brandIndex) {
+        switch (brandIndex) {
+            case "M0W1001":
+                return R.drawable.img_honda_brand_header; // Replace with your actual image resource
+            case "M0W1002":
+                return R.drawable.img_suzuki_brand_header; // Replace with your actual image resource
+            case "M0W1003":
+                return R.drawable.img_yamaha_brand_header; // Replace with your actual image resource
+            case "M0W1009":
+                return R.drawable.img_kawasaki_brand_header; // Replace with your actual image resource
+            default:
+                return R.drawable.img_imageview_place_holder; // Replace with your default image resource
+        }
     }
 }

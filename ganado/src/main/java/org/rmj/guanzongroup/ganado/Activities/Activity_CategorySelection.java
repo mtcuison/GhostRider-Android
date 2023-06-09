@@ -3,19 +3,13 @@ package org.rmj.guanzongroup.ganado.Activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.card.MaterialCardView;
-import com.google.android.material.imageview.ShapeableImageView;
 
-import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.guanzongroup.ganado.R;
-import org.rmj.guanzongroup.ganado.ViewModel.VMProductInquiry;
 
 import java.util.Objects;
 
@@ -42,7 +36,7 @@ public class Activity_CategorySelection extends AppCompatActivity {
                     // For example, switch to a new activity
 
                     Intent intent1 = new Intent(Activity_CategorySelection.this, Activity_BrandSelection.class);
-                intent1.putExtra("background", R.drawable.category2);
+                intent1.putExtra("background", R.drawable.img_category_mc);
                     startActivity(intent1);
                 }
             });
@@ -53,7 +47,7 @@ public class Activity_CategorySelection extends AppCompatActivity {
                 // For example, switch to a new activity
 
                 Intent intent1 = new Intent(Activity_CategorySelection.this, Activity_BrandSelection.class);
-                intent1.putExtra("background", R.drawable.category1);
+                intent1.putExtra("background", R.drawable.img_category_mp);
                 startActivity(intent1);
             }
         });
@@ -64,7 +58,7 @@ public class Activity_CategorySelection extends AppCompatActivity {
                 // For example, switch to a new activity
 
                 Intent intent1 = new Intent(Activity_CategorySelection.this, Activity_BrandSelection.class);
-                intent1.putExtra("background", R.drawable.category2);
+                intent1.putExtra("background", R.drawable.img_category_mc);
                 startActivity(intent1);
             }
         });

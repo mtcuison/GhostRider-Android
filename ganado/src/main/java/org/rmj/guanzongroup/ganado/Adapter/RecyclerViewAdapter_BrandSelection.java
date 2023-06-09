@@ -15,9 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RecyclerViewAdapter_BrandSelection extends RecyclerView.Adapter<RecyclerViewHolder_BrandSelection> {
-    private final List<EMcBrand> paBrand;
     private List<EMcBrand> paBrandFilter;
-    private final BrandFilter poFilter;
     private final OnBrandSelectListener listener;
 
     public interface OnBrandSelectListener {
@@ -26,13 +24,7 @@ public class RecyclerViewAdapter_BrandSelection extends RecyclerView.Adapter<Rec
 
     public RecyclerViewAdapter_BrandSelection(List<EMcBrand> paBrand, OnBrandSelectListener listener) {
         this.paBrandFilter = paBrand;
-        this.paBrand = paBrand;
-        this.poFilter = new BrandFilter(this);
         this.listener = listener;
-    }
-
-    public BrandFilter getFilter() {
-        return poFilter;
     }
 
     @NonNull
@@ -48,7 +40,7 @@ public class RecyclerViewAdapter_BrandSelection extends RecyclerView.Adapter<Rec
         holder.item_brandImage.setImageResource(getBrandImageResource(loBranch.getBrandIDx()));
         holder.item_brand.setText(loBranch.getBrandNme());
 //        holder.itemView.setOnClickListener(v -> listener.OnSelect(loBranch.getBrandIDx(), loBranch.getBrandNme()));
-        holder.itemView.setOnClickListener(v -> {
+        holder.view.setOnClickListener(v -> {
             if (listener != null) {
                 listener.OnSelect(loBranch.getBrandIDx(), loBranch.getBrandNme());
             }
@@ -60,54 +52,18 @@ public class RecyclerViewAdapter_BrandSelection extends RecyclerView.Adapter<Rec
         return paBrandFilter.size();
     }
 
-    public class BrandFilter extends Filter {
-        private final RecyclerViewAdapter_BrandSelection poAdapter;
-
-        public BrandFilter(RecyclerViewAdapter_BrandSelection poAdapter) {
-            super();
-            this.poAdapter = poAdapter;
-        }
-
-        @Override
-        protected FilterResults performFiltering(CharSequence constraint) {
-            final FilterResults results = new FilterResults();
-
-            if (constraint.length() == 0) {
-                paBrandFilter = paBrand;
-            } else {
-                List<EMcBrand> filterSearch = new ArrayList<>();
-                for (EMcBrand brand : paBrand) {
-                    String lsBranchNm = brand.getBrandNme();
-                    if (lsBranchNm.toLowerCase().contains(constraint.toString().toLowerCase())) {
-                        filterSearch.add(brand);
-                    }
-                }
-                paBrandFilter = filterSearch;
-            }
-            results.values = paBrandFilter;
-            results.count = paBrandFilter.size();
-            return results;
-        }
-
-        @Override
-        protected void publishResults(CharSequence constraint, FilterResults results) {
-            poAdapter.paBrandFilter = (List<EMcBrand>) results.values;
-            this.poAdapter.notifyDataSetChanged();
-        }
-    }
-
     private int getBrandImageResource(String brandIndex) {
         switch (brandIndex) {
             case "M0W1001":
-                return R.drawable.brand0; // Replace with your actual image resource
+                return R.drawable.img_mc_honda; // Replace with your actual image resource
             case "M0W1002":
-                return R.drawable.brand1; // Replace with your actual image resource
+                return R.drawable.img_mc_suzuki; // Replace with your actual image resource
             case "M0W1003":
-                return R.drawable.brand2; // Replace with your actual image resource
+                return R.drawable.img_mc_yamaha; // Replace with your actual image resource
             case "M0W1009":
-                return R.drawable.brand3; // Replace with your actual image resource
+                return R.drawable.img_mc_kawasaki; // Replace with your actual image resource
             default:
-                return R.drawable.ganado_gradient; // Replace with your default image resource
+                return R.drawable.ic_image_place_holder; // Replace with your default image resource
         }
 
     }

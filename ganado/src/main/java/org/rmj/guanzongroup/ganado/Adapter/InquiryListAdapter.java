@@ -90,7 +90,7 @@ public class InquiryListAdapter extends RecyclerView.Adapter<InquiryListAdapter.
                 }
             });
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
 
     }

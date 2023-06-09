@@ -110,32 +110,35 @@ public class VMSplashScreen extends AndroidViewModel {
             public Object DoInBackground() {
                 try{
                     if(poConn.isDeviceConnected()){
-//                        Log.d(TAG, "Initializing barangay data.");
-//                        if(!new Barangay(instance).ImportBarangay()){
-//                            Log.e(TAG, "Unable to import barangay");
-//                        }
-//                        loTask.publishProgress(1);
-
-                        Log.d(TAG, "Initializing town data.");
-                        if(!new Town(instance).ImportTown()){
-                            Log.e(TAG, "Unable to import town");
+                        if(!new Branch(instance).ImportBranches()){
+                            Log.e(TAG, "Unable to import branches");
                         }
                         loTask.publishProgress(1);
 
+                        Thread.sleep(1000);
                         Log.d(TAG, "Initializing province data.");
                         if(!new Province(instance).ImportProvince()){
                             Log.e(TAG, "Unable to import province");
                         }
                         loTask.publishProgress(2);
 
-                        if(!new Branch(instance).ImportBranches()){
-                            Log.e(TAG, "Unable to import branches");
+                        Thread.sleep(1000);
+                        Log.d(TAG, "Initializing town data.");
+                        if(!new Town(instance).ImportTown()){
+                            Log.e(TAG, "Unable to import town");
                         }
                         loTask.publishProgress(3);
 
+                        Thread.sleep(1000);
+                        Log.d(TAG, "Initializing barangay data.");
+                        if(!new Barangay(instance).ImportBarangay()){
+                            Log.e(TAG, "Unable to import barangay");
+                        }
+                        loTask.publishProgress(4);
+
                         LRDcp loDcp = new LRDcp(instance);
                         if(loDcp.HasCollection()){
-                            loTask.publishProgress(4);
+                            loTask.publishProgress(5);
                         }
 
                         if(!poSession.isLoggedIn()){
@@ -171,7 +174,7 @@ public class VMSplashScreen extends AndroidViewModel {
                 } else {
                     lsArgs = "Updating Data...";
                 }
-                if(progress < 4) {
+                if(progress < 5) {
                     mListener.OnProgress(lsArgs, progress);
                 } else {
                     mListener.OnHasDCP();

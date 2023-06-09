@@ -187,7 +187,6 @@ public class RMcModel {
             JSONArray laJson = loResponse.getJSONArray("detail");
             for(int x = 0; x < laJson.length(); x++){
                 JSONObject loJson = laJson.getJSONObject(x);
-                Log.d(TAG, "Json value: " + loJson.toString());
                 String lsModelID = loJson.getString("sModelIDx");
                 String lsColorID = loJson.getString("sColorIDx");
                 EMCColor loDetail = poDao.GetModelColor(lsModelID, lsColorID);
