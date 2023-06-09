@@ -129,7 +129,7 @@ public class VMIntroductoryQuestion extends AndroidViewModel implements CreditAp
     @Override
     public void SaveData(OnSaveInfoListener listener) {
 //        new CreateNewApplicationTask(listener).execute(poModel);
-        TaskExecutor.Execute(listener, new OnTaskExecuteListener() {
+        TaskExecutor.Execute(poModel, new OnTaskExecuteListener() {
             @Override
             public void OnPreExecute() {
 
@@ -137,9 +137,9 @@ public class VMIntroductoryQuestion extends AndroidViewModel implements CreditAp
 
             @Override
             public Object DoInBackground(Object args) {
-                LoanInfo lsLoanInfo = (LoanInfo) args;
+
+                LoanInfo loDetail = (LoanInfo) args;
                 try {
-                    LoanInfo loDetail = lsLoanInfo;
 
                     if (!loDetail.isDataValid()) {
                         message = loDetail.getMessage();

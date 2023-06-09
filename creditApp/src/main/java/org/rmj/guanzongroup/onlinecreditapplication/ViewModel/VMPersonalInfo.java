@@ -45,6 +45,7 @@ public class VMPersonalInfo extends AndroidViewModel implements CreditAppUI {
 
     @Override
     public void InitializeApplication(Intent params) {
+
         TransNox = params.getStringExtra("sTransNox");
     }
 
@@ -56,7 +57,7 @@ public class VMPersonalInfo extends AndroidViewModel implements CreditAppUI {
     @Override
     public void ParseData(ECreditApplicantInfo args, OnParseListener listener) {
 //        new ParseDataTask(listener).execute(args);
-        TaskExecutor.Execute(listener, new OnTaskExecuteListener() {
+        TaskExecutor.Execute(null, new OnTaskExecuteListener() {
             @Override
             public void OnPreExecute() {
 
@@ -67,16 +68,16 @@ public class VMPersonalInfo extends AndroidViewModel implements CreditAppUI {
                 ECreditApplicantInfo lsApp = (ECreditApplicantInfo) args;
                 try {
                     Personal loDetail = (Personal) poApp.Parse(lsApp);
-                    if (loDetail == null) {
-                        message = poApp.getMessage();
-                        return null;
-                    }
+                        if(loDetail == null){
+                            message = poApp.getMessage();
+                            return null;
+                        }
                     return loDetail;
-                } catch (NullPointerException e) {
+                } catch (NullPointerException e){
                     e.printStackTrace();
                     message = getLocalMessage(e);
                     return null;
-                } catch (Exception e) {
+                } catch (Exception e){
                     e.printStackTrace();
                     message = getLocalMessage(e);
                     return null;
@@ -103,7 +104,7 @@ public class VMPersonalInfo extends AndroidViewModel implements CreditAppUI {
     @Override
     public void SaveData(OnSaveInfoListener listener) {
 //        new SaveDetailTask(listener).execute(poModel);
-        TaskExecutor.Execute(listener, new OnTaskExecuteListener() {
+        TaskExecutor.Execute(poModel, new OnTaskExecuteListener() {
             @Override
             public void OnPreExecute() {
 
@@ -131,7 +132,13 @@ public class VMPersonalInfo extends AndroidViewModel implements CreditAppUI {
 
             @Override
             public void OnPostExecute(Object object) {
+                Boolean isSuccess = (Boolean) object;
 
+                if(!isSuccess){
+                    listener.OnFailed(message);
+                } else {
+                    listener.OnSave(TransNox);
+                }
             }
         });
     }

@@ -63,6 +63,7 @@ public class Activity_ComakerResidence extends AppCompatActivity {
         poMessage = new MessageBox(Activity_ComakerResidence.this);
         setContentView(R.layout.activity_comaker_residence);
         initWidgets();
+        initSpinner();
         mViewModel.InitializeApplication(getIntent());
         mViewModel.GetApplication().observe(Activity_ComakerResidence.this, app -> {
             try {
@@ -74,7 +75,7 @@ public class Activity_ComakerResidence extends AppCompatActivity {
                         CoMakerResidence loDetail = (CoMakerResidence) args;
                         try {
                             setUpFieldsFromLocalDB(loDetail);
-                            initSpinner();
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
