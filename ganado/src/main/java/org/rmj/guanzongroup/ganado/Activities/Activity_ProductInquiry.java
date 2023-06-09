@@ -226,15 +226,7 @@ public class Activity_ProductInquiry extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
         if (item.getItemId() == android.R.id.home) {
-            Intent loIntent = new Intent(Activity_ProductInquiry.this, Activity_ProductSelection.class);
-            loIntent.putExtra("lsBrandID", lsBrandID);
-            loIntent.putExtra("lsBrandNm", lsBrandNm);
-            loIntent.putExtra("background", backgroundResIdBrand);
-            loIntent.putExtra("backgroundold", backgroundResIdCat);
-            startActivity(loIntent);
-            overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
             finish();
         }
         return super.onOptionsItemSelected(item);
@@ -242,13 +234,13 @@ public class Activity_ProductInquiry extends AppCompatActivity {
 
     @Override
     public void onBackPressed () {
-        Intent loIntent = new Intent(Activity_ProductInquiry.this, Activity_ProductSelection.class);
-        loIntent.putExtra("lsBrandID", lsBrandID);
-        loIntent.putExtra("lsBrandNm", lsBrandNm);
-        loIntent.putExtra("background", backgroundResIdBrand);
-        loIntent.putExtra("backgroundold", backgroundResIdCat);
-        startActivity(loIntent);
         finish();
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
     }
 
     @Override
@@ -256,6 +248,7 @@ public class Activity_ProductInquiry extends AppCompatActivity {
         getViewModelStore().clear();
         super.onDestroy();
     }
+
     private class OnItemClickListener implements AdapterView.OnItemClickListener {
 
         private final View loView;

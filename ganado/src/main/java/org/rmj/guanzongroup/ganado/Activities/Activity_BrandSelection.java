@@ -49,9 +49,7 @@ public class Activity_BrandSelection extends AppCompatActivity {
                         intent.putExtra("lsBrandID", BrandID);
                         intent.putExtra("lsBrandNm", BrandName);
                         startActivity(intent);
-                        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
-                        finish();
-
+                        overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
                     }
                 });
 
@@ -69,17 +67,18 @@ public class Activity_BrandSelection extends AppCompatActivity {
         MaterialToolbar toolbar = findViewById(R.id.toolbar_brand);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
-                Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
     }
 
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
+    }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            Intent loIntent = new Intent(Activity_BrandSelection.this, Activity_CategorySelection.class);
-            startActivity(loIntent);
-            overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
             finish();
         }
         return super.onOptionsItemSelected(item);

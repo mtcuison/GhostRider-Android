@@ -66,18 +66,22 @@ public class Activity_ClientInfo extends AppCompatActivity {
         mViewModel.InitializeApplication(getIntent());
 
         mViewModel.getRelation().observe(Activity_ClientInfo.this, eRelations->{
-            ArrayList<String> string = new ArrayList<>();
-            for (int x = 0; x < eRelations.size(); x++) {
-                String lsColor = eRelations.get(x).getRelatnDs();
+            try {
+                ArrayList<String> string = new ArrayList<>();
+                for (int x = 0; x < eRelations.size(); x++) {
+                    String lsColor = eRelations.get(x).getRelatnDs();
 //                        String lsTown =  loList.get(x).sProvName ;
-                string.add(lsColor);
+                    string.add(lsColor);
 
+                }
+                ArrayAdapter<String> adapters = new ArrayAdapter<>(Activity_ClientInfo.this, android.R.layout.simple_spinner_dropdown_item, string.toArray(new String[0]));
+                spinner_relation.setText(eRelations.get(0).getRelatnDs());
+                spinner_relation.setText(eRelations.get(0).getRelatnDs());
+                mViewModel.getModel().setsReltionx(eRelations.get(0).getRelatnID());
+                spinner_relation.setAdapter(adapters);
+            } catch (Exception e){
+                e.printStackTrace();
             }
-            ArrayAdapter<String> adapters = new ArrayAdapter<>(Activity_ClientInfo.this, android.R.layout.simple_spinner_dropdown_item, string.toArray(new String[0]));
-            spinner_relation.setText(eRelations.get(0).getRelatnDs());
-            spinner_relation.setText(eRelations.get(0).getRelatnDs());
-            mViewModel.getModel().setsReltionx(eRelations.get(0).getRelatnID());
-            spinner_relation.setAdapter(adapters);
         });
 
         spinner_relation.setOnItemClickListener(new Activity_ClientInfo.OnItemClickListener(spinner_relation));
@@ -236,12 +240,19 @@ public class Activity_ClientInfo extends AppCompatActivity {
     }
 
     @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == android.R.id.home){
             finish();
         }
         return super.onOptionsItemSelected(item);
     }
+
     private class OnItemClickListener implements AdapterView.OnItemClickListener {
 
         private final View loView;

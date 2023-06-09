@@ -20,6 +20,7 @@ import org.guanzongroup.com.itinerary.Activities.Activity_ItineraryEntry;
 import org.guanzongroup.com.itinerary.Activities.Activity_ItineraryLog;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.guanzongroup.documentscanner.Activity_DocumentScan;
+import org.rmj.guanzongroup.ganado.Activities.Activity_BrandSelection;
 import org.rmj.guanzongroup.ganado.Activities.Activity_CategorySelection;
 import org.rmj.guanzongroup.ganado.Activities.Activity_Inquiries;
 import org.rmj.guanzongroup.ganado.Activities.Activity_ProductInquiry;
@@ -188,7 +189,7 @@ public class ChildObject {
                 break;
 
             case "inquiry":
-                loIntent = new Intent(context, Activity_CategorySelection.class);
+                loIntent = new Intent(context, Activity_BrandSelection.class);
                 break;
 
             case "inquiries":

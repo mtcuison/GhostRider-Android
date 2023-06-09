@@ -62,8 +62,7 @@ public class Activity_ProductSelection extends AppCompatActivity {
                         intent.putExtra("bgbrandimage", backgroundResId);
                         intent.putExtra("backgroundold", backgroundResIdCat);
                         startActivity(intent);
-                        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
-                        finish();
+                        overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
                     }
                 });
 
@@ -90,6 +89,7 @@ public class Activity_ProductSelection extends AppCompatActivity {
     private void initView() {
         rvMcModel = findViewById(R.id.rvMcModel);
         txtBrandNm = findViewById(R.id.lblBrand);
+        searchView = findViewById(R.id.searchview);
 
         MaterialToolbar toolbar = findViewById(R.id.toolbar_selection);
         toolbar.setTitle("");
@@ -97,6 +97,11 @@ public class Activity_ProductSelection extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
     }
 
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
+    }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {

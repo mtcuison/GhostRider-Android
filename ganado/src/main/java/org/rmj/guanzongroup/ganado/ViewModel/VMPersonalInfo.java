@@ -109,7 +109,7 @@ public class VMPersonalInfo extends AndroidViewModel implements GanadoUI {
                     return null;
                 }
 
-                return "success";
+                return "Motorcycle inquiry saved successfully!";
             }
 
             @Override
