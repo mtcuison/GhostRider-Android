@@ -53,7 +53,6 @@ public class RecyclerViewAdapter_BranchList extends RecyclerView.Adapter<Recycle
     public class BranchFilter extends Filter{
         private final RecyclerViewAdapter_BranchList poAdapter;
         public BranchFilter(RecyclerViewAdapter_BranchList poAdapter) {
-            super();
             this.poAdapter = poAdapter;
         }
         @Override
