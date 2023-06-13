@@ -80,6 +80,7 @@ public interface DPacita {
 
     @Query("SELECT " +
             "a.sTransNox, " +
+            "(SELECT sBranchCD FROM Branch_Info WHERE sBranchCd = a.sBranchCD) AS sBranchCD, " +
             "(SELECT sBranchNm FROM Branch_Info WHERE sBranchCd = a.sBranchCD) AS sBranchNm, " +
             "a.dTransact, " +
             "a.nRatingxx " +
@@ -95,6 +96,7 @@ public interface DPacita {
 
     class RecentRecords{
         public String sTransNox;
+        public String sBranchCD;
         public String sBranchNm;
         public String dTransact;
         public String nRatingxx;
