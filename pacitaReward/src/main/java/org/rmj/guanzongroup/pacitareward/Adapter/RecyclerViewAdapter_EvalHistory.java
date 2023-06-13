@@ -17,17 +17,17 @@ import java.util.List;
 public class RecyclerViewAdapter_EvalHistory extends RecyclerView.Adapter<RecyclerViewHolder_EvalHist> {
 
     private Context context;
-    private List<DPacita.BranchRecords> branchRecords;
-    private RecyclerViewAdapter_BranchRecord.onSelectItem mlistener;
+    private List<DPacita.RecentRecords> histevaluationlist;
+    private RecyclerViewAdapter_EvalHistory.onSelectItem mlistener;
 
-    public RecyclerViewAdapter_EvalHistory(Context context, List<DPacita.BranchRecords> branchRecords, RecyclerViewAdapter_BranchRecord.onSelectItem mlistener){
+    public RecyclerViewAdapter_EvalHistory(Context context, List<DPacita.RecentRecords> histevaluationlist, RecyclerViewAdapter_EvalHistory.onSelectItem mlistener){
         this.context = context;
-        this.branchRecords = branchRecords;
+        this.histevaluationlist = histevaluationlist;
         this.mlistener = mlistener;
     }
 
     public interface onSelectItem {
-        void onItemSelected(String transactNox);
+        void onItemSelected(String transactNox, String branchcode, String branchname);
     }
 
     @NonNull
@@ -40,15 +40,26 @@ public class RecyclerViewAdapter_EvalHistory extends RecyclerView.Adapter<Recycl
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewHolder_EvalHist holder, int position) {
-        holder.mtvrecord_date.setText(FormatUIText.formatGOCasBirthdate(branchRecords.get(position).dTransact));
-        holder.mtvrecord_rate.setText(branchRecords.get(position).nRatingxx);
+        DPacita.RecentRecords evaldata = histevaluationlist.get(position);
+        String transnox = evaldata.sTransNox;
+        String branchname = evaldata.sBranchNm;
+        String branchcode = "evaldata.sBranchCd";
 
-        holder.mtvrecord_date.setOnClickListener(v -> mlistener.onItemSelected(branchRecords.get(position).sTransNox));
-        holder.mtvrecord_rate.setOnClickListener(v -> mlistener.onItemSelected(branchRecords.get(position).sTransNox));
+        holder.mtvrecord_date.setText(FormatUIText.formatGOCasBirthdate(histevaluationlist.get(position).dTransact));
+        holder.mtvrecord_rate.setText(histevaluationlist.get(position).nRatingxx);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mlistener.onItemSelected(transnox, branchcode, branchname);
+            }
+        });
+        holder.mtvrecord_date.setOnClickListener(v -> mlistener.onItemSelected(transnox, branchcode, branchname));
+        holder.mtvrecord_rate.setOnClickListener(v -> mlistener.onItemSelected(transnox, branchcode, branchname));
     }
 
     @Override
     public int getItemCount() {
-        return branchRecords.size();
+        return histevaluationlist.size();
     }
 }
