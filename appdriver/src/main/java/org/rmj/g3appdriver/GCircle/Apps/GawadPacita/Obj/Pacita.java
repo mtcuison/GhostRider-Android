@@ -54,6 +54,10 @@ public class Pacita {
         return poDao.GetBranchRecords(BranchCD);
     }
 
+    public LiveData<List<DPacita.RecentRecords>> GetRecentRecords(){
+        return poDao.GetRecentRecords();
+    }
+
     /**
      *
      * @return true if the operation for importing pacita rules is successful else false if failed.
