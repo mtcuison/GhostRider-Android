@@ -146,13 +146,14 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
                             if(loIntent == null){
                                 loMessage.initDialog();
                                 loMessage.setTitle("Dashboard");
-                                loMessage.setMessage("No corresponding feature has been set.");
+                                loMessage.setMessage("Feature not available.");
                                 loMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
                                 loMessage.show();
                             } else {
                                 startActivity(loIntent);
                                 overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
                             }
+                            return true;
                         }
                         return false;
                     });
@@ -161,14 +162,14 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
                         if(loIntent == null){
                             loMessage.initDialog();
                             loMessage.setTitle("Dashboard");
-                            loMessage.setMessage("No corresponding feature has been set.");
+                            loMessage.setMessage("Feature not available.");
                             loMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
                             loMessage.show();
                         } else {
                             startActivity(loIntent);
                             overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
                         }
-                        return false;
+                        return true;
                     });
                     expListView.collapseGroup(1);
                 });
