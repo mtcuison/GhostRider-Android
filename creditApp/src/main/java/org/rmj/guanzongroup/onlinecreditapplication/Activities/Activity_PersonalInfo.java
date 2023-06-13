@@ -94,7 +94,9 @@ public class Activity_PersonalInfo extends AppCompatActivity {
                         }
                     }
                 });
-            } catch (Exception e) {
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }catch (Exception e) {
                 e.printStackTrace();
             }
         });
