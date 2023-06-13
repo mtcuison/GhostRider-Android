@@ -76,7 +76,7 @@ public class VMReviewLoanApp  extends AndroidViewModel {
 
     public void ParseData(ECreditApplicantInfo args, OnParseListener listener) {
 //        new ParseDataTask(listener).execute(args);
-        TaskExecutor.Execute(listener, new OnTaskExecuteListener() {
+        TaskExecutor.Execute(null, new OnTaskExecuteListener() {
             @Override
             public void OnPreExecute() {
 
@@ -122,7 +122,7 @@ public class VMReviewLoanApp  extends AndroidViewModel {
 
     public void SaveData(OnSaveCreditAppListener listener) {
 //        new SaveDetailTask(listener).execute(poInfo);
-        TaskExecutor.Execute(listener, new OnTaskExecuteListener() {
+        TaskExecutor.Execute(poInfo, new OnTaskExecuteListener() {
             @Override
             public void OnPreExecute() {
 

@@ -81,7 +81,7 @@ public class Activity_CoMaker extends AppCompatActivity {
         poMobile[2] = new MobileNo();
         setContentView(R.layout.activity_co_maker);
         initWidgets();
-
+        initSpinner();
         mViewModel.InitializeApplication(getIntent());
         mViewModel.GetApplication().observe(Activity_CoMaker.this, new Observer<ECreditApplicantInfo>() {
             @Override
@@ -96,8 +96,6 @@ public class Activity_CoMaker extends AppCompatActivity {
                             try {
                                 setUpFieldsFromLocalDB(loDetail);
 
-
-                                initSpinner();
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }

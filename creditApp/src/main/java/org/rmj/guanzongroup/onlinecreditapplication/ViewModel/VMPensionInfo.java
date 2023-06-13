@@ -106,7 +106,7 @@ public class VMPensionInfo extends AndroidViewModel implements CreditAppUI {
     @Override
     public void SaveData(OnSaveInfoListener listener) {
 //        new SaveDetailTask(listener).execute(poModel);
-        TaskExecutor.Execute(listener, new OnTaskExecuteListener() {
+        TaskExecutor.Execute(poModel, new OnTaskExecuteListener() {
             @Override
             public void OnPreExecute() {
 

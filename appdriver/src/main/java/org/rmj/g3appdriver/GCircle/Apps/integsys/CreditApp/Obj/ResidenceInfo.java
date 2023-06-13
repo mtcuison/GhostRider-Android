@@ -133,7 +133,6 @@ public class ResidenceInfo implements CreditApp {
         ClientResidence loDetail = (ClientResidence) args;
 
         if(poDetail == null){
-
             if(!loDetail.isDataValid()){
                 message = loDetail.getMessage();
                 return 0;
