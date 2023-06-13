@@ -85,6 +85,14 @@ public class Ganado {
             joPayment.put("nDownPaym", loInfo.getDownPaym());
             loDetail.setPaymInfo(joPayment.toString());
 
+            JSONArray laJson = new JSONArray();
+
+            JSONObject joInfo = new JSONObject();
+            joInfo.put("", "");
+            laJson.put(joInfo);
+
+            laJson.toString();
+
             loDetail.setTargetxx(loInfo.getTargetxx());
             loDetail.setFollowUp("");
             loDetail.setRemarksx("");
