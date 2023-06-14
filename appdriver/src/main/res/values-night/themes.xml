@@ -28,6 +28,11 @@
         <item name="android:windowBackground">@drawable/app_background_dark</item>
     </style>
 
+    <style name="Navigation_Header_Banner">
+        <item name="android:scaleType">center</item>
+        <item name="android:src">@drawable/nav_header_banner_dark</item>
+    </style>
+
     <style name="GhostRiderMaterialTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.DayNight.ActionBar" />
     <style name="GhostRiderMaterialTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.DayNight" />
 

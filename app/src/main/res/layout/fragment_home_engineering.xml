@@ -24,12 +24,39 @@
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/imgheader"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/header_background_image"
+            android:layout_height="230dp"
             android:scaleType="centerCrop"
             android:src="@drawable/bg_dashboard"
+            android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/materialTextView7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_medium"
+            android:text="Welcome"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="@+id/imgheader"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.05"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.3" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/img_userLogo"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/kay_wave"
+            app:layout_constraintBottom_toBottomOf="@+id/imgheader"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintWidth_percent=".4"
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.card.MaterialCardView
@@ -40,6 +67,7 @@
             android:layout_marginRight="40dp"
             app:cardCornerRadius="90dp"
             app:cardMaxElevation="5dp"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -56,30 +84,28 @@
             android:id="@+id/lbl_EngrNme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
+            android:fontFamily="@font/roboto_medium"
             android:text="DE CELIS, TEEJEI F."
-            android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="@+id/cardView"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/cardView" />
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@+id/materialTextView7"
+            app:layout_constraintTop_toBottomOf="@+id/materialTextView7" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lbl_userDepartment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/roboto_light"
             android:text="Engineering Services"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/lbl_EngrNme"
             app:layout_constraintTop_toBottomOf="@+id/lbl_EngrNme" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cardtodolist"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="30dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lbl_userDepartment">
+            app:layout_constraintTop_toBottomOf="@+id/img_userLogo">
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"

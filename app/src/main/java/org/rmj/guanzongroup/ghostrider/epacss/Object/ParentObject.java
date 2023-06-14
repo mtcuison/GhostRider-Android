@@ -103,7 +103,7 @@ public class ParentObject {
                 loIntent = new Intent(context, Activity_DB_Explorer.class);
                 break;
 
-            case "pacita reward":
+            case "branch evaluation":
                 loIntent = new Intent(context, Activity_BranchList.class);
                 break;
 
