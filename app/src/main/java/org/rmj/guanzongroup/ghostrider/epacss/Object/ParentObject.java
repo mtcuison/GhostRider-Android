@@ -72,7 +72,7 @@ public class ParentObject {
             case "employee itinerary":
                 lnIcon = R.drawable.ic_baseline_checklist_24;
                 break;
-            case "pacita reward":
+            case "branch evaluation":
                 lnIcon = R.drawable.ic_rating_24;
                 break;
             case "product inquiry":
