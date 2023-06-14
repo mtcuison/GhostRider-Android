@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/mtv_branchname"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:paddingStart="10dp"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/mtv_evaldate"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="end|center"
+            android:paddingHorizontal="10dp"
+            android:textSize="15sp"/>
+
+    </LinearLayout>
+
+</LinearLayout>

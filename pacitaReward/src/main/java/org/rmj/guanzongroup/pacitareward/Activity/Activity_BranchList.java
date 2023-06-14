@@ -2,34 +2,19 @@ package org.rmj.guanzongroup.pacitareward.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textview.MaterialTextView;
 
-import org.rmj.g3appdriver.GCircle.room.Entities.EBranchInfo;
-import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.guanzongroup.pacitareward.Adapter.Fragment_BranchListAdapter;
-import org.rmj.guanzongroup.pacitareward.Adapter.RecyclerViewAdapter_BranchList;
-import org.rmj.guanzongroup.pacitareward.Dialog.Dialog_SelectAction;
 import org.rmj.guanzongroup.pacitareward.Fragments.Fragment_BranchList;
 import org.rmj.guanzongroup.pacitareward.Fragments.Fragment_HistoryEval;
 import org.rmj.guanzongroup.pacitareward.R;
-import org.rmj.guanzongroup.pacitareward.ViewModel.VMBranchList;
 
 import java.util.List;
 import java.util.Objects;

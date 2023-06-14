@@ -11,14 +11,14 @@ import org.rmj.guanzongroup.pacitareward.R;
 
 public class RecyclerViewHolder_EvalHist extends RecyclerView.ViewHolder {
 
-    public MaterialTextView mtvrecord_date;
-    public MaterialTextView mtvrecord_rate;
+    public MaterialTextView mtv_branchname;
+    public MaterialTextView mtv_evaldate;
     public View view;
 
     public RecyclerViewHolder_EvalHist(@NonNull View itemView) {
         super(itemView);
-        mtvrecord_date = itemView.findViewById(R.id.record_date);
-        mtvrecord_rate = itemView.findViewById(R.id.record_rate);
+        mtv_branchname = itemView.findViewById(R.id.mtv_branchname);
+        mtv_evaldate = itemView.findViewById(R.id.mtv_evaldate);
         view = itemView;
     }
 }
