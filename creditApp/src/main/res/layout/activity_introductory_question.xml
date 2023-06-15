@@ -150,6 +150,7 @@
                         android:id="@+id/txt_dateTarget"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:digits="@string/free_text_restriction"
                         android:inputType="number|none"
                         android:maxLength="50"
                         android:focusable="false"
@@ -235,6 +236,7 @@
                         android:id="@+id/txt_downpayment"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:digits="@string/free_text_restriction"
                         android:inputType="number|none"
                         android:maxLength="50"
                         android:imeOptions="actionDone"/>
@@ -250,6 +252,7 @@
                         android:id="@+id/txt_monthlyAmort"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:digits="@string/free_text_restriction"
                         android:focusable="false"
                         android:focusableInTouchMode="false"
                         android:focusedByDefault="false"
