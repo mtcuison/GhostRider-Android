@@ -54,6 +54,7 @@
                         android:id="@+id/tie_last_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                    android:digits="@string/free_text_restriction"
                         android:imeOptions="actionNext"
                         android:inputType="textCapWords|textPersonName"
                         android:maxLength="50" />
@@ -70,6 +71,7 @@
                         android:id="@+id/tie_first_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                    android:digits="@string/free_text_restriction"
                         android:imeOptions="actionNext"
                         android:inputType="textCapWords|textPersonName"
                         android:maxLength="50"
@@ -95,6 +97,7 @@
                         android:id="@+id/tie_midd_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                    android:digits="@string/free_text_restriction"
                         android:imeOptions="actionNext"
                         android:inputType="textPersonName|textCapWords"
                         android:maxLength="50"
@@ -112,6 +115,7 @@
                         android:id="@+id/tie_suffix"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                    android:digits="@string/free_text_restriction"
                         android:imeOptions="actionNext"
                         android:nextFocusForward="@id/tie_nick_name"
                         android:inputType="textPersonName|textCapWords"
@@ -129,6 +133,7 @@
                         android:id="@+id/tie_nick_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                    android:digits="@string/free_text_restriction"
                         android:imeOptions="actionNext"
                         android:inputType="textPersonName|textCapWords"
                         android:maxLength="20" />
@@ -152,6 +157,7 @@
                     android:id="@+id/tie_birth_date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:digits="@string/free_text_restriction"
                     android:focusable="false"
                     android:focusableInTouchMode="false"
                     android:focusedByDefault="false"
@@ -222,6 +228,7 @@
                         android:id="@+id/txt_mobileNo1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                    android:digits="@string/free_text_restriction"
                         android:imeOptions="actionNext"
                         android:inputType="number|none"
                         android:maxLength="11"
@@ -254,6 +261,7 @@
                         android:id="@+id/txt_mobileNo1Year"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                    android:digits="@string/free_text_restriction"
                         android:inputType="number|none"
                         android:maxLength="2" />
 
@@ -277,6 +285,7 @@
                         android:id="@+id/txt_mobileNo2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                    android:digits="@string/free_text_restriction"
                         android:imeOptions="actionNext"
                         android:inputType="number|none"
                         android:maxLength="11"
@@ -309,6 +318,7 @@
                         android:id="@+id/txt_mobileNo2Year"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                    android:digits="@string/free_text_restriction"
                         android:inputType="number|none"
                         android:maxLength="2" />
 
@@ -332,6 +342,7 @@
                         android:id="@+id/txt_mobileNo3"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                    android:digits="@string/free_text_restriction"
                         android:imeOptions="actionNext"
                         android:inputType="number|none"
                         android:maxLength="11"
@@ -363,6 +374,7 @@
                         android:id="@+id/txt_mobileNo3Year"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                    android:digits="@string/free_text_restriction"
                         android:inputType="number|none"
                         android:maxLength="2" />
 
@@ -380,6 +392,7 @@
                     android:id="@+id/tie_tel_no"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:digits="@string/free_text_restriction"
                     android:imeOptions="actionNext"
                     android:inputType="number|none"
                     android:maxLength="15"
@@ -397,6 +410,7 @@
                     android:id="@+id/tie_emailAdd"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:digits="@string/free_text_restriction"
                     android:imeOptions="actionNext"
                     android:inputType="textEmailAddress"
                     android:maxLength="50"
@@ -414,6 +428,7 @@
                     android:id="@+id/tie_fbAcct"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:digits="@string/free_text_restriction"
                     android:imeOptions="actionNext"
                     android:inputType="textPersonName"
                     android:maxLength="50"
@@ -431,6 +446,7 @@
                     android:id="@+id/tie_viberAcct"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:digits="@string/free_text_restriction"
                     android:imeOptions="actionDone"
                     android:inputType="number|none"
                     android:maxLength="11" />

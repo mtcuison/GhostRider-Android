@@ -26,7 +26,6 @@
 <!--        <item name="android:colorBackground">@color/background_dark</item>-->
         <item name="android:textColor">@color/material_white</item>
         <item name="android:windowBackground">@drawable/app_background_dark</item>
-        <item name="android:digits">@string/free_text_restriction</item>
     </style>
 
     <style name="GhostRiderMaterialTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.DayNight.ActionBar" />
