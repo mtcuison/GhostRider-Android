@@ -204,7 +204,6 @@ public class Activity_SplashScreen extends AppCompatActivity {
             if (result.getResultCode() == RESULT_OK) {
                 startActivity(new Intent(Activity_SplashScreen.this, Activity_Main.class));
                 ServiceScheduler.scheduleJob(Activity_SplashScreen.this, DataDownloadService.class, FIFTEEN_MINUTE_PERIODIC, AppConstants.DataServiceID);
-//                ServiceScheduler.scheduleJob(Activity_SplashScreen.this, PerformanceImportService.class, FIFTEEN_MINUTE_PERIODIC, AppConstants.PerformanceServiceID);
                 finish();
             } else if (result.getResultCode() == RESULT_CANCELED) {
                 finish();

@@ -20,6 +20,7 @@ import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
@@ -100,8 +101,18 @@ public class Fragment_LeaveApplication extends Fragment {
             }
         });
 
-        spnType.setAdapter(new ArrayAdapter<>(requireActivity(), android.R.layout.simple_dropdown_item_1line, LEAVE_TYPE));
-        spnType.setOnItemClickListener((parent, view1, position, id) -> poLeave.setLeaveType(String.valueOf(position)));
+        spnType.setAdapter(new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_item, LEAVE_TYPE));
+        spnType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                poLeave.setLeaveType(String.valueOf(position));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         txtDateFrom.setOnClickListener(v -> {
             final Calendar newCalendar = Calendar.getInstance();
