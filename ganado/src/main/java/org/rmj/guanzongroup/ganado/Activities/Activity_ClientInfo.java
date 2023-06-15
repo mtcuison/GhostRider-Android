@@ -220,7 +220,6 @@ public class Activity_ClientInfo extends AppCompatActivity {
         poMessage = new MessageBox(Activity_ClientInfo.this);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Guanzon Group OACS");
 
         txtLastNm = findViewById(R.id.txt_lastname);
         txtFrstNm = findViewById(R.id.txt_firstname);
