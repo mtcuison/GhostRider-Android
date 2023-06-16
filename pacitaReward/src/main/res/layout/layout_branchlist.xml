@@ -15,7 +15,7 @@
             android:id="@+id/btn_branch"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            app:icon="@drawable/baseline_apartment_24"
+            app:icon="@drawable/ic_baseline_company"
             app:iconSize="30dp"
             app:layout_constraintWidth_percent=".160"/>
 

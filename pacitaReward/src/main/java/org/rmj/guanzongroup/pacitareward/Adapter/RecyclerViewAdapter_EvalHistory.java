@@ -43,20 +43,19 @@ public class RecyclerViewAdapter_EvalHistory extends RecyclerView.Adapter<Recycl
         String transnox = evaldata.sTransNox;
         String branchname = evaldata.sBranchNm;
         String branchcode = evaldata.sBranchCD;
+        String branchrate = "Ratings: " + evaldata.nRatingxx;
 
-        holder.mtv_evaldate.setText(FormatUIText.formatGOCasBirthdate(histevaluationlist.get(position).dTransact));
         holder.mtv_branchname.setText(branchname);
+        holder.mtv_branchrate.setText(branchrate);
+        holder.mtv_evaldate.setText(FormatUIText.formatGOCasBirthdate(histevaluationlist.get(position).dTransact));
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.btn_branch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mlistener.onItemSelected(transnox, branchcode, branchname);
             }
         });
-        holder.mtv_evaldate.setOnClickListener(v -> mlistener.onItemSelected(transnox, branchcode, branchname));
-        holder.mtv_branchname.setOnClickListener(v -> mlistener.onItemSelected(transnox, branchcode, branchname));
     }
-
     @Override
     public int getItemCount() {
         return histevaluationlist.size();
