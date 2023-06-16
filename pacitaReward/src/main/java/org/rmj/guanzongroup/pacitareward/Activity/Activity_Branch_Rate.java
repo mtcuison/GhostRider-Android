@@ -61,7 +61,7 @@ public class Activity_Branch_Rate extends AppCompatActivity {
 
         /*TOOL BAR*/
         setSupportActionBar(toolbar); //set object toolbar as default action bar for activity
-        getSupportActionBar().setTitle("Pacita Reward"); //set default title for action bar
+        getSupportActionBar().setTitle(","); //set default title for action bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); //set back button to toolbar
         getSupportActionBar().setDisplayShowHomeEnabled(true); //enable the back button set on toolbar
 

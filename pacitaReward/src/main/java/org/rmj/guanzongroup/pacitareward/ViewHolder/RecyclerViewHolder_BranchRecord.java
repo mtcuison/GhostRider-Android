@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.pacitareward.Adapter;
+package org.rmj.guanzongroup.pacitareward.ViewHolder;
 
 import android.view.View;
 

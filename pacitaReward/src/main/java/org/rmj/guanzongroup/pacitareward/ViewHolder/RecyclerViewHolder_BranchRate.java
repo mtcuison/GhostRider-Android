@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.pacitareward.Adapter;
+package org.rmj.guanzongroup.pacitareward.ViewHolder;
 
 import android.view.View;
 import android.widget.LinearLayout;
@@ -13,8 +13,8 @@ import org.rmj.guanzongroup.pacitareward.R;
 
 public class RecyclerViewHolder_BranchRate extends RecyclerView.ViewHolder {
     public MaterialTextView item_question;
-    MaterialButton pass_btn;
-    MaterialButton fail_btn;
+    public MaterialButton pass_btn;
+    public MaterialButton fail_btn;
     public RecyclerViewHolder_BranchRate(@NonNull View itemView) {
         super(itemView);
         item_question = itemView.findViewById(R.id.item_question);
