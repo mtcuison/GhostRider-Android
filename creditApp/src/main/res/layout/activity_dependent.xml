@@ -57,6 +57,7 @@
                         android:id="@+id/tie_cap_dpdFullname"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                            android:digits="@string/free_text_restriction"
                         android:inputType="textCapWords"
                         android:maxLength="50"
                         android:imeOptions="actionNext"
@@ -106,6 +107,7 @@
                             android:id="@+id/tie_cap_dpdAge"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:digits="@string/free_text_restriction"
                             android:inputType="number|none"
                             android:maxLength="3"
                             android:singleLine="true" />
@@ -211,6 +213,7 @@
                             android:id="@+id/tie_cap_dpdSchoolName"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:digits="@string/free_text_restriction"
                             android:inputType="textCapWords"
                             android:maxLength="50"
                             android:imeOptions="actionNext"
@@ -227,6 +230,7 @@
                             android:id="@+id/tie_cap_dpdSchoolAddress"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:digits="@string/free_text_restriction"
                             android:inputType="textCapWords"
                             android:maxLength="50"
                             android:imeOptions="actionNext"
@@ -327,6 +331,7 @@
                             android:id="@+id/tie_cap_dpdCompanyName"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:digits="@string/free_text_restriction"
                             android:inputType="textCapWords"
                             android:maxLength="50" />
                     </com.google.android.material.textfield.TextInputLayout>

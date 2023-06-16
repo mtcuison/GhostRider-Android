@@ -25,16 +25,18 @@
         android:id="@+id/imgLogo"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:src="@drawable/ic_guanzon_circle"
+        android:src="@drawable/kay"
         android:transitionName="img_logo"
+        android:scaleType="centerInside"
+        android:adjustViewBounds="true"
+        app:layout_constraintHeight_percent=".3"
+        app:layout_constraintWidth_percent=".4"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_default="percent"
-        app:layout_constraintHeight_percent="0.29"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_default="percent"
-        app:layout_constraintWidth_percent="0.47" />
+        app:layout_constraintWidth_default="percent" />
 
 
     <com.google.android.material.progressindicator.LinearProgressIndicator

@@ -34,6 +34,7 @@
                 style="@style/HeaderLabelBlack"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                    android:digits="@string/free_text_restriction"
                 android:text="@string/sHeaderEmploymentInfo" />
 
             <RadioGroup
@@ -80,6 +81,7 @@
                         style="@style/HeaderLabelBlack1"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
+                    android:digits="@string/free_text_restriction"
                         android:layout_weight=".5"
                         android:text="@string/sLabelUniformPersonnel" />
 
@@ -101,6 +103,7 @@
                         style="@style/HeaderLabelBlack1"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
+                    android:digits="@string/free_text_restriction"
                         android:layout_weight=".5"
                         android:text="@string/sLabelMilitaryPersonnel" />
 
@@ -274,6 +277,7 @@
                     style="@style/HeaderLabelBlack"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:digits="@string/free_text_restriction"
                     android:text="@string/sHeaderPosition" />
 
                 <com.google.android.material.textfield.TextInputLayout

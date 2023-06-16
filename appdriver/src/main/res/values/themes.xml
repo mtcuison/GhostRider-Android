@@ -26,10 +26,14 @@
         <item name="android:windowBackground">@drawable/app_background_light</item>
     </style>
 
+    <style name="Navigation_Header_Banner">
+        <item name="android:scaleType">center</item>
+        <item name="android:src">@drawable/nav_header_banner_light</item>
+    </style>
+
     <style name="WindowAnimationTransition">
         <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
         <item name="android:windowExitAnimation">@android:anim/fade_out</item>
-
     </style>
 
     <style name="GhostRiderMaterialTheme.NoActionBar">
@@ -220,7 +224,7 @@
         <item name="cornerSize">10dp</item>
     </style>
 
-    <style name="Widget.App.Button.OutlinedButton.IconOnly" parent="Widget.MaterialComponents.Button.OutlinedButton">
+    <style name="OutlinedButton.IconOnly" parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="iconPadding">0dp</item>
         <item name="android:insetTop">0dp</item>
         <item name="android:insetBottom">0dp</item>

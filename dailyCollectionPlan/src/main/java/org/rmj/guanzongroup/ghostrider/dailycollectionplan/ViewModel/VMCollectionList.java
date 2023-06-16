@@ -440,29 +440,37 @@ public class VMCollectionList extends AndroidViewModel {
 
         @Override
         protected Boolean doInBackground(String... strings) {
-            if(!poSys.ExportToFile()){
-                message = poSys.getMessage();
-                Log.e(TAG, message);
-            }
+            try {
+                if (!poSys.ExportToFile()) {
+                    message = poSys.getMessage();
+                    Log.e(TAG, message);
+                }
 
-            if(!poConn.isDeviceConnected()){
-                message = poConn.getMessage();
+                if (!poConn.isDeviceConnected()) {
+                    message = poConn.getMessage();
+                    return false;
+                }
+
+
+                String lsResult = poSys.PostCollection(strings[0]);
+                if (lsResult == null) {
+                    message = poSys.getMessage();
+                    return false;
+                }
+
+                Thread.sleep(1000);
+
+                if (!poSys.PostDcpMaster(lsResult)) {
+                    message = poSys.getMessage();
+                    return false;
+                }
+
+                return true;
+            } catch (Exception e){
+                e.printStackTrace();
+                message = e.getMessage();
                 return false;
             }
-
-
-            String lsResult = poSys.PostCollection(strings[0]);
-            if(lsResult == null){
-                message = poSys.getMessage();
-                return false;
-            }
-
-            if(!poSys.PostDcpMaster(lsResult)){
-                message = poSys.getMessage();
-                return false;
-            }
-
-            return true;
         }
 
         @Override
