@@ -14,7 +14,6 @@ public class RecyclerViewHolder_BranchList extends RecyclerView.ViewHolder {
     public MaterialTextView item_branch;
     public MaterialTextView item_branchloc;
     public MaterialTextView item_branchcode;
-    public MaterialButton btn_branch;
     public View view;
 
     public RecyclerViewHolder_BranchList(@NonNull View itemView) {
@@ -23,7 +22,6 @@ public class RecyclerViewHolder_BranchList extends RecyclerView.ViewHolder {
         item_branch = itemView.findViewById(R.id.item_branch);
         item_branchloc = itemView.findViewById(R.id.item_branchloc);
         item_branchcode = itemView.findViewById(R.id.item_branchcode);
-        btn_branch = itemView.findViewById(R.id.btn_branch);
         view = itemView;
     }
 }
