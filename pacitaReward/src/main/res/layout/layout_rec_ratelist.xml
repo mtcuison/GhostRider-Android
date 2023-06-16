@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="10dp">
+    android:paddingHorizontal="10dp"
+    android:paddingVertical="15dp">
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/item_question"
@@ -30,10 +31,13 @@
 
     <com.google.android.material.button.MaterialButtonToggleGroup
         android:id="@+id/materialButtonToggleGroup"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_marginTop="10dp"
         android:orientation="horizontal"
+        app:layout_constraintWidth_percent=".8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/item_question"
         app:singleSelection="true">
 
@@ -43,8 +47,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            app:cornerRadius="10dp"
-            android:text="Pass" />
+            android:text="Pass"
+            app:icon="@drawable/ic_baseline_smile"
+            app:iconGravity="start"
+            app:cornerRadius="15dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/fail_btn"
@@ -52,8 +58,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            app:cornerRadius="10dp"
-            android:text="Fail" />
+            android:text="Fail"
+            app:icon="@drawable/ic_baseline_sad"
+            app:iconGravity="end"
+            app:cornerRadius="15dp" />
     </com.google.android.material.button.MaterialButtonToggleGroup>
 
     <com.google.android.material.textview.MaterialTextView

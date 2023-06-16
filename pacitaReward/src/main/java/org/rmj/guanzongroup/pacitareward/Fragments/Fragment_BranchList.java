@@ -45,7 +45,7 @@ public class Fragment_BranchList extends Fragment {
         rvc_branchlist = view.findViewById(R.id.branch_list);
         searchview = view.findViewById(R.id.searchview);
 
-        MessageBox loadDialog = new MessageBox(getContext());
+        MessageBox loadDialog = new MessageBox(requireActivity());
         loadDialog.initDialog();
         loadDialog.setTitle("No Records");
         loadDialog.setMessage("No Branch Records Found");
@@ -57,7 +57,7 @@ public class Fragment_BranchList extends Fragment {
         });
 
         mViewModel.importCriteria();
-        mViewModel.getBranchlist().observe(getActivity(), new Observer<List<EBranchInfo>>() {
+        mViewModel.getBranchlist().observe(requireActivity(), new Observer<List<EBranchInfo>>() {
             @Override
             public void onChanged(List<EBranchInfo> eBranchInfos) {
                 if (eBranchInfos.size() <= 0){
@@ -69,7 +69,7 @@ public class Fragment_BranchList extends Fragment {
                         Dialog_SelectAction selectAction = new Dialog_SelectAction(new Dialog_SelectAction.onDialogSelect() {
                             @Override
                             public void onEvaluate(Class className, String branchCd, String branchNm, Dialog dialog) {
-                                Intent intent = new Intent(getContext(), className);
+                                Intent intent = new Intent(requireActivity(), className);
                                 intent.putExtra("Branch Code", branchCd);
                                 intent.putExtra("Branch Name", branchNm);
 
@@ -79,7 +79,7 @@ public class Fragment_BranchList extends Fragment {
 
                             @Override
                             public void onViewRecords(Class className, String branchCd, String branchNm, Dialog dialog) {
-                                Intent intent = new Intent(getContext(), className);
+                                Intent intent = new Intent(requireActivity(), className);
                                 intent.putExtra("Branch Code", branchCd);
                                 intent.putExtra("Branch Name", branchNm);
 
@@ -92,13 +92,13 @@ public class Fragment_BranchList extends Fragment {
                                 dialog.dismiss();
                             }
                         });
-                        selectAction.initDialog(getContext(), BranchCode, BranchName);
+                        selectAction.initDialog(requireActivity(), BranchCode, BranchName);
                     }
                 });
 
                 rec_branchList.notifyDataSetChanged();
                 rvc_branchlist.setAdapter(rec_branchList);
-                rvc_branchlist.setLayoutManager(new LinearLayoutManager(getContext()));
+                rvc_branchlist.setLayoutManager(new LinearLayoutManager(requireActivity()));
             }
         });
         searchview.addTextChangedListener(new TextWatcher() {

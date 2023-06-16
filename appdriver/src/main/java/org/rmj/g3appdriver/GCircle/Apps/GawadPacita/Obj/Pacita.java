@@ -336,7 +336,7 @@ public class Pacita {
      */
     public String InitializePacitaEvaluation(String BranchCD){
         try{
-            EPacitaEvaluation loDetail = poDao.GetEvaluationForInitialization(BranchCD);
+            EPacitaEvaluation loDetail = poDao.GetEvaluationForInitialization(BranchCD, AppConstants.CURRENT_DATE());
 
             if(loDetail == null){
                 return CreateNewEvaluation(BranchCD);

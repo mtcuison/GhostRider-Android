@@ -54,8 +54,11 @@ public interface DPacita {
     @Query("SELECT * FROM Pacita_Evaluation WHERE sTransNox=:args")
     EPacitaEvaluation CheckEvaulationRecord(String args);
 
-    @Query("SELECT * FROM Pacita_Evaluation WHERE sBranchCD=:BranchCd ORDER BY dTransact DESC LIMIT 1")
-    EPacitaEvaluation GetEvaluationForInitialization(String BranchCd);
+    @Query("SELECT * FROM Pacita_Evaluation " +
+            "WHERE sBranchCD=:BranchCd " +
+            "AND dTransact =:dTransact " +
+            "ORDER BY dTransact DESC LIMIT 1")
+    EPacitaEvaluation GetEvaluationForInitialization(String BranchCd, String dTransact);
 
     @Query("SELECT * FROM Branch_Info")
     LiveData<List<EBranchInfo>> GetBranchList();
