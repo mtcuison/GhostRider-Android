@@ -131,7 +131,7 @@ public class VMInventory extends AndroidViewModel {
 
     public void CheckBranchInventory(String fsVal, OnCheckLocalRecords callback){
 //        new CheckLocalRecordsTask(callback).execute(fsVal);
-        TaskExecutor.Execute(callback, new OnTaskExecuteListener() {
+        TaskExecutor.Execute(fsVal, new OnTaskExecuteListener() {
             @Override
             public void OnPreExecute() {
                 callback.OnCheck();
@@ -208,7 +208,7 @@ public class VMInventory extends AndroidViewModel {
 
     public void DownloadInventory(String BranchCd, OnDownloadInventory poCallback){
 //        new DownloadInventoryTask(callback).execute(BranchCd);
-        TaskExecutor.Execute(poCallback, new OnTaskExecuteListener() {
+        TaskExecutor.Execute(BranchCd, new OnTaskExecuteListener() {
             @Override
             public void OnPreExecute() {
                 poCallback.OnRequest("Random Stock Inventory", "Downloading inventory details. Please wait...");

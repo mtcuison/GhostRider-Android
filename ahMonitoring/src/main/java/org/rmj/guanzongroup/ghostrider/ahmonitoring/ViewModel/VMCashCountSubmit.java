@@ -73,12 +73,8 @@ public class VMCashCountSubmit extends AndroidViewModel {
         return poBranch.getSelfieLogBranchInfo();
     }
 
-//    public void GetSearchList(String name, OnKwikSearchCallBack callBack){
-////        new GetSearchListTask(callBack).execute(name);
-//    }
-
     public void GetSearchList(String name, OnKwikSearchCallBack callback){
-        TaskExecutor.Execute(callback, new OnTaskExecuteListener() {
+        TaskExecutor.Execute(name, new OnTaskExecuteListener() {
 
             @Override
             public void OnPreExecute() {
@@ -103,12 +99,13 @@ public class VMCashCountSubmit extends AndroidViewModel {
 
             @Override
             public void OnPostExecute(Object object) {
-                Object lssearchList = (Object) object;
-            if(lssearchList == null){
-                callback.onKwikSearchFailed(message);
-            } else {
-                callback.onSuccessKwikSearch((List<QuickSearchNames>) lssearchList);
-            }
+                List<QuickSearchNames> loResult = (List<QuickSearchNames>) object;
+                if(loResult == null){
+                    callback.onKwikSearchFailed(message);
+                    return;
+                }
+
+                callback.onSuccessKwikSearch(loResult);
             }
         });
     }
@@ -154,7 +151,7 @@ public class VMCashCountSubmit extends AndroidViewModel {
 //    }
 
     public void SaveCashCount(JSONObject foVal, OnSaveCashCountCallBack callback) {
-        TaskExecutor.Execute(callback, new OnTaskExecuteListener() {
+        TaskExecutor.Execute(foVal, new OnTaskExecuteListener() {
 
             @Override
             public void OnPreExecute() {
@@ -163,8 +160,8 @@ public class VMCashCountSubmit extends AndroidViewModel {
 
             @Override
             public Object DoInBackground(Object args) {
-                Object lsentries = (Object) args;
-                String lsResult = poSys.SaveCashCount((JSONObject) lsentries);
+                JSONObject lsentries = (JSONObject) args;
+                String lsResult = poSys.SaveCashCount(lsentries);
                 if (lsResult == null){
                     message = poSys.getMessage();
                     return 0;
@@ -186,8 +183,8 @@ public class VMCashCountSubmit extends AndroidViewModel {
 
             @Override
             public void OnPostExecute(Object object) {
-                Integer lsResult = (Integer) object;
-                switch (lsResult){
+                Integer lnResult = (Integer) object;
+                switch (lnResult){
                     case 0:
                         callback.OnFailed(message);
                         break;

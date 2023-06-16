@@ -311,7 +311,13 @@ public class VMCashCounter extends AndroidViewModel {
 
             @Override
             public void OnPostExecute(Object object) {
+                List<EBranchInfo> loResult = (List<EBranchInfo>) object;
+                if(loResult == null){
+                    listener.OnFailed(message);
+                    return;
+                }
 
+                listener.OnRetrieve(loResult);
             }
         });
     }
