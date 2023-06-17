@@ -69,43 +69,9 @@ public class Fragment_IncTransaction extends Fragment {
     private String AccntNox;
     private String Remarksx;
 
-    ActivityResultLauncher<String[]> poRequest = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), result -> InitializeCamera());
+    private ActivityResultLauncher<String[]> poRequest;
 
-    private final ActivityResultLauncher<Intent> poCamera = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
-        @Override
-        public void onActivityResult(ActivityResult result) {
-            if(result.getResultCode() == RESULT_OK) {
-                mViewModel.SaveTransaction(poRem, new ViewModelCallback() {
-                    @Override
-                    public void OnStartSaving() {
-                        poDialog.initDialog("Selfie Log", "Saving promise to pay. Please wait...", false);
-                        poDialog.show();
-                    }
-
-                    @Override
-                    public void OnSuccessResult() {
-                        poMessage.initDialog();
-                        poMessage.setTitle("Daily Collection Plan");
-                        poMessage.setMessage("Collection detail has been save.");
-                        poMessage.setPositiveButton("Okay", (view, dialog) -> {
-                            dialog.dismiss();
-                            requireActivity().finish();
-                        });
-                        poMessage.show();
-                    }
-
-                    @Override
-                    public void OnFailedResult(String message) {
-                        poMessage.initDialog();
-                        poMessage.setTitle("Daily Collection Plan");
-                        poMessage.setMessage(message);
-                        poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-                        poMessage.show();
-                    }
-                });
-            }
-        }
-    });
+    private ActivityResultLauncher<Intent> poCamera;
 
     public static Fragment_IncTransaction newInstance() {
         return new Fragment_IncTransaction();
@@ -120,6 +86,7 @@ public class Fragment_IncTransaction extends Fragment {
         poRem = new OtherRemCode();
         View view = inflater.inflate(R.layout.fragment_inc_transaction, container, false);
         initWidgets(view);
+        initActivityResultLaunchers();
 
         TransNox = Activity_Transaction.getInstance().getTransNox();
         EntryNox = Activity_Transaction.getInstance().getEntryNox();
@@ -171,6 +138,43 @@ public class Fragment_IncTransaction extends Fragment {
         txtRemarks = v.findViewById(R.id.txt_dcpRemarks);
 
         btnPost = v.findViewById(R.id.btn_dcpConfirm);
+    }
+
+    private void initActivityResultLaunchers(){
+        poRequest = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), result -> InitializeCamera());
+
+        poCamera = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            if(result.getResultCode() == RESULT_OK) {
+                mViewModel.SaveTransaction(poRem, new ViewModelCallback() {
+                    @Override
+                    public void OnStartSaving() {
+                        poDialog.initDialog("Selfie Log", "Saving promise to pay. Please wait...", false);
+                        poDialog.show();
+                    }
+
+                    @Override
+                    public void OnSuccessResult() {
+                        poMessage.initDialog();
+                        poMessage.setTitle("Daily Collection Plan");
+                        poMessage.setMessage("Collection detail has been save.");
+                        poMessage.setPositiveButton("Okay", (view, dialog) -> {
+                            dialog.dismiss();
+                            requireActivity().finish();
+                        });
+                        poMessage.show();
+                    }
+
+                    @Override
+                    public void OnFailedResult(String message) {
+                        poMessage.initDialog();
+                        poMessage.setTitle("Daily Collection Plan");
+                        poMessage.setMessage(message);
+                        poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                        poMessage.show();
+                    }
+                });
+            }
+        });
     }
 
     private void InitializeCamera(){
