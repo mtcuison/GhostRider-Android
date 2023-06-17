@@ -10,6 +10,7 @@ import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.CreditOnlineApplicati
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DCreditApplication;
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
+import org.rmj.g3appdriver.utils.Task.OnDoBackgroundTaskListener;
 import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
 import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 
@@ -50,7 +51,7 @@ public class VMCreditApplications extends AndroidViewModel {
 
     public void ImportApplications(OnImportApplicationsListener listener){
 //        new ImportApplicationsTask(listener).execute();
-        TaskExecutor.Execute(listener, new OnTaskExecuteListener() {
+        TaskExecutor.Execute(null, new OnTaskExecuteListener() {
             @Override
             public void OnPreExecute() {
                 listener.OnImport();
@@ -86,12 +87,7 @@ public class VMCreditApplications extends AndroidViewModel {
 
     public void ResendApplication(String ars, OnResendApplicationListener listener){
 //        new ResendApplicationTask(listener).execute(ars);
-        TaskExecutor.Execute(listener, new OnTaskExecuteListener() {
-            @Override
-            public void OnPreExecute() {
-
-            }
-
+        TaskExecutor.Execute(ars, new OnDoBackgroundTaskListener() {
             @Override
             public Object DoInBackground(Object args) {
 

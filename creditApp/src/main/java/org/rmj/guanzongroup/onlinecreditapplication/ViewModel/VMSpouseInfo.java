@@ -18,6 +18,7 @@ import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.model.ClientSpouseInf
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.ECountryInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.ECreditApplicantInfo;
+import org.rmj.g3appdriver.utils.Task.OnDoBackgroundTaskListener;
 import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
 import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 
@@ -56,12 +57,7 @@ public class VMSpouseInfo extends AndroidViewModel implements CreditAppUI {
     @Override
     public void ParseData(ECreditApplicantInfo args, OnParseListener listener) {
 //        new ParseDataTask(listener).execute(args);
-        TaskExecutor.Execute(listener, new OnTaskExecuteListener() {
-            @Override
-            public void OnPreExecute() {
-
-            }
-
+        TaskExecutor.Execute(args, new OnDoBackgroundTaskListener() {
             @Override
             public Object DoInBackground(Object args) {
                 ECreditApplicantInfo lsApp = (ECreditApplicantInfo) args;
@@ -103,12 +99,7 @@ public class VMSpouseInfo extends AndroidViewModel implements CreditAppUI {
     @Override
     public void SaveData(OnSaveInfoListener listener) {
 //        new SaveDataTask(listener).execute(poModel);
-        TaskExecutor.Execute(listener, new OnTaskExecuteListener() {
-            @Override
-            public void OnPreExecute() {
-
-            }
-
+        TaskExecutor.Execute(poModel, new OnDoBackgroundTaskListener() {
             @Override
             public Object DoInBackground(Object args) {
                 ClientSpouseInfo lsInfo = (ClientSpouseInfo) args;

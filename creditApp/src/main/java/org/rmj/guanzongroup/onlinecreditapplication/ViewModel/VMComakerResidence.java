@@ -19,6 +19,7 @@ import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.EBarangayInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.ECountryInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.ECreditApplicantInfo;
+import org.rmj.g3appdriver.utils.Task.OnDoBackgroundTaskListener;
 import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
 import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 
@@ -58,12 +59,7 @@ public class VMComakerResidence extends AndroidViewModel implements CreditAppUI 
     @Override
     public void ParseData(ECreditApplicantInfo args, OnParseListener listener) {
 //        new ParseDataTask(listener).execute(args);
-        TaskExecutor.Execute(null, new OnTaskExecuteListener() {
-            @Override
-            public void OnPreExecute() {
-
-            }
-
+        TaskExecutor.Execute(args, new OnDoBackgroundTaskListener() {
             @Override
             public Object DoInBackground(Object args) {
                 ECreditApplicantInfo lsInfo = (ECreditApplicantInfo) args;
@@ -105,12 +101,7 @@ public class VMComakerResidence extends AndroidViewModel implements CreditAppUI 
     @Override
     public void SaveData(OnSaveInfoListener listener) {
 //        new SaveDetailTask(listener).execute(poModel);
-        TaskExecutor.Execute(poModel, new OnTaskExecuteListener() {
-            @Override
-            public void OnPreExecute() {
-
-            }
-
+        TaskExecutor.Execute(poModel, new OnDoBackgroundTaskListener() {
             @Override
             public Object DoInBackground(Object args) {
                 CoMakerResidence lsInfo =(CoMakerResidence) args;

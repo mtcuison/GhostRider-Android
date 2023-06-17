@@ -18,6 +18,7 @@ import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.OnSaveInfoListener;
 import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.model.Dependent;
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.ECreditApplicantInfo;
+import org.rmj.g3appdriver.utils.Task.OnDoBackgroundTaskListener;
 import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
 import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 
@@ -96,31 +97,22 @@ public class VMDependent extends AndroidViewModel implements CreditAppUI {
     @Override
     public void ParseData(ECreditApplicantInfo args, OnParseListener listener) {
 //        new ParseDataTask(listener).execute(args);
-        TaskExecutor.Execute(null, new OnTaskExecuteListener() {
-            @Override
-            public void OnPreExecute() {
-
-            }
-
+        TaskExecutor.Execute(args, new OnDoBackgroundTaskListener() {
             @Override
             public Object DoInBackground(Object args) {
                 ECreditApplicantInfo lsApp = (ECreditApplicantInfo) args;
                 try {
-                Dependent loDetail = (Dependent) poApp.Parse(lsApp);
-                if(loDetail == null){
-                    message = poApp.getMessage();
+                    Dependent loDetail = (Dependent) poApp.Parse(lsApp);
+                    if(loDetail == null){
+                        message = poApp.getMessage();
+                        return null;
+                    }
+                    return loDetail;
+                } catch (Exception e){
+                    e.printStackTrace();
+                    message = getLocalMessage(e);
                     return null;
                 }
-                return loDetail;
-            } catch (NullPointerException e){
-                e.printStackTrace();
-                message = getLocalMessage(e);
-                return null;
-            }catch (Exception e){
-                e.printStackTrace();
-                message = getLocalMessage(e);
-                return null;
-            }
             }
 
             @Override
@@ -143,12 +135,7 @@ public class VMDependent extends AndroidViewModel implements CreditAppUI {
     @Override
     public void SaveData(OnSaveInfoListener listener) {
 //        new SaveDataTask(listener).execute(poModel);
-        TaskExecutor.Execute(poModel, new OnTaskExecuteListener() {
-            @Override
-            public void OnPreExecute() {
-
-            }
-
+        TaskExecutor.Execute(poModel, new OnDoBackgroundTaskListener() {
             @Override
             public Object DoInBackground(Object args) {
                 Dependent lsInfo = (Dependent) args;
