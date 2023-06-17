@@ -81,7 +81,6 @@ public class DCP_Constants {
             "Others"};
 
     public static String[] PAYMENT_TYPE = {
-            "Select Payment Type",
             "Monthly Payment",
             "Cash Balance",
             "Penalty Payment",
@@ -91,6 +90,15 @@ public class DCP_Constants {
             "Deed Of Sale",
             "Release",
             "Miscellaneous"};
+
+    public static String GetPaymentTypeIndex(String PaymentType){
+        for(int x = 0; x < PAYMENT_TYPE.length; x++){
+            if(PaymentType.equalsIgnoreCase(PAYMENT_TYPE[x])){
+                return String.valueOf(x);
+            }
+        }
+        return "";
+    }
 
     public static String[] CIVIL_STATUS = {
             "Single",
