@@ -20,6 +20,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ProgressBar;
 
 import com.google.android.material.textview.MaterialTextView;
@@ -117,6 +118,7 @@ public class Activity_SplashScreen extends AppCompatActivity {
                 CheckPermissions();
             });
             loMessage.show();
+            findViewById(R.id.lblFirstLaunchNotice).setVisibility(View.VISIBLE);
         } else {
             CheckPermissions();
         }

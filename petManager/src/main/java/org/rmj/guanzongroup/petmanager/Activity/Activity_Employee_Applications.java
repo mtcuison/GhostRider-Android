@@ -43,9 +43,8 @@ public class Activity_Employee_Applications extends AppCompatActivity implements
 
     private VMEmployeeApplications mViewModel;
 
-    private final String[] tabHeaders = {"Leave",
-            "Business Trip",
-            "History"};
+    private final String[] tabHeaders = {"Leave Applications",
+            "Business Trip Applications"};
 
     private TextView lblBrnchNm, lblBrnchAd, lblHeaderx;
     private Toolbar toolbar;
@@ -175,7 +174,9 @@ public class Activity_Employee_Applications extends AppCompatActivity implements
 
         private final Fragment[] fragments = {new Fragment_LeaveList(),
                 new Fragment_BusinessTripList()};
-        private final String[] titles = {"Leave", "Business Trip"};
+
+        private final String[] tabHeaders = {"Leave Applications",
+                "Business Trip Applications"};
 
         public ApplicationsPageAdapter(@NonNull FragmentManager fm) {
             super(fm);
@@ -195,7 +196,7 @@ public class Activity_Employee_Applications extends AppCompatActivity implements
         @Nullable
         @Override
         public CharSequence getPageTitle(int position) {
-            return titles[position];
+            return tabHeaders[position];
         }
     }
 

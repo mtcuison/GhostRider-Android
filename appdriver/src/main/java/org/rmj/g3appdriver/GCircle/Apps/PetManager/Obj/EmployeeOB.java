@@ -467,6 +467,16 @@ public class EmployeeOB implements iPM {
                 return null;
             }
 
+            EEmployeeBusinessTrip loDetail = poDao.CheckIfApplicationExist(
+                    foVal.getDateFrom(),
+                    foVal.getDateThru(),
+                    foVal.getDestinat(),
+                    foVal.getRemarksx());
+
+            if(loDetail != null){
+                return loDetail.getTransNox();
+            }
+
             EEmployeeBusinessTrip detail = new EEmployeeBusinessTrip();
             String lsTransNo = CreateUniqueID();
             detail.setTransNox(lsTransNo);

@@ -51,16 +51,11 @@ public class Activity_ProductInquiry extends AppCompatActivity {
     private MaterialButton btnContinue,btnCalculate;
     private ShapeableImageView imgMC;
     private String lsModelID, lsBrandID, lsImgLink, lsBrandNm;
-    private int backgroundResIdBrand;
-    private String backgroundResIdCat;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_inquiry);
         initWidgets();
-        backgroundResIdBrand = getIntent().getIntExtra("bgbrandimage", 0);
-        backgroundResIdCat = getIntent().getStringExtra("backgroundold");
-
 
         spnPayment.setText(GConstants.PAYMENT_FORM[0]);
         spnPayment.setAdapter(GConstants.getAdapter(Activity_ProductInquiry.this, GConstants.PAYMENT_FORM));

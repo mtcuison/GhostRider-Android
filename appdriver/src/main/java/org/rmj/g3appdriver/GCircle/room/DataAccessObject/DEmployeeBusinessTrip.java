@@ -40,6 +40,16 @@ public interface DEmployeeBusinessTrip {
     @Query("SELECT * FROM Employee_Business_Trip WHERE sTransNox =:TransNox")
     EEmployeeBusinessTrip GetEmployeeBusinessTrip(String TransNox);
 
+    @Query("SELECT * FROM Employee_Business_Trip " +
+            "WHERE dDateFrom=:DateFrom " +
+            "AND dDateThru=:DateThru " +
+            "AND sDestinat=:Destinat " +
+            "AND sRemarksx=:Remarksx")
+    EEmployeeBusinessTrip CheckIfApplicationExist(String DateFrom,
+                                                  String DateThru,
+                                                  String Destinat,
+                                                  String Remarksx);
+
     @Query("SELECT * FROM EMPLOYEE_BUSINESS_TRIP WHERE cSendStat != '1' AND cTranStat != '0'")
     List<EEmployeeBusinessTrip> GetUnpostedApprovals();
 
