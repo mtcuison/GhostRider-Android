@@ -39,7 +39,7 @@ public class VMInventoryEntry extends AndroidViewModel {
 
     public void saveInventoryUpdate(RandomItem foItem, OnInventoryUpdateCallBack callBack) {
 //        new UpdateInventoryUpdateTask(instance, callBack).execute(foItem);
-        TaskExecutor.Execute(callBack, new OnTaskExecuteListener() {
+        TaskExecutor.Execute(foItem, new OnTaskExecuteListener() {
             @Override
             public void OnPreExecute() {
 

@@ -295,7 +295,6 @@ public class VMInventory extends AndroidViewModel {
 
             @Override
             public Object DoInBackground(Object args) {
-
                 String lsResult = poSys.SaveMasterForPosting(BranchCD, Remarks);
                 if(lsResult == null){
                     message = poSys.getMessage();

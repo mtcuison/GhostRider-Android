@@ -12,6 +12,7 @@ import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.CreditAppDocuments;
 import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.model.CreditAppDocs;
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DCreditApplicationDocuments;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
+import org.rmj.g3appdriver.utils.Task.OnDoBackgroundTaskListener;
 import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
 import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 
@@ -48,12 +49,7 @@ public class VMApplicantDocuments extends AndroidViewModel {
 
     public void InitializeDocuments(String TransNox, OnInitializeCreditAppDocuments listener) {
 //        new InitializeDocumentsTask(listener).execute(TransNox);
-        TaskExecutor.Execute(listener, new OnTaskExecuteListener() {
-            @Override
-            public void OnPreExecute() {
-
-            }
-
+        TaskExecutor.Execute(TransNox, new OnDoBackgroundTaskListener() {
             @Override
             public Object DoInBackground(Object args) {
                 String lsTransnox = (String) args;
@@ -130,12 +126,7 @@ public class VMApplicantDocuments extends AndroidViewModel {
 
     public void SaveDocumentScan(CreditAppDocs args, OnSaveCreditAppDocument listener) {
 //        new SaveDocumentTask(listener).execute(args);
-        TaskExecutor.Execute(listener, new OnTaskExecuteListener() {
-            @Override
-            public void OnPreExecute() {
-
-            }
-
+        TaskExecutor.Execute(args, new OnDoBackgroundTaskListener() {
             @Override
             public Object DoInBackground(Object args) {
                 CreditAppDocs lsDocumentInfo = (CreditAppDocs) args;

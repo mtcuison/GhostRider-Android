@@ -47,7 +47,7 @@ public class VMManualLog extends AndroidViewModel {
 
     public void GenerateCode(ManualTimeLog model, OnGenerateApprovalCodeListener listener){
 //        new GenerateCodeTask(listener).execute(model);
-        TaskExecutor.Execute(null, new OnTaskExecuteListener() {
+        TaskExecutor.Execute(model, new OnTaskExecuteListener() {
             @Override
             public void OnPreExecute() {
                 listener.OnGenerate("Approval Code", "Generating approval code. Please wait...");

@@ -23,6 +23,7 @@ import org.rmj.g3appdriver.lib.Notifications.Obj.BranchOpeningMonitor;
 import org.rmj.g3appdriver.lib.Notifications.Obj.Notification;
 import org.rmj.g3appdriver.lib.Panalo.Obj.ILOVEMYJOB;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
+import org.rmj.g3appdriver.utils.Task.OnDoBackgroundTaskListener;
 import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
 import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 
@@ -93,12 +94,7 @@ public class VMHomeAH extends AndroidViewModel {
 
     public void CheckApplicationsForApproval(OnCheckEmployeeApplicationListener listener) {
 //        new CheckApplicationForApprovalTask(listener).execute();
-        TaskExecutor.Execute(listener, new OnTaskExecuteListener() {
-            @Override
-            public void OnPreExecute() {
-
-            }
-
+        TaskExecutor.Execute(null, new OnDoBackgroundTaskListener() {
             @Override
             public Object DoInBackground(Object args) {
                 try{

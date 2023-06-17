@@ -59,8 +59,7 @@ public class VMApprovalEntry extends AndroidViewModel {
     }
 
     public void GenerateCode(AppCodeParams foVal, OnGenerateApprovalCodeListener listener) {
-//        new GenerateCodeTask(listener).execute(foVal);
-        TaskExecutor.Execute(null, new OnTaskExecuteListener() {
+        TaskExecutor.Execute(foVal, new OnTaskExecuteListener() {
             @Override
             public void OnPreExecute() {
                 listener.OnGenerate("Approval Code", "Generating approval code. Please wait...");

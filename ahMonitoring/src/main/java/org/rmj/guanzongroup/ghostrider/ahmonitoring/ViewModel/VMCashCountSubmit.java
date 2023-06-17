@@ -152,7 +152,6 @@ public class VMCashCountSubmit extends AndroidViewModel {
 
     public void SaveCashCount(JSONObject foVal, OnSaveCashCountCallBack callback) {
         TaskExecutor.Execute(foVal, new OnTaskExecuteListener() {
-
             @Override
             public void OnPreExecute() {
                 callback.OnSaving();
