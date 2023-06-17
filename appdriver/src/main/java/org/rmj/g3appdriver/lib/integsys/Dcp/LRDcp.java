@@ -1050,11 +1050,8 @@ public class LRDcp {
             double lnColCash = poDao.GetCollectedCashPayments(lsTransNo);
             double lnRmtCash = poDao.GetCashRemittedCollection(lsTransNo);
             double lnDiff = lnColCash - lnRmtCash;
-            if(lnDiff != 0){
+            if(lnDiff > 0){
                 message = "Please remit cash payments before posting.";
-                return false;
-            } else if(lnColCash != lnRmtCash){
-                message = "Please remit all cash payments before posting.";
                 return false;
             }
 

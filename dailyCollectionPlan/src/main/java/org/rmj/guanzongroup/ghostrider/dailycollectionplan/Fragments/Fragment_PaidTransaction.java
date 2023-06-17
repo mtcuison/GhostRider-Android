@@ -11,6 +11,8 @@
 
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments;
 
+import static org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants.GetPaymentTypeIndex;
+
 import android.app.AlertDialog;
 import android.os.Build;
 import android.os.Bundle;
@@ -177,19 +179,6 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
         });
 
         spnType.setAdapter(new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_dropdown_item, DCP_Constants.PAYMENT_TYPE));
-        spnType.setSelection(0);
-
-        spnType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                poPaid.setPayment(String.valueOf(position));
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
 
         mViewModel.GetPrNumber().observe(getViewLifecycleOwner(), s -> {
             if(s != null){
@@ -277,7 +266,7 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
 
         btnConfirm.setOnClickListener(v -> {
             poPaid.setRemarks(Remarksx);
-            poPaid.setPayment(String.valueOf(spnType.getText()));
+            poPaid.setPayment(GetPaymentTypeIndex(spnType.getText().toString()));
             poPaid.setPrNoxxx(Objects.requireNonNull(txtPrNoxx.getText()).toString());
             poPaid.setRemarks(Objects.requireNonNull(txtRemarks.getText()).toString());
             poPaid.setAmountx(FormatUIText.getParseDouble(Objects.requireNonNull(txtAmount.getText()).toString()));

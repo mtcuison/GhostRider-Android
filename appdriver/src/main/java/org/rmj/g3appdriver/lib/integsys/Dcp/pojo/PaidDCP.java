@@ -5,8 +5,8 @@ public class PaidDCP {
     private String TransNo;
     private String EntryNo;
     private String PrNoxxx;
-    private String Payment;
-    private String Remarks;
+    private String Payment = "";
+    private String Remarks = "";
     private double Amountx = 0.00;
     private double Dscount = 0.00;
     private double Othersx = 0.00;
@@ -135,7 +135,7 @@ public class PaidDCP {
     }
 
     private boolean isPaymentTypeValid(){
-        if(Payment.equalsIgnoreCase("0")){
+        if(Payment.trim().isEmpty()){
             message = "Please select payment type";
             return false;
         }
