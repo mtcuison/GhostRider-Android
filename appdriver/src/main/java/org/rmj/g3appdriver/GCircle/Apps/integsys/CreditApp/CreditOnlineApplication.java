@@ -407,7 +407,7 @@ public class CreditOnlineApplication {
             }
 
             JSONObject params = new JSONObject(loApp.getDetlInfo());
-            params.put("dCreatedx", loApp.getCreatedx());
+            params.put("dCreatedx", loApp.getDateCreatedx());
 
             String lsResponse = WebClient.sendRequest(
                     poApi.getUrlSubmitOnlineApplication(),
