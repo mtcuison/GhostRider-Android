@@ -204,7 +204,7 @@ import org.rmj.g3appdriver.dev.Database.Entities.EUncapturedClient;
         ERaffleStatus.class,
         EPacitaRule.class,
         EPacitaEvaluation.class,
-        ELoanTerm.class}, version = 38, exportSchema = false)
+        ELoanTerm.class}, version = 39, exportSchema = false)
 public abstract class GGC_GriderDB extends RoomDatabase {
     private static final String TAG = "GhostRider_DB_Manager";
     private static GGC_GriderDB instance;

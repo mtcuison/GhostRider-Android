@@ -662,25 +662,35 @@ public class ReviewLoanInfo implements CreditApp {
         try {
             ECreditApplicantInfo loInfo = (ECreditApplicantInfo) args;
 
-            String lsTransNo = CreateUniqueID();
-            ECreditApplication loDetail = new ECreditApplication();
-            GoCasBuilder loModel = new GoCasBuilder(loInfo);
-            loDetail.setTransNox(lsTransNo);
-            loDetail.setBranchCd(loInfo.getBranchCd());
-            loDetail.setClientNm(loInfo.getClientNm());
-            loDetail.setUnitAppl(loInfo.getAppliedx());
-            loDetail.setSourceCD("APP");
-            loDetail.setDetlInfo(loModel.getConstructedDetailedInfo());
-            loDetail.setDownPaym(loInfo.getDownPaym());
-            loDetail.setCreatedx(poDao.GetUserID());
-            loDetail.setDateCreatedx(loInfo.getCreatedx());
-            loDetail.setTransact(loInfo.getTransact());
-            loDetail.setTimeStmp(AppConstants.DATE_MODIFIED());
-            loDetail.setTranStat("0");
-            loDetail.setSendStat("0");
-            poDao.Save(loDetail);
+            ECreditApplication loExist = poDao.CheckIfApplicantExist(
+                    loInfo.getClientNm(),
+                    loInfo.getBranchCd(),
+                    loInfo.getAppliedx(),
+                    loInfo.getDownPaym(),
+                    loInfo.getCreatedx());
 
-            return lsTransNo;
+            if(loExist == null) {
+                String lsTransNo = CreateUniqueID();
+                ECreditApplication loDetail = new ECreditApplication();
+                GoCasBuilder loModel = new GoCasBuilder(loInfo);
+                loDetail.setTransNox(lsTransNo);
+                loDetail.setBranchCd(loInfo.getBranchCd());
+                loDetail.setClientNm(loInfo.getClientNm());
+                loDetail.setUnitAppl(loInfo.getAppliedx());
+                loDetail.setSourceCD("APP");
+                loDetail.setDetlInfo(loModel.getConstructedDetailedInfo());
+                loDetail.setDownPaym(loInfo.getDownPaym());
+                loDetail.setCreatedx(poDao.GetUserID());
+                loDetail.setDateCreatedx(loInfo.getCreatedx());
+                loDetail.setTransact(loInfo.getTransact());
+                loDetail.setTimeStmp(AppConstants.DATE_MODIFIED());
+                loDetail.setTranStat("0");
+                loDetail.setSendStat("0");
+                poDao.Save(loDetail);
+                return lsTransNo;
+            }
+
+            return loExist.getTransNox();
         } catch (Exception e) {
             e.printStackTrace();
             message = e.getMessage();
