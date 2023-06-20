@@ -11,8 +11,6 @@
 
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel;
 
-import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
-
 import android.app.Application;
 
 import androidx.annotation.NonNull;
@@ -20,13 +18,14 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import org.json.JSONObject;
+import org.rmj.g3appdriver.GCircle.Apps.Dcp.obj.REMIT;
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.EDCPCollectionMaster;
 import org.rmj.g3appdriver.GCircle.room.Entities.ERemittanceAccounts;
 import org.rmj.g3appdriver.GCircle.room.Repositories.RRemittanceAccount;
 import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.Dcp.LRDcp;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.Dcp.pojo.Remittance;
+import org.rmj.g3appdriver.GCircle.Apps.Dcp.model.LRDcp;
+import org.rmj.g3appdriver.GCircle.Apps.Dcp.pojo.Remittance;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
 import org.rmj.g3appdriver.utils.Task.TaskExecutor;
@@ -35,7 +34,7 @@ import java.util.List;
 
 public class VMCollectionRemittance extends AndroidViewModel {
 
-    private final LRDcp poSys;
+    private final REMIT poSys;
 
     private final EmployeeMaster poUser;
     private final RRemittanceAccount poAccount;
@@ -50,7 +49,7 @@ public class VMCollectionRemittance extends AndroidViewModel {
 
     public VMCollectionRemittance(@NonNull Application application) {
         super(application);
-        this.poSys = new LRDcp(application);
+        this.poSys = new REMIT(application);
         this.poUser = new EmployeeMaster(application);
         this.poAccount = new RRemittanceAccount(application);
         this.poConn = new ConnectionUtil(application);

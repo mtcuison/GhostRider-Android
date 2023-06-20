@@ -50,9 +50,7 @@ public class VMActivate extends AndroidViewModel {
     }
 
     public void ActivateDevice(ActivationModel model, ViewModelCallBack callBack) {
-
         if (model.isDeviceValid()) {
-//            new ActivationTask(instance, callBack).execute(model);
             TaskExecutor.Execute(model, new OnTaskExecuteListener() {
                 @Override
                 public void OnPreExecute() {

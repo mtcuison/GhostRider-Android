@@ -1,7 +1,5 @@
 package org.guanzongroup.com.creditevaluation.ViewModel;
 
-import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
-
 import android.app.Activity;
 import android.app.Application;
 import android.content.Intent;
@@ -16,9 +14,9 @@ import org.rmj.g3appdriver.GCircle.room.Entities.EOccupationInfo;
 import org.rmj.g3appdriver.GCircle.room.Repositories.ROccupation;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.lib.Location.LocationRetriever;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditInvestigator.pojo.BarangayRecord;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditInvestigator.pojo.CIImage;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditInvestigator.Obj.CITagging;
+import org.rmj.g3appdriver.GCircle.Apps.CreditInvestigator.pojo.BarangayRecord;
+import org.rmj.g3appdriver.GCircle.Apps.CreditInvestigator.pojo.CIImage;
+import org.rmj.g3appdriver.GCircle.Apps.CreditInvestigator.Obj.CITagging;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.etc.ImageFileCreator;
 import org.rmj.g3appdriver.utils.Task.OnDoBackgroundTaskListener;

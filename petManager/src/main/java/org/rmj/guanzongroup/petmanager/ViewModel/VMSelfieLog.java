@@ -16,7 +16,6 @@ import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Intent;
-import android.os.AsyncTask;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -35,7 +34,7 @@ import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
 import org.rmj.g3appdriver.GCircle.Account.EmployeeSession;
 import org.rmj.g3appdriver.lib.Location.LocationRetriever;
 import org.rmj.g3appdriver.GCircle.Apps.SelfieLog.SelfieLog;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.CashCount.CashCount;
+import org.rmj.g3appdriver.GCircle.Apps.CashCount.CashCount;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
 import org.rmj.g3appdriver.utils.Task.TaskExecutor;

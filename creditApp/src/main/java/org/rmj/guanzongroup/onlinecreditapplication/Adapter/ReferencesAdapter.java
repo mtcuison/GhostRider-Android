@@ -24,7 +24,7 @@ import com.google.android.material.imageview.ShapeableImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.model.Reference;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.model.Reference;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 
 import java.util.List;

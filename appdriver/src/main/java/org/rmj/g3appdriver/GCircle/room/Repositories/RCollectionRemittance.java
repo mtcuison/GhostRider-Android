@@ -28,7 +28,7 @@ import org.rmj.g3appdriver.GCircle.room.GGC_GCircleDB;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.dev.Api.WebClient;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.Dcp.pojo.Remittance;
+import org.rmj.g3appdriver.GCircle.Apps.Dcp.pojo.Remittance;
 
 public class RCollectionRemittance {
     private static final String TAG = RCollectionRemittance.class.getSimpleName();

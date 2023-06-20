@@ -19,11 +19,12 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import org.rmj.g3appdriver.GCircle.Apps.Dcp.obj.OTH;
 import org.rmj.g3appdriver.GCircle.room.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.lib.Location.LocationRetriever;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.Dcp.LRDcp;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.Dcp.pojo.OtherRemCode;
+import org.rmj.g3appdriver.GCircle.Apps.Dcp.model.LRDcp;
+import org.rmj.g3appdriver.GCircle.Apps.Dcp.pojo.OtherRemCode;
 import org.rmj.g3appdriver.etc.ImageFileCreator;
 import org.rmj.g3appdriver.utils.Task.OnDoBackgroundTaskListener;
 import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
@@ -34,14 +35,14 @@ public class VMIncompleteTransaction extends AndroidViewModel {
 
     private final Application instance;
 
-    private final LRDcp poSys;
+    private final OTH poSys;
 
     private String message;
 
     public VMIncompleteTransaction(@NonNull Application application) {
         super(application);
         this.instance = application;
-        this.poSys = new LRDcp(application);
+        this.poSys = new OTH(application);
     }
 
     public LiveData<EDCPCollectionDetail> GetCollectionDetail(String TransNox, String AccountNo, String EntryNox){
@@ -101,7 +102,7 @@ public class VMIncompleteTransaction extends AndroidViewModel {
         TaskExecutor.Execute(foVal, new OnDoBackgroundTaskListener() {
             @Override
             public Object DoInBackground(Object args) {
-                if(!poSys.SaveOtherRemCode((OtherRemCode) args)){
+                if(!poSys.SaveTransaction(args)){
                     message = poSys.getMessage();
                     return false;
                 }

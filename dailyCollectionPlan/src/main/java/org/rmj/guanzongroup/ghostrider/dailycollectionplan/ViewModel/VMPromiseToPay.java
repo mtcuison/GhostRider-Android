@@ -19,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import org.rmj.g3appdriver.GCircle.Apps.Dcp.obj.PTP;
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.EDCPCollectionDetail;
@@ -26,8 +27,8 @@ import org.rmj.g3appdriver.lib.Etc.Branch;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.lib.Location.LocationRetriever;
 import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.Dcp.LRDcp;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.Dcp.pojo.PromiseToPay;
+import org.rmj.g3appdriver.GCircle.Apps.Dcp.model.LRDcp;
+import org.rmj.g3appdriver.GCircle.Apps.Dcp.pojo.PromiseToPay;
 import org.rmj.g3appdriver.etc.ImageFileCreator;
 import org.rmj.g3appdriver.utils.Task.OnDoBackgroundTaskListener;
 import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
@@ -38,7 +39,7 @@ import java.util.List;
 public class VMPromiseToPay extends AndroidViewModel {
     private static final String TAG = VMPromiseToPay.class.getSimpleName();
 
-    private final LRDcp poSys;
+    private final PTP poSys;
     private final EmployeeMaster poUser;
 
     private final Branch poBranch;
@@ -49,7 +50,7 @@ public class VMPromiseToPay extends AndroidViewModel {
     public VMPromiseToPay(@NonNull Application application) {
         super(application);
         this.instance = application;
-        this.poSys = new LRDcp(application);
+        this.poSys = new PTP(application);
         this.poBranch = new Branch(application);
         this.poUser = new EmployeeMaster(application);
     }
@@ -123,7 +124,7 @@ public class VMPromiseToPay extends AndroidViewModel {
         TaskExecutor.Execute(foVal, new OnDoBackgroundTaskListener() {
             @Override
             public Object DoInBackground(Object args) {
-                if(!poSys.SavePTP((PromiseToPay) args)){
+                if(!poSys.SaveTransaction(args)){
                     message = poSys.getMessage();
                     return false;
                 }

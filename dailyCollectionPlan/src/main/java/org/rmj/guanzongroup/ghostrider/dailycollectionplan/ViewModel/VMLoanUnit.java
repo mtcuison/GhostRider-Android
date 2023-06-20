@@ -26,6 +26,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import org.rmj.g3appdriver.GCircle.Apps.Dcp.obj.LUN;
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.EBarangayInfo;
@@ -37,8 +38,8 @@ import org.rmj.g3appdriver.lib.Etc.Town;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.lib.Location.LocationRetriever;
 import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.Dcp.LRDcp;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.Dcp.pojo.LoanUnit;
+import org.rmj.g3appdriver.GCircle.Apps.Dcp.model.LRDcp;
+import org.rmj.g3appdriver.GCircle.Apps.Dcp.pojo.LoanUnit;
 import org.rmj.g3appdriver.utils.Task.OnDoBackgroundTaskListener;
 import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
 import org.rmj.g3appdriver.utils.Task.TaskExecutor;
@@ -53,7 +54,7 @@ public class VMLoanUnit extends AndroidViewModel {
     private static final String TAG = VMLoanUnit.class.getSimpleName();
 
     private final Application instance;
-    private final LRDcp poSys;
+    private final LUN poSys;
     private final EmployeeMaster poUser;
     private final Branch poBranch;
 
@@ -66,7 +67,7 @@ public class VMLoanUnit extends AndroidViewModel {
     public VMLoanUnit(@NonNull Application application) {
         super(application);
         this.instance = application;
-        this.poSys = new LRDcp(application);
+        this.poSys = new LUN(application);
         this.poUser = new EmployeeMaster(application);
         this.poBranch = new Branch(application);
         poProv = new Province(application);
@@ -135,7 +136,7 @@ public class VMLoanUnit extends AndroidViewModel {
         TaskExecutor.Execute(foVal, new OnDoBackgroundTaskListener() {
             @Override
             public Object DoInBackground(Object args) {
-                if(!poSys.SaveLoanUnit((LoanUnit) args)){
+                if(!poSys.SaveTransaction(args)){
                     message = poSys.getMessage();
                     return false;
                 }

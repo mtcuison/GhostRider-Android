@@ -12,7 +12,7 @@ import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DMobileUpdate;
 import org.rmj.g3appdriver.GCircle.room.Entities.EMobileUpdate;
 import org.rmj.g3appdriver.GCircle.room.GGC_GCircleDB;
 import org.rmj.g3appdriver.etc.AppConstants;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.Dcp.pojo.MobileUpdate;
+import org.rmj.g3appdriver.GCircle.Apps.Dcp.pojo.MobileUpdate;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

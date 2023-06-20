@@ -3,8 +3,6 @@ package org.rmj.g3appdriver.lib.Ganado.model;
 import android.text.TextUtils;
 import android.util.Patterns;
 
-import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.model.MobileNo;
-
 public class ClientInfo {
 
     private String LastName = "";

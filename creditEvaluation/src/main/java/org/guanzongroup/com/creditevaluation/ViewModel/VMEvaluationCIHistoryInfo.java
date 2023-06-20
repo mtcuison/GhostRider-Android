@@ -11,8 +11,6 @@
 
 package org.guanzongroup.com.creditevaluation.ViewModel;
 
-import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
-
 import android.app.Application;
 
 import androidx.annotation.NonNull;
@@ -22,7 +20,7 @@ import androidx.lifecycle.LiveData;
 import org.rmj.g3appdriver.GCircle.room.Entities.ECreditOnlineApplicationCI;
 import org.rmj.g3appdriver.GCircle.room.Entities.EOccupationInfo;
 import org.rmj.g3appdriver.GCircle.room.Repositories.ROccupation;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditInvestigator.Obj.CITagging;
+import org.rmj.g3appdriver.GCircle.Apps.CreditInvestigator.Obj.CITagging;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
 import org.rmj.g3appdriver.utils.Task.TaskExecutor;

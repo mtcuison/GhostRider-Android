@@ -8,12 +8,11 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.CreditAppDocuments;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.model.CreditAppDocs;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.CreditAppDocuments;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.model.CreditAppDocs;
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DCreditApplicationDocuments;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.Task.OnDoBackgroundTaskListener;
-import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
 import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 
 import java.util.List;

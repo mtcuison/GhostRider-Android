@@ -22,7 +22,7 @@ import androidx.lifecycle.MutableLiveData;
 import org.rmj.g3appdriver.GCircle.room.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.EInventoryDetail;
 import org.rmj.g3appdriver.GCircle.room.Entities.EInventoryMaster;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.Inventory.RandomStockInventory;
+import org.rmj.g3appdriver.GCircle.Apps.Inventory.RandomStockInventory;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
 import org.rmj.g3appdriver.utils.Task.TaskExecutor;

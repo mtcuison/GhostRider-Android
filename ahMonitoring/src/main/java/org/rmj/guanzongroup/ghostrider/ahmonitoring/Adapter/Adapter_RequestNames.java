@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-import org.rmj.g3appdriver.GCircle.Apps.integsys.CashCount.QuickSearchNames;
+import org.rmj.g3appdriver.GCircle.Apps.CashCount.QuickSearchNames;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 
 import java.util.List;

@@ -19,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import org.rmj.g3appdriver.GCircle.Apps.Dcp.obj.CNA;
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DAddressUpdate;
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DMobileUpdate;
@@ -31,10 +32,10 @@ import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.ImageFileCreator;
 import org.rmj.g3appdriver.lib.Location.LocationRetriever;
 import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.Dcp.pojo.AddressUpdate;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.Dcp.pojo.CustomerNotAround;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.Dcp.LRDcp;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.Dcp.pojo.MobileUpdate;
+import org.rmj.g3appdriver.GCircle.Apps.Dcp.pojo.AddressUpdate;
+import org.rmj.g3appdriver.GCircle.Apps.Dcp.pojo.CustomerNotAround;
+import org.rmj.g3appdriver.GCircle.Apps.Dcp.model.LRDcp;
+import org.rmj.g3appdriver.GCircle.Apps.Dcp.pojo.MobileUpdate;
 import org.rmj.g3appdriver.utils.Task.OnDoBackgroundTaskListener;
 import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
 import org.rmj.g3appdriver.utils.Task.TaskExecutor;
@@ -46,7 +47,7 @@ public class VMCustomerNotAround extends AndroidViewModel {
     private static final String ZERO = "0";
     private final Application instance;
 
-    private final LRDcp poSys;
+    private final CNA poSys;
     private final EmployeeMaster poUser;
 
     private final Town poTown;
@@ -57,7 +58,7 @@ public class VMCustomerNotAround extends AndroidViewModel {
     public VMCustomerNotAround(@NonNull Application application) {
         super(application);
         this.instance = application;
-        this.poSys = new LRDcp(application);
+        this.poSys = new CNA(application);
         this.poUser = new EmployeeMaster(application);
         this.poTown = new Town(application);
         this.poBrgy = new Barangay(application);
@@ -196,7 +197,7 @@ public class VMCustomerNotAround extends AndroidViewModel {
 
             @Override
             public Object DoInBackground(Object args) {
-                if(!poSys.SaveCustomerNotAround((CustomerNotAround) args)){
+                if(!poSys.SaveTransaction(args)){
                     message = poSys.getMessage();
                     return false;
                 }
