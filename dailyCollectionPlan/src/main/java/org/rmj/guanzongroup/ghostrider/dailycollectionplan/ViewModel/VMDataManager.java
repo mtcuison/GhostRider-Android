@@ -58,123 +58,51 @@ public class VMDataManager extends AndroidViewModel {
     }
 
     public void checkData(OnDataFetchListener listener){
-        new CheckDataTask(listener).execute();
-    }
-
-    /*@SuppressLint("StaticFieldLeak")
-    private class CheckDataTask extends AsyncTask<String, Integer, Boolean>{
-
-        OnDataFetchListener mListener;
-
-        public CheckDataTask(OnDataFetchListener mListener) {
-            this.mListener = mListener;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            mListener.OnCheck();
-        }
-
-        @Override
-        protected Boolean doInBackground(String... strings) {
-            boolean hasData = false;
-            try{
-                List<EImageInfo> loginImageInfo = poImage.getUnsentSelfieLogImageList();
-                if(loginImageInfo.size() > 0){
-                    hasData = true;
-                }
-                publishProgress(1);
-
-                List<EDCPCollectionDetail> collectionDetails = poDcp.getUnsentPaidCollection();
-                if(collectionDetails.size() > 0){
-                    hasData = true;
-                }
-                publishProgress(1);
-
-                List<ECreditApplication> loanApplications = poCreditApp.getUnsentLoanApplication();
-                if(loanApplications.size() > 0){
-                    hasData = true;
-                }
-                publishProgress(1);
-
-                List<ECreditApplicationDocuments> docsFile = poDocs.getUnsentApplicationDocumentss();
-                if(docsFile.size() > 0){
-                    hasData = true;
-                }
-                publishProgress(1);
-
-            } catch (Exception e){
-                e.printStackTrace();
+        TaskExecutor.Execute(null, new OnTaskExecuteListener() {
+            @Override
+            public void OnPreExecute() {
+                listener.OnCheck();
             }
-            return hasData;
-        }
 
-        @Override
-        protected void onPostExecute(Boolean aBoolean) {
-            super.onPostExecute(aBoolean);
-            mListener.OnCheckLocalData(aBoolean);
-        }
-
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            super.onProgressUpdate(values);
-            mListener.OnCheckProgress(values[0]);
-        }
-    }*/
-    private class CheckDataTask{
-        OnDataFetchListener mListener;
-        public CheckDataTask(OnDataFetchListener mListener) {
-            this.mListener = mListener;
-        }
-        public void execute(){
-            TaskExecutor.Execute(null, new OnTaskExecuteListener() {
-                @Override
-                public void OnPreExecute() {
-                    mListener.OnCheck();
-                }
-
-                @Override
-                public Object DoInBackground(Object args) {
-                    boolean hasData = false;
-                    try{
-                        List<EImageInfo> loginImageInfo = poImage.getUnsentSelfieLogImageList();
-                        if(loginImageInfo.size() > 0){
-                            hasData = true;
-                        }
-                        TaskExecutor.ShowProgress(() -> mListener.OnCheckProgress(1));
-
-                        List<EDCPCollectionDetail> collectionDetails = poDcp.getUnsentPaidCollection();
-                        if(collectionDetails.size() > 0){
-                            hasData = true;
-                        }
-                        TaskExecutor.ShowProgress(() -> mListener.OnCheckProgress(1));
-
-                        List<ECreditApplication> loanApplications = poCreditApp.getUnsentLoanApplication();
-                        if(loanApplications.size() > 0){
-                            hasData = true;
-                        }
-                        TaskExecutor.ShowProgress(() -> mListener.OnCheckProgress(1));
-
-                        List<ECreditApplicationDocuments> docsFile = poDocs.getUnsentApplicationDocumentss();
-                        if(docsFile.size() > 0){
-                            hasData = true;
-                        }
-                        TaskExecutor.ShowProgress(() -> mListener.OnCheckProgress(1));
-
-                    } catch (Exception e){
-                        e.printStackTrace();
+            @Override
+            public Object DoInBackground(Object args) {
+                boolean hasData = false;
+                try{
+                    List<EImageInfo> loginImageInfo = poImage.getUnsentSelfieLogImageList();
+                    if(loginImageInfo.size() > 0){
+                        hasData = true;
                     }
-                    return hasData;
-                }
+                    TaskExecutor.ShowProgress(() -> listener.OnCheckProgress(1));
 
-                @Override
-                public void OnPostExecute(Object object) {
-                    Boolean aBoolean = (Boolean) object;
-                    mListener.OnCheckLocalData(aBoolean);
+                    List<EDCPCollectionDetail> collectionDetails = poDcp.getUnsentPaidCollection();
+                    if(collectionDetails.size() > 0){
+                        hasData = true;
+                    }
+                    TaskExecutor.ShowProgress(() -> listener.OnCheckProgress(1));
+
+                    List<ECreditApplication> loanApplications = poCreditApp.getUnsentLoanApplication();
+                    if(loanApplications.size() > 0){
+                        hasData = true;
+                    }
+                    TaskExecutor.ShowProgress(() -> listener.OnCheckProgress(1));
+
+                    List<ECreditApplicationDocuments> docsFile = poDocs.getUnsentApplicationDocumentss();
+                    if(docsFile.size() > 0){
+                        hasData = true;
+                    }
+                    TaskExecutor.ShowProgress(() -> listener.OnCheckProgress(1));
+
+                } catch (Exception e){
+                    e.printStackTrace();
                 }
-            });
-        }
+                return hasData;
+            }
+
+            @Override
+            public void OnPostExecute(Object object) {
+                Boolean aBoolean = (Boolean) object;
+                listener.OnCheckLocalData(aBoolean);
+            }
+        });
     }
-
 }

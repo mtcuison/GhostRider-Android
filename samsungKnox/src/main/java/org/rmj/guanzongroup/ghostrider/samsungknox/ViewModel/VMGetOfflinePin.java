@@ -53,7 +53,7 @@ public class VMGetOfflinePin extends AndroidViewModel {
     public void UnlockWithPasskey(PinModel model, ViewModelCallBack callBack) {
         if (model.isParameterValid()) {
 //            new GetOfflinePINTask(instance, callBack).execute(model);
-            TaskExecutor.Execute(callBack, new OnTaskExecuteListener() {
+            TaskExecutor.Execute(model, new OnTaskExecuteListener() {
                 @Override
                 public void OnPreExecute() {
                     callBack.OnLoadRequest("Samsung Knox", "Getting unlock PIN. Please wait...", false);

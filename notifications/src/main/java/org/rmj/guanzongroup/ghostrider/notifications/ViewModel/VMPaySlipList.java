@@ -72,8 +72,7 @@ public class VMPaySlipList extends AndroidViewModel {
     }
 
     public void DownloadPaySlip(String link, OnDownloadPayslipListener listener) {
-//        new DownloadPayslipTask(listener).execute(link);
-        TaskExecutor.Execute(listener, new OnTaskExecuteListener() {
+        TaskExecutor.Execute(null, new OnTaskExecuteListener() {
             @Override
             public void OnPreExecute() {
                 listener.OnDownload();
@@ -109,46 +108,3 @@ public class VMPaySlipList extends AndroidViewModel {
         });
     }
 }
-//    private class DownloadPayslipTask extends AsyncTask<String, Void, Uri>{
-//
-//        private final OnDownloadPayslipListener mListener;
-//
-//        public DownloadPayslipTask(OnDownloadPayslipListener mListener) {
-//            this.mListener = mListener;
-//        }
-//
-//        @Override
-//        protected void onPreExecute() {
-//            super.onPreExecute();
-//            mListener.OnDownload();
-//        }
-//
-//        @Override
-//        protected Uri doInBackground(String... strings) {
-//            String lsLink = strings[0];
-//
-//            if(!poConn.isDeviceConnected()){
-//                message = poSys.getMessage();
-//                return null;
-//            }
-//
-//            Uri loFile = poSys.DownloadPaySlip(lsLink);
-//
-//            if(loFile == null){
-//                message = poSys.getMessage();
-//                return null;
-//            }
-//            return loFile;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(Uri file) {
-//            super.onPostExecute(file);
-//            if(file == null){
-//                mListener.OnFailed(message);
-//            } else {
-//                mListener.OnSuccess(file);
-//            }
-//        }
-//    }
-//}

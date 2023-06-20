@@ -46,7 +46,7 @@ public class VMUpload extends AndroidViewModel {
 
     public void UploadDevice(String DeviceID, ViewModelCallBack callBack) {
 //        new UploadTask(instance, callBack).execute(DeviceID);
-        TaskExecutor.Execute(callBack, new OnTaskExecuteListener() {
+        TaskExecutor.Execute(DeviceID, new OnTaskExecuteListener() {
             @Override
             public void OnPreExecute() {
 

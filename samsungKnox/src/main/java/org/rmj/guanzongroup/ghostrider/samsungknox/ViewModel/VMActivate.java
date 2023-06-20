@@ -53,7 +53,7 @@ public class VMActivate extends AndroidViewModel {
 
         if (model.isDeviceValid()) {
 //            new ActivationTask(instance, callBack).execute(model);
-            TaskExecutor.Execute(callBack, new OnTaskExecuteListener() {
+            TaskExecutor.Execute(model, new OnTaskExecuteListener() {
                 @Override
                 public void OnPreExecute() {
                     callBack.OnLoadRequest("Samsung Knox", "Activating. Please wait...", false);
