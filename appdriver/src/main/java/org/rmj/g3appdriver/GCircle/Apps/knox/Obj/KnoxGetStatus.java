@@ -4,7 +4,6 @@ import static org.rmj.g3appdriver.dev.Api.ApiResult.SERVER_NO_RESPONSE;
 import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
 
 import android.app.Application;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -15,7 +14,6 @@ import org.rmj.g3appdriver.etc.AppConstants;
 
 import java.text.DateFormatSymbols;
 import java.util.Calendar;
-import java.util.Objects;
 
 public class KnoxGetStatus extends SamsungKnox {
     private static final String TAG = KnoxUnlock.class.getSimpleName();
@@ -43,7 +41,7 @@ public class KnoxGetStatus extends SamsungKnox {
             String lsResponse = WebClient.sendRequest(
                                         poApi.getUrlKnox(),
                                         loParam.toString(),
-                                        headers.getHeaders());
+                                        poHeaders.getHeaders());
 
             if(lsResponse == null){
                 message = SERVER_NO_RESPONSE;

@@ -23,21 +23,17 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textview.MaterialTextView;
 
-import org.json.JSONObject;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.samsungknox.Etc.ViewModelCallBack;
 import org.rmj.guanzongroup.ghostrider.samsungknox.R;
 import org.rmj.guanzongroup.ghostrider.samsungknox.ViewModel.VMGetStatus;
 
-import java.text.DateFormatSymbols;
-import java.util.Calendar;
 import java.util.Objects;
 
 public class Fragment_GetStatus extends Fragment implements ViewModelCallBack {
@@ -59,6 +55,7 @@ public class Fragment_GetStatus extends Fragment implements ViewModelCallBack {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        mViewModel = new ViewModelProvider(this).get(VMGetStatus.class);
         View v = inflater.inflate(R.layout.fragment_get_status, container, false);
         dialog = new LoadDialog(getActivity());
         loMessage = new MessageBox(getActivity());
@@ -70,28 +67,12 @@ public class Fragment_GetStatus extends Fragment implements ViewModelCallBack {
         txtDeviceID = v.findViewById(R.id.txt_knoxImei);
 
         btnCheck = v.findViewById(R.id.btn_knoxCheckStatus);
-
-        return v;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(VMGetStatus.class);
-        // TODO: Use the ViewModel
         btnCheck.setOnClickListener(view -> {
             String lsDeviceID = Objects.requireNonNull(txtDeviceID.getText()).toString();
             mViewModel.GetDeviceStatus(lsDeviceID, Fragment_GetStatus.this);
         });
-    }
 
-    private String getReadableDateFormat(long date){
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(date);
-        int month = calendar.get(Calendar.MONTH);
-        DateFormatSymbols dfs = new DateFormatSymbols();
-        String[] months = dfs.getMonths();
-        return months[month] + " " + calendar.get(Calendar.DAY_OF_MONTH) + ", " + calendar.get(Calendar.YEAR);
+        return v;
     }
 
     @Override
@@ -101,19 +82,12 @@ public class Fragment_GetStatus extends Fragment implements ViewModelCallBack {
     }
 
     @Override
-    public void OnRequestSuccess(String args) {
-        dialog.dismiss();
-        try{
-            consStatus.setVisibility(View.VISIBLE);
-            JSONObject loJson = new JSONObject(args);
-            lblDeviceID.setText(Objects.requireNonNull(txtDeviceID.getText()).toString());
-            lblStatus.setText(loJson.getString("deviceStatus"));
-            lblDetails.setText(loJson.getString("details"));
-            lblLastUpdate.setText(getReadableDateFormat(loJson.getLong("time")));
-            txtDeviceID.setText("");
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+    public void OnRequestSuccess(String args, String args1, String args2, String args3) {
+        lblDeviceID.setText(args);
+        lblStatus.setText(args1);
+        lblDetails.setText(args2);
+        lblLastUpdate.setText(args3);
+        txtDeviceID.setText("");
     }
 
     @Override

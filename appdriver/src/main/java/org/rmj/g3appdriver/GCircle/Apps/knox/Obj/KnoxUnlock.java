@@ -26,7 +26,7 @@ public class KnoxUnlock extends SamsungKnox {
             loParam.put("request", AppConstants.UNLOCK_REQUEST);
             loParam.put("param", loJSon.toString());
 
-            String lsResponse = WebClient.sendRequest(poApi.getUrlKnox(), loParam.toString(), headers.getHeaders());
+            String lsResponse = WebClient.sendRequest(poApi.getUrlKnox(), loParam.toString(), poHeaders.getHeaders());
 
             if(lsResponse == null){
                 message = SERVER_NO_RESPONSE;
