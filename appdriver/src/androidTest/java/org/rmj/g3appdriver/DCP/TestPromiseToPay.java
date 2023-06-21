@@ -13,6 +13,7 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
+import org.rmj.g3appdriver.GCircle.Apps.Dcp.obj.PTP;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
 import org.rmj.g3appdriver.GCircle.Apps.Dcp.pojo.ImportParams;
@@ -71,7 +72,7 @@ public class TestPromiseToPay {
 
     @Test
     public void test02SavePtp() {
-        LRDcp loSys = new LRDcp(instance);
+        PTP loSys = new PTP(instance);
         PromiseToPay loPtp = new PromiseToPay();
         loPtp.setTransNox("M01422000120");
         loPtp.setAccntNox("M014180113");
@@ -86,7 +87,7 @@ public class TestPromiseToPay {
         loPtp.setLongtude(121.0000);
         loPtp.setLongtude(-13.0988);
 
-        if(!loSys.SavePTP(loPtp)){
+        if(!loSys.SaveTransaction(loPtp)){
             message = loSys.getMessage();
             Log.e(TAG, message);
         } else {

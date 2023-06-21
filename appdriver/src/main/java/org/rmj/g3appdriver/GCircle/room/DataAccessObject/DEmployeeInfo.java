@@ -25,8 +25,11 @@ import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeInfo;
 @Dao
 public interface DEmployeeInfo {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert
     void SaveNewEmployeeSession(EEmployeeInfo employee);
+
+    @Query("DELETE FROM User_Info_Master")
+    void RemoveSessions();
 
     @Update
     void update(EEmployeeInfo employee);
@@ -37,26 +40,14 @@ public interface DEmployeeInfo {
     @Query("SELECT * FROM User_Info_Master")
     EEmployeeInfo getEmployeeInfoNonLiveData();
 
-    @Query("DELETE FROM User_Info_Master")
-    void deleteAllEmployeeInfo();
-
-    @Query("DELETE FROM xxxAOEmpRole")
-    void RemoveAuthorizeAccess();
-
     @Query("SELECT sUserIDxx FROM User_Info_Master")
     LiveData<String> getUserID();
-
-    @Query("SELECT sLogNoxxx FROM User_Info_Master")
-    LiveData<String> getLogNumber();
 
     @Query("SELECT sClientID FROM User_Info_Master")
     LiveData<String> getClientID();
 
     @Query("SELECT sEmployID FROM User_Info_Master")
     LiveData<String> getEmployID();
-
-    @Query("SELECT sBranchCD FROM User_Info_Master")
-    LiveData<String> getSBranchID();
 
     @Query("SELECT * FROM User_Info_Master")
     Cursor getUserInfo();
@@ -75,11 +66,6 @@ public interface DEmployeeInfo {
 
     @Query("SELECT sAreaCode FROM Branch_Info WHERE sBranchCd = (SELECT sBranchCd FROM User_Info_Master)")
     String getUserAreaCode();
-
-    @Query("SELECT sAreaDesc FROM MC_Area_Performance " +
-            "WHERE sAreaCode = (SELECT sAreaCode FROM Branch_Info " +
-            "WHERE sBranchCd = (SELECT sBranchCd FROM User_Info_Master))")
-    LiveData<String> getUserAreaCodeForDashboard();
 
     @Query("SELECT sEmployID FROM User_Info_Master")
     String getEmployeeID();
