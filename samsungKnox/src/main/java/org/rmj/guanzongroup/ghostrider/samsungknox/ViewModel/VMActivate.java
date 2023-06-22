@@ -74,7 +74,7 @@ public class VMActivate extends AndroidViewModel {
                     return;
                 }
 
-                callBack.OnRequestSuccess((String) result);
+                callBack.OnRequestSuccess((String) result, null, null, null);
             }
         });
     }
