@@ -1,5 +1,7 @@
 package org.rmj.g3appdriver.lib.Notifications.Obj;
 
+import static org.rmj.g3appdriver.dev.Api.ApiResult.SERVER_NO_RESPONSE;
+import static org.rmj.g3appdriver.dev.Api.ApiResult.getErrorMessage;
 import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
 
 import android.app.Application;
@@ -10,9 +12,12 @@ import android.util.Log;
 import androidx.core.content.FileProvider;
 import androidx.lifecycle.LiveData;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DPayslip;
 import org.rmj.g3appdriver.GCircle.room.Entities.ENotificationMaster;
 import org.rmj.g3appdriver.GCircle.room.GGC_GCircleDB;
+import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.lib.Notifications.NOTIFICATION_STATUS;
 import org.rmj.g3appdriver.lib.Notifications.Obj.Receiver.NMM_Regular;
 
@@ -110,5 +115,56 @@ public class Payslip extends NMM_Regular {
 
     private static BigDecimal percentage(BigDecimal base, BigDecimal pct) {
         return base.divide(pct, 2, RoundingMode.HALF_UP);
+    }
+
+    public boolean ImportPayslipNotifications(){
+        try{
+            String lsAddress = poApi.getImportPayslip();
+
+            String lsResponse = WebClient.sendRequest(
+                    lsAddress,
+                    new JSONObject().toString(),
+                    poHeaders.getHeaders());
+
+            if(lsResponse == null){
+                message = SERVER_NO_RESPONSE;
+                return false;
+            }
+
+            Log.d(TAG, lsResponse);
+            JSONObject loResponse = new JSONObject(lsResponse);
+            String lsResult = loResponse.getString("result");
+            if (lsResult.equalsIgnoreCase("error")) {
+                JSONObject loError = loResponse.getJSONObject("error");
+                message = getErrorMessage(loError);
+                return false;
+            }
+
+            JSONArray laJson = loResponse.getJSONArray("payload");
+            for (int x = 0; x < laJson.length(); x++){
+                JSONObject loPayload = laJson.getJSONObject(x);
+
+                JSONObject joMaster = loPayload.getJSONObject("master");
+                JSONObject joDetail = loPayload.getJSONObject("detail");
+
+                String lsMesgID = joMaster.getString("sTransNox");
+
+                ENotificationMaster _loMaster = poDao.CheckIfExist(lsMesgID);
+
+                if(_loMaster == null){
+
+                }
+
+                ENotificationMaster loMaster = new ENotificationMaster();
+
+                Log.d(TAG, loPayload.toString());
+            }
+
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = getLocalMessage(e);
+            return false;
+        }
     }
 }
