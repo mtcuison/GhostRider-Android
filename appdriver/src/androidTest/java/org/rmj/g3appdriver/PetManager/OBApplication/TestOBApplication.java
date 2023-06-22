@@ -1,4 +1,4 @@
-package org.rmj.g3appdriver.OBApplication;
+package org.rmj.g3appdriver.PetManager.OBApplication;
 
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.runner.AndroidJUnit4;

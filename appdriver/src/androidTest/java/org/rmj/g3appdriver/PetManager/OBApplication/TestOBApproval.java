@@ -1,33 +1,35 @@
-package org.rmj.g3appdriver.LeaveApplication;
-
-
-import static org.junit.Assert.assertTrue;
+package org.rmj.g3appdriver.PetManager.OBApplication;
 
 import android.app.Application;
-import android.util.Log;
 
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.runner.AndroidJUnit4;
 
-import org.junit.Before;
 import org.junit.FixMethodOrder;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
-import org.rmj.g3appdriver.GCircle.Apps.PetManager.Obj.EmployeeLeave;
+import org.rmj.g3appdriver.GCircle.Apps.PetManager.Obj.EmployeeOB;
+
+import static org.junit.Assert.assertTrue;
+
+import android.util.Log;
+
+import org.junit.Before;
+import org.junit.Test;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.GCircle.Apps.PetManager.pojo.LeaveApprovalInfo;
+import org.rmj.g3appdriver.GCircle.Apps.PetManager.pojo.OBApprovalInfo;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(AndroidJUnit4.class)
-public class TestLeaveApproval {
-    private static final String TAG = TestLeaveApproval.class.getSimpleName();
+public class TestOBApproval {
+    private static final String TAG = TestOBApproval.class.getSimpleName();
 
     private Application instance;
 
-    private EmployeeLeave poSys;
     private EmployeeMaster poUser;
+
+    private EmployeeOB poSys;
 
     private boolean isSuccess = false;
     private static String transno, message;
@@ -36,23 +38,12 @@ public class TestLeaveApproval {
     public void setUp() throws Exception {
         instance = ApplicationProvider.getApplicationContext();
         poUser = new EmployeeMaster(instance);
-        poSys = new EmployeeLeave(instance);
+        poSys = new EmployeeOB(instance);
         AppConfigPreference.getInstance(instance).setTestCase(true);
     }
 
     @Test
-    public void test01LoginAccount() {
-        if(!poUser.AuthenticateUser(new EmployeeMaster.UserAuthInfo("mikegarcia8748@gmail.com", "123456", "09171870011"))){
-            message = poUser.getMessage();
-            Log.e(TAG, message);
-        } else {
-            isSuccess = true;
-        }
-        assertTrue(isSuccess);
-    }
-
-    @Test
-    public void test02DownloadLeave() throws Exception{
+    public void test01DownloadOBList() throws Exception{
         if(!poSys.ImportApplications()){
             message = poSys.getMessage();
             Log.e(TAG, message);
@@ -64,16 +55,15 @@ public class TestLeaveApproval {
     }
 
     @Test
-    public void test03SaveApproval() {
-        LeaveApprovalInfo loDetail = new LeaveApprovalInfo();
-        loDetail.setTransNox("MX0122000041");
-        loDetail.setTranStat("3");
-        loDetail.setAppldFrx("2022-09-20");
-        loDetail.setAppldTox("2022-09-20");
-        loDetail.setWithOPay(0);
-        loDetail.setWithPayx(1);
-        loDetail.setApproved("M00119001131");
-        String lsTransNox = poSys.SaveApproval(loDetail);
+    public void test02ApproveOBApplication() {
+        OBApprovalInfo loApp = new OBApprovalInfo();
+        loApp.setTransNox("MX0122000067");
+        loApp.setAppldTox("2022-09-21");
+        loApp.setAppldFrx("2022-09-21");
+        loApp.setDateAppv("2022-09-21");
+        loApp.setTranStat("1");
+        loApp.setApproved(poUser.getEmployeeID());
+        String lsTransNox = poSys.SaveApproval(loApp);
         if(lsTransNox == null){
             message = poSys.getMessage();
             Log.e(TAG, message);
@@ -85,7 +75,7 @@ public class TestLeaveApproval {
     }
 
     @Test
-    public void test04PostLeaveApproval() {
+    public void test03PostOBApproval() {
         if(!poSys.UploadApproval(transno)){
             message = poSys.getMessage();
             Log.e(TAG, message);

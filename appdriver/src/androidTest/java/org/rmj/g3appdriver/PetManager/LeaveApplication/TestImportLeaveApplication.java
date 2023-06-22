@@ -1,4 +1,4 @@
-package org.rmj.g3appdriver.LeaveApplication;
+package org.rmj.g3appdriver.PetManager.LeaveApplication;
 
 
 import static org.junit.Assert.assertTrue;
@@ -17,8 +17,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
-import org.rmj.g3appdriver.GCircle.Apps.PetManager.PetManager;
-import org.rmj.g3appdriver.GCircle.Apps.PetManager.model.PetMngr;
+import org.rmj.g3appdriver.GCircle.Apps.PetManager.Obj.EmployeeLeave;
 import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeLeave;
 
 import java.util.List;
@@ -30,7 +29,7 @@ public class TestImportLeaveApplication {
 
     private Application instance;
 
-    private PetMngr poSys;
+    private EmployeeLeave poSys;
 
     private boolean isSuccess = false;
 
@@ -40,7 +39,7 @@ public class TestImportLeaveApplication {
     @Before
     public void setUp() throws Exception {
         instance = ApplicationProvider.getApplicationContext();
-        poSys = new PetManager(instance).GetInstance(PetManager.ePetManager.LEAVE_APPLICATION);
+        poSys = new EmployeeLeave(instance);
     }
 
     @Test

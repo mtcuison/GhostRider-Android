@@ -1,4 +1,4 @@
-package org.rmj.g3appdriver.LeaveApplication;
+package org.rmj.g3appdriver.PetManager.LeaveApplication;
 
 
 import static org.junit.Assert.assertTrue;

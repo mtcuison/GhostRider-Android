@@ -5,6 +5,7 @@ import androidx.room.Dao;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import org.rmj.g3appdriver.GCircle.room.Entities.ENotificationMaster;
 import org.rmj.g3appdriver.GCircle.room.Entities.ENotificationRecipient;
 
 import java.util.List;
@@ -38,6 +39,9 @@ public interface DPayslip {
             "AND a.sMsgTitle LIKE 'PAYSLIP%' " +
             "AND b.sRecpntID = (SELECT sUserIDxx FROM User_Info_Master)")
     LiveData<Integer> GetUnreadPayslipCount();
+
+    @Query("SELECT * FROM Notification_Info_Master WHERE sMesgIDxx=:MesgID")
+    ENotificationMaster CheckIfExist(String MesgID);
 
     class Payslip{
         public String sTransNox;
