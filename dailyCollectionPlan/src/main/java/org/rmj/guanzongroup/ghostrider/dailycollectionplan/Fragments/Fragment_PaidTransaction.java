@@ -179,6 +179,7 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
         });
 
         spnType.setAdapter(new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_dropdown_item, DCP_Constants.PAYMENT_TYPE));
+        spnType.setSelection(0);
 
         mViewModel.GetPrNumber().observe(getViewLifecycleOwner(), s -> {
             if(s != null){
