@@ -7,7 +7,7 @@ import android.app.Application;
 import org.rmj.g3appdriver.GCircle.Api.GCircleApi;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 
-public class SamsungKnox {
+public abstract class SamsungKnox {
     private static final String TAG = SamsungKnox.class.getSimpleName();
 
     protected final Application instance;
@@ -21,27 +21,9 @@ public class SamsungKnox {
         poHeaders = HttpHeaders.getInstance(instance);
     }
 
-    public String getMessage(){
-        return message;
-    }
+    public abstract String getMessage();
 
-    public String GetResult(String DeviceID, String Remarks){
-        try{
-            return "";
-        } catch (Exception e){
-            e.printStackTrace();
-            message = getLocalMessage(e);
-            return null;
-        }
-    }
+    public abstract String GetResult(String DeviceID, String Remarks);
 
-    public String GetResult(String DeviceID){
-        try{
-            return "";
-        } catch (Exception e){
-            e.printStackTrace();
-            message = getLocalMessage(e);
-            return null;
-        }
-    }
+    public abstract String GetResult(String DeviceID);
 }

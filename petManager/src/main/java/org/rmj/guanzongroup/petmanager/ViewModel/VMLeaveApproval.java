@@ -27,8 +27,6 @@ import org.rmj.g3appdriver.GCircle.room.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeLeave;
 import org.rmj.g3appdriver.lib.Etc.Branch;
 import org.rmj.g3appdriver.GCircle.Apps.PetManager.Obj.EmployeeLeave;
-import org.rmj.g3appdriver.GCircle.Apps.PetManager.PetManager;
-import org.rmj.g3appdriver.GCircle.Apps.PetManager.model.iPM;
 import org.rmj.g3appdriver.GCircle.Apps.PetManager.pojo.LeaveApprovalInfo;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 
@@ -43,7 +41,7 @@ public class VMLeaveApproval extends AndroidViewModel {
     public static final String TAG = VMLeaveApproval.class.getSimpleName();
     private final Application instance;
     private final Branch pobranch;
-    private final iPM poSys;
+    private final EmployeeLeave poSys;
     private final ConnectionUtil poConn;
 
 
@@ -57,7 +55,7 @@ public class VMLeaveApproval extends AndroidViewModel {
         super(application);
         this.instance = application;
         this.pobranch = new Branch(instance);
-        this.poSys = new PetManager(instance).GetInstance(PetManager.ePetManager.LEAVE_APPLICATION);
+        this.poSys = new EmployeeLeave(instance);
         this.poConn = new ConnectionUtil(instance);
         this.TransNox.setValue("");
     }

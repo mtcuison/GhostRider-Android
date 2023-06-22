@@ -53,4 +53,9 @@ public class KnoxUnlock extends SamsungKnox {
     public String getMessage() {
         return message;
     }
+
+    @Override
+    public String GetResult(String DeviceID, String Remarks) {
+        return null;
+    }
 }

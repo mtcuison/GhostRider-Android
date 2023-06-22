@@ -11,9 +11,9 @@ import androidx.lifecycle.LiveData;
 
 import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
 import org.rmj.g3appdriver.GCircle.Apps.BullsEye.obj.AreaPerformance;
+import org.rmj.g3appdriver.GCircle.Apps.PetManager.Obj.EmployeeLeave;
+import org.rmj.g3appdriver.GCircle.Apps.PetManager.Obj.EmployeeOB;
 import org.rmj.g3appdriver.GCircle.Apps.PetManager.OnCheckEmployeeApplicationListener;
-import org.rmj.g3appdriver.GCircle.Apps.PetManager.PetManager;
-import org.rmj.g3appdriver.GCircle.Apps.PetManager.model.iPM;
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DBranchOpeningMonitor;
 import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeBusinessTrip;
 import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeInfo;
@@ -24,7 +24,6 @@ import org.rmj.g3appdriver.lib.Notifications.Obj.Notification;
 import org.rmj.g3appdriver.lib.Panalo.Obj.ILOVEMYJOB;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.Task.OnDoBackgroundTaskListener;
-import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
 import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 
 import java.util.List;
@@ -39,7 +38,6 @@ public class VMHomeAH extends AndroidViewModel {
     private final BranchOpeningMonitor poOpening;
     private final Notification poNotification;
     private final ILOVEMYJOB poPanalo;
-    private iPM poApp;
 
     public VMHomeAH(@NonNull Application application) {
         super(application);
@@ -79,13 +77,11 @@ public class VMHomeAH extends AndroidViewModel {
 
 
     public LiveData<List<EEmployeeLeave>> GetLeaveForApproval() {
-        this.poApp = new PetManager(instance).GetInstance(PetManager.ePetManager.LEAVE_APPLICATION);
-        return poApp.GetLeaveApplicationsForApproval();
+        return new EmployeeLeave(instance).GetLeaveApplicationsForApproval();
     }
 
     public LiveData<List<EEmployeeBusinessTrip>> GetOBForApproval() {
-        this.poApp = new PetManager(instance).GetInstance(PetManager.ePetManager.BUSINESS_TRIP_APPLICATION);
-        return poApp.GetOBApplicationsForApproval();
+        return new EmployeeOB(instance).GetOBApplicationsForApproval();
     }
 
     public LiveData<List<DBranchOpeningMonitor.BranchOpeningInfo>> GetRecentlyOpenBranches() {
@@ -93,7 +89,6 @@ public class VMHomeAH extends AndroidViewModel {
     }
 
     public void CheckApplicationsForApproval(OnCheckEmployeeApplicationListener listener) {
-//        new CheckApplicationForApprovalTask(listener).execute();
         TaskExecutor.Execute(null, new OnDoBackgroundTaskListener() {
             @Override
             public Object DoInBackground(Object args) {
@@ -103,16 +98,14 @@ public class VMHomeAH extends AndroidViewModel {
                     return false;
                 }
 
-                poApp = new PetManager(instance).GetInstance(PetManager.ePetManager.LEAVE_APPLICATION);
-                if(!poApp.ImportApplications()){
-                    Log.e(TAG, poApp.getMessage());
+                if(!new EmployeeLeave(instance).ImportApplications()){
+                    Log.e(TAG, "Failed to import leave applications");
                 }
 
                 Thread.sleep(1000);
 
-                poApp = new PetManager(instance).GetInstance(PetManager.ePetManager.BUSINESS_TRIP_APPLICATION);
-                if(!poApp.ImportApplications()){
-                    Log.e(TAG, poApp.getMessage());
+                if(!new EmployeeOB(instance).ImportApplications()){
+                    Log.e(TAG, "Failed to import business trip applications");
                 }
 
                 return true;

@@ -79,6 +79,11 @@ public class KnoxOfflinePin extends SamsungKnox {
     }
 
     @Override
+    public String GetResult(String DeviceID) {
+        return null;
+    }
+
+    @Override
     public String getMessage() {
         return message;
     }

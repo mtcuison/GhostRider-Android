@@ -80,7 +80,12 @@ public class KnoxGetStatus extends SamsungKnox {
 
     @Override
     public String getMessage() {
-        return super.getMessage();
+        return message;
+    }
+
+    @Override
+    public String GetResult(String DeviceID, String Remarks) {
+        return null;
     }
 
     public String getDeviceID() {

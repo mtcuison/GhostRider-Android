@@ -18,7 +18,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.rmj.g3appdriver.GCircle.Apps.PetManager.PetManager;
-import org.rmj.g3appdriver.GCircle.Apps.PetManager.model.iPM;
+import org.rmj.g3appdriver.GCircle.Apps.PetManager.model.PetMngr;
 import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeLeave;
 
 import java.util.List;
@@ -30,7 +30,7 @@ public class TestImportLeaveApplication {
 
     private Application instance;
 
-    private iPM poSys;
+    private PetMngr poSys;
 
     private boolean isSuccess = false;
 

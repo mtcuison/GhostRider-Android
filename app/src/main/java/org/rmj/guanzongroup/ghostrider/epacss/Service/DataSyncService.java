@@ -22,8 +22,8 @@ import android.util.Log;
 
 import org.rmj.g3appdriver.GCircle.Apps.ApprovalCode.ApprovalCode;
 import org.rmj.g3appdriver.GCircle.Apps.Itinerary.Obj.EmployeeItinerary;
-import org.rmj.g3appdriver.GCircle.Apps.PetManager.PetManager;
-import org.rmj.g3appdriver.GCircle.Apps.PetManager.model.iPM;
+import org.rmj.g3appdriver.GCircle.Apps.PetManager.Obj.EmployeeLeave;
+import org.rmj.g3appdriver.GCircle.Apps.PetManager.Obj.EmployeeOB;
 import org.rmj.g3appdriver.GCircle.Apps.SelfieLog.SelfieLog;
 import org.rmj.g3appdriver.GCircle.Apps.CashCount.CashCount;
 import org.rmj.g3appdriver.GCircle.Apps.CreditApp.CreditOnlineApplication;
@@ -80,7 +80,7 @@ public class DataSyncService extends BroadcastReceiver {
                     }
                     Thread.sleep(1000);
 
-                    iPM loLeave = new PetManager(instance).GetInstance(PetManager.ePetManager.LEAVE_APPLICATION);
+                    EmployeeLeave loLeave = new EmployeeLeave(instance);
                     if(loLeave.UploadApplications()){
                         message = "Leave application/s uploaded successfully";
                         TaskExecutor.ShowProgress(() -> GNotifBuilder.createNotification(instance, GNotifBuilder.BROADCAST_RECEIVER, message, GNotifBuilder.SYNC_PROGRESS).show());
@@ -90,7 +90,7 @@ public class DataSyncService extends BroadcastReceiver {
                     }
                     Thread.sleep(1000);
 
-                    iPM loBustrp = new PetManager(instance).GetInstance(PetManager.ePetManager.BUSINESS_TRIP_APPLICATION);
+                    EmployeeOB loBustrp = new EmployeeOB(instance);
                     if(loBustrp.UploadApplications()){
                         message = "Business trip application/s uploaded successfully";
                         TaskExecutor.ShowProgress(() -> GNotifBuilder.createNotification(instance, GNotifBuilder.BROADCAST_RECEIVER, message, GNotifBuilder.SYNC_PROGRESS).show());
