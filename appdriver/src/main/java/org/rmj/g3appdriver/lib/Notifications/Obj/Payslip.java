@@ -16,8 +16,10 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DPayslip;
 import org.rmj.g3appdriver.GCircle.room.Entities.ENotificationMaster;
+import org.rmj.g3appdriver.GCircle.room.Entities.ENotificationRecipient;
 import org.rmj.g3appdriver.GCircle.room.GGC_GCircleDB;
 import org.rmj.g3appdriver.dev.Api.WebClient;
+import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.lib.Notifications.NOTIFICATION_STATUS;
 import org.rmj.g3appdriver.lib.Notifications.Obj.Receiver.NMM_Regular;
 
@@ -152,12 +154,35 @@ public class Payslip extends NMM_Regular {
                 ENotificationMaster _loMaster = poDao.CheckIfExist(lsMesgID);
 
                 if(_loMaster == null){
+                    ENotificationMaster loMaster = new ENotificationMaster();
+                    String lsTransNox = CreateUniqueID();
+                    loMaster.setTransNox(lsTransNox);
+                    loMaster.setMesgIDxx(joMaster.getString("sTransNox"));
+                    loMaster.setParentxx(joMaster.getString("sParentxx"));
+                    loMaster.setCreatedx(joMaster.getString("dCreatedx"));
+                    loMaster.setAppSrcex(joMaster.getString("sAppSrcex"));
+                    loMaster.setCreatrID(joMaster.getString("sCreatedx"));
+                    loMaster.setCreatrNm("");
+                    loMaster.setDataSndx(joMaster.getString("sDataSndx"));
+                    loMaster.setMsgTitle(joMaster.getString("sMsgTitle"));
+                    loMaster.setMessagex(joMaster.getString("sMessagex"));
+                    loMaster.setMsgTypex(joMaster.getString("sMsgTypex"));
+                    loMaster.setURLxxxxx(joMaster.getString("sImageURL"));
 
+                    ENotificationRecipient loDetail = new ENotificationRecipient();
+                    loDetail.setTransNox(lsMesgID);
+                    loDetail.setAppRcptx(joDetail.getString("sAppRcptx"));
+                    loDetail.setRecpntID(joDetail.getString("sRecpntxx"));
+                    loDetail.setRecpntNm("");
+                    loDetail.setMesgStat(joDetail.getString("cMesgStat"));
+                    loDetail.setReceived("");
+                    loDetail.setTimeStmp("");
+
+                    poDao.insert(loMaster);
+                    Log.d(TAG, "Payslip master record has been saved!");
+                    poDao.insert(loDetail);
+                    Log.d(TAG, "Payslip detail record has been saved!");
                 }
-
-                ENotificationMaster loMaster = new ENotificationMaster();
-
-                Log.d(TAG, loPayload.toString());
             }
 
             return true;

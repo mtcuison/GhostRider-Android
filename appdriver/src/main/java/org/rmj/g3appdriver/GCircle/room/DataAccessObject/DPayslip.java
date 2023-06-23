@@ -2,6 +2,7 @@ package org.rmj.g3appdriver.GCircle.room.DataAccessObject;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
+import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
@@ -12,6 +13,12 @@ import java.util.List;
 
 @Dao
 public interface DPayslip {
+
+    @Insert
+    void insert(ENotificationMaster notificationMaster);
+
+    @Insert
+    void insert(ENotificationRecipient notificationRecipient);
 
     @Update
     void Update(ENotificationRecipient foVal);

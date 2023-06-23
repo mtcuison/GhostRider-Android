@@ -130,14 +130,14 @@ public class DataSyncService extends BroadcastReceiver {
                     }
                     Thread.sleep(1000);
 
-                DeviceLocationRecords loLoct = new DeviceLocationRecords(instance);
-                if(loLoct.uploadUnsentLocationTracks()){
-                    Log.d(TAG, "Location tracking uploaded successfully");
-                } else {
-                    message = loLoct.getMessage();
-                    Log.e(TAG, message);
-                }
-                Thread.sleep(1000);
+                    DeviceLocationRecords loLoct = new DeviceLocationRecords(instance);
+                    if(loLoct.uploadUnsentLocationTracks()){
+                        Log.d(TAG, "Location tracking uploaded successfully");
+                    } else {
+                        message = loLoct.getMessage();
+                        Log.e(TAG, message);
+                    }
+                    Thread.sleep(1000);
 
                     CreditOnlineApplication loApp = new CreditOnlineApplication(instance);
                     if(loApp.UploadApplications()){
