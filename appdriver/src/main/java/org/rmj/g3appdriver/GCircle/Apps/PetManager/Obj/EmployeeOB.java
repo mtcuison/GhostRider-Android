@@ -341,7 +341,7 @@ public class EmployeeOB extends PetMngr {
 
     @Override
     public String getMessage() {
-        return null;
+        return message;
     }
 
     public boolean UploadApprovals() {

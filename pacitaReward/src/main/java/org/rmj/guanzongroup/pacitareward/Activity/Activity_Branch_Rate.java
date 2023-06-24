@@ -61,9 +61,8 @@ public class Activity_Branch_Rate extends AppCompatActivity {
 
         /*TOOL BAR*/
         setSupportActionBar(toolbar); //set object toolbar as default action bar for activity
-        getSupportActionBar().setTitle(","); //set default title for action bar
+        toolbar.setTitle("");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); //set back button to toolbar
-        getSupportActionBar().setDisplayShowHomeEnabled(true); //enable the back button set on toolbar
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

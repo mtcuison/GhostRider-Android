@@ -60,7 +60,7 @@ public class VMGetStatus extends AndroidViewModel {
                         return null;
                     }
 
-                    String lsResult = poSys.GetResult(DeviceID);
+                    String lsResult = poSys.GetResult(lsDeviceID);
 
                     if(lsResult == null){
                         message = poSys.getMessage();

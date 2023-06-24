@@ -83,6 +83,7 @@ public class Fragment_GetStatus extends Fragment implements ViewModelCallBack {
 
     @Override
     public void OnRequestSuccess(String args, String args1, String args2, String args3) {
+        dialog.dismiss();
         lblDeviceID.setText(args);
         lblStatus.setText(args1);
         lblDetails.setText(args2);

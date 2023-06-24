@@ -60,7 +60,8 @@ public class KnoxOfflinePin extends SamsungKnox {
             Log.d(TAG, lsResponse);
             JSONObject loResponse = new JSONObject(lsResponse);
             String lsResult = loResponse.getString("result");
-            if (lsResult.equalsIgnoreCase("error")) {
+            if (lsResult.equalsIgnoreCase("FAIL") ||
+                    lsResult.equalsIgnoreCase("error")) {
                 JSONObject loError = loResponse.getJSONObject("error");
                 message = KnoxResult.getMessage(loError);
                 return null;

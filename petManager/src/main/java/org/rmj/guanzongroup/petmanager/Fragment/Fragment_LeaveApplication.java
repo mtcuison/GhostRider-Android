@@ -11,6 +11,7 @@
 
 package org.rmj.guanzongroup.petmanager.Fragment;
 
+import static org.rmj.g3appdriver.etc.AppConstants.GetLeaveTypeIndex;
 import static org.rmj.g3appdriver.etc.AppConstants.LEAVE_TYPE;
 
 import android.annotation.SuppressLint;
@@ -101,7 +102,7 @@ public class Fragment_LeaveApplication extends Fragment {
             }
         });
 
-        spnType.setAdapter(new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_item, LEAVE_TYPE));
+        spnType.setAdapter(new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_dropdown_item, LEAVE_TYPE));
         spnType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -188,6 +189,7 @@ public class Fragment_LeaveApplication extends Fragment {
                     lnNoDays = Integer.parseInt(lsNoDays);
                 }
                 poLeave.setNoOfDaysx(lnNoDays);
+                poLeave.setLeaveType(GetLeaveTypeIndex(spnType.getText().toString()));
                 poLeave.setRemarksxx(Objects.requireNonNull(txtRemarks.getText()).toString());
                 mViewModel.SaveApplication(poLeave, new VMLeaveApplication.LeaveApplicationCallback() {
                     @Override

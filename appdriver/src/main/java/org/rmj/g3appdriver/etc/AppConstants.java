@@ -194,6 +194,15 @@ public class AppConstants {
             "Solo Parent",
             "Saturday"};
 
+    public static String GetLeaveTypeIndex(String PaymentType){
+        for(int x = 0; x < LEAVE_TYPE.length; x++){
+            if(PaymentType.equalsIgnoreCase(LEAVE_TYPE[x])){
+                return String.valueOf(x);
+            }
+        }
+        return "";
+    }
+
     public String DATE_MODIFIED = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Calendar.getInstance().getTime());
 
     public static String DATE_MODIFIED(){

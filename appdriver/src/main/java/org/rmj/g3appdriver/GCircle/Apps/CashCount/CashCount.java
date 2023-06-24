@@ -87,6 +87,53 @@ public class CashCount {
 
     public String SaveCashCount(JSONObject foVal){
         try{
+            String lsBranchCd = foVal.getString("sBranchCd");
+            double lsPettyAmt = foVal.getDouble("nPettyAmt");
+            String lsEntryDte = foVal.getString("dEntryDte");
+            String lsTransact = AppConstants.CURRENT_DATE();
+            int lnCn0001cx = foVal.getInt("nCn0001cx");
+            int lnCn0005cx = foVal.getInt("nCn0005cx");
+            int lnCn0010cx = foVal.getInt("nCn0010cx");
+            int lnCn0025cx = foVal.getInt("nCn0025cx");
+            int lnCn0050cx = foVal.getInt("nCn0050cx");
+            int lnCn0001px = foVal.getInt("nCn0001px");
+            int lnCn0005px = foVal.getInt("nCn0005px");
+            int lnCn0010px = foVal.getInt("nCn0010px");
+            int lnNte0020p = foVal.getInt("nNte0020p");
+            int lnNte0050p = foVal.getInt("nNte0050p");
+            int lnNte0100p = foVal.getInt("nNte0100p");
+            int lnNte0200p = foVal.getInt("nNte0200p");
+            int lnNte0500p = foVal.getInt("nNte0500p");
+            int lnNte1000p = foVal.getInt("nNte1000p");
+
+            ECashCount loDetail = poDao.CheckCashCountIfExist(lsBranchCd,
+                    lsPettyAmt,
+                    lsEntryDte,
+                    lsTransact,
+                    lnCn0001cx,
+                    lnCn0005cx,
+                    lnCn0010cx,
+                    lnCn0025cx,
+                    lnCn0050cx,
+                    lnCn0001px,
+                    lnCn0005px,
+                    lnCn0010px,
+                    lnNte0020p,
+                    lnNte0050p,
+                    lnNte0100p,
+                    lnNte0200p,
+                    lnNte0500p,
+                    lnNte1000p);
+
+            if(loDetail != null){
+                if(loDetail.getSendStat() == 1){
+                    message = "Cash count entry was already save.";
+                    return null;
+                }
+
+                return loDetail.getTransNox();
+            }
+
             ECashCount loCash = new ECashCount();
             String lsTransNo = CreateUniqueID();
             loCash.setTransNox(lsTransNo);
@@ -208,7 +255,6 @@ public class CashCount {
             params.put("sReqstdBy", loCash.getReqstdBy());
             params.put("sRemarksx", loCash.getRemarksx());
 
-            Log.d(TAG, params.toString());
             String lsResponse = WebClient.sendRequest(
                     poApi.getUrlSubmitCashcount(),
                     params.toString(),
@@ -219,7 +265,6 @@ public class CashCount {
                 return false;
             }
 
-            Log.d(TAG, lsResponse);
             JSONObject loResponse = new JSONObject(lsResponse);
             String lsResult = loResponse.getString("result");
             if(lsResult.equalsIgnoreCase("error")){
@@ -287,7 +332,6 @@ public class CashCount {
                 params.put("sReqstdBy", loCash.getReqstdBy());
                 params.put("sRemarksx", loCash.getRemarksx());
 
-                Log.d(TAG, params.toString());
                 String lsResponse = WebClient.sendRequest(
                         poApi.getUrlSubmitCashcount(),
                         params.toString(),

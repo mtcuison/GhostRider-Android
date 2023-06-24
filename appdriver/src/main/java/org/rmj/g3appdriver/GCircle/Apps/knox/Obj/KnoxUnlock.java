@@ -35,7 +35,8 @@ public class KnoxUnlock extends SamsungKnox {
 
             JSONObject loResponse = new JSONObject(lsResponse);
             String lsResult = loResponse.getString("result");
-            if (lsResult.equalsIgnoreCase("error")) {
+            if (lsResult.equalsIgnoreCase("FAIL") ||
+                    lsResult.equalsIgnoreCase("error")) {
                 JSONObject loError = loResponse.getJSONObject("error");
                 message = KnoxResult.getMessage(loError);
                 return null;

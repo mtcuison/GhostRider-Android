@@ -34,7 +34,8 @@ public interface DPayslip {
             "WHERE a.sMsgTypex = '00000' " +
             "AND a.sAppSrcex = 'IntegSys' " +
             "AND a.sMsgTitle LIKE 'PAYSLIP%' " +
-            "AND b.sRecpntID = (SELECT sUserIDxx FROM User_Info_Master)")
+            "AND b.sRecpntID = (SELECT sUserIDxx FROM User_Info_Master) " +
+            "ORDER BY dCreatedx ASC")
     LiveData<List<Payslip>> GetPaySlipList();
 
     @Query("SELECT COUNT(b.sTransNox) " +

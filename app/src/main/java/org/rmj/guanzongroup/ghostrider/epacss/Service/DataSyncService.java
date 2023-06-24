@@ -28,6 +28,7 @@ import org.rmj.g3appdriver.GCircle.Apps.SelfieLog.SelfieLog;
 import org.rmj.g3appdriver.GCircle.Apps.CashCount.CashCount;
 import org.rmj.g3appdriver.GCircle.Apps.CreditApp.CreditOnlineApplication;
 import org.rmj.g3appdriver.GCircle.room.Repositories.DeviceLocationRecords;
+import org.rmj.g3appdriver.lib.Notifications.Obj.Payslip;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.Task.OnDoBackgroundTaskListener;
 import org.rmj.g3appdriver.utils.Task.TaskExecutor;
@@ -147,6 +148,10 @@ public class DataSyncService extends BroadcastReceiver {
                         Log.e(TAG, message);
                     }
                     Thread.sleep(1000);
+
+                    if(new Payslip(instance).ImportPayslipNotifications()){
+                        Log.d(TAG, "Payslips imported successfully.");
+                    }
 
                     message = "Local data and server is updated.";
                     Log.d(TAG, message);
