@@ -15,11 +15,12 @@ import java.util.List;
 
 @Dao
 public interface DClientInfo {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+
+    @Insert
     void insert(EClientInfo eClientInfo);
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertBulkData(List<EClientInfo> eClientInfoList);
+    @Query("DELETE FROM Client_Profile_Info")
+    void RemoveSessions();
 
     @Update
     void update(EClientInfo eClientInfo);

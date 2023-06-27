@@ -20,13 +20,13 @@ import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textview.MaterialTextView;
 
-import org.rmj.g3appdriver.GCircle.Apps.CreditApp.OnSaveInfoListener;
 import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.Ganado.model.GConstants;
 import org.rmj.g3appdriver.lib.Ganado.pojo.InstallmentInfo;
 import org.rmj.g3appdriver.utils.ImageFileManager;
 import org.rmj.guanzongroup.ganado.R;
+import org.rmj.guanzongroup.ganado.ViewModel.OnSaveInfoListener;
 import org.rmj.guanzongroup.ganado.ViewModel.VMProductInquiry;
 
 import java.text.SimpleDateFormat;

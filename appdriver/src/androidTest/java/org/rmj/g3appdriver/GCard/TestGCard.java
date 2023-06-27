@@ -54,13 +54,13 @@ public class TestGCard {
 
     @Test
     public void test02AddNewGCardNumber() throws Exception{
-        int lnResult = poSys.AddGcard(new GcardCredentials("", ""));
+        int lnResult = poSys.AddGcard(new GcardCredentials("4500204358401", "1962-01-01"));
         if(lnResult == 1){
             isSuccess = true;
         } else if(lnResult == 2){
             Thread.sleep(1000);
             Log.d(TAG, poSys.getMessage());
-            if(poSys.ConfirmGCard(new GcardCredentials("", ""))){
+            if(poSys.ConfirmGCard(new GcardCredentials("4500204358401", "1962-01-01"))){
                 isSuccess = true;
             } else {
                 Log.e(TAG, poSys.getMessage());

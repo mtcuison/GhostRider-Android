@@ -1,6 +1,7 @@
 package org.rmj.g3appdriver.Marketplace;
 
 import static org.junit.Assert.assertTrue;
+import static org.rmj.g3appdriver.GConnect.Marketplace.Product.pojo.FilterType.DEFAULT;
 
 import android.app.Application;
 import android.util.Log;
@@ -56,9 +57,9 @@ public class TestProducts {
 
     @Test
     public void test02GetProductList() {
-        poSys.GetProductsList(0).observeForever(new Observer<List<EProducts>>() {
+        poSys.GetProductsList(0, DEFAULT, null, null).observeForever(new Observer<List<DProduct.oProduct>>() {
             @Override
-            public void onChanged(List<EProducts> oProducts) {
+            public void onChanged(List<DProduct.oProduct> oProducts) {
                 if(oProducts == null){
                     return;
                 }
@@ -68,8 +69,8 @@ public class TestProducts {
                 }
 
                 for(int x=0; x < oProducts.size(); x++){
-//                    Log.d(TAG, "Product Name : " + oProducts.get(x).sProdctNm);
-//                    Log.d(TAG, "Price : " + oProducts.get(x).sPricexxx);
+                    Log.d(TAG, "Product Name : " + oProducts.get(x).sProdctNm);
+                    Log.d(TAG, "Price : " + oProducts.get(x).sPricexxx);
                 }
             }
         });
