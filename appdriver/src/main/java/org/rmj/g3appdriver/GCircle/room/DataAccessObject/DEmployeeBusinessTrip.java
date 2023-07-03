@@ -65,7 +65,7 @@ public interface DEmployeeBusinessTrip {
     @Query("UPDATE Employee_Business_Trip SET cSendStat = '1' WHERE sTransNox=:TransNox")
     void updateObApprovalPostedStatus(String TransNox);
 
-    @Query("SELECT * FROM Employee_Business_Trip WHERE sApproved IS NULL AND dApproved IS NULL")
+    @Query("SELECT * FROM Employee_Business_Trip WHERE sApproved IS NULL AND dApproved IS NULL ORDER BY dTransact DESC")
     LiveData<List<EEmployeeBusinessTrip>> getOBListForApproval();
 
     @Query("SELECT * FROM Employee_Business_Trip " +
