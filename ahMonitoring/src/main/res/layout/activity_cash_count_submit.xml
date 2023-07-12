@@ -133,8 +133,8 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_quick_search"
-                style="@style/Widget.App.Button.OutlinedButton.IconOnly"
-                android:layout_width="0dp"
+                style="@style/OutlinedButton.IconOnly"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 app:icon="@drawable/ic_name_search"

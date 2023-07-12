@@ -38,7 +38,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_default="percent" />
 
-
     <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/progress_splashscreen"
         android:layout_width="0dp"
