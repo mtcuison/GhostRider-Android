@@ -190,7 +190,7 @@ public class Activity_DisbursementInfo extends AppCompatActivity {
             if(infoModel.getAcctType() != null) {
                 if(!infoModel.getAcctType().equalsIgnoreCase("")) {
                     spnTypex.setText(CreditAppConstants.ACCOUNT_TYPE[Integer.parseInt(infoModel.getAcctType())]);
-                    spnTypex.setSelection(Integer.parseInt(infoModel.getAcctType()));
+//                    spnTypex.setSelection(Integer.parseInt(infoModel.getAcctType()));
                     mViewModel.getModel().setAcctType(infoModel.getAcctType());
                 }
             }

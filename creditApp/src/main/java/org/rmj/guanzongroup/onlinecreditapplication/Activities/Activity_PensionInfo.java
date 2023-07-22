@@ -162,7 +162,7 @@ public class Activity_PensionInfo extends AppCompatActivity {
         if (foDetail != null){
             if(!foDetail.getPensionSector().isEmpty()){
                 spnSector.setText(CreditAppConstants.PENSION_SECTOR[Integer.parseInt(foDetail.getPensionSector())], false);
-                spnSector.setSelection(Integer.parseInt(foDetail.getPensionSector()));
+//                spnSector.setSelection(Integer.parseInt(foDetail.getPensionSector()));
                 sectorPosition = foDetail.getPensionSector();
                 mViewModel.getModel().setPensionSector(foDetail.getPensionSector());
             }

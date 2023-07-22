@@ -500,13 +500,13 @@ public class Activity_ResidenceInfo extends AppCompatActivity {
             }
             if(!"".equalsIgnoreCase(infoModel.getHouseOwn())){
                 spnHouseHold.setText(CreditAppConstants.HOUSEHOLDS[Integer.parseInt(infoModel.getHouseOwn())]);
-                spnHouseHold.setSelection(Integer.parseInt(infoModel.getHouseOwn()));
+//                spnHouseHold.setSelection(Integer.parseInt(infoModel.getHouseOwn()));
                 mViewModel.getModel().setHouseHold(infoModel.getHouseOwn());
             }
 
             if(!"".equalsIgnoreCase(infoModel.getHouseType())){
                 spnHouseType.setText(CreditAppConstants.HOUSE_TYPE[Integer.parseInt(infoModel.getHouseType())]);
-                spnHouseType.setSelection(Integer.parseInt(infoModel.getHouseType()));
+//                spnHouseType.setSelection(Integer.parseInt(infoModel.getHouseType()));
                 mViewModel.getModel().setHouseType(infoModel.getHouseType());
             }
             txtMonthlyExp.setText(!"".equalsIgnoreCase(String.valueOf(infoModel.getMonthlyExpenses())) ? String.valueOf(infoModel.getMonthlyExpenses()) : "");

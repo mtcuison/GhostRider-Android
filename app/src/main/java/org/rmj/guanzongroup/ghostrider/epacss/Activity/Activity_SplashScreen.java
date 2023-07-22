@@ -15,6 +15,7 @@ import static org.rmj.g3appdriver.utils.ServiceScheduler.FIFTEEN_MINUTE_PERIODIC
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -113,9 +114,13 @@ public class Activity_SplashScreen extends AppCompatActivity {
             loMessage.setTitle("Guanzon Circle");
             loMessage.setMessage("Guanzon Circle collects location data for Selfie Log, DCP and other major features of the app" +
                     " even when the app is closed or not in use.");
-            loMessage.setPositiveButton("Continue", (view, dialog) -> {
+            loMessage.setPositiveButton("Agree", (view, dialog) -> {
                 dialog.dismiss();
                 CheckPermissions();
+            });
+            loMessage.setNegativeButton("Disagree", (view, dialog) -> {
+                dialog.dismiss();
+                finish();
             });
             loMessage.show();
             findViewById(R.id.lblFirstLaunchNotice).setVisibility(View.VISIBLE);

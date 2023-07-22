@@ -348,13 +348,13 @@ public class Activity_ComakerResidence extends AppCompatActivity {
             }
             if(!"".equalsIgnoreCase(infoModel.getHouseHold())){
                 spnHouseHold.setText(CreditAppConstants.HOUSEHOLDS[Integer.parseInt(infoModel.getHouseHold())]);
-                spnHouseHold.setSelection(Integer.parseInt(infoModel.getHouseHold()));
+//                spnHouseHold.setSelection(Integer.parseInt(infoModel.getHouseHold()));
                 mViewModel.getModel().setHouseHold(infoModel.getHouseHold());
             }
 
             if(!"".equalsIgnoreCase(infoModel.getHouseType())){
                 spnHouseType.setText(CreditAppConstants.HOUSE_TYPE[Integer.parseInt(infoModel.getHouseType())]);
-                spnHouseType.setSelection(Integer.parseInt(infoModel.getHouseType()));
+//                spnHouseType.setSelection(Integer.parseInt(infoModel.getHouseType()));
                 mViewModel.getModel().setHouseType(infoModel.getHouseType());
             }
 

@@ -193,7 +193,6 @@ public class Activity_Finance extends AppCompatActivity {
         if (infoModel != null){
             if(!infoModel.getFinancierRelation().isEmpty()){
                 spnRelation.setText(CreditAppConstants.FINANCE_SOURCE[Integer.parseInt(infoModel.getFinancierRelation())], false);
-                spnRelation.setSelection(Integer.parseInt(infoModel.getFinancierRelation()));
                 mViewModel.getModel().setFinancierRelation(infoModel.getFinancierRelation());
             }
             relationX = infoModel.getFinancierRelation();

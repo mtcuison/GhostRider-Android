@@ -243,13 +243,11 @@ public class Activity_SelfEmployedInfo extends AppCompatActivity {
 
             if(!"".equalsIgnoreCase(infoModel.getNatureOfBusiness())) {
                 spnBussNtr.setText(CreditAppConstants.BUSINESS_NATURE[Integer.parseInt(infoModel.getNatureOfBusiness())], false);
-                spnBussNtr.setSelection(Integer.parseInt(infoModel.getNatureOfBusiness()));
                 mViewModel.getModel().setNatureOfBusiness(infoModel.getNatureOfBusiness());
             }
 
             if(!"".equalsIgnoreCase(infoModel.getTypeOfBusiness())) {
                 spnBussTyp.setText(CreditAppConstants.BUSINESS_TYPE[Integer.parseInt(infoModel.getTypeOfBusiness())], false);
-                spnBussTyp.setSelection(Integer.parseInt(infoModel.getTypeOfBusiness()));
                 mViewModel.getModel().setTypeOfBusiness(infoModel.getTypeOfBusiness());
             }
 

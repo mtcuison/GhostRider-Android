@@ -333,17 +333,17 @@ public class Activity_OtherInfo extends AppCompatActivity {
 
             if(infoModel.getsUnitUser() != null){
                 spnUnitUser.setText(CreditAppConstants.UNIT_USER[Integer.parseInt(infoModel.getsUnitUser())], false);
-                spnUnitUser.setSelection(Integer.parseInt(infoModel.getsUnitUser()));
+//                spnUnitUser.setSelection(Integer.parseInt(infoModel.getsUnitUser()));
                 mViewModel.getModel().setsUnitUser(infoModel.getsUnitUser());
             }
             if(infoModel.getsPurposex() != null){
                 spnUnitPrps.setText(CreditAppConstants.UNIT_PURPOSE[Integer.parseInt(infoModel.getsPurposex())], false);
-                spnUnitPrps.setSelection(Integer.parseInt(infoModel.getsPurposex()));
+//                spnUnitPrps.setSelection(Integer.parseInt(infoModel.getsPurposex()));
                 mViewModel.getModel().setsPurposex(infoModel.getsPurposex());
             }
             if(infoModel.getsUnitPayr() != null) {
                 spnUnitPayr.setText(CreditAppConstants.UNIT_USER[Integer.parseInt(infoModel.getsUnitPayr())], false);
-                spnUnitPayr.setSelection(Integer.parseInt(infoModel.getsUnitPayr()));
+//                spnUnitPayr.setSelection(Integer.parseInt(infoModel.getsUnitPayr()));
                 mViewModel.getModel().setsUnitPayr(infoModel.getsUnitPayr());
             }
 

@@ -371,7 +371,7 @@ public class Activity_CoMaker extends AppCompatActivity {
         if(infoModel != null) {
             if(!"".equalsIgnoreCase(infoModel.getRelation())){
                 spnBrwrRltn.setText(CreditAppConstants.CO_MAKER_RELATIONSHIP[Integer.parseInt(infoModel.getRelation())]);
-                spnBrwrRltn.setSelection(Integer.parseInt(infoModel.getRelation()));
+//                spnBrwrRltn.setSelection(Integer.parseInt(infoModel.getRelation()));
                 mViewModel.getModel().setRelation(infoModel.getRelation());
             }
             tieLastname.setText(infoModel.getLastName());
@@ -386,7 +386,7 @@ public class Activity_CoMaker extends AppCompatActivity {
 //            }
             if(!"".equalsIgnoreCase(infoModel.getIncomexx())){
                 spnIncmSrce .setText(CreditAppConstants.CO_MAKER_INCOME_SOURCE[Integer.parseInt(infoModel.getIncomexx())]);
-                spnIncmSrce.setSelection(Integer.parseInt(infoModel.getIncomexx()));
+//                spnIncmSrce.setSelection(Integer.parseInt(infoModel.getIncomexx()));
                 mViewModel.getModel().setIncomexx(infoModel.getIncomexx());
             }
             if(!"".equalsIgnoreCase(infoModel.getBrthPlce())) {

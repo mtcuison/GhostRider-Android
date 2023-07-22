@@ -458,7 +458,7 @@ public class Activity_PersonalInfo extends AppCompatActivity {
             }
             if(!"".equalsIgnoreCase(infoModel.getCvlStats())){
                 spnCivilStatus.setText(CreditAppConstants.CIVIL_STATUS[Integer.parseInt(infoModel.getCvlStats())], false);
-                spnCivilStatus.setSelection(Integer.parseInt(infoModel.getCvlStats()));
+//                spnCivilStatus.setSelection(Integer.parseInt(infoModel.getCvlStats()));
                 mViewModel.getModel().setCvlStats(infoModel.getCvlStats());
             }
             if(!"".equalsIgnoreCase(infoModel.getBrthPlce())) {

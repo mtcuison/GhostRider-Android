@@ -235,20 +235,20 @@ public class Activity_SpouseSelfEmploymentInfo extends AppCompatActivity {
 
             if(!"".equalsIgnoreCase(infoModel.getNatureOfBusiness())) {
                 spnBizIndustry.setText(CreditAppConstants.BUSINESS_NATURE[Integer.parseInt(infoModel.getNatureOfBusiness())], false);
-                spnBizIndustry.setSelection(Integer.parseInt(infoModel.getNatureOfBusiness()));
+//                spnBizIndustry.setSelection(Integer.parseInt(infoModel.getNatureOfBusiness()));
                 mViewModel.getModel().setNatureOfBusiness(infoModel.getNatureOfBusiness());
             }
 
             if(!"".equalsIgnoreCase(infoModel.getTypeOfBusiness())) {
                 spnBizType.setText(CreditAppConstants.BUSINESS_TYPE[Integer.parseInt(infoModel.getTypeOfBusiness())], false);
-                spnBizType.setSelection(Integer.parseInt(infoModel.getTypeOfBusiness()));
+//                spnBizType.setSelection(Integer.parseInt(infoModel.getTypeOfBusiness()));
                 mViewModel.getModel().setTypeOfBusiness(infoModel.getTypeOfBusiness());
             }
 
 
             if(!"".equalsIgnoreCase(infoModel.getSizeOfBusiness())) {
                 spnBizSize.setText(CreditAppConstants.BUSINESS_SIZE[Integer.parseInt(infoModel.getSizeOfBusiness())], false);
-                spnBizType.setSelection(Integer.parseInt(infoModel.getSizeOfBusiness()));
+//                spnBizType.setSelection(Integer.parseInt(infoModel.getSizeOfBusiness()));
                 mViewModel.getModel().setSizeOfBusiness(infoModel.getSizeOfBusiness());
             }
             int nlength = (int)(infoModel.getLenghtOfService() * 12);

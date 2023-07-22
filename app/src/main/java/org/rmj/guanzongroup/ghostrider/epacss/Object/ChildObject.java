@@ -36,7 +36,10 @@ import org.rmj.guanzongroup.ghostrider.samsungknox.Activity_Knox;
 import org.rmj.guanzongroup.onlinecreditapplication.Activities.Activity_BranchApplications;
 import org.rmj.guanzongroup.onlinecreditapplication.Activities.Activity_CoMaker;
 import org.rmj.guanzongroup.onlinecreditapplication.Activities.Activity_CreditApplications;
+import org.rmj.guanzongroup.onlinecreditapplication.Activities.Activity_EmploymentInfo;
 import org.rmj.guanzongroup.onlinecreditapplication.Activities.Activity_IntroductoryQuestion;
+import org.rmj.guanzongroup.onlinecreditapplication.Activities.Activity_PersonalInfo;
+import org.rmj.guanzongroup.onlinecreditapplication.Activities.Activity_SelfEmployedInfo;
 import org.rmj.guanzongroup.onlinecreditapplication.Activities.Activity_SpouseResidenceInfo;
 import org.rmj.guanzongroup.petmanager.Activity.Activity_Application;
 import org.rmj.guanzongroup.petmanager.Activity.Activity_EmployeeLoanEntry;
@@ -62,14 +65,15 @@ public class ChildObject {
                 loIntent = new Intent(context, Activity_CollectionList.class);
                 loIntent.putExtra("syscode", "2");
                 break;
+
             case "transaction log":
                 loIntent = new Intent(context, Activity_LogCollection.class);
                 loIntent.putExtra("syscode", "2");
                 break;
             case "loan application":
-                loIntent = new Intent(context, Activity_IntroductoryQuestion.class);
-//                loIntent = new Intent(context, Activity_CoMaker.class);
-//                loIntent.putExtra("sTransNox", "MX012300001");
+//                loIntent = new Intent(context, Activity_IntroductoryQuestion.class);
+                loIntent = new Intent(context, Activity_EmploymentInfo.class);
+                loIntent.putExtra("sTransNox", "MX012300009");
 //                loIntent = new Intent(context, Activity_CreditAppHome.class);
                 break;
             case "user application list":
