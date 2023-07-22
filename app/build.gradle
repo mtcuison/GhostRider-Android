@@ -16,15 +16,15 @@ plugins {
 }
 
 android {
-    compileSdkVersion 33
+    compileSdkVersion 34
     buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "org.rmj.guanzongroup.ghostrider.epacss"
         minSdkVersion 24
-        targetSdkVersion 33
-        versionCode 54
-        versionName "Build Version v.3.16.054 b"
+        targetSdkVersion 34
+        versionCode 55
+        versionName "Guanzon Circie v.3.16.055 s"
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

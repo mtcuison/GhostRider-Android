@@ -60,7 +60,7 @@ public class VMCreateAccount extends AndroidViewModel{
                     int lnResult = poSys.DoAction(args);
 
                     if(lnResult == 0){
-                        message = poConn.getMessage();
+                        message = poSys.getMessage();
                         return false;
                     }
 
