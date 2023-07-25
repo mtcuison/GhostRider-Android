@@ -18,10 +18,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditApp;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditOnlineApplication;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.LoanInfo;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditAppInstance;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.CreditApp;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.CreditOnlineApplication;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.model.LoanInfo;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.CreditAppInstance;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(AndroidJUnit4.class)

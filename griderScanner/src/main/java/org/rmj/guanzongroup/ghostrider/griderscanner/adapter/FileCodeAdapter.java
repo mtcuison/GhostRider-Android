@@ -27,8 +27,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DCreditApplicationDocuments;
-import org.rmj.g3appdriver.dev.Database.Entities.EFileCode;
+import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DCreditApplicationDocuments;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EFileCode;
 import org.rmj.guanzongroup.ghostrider.griderscanner.ClientInfo;
 import org.rmj.guanzongroup.ghostrider.griderscanner.R;
 import org.rmj.guanzongroup.ghostrider.griderscanner.dialog.DialogImagePreview;

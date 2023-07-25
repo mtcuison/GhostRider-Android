@@ -17,9 +17,9 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.ERaffleStatus;
-import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
+import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeInfo;
+import org.rmj.g3appdriver.GCircle.room.Entities.ERaffleStatus;
+import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
 import org.rmj.g3appdriver.lib.Notifications.Obj.Notification;
 import org.rmj.g3appdriver.lib.Panalo.Obj.ILOVEMYJOB;
 

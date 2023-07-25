@@ -37,19 +37,21 @@ import com.google.firebase.storage.UploadTask;
 
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.lib.Account.SessionManager;
+import org.rmj.g3appdriver.GCircle.Account.EmployeeSession;
 
 public class DatabaseExport {
     private static final String TAG = DatabaseExport.class.getSimpleName();
     private final Context context;
-    private final SessionManager poSession;
+    private final EmployeeSession poSession;
+    private final FirebaseStorage storage = FirebaseStorage.getInstance();
+    private final StorageReference poRefrnce = storage.getReference().child("database");
     private final LoadDialog poDiaLoad;
     private final MessageBox poMessage;
 
     public DatabaseExport(Context context) {
         Log.e(TAG, "Initialized.");
         this.context = context;
-        this.poSession = new SessionManager(context);
+        this.poSession = EmployeeSession.getInstance(context);
         this.poDiaLoad = new LoadDialog(context);
         this.poMessage = new MessageBox(context);
     }
@@ -147,7 +149,7 @@ public class DatabaseExport {
             FirebaseStorage storage = FirebaseStorage.getInstance();
             StorageReference poRefrnce = storage.getReference().child("database/" + lsBranchN);
 
-            return poRefrnce.child(poSession.getUserID() + ".db");
+            return poRefrnce.child(poSession.getUserName() + ".db");
 
         } catch (NullPointerException e) {
             e.printStackTrace();

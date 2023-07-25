@@ -48,6 +48,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:checked="true"
                     android:text="@string/sLabelPrivate" />
 
                 <com.google.android.material.radiobutton.MaterialRadioButton
@@ -189,6 +190,7 @@
                         android:id="@+id/txt_companyNme"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:digits="@string/free_text_restriction"
                         android:inputType="textCapWords"
                         android:maxLength="100"
                         android:nextFocusForward="@+id/txt_companyAdd"/>
@@ -205,6 +207,7 @@
                         android:id="@+id/txt_companyAdd"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:digits="@string/free_text_restriction"
                         android:inputType="textCapWords|textPostalAddress"
                         android:maxLength="150"
                         android:nextFocusForward="@+id/txt_town"/>
@@ -290,6 +293,7 @@
                         android:id="@+id/txt_specificJob"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:digits="@string/free_text_restriction"
                         android:inputType="textCapWords"
                         android:maxLength="50"
                         android:nextFocusForward="@+id/spn_employmentStatus"/>
@@ -327,6 +331,7 @@
                             android:id="@+id/txt_lenghtService"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                        android:digits="@string/free_text_restriction"
                             android:inputType="number|none"
                             android:maxLength="3"
                             android:nextFocusForward="@+id/spn_lengthService"/>
@@ -361,6 +366,7 @@
                         android:id="@+id/txt_monthlySalary"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:digits="@string/free_text_restriction"
                         android:inputType="number|none"
                         android:maxLength="10"
                         android:nextFocusForward="@+id/txt_companyContact"/>
@@ -376,6 +382,7 @@
                         android:id="@+id/txt_companyContact"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:digits="@string/free_text_restriction"
                         android:inputType="number|none"
                         android:maxLength="11"
                         android:nextFocusForward="@+id/btn_creditAppNext"/>

@@ -11,6 +11,8 @@
 
 package org.rmj.guanzongroup.ghostrider.settings.ViewModel;
 
+import static org.rmj.g3appdriver.dev.Api.ApiResult.getErrorMessage;
+
 import android.Manifest;
 import android.app.Application;
 import android.content.Context;
@@ -30,12 +32,12 @@ import androidx.lifecycle.MutableLiveData;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.rmj.g3appdriver.GCircle.Api.GCircleApi;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
-import org.rmj.g3appdriver.dev.Api.WebApi;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -192,7 +194,7 @@ public class VMSettings extends AndroidViewModel {
         private final CheckUpdateCallback callback;
         private final ConnectionUtil poConn;
         private final HttpHeaders poHeaders;
-        private final WebApi poApi;
+        private final GCircleApi poApi;
         private final AppConfigPreference loConfig;
 
         public CheckUpdateTask(Application instance, CheckUpdateCallback callback) {
@@ -201,7 +203,7 @@ public class VMSettings extends AndroidViewModel {
             this.poConn = new ConnectionUtil(instance);
             this.poHeaders = HttpHeaders.getInstance(instance);
             this.loConfig = AppConfigPreference.getInstance(instance);
-            this.poApi = new WebApi(loConfig.getTestStatus());
+            this.poApi = new GCircleApi(instance);
         }
 
         @Override
@@ -219,7 +221,7 @@ public class VMSettings extends AndroidViewModel {
                 if(!poConn.isDeviceConnected()){
                     lsResult = AppConstants.NO_INTERNET();
                 } else {
-                    lsResult = WebClient.sendRequest(poApi.getUrlChangePassword(loConfig.isBackUpServer()), param.toString(), poHeaders.getHeaders());
+                    lsResult = WebClient.sendRequest(poApi.getUrlChangePassword(), param.toString(), poHeaders.getHeaders());
                     if(lsResult == null){
                         lsResult = AppConstants.SERVER_NO_RESPONSE();
                     }
@@ -241,7 +243,7 @@ public class VMSettings extends AndroidViewModel {
                     callback.OnSuccess();
                 } else {
                     JSONObject loError = loJson.getJSONObject("error");
-                    String message = loError.getString("message");
+                    String message = getErrorMessage(loError);
                     callback.OnFailed(message);
                 }
             } catch (JSONException e) {
@@ -270,7 +272,7 @@ public class VMSettings extends AndroidViewModel {
         private final ChangePasswordCallback callback;
         private final ConnectionUtil poConn;
         private final HttpHeaders poHeaders;
-        private final WebApi poApi;
+        private final GCircleApi poApi;
         private final AppConfigPreference loConfig;
 
         public ChangePasswordTask(Application application, ChangePasswordCallback callback) {
@@ -279,7 +281,7 @@ public class VMSettings extends AndroidViewModel {
             this.poConn = new ConnectionUtil(instance);
             this.poHeaders = HttpHeaders.getInstance(instance);
             this.loConfig = AppConfigPreference.getInstance(instance);
-            this.poApi = new WebApi(loConfig.getTestStatus());
+            this.poApi = new GCircleApi(instance);
         }
 
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -291,7 +293,7 @@ public class VMSettings extends AndroidViewModel {
                 if(!poConn.isDeviceConnected()){
                     lsResult = AppConstants.NO_INTERNET();
                 } else {
-                    lsResult = WebClient.sendRequest(poApi.getUrlChangePassword(loConfig.isBackUpServer()), param.toString(), poHeaders.getHeaders());
+                    lsResult = WebClient.sendRequest(poApi.getUrlChangePassword(), param.toString(), poHeaders.getHeaders());
                     if(lsResult == null){
                         lsResult = AppConstants.SERVER_NO_RESPONSE();
                     }
@@ -319,7 +321,7 @@ public class VMSettings extends AndroidViewModel {
                     callback.OnSuccess();
                 } else {
                     JSONObject loError = loJson.getJSONObject("error");
-                    String message = loError.getString("message");
+                    String message = getErrorMessage(loError);;
                     callback.OnFailed(message);
                 }
             } catch (JSONException e) {
@@ -340,14 +342,14 @@ public class VMSettings extends AndroidViewModel {
         private final Application instance;
         private final SystemUpateCallback callback;
         private final String PATH;
-        private final WebApi poApi;
+        private final GCircleApi poApi;
         private final ConnectionUtil poConn;
 
         public DownloadUpdateTask(Application application, SystemUpateCallback callback){
             this.instance = application;
             this.callback = callback;
             AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
-            this.poApi = new WebApi(loConfig.getTestStatus());
+            this.poApi = new GCircleApi(instance);
             PATH = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/";
             this.poConn = new ConnectionUtil(instance);
         }

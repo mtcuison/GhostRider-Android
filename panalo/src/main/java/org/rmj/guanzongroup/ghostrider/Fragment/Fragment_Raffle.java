@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,7 +17,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.g3appdriver.dev.Database.Entities.ERaffleStatus;
+import org.rmj.g3appdriver.GCircle.room.Entities.ERaffleStatus;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.Panalo.model.PanaloRewards;
 import org.rmj.guanzongroup.ghostrider.Adapter.AdapterRaffleDraw;

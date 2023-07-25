@@ -15,12 +15,15 @@ import static org.rmj.g3appdriver.utils.ServiceScheduler.FIFTEEN_MINUTE_PERIODIC
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ProgressBar;
+
 import com.google.android.material.textview.MaterialTextView;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -43,7 +46,6 @@ import org.rmj.guanzongroup.ghostrider.epacss.BuildConfig;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.Service.DataDownloadService;
 import org.rmj.guanzongroup.ghostrider.epacss.Service.GMessagingService;
-import org.rmj.guanzongroup.ghostrider.epacss.Service.PerformanceImportService;
 import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMSplashScreen;
 
 import java.util.ArrayList;
@@ -68,7 +70,9 @@ public class Activity_SplashScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VMSplashScreen.class);
+//        SplashScreen splashScreen = SplashScreen.installSplashScreen(this);
         setContentView(R.layout.activity_splash_screen);
+//        splashScreen.setKeepOnScreenCondition(() -> true );
         InitActivityResultLaunchers();
         poDialog = new MessageBox(Activity_SplashScreen.this);
         new TransparentToolbar(Activity_SplashScreen.this).SetupActionbar();
@@ -110,11 +114,16 @@ public class Activity_SplashScreen extends AppCompatActivity {
             loMessage.setTitle("Guanzon Circle");
             loMessage.setMessage("Guanzon Circle collects location data for Selfie Log, DCP and other major features of the app" +
                     " even when the app is closed or not in use.");
-            loMessage.setPositiveButton("Continue", (view, dialog) -> {
+            loMessage.setPositiveButton("Agree", (view, dialog) -> {
                 dialog.dismiss();
                 CheckPermissions();
             });
+            loMessage.setNegativeButton("Disagree", (view, dialog) -> {
+                dialog.dismiss();
+                finish();
+            });
             loMessage.show();
+            findViewById(R.id.lblFirstLaunchNotice).setVisibility(View.VISIBLE);
         } else {
             CheckPermissions();
         }
@@ -184,7 +193,7 @@ public class Activity_SplashScreen extends AppCompatActivity {
             @Override
             public void OnFailed(String message) {
                 poDialog.initDialog();
-                poDialog.setTitle("GhostRider Android");
+                poDialog.setTitle("Guanzon Circle");
                 poDialog.setMessage(message);
                 poDialog.setPositiveButton("Okay", (view, dialog) -> {
                     dialog.dismiss();
@@ -204,7 +213,6 @@ public class Activity_SplashScreen extends AppCompatActivity {
             if (result.getResultCode() == RESULT_OK) {
                 startActivity(new Intent(Activity_SplashScreen.this, Activity_Main.class));
                 ServiceScheduler.scheduleJob(Activity_SplashScreen.this, DataDownloadService.class, FIFTEEN_MINUTE_PERIODIC, AppConstants.DataServiceID);
-//                ServiceScheduler.scheduleJob(Activity_SplashScreen.this, PerformanceImportService.class, FIFTEEN_MINUTE_PERIODIC, AppConstants.PerformanceServiceID);
                 finish();
             } else if (result.getResultCode() == RESULT_CANCELED) {
                 finish();

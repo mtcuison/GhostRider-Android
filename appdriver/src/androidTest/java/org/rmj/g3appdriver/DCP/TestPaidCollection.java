@@ -13,11 +13,12 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
+import org.rmj.g3appdriver.GCircle.Apps.Dcp.obj.PAY;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
-import org.rmj.g3appdriver.lib.integsys.Dcp.pojo.ImportParams;
-import org.rmj.g3appdriver.lib.integsys.Dcp.LRDcp;
-import org.rmj.g3appdriver.lib.integsys.Dcp.pojo.PaidDCP;
+import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
+import org.rmj.g3appdriver.GCircle.Apps.Dcp.pojo.ImportParams;
+import org.rmj.g3appdriver.GCircle.Apps.Dcp.model.LRDcp;
+import org.rmj.g3appdriver.GCircle.Apps.Dcp.pojo.PaidDCP;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(AndroidJUnit4.class)
@@ -71,7 +72,7 @@ public class TestPaidCollection {
 
     @Test
     public void test02SavePaidCollection() {
-        LRDcp loSys = new LRDcp(instance);
+        PAY loSys = new PAY(instance);
         PaidDCP loPaid = new PaidDCP();
         loPaid.setTransNo("M01422000120");
         loPaid.setAccntNo("M057170036");

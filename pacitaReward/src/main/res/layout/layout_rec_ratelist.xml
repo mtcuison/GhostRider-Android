@@ -1,115 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
+    android:paddingHorizontal="10dp"
+    android:paddingVertical="15dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginVertical="10dp">
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/item_question"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:textAlignment="center" />
-    </LinearLayout>
-
-
-    <LinearLayout
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/item_question"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="10dp"
-        android:orientation="horizontal"
-        android:layout_gravity="center"
-        android:background="@drawable/oval_rating_button_background">
+        android:gravity="center"
+        android:fontFamily="@font/roboto_medium"
+        android:text="Proper Uniforms"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.button.MaterialButtonToggleGroup
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/materialDivider2"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:background="?attr/colorPrimary"
+        app:layout_constraintEnd_toEndOf="@+id/item_question"
+        app:layout_constraintStart_toStartOf="@+id/item_question"
+        app:layout_constraintTop_toBottomOf="@+id/item_question"
+        app:layout_constraintWidth_percent=".6" />
+
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/materialButtonToggleGroup"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        app:layout_constraintWidth_percent=".8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/item_question"
+        app:singleSelection="true">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/pass_btn"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Pass"
+            app:icon="@drawable/ic_baseline_smile"
+            app:iconGravity="start"
+            app:cornerRadius="15dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/fail_btn"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Fail"
+            app:icon="@drawable/ic_baseline_sad"
+            app:iconGravity="end"
+            app:cornerRadius="15dp" />
+    </com.google.android.material.button.MaterialButtonToggleGroup>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/materialTextView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Please Leave A Comment"
+        android:visibility="gone"
+        android:textAlignment="center"
+        app:layout_constraintStart_toStartOf="@+id/materialButtonToggleGroup"
+        app:layout_constraintTop_toBottomOf="@+id/materialButtonToggleGroup" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout"
+        style="@style/TextInputStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Type a comment here . . ."
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/materialButtonToggleGroup"
+        app:layout_constraintStart_toStartOf="@+id/materialButtonToggleGroup"
+        app:layout_constraintTop_toBottomOf="@+id/materialTextView3">
+
+        <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:singleSelection="true"
-            app:selectionRequired="true"
-            android:orientation="horizontal">
+            android:lines="5"
+            android:textSize="15sp" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.button.MaterialButton
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:id="@+id/pass_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Pass"
-                android:paddingHorizontal="50dp"
-                app:toggleCheckedStateOnClick="true"
-                app:icon="@drawable/emoji_laughing_fill_svgrepo_com"
-                app:iconSize="30dp"
-                app:iconGravity="start"
-                app:iconPadding="10dp" />
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:layout_marginTop="10dp"
+        android:background="?attr/colorPrimary"
+        app:layout_constraintEnd_toEndOf="@+id/materialButtonToggleGroup"
+        app:layout_constraintStart_toStartOf="@+id/materialButtonToggleGroup"
+        app:layout_constraintTop_toBottomOf="@+id/materialButtonToggleGroup" />
 
-            <com.google.android.material.button.MaterialButton
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:id="@+id/fail_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Fail"
-                android:paddingHorizontal="50dp"
-                app:toggleCheckedStateOnClick="true"
-                app:icon="@drawable/emoji_angry_fill_svgrepo_com"
-                app:iconSize="30dp"
-                app:iconGravity="start"
-                app:iconPadding="10dp" />
-        </com.google.android.material.button.MaterialButtonToggleGroup>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginVertical="10dp"
-        android:orientation="vertical">
-
-        <com.google.android.material.textview.MaterialTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Please Leave A Comment"
-            android:layout_gravity="center"
-            android:textAlignment="center"
-            android:visibility="gone"/>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/TextInputStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:hint="Type a comment here . . ."
-                app:layout_constraintWidth_percent="0.90"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:visibility="gone">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:textSize="15sp"
-                    android:lines="5" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/colorPrimaryLight"
-            android:layout_marginHorizontal="5dp"
-            android:layout_marginVertical="20dp"/>
-
-    </LinearLayout>
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

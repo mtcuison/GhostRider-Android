@@ -19,47 +19,34 @@ import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
-import android.widget.TextView;
 
-import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
-import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.textview.MaterialTextView;
-import com.google.android.material.divider.MaterialDivider;
-import com.google.android.material.card.MaterialCardView;
-import com.google.android.material.imageview.ShapeableImageView;
-import  com.google.android.material.checkbox.MaterialCheckBox;
 
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.LiveData;
 
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.EClientUpdate;
-import org.rmj.g3appdriver.dev.Database.Entities.EDCPCollectionDetail;
-import org.rmj.g3appdriver.dev.Database.Repositories.RDailyCollectionPlan;
-import org.rmj.g3appdriver.dev.Database.Repositories.RTown;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DTownInfo;
+import org.rmj.g3appdriver.GCircle.room.Entities.EClientUpdate;
+import org.rmj.g3appdriver.GCircle.room.Entities.EDCPCollectionDetail;
+import org.rmj.g3appdriver.GCircle.room.Repositories.RDailyCollectionPlan;
+import org.rmj.g3appdriver.lib.Etc.Town;
 import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_CollectionList;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 
-import java.util.Arrays;
-
 public class DialogAccountDetail {
     private static final String TAG = DialogAccountDetail.class.getSimpleName();
     private AlertDialog poDialogx;
     private final Context context;
-    private RTown poTown;
+    private Town poTown;
     private RDailyCollectionPlan poDCPRepo;
     private MessageBox poMessage;
 
@@ -83,7 +70,7 @@ public class DialogAccountDetail {
         poDialogx = loBuilder.create();
         poDialogx.setCancelable(false);
 
-        poTown = new RTown(activity.getApplication());
+        poTown = new Town(activity.getApplication());
         poDCPRepo = new RDailyCollectionPlan(activity.getApplication());
         MaterialTextView lblReferNo = view.findViewById(R.id.lbl_dcpReferNo);
         MaterialTextView lblTransNo = view.findViewById(R.id.lbl_dcpTransNo);

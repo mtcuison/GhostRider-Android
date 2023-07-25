@@ -11,7 +11,11 @@
 
 package org.rmj.g3appdriver.utils;
 
-import android.annotation.SuppressLint;
+import static org.rmj.g3appdriver.dev.Api.ApiResult.NOT_CONNECTED;
+import static org.rmj.g3appdriver.dev.Api.ApiResult.UNABLE_TO_REACH_LOCAL;
+import static org.rmj.g3appdriver.dev.Api.ApiResult.UNABLE_TO_REACH_SERVER;
+import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
+
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -39,8 +43,8 @@ public class ConnectionUtil {
     private final Context context;
     private String message;
 
-    private static final String LOCAL = "192.168.10.27";
-    private static final String PRIMARY_LIVE = "restgk.guanzongroup.com.ph";
+    private static final String LOCAL = "http://192.168.10.27";
+    private static final String PRIMARY_LIVE = "https://restgk.guanzongroup.com.ph";
 //    private static final String SECONDARY_LIVE = "restgk1.guanzongroup.com.ph";
 
     public ConnectionUtil(Context context){
@@ -54,7 +58,7 @@ public class ConnectionUtil {
     public boolean isDeviceConnected(){
         try {
             if (!deviceConnected()) {
-                message = "Please enable wifi or data to connect.";
+                message = NOT_CONNECTED;
                 return false;
             }
 
@@ -64,7 +68,7 @@ public class ConnectionUtil {
             if (isTestCase) {
                 lsAddress = LOCAL;
                 if (!isReachable(lsAddress)) {
-                    message = "We're experiencing difficulties reaching the local server. Please ensure it is accessible and try again.";
+                    message = UNABLE_TO_REACH_LOCAL;
                     return false;
                 }
 
@@ -73,8 +77,7 @@ public class ConnectionUtil {
 
             lsAddress = PRIMARY_LIVE;
             if(!isReachable(lsAddress)){
-                Log.e(TAG, "We're unable to establish a connection with our servers at the moment. Please check your internet connection and try again.");
-                message = "We're unable to establish a connection with our servers at the moment. Please check your internet connection and try again.";
+                message = UNABLE_TO_REACH_SERVER;
                 return false;
             }
 
@@ -130,27 +133,27 @@ public class ConnectionUtil {
 
     private boolean isReachable(String lsAddress)
     {
-//        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-//        StrictMode.setThreadPolicy(policy);
-//
-//        trustAllCertificates();
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        trustAllCertificates();
 
         try
         {
-//            HttpURLConnection httpUrlConnection = (HttpURLConnection) new URL(
-//                    lsAddress).
-//                    openConnection();
-//            httpUrlConnection.setRequestProperty("Connection", "close");
-//            httpUrlConnection.setRequestMethod("HEAD");
-//            httpUrlConnection.setConnectTimeout(7000);
-//            int responseCode = httpUrlConnection.getResponseCode();
-//
-//            return responseCode == HttpURLConnection.HTTP_OK;
-            InetAddress ipAddress = InetAddress.getByName(lsAddress);
-            return ipAddress.isReachable(5000); // Adjust the timeout value as needed
+            HttpURLConnection httpUrlConnection = (HttpURLConnection) new URL(
+                    lsAddress).
+                    openConnection();
+            httpUrlConnection.setRequestProperty("Connection", "close");
+            httpUrlConnection.setRequestMethod("HEAD");
+            httpUrlConnection.setConnectTimeout(5000);
+            int responseCode = httpUrlConnection.getResponseCode();
+
+            return responseCode == HttpURLConnection.HTTP_OK;
+//            InetAddress ipAddress = InetAddress.getByName(lsAddress);
+//            return ipAddress.isReachable(5000); // Adjust the timeout value as needed
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return false;
         }
     }

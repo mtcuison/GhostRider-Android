@@ -15,27 +15,15 @@ import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DCreditApplicationDocuments;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DCreditApplicationDocuments;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 
-import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.MaterialAutoCompleteTextView;
-import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.textview.MaterialTextView;
-import com.google.android.material.divider.MaterialDivider;
-import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.imageview.ShapeableImageView;
-import  com.google.android.material.checkbox.MaterialCheckBox;
 
 import java.util.List;
 
@@ -68,13 +56,13 @@ public class DocumentToScanAdapter extends RecyclerView.Adapter<DocumentToScanAd
             DCreditApplicationDocuments.ApplicationDocument document = documentsInfo.get(position);
 
             holder.lbl_fileDsc.setText(document.sBriefDsc);
-            holder.lbl_fileLoc.setText(document.sFileLoc);
+            holder.lbl_fileLoc.setText(document.sFileLoct);
             if (document.sImageNme != null){
                 holder.fileStat.setImageResource(R.drawable.ic_baseline_done_24);
                 holder.fileStat.setTag(R.drawable.ic_baseline_done_24);
             }
 
-            if (document.sSendStat != null){
+            if (document.cSendStat != null){
                 holder.imgDB.setVisibility(View.VISIBLE);
             }
 
@@ -82,7 +70,7 @@ public class DocumentToScanAdapter extends RecyclerView.Adapter<DocumentToScanAd
                 if (position != RecyclerView.NO_POSITION && holder.fileStat.getTag() == null) {
                     mListener.OnClick(position);
                 }else {
-                    mListener.OnClick(document.sTransNox, document.sFileLoc);
+                    mListener.OnClick(document.sTransNox, document.sFileLoct);
                 }
             });
         } catch (Exception e){

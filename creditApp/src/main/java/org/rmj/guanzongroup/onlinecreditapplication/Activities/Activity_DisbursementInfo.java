@@ -13,17 +13,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.textfield.TextInputEditText;
+
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
-import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONException;
-import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
+import org.rmj.g3appdriver.GCircle.room.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditAppConstants;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Disbursement;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.OnSaveInfoListener;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.model.Disbursement;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.OnParseListener;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMDisbursement;
@@ -77,6 +78,7 @@ public class Activity_DisbursementInfo extends AppCompatActivity {
 
         spnTypex.setAdapter(new ArrayAdapter<>(Activity_DisbursementInfo.this,
                 android.R.layout.simple_list_item_1, CreditAppConstants.ACCOUNT_TYPE));
+        spnTypex.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         spnTypex.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -188,7 +190,7 @@ public class Activity_DisbursementInfo extends AppCompatActivity {
             if(infoModel.getAcctType() != null) {
                 if(!infoModel.getAcctType().equalsIgnoreCase("")) {
                     spnTypex.setText(CreditAppConstants.ACCOUNT_TYPE[Integer.parseInt(infoModel.getAcctType())]);
-                    spnTypex.setSelection(Integer.parseInt(infoModel.getAcctType()));
+//                    spnTypex.setSelection(Integer.parseInt(infoModel.getAcctType()));
                     mViewModel.getModel().setAcctType(infoModel.getAcctType());
                 }
             }

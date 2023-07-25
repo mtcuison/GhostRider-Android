@@ -1,6 +1,7 @@
 package org.rmj.g3appdriver.dev.encryp;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
@@ -13,8 +14,9 @@ import org.rmj.g3appdriver.lib.Panalo.model.PanaloRewards;
 import java.util.ArrayList;
 
 public class CodeGenerator {
+    private static final String TAG = CodeGenerator.class.getSimpleName();
 
-    private String EncryptionKEY = "20190625";
+    private static String EncryptionKEY = "20190625";
     MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
     MySQLAESCrypt poEncrypt = new MySQLAESCrypt();
     BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
@@ -59,8 +61,12 @@ public class CodeGenerator {
         return bitmap;
     }
 
-    public Bitmap GeneratePanaloOtherRedemptionQC(PanaloRewards rewards){
+    public static Bitmap GeneratePanaloOtherRedemptionQC(PanaloRewards rewards){
         Bitmap bitmap = null;
+        MySQLAESCrypt poEncrypt = new MySQLAESCrypt();
+        MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
+        BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
+
         String UnEncryptedString =
                 rewards.getPanaloQC() + ";" +
                         rewards.getPanaloCD() + ";" +
@@ -108,7 +114,7 @@ public class CodeGenerator {
         return bitmap;
     }
 
-    public Bitmap generateGCardCodex(String SOURCE,
+    public static Bitmap generateGCardCodex(String SOURCE,
                                      String DeviceImei,
                                      String CardNumber,
                                      String UserID,
@@ -118,6 +124,9 @@ public class CodeGenerator {
                                      String sModelCde,
                                      String TransNox){
         Bitmap GcardCodex = null;
+        MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
+        BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
+
         String UnEncryptedString = SOURCE + "»" + DeviceImei + "»" + CardNumber + "»" + UserID + "»" + MobileNumber + "»" + DateTime + "»" + AvailablePoints + "»" + sModelCde + "»" + TransNox;
         String EncryptedCode = MySQLAESCrypt.Encrypt(UnEncryptedString, EncryptionKEY);
         try {
@@ -130,7 +139,7 @@ public class CodeGenerator {
         }
     }
 
-    public String generateSecureNo(String SecureNo){
+    public static String generateSecureNo(String SecureNo){
         return MySQLAESCrypt.Encrypt(SecureNo, EncryptionKEY);
     }
 
@@ -303,15 +312,15 @@ public class CodeGenerator {
         return !getTransSource().equalsIgnoreCase("INVALID");
     }
 
-    public boolean isDeviceValid(String MobileNo, String UserID, String GCardNumber) {
+    public boolean isDeviceValid(String MobileNo, String GCardNumber) {
         String gcard = getGCardNumber();
         String mobileNo = getMobileNumber();
-        String user = getUserID();
+        Log.d(TAG, "GCard Mobile number: " + mobileNo);
+        Log.d(TAG, "GCard number: " + gcard);
 
         if(getSourceCD().equalsIgnoreCase("PREORDER")){
             return gcard.equalsIgnoreCase(GCardNumber) &&
-                    mobileNo.equalsIgnoreCase(MobileNo) &&
-                    user.equalsIgnoreCase(UserID);
+                    mobileNo.equalsIgnoreCase(MobileNo);
         } else {
             return mobileNo.equalsIgnoreCase(MobileNo);
         }

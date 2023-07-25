@@ -12,17 +12,18 @@
 package org.guanzongroup.com.creditevaluation.ViewModel;
 
 import android.app.Application;
-import android.os.AsyncTask;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import org.rmj.g3appdriver.dev.Database.Entities.ECreditOnlineApplicationCI;
-import org.rmj.g3appdriver.dev.Database.Entities.EOccupationInfo;
-import org.rmj.g3appdriver.dev.Database.Repositories.ROccupation;
-import org.rmj.g3appdriver.lib.integsys.CreditInvestigator.Obj.CITagging;
+import org.rmj.g3appdriver.GCircle.room.Entities.ECreditOnlineApplicationCI;
+import org.rmj.g3appdriver.GCircle.room.Entities.EOccupationInfo;
+import org.rmj.g3appdriver.GCircle.room.Repositories.ROccupation;
+import org.rmj.g3appdriver.GCircle.Apps.CreditInvestigator.Obj.CITagging;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
+import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
+import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 
 import java.util.List;
 
@@ -51,7 +52,7 @@ public class VMEvaluationCIHistoryInfo extends AndroidViewModel {
         new PostBHApprovalTask(foCallBck).execute(fsTransNo, fsResultx, fsRemarks);
     }
 
-    private class PostBHApprovalTask extends AsyncTask<String, Void, Boolean> {
+    /*private class PostBHApprovalTask extends AsyncTask<String, Void, Boolean> {
 
         private final OnTransactionCallBack loCallBck;
 
@@ -92,7 +93,7 @@ public class VMEvaluationCIHistoryInfo extends AndroidViewModel {
                 return true;
             } catch (Exception e) {
                 e.printStackTrace();
-                message = e.getMessage();
+                message = getLocalMessage(e);
                 return false;
             }
         }
@@ -107,6 +108,64 @@ public class VMEvaluationCIHistoryInfo extends AndroidViewModel {
             }
         }
 
+    }*/
+    private class PostBHApprovalTask{
+        private final OnTransactionCallBack loCallBck;
+        private String message;
+        private PostBHApprovalTask(OnTransactionCallBack foCallBck) {
+            this.loCallBck = foCallBck;
+        }
+        public void execute(String TransNo, String Resultx, String Remarks){
+            String[] args = {TransNo, Resultx, Remarks};
+            TaskExecutor.Execute(args, new OnTaskExecuteListener() {
+                @Override
+                public void OnPreExecute() {
+                    loCallBck.onLoad();
+                }
+
+                @Override
+                public Object DoInBackground(Object args) {
+                    try {
+                        String[] array = (String[]) args;
+
+                        String TransNo = array[0];
+                        String Resultx = array[1];
+                        String Remarks = array[2];
+
+                        if(!poSys.SaveBHApproval(TransNo, Resultx, Remarks)){
+                            message = poSys.getMessage();
+                            return false;
+                        }
+
+                        if(!poConn.isDeviceConnected()) {
+                            message = poConn.getMessage();
+                            return false;
+                        }
+
+                        if(!poSys.PostBHApproval(TransNo)){
+                            message = poSys.getMessage();
+                            return false;
+                        }
+
+                        return true;
+                    }catch (Exception e){
+                        e.printStackTrace();
+                        message = e.getMessage();
+                        return false;
+                    }
+                }
+
+                @Override
+                public void OnPostExecute(Object object) {
+                    Boolean isSuccess = (Boolean) object;
+                    if(!isSuccess) {
+                        loCallBck.onFailed(message);
+                    } else {
+                        loCallBck.onSuccess("Your approval recommendation has been uploaded successfully.");
+                    }
+                }
+            });
+        }
     }
 
     public interface OnTransactionCallBack {

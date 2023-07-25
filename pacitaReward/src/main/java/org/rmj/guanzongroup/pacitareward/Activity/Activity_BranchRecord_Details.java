@@ -2,7 +2,6 @@ package org.rmj.guanzongroup.pacitareward.Activity;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -15,12 +14,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.textview.MaterialTextView;
 
-import org.rmj.g3appdriver.dev.Database.Entities.EPacitaEvaluation;
-import org.rmj.g3appdriver.dev.Database.Entities.EPacitaRule;
+import org.rmj.g3appdriver.GCircle.room.Entities.EPacitaEvaluation;
+import org.rmj.g3appdriver.GCircle.room.Entities.EPacitaRule;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.lib.GawadPacita.Obj.PacitaRule;
-import org.rmj.g3appdriver.lib.GawadPacita.pojo.BranchRate;
+import org.rmj.g3appdriver.GCircle.Apps.GawadPacita.Obj.PacitaRule;
+import org.rmj.g3appdriver.GCircle.Apps.GawadPacita.pojo.BranchRate;
 import org.rmj.guanzongroup.pacitareward.Adapter.RecyclerViewAdapter_RecordDetails;
 import org.rmj.guanzongroup.pacitareward.R;
 import org.rmj.guanzongroup.pacitareward.ViewModel.VMBranchRecordDetails;
@@ -58,7 +57,7 @@ public class Activity_BranchRecord_Details extends AppCompatActivity {
         mtv_branchname = findViewById(R.id.mtv_branchname);
 
         setSupportActionBar(toolbar); //set object toolbar as default action bar for activity
-        getSupportActionBar().setTitle("Branch Evaluation Records"); //set default title for action bar
+        getSupportActionBar().setTitle("Pacita Reward"); //set default title for action bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); //set back button to toolbar
         getSupportActionBar().setDisplayShowHomeEnabled(true); //enable the back button set on toolbar
 

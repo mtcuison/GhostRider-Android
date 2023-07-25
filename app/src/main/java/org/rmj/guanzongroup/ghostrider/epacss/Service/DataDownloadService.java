@@ -17,29 +17,28 @@ import android.app.job.JobParameters;
 import android.app.job.JobService;
 import android.util.Log;
 
-import org.rmj.g3appdriver.lib.ImportData.Obj.ImportBarangay;
-import org.rmj.g3appdriver.lib.ImportData.Obj.ImportBrand;
-import org.rmj.g3appdriver.lib.ImportData.Obj.ImportBrandModel;
-import org.rmj.g3appdriver.lib.ImportData.Obj.ImportCategory;
-import org.rmj.g3appdriver.lib.ImportData.Obj.ImportCountry;
-import org.rmj.g3appdriver.lib.ImportData.model.ImportDataCallback;
-import org.rmj.g3appdriver.lib.ImportData.Obj.ImportFileCode;
-import org.rmj.g3appdriver.lib.ImportData.model.ImportInstance;
-import org.rmj.g3appdriver.lib.ImportData.Obj.ImportMcModelPrice;
-import org.rmj.g3appdriver.lib.ImportData.Obj.ImportMcTermCategory;
-import org.rmj.g3appdriver.lib.ImportData.Obj.ImportProvinces;
-import org.rmj.g3appdriver.lib.ImportData.Obj.ImportTown;
-import org.rmj.g3appdriver.lib.ImportData.Obj.Import_AreaPerformance;
-import org.rmj.g3appdriver.lib.ImportData.Obj.Import_BankList;
-import org.rmj.g3appdriver.lib.ImportData.Obj.Import_BranchAccounts;
-import org.rmj.g3appdriver.lib.ImportData.Obj.Import_BranchPerformance;
-import org.rmj.g3appdriver.lib.ImportData.Obj.Import_Occupations;
-import org.rmj.g3appdriver.lib.ImportData.Obj.Import_Relation;
-import org.rmj.g3appdriver.lib.ImportData.Obj.Import_SCARequest;
-import org.rmj.g3appdriver.lib.ImportData.Obj.Import_SysConfig;
+import org.rmj.g3appdriver.GCircle.ImportData.Obj.ImportBarangay;
+import org.rmj.g3appdriver.GCircle.ImportData.Obj.ImportBrand;
+import org.rmj.g3appdriver.GCircle.ImportData.Obj.ImportBrandModel;
+import org.rmj.g3appdriver.GCircle.ImportData.Obj.ImportCategory;
+import org.rmj.g3appdriver.GCircle.ImportData.Obj.ImportCountry;
+import org.rmj.g3appdriver.GCircle.ImportData.model.ImportDataCallback;
+import org.rmj.g3appdriver.GCircle.ImportData.Obj.ImportFileCode;
+import org.rmj.g3appdriver.GCircle.ImportData.model.ImportInstance;
+import org.rmj.g3appdriver.GCircle.ImportData.Obj.ImportMcModelPrice;
+import org.rmj.g3appdriver.GCircle.ImportData.Obj.ImportMcTermCategory;
+import org.rmj.g3appdriver.GCircle.ImportData.Obj.ImportProvinces;
+import org.rmj.g3appdriver.GCircle.ImportData.Obj.ImportTown;
+import org.rmj.g3appdriver.GCircle.ImportData.Obj.Import_AreaPerformance;
+import org.rmj.g3appdriver.GCircle.ImportData.Obj.Import_BankList;
+import org.rmj.g3appdriver.GCircle.ImportData.Obj.Import_BranchAccounts;
+import org.rmj.g3appdriver.GCircle.ImportData.Obj.Import_BranchPerformance;
+import org.rmj.g3appdriver.GCircle.ImportData.Obj.Import_Occupations;
+import org.rmj.g3appdriver.GCircle.ImportData.Obj.Import_Relation;
+import org.rmj.g3appdriver.GCircle.ImportData.Obj.Import_SCARequest;
+import org.rmj.g3appdriver.GCircle.ImportData.Obj.Import_SysConfig;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 
-@SuppressLint("SpecifyJobSchedulerIdRange")
 public class DataDownloadService extends JobService {
     public static final String TAG = DataDownloadService.class.getSimpleName();
 
@@ -64,15 +63,14 @@ public class DataDownloadService extends JobService {
 
     private void doBackgroundTask(JobParameters params) {
         instance = getApplication();
-        ConnectionUtil loConn = new ConnectionUtil(instance);
         ImportInstance[]  importInstances = {
                 new Import_BranchAccounts(getApplication()),
                 new Import_BankList(getApplication()),
                 new ImportFileCode(getApplication()),
-                new Import_Relation(getApplication()),
                 new ImportBrand(getApplication()),
                 new ImportBrandModel(getApplication()),
                 new ImportCategory(getApplication()),
+                new Import_Relation(getApplication()),
                 new ImportProvinces(getApplication()),
                 new ImportMcModelPrice(getApplication()),
                 new ImportTown(getApplication()),

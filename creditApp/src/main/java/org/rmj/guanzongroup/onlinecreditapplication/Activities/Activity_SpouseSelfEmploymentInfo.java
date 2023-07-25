@@ -7,38 +7,25 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatAutoCompleteTextView;
-import androidx.appcompat.widget.AppCompatMultiAutoCompleteTextView;
-import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 
-import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
-import com.google.android.material.textfield.TextInputLayout;
-import com.google.android.material.textview.MaterialTextView;
-import com.google.android.material.divider.MaterialDivider;
-import com.google.android.material.card.MaterialCardView;
-import com.google.android.material.imageview.ShapeableImageView;
-import  com.google.android.material.checkbox.MaterialCheckBox;
+import com.google.android.material.textfield.TextInputEditText;
 
 
 import org.json.JSONException;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.SpouseBusiness;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditAppConstants;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.OnSaveInfoListener;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.model.SpouseBusiness;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.OnParseListener;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMSpouseBusiness;
@@ -52,7 +39,7 @@ public class Activity_SpouseSelfEmploymentInfo extends AppCompatActivity {
     private VMSpouseBusiness mViewModel;
     private MessageBox poMessage;
     private TextInputEditText txtBizName, txtBizAddrss, txtBizLength, txtMonthlyInc, txtMonthlyExp;
-    private AppCompatMultiAutoCompleteTextView spnBizIndustry, spnMonthOrYr, txtProvince, txtTown,
+    private MaterialAutoCompleteTextView spnBizIndustry, spnMonthOrYr, txtProvince, txtTown,
             spnBizType, spnBizSize;
     private MaterialButton btnNext, btnPrvs;
     private MaterialToolbar toolbar;
@@ -102,7 +89,6 @@ public class Activity_SpouseSelfEmploymentInfo extends AppCompatActivity {
 
                     ArrayAdapter<String> adapters = new ArrayAdapter<>(Activity_SpouseSelfEmploymentInfo.this, android.R.layout.simple_spinner_dropdown_item, string.toArray(new String[0]));
                     txtTown.setAdapter(adapters);
-                    txtTown.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
                     txtTown.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -111,7 +97,6 @@ public class Activity_SpouseSelfEmploymentInfo extends AppCompatActivity {
                                 String lsSlctd = txtTown.getText().toString().trim();
                                 if (lsSlctd.equalsIgnoreCase(lsLabel)) {
                                     mViewModel.getModel().setTown(loList.get(x).sTownIDxx);
-                                    mViewModel.getModel().setTown(lsLabel);
                                     break;
                                 }
                             }
@@ -126,7 +111,6 @@ public class Activity_SpouseSelfEmploymentInfo extends AppCompatActivity {
 
         spnBizIndustry.setAdapter(new ArrayAdapter<>(Activity_SpouseSelfEmploymentInfo.this,
                 android.R.layout.simple_list_item_1, CreditAppConstants.BUSINESS_NATURE));
-        spnBizIndustry.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         spnBizIndustry.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -136,7 +120,6 @@ public class Activity_SpouseSelfEmploymentInfo extends AppCompatActivity {
 
         spnBizType.setAdapter(new ArrayAdapter<>(Activity_SpouseSelfEmploymentInfo.this,
                 android.R.layout.simple_list_item_1, CreditAppConstants.BUSINESS_TYPE));
-        spnBizType.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         spnBizType.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -146,7 +129,6 @@ public class Activity_SpouseSelfEmploymentInfo extends AppCompatActivity {
 
         spnBizSize.setAdapter(new ArrayAdapter<>(Activity_SpouseSelfEmploymentInfo.this,
                 android.R.layout.simple_list_item_1, CreditAppConstants.BUSINESS_SIZE));
-        spnBizSize.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         spnBizSize.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -156,7 +138,6 @@ public class Activity_SpouseSelfEmploymentInfo extends AppCompatActivity {
 
         spnMonthOrYr.setAdapter(new ArrayAdapter<>(Activity_SpouseSelfEmploymentInfo.this,
                 android.R.layout.simple_list_item_1, CreditAppConstants.LENGTH_OF_STAY));
-        spnMonthOrYr.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         spnMonthOrYr.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -244,7 +225,6 @@ public class Activity_SpouseSelfEmploymentInfo extends AppCompatActivity {
 
         spnMonthOrYr.setAdapter(new ArrayAdapter<>(Activity_SpouseSelfEmploymentInfo.this,
                 android.R.layout.simple_list_item_1, CreditAppConstants.LENGTH_OF_STAY));
-        spnMonthOrYr.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
 
     }
 
@@ -255,20 +235,20 @@ public class Activity_SpouseSelfEmploymentInfo extends AppCompatActivity {
 
             if(!"".equalsIgnoreCase(infoModel.getNatureOfBusiness())) {
                 spnBizIndustry.setText(CreditAppConstants.BUSINESS_NATURE[Integer.parseInt(infoModel.getNatureOfBusiness())], false);
-                spnBizIndustry.setSelection(Integer.parseInt(infoModel.getNatureOfBusiness()));
+//                spnBizIndustry.setSelection(Integer.parseInt(infoModel.getNatureOfBusiness()));
                 mViewModel.getModel().setNatureOfBusiness(infoModel.getNatureOfBusiness());
             }
 
             if(!"".equalsIgnoreCase(infoModel.getTypeOfBusiness())) {
                 spnBizType.setText(CreditAppConstants.BUSINESS_TYPE[Integer.parseInt(infoModel.getTypeOfBusiness())], false);
-                spnBizType.setSelection(Integer.parseInt(infoModel.getTypeOfBusiness()));
+//                spnBizType.setSelection(Integer.parseInt(infoModel.getTypeOfBusiness()));
                 mViewModel.getModel().setTypeOfBusiness(infoModel.getTypeOfBusiness());
             }
 
 
             if(!"".equalsIgnoreCase(infoModel.getSizeOfBusiness())) {
                 spnBizSize.setText(CreditAppConstants.BUSINESS_SIZE[Integer.parseInt(infoModel.getSizeOfBusiness())], false);
-                spnBizType.setSelection(Integer.parseInt(infoModel.getSizeOfBusiness()));
+//                spnBizType.setSelection(Integer.parseInt(infoModel.getSizeOfBusiness()));
                 mViewModel.getModel().setSizeOfBusiness(infoModel.getSizeOfBusiness());
             }
             int nlength = (int)(infoModel.getLenghtOfService() * 12);

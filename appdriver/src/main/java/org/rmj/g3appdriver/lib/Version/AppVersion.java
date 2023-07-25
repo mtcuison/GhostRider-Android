@@ -1,17 +1,21 @@
 package org.rmj.g3appdriver.lib.Version;
 
+import static org.rmj.g3appdriver.dev.Api.ApiResult.SERVER_NO_RESPONSE;
+import static org.rmj.g3appdriver.dev.Api.ApiResult.getErrorMessage;
+import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
+
 import android.app.Application;
 import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
+import org.rmj.g3appdriver.GCircle.Api.GCircleApi;
+import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.dev.Device.Telephony;
 import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
-import org.rmj.g3appdriver.dev.Api.WebApi;
+import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +25,7 @@ public class AppVersion {
 
     private final AppConfigPreference poConfig;
     private final Telephony poTlphony;
-    private final WebApi poApi;
+    private final GCircleApi poApi;
     private final HttpHeaders poHeaders;
     private final EmployeeMaster poUser;
 
@@ -30,7 +34,7 @@ public class AppVersion {
     public AppVersion(Application instance) {
         this.poConfig = AppConfigPreference.getInstance(instance);
         this.poTlphony = new Telephony(instance);
-        this.poApi = new WebApi(poConfig.getTestStatus());
+        this.poApi = new GCircleApi(instance);
         this.poHeaders = HttpHeaders.getInstance(instance);
         this.poUser = new EmployeeMaster(instance);
     }
@@ -48,7 +52,7 @@ public class AppVersion {
             params.put("sIMEINoxx", poTlphony.getDeviceID());
             params.put("sAppVersn", poConfig.getVersionCode());
 
-            String lsAddress = poApi.getUrlSubmitAppVersion(poConfig.isBackUpServer());
+            String lsAddress = poApi.getUrlSubmitAppVersion();
 
             String lsResponse = WebClient.sendRequest(
                     lsAddress,
@@ -56,7 +60,7 @@ public class AppVersion {
                     poHeaders.getHeaders());
 
             if(lsResponse == null){
-                message = "Server no response.";
+                message = SERVER_NO_RESPONSE;
                 Log.e(TAG, message);
                 return false;
             }
@@ -65,7 +69,7 @@ public class AppVersion {
             String lsResult = loResponse.getString("result");
             if(lsResult.equalsIgnoreCase("error")){
                 JSONObject loError = loResponse.getJSONObject("error");
-                message = loError.getString("message");
+                message = getErrorMessage(loError);
                 Log.e(TAG, loError.toString());
                 return false;
             }
@@ -73,7 +77,7 @@ public class AppVersion {
             return true;
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return false;
         }
     }
@@ -81,7 +85,7 @@ public class AppVersion {
     public List<VersionInfo> GetVersionInfo(){
         try{
             List<VersionInfo> loVersion = new ArrayList<>();
-            String lsAddress = poApi.getUrlVersionLog(poConfig.isBackUpServer());
+            String lsAddress = poApi.getUrlVersionLog();
 
             String lsResponse = WebClient.sendRequest(
                     lsAddress,
@@ -89,7 +93,7 @@ public class AppVersion {
                     poHeaders.getHeaders());
 
             if(lsResponse == null){
-                message = "Server no response.";
+                message = SERVER_NO_RESPONSE;
                 return null;
             }
 
@@ -97,7 +101,7 @@ public class AppVersion {
             String lsResult = loResponse.getString("result");
             if(lsResult.equalsIgnoreCase("error")){
                 JSONObject loError = loResponse.getJSONObject("error");
-                message = loError.getString("message");
+                message = getErrorMessage(loError);
                 Log.e(TAG, loError.toString());
                 return null;
             }
@@ -124,7 +128,7 @@ public class AppVersion {
             return loVersion;
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return null;
         }
     }
@@ -132,7 +136,7 @@ public class AppVersion {
     public VersionInfo CheckUpdate(){
         try{
             VersionInfo loVersion = new VersionInfo();
-            String lsAddress = poApi.getUrlCheckUpdate(poConfig.isBackUpServer());
+            String lsAddress = poApi.getUrlCheckUpdate();
 
             JSONObject params = new JSONObject();
             params.put("sVersnCde", poConfig.getVersionCode());
@@ -143,7 +147,7 @@ public class AppVersion {
                     poHeaders.getHeaders());
 
             if(lsResponse == null){
-                message = "Server no response.";
+                message = SERVER_NO_RESPONSE;
                 return null;
             }
 
@@ -151,7 +155,7 @@ public class AppVersion {
             String lsResult = loResponse.getString("result");
             if(lsResult.equalsIgnoreCase("error")){
                 JSONObject loError = loResponse.getJSONObject("error");
-                message = loError.getString("message");
+                message = getErrorMessage(loError);
                 Log.e(TAG, loError.toString());
                 return null;
             }
@@ -178,7 +182,7 @@ public class AppVersion {
             return loVersion;
         } catch (Exception e){
             e.printStackTrace();
-            message = e.getMessage();
+            message = getLocalMessage(e);
             return null;
         }
     }

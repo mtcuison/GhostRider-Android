@@ -11,6 +11,7 @@
 
 package org.rmj.guanzongroup.petmanager.Fragment;
 
+import static org.rmj.g3appdriver.etc.AppConstants.GetLeaveTypeIndex;
 import static org.rmj.g3appdriver.etc.AppConstants.LEAVE_TYPE;
 
 import android.annotation.SuppressLint;
@@ -20,6 +21,7 @@ import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
@@ -33,11 +35,11 @@ import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textview.MaterialTextView;
 
-import org.rmj.g3appdriver.dev.DeptCode;
+import org.rmj.g3appdriver.GCircle.Etc.DeptCode;
 import org.rmj.g3appdriver.etc.GToast;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.lib.PetManager.pojo.LeaveApplication;
+import org.rmj.g3appdriver.GCircle.Apps.PetManager.pojo.LeaveApplication;
 import org.rmj.guanzongroup.petmanager.R;
 import org.rmj.guanzongroup.petmanager.ViewModel.VMLeaveApplication;
 
@@ -100,8 +102,18 @@ public class Fragment_LeaveApplication extends Fragment {
             }
         });
 
-        spnType.setAdapter(new ArrayAdapter<>(requireActivity(), android.R.layout.simple_dropdown_item_1line, LEAVE_TYPE));
-        spnType.setOnItemClickListener((parent, view1, position, id) -> poLeave.setLeaveType(String.valueOf(position)));
+        spnType.setAdapter(new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_dropdown_item, LEAVE_TYPE));
+        spnType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                poLeave.setLeaveType(String.valueOf(position));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         txtDateFrom.setOnClickListener(v -> {
             final Calendar newCalendar = Calendar.getInstance();
@@ -177,6 +189,7 @@ public class Fragment_LeaveApplication extends Fragment {
                     lnNoDays = Integer.parseInt(lsNoDays);
                 }
                 poLeave.setNoOfDaysx(lnNoDays);
+                poLeave.setLeaveType(GetLeaveTypeIndex(spnType.getText().toString()));
                 poLeave.setRemarksxx(Objects.requireNonNull(txtRemarks.getText()).toString());
                 mViewModel.SaveApplication(poLeave, new VMLeaveApplication.LeaveApplicationCallback() {
                     @Override

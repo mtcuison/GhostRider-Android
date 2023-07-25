@@ -76,7 +76,8 @@
         android:manageSpaceActivity="org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_LocalData"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
-        tools:replace="android:allowBackup,android:label">
+        tools:replace="android:allowBackup,android:label"
+        android:enableOnBackInvokedCallback="true">
 
         <activity android:name=".Activity.Activity_DataManager"
             android:screenOrientation="userPortrait"
@@ -89,6 +90,7 @@
             android:screenOrientation="userPortrait"
             android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan"
+            android:launchMode="singleTask"
             android:exported="true">
 
             <intent-filter>

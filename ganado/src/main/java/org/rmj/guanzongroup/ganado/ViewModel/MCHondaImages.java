@@ -1,0 +1,145 @@
+package org.rmj.guanzongroup.ganado.ViewModel;
+
+import org.rmj.guanzongroup.ganado.R;
+
+public class MCHondaImages {
+
+    public static String getModelImageResource(String ModelName) {
+        switch (ModelName) {
+            case "M00121067":
+            case "M00121138":
+            case "M00121068":
+            case "M00121069":
+            case "M00113038":
+            case "M00123029":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2019/07/xrm-125-motard-red-2021.png";
+            case "M00118025":
+            case "M00121104":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2021/08/rs125-2021-Pearl-Nightfall-Blue.png";
+            case "M00117046":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2021/08/rs125-2021-Pearl-Nightfall-Blue.png";
+            case "M00117059":
+            case "M00123048":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2019/07/tmx-supremo-red.png";
+            case "M00117070":
+            case "M00123027":
+            case "M00123028":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2019/07/xrm-125-ds-aura-blue.png";
+            case "M00117074":
+            case "M00122202":
+            case "M00122203":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2020/07/xr150L-red.jpg";
+            case "M00118037":
+                return "";
+            case "M00119018":
+            case "M00119067":
+            case "M00122078":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2020/07/wave-110-drum-orange.jpg";
+            case "M00121052":
+            case "M00119049":
+            case "M00121059":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2020/07/genio-matte-gunpowder-metallic-black.png";
+            case "M00119060":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2020/08/supra-gtr-150-red.jpg";
+            case "M00120011":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2020/06/airblade-blue.png";
+            case "M00120071":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2020/06/adv-2021-white.jpg";
+            case "M00121035":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2020/12/cb-1000r-nsc-matte-ballistic-black-mettalic.jpg";
+            case "M00121037":
+            case "M00122112":
+            case "M00122113":
+            case "M00122114":
+            case "M00122115":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2020/12/hbb-crf-1100L-africa-twin-matte-ballistic-black-metallic.jpg";
+            case "M00121043":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2019/07/tmx-125-2021-gray.jpg";
+            case "M00121056":
+            case "M00121120":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2018/11/Beat-Premium-Matte-Fiery-Red.png";
+            case "M00121058":
+            case "M00121118":
+            case "M00121119":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2021/08/Beat-Street-STD-Matte-Summit-Silver-Metallic.png";
+            case "M00121060":
+            case "M00121061":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2021/03/honda-pcx-160-pearl-fadeless-white.jpg";
+            case "M00121099":
+            case "M00123012":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2020/07/cbr150r-winning-red.png";
+            case "M00121103":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2021/05/dio-2021-vibrant-orange.png";
+            case "M00121107":
+            case "M00122208":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2018/11/click-125i-2021-matte-pearl-crater-white.png";
+            case "M00121136":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2020/12/honda-cb500x-grand-prix-red.jpg";
+            case "M00121137":
+            case "M00122210":
+            case "M00122211":
+            case "M00123010":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2022/11/crf250rx-1.jpg";
+            case "M00121185":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2020/12/cbr-500r-2022-matte-gunpowder-black-metallic.jpg";
+            case "M00121186":
+            case "M00121187":
+            case "M00121188":
+            case "M00123009":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2019/07/honda-crf150l-white.jpg";
+            case "M00122001":
+            case "M00122002":
+            case "M00122005":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2020/12/cbr1000rr-r-fireblade-sp-grand-prix-red-1.jpg";
+            case "M00122003":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2022/03/cb-500f-grand-prix-red.jpg";
+            case "M00122042":
+            case "M00122043":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2022/10/cb150x-matte-gunpowder-black.jpg";
+            case "M00122073":
+                return "";
+            case "M00122079":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2020/07/wave-110-R-Disc-Red.jpg";
+            case "M00122082":
+            case "M00122083":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2022/10/airblade160-gray.jpg";
+
+            case "M00122099":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2022/10/adv160-red.jpg";
+            case "M00122116":
+            case "M00122117":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2020/12/honda-xadv-harvest-beige.jpg";
+            case "M00123001":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2021/01/rebel-500-matte-jeans-blue-metalic.jpg";
+            case "M00123005":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2019/07/crf300l-extreme-red.png";
+            case "M00123006":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2022/10/crf-300-rally-1.jpg";
+            case "M00123011":
+                return "";
+            case "M00123013":
+            case "M00123014":
+                return "";
+            case "M00123015":
+            case "M00123016":
+            case "M00123017":
+            case "M00123018":
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2022/03/cbr-650r-2022-matte-gunpowder-black-metallic.jpg";
+            case "M00123019":
+                return "";
+            case "M00123043":
+                return "";
+            case "M00123044":
+            case "M00123045":
+                return "";
+            case "M00123046":
+                return "";
+            case "M0W105006":
+                return "";
+
+            default:
+                return "https://www.guanzongroup.com.ph/wp-content/uploads/2020/06/";
+        }
+    }
+}
+

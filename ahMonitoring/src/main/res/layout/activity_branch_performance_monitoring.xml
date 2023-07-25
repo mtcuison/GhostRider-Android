@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="3dp"
+        style="@style/LinearLayoutToolbarBackground"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -30,53 +31,27 @@
         android:id="@+id/img_header"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:adjustViewBounds="true"
-        android:scaleType="centerCrop"
-        android:src="@drawable/bg_dashboard"
+        style="@style/Activity_HeaderBackground"
+        app:layout_constraintHeight_percent=".3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent=".35"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/materialTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/roboto"
-        android:text="Branch Performance"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/img_header"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.45" />
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/lbl_AreaCde"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:fontFamily="@font/roboto"
-        android:text="GMC Dagupan Honda"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/materialTextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <com.google.android.material.card.MaterialCardView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_below="@+id/img_header"
         android:layout_marginHorizontal="10dp"
         app:cardCornerRadius="10dp"
-        android:layout_marginTop="30dp"
         app:cardPreventCornerOverlap="true"
         app:cardUseCompatPadding="true"
+        app:layout_constraintHeight_percent=".8"
+        app:layout_constraintVertical_bias="0.95"
+        app:layout_constraintWidth_percent=".95"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/materialTextView">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout6">
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -89,34 +64,51 @@
                 android:gravity="center_horizontal"
                 android:orientation="vertical">
 
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/lbl_AreaCde"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:fontFamily="@font/roboto"
+                    android:text="GMC Dagupan Honda"
+                    android:textSize="24sp" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/materialTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto"
+                    android:text="Branch Performance"
+                    android:textSize="18sp" />
+
                 <com.google.android.material.tabs.TabLayout
                     android:id="@+id/tabLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Current Branch Performance"
-                    android:gravity="center"
                     android:layout_marginStart="5dp"
-                    android:layout_marginTop="15dp"/>
+                    android:layout_marginTop="15dp"
+                    android:gravity="center"
+                    android:text="Current Branch Performance" />
 
                 <com.github.mikephil.charting.charts.PieChart
                     android:id="@+id/pie_chart"
                     android:layout_width="match_parent"
                     android:layout_height="180dp"
+                    android:layout_gravity="center"
                     android:layout_marginVertical="10dp"
-                    android:padding="5dp"
-                    android:layout_gravity="center"/>
+                    android:padding="5dp" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Previous Branch Performance Preview"
-                    android:gravity="center"
                     android:layout_marginStart="5dp"
-                    android:layout_marginTop="15dp"/>
+                    android:layout_marginTop="15dp"
+                    android:gravity="center"
+                    android:text="Previous Branch Performance Preview" />
 
                 <com.github.mikephil.charting.charts.LineChart
                     android:id="@+id/line_chart"
@@ -130,18 +122,18 @@
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/lblAreaPerformanceMonitoring"
-                    android:text="Branch Performance for Previous 12 Months"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
-                    android:layout_marginTop="15dp"/>
+                    android:layout_marginTop="15dp"
+                    android:text="Branch Performance for Previous 12 Months" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
                     android:background="?attr/colorPrimary"
                     android:gravity="center"
-                    android:layout_marginTop="20dp"
                     android:orientation="horizontal"
                     android:padding="5dp">
 
@@ -179,17 +171,16 @@
                         android:gravity="center"
                         android:text="Actual" />
                 </LinearLayout>
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvBranchPerformance"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:clipToPadding="false"
-                    android:scrollbars="none"
+                    android:orientation="vertical"
                     android:padding="5dp"
-                    android:orientation="vertical"  />
+                    android:scrollbars="none" />
             </LinearLayout>
-
-
 
 
         </androidx.core.widget.NestedScrollView>

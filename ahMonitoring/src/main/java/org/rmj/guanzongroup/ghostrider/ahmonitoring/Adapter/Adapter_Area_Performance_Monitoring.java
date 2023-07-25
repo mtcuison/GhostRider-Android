@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.android.material.textview.MaterialTextView;
 
-import org.rmj.g3appdriver.lib.BullsEye.PerformancePeriod;
+import org.rmj.g3appdriver.GCircle.Apps.BullsEye.PerformancePeriod;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.PeriodicPerformance;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 

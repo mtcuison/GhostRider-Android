@@ -32,6 +32,8 @@
 
     <!--   CAMERA -->
 
+    <string name="first_launch_message">Welcome to Guanzon Circle! Please note that during the first launch, the app may take slightly longer to load as it initializes and prepares necessary data. We appreciate your patience and assure you subsequent launches will be faster.\n Thank you for understanding!</string>
+
     <string name="summary_settings_export">Exporting your database is only allowed if problem occurs and if supervise by MIS</string>
     <string name="summary_settings_localDB">Download new records of data from server.</string>
     <string name="summary_settings_account">Change your account password</string>

@@ -56,7 +56,7 @@ public class Fragment_Employee_Applications extends Fragment {
                 if(integer > 0){
                     mViewModel.GetApproveBusTrip().observe(getViewLifecycleOwner(), eEmployeeBusinessTrips -> {
                         try{
-                            recyclerView.setAdapter(new EmployeeApplicationAdapter(eEmployeeBusinessTrips, TransNox -> {
+                            recyclerView.setAdapter(new EmployeeApplicationAdapter(eEmployeeBusinessTrips, (TransNox, EmpName) -> {
 
                             }));
                         } catch (Exception e){
@@ -66,7 +66,7 @@ public class Fragment_Employee_Applications extends Fragment {
                 } else {
                     mViewModel.getApproveLeaveList().observe(getViewLifecycleOwner(), eEmployeeLeaves -> {
                         try{
-                            recyclerView.setAdapter(new EmployeeApplicationAdapter(eEmployeeLeaves, true, TransNox -> {
+                            recyclerView.setAdapter(new EmployeeApplicationAdapter(eEmployeeLeaves, true, (TransNox, EmpName) -> {
 
                             }));
                         } catch (Exception e){

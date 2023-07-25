@@ -36,14 +36,14 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textview.MaterialTextView;
 
-import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeRole;
-import org.rmj.g3appdriver.dev.DeptCode;
+import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeRole;
+import org.rmj.g3appdriver.GCircle.Etc.DeptCode;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
-import org.rmj.g3appdriver.lib.ImportData.ImportEmployeeRole;
+import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
+import org.rmj.g3appdriver.GCircle.ImportData.ImportEmployeeRole;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Etc.FragmentAdapter;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_CollectionList;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_LogCollection;
@@ -146,13 +146,14 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
                             if(loIntent == null){
                                 loMessage.initDialog();
                                 loMessage.setTitle("Dashboard");
-                                loMessage.setMessage("No corresponding feature has been set.");
+                                loMessage.setMessage("Feature not available.");
                                 loMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
                                 loMessage.show();
                             } else {
                                 startActivity(loIntent);
                                 overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
                             }
+                            return true;
                         }
                         return false;
                     });
@@ -161,14 +162,14 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
                         if(loIntent == null){
                             loMessage.initDialog();
                             loMessage.setTitle("Dashboard");
-                            loMessage.setMessage("No corresponding feature has been set.");
+                            loMessage.setMessage("Feature not available.");
                             loMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
                             loMessage.show();
                         } else {
                             startActivity(loIntent);
                             overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
                         }
-                        return false;
+                        return true;
                     });
                     expListView.collapseGroup(1);
                 });

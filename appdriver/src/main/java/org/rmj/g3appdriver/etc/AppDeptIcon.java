@@ -1,6 +1,6 @@
 package org.rmj.g3appdriver.etc;
 
-import static org.rmj.g3appdriver.dev.DeptCode.*;
+import static org.rmj.g3appdriver.GCircle.Etc.DeptCode.*;
 
 import org.rmj.g3appdriver.R;
 

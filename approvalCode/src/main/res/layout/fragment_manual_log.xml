@@ -10,196 +10,185 @@
   ~ project file last modified : 4/24/21 3:18 PM
   -->
 
-<com.google.android.material.card.MaterialCardView  xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragment.Fragment_ManualLog"
     android:theme="@style/GhostRiderMaterialTheme"
-    app:cardUseCompatPadding="true"
-    app:cardElevation="5dp"
-    app:cardMaxElevation="5dp"
-    app:cardCornerRadius="10dp"
-    app:cardPreventCornerOverlap="true">
+    android:scrollbars="none">
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scrollbars="none">
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:gravity="center"
+        android:layout_marginBottom="20dp">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/lbl_approval"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_medium"
+            android:text="Manual Log"
+            android:padding="10dp"
+            android:textSize="20sp"/>
+
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="10dp"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/TextInputStyle"
+            android:hint="@string/sHintReqBranch">
+
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                android:id="@+id/txt_appBranch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/AutoCompleteStyleTheme"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/TextInputStyle"
+            android:hint="@string/sHintReqDate">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txt_appRequestDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/TextInputStyle.Edittext"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="10dp"
             android:gravity="center"
-            android:layout_marginBottom="20dp">
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/lbl_approval"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_medium"
-                android:text="Manual Log"
-                android:padding="10dp"
-                android:textSize="20sp"/>
-
-            <com.google.android.material.divider.MaterialDivider
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginBottom="10dp"/>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/TextInputStyle"
-                android:hint="@string/sHintReqBranch">
-
-                <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                    android:id="@+id/txt_appBranch"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    style="@style/AutoCompleteStyleTheme"/>
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/TextInputStyle"
-                android:hint="@string/sHintReqDate">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txt_appRequestDate"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    style="@style/TextInputStyle.Edittext"/>
-            </com.google.android.material.textfield.TextInputLayout>
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="horizontal">
 
-                <LinearLayout
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/cb_timeInAM"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_weight="1"
+                    android:text="Time In(AM)"/>
 
-                    <com.google.android.material.checkbox.MaterialCheckBox
-                        android:id="@+id/cb_timeInAM"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Time In(AM)"/>
-
-                    <com.google.android.material.checkbox.MaterialCheckBox
-                        android:id="@+id/cb_timeInPM"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Time In(PM)"/>
-
-                    <com.google.android.material.checkbox.MaterialCheckBox
-                        android:id="@+id/cb_timeInOT"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Time In(OT)"/>
-                </LinearLayout>
-
-                <LinearLayout
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/cb_timeInPM"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center">
+                    android:layout_weight="1"
+                    android:text="Time In(PM)"/>
 
-                    <com.google.android.material.checkbox.MaterialCheckBox
-                        android:id="@+id/cb_timeOutAM"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Time Out(AM)"/>
-
-                    <com.google.android.material.checkbox.MaterialCheckBox
-                        android:id="@+id/cb_timeOutPM"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Time Out(PM)"/>
-
-                    <com.google.android.material.checkbox.MaterialCheckBox
-                        android:id="@+id/cb_timeOutOT"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Time Out(OT)"/>
-
-                </LinearLayout>
-
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/cb_timeInOT"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Time In(OT)"/>
             </LinearLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/TextInputStyle"
-                android:hint="@string/sHintRemarks">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txt_appRemarks"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    style="@style/TextInputStyle.Edittext"
-                    android:inputType="textMultiLine"
-                    android:lines="4"
-                    android:maxLength="200"
-                    android:maxLines="5"/>
-            </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:gravity="center"
-                android:layout_marginTop="20dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:layout_marginBottom="20dp">
+                android:gravity="center">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txt_approvalCode"
-                    android:layout_width="0dp"
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/cb_timeOutAM"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:maxLines="1"
-                    android:maxLength="11"
-                    android:letterSpacing=".4"
-                    android:gravity="center"
-                    android:textCursorDrawable="@null"
-                    android:fontFamily="@font/roboto_medium"
-                    android:enabled="false"
-                    tools:ignore="UnusedAttribute" />
+                    android:text="Time Out(AM)"/>
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_CopyToClipboard"
-                    android:layout_width="0dp"
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/cb_timeOutPM"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight=".15"
-                    style="@style/Widget.MaterialComponents.Button.TextButton"
-                    app:icon="@drawable/ic_copy_content"/>
+                    android:layout_weight="1"
+                    android:text="Time Out(PM)"/>
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/cb_timeOutOT"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Time Out(OT)"/>
 
             </LinearLayout>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_requestAppCode"
-                android:layout_width="wrap_content"
+        </LinearLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/TextInputStyle"
+            android:hint="@string/sHintRemarks">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txt_appRemarks"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/MaterialButtonAccent"
-                android:text="@string/sBtnRequestCode" />
+                style="@style/TextInputStyle.Edittext"
+                android:inputType="textMultiLine"
+                android:lines="4"
+                android:maxLength="200"
+                android:maxLines="5"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="20dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:layout_marginBottom="20dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txt_approvalCode"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:maxLines="1"
+                android:maxLength="11"
+                android:letterSpacing=".4"
+                android:gravity="center"
+                android:textCursorDrawable="@null"
+                android:fontFamily="@font/roboto_medium"
+                android:enabled="false"
+                tools:ignore="UnusedAttribute" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_CopyToClipboard"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".15"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                app:icon="@drawable/ic_copy_content"/>
 
         </LinearLayout>
 
-    </ScrollView>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_requestAppCode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/MaterialButtonAccent"
+            android:text="@string/sBtnRequestCode" />
 
-</com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+
+</ScrollView>

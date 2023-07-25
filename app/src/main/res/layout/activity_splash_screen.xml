@@ -25,17 +25,18 @@
         android:id="@+id/imgLogo"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:src="@drawable/ic_guanzon_circle"
+        android:src="@drawable/kay"
         android:transitionName="img_logo"
+        android:scaleType="centerInside"
+        android:adjustViewBounds="true"
+        app:layout_constraintHeight_percent=".3"
+        app:layout_constraintWidth_percent=".4"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_default="percent"
-        app:layout_constraintHeight_percent="0.29"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_default="percent"
-        app:layout_constraintWidth_percent="0.47" />
-
+        app:layout_constraintWidth_default="percent" />
 
     <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/progress_splashscreen"
@@ -51,13 +52,27 @@
         app:layout_constraintWidth_default="percent" />
 
     <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/lblFirstLaunchNotice"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_light"
+        android:text="@string/first_launch_message"
+        android:gravity="center"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/progress_splashscreen"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgLogo"
+        app:layout_constraintWidth_percent=".9"
+        app:layout_constraintVertical_bias="0.8" />
+
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tvCompany"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="3dp"
         android:fontFamily="@font/roboto_bold"
         android:text="@string/sLblCompName"
-        android:textSize="13sp"
         app:layout_constraintBottom_toTopOf="@+id/tvCopyright"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -68,7 +83,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/roboto_light"
         android:text="@string/sLblCopyright"
-        android:textSize="11sp"
+        android:textSize="12sp"
         android:layout_marginBottom="3dp"
         app:layout_constraintBottom_toTopOf="@+id/lbl_versionInfo"
         app:layout_constraintEnd_toEndOf="parent"
@@ -80,7 +95,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/roboto_light"
         android:text="@string/lblBuildVersion"
-        android:textSize="11sp"
+        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

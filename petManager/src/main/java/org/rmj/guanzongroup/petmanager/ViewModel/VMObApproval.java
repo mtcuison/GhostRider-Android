@@ -11,6 +11,8 @@
 
 package org.rmj.guanzongroup.petmanager.ViewModel;
 
+import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
+
 import android.annotation.SuppressLint;
 import android.app.Application;
 import android.os.AsyncTask;
@@ -20,13 +22,11 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeBusinessTrip;
-import org.rmj.g3appdriver.dev.Database.Repositories.RBranch;
-import org.rmj.g3appdriver.lib.PetManager.Obj.EmployeeOB;
-import org.rmj.g3appdriver.lib.PetManager.PetManager;
-import org.rmj.g3appdriver.lib.PetManager.model.iPM;
-import org.rmj.g3appdriver.lib.PetManager.pojo.OBApprovalInfo;
+import org.rmj.g3appdriver.GCircle.room.Entities.EBranchInfo;
+import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeBusinessTrip;
+import org.rmj.g3appdriver.lib.Etc.Branch;
+import org.rmj.g3appdriver.GCircle.Apps.PetManager.Obj.EmployeeOB;
+import org.rmj.g3appdriver.GCircle.Apps.PetManager.pojo.OBApprovalInfo;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 
 public class VMObApproval extends AndroidViewModel {
@@ -34,8 +34,8 @@ public class VMObApproval extends AndroidViewModel {
 
     private final Application instance;
 
-    private final iPM poSys;
-    private final RBranch poBranch;
+    private final EmployeeOB poSys;
+    private final Branch poBranch;
     private final ConnectionUtil poConn;
 
     private final MutableLiveData<String> TransNox = new MutableLiveData<>();
@@ -55,8 +55,8 @@ public class VMObApproval extends AndroidViewModel {
     public VMObApproval(@NonNull Application application) {
         super(application);
         this.instance = application;
-        this.poSys = new PetManager(instance).GetInstance(PetManager.ePetManager.BUSINESS_TRIP_APPLICATION);
-        this.poBranch = new RBranch(instance);
+        this.poSys = new EmployeeOB(application);
+        this.poBranch = new Branch(instance);
         this.poConn = new ConnectionUtil(instance);
         this.TransNox.setValue("");
     }
@@ -113,7 +113,7 @@ public class VMObApproval extends AndroidViewModel {
 
             } catch (Exception e){
                 e.printStackTrace();
-                message = e.getMessage();
+                message = getLocalMessage(e);
                 return false;
             }
         }
@@ -179,7 +179,7 @@ public class VMObApproval extends AndroidViewModel {
                 return true;
             } catch (Exception e){
                 e.printStackTrace();
-                message = e.getMessage();
+                message = getLocalMessage(e);
                 return false;
             }
         }

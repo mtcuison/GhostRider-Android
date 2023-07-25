@@ -11,6 +11,8 @@
 
 package org.rmj.guanzongroup.promotions.ViewModel;
 
+import static org.rmj.g3appdriver.dev.Api.ApiResult.getErrorMessage;
+
 import android.annotation.SuppressLint;
 import android.app.Application;
 import android.os.AsyncTask;
@@ -24,20 +26,20 @@ import androidx.lifecycle.LiveData;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.rmj.g3appdriver.GCircle.Api.GCircleApi;
 import org.rmj.g3appdriver.dev.Api.WebClient;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.ERaffleBasis;
-import org.rmj.g3appdriver.dev.Database.Entities.ERaffleInfo;
-import org.rmj.g3appdriver.dev.Database.Repositories.RBranch;
-import org.rmj.g3appdriver.dev.Database.Repositories.RRaffleInfo;
-import org.rmj.g3appdriver.dev.Database.Repositories.RTown;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DTownInfo;
+import org.rmj.g3appdriver.GCircle.room.Entities.EBranchInfo;
+import org.rmj.g3appdriver.GCircle.room.Entities.ERaffleBasis;
+import org.rmj.g3appdriver.GCircle.room.Entities.ERaffleInfo;
+import org.rmj.g3appdriver.lib.Etc.Branch;
+import org.rmj.g3appdriver.GCircle.room.Repositories.RRaffleInfo;
+import org.rmj.g3appdriver.lib.Etc.Town;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
-import org.rmj.g3appdriver.lib.Account.SessionManager;
+import org.rmj.g3appdriver.GCircle.Account.EmployeeSession;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
-import org.rmj.g3appdriver.dev.Api.WebApi;
 import org.rmj.guanzongroup.promotions.Etc.RaffleEntryCallback;
 import org.rmj.guanzongroup.promotions.Model.RaffleEntry;
 
@@ -54,9 +56,9 @@ public class VMRaffleEntry extends AndroidViewModel {
     private static LiveData<List<ERaffleBasis>> raffleBasis;
     private static LiveData<String[]> raffleBasisDesc;
     private final RRaffleInfo raffleRepo;
-    private final SessionManager session;
-    private final RTown poTown;
-    private final RBranch poBranch;
+    private final EmployeeSession session;
+    private final Town poTown;
+    private final Branch poBranch;
 
     private final Application instance;
 
@@ -68,9 +70,9 @@ public class VMRaffleEntry extends AndroidViewModel {
         raffleRepo = new RRaffleInfo(application);
         raffleBasisDesc = raffleRepo.getAllRaffleBasisDesc();
         raffleBasis = raffleRepo.getAllRaffleBasis();
-        session = new SessionManager(application);
-        this.poTown = new RTown(application);
-        this.poBranch = new RBranch(application);
+        session = EmployeeSession.getInstance(application);
+        this.poTown = new Town(application);
+        this.poBranch = new Branch(application);
     }
 
     public LiveData<EBranchInfo> getUserBranchInfo(){
@@ -106,14 +108,14 @@ public class VMRaffleEntry extends AndroidViewModel {
     private static class ImportDocumentType extends AsyncTask<RaffleEntry, Void, String> {
         private final HttpHeaders headers;
         private final RRaffleInfo raffleRepo;
-        private final WebApi poApi;
+        private final GCircleApi poApi;
         private final AppConfigPreference loConfig;
 
         public ImportDocumentType(Application instance){
             this.headers = HttpHeaders.getInstance(instance);
             this.raffleRepo = new RRaffleInfo(instance);
             this.loConfig = AppConfigPreference.getInstance(instance);
-            this.poApi = new WebApi(loConfig.getTestStatus());
+            this.poApi = new GCircleApi(instance);
         }
 
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -122,7 +124,7 @@ public class VMRaffleEntry extends AndroidViewModel {
             String response = "";
             try {
                 JSONObject loJson = new JSONObject();
-                response = WebClient.sendRequest(poApi.getUrlImportRaffleBasis(loConfig.isBackUpServer()), loJson.toString(), headers.getHeaders());
+                response = WebClient.sendRequest(poApi.getUrlImportRaffleBasis(), loJson.toString(), headers.getHeaders());
                 Log.e(TAG, response);
                 JSONObject jsonResponse = new JSONObject(response);
                 String lsResult = jsonResponse.getString("result");
@@ -252,7 +254,7 @@ public class VMRaffleEntry extends AndroidViewModel {
                 } else {
                     Log.e(TAG, loJson.toString());
                     JSONObject loError = loJson.getJSONObject("error");
-                    String message = loError.getString("message");
+                    String message = getErrorMessage(loError);
                     callBack.OnFailedEntry(message);
                 }
             } catch (Exception e){

@@ -1,33 +1,23 @@
 package org.rmj.guanzongroup.onlinecreditapplication.ViewModel;
 
+import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
+
 import android.app.Application;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.ECountryInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
-import org.rmj.g3appdriver.dev.Database.Repositories.RCreditApplicant;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditApp;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditAppInstance;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditOnlineApplication;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.Obj.MeansSelectionInfo;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Means;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Pension;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Personal;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.CreditApp;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.CreditAppInstance;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.CreditOnlineApplication;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.OnSaveInfoListener;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.model.Means;
+import org.rmj.g3appdriver.GCircle.room.Entities.ECreditApplicantInfo;
+import org.rmj.g3appdriver.utils.Task.OnDoBackgroundTaskListener;
+import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 
 public class VMMeasnInfo extends AndroidViewModel implements CreditAppUI {
     private static final String TAG = VMPersonalInfo.class.getSimpleName();
@@ -47,9 +37,10 @@ public class VMMeasnInfo extends AndroidViewModel implements CreditAppUI {
 
     }
 
-    public Means getModel(){
+    public Means getModel() {
         return poModel;
     }
+
     @Override
     public void InitializeApplication(Intent params) {
         TransNox = params.getStringExtra("sTransNox");
@@ -63,7 +54,39 @@ public class VMMeasnInfo extends AndroidViewModel implements CreditAppUI {
 
     @Override
     public void ParseData(ECreditApplicantInfo args, OnParseListener listener) {
-        new VMMeasnInfo.ParseDataTask(listener).execute(args);
+//        new VMMeasnInfo.ParseDataTask(listener).execute(args);
+        TaskExecutor.Execute(args, new OnDoBackgroundTaskListener() {
+            @Override
+            public Object DoInBackground(Object args) {
+                ECreditApplicantInfo lsApp = (ECreditApplicantInfo) args;
+                try {
+                    Means loDetail = (Means) poApp.Parse(lsApp);
+                    if (loDetail == null) {
+                        message = poApp.getMessage();
+                        return null;
+                    }
+                    return loDetail;
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                    message = getLocalMessage(e);
+                    return null;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    message = getLocalMessage(e);
+                    return null;
+                }
+            }
+
+            @Override
+            public void OnPostExecute(Object object) {
+                Means lsResult = (Means) object;
+                if (lsResult == null) {
+                    Log.e(TAG, message);
+                } else {
+                    listener.OnParse(lsResult);
+                }
+            }
+        });
     }
 
     @Override
@@ -73,82 +96,112 @@ public class VMMeasnInfo extends AndroidViewModel implements CreditAppUI {
 
     @Override
     public void SaveData(OnSaveInfoListener listener) {
-        new VMMeasnInfo.SaveDetailTask(listener).execute(poModel);
-    }
+//        new VMMeasnInfo.SaveDetailTask(listener).execute(poModel);
+        TaskExecutor.Execute(poModel, new OnDoBackgroundTaskListener() {
+            @Override
+            public Object DoInBackground(Object args) {
+                Means lsInfo = (Means) args;
+                int lnResult = poApp.Validate(lsInfo);
 
-    private class ParseDataTask extends AsyncTask<ECreditApplicantInfo, Void, Means>{
-
-        private final OnParseListener listener;
-
-        public ParseDataTask(OnParseListener listener) {
-            this.listener = listener;
-        }
-
-        @Override
-        protected Means doInBackground(ECreditApplicantInfo... app) {
-            try {
-                Means loDetail = (Means) poApp.Parse(app[0]);
-                if(loDetail == null){
+                if (lnResult != 1) {
                     message = poApp.getMessage();
-                    return null;
+                    return false;
                 }
-                return loDetail;
-            } catch (NullPointerException e){
-                e.printStackTrace();
-                message = e.getMessage();
-                return null;
-            } catch (Exception e){
-                e.printStackTrace();
-                message = e.getMessage();
-                return null;
-            }
-        }
 
-        @Override
-        protected void onPostExecute(Means result) {
-            super.onPostExecute(result);
-            if(result == null){
-                Log.e(TAG, message);
-            } else {
-                listener.OnParse(result);
-            }
-        }
-    }
+                String lsResult = poApp.Save(lsInfo);
+                if (lsResult == null) {
+                    message = poApp.getMessage();
+                    return false;
+                }
 
-    private class SaveDetailTask extends AsyncTask<Means, Void, Boolean>{
-
-        private final OnSaveInfoListener listener;
-
-        public SaveDetailTask(OnSaveInfoListener listener) {
-            this.listener = listener;
-        }
-
-        @Override
-        protected Boolean doInBackground(Means... info) {
-            int lnResult = poApp.Validate(info[0]);
-
-            if(lnResult != 1){
-                message = poApp.getMessage();
-                return false;
+                return true;
             }
 
-            String lsResult = poApp.Save(info[0]);
-            if(lsResult == null){
-                message = poApp.getMessage();
-                return false;
+            @Override
+            public void OnPostExecute(Object object) {
+                Boolean lsSuccess = (Boolean) object;
+                if (lsSuccess) {
+                    listener.OnSave(TransNox);
+                } else {
+                    listener.OnFailed(message);
+                }
             }
-
-            return true;
-        }
-
-        @Override
-        protected void onPostExecute(Boolean isSuccess) {
-            super.onPostExecute(isSuccess);
-            if(isSuccess){
-                listener.OnSave(TransNox);
-            } else {
-                listener.OnFailed(message);
-            }
-        }
+        });
     }
 }
+//    private class ParseDataTask extends AsyncTask<ECreditApplicantInfo, Void, Means>{
+//
+//        private final OnParseListener listener;
+//
+//        public ParseDataTask(OnParseListener listener) {
+//            this.listener = listener;
+//        }
+//
+//        @Override
+//        protected Means doInBackground(ECreditApplicantInfo... app) {
+//            try {
+//                Means loDetail = (Means) poApp.Parse(app[0]);
+//                if(loDetail == null){
+//                    message = poApp.getMessage();
+//                    return null;
+//                }
+//                return loDetail;
+//            } catch (NullPointerException e){
+//                e.printStackTrace();
+//                message = getLocalMessage(e);
+//                return null;
+//            } catch (Exception e){
+//                e.printStackTrace();
+//                message = getLocalMessage(e);
+//                return null;
+//            }
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Means result) {
+//            super.onPostExecute(result);
+//            if(result == null){
+//                Log.e(TAG, message);
+//            } else {
+//                listener.OnParse(result);
+//            }
+//        }
+//    }
+//
+//    private class SaveDetailTask extends AsyncTask<Means, Void, Boolean>{
+//
+//        private final OnSaveInfoListener listener;
+//
+//        public SaveDetailTask(OnSaveInfoListener listener) {
+//            this.listener = listener;
+//        }
+//
+//        @Override
+//        protected Boolean doInBackground(Means... info) {
+//            int lnResult = poApp.Validate(info[0]);
+//
+//            if(lnResult != 1){
+//                message = poApp.getMessage();
+//                return false;
+//            }
+//
+//            String lsResult = poApp.Save(info[0]);
+//            if(lsResult == null){
+//                message = poApp.getMessage();
+//                return false;
+//            }
+//
+//            return true;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Boolean isSuccess) {
+//            super.onPostExecute(isSuccess);
+//            if(isSuccess){
+//                listener.OnSave(TransNox);
+//            } else {
+//                listener.OnFailed(message);
+//            }
+//        }
+//    }
+//}

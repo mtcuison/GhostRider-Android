@@ -9,6 +9,10 @@ import java.util.concurrent.Executors;
 public class TaskExecutor {
     private static final String TAG = TaskExecutor.class.getSimpleName();
 
+    private Object poResult;
+
+    private OnLoadApplicationListener onLoadApplicationListener;
+
     public TaskExecutor(){
 
     }
@@ -17,29 +21,16 @@ public class TaskExecutor {
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Handler handler = new Handler(Looper.getMainLooper());
 
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            mListener.OnPreExecute();
-                        }
-                    });
+        executor.execute(() -> {
+            try {
+                handler.post(mListener::OnPreExecute);
 
-                    //Background work here...
-                    Object loResult = mListener.DoInBackground(params);
+                //Background work here...
+                Object loResult = mListener.DoInBackground(params);
 
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            mListener.OnPostExecute(loResult);
-                        }
-                    });
-                } catch (Exception e){
-                    e.printStackTrace();
-                }
+                handler.post(() -> mListener.OnPostExecute(loResult));
+            } catch (Exception e){
+                e.printStackTrace();
             }
         });
     }
@@ -48,23 +39,51 @@ public class TaskExecutor {
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Handler handler = new Handler(Looper.getMainLooper());
 
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    //Background work here...
-                    Object loResult = mListener.DoInBackground(params);
+        executor.execute(() -> {
+            try {
+                //Background work here...
+                Object loResult = mListener.DoInBackground(params);
 
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            mListener.OnPostExecute(loResult);
-                        }
-                    });
-                } catch (Exception e){
-                    e.printStackTrace();
-                }
+                handler.post(() -> mListener.OnPostExecute(loResult));
+            } catch (Exception e){
+                e.printStackTrace();
             }
         });
+    }
+
+    public void setOnLoadApplicationListener(OnLoadApplicationListener onLoadApplicationListener) {
+        this.onLoadApplicationListener = onLoadApplicationListener;
+    }
+
+    public void Execute(){
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Handler handler = new Handler(Looper.getMainLooper());
+
+        executor.execute(() -> {
+            try {
+                //Background work here...
+                Object loResult = onLoadApplicationListener.DoInBackground();
+
+                handler.post(() -> onLoadApplicationListener.OnPostExecute(loResult));
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+    }
+
+    public interface OnShowProgress{
+        void OnProgress();
+    }
+
+    public static void ShowProgress(OnShowProgress listener){
+        Handler handler = new Handler(Looper.getMainLooper());
+
+        handler.post(() -> listener.OnProgress());
+    }
+
+    public void publishProgress(int progress){
+        Handler handler = new Handler(Looper.getMainLooper());
+
+        handler.post(() -> onLoadApplicationListener.OnProgress(progress));
     }
 }

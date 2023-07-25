@@ -27,7 +27,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.android.material.textview.MaterialTextView;
 
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DAreaPerformance;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DAreaPerformance;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 
 import java.util.List;

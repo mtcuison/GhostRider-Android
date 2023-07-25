@@ -11,8 +11,8 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.textview.MaterialTextView;
 
-import org.rmj.g3appdriver.dev.Database.Entities.ENotificationMaster;
-import org.rmj.g3appdriver.dev.Database.Entities.ENotificationRecipient;
+import org.rmj.g3appdriver.GCircle.room.Entities.ENotificationMaster;
+import org.rmj.g3appdriver.GCircle.room.Entities.ENotificationRecipient;
 import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.guanzongroup.ghostrider.notifications.R;
 import org.rmj.guanzongroup.ghostrider.notifications.ViewModel.VMViewNotification;

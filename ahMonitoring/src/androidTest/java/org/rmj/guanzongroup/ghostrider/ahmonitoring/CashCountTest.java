@@ -61,7 +61,7 @@ public class CashCountTest {
         JSONObject params = new JSONObject();
         params.put("user", "mikegarcia8748@gmail.com");
         params.put("pswd", "123456");
-        String lsResponse = WebClient.httpPostJSon(LOCAL_LOGIN,
+        String lsResponse = WebClient.sendRequest(LOCAL_LOGIN,
                 params.toString(), (HashMap<String, String>) headers);
         if(lsResponse == null){
             isSuccess = false;
@@ -113,7 +113,7 @@ public class CashCountTest {
         params.put("dEntryDte", new AppConstants().DATE_MODIFIED);
         params.put("sReqstdBy", "");
 
-        String lsResponse = WebClient.httpPostJSon(LOCAL_CashCount,
+        String lsResponse = WebClient.sendRequest(LOCAL_CashCount,
                 params.toString(), (HashMap<String, String>) headers);
         if(lsResponse == null){
             isSuccess = false;

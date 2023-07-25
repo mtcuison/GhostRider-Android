@@ -13,6 +13,6 @@ package org.rmj.guanzongroup.ghostrider.samsungknox.Etc;
 
 public interface ViewModelCallBack {
     void OnLoadRequest(String Title, String Message, boolean Cancellable);
-    void OnRequestSuccess(String args);
+    void OnRequestSuccess(String args, String args1, String args2, String args3);
     void OnRequestFailed(String message);
 }

@@ -11,6 +11,8 @@
 
 package org.rmj.guanzongroup.petmanager.ViewModel;
 
+import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
+
 import android.annotation.SuppressLint;
 import android.app.Application;
 import android.os.AsyncTask;
@@ -20,14 +22,12 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEmployeeInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeLeave;
-import org.rmj.g3appdriver.dev.Database.Repositories.RBranch;
-import org.rmj.g3appdriver.lib.PetManager.Obj.EmployeeLeave;
-import org.rmj.g3appdriver.lib.PetManager.PetManager;
-import org.rmj.g3appdriver.lib.PetManager.model.iPM;
-import org.rmj.g3appdriver.lib.PetManager.pojo.LeaveApprovalInfo;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DEmployeeInfo;
+import org.rmj.g3appdriver.GCircle.room.Entities.EBranchInfo;
+import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeLeave;
+import org.rmj.g3appdriver.lib.Etc.Branch;
+import org.rmj.g3appdriver.GCircle.Apps.PetManager.Obj.EmployeeLeave;
+import org.rmj.g3appdriver.GCircle.Apps.PetManager.pojo.LeaveApprovalInfo;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 
 import java.text.ParseException;
@@ -40,8 +40,8 @@ public class VMLeaveApproval extends AndroidViewModel {
 
     public static final String TAG = VMLeaveApproval.class.getSimpleName();
     private final Application instance;
-    private final RBranch pobranch;
-    private final iPM poSys;
+    private final Branch pobranch;
+    private final EmployeeLeave poSys;
     private final ConnectionUtil poConn;
 
 
@@ -54,8 +54,8 @@ public class VMLeaveApproval extends AndroidViewModel {
     public VMLeaveApproval(@NonNull Application application) {
         super(application);
         this.instance = application;
-        this.pobranch = new RBranch(instance);
-        this.poSys = new PetManager(instance).GetInstance(PetManager.ePetManager.LEAVE_APPLICATION);
+        this.pobranch = new Branch(instance);
+        this.poSys = new EmployeeLeave(instance);
         this.poConn = new ConnectionUtil(instance);
         this.TransNox.setValue("");
     }
@@ -132,7 +132,7 @@ public class VMLeaveApproval extends AndroidViewModel {
                 return true;
             } catch (Exception e){
                 e.printStackTrace();
-                message = e.getMessage();
+                message = getLocalMessage(e);
                 return false;
             }
         }
@@ -194,7 +194,7 @@ public class VMLeaveApproval extends AndroidViewModel {
                 return true;
             } catch (Exception e) {
                 e.printStackTrace();
-                message = e.getMessage();
+                message = getLocalMessage(e);
                 return false;
             }
         }

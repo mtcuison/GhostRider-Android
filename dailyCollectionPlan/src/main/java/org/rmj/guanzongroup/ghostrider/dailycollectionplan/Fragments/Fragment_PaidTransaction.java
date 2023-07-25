@@ -11,6 +11,8 @@
 
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments;
 
+import static org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants.GetPaymentTypeIndex;
+
 import android.app.AlertDialog;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,6 +21,14 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import  com.google.android.material.checkbox.MaterialCheckBox;
+
 import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
@@ -27,18 +37,11 @@ import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.checkbox.MaterialCheckBox;
-import com.google.android.material.textfield.MaterialAutoCompleteTextView;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
-import com.google.android.material.textview.MaterialTextView;
-
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.lib.integsys.Dcp.pojo.PaidDCP;
+import org.rmj.g3appdriver.GCircle.Apps.Dcp.pojo.PaidDCP;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_Transaction;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogCheckPayment;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
@@ -264,7 +267,7 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
 
         btnConfirm.setOnClickListener(v -> {
             poPaid.setRemarks(Remarksx);
-            poPaid.setPayment(String.valueOf(spnType.getText()));
+            poPaid.setPayment(GetPaymentTypeIndex(spnType.getText().toString()));
             poPaid.setPrNoxxx(Objects.requireNonNull(txtPrNoxx.getText()).toString());
             poPaid.setRemarks(Objects.requireNonNull(txtRemarks.getText()).toString());
             poPaid.setAmountx(FormatUIText.getParseDouble(Objects.requireNonNull(txtAmount.getText()).toString()));

@@ -1,0 +1,11 @@
+<resources>
+    <string name="select_brand">SELECT BRAND</string>
+    <string name="select_category">SELECT CATEGORY</string>
+    <string name="auto">AUTO</string>
+    <string name="mobile_phone">MOBILE PHONE</string>
+    <string name="motorcycle">MOTORCYCLE</string>
+    <string name="no_item_found_for_keyword_xiaomi">No item found for keyword \'Xiaomi\'</string>
+    <string name="honda_adv_160">HONDA ADV 160</string>
+    <string name="close">Close</string>
+    <string name="inquire">Inquire</string>
+</resources>

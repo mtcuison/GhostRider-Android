@@ -18,24 +18,24 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditApp;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditOnlineApplication;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.LoanInfo;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditAppInstance;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Business;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.CoMaker;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.CoMakerResidence;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Dependent;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Employment;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Financier;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.OtherReference;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Personal;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Pension;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.ClientResidence;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.ClientSpouseInfo;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Disbursement;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Properties;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Reference;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.CreditApp;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.CreditOnlineApplication;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.model.LoanInfo;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.CreditAppInstance;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.model.Business;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.model.CoMaker;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.model.CoMakerResidence;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.model.Dependent;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.model.Employment;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.model.Financier;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.model.OtherReference;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.model.Personal;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.model.Pension;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.model.ClientResidence;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.model.ClientSpouseInfo;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.model.Disbursement;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.model.Properties;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.model.Reference;
 import org.rmj.gocas.base.GOCASApplication;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -853,9 +853,9 @@ public class TestApplicantInfo {
         loDetail.setsPyr2Buyr("sample");
         loDetail.setsUnitPayr("0");
         loDetail.setsUnitUser("0");
-        loDetail.AddReference(new Reference("sample", "sample1", "0346", "09123456789"));
-        loDetail.AddReference(new Reference("sample1", "sample11", "0346", "09987456321"));
-        loDetail.AddReference(new Reference("sample2", "sample12", "0346", "09365214789"));
+        loDetail.AddReference(new Reference("sample", "sample1", "0346", "", "09123456789"));
+        loDetail.AddReference(new Reference("sample1", "sample11", "0346", "", "09987456321"));
+        loDetail.AddReference(new Reference("sample2", "sample12", "0346", "", "09365214789"));
 
         if(loApp.Validate(loDetail) == 0){
             message = loApp.getMessage();

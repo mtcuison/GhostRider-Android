@@ -22,6 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="3dp"
+        style="@style/LinearLayoutToolbarBackground"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -38,37 +39,11 @@
         android:id="@+id/shapeableImageView2"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:adjustViewBounds="true"
-        android:scaleType="centerCrop"
-        android:src="@drawable/bg_dashboard"
-        app:layout_constraintEnd_toEndOf="parent"
+        style="@style/Activity_HeaderBackground"
         app:layout_constraintHeight_percent=".3"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/materialTextView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/roboto"
-        android:text="Cash Count"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="@+id/shapeableImageView2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.35" />
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/lbl_headerBranch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/roboto"
-        android:text="GMC Dagupan"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/materialTextView2" />
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="0dp"
@@ -76,20 +51,17 @@
         app:cardCornerRadius="10dp"
         app:cardPreventCornerOverlap="true"
         app:cardUseCompatPadding="true"
-        android:layout_marginTop="30dp"
-        android:layout_marginHorizontal="10dp"
-        android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent=".8"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lbl_headerBranch">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
+        app:layout_constraintVertical_bias="0.95"
+        app:layout_constraintWidth_percent=".95">
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fillViewport="true"
-            android:orientation="vertical"
-            android:fitsSystemWindows="true"
             android:padding="3dp"
             android:scrollbars="none">
 
@@ -99,7 +71,26 @@
                 android:layout_marginHorizontal="5dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="30dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_gravity="center_horizontal">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/materialTextView2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto"
+                    android:text="Cash Count"
+                    android:textSize="24sp"
+                    android:gravity="center_horizontal"/>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/lbl_headerBranch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto"
+                    android:text="GMC Dagupan"
+                    android:textSize="18sp"
+                    android:gravity="center_horizontal"/>
 
                 <RelativeLayout
                     android:layout_width="fill_parent"
@@ -108,14 +99,15 @@
                     android:layout_marginTop="10dp">
 
                     <com.google.android.material.textview.MaterialTextView
+                        style="@style/HeaderLabelBlack"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:gravity="center"
-                        android:text="Peso Bills (₱)"
-                        style="@style/HeaderLabelBlack" />
+                        android:text="Peso Bills (₱)" />
 
                 </RelativeLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -124,8 +116,8 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
                         android:layout_marginTop="10dp"
+                        android:orientation="horizontal"
                         android:paddingLeft="5dp"
                         android:paddingRight="5dp"
                         android:weightSum="3">
@@ -147,28 +139,27 @@
                         </RelativeLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
+                            style="@style/TextInputStyle"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight=".9"
-                            android:hint="Enter Quantity"
-                            style="@style/TextInputStyle"
-                            >
+                            android:hint="Enter Quantity">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/edt1000p"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:inputType="number|none"
                                 android:digits="00123456789"
+                                android:inputType="number|none"
                                 android:maxLength="50" />
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
+                            style="@style/TextInputStyle"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="Total"
-                            style="@style/TextInputStyle">
+                            android:hint="Total">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/edtTotal1000p"
@@ -208,27 +199,27 @@
                         </RelativeLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
+                            style="@style/TextInputStyle"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight=".9"
-                            android:hint="Enter Quantity"
-                            style="@style/TextInputStyle"
-                            >
+                            android:hint="Enter Quantity">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/edt500p"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:inputType="number|none"
                                 android:digits="0123456789"
+                                android:inputType="number|none"
                                 android:maxLength="50" />
                         </com.google.android.material.textfield.TextInputLayout>
+
                         <com.google.android.material.textfield.TextInputLayout
+                            style="@style/TextInputStyle"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="Total"
-                            style="@style/TextInputStyle">
+                            android:hint="Total">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/edtTotal500p"
@@ -239,7 +230,7 @@
                                 android:focusableInTouchMode="false"
                                 android:inputType="none|number"
                                 android:maxLength="50"
-                                android:text="0"/>
+                                android:text="0" />
                         </com.google.android.material.textfield.TextInputLayout>
                     </LinearLayout>
                     <!--200 -->
@@ -268,28 +259,27 @@
                         </RelativeLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
+                            style="@style/TextInputStyle"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight=".9"
-                            android:hint="Enter Quantity"
-                            style="@style/TextInputStyle"
-                            >
+                            android:hint="Enter Quantity">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/edt200p"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:inputType="number|none"
                                 android:digits="0123456789"
+                                android:inputType="number|none"
                                 android:maxLength="50" />
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
+                            style="@style/TextInputStyle"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="Total"
-                            style="@style/TextInputStyle">
+                            android:hint="Total">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/edtTotal200p"
@@ -300,7 +290,7 @@
                                 android:focusableInTouchMode="false"
                                 android:inputType="none|number"
                                 android:maxLength="50"
-                                android:text="0"/>
+                                android:text="0" />
                         </com.google.android.material.textfield.TextInputLayout>
 
                     </LinearLayout>
@@ -330,27 +320,27 @@
                         </RelativeLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
+                            style="@style/TextInputStyle"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight=".9"
-                            android:hint="Enter Quantity"
-                            style="@style/TextInputStyle"
-                            >
+                            android:hint="Enter Quantity">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/edt100p"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:inputType="number|none"
                                 android:digits="0123456789"
+                                android:inputType="number|none"
                                 android:maxLength="50" />
                         </com.google.android.material.textfield.TextInputLayout>
+
                         <com.google.android.material.textfield.TextInputLayout
+                            style="@style/TextInputStyle"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="Total"
-                            style="@style/TextInputStyle">
+                            android:hint="Total">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/edtTotal100p"
@@ -361,7 +351,7 @@
                                 android:focusableInTouchMode="false"
                                 android:inputType="none|number"
                                 android:maxLength="50"
-                                android:text="0"/>
+                                android:text="0" />
                         </com.google.android.material.textfield.TextInputLayout>
 
                     </LinearLayout>
@@ -391,27 +381,27 @@
                         </RelativeLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
+                            style="@style/TextInputStyle"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight=".9"
-                            android:hint="Enter Quantity"
-                            style="@style/TextInputStyle"
-                            >
+                            android:hint="Enter Quantity">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/edt50p"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:inputType="number|none"
                                 android:digits="0123456789"
+                                android:inputType="number|none"
                                 android:maxLength="50" />
                         </com.google.android.material.textfield.TextInputLayout>
+
                         <com.google.android.material.textfield.TextInputLayout
+                            style="@style/TextInputStyle"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="Total"
-                            style="@style/TextInputStyle">
+                            android:hint="Total">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/edtTotal50p"
@@ -422,7 +412,7 @@
                                 android:focusableInTouchMode="false"
                                 android:inputType="none|number"
                                 android:maxLength="50"
-                                android:text="0"/>
+                                android:text="0" />
                         </com.google.android.material.textfield.TextInputLayout>
 
                     </LinearLayout>
@@ -430,8 +420,8 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
                         android:layout_marginBottom="20dp"
+                        android:orientation="horizontal"
                         android:paddingLeft="5dp"
                         android:paddingRight="5dp"
                         android:weightSum="3">
@@ -453,28 +443,27 @@
                         </RelativeLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
+                            style="@style/TextInputStyle"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight=".9"
-                            android:hint="Enter Quantity"
-                            style="@style/TextInputStyle"
-                            >
+                            android:hint="Enter Quantity">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/edt20p"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:inputType="number|none"
                                 android:digits="0123456789"
+                                android:inputType="number|none"
                                 android:maxLength="50" />
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
+                            style="@style/TextInputStyle"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="Total"
-                            style="@style/TextInputStyle">
+                            android:hint="Total">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/edtTotal20p"
@@ -485,7 +474,7 @@
                                 android:focusableInTouchMode="false"
                                 android:inputType="none|number"
                                 android:maxLength="50"
-                                android:text="0"/>
+                                android:text="0" />
                         </com.google.android.material.textfield.TextInputLayout>
 
                     </LinearLayout>
@@ -500,18 +489,20 @@
                     android:layout_marginTop="20dp">
 
                     <com.google.android.material.textview.MaterialTextView
+                        style="@style/HeaderLabelBlack"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:gravity="center"
-                        android:text="Coin Bills (₱)"
-                        style="@style/HeaderLabelBlack" />
+                        android:text="Coin Bills (₱)" />
                 </RelativeLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginBottom="10dp">
+                    android:layout_marginBottom="10dp"
+                    android:orientation="vertical">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -544,28 +535,27 @@
                             </RelativeLayout>
 
                             <com.google.android.material.textfield.TextInputLayout
+                                style="@style/TextInputStyle"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight=".9"
-                                android:hint="Enter Quantity"
-                                style="@style/TextInputStyle"
-                                >
+                                android:hint="Enter Quantity">
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/edt10pc"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:inputType="number|none"
                                     android:digits="0123456789"
+                                    android:inputType="number|none"
                                     android:maxLength="50" />
                             </com.google.android.material.textfield.TextInputLayout>
 
                             <com.google.android.material.textfield.TextInputLayout
+                                style="@style/TextInputStyle"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:hint="Total"
-                                style="@style/TextInputStyle">
+                                android:hint="Total">
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/edtTotal10pc"
@@ -576,7 +566,7 @@
                                     android:focusableInTouchMode="false"
                                     android:inputType="none|number"
                                     android:maxLength="50"
-                                    android:text="0"/>
+                                    android:text="0" />
                             </com.google.android.material.textfield.TextInputLayout>
                         </LinearLayout>
                         <!--500 -->
@@ -605,27 +595,27 @@
                             </RelativeLayout>
 
                             <com.google.android.material.textfield.TextInputLayout
+                                style="@style/TextInputStyle"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight=".9"
-                                android:hint="Enter Quantity"
-                                style="@style/TextInputStyle"
-                                >
+                                android:hint="Enter Quantity">
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/edt5pc"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:inputType="number|none"
                                     android:digits="0123456789"
+                                    android:inputType="number|none"
                                     android:maxLength="50" />
                             </com.google.android.material.textfield.TextInputLayout>
+
                             <com.google.android.material.textfield.TextInputLayout
+                                style="@style/TextInputStyle"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:hint="Total"
-                                style="@style/TextInputStyle">
+                                android:hint="Total">
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/edtTotal5pc"
@@ -636,7 +626,7 @@
                                     android:focusableInTouchMode="false"
                                     android:inputType="none|number"
                                     android:maxLength="50"
-                                    android:text="0"/>
+                                    android:text="0" />
                             </com.google.android.material.textfield.TextInputLayout>
                         </LinearLayout>
                         <!--200 -->
@@ -665,28 +655,27 @@
                             </RelativeLayout>
 
                             <com.google.android.material.textfield.TextInputLayout
+                                style="@style/TextInputStyle"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight=".9"
-                                android:hint="Enter Quantity"
-                                style="@style/TextInputStyle"
-                                >
+                                android:hint="Enter Quantity">
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/edt1pc"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:inputType="number|none"
                                     android:digits="0123456789"
+                                    android:inputType="number|none"
                                     android:maxLength="50" />
                             </com.google.android.material.textfield.TextInputLayout>
 
                             <com.google.android.material.textfield.TextInputLayout
+                                style="@style/TextInputStyle"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:hint="Total"
-                                style="@style/TextInputStyle">
+                                android:hint="Total">
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/edtTotal1pc"
@@ -697,7 +686,7 @@
                                     android:focusableInTouchMode="false"
                                     android:inputType="none|number"
                                     android:maxLength="50"
-                                    android:text="0"/>
+                                    android:text="0" />
                             </com.google.android.material.textfield.TextInputLayout>
 
                         </LinearLayout>
@@ -727,27 +716,27 @@
                             </RelativeLayout>
 
                             <com.google.android.material.textfield.TextInputLayout
+                                style="@style/TextInputStyle"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight=".9"
-                                android:hint="Enter Quantity"
-                                style="@style/TextInputStyle"
-                                >
+                                android:hint="Enter Quantity">
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/edt25cc"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:inputType="number|none"
                                     android:digits="0123456789"
+                                    android:inputType="number|none"
                                     android:maxLength="50" />
                             </com.google.android.material.textfield.TextInputLayout>
+
                             <com.google.android.material.textfield.TextInputLayout
+                                style="@style/TextInputStyle"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:hint="Total"
-                                style="@style/TextInputStyle">
+                                android:hint="Total">
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/edtTotal25cc"
@@ -758,7 +747,7 @@
                                     android:focusableInTouchMode="false"
                                     android:inputType="none|number"
                                     android:maxLength="50"
-                                    android:text="0"/>
+                                    android:text="0" />
                             </com.google.android.material.textfield.TextInputLayout>
 
                         </LinearLayout>
@@ -788,27 +777,27 @@
                             </RelativeLayout>
 
                             <com.google.android.material.textfield.TextInputLayout
+                                style="@style/TextInputStyle"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight=".9"
-                                android:hint="Enter Quantity"
-                                style="@style/TextInputStyle"
-                                >
+                                android:hint="Enter Quantity">
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/edt10cc"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:inputType="number|none"
                                     android:digits="0123456789"
+                                    android:inputType="number|none"
                                     android:maxLength="50" />
                             </com.google.android.material.textfield.TextInputLayout>
+
                             <com.google.android.material.textfield.TextInputLayout
+                                style="@style/TextInputStyle"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:hint="Total"
-                                style="@style/TextInputStyle">
+                                android:hint="Total">
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/edtTotal10cc"
@@ -819,9 +808,8 @@
                                     android:focusableInTouchMode="false"
                                     android:inputType="none|number"
                                     android:maxLength="50"
-                                    android:text="0"/>
+                                    android:text="0" />
                             </com.google.android.material.textfield.TextInputLayout>
-
 
 
                         </LinearLayout>
@@ -851,28 +839,27 @@
                             </RelativeLayout>
 
                             <com.google.android.material.textfield.TextInputLayout
+                                style="@style/TextInputStyle"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight=".9"
-                                android:hint="Enter Quantity"
-                                style="@style/TextInputStyle"
-                                >
+                                android:hint="Enter Quantity">
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/edt5cc"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:inputType="number|none"
                                     android:digits="0123456789"
+                                    android:inputType="number|none"
                                     android:maxLength="50" />
                             </com.google.android.material.textfield.TextInputLayout>
 
                             <com.google.android.material.textfield.TextInputLayout
+                                style="@style/TextInputStyle"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:hint="Total"
-                                style="@style/TextInputStyle">
+                                android:hint="Total">
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/edtTotal5cc"
@@ -883,7 +870,7 @@
                                     android:focusableInTouchMode="false"
                                     android:inputType="none|number"
                                     android:maxLength="50"
-                                    android:text="0"/>
+                                    android:text="0" />
                             </com.google.android.material.textfield.TextInputLayout>
 
                         </LinearLayout>
@@ -913,28 +900,27 @@
                             </RelativeLayout>
 
                             <com.google.android.material.textfield.TextInputLayout
+                                style="@style/TextInputStyle"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight=".9"
-                                android:hint="Enter Quantity"
-                                style="@style/TextInputStyle"
-                                >
+                                android:hint="Enter Quantity">
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/edt1cc"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:inputType="number|none"
                                     android:digits="0123456789"
+                                    android:inputType="number|none"
                                     android:maxLength="50" />
                             </com.google.android.material.textfield.TextInputLayout>
 
                             <com.google.android.material.textfield.TextInputLayout
+                                style="@style/TextInputStyle"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:hint="Total"
-                                style="@style/TextInputStyle">
+                                android:hint="Total">
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/edtTotal1cc"
@@ -945,89 +931,93 @@
                                     android:focusableInTouchMode="false"
                                     android:inputType="none|number"
                                     android:maxLength="50"
-                                    android:text="0"/>
+                                    android:text="0" />
                             </com.google.android.material.textfield.TextInputLayout>
 
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
                     android:orientation="vertical"
-                    android:padding="5dp"
-                    android:layout_marginBottom="20dp">
+                    android:padding="5dp">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
                         android:layout_marginBottom="3dp"
-                        >
+                        android:orientation="horizontal">
+
                         <com.google.android.material.textview.MaterialTextView
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
-                            android:text="Bills Total :"
                             android:layout_weight="1"
-                            android:textSize="20sp"
-                            />
+                            android:text="Bills Total :"
+                            android:textSize="20sp" />
+
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/lblPesoTotal"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="0.00"
-                            android:textSize="18sp"
+                            android:gravity="end"
                             android:paddingRight="5dp"
+                            android:text="0.00"
                             android:textAlignment="textEnd"
-                            android:gravity="end" />
+                            android:textSize="18sp" />
                     </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginBottom="3dp">
+                        android:layout_marginBottom="3dp"
+                        android:orientation="horizontal">
+
                         <com.google.android.material.textview.MaterialTextView
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Coins Total :"
-                            android:textSize="20sp"
-                            />
+                            android:textSize="20sp" />
+
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/lblCoinsTotal"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="0.00"
-                            android:textSize="18sp"
-                            android:paddingRight="5dp"
-                            android:textAlignment="textEnd"
                             android:gravity="end"
-                            />
+                            android:paddingRight="5dp"
+                            android:text="0.00"
+                            android:textAlignment="textEnd"
+                            android:textSize="18sp" />
                     </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginBottom="5dp">
+                        android:layout_marginBottom="5dp"
+                        android:orientation="horizontal">
+
                         <com.google.android.material.textview.MaterialTextView
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:textSize="20sp"
                             android:text="Grand Total :"
-                            />
+                            android:textSize="20sp" />
+
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/lblGrandTotal"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="0.00"
-                            android:textSize="18sp"
-                            android:paddingRight="5dp"
-                            android:textAlignment="textEnd"
                             android:gravity="end"
-                            />
+                            android:paddingRight="5dp"
+                            android:text="0.00"
+                            android:textAlignment="textEnd"
+                            android:textSize="18sp" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -1037,7 +1027,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="30dp"
-                    android:text="Continue to submit window"/>
+                    android:text="Continue to submit window" />
 
             </LinearLayout>
 

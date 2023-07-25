@@ -23,35 +23,26 @@ import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.textview.MaterialTextView;
-import com.google.android.material.divider.MaterialDivider;
-import com.google.android.material.card.MaterialCardView;
-import com.google.android.material.imageview.ShapeableImageView;
-import  com.google.android.material.checkbox.MaterialCheckBox;
 
 
-import org.rmj.g3appdriver.dev.Database.Entities.EDCPCollectionDetail;
+import org.rmj.g3appdriver.GCircle.room.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.FormatUIText;
-import org.rmj.g3appdriver.lib.Account.SessionManager;
+import org.rmj.g3appdriver.GCircle.Account.EmployeeSession;
 import org.rmj.g3appdriver.dev.Api.WebFileServer;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.DayCheck;
@@ -370,13 +361,13 @@ public class Activity_LogCollection extends AppCompatActivity {
     private static class DownloadDcpImageTask extends AsyncTask<List<EDCPCollectionDetail>, Void, String> {
 
         private final ConnectionUtil poConn;
-        private final SessionManager poUser;
+        private final EmployeeSession poUser;
         private final AppConfigPreference poConfig;
         private final OnDCPDownloadListener callBack;
 
         DownloadDcpImageTask(Application application, OnDCPDownloadListener callBack) {
             this.poConn = new ConnectionUtil(application);
-            this.poUser = new SessionManager(application);
+            this.poUser = EmployeeSession.getInstance(application);
             this.poConfig = AppConfigPreference.getInstance(application);
             this.callBack = callBack;
         }

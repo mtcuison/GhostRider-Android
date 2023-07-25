@@ -13,23 +13,24 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:theme="@style/GhostRiderMaterialTheme"
+    android:focusable="false"
+    android:focusableInTouchMode="false"
     android:orientation="vertical" >
-
-
-<!--    android:layout_height="55dip"-->
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/lblListItem"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="16sp"
         android:fontFamily="@font/roboto_light"
         android:text="Leave Application"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:focusedByDefault="false"
+        android:enabled="false"
         android:drawableStart="@drawable/ic_chevron_right_24"
         android:drawablePadding="3dp"
         android:paddingStart="?android:attr/expandableListPreferredChildPaddingLeft"
-        android:paddingEnd="?android:attr/expandableListPreferredChildPaddingLeft"
         android:paddingTop="10dp"
         android:paddingBottom="10dp" />
 
