@@ -21,10 +21,12 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.assertEquals;
 
+import android.app.Application;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
 
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.intent.Intents;
@@ -40,6 +42,10 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.lib.Account.AccountMaster;
+import org.rmj.g3appdriver.lib.Account.Model.Auth;
+import org.rmj.g3appdriver.lib.Account.Model.iAuth;
 import org.rmj.guanzongroup.authlibrary.Activity.Activity_Authenticate;
 
 /**
@@ -53,6 +59,10 @@ public class tesLogin {
     private static boolean isSuccess = false;
     private String sEmail, sPassword, sMobileNo;
     private View cAgree;
+    private Application instance;
+
+    private AccountMaster poAccount;
+    private iAuth poSys;
 
     @Test
     public void useAppContext() {
@@ -67,12 +77,21 @@ public class tesLogin {
     @Rule
     public ActivityScenarioRule<Activity_Authenticate> activityRule =
             new ActivityScenarioRule<>(Activity_Authenticate.class);
-
-    @Before
-    public void setup() {
-        // Initialize Intents for monitoring intents
-        Intents.init();
-    }
+//
+//    @Before
+//    public void setup() {
+//        // Initialize Intents for monitoring intents
+//        Intents.init();
+//
+//    }
+@Before
+public void setUp() throws Exception {
+    this.instance = ApplicationProvider.getApplicationContext();
+    AppConfigPreference.getInstance(instance).setProductID("GuanzonApp");
+    AppConfigPreference.getInstance(instance).setTestCase(true);
+    this.poAccount = new AccountMaster(instance);
+    this.poSys = poAccount.initGuanzonApp().getInstance(Auth.AUTHENTICATE);
+}
 
     @After
     public void tearDown() {
@@ -141,11 +160,11 @@ public class tesLogin {
 
 //            onView(withText(expectedMessage))
 //                    .check(matches(isDisplayed()));
-            onView(withId(R.id.lbl_dialogTitle))
-                    .check(matches(withText(expectedMessage)));
+//            onView(withId(R.id.lbl_dialogTitle))
+//                    .check(matches(withText(expectedMessage)));
 //            Thread.sleep(1000);
 
-//            onView(withText(expectedMessage)).inRoot(ToastMatcher.isToast()).check(matches(isDisplayed()));
+            onView(withText(expectedMessage)).inRoot(ToastMatcher.isToast()).check(matches(isDisplayed()));
             isSuccessx = true;
         } catch (Exception e){
             isSuccessx = false;
