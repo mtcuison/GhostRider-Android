@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -28,18 +29,15 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
-
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.checkbox.MaterialCheckBox;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.textview.MaterialTextView;
-import  com.google.android.material.checkbox.MaterialCheckBox;
-
 
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
 import org.rmj.g3appdriver.lib.Account.pojo.UserAuthInfo;
 import org.rmj.guanzongroup.authlibrary.R;
 
@@ -125,6 +123,8 @@ public class Fragment_Login extends Fragment implements LoginCallback{
 
     @Override
     public void OnSuccessLoginResult() {
+        Toast.makeText(getActivity(), "Login Success!",
+                Toast.LENGTH_LONG).show();
         dialog.dismiss();
         Intent loIntent = new Intent();
         requireActivity().setResult(Activity.RESULT_OK, loIntent);

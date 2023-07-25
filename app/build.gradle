@@ -47,9 +47,9 @@ android {
     }
     namespace 'org.rmj.guanzongroup.ghostrider.epacss'
 
-    packagingOptions {
-        resources.merges.add("core.properties")
-    }
+//    packagingOptions {
+//        resources.merges.add("core.properties")
+//    }
 }
 allprojects {
     repositories {
@@ -83,7 +83,7 @@ dependencies {
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     implementation "androidx.constraintlayout:constraintlayout:2.1.4"
 
     //noinspection GradleCompatible

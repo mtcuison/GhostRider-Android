@@ -34,9 +34,9 @@ android {
     }
     namespace 'org.rmj.g3appdriver'
 
-    packagingOptions {
-        resources.merges.add("core.properties")
-    }
+//    packagingOptions {
+//        resources.merges.add("core.properties")
+//    }
 }
 
 dependencies {
