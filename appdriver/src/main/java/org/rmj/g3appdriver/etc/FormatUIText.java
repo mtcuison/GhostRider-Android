@@ -178,10 +178,31 @@ public class FormatUIText {
         return "";
     }
 
+
+    public static String FormatSenderMessageDateTime(String date){
+        try{
+            Date parseDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(date);
+            return new SimpleDateFormat("MMM dd").format(parseDate);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return "";
+    }
+
     public static String formatTime_HHMMSS_to_HHMMAA(String date){
         try{
             Date parseDate = new SimpleDateFormat("HH:mm:ss").parse(date);
             return new SimpleDateFormat("HH:mm aa").format(parseDate);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    public static String HHMMSS_TO_HHMMA_12(String date){
+        try{
+            Date parseDate = new SimpleDateFormat("HH:mm:ss").parse(date);
+            return new SimpleDateFormat("hh:mm a").format(parseDate);
         } catch (Exception e){
             e.printStackTrace();
         }

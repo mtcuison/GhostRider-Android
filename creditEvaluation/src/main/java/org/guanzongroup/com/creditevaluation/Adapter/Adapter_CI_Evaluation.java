@@ -8,11 +8,13 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textview.MaterialTextView;
+
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.google.android.material.button.MaterialButton;
 
 import org.guanzongroup.com.creditevaluation.R;
 import org.json.JSONArray;
@@ -78,11 +80,11 @@ public class Adapter_CI_Evaluation extends RecyclerView.Adapter<Adapter_CI_Evalu
     public static class VHEvaluations extends RecyclerView.ViewHolder{
 
         public RecyclerView recyclerView;
-        public TextView lblHeader;
+        public MaterialTextView lblHeader;
 
         public VHEvaluations(@NonNull View itemView) {
             super(itemView);
-            recyclerView = itemView.findViewById(R.id.recyclerView);
+            recyclerView = itemView.findViewById(R.id.recyclerview);
             lblHeader = itemView.findViewById(R.id.textview);
         }
     }

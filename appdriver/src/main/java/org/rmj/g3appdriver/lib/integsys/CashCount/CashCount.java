@@ -64,13 +64,13 @@ public class CashCount {
 
     public List<EBranchInfo> GetBranchesForCashCount(){
         try{
-            int lnLogsxx = poDao.CheckIfHasSelfieLog(AppConstants.CURRENT_DATE);
+            int lnLogsxx = poDao.CheckIfHasSelfieLog(AppConstants.CURRENT_DATE());
             if(lnLogsxx == 0){
                 message = "No selfie log record found for this day.";
                 return null;
             }
 
-            List<EBranchInfo> loList = poDao.GetBranchesForCashCount(AppConstants.CURRENT_DATE);
+            List<EBranchInfo> loList = poDao.GetBranchesForCashCount(AppConstants.CURRENT_DATE());
             if(loList.size() == 0 ){
                 message = "All branches on selfie log has cash count record.";
                 return null;
@@ -90,7 +90,7 @@ public class CashCount {
             String lsTransNo = CreateUniqueID();
             loCash.setTransNox(lsTransNo);
             loCash.setBranchCd(foVal.getString("sBranchCd"));
-            loCash.setTransact(new AppConstants().CURRENT_DATE);
+            loCash.setTransact(AppConstants.CURRENT_DATE());
             loCash.setCn0001cx(foVal.getInt("nCn0001cx"));
             loCash.setCn0005cx(foVal.getInt("nCn0005cx"));
             loCash.setCn0010cx(foVal.getInt("nCn0010cx"));
@@ -359,7 +359,7 @@ public class CashCount {
                 return 3;
             }
 
-            ECashCount loDetail = poDao.GetCashCountForBranch(fsVal, AppConstants.CURRENT_DATE);
+            ECashCount loDetail = poDao.GetCashCountForBranch(fsVal, AppConstants.CURRENT_DATE());
 
             if(loDetail == null){
                 message = "No cash count entries";

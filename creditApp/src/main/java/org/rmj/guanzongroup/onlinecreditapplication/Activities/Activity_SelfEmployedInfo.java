@@ -7,31 +7,29 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
-import android.widget.CheckBox;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.checkbox.MaterialCheckBox;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONException;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.etc.MessageBox;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditAppConstants;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Business;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.OnParseListener;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMBusinessInfo;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class Activity_SelfEmployedInfo extends AppCompatActivity {
@@ -39,14 +37,14 @@ public class Activity_SelfEmployedInfo extends AppCompatActivity {
 
     private VMBusinessInfo mViewModel;
     private MessageBox poMessage;
-    private AutoCompleteTextView spnBussNtr, spnBussTyp, spnBussSze, spnLngSrvc;
+    private MaterialAutoCompleteTextView spnBussNtr, spnBussTyp, spnBussSze, spnLngSrvc;
 
     private TextInputEditText txtBussName, txtBussAdds, txtLnghtSrv, txtMnthlyIn, txtMnthlyEx;
-    private AutoCompleteTextView txtProvnc, txtTownxx;
-    private CheckBox cb_isYear;
+    private MaterialAutoCompleteTextView txtProvnc, txtTownxx;
+    private MaterialCheckBox cb_isYear;
 
-    private Button btnNext, btnPrvs;
-    private Toolbar toolbar;
+    private MaterialButton btnNext, btnPrvs;
+    private MaterialToolbar toolbar;
 
     private String TransNox;
 
@@ -94,7 +92,6 @@ public class Activity_SelfEmployedInfo extends AppCompatActivity {
 
                 ArrayAdapter<String> adapters = new ArrayAdapter<>(Activity_SelfEmployedInfo.this, android.R.layout.simple_spinner_dropdown_item, string.toArray(new String[0]));
                 txtTownxx.setAdapter(adapters);
-                txtTownxx.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
                 txtTownxx.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -117,7 +114,6 @@ public class Activity_SelfEmployedInfo extends AppCompatActivity {
 
         spnBussNtr.setAdapter(new ArrayAdapter<>(Activity_SelfEmployedInfo.this,
                 android.R.layout.simple_list_item_1, CreditAppConstants.BUSINESS_NATURE));
-        spnBussNtr.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         spnBussNtr.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -127,7 +123,6 @@ public class Activity_SelfEmployedInfo extends AppCompatActivity {
 
         spnBussTyp.setAdapter(new ArrayAdapter<>(Activity_SelfEmployedInfo.this,
                 android.R.layout.simple_list_item_1, CreditAppConstants.BUSINESS_TYPE));
-        spnBussTyp.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         spnBussTyp.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -137,7 +132,6 @@ public class Activity_SelfEmployedInfo extends AppCompatActivity {
 
         spnBussSze.setAdapter(new ArrayAdapter<>(Activity_SelfEmployedInfo.this,
                 android.R.layout.simple_list_item_1, CreditAppConstants.BUSINESS_SIZE));
-        spnBussSze.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         spnBussSze.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -146,7 +140,6 @@ public class Activity_SelfEmployedInfo extends AppCompatActivity {
         });
         spnLngSrvc.setAdapter(new ArrayAdapter<>(Activity_SelfEmployedInfo.this,
                 android.R.layout.simple_list_item_1, CreditAppConstants.LENGTH_OF_STAY));
-        spnLngSrvc.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         spnLngSrvc.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

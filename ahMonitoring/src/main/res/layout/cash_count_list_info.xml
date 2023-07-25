@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:theme="@style/GhostRiderMaterialTheme"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
@@ -16,13 +17,12 @@
         android:layout_marginTop="5dp"
         android:gravity="center_horizontal">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/txtTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_bold"
             android:text="Title"
-            android:textColor="@color/white"
             android:textSize="18sp"/>
 
     </LinearLayout>
@@ -40,33 +40,30 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="@font/roboto_bold"
-                android:textColor="#202020"
                 android:text="Cash"
                 android:textAllCaps="true"
                 android:textSize="16sp"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="@font/roboto_bold"
-                android:textColor="#202020"
                 android:text="Quantity"
                 android:textAllCaps="true"
                 android:textSize="16sp"
                 android:gravity="center_horizontal"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="@font/roboto_bold"
-                android:textColor="#202020"
                 android:text="total"
                 android:textAllCaps="true"
                 android:textSize="16sp"
@@ -74,7 +71,7 @@
 
         </LinearLayout>
 
-        <View
+        <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/guanzon_orange"
@@ -91,25 +88,23 @@
         android:paddingHorizontal="19dp"
         android:layout_gravity="center">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/txtLabel"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_medium"
-            android:textColor="#202020"
             android:text="Label"
             android:textSize="16sp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/txtData"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:fontFamily="@font/roboto_medium"
-            android:textColor="#202020"
             android:text="Data"
             android:textSize="16sp"
             app:layout_constraintLeft_toRightOf="@id/txtLabel"
@@ -117,13 +112,12 @@
             app:layout_constraintRight_toLeftOf="@id/txtTotal"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/txtTotal"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:fontFamily="@font/roboto_medium"
-            android:textColor="#202020"
             android:text="Total"
             android:textSize="16sp"
             android:gravity="right"

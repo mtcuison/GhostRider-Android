@@ -10,13 +10,13 @@
   ~ project file last modified : 4/24/21 3:18 PM
   -->
 
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     app:cardUseCompatPadding="true"
-    android:background="#e2e2e2"
     app:cardCornerRadius="10dp"
     app:cardPreventCornerOverlap="true">
 
@@ -33,29 +33,26 @@
             android:orientation="horizontal"
             android:layout_marginTop="10dp">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_list_ccTransNox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textSize="14sp"
-                android:textColor="@color/textColor_Black"
                 android:fontFamily="@font/roboto_bold"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_list_ccSentStatus"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:gravity="end"
-                android:textColor="@color/guanzon_orange"
                 android:fontFamily="@font/roboto_bold"/>
         </LinearLayout>
-        <View
+        <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginBottom="5dp"
-            android:background="@color/guanzon_orange"/>
+            android:layout_marginBottom="5dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -63,13 +60,12 @@
             android:orientation="horizontal"
             android:layout_marginVertical="5dp">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_list_ccBranch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="GMC Dagupan"
-                android:textColor="@color/textColor_Black"
                 android:fontFamily="@font/roboto_bold"
                 android:drawablePadding="5dp"
                 android:textSize="16sp"
@@ -85,26 +81,24 @@
             android:orientation="horizontal"
             android:layout_marginVertical="5dp">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight=".5"
                 android:text="Date Entry :"
                 android:textSize="14sp"
-                android:textColor="@color/textColor_Black"
                 android:gravity="start"
                 tools:ignore="HardcodedText"
                 android:fontFamily="@font/roboto"
                 tools:targetApi="jelly_bean"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_list_ccEntryDte"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textSize="14sp"
                 android:text="December 12, 2019"
-                android:textColor="@color/textColor_Black"
                 android:gravity="end"
                 tools:ignore="HardcodedText"
                 android:fontFamily="@font/roboto"
@@ -118,19 +112,18 @@
             android:orientation="horizontal"
             android:layout_marginVertical="5dp">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight=".5"
                 android:text="Total Entry"
                 android:textSize="14sp"
-                android:textColor="@color/textColor_Black"
                 android:gravity="start"
                 tools:ignore="HardcodedText"
                 android:fontFamily="@font/roboto"
                 tools:targetApi="jelly_bean"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_list_ccTotalEntry"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -138,7 +131,6 @@
                 android:fontFamily="@font/roboto"
                 android:gravity="end"
                 android:text="25,000"
-                android:textColor="@color/textColor_Black"
                 android:textSize="14sp"
                 tools:ignore="HardcodedText"
                 tools:targetApi="jelly_bean" />
@@ -147,4 +139,4 @@
 
     </LinearLayout>
 
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

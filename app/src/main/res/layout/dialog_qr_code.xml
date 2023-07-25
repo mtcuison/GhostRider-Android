@@ -10,10 +10,12 @@
   ~ project file last modified : 4/24/21 3:17 PM
   -->
 
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:theme="@style/GhostRiderMaterialTheme"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="20dp"
     app:cardPreventCornerOverlap="true"
@@ -27,7 +29,7 @@
         android:orientation="vertical"
         android:gravity="center">
         
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
@@ -41,15 +43,13 @@
             android:layout_height="wrap_content"
             android:textSize="18sp"
             android:format12Hour="hh:mm:ss a"
-            android:textColor="@color/material_black"
             android:fontFamily="@font/roboto_medium"
             tools:ignore="NewApi" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lbl_dialogLocation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/material_black"
             android:fontFamily="@font/roboto_regular"
             android:layout_marginBottom="30dp"/>
 
@@ -62,4 +62,4 @@
         
     </LinearLayout>
 
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

@@ -20,6 +20,19 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+import  com.google.android.material.checkbox.MaterialCheckBox;
+
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DAddressUpdate;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 
@@ -67,10 +80,10 @@ public class AddressInfoAdapter extends RecyclerView.Adapter<AddressInfoAdapter.
     }
 
     static class AddressHolder extends RecyclerView.ViewHolder {
-        private final TextView tvPrimary;
-        private final TextView tvAddressTp;
-        private final TextView tvDetails;
-        private final TextView tvAddress;
+        private final MaterialTextView tvPrimary;
+        private final MaterialTextView tvAddressTp;
+        private final MaterialTextView tvDetails;
+        private final MaterialTextView tvAddress;
 
         public AddressHolder(@NonNull View itemView, OnDeleteInfoListener listener) {
             super(itemView);

@@ -41,9 +41,20 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+import  com.google.android.material.checkbox.MaterialCheckBox;
+
 
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.LoadDialog;
@@ -63,10 +74,10 @@ public class Fragment_Login extends Fragment implements LoginCallback{
     private TextInputEditText tieEmail, tiePassword, tieMobileNo;
     private TextInputLayout tilMobileNo;
 
-    private TextView tvForgotPassword, tvCreateAccount, tvTerms, lblVersion;
+    private MaterialTextView tvForgotPassword, tvCreateAccount, tvTerms, lblVersion;
     private MaterialButton btnLogin;
     private NavController navController;
-    private CheckBox cbAgree;
+    private MaterialCheckBox cbAgree;
 
     private AppConfigPreference poConfigx;
 

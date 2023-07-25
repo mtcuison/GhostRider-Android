@@ -26,7 +26,15 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.etc.LoadDialog;
@@ -45,7 +53,7 @@ public class Activity_Inventory extends AppCompatActivity {
     private VMInventory mViewModel;
 
     private RecyclerView recyclerView;
-    private TextView lblCountx, lblBranchNm, lblStatus;
+    private MaterialTextView lblCountx, lblBranchNm, lblStatus;
     private MaterialButton btnSelect, btnPost;
 
     private LoadDialog poDialog;

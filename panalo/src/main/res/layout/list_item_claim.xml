@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="5dp"
+    android:padding="15dp"
+    android:background="@drawable/ic_panalo_tag_long">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/shapeableImageView2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_panalo_coin"
+        app:layout_constraintWidth_percent=".23"
+        app:layout_constraintHeight_percent=".8"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/lblRwrdType"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="Reward Type"
+        app:layout_constraintEnd_toStartOf="@+id/lblQty"
+        app:layout_constraintStart_toEndOf="@+id/shapeableImageView2"
+        app:layout_constraintTop_toTopOf="@+id/shapeableImageView2" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/lblQty"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Quantity"
+        app:layout_constraintBottom_toBottomOf="@+id/lblRwrdType"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/lblRwrdType" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/lblRwrdNme"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textAllCaps="true"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toStartOf="@+id/btn_redeem"
+        app:layout_constraintStart_toStartOf="@+id/lblRwrdType"
+        app:layout_constraintTop_toBottomOf="@+id/lblRwrdType" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_redeem"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:text="Use Now"
+        app:cornerRadius="25dp"
+        app:layout_constraintBottom_toBottomOf="@+id/lblRwrdNme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/lblRwrdNme" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/lblRwrdDte"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Validity: March 31, 2023"
+        android:textSize="12sp"
+        android:layout_marginStart="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/shapeableImageView2"
+        app:layout_constraintTop_toBottomOf="@+id/lblRwrdNme" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

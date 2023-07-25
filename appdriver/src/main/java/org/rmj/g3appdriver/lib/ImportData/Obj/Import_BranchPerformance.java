@@ -14,16 +14,17 @@ package org.rmj.g3appdriver.lib.ImportData.Obj;
 import android.app.Application;
 
 import org.rmj.g3appdriver.dev.Database.Repositories.RBranchPerformance;
+import org.rmj.g3appdriver.lib.BullsEye.obj.BranchPerformance;
 import org.rmj.g3appdriver.lib.ImportData.model.ImportDataCallback;
 import org.rmj.g3appdriver.lib.ImportData.model.ImportInstance;
 
 public class Import_BranchPerformance implements ImportInstance {
     public static final String TAG = Import_BranchPerformance.class.getSimpleName();
 
-    private final RBranchPerformance poSys;
+    private final BranchPerformance poSys;
 
     public Import_BranchPerformance(Application instance) {
-        this.poSys = new RBranchPerformance(instance);
+        this.poSys = new BranchPerformance(instance);
     }
 
     @Override

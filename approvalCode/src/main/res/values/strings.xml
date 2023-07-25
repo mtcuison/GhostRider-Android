@@ -11,7 +11,6 @@
 
 <resources>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="sBtnDayToDay">Day-to-Day</string>
     <string name="sBtnManualLog">Manual Log</string>
     <string name="sBtnReference">By Reference</string>
@@ -27,6 +26,5 @@
     <string name="sHintRemarks">Remarks</string>
     <string name="sHintBranch">Branch</string>
     <string name="sHintTransNox">Transaction Number</string>
-    <string name="sHintMiscInfo">Miscellaneous Info</string>
     <string name="sHintAppNotes">Approval Notes</string>
 </resources>

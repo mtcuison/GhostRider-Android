@@ -14,7 +14,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:theme="@style/GhostRiderMaterialTheme.WhiteBG"
+    android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
     tools:context=".Fragments.Fragment_PromiseToPay">
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,32 +23,29 @@
         android:padding="10dp"
         android:gravity="center">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Daily Collection Plan"
             android:textSize="20sp"
             android:fontFamily="@font/roboto_bold"
-            android:textColor="@color/textColor_Black"
             android:layout_marginTop="5dp"/>
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lbl_headerBranch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
             android:fontFamily="@font/roboto_bold"
-            android:textColor="@color/textColor_Black"
             android:layout_marginTop="5dp"/>
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lbl_headerAddress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
-            android:fontFamily="@font/roboto_medium"
-            android:textColor="@color/textColor_Black"/>
-        <View
+            android:fontFamily="@font/roboto_medium"/>
+        <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"
             android:layout_height="1.5dp"
             android:layout_marginTop="5dp"
@@ -58,13 +55,12 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_marginBottom="5dp">
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Customer Promise to Pay"
                 android:textSize="18sp"
                 android:fontFamily="@font/roboto_medium"
-                android:textColor="@color/textColor_Black"
                 android:layout_marginTop="10dp"/>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -72,21 +68,20 @@
                 android:orientation="horizontal"
                 android:layout_marginTop="10dp">
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight=".5"
                     android:text="Account No. :"
                     android:fontFamily="@font/roboto_regular"
-                    android:textColor="@color/textColor_Black"/>
+                    />
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tvAccountNo"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:fontFamily="@font/roboto_medium"
-                    android:textColor="@color/textColor_Black"
                     android:gravity="start"/>
             </LinearLayout>
 
@@ -96,21 +91,19 @@
                 android:orientation="horizontal"
                 android:layout_marginTop="3dp">
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight=".5"
                     android:text="Client Name :"
-                    android:fontFamily="@font/roboto_regular"
-                    android:textColor="@color/textColor_Black"/>
+                    android:fontFamily="@font/roboto_regular"                    />
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tvClientname"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:fontFamily="@font/roboto_medium"
-                    android:textColor="@color/textColor_Black"
                     android:gravity="start"/>
             </LinearLayout>
 
@@ -120,29 +113,26 @@
                 android:orientation="horizontal"
                 android:layout_marginTop="3dp">
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight=".5"
                     android:text="Transaction No :"
-                    android:fontFamily="@font/roboto_regular"
-                    android:textColor="@color/textColor_Black"/>
+                    android:fontFamily="@font/roboto_regular"/>
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/lbl_dcpTransNo"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:fontFamily="@font/roboto_medium"
-                    android:textColor="@color/textColor_Black"
                     android:gravity="start"/>
             </LinearLayout>
         </LinearLayout>
-        <View
+        <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"
             android:layout_height="1.5dp"
-            android:layout_marginTop="8dp"
-            android:background="@color/guanzon_orange"/>
+            android:layout_marginTop="8dp"/>
         <com.google.android.material.textfield.TextInputLayout
             style="@style/TextInputStyle"
             android:layout_width="match_parent"
@@ -163,13 +153,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Appointment Unit"
                 android:textSize="18sp"
                 android:fontFamily="@font/roboto_medium"
-                android:textColor="@color/textColor_Black"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"/>
             <RadioGroup
@@ -178,22 +167,21 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <RadioButton
+                <com.google.android.material.radiobutton.MaterialRadioButton
                     android:id="@+id/rb_ptpBranch"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight=".7"
                     android:fontFamily="@font/roboto_regular"
-                    android:text="Branch"
-                    android:buttonTint="@color/guanzon_orange" />
+                    android:text="Branch"/>
 
-                <RadioButton
+                <com.google.android.material.radiobutton.MaterialRadioButton
+                    android:id="@+id/rg_ptpCollectr"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight=".7"
                     android:text="Collector"
                     android:checked="true"
-                    android:buttonTint="@color/guanzon_orange"
                     android:fontFamily="@font/roboto_regular" />
             </RadioGroup>
 
@@ -205,7 +193,7 @@
                 android:visibility="gone"
                 style="@style/TextInputStyle">
 
-                <AutoCompleteTextView
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/txt_ptp_branchName"
                     style="@style/AutoCompleteStyleTheme"
                     android:layout_width="match_parent"
@@ -242,6 +230,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_CollectrName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Collector\'s Name"
@@ -260,7 +249,6 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.button.MaterialButton
-                style="@style/GhostRider_Button"
                 android:id="@+id/btn_ptp_submit"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"

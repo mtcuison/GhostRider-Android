@@ -7,19 +7,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.checkbox.MaterialCheckBox;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -29,9 +29,9 @@ import org.rmj.g3appdriver.dev.Database.Entities.EBarangayInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.g3appdriver.etc.MessageBox;
+import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditAppConstants;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.ClientResidence;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.OnParseListener;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMResidenceInfo;
@@ -47,17 +47,17 @@ public class Activity_ResidenceInfo extends AppCompatActivity {
 
     private TextInputEditText txtLandMark, txtHouseNox, txtAddress1, txtAddress2, txtRelationship,
             txtLgnthStay, txtMonthlyExp, txtPLandMark, txtPHouseNox, txtPAddress1, txtPAddress2;
-    private AutoCompleteTextView txtBarangay,
+    private MaterialAutoCompleteTextView txtBarangay,
             txtMunicipality, txtProvince, txtPBarangay, txtPMunicipl, txtPProvince;
-    private CheckBox cbOneAddress;
-    private AutoCompleteTextView spnLgnthStay, spnHouseHold, spnHouseType;
+    private MaterialCheckBox cbOneAddress;
+    private MaterialAutoCompleteTextView spnLgnthStay, spnHouseHold, spnHouseType;
 
     private TextInputLayout tilRelationship;
     private LinearLayout lnOtherInfo, lnPermaAddx;
-    private Button btnNext;
-    private Button btnPrvs;
+    private MaterialButton btnNext;
+    private MaterialButton btnPrvs;
     private RadioGroup rgOwnsership, rgGarage;
-    private Toolbar toolbar;
+    private MaterialToolbar toolbar;
 
     private String TransNox;
 
@@ -109,7 +109,6 @@ public class Activity_ResidenceInfo extends AppCompatActivity {
                     }
                     ArrayAdapter<String> adapters = new ArrayAdapter<>(Activity_ResidenceInfo.this, android.R.layout.simple_spinner_dropdown_item, string.toArray(new String[0]));
                     txtMunicipality.setAdapter(adapters);
-                    txtMunicipality.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
                     txtMunicipality.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -135,7 +134,6 @@ public class Activity_ResidenceInfo extends AppCompatActivity {
                                     ArrayAdapter<String> adapters = new ArrayAdapter<>(Activity_ResidenceInfo.this,
                                             android.R.layout.simple_spinner_dropdown_item, string.toArray(new String[0]));
                                     txtBarangay.setAdapter(adapters);
-                                    txtBarangay.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
                                     txtBarangay.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                         @Override
                                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -177,7 +175,6 @@ public class Activity_ResidenceInfo extends AppCompatActivity {
                     }
                     ArrayAdapter<String> adapters = new ArrayAdapter<>(Activity_ResidenceInfo.this, android.R.layout.simple_spinner_dropdown_item, string.toArray(new String[0]));
                     txtPMunicipl.setAdapter(adapters);
-                    txtPMunicipl.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
                     txtPMunicipl.setOnItemClickListener((parent, view, position, id) -> {
                         for (int x = 0; x < loList.size(); x++) {
                             String lsLabel = loList.get(x).sTownName + ", " + loList.get(x).sProvName;
@@ -200,7 +197,6 @@ public class Activity_ResidenceInfo extends AppCompatActivity {
                                 ArrayAdapter<String> adapters1 = new ArrayAdapter<>(Activity_ResidenceInfo.this,
                                         android.R.layout.simple_spinner_dropdown_item, string1.toArray(new String[0]));
                                 txtPBarangay.setAdapter(adapters1);
-                                txtPBarangay.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
                                 txtPBarangay.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                     @Override
                                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -228,21 +224,18 @@ public class Activity_ResidenceInfo extends AppCompatActivity {
 
         spnHouseHold.setAdapter(new ArrayAdapter<>(Activity_ResidenceInfo.this,
                 android.R.layout.simple_list_item_1, CreditAppConstants.HOUSEHOLDS));
-        spnHouseHold.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         spnHouseHold.setOnItemClickListener((parent, view, position, id) ->
                 mViewModel.getModel().setHouseHold(String.valueOf(position)));
 //                mViewModel.getModel().setHouseHold(spnHouseHold.getText().toString().trim()));
 
         spnHouseType.setAdapter(new ArrayAdapter<>(Activity_ResidenceInfo.this,
                 android.R.layout.simple_list_item_1, CreditAppConstants.HOUSE_TYPE));
-        spnHouseType.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         spnHouseType.setOnItemClickListener((parent, view, position, id) ->
                 mViewModel.getModel().setHouseType(String.valueOf(position)));
 //                mViewModel.getModel().setHouseType(spnHouseType.getText().toString().trim()));
 
         spnLgnthStay.setAdapter(new ArrayAdapter<>(Activity_ResidenceInfo.this,
                 android.R.layout.simple_list_item_1, CreditAppConstants.LENGTH_OF_STAY));
-        spnLgnthStay.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         spnLgnthStay.setOnItemClickListener((parent, view, position, id) ->
                 mViewModel.getModel().setIsYear(position));
 

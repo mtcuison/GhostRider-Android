@@ -41,9 +41,18 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+import  com.google.android.material.checkbox.MaterialCheckBox;
 
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
@@ -67,17 +76,17 @@ public class Fragment_PromiseToPay extends Fragment {
     private LoadDialog poDialog;
     private MessageBox poMessage;
 
-    private TextInputLayout tilBranchName;
+    private TextInputLayout tilBranchName, tilCollct;
     private TextInputEditText txtDate,
             txtCollct,
             txtRemarks;
-    private AutoCompleteTextView txtBranch;
+    private MaterialAutoCompleteTextView txtBranch;
     private MaterialButton btnPtp;
     private RadioGroup rgPtpAppUnit;
 
     private String transNox;
 
-    private TextView lblBranch, lblAddress, lblAccNo, lblClientNm, lblTransNo;
+    private MaterialTextView lblBranch, lblAddress, lblAccNo, lblClientNm, lblTransNo;
 
     ActivityResultLauncher<String[]> poRequest = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), result -> InitializeCamera());
 
@@ -220,6 +229,7 @@ public class Fragment_PromiseToPay extends Fragment {
         lblTransNo = v.findViewById(R.id.lbl_dcpTransNo);
 
         tilBranchName = v.findViewById(R.id.til_ptp_branchName);
+        tilCollct = v.findViewById(R.id.til_CollectrName);
         txtDate = v.findViewById(R.id.pToPayDate);
         txtBranch = v.findViewById(R.id.txt_ptp_branchName);
         rgPtpAppUnit = v.findViewById(R.id.rb_ap_ptpBranch);
@@ -243,10 +253,10 @@ public class Fragment_PromiseToPay extends Fragment {
                 if(checkedId == R.id.rb_ptpBranch) {
                     appointment = "1";
                     tilBranchName.setVisibility(View.VISIBLE);
-                    txtCollct.setVisibility(View.GONE);
+                    tilCollct.setVisibility(View.GONE);
                 } else {
                     tilBranchName.setVisibility(View.GONE);
-                    txtCollct.setVisibility(View.VISIBLE);
+                    tilCollct.setVisibility(View.VISIBLE);
                     appointment = "0";
                 }
                 poPtp.setPaymntxx(appointment);

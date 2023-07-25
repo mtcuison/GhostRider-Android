@@ -32,9 +32,20 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+import  com.google.android.material.checkbox.MaterialCheckBox;
+
 
 import org.rmj.g3appdriver.dev.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
@@ -63,7 +74,7 @@ public class Activity_LogCollection extends AppCompatActivity {
 
     private VMCollectionLog mViewModel;
 
-    private TextView    txtNoLog,
+    private MaterialTextView    txtNoLog,
                         txtNoName,
                         lblTotRemit,
                         lblCashOH,
@@ -283,7 +294,7 @@ public class Activity_LogCollection extends AppCompatActivity {
     }
 
     private void initWidgets(){
-        Toolbar toolbar = findViewById(R.id.toolbar_collectionLog);
+        MaterialToolbar toolbar = findViewById(R.id.toolbar_collectionLog);
         toolbar.setTitle("Daily Collection Plan");
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
@@ -305,7 +316,7 @@ public class Activity_LogCollection extends AppCompatActivity {
         filteredCollectionDetlx = new ArrayList<>();
 
         try {
-            @SuppressLint("SimpleDateFormat") Date loDate = new SimpleDateFormat("yyyy-MM-dd").parse(new AppConstants().CURRENT_DATE);
+            @SuppressLint("SimpleDateFormat") Date loDate = new SimpleDateFormat("yyyy-MM-dd").parse(AppConstants.CURRENT_DATE());
             @SuppressLint("SimpleDateFormat") SimpleDateFormat loFormatter = new SimpleDateFormat("MMM dd, yyyy");
             txtDate.setText(loFormatter.format(Objects.requireNonNull(loDate)));
         } catch (ParseException e) {

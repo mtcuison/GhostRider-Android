@@ -16,7 +16,6 @@ import static org.rmj.guanzongroup.ghostrider.dataChecker.ViewModel.VMDBExplorer
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,6 +26,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -45,7 +45,7 @@ public class Activity_DB_Explorer extends AppCompatActivity {
 
     private VMDBExplorer mViewModel;
 
-    private Toolbar toolbar;
+    private MaterialToolbar toolbar;
     private TextInputEditText txtDataName;
     private MaterialButton btnFind, btnPost;
     private RecyclerView recyclerView;
@@ -89,7 +89,7 @@ public class Activity_DB_Explorer extends AppCompatActivity {
         txtDataName = findViewById(R.id.txt_dbName);
         btnFind = findViewById(R.id.btn_findDb);
         btnPost = findViewById(R.id.btn_post);
-        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView = findViewById(R.id.recyclerview);
 
         poDialog = new ProgressDialog(Activity_DB_Explorer.this);
     }

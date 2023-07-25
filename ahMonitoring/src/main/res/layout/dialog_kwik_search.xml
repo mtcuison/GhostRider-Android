@@ -10,7 +10,8 @@
   ~ project file last modified : 6/9/21 3:36 PM
   -->
 
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -25,38 +26,35 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:gravity="center"
-        android:background="@drawable/background_dialog">
+        android:gravity="center">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:weightSum="2"
             android:orientation="horizontal">
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_weight=".4"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="Kwik Search"
                 android:textSize="16sp"
-                android:textColor="@color/textColor_Black"
                 android:fontFamily="@font/roboto_bold"
                 android:gravity="center"
                 android:padding="10dp"/>
 
-            <ImageButton
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_dialogClose"
                 android:layout_weight="1.6"
-                style="@style/Widget.AppCompat.Button.Borderless"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
-                android:src="@drawable/ic_baseline_add_24"/>
+                app:icon="@drawable/ic_baseline_add_24"/>
         </LinearLayout>
 
-        <View
+        <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/guanzon_orange"
             android:layout_marginTop="5dp"/>
 
         <androidx.recyclerview.widget.RecyclerView
@@ -67,4 +65,4 @@
             android:layout_marginVertical="15dp"/>
     </LinearLayout>
 
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

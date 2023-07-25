@@ -39,6 +39,8 @@ public class EAreaPerformance {
     private int MCActual;
     @ColumnInfo(name = "nSPActual")
     private float SPActual;
+    @ColumnInfo(name = "nJOActual")
+    private float JOActual;
     @ColumnInfo(name = "nLRActual")
     private float LRActual;
 
@@ -117,6 +119,14 @@ public class EAreaPerformance {
 
     public void setSPActual(float SPActual) {
         this.SPActual = SPActual;
+    }
+
+    public float getJOActual() {
+        return JOActual;
+    }
+
+    public void setJOActual(float JOActual) {
+        this.JOActual = JOActual;
     }
 
     public float getLRActual() {

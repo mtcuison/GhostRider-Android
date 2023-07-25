@@ -19,6 +19,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+import  com.google.android.material.checkbox.MaterialCheckBox;
+
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.model.CreditAppDocs;
@@ -39,13 +52,7 @@ public class Activity_ApplicantDocuments extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
-    private TextView lblTransNoxxx;
-    private TextView lblClientName;
-    private TextView lblAppltnDate;
-    private TextView lblModelName;
-    private TextView lblAccntTern;
-    private TextView lblMobileNo;
-    private TextView lblStatus;
+    private MaterialTextView lblTransNoxxx,lblClientName,lblAppltnDate,lblModelName, lblAccntTern, lblMobileNo, lblStatus;
 
     private final ActivityResultLauncher<Intent> poScan = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
@@ -118,7 +125,7 @@ public class Activity_ApplicantDocuments extends AppCompatActivity {
         poDialogx = new LoadDialog(Activity_ApplicantDocuments.this);
         poMessage = new MessageBox(Activity_ApplicantDocuments.this);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        MaterialToolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("Applicant Documents");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

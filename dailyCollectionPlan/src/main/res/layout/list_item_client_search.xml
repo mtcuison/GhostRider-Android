@@ -16,44 +16,41 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="5dp">
+    android:padding="5dp"
+    android:theme="@style/GhostRiderMaterialTheme">
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/lbl_AccountNo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="M001150256"
         android:textSize="15sp"
-        android:textColor="@color/textColor_Black"
         android:fontFamily="@font/roboto_medium"/>
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/lbl_clientNm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Dolleton St. 7c Ilaya"
         android:textSize="15sp"
-        android:textColor="@color/textColor_Black"
         android:fontFamily="@font/roboto_medium"
         android:gravity="center_vertical"
         android:drawablePadding="10dp"
         app:drawableLeftCompat="@drawable/ic_collection_client" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/lbl_addressx"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="27, Pogo Grande, Alabang, Muntinlupa"
         android:textSize="15sp"
-        android:textColor="@color/textColor_Black"
         android:fontFamily="@font/roboto_regular"
         android:gravity="center_vertical"
         android:drawablePadding="10dp"
         app:drawableLeftCompat="@drawable/ic_collection_address" />
 
-    <View
+    <com.google.android.material.divider.MaterialDivider
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/guanzon_orange"
         android:layout_marginTop="5dp"/>
 </LinearLayout>

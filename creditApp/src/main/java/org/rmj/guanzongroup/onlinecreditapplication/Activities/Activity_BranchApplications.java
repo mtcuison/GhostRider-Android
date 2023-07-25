@@ -20,6 +20,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 
+
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+import  com.google.android.material.checkbox.MaterialCheckBox;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -88,7 +102,7 @@ public class Activity_BranchApplications extends AppCompatActivity {
         initData();
     }
     private void initWidgets(){
-        Toolbar toolbar = findViewById(R.id.toolbar_branchApplications);
+        MaterialToolbar toolbar = findViewById(R.id.toolbar_branchApplications);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         poDialogx = new LoadDialog(Activity_BranchApplications.this);

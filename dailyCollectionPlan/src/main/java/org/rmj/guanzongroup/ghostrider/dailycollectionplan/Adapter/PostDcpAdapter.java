@@ -18,6 +18,19 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+import  com.google.android.material.checkbox.MaterialCheckBox;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -65,8 +78,8 @@ public class PostDcpAdapter extends RecyclerView.Adapter<PostDcpAdapter.ClientHo
     public static class ClientHolder extends RecyclerView.ViewHolder{
 
         EDCPCollectionDetail loDetail;
-        ImageView icUpload;
-        TextView lblAccNox, lblClientNm, lblRemarks;
+        ShapeableImageView icUpload;
+        MaterialTextView lblAccNox, lblClientNm, lblRemarks;
 
         public ClientHolder(@NonNull View itemView, OnPostDcpClick mListener) {
             super(itemView);

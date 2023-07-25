@@ -18,6 +18,15 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -57,10 +66,11 @@ public class Activity_CashCountSubmit extends AppCompatActivity {
             txtTotalSalesxx,
             txtTransNox,
             txtRemarksx;
-    private Button btnSendToServer;
+    private MaterialButton btnSendToServer;
 
-    private TextView lblBranch, lblAddxx;
-    ImageButton btnQuickSearch;
+    private MaterialTextView lblBranch, lblAddxx;
+
+    private MaterialButton btnQuickSearch;
 
     private LoadDialog poDialogx;
     private MessageBox poMessage;
@@ -138,7 +148,7 @@ public class Activity_CashCountSubmit extends AppCompatActivity {
                 params.put("sORNoxNPt", Objects.requireNonNull(txtORNorthPoint.getText()).toString());
                 params.put("sPRNoxNPt", Objects.requireNonNull(txtPRNorthPoint.getText()).toString());
                 params.put("sDRNoxxxx", Objects.requireNonNull(txtDeliveryRcpt.getText()).toString());
-                params.put("dTransact", AppConstants.CURRENT_DATE);
+                params.put("dTransact", AppConstants.CURRENT_DATE());
                 params.put("dEntryDte", new AppConstants().DATE_MODIFIED);
                 params.put("sReqstdBy", EmployID);
                 params.put("sRemarksx", Objects.requireNonNull(txtRemarksx.getText()).toString());

@@ -21,14 +21,14 @@ import android.util.Log;
 
 import org.rmj.g3appdriver.dev.Database.Repositories.RLocationSysLog;
 import org.rmj.g3appdriver.lib.ApprovalCode.ApprovalCode;
-import org.rmj.g3appdriver.lib.Itinerary.EmployeeItinerary;
+import org.rmj.g3appdriver.lib.Itinerary.Obj.EmployeeItinerary;
 import org.rmj.g3appdriver.lib.PetManager.PetManager;
 import org.rmj.g3appdriver.lib.PetManager.model.iPM;
 import org.rmj.g3appdriver.lib.SelfieLog.SelfieLog;
 import org.rmj.g3appdriver.lib.integsys.CashCount.CashCount;
 import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditOnlineApplication;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
-import org.rmj.guanzongroup.ghostrider.notifications.Obj.GNotifBuilder;
+import org.rmj.guanzongroup.ghostrider.notifications.Notifications.GNotifBuilder;
 
 public class DataSyncService extends BroadcastReceiver {
     private static final String TAG = DataSyncService.class.getSimpleName();

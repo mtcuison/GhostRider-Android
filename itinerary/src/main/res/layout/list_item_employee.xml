@@ -4,9 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:layout_marginTop="5dp">
+    android:layout_marginTop="5dp"
+    android:theme="@style/GhostRiderMaterialTheme">
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/lbl_employee"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,12 +16,10 @@
         android:maxLines="1"
         android:padding="5dp"
         android:textSize="16sp"
-        android:textColor="@color/material_black"
         android:fontFamily="@font/roboto_regular"/>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/material_black"/>
+        android:layout_height="1dp"/>
 
 </LinearLayout>

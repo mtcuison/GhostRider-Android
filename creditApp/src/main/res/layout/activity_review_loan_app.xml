@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:orientation="vertical"
-    android:theme="@style/GhostRiderMaterialTheme.WhiteBG"
+    android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
     android:layout_height="match_parent">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -12,11 +12,10 @@
         android:layout_height="wrap_content"
         android:theme="@style/GhostRiderMaterialTheme.AppBarOverlay">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar_ReviewLoanApp"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/material_tool_bar"
             android:popupTheme="@style/GhostRiderMaterialTheme.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -37,15 +36,15 @@
             android:layout_height="wrap_content"
             android:padding="10dp">
 
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/img_loanApplicant"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
             android:src="@drawable/ic_user_profile"/>
 
-            <ImageButton
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_camera"
-                style="@style/Widget.AppCompat.Button.Borderless"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="36dp"
                 android:layout_alignEnd="@+id/img_loanApplicant"
@@ -54,17 +53,16 @@
                 android:layout_marginEnd="-24dp"
                 android:layout_marginRight="-24dp"
                 android:layout_marginBottom="-1dp"
-                android:src="@drawable/ic_camera_black_24"
+                app:icon="@drawable/ic_camera_black_24"
                 app:tint="@color/guanzon_orange" />
 
         </RelativeLayout>
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lbl_clientNme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Doe, John C."
-            android:textColor="@color/textColor_Black"
             android:textSize="16sp"
             android:fontFamily="@font/roboto_black"
             android:layout_marginTop="10dp"/>
@@ -95,7 +93,6 @@
             android:text="Previous"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:drawableLeft="@drawable/ic_nav_left"
             android:layout_marginTop="15dp"
             android:layout_alignParentStart="true" />
 
@@ -107,7 +104,6 @@
             android:text="Save"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:drawableRight="@drawable/ic_application_export"
             android:layout_marginTop="15dp"
             android:layout_alignParentEnd="true" />
 

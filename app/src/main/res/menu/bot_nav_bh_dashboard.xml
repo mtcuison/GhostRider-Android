@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/nav_home"
+        android:title="Home"
+        android:icon="@drawable/ic_menu_home"
+        android:enabled="true"/>
+
+    <item android:id="@+id/nav_panalo"
+        android:title="Panalo"
+        android:icon="@drawable/ic_baseline_panalo"
+        android:enabled="true"/>
+
+    <item android:id="@+id/nav_bullseye"
+        android:title="Area Performance"
+        android:icon="@drawable/ic_baseline_performance_monitor"
+        android:enabled="true"/>
+
+    <item android:id="@+id/nav_notifications"
+        android:title="Notifications"
+        android:icon="@drawable/ic_head_notification"
+        android:enabled="true"/>
+</menu>

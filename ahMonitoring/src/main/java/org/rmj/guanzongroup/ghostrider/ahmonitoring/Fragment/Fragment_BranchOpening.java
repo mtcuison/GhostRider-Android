@@ -23,7 +23,17 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,7 +53,7 @@ public class Fragment_BranchOpening extends Fragment {
 
     private VMBranchOpening mViewModel;
 
-    private TextView lblUserName,
+    private MaterialTextView lblUserName,
                     lblPosition,
                     lblBranch,
                     lblDate;
@@ -64,7 +74,7 @@ public class Fragment_BranchOpening extends Fragment {
         lblBranch = view.findViewById(R.id.lbl_userBranch);
         lblDate = view.findViewById(R.id.lbl_date);
         recyclerView = view.findViewById(R.id.recyclerview_openings);
-        lblDate.setText(FormatUIText.formatGOCasBirthdate(new AppConstants().CURRENT_DATE));
+        lblDate.setText(FormatUIText.formatGOCasBirthdate(AppConstants.CURRENT_DATE()));
         return view;
     }
 

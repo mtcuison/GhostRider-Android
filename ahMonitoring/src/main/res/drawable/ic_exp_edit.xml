@@ -10,14 +10,15 @@
   -->
 
 <vector android:autoMirrored="true" android:height="20dp"
+    android:tint="?attr/colorControlNormal"
     android:viewportHeight="33.182" android:viewportWidth="33.182"
     android:width="20dp" xmlns:android="http://schemas.android.com/apk/res/android">
     <path android:fillColor="#00000000"
         android:pathData="M15,4.682L4.5,4.682A3,3 0,0 0,1.5 7.682L1.5,28.682a3,3 0,0 0,3 3L25.5,31.682a3,3 0,0 0,3 -3L28.5,18.182"
-        android:strokeColor="#000" android:strokeLineCap="round"
+        android:strokeColor="@android:color/white" android:strokeLineCap="round"
         android:strokeLineJoin="round" android:strokeWidth="3"/>
     <path android:fillColor="#00000000"
         android:pathData="M26.25,2.432a3.182,3.182 0,0 1,4.5 4.5L16.5,21.182 10.5,22.682l1.5,-6Z"
-        android:strokeColor="#000" android:strokeLineCap="round"
+        android:strokeColor="@android:color/white" android:strokeLineCap="round"
         android:strokeLineJoin="round" android:strokeWidth="3"/>
 </vector>

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:grid="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:theme="@style/GhostRiderMaterialTheme.WhiteBG"
+    android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
     tools:context=".Activities.Activity_MeansInfoSelection">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -13,11 +13,10 @@
         android:layout_height="wrap_content"
         android:theme="@style/GhostRiderMaterialTheme.AppBarOverlay">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar_MeansInfoSelection"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/material_tool_bar"
             android:popupTheme="@style/GhostRiderMaterialTheme.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -29,29 +28,27 @@
         android:orientation="vertical"
         android:padding="5dp">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:fontFamily="@font/roboto_bold"
             android:text="Application Means Info"
-            android:textColor="@color/black"
             android:textSize="22sp" />
 
-        <View
+        <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"
             android:layout_height="1.5dp"
             android:layout_marginTop="5dp"
             android:background="@color/guanzon_orange" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:gravity="center"
             android:padding="10dp"
             android:text="Please select the source of income of client. If client doesn't have any source of income you can skip this area."
-            android:textColor="@color/black"
             tools:ignore="HardcodedText" />
         <org.rmj.guanzongroup.onlinecreditapplication.Etc.RadioGridGroup
             android:layout_width="match_parent"
@@ -60,7 +57,7 @@
             grid:columnCount="2"
             grid:useDefaultMargins="true"
             >
-            <androidx.appcompat.widget.AppCompatRadioButton
+            <com.google.android.material.radiobutton.MaterialRadioButton
                 android:id="@+id/rb_employed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -69,7 +66,7 @@
                 android:text="Employed"
                 grid:layout_columnWeight="1"/>
 
-            <androidx.appcompat.widget.AppCompatRadioButton
+            <com.google.android.material.radiobutton.MaterialRadioButton
                 android:id="@+id/rb_finance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -77,7 +74,7 @@
                 grid:layout_columnWeight="1"
                 android:fontFamily="@font/roboto_medium"
                 android:text="Finance" />
-            <androidx.appcompat.widget.AppCompatRadioButton
+            <com.google.android.material.radiobutton.MaterialRadioButton
                 android:id="@+id/rb_sEmployed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -85,7 +82,7 @@
                 grid:layout_columnWeight="1"
                 android:fontFamily="@font/roboto_medium"
                 android:text="Self Employed" />
-            <androidx.appcompat.widget.AppCompatRadioButton
+            <com.google.android.material.radiobutton.MaterialRadioButton
                 android:id="@+id/rb_pension"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -100,7 +97,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_creditAppPrvs"
                 style="@style/NavigationButton"
                 android:layout_width="wrap_content"
@@ -108,11 +105,10 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:drawableLeft="@drawable/ic_nav_left"
                 android:text="@string/sbtnPrvs"
                 tools:ignore="RelativeOverlap" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_creditAppNext"
                 style="@style/NavigationButton"
                 android:layout_width="wrap_content"
@@ -120,8 +116,6 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:drawableEnd="@drawable/ic_nav_right"
-                android:drawableRight="@drawable/ic_nav_right"
                 android:text="@string/sbtnNext"
                 tools:ignore="RelativeOverlap" />
         </RelativeLayout>

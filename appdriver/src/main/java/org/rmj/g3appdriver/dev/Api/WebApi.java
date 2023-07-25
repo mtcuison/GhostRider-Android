@@ -15,7 +15,7 @@ public class WebApi {
 
     private boolean isUnitTest = false;
 
-    private static final String LOCAL = "http://192.168.10.15/";
+    private static final String LOCAL = "http://192.168.10.27/";
     private String LIVE = "";
 
     private static final String PRIMARY_LIVE = "https://restgk.guanzongroup.com.ph/";
@@ -41,6 +41,7 @@ public class WebApi {
     private static final String URL_IMPORT_FILE_CODE = "integsys/param/download_edoc_file_type.php";
     private static final String URL_IMPORT_OCCUPATIONS = "integsys/param/download_occupation.php";
     private static final String URL_SUBMIT_ONLINE_APPLICATION = "integsys/gocas/gocas_save.php";
+    private static final String URL_GET_INSTALLMENT_TERMS = "integsys/gocas/import_installment_terms.php";
     private static final String URL_IMPORT_RAFFLE_BASIS = "promo/param/download_raffle_entry_basis_all.php";
     private static final String URL_REQUEST_ONLINE_APPLICATIONS = "integsys/gocas/gocas_request_status.php";
     private static final String URL_IMPORT_ONLINE_APPLICATIONS = "integsys/gocas/gocas_request_application.php";
@@ -75,6 +76,7 @@ public class WebApi {
     private static final String URL_UPLOAD_CI_RESULT = "integsys/gocas/upload_ci_result.php";
     private static final String URL_SEND_RESPONSE = "nmm/send_response.php";
     private static final String URL_SEND_REQUEST = "nmm/send_request.php";
+    private static final String URL_SEND_REQUEST_SYSTEM = "nmm/send_request_system.php";
     private static final String URL_KWIKSEARCH = "integsys/paramqry/cash_count_rqst_officer.php";
     private static final String URL_SEND_LEAVE_APPLICATION = "petmgr/send_leave_application.php";
     private static final String URL_GET_LEAVE_APPLICATION = "petmgr/get_leave_application.php";
@@ -95,12 +97,20 @@ public class WebApi {
 
     private static final String REQUEST_USER_ACCESS = "security/request_android_object.php";
 
-    private static final String URL_DOWNLOAD_UPDATE = "https://restgk.guanzongroup.com.ph/apk/gCircle.apk";
-    private static final String URL_DOWNLOAD_TEST_UPDATE = "https://restgk.guanzongroup.com.ph/apk/test/gRider.apk";
-
     private static final String URL_SUBMIT_APP_VERSION = "security/updateUserAppVersion.php";
     private static final String URL_VERSION_LOG = "query/get_version_info.php";
     private static final String URL_CHECK_UPDATE = "query/check_update.php";
+
+    private static final String URL_DOWNLOAD_UPDATE = "https://restgk.guanzongroup.com.ph/apk/gCircle.apk";
+    private static final String URL_DOWNLOAD_TEST_UPDATE = "https://restgk.guanzongroup.com.ph/apk/test/gRider.apk";
+
+    private static final String GET_PANALO_REWARDS = "gconnect/upload/getUserPanalo.php";
+    private static final String CLAIM_PANALO_REWARD = "gconnect/upload/getUserPanalo.php";
+    private static final String GET_RAFFLE_PARTICIPANTS = "gconnect/upload/getUserPanalo.php";
+
+    private static final String GET_PACITA_RULES = "gCircle/Pacita/import_pacita_rules.php";
+    private static final String GET_PACITA_EVALUATIONS = "gCircle/Pacita/import_pacita_evaluations.php";
+    private static final String SUBMIT_PACITA_RESULT = "gCircle/Pacita/submit_pacita_result.php";
 
     public WebApi(boolean isTestCase){
         this.isUnitTest = isTestCase;
@@ -885,13 +895,13 @@ public class WebApi {
 
     public String getUrlVersionLog(boolean isBackUp) {
         if(isUnitTest) {
-            return LOCAL + URL_CHECK_UPDATE;
+            return LOCAL + URL_VERSION_LOG;
         } else if(isBackUp){
             LIVE = SECONDARY_LIVE;
         } else {
             LIVE = PRIMARY_LIVE;
         }
-        return LIVE + URL_CHECK_UPDATE;
+        return LIVE + URL_VERSION_LOG;
     }
 
     public String getUrlCheckUpdate(boolean isBackUp) {
@@ -903,5 +913,82 @@ public class WebApi {
             LIVE = PRIMARY_LIVE;
         }
         return LIVE + URL_CHECK_UPDATE;
+    }
+
+    public String getUrlGetPanaloRewards(boolean isBackUp) {
+        if(isUnitTest) {
+            return LOCAL + GET_PANALO_REWARDS;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
+        }
+        return LIVE + GET_PANALO_REWARDS;
+    }
+
+    public String getUrlGetRaffleParticipants(boolean isBackUp) {
+        if(isUnitTest) {
+            return LOCAL + GET_RAFFLE_PARTICIPANTS;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
+        }
+        return LIVE + GET_RAFFLE_PARTICIPANTS;
+    }
+
+    public String getUrlGetPacitaRules(boolean isBackUp) {
+        if(isUnitTest) {
+            return LOCAL + GET_PACITA_RULES;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
+        }
+        return LIVE + GET_PACITA_RULES;
+    }
+
+    public String getUrlGetPacitaEvaluations(boolean isBackUp) {
+        if(isUnitTest) {
+            return LOCAL + GET_PACITA_EVALUATIONS;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
+        }
+        return LIVE + GET_PACITA_EVALUATIONS;
+    }
+
+    public String getUrlSubmitPacitaResult(boolean isBackUp) {
+        if(isUnitTest) {
+            return LOCAL + SUBMIT_PACITA_RESULT;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
+        }
+        return LIVE + SUBMIT_PACITA_RESULT;
+    }
+
+    public String getGetInstallmentTerms(boolean isBackUp) {
+        if(isUnitTest) {
+            return LOCAL + URL_GET_INSTALLMENT_TERMS;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
+        }
+        return LIVE + URL_GET_INSTALLMENT_TERMS;
+    }
+
+    public String getClaimPanaloReward(boolean isBackUp) {
+        if(isUnitTest) {
+            return LOCAL + CLAIM_PANALO_REWARD;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
+        }
+        return LIVE + CLAIM_PANALO_REWARD;
     }
 }

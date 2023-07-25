@@ -9,105 +9,81 @@
   ~ project file created : 6/7/21 3:29 PM
   ~ project file last modified : 6/7/21 3:29 PM
   -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".Activity.Activity_CashCounter"
-    android:background="@drawable/bg_gradient_light"
-    android:theme="@style/GhostRiderMaterialTheme.WhiteBG">
+    android:theme="@style/GhostRiderMaterialTheme.NoActionBar">
 
     <LinearLayout
+        android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-        <!--ROW 1 -->
+        android:layout_height="wrap_content"
+        android:elevation="3dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.appbar.AppBarLayout
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar_cashCounter"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/GhostRiderMaterialTheme.AppBarOverlay">
+            android:layout_height="?attr/actionBarSize"
+            app:popupTheme="@style/GhostRiderMaterialTheme.PopupOverlay" />
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar_cashCounter"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="@color/material_tool_bar"
-                app:popupTheme="@style/GhostRiderMaterialTheme.PopupOverlay" />
+    </LinearLayout>
 
-        </com.google.android.material.appbar.AppBarLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@drawable/bg_samsungknox"
-            android:gravity="center_horizontal"
-            android:paddingHorizontal="15dp">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginVertical="15dp">
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/shapeableImageView2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/bg_dashboard"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent=".3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Cash Count"
-                        android:fontFamily="@font/roboto"
-                        android:textSize="22sp"
-                        android:textColor="@color/textColor_White"/>
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/materialTextView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto"
+        android:text="Cash Count"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/shapeableImageView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.35" />
 
-                    <TextView
-                        android:id="@+id/lbl_headerBranch"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="15sp"
-                        android:text="Local data is not sync"
-                        android:fontFamily="@font/roboto_light"
-                        android:textColor="@color/textColor_White"
-                        android:layout_marginTop="5dp"/>
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/lbl_headerBranch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto"
+        android:text="GMC Dagupan"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/materialTextView2" />
 
-                    <TextView
-                        android:id="@+id/lbl_headerAddress"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="15sp"
-                        android:fontFamily="@font/roboto_light"
-                        android:textColor="@color/textColor_White"/>
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:cardCornerRadius="10dp"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true"
+        android:layout_marginTop="30dp"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lbl_headerBranch">
 
-
-                </LinearLayout>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="15dp">
-                <TextView
-                    android:id="@+id/lbl_headerDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:layout_gravity="end"
-                    android:fontFamily="@font/roboto_light"
-                    android:textColor="@color/textColor_White"/>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.8dp"
-                    android:background="#fff"/>
-            </LinearLayout>
-
-
-        </LinearLayout>
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -116,18 +92,22 @@
             android:fitsSystemWindows="true"
             android:padding="3dp"
             android:scrollbars="none">
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="3dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="30dp"
                 android:orientation="vertical">
+
                 <RelativeLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="10dp">
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
@@ -139,8 +119,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:background="@drawable/border">
+                    android:orientation="vertical">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -157,7 +136,7 @@
                             android:layout_gravity="center"
                             android:layout_weight="1.1">
 
-                            <TextView
+                            <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/tv1000p"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
@@ -197,7 +176,6 @@
                                 android:layout_height="wrap_content"
                                 android:enabled="false"
                                 android:focusable="false"
-                                android:textColor="@color/material_black"
                                 android:focusableInTouchMode="false"
                                 android:inputType="none|number"
                                 android:maxLength="50"
@@ -219,7 +197,7 @@
                             android:layout_gravity="center"
                             android:layout_weight="1.1">
 
-                            <TextView
+                            <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/tv500p"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
@@ -259,7 +237,6 @@
                                 android:enabled="false"
                                 android:focusable="false"
                                 android:focusableInTouchMode="false"
-                                android:textColor="@color/material_black"
                                 android:inputType="none|number"
                                 android:maxLength="50"
                                 android:text="0"/>
@@ -280,7 +257,7 @@
                             android:layout_gravity="center"
                             android:layout_weight="1.1">
 
-                            <TextView
+                            <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/tv200p"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
@@ -321,7 +298,6 @@
                                 android:enabled="false"
                                 android:focusable="false"
                                 android:focusableInTouchMode="false"
-                                android:textColor="@color/material_black"
                                 android:inputType="none|number"
                                 android:maxLength="50"
                                 android:text="0"/>
@@ -343,7 +319,7 @@
                             android:layout_gravity="center"
                             android:layout_weight="1.1">
 
-                            <TextView
+                            <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/tv100p"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
@@ -383,7 +359,6 @@
                                 android:enabled="false"
                                 android:focusable="false"
                                 android:focusableInTouchMode="false"
-                                android:textColor="@color/material_black"
                                 android:inputType="none|number"
                                 android:maxLength="50"
                                 android:text="0"/>
@@ -405,7 +380,7 @@
                             android:layout_gravity="center"
                             android:layout_weight="1.1">
 
-                            <TextView
+                            <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/tv50p"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
@@ -445,7 +420,6 @@
                                 android:enabled="false"
                                 android:focusable="false"
                                 android:focusableInTouchMode="false"
-                                android:textColor="@color/material_black"
                                 android:inputType="none|number"
                                 android:maxLength="50"
                                 android:text="0"/>
@@ -468,7 +442,7 @@
                             android:layout_gravity="center"
                             android:layout_weight="1.1">
 
-                            <TextView
+                            <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/tv20p"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
@@ -509,7 +483,6 @@
                                 android:enabled="false"
                                 android:focusable="false"
                                 android:focusableInTouchMode="false"
-                                android:textColor="@color/material_black"
                                 android:inputType="none|number"
                                 android:maxLength="50"
                                 android:text="0"/>
@@ -526,7 +499,7 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="20dp">
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
@@ -538,7 +511,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:background="@drawable/border"
                     android:layout_marginBottom="10dp">
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -556,12 +528,12 @@
                             android:weightSum="3">
 
                             <RelativeLayout
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_weight="1.1">
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="1.1">
 
-                                <TextView
+                                <com.google.android.material.textview.MaterialTextView
                                     android:id="@+id/tv10pc"
                                     android:layout_width="fill_parent"
                                     android:layout_height="wrap_content"
@@ -572,12 +544,12 @@
                             </RelativeLayout>
 
                             <com.google.android.material.textfield.TextInputLayout
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight=".9"
-                            android:hint="Enter Quantity"
-                            style="@style/TextInputStyle"
-                            >
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight=".9"
+                                android:hint="Enter Quantity"
+                                style="@style/TextInputStyle"
+                                >
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/edt10pc"
@@ -602,7 +574,6 @@
                                     android:enabled="false"
                                     android:focusable="false"
                                     android:focusableInTouchMode="false"
-                                    android:textColor="@color/material_black"
                                     android:inputType="none|number"
                                     android:maxLength="50"
                                     android:text="0"/>
@@ -618,12 +589,12 @@
                             android:weightSum="3">
 
                             <RelativeLayout
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_weight="1.1">
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="1.1">
 
-                                <TextView
+                                <com.google.android.material.textview.MaterialTextView
                                     android:id="@+id/tv5pc"
                                     android:layout_width="fill_parent"
                                     android:layout_height="wrap_content"
@@ -634,12 +605,12 @@
                             </RelativeLayout>
 
                             <com.google.android.material.textfield.TextInputLayout
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight=".9"
-                            android:hint="Enter Quantity"
-                            style="@style/TextInputStyle"
-                            >
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight=".9"
+                                android:hint="Enter Quantity"
+                                style="@style/TextInputStyle"
+                                >
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/edt5pc"
@@ -663,7 +634,6 @@
                                     android:enabled="false"
                                     android:focusable="false"
                                     android:focusableInTouchMode="false"
-                                    android:textColor="@color/material_black"
                                     android:inputType="none|number"
                                     android:maxLength="50"
                                     android:text="0"/>
@@ -679,12 +649,12 @@
                             android:weightSum="3">
 
                             <RelativeLayout
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_weight="1.1">
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="1.1">
 
-                                <TextView
+                                <com.google.android.material.textview.MaterialTextView
                                     android:id="@+id/tv1pc"
                                     android:layout_width="fill_parent"
                                     android:layout_height="wrap_content"
@@ -695,12 +665,12 @@
                             </RelativeLayout>
 
                             <com.google.android.material.textfield.TextInputLayout
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight=".9"
-                            android:hint="Enter Quantity"
-                            style="@style/TextInputStyle"
-                            >
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight=".9"
+                                android:hint="Enter Quantity"
+                                style="@style/TextInputStyle"
+                                >
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/edt1pc"
@@ -725,7 +695,6 @@
                                     android:enabled="false"
                                     android:focusable="false"
                                     android:focusableInTouchMode="false"
-                                    android:textColor="@color/material_black"
                                     android:inputType="none|number"
                                     android:maxLength="50"
                                     android:text="0"/>
@@ -742,12 +711,12 @@
                             android:weightSum="3">
 
                             <RelativeLayout
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_weight="1.1">
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="1.1">
 
-                                <TextView
+                                <com.google.android.material.textview.MaterialTextView
                                     android:id="@+id/tv25cc"
                                     android:layout_width="fill_parent"
                                     android:layout_height="wrap_content"
@@ -758,12 +727,12 @@
                             </RelativeLayout>
 
                             <com.google.android.material.textfield.TextInputLayout
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight=".9"
-                            android:hint="Enter Quantity"
-                            style="@style/TextInputStyle"
-                            >
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight=".9"
+                                android:hint="Enter Quantity"
+                                style="@style/TextInputStyle"
+                                >
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/edt25cc"
@@ -788,7 +757,6 @@
                                     android:focusable="false"
                                     android:focusableInTouchMode="false"
                                     android:inputType="none|number"
-                                    android:textColor="@color/material_black"
                                     android:maxLength="50"
                                     android:text="0"/>
                             </com.google.android.material.textfield.TextInputLayout>
@@ -804,12 +772,12 @@
                             android:weightSum="3">
 
                             <RelativeLayout
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_weight="1.1">
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="1.1">
 
-                                <TextView
+                                <com.google.android.material.textview.MaterialTextView
                                     android:id="@+id/tv10cc"
                                     android:layout_width="fill_parent"
                                     android:layout_height="wrap_content"
@@ -820,12 +788,12 @@
                             </RelativeLayout>
 
                             <com.google.android.material.textfield.TextInputLayout
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight=".9"
-                            android:hint="Enter Quantity"
-                            style="@style/TextInputStyle"
-                            >
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight=".9"
+                                android:hint="Enter Quantity"
+                                style="@style/TextInputStyle"
+                                >
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/edt10cc"
@@ -849,7 +817,6 @@
                                     android:enabled="false"
                                     android:focusable="false"
                                     android:focusableInTouchMode="false"
-                                    android:textColor="@color/material_black"
                                     android:inputType="none|number"
                                     android:maxLength="50"
                                     android:text="0"/>
@@ -868,12 +835,12 @@
                             android:weightSum="3">
 
                             <RelativeLayout
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_weight="1.1">
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="1.1">
 
-                                <TextView
+                                <com.google.android.material.textview.MaterialTextView
                                     android:id="@+id/tv5cc"
                                     android:layout_width="fill_parent"
                                     android:layout_height="wrap_content"
@@ -884,12 +851,12 @@
                             </RelativeLayout>
 
                             <com.google.android.material.textfield.TextInputLayout
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight=".9"
-                            android:hint="Enter Quantity"
-                            style="@style/TextInputStyle"
-                            >
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight=".9"
+                                android:hint="Enter Quantity"
+                                style="@style/TextInputStyle"
+                                >
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/edt5cc"
@@ -915,7 +882,6 @@
                                     android:focusable="false"
                                     android:focusableInTouchMode="false"
                                     android:inputType="none|number"
-                                    android:textColor="@color/material_black"
                                     android:maxLength="50"
                                     android:text="0"/>
                             </com.google.android.material.textfield.TextInputLayout>
@@ -936,7 +902,7 @@
                                 android:layout_gravity="center"
                                 android:layout_weight="1.1">
 
-                                <TextView
+                                <com.google.android.material.textview.MaterialTextView
                                     android:id="@+id/tv1cc"
                                     android:layout_width="fill_parent"
                                     android:layout_height="wrap_content"
@@ -977,7 +943,6 @@
                                     android:enabled="false"
                                     android:focusable="false"
                                     android:focusableInTouchMode="false"
-                                    android:textColor="@color/material_black"
                                     android:inputType="none|number"
                                     android:maxLength="50"
                                     android:text="0"/>
@@ -998,14 +963,14 @@
                         android:orientation="horizontal"
                         android:layout_marginBottom="3dp"
                         >
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:text="Bills Total :"
                             android:layout_weight="1"
                             android:textSize="20sp"
                             />
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/lblPesoTotal"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
@@ -1021,14 +986,14 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:layout_marginBottom="3dp">
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Coins Total :"
                             android:textSize="20sp"
                             />
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/lblCoinsTotal"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
@@ -1045,14 +1010,14 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:layout_marginBottom="5dp">
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:textSize="20sp"
                             android:text="Grand Total :"
                             />
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/lblGrandTotal"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
@@ -1066,19 +1031,18 @@
                     </LinearLayout>
 
                 </LinearLayout>
+
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_cash_count"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingVertical="10dp"
-                    android:text="Continue to submit window"
-                    android:textSize="18sp"
-                    android:textColor="@color/textColor_White"
-                    android:fontFamily="@font/roboto_thin"
-                    style="@style/MaterialButtonAccent"/>
+                    android:layout_marginBottom="30dp"
+                    android:text="Continue to submit window"/>
+
             </LinearLayout>
+
         </ScrollView>
 
-    </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

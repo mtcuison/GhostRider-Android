@@ -21,6 +21,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.textview.MaterialTextView;
 
 import org.rmj.g3appdriver.R;
 
@@ -30,9 +32,9 @@ public class  MessageBox {
     private AlertDialog poDialogx;
     private MaterialButton btnPositive;
     private MaterialButton btnNegative;
-    private TextView lblTitle;
-    private TextView lblMsgxx;
-    private View midBorder;
+    private MaterialTextView lblTitle;
+    private MaterialTextView lblMsgxx;
+    private MaterialDivider midBorder;
 
     private final Context context;
 
@@ -97,14 +99,7 @@ public class  MessageBox {
         if(!poDialogx.isShowing()) {
             poDialogx.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             poDialogx.getWindow().getAttributes().windowAnimations = R.style.PopupAnimation;
-            try {
-                if (!((Activity) context).isFinishing()) {
-                    poDialogx.show();
-//                    isDialogShown = true;
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            poDialogx.show();
         }
     }
 

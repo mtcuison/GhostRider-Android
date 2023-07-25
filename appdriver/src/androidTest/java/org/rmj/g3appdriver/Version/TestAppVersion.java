@@ -14,6 +14,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.lib.Version.AppVersion;
 import org.rmj.g3appdriver.lib.Version.VersionInfo;
@@ -36,9 +37,9 @@ public class TestAppVersion {
     @Before
     public void setUp() throws Exception {
         instance = ApplicationProvider.getApplicationContext();
+        AppConfigPreference.getInstance(instance).setTestCase(true);
         poVersion = new AppVersion(instance);
         poMaster = new EmployeeMaster(instance);
-        AppConfigPreference.getInstance(instance).setTestCase(true);
     }
 
     @Test

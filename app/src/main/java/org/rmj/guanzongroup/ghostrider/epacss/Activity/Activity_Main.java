@@ -21,18 +21,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
-import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.ui.AppBarConfiguration;
+import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.textview.MaterialTextView;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeRole;
 import org.rmj.g3appdriver.dev.DeptCode;
@@ -40,9 +42,9 @@ import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.lib.Account.SessionManager;
+import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
 import org.rmj.g3appdriver.lib.ImportData.ImportEmployeeRole;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Application;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Etc.FragmentAdapter;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_CollectionList;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_LogCollection;
 import org.rmj.guanzongroup.ghostrider.epacss.Object.ChildObject;
@@ -51,7 +53,9 @@ import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.Service.DataSyncService;
 import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMMainActivity;
 import org.rmj.guanzongroup.ghostrider.epacss.adapter.ExpandableListDrawerAdapter;
-import org.rmj.guanzongroup.ghostrider.epacss.ui.etc.AppDeptIcon;
+import org.rmj.g3appdriver.etc.AppDeptIcon;
+import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_Settings;
+import org.rmj.guanzongroup.petmanager.Activity.Activity_Application;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -61,26 +65,23 @@ import java.util.Locale;
 public class Activity_Main extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private static final String TAG = Activity_Main.class.getSimpleName();
     private VMMainActivity mViewModel;
-
     private DataSyncService poNetRecvr;
 
-    private AppBarConfiguration mAppBarConfiguration;
     private MessageBox loMessage;
     private LoadDialog poDialog;
-    private SessionManager poSession;
     private Intent loIntent;
     private boolean cSlfiex;
 
     private ImageView imgDept;
-    private TextView lblDept;
+    private MaterialTextView lblDept;
     private ExpandableListDrawerAdapter listAdapter;
     private ExpandableListView expListView;
+    private DrawerLayout drawer;
+    private ViewPager viewPager;
 
     private final List<ParentObject> poParentLst = new ArrayList<>();
     private List<ChildObject> poChildLst;
     private final HashMap<ParentObject, List<ChildObject>> poChild = new HashMap<>();
-
-    public static DrawerLayout drawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +90,8 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
         poNetRecvr = mViewModel.getInternetReceiver();
         setContentView(R.layout.activity_main);
         initWidgets();
+        InitUserFeatures();
+        initReceiver();
 
         mViewModel.getEmployeeInfo().observe(this, eEmployeeInfo -> {
             try{
@@ -96,11 +99,15 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
                 imgDept.setImageResource(AppDeptIcon.getIcon(eEmployeeInfo.getDeptIDxx()));
                 lblDept.setText(DeptCode.getDepartmentName(eEmployeeInfo.getDeptIDxx()));
                 cSlfiex = eEmployeeInfo.getSlfieLog().equalsIgnoreCase("1");
+                Fragment[] loFragment = new Fragment[]{mViewModel.GetUserFragments(eEmployeeInfo)};
+                viewPager.setAdapter(new FragmentAdapter(getSupportFragmentManager(), loFragment));
             } catch (Exception e){
                 e.printStackTrace();
             }
         });
+    }
 
+    private void InitUserFeatures(){
         mViewModel.getEmployeeRole().observe(this, roles -> {
             try{
                 mViewModel.getChildRoles().observe(this, childMenus -> {
@@ -172,7 +179,7 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
     }
 
     private void initWidgets(){
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        MaterialToolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
@@ -183,7 +190,6 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
 
         loMessage = new MessageBox(Activity_Main.this);
         poDialog = new LoadDialog(Activity_Main.this);
-        poSession = new SessionManager(Activity_Main.this);
         expListView = (ExpandableListView) findViewById(R.id.lvExp);
         expListView.setIndicatorBoundsRelative(width - GetPixelFromDips(50), width - GetPixelFromDips(10));
 
@@ -196,6 +202,7 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         View view = navigationView.getHeaderView(0);
+        viewPager = findViewById(R.id.viewpager);
         imgDept = view.findViewById(R.id.img_deptLogo);
         lblDept = view.findViewById(R.id.lbl_deptNme);
         lblDept.setOnClickListener(v -> {
@@ -233,25 +240,26 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
         return (int) (pixels * scale + 0.5f);
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
+    private void initReceiver(){
         IntentFilter loFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
         registerReceiver(poNetRecvr, loFilter);
+        AppConfigPreference.getInstance(Activity_Main.this).setIsMainActive(true);
         Log.e(TAG, "Internet status receiver has been registered.");
     }
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         unregisterReceiver(poNetRecvr);
         Log.e(TAG, "Internet status receiver has been unregistered.");
+        AppConfigPreference.getInstance(Activity_Main.this).setIsMainActive(false);
+        mViewModel.ResetRaffleStatus();
+        super.onDestroy();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        //getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
@@ -264,8 +272,6 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
             loMessage.setPositiveButton("Yes", (view, dialog) -> {
                 dialog.dismiss();
                 finish();
-//                new REmployee(getApplication()).LogoutUserSession();
-//                AppConfigPreference.getInstance(Activity_Main.this).setIsAppFirstLaunch(false);
             });
             loMessage.setNegativeButton("No", (view, dialog) -> dialog.dismiss());
             loMessage.setTitle("Guanzon Circle");
@@ -281,6 +287,28 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
         int id = item.getItemId();
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == R.id.action_settings){
+            startActivity(new Intent(Activity_Main.this, Activity_Settings.class));
+            overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
+        } else if(item.getItemId() == R.id.action_logout){
+            loMessage.initDialog();
+            loMessage.setNegativeButton("No", (view, dialog) -> dialog.dismiss());
+            loMessage.setPositiveButton("Yes", (view, dialog) -> {
+                dialog.dismiss();
+                finish();
+                new EmployeeMaster(getApplication()).LogoutUserSession();
+                AppConfigPreference.getInstance(Activity_Main.this).setIsAppFirstLaunch(false);
+                startActivity(new Intent(Activity_Main.this, Activity_SplashScreen.class));
+            });
+            loMessage.setTitle("Account Session");
+            loMessage.setMessage("Are you sure you want to end session/logout?");
+            loMessage.show();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

@@ -19,10 +19,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.Spinner;
-import android.widget.TextView;
+import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -31,8 +28,11 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.checkbox.MaterialCheckBox;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
 
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.FormatUIText;
@@ -41,6 +41,7 @@ import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.integsys.Dcp.pojo.PaidDCP;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_Transaction;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogCheckPayment;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMPaidTransaction;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.ViewModelCallback;
@@ -66,12 +67,12 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
 
     private final DecimalFormat formatter = new DecimalFormat("###,###,##0.00");
 
-    private CheckBox cbCheckPymnt;
-    private TextView lblBranch, lblAddress, lblAccNo, lblClientNm, lblTransNo;
-    private Spinner spnType;
+    private MaterialCheckBox cbCheckPymnt;
+    private MaterialTextView lblBranch, lblAddress, lblAccNo, lblClientNm, lblTransNo;
+    private MaterialAutoCompleteTextView spnType;
     private TextInputEditText txtPrNoxx, txtRemarks, txtAmount, txtRebate, txtOthers, txtTotAmnt;
     private TextInputLayout tilDiscount, tilPenaly;
-    private Button btnAmort, btnRBlnce, btnClear;
+    private MaterialButton btnAmort, btnRBlnce, btnClear;
     private MaterialButton btnConfirm;
 
     public static Fragment_PaidTransaction newInstance() {
@@ -123,7 +124,7 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
                 //Check here if the due date is on the maximum days per month
                 // if true check the maximum day of month and set it as the due date for this current month...
                 if(lsDayDuex.equalsIgnoreCase("31")) {
-                    LocalDate lastDayOfMonth = LocalDate.parse(AppConstants.CURRENT_DATE, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+                    LocalDate lastDayOfMonth = LocalDate.parse(AppConstants.CURRENT_DATE(), DateTimeFormatter.ofPattern("yyyy-MM-dd"))
                             .with(TemporalAdjusters.lastDayOfMonth());
                     lsDayDuex = String.valueOf(lastDayOfMonth.getDayOfMonth());
                 }
@@ -131,7 +132,7 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
                 String lsCrtMnth = new SimpleDateFormat("MM", Locale.getDefault()).format(Calendar.getInstance().getTime());
                 String lsDueDate = lsCrtYear + "-" + lsCrtMnth + "-" + lsDayDuex;
                 Date ldDueDatex = new SimpleDateFormat("yyyy-MM-dd").parse(lsDueDate);
-                Date loCrtDate = loFormatter.parse(AppConstants.CURRENT_DATE);
+                Date loCrtDate = loFormatter.parse(AppConstants.CURRENT_DATE());
                 int lnResult = loCrtDate.compareTo(ldDueDatex);
 
                 // If result is less than 0 current date is before the due date
@@ -174,10 +175,8 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
             }
         });
 
-        mViewModel.GetPaymentType().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
-            spnType.setAdapter(stringArrayAdapter);
-            spnType.setSelection(1);
-        });
+        spnType.setAdapter(new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_dropdown_item, DCP_Constants.PAYMENT_TYPE));
+        spnType.setSelection(0);
 
         mViewModel.GetPrNumber().observe(getViewLifecycleOwner(), s -> {
             if(s != null){
@@ -265,7 +264,7 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
 
         btnConfirm.setOnClickListener(v -> {
             poPaid.setRemarks(Remarksx);
-            poPaid.setPayment(String.valueOf(spnType.getSelectedItemPosition()));
+            poPaid.setPayment(String.valueOf(spnType.getText()));
             poPaid.setPrNoxxx(Objects.requireNonNull(txtPrNoxx.getText()).toString());
             poPaid.setRemarks(Objects.requireNonNull(txtRemarks.getText()).toString());
             poPaid.setAmountx(FormatUIText.getParseDouble(Objects.requireNonNull(txtAmount.getText()).toString()));

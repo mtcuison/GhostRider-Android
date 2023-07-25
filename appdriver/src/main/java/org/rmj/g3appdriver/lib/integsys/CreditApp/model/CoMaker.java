@@ -1,10 +1,5 @@
 package org.rmj.g3appdriver.lib.integsys.CreditApp.model;
 
-import org.rmj.g3appdriver.etc.FormatUIText;
-
-import java.util.ArrayList;
-import java.util.List;
-
 public class CoMaker {
 
     private String TransNox = "";
@@ -214,10 +209,10 @@ public class CoMaker {
             return false;
         }
 
-        if(BrthDate.trim().isEmpty() || BrthDate.trim().equalsIgnoreCase("")){
-            message = "Please enter birth date";
-            return false;
-        }
+//        if(BrthDate.trim().isEmpty() || BrthDate.trim().equalsIgnoreCase("")){
+//            message = "Please enter birth date";
+//            return false;
+//        }
 
         if(BrthPlce == null || BrthPlce.equalsIgnoreCase("")){
             message = "Please enter birth place";

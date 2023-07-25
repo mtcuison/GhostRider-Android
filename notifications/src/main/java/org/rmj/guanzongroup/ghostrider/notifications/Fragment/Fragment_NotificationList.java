@@ -11,6 +11,8 @@
 
 package org.rmj.guanzongroup.ghostrider.notifications.Fragment;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
@@ -29,10 +31,11 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DNotification;
 import org.rmj.g3appdriver.etc.GToast;
-import org.rmj.guanzongroup.ghostrider.notifications.Activity.Activity_Notifications;
+import org.rmj.guanzongroup.ghostrider.notifications.Activity.Activity_ViewNotification;
 import org.rmj.guanzongroup.ghostrider.notifications.Adapter.NotificationListAdapter;
-import org.rmj.guanzongroup.ghostrider.notifications.Obj.NotificationItemList;
+import org.rmj.guanzongroup.ghostrider.notifications.Notifications.NotificationItemList;
 import org.rmj.guanzongroup.ghostrider.notifications.R;
 import org.rmj.guanzongroup.ghostrider.notifications.ViewModel.VMNotificationList;
 
@@ -46,10 +49,8 @@ public class Fragment_NotificationList extends Fragment {
     private RecyclerView recyclerView;
     private NotificationListAdapter poAdapter;
     private LinearLayoutManager manager;
-    private RelativeLayout rl_list;
-    private LinearLayout ln_empty;
+    private ConstraintLayout ln_empty;
     private boolean isLoading = false;
-    private List<NotificationItemList> notificationItemLists = new ArrayList<>();
 
     /** Limit of displayaed list before load on fetch **/
     private int pnLimitxx = 10;
@@ -65,36 +66,27 @@ public class Fragment_NotificationList extends Fragment {
         View view = inflater.inflate(R.layout.fragment_notification_list, container, false);
         setupWidgets(view);
 
-        mViewModel.getUserNotificationList().observe(getViewLifecycleOwner(), userNotificationInfos -> {
-            try {
-                if (userNotificationInfos.size() > 0) {
-                    rl_list.setVisibility(View.VISIBLE);
-                    ln_empty.setVisibility(View.GONE);
-
-                    notificationItemLists.clear();
-                    for (int x = 0; x < userNotificationInfos.size(); x++) {
-                        NotificationItemList loItemList = new NotificationItemList();
-                        loItemList.setMessageID(userNotificationInfos.get(x).MesgIDxx);
-                        loItemList.setMessage(userNotificationInfos.get(x).Messagex);
-                        loItemList.setDateTime(userNotificationInfos.get(x).Received);
-                        loItemList.setName(userNotificationInfos.get(x).CreatrNm);
-                        loItemList.setTitle(userNotificationInfos.get(x).MsgTitle);
-                        loItemList.setReceipt(userNotificationInfos.get(x).Receipt);
-                        loItemList.setStatus(userNotificationInfos.get(x).Status);
-                        notificationItemLists.add(loItemList);
+        mViewModel.GetOtherNotificationList().observe(requireActivity(), new Observer<List<DNotification.NotificationListDetail>>() {
+            @Override
+            public void onChanged(List<DNotification.NotificationListDetail> list) {
+                try{
+                    if(list == null){
+                        return;
                     }
 
-                    poAdapter = new NotificationListAdapter(notificationItemLists, new NotificationListAdapter.OnItemClickListener() {
+                    if(list.size() == 0){
+                        recyclerView.setVisibility(View.GONE);
+                        ln_empty.setVisibility(View.VISIBLE);
+                        return;
+                    }
+                    recyclerView.setVisibility(View.VISIBLE);
+                    ln_empty.setVisibility(View.GONE);
+
+                    poAdapter = new NotificationListAdapter(list, new NotificationListAdapter.OnItemClickListener() {
                         @Override
-                        public void OnClick(String ID, String Title, String Message, String Sender, String Date, String Receipt) {
-                            Intent loIntent = new Intent(getActivity(), Activity_Notifications.class);
-                            loIntent.putExtra("id", ID);
-                            loIntent.putExtra("title", Title);
-                            loIntent.putExtra("message", Message);
-                            loIntent.putExtra("sender", Sender);
-                            loIntent.putExtra("date", Date);
-                            loIntent.putExtra("type", "notification");
-                            loIntent.putExtra("receipt", Receipt);
+                        public void OnClick(String messageID) {
+                            Intent loIntent = new Intent(getActivity(), Activity_ViewNotification.class);
+                            loIntent.putExtra("sMesgIDxx", messageID);
                             startActivity(loIntent);
                             requireActivity().overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
                         }
@@ -109,77 +101,68 @@ public class Fragment_NotificationList extends Fragment {
                     manager.setOrientation(RecyclerView.VERTICAL);
                     recyclerView.setLayoutManager(manager);
                     recyclerView.setAdapter(poAdapter);
-
-                } else {
-                    rl_list.setVisibility(View.GONE);
-                    ln_empty.setVisibility(View.VISIBLE);
+                } catch (Exception e){
+                    e.printStackTrace();
                 }
-            } catch(NullPointerException e) {
-                e.printStackTrace();
             }
         });
-
-        initScrollListener();
+//        initScrollListener();
 
         return view;
     }
 
     private void setupWidgets(View v) {
-        recyclerView = v.findViewById(R.id.recyclerview_notifications);
-        rl_list = v.findViewById(R.id.rl_list);
+        recyclerView = v.findViewById(R.id.recyclerview);
         ln_empty = v.findViewById(R.id.ln_empty);
     }
 
-    private void initScrollListener() {
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-            }
-
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                if (!isLoading) {
-                    if (manager != null && manager.findLastCompletelyVisibleItemPosition() == notificationItemLists.size() - 1) {
-                        //bottom of list!
-                        loadMore();
-                        isLoading = true;
-                    }
-                }
-            }
-        });
-
-
-    }
-
-    private void loadMore() {
-        notificationItemLists.add(null);
-        poAdapter.notifyItemInserted(notificationItemLists.size() - 1);
-
-
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                notificationItemLists.remove(notificationItemLists.size() - 1);
-                int scrollPosition = notificationItemLists.size();
-                poAdapter.notifyItemRemoved(scrollPosition);
-                int currentSize = scrollPosition;
-
-                /** Call method that selects limited list to load
-                 *  (For second batch of list to display) **/
-
-//                callTheMethod(currentSize, pnLimitxx) {
-//                    notificationItemLists.addAll(list);
-//                    poAdapter.notifyDataSetChanged();
-//                    isLoading = false;
+//    private void initScrollListener() {
+//        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+//                super.onScrollStateChanged(recyclerView, newState);
+//            }
+//
+//            @Override
+//            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+//                super.onScrolled(recyclerView, dx, dy);
+//                if (!isLoading) {
+//                    if (manager != null && manager.findLastCompletelyVisibleItemPosition() == notificationItemLists.size() - 1) {
+//                        //bottom of list!
+//                        loadMore();
+//                        isLoading = true;
+//                    }
 //                }
+//            }
+//        });
+//
+//
+//    }
 
-            }
-        }, 2000);
-
-
-    }
-
+//    private void loadMore() {
+//        notificationItemLists.add(null);
+//        poAdapter.notifyItemInserted(notificationItemLists.size() - 1);
+//
+//
+//        Handler handler = new Handler();
+//        handler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                notificationItemLists.remove(notificationItemLists.size() - 1);
+//                int scrollPosition = notificationItemLists.size();
+//                poAdapter.notifyItemRemoved(scrollPosition);
+//                int currentSize = scrollPosition;
+//
+//                /** Call method that selects limited list to load
+//                 *  (For second batch of list to display) **/
+//
+////                callTheMethod(currentSize, pnLimitxx) {
+////                    notificationItemLists.addAll(list);
+////                    poAdapter.notifyDataSetChanged();
+////                    isLoading = false;
+////                }
+//
+//            }
+//        }, 2000);
+//    }
 }

@@ -6,9 +6,8 @@ import android.os.AsyncTask;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
-import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Database.Entities.EItinerary;
-import org.rmj.g3appdriver.lib.Itinerary.EmployeeItinerary;
+import org.rmj.g3appdriver.lib.Itinerary.Obj.EmployeeItinerary;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 
 import java.util.List;

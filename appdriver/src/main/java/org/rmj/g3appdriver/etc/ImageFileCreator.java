@@ -171,7 +171,7 @@ public class ImageFileCreator {
 
     public File generateMainStorageDir() {
         String root = String.valueOf(poContext.getExternalFilesDir(null));
-        File sd = new File(root + "/" + SUB_FOLDER + "/" + TransNox +"/");
+        File sd = new File(root + "/" + SUB_FOLDER + "/");
         if (!sd.exists()) {
             sd.mkdirs();
         }

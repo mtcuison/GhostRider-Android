@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:theme="@style/GhostRiderMaterialTheme.WhiteBG"
+    android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
     tools:context=".Activities.Activity_Dependent">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -12,11 +12,10 @@
         android:layout_height="wrap_content"
         android:theme="@style/GhostRiderMaterialTheme.AppBarOverlay">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar_Dependent"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/material_tool_bar"
             android:popupTheme="@style/GhostRiderMaterialTheme.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -32,7 +31,7 @@
             android:orientation="vertical"
             android:padding="5dp">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 style="@style/HeaderLabelBlack"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -84,15 +83,12 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
-                            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                            <com.google.android.material.textfield.MaterialAutoCompleteTextView
                                 android:id="@+id/spinner_cap_dpdRelation"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:clickable="false"
-                                android:focusable="false"
+                                style="@style/DropdownStyleTheme"
                                 android:hint="Dependent Relationship"
-                                android:inputType="none"
-                                android:imeOptions="actionNext"
                                 android:nextFocusForward="@+id/tie_cap_dpdAge"
                                 android:padding="16dp" />
                         </com.google.android.material.textfield.TextInputLayout>
@@ -117,14 +113,13 @@
 
                 </LinearLayout>
 
-                <CheckBox
+                <com.google.android.material.checkbox.MaterialCheckBox
                     android:id="@+id/cbStudent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
                     android:padding="10dp"
-                    android:text="Is dependent a student?"
-                    android:textColor="@color/material_black"/>
+                    android:text="Is dependent a student?"/>
 
                 <!--Student Dependent School Info...-->
                 <LinearLayout
@@ -142,14 +137,13 @@
                         android:orientation="horizontal"
                         android:gravity="center">
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1."
                             android:text="School Type"
                             android:fontFamily="@font/roboto_medium"
-                            android:padding="10dp"
-                            android:textColor="@color/material_black"/>
+                            android:padding="10dp"/>
 
                         <RadioButton
                             android:id="@+id/rb_public"
@@ -157,17 +151,15 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Public"
-                            android:fontFamily="@font/roboto_medium"
-                            android:textColor="@color/material_black"/>
+                            android:fontFamily="@font/roboto_medium"/>
 
-                        <RadioButton
+                        <com.google.android.material.radiobutton.MaterialRadioButton
                             android:id="@+id/rb_private"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Private"
-                            android:fontFamily="@font/roboto_medium"
-                            android:textColor="@color/material_black"/>
+                            android:fontFamily="@font/roboto_medium"/>
 
                     </RadioGroup>
 
@@ -189,20 +181,18 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
 
-                                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                                <com.google.android.material.textfield.MaterialAutoCompleteTextView
                                     android:id="@+id/spinner_cap_educLevel"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:clickable="false"
-                                    android:focusable="false"
+                                    style="@style/DropdownStyleTheme"
                                     android:hint="Educational Level"
-                                    android:inputType="none"
                                     android:padding="16dp" />
                             </com.google.android.material.textfield.TextInputLayout>
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
-                        <CheckBox
+                        <com.google.android.material.checkbox.MaterialCheckBox
                             android:id="@+id/cb_cap_dpdScholar"
                             android:layout_width="fill_parent"
                             android:layout_height="fill_parent"
@@ -256,7 +246,7 @@
                             android:layout_weight="1"
                             android:hint="@string/sHintTown">
 
-                            <AutoCompleteTextView
+                            <com.google.android.material.textfield.MaterialAutoCompleteTextView
                                 android:id="@+id/tie_cap_dpdSchoolTown"
                                 style="@style/AutoCompleteStyleTheme"
                                 android:layout_width="match_parent"
@@ -270,14 +260,13 @@
                 </LinearLayout>
 
                 <!--Employed Dependent Info-->
-                <CheckBox
+                <com.google.android.material.checkbox.MaterialCheckBox
                     android:id="@+id/cbEmployee"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
                     android:padding="10dp"
-                    android:text="Is dependent employed?"
-                    android:textColor="@color/material_black"/>
+                    android:text="Is dependent employed?"/>
 
                 <LinearLayout
                     android:id="@+id/linearEmployd"
@@ -287,14 +276,13 @@
                     android:visibility="gone">
                     <!-- Employment Type -->
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1."
                         android:text="Employment Sector"
                         android:fontFamily="@font/roboto_medium"
-                        android:padding="10dp"
-                        android:textColor="@color/material_black"/>
+                        android:padding="10dp"/>
 
                     <RadioGroup
                         android:id="@+id/rg_empSector"
@@ -303,32 +291,29 @@
                         android:orientation="horizontal"
                         android:gravity="center">
 
-                        <RadioButton
+                        <com.google.android.material.radiobutton.MaterialRadioButton
                             android:id="@+id/rb_empPublic"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Public"
-                            android:fontFamily="@font/roboto_medium"
-                            android:textColor="@color/material_black"/>
+                            android:fontFamily="@font/roboto_medium"/>
 
-                        <RadioButton
+                        <com.google.android.material.radiobutton.MaterialRadioButton
                             android:id="@+id/rb_empPrivate"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Private"
-                            android:fontFamily="@font/roboto_medium"
-                            android:textColor="@color/material_black"/>
+                            android:fontFamily="@font/roboto_medium"/>
 
-                        <RadioButton
+                        <com.google.android.material.radiobutton.MaterialRadioButton
                             android:id="@+id/rb_empOFW"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="OFW"
-                            android:fontFamily="@font/roboto_medium"
-                            android:textColor="@color/material_black"/>
+                            android:fontFamily="@font/roboto_medium"/>
 
                     </RadioGroup>
 
@@ -355,7 +340,7 @@
                 android:orientation="vertical"
                 android:padding="10dp">
 
-                <CheckBox
+                <com.google.android.material.checkbox.MaterialCheckBox
                     android:id="@+id/cb_cap_Dependent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -364,7 +349,7 @@
                     tools:ignore="HardcodedText"
                     tools:targetApi="jelly_bean" />
 
-                <CheckBox
+                <com.google.android.material.checkbox.MaterialCheckBox
                     android:id="@+id/cb_cap_HouseHold"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -373,7 +358,7 @@
                     tools:ignore="HardcodedText"
                     tools:targetApi="jelly_bean" />
 
-                <CheckBox
+                <com.google.android.material.checkbox.MaterialCheckBox
                     android:id="@+id/cb_cap_Married"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -389,8 +374,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_thin"
-                android:text="@string/sBtnAddDependent"
-                android:textColor="@color/textColor_White" />
+                android:text="@string/sBtnAddDependent"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -398,7 +382,7 @@
                 android:layout_marginBottom="300dp"
                 android:orientation="horizontal">
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_creditAppPrvs"
                     style="@style/NavigationButton"
                     android:layout_width="wrap_content"
@@ -406,11 +390,10 @@
                     android:layout_alignParentStart="true"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
-                    android:drawableLeft="@drawable/ic_nav_left"
                     android:text="@string/sbtnPrvs"
                     tools:ignore="RelativeOverlap" />
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_creditAppNext"
                     style="@style/NavigationButton"
                     android:layout_width="wrap_content"
@@ -418,8 +401,6 @@
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:drawableEnd="@drawable/ic_nav_right"
-                    android:drawableRight="@drawable/ic_nav_right"
                     android:text="@string/sbtnNext"
                     tools:ignore="RelativeOverlap" />
 

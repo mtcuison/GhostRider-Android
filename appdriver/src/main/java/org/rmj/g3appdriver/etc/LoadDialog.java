@@ -11,6 +11,8 @@
 
 package org.rmj.g3appdriver.etc;
 
+import static org.rmj.g3appdriver.R.layout.dialog_progress;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;
@@ -22,6 +24,8 @@ import android.widget.TextView;
 
 import com.github.ybq.android.spinkit.sprite.Sprite;
 import com.github.ybq.android.spinkit.style.Circle;
+import com.google.android.material.progressindicator.CircularProgressIndicator;
+import com.google.android.material.textview.MaterialTextView;
 
 import org.rmj.g3appdriver.R;
 
@@ -40,14 +44,10 @@ public class LoadDialog {
                 .setView(view);
         poDialogx = poBuilder.create();
         poDialogx.setCancelable(Cancellable);
-        ProgressBar progressBar = view.findViewById(R.id.progress_loading);
-        TextView lblTitle = view.findViewById(R.id.lbl_dialogTitle);
+        MaterialTextView lblTitle = view.findViewById(R.id.lbl_dialogTitle);
         lblTitle.setText(Title);
-        TextView lblMsgxx = view.findViewById(R.id.lbl_dialogMessage);
+        MaterialTextView lblMsgxx = view.findViewById(R.id.lbl_dialogMessage);
         lblMsgxx.setText(Message);
-        Sprite loDrawable = new Circle();
-        loDrawable.setColor(context.getResources().getColor(R.color.progressDialogTint));
-        progressBar.setIndeterminateDrawable(loDrawable);
     }
 
     public void show() {

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.Activity_ViewNotification">
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            style="@style/GhostRiderMaterialTheme.PopupOverlay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/lbl_messageTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
+                android:padding="5dp"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/img_sender"
+                android:layout_width="0dp"
+                android:layout_height="52dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_guanzon_logo"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lbl_messageTitle"
+                android:layout_marginTop="10dp"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/lbl_messageSender"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:fontFamily="@font/roboto_regular"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/img_sender"
+                app:layout_constraintTop_toTopOf="@+id/img_sender" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/lbl_messageRecipient"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_light"
+                android:layout_marginTop="5dp"
+                app:layout_constraintEnd_toEndOf="@+id/lbl_messageSender"
+                app:layout_constraintStart_toStartOf="@+id/lbl_messageSender"
+                app:layout_constraintTop_toBottomOf="@+id/lbl_messageSender" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/lbl_messageDateTime"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_light"
+                android:layout_marginTop="5dp"
+                app:layout_constraintEnd_toEndOf="@+id/lbl_messageRecipient"
+                app:layout_constraintStart_toStartOf="@+id/lbl_messageRecipient"
+                app:layout_constraintTop_toBottomOf="@+id/lbl_messageRecipient" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/lbl_ReceivedDateTime"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_light"
+                android:layout_marginTop="5dp"
+                app:layout_constraintEnd_toEndOf="@+id/lbl_messageDateTime"
+                app:layout_constraintStart_toStartOf="@+id/lbl_messageDateTime"
+                app:layout_constraintTop_toBottomOf="@+id/lbl_messageDateTime" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/lbl_OpenDateTime"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_light"
+                android:layout_marginTop="5dp"
+                app:layout_constraintEnd_toEndOf="@+id/lbl_ReceivedDateTime"
+                app:layout_constraintStart_toStartOf="@+id/lbl_ReceivedDateTime"
+                app:layout_constraintTop_toBottomOf="@+id/lbl_ReceivedDateTime" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="5dp"
+                android:layout_marginTop="10dp"
+                app:cardPreventCornerOverlap="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lbl_OpenDateTime">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/lbl_messageBody"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:bufferType="spannable"
+                    android:fontFamily="@font/roboto_regular"
+                    android:padding="15dp" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

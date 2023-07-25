@@ -12,7 +12,6 @@
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments;
 
 import static android.app.Activity.RESULT_OK;
-
 import static androidx.core.content.ContextCompat.checkSelfPermission;
 
 import android.Manifest;
@@ -26,13 +25,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
@@ -45,7 +41,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.checkbox.MaterialCheckBox;
+import com.google.android.material.radiobutton.MaterialRadioButton;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textview.MaterialTextView;
 
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
@@ -55,6 +55,7 @@ import org.rmj.g3appdriver.lib.integsys.Dcp.pojo.MobileUpdate;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_Transaction;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter.AddressInfoAdapter;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter.MobileInfoAdapter;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.OnInitializeCameraCallback;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMCustomerNotAround;
@@ -74,12 +75,12 @@ public class Fragment_CustomerNotAround extends Fragment {
     private MobileInfoAdapter mobileAdapter;
     private AddressInfoAdapter addressAdapter;
 
-    private CheckBox cbPrimeContact, cbPrimary;
-    private TextView lblBranch, lblAddress, lblAccNo, lblClientNm, lblClientAddress;
+    private MaterialCheckBox cbPrimeContact, cbPrimary;
+    private MaterialTextView lblBranch, lblAddress, lblAccNo, lblClientNm, lblClientAddress;
     private RadioGroup rg_CNA_Input, rg_addressType;
-    private RadioButton rb_permanent, rb_present;
+    private MaterialRadioButton rb_permanent, rb_present;
     private TextInputEditText txtContact, txtHouseNox, txtAddress, txtRemarks;
-    private AutoCompleteTextView txtTown, txtBrgy, spnRequestCode;
+    private MaterialAutoCompleteTextView txtTown, txtBrgy, spnRequestCode;
     private LinearLayout lnContactNox,
             lnAddress;
     private MaterialButton btnAdd, btnSubmit;
@@ -222,10 +223,7 @@ public class Fragment_CustomerNotAround extends Fragment {
             }
         });
 
-        mViewModel.getRequestCodeOptions().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
-            spnRequestCode.setAdapter(stringArrayAdapter);
-            spnRequestCode.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
-        });
+        spnRequestCode.setAdapter(DCP_Constants.getAdapter(requireActivity(), DCP_Constants.REQUEST_CODE));
 
         btnAdd.setOnClickListener(view1 -> {
             if(isMobileToggled) {

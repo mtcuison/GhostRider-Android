@@ -21,7 +21,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.rmj.g3appdriver.GRider.Database.Entities.EBranchPerformance;
+import org.rmj.g3appdriver.dev.Database.Entities.EBranchPerformance;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
