@@ -13,7 +13,9 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
+import org.rmj.g3appdriver.GCircle.Apps.Dcp.model.LRDcp;
 import org.rmj.g3appdriver.GCircle.Apps.Dcp.obj.OTH;
+import org.rmj.g3appdriver.GCircle.Apps.Dcp.pojo.ImportParams;
 import org.rmj.g3appdriver.GCircle.Apps.Dcp.pojo.OtherRemCode;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 
@@ -33,23 +35,23 @@ public class TestOthers {
         AppConfigPreference.getInstance(instance).setTestCase(true);
     }
 
-//    @Test
-//    public void test01DownloadDcp() throws Exception{
-//        LRDcp loSys = new LRDcp(instance);
-//        if(!loSys.DownloadCollection(
-//                new ImportParams(
-//                        "M00120001593",
-//                        "2023-01-28",
-//                        "1"))){
-//            message = loSys.getMessage();
-//            Log.e(TAG, message);
-//        } else {
-//            isSuccess = true;
-//        }
-//        Thread.sleep(1000);
-//
-//        assertTrue(isSuccess);
-//    }
+    @Test
+    public void test01DownloadDcp() throws Exception{
+        LRDcp loSys = new LRDcp(instance);
+        if(!loSys.DownloadCollection(
+                new ImportParams(
+                        "M00120001593",
+                        "2023-01-28",
+                        "1"))){
+            message = loSys.getMessage();
+            Log.e(TAG, message);
+        } else {
+            isSuccess = true;
+        }
+        Thread.sleep(1000);
+
+        assertTrue(isSuccess);
+    }
 
     @Test
     public void test02SaveOth() {
