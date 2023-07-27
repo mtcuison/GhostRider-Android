@@ -86,10 +86,10 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity {
         spnCustType.setText(CreditAppConstants.CUSTOMER_TYPE[0]);
         spnAcctTerm.setText(CreditAppConstants.INSTALLMENT_TERM[0]);
         spnApplType.setAdapter(CreditAppConstants.getAdapter(Activity_IntroductoryQuestion.this, CreditAppConstants.APPLICATION_TYPE));
-        mViewModel.getModel().setAppTypex(1);
+        mViewModel.getModel().setAppTypex("1");
 
         spnCustType.setAdapter(CreditAppConstants.getAdapter(Activity_IntroductoryQuestion.this, CreditAppConstants.CUSTOMER_TYPE));
-        mViewModel.getModel().setCustTypex(1);
+        mViewModel.getModel().setCustTypex("1");
 
         spnAcctTerm.setAdapter(CreditAppConstants.getAdapter(Activity_IntroductoryQuestion.this, CreditAppConstants.INSTALLMENT_TERM));
 
@@ -343,9 +343,9 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
             if(loView == spnApplType){
-                mViewModel.getModel().setAppTypex(i);
+                mViewModel.getModel().setAppTypex(String.valueOf(i));
             } else if(loView == spnCustType){
-                mViewModel.getModel().setCustTypex(i);
+                mViewModel.getModel().setCustTypex(String.valueOf(i));
             } else if(loView == spnAcctTerm){
                 mViewModel.getModel().setAccTermxx(i);
                 double lnMonthly = mViewModel.GetMonthlyPayment(mViewModel.getModel().getAccTermxx());

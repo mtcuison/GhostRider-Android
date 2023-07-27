@@ -2,8 +2,8 @@ package org.rmj.g3appdriver.GCircle.Apps.CreditApp.model;
 
 public class LoanInfo {
 
-    private int sAppTypex = 0;
-    private int sCustTypex = 0;
+    private String sAppTypex = ""; //must be index value
+    private String sCustTypex = ""; //must be index value
     private String dTargetDte = "";
     private String sBranchCde = "";
     private String sBrandIDxx = "";
@@ -22,19 +22,19 @@ public class LoanInfo {
         return message;
     }
 
-    public int getAppTypex() {
-        return sAppTypex - 1;
+    public String getAppTypex() {
+        return sAppTypex;
     }
 
-    public void setAppTypex(int sAppTypex) {
+    public void setAppTypex(String sAppTypex) {
         this.sAppTypex = sAppTypex;
     }
 
-    public int getCustTypex() {
-        return sCustTypex - 1;
+    public String getCustTypex() {
+        return sCustTypex;
     }
 
-    public void setCustTypex(int sCustTypex) {
+    public void setCustTypex(String sCustTypex) {
         this.sCustTypex = sCustTypex;
     }
 
@@ -111,12 +111,12 @@ public class LoanInfo {
     }
 
     public boolean isDataValid(){
-        if(sCustTypex < 1){
+        if(sCustTypex.trim().isEmpty()){
             message = "Please select customer type";
             return false;
         }
 
-        if(sAppTypex < 1){
+        if(sAppTypex.trim().isEmpty()){
             message = "Please select loan unit";
             return false;
         }
