@@ -54,9 +54,9 @@ public class TestResidenceInfo {
         isSuccess = false;
         LoanInfo loLoan = new LoanInfo();
         loLoan.setTargetDte("2022-10-24");
-        loLoan.setAppTypex(0);
+        loLoan.setAppTypex("0");
         loLoan.setBranchCde("M001");
-        loLoan.setCustTypex(1);
+        loLoan.setCustTypex("1");
         loLoan.setDownPaymt(10000);
         loLoan.setMonthlyAm(1500);
         loLoan.setModelIDxx("M123131231");
@@ -77,9 +77,9 @@ public class TestResidenceInfo {
         isSuccess = false;
         LoanInfo loLoan = new LoanInfo();
         loLoan.setTargetDte("2022-10-24");
-        loLoan.setAppTypex(0);
+        loLoan.setAppTypex("0");
         loLoan.setBranchCde("M001");
-        loLoan.setCustTypex(1);
+        loLoan.setCustTypex("1");
         loLoan.setDownPaymt(10000);
         loLoan.setMonthlyAm(1500);
         loLoan.setModelIDxx("M123131231");
