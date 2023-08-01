@@ -181,6 +181,19 @@
             </AndroidTestResultsTableState>
           </value>
         </entry>
+        <entry key="-780715356">
+          <value>
+            <AndroidTestResultsTableState>
+              <option name="preferredColumnWidths">
+                <map>
+                  <entry key="Duration" value="90" />
+                  <entry key="Pixel_API_TiramisuPrivacySandbox" value="120" />
+                  <entry key="Tests" value="360" />
+                </map>
+              </option>
+            </AndroidTestResultsTableState>
+          </value>
+        </entry>
         <entry key="-720938940">
           <value>
             <AndroidTestResultsTableState>
