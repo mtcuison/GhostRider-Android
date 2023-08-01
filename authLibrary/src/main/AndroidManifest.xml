@@ -1,25 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Created by Android Team MIS-SEG Year 2021
-  ~ Copyright (c) 2021. Guanzon Central Office
-  ~ Guanzon Bldg., Perez Blvd., Dagupan City, Pangasinan 2400
-  ~ Project name : GhostRider_Android
-  ~ Module : GhostRider_Android.authLibrary
-  ~ Electronic Personnel Access Control Security System
-  ~ project file created : 4/24/21 3:19 PM
-  ~ project file last modified : 4/24/21 3:17 PM
-  -->
-
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
     <application>
         <activity
+            android:name=".Activity.Activity_ForgotPassword"
+            android:exported="true" />
+        <activity
+            android:name=".Activity.Activity_CreateAccount"
+            android:exported="true" />
+        <activity
             android:name=".Activity.Activity_Authenticate"
+            android:exported="true"
             android:screenOrientation="userPortrait"
             android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
-            android:windowSoftInputMode="adjustPan"
-            android:exported="true"/>
+            android:windowSoftInputMode="adjustPan" />
     </application>
 
 </manifest>

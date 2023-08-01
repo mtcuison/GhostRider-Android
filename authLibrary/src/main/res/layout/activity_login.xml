@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="org.rmj.guanzongroup.authlibrary.Activity.Activity_Login">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:scrollbars="none">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/icon"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:src="@drawable/kay_wave"
+                android:layout_marginTop="20dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_percent=".250"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/PrimaryHeaderStyle"
+                android:id="@+id/splashtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="20dp"
+                android:text="LOGIN"
+                app:layout_constraintTop_toBottomOf="@+id/icon"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/mtv_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="20dp"
+                android:text="Email"
+                app:layout_constraintTop_toBottomOf="@+id/splashtitle"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/TextInputStyle"
+                android:id="@+id/username_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:layout_constraintTop_toBottomOf="@+id/mtv_username"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintWidth_percent="0.910">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/username"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textSize="15sp"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:textStyle="bold"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/mtv_password"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="20dp"
+                android:text="Password"
+                app:layout_constraintTop_toBottomOf="@+id/username_layout"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/TextInputStyle"
+                android:id="@+id/passw_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:passwordToggleDrawable="@drawable/baseline_visibility_24"
+                app:passwordToggleEnabled="true"
+                app:layout_constraintTop_toBottomOf="@+id/mtv_password"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintWidth_percent="0.910">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/password"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textSize="15sp"
+                    android:imeOptions="actionNext"
+                    android:inputType="textPassword"
+                    android:textStyle="bold"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/mtv_mobile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Mobile No."
+                app:layout_constraintTop_toBottomOf="@+id/passw_layout"
+                app:layout_constraintStart_toStartOf="@id/passw_layout"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/TextInputStyle"
+                android:id="@+id/mobno_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:layout_constraintTop_toBottomOf="@+id/mtv_mobile"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintWidth_percent="0.910">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/mobileno"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textSize="15sp"
+                    android:imeOptions="actionNext"
+                    android:inputType="number"
+                    android:textStyle="bold"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/mtv_createaccount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Create Account"
+                app:layout_constraintTop_toBottomOf="@+id/mobno_layout"
+                app:layout_constraintStart_toStartOf="@+id/mobno_layout"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/mtv_forgotpassw"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Forgot Password?"
+                app:layout_constraintTop_toBottomOf="@+id/mobno_layout"
+                app:layout_constraintEnd_toEndOf="@+id/mobno_layout"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_log"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:hint="LOGIN"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="30dp"
+                app:cornerRadius="15dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/tvCompany"
+                app:layout_constraintTop_toBottomOf="@+id/mtv_createaccount"
+                app:layout_constraintWidth_percent="0.650"
+                app:layout_constraintHeight_percent="0.070"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvCompany"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:fontFamily="@font/roboto_bold"
+                android:text="@string/sLblCompName"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toTopOf="@+id/tvCopyright"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvCopyright"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_light"
+                android:text="@string/sLblCopyright"
+                android:textSize="11sp"
+                android:layout_marginTop="5dp"
+                app:layout_constraintBottom_toTopOf="@+id/lbl_versionInfo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/lbl_versionInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_light"
+                android:text="@string/lblBuildVersion"
+                android:textSize="11sp"
+                android:layout_marginBottom="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
