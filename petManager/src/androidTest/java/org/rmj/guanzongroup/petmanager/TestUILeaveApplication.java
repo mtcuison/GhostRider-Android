@@ -13,6 +13,7 @@ package org.rmj.guanzongroup.petmanager;
 
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertEquals;
 
@@ -98,13 +99,19 @@ public class TestUILeaveApplication {
             if (testDateThru(true)){
                 Log.d("System Success" , "Date Thru");
             }
+            if (testPurpose(true)){
+                Log.d("System Success" , "Purpose");
+            }
+            if (testSubmitApplication(true)){
+                Log.d("System Success" , "Submit");
+            }
         }
 
         @Test
         private boolean testLeavetype(boolean isSuccess) {
             String searchText = "Birthday";
             try {
-                onView(ViewMatchers.withId(R.id.spn_leaveType))
+                onView(withId(R.id.spn_leaveType))
                         .perform(ViewActions.typeText(searchText));
 
                 // Wait for the suggestions to appear (you may need to adjust this delay as per your app's behavior)
@@ -121,7 +128,7 @@ public class TestUILeaveApplication {
                         .perform(ViewActions.click());
 
                 // Verify if the selected suggestion is populated in the AutoCompleteTextView
-                onView(ViewMatchers.withId(R.id.spn_leaveType))
+                onView(withId(R.id.spn_leaveType))
                         .check(ViewAssertions.matches(ViewMatchers.withText(searchText)));
 
                 isSuccess = true;
@@ -133,13 +140,13 @@ public class TestUILeaveApplication {
         private  boolean testDateFrom(boolean isSuccess) {
             String xDate = "August 25, 2023";
             try{
-                onView(ViewMatchers.withId(R.id.txt_dateFrom))
+                onView(withId(R.id.txt_dateFrom))
                         .perform(ViewActions.click());
                 onView(ViewMatchers.withClassName(equalTo(DatePicker.class.getName())))
                         .perform(PickerActions.setDate(2023, 8, 25));
-                onView(ViewMatchers.withId(android.R.id.button1))
+                onView(withId(android.R.id.button1))
                         .perform(ViewActions.click());
-                onView(ViewMatchers.withId(R.id.txt_dateFrom))
+                onView(withId(R.id.txt_dateFrom))
                         .check(ViewAssertions.matches(ViewMatchers.withText(xDate)));
             }catch (Exception e){
                 isSuccess = false;
@@ -149,18 +156,40 @@ public class TestUILeaveApplication {
     private  boolean testDateThru(boolean isSuccess) {
         String xDate = "August 25, 2023";
         try{
-            onView(ViewMatchers.withId(R.id.txt_dateFrom))
+            onView(withId(R.id.txt_dateFrom))
                     .perform(ViewActions.click());
             onView(ViewMatchers.withClassName(equalTo(DatePicker.class.getName())))
                     .perform(PickerActions.setDate(2023, 8, 25));
-            onView(ViewMatchers.withId(android.R.id.button1))
+            onView(withId(android.R.id.button1))
                     .perform(ViewActions.click());
-            onView(ViewMatchers.withId(R.id.txt_dateFrom))
+            onView(withId(R.id.txt_dateFrom))
                     .check(ViewAssertions.matches(ViewMatchers.withText(xDate)));
         }catch (Exception e){
             isSuccess = false;
         }
         return isSuccess;
+    }
+
+    private  boolean testPurpose(boolean isSuccess){
+            String xRemarks = "Birthday ko na!";
+            try{
+                onView(withId(R.id.txt_remarks))
+                        .perform(ViewActions.typeText(xRemarks), ViewActions.closeSoftKeyboard());
+                isSuccess =true;
+            }catch (Exception e){
+                isSuccess = false;
+            }
+            return  isSuccess;
+    }
+    private  boolean testSubmitApplication(boolean isSuccess){
+        try{
+            onView(withId(R.id.btn_submit))
+                    .perform(ViewActions.click());
+            isSuccess =true;
+        }catch (Exception e){
+            isSuccess = false;
+        }
+        return  isSuccess;
     }
 }
 
