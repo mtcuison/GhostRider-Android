@@ -12,7 +12,6 @@
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel;
 
 import android.app.Application;
-import android.os.AsyncTask;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -21,9 +20,10 @@ import androidx.lifecycle.MutableLiveData;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
-import org.rmj.g3appdriver.dev.Database.Repositories.RBranch;
-import org.rmj.g3appdriver.lib.integsys.CashCount.CashCount;
+import org.rmj.g3appdriver.GCircle.Apps.CashCount.CashCount;
+import org.rmj.g3appdriver.GCircle.room.Entities.EBranchInfo;
+import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
+import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 
 import java.util.List;
 
@@ -69,7 +69,7 @@ public class VMCashCounter extends AndroidViewModel {
     private final MutableLiveData<Double> cnTotalx = new MutableLiveData<>();
     private final MutableLiveData<Double> grandTotalx = new MutableLiveData<>();
     private final MutableLiveData<JSONObject> jsonData = new MutableLiveData<>();
-
+    private String message;
     public VMCashCounter(@NonNull Application application) {
         super(application);
         this.poSys = new CashCount(application);
@@ -110,21 +110,21 @@ public class VMCashCounter extends AndroidViewModel {
         this.psBranch.setValue("");
     }
 
-    public void setBranchCd(String val){
+    public void setBranchCd(String val) {
         this.psBranch.setValue(val);
     }
 
-    public LiveData<String> GetBranchCd(){
+    public LiveData<String> GetBranchCd() {
         return psBranch;
     }
 
-    public LiveData<EBranchInfo> GetBranchForCashCount(String args){
+    public LiveData<EBranchInfo> GetBranchForCashCount(String args) {
         return poSys.GetBranchForCashCount(args);
     }
 
     //Added by Jonathan 2021/06/08
     //Computation for all peso bill
-    private void calculatePesoTotal(){
+    private void calculatePesoTotal() {
         double d1000 = p1000.getValue();
         double d500 = p500.getValue();
         double d200 = p200.getValue();
@@ -138,43 +138,49 @@ public class VMCashCounter extends AndroidViewModel {
 
     //Added by Jonathan 2021/04/13
     //set  peso bill value
-    public void setP1000(Double fnAmount, int qty){
+    public void setP1000(Double fnAmount, int qty) {
         this.p1000.setValue(fnAmount);
         this.qtyp1000.setValue(qty);
         calculatePesoTotal();
     }
-    public void setP500(Double fnAmount, int qty){
+
+    public void setP500(Double fnAmount, int qty) {
         this.p500.setValue(fnAmount);
         this.qtyp500.setValue(qty);
         calculatePesoTotal();
     }
-    public void setP200(Double fnAmount, int qty){
+
+    public void setP200(Double fnAmount, int qty) {
         this.p200.setValue(fnAmount);
         this.qtyp200.setValue(qty);
         calculatePesoTotal();
     }
-    public void setP100(Double fnAmount, int qty){
+
+    public void setP100(Double fnAmount, int qty) {
         this.p100.setValue(fnAmount);
         this.qtyp100.setValue(qty);
         calculatePesoTotal();
     }
-    public void setP50(Double fnAmount, int qty){
+
+    public void setP50(Double fnAmount, int qty) {
         this.p50.setValue(fnAmount);
         this.qtyp50.setValue(qty);
         calculatePesoTotal();
     }
-    public void setP20(Double fnAmount, int qty){
+
+    public void setP20(Double fnAmount, int qty) {
         this.p20.setValue(fnAmount);
         this.qtyp20.setValue(qty);
         calculatePesoTotal();
     }
-    public LiveData<Double> getPesoTotalAmount(){
+
+    public LiveData<Double> getPesoTotalAmount() {
         return pnTotalx;
     }
 
     //Added by Jonathan 2021/06/08
     //Computation for all peso bill
-    private void calculateCoinsTotal(){
+    private void calculateCoinsTotal() {
         double d10 = p10.getValue();
         double d5 = p5.getValue();
         double d1 = p1.getValue();
@@ -182,67 +188,77 @@ public class VMCashCounter extends AndroidViewModel {
         double dc10 = c10.getValue();
         double dc5 = c5.getValue();
         double dc1 = c1.getValue();
-        double lnCTotal = d10 + d5 + d1 + dc1 + dc25 + dc10+ dc5;
+        double lnCTotal = d10 + d5 + d1 + dc1 + dc25 + dc10 + dc5;
         cnTotalx.setValue(lnCTotal);
         calc_grandTotal();
     }
 
     //Added by Jonathan 2021/04/13
     //set coins bill value
-    public void setP10(Double fnAmount, int qty){
+    public void setP10(Double fnAmount, int qty) {
         this.p10.setValue(fnAmount);
         this.qtyp10.setValue(qty);
         calculateCoinsTotal();
     }
-    public void setP5(Double fnAmount, int qty){
+
+    public void setP5(Double fnAmount, int qty) {
         this.p5.setValue(fnAmount);
         this.qtyp5.setValue(qty);
         calculateCoinsTotal();
     }
-    public void setP1(Double fnAmount, int qty){
+
+    public void setP1(Double fnAmount, int qty) {
         this.p1.setValue(fnAmount);
         this.qtyp1.setValue(qty);
         calculateCoinsTotal();
     }
-    public void setC1(Double fnAmount, int qty){
+
+    public void setC1(Double fnAmount, int qty) {
         this.c1.setValue(fnAmount);
         this.qtyc1.setValue(qty);
         calculateCoinsTotal();
     }
-    public void setC25(Double fnAmount, int qty){
+
+    public void setC25(Double fnAmount, int qty) {
         this.c25.setValue(fnAmount);
         this.qtyc25.setValue(qty);
         calculateCoinsTotal();
     }
-    public void setC10(Double fnAmount, int qty){
+
+    public void setC10(Double fnAmount, int qty) {
         this.c10.setValue(fnAmount);
         this.qtyc10.setValue(qty);
         calculateCoinsTotal();
     }
-    public void setC5(Double fnAmount, int qty){
+
+    public void setC5(Double fnAmount, int qty) {
         this.c5.setValue(fnAmount);
         this.qtyc5.setValue(qty);
         calculateCoinsTotal();
     }
 
-    public LiveData<Double> getCoinsTotalAmount(){
+    public LiveData<Double> getCoinsTotalAmount() {
         return cnTotalx;
     }
-    public void calc_grandTotal(){
+
+    public void calc_grandTotal() {
         double pesoTotal = pnTotalx.getValue();
         double coinTotal = cnTotalx.getValue();
         double total = pesoTotal + coinTotal;
         grandTotalx.setValue(total);
         createJSONParameters();
     }
-    public LiveData<Double> getGrandTotalAmount(){
+
+    public LiveData<Double> getGrandTotalAmount() {
         return grandTotalx;
     }
-    public LiveData<JSONObject> getJsonData(){
+
+    public LiveData<JSONObject> getJsonData() {
         createJSONParameters();
         return jsonData;
     }
-    private JSONObject createJSONParameters(){
+
+    private JSONObject createJSONParameters() {
         JSONObject param = new JSONObject();
         try {
             param.put("nCn0001cx", qtyc1.getValue());
@@ -261,57 +277,85 @@ public class VMCashCounter extends AndroidViewModel {
             param.put("nNte1000p", qtyp1000.getValue());
             param.put("nTotSales", grandTotalx.getValue());
 
-        }catch (JSONException e) {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
         jsonData.setValue(param);
         return param;
     }
 
-    public interface OnGetBranchesList{
+    public interface OnGetBranchesList {
         void OnLoad();
+
         void OnRetrieve(List<EBranchInfo> list);
+
         void OnFailed(String message);
     }
 
-    public void GetBranchesList(OnGetBranchesList listener){
-        new GetBranchesTask(listener).execute();
+    public void GetBranchesList(OnGetBranchesList listener) {
+        TaskExecutor.Execute(null, new OnTaskExecuteListener() {
+            @Override
+            public void OnPreExecute() {
+                listener.OnLoad();
+            }
+
+            @Override
+            public Object DoInBackground(Object args) {
+                List<EBranchInfo> loList = poSys.GetBranchesForCashCount();
+                if (loList == null) {
+                    message = poSys.getMessage();
+                    return null;
+                }
+                return loList;
+            }
+
+            @Override
+            public void OnPostExecute(Object object) {
+                List<EBranchInfo> loResult = (List<EBranchInfo>) object;
+                if(loResult == null){
+                    listener.OnFailed(message);
+                    return;
+                }
+
+                listener.OnRetrieve(loResult);
+            }
+        });
     }
 
-    private class GetBranchesTask extends AsyncTask<Void, Void, List<EBranchInfo>>{
-
-        private final OnGetBranchesList listener;
-
-        private String message;
-
-        public GetBranchesTask(OnGetBranchesList listener) {
-            this.listener = listener;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            listener.OnLoad();
-        }
-
-        @Override
-        protected List<EBranchInfo> doInBackground(Void... voids) {
-            List<EBranchInfo> loList = poSys.GetBranchesForCashCount();
-            if(loList == null){
-                message = poSys.getMessage();
-                return null;
-            }
-            return loList;
-        }
-
-        @Override
-        protected void onPostExecute(List<EBranchInfo> eBranchInfos) {
-            super.onPostExecute(eBranchInfos);
-            if(eBranchInfos == null){
-                listener.OnFailed(message);
-            } else {
-                listener.OnRetrieve(eBranchInfos);
-            }
-        }
-    }
 }
+//    private class GetBranchesTask extends AsyncTask<Void, Void, List<EBranchInfo>>{
+//
+//        private final OnGetBranchesList listener;
+//
+//        private String message;
+//
+//        public GetBranchesTask(OnGetBranchesList listener) {
+//            this.listener = listener;
+//        }
+//
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//            listener.OnLoad();
+//        }
+//
+//        @Override
+//        protected List<EBranchInfo> doInBackground(Void... voids) {
+//            List<EBranchInfo> loList = poSys.GetBranchesForCashCount();
+//            if(loList == null){
+//                message = poSys.getMessage();
+//                return null;
+//            }
+//            return loList;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(List<EBranchInfo> eBranchInfos) {
+//            super.onPostExecute(eBranchInfos);
+//            if(eBranchInfos == null){
+//                listener.OnFailed(message);
+//            } else {
+//                listener.OnRetrieve(eBranchInfos);
+//            }
+//        }
+//    }

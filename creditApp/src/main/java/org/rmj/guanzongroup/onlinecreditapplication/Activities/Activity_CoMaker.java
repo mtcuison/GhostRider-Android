@@ -12,26 +12,28 @@ import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 
+
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import  com.google.android.material.checkbox.MaterialCheckBox;
+
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.checkbox.MaterialCheckBox;
-import com.google.android.material.textfield.MaterialAutoCompleteTextView;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
-
 import org.json.JSONException;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DTownInfo;
+import org.rmj.g3appdriver.GCircle.room.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditAppConstants;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.CoMaker;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.MobileNo;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.OnSaveInfoListener;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.model.CoMaker;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.model.MobileNo;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.OnParseListener;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMCoMaker;
@@ -72,7 +74,7 @@ public class Activity_CoMaker extends AppCompatActivity {
         poMobile[2] = new MobileNo();
         setContentView(R.layout.activity_co_maker);
         initWidgets();
-
+        initSpinner();
         mViewModel.InitializeApplication(getIntent());
         mViewModel.GetApplication().observe(Activity_CoMaker.this, new Observer<ECreditApplicantInfo>() {
             @Override
@@ -87,8 +89,6 @@ public class Activity_CoMaker extends AppCompatActivity {
                             try {
                                 setUpFieldsFromLocalDB(loDetail);
 
-
-                                initSpinner();
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -112,6 +112,7 @@ public class Activity_CoMaker extends AppCompatActivity {
 
                     ArrayAdapter<String> adapter = new ArrayAdapter<>(Activity_CoMaker.this, android.R.layout.simple_spinner_dropdown_item, strings.toArray(new String[0]));
                     tieBrthTown.setAdapter(adapter);
+                    tieBrthTown.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
 
                     tieBrthTown.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
@@ -220,11 +221,13 @@ public class Activity_CoMaker extends AppCompatActivity {
     private void initSpinner(){
         spnIncmSrce.setAdapter(new ArrayAdapter<>(Activity_CoMaker.this,
                 android.R.layout.simple_list_item_1, CreditAppConstants.CO_MAKER_INCOME_SOURCE));
+        spnIncmSrce.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         spnIncmSrce.setOnItemClickListener((parent, view, position, id) ->
                 mViewModel.getModel().setIncomexx(String.valueOf(position)));
 
         spnBrwrRltn.setAdapter(new ArrayAdapter<>(Activity_CoMaker.this,
                 android.R.layout.simple_list_item_1, CreditAppConstants.CO_MAKER_RELATIONSHIP));
+        spnBrwrRltn.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         spnBrwrRltn.setOnItemClickListener((parent, view, position, id) ->
                 mViewModel.getModel().setRelation(String.valueOf(position)));
 
@@ -368,7 +371,7 @@ public class Activity_CoMaker extends AppCompatActivity {
         if(infoModel != null) {
             if(!"".equalsIgnoreCase(infoModel.getRelation())){
                 spnBrwrRltn.setText(CreditAppConstants.CO_MAKER_RELATIONSHIP[Integer.parseInt(infoModel.getRelation())]);
-                spnBrwrRltn.setSelection(Integer.parseInt(infoModel.getRelation()));
+//                spnBrwrRltn.setSelection(Integer.parseInt(infoModel.getRelation()));
                 mViewModel.getModel().setRelation(infoModel.getRelation());
             }
             tieLastname.setText(infoModel.getLastName());
@@ -383,7 +386,7 @@ public class Activity_CoMaker extends AppCompatActivity {
 //            }
             if(!"".equalsIgnoreCase(infoModel.getIncomexx())){
                 spnIncmSrce .setText(CreditAppConstants.CO_MAKER_INCOME_SOURCE[Integer.parseInt(infoModel.getIncomexx())]);
-                spnIncmSrce.setSelection(Integer.parseInt(infoModel.getIncomexx()));
+//                spnIncmSrce.setSelection(Integer.parseInt(infoModel.getIncomexx()));
                 mViewModel.getModel().setIncomexx(infoModel.getIncomexx());
             }
             if(!"".equalsIgnoreCase(infoModel.getBrthPlce())) {

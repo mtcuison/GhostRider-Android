@@ -5,7 +5,7 @@ import junit.framework.TestCase;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.rmj.g3appdriver.lib.BullsEye.PerformancePeriod;
+import org.rmj.g3appdriver.GCircle.Apps.BullsEye.PerformancePeriod;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

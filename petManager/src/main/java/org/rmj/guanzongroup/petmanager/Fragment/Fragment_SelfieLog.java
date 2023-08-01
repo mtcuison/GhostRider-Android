@@ -23,7 +23,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,13 +43,13 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textview.MaterialTextView;
 
-import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
+import org.rmj.g3appdriver.GCircle.room.Entities.EBranchInfo;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.GToast;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.etc.OnInitializeCameraCallback;
-import org.rmj.g3appdriver.lib.SelfieLog.SelfieLog;
+import org.rmj.g3appdriver.GCircle.Apps.SelfieLog.SelfieLog;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_CashCounter;
 import org.rmj.guanzongroup.petmanager.Adapter.TimeLogAdapter;
 import org.rmj.guanzongroup.petmanager.Dialog.DialogBranchSelection;
@@ -140,8 +139,44 @@ public class Fragment_SelfieLog extends Fragment {
 
         mViewModel.GetSelectedDate().observe(getViewLifecycleOwner(), date -> {
             try{
-                mViewModel.getAllEmployeeTimeLog(date).observe(getViewLifecycleOwner(), eLog_selfies -> {
-                    TimeLogAdapter logAdapter = new TimeLogAdapter(eLog_selfies, sTransNox -> GToast.CreateMessage(requireActivity(), "Feature not yet implemented", GToast.INFORMATION).show());
+                mViewModel.GetTimeLogForTheDay(date).observe(getViewLifecycleOwner(), eLog_selfies -> {
+                    TimeLogAdapter logAdapter = new TimeLogAdapter(eLog_selfies, new TimeLogAdapter.OnTimeLogActionListener() {
+                        @Override
+                        public void OnImagePreview(String sTransNox) {
+
+                        }
+
+                        @Override
+                        public void OnClickResend(String TransNox) {
+                            mViewModel.ResendTimeIn(TransNox, new VMSelfieLog.OnLoginTimekeeperListener() {
+                                @Override
+                                public void OnLogin() {
+                                    poLoad.initDialog("Selfie Log", "Sending your selfie log. Please wait...", false);
+                                    poLoad.show();
+                                }
+
+                                @Override
+                                public void OnSuccess(String args) {
+                                    poLoad.dismiss();
+                                }
+
+                                @Override
+                                public void SaveOffline(String args) {
+
+                                }
+
+                                @Override
+                                public void OnFailed(String message) {
+                                    poLoad.dismiss();
+                                    poMessage.initDialog();
+                                    poMessage.setTitle("Selfie Login");
+                                    poMessage.setMessage(message);
+                                    poMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
+                                    poMessage.show();
+                                }
+                            });
+                        }
+                    });
                     LinearLayoutManager loManager = new LinearLayoutManager(requireActivity());
                     loManager.setOrientation(RecyclerView.VERTICAL);
                     recyclerView.setLayoutManager(loManager);

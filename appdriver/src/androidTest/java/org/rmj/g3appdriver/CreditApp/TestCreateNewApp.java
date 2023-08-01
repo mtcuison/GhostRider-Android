@@ -18,10 +18,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditApp;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditOnlineApplication;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.LoanInfo;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditAppInstance;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.CreditApp;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.CreditOnlineApplication;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.model.LoanInfo;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.CreditAppInstance;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(AndroidJUnit4.class)
@@ -55,9 +55,9 @@ public class TestCreateNewApp {
         isSuccess = false;
         LoanInfo loLoan = new LoanInfo();
         loLoan.setTargetDte("2022-10-24");
-        loLoan.setAppTypex(0);
+        loLoan.setAppTypex("0");
         loLoan.setBranchCde("M001");
-        loLoan.setCustTypex(1);
+        loLoan.setCustTypex("1");
         loLoan.setDownPaymt(10000);
         loLoan.setMonthlyAm(1500);
         loLoan.setModelIDxx("M123131231");
@@ -78,9 +78,9 @@ public class TestCreateNewApp {
         isSuccess = false;
         LoanInfo loLoan = new LoanInfo();
         loLoan.setTargetDte("2022-10-24");
-        loLoan.setAppTypex(0);
+        loLoan.setAppTypex("0");
         loLoan.setBranchCde("M001");
-        loLoan.setCustTypex(1);
+        loLoan.setCustTypex("1");
         loLoan.setDownPaymt(10000);
         loLoan.setMonthlyAm(1500);
         loLoan.setModelIDxx("M123131231");

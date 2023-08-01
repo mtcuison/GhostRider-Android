@@ -11,6 +11,8 @@
 
 package org.rmj.guanzongroup.petmanager.ViewModel;
 
+import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
+
 import android.app.Application;
 import android.os.AsyncTask;
 
@@ -18,26 +20,25 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEmployeeInfo;
-import org.rmj.g3appdriver.dev.Database.Repositories.RBranch;
-import org.rmj.g3appdriver.lib.PetManager.PetManager;
-import org.rmj.g3appdriver.lib.PetManager.model.iPM;
-import org.rmj.g3appdriver.lib.PetManager.pojo.LeaveApplication;
+import org.rmj.g3appdriver.GCircle.Apps.PetManager.Obj.EmployeeLeave;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DEmployeeInfo;
+import org.rmj.g3appdriver.lib.Etc.Branch;
+import org.rmj.g3appdriver.GCircle.Apps.PetManager.pojo.LeaveApplication;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 
 
 public class VMLeaveApplication extends AndroidViewModel {
 
     private final Application instance;
-    private final RBranch pobranch;
-    private final iPM poSys;
+    private final Branch pobranch;
+    private final EmployeeLeave poSys;
     private final ConnectionUtil poConn;
 
     public VMLeaveApplication(@NonNull Application application) {
         super(application);
         this.instance = application;
-        this.pobranch = new RBranch(instance);
-        this.poSys = new PetManager(instance).GetInstance(PetManager.ePetManager.LEAVE_APPLICATION);
+        this.pobranch = new Branch(instance);
+        this.poSys = new EmployeeLeave(instance);
         this.poConn = new ConnectionUtil(instance);
     }
 
@@ -95,7 +96,7 @@ public class VMLeaveApplication extends AndroidViewModel {
 
             } catch (Exception e){
                 e.printStackTrace();
-                message = e.getMessage();
+                message = getLocalMessage(e);
                 return false;
             }
         }

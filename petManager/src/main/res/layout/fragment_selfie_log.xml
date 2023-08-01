@@ -15,7 +15,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".Fragment.Fragment_SelfieLog"
     android:theme="@style/GhostRiderMaterialTheme">
 
@@ -23,57 +22,54 @@
         android:id="@+id/shapeableImageView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/bg_dashboard"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
+        style="@style/Activity_HeaderBackground"
         app:layout_constraintHeight_percent=".3"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/materialTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/roboto"
-        android:scrollHorizontally="false"
-        android:text="Selfie Log"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="@+id/shapeableImageView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.45" />
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/lbl_userBranch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/roboto_light"
-        android:scrollHorizontally="false"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/materialTextView" />
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="30dp"
-        app:cardUseCompatPadding="true"
         app:cardCornerRadius="15dp"
         app:cardPreventCornerOverlap="true"
-        android:layout_marginHorizontal="10dp"
-        android:layout_marginBottom="10dp"
+        app:cardUseCompatPadding="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent=".8"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lbl_userBranch">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.95"
+        app:layout_constraintWidth_percent=".95">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="10dp">
+            android:layout_height="match_parent">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/materialTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
+                android:scrollHorizontally="false"
+                android:text="Selfie Log"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.05" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/lbl_userBranch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_light"
+                android:scrollHorizontally="false"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/materialTextView" />
 
             <TextClock
                 android:id="@+id/lbl_textTime"
@@ -84,19 +80,20 @@
                 android:paddingHorizontal="7dp"
                 android:paddingVertical="2dp"
                 android:text="08:00:00 AM"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:layout_marginTop="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lbl_userBranch"
                 tools:ignore="NewApi" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout"
                 style="@style/TextInputStyle"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:hint="Date"
+                app:layout_constraintWidth_percent=".8"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lbl_textTime">
@@ -146,18 +143,5 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>
-
-    <!--    <com.google.android.material.divider.MaterialDivider-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="1.5dp"-->
-    <!--        android:layout_marginTop="8dp"/>-->
-
-    <!--    <RelativeLayout-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="match_parent">-->
-
-
-
-    <!--    </RelativeLayout>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

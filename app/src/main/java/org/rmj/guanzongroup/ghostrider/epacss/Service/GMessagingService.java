@@ -18,8 +18,8 @@ import androidx.annotation.NonNull;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
-import org.rmj.g3appdriver.dev.Database.Entities.ENotificationMaster;
-import org.rmj.g3appdriver.dev.Database.Repositories.AppTokenManager;
+import org.rmj.g3appdriver.GCircle.room.Entities.ENotificationMaster;
+import org.rmj.g3appdriver.GCircle.room.Repositories.AppTokenManager;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.lib.Notifications.model.NMM;
 import org.rmj.g3appdriver.lib.Notifications.NOTIFICATION_STATUS;

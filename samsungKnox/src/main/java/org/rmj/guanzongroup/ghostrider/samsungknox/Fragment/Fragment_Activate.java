@@ -76,7 +76,7 @@ public class Fragment_Activate extends Fragment implements ViewModelCallBack {
     }
 
     @Override
-    public void OnRequestSuccess(String args) {
+    public void OnRequestSuccess(String args, String args1, String args2, String args3) {
         dialog.dismiss();
         Toast.makeText(getActivity(), args, Toast.LENGTH_SHORT).show();
     }

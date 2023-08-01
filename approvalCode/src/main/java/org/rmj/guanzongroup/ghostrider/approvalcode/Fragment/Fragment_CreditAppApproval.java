@@ -22,31 +22,20 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AutoCompleteTextView;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
 
-import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
-import com.google.android.material.textfield.TextInputLayout;
-import com.google.android.material.textview.MaterialTextView;
-import com.google.android.material.divider.MaterialDivider;
-import com.google.android.material.card.MaterialCardView;
-import com.google.android.material.imageview.ShapeableImageView;
 
 
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.lib.ApprovalCode.pojo.CreditAppInfo;
+import org.rmj.g3appdriver.GCircle.Apps.ApprovalCode.pojo.CreditAppInfo;
 import org.rmj.g3appdriver.utils.CopyToClipboard;
 import org.rmj.guanzongroup.ghostrider.approvalcode.Activity.Activity_ApprovalCode;
-import org.rmj.g3appdriver.lib.ApprovalCode.pojo.CreditApp;
+import org.rmj.g3appdriver.GCircle.Apps.ApprovalCode.pojo.CreditApp;
 import org.rmj.guanzongroup.ghostrider.approvalcode.Etc.ViewModelCallback;
 import org.rmj.guanzongroup.ghostrider.approvalcode.R;
 import org.rmj.guanzongroup.ghostrider.approvalcode.ViewModel.VMCreditAppApproval;

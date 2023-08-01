@@ -63,6 +63,7 @@
                     android:id="@+id/txt_bizName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:digits="@string/free_text_restriction"
                     android:imeOptions="actionNext"
                     android:inputType="textCapWords"
                     android:maxLength="50"
@@ -85,6 +86,7 @@
                     android:id="@+id/txt_bizAddress"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:digits="@string/free_text_restriction"
                     android:imeOptions="actionNext"
                     android:inputType="textCapWords"
                     android:maxLength="150"
@@ -104,7 +106,7 @@
 <!--                    android:layout_weight="1"-->
 <!--                    android:hint="@string/sHintProvince">-->
 
-<!--                    <androidx.appcompat.widget.AppCompatAutoCompleteTextView-->
+<!--                    <com.google.android.material.textfield.MaterialAutoCompleteTextView-->
 <!--                        android:id="@+id/txt_province"-->
 <!--                        style="@style/AutoCompleteStyleTheme"-->
 <!--                        android:layout_width="match_parent"-->
@@ -147,7 +149,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/sHintBizType">
 
-                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/spn_bizType"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -163,7 +165,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/sHintBizSize">
 
-                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/spn_bizSize"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -190,6 +192,7 @@
                         android:id="@+id/txt_bizLength"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                    android:digits="@string/free_text_restriction"
                         android:imeOptions="actionNext"
                         android:inputType="number|none"
                         android:maxLength="3"
@@ -203,7 +206,7 @@
                     android:layout_weight="1.5"
                     android:hint="@string/sHintDuration">
 
-                    <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
                         android:id="@+id/spn_monthOrYr"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -224,6 +227,7 @@
                     android:id="@+id/txt_monthlyInc"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:digits="@string/free_text_restriction"
                     android:imeOptions="actionNext"
                     android:inputType="number|none"
                     android:maxLength="15"
@@ -241,6 +245,7 @@
                     android:id="@+id/txt_monthlyExp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:digits="@string/free_text_restriction"
                     android:imeOptions="actionDone"
                     android:inputType="number|none"
                     android:maxLength="15" />

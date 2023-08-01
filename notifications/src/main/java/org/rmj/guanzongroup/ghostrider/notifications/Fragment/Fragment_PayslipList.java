@@ -18,7 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DPayslip;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DPayslip;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.notifications.Adapter.AdapterPayslip;

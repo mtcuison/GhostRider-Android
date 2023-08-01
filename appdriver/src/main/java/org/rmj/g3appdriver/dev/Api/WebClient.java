@@ -77,7 +77,7 @@ public class WebClient {
         }
     }
 
-    public static String httpPostJSon(String sURL, String sJSon, HashMap<String, String> headers) throws IOException {
+    private static String httpPostJSon(String sURL, String sJSon, HashMap<String, String> headers) throws IOException {
         HttpURLConnection conn = null;
         StringBuilder lsResponse = new StringBuilder();
         URL url = null;

@@ -16,15 +16,15 @@ plugins {
 }
 
 android {
-    compileSdkVersion 33
+    compileSdkVersion 34
     buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "org.rmj.guanzongroup.ghostrider.epacss"
         minSdkVersion 24
-        targetSdkVersion 33
-        versionCode 52
-        versionName "Build Version v.3.16.052 b"
+        targetSdkVersion 34
+        versionCode 58
+        versionName "Guanzon Circle v.3.16.055 s"
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -119,5 +119,6 @@ dependencies {
     implementation project(':creditApp')
     implementation project(':creditEvaluation')
     implementation project(':pacitaReward')
+    implementation project(':ganado')
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 }

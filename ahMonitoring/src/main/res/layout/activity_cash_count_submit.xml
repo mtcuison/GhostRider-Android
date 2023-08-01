@@ -24,6 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="3dp"
+        style="@style/LinearLayoutToolbarBackground"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -40,68 +41,11 @@
         android:id="@+id/shapeableImageView2"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:adjustViewBounds="true"
-        android:scaleType="centerCrop"
-        android:src="@drawable/bg_dashboard"
+        style="@style/Activity_HeaderBackground"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent=".3"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <LinearLayout
-        android:id="@+id/linearLayout5"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        android:paddingHorizontal="15dp"
-        app:layout_constraintBottom_toBottomOf="@+id/shapeableImageView2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="15dp"
-            android:orientation="horizontal">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto"
-                    android:text="Cash Count"
-                    android:textSize="24sp" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/lbl_headerBranch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:fontFamily="@font/roboto"
-                    android:text="GMC Dagupan"
-                    android:textSize="18sp" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/lbl_headerAddress"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_light"
-                    android:textSize="15sp" />
-
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-    </LinearLayout>
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="0dp"
@@ -109,19 +53,63 @@
         app:cardCornerRadius="10dp"
         app:cardPreventCornerOverlap="true"
         app:cardUseCompatPadding="true"
-        android:layout_marginTop="10dp"
-        android:layout_marginHorizontal="10dp"
-        android:layout_marginBottom="10dp"
+        app:layout_constraintHeight_percent=".8"
+        app:layout_constraintVertical_bias="0.95"
+        app:layout_constraintWidth_percent=".95"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="10dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto"
+                        android:text="Cash Count"
+                        android:textSize="24sp" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/lbl_headerBranch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:fontFamily="@font/roboto"
+                        android:text="GMC Dagupan"
+                        android:textSize="18sp" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/lbl_headerAddress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_light"
+                        android:textSize="15sp" />
+
+
+                </LinearLayout>
+
+            </LinearLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_collectionSearch"
@@ -130,7 +118,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toStartOf="@+id/btn_quick_search"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/txt_nameSearch"
@@ -145,8 +133,8 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_quick_search"
-                style="@style/Widget.App.Button.OutlinedButton.IconOnly"
-                android:layout_width="0dp"
+                style="@style/OutlinedButton.IconOnly"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 app:icon="@drawable/ic_name_search"
@@ -157,6 +145,7 @@
             <ScrollView
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:scrollbars="none"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -257,8 +246,9 @@
                                 android:id="@+id/txtPettyCash"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:digits="@string/decimal_only"
                                 android:imeOptions="flagNoExtractUi"
-                                android:inputType="text"
+                                android:inputType="number"
                                 android:maxLength="10"
                                 android:textSize="16sp"
                                 android:textStyle="normal" />

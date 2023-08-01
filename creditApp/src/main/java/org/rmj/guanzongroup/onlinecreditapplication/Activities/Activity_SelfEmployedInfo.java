@@ -20,11 +20,11 @@ import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONException;
-import org.rmj.g3appdriver.dev.Database.Entities.ECreditApplicantInfo;
+import org.rmj.g3appdriver.GCircle.room.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.CreditAppConstants;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.OnSaveInfoListener;
-import org.rmj.g3appdriver.lib.integsys.CreditApp.model.Business;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.CreditAppConstants;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.OnSaveInfoListener;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.model.Business;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.OnParseListener;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMBusinessInfo;
@@ -243,13 +243,11 @@ public class Activity_SelfEmployedInfo extends AppCompatActivity {
 
             if(!"".equalsIgnoreCase(infoModel.getNatureOfBusiness())) {
                 spnBussNtr.setText(CreditAppConstants.BUSINESS_NATURE[Integer.parseInt(infoModel.getNatureOfBusiness())], false);
-                spnBussNtr.setSelection(Integer.parseInt(infoModel.getNatureOfBusiness()));
                 mViewModel.getModel().setNatureOfBusiness(infoModel.getNatureOfBusiness());
             }
 
             if(!"".equalsIgnoreCase(infoModel.getTypeOfBusiness())) {
                 spnBussTyp.setText(CreditAppConstants.BUSINESS_TYPE[Integer.parseInt(infoModel.getTypeOfBusiness())], false);
-                spnBussTyp.setSelection(Integer.parseInt(infoModel.getTypeOfBusiness()));
                 mViewModel.getModel().setTypeOfBusiness(infoModel.getTypeOfBusiness());
             }
 

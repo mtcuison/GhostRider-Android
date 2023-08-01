@@ -18,18 +18,27 @@
     android:theme="@style/GhostRiderMaterialTheme"
     android:orientation="vertical">
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabLayout_leave_ob_fragment_indicator"
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:tabIndicatorHeight="4dp"
-        style="@style/Widget.MaterialComponents.TabLayout"
-        app:tabGravity="fill"
-        app:tabMode="fixed"
-        app:tabIndicator="@drawable/tablayout_select_indicator"
-        app:tabIndicatorAnimationDuration="1"
-        app:tabIndicatorGravity="bottom"
-        app:tabIndicatorFullWidth="true" />
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true"
+        app:cardCornerRadius="15dp">
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout_leave_ob_fragment_indicator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tabIndicatorHeight="4dp"
+            style="@style/Widget.MaterialComponents.TabLayout"
+            app:tabGravity="fill"
+            app:tabMode="fixed"
+            app:tabIndicator="@drawable/tablayout_select_indicator"
+            app:tabIndicatorAnimationDuration="1"
+            app:tabIndicatorGravity="bottom"
+            app:tabIndicatorFullWidth="true" />
+
+    </com.google.android.material.card.MaterialCardView>
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewpager_leave_ob_fragment_view"

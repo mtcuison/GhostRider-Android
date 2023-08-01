@@ -8,24 +8,22 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
 
-import org.rmj.g3appdriver.dev.Database.Entities.EPacitaEvaluation;
-import org.rmj.g3appdriver.dev.Database.Entities.EPacitaRule;
+import org.rmj.g3appdriver.GCircle.room.Entities.EPacitaEvaluation;
+import org.rmj.g3appdriver.GCircle.room.Entities.EPacitaRule;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.lib.GawadPacita.Obj.PacitaRule;
-import org.rmj.g3appdriver.lib.GawadPacita.pojo.BranchRate;
+import org.rmj.g3appdriver.GCircle.Apps.GawadPacita.Obj.PacitaRule;
+import org.rmj.g3appdriver.GCircle.Apps.GawadPacita.pojo.BranchRate;
 import org.rmj.guanzongroup.pacitareward.Adapter.RecyclerViewAdapter_BranchRate;
 import org.rmj.guanzongroup.pacitareward.R;
 import org.rmj.guanzongroup.pacitareward.ViewModel.VMBranchRate;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Activity_Branch_Rate extends AppCompatActivity {
@@ -63,9 +61,8 @@ public class Activity_Branch_Rate extends AppCompatActivity {
 
         /*TOOL BAR*/
         setSupportActionBar(toolbar); //set object toolbar as default action bar for activity
-        getSupportActionBar().setTitle("Branch Rate"); //set default title for action bar
+        toolbar.setTitle("");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); //set back button to toolbar
-        getSupportActionBar().setDisplayShowHomeEnabled(true); //enable the back button set on toolbar
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

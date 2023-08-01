@@ -13,7 +13,6 @@ package org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -33,7 +32,7 @@ import android.webkit.WebView;
 import android.widget.ProgressBar;
 
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.lib.Account.SessionManager;
+import org.rmj.g3appdriver.GCircle.Account.EmployeeSession;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 
 import java.io.File;
@@ -43,9 +42,6 @@ import java.util.Date;
 import java.util.Objects;
 
 import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.textfield.*;
 
 public class Activity_Browser extends AppCompatActivity {
     private static final String TAG = Activity_Browser.class.getSimpleName();
@@ -53,7 +49,7 @@ public class Activity_Browser extends AppCompatActivity {
     private MaterialToolbar toolbar;
     private ProgressBar progressBar;
     private WebView wbBrowser;
-    private SessionManager poSession;
+    private EmployeeSession poSession;
 
     private String mCM;
     private ValueCallback<Uri> mUM;
@@ -69,7 +65,7 @@ public class Activity_Browser extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar_gBrowser);
         progressBar = findViewById(R.id.progress_gBrowser);
         wbBrowser = findViewById(R.id.webview_gBrowser);
-        poSession = new SessionManager(Activity_Browser.this);
+        poSession = EmployeeSession.getInstance(Activity_Browser.this);
         toolbar.setTitle("Health Checklist");
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);

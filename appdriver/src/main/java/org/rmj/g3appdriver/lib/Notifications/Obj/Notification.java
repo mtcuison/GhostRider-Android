@@ -4,10 +4,10 @@ import android.app.Application;
 
 import androidx.lifecycle.LiveData;
 
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DNotification;
-import org.rmj.g3appdriver.dev.Database.Entities.ENotificationMaster;
-import org.rmj.g3appdriver.dev.Database.Entities.ENotificationRecipient;
-import org.rmj.g3appdriver.dev.Database.GGC_GriderDB;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DNotification;
+import org.rmj.g3appdriver.GCircle.room.Entities.ENotificationMaster;
+import org.rmj.g3appdriver.GCircle.room.Entities.ENotificationRecipient;
+import org.rmj.g3appdriver.GCircle.room.GGC_GCircleDB;
 import org.rmj.g3appdriver.lib.Notifications.NOTIFICATION_STATUS;
 import org.rmj.g3appdriver.lib.Notifications.Obj.Receiver.NMM_Regular;
 
@@ -20,7 +20,7 @@ public class Notification extends NMM_Regular {
 
     public Notification(Application instance) {
         super(instance);
-        this.poDao = GGC_GriderDB.getInstance(instance).notificationDao();
+        this.poDao = GGC_GCircleDB.getInstance(instance).notificationDao();
     }
 
     public LiveData<List<DNotification.NotificationListDetail>> GetOtherNotificationList(){

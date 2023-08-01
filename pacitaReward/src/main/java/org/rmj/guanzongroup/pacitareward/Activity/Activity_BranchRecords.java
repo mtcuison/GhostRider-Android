@@ -9,13 +9,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.textview.MaterialTextView;
 
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DPacita.BranchRecords;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DPacita.BranchRecords;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.guanzongroup.pacitareward.Adapter.RecyclerViewAdapter_BranchRecord;
@@ -49,7 +48,7 @@ public class Activity_BranchRecords extends AppCompatActivity {
         branch_rec = findViewById(R.id.branch_rec);
 
         setSupportActionBar(toolbar); //set object toolbar as default action bar for activity
-        getSupportActionBar().setTitle("Branch Evaluation Records"); //set default title for action bar
+        getSupportActionBar().setTitle("Pacita Reward"); //set default title for action bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); //set back button to toolbar
         getSupportActionBar().setDisplayShowHomeEnabled(true); //enable the back button set on toolbar
 

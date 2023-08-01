@@ -1,5 +1,7 @@
 package org.rmj.guanzongroup.ghostrider.settings.ViewModel;
 
+import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
+
 import java.util.List;
 
 import android.app.Application;
@@ -61,7 +63,7 @@ public class VMAppVersion extends AndroidViewModel {
                 return list;
             }catch (Exception e){
                 e.printStackTrace();
-                message = e.getMessage();
+                message = getLocalMessage(e);
                 return null;
             }
         }

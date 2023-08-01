@@ -48,7 +48,6 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    implementation project(path: ':ahMonitoring')
     implementation project(path: ':appDriver')
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.5.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
@@ -64,6 +63,5 @@ dependencies {
     implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
     implementation 'org.apache.commons:commons-collections4:4.4'
 
-    implementation project(':ahMonitoring')
     testImplementation 'org.robolectric:robolectric:4.8.1'
 }

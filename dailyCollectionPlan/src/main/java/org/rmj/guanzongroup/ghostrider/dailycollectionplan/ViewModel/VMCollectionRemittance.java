@@ -12,32 +12,35 @@
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel;
 
 import android.app.Application;
-import android.os.AsyncTask;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import org.json.JSONObject;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEmployeeInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.EDCPCollectionMaster;
-import org.rmj.g3appdriver.dev.Database.Entities.ERemittanceAccounts;
-import org.rmj.g3appdriver.dev.Database.Repositories.RRemittanceAccount;
-import org.rmj.g3appdriver.lib.Account.EmployeeMaster;
-import org.rmj.g3appdriver.lib.integsys.Dcp.LRDcp;
-import org.rmj.g3appdriver.lib.integsys.Dcp.pojo.Remittance;
+import org.rmj.g3appdriver.GCircle.Apps.Dcp.obj.REMIT;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DEmployeeInfo;
+import org.rmj.g3appdriver.GCircle.room.Entities.EDCPCollectionMaster;
+import org.rmj.g3appdriver.GCircle.room.Entities.ERemittanceAccounts;
+import org.rmj.g3appdriver.GCircle.room.Repositories.RRemittanceAccount;
+import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
+import org.rmj.g3appdriver.GCircle.Apps.Dcp.model.LRDcp;
+import org.rmj.g3appdriver.GCircle.Apps.Dcp.pojo.Remittance;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
+import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
+import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 
 import java.util.List;
 
 public class VMCollectionRemittance extends AndroidViewModel {
 
-    private final LRDcp poSys;
+    private final REMIT poSys;
 
     private final EmployeeMaster poUser;
     private final RRemittanceAccount poAccount;
     private final ConnectionUtil poConn;
 
+    private String message;
     public interface OnRemitCollectionCallback{
         void OnRemit();
         void OnSuccess(String message);
@@ -46,7 +49,7 @@ public class VMCollectionRemittance extends AndroidViewModel {
 
     public VMCollectionRemittance(@NonNull Application application) {
         super(application);
-        this.poSys = new LRDcp(application);
+        this.poSys = new REMIT(application);
         this.poUser = new EmployeeMaster(application);
         this.poAccount = new RRemittanceAccount(application);
         this.poConn = new ConnectionUtil(application);
@@ -101,63 +104,51 @@ public class VMCollectionRemittance extends AndroidViewModel {
     }
 
     public void RemitCollection(Remittance foVal, OnRemitCollectionCallback callback){
-        new RemitCollectionTask(callback).execute(foVal);
-    }
+        TaskExecutor.Execute(foVal, new OnTaskExecuteListener() {
+            @Override
+            public void OnPreExecute() {
+                callback.OnRemit();
+            }
 
-    private class RemitCollectionTask extends AsyncTask<Remittance, Void, Boolean>{
+            @Override
+            public Object DoInBackground(Object args) {
+                try {
+                    JSONObject params = poSys.SaveRemittanceEntry((Remittance) args);
+                    if (params == null) {
+                        message = poSys.getMessage();
+                        return false;
+                    }
 
-        private final OnRemitCollectionCallback callback;
+                    if (!poConn.isDeviceConnected()) {
+                        message = "Remittance has been save to local device.";
+                        return true;
+                    }
 
-        private String message;
+                    String lsTransNo = params.getString("sTransNox");
+                    String lsEntryNo = params.getString("nEntryNox");
+                    if (!poSys.UploadRemittance(lsTransNo, lsEntryNo)) {
+                        message = poSys.getMessage();
+                        return false;
+                    }
 
-        public RemitCollectionTask(OnRemitCollectionCallback callback) {
-            this.callback = callback;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            callback.OnRemit();
-        }
-
-        @Override
-        protected Boolean doInBackground(Remittance... remittances) {
-            try {
-                JSONObject params = poSys.SaveRemittanceEntry(remittances[0]);
-                if (params == null) {
-                    message = poSys.getMessage();
-                    return false;
-                }
-
-                if (!poConn.isDeviceConnected()) {
-                    message = "Remittance has been save to local device.";
+                    message = "Collection remittance has been save to server.";
                     return true;
-                }
-
-                String lsTransNo = params.getString("sTransNox");
-                String lsEntryNo = params.getString("nEntryNox");
-                if (!poSys.UploadRemittance(lsTransNo, lsEntryNo)) {
-                    message = poSys.getMessage();
+                } catch (Exception e){
+                    e.printStackTrace();
+                    message = e.getMessage();
                     return false;
                 }
-
-                message = "Collection remittance has been save to server.";
-                return true;
-            } catch (Exception e){
-                e.printStackTrace();
-                message = e.getMessage();
-                return false;
             }
-        }
 
-        @Override
-        protected void onPostExecute(Boolean isSuccess) {
-            super.onPostExecute(isSuccess);
-            if(!isSuccess){
-                callback.OnFailed(message);
-            } else {
-                callback.OnSuccess(message);
+            @Override
+            public void OnPostExecute(Object object) {
+                Boolean isSuccess = (Boolean) object;
+                if(!isSuccess){
+                    callback.OnFailed(message);
+                } else {
+                    callback.OnSuccess(message);
+                }
             }
-        }
+        });
     }
 }

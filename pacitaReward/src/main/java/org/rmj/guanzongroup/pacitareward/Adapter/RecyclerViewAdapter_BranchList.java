@@ -8,8 +8,9 @@ import android.widget.Filter;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
+import org.rmj.g3appdriver.GCircle.room.Entities.EBranchInfo;
 import org.rmj.guanzongroup.pacitareward.R;
+import org.rmj.guanzongroup.pacitareward.ViewHolder.RecyclerViewHolder_BranchList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +21,7 @@ public class RecyclerViewAdapter_BranchList extends RecyclerView.Adapter<Recycle
     private final BranchFilter poFilter;
     private final OnBranchSelectListener listener;
 
-    public interface OnBranchSelectListener{
+    public interface  OnBranchSelectListener{
         void OnSelect(String BranchCode, String BranchName);
     }
     public RecyclerViewAdapter_BranchList(List<EBranchInfo> paBranch, OnBranchSelectListener listener) {
@@ -42,9 +43,13 @@ public class RecyclerViewAdapter_BranchList extends RecyclerView.Adapter<Recycle
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewHolder_BranchList holder, int position) {
         EBranchInfo loBranch = paBranchFilter.get(position);
-        holder.item_branchloc.setText(loBranch.getBranchCd());
+
         holder.item_branch.setText(loBranch.getBranchNm());
-        holder.itemView.setOnClickListener(v -> listener.OnSelect(loBranch.getBranchCd(), loBranch.getBranchNm()));
+        holder.item_branchcode.setText(loBranch.getBranchCd());
+        holder.item_branchloc.setText(loBranch.getAddressx());
+
+        //holder.itemView.setOnClickListener(v -> listener.OnSelect(loBranch.getBranchCd(), loBranch.getBranchNm()));
+        holder.view.setOnClickListener(v -> listener.OnSelect(loBranch.getBranchCd(), loBranch.getBranchNm()));
     }
     @Override
     public int getItemCount() {
@@ -53,7 +58,6 @@ public class RecyclerViewAdapter_BranchList extends RecyclerView.Adapter<Recycle
     public class BranchFilter extends Filter{
         private final RecyclerViewAdapter_BranchList poAdapter;
         public BranchFilter(RecyclerViewAdapter_BranchList poAdapter) {
-            super();
             this.poAdapter = poAdapter;
         }
         @Override
