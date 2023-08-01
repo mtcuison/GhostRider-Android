@@ -23,7 +23,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.ListView;
-//import static org.hamcrest.Matchers.*;
+
 import androidx.fragment.app.FragmentActivity;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.action.ViewActions;
@@ -34,7 +34,6 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import androidx.test.platform.app.InstrumentationRegistry;
-
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -72,13 +71,7 @@ public class TestUILeaveApplication {
         }
         @Rule
         public ActivityScenarioRule<FragmentActivity> activityRule = new ActivityScenarioRule<>(Fragment_LeaveApplication.class);
-        //
-//    @Before
-//    public void setup() {
-//        // Initialize Intents for monitoring intents
-//        Intents.init();
-//
-//    }
+
         @Before
         public void setUp() throws Exception {
             this.instance = ApplicationProvider.getApplicationContext();
@@ -107,7 +100,7 @@ public class TestUILeaveApplication {
             }
         }
 
-        @Test
+
         private boolean testLeavetype(boolean isSuccess) {
             String searchText = "Birthday";
             try {
@@ -137,6 +130,7 @@ public class TestUILeaveApplication {
             }
             return isSuccess;
         }
+
         private  boolean testDateFrom(boolean isSuccess) {
             String xDate = "August 25, 2023";
             try{
