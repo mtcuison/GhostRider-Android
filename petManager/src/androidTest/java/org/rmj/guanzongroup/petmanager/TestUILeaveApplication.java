@@ -13,23 +13,27 @@ package org.rmj.guanzongroup.petmanager;
 
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
+import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertEquals;
 
 import android.app.Application;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.ListView;
-
+//import static org.hamcrest.Matchers.*;
 import androidx.fragment.app.FragmentActivity;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.assertion.ViewAssertions;
+import androidx.test.espresso.contrib.PickerActions;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import androidx.test.platform.app.InstrumentationRegistry;
+
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -88,11 +92,14 @@ public class TestUILeaveApplication {
             if (testLeavetype(true)){
                 Log.d("System Success" , "Leave Type");
             }
+            if (testDateFrom(true)){
+                Log.d("System Success" , "Date From");
+            }
         }
 
         @Test
         private boolean testLeavetype(boolean isSuccess) {
-            String searchText = "Example";
+            String searchText = "Birthday";
             try {
                 onView(ViewMatchers.withId(R.id.spn_leaveType))
                         .perform(ViewActions.typeText(searchText));
@@ -120,7 +127,26 @@ public class TestUILeaveApplication {
             }
             return isSuccess;
         }
+        private  boolean testDateFrom(boolean isSuccess) {
+            String xDate = "August 25, 2023";
+            try{
+                onView(ViewMatchers.withId(R.id.txt_dateFrom))
+                        .perform(ViewActions.click());
+                onView(ViewMatchers.withClassName(equalTo(DatePicker.class.getName())))
+                        .perform(PickerActions.setDate(2023, 8, 25));
+                onView(ViewMatchers.withId(android.R.id.button1))
+                        .perform(ViewActions.click());
+                onView(ViewMatchers.withId(R.id.txt_dateFrom))
+                        .check(ViewAssertions.matches(ViewMatchers.withText(xDate)));
+            }catch (Exception e){
+                isSuccess = false;
+            }
+            return isSuccess;
+        }
+
 }
+
+
 //            sEmail = "mikegarcia8748@gmail.com";
 //            sPassword = "123456";
 //            sMobileNo = "09123654789";
