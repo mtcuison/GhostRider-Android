@@ -14,10 +14,9 @@ import com.google.android.material.textview.MaterialTextView;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
+import org.rmj.g3appdriver.lib.Account.pojo.AccountInfo;
 import org.rmj.guanzongroup.authlibrary.R;
-import org.rmj.guanzongroup.authlibrary.UserInterface.CreateAccount.AccountInfo;
 import org.rmj.guanzongroup.authlibrary.UserInterface.CreateAccount.CreateAccountCallBack;
-import org.rmj.guanzongroup.authlibrary.UserInterface.CreateAccount.Fragment_CreateAccount;
 import org.rmj.guanzongroup.authlibrary.UserInterface.CreateAccount.VMCreateAccount;
 
 import java.util.Objects;
