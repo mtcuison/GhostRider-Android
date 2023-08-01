@@ -95,6 +95,9 @@ public class TestUILeaveApplication {
             if (testDateFrom(true)){
                 Log.d("System Success" , "Date From");
             }
+            if (testDateThru(true)){
+                Log.d("System Success" , "Date Thru");
+            }
         }
 
         @Test
@@ -143,7 +146,22 @@ public class TestUILeaveApplication {
             }
             return isSuccess;
         }
-
+    private  boolean testDateThru(boolean isSuccess) {
+        String xDate = "August 25, 2023";
+        try{
+            onView(ViewMatchers.withId(R.id.txt_dateFrom))
+                    .perform(ViewActions.click());
+            onView(ViewMatchers.withClassName(equalTo(DatePicker.class.getName())))
+                    .perform(PickerActions.setDate(2023, 8, 25));
+            onView(ViewMatchers.withId(android.R.id.button1))
+                    .perform(ViewActions.click());
+            onView(ViewMatchers.withId(R.id.txt_dateFrom))
+                    .check(ViewAssertions.matches(ViewMatchers.withText(xDate)));
+        }catch (Exception e){
+            isSuccess = false;
+        }
+        return isSuccess;
+    }
 }
 
 
