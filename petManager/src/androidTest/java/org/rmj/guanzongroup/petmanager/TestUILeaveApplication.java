@@ -17,32 +17,27 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertEquals;
 
-import android.app.Application;
 import android.content.Context;
 import android.util.Log;
-import android.view.View;
 import android.widget.DatePicker;
 import android.widget.ListView;
 
-import androidx.fragment.app.FragmentActivity;
-import androidx.test.core.app.ApplicationProvider;
+import androidx.fragment.app.testing.FragmentScenario;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.assertion.ViewAssertions;
 import androidx.test.espresso.contrib.PickerActions;
+import androidx.test.espresso.intent.Intents;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import androidx.test.platform.app.InstrumentationRegistry;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.lib.Account.AccountMaster;
-import org.rmj.g3appdriver.lib.Account.Model.Auth;
-import org.rmj.g3appdriver.lib.Account.Model.iAuth;
 import org.rmj.guanzongroup.petmanager.Fragment.Fragment_LeaveApplication;
 
 /**
@@ -55,34 +50,39 @@ import org.rmj.guanzongroup.petmanager.Fragment.Fragment_LeaveApplication;
 public class TestUILeaveApplication {
 
         private static boolean isSuccess = false;
-        private String sEmail, sPassword, sMobileNo;
-        private View cAgree;
-        private Application instance;
 
-        private AccountMaster poAccount;
-        private iAuth poSys;
 
         @Test
         public void useAppContext() {
             // Context of the app under test.
             Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-            assertEquals("org.rmj.g3appdriver.test", appContext.getPackageName());
+            assertEquals("org.rmj.guanzongroup.petmanager.test", appContext.getPackageName());
+            FragmentScenario<Fragment_LeaveApplication> fragmentScenario = FragmentScenario.launchInContainer(Fragment_LeaveApplication.class);
 
         }
         @Rule
-        public ActivityScenarioRule<FragmentActivity> activityRule = new ActivityScenarioRule<>(Fragment_LeaveApplication.class);
+        public ActivityScenarioRule<TestActivity> activityScenarioRule
+                = new ActivityScenarioRule<>(TestActivity.class);
 
-        @Before
+    @After
+    public void tearDown() {
+        // Perform any cleanup after the test
+        Intents.release();
+    }
+
+    @Before
         public void setUp() throws Exception {
-            this.instance = ApplicationProvider.getApplicationContext();
-            AppConfigPreference.getInstance(instance).setProductID("GuanzonApp");
-            AppConfigPreference.getInstance(instance).setTestCase(true);
-            this.poAccount = new AccountMaster(instance);
-            this.poSys = poAccount.initGuanzonApp().getInstance(Auth.AUTHENTICATE);
+//            this.instance = ApplicationProvider.getApplicationContext();
+//            AppConfigPreference.getInstance(instance).setProductID("GuanzonApp");
+//            AppConfigPreference.getInstance(instance).setTestCase(true);
+//            this.poAccount = new AccountMaster(instance);
+//            this.poSys = poAccount.initGuanzonApp().getInstance(Auth.AUTHENTICATE);
+
         }
 
         @Test
         public void testApplication(){
+
             if (testLeavetype(true)){
                 Log.d("System Success" , "Leave Type");
             }
@@ -95,13 +95,16 @@ public class TestUILeaveApplication {
             if (testPurpose(true)){
                 Log.d("System Success" , "Purpose");
             }
-            if (testSubmitApplication(true)){
-                Log.d("System Success" , "Submit");
-            }
+//            if (testSubmitApplication(true)){
+//                Log.d("System Success" , "Submit");
+//            }
+            onView(withId(R.id.btn_submit))
+                    .perform(ViewActions.click());
         }
 
 
         private boolean testLeavetype(boolean isSuccess) {
+
             String searchText = "Birthday";
             try {
                 onView(withId(R.id.spn_leaveType))
@@ -132,6 +135,7 @@ public class TestUILeaveApplication {
         }
 
         private  boolean testDateFrom(boolean isSuccess) {
+
             String xDate = "August 25, 2023";
             try{
                 onView(withId(R.id.txt_dateFrom))
@@ -148,6 +152,7 @@ public class TestUILeaveApplication {
             return isSuccess;
         }
     private  boolean testDateThru(boolean isSuccess) {
+
         String xDate = "August 25, 2023";
         try{
             onView(withId(R.id.txt_dateFrom))
@@ -165,6 +170,7 @@ public class TestUILeaveApplication {
     }
 
     private  boolean testPurpose(boolean isSuccess){
+
             String xRemarks = "Birthday ko na!";
             try{
                 onView(withId(R.id.txt_remarks))
@@ -176,6 +182,7 @@ public class TestUILeaveApplication {
             return  isSuccess;
     }
     private  boolean testSubmitApplication(boolean isSuccess){
+
         try{
             onView(withId(R.id.btn_submit))
                     .perform(ViewActions.click());
@@ -186,76 +193,3 @@ public class TestUILeaveApplication {
         return  isSuccess;
     }
 }
-
-
-//            sEmail = "mikegarcia8748@gmail.com";
-//            sPassword = "123456";
-//            sMobileNo = "09123654789";
-//
-//            // Enter valid username and password
-//            onView(withId(R.id.spn_leaveType))
-//                    .perform(ViewActions.typeText(sEmail), ViewActions.closeSoftKeyboard());
-//            onView(withId(R.id.tie_loginPassword))
-//                    .perform(ViewActions.typeText(sPassword), ViewActions.closeSoftKeyboard());
-//
-//            if (isViewDisplayed(true)) {
-//                onView(withId(R.id.tie_loginMobileNo))
-//                        .perform(ViewActions.typeText(sMobileNo), ViewActions.closeSoftKeyboard());
-//            }
-//            if (ischeckboxnotChecked(true)) {
-//                onView(withId(R.id.cbAgree))
-//                        .perform(ViewActions.click());
-//            }
-//
-//            // Perform login by clicking the login button
-//            onView(withId(R.id.btn_login))
-//                    .perform(ViewActions.click());
-//
-//
-//
-//            if (isLoginSuccess(true)) {
-//                Log.e("TEEJEI", "Success!");
-//            } else {
-//                Log.e("TEEJEI", "failed!");
-//            }
-//        }
-//
-//        private boolean isViewDisplayed(boolean isSuccessx) {
-//            ViewInteraction txtLogMobile = onView(withId(R.id.tie_loginMobileNo));
-//            if (txtLogMobile.equals(matches(not(isDisplayed())))) {
-//                isSuccessx = true;
-//            } else {
-//                isSuccessx = false;
-//
-//            }
-//            return isSuccessx;
-//        }
-//
-//        private boolean ischeckboxnotChecked(boolean isSuccessx) {
-//            ViewInteraction checkBox = onView(withId(R.id.cbAgree));
-//            if (checkBox.equals(matches(isNotChecked()))) {
-//                isSuccessx = true;
-//            } else {
-//                isSuccessx = false;
-//            }
-//            return isSuccessx;
-//        }
-//        private boolean isLoginSuccess(boolean isSuccessx) {
-//            String expectedMessage = "GhostRider";
-//            String expectedMessagex = "Login Success!";
-//            try {
-//
-////            onView(withText(expectedMessage))
-////                    .check(matches(isDisplayed()));
-////            onView(withId(R.id.lbl_dialogTitle))
-////                    .check(matches(withText(expectedMessage)));
-////            Thread.sleep(1000);
-//
-//                onView(withText(expectedMessage)).inRoot(ToastMatcher.isToast()).check(matches(isDisplayed()));
-//                isSuccessx = true;
-//            } catch (Exception e){
-//                isSuccessx = false;
-//            }
-//            return isSuccessx;
-//        }
-//    }
