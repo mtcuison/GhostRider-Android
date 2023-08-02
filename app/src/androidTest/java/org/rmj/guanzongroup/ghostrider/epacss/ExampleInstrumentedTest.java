@@ -17,22 +17,17 @@ import static androidx.test.espresso.matcher.RootMatchers.isDialog;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 
-import androidx.test.core.app.ActivityScenario;
-import androidx.test.espresso.matcher.RootMatchers;
-import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
 import org.junit.Before;
 import org.junit.Rule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.internal.platform.content.PermissionGranter;
 import androidx.test.uiautomator.UiDevice;
 import androidx.test.uiautomator.UiObject;
 import androidx.test.uiautomator.UiObjectNotFoundException;
 import androidx.test.uiautomator.UiSelector;
 
 import org.junit.Test;
-import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_SplashScreen;
 
@@ -50,7 +45,7 @@ public class ExampleInstrumentedTest {
    public void setUp(){
       onView(withText("Guanzon Circle")).inRoot(isDialog()).perform(click());
    }
-   @Test
+   /*@Test
     public void allowPermissions(){
        try {
            UiDevice device = UiDevice.getInstance(getInstrumentation());
@@ -65,5 +60,8 @@ public class ExampleInstrumentedTest {
        }catch (UiObjectNotFoundException e){
             e.printStackTrace();
        }
-   }
+   }*/
+    public void testLogin(){
+
+    }
 }

@@ -10,6 +10,6 @@ import org.junit.runners.JUnit4;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 @RunWith(JUnit4.class)
-public class ExampleUnitTest {
+public class ExampleUnitTestPacitaReward {
 
 }
