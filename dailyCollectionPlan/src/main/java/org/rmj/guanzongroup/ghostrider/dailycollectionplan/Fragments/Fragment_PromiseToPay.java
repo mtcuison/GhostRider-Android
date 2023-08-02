@@ -47,7 +47,7 @@ import com.google.android.material.textview.MaterialTextView;
 
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.Dcp.pojo.PromiseToPay;
+import org.rmj.g3appdriver.GCircle.Apps.Dcp.pojo.PromiseToPay;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_Transaction;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.OnInitializeCameraCallback;

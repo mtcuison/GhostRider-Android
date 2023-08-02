@@ -10,6 +10,7 @@ import org.rmj.g3appdriver.lib.Account.gCircle.obj.ChangePassword;
 import org.rmj.g3appdriver.lib.Account.gCircle.obj.EmployeeAuthentication;
 import org.rmj.g3appdriver.lib.Account.gCircle.obj.ForgotPassword;
 import org.rmj.g3appdriver.lib.Account.gCircle.obj.Register;
+import org.rmj.g3appdriver.lib.Account.gCircle.obj.TerminateAccount;
 
 public class gCircleAuth implements iAccount {
     private static final String TAG = gCircleAuth.class.getSimpleName();
@@ -32,6 +33,9 @@ public class gCircleAuth implements iAccount {
             case CHANGE_PASSWORD:
                 Log.d(TAG, "Initialize account update.");
                 return new ChangePassword(instance);
+            case DEACTIVATE:
+                Log.d(TAG, "Initialize account deactivate.");
+                return new TerminateAccount(instance);
             default:
                 Log.d(TAG, "Initialize forgot password.");
                 return new ForgotPassword(instance);

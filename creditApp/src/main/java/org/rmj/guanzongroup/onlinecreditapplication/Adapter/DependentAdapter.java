@@ -21,7 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 
-import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.model.Dependent;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.model.Dependent;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 
 import com.google.android.material.textview.MaterialTextView;

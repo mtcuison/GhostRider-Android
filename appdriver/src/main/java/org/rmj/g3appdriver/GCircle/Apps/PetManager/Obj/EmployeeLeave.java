@@ -23,45 +23,31 @@ import androidx.lifecycle.LiveData;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.apprdiver.util.SQLUtil;
-import org.rmj.g3appdriver.GCircle.Apps.PetManager.model.iPM;
+import org.rmj.g3appdriver.GCircle.Apps.PetManager.model.PetMngr;
 import org.rmj.g3appdriver.GCircle.Apps.PetManager.pojo.LeaveApplication;
 import org.rmj.g3appdriver.GCircle.Apps.PetManager.pojo.LeaveApprovalInfo;
-import org.rmj.g3appdriver.GCircle.Api.GCircleApi;
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DEmployeeLeave;
-import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeBusinessTrip;
 import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeLeave;
 import org.rmj.g3appdriver.GCircle.room.GGC_GCircleDB;
 import org.rmj.g3appdriver.etc.AppConstants;
-import org.rmj.g3appdriver.GCircle.Account.EmployeeSession;
-import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.dev.Api.WebClient;
-import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class EmployeeLeave implements iPM {
+public class EmployeeLeave extends PetMngr {
     private static final String TAG = EmployeeLeave.class.getSimpleName();
     private final DEmployeeLeave poDao;
-    private final GCircleApi poApi;
-    private final HttpHeaders poHeaders;
-    private final EmployeeSession poSession;
-    private final EmployeeMaster poUser;
-    private String message;
 
     public EmployeeLeave(Application instance) {
+        super(instance);
         this.poDao = GGC_GCircleDB.getInstance(instance).employeeLeaveDao();
-        this.poApi = new GCircleApi(instance);
-        this.poHeaders = HttpHeaders.getInstance(instance);
-        this.poSession = EmployeeSession.getInstance(instance);
-        this.poUser = new EmployeeMaster(instance);
     }
 
-    @Override
     public LiveData<DEmployeeInfo.EmployeeBranch> GetUserInfo(){
         return poUser.GetEmployeeBranch();
     }
@@ -523,49 +509,22 @@ public class EmployeeLeave implements iPM {
         }
     }
 
-    @Override
-    public boolean UploadApprovals() {
-        return false;
-    }
-
-    @Override
     public LiveData<List<EEmployeeLeave>> GetLeaveApplicationList() {
         return poDao.getEmployeeLeaveList();
     }
 
-    @Override
+
     public LiveData<List<EEmployeeLeave>> GetLeaveApplicationsForApproval() {
         return poDao.getEmployeeLeaveForApprovalList();
     }
 
-    @Override
+
     public LiveData<List<EEmployeeLeave>> GetApproveLeaveApplications() {
         return poDao.getApproveLeaveList();
     }
 
-    @Override
     public LiveData<EEmployeeLeave> GetLeaveApplicationInfo(String args) {
         return poDao.getEmployeeLeaveInfo(args);
-    }
-
-    @Override
-    public LiveData<List<EEmployeeBusinessTrip>> GetOBApplicationList() {
-        return null;
-    }
-
-    @Override
-    public LiveData<List<EEmployeeBusinessTrip>> GetOBApplicationsForApproval() {
-        return null;
-    }
-
-    @Override
-    public LiveData<EEmployeeBusinessTrip> GetOBApplicationInfo(String args) {
-        return null;
-    }
-
-    @Override
-    public LiveData<List<EEmployeeBusinessTrip>> GetApproveOBApplications() {
-        return null;
     }
 
     @Override

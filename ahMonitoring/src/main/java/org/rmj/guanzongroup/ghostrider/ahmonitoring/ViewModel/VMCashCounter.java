@@ -20,7 +20,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.CashCount.CashCount;
+import org.rmj.g3appdriver.GCircle.Apps.CashCount.CashCount;
 import org.rmj.g3appdriver.GCircle.room.Entities.EBranchInfo;
 import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
 import org.rmj.g3appdriver.utils.Task.TaskExecutor;
@@ -311,7 +311,13 @@ public class VMCashCounter extends AndroidViewModel {
 
             @Override
             public void OnPostExecute(Object object) {
+                List<EBranchInfo> loResult = (List<EBranchInfo>) object;
+                if(loResult == null){
+                    listener.OnFailed(message);
+                    return;
+                }
 
+                listener.OnRetrieve(loResult);
             }
         });
     }

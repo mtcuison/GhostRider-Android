@@ -26,8 +26,6 @@ import org.rmj.g3appdriver.GCircle.room.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeBusinessTrip;
 import org.rmj.g3appdriver.lib.Etc.Branch;
 import org.rmj.g3appdriver.GCircle.Apps.PetManager.Obj.EmployeeOB;
-import org.rmj.g3appdriver.GCircle.Apps.PetManager.PetManager;
-import org.rmj.g3appdriver.GCircle.Apps.PetManager.model.iPM;
 import org.rmj.g3appdriver.GCircle.Apps.PetManager.pojo.OBApprovalInfo;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 
@@ -36,7 +34,7 @@ public class VMObApproval extends AndroidViewModel {
 
     private final Application instance;
 
-    private final iPM poSys;
+    private final EmployeeOB poSys;
     private final Branch poBranch;
     private final ConnectionUtil poConn;
 
@@ -57,7 +55,7 @@ public class VMObApproval extends AndroidViewModel {
     public VMObApproval(@NonNull Application application) {
         super(application);
         this.instance = application;
-        this.poSys = new PetManager(instance).GetInstance(PetManager.ePetManager.BUSINESS_TRIP_APPLICATION);
+        this.poSys = new EmployeeOB(application);
         this.poBranch = new Branch(instance);
         this.poConn = new ConnectionUtil(instance);
         this.TransNox.setValue("");

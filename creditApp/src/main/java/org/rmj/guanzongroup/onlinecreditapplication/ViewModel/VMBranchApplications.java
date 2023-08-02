@@ -8,7 +8,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import org.rmj.g3appdriver.GCircle.room.Entities.EBranchLoanApplication;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.CreditOnlineApplication;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.CreditOnlineApplication;
 
 import java.util.List;
 

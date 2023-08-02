@@ -32,7 +32,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.model.BranchApplicationModel;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.model.BranchApplicationModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Adapter.BranchApplicationsAdapter;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.OnDownloadApplicationsListener;

@@ -10,15 +10,15 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.CreditApp;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.CreditAppInstance;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.CreditOnlineApplication;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.OnSaveInfoListener;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.model.ClientSpouseInfo;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.CreditApp;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.CreditAppInstance;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.CreditOnlineApplication;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.OnSaveInfoListener;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.model.ClientSpouseInfo;
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.ECountryInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.ECreditApplicantInfo;
-import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
+import org.rmj.g3appdriver.utils.Task.OnDoBackgroundTaskListener;
 import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 
 import java.util.List;
@@ -56,12 +56,7 @@ public class VMSpouseInfo extends AndroidViewModel implements CreditAppUI {
     @Override
     public void ParseData(ECreditApplicantInfo args, OnParseListener listener) {
 //        new ParseDataTask(listener).execute(args);
-        TaskExecutor.Execute(listener, new OnTaskExecuteListener() {
-            @Override
-            public void OnPreExecute() {
-
-            }
-
+        TaskExecutor.Execute(args, new OnDoBackgroundTaskListener() {
             @Override
             public Object DoInBackground(Object args) {
                 ECreditApplicantInfo lsApp = (ECreditApplicantInfo) args;
@@ -103,12 +98,7 @@ public class VMSpouseInfo extends AndroidViewModel implements CreditAppUI {
     @Override
     public void SaveData(OnSaveInfoListener listener) {
 //        new SaveDataTask(listener).execute(poModel);
-        TaskExecutor.Execute(listener, new OnTaskExecuteListener() {
-            @Override
-            public void OnPreExecute() {
-
-            }
-
+        TaskExecutor.Execute(poModel, new OnDoBackgroundTaskListener() {
             @Override
             public Object DoInBackground(Object args) {
                 ClientSpouseInfo lsInfo = (ClientSpouseInfo) args;

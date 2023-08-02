@@ -16,6 +16,7 @@
     <string name="decimal_only">0123456789.</string>
 
     <!-- Kent -->
+    <string name="sLblgCircle">Guanzon Circle</string>
     <string name="sLblCompName">Guanzon Group of Companies</string>
     <string name="sLblCopyright">© All Rights Reserved MIS-SEG 2023</string>
     <string name="sLblSamsungKnox_Activate">Activate Mobile</string>
@@ -42,6 +43,8 @@
     <string name="hint_last_name">Last Name</string>
     <string name="hint_middle_name">Middle Name</string>
     <string name="hint_suffix">Suffix</string>
+
+
     <string name="hint_mobile_number">Mobile Number</string>
 
     <string name="button_login">Login</string>

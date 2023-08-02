@@ -22,7 +22,7 @@ import androidx.lifecycle.AndroidViewModel;
 
 import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
 import org.rmj.g3appdriver.GCircle.Account.EmployeeSession;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.Dcp.LRDcp;
+import org.rmj.g3appdriver.GCircle.Apps.Dcp.model.LRDcp;
 import org.rmj.g3appdriver.GCircle.room.Entities.ETokenInfo;
 import org.rmj.g3appdriver.GCircle.room.Repositories.AppTokenManager;
 import org.rmj.g3appdriver.lib.Etc.Barangay;
@@ -59,7 +59,9 @@ public class VMSplashScreen extends AndroidViewModel {
         this.poSession = EmployeeSession.getInstance(instance);
         this.poConfigx.setPackageName(BuildConfig.APPLICATION_ID);
         this.poConfigx.setProductID("gRider");
-        this.poConfigx.setUpdateLocally(false);this.poConfigx.setupAppVersionInfo(BuildConfig.VERSION_CODE, BuildConfig.VERSION_NAME, "");
+        this.poConfigx.setUpdateLocally(false);
+        this.poConfigx.setTestCase(true);
+        this.poConfigx.setupAppVersionInfo(BuildConfig.VERSION_CODE, BuildConfig.VERSION_NAME, "");
         ETokenInfo loToken = new ETokenInfo();
         loToken.setTokenInf("temp_token");
         CheckConnection();

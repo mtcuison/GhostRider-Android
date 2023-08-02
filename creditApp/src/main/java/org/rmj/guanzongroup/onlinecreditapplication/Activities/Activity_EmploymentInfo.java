@@ -27,9 +27,9 @@ import com.google.android.material.textfield.TextInputLayout;
 import org.json.JSONException;
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.CreditAppConstants;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.OnSaveInfoListener;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.model.Employment;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.CreditAppConstants;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.OnSaveInfoListener;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.model.Employment;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.OnParseListener;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMEmploymentInfo;
@@ -432,13 +432,13 @@ public class Activity_EmploymentInfo extends AppCompatActivity {
             }
             if(!"".equalsIgnoreCase(infoModel.getCompanyLevel())) {
                 spnCmpLvl.setText(CreditAppConstants.COMPANY_LEVEL[Integer.parseInt(infoModel.getCompanyLevel())], false);
-                spnCmpLvl.setSelection(Integer.parseInt(infoModel.getCompanyLevel()));
+//                spnCmpLvl.setSelection(Integer.parseInt(infoModel.getCompanyLevel()));
                 mViewModel.getModel().setCompanyLevel(infoModel.getCompanyLevel());
             }
 
             if(!"".equalsIgnoreCase(infoModel.getEmployeeLevel())) {
                 spnEmpLvl.setText(CreditAppConstants.EMPLOYEE_LEVEL[Integer.parseInt(infoModel.getEmployeeLevel())], false);
-                spnEmpLvl.setSelection(Integer.parseInt(infoModel.getEmployeeLevel()));
+//                spnEmpLvl.setSelection(Integer.parseInt(infoModel.getEmployeeLevel()));
                 mViewModel.getModel().setEmployeeLevel(infoModel.getEmployeeLevel());
             }
 
@@ -460,19 +460,19 @@ public class Activity_EmploymentInfo extends AppCompatActivity {
             txtSpcfJb.setText(infoModel.getSpecificJob());
             if(infoModel.getEmployeeStatus().equalsIgnoreCase("0")){
                 spnEmpSts.setText(CreditAppConstants.EMPLOYMENT_STATUS[0], false);
-                spnEmpSts.setSelection(0);
+//                spnEmpSts.setSelection(0);
                 mViewModel.getModel().setEmployeeStatus("R");
             }else if (infoModel.getEmployeeStatus().equalsIgnoreCase("1")){
                 spnEmpSts.setText(CreditAppConstants.EMPLOYMENT_STATUS[1], false);
-                spnEmpSts.setSelection(1);
+//                spnEmpSts.setSelection(1);
                 mViewModel.getModel().setEmployeeStatus("P");
             }else if (infoModel.getEmployeeStatus().equalsIgnoreCase("2")){
                 spnEmpSts.setText(CreditAppConstants.EMPLOYMENT_STATUS[2], false);
-                spnEmpSts.setSelection(2);
+//                spnEmpSts.setSelection(2);
                 mViewModel.getModel().setEmployeeStatus("C");
             }else if (infoModel.getEmployeeStatus().equalsIgnoreCase("3")){
                 spnEmpSts.setText(CreditAppConstants.EMPLOYMENT_STATUS[3], false);
-                spnEmpSts.setSelection(3);
+//                spnEmpSts.setSelection(3);
                 mViewModel.getModel().setEmployeeStatus("S");
             }
 

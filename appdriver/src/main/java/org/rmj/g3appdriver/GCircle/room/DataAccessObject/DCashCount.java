@@ -34,6 +34,44 @@ public interface DCashCount {
     @Query("SELECT COUNT (*) FROM Cash_Count_Master")
     int GetRowsCountForID();
 
+    @Query("SELECT * FROM Cash_Count_Master " +
+            "WHERE sBranchCd=:lsBranchCd " +
+            "AND sPettyAmt=:lsPettyAmt " +
+            "AND dEntryDte=:lsEntryDte " +
+            "AND dTransact=:lsTransact " +
+            "AND nCn0001cx=:lnCn0001cx " +
+            "AND nCn0005cx=:lnCn0005cx " +
+            "AND nCn0010cx=:lnCn0010cx " +
+            "AND nCn0025cx=:lnCn0025cx " +
+            "AND nCn0050cx=:lnCn0050cx " +
+            "AND nCn0001px=:lnCn0001px " +
+            "AND nCn0005px=:lnCn0005px " +
+            "AND nCn0010px=:lnCn0010px " +
+            "AND nNte0020p=:lnNte0020p " +
+            "AND nNte0050p=:lnNte0050p " +
+            "AND nNte0100p=:lnNte0100p " +
+            "AND nNte0200p=:lnNte0200p " +
+            "AND nNte0500p=:lnNte0500p " +
+            "AND nNte1000p=:lnNte1000p")
+    ECashCount CheckCashCountIfExist(String lsBranchCd,
+            double lsPettyAmt,
+            String lsEntryDte,
+            String lsTransact,
+            int lnCn0001cx,
+            int lnCn0005cx,
+            int lnCn0010cx,
+            int lnCn0025cx,
+            int lnCn0050cx,
+            int lnCn0001px,
+            int lnCn0005px,
+            int lnCn0010px,
+            int lnNte0020p,
+            int lnNte0050p,
+            int lnNte0100p,
+            int lnNte0200p,
+            int lnNte0500p,
+            int lnNte1000p);
+
     @Query("SELECT * FROM Cash_Count_Master WHERE sTransNox =:fsVal")
     ECashCount GetCashCountDetail(String fsVal);
 

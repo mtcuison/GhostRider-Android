@@ -41,30 +41,34 @@ public class AdapterPayslip extends RecyclerView.Adapter<AdapterPayslip.VHPaySli
 
     @Override
     public void onBindViewHolder(@NonNull VHPaySlip holder, int position) {
-        DPayslip.Payslip loPaySlip = poPaySlip.get(position);
+        try {
+            DPayslip.Payslip loPaySlip = poPaySlip.get(position);
 
-        String lsResult = loPaySlip.sMessagex.split("\n\n")[0] + "\n\n" + loPaySlip.sMessagex.split("\n\n")[1];
+            String lsResult = loPaySlip.sMessagex.split("\n\n")[0] + "\n\n" + loPaySlip.sMessagex.split("\n\n")[1];
 
-        holder.lblMessage.setText(lsResult);
+            holder.lblMessage.setText(lsResult);
 
-        int lnStart = loPaySlip.sMessagex.indexOf("[");
-        int lnEnd = loPaySlip.sMessagex.indexOf("]");
+            int lnStart = loPaySlip.sMessagex.indexOf("[");
+            int lnEnd = loPaySlip.sMessagex.indexOf("]");
 
-        String subsTringVal = loPaySlip.sMessagex.substring(lnStart+1, lnEnd);
-        Uri uri = Uri.parse(subsTringVal);
-        if(loPaySlip.cMesgStat.equalsIgnoreCase("2")){
-            holder.lnBadge.setVisibility(View.VISIBLE);
-        }
-
-        holder.lblTimeStamp.setText(FormatUIText.getParseDateTime(loPaySlip.dReceived));
-
-        holder.btnDownload.setOnClickListener(v -> {
-            try{
-                mListener.DownloadPayslip(loPaySlip.sMesgIDxx, uri.toString());
-            } catch (Exception e){
-                e.printStackTrace();
+            String subsTringVal = loPaySlip.sMessagex.substring(lnStart + 1, lnEnd);
+            Uri uri = Uri.parse(subsTringVal);
+            if (loPaySlip.cMesgStat.equalsIgnoreCase("2")) {
+                holder.lnBadge.setVisibility(View.VISIBLE);
             }
-        });
+
+            holder.lblTimeStamp.setText(FormatUIText.getParseDateTime(loPaySlip.dReceived));
+
+            holder.btnDownload.setOnClickListener(v -> {
+                try {
+                    mListener.DownloadPayslip(loPaySlip.sMesgIDxx, uri.toString());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override

@@ -26,6 +26,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import org.rmj.g3appdriver.GCircle.Apps.Dcp.obj.LUN;
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.EBarangayInfo;
@@ -37,8 +38,8 @@ import org.rmj.g3appdriver.lib.Etc.Town;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.lib.Location.LocationRetriever;
 import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.Dcp.LRDcp;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.Dcp.pojo.LoanUnit;
+import org.rmj.g3appdriver.GCircle.Apps.Dcp.model.LRDcp;
+import org.rmj.g3appdriver.GCircle.Apps.Dcp.pojo.LoanUnit;
 import org.rmj.g3appdriver.utils.Task.OnDoBackgroundTaskListener;
 import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
 import org.rmj.g3appdriver.utils.Task.TaskExecutor;
@@ -53,7 +54,7 @@ public class VMLoanUnit extends AndroidViewModel {
     private static final String TAG = VMLoanUnit.class.getSimpleName();
 
     private final Application instance;
-    private final LRDcp poSys;
+    private final LUN poSys;
     private final EmployeeMaster poUser;
     private final Branch poBranch;
 
@@ -61,10 +62,12 @@ public class VMLoanUnit extends AndroidViewModel {
     private final Town poTown;
     private final Barangay Brgy;
 
+    private String message;
+
     public VMLoanUnit(@NonNull Application application) {
         super(application);
         this.instance = application;
-        this.poSys = new LRDcp(application);
+        this.poSys = new LUN(application);
         this.poUser = new EmployeeMaster(application);
         this.poBranch = new Branch(application);
         poProv = new Province(application);
@@ -81,193 +84,75 @@ public class VMLoanUnit extends AndroidViewModel {
     }
 
     public void InitCameraLaunch(Activity activity, String TransNox, OnInitializeCameraCallback callback){
-        new InitializeCameraTask(activity, TransNox, instance, callback).execute();
-    }
+        ImageFileCreator loImage = new ImageFileCreator(instance, AppConstants.SUB_FOLDER_SELFIE_LOG, TransNox);
+        String[] lsResult = new String[4];
+        TaskExecutor.Execute(null, new OnTaskExecuteListener() {
+            @Override
+            public void OnPreExecute() {
+                callback.OnInit();
+            }
 
-    /*private static class InitializeCameraTask extends AsyncTask<String, Void, Boolean>{
+            @Override
+            public Object DoInBackground(Object args) {
+                if(!loImage.IsFileCreated(true)){
+                    message = loImage.getMessage();
+                    return null;
+                }
 
-        private final OnInitializeCameraCallback callback;
-        private final ImageFileCreator loImage;
-        private final LocationRetriever loLrt;
-
-        private Intent loIntent;
-        private String[] args = new String[4];
-        private String message;
-
-        public InitializeCameraTask(Activity activity, String TransNox, Application instance, OnInitializeCameraCallback callback){
-            this.callback = callback;
-            this.loImage = new ImageFileCreator(instance, AppConstants.SUB_FOLDER_SELFIE_LOG, TransNox);
-            this.loLrt = new LocationRetriever(instance, activity);
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            callback.OnInit();
-        }
-
-        @Override
-        protected Boolean doInBackground(String... strings) {
-            if(!loImage.IsFileCreated(true)){
-                message = loImage.getMessage();
-                return false;
-            } else {
+                LocationRetriever loLrt = new LocationRetriever(instance, activity);
                 if(loLrt.HasLocation()){
-                    args[0] = loImage.getFilePath();
-                    args[1] = loImage.getFileName();
-                    args[2] = loLrt.getLatitude();
-                    args[3] = loLrt.getLongitude();
-                    loIntent = loImage.getCameraIntent();
-                    return true;
+                    lsResult[0] = loImage.getFilePath();
+                    lsResult[1] = loImage.getFileName();
+                    lsResult[2] = loLrt.getLatitude();
+                    lsResult[3] = loLrt.getLongitude();
+                    Intent loIntent = loImage.getCameraIntent();
+                    loIntent.putExtra("result", true);
+                    return loIntent;
                 } else {
-                    args[0] = loImage.getFilePath();
-                    args[1] = loImage.getFileName();
-                    args[2] = loLrt.getLatitude();
-                    args[3] = loLrt.getLongitude();
-                    loIntent = loImage.getCameraIntent();
+                    lsResult[0] = loImage.getFilePath();
+                    lsResult[1] = loImage.getFileName();
+                    lsResult[2] = loLrt.getLatitude();
+                    lsResult[3] = loLrt.getLongitude();
+                    Intent loIntent = loImage.getCameraIntent();
+                    loIntent.putExtra("result", false);
                     message = loLrt.getMessage();
-                    return false;
+                    return loIntent;
                 }
             }
-        }
 
-        @Override
-        protected void onPostExecute(Boolean isSuccess) {
-            super.onPostExecute(isSuccess);
-            if(isSuccess){
-                callback.OnSuccess(loIntent, args);
-            } else {
-                callback.OnFailed(message, loIntent, args);
+            @Override
+            public void OnPostExecute(Object object) {
+                Intent loResult = (Intent) object;
+                if(loResult.getBooleanExtra("result", false)){
+                    callback.OnSuccess(loResult, lsResult);
+                } else {
+                    callback.OnFailed(message, loResult, lsResult);
+                }
             }
-        }
-    }*/
-    private static class InitializeCameraTask{
-        private final OnInitializeCameraCallback callback;
-        private final ImageFileCreator loImage;
-        private final LocationRetriever loLrt;
-
-        private Intent loIntent;
-        private String[] argsList = new String[4];
-        private String message;
-
-        public InitializeCameraTask(Activity activity, String TransNox, Application instance, OnInitializeCameraCallback callback){
-            this.callback = callback;
-            this.loImage = new ImageFileCreator(instance, AppConstants.SUB_FOLDER_SELFIE_LOG, TransNox);
-            this.loLrt = new LocationRetriever(instance, activity);
-        }
-        public void execute(){
-            TaskExecutor.Execute(null, new OnTaskExecuteListener() {
-                @Override
-                public void OnPreExecute() {
-                    callback.OnInit();
-                }
-
-                @Override
-                public Object DoInBackground(Object args) {
-                    if(!loImage.IsFileCreated(true)){
-                        message = loImage.getMessage();
-                        return false;
-                    } else {
-                        if(loLrt.HasLocation()){
-                            argsList[0] = loImage.getFilePath();
-                            argsList[1] = loImage.getFileName();
-                            argsList[2] = loLrt.getLatitude();
-                            argsList[3] = loLrt.getLongitude();
-                            loIntent = loImage.getCameraIntent();
-                            return true;
-                        } else {
-                            argsList[0] = loImage.getFilePath();
-                            argsList[1] = loImage.getFileName();
-                            argsList[2] = loLrt.getLatitude();
-                            argsList[3] = loLrt.getLongitude();
-                            loIntent = loImage.getCameraIntent();
-                            message = loLrt.getMessage();
-                            return false;
-                        }
-                    }
-                }
-
-                @Override
-                public void OnPostExecute(Object object) {
-                    Boolean isSuccess = (Boolean) object;
-                    if(isSuccess){
-                        callback.OnSuccess(loIntent, argsList);
-                    } else {
-                        callback.OnFailed(message, loIntent, argsList);
-                    }
-                }
-            });
-        }
+        });
     }
 
     public void SaveTransaction(LoanUnit foVal, ViewModelCallback callback){
-        new SaveTransactionTask(callback).execute(foVal);
-    }
-
-    /*private class SaveTransactionTask extends AsyncTask<LoanUnit, Void, Boolean>{
-
-        private final ViewModelCallback callback;
-
-        private String message;
-
-        public SaveTransactionTask(ViewModelCallback callback) {
-            this.callback = callback;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected Boolean doInBackground(LoanUnit... obj) {
-            if(!poSys.SaveLoanUnit(obj[0])){
-                message = poSys.getMessage();
-                return false;
+        TaskExecutor.Execute(foVal, new OnDoBackgroundTaskListener() {
+            @Override
+            public Object DoInBackground(Object args) {
+                if(!poSys.SaveTransaction(args)){
+                    message = poSys.getMessage();
+                    return false;
+                }
+                return true;
             }
 
-            return true;
-        }
-
-        @Override
-        protected void onPostExecute(Boolean isSuccess) {
-            super.onPostExecute(isSuccess);
-            if(!isSuccess){
-                callback.OnFailedResult(message);
-            } else {
-                callback.OnSuccessResult();
+            @Override
+            public void OnPostExecute(Object object) {
+                Boolean isSuccess = (Boolean) object;
+                if(!isSuccess){
+                    callback.OnFailedResult(message);
+                } else {
+                    callback.OnSuccessResult();
+                }
             }
-        }
-    }*/
-    private class SaveTransactionTask{
-        private final ViewModelCallback callback;
-        private String message;
-
-        public SaveTransactionTask(ViewModelCallback callback) {
-            this.callback = callback;
-        }
-        public void execute(LoanUnit foVal){
-            TaskExecutor.Execute(foVal, new OnDoBackgroundTaskListener() {
-                @Override
-                public Object DoInBackground(Object args) {
-                    if(!poSys.SaveLoanUnit((LoanUnit) args)){
-                        message = poSys.getMessage();
-                        return false;
-                    }
-                    return true;
-                }
-
-                @Override
-                public void OnPostExecute(Object object) {
-                    Boolean isSuccess = (Boolean) object;
-                    if(!isSuccess){
-                        callback.OnFailedResult(message);
-                    } else {
-                        callback.OnSuccessResult();
-                    }
-                }
-            });
-        }
+        });
     }
 
     public LiveData<List<DTownInfo.TownProvinceInfo>> getTownProvinceInfo(){

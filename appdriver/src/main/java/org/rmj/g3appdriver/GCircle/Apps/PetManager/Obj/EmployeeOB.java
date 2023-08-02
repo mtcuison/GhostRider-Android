@@ -23,45 +23,30 @@ import androidx.lifecycle.LiveData;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.apprdiver.util.SQLUtil;
-import org.rmj.g3appdriver.GCircle.Apps.PetManager.model.iPM;
+import org.rmj.g3appdriver.GCircle.Apps.PetManager.model.PetMngr;
 import org.rmj.g3appdriver.GCircle.Apps.PetManager.pojo.OBApplication;
 import org.rmj.g3appdriver.GCircle.Apps.PetManager.pojo.OBApprovalInfo;
-import org.rmj.g3appdriver.GCircle.Api.GCircleApi;
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DEmployeeBusinessTrip;
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeBusinessTrip;
 import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeInfo;
-import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeLeave;
 import org.rmj.g3appdriver.GCircle.room.GGC_GCircleDB;
 import org.rmj.g3appdriver.GCircle.Etc.DeptCode;
 import org.rmj.g3appdriver.etc.AppConstants;
-import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.dev.Api.WebClient;
-import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class EmployeeOB implements iPM {
+public class EmployeeOB extends PetMngr {
     private static final String TAG = EmployeeOB.class.getSimpleName();
-
     private final DEmployeeBusinessTrip poDao;
-    private final GCircleApi poApi;
-    private final HttpHeaders poHeaders;
-    private final EmployeeMaster poUser;
-    private String message;
 
     public EmployeeOB(Application instance){
+        super(instance);
         this.poDao = GGC_GCircleDB.getInstance(instance).employeeOBDao();
-        this.poApi = new GCircleApi(instance);
-        this.poHeaders = HttpHeaders.getInstance(instance);
-        this.poUser = new EmployeeMaster(instance);
-    }
-
-    public String getMessage() {
-        return message;
     }
 
     @Override
@@ -355,6 +340,10 @@ public class EmployeeOB implements iPM {
     }
 
     @Override
+    public String getMessage() {
+        return message;
+    }
+
     public boolean UploadApprovals() {
         try{
             List<EEmployeeBusinessTrip> loApprovals = poDao.GetUnpostedApprovals();
@@ -412,42 +401,18 @@ public class EmployeeOB implements iPM {
         }
     }
 
-    @Override
-    public LiveData<List<EEmployeeLeave>> GetLeaveApplicationList() {
-        return null;
-    }
-
-    @Override
-    public LiveData<List<EEmployeeLeave>> GetLeaveApplicationsForApproval() {
-        return null;
-    }
-
-    @Override
-    public LiveData<List<EEmployeeLeave>> GetApproveLeaveApplications() {
-        return null;
-    }
-
-    @Override
-    public LiveData<EEmployeeLeave> GetLeaveApplicationInfo(String args) {
-        return null;
-    }
-
-    @Override
     public LiveData<List<EEmployeeBusinessTrip>> GetOBApplicationList() {
         return poDao.getOBList();
     }
 
-    @Override
     public LiveData<List<EEmployeeBusinessTrip>> GetOBApplicationsForApproval() {
         return poDao.getOBListForApproval();
     }
 
-    @Override
     public LiveData<EEmployeeBusinessTrip> GetOBApplicationInfo(String args) {
         return poDao.getBusinessTripInfo(args);
     }
 
-    @Override
     public LiveData<List<EEmployeeBusinessTrip>> GetApproveOBApplications() {
         return poDao.GetApproveBusTrip();
     }
@@ -465,6 +430,16 @@ public class EmployeeOB implements iPM {
             if(loUser == null){
                 message = "Invalid user info. Please re-login your account and try again.";
                 return null;
+            }
+
+            EEmployeeBusinessTrip loDetail = poDao.CheckIfApplicationExist(
+                    foVal.getDateFrom(),
+                    foVal.getDateThru(),
+                    foVal.getDestinat(),
+                    foVal.getRemarksx());
+
+            if(loDetail != null){
+                return loDetail.getTransNox();
             }
 
             EEmployeeBusinessTrip detail = new EEmployeeBusinessTrip();

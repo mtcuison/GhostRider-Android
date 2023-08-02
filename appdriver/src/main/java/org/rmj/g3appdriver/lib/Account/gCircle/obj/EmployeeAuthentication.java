@@ -109,6 +109,7 @@ public class EmployeeAuthentication implements iAuth {
             employeeInfo.setMobileNo(poConfig.getMobileNo());
             employeeInfo.setLoginxxx(AppConstants.DATE_MODIFIED());
             employeeInfo.setSessionx(AppConstants.CURRENT_DATE());
+            poDao.RemoveSessions();
             poDao.SaveNewEmployeeSession(employeeInfo);
 
             String lsClientx = loResponse.getString("sClientID");

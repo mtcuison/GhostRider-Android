@@ -18,6 +18,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import org.rmj.g3appdriver.GCircle.Apps.Dcp.obj.PAY;
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.EBankInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.EDCPCollectionDetail;
@@ -25,8 +26,8 @@ import org.rmj.g3appdriver.GCircle.room.Repositories.RBankInfo;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.Dcp.LRDcp;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.Dcp.pojo.PaidDCP;
+import org.rmj.g3appdriver.GCircle.Apps.Dcp.model.LRDcp;
+import org.rmj.g3appdriver.GCircle.Apps.Dcp.pojo.PaidDCP;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
 import org.rmj.g3appdriver.utils.Task.TaskExecutor;
@@ -49,7 +50,7 @@ public class VMPaidTransaction extends AndroidViewModel {
     private final ConnectionUtil poConn;
     private final AppConfigPreference poConfig;
 
-    private final LRDcp poSys;
+    private final PAY poSys;
 
     private EDCPCollectionDetail loDetail;
 
@@ -62,10 +63,12 @@ public class VMPaidTransaction extends AndroidViewModel {
 
     private boolean isDuePass = true;
 
+    private String message;
+
     public VMPaidTransaction(@NonNull Application application) {
         super(application);
         this.poUser = new EmployeeMaster(application);
-        this.poSys = new LRDcp(application);
+        this.poSys = new PAY(application);
         this.poBank = new RBankInfo(application);
         this.poConfig = AppConfigPreference.getInstance(application);
         this.poConn = new ConnectionUtil(application);
@@ -224,98 +227,41 @@ public class VMPaidTransaction extends AndroidViewModel {
     }
 
     public void SavePaymentInfo(PaidDCP foVal, ViewModelCallback callback){
-        new SavePaymentTask(callback).execute(foVal);
-    }
-
-    /*private class SavePaymentTask extends AsyncTask<PaidDCP, Void, Boolean>{
-        private final ViewModelCallback callback;
-
-        private String message;
-
-        public SavePaymentTask(ViewModelCallback callback) {
-            this.callback = callback;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            callback.OnStartSaving();
-        }
-
-        @Override
-        protected Boolean doInBackground(PaidDCP... paidDCPS) {
-            String lsResult = poSys.SavePaidTransaction(paidDCPS[0]);
-            if(lsResult == null){
-                message = poSys.getMessage();
-                return false;
+        TaskExecutor.Execute(foVal, new OnTaskExecuteListener() {
+            @Override
+            public void OnPreExecute() {
+                callback.OnStartSaving();
             }
 
-            if(!poConn.isDeviceConnected()){
-                message = "Payment info has been save to local device.";
-                return true;
-            }
-
-            if(!poSys.UploadPaidTransaction(lsResult)){
-                message = poSys.getMessage();
-                return false;
-            }
-
-            return true;
-        }
-
-        @Override
-        protected void onPostExecute(Boolean isSuccess) {
-            super.onPostExecute(isSuccess);
-            if(!isSuccess){
-                callback.OnFailedResult(message);
-            } else {
-                callback.OnSuccessResult();
-            }
-        }
-    }*/
-    private class SavePaymentTask{
-        private final ViewModelCallback callback;
-        private String message;
-        public SavePaymentTask(ViewModelCallback callback) {
-            this.callback = callback;
-        }
-        public void execute(PaidDCP paidDCPS){
-            TaskExecutor.Execute(paidDCPS, new OnTaskExecuteListener() {
-                @Override
-                public void OnPreExecute() {
-                    callback.OnStartSaving();
+            @Override
+            public Object DoInBackground(Object args) {
+                String lsResult = poSys.SavePaidTransaction((PaidDCP) args);
+                if(lsResult == null){
+                    message = poSys.getMessage();
+                    return false;
                 }
 
-                @Override
-                public Object DoInBackground(Object args) {
-                    String lsResult = poSys.SavePaidTransaction((PaidDCP) args);
-                    if(lsResult == null){
-                        message = poSys.getMessage();
-                        return false;
-                    }
-
-                    if(!poConn.isDeviceConnected()){
-                        message = "Payment info has been save to local device.";
-                        return true;
-                    }
-
-                    if(!poSys.UploadPaidTransaction(lsResult)){
-                        message = poSys.getMessage();
-                        return false;
-                    }
+                if(!poConn.isDeviceConnected()){
+                    message = "Payment info has been save to local device.";
                     return true;
                 }
 
-                @Override
-                public void OnPostExecute(Object object) {
-                    Boolean isSuccess = (Boolean) object;
-                    if(!isSuccess){
-                        callback.OnFailedResult(message);
-                    } else {
-                        callback.OnSuccessResult();
-                    }
+                if(!poSys.UploadPaidTransaction(lsResult)){
+                    message = poSys.getMessage();
+                    return false;
                 }
-            });
-        }
+                return true;
+            }
+
+            @Override
+            public void OnPostExecute(Object object) {
+                Boolean isSuccess = (Boolean) object;
+                if(!isSuccess){
+                    callback.OnFailedResult(message);
+                } else {
+                    callback.OnSuccessResult();
+                }
+            }
+        });
     }
 }

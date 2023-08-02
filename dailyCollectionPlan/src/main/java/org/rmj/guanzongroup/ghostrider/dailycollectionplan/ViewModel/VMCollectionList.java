@@ -22,8 +22,8 @@ import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.Dcp.pojo.ImportParams;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.Dcp.LRDcp;
+import org.rmj.g3appdriver.GCircle.Apps.Dcp.pojo.ImportParams;
+import org.rmj.g3appdriver.GCircle.Apps.Dcp.model.LRDcp;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
 import org.rmj.g3appdriver.utils.Task.TaskExecutor;
@@ -37,6 +37,8 @@ public class VMCollectionList extends AndroidViewModel {
     private final LRDcp poSys;
     private final ConnectionUtil poConn;
     private final AppConfigPreference poConfig;
+
+    private String message;
 
     public interface OnActionCallback {
         void OnLoad();
@@ -78,534 +80,207 @@ public class VMCollectionList extends AndroidViewModel {
     }
 
     public void DownloadDCP(ImportParams foVal, OnActionCallback callback){
-        new DownloadDcpTask(callback).execute(foVal);
-    }
-
-    /*private class DownloadDcpTask extends AsyncTask<ImportParams, Void, Boolean>{
-
-        private String message;
-
-        private final OnActionCallback callback;
-
-        public DownloadDcpTask(OnActionCallback callback) {
-            this.callback = callback;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            callback.OnLoad();
-        }
-
-        @Override
-        protected Boolean doInBackground(ImportParams... importParams) {
-            if(!poConn.isDeviceConnected()){
-                message = poSys.getMessage();
-                return false;
+//        new DownloadDcpTask(callback).execute(foVal);
+        TaskExecutor.Execute(foVal, new OnTaskExecuteListener() {
+            @Override
+            public void OnPreExecute() {
+                callback.OnLoad();
             }
 
-            if(!poSys.DownloadCollection(importParams[0])){
-                message = poSys.getMessage();
-                return false;
+            @Override
+            public Object DoInBackground(Object args) {
+                if(!poConn.isDeviceConnected()){
+                    message = poSys.getMessage();
+                    return false;
+                }
+
+                if(!poSys.DownloadCollection((ImportParams) args)){
+                    message = poSys.getMessage();
+                    return false;
+                }
+                return true;
             }
-            return true;
-        }
 
-        @Override
-        protected void onPostExecute(Boolean isSuccess) {
-            super.onPostExecute(isSuccess);
-            if(isSuccess){
-                callback.OnSuccess();
-            } else {
-                callback.OnFailed(message);
+            @Override
+            public void OnPostExecute(Object object) {
+                Boolean isSuccess = (Boolean) object;
+                if(isSuccess){
+                    callback.OnSuccess();
+                } else {
+                    callback.OnFailed(message);
+                }
             }
-        }
-    }*/
-    private class DownloadDcpTask{
-        private String message;
-        private final OnActionCallback callback;
-        public DownloadDcpTask(OnActionCallback callback) {
-            this.callback = callback;
-        }
-
-        public void execute(ImportParams foVal){
-            TaskExecutor.Execute(foVal, new OnTaskExecuteListener() {
-                @Override
-                public void OnPreExecute() {
-                    callback.OnLoad();
-                }
-
-                @Override
-                public Object DoInBackground(Object args) {
-                    if(!poConn.isDeviceConnected()){
-                        message = poSys.getMessage();
-                        return false;
-                    }
-
-                    if(!poSys.DownloadCollection((ImportParams) args)){
-                        message = poSys.getMessage();
-                        return false;
-                    }
-                    return true;
-                }
-
-                @Override
-                public void OnPostExecute(Object object) {
-                    Boolean isSuccess = (Boolean) object;
-                    if(isSuccess){
-                        callback.OnSuccess();
-                    } else {
-                        callback.OnFailed(message);
-                    }
-                }
-            });
-        }
+        });
     }
 
     public void SearchClient(String fsVal, OnDownloadClientList callback){
-        new SearchClientTask(callback).execute(fsVal);
+        TaskExecutor.Execute(fsVal, new OnTaskExecuteListener() {
+            @Override
+            public void OnPreExecute() {
+                callback.OnDownload();
+            }
+
+            @Override
+            public Object DoInBackground(Object args) {
+                if(!poConn.isDeviceConnected()){
+                    message = poConn.getMessage();
+                    return null;
+                }
+
+                List<EDCPCollectionDetail> loList = poSys.GetSearchList((String) args);
+                if(loList == null){
+                    message = poSys.getMessage();
+                    return null;
+                }
+                return loList;
+            }
+
+            @Override
+            public void OnPostExecute(Object object) {
+                if(object == null){
+                    callback.OnFailedDownload(message);
+                } else {
+                    callback.OnSuccessDownload((List<EDCPCollectionDetail>) object);
+                }
+            }
+        });
     }
-
-    /*private class SearchClientTask extends AsyncTask<String, Void, List<EDCPCollectionDetail>>{
-
-        private final OnDownloadClientList callback;
-
-        private String message;
-
-        public SearchClientTask(OnDownloadClientList callback) {
-            this.callback = callback;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            callback.OnDownload();
-        }
-
-        @Override
-        protected List<EDCPCollectionDetail> doInBackground(String... strings) {
-            if(!poConn.isDeviceConnected()){
-                message = poConn.getMessage();
-                return null;
-            }
-
-            List<EDCPCollectionDetail> loList = poSys.GetSearchList(strings[0]);
-            if(loList == null){
-                message = poSys.getMessage();
-                return null;
-            }
-
-            return loList;
-        }
-
-        @Override
-        protected void onPostExecute(List<EDCPCollectionDetail> searchlist) {
-            super.onPostExecute(searchlist);
-            if(searchlist == null){
-                callback.OnFailedDownload(message);
-            } else {
-                callback.OnSuccessDownload(searchlist);
-            }
-        }
-    }*/
-    private class SearchClientTask{
-        private final OnDownloadClientList callback;
-        private String message;
-        public SearchClientTask(OnDownloadClientList callback) {
-            this.callback = callback;
-        }
-        public void execute(String fsVal){
-            TaskExecutor.Execute(fsVal, new OnTaskExecuteListener() {
-                @Override
-                public void OnPreExecute() {
-                    callback.OnDownload();
-                }
-
-                @Override
-                public Object DoInBackground(Object args) {
-                    if(!poConn.isDeviceConnected()){
-                        message = poConn.getMessage();
-                        return null;
-                    }
-
-                    List<EDCPCollectionDetail> loList = poSys.GetSearchList((String) args);
-                    if(loList == null){
-                        message = poSys.getMessage();
-                        return null;
-                    }
-                    return loList;
-                }
-
-                @Override
-                public void OnPostExecute(Object object) {
-                    if(object == null){
-                        callback.OnFailedDownload(message);
-                    } else {
-                        callback.OnSuccessDownload((List<EDCPCollectionDetail>) object);
-                    }
-                }
-            });
-        }
-    }
-
 
     public void AddCollection(EDCPCollectionDetail foVal, OnActionCallback callback){
-        new AddCollectionTask(callback).execute(foVal);
-    }
-
-    /*private class AddCollectionTask extends AsyncTask<EDCPCollectionDetail, Void, Boolean>{
-
-        private final OnActionCallback callback;
-
-        private String message;
-
-        public AddCollectionTask(OnActionCallback callback) {
-            this.callback = callback;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            callback.OnLoad();
-        }
-
-        @Override
-        protected Boolean doInBackground(EDCPCollectionDetail... dcpDetail) {
-            if(!poSys.AddCollection(dcpDetail[0])){
-                message = poSys.getMessage();
-                return false;
+        TaskExecutor.Execute(foVal, new OnTaskExecuteListener() {
+            @Override
+            public void OnPreExecute() {
+                callback.OnLoad();
             }
-            return true;
-        }
 
-        @Override
-        protected void onPostExecute(Boolean isSuccess) {
-            super.onPostExecute(isSuccess);
-            if(!isSuccess){
-                callback.OnFailed(message);
-            } else {
-                callback.OnSuccess();
+            @Override
+            public Object DoInBackground(Object args) {
+                if(!poSys.AddCollection((EDCPCollectionDetail) args)){
+                    message = poSys.getMessage();
+                    return false;
+                }
+                return true;
             }
-        }
-    }*/
-    private class AddCollectionTask{
-        private final OnActionCallback callback;
-        private String message;
-        public AddCollectionTask(OnActionCallback callback) {
-            this.callback = callback;
-        }
-        public void execute(EDCPCollectionDetail dcpDetail){
-            TaskExecutor.Execute(dcpDetail, new OnTaskExecuteListener() {
-                @Override
-                public void OnPreExecute() {
-                    callback.OnLoad();
-                }
 
-                @Override
-                public Object DoInBackground(Object args) {
-                    if(!poSys.AddCollection((EDCPCollectionDetail) args)){
-                        message = poSys.getMessage();
-                        return false;
-                    }
-                    return true;
+            @Override
+            public void OnPostExecute(Object object) {
+                Boolean isSuccess = (Boolean) object;
+                if(!isSuccess){
+                    callback.OnFailed(message);
+                } else {
+                    callback.OnSuccess();
                 }
-
-                @Override
-                public void OnPostExecute(Object object) {
-                    Boolean isSuccess = (Boolean) object;
-                    if(!isSuccess){
-                        callback.OnFailed(message);
-                    } else {
-                        callback.OnSuccess();
-                    }
-                }
-            });
-        }
+            }
+        });
     }
 
     public void CheckDcpForPosting(OnCheckDcpForPosting callback){
-        new CheckDcpTask(callback).execute();
-    }
-
-    /*private class CheckDcpTask extends AsyncTask<String, Void, Integer>{
-
-        private final OnCheckDcpForPosting callback;
-
-        private String message;
-
-        public CheckDcpTask(OnCheckDcpForPosting callback) {
-            this.callback = callback;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            callback.OnLoad();
-        }
-
-        @Override
-        protected Integer doInBackground(String... strings) {
-            if(!poSys.HasRemittedCollection()){
-                message = poSys.getMessage();
-                return 2;
+        TaskExecutor.Execute(null, new OnTaskExecuteListener() {
+            @Override
+            public void OnPreExecute() {
+                callback.OnLoad();
             }
 
-            if(poSys.HasNotVisitedCollection()){
-                message = poSys.getMessage();
-                return 0;
+            @Override
+            public Object DoInBackground(Object args) {
+                if(!poSys.HasRemittedCollection()){
+                    message = poSys.getMessage();
+                    return 2;
+                }
+                if(poSys.HasNotVisitedCollection()){
+                    message = poSys.getMessage();
+                    return 0;
+                }
+                return 1;
             }
 
-            return 1;
-        }
-
-        @Override
-        protected void onPostExecute(Integer result) {
-            super.onPostExecute(result);
-            switch (result){
-                case 0: //Failed
-                    callback.OnIncompleteDcp();
-                    break;
-                case 1: //Success
-                    callback.OnSuccess();
-                    break;
-                default: //Need remittance
-                    callback.OnFailed(message);
-                    break;
+            @Override
+            public void OnPostExecute(Object object) {
+                switch ((Integer) object) {
+                    case 0: //Failed
+                        callback.OnIncompleteDcp();
+                        break;
+                    case 1: //Success
+                        callback.OnSuccess();
+                        break;
+                    default: //Need remittance
+                        callback.OnFailed(message);
+                        break;
+                }
             }
-        }
-    }*/
-    private class CheckDcpTask{
-        private final OnCheckDcpForPosting callback;
-        private String message;
-        public CheckDcpTask(OnCheckDcpForPosting callback) {
-            this.callback = callback;
-        }
-        public void execute(){
-            TaskExecutor.Execute(null, new OnTaskExecuteListener() {
-                @Override
-                public void OnPreExecute() {
-                    callback.OnLoad();
-                }
-
-                @Override
-                public Object DoInBackground(Object args) {
-                    if(!poSys.HasRemittedCollection()){
-                        message = poSys.getMessage();
-                        return 2;
-                    }
-                    if(poSys.HasNotVisitedCollection()){
-                        message = poSys.getMessage();
-                        return 0;
-                    }
-                    return 1;
-                }
-
-                @Override
-                public void OnPostExecute(Object object) {
-                    switch ((Integer) object) {
-                        case 0: //Failed
-                            callback.OnIncompleteDcp();
-                            break;
-                        case 1: //Success
-                            callback.OnSuccess();
-                            break;
-                        default: //Need remittance
-                            callback.OnFailed(message);
-                            break;
-                    }
-                }
-            });
-        }
+        });
     }
 
     public void PostCollectionList(String fsVal, OnActionCallback callback){
-        new PostCollectionTask(callback).execute(fsVal);
-    }
+        TaskExecutor.Execute(fsVal, new OnTaskExecuteListener() {
+            @Override
+            public void OnPreExecute() {
+                callback.OnLoad();
+            }
 
-    /*private class PostCollectionTask extends AsyncTask<String, Void, Boolean>{
-
-        private final OnActionCallback callback;
-
-        private String message;
-
-        public PostCollectionTask(OnActionCallback callback) {
-            this.callback = callback;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            callback.OnLoad();
-        }
-
-        @Override
-        protected Boolean doInBackground(String... strings) {
-            try {
-                if (!poSys.ExportToFile()) {
+            @Override
+            public Object DoInBackground(Object args) {
+                if(!poSys.ExportToFile()){
                     message = poSys.getMessage();
                     Log.e(TAG, message);
                 }
 
-                if (!poConn.isDeviceConnected()) {
+                if(!poConn.isDeviceConnected()){
                     message = poConn.getMessage();
                     return false;
                 }
 
 
-                String lsResult = poSys.PostCollection(strings[0]);
-                if (lsResult == null) {
+                String lsResult = poSys.PostCollection((String) args);
+                if(lsResult == null){
                     message = poSys.getMessage();
                     return false;
                 }
 
-                Thread.sleep(1000);
-
-                if (!poSys.PostDcpMaster(lsResult)) {
+                if(!poSys.PostDcpMaster(lsResult)){
                     message = poSys.getMessage();
                     return false;
                 }
-
                 return true;
-            } catch (Exception e){
-                e.printStackTrace();
-                message = e.getMessage();
-                return false;
             }
-        }
 
-        @Override
-        protected void onPostExecute(Boolean isSuccess) {
-            super.onPostExecute(isSuccess);
-            if(!isSuccess){
-                callback.OnFailed(message);
-            } else {
-                callback.OnSuccess();
+            @Override
+            public void OnPostExecute(Object object) {
+                Boolean isSuccess = (Boolean) object;
+                if(!isSuccess){
+                    callback.OnFailed(message);
+                } else {
+                    callback.OnSuccess();
+                }
             }
-        }
-    }*/
-    private class PostCollectionTask{
-        private final OnActionCallback callback;
-        private String message;
-        public PostCollectionTask(OnActionCallback callback) {
-            this.callback = callback;
-        }
-        public void execute(String fsVal){
-            TaskExecutor.Execute(fsVal, new OnTaskExecuteListener() {
-                @Override
-                public void OnPreExecute() {
-                    callback.OnLoad();
-                }
-
-                @Override
-                public Object DoInBackground(Object args) {
-                    if(!poSys.ExportToFile()){
-                        message = poSys.getMessage();
-                        Log.e(TAG, message);
-                    }
-
-                    if(!poConn.isDeviceConnected()){
-                        message = poConn.getMessage();
-                        return false;
-                    }
-
-
-                    String lsResult = poSys.PostCollection((String) args);
-                    if(lsResult == null){
-                        message = poSys.getMessage();
-                        return false;
-                    }
-
-                    if(!poSys.PostDcpMaster(lsResult)){
-                        message = poSys.getMessage();
-                        return false;
-                    }
-                    return true;
-                }
-
-                @Override
-                public void OnPostExecute(Object object) {
-                    Boolean isSuccess = (Boolean) object;
-                    if(!isSuccess){
-                        callback.OnFailed(message);
-                    } else {
-                        callback.OnSuccess();
-                    }
-                }
-            });
-        }
+        });
     }
 
     public void ClearDCPRecords(OnActionCallback callback){
-        new ClearDCPRecordsTask(callback).execute();
-    }
-
-    /*private class ClearDCPRecordsTask extends AsyncTask<Void, Void, Boolean>{
-
-        private final OnActionCallback callback;
-
-        private String message;
-
-        public ClearDCPRecordsTask(OnActionCallback callback) {
-            this.callback = callback;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            callback.OnLoad();
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... voids) {
-            if(!poSys.ClearDCPData()){
-                message = poSys.getMessage();
-                return false;
+        TaskExecutor.Execute(null, new OnTaskExecuteListener() {
+            @Override
+            public void OnPreExecute() {
+                callback.OnLoad();
             }
-            return true;
-        }
 
-        @Override
-        protected void onPostExecute(Boolean isSuccess) {
-            super.onPostExecute(isSuccess);
-            if(!isSuccess){
-                callback.OnFailed(message);
-            } else {
-                callback.OnSuccess();
+            @Override
+            public Object DoInBackground(Object args) {
+                if(!poSys.ClearDCPData()){
+                    message = poSys.getMessage();
+                    return false;
+                }
+                return true;
             }
-        }
-    }*/
-    private class ClearDCPRecordsTask{
-        private final OnActionCallback callback;
-        private String message;
-        public ClearDCPRecordsTask(OnActionCallback callback) {
-            this.callback = callback;
-        }
-        public void execute(){
-            TaskExecutor.Execute(null, new OnTaskExecuteListener() {
-                @Override
-                public void OnPreExecute() {
-                    callback.OnLoad();
-                }
 
-                @Override
-                public Object DoInBackground(Object args) {
-                    if(!poSys.ClearDCPData()){
-                        message = poSys.getMessage();
-                        return false;
-                    }
-                    return true;
+            @Override
+            public void OnPostExecute(Object object) {
+                Boolean isSuccess = (Boolean) object;
+                if(!isSuccess){
+                    callback.OnFailed(message);
+                } else {
+                    callback.OnSuccess();
                 }
-
-                @Override
-                public void OnPostExecute(Object object) {
-                    Boolean isSuccess = (Boolean) object;
-                    if(!isSuccess){
-                        callback.OnFailed(message);
-                    } else {
-                        callback.OnSuccess();
-                    }
-                }
-            });
-        }
+            }
+        });
     }
 }

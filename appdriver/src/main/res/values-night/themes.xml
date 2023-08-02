@@ -29,8 +29,18 @@
     </style>
 
     <style name="Navigation_Header_Banner">
-        <item name="android:scaleType">center</item>
+        <item name="android:scaleType">centerCrop</item>
         <item name="android:src">@drawable/nav_header_banner_dark</item>
+    </style>
+
+    <style name="Activity_HeaderBackground">
+        <item name="android:adjustViewBounds">true</item>
+        <item name="android:scaleType">centerCrop</item>
+        <item name="android:src">@drawable/img_header_background_dark</item>
+    </style>
+
+    <style name="LinearLayoutToolbarBackground">
+        <item name="android:background">#30000000</item>
     </style>
 
     <style name="GhostRiderMaterialTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.DayNight.ActionBar" />

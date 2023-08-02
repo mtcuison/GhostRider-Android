@@ -8,7 +8,6 @@ import android.graphics.Bitmap;
 import android.util.Log;
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
-import androidx.lifecycle.Observer;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
@@ -20,7 +19,6 @@ import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.rmj.g3appdriver.GConnect.GCard.DigitalGcard.GCard;
 import org.rmj.g3appdriver.GConnect.GCard.DigitalGcard.pojo.GcardCredentials;
-import org.rmj.g3appdriver.GConnect.room.Entities.EGcardApp;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(AndroidJUnit4.class)
@@ -56,13 +54,13 @@ public class TestGCard {
 
     @Test
     public void test02AddNewGCardNumber() throws Exception{
-        int lnResult = poSys.AddGcard(new GcardCredentials("", ""));
+        int lnResult = poSys.AddGcard(new GcardCredentials("4500204358401", "1962-01-01"));
         if(lnResult == 1){
             isSuccess = true;
         } else if(lnResult == 2){
             Thread.sleep(1000);
             Log.d(TAG, poSys.getMessage());
-            if(poSys.ConfirmGCard(new GcardCredentials("", ""))){
+            if(poSys.ConfirmGCard(new GcardCredentials("4500204358401", "1962-01-01"))){
                 isSuccess = true;
             } else {
                 Log.e(TAG, poSys.getMessage());

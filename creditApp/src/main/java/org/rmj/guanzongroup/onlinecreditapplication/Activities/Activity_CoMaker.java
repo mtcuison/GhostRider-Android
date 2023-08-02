@@ -26,21 +26,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.checkbox.MaterialCheckBox;
-import com.google.android.material.textfield.MaterialAutoCompleteTextView;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
-
 import org.json.JSONException;
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.OnSaveInfoListener;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.model.CoMaker;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.model.MobileNo;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.CreditAppConstants;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.OnSaveInfoListener;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.model.CoMaker;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.model.MobileNo;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.OnParseListener;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMCoMaker;
@@ -378,7 +371,7 @@ public class Activity_CoMaker extends AppCompatActivity {
         if(infoModel != null) {
             if(!"".equalsIgnoreCase(infoModel.getRelation())){
                 spnBrwrRltn.setText(CreditAppConstants.CO_MAKER_RELATIONSHIP[Integer.parseInt(infoModel.getRelation())]);
-                spnBrwrRltn.setSelection(Integer.parseInt(infoModel.getRelation()));
+//                spnBrwrRltn.setSelection(Integer.parseInt(infoModel.getRelation()));
                 mViewModel.getModel().setRelation(infoModel.getRelation());
             }
             tieLastname.setText(infoModel.getLastName());
@@ -393,7 +386,7 @@ public class Activity_CoMaker extends AppCompatActivity {
 //            }
             if(!"".equalsIgnoreCase(infoModel.getIncomexx())){
                 spnIncmSrce .setText(CreditAppConstants.CO_MAKER_INCOME_SOURCE[Integer.parseInt(infoModel.getIncomexx())]);
-                spnIncmSrce.setSelection(Integer.parseInt(infoModel.getIncomexx()));
+//                spnIncmSrce.setSelection(Integer.parseInt(infoModel.getIncomexx()));
                 mViewModel.getModel().setIncomexx(infoModel.getIncomexx());
             }
             if(!"".equalsIgnoreCase(infoModel.getBrthPlce())) {

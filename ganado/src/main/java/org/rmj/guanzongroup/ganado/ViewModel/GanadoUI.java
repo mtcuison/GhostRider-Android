@@ -4,12 +4,7 @@ import android.content.Intent;
 
 import androidx.lifecycle.LiveData;
 
-import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.OnSaveInfoListener;
-import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DTownInfo;
-import org.rmj.g3appdriver.GCircle.room.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.EGanadoOnline;
-
-import java.util.List;
 
 public interface GanadoUI {
     void InitializeApplication(Intent params);

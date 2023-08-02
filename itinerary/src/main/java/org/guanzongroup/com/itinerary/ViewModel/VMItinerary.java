@@ -69,8 +69,7 @@ public class VMItinerary extends AndroidViewModel {
     }
 
     public void SaveItinerary(EmployeeItinerary.ItineraryEntry foVal, OnActionCallback callback) {
-//        new SaveItineraryTask(instance, callback).execute(foVal);
-        TaskExecutor.Execute(callback, new OnTaskExecuteListener() {
+        TaskExecutor.Execute(foVal, new OnTaskExecuteListener() {
             @Override
             public void OnPreExecute() {
                 callback.OnLoad("Employee Itinerary", "Saving entry. Please wait...");
@@ -78,9 +77,8 @@ public class VMItinerary extends AndroidViewModel {
 
             @Override
             public Object DoInBackground(Object args) {
-//                EmployeeItinerary.ItineraryEntry lsItenerary = (EmployeeItinerary.ItineraryEntry) args;
                 try {
-                    EmployeeItinerary.ItineraryEntry loVal = foVal;
+                    EmployeeItinerary.ItineraryEntry loVal = (EmployeeItinerary.ItineraryEntry) args;
                     String lsResult = poSys.SaveItinerary(loVal);
                     if (lsResult == null) {
                         Log.e(TAG, "Unable to save itinerary. Message: " + poSys.getMessage());
@@ -124,8 +122,7 @@ public class VMItinerary extends AndroidViewModel {
 //
 
     public void DownloadItinerary(String args1, String args2, OnActionCallback callback) {
-//        new DownloadItineraryTask(instance, callback).execute(args1, args2);
-        TaskExecutor.Execute(callback, new OnTaskExecuteListener() {
+        TaskExecutor.Execute(null, new OnTaskExecuteListener() {
             @Override
             public void OnPreExecute() {
                 callback.OnLoad("Employee Itinerary", "Downloading entries. Please wait...");
@@ -174,8 +171,7 @@ public class VMItinerary extends AndroidViewModel {
 
 
     public void ImportUsers(OnImportUsersListener listener) {
-//        new ImportUsersTask(listener).execute();
-        TaskExecutor.Execute(listener, new OnTaskExecuteListener() {
+        TaskExecutor.Execute(null, new OnTaskExecuteListener() {
             @Override
             public void OnPreExecute() {
                 listener.OnImport("Employee Itinerary", "Importing employee details. Please wait...");
@@ -183,7 +179,6 @@ public class VMItinerary extends AndroidViewModel {
 
             @Override
             public Object DoInBackground(Object args) {
-                Void lsVoid = (Void) args;
                 try {
                     if (!poConn.isDeviceConnected()) {
                         message = poConn.getMessage();
@@ -216,168 +211,3 @@ public class VMItinerary extends AndroidViewModel {
         });
     }
 }
-//    private class ImportUsersTask extends AsyncTask<Void, Void, List<JSONObject>> {
-//
-//        private final OnImportUsersListener listener;
-//
-//        private String message;
-//
-//        public ImportUsersTask(OnImportUsersListener listener) {
-//            this.listener = listener;
-//        }
-//
-//        @Override
-//        protected void onPreExecute() {
-//            super.onPreExecute();
-//            listener.OnImport("Employee Itinerary", "Importing employee details. Please wait...");
-//        }
-//
-//        @Override
-//        protected List<JSONObject> doInBackground(Void... voids) {
-//            try{
-//                if(!poConn.isDeviceConnected()){
-//                    message = poConn.getMessage();
-//                    return null;
-//                }
-//
-//                List<JSONObject> loList = poSys.GetEmployeeList();
-//                if(loList == null){
-//                    message = poSys.getMessage();
-//                    return null;
-//                }
-//
-//                return loList;
-//            } catch (Exception e){
-//                e.printStackTrace();
-//                message = getLocalMessage(e);
-//                return null;
-//            }
-//        }
-//
-//        @Override
-//        protected void onPostExecute(List<JSONObject> args) {
-//            super.onPostExecute(args);
-//            if(args == null){
-//                listener.OnFailed(message);
-//            } else {
-//                listener.OnSuccess(args);
-//            }
-//        }
-//    }
-//}
-//private static class SaveItineraryTask extends AsyncTask<EmployeeItinerary.ItineraryEntry , Void, Boolean>{
-//
-//        private final OnActionCallback callback;
-////        private final EmployeeItinerary poSystem;
-//        private final ConnectionUtil poConn;
-//
-//        private String message;
-//
-//        public SaveItineraryTask(Application instance, OnActionCallback callback) {
-//            this.callback = callback;
-//            this.poSystem = new EmployeeItinerary(instance);
-//            this.poConn = new ConnectionUtil(instance);
-//        }
-//
-//        @Override
-//        protected void onPreExecute() {
-//            super.onPreExecute();
-//            callback.OnLoad("Employee Itinerary", "Saving entry. Please wait...");
-//        }
-//
-//        @Override
-//        protected Boolean doInBackground(EmployeeItinerary.ItineraryEntry ... itineraries) {
-//            try{
-//                EmployeeItinerary.ItineraryEntry loVal = itineraries[0];
-//                String lsResult = poSystem.SaveItinerary(loVal);
-//                if(lsResult == null){
-//                    Log.e(TAG, "Unable to save itinerary. Message: " + poSystem.getMessage());
-//                    message = poSystem.getMessage();
-//                    return false;
-//                }
-//
-//                Log.d(TAG, "Data for upload transaction no. : " + lsResult);
-//                if(!poConn.isDeviceConnected()){
-//                    Log.e(TAG, "Unable to connect to upload entry.");
-//                    message = "Your entry has been save locally and will be uploaded later for if device has reconnected.";
-//                    return true;
-//                }
-//
-//                if(!poSystem.UploadItinerary(lsResult)){
-//                    message = poSystem.getMessage();
-//                    return false;
-//                } else {
-//                    message = "Your entry has been save. You may now download the itinerary to other device.";
-//                    return true;
-//                }
-//            } catch (Exception e){
-//                e.printStackTrace();
-//                message = getLocalMessage(e);
-//                return false;
-//            }
-//        }
-//
-//    private class DownloadItineraryTask extends AsyncTask<String, Void, Boolean>{
-//
-//        private final OnActionCallback callback;
-//
-//        private String message;
-//
-//        public DownloadItineraryTask(Application instance, OnActionCallback callback) {
-//            this.callback = callback;
-//        }
-//
-//        @Override
-//        protected Boolean doInBackground(String... strings) {
-//            try{
-//                if(!poConn.isDeviceConnected()){
-//                    Log.e(TAG, "Unable to connect to download entries.");
-//                    message = "Unable to connect. Please check internet connectivity";
-//                    return true;
-//                } else {
-//                    Log.d(TAG, "Argument 1: " + strings[0]);
-//                    Log.d(TAG, "Argument 2: " + strings[1]);
-//                    boolean isDownloaded = poSys.DownloadItinerary(
-//                            strings[0]
-//                            ,strings[1]);
-//                    if(!isDownloaded){
-//                        message = poSys.getMessage();
-//                        return false;
-//                    } else {
-//                        message = "Itinerary entries downloaded successfully";
-//                        return true;
-//                    }
-//                }
-//            } catch (Exception e){
-//                e.printStackTrace();
-//                message = getLocalMessage(e);
-//                return false;
-//            }
-//        }
-//
-//        @Override
-//        protected void onPreExecute() {
-//            super.onPreExecute();
-//            callback.OnLoad("Employee Itinerary", "Downloading entries. Please wait...");
-//        }
-//
-//        @Override
-//        protected void onPostExecute(Boolean aBoolean) {
-//            super.onPostExecute(aBoolean);
-//            if(aBoolean){
-//                callback.OnSuccess(message);
-//            } else {
-//                callback.OnFailed(message);
-//            }
-//        }
-//    }
-//        @Override
-//        protected void onPostExecute(Boolean aBoolean) {
-//            super.onPostExecute(aBoolean);
-//            if(aBoolean){
-//                callback.OnSuccess(message);
-//            } else {
-//                callback.OnFailed(message);
-//            }
-//        }
-//    }

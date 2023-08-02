@@ -4,5 +4,6 @@ public enum Auth{
         AUTHENTICATE,
         FORGOT_PASSWORD,
         CHANGE_PASSWORD,
-        CREATE_ACCOUNT
+        CREATE_ACCOUNT,
+        DEACTIVATE
     }

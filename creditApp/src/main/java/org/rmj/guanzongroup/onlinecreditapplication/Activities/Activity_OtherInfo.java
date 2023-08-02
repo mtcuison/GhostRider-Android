@@ -27,10 +27,10 @@ import org.json.JSONException;
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.etc.GToast;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.CreditAppConstants;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.OnSaveInfoListener;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.model.OtherReference;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.model.Reference;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.CreditAppConstants;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.OnSaveInfoListener;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.model.OtherReference;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.model.Reference;
 import org.rmj.guanzongroup.onlinecreditapplication.Adapter.ReferencesAdapter;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.OnParseListener;
@@ -333,17 +333,17 @@ public class Activity_OtherInfo extends AppCompatActivity {
 
             if(infoModel.getsUnitUser() != null){
                 spnUnitUser.setText(CreditAppConstants.UNIT_USER[Integer.parseInt(infoModel.getsUnitUser())], false);
-                spnUnitUser.setSelection(Integer.parseInt(infoModel.getsUnitUser()));
+//                spnUnitUser.setSelection(Integer.parseInt(infoModel.getsUnitUser()));
                 mViewModel.getModel().setsUnitUser(infoModel.getsUnitUser());
             }
             if(infoModel.getsPurposex() != null){
                 spnUnitPrps.setText(CreditAppConstants.UNIT_PURPOSE[Integer.parseInt(infoModel.getsPurposex())], false);
-                spnUnitPrps.setSelection(Integer.parseInt(infoModel.getsPurposex()));
+//                spnUnitPrps.setSelection(Integer.parseInt(infoModel.getsPurposex()));
                 mViewModel.getModel().setsPurposex(infoModel.getsPurposex());
             }
             if(infoModel.getsUnitPayr() != null) {
                 spnUnitPayr.setText(CreditAppConstants.UNIT_USER[Integer.parseInt(infoModel.getsUnitPayr())], false);
-                spnUnitPayr.setSelection(Integer.parseInt(infoModel.getsUnitPayr()));
+//                spnUnitPayr.setSelection(Integer.parseInt(infoModel.getsUnitPayr()));
                 mViewModel.getModel().setsUnitPayr(infoModel.getsUnitPayr());
             }
 

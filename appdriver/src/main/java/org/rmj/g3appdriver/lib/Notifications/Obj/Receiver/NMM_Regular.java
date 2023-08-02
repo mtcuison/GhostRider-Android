@@ -35,8 +35,8 @@ public class NMM_Regular implements iNotification {
     private static final String TAG = NMM_Regular.class.getSimpleName();
 
     private final DNotificationReceiver poDao;
-    private final HttpHeaders poHeaders;
-    private final GCircleApi poApi;
+    protected final HttpHeaders poHeaders;
+    protected final GCircleApi poApi;
 
     protected String message;
 
@@ -218,7 +218,7 @@ public class NMM_Regular implements iNotification {
         return message;
     }
 
-    private String CreateUniqueID(){
+    protected String CreateUniqueID(){
         String lsUniqIDx = "";
         try{
             String lsBranchCd = "MX01";

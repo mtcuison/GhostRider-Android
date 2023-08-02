@@ -1,50 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+    android:paddingHorizontal="5dp"
+    android:paddingVertical="10dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/btn_branch"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingVertical="5dp">
+        android:background="@drawable/bg_icon"
+        android:scaleType="center"
+        android:src="@drawable/ic_baseline_company"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_branch"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            app:icon="@drawable/ic_baseline_company"
-            app:iconSize="30dp"
-            app:layout_constraintWidth_percent=".160"/>
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/item_branch"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:fontFamily="@font/roboto_medium"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toStartOf="@+id/item_branchcode"
+        app:layout_constraintStart_toEndOf="@+id/btn_branch"
+        app:layout_constraintTop_toTopOf="parent"/>
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/item_branch"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/btn_branch"
-            app:layout_constraintWidth_percent=".5"/>
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/item_branchloc"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:textSize="12sp"
+        android:maxLines="2"
+        app:layout_constraintEnd_toEndOf="@+id/item_branch"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/btn_branch"
+        app:layout_constraintTop_toBottomOf="@+id/item_branch"
+        app:layout_constraintWidth_percent=".5" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/item_branchloc"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:textSize="15sp"
-            app:layout_constraintTop_toBottomOf="@+id/item_branch"
-            app:layout_constraintStart_toEndOf="@+id/btn_branch"
-            app:layout_constraintWidth_percent=".5"/>
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/item_branchcode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:layout_marginEnd="20dp"
-            app:layout_constraintEnd_toEndOf="parent"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</LinearLayout>
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/item_branchcode"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fontFamily="@font/roboto"
+        android:gravity="end"
+        app:layout_constraintBottom_toBottomOf="@+id/item_branch"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/item_branch"
+        app:layout_constraintWidth_percent=".15" />
+</androidx.constraintlayout.widget.ConstraintLayout>

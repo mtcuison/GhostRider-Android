@@ -92,6 +92,15 @@ public class DCP_Constants {
             "Release",
             "Miscellaneous"};
 
+    public static String GetPaymentTypeIndex(String PaymentType){
+        for(int x = 0; x < PAYMENT_TYPE.length; x++){
+            if(PaymentType.equalsIgnoreCase(PAYMENT_TYPE[x])){
+                return String.valueOf(x);
+            }
+        }
+        return "";
+    }
+
     public static String[] CIVIL_STATUS = {
             "Single",
             "Married",

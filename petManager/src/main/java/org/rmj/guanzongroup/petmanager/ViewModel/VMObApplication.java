@@ -20,11 +20,11 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import org.rmj.g3appdriver.GCircle.Apps.PetManager.Obj.EmployeeOB;
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.EBranchInfo;
 import org.rmj.g3appdriver.lib.Etc.Branch;
-import org.rmj.g3appdriver.GCircle.Apps.PetManager.PetManager;
-import org.rmj.g3appdriver.GCircle.Apps.PetManager.model.iPM;
+import org.rmj.g3appdriver.GCircle.Apps.PetManager.model.PetMngr;
 import org.rmj.g3appdriver.GCircle.Apps.PetManager.pojo.OBApplication;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 
@@ -36,7 +36,7 @@ public class VMObApplication extends AndroidViewModel {
     private final Application instance;
     private final Branch pobranch;
     private final ConnectionUtil poConn;
-    private final iPM poSys;
+    private final PetMngr poSys;
     private final LiveData<String[]> paBranchNm;
 
     public VMObApplication(@NonNull Application application) {
@@ -44,7 +44,7 @@ public class VMObApplication extends AndroidViewModel {
         this.instance = application;
         this.pobranch = new Branch(instance);
         this.poConn = new ConnectionUtil(instance);
-        this.poSys = new PetManager(instance).GetInstance(PetManager.ePetManager.BUSINESS_TRIP_APPLICATION);
+        this.poSys = new EmployeeOB(instance);
         paBranchNm = pobranch.getAllMcBranchNames();
     }
     public interface OnSubmitOBLeaveListener{

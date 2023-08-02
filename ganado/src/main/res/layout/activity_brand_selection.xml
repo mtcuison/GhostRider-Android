@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="3dp"
+        style="@style/LinearLayoutToolbarBackground"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -38,30 +39,11 @@
             android:id="@+id/imagebrandtop"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:adjustViewBounds="true"
-            android:scaleType="centerCrop"
-            android:alpha=".7"
-            android:src="@drawable/img_mc_cat_header"
+            style="@style/Activity_HeaderBackground"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/textView2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/select_brand"
-            android:gravity="center"
-            android:textSize="24sp"
-            android:alpha=".7"
-            android:background="?attr/colorSurface"
-            android:paddingVertical="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.65" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

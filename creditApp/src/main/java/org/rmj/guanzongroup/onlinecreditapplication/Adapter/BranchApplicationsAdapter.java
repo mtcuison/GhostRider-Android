@@ -20,7 +20,7 @@ import android.widget.Filterable;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.model.BranchApplicationModel;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.model.BranchApplicationModel;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 
 import com.google.android.material.button.MaterialButton;

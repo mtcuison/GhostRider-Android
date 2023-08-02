@@ -35,7 +35,7 @@ import com.google.android.material.textview.MaterialTextView;
 import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.Dcp.pojo.Remittance;
+import org.rmj.g3appdriver.GCircle.Apps.Dcp.pojo.Remittance;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMCollectionRemittance;
 

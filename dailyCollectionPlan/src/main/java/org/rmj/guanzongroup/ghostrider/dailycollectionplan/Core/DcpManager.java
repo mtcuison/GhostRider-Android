@@ -23,7 +23,7 @@ import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.GCircle.Account.EmployeeSession;
 import org.rmj.g3appdriver.dev.Api.WebFileServer;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.Dcp.obj.RClientUpdate;
+import org.rmj.g3appdriver.GCircle.Apps.Dcp.obj.RClientUpdate;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Core.Transaction.CustomerNotAround;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Core.Transaction.OthTransaction;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Core.Transaction.Paid;

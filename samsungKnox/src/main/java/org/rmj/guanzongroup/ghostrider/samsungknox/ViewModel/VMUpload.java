@@ -46,7 +46,7 @@ public class VMUpload extends AndroidViewModel {
 
     public void UploadDevice(String DeviceID, ViewModelCallBack callBack) {
 //        new UploadTask(instance, callBack).execute(DeviceID);
-        TaskExecutor.Execute(callBack, new OnTaskExecuteListener() {
+        TaskExecutor.Execute(DeviceID, new OnTaskExecuteListener() {
             @Override
             public void OnPreExecute() {
 
@@ -76,7 +76,7 @@ public class VMUpload extends AndroidViewModel {
                     JSONObject loResponse = new JSONObject(lsString);
                     String lsResult = loResponse.getString("result");
                     if (lsResult.equalsIgnoreCase("success")) {
-                        callBack.OnRequestSuccess("Device ID has been uploaded successfully");
+//                        callBack.OnRequestSuccess("Device ID has been uploaded successfully");
                     } else {
                         JSONObject loError = loResponse.getJSONObject("error");
                         String lsMessage = getErrorMessage(loError);
@@ -90,57 +90,3 @@ public class VMUpload extends AndroidViewModel {
         });
     }
 }
-//
-//    private static class UploadTask extends AsyncTask<String, Void, String>{
-//        private final ConnectionUtil conn;
-//        private final HttpHeaders headers;
-//        private final GCircleApi poApi;
-//        private final AppConfigPreference loConfig;
-//        private final ViewModelCallBack callBack;
-//
-//        public UploadTask(Application instance, ViewModelCallBack callBack) {
-//            this.conn = new ConnectionUtil(instance);
-//            this.headers = HttpHeaders.getInstance(instance);
-//            this.loConfig = AppConfigPreference.getInstance(instance);
-//            this.poApi = new GCircleApi(instance);
-//            this.callBack = callBack;
-//        }
-//
-//        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-//        @Override
-//        protected String doInBackground(String... strings) {
-//            String response = "";
-//            try {
-//                if (conn.isDeviceConnected()) {
-//                    JSONObject loJSon = new JSONObject();
-//                    response = WebClient.sendRequest(poApi.getUrlKnox(), loJSon.toString(), headers.getHeaders());
-//                } else {
-//                    response = AppConstants.NO_INTERNET();
-//                }
-//            } catch (Exception e){
-//                e.printStackTrace();
-//            }
-//            return response;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(String s) {
-//            super.onPostExecute(s);
-//            try {
-//                JSONObject loResponse = new JSONObject(s);
-//                String lsResult = loResponse.getString("result");
-//                if(lsResult.equalsIgnoreCase("success")){
-//                    callBack.OnRequestSuccess("Device ID has been uploaded successfully");
-//                } else {
-//                    JSONObject loError = loResponse.getJSONObject("error");
-//                    String lsMessage = getErrorMessage(loError);
-//                    callBack.OnRequestFailed(lsMessage);
-//                    Log.e(TAG, s);
-//                }
-//            } catch (Exception e){
-//                e.printStackTrace();
-//            }
-//            this.cancel(false);
-//        }
-//    }
-//}

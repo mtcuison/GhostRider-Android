@@ -91,6 +91,7 @@ public class SignIn implements iAuth {
             loClient.setUserName(loResponse.getString("sUserName"));
             loClient.setMobileNo(loResponse.getString("sMobileNo"));
             loClient.setUserIDxx(loResponse.getString("sUserIDxx"));
+            poDao.RemoveSessions();
             poDao.insert(loClient);
             return 1;
         } catch (Exception e){

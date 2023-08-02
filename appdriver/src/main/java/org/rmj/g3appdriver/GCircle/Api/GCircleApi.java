@@ -13,6 +13,7 @@ public class GCircleApi extends WebApi {
     private static final String URL_CREATE_ACCOUNT = "security/signup.php";
     private static final String URL_FORGOT_PASSWORD = "security/forgotpswd.php";
     private static final String URL_CHANGE_PASSWORD = "security/acctupdate.php";
+    private static final String DEACTIVATE_ACCOUNT = "security/account_deactivate.php";
     private static final String URL_KNOX = "samsung/knox.php";
     private static final String IMPORT_BRANCH_PERFORMANCE = "integsys/bullseye/import_mc_branch_performance.php";
     private static final String IMPORT_AREA_PERFORMANCE = "integsys/bullseye/import_mc_area_performance.php";
@@ -63,10 +64,13 @@ public class GCircleApi extends WebApi {
     private static final String URL_DOWNLOAD_CREDIT_ONLINE_APP = "integsys/param/download_credit_online_application_list.php";
     private static final String URL_DOWNLOAD_RELATION = "gcircle/params/download_relation.php";
     private static final String URL_UPLOAD_CI_RESULT = "integsys/gocas/upload_ci_result.php";
+
     private static final String URL_SEND_RESPONSE = "nmm/send_response.php";
     private static final String URL_SEND_REQUEST = "nmm/send_request.php";
     private static final String URL_SEND_REQUEST_SYSTEM = "nmm/send_request_system.php";
+
     private static final String URL_KWIKSEARCH = "integsys/paramqry/cash_count_rqst_officer.php";
+    private static final String URL_IMPORT_PAYSLIP = "petmgr/import_payslips.php";
     private static final String URL_SEND_LEAVE_APPLICATION = "petmgr/send_leave_application.php";
     private static final String URL_GET_LEAVE_APPLICATION = "petmgr/get_leave_application.php";
     private static final String URL_CONFIRM_LEAVE_APPLICATION = "petmgr/confirm_leave_application.php";
@@ -130,6 +134,15 @@ public class GCircleApi extends WebApi {
         }
         Log.d(TAG, "Initialize api:" + LIVE + URL_FORGOT_PASSWORD);
         return LIVE + URL_FORGOT_PASSWORD;
+    }
+
+    public String getUrlDeactivateAccount() {
+        if(isUnitTest()){
+            Log.d(TAG, "Initialize api:" + LOCAL + DEACTIVATE_ACCOUNT);
+            return LOCAL + DEACTIVATE_ACCOUNT;
+        }
+        Log.d(TAG, "Initialize api:" + LIVE + DEACTIVATE_ACCOUNT);
+        return LIVE + DEACTIVATE_ACCOUNT;
     }
 
     public String getUrlKnox() {
@@ -562,6 +575,15 @@ public class GCircleApi extends WebApi {
         }
         Log.d(TAG, "Initialize api:" + LIVE + URL_SEND_LEAVE_APPLICATION);
         return LIVE + URL_SEND_LEAVE_APPLICATION;
+    }
+
+    public String getImportPayslip() {
+        if(isUnitTest()){
+            Log.d(TAG, "Initialize api:" + LOCAL + URL_IMPORT_PAYSLIP);
+            return LOCAL + URL_IMPORT_PAYSLIP;
+        }
+        Log.d(TAG, "Initialize api:" + LIVE + URL_IMPORT_PAYSLIP);
+        return LIVE + URL_IMPORT_PAYSLIP;
     }
 
     public String getUrlGetLeaveApplication() {

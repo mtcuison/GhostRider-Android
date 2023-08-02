@@ -22,7 +22,7 @@ import androidx.lifecycle.MutableLiveData;
 import org.rmj.g3appdriver.GCircle.room.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.EInventoryDetail;
 import org.rmj.g3appdriver.GCircle.room.Entities.EInventoryMaster;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.Inventory.RandomStockInventory;
+import org.rmj.g3appdriver.GCircle.Apps.Inventory.RandomStockInventory;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
 import org.rmj.g3appdriver.utils.Task.TaskExecutor;
@@ -131,7 +131,7 @@ public class VMInventory extends AndroidViewModel {
 
     public void CheckBranchInventory(String fsVal, OnCheckLocalRecords callback){
 //        new CheckLocalRecordsTask(callback).execute(fsVal);
-        TaskExecutor.Execute(callback, new OnTaskExecuteListener() {
+        TaskExecutor.Execute(fsVal, new OnTaskExecuteListener() {
             @Override
             public void OnPreExecute() {
                 callback.OnCheck();
@@ -208,7 +208,7 @@ public class VMInventory extends AndroidViewModel {
 
     public void DownloadInventory(String BranchCd, OnDownloadInventory poCallback){
 //        new DownloadInventoryTask(callback).execute(BranchCd);
-        TaskExecutor.Execute(poCallback, new OnTaskExecuteListener() {
+        TaskExecutor.Execute(BranchCd, new OnTaskExecuteListener() {
             @Override
             public void OnPreExecute() {
                 poCallback.OnRequest("Random Stock Inventory", "Downloading inventory details. Please wait...");
@@ -295,7 +295,6 @@ public class VMInventory extends AndroidViewModel {
 
             @Override
             public Object DoInBackground(Object args) {
-
                 String lsResult = poSys.SaveMasterForPosting(BranchCD, Remarks);
                 if(lsResult == null){
                     message = poSys.getMessage();

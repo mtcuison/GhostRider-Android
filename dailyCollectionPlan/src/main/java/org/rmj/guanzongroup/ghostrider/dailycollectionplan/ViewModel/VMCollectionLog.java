@@ -19,6 +19,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import org.rmj.g3appdriver.GCircle.Apps.Dcp.obj.REMIT;
 import org.rmj.g3appdriver.GCircle.room.Entities.EAddressUpdate;
 import org.rmj.g3appdriver.GCircle.room.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.EDCPCollectionDetail;
@@ -30,7 +31,7 @@ import org.rmj.g3appdriver.lib.Etc.Branch;
 import org.rmj.g3appdriver.GCircle.room.Repositories.RCollectionUpdate;
 import org.rmj.g3appdriver.GCircle.room.Repositories.RImageInfo;
 import org.rmj.g3appdriver.etc.AppConstants;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.Dcp.LRDcp;
+import org.rmj.g3appdriver.GCircle.Apps.Dcp.model.LRDcp;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -40,10 +41,9 @@ import java.util.Objects;
 
 public class VMCollectionLog extends AndroidViewModel {
     private static final String TAG = VMCollectionLog.class.getSimpleName();
-    private final LRDcp poSys;
+    private final REMIT poSys;
     private final Branch poBranch;
     private final RImageInfo poImage;
-    private final LRDcp poRemit;
     private final RCollectionUpdate poUpdate;
     private final RBankInfo poBank;
 
@@ -55,12 +55,11 @@ public class VMCollectionLog extends AndroidViewModel {
 
     public VMCollectionLog(@NonNull Application application) {
         super(application);
-        this.poSys = new LRDcp(application);
+        this.poSys = new REMIT(application);
         this.poBranch = new Branch(application);
         this.poImage = new RImageInfo(application);
         this.poUpdate = new RCollectionUpdate(application);
         this.dTransact.setValue(AppConstants.CURRENT_DATE());
-        this.poRemit = new LRDcp(application);
         this.poBank = new RBankInfo(application);
     }
 

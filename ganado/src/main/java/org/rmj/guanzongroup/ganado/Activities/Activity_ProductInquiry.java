@@ -2,16 +2,12 @@ package org.rmj.guanzongroup.ganado.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -24,22 +20,19 @@ import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textview.MaterialTextView;
 
-import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.OnSaveInfoListener;
-import org.rmj.g3appdriver.GCircle.room.Entities.EMCColor;
 import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.Ganado.model.GConstants;
 import org.rmj.g3appdriver.lib.Ganado.pojo.InstallmentInfo;
 import org.rmj.g3appdriver.utils.ImageFileManager;
-import org.rmj.guanzongroup.ganado.Adapter.ProductSelectionAdapter;
 import org.rmj.guanzongroup.ganado.R;
+import org.rmj.guanzongroup.ganado.ViewModel.OnSaveInfoListener;
 import org.rmj.guanzongroup.ganado.ViewModel.VMProductInquiry;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Objects;
 
 public class Activity_ProductInquiry extends AppCompatActivity {
@@ -51,16 +44,11 @@ public class Activity_ProductInquiry extends AppCompatActivity {
     private MaterialButton btnContinue,btnCalculate;
     private ShapeableImageView imgMC;
     private String lsModelID, lsBrandID, lsImgLink, lsBrandNm;
-    private int backgroundResIdBrand;
-    private String backgroundResIdCat;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_inquiry);
         initWidgets();
-        backgroundResIdBrand = getIntent().getIntExtra("bgbrandimage", 0);
-        backgroundResIdCat = getIntent().getStringExtra("backgroundold");
-
 
         spnPayment.setText(GConstants.PAYMENT_FORM[0]);
         spnPayment.setAdapter(GConstants.getAdapter(Activity_ProductInquiry.this, GConstants.PAYMENT_FORM));

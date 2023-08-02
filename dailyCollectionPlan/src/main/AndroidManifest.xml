@@ -8,11 +8,6 @@
             android:name=".Activities.Activity_ImageLog"
             android:exported="false" />
         <activity
-            android:name=".Activities.Activity_PostDcp"
-            android:exported="true"
-            android:screenOrientation="userPortrait"
-            android:theme="@style/GhostRiderMaterialTheme.NoActionBar" />
-        <activity
             android:name=".Activities.Activity_CollectionRemittance"
             android:exported="true"
             android:screenOrientation="userPortrait"

@@ -40,6 +40,16 @@ public interface DEmployeeBusinessTrip {
     @Query("SELECT * FROM Employee_Business_Trip WHERE sTransNox =:TransNox")
     EEmployeeBusinessTrip GetEmployeeBusinessTrip(String TransNox);
 
+    @Query("SELECT * FROM Employee_Business_Trip " +
+            "WHERE dDateFrom=:DateFrom " +
+            "AND dDateThru=:DateThru " +
+            "AND sDestinat=:Destinat " +
+            "AND sRemarksx=:Remarksx")
+    EEmployeeBusinessTrip CheckIfApplicationExist(String DateFrom,
+                                                  String DateThru,
+                                                  String Destinat,
+                                                  String Remarksx);
+
     @Query("SELECT * FROM EMPLOYEE_BUSINESS_TRIP WHERE cSendStat != '1' AND cTranStat != '0'")
     List<EEmployeeBusinessTrip> GetUnpostedApprovals();
 
@@ -55,7 +65,7 @@ public interface DEmployeeBusinessTrip {
     @Query("UPDATE Employee_Business_Trip SET cSendStat = '1' WHERE sTransNox=:TransNox")
     void updateObApprovalPostedStatus(String TransNox);
 
-    @Query("SELECT * FROM Employee_Business_Trip WHERE sApproved IS NULL AND dApproved IS NULL")
+    @Query("SELECT * FROM Employee_Business_Trip WHERE sApproved IS NULL AND dApproved IS NULL ORDER BY dTransact DESC")
     LiveData<List<EEmployeeBusinessTrip>> getOBListForApproval();
 
     @Query("SELECT * FROM Employee_Business_Trip " +

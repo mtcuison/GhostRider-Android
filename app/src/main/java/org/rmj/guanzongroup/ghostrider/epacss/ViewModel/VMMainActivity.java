@@ -22,6 +22,7 @@ import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
 import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeRole;
 import org.rmj.g3appdriver.lib.Panalo.Obj.ILOVEMYJOB;
+import org.rmj.g3appdriver.utils.Task.OnDoBackgroundTaskListener;
 import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
 import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 import org.rmj.guanzongroup.ghostrider.epacss.Service.DataSyncService;
@@ -88,12 +89,7 @@ public class VMMainActivity extends AndroidViewModel {
 
     public void ResetRaffleStatus() {
 //        new ResetPanaloStatusTask().execute();
-        TaskExecutor.Execute(null, new OnTaskExecuteListener() {
-            @Override
-            public void OnPreExecute() {
-
-            }
-
+        TaskExecutor.Execute(null, new OnDoBackgroundTaskListener() {
             @Override
             public Object DoInBackground(Object args) {
                 if (!poPanalo.ResetRaffleStatus()) {

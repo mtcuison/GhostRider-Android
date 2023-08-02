@@ -5,6 +5,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 
+import androidx.exifinterface.media.ExifInterface;
+
+import java.io.IOException;
+
 public class GImage {
     private static final String TAG = GImage.class.getSimpleName();
 
@@ -39,11 +43,41 @@ public class GImage {
         Bitmap bitmap = BitmapFactory.decodeFile(lsFilePath, bmOptions);
 
         Bitmap bOutput;
-        float degrees = -90;
+        float degrees = getExifOrientation(lsFilePath);
         Matrix matrix = new Matrix();
         matrix.setRotate(degrees);
         bOutput = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
 
         return bOutput;
+    }
+
+    private static int getExifOrientation(String filepath) {
+        int degree = 0;
+        ExifInterface exif = null;
+        try {
+            exif = new ExifInterface(filepath);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        if (exif != null) {
+            int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, -1);
+            if (orientation != -1) {
+                // We only recognise a subset of orientation tag values.
+                switch (orientation) {
+                    case ExifInterface.ORIENTATION_ROTATE_90:
+                        degree = 90;
+                        break;
+                    case ExifInterface.ORIENTATION_ROTATE_180:
+                        degree = 180;
+                        break;
+                    case ExifInterface.ORIENTATION_ROTATE_270:
+                        degree = 270;
+                        break;
+                }
+
+            }
+        }
+
+        return degree;
     }
 }

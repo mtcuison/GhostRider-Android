@@ -39,7 +39,6 @@ import org.rmj.g3appdriver.GCircle.ImportData.Obj.Import_SCARequest;
 import org.rmj.g3appdriver.GCircle.ImportData.Obj.Import_SysConfig;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 
-@SuppressLint("SpecifyJobSchedulerIdRange")
 public class DataDownloadService extends JobService {
     public static final String TAG = DataDownloadService.class.getSimpleName();
 
@@ -68,10 +67,10 @@ public class DataDownloadService extends JobService {
                 new Import_BranchAccounts(getApplication()),
                 new Import_BankList(getApplication()),
                 new ImportFileCode(getApplication()),
-                new Import_Relation(getApplication()),
                 new ImportBrand(getApplication()),
                 new ImportBrandModel(getApplication()),
                 new ImportCategory(getApplication()),
+                new Import_Relation(getApplication()),
                 new ImportProvinces(getApplication()),
                 new ImportMcModelPrice(getApplication()),
                 new ImportTown(getApplication()),

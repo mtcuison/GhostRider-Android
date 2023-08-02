@@ -49,7 +49,7 @@ public class RecyclerViewAdapter_EvalHistory extends RecyclerView.Adapter<Recycl
         holder.mtv_branchrate.setText(branchrate);
         holder.mtv_evaldate.setText(FormatUIText.formatGOCasBirthdate(histevaluationlist.get(position).dTransact));
 
-        holder.btn_branch.setOnClickListener(new View.OnClickListener() {
+        holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mlistener.onItemSelected(transnox, branchcode, branchname);

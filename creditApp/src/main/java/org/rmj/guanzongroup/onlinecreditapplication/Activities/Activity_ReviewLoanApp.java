@@ -19,7 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.json.JSONException;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.model.ReviewAppDetail;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.model.ReviewAppDetail;
 import org.rmj.guanzongroup.onlinecreditapplication.Adapter.LoanAppDetailReviewAdapter;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.OnParseListener;

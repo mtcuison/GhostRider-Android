@@ -31,10 +31,10 @@ import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.ECountryInfo;
 import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.CreditAppConstants;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.OnSaveInfoListener;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.model.MobileNo;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.model.Personal;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.CreditAppConstants;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.OnSaveInfoListener;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.model.MobileNo;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.model.Personal;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.OnParseListener;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMPersonalInfo;
@@ -458,7 +458,7 @@ public class Activity_PersonalInfo extends AppCompatActivity {
             }
             if(!"".equalsIgnoreCase(infoModel.getCvlStats())){
                 spnCivilStatus.setText(CreditAppConstants.CIVIL_STATUS[Integer.parseInt(infoModel.getCvlStats())], false);
-                spnCivilStatus.setSelection(Integer.parseInt(infoModel.getCvlStats()));
+//                spnCivilStatus.setSelection(Integer.parseInt(infoModel.getCvlStats()));
                 mViewModel.getModel().setCvlStats(infoModel.getCvlStats());
             }
             if(!"".equalsIgnoreCase(infoModel.getBrthPlce())) {

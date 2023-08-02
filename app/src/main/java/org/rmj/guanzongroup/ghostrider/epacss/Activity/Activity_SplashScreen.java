@@ -15,11 +15,13 @@ import static org.rmj.g3appdriver.utils.ServiceScheduler.FIFTEEN_MINUTE_PERIODIC
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ProgressBar;
 
 import com.google.android.material.textview.MaterialTextView;
@@ -39,6 +41,7 @@ import org.rmj.g3appdriver.etc.TransparentToolbar;
 import org.rmj.g3appdriver.utils.AppDirectoryCreator;
 import org.rmj.g3appdriver.utils.ServiceScheduler;
 import org.rmj.guanzongroup.authlibrary.Activity.Activity_Authenticate;
+import org.rmj.guanzongroup.authlibrary.Activity.Activity_Login;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Service.GLocatorService;
 import org.rmj.guanzongroup.ghostrider.epacss.BuildConfig;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
@@ -112,11 +115,16 @@ public class Activity_SplashScreen extends AppCompatActivity {
             loMessage.setTitle("Guanzon Circle");
             loMessage.setMessage("Guanzon Circle collects location data for Selfie Log, DCP and other major features of the app" +
                     " even when the app is closed or not in use.");
-            loMessage.setPositiveButton("Continue", (view, dialog) -> {
+            loMessage.setPositiveButton("Agree", (view, dialog) -> {
                 dialog.dismiss();
                 CheckPermissions();
             });
+            loMessage.setNegativeButton("Disagree", (view, dialog) -> {
+                dialog.dismiss();
+                finish();
+            });
             loMessage.show();
+            findViewById(R.id.lblFirstLaunchNotice).setVisibility(View.VISIBLE);
         } else {
             CheckPermissions();
         }
@@ -180,7 +188,7 @@ public class Activity_SplashScreen extends AppCompatActivity {
 
             @Override
             public void OnNoSession() {
-                poLogin.launch(new Intent(Activity_SplashScreen.this, Activity_Authenticate.class));
+                poLogin.launch(new Intent(Activity_SplashScreen.this, Activity_Login.class));
             }
 
             @Override

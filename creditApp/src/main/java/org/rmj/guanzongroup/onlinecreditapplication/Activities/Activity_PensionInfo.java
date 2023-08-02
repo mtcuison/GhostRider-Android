@@ -21,9 +21,9 @@ import com.google.android.material.textfield.TextInputEditText;
 import org.json.JSONException;
 import org.rmj.g3appdriver.GCircle.room.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.CreditAppConstants;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.OnSaveInfoListener;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.model.Pension;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.CreditAppConstants;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.OnSaveInfoListener;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.model.Pension;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.OnParseListener;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMPensionInfo;
@@ -162,7 +162,7 @@ public class Activity_PensionInfo extends AppCompatActivity {
         if (foDetail != null){
             if(!foDetail.getPensionSector().isEmpty()){
                 spnSector.setText(CreditAppConstants.PENSION_SECTOR[Integer.parseInt(foDetail.getPensionSector())], false);
-                spnSector.setSelection(Integer.parseInt(foDetail.getPensionSector()));
+//                spnSector.setSelection(Integer.parseInt(foDetail.getPensionSector()));
                 sectorPosition = foDetail.getPensionSector();
                 mViewModel.getModel().setPensionSector(foDetail.getPensionSector());
             }

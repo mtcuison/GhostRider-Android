@@ -20,9 +20,13 @@
     tools:context=".Activity.Activity_InventoryEntry">
 
     <LinearLayout
+        android:id="@+id/linearLayout2"
+        style="@style/LinearLayoutToolbarBackground"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="3dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.appbar.MaterialToolbar
@@ -37,46 +41,41 @@
         android:id="@+id/img_header"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/bg_dashboard"
+        style="@style/Activity_HeaderBackground"
         app:layout_constraintHeight_percent=".3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/materialTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/roboto"
-        android:scrollHorizontally="false"
-        android:text="Random Stock Inventory"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="@+id/img_header"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.35" />
-
     <com.google.android.material.card.MaterialCardView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_below="@+id/img_header"
-        android:layout_marginHorizontal="10dp"
         app:cardCornerRadius="10dp"
         app:cardPreventCornerOverlap="true"
         app:cardUseCompatPadding="true"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="10dp"
+        app:layout_constraintHeight_percent=".8"
+        app:layout_constraintVertical_bias="0.95"
+        app:layout_constraintWidth_percent=".95"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/materialTextView">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:padding="10dp">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/materialTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto"
+                android:scrollHorizontally="false"
+                android:text="Random Stock Inventory"
+                android:textSize="24sp" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_inventoryItem"
@@ -85,7 +84,7 @@
                 android:fontFamily="@font/roboto_medium"
                 android:padding="10dp"
                 android:text="Descript"
-                android:textSize="20sp" />
+                android:textSize="18sp" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_itemBarcode"
@@ -94,7 +93,7 @@
                 android:fontFamily="@font/roboto_medium"
                 android:padding="10dp"
                 android:text="Barcode"
-                android:textSize="20sp" />
+                android:textSize="18sp" />
 
             <com.google.android.material.divider.MaterialDivider
                 android:layout_width="match_parent"

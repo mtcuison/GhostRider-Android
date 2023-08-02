@@ -23,6 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="3dp"
+        style="@style/LinearLayoutToolbarBackground"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -39,43 +40,53 @@
         android:id="@+id/imageView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:src="@drawable/bg_dashboard"
-        android:scaleType="centerCrop"
+        style="@style/Activity_HeaderBackground"
         app:layout_constraintHeight_percent=".3"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/roboto_regular"
-        android:text="SETTINGS"
-        android:textSize="24sp"
-        android:layout_marginTop="30dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
-
     <com.google.android.material.card.MaterialCardView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="20dp"
         app:cardCornerRadius="15dp"
         app:cardPreventCornerOverlap="true"
         app:cardUseCompatPadding="true"
-        android:layout_marginHorizontal="10dp"
-        android:layout_marginBottom="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent=".8"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textView">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintVertical_bias="0.95"
+        app:layout_constraintWidth_percent=".95">
 
-        <FrameLayout
-            android:id="@+id/settings"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:text="SETTINGS"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.03" />
+
+            <FrameLayout
+                android:id="@+id/settings"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>
 

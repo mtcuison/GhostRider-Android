@@ -27,9 +27,9 @@ import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.EBarangayInfo;
 import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.OnSaveInfoListener;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.model.CoMakerResidence;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.CreditAppConstants;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.OnSaveInfoListener;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.model.CoMakerResidence;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.OnParseListener;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMComakerResidence;
@@ -348,13 +348,13 @@ public class Activity_ComakerResidence extends AppCompatActivity {
             }
             if(!"".equalsIgnoreCase(infoModel.getHouseHold())){
                 spnHouseHold.setText(CreditAppConstants.HOUSEHOLDS[Integer.parseInt(infoModel.getHouseHold())]);
-                spnHouseHold.setSelection(Integer.parseInt(infoModel.getHouseHold()));
+//                spnHouseHold.setSelection(Integer.parseInt(infoModel.getHouseHold()));
                 mViewModel.getModel().setHouseHold(infoModel.getHouseHold());
             }
 
             if(!"".equalsIgnoreCase(infoModel.getHouseType())){
                 spnHouseType.setText(CreditAppConstants.HOUSE_TYPE[Integer.parseInt(infoModel.getHouseType())]);
-                spnHouseType.setSelection(Integer.parseInt(infoModel.getHouseType()));
+//                spnHouseType.setSelection(Integer.parseInt(infoModel.getHouseType()));
                 mViewModel.getModel().setHouseType(infoModel.getHouseType());
             }
 

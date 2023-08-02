@@ -54,8 +54,7 @@ public class VMViewNotification extends AndroidViewModel {
     }
 
     public void SendResponse(String args) {
-//        new SendResponseTask().execute(args);
-        TaskExecutor.Execute(null, new OnTaskExecuteListener() {
+        TaskExecutor.Execute(args, new OnTaskExecuteListener() {
             @Override
             public void OnPreExecute() {
 
@@ -90,27 +89,3 @@ public class VMViewNotification extends AndroidViewModel {
         });
     }
 }
-//    private class SendResponseTask extends AsyncTask<String, Void, Boolean>{
-//
-//        @Override
-//        protected Boolean doInBackground(String... voids) {
-//            try{
-//                if(!poConn.isDeviceConnected()){
-//                    Log.e(TAG, poConn.getMessage());
-//                    return false;
-//                }
-//
-//                String lsMessageID = voids[0];
-//                if(poSys.SendResponse(lsMessageID, NOTIFICATION_STATUS.READ) == null){
-//                    Log.e(TAG, poSys.getMessage());
-//                    return false;
-//                }
-//
-//                return true;
-//            } catch (Exception e){
-//                e.printStackTrace();
-//                return false;
-//            }
-//        }
-//    }
-//}

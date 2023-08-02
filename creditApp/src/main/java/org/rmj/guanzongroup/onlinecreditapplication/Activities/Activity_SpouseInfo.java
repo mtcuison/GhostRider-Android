@@ -30,10 +30,10 @@ import org.json.JSONException;
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.ECountryInfo;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.OnSaveInfoListener;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.model.ClientSpouseInfo;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.model.MobileNo;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.CreditAppConstants;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.OnSaveInfoListener;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.model.ClientSpouseInfo;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.model.MobileNo;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMSpouseInfo;
 

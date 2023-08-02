@@ -21,9 +21,9 @@ import com.google.android.material.textfield.TextInputEditText;
 import org.json.JSONException;
 import org.rmj.g3appdriver.GCircle.room.Entities.ECountryInfo;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.CreditAppConstants;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.OnSaveInfoListener;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.CreditApp.model.Financier;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.CreditAppConstants;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.OnSaveInfoListener;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.model.Financier;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.OnParseListener;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMFinancierInfo;
@@ -193,7 +193,6 @@ public class Activity_Finance extends AppCompatActivity {
         if (infoModel != null){
             if(!infoModel.getFinancierRelation().isEmpty()){
                 spnRelation.setText(CreditAppConstants.FINANCE_SOURCE[Integer.parseInt(infoModel.getFinancierRelation())], false);
-                spnRelation.setSelection(Integer.parseInt(infoModel.getFinancierRelation()));
                 mViewModel.getModel().setFinancierRelation(infoModel.getFinancierRelation());
             }
             relationX = infoModel.getFinancierRelation();

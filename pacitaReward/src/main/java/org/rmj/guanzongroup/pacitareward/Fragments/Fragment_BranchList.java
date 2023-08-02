@@ -38,9 +38,8 @@ public class Fragment_BranchList extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-        View view= inflater.inflate(R.layout.fragment_layoutbranchlist, container, false);
         mViewModel = new ViewModelProvider(this).get(VMBranchList.class);
+        View view= inflater.inflate(R.layout.fragment_layoutbranchlist, container, false);
 
         rvc_branchlist = view.findViewById(R.id.branch_list);
         searchview = view.findViewById(R.id.searchview);

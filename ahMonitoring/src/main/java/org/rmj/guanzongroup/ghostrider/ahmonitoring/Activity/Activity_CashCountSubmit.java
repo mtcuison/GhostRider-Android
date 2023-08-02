@@ -30,7 +30,7 @@ import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.CashCount.QuickSearchNames;
+import org.rmj.g3appdriver.GCircle.Apps.CashCount.QuickSearchNames;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Etc.DialogKwikSearch;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMCashCountSubmit;
