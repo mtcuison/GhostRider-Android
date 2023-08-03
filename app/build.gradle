@@ -30,6 +30,10 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    configurations {
+        implementation.exclude module:'protobuf-lite'
+    }
+
     buildTypes {
         release {
             minifyEnabled false
