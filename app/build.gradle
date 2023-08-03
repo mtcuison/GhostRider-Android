@@ -16,13 +16,13 @@ plugins {
 }
 
 android {
-    compileSdkVersion 34
+    compileSdk 34
     buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "org.rmj.guanzongroup.ghostrider.epacss"
-        minSdkVersion 24
-        targetSdkVersion 34
+        minSdk 24
+        targetSdk 34
         versionCode 58
         versionName "Guanzon Circle v.3.16.055 s"
         multiDexEnabled true

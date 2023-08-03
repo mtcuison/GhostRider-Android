@@ -14,12 +14,12 @@ plugins {
 }
 
 android {
-    compileSdkVersion 33
+    compileSdk 34
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 33
+        minSdk 21
+        targetSdk 34
 
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
