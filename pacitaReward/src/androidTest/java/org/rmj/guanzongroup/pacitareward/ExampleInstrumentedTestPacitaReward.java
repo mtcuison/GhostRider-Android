@@ -8,7 +8,10 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import android.content.Context;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.testing.FragmentScenario;
+import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStore;
 import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.platform.app.InstrumentationRegistry;
@@ -38,20 +41,21 @@ import com.google.android.material.tabs.TabLayout;
 @RunWith(AndroidJUnit4.class)
 public class ExampleInstrumentedTestPacitaReward {
     ViewPager viewPager;
-    @Rule
+   /*@Rule
     public ActivityScenarioRule<Activity_BranchList> activityRule =
-            new ActivityScenarioRule<>(Activity_BranchList.class);
+            new ActivityScenarioRule<>(Activity_BranchList.class);*/
     @Before
     public void setup(){
-        activityRule.getScenario().onActivity(activity -> {
-            viewPager = activity.findViewById(R.id.viewPager);
-            viewPager.setAdapter(new Fragment_BranchListAdapter(activity.getSupportFragmentManager(),
-                    new Fragment[]{new Fragment_BranchList(), new Fragment_HistoryEval()}));
+        FragmentScenario fragmentScenario = FragmentScenario.launchInContainer(Fragment_BranchList.class, null, R.style.GhostRiderMaterialTheme);
+        fragmentScenario.moveToState(Lifecycle.State.CREATED);
+
+        fragmentScenario.onFragment(fragment -> {
+           fragment.getParentFragmentManager()
+                   .beginTransaction();
         });
     }
     @Test
     public void selectBranch(){
-        /*onView(allOf(withId(R.id.branch_list), isCompletelyDisplayed()))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));*/
+
     }
 }

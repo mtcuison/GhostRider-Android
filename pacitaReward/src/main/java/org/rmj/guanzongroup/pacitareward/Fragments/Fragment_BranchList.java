@@ -56,7 +56,7 @@ public class Fragment_BranchList extends Fragment {
         });
 
         mViewModel.importCriteria();
-        mViewModel.getBranchlist().observe(requireActivity(), new Observer<List<EBranchInfo>>() {
+        mViewModel.getBranchlist().observeForever(new Observer<List<EBranchInfo>>() {
             @Override
             public void onChanged(List<EBranchInfo> eBranchInfos) {
                 if (eBranchInfos.size() <= 0){
