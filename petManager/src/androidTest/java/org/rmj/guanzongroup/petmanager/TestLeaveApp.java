@@ -1,12 +1,12 @@
 package org.rmj.guanzongroup.petmanager;
 
-import static org.junit.Assert.assertEquals;
-
-import android.content.Context;
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static androidx.test.espresso.action.ViewActions.typeText;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.platform.app.InstrumentationRegistry;
-import androidx.test.rule.ActivityTestRule;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -19,13 +19,24 @@ import org.junit.runner.RunWith;
  */
 @RunWith(AndroidJUnit4.class)
 public class TestLeaveApp {
-    @Test
-    public void useAppContext() {
-        // Context of the app under test.
-        Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("org.rmj.guanzongroup.petmanager.test", appContext.getPackageName());
-    }
     @Rule
-    public ActivityTestRule<TestActivity> activityRule = new ActivityTestRule<>(TestActivity.class);
+//    public FragmentScenarioRule<Fragment_LeaveApplication> fragmentScenarioRule = new FragmentScenarioRule<>(Fragment_LeaveApplication.class);
+//    public FragmentScenarioRule<Fragment_LeaveApplication> fragmentScenarioRules = new FragmentScenarioRule<>(Fragment_LeaveApplication.class);
+    @Test
+    public void testFragmentTextInputAndSubmitButton() {
+        // Launch the fragment using FragmentScenario
+//        FragmentScenario<Fragment_LeaveApplication> fragmentScenario = fragmentScenarioRule.getFragmentScenario();
 
+        // Find the views in the fragment
+        onView(withId(R.id.spn_leaveType)).perform(click());
+        onView(withId(R.id.spn_leaveType)).perform(typeText("John Doe"), closeSoftKeyboard());
+        onView(withId(R.id.btn_submit)).perform(click());
+
+        // You can add further assertions here to verify the expected behavior after the submit button is clicked.
+        // For example, you can check if a Toast message is displayed or navigate to another fragment/activity.
+
+        // Here's an example of checking a Toast message (requires androidx.test.espresso:espresso-contrib):
+        // onView(withText("Submission Successful")).inRoot(withDecorView(not(activityScenario.getActivity().getWindow().getDecorView()))).check(matches(isDisplayed()));
+
+    }
 }

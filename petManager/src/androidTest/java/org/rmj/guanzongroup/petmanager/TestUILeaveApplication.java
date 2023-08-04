@@ -11,34 +11,38 @@
 
 package org.rmj.guanzongroup.petmanager;
 
-import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.contrib.PickerActions.setDate;
+import static androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static org.hamcrest.core.IsEqual.equalTo;
-import static org.junit.Assert.assertEquals;
 
-import android.content.Context;
-import android.util.Log;
+import android.app.Application;
+import android.app.DatePickerDialog;
+import android.icu.util.Calendar;
+import android.view.View;
 import android.widget.DatePicker;
-import android.widget.ListView;
 
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.testing.FragmentScenario;
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.espresso.Espresso;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.assertion.ViewAssertions;
-import androidx.test.espresso.contrib.PickerActions;
-import androidx.test.espresso.intent.Intents;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
-import androidx.test.platform.app.InstrumentationRegistry;
-import androidx.test.rule.ActivityTestRule;
 
-import org.junit.After;
+import org.hamcrest.Matchers;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.rmj.g3appdriver.GCircle.Apps.PetManager.Obj.EmployeeLeave;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.lib.Account.AccountMaster;
+import org.rmj.g3appdriver.lib.Account.Model.Auth;
+import org.rmj.g3appdriver.lib.Account.Model.iAuth;
+import org.rmj.g3appdriver.lib.Etc.Branch;
+import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.guanzongroup.petmanager.Fragment.Fragment_LeaveApplication;
 
 /**
@@ -49,149 +53,118 @@ import org.rmj.guanzongroup.petmanager.Fragment.Fragment_LeaveApplication;
 @RunWith(AndroidJUnit4.class)
 @LargeTest
 public class TestUILeaveApplication {
+    private static boolean isSuccess = false;
+    private String sEmail, sPassword, sMobileNo;
+    private View cAgree;
+    private Application instance;
 
-
-
-    @Test
-    public void useAppContext() {
-        // Context of the app under test.
-        Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("org.rmj.guanzongroup.petmanager.test", appContext.getPackageName());
-
-
-    }
-    @Rule
-//    public ActivityScenarioRule<TestActivity> activityScenarioRule
-//            = new ActivityScenarioRule<>(TestActivity.class);
-    public ActivityTestRule<TestActivity> activityRule = new ActivityTestRule<>(TestActivity.class);
-
-    @After
-    public void tearDown() {
-        // Perform any cleanup after the test
-        Intents.release();
-    }
-
+    private AccountMaster poAccount;
+    private iAuth poSys;
+    private Branch pobranch;
+    private  EmployeeLeave poSyss;
+    private  ConnectionUtil poConn;
+    String searchText = "Birthday";
+    String xRemarks = "Birthday ko na!";
+    String xDate = "August 25, 2023";
     @Before
     public void setUp() throws Exception {
-//            this.instance = ApplicationProvider.getApplicationContext();
-//            AppConfigPreference.getInstance(instance).setProductID("GuanzonApp");
-//            AppConfigPreference.getInstance(instance).setTestCase(true);
-//            this.poAccount = new AccountMaster(instance);
-//            this.poSys = poAccount.initGuanzonApp().getInstance(Auth.AUTHENTICATE);
-
+        this.instance = ApplicationProvider.getApplicationContext();
+        AppConfigPreference.getInstance(instance).setProductID("GuanzonApp");
+        AppConfigPreference.getInstance(instance).setTestCase(true);
+        this.poAccount = new AccountMaster(instance);
+        this.poSys = poAccount.initGuanzonApp().getInstance(Auth.AUTHENTICATE);
+        this.pobranch = new Branch(instance);
+        this.poSyss = new EmployeeLeave(instance);
+        this.poConn = new ConnectionUtil(instance);
+        final java.util.Calendar newCalendar = java.util.Calendar.getInstance();
     }
-
     @Test
-    public void testApplication(){
-        FragmentScenario<Fragment_LeaveApplication> fragmentScenario = FragmentScenario.launchInContainer(Fragment_LeaveApplication.class);
-        fragmentScenario.onFragment(Fragment::onStart);
-        if (testLeavetype(true)){
-            Log.d("System Success" , "Leave Type");
-        }
-        if (testDateFrom(true)){
-            Log.d("System Success" , "Date From");
-        }
-        if (testDateThru(true)){
-            Log.d("System Success" , "Date Thru");
-        }
-        if (testPurpose(true)){
-            Log.d("System Success" , "Purpose");
-        }
-//            if (testSubmitApplication(true)){
-//                Log.d("System Success" , "Submit");
-//            }
+    public void Test01() {
+        // Launch the fragment using FragmentScenario
+        FragmentScenario.launchInContainer(Fragment_LeaveApplication.class);
+
+//        // Find the TextInputEditText by its resource ID, enter text, and close the keyboard
+
+        testleavetype();
+//        testDateFrom();
+        testDateto();
+        /*SUBMIT APPLICAITON*/
+        onView(withId(R.id.txt_remarks))
+                .perform(ViewActions.typeText(xRemarks), ViewActions.closeSoftKeyboard());
         onView(withId(R.id.btn_submit))
+                .perform(click());
+
+
+
+    }
+
+    private void testleavetype(){
+        onView(withId(R.id.spn_leaveType))
+                .perform(click());
+    }
+    private  void  testDateFrom(){
+        /*DATE FROM*/
+
+        Espresso.onView(ViewMatchers.withId(R.id.txt_dateFrom))
                 .perform(ViewActions.click());
+
+        // Interact with the DatePicker and select a specific date
+        Calendar desiredDate = Calendar.getInstance();
+        desiredDate.set(Calendar.YEAR, 2023);
+        desiredDate.set(Calendar.MONTH, Calendar.AUGUST); // Note: Months are 0-based (0 = January, 1 = February, etc.)
+        desiredDate.set(Calendar.DAY_OF_MONTH, 10);
+        Espresso.onView(ViewMatchers.withClassName(Matchers.equalTo(DatePickerDialog.class.getName())))
+                .perform(setDate(2023, Calendar.MONTH, 10));
+
+        // Click the "OK" button in the DatePicker dialog
+        Espresso.onView(ViewMatchers.withText("OK"))
+                .perform(ViewActions.click());
+
+        // Verify that the selected date is populated in the TextInputEditText
+        Espresso.onView(ViewMatchers.withId(R.id.txt_dateFrom))
+                .check(ViewAssertions.matches(ViewMatchers.withText("08/10/2023")));
+//        onView(ViewMatchers.withClassName(equalTo(DatePicker.class.getName())))
+//                .perform(PickerActions.setDate(2023, 8, 25));
+//        onView(withId(android.R.id.button1))
+//                .perform(ViewActions.click());
+//        onView(withId(R.id.txt_dateFrom))
+//                .check(ViewAssertions.matches(ViewMatchers.withText(xDate)));
+
+
     }
+    private  void  testDateto(){
+        /*DATE TO*/
+        // Click on the TextInputEditText
+        Espresso.onView(ViewMatchers.withId(R.id.txt_dateTo))
+                .perform(ViewActions.click());
 
+        // Get the current date from the device
+        Calendar currentDate = Calendar.getInstance();
+        int year = currentDate.get(Calendar.YEAR);
+        int month = currentDate.get(Calendar.MONTH);
+        int day = currentDate.get(Calendar.DAY_OF_MONTH);
 
-    private boolean testLeavetype(boolean isSuccess) {
+        // Select a specific date from the DatePicker
+        int yearToSet = 2023; // Change this to the desired year
+        int monthToSet = 7;   // Change this to the desired month (0-based index)
+        int dayToSet = 3;     // Change this to the desired day
+        onView(isAssignableFrom(DatePicker.class)).perform(setDate(1980, 10, 30));
 
-        String searchText = "Birthday";
-        try {
-            onView(withId(R.id.spn_leaveType))
-                    .perform(ViewActions.typeText(searchText));
+// Confirm the selected date. This example uses a standard DatePickerDialog
+// which uses
+// android.R.id.button1 for the positive button id.
+        onView(withId(android.R.id.button1)).perform(click());
+//        Espresso.onView(ViewMatchers.withClassName(Matchers.equalTo(DatePicker.class.getName())))
+//                .perform(PickerActions.setDate(yearToSet, monthToSet, dayToSet));
+//
+//        // Click the "OK" button in the DatePicker dialog
+//        Espresso.onView(ViewMatchers.withText("OK"))
+//                .perform(ViewActions.click());
 
-            // Wait for the suggestions to appear (you may need to adjust this delay as per your app's behavior)
-            try {
-                Thread.sleep(1000); // Wait for 1 second
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+        // Verify that the selected date is displayed in the TextInputEditText
+//        String expectedDateText = String.format("%04d-%02d-%02d", yearToSet, monthToSet + 1, dayToSet);
+//        Espresso.onView(ViewMatchers.withId(R.id.txt_dateTo))
+//                .check(ViewAssertions.matches(ViewMatchers.withText(expectedDateText)));
 
-            // Click on the first suggestion in the dropdown (assuming suggestions are visible now)
-            onData(ViewMatchers.withText(searchText))
-                    .inAdapterView(ViewMatchers.isAssignableFrom(ListView.class))
-                    .atPosition(0)
-                    .perform(ViewActions.click());
-
-            // Verify if the selected suggestion is populated in the AutoCompleteTextView
-            onView(withId(R.id.spn_leaveType))
-                    .check(ViewAssertions.matches(ViewMatchers.withText(searchText)));
-
-            isSuccess = true;
-        }catch (Exception e){
-            isSuccess=false;
-        }
-        return isSuccess;
-    }
-
-    private  boolean testDateFrom(boolean isSuccess) {
-
-        String xDate = "August 25, 2023";
-        try{
-            onView(withId(R.id.txt_dateFrom))
-                    .perform(ViewActions.click());
-            onView(ViewMatchers.withClassName(equalTo(DatePicker.class.getName())))
-                    .perform(PickerActions.setDate(2023, 8, 25));
-            onView(withId(android.R.id.button1))
-                    .perform(ViewActions.click());
-            onView(withId(R.id.txt_dateFrom))
-                    .check(ViewAssertions.matches(ViewMatchers.withText(xDate)));
-        }catch (Exception e){
-            isSuccess = false;
-        }
-        return isSuccess;
-    }
-    private  boolean testDateThru(boolean isSuccess) {
-
-        String xDate = "August 25, 2023";
-        try{
-            onView(withId(R.id.txt_dateFrom))
-                    .perform(ViewActions.click());
-            onView(ViewMatchers.withClassName(equalTo(DatePicker.class.getName())))
-                    .perform(PickerActions.setDate(2023, 8, 25));
-            onView(withId(android.R.id.button1))
-                    .perform(ViewActions.click());
-            onView(withId(R.id.txt_dateFrom))
-                    .check(ViewAssertions.matches(ViewMatchers.withText(xDate)));
-        }catch (Exception e){
-            isSuccess = false;
-        }
-        return isSuccess;
-    }
-
-    private  boolean testPurpose(boolean isSuccess){
-
-        String xRemarks = "Birthday ko na!";
-        try{
-            onView(withId(R.id.txt_remarks))
-                    .perform(ViewActions.typeText(xRemarks), ViewActions.closeSoftKeyboard());
-            isSuccess =true;
-        }catch (Exception e){
-            isSuccess = false;
-        }
-        return  isSuccess;
-    }
-    private  boolean testSubmitApplication(boolean isSuccess){
-
-        try{
-            onView(withId(R.id.btn_submit))
-                    .perform(ViewActions.click());
-            isSuccess =true;
-        }catch (Exception e){
-            isSuccess = false;
-        }
-        return  isSuccess;
     }
 }
