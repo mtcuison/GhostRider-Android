@@ -30,12 +30,12 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.textview.MaterialTextView;
 
+import org.rmj.g3appdriver.GCircle.Account.EmployeeSession;
+import org.rmj.g3appdriver.GCircle.Apps.PetManager.pojo.OBApprovalInfo;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.GCircle.Account.EmployeeSession;
-import org.rmj.g3appdriver.GCircle.Apps.PetManager.pojo.OBApprovalInfo;
 import org.rmj.guanzongroup.petmanager.Activity.Activity_Application;
 import org.rmj.guanzongroup.petmanager.R;
 import org.rmj.guanzongroup.petmanager.ViewModel.VMObApproval;
@@ -72,8 +72,8 @@ public class Fragment_BusinessTripApproval extends Fragment implements VMObAppro
     private MessageBox poMessage;
     private OBApprovalInfo poModel;
 
-    public static Fragment_BusinessTripApproval newInstance() {
-        return new Fragment_BusinessTripApproval();
+
+    public static Fragment_BusinessTripApproval newInstance() {return new Fragment_BusinessTripApproval();
     }
 
     @Override
@@ -81,15 +81,26 @@ public class Fragment_BusinessTripApproval extends Fragment implements VMObAppro
                              @Nullable Bundle savedInstanceState) {
         mViewModel = new ViewModelProvider(this).get(VMObApproval.class);
         View view = inflater.inflate(R.layout.fragment_business_trip_approval, container, false);
+        poModel = new OBApprovalInfo();
         initWidgets(view);
+
         Typeface typeface = ResourcesCompat.getFont(requireActivity(), R.font.roboto_bold);
         tilRemarks.setTypeface(typeface);
         TransNox = Activity_Application.getInstance().getTransNox();
+
         if(TransNox.isEmpty()){
             lnSearch.setVisibility(View.VISIBLE);
         } else {
             lnSearch.setVisibility(View.GONE);
         }
+
+        boolean forViewing = requireActivity().getIntent().getBooleanExtra("type", false);
+        if(forViewing){
+            cvLeaveOb.setVisibility(View.GONE);
+        } else {
+            cvLeaveOb.setVisibility(View.VISIBLE);
+        }
+
         mViewModel.setTransNox(TransNox);
         mViewModel.getUserBranchInfo().observe(getViewLifecycleOwner(), eBranchInfo -> {
             try{
@@ -136,7 +147,7 @@ public class Fragment_BusinessTripApproval extends Fragment implements VMObAppro
 
         bntConfirm.setOnClickListener(v -> {
             poMessage.initDialog();
-            poMessage.setTitle("Leave Approval");
+            poMessage.setTitle("OB Approval");
             poMessage.setMessage("Approve " + lblEmployeNm.getText().toString() + "'s business trip application?");
             poMessage.setPositiveButton("Approve", (view1, dialog) -> {
                 dialog.dismiss();
@@ -149,7 +160,7 @@ public class Fragment_BusinessTripApproval extends Fragment implements VMObAppro
 
         btnCancel.setOnClickListener(v -> {
             poMessage.initDialog();
-            poMessage.setTitle("Leave Approval");
+            poMessage.setTitle("OB Approval");
             poMessage.setMessage("Disapprove " + lblEmployeNm.getText().toString() + "'s business trip application?");
             poMessage.setPositiveButton("Disapprove", (view1, dialog) -> {
                 dialog.dismiss();
