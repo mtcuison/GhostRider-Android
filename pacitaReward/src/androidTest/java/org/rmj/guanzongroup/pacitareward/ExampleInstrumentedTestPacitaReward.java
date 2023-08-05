@@ -1,37 +1,24 @@
 package org.rmj.guanzongroup.pacitareward;
 
-import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import android.util.Log;
 
-import android.content.Context;
-
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.testing.FragmentScenario;
 import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelStore;
-import androidx.test.espresso.contrib.RecyclerViewActions;
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
-import androidx.test.platform.app.InstrumentationRegistry;
+import androidx.lifecycle.Observer;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.viewpager.widget.ViewPager;
 
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.rmj.guanzongroup.pacitareward.Activity.Activity_BranchList;
-import org.rmj.guanzongroup.pacitareward.Adapter.Fragment_BranchListAdapter;
+import org.rmj.g3appdriver.GCircle.room.Entities.EBranchInfo;
+import org.rmj.guanzongroup.pacitareward.Adapter.RecyclerViewAdapter_BranchList;
 import org.rmj.guanzongroup.pacitareward.Fragments.Fragment_BranchList;
-import org.rmj.guanzongroup.pacitareward.Fragments.Fragment_HistoryEval;
 import org.rmj.guanzongroup.pacitareward.ViewModel.VMBranchList;
 
-import static org.hamcrest.Matchers.allOf;
-import static org.junit.Assert.*;
 
-import com.google.android.material.tabs.TabLayout;
+import java.util.List;
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -40,22 +27,37 @@ import com.google.android.material.tabs.TabLayout;
  */
 @RunWith(AndroidJUnit4.class)
 public class ExampleInstrumentedTestPacitaReward {
-    ViewPager viewPager;
+    FragmentScenario fragmentScenario;
+    VMBranchList mviewModel;
    /*@Rule
     public ActivityScenarioRule<Activity_BranchList> activityRule =
             new ActivityScenarioRule<>(Activity_BranchList.class);*/
     @Before
     public void setup(){
-        FragmentScenario fragmentScenario = FragmentScenario.launchInContainer(Fragment_BranchList.class, null, R.style.GhostRiderMaterialTheme);
-        fragmentScenario.moveToState(Lifecycle.State.CREATED);
-
-        fragmentScenario.onFragment(fragment -> {
-           fragment.getParentFragmentManager()
-                   .beginTransaction();
-        });
+        fragmentScenario = FragmentScenario.launchInContainer(Fragment_BranchList.class, null, R.style.GhostRiderMaterialTheme);
+        fragmentScenario.moveToState(Lifecycle.State.RESUMED);
     }
     @Test
-    public void selectBranch(){
-
+    public void getBranchList(){
+        fragmentScenario.onFragment(fragment -> {
+            RecyclerView recyclerView = fragment.getView().findViewById(R.id.branch_list);
+            mviewModel = fragment.getDefaultViewModelProviderFactory().create(VMBranchList.class);
+            mviewModel.importCriteria();
+            mviewModel.getBranchlist().observeForever(new Observer<List<EBranchInfo>>() {
+                @Override
+                public void onChanged(List<EBranchInfo> eBranchInfos) {
+                    eBranchInfos.size();
+                    RecyclerViewAdapter_BranchList rec_adapt =
+                            new RecyclerViewAdapter_BranchList(eBranchInfos, new RecyclerViewAdapter_BranchList.OnBranchSelectListener() {
+                                @Override
+                                public void OnSelect(String BranchCode, String BranchName) {
+                                }
+                            });
+                    rec_adapt.notifyDataSetChanged();
+                    recyclerView.setAdapter(rec_adapt);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(fragment.getActivity()));
+                }
+            });
+        });
     }
 }

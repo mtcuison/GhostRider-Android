@@ -59,9 +59,9 @@ public class Fragment_BranchList extends Fragment {
         mViewModel.getBranchlist().observeForever(new Observer<List<EBranchInfo>>() {
             @Override
             public void onChanged(List<EBranchInfo> eBranchInfos) {
-                if (eBranchInfos.size() <= 0){
+                /*if (eBranchInfos.size() <= 0){
                     loadDialog.show();
-                }
+                }*/
                 rec_branchList = new RecyclerViewAdapter_BranchList(eBranchInfos, new RecyclerViewAdapter_BranchList.OnBranchSelectListener() {
                     @Override
                     public void OnSelect(String BranchCode, String BranchName) {
