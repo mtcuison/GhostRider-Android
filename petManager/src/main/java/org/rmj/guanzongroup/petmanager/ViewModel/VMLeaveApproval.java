@@ -122,7 +122,12 @@ public class VMLeaveApproval extends AndroidViewModel {
             }
             @Override
             public void OnPostExecute(Object object) {
-
+                Boolean lsSuccess = (Boolean) object;
+                if(lsSuccess){
+                    callBack.OnSuccessDownload(transNox);
+                } else {
+                    callBack.OnFailedDownload(message);
+                }
             }
         });
     }
