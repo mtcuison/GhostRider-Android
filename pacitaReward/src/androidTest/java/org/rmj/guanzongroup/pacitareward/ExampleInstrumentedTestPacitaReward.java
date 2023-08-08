@@ -9,10 +9,12 @@ import android.util.Log;
 
 import androidx.fragment.app.testing.FragmentScenario;
 import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
@@ -20,6 +22,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.rmj.g3appdriver.GCircle.room.Entities.EBranchInfo;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.guanzongroup.pacitareward.Adapter.RecyclerViewAdapter_BranchList;
 import org.rmj.guanzongroup.pacitareward.Fragments.Fragment_BranchList;
 import org.rmj.guanzongroup.pacitareward.ViewModel.VMBranchList;
@@ -36,19 +39,26 @@ import java.util.List;
 public class ExampleInstrumentedTestPacitaReward {
     FragmentScenario fragmentScenario;
     VMBranchList mviewModel;
-   /*@Rule
-    public ActivityScenarioRule<Activity_BranchList> activityRule =
-            new ActivityScenarioRule<>(Activity_BranchList.class);*/
     @Before
-    public void setup(){
+    public void setup() throws Exception{
         fragmentScenario = FragmentScenario.launchInContainer(Fragment_BranchList.class, null, R.style.GhostRiderMaterialTheme);
         fragmentScenario.moveToState(Lifecycle.State.RESUMED);
-        mviewModel = new VMBranchList((Application) InstrumentationRegistry.getInstrumentation().getTargetContext().getApplicationContext());
+
+        //mviewModel = new VMBranchList(ApplicationProvider.getApplicationContext());
+        AppConfigPreference.getInstance(ApplicationProvider.getApplicationContext()).setTestCase(true);
     }
     @Test
     public void getBranchList(){
-        mviewModel.importCriteria();
-        assertTrue("List size is " + mviewModel.getBranchlist().getValue().size(), mviewModel.getBranchlist().getValue().size() > 0);
+       fragmentScenario.onFragment(fragment -> {
+           mviewModel = new VMBranchList(ApplicationProvider.getApplicationContext());
+           mviewModel.importCriteria();
+           mviewModel.getBranchlist().observe(fragment.getViewLifecycleOwner(), new Observer<List<EBranchInfo>>() {
+               @Override
+               public void onChanged(List<EBranchInfo> eBranchInfos) {
+                   assertTrue("List size is " + eBranchInfos.size(), eBranchInfos.size() > 0);
+               }
+           });
+       });
 
         /*fragmentScenario.onFragment(fragment -> {
             RecyclerView recyclerView = fragment.getView().findViewById(R.id.branch_list);
