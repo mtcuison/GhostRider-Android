@@ -122,37 +122,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="December 12, 2019"
-                android:gravity="end"
-                tools:ignore="HardcodedText"
-                android:fontFamily="@font/roboto_regular"
-                tools:targetApi="jelly_bean"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="5dp">
-
-            <com.google.android.material.textview.MaterialTextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight=".5"
-                android:text="Date Sent :"
-                android:textSize="16sp"
-                android:gravity="start"
-                tools:ignore="HardcodedText"
-                android:fontFamily="@font/roboto_regular"
-                tools:targetApi="jelly_bean"/>
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/lbl_listLog_dateSent"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="December 12, 2019"
                 android:gravity="end"
                 tools:ignore="HardcodedText"
                 android:fontFamily="@font/roboto_regular"
@@ -186,36 +155,6 @@
                 tools:ignore="HardcodedText"
                 android:fontFamily="@font/roboto_regular"
                 tools:targetApi="jelly_bean"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="10dp">
-
-            <com.google.android.material.textview.MaterialTextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight=".5"
-                android:text="Date Approved :"
-                android:textSize="16sp"
-                android:gravity="start"
-                tools:ignore="HardcodedText"
-                android:fontFamily="@font/roboto_regular"
-                tools:targetApi="jelly_bean"/>
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/lbl_listLog_approvedDate"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="December 12, 2019"
-                android:gravity="end"
-                tools:ignore="HardcodedText"
-                android:fontFamily="@font/roboto_regular"
-                tools:targetApi="jelly_bean"/>
-
         </LinearLayout>
 
         <com.google.android.material.divider.MaterialDivider

@@ -44,6 +44,8 @@ public class CreditApplicationsAdapter extends RecyclerView.Adapter<CreditApplic
         DCreditApplication.ApplicationLog loApp = poList.get(position);
         holder.lblName.setText(loApp.sClientNm);
         holder.lblDate.setText("Date created: " + FormatUIText.getParseDateTime(loApp.dCreatedx));
+        holder.lblDSent.setText("Date created: " + FormatUIText.getParseDateTime(loApp.dReceived));
+        holder.lblDAppv.setText("Date created: " + FormatUIText.getParseDateTime(loApp.dVerified));
         if(loApp.cSendStat.equalsIgnoreCase("0")) {
             holder.btnSubmit.setVisibility(View.VISIBLE);
             holder.lblStat.setText("");
@@ -63,7 +65,7 @@ public class CreditApplicationsAdapter extends RecyclerView.Adapter<CreditApplic
 
     public static class VHApplication extends RecyclerView.ViewHolder{
 
-        public MaterialTextView lblName, lblDate, lblStat;
+        public MaterialTextView lblName, lblDate, lblStat, lblDSent, lblDAppv;
         private MaterialButton btnSubmit;
 
         public VHApplication(@NonNull View itemView) {
@@ -72,6 +74,8 @@ public class CreditApplicationsAdapter extends RecyclerView.Adapter<CreditApplic
             lblDate = itemView.findViewById(R.id.lbl_dateCreated);
             lblStat = itemView.findViewById(R.id.lbl_status);
             btnSubmit = itemView.findViewById(R.id.btn_submit);
+            lblDSent = itemView.findViewById(R.id.lbl_dateSent);
+            lblDAppv = itemView.findViewById(R.id.lbl_dateApproved);
         }
     }
 }

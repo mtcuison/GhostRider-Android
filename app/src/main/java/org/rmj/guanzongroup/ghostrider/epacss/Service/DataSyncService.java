@@ -62,23 +62,23 @@ public class DataSyncService extends BroadcastReceiver {
                         return false;
                     }
 
-                    SelfieLog loSelfie = new SelfieLog(instance);
-                    if(loSelfie.UploadSelfieLogs()){
-                        message = "Selfie log/s uploaded successfully";
-                        TaskExecutor.ShowProgress(() -> GNotifBuilder.createNotification(instance, GNotifBuilder.BROADCAST_RECEIVER, message, GNotifBuilder.SYNC_PROGRESS).show());
-                    } else {
-                        message = loSelfie.getMessage();
-                        Log.e(TAG, message);
-                    }
-                    Thread.sleep(1000);
+//                    SelfieLog loSelfie = new SelfieLog(instance);
+//                    if(loSelfie.UploadSelfieLogs()){
+//                        message = "Selfie log/s uploaded successfully";
+//                        TaskExecutor.ShowProgress(() -> GNotifBuilder.createNotification(instance, GNotifBuilder.BROADCAST_RECEIVER, message, GNotifBuilder.SYNC_PROGRESS).show());
+//                    } else {
+//                        message = loSelfie.getMessage();
+//                        Log.e(TAG, message);
+//                    }
+//                    Thread.sleep(1000);
 
-                    if(loSelfie.UploadImages()){
-                        message = "Selfie log image/s uploaded successfully";
-                        TaskExecutor.ShowProgress(() -> GNotifBuilder.createNotification(instance, GNotifBuilder.BROADCAST_RECEIVER, message, GNotifBuilder.SYNC_PROGRESS).show());
-                    } else {
-                        message = loSelfie.getMessage();
-                        Log.e(TAG, message);
-                    }
+//                    if(loSelfie.UploadImages()){
+//                        message = "Selfie log image/s uploaded successfully";
+//                        TaskExecutor.ShowProgress(() -> GNotifBuilder.createNotification(instance, GNotifBuilder.BROADCAST_RECEIVER, message, GNotifBuilder.SYNC_PROGRESS).show());
+//                    } else {
+//                        message = loSelfie.getMessage();
+//                        Log.e(TAG, message);
+//                    }
                     Thread.sleep(1000);
 
                     EmployeeLeave loLeave = new EmployeeLeave(instance);
@@ -86,7 +86,7 @@ public class DataSyncService extends BroadcastReceiver {
                         message = "Leave application/s uploaded successfully";
                         TaskExecutor.ShowProgress(() -> GNotifBuilder.createNotification(instance, GNotifBuilder.BROADCAST_RECEIVER, message, GNotifBuilder.SYNC_PROGRESS).show());
                     } else {
-                        message = loSelfie.getMessage();
+                        message = loLeave.getMessage();
                         Log.e(TAG, message);
                     }
                     Thread.sleep(1000);
