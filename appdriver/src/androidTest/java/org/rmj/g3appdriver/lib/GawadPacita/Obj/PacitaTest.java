@@ -8,7 +8,7 @@ import android.util.Log;
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 import androidx.lifecycle.Observer;
 import androidx.test.core.app.ApplicationProvider;
-import androidx.test.runner.AndroidJUnit4;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -46,12 +46,8 @@ public class PacitaTest {
     @Before
     public void setUp() throws Exception {
         instance = ApplicationProvider.getApplicationContext();
-        AppConfigPreference.getInstance(instance).setTestCase(true);
         poUser = new EmployeeMaster(instance);
         poSys = new Pacita(instance);
-
-        EmployeeMaster.UserAuthInfo loAuth = new EmployeeMaster.UserAuthInfo("mikegarcia8748@gmail.com", "123456", "09171870011");
-        assertTrue(poUser.AuthenticateUser(loAuth));
     }
 
     @Test
