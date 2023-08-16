@@ -57,10 +57,10 @@ public interface DMcModel {
     @Query("SELECT * FROM MC_Model_Color ORDER BY dTimeStmp DESC LIMIT 1")
     EMCColor GetLatestMcColorTimeStamp();
 
-    @Query("SELECT dPricexxx FROM MC_Model_Cash_Price WHERE sModelIDx =:ModelID")
+    @Query("SELECT dPricexxx FROM MC_Cash_Price WHERE sModelIDx =:ModelID")
     String GetMCCashPriceLastUpdate(String ModelID);
 
-    @Query("SELECT * FROM MC_Model_Cash_Price WHERE sModelIDx=:ModelID")
+    @Query("SELECT * FROM MC_Cash_Price WHERE sModelIDx=:ModelID")
     EMCModelCashPrice GetModelCashPriceInfo(String ModelID);
 
     @Query("SELECT * FROM MC_Model_Color WHERE sModelIDx =:ModelID AND sColorIDx =:ColorID")
@@ -80,6 +80,8 @@ public interface DMcModel {
 
     @Query("SELECT * FROM Mc_Model WHERE sModelIDx =:ModelID")
     EMcModel getModelInfo(String ModelID);
+
+
 
     @Query("SELECT  " +
             "a.sModelIDx, " +

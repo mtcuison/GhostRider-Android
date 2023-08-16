@@ -96,6 +96,9 @@ public interface DGanadoOnline {
             "AND (a.sModelIDx = :ModelID)")
     McDownpayment getDownpayment(String ModelID);
 
+    @Query("SELECT nSelPrice, dPricexxx FROM MC_Cash_Price WHERE sModelIDx=:ModelID")
+    LiveData<CashPrice> GetCashInfo(String ModelID);
+
     class McDownpayment{
         public String ModelIDx;
         public String ModelNme;
@@ -123,5 +126,10 @@ public interface DGanadoOnline {
         public String sBrandNme;
         public String ColorIDx;
         public String ColorNme;
+    }
+
+    class CashPrice{
+        public String CashPrce;
+        public String Pricedxx;
     }
 }

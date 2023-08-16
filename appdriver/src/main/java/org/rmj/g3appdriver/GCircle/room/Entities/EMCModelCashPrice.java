@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 
-@Entity (tableName = "MC_Model_Cash_Price", primaryKeys = {"sModelIDx", "sMCCatNme", "sModelNme"})
+@Entity (tableName = "MC_Cash_Price", primaryKeys = {"sModelIDx", "sMCCatNme", "sModelNme"})
 public class EMCModelCashPrice {
 
     @NonNull

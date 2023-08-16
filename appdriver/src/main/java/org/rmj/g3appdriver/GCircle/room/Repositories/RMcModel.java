@@ -237,7 +237,6 @@ public class RMcModel {
                 return false;
             }
 
-            Log.d(TAG, lsResponse);
             JSONObject loResponse = new JSONObject(lsResponse);
             String lsResult = loResponse.getString("result");
             if(lsResult.equalsIgnoreCase("error")){
@@ -293,4 +292,5 @@ public class RMcModel {
             return false;
         }
     }
+
 }

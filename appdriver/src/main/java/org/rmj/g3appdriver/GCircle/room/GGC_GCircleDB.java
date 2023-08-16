@@ -308,7 +308,7 @@ public abstract class GGC_GCircleDB extends RoomDatabase {
         @Override
         public void migrate(SupportSQLiteDatabase database) {
             // Add the new column
-            database.execSQL("CREATE TABLE IF NOT EXISTS `MC_Model_Cash_Price` " +
+            database.execSQL("CREATE TABLE IF NOT EXISTS `MC_Cash_Price` " +
                     "(`sModelIDx` TEXT NOT NULL, `sMCCatNme` TEXT NOT NULL, " +
                     "`sModelNme` TEXT NOT NULL, `sBrandNme` TEXT, `nSelPrice` REAL, " +
                     "`nLastPrce` REAL, `nDealrPrc` REAL, `dPricexxx` TEXT, " +

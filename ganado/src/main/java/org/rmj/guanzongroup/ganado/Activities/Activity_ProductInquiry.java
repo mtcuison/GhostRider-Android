@@ -2,6 +2,7 @@ package org.rmj.guanzongroup.ganado.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
@@ -20,6 +21,7 @@ import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textview.MaterialTextView;
 
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DGanadoOnline;
 import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.Ganado.model.GConstants;
@@ -39,7 +41,7 @@ public class Activity_ProductInquiry extends AppCompatActivity {
     private VMProductInquiry mViewModel;
     private MessageBox poMessage;
     private MaterialTextView txtBranchNm, txtBrandNm, txtModelNm, txtModelCd;
-    private TextInputEditText txtDownPymnt, txtAmort, txtDTarget;
+    private TextInputEditText txtCashPrce, txtDownPymnt, txtAmort, txtDTarget;
     private MaterialAutoCompleteTextView spn_color, spnPayment, spnAcctTerm;
     private MaterialButton btnContinue,btnCalculate;
     private ShapeableImageView imgMC;
@@ -105,6 +107,14 @@ public class Activity_ProductInquiry extends AppCompatActivity {
 
         mViewModel.GetModelID().observe(Activity_ProductInquiry.this, modelID -> {
             try{
+                mViewModel.GetCashPrice(modelID).observe(Activity_ProductInquiry.this, cashPrice -> {
+                    try{
+                        txtCashPrce.setText(FormatUIText.getCurrencyUIFormat(cashPrice.CashPrce));
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
+                });
+
                 mViewModel.GetMinimumDownpayment(modelID, new VMProductInquiry.OnRetrieveInstallmentInfo() {
                     @Override
                     public void OnRetrieve(InstallmentInfo loResult) {
@@ -200,6 +210,7 @@ public class Activity_ProductInquiry extends AppCompatActivity {
         txtBrandNm = findViewById(R.id.lblBrand);
         txtModelCd = findViewById(R.id.lblModelCde);
         txtModelNm = findViewById(R.id.lblModelNme);
+        txtCashPrce = findViewById(R.id.txt_cashPrice);
         txtDownPymnt = findViewById(R.id.txt_downpayment);
         txtAmort = findViewById(R.id.txt_monthlyAmort);
         txtDTarget = findViewById(R.id.txt_targetDate);

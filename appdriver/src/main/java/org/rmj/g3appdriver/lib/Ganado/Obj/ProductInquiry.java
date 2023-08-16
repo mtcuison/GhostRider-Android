@@ -67,6 +67,10 @@ public class ProductInquiry {
         return poDao.getDownpayment(ModelID);
     }
 
+    public LiveData<DGanadoOnline.CashPrice> GetCashPrice(String ModelID){
+        return poDao.GetCashInfo(ModelID);
+    }
+
     /**
      *
      * @param ModelID pass the selected model ID.
