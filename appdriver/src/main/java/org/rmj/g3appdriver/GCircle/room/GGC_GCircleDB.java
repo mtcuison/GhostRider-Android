@@ -314,6 +314,9 @@ public abstract class GGC_GCircleDB extends RoomDatabase {
                     "`nLastPrce` REAL, `nDealrPrc` REAL, `dPricexxx` TEXT, " +
                     "`sBrandIDx` TEXT, `sMCCatIDx` TEXT, " +
                     "PRIMARY KEY(`sModelIDx`, `sMCCatNme`, `sModelNme`))");
+
+            database.execSQL("ALTER TABLE Ganado_Online ADD COLUMN nCashPrce REAL");
+            database.execSQL("ALTER TABLE Ganado_Online ADD COLUMN dPricexxx TEXT");
         }
     };
 }

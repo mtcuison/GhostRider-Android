@@ -52,14 +52,11 @@ public class Activity_ProductInquiry extends AppCompatActivity {
         setContentView(R.layout.activity_product_inquiry);
         initWidgets();
 
-        spnPayment.setText(GConstants.PAYMENT_FORM[0]);
         spnPayment.setAdapter(GConstants.getAdapter(Activity_ProductInquiry.this, GConstants.PAYMENT_FORM));
         spnAcctTerm.setText(GConstants.INSTALLMENT_TERM[0]);
         spnAcctTerm.setAdapter(GConstants.getAdapter(Activity_ProductInquiry.this, GConstants.INSTALLMENT_TERM));
         mViewModel.setBrandID(getIntent().getStringExtra("lsBrandID"));
         mViewModel.setModelID(getIntent().getStringExtra("lsModelID"));
-        mViewModel.getModel().setTermIDxx("36");
-        mViewModel.getModel().setPaymForm("1");
 
         lsBrandID = getIntent().getStringExtra("lsBrandID");
         lsModelID = getIntent().getStringExtra("lsModelID");
@@ -89,18 +86,16 @@ public class Activity_ProductInquiry extends AppCompatActivity {
                     String lsColor = colorList.get(x).getColorNme();
                     //                        String lsTown =  loList.get(x).sProvName ;
                     string.add(lsColor);
-
                 }
+
                 ArrayAdapter<String> adapters = new ArrayAdapter<>(Activity_ProductInquiry.this, android.R.layout.simple_spinner_dropdown_item, string.toArray(new String[0]));
-                spn_color.setText(colorList.get(0).getColorNme());
                 spn_color.setAdapter(adapters);
-            }catch (NullPointerException e){
+            } catch (NullPointerException e){
                 e.printStackTrace();
-            }catch (Exception e){
+            } catch (Exception e){
                 e.printStackTrace();
             }
         });
-        spn_color.setSelection(0);
         spn_color.setOnItemClickListener(new OnItemClickListener(spn_color));
         spnAcctTerm.setOnItemClickListener(new OnItemClickListener(spnAcctTerm));
         txtDownPymnt.addTextChangedListener(new FormatUIText.CurrencyFormat(txtDownPymnt));
@@ -109,7 +104,9 @@ public class Activity_ProductInquiry extends AppCompatActivity {
             try{
                 mViewModel.GetCashPrice(modelID).observe(Activity_ProductInquiry.this, cashPrice -> {
                     try{
-                        txtCashPrce.setText(FormatUIText.getCurrencyUIFormat(cashPrice.CashPrce));
+                        txtCashPrce.setText(FormatUIText.getCurrencyUIFormat(String.valueOf(cashPrice.CashPrce)));
+                        mViewModel.getModel().setCashPrce(cashPrice.CashPrce);
+                        mViewModel.getModel().setPricexxx(cashPrice.Pricedxx);
                     } catch (Exception e){
                         e.printStackTrace();
                     }
@@ -155,6 +152,13 @@ public class Activity_ProductInquiry extends AppCompatActivity {
             }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
             StartTime.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
             StartTime.show();
+        });
+
+        spnPayment.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                mViewModel.getModel().setPaymForm(GConstants.PAYMENT_FORM[position]);
+            }
         });
 
         btnCalculate.setOnClickListener(view -> {

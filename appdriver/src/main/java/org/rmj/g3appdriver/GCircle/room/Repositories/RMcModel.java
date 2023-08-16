@@ -227,6 +227,12 @@ public class RMcModel {
             params.put("sModelIDxx", "");
             params.put("dPricedxxx", "");
 
+            EMCModelCashPrice loInfo = poDao.GetLatestMcCashPrice();
+
+            if(loInfo != null){
+                params.put("dPricedxxx", loInfo.getPricexxx());
+            }
+
             String lsResponse = WebClient.sendRequest(
                     poApi.getUrlImportMcModelPrices(),
                     params.toString(),

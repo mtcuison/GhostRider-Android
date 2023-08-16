@@ -61,8 +61,9 @@ public class Ganado {
 
     public String CreateInquiry(InquiryInfo loInfo){
         try{
-            if(!loInfo.isDataValid()){
-                message = loInfo.getMessage();
+            InquiryInfo.InquiryInfoValidator loValid = new InquiryInfo.InquiryInfoValidator();
+            if(!loValid.isDataValid(loInfo)){
+                message = loValid.getMessage();
                 return null;
             }
 

@@ -165,16 +165,13 @@
                         style="@style/TextInputStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight=".8"
                         android:hint="Cash Price">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/txt_cashPrice"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:imeOptions="actionDone"
-                            android:inputType="number|none"
-                            android:maxLength="50" />
+                            android:enabled="false"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout

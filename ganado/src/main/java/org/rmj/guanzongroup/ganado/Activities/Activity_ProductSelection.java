@@ -80,7 +80,11 @@ public class Activity_ProductSelection extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                adapter.filterModel(newText);
+                try {
+                    adapter.filterModel(newText);
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
                 return true;
             }
         });

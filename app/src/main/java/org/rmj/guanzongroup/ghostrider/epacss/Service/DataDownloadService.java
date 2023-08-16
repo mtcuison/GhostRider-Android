@@ -12,7 +12,6 @@
 package org.rmj.guanzongroup.ghostrider.epacss.Service;
 
 import android.annotation.SuppressLint;
-import android.app.Application;
 import android.app.job.JobParameters;
 import android.app.job.JobService;
 import android.util.Log;
@@ -39,12 +38,10 @@ import org.rmj.g3appdriver.GCircle.ImportData.Obj.Import_Occupations;
 import org.rmj.g3appdriver.GCircle.ImportData.Obj.Import_Relation;
 import org.rmj.g3appdriver.GCircle.ImportData.Obj.Import_SCARequest;
 import org.rmj.g3appdriver.GCircle.ImportData.Obj.Import_SysConfig;
-import org.rmj.g3appdriver.utils.ConnectionUtil;
 
+@SuppressLint("SpecifyJobSchedulerIdRange")
 public class DataDownloadService extends JobService {
     public static final String TAG = DataDownloadService.class.getSimpleName();
-
-    private Application instance;
 
     @Override
     public boolean onStartJob(JobParameters jobParameters) {
@@ -64,7 +61,6 @@ public class DataDownloadService extends JobService {
     }
 
     private void doBackgroundTask(JobParameters params) {
-        instance = getApplication();
         ImportInstance[]  importInstances = {
                 new Import_BranchAccounts(getApplication()),
                 new Import_BankList(getApplication()),
