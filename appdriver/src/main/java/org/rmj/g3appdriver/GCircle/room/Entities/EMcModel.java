@@ -29,6 +29,10 @@ public class EMcModel {
     private String ModelNme;
     @ColumnInfo(name = "sBrandIDx")
     private String BrandIDx;
+    @ColumnInfo(name = "nCashPrce")
+    private String CashPrce;
+    @ColumnInfo(name = "dPricedxx")
+    private String Pricedxx;
     @ColumnInfo(name = "cMotorTyp")
     private String MotorTyp;
     @ColumnInfo(name = "cRegisTyp")
@@ -144,5 +148,21 @@ public class EMcModel {
 
     public void setLstUpdte(String lstUpdte) {
         LstUpdte = lstUpdte;
+    }
+
+    public String getCashPrce() {
+        return CashPrce;
+    }
+
+    public void setCashPrce(String cashPrce) {
+        CashPrce = cashPrce;
+    }
+
+    public String getPricedxx() {
+        return Pricedxx;
+    }
+
+    public void setPricedxx(String pricedxx) {
+        Pricedxx = pricedxx;
     }
 }
