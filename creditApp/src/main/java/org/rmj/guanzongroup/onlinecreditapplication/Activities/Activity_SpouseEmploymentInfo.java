@@ -26,6 +26,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import org.json.JSONException;
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DTownInfo;
+import org.rmj.g3appdriver.GCircle.room.Entities.EOccupationInfo;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.GCircle.Apps.CreditApp.OnSaveInfoListener;
 import org.rmj.g3appdriver.GCircle.Apps.CreditApp.model.SpouseEmployments;
@@ -194,6 +195,34 @@ public class Activity_SpouseEmploymentInfo extends AppCompatActivity {
             }
         });
 
+        mViewModel.GetOccupations().observe(Activity_SpouseEmploymentInfo.this, new Observer<List<EOccupationInfo>>() {
+            @Override
+            public void onChanged(List<EOccupationInfo> loList) {
+                try{
+                    ArrayList<String> string = new ArrayList<>();
+                    for (int x = 0; x < loList.size(); x++) {
+                        string.add(loList.get(x).getOccptnNm());
+                    }
+
+                    ArrayAdapter<String> adapters = new ArrayAdapter<>(Activity_SpouseEmploymentInfo.this, android.R.layout.simple_spinner_dropdown_item, string.toArray(new String[0]));
+                    txtJobNme.setAdapter(adapters);
+
+                    txtJobNme.setOnItemClickListener((parent, view, position, id) -> {
+                        for (int x = 0; x < loList.size(); x++) {
+                            String lsLabel = loList.get(x).getOccptnNm();
+                            String lsSlctd = txtJobNme.getText().toString().trim();
+                            if (lsSlctd.equalsIgnoreCase(lsLabel)) {
+                                mViewModel.getModel().setJobTitle(loList.get(x).getOccptnID());
+                                mViewModel.getModel().setsJobName(lsLabel);
+                                break;
+                            }
+                        }
+                    });
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
 
         btnNext.setOnClickListener(v -> SaveSpouseEmploymentInfo());
         btnPrvs.setOnClickListener(v -> {

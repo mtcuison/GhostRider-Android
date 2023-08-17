@@ -323,8 +323,8 @@ public class Activity_EmploymentInfo extends AppCompatActivity {
                         String lsLabel = loList.get(x).getOccptnNm();
                         String lsSlctd = txtJobNme.getText().toString().trim();
                         if (lsSlctd.equalsIgnoreCase(lsLabel)) {
-                            mViewModel.getModel().setCountry(loList.get(x).getOccptnID());
-                            mViewModel.getModel().setsCountryN(lsLabel);
+                            mViewModel.getModel().setJobTitle(loList.get(x).getOccptnID());
+                            mViewModel.getModel().setsJobName(lsLabel);
                             break;
                         }
                     }
