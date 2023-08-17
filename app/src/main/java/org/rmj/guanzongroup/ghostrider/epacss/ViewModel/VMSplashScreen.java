@@ -20,21 +20,22 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
+import com.github.barteksc.pdfviewer.BuildConfig;
+
 import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
 import org.rmj.g3appdriver.GCircle.Account.EmployeeSession;
 import org.rmj.g3appdriver.GCircle.Apps.Dcp.model.LRDcp;
 import org.rmj.g3appdriver.GCircle.room.Entities.ETokenInfo;
 import org.rmj.g3appdriver.GCircle.room.Repositories.AppTokenManager;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.lib.Etc.Barangay;
 import org.rmj.g3appdriver.lib.Etc.Branch;
 import org.rmj.g3appdriver.lib.Etc.Province;
 import org.rmj.g3appdriver.lib.Etc.Town;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.Task.OnDoBackgroundTaskListener;
 import org.rmj.g3appdriver.utils.Task.OnLoadApplicationListener;
 import org.rmj.g3appdriver.utils.Task.TaskExecutor;
-import org.rmj.guanzongroup.ghostrider.epacss.BuildConfig;
 
 public class VMSplashScreen extends AndroidViewModel {
     private static final String TAG = VMSplashScreen.class.getSimpleName();
@@ -60,6 +61,7 @@ public class VMSplashScreen extends AndroidViewModel {
         this.poConfigx.setPackageName(BuildConfig.APPLICATION_ID);
         this.poConfigx.setProductID("gRider");
         this.poConfigx.setUpdateLocally(false);
+        this.poConfigx.setTestCase(false);
         this.poConfigx.setupAppVersionInfo(BuildConfig.VERSION_CODE, BuildConfig.VERSION_NAME, "");
         ETokenInfo loToken = new ETokenInfo();
         loToken.setTokenInf("temp_token");
