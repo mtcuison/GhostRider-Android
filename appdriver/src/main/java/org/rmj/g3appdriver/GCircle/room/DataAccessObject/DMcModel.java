@@ -19,6 +19,7 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import org.rmj.g3appdriver.GCircle.room.Entities.EMCColor;
+import org.rmj.g3appdriver.GCircle.room.Entities.EMCModelCashPrice;
 import org.rmj.g3appdriver.GCircle.room.Entities.EMcModel;
 
 import java.util.List;
@@ -32,6 +33,9 @@ public interface DMcModel {
     @Insert
     void insert(EMCColor mcColor);
 
+    @Insert
+    void insert(EMCModelCashPrice mcPrice);
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertBulkData(List<EMcModel> models);
 
@@ -41,6 +45,9 @@ public interface DMcModel {
     @Update
     void update(EMCColor mcColor);
 
+    @Update
+    void update(EMCModelCashPrice mcPrice);
+
     @Query("SELECT * FROM MC_Model WHERE sModelIDx =:fsVal")
     EMcModel GetMCModel(String fsVal);
 
@@ -49,6 +56,12 @@ public interface DMcModel {
 
     @Query("SELECT * FROM MC_Model_Color ORDER BY dTimeStmp DESC LIMIT 1")
     EMCColor GetLatestMcColorTimeStamp();
+
+    @Query("SELECT * FROM MC_Cash_Price WHERE sModelIDx=:ModelID")
+    EMCModelCashPrice GetModelCashPriceInfo(String ModelID);
+
+    @Query("SELECT * FROM MC_Cash_Price ORDER BY dPricexxx DESC LIMIT 1")
+    EMCModelCashPrice GetLatestMcCashPrice();
 
     @Query("SELECT * FROM MC_Model_Color WHERE sModelIDx =:ModelID AND sColorIDx =:ColorID")
     EMCColor GetModelColor(String ModelID, String ColorID);
@@ -67,6 +80,8 @@ public interface DMcModel {
 
     @Query("SELECT * FROM Mc_Model WHERE sModelIDx =:ModelID")
     EMcModel getModelInfo(String ModelID);
+
+
 
     @Query("SELECT  " +
             "a.sModelIDx, " +

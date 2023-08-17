@@ -32,7 +32,6 @@ public class VMProductInquiry extends AndroidViewModel implements GanadoUI {
     private final ProductInquiry poApp;
     private final Ganado oApp;
     private final InquiryInfo poModel;
-    private  String[] paymentForm;
 
     private final MutableLiveData<String> psBrandID = new MutableLiveData<>();
     private final MutableLiveData<String> psModelID = new MutableLiveData<>();
@@ -54,7 +53,6 @@ public class VMProductInquiry extends AndroidViewModel implements GanadoUI {
         super(instance);
         this.poApp = new ProductInquiry(instance);
         this.poModel = new InquiryInfo();
-        this.paymentForm = poApp.getPaymentForm();
         this.oApp = new Ganado(instance);
         poModel.setGanadoTp("1");
     }
@@ -142,6 +140,10 @@ public class VMProductInquiry extends AndroidViewModel implements GanadoUI {
         });
     }
 
+    public LiveData<DGanadoOnline.CashPrice> GetCashPrice(String ModelID){
+        return poApp.GetCashPrice(ModelID);
+    }
+
     public void CalculateNewDownpayment(String ModelID, int term, double Downpayment, OnCalculateNewDownpayment listener){
         TaskExecutor.Execute(null, new OnDoBackgroundTaskListener() {
             @Override
@@ -205,12 +207,12 @@ public class VMProductInquiry extends AndroidViewModel implements GanadoUI {
 
             @Override
             public Object DoInBackground(Object args) {
-                InquiryInfo lsLoanInfo =  poModel;
                 try {
-                    InquiryInfo loDetail = lsLoanInfo;
+                    InquiryInfo loDetail = poModel;
+                    InquiryInfo.InquiryInfoValidator loValid = new InquiryInfo.InquiryInfoValidator();
 
-                    if (!loDetail.isDataValid()) {
-                        message = loDetail.getMessage();
+                    if (!loValid.isDataValid(loDetail)) {
+                        message = loValid.getMessage();
                         return null;
                     }
 

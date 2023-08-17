@@ -12,7 +12,6 @@
 package org.rmj.guanzongroup.ghostrider.epacss.Service;
 
 import android.annotation.SuppressLint;
-import android.app.Application;
 import android.app.job.JobParameters;
 import android.app.job.JobService;
 import android.util.Log;
@@ -22,6 +21,8 @@ import org.rmj.g3appdriver.GCircle.ImportData.Obj.ImportBrand;
 import org.rmj.g3appdriver.GCircle.ImportData.Obj.ImportBrandModel;
 import org.rmj.g3appdriver.GCircle.ImportData.Obj.ImportCategory;
 import org.rmj.g3appdriver.GCircle.ImportData.Obj.ImportCountry;
+import org.rmj.g3appdriver.GCircle.ImportData.Obj.Import_MCCashPrice;
+import org.rmj.g3appdriver.GCircle.ImportData.Obj.Import_McColors;
 import org.rmj.g3appdriver.GCircle.ImportData.model.ImportDataCallback;
 import org.rmj.g3appdriver.GCircle.ImportData.Obj.ImportFileCode;
 import org.rmj.g3appdriver.GCircle.ImportData.model.ImportInstance;
@@ -37,12 +38,10 @@ import org.rmj.g3appdriver.GCircle.ImportData.Obj.Import_Occupations;
 import org.rmj.g3appdriver.GCircle.ImportData.Obj.Import_Relation;
 import org.rmj.g3appdriver.GCircle.ImportData.Obj.Import_SCARequest;
 import org.rmj.g3appdriver.GCircle.ImportData.Obj.Import_SysConfig;
-import org.rmj.g3appdriver.utils.ConnectionUtil;
 
+@SuppressLint("SpecifyJobSchedulerIdRange")
 public class DataDownloadService extends JobService {
     public static final String TAG = DataDownloadService.class.getSimpleName();
-
-    private Application instance;
 
     @Override
     public boolean onStartJob(JobParameters jobParameters) {
@@ -62,13 +61,14 @@ public class DataDownloadService extends JobService {
     }
 
     private void doBackgroundTask(JobParameters params) {
-        instance = getApplication();
         ImportInstance[]  importInstances = {
                 new Import_BranchAccounts(getApplication()),
                 new Import_BankList(getApplication()),
                 new ImportFileCode(getApplication()),
                 new ImportBrand(getApplication()),
                 new ImportBrandModel(getApplication()),
+                new Import_McColors(getApplication()),
+                new Import_MCCashPrice(getApplication()),
                 new ImportCategory(getApplication()),
                 new Import_Relation(getApplication()),
                 new ImportProvinces(getApplication()),

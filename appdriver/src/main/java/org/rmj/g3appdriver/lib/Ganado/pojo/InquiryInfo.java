@@ -10,6 +10,8 @@ public class InquiryInfo {
     private String sTermIDxx = "";
     private String dTargetxx = "";
     private String nDownPaym = "";
+    private Double nCashPrce = 0.0;
+    private String dPricexxx = "";
 
 
     private String nMonthAmr = "";
@@ -124,48 +126,73 @@ public class InquiryInfo {
         this.sRelatnID = sRelatnID;
     }
 
-    public boolean isDataValid(){
-        if(cGanadoTp.isEmpty()) {
-            message = "Please select type of unit whether motorcycle, automobile or mobile phone";
-            return false;
+    public Double getCashPrce() {
+        return nCashPrce;
+    }
+
+    public void setCashPrce(Double nCashPrce) {
+        this.nCashPrce = nCashPrce;
+    }
+
+    public String getPricexxx() {
+        return dPricexxx;
+    }
+
+    public void setPricexxx(String dPricexxx) {
+        this.dPricexxx = dPricexxx;
+    }
+
+    public static class InquiryInfoValidator{
+
+        private String message;
+
+        public String getMessage() {
+            return message;
         }
 
-        if(sBrandIDx.isEmpty()) {
-            message = "Please select which motorcycle brand you prefer.";
-            return false;
-        }
-
-        if(sModelIDx.isEmpty()) {
-            message = "Please select which motorcycle unit you prefer.";
-            return false;
-        }
-
-        if(sColorIDx.isEmpty()) {
-            message = "Please select which color you prefer.";
-            return false;
-        }
-
-        if(dTargetxx.isEmpty()){
-            message = "Please select the target date for getting the unit.";
-            return false;
-        }
-
-        if(cPaymForm.isEmpty()) {
-            message = "Please select which type of payment you prefer. Cash or Installment";
-            return false;
-        }
-
-        if(cPaymForm.equalsIgnoreCase("1")) {
-            if (sTermIDxx.isEmpty()) {
-                message = "Please select the desired installment term.";
+        public boolean isDataValid(InquiryInfo foVal){
+            if(foVal.getGanadoTp().isEmpty()) {
+                message = "Please select type of unit whether motorcycle, automobile or mobile phone";
                 return false;
             }
-            if (nDownPaym.isEmpty()) {
-                message = "Please enter your downpayment.";
+
+            if(foVal.getBrandIDx().isEmpty()) {
+                message = "Please select which motorcycle brand you prefer.";
                 return false;
             }
-        }
 
-        return true;
+            if(foVal.getModelIDx().isEmpty()) {
+                message = "Please select which motorcycle unit you prefer.";
+                return false;
+            }
+
+            if(foVal.getColorIDx().isEmpty()) {
+                message = "Please select which color you prefer.";
+                return false;
+            }
+
+            if(foVal.getTargetxx().isEmpty()){
+                message = "Please select the target date for getting the unit.";
+                return false;
+            }
+
+            if(foVal.getPaymForm().isEmpty()) {
+                message = "Please select which type of payment you prefer. Cash or Installment";
+                return false;
+            }
+
+            if(foVal.getPaymForm().equalsIgnoreCase("1")) {
+                if (foVal.getTermIDxx().isEmpty()) {
+                    message = "Please select the desired installment term.";
+                    return false;
+                }
+                if (foVal.getDownPaym().isEmpty()) {
+                    message = "Please enter your downpayment.";
+                    return false;
+                }
+            }
+
+            return true;
+        }
     }
 }

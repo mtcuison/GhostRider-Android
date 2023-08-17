@@ -7,7 +7,6 @@ import android.app.Application;
 import androidx.lifecycle.LiveData;
 
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DGanadoOnline;
-import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DMcModel;
 import org.rmj.g3appdriver.GCircle.room.Entities.EMCColor;
 import org.rmj.g3appdriver.GCircle.room.Entities.EMcBrand;
 import org.rmj.g3appdriver.GCircle.room.Entities.EMcModel;
@@ -21,14 +20,12 @@ import java.util.List;
 public class ProductInquiry {
     private static final String TAG = ProductInquiry.class.getSimpleName();
 
-    private final Application instance;
     private final DGanadoOnline poDao;
     private final Pricelist poPrice;
 
     private String message;
 
     public ProductInquiry(Application instance) {
-        this.instance = instance;
         this.poDao = GGC_GCircleDB.getInstance(instance).ganadoDao();
         this.poPrice = PriceFactory.make(PriceFactory.ProductType.MOTORCYCLE);
     }
@@ -65,6 +62,10 @@ public class ProductInquiry {
 
     public DGanadoOnline.McDownpayment GetInstallmentPlanDetail(String ModelID){
         return poDao.getDownpayment(ModelID);
+    }
+
+    public LiveData<DGanadoOnline.CashPrice> GetCashPrice(String ModelID){
+        return poDao.GetCashInfo(ModelID);
     }
 
     /**

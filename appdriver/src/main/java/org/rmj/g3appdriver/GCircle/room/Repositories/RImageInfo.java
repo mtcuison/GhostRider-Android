@@ -364,7 +364,6 @@ public class RImageInfo {
             JSONObject loResult = new JSONObject(loUpload.toJSONString());
             if(loResult.has("result")){
                 String lsImgResult = (String) loUpload.get("result");
-                Log.e(TAG, loUpload.toJSONString());
                 if (lsImgResult.equalsIgnoreCase("error")) {
                     JSONObject loError = loResult.getJSONObject("error");
                     message = getErrorMessage(loError);
@@ -373,7 +372,6 @@ public class RImageInfo {
                 }
             } else {
                 String lsImgResult = (String) loUpload.get("rhsult");
-                Log.e(TAG, loUpload.toJSONString());
                 if (lsImgResult.equalsIgnoreCase("error")) {
                     JSONObject loError = loResult.getJSONObject("error");
                     message = getErrorMessage(loError);

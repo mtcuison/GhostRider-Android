@@ -13,6 +13,7 @@ package org.rmj.g3appdriver.GCircle.Apps.SelfieLog;
 
 import static org.rmj.g3appdriver.dev.Api.ApiResult.getErrorMessage;
 import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
+import static org.rmj.g3appdriver.lib.Firebase.CrashReportingUtil.reportException;
 
 import android.app.Application;
 import android.util.Log;
@@ -34,6 +35,7 @@ import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.GCircle.Etc.DeptCode;
 import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
+import org.rmj.g3appdriver.lib.Firebase.CrashReportingUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -95,6 +97,7 @@ public class SelfieLog {
         } catch (Exception e){
             e.printStackTrace();
             message = getLocalMessage(e);
+            reportException(poSession.getUserID(), e.getLocalizedMessage());
             return false;
         }
     }
@@ -148,6 +151,7 @@ public class SelfieLog {
         } catch (Exception e){
             e.printStackTrace();
             message = getLocalMessage(e);
+            reportException(poSession.getUserID(), message);
             return 0;
         }
     }
@@ -190,6 +194,7 @@ public class SelfieLog {
         } catch (Exception e){
             e.printStackTrace();
             message = getLocalMessage(e);
+            reportException(poSession.getUserID(), message);
             return null;
         }
     }
@@ -239,6 +244,7 @@ public class SelfieLog {
             if(lsResult.equalsIgnoreCase("error")){
                 JSONObject loError = loResponse.getJSONObject("error");
                 message = getErrorMessage(loError);
+                reportException(poSession.getUserID(), message);
                 return false;
             }
 
@@ -252,6 +258,7 @@ public class SelfieLog {
         } catch (Exception e){
             e.printStackTrace();
             message = getLocalMessage(e);
+            reportException(poSession.getUserID(), message);
             return false;
         }
     }

@@ -36,6 +36,10 @@ public class EGanadoOnline {
     private String ReferdBy = "";
     @ColumnInfo(name = "sRelatnID")
     private String RelatnID = "";
+    @ColumnInfo(name = "nCashPrce")
+    private Double CashPrce = 0.0;
+    @ColumnInfo(name = "dPricexxx")
+    private String Pricexxx = "";
     @ColumnInfo(name = "dCreatedx")
     private String Createdx = "";
     @ColumnInfo(name = "cTranStat")
@@ -213,5 +217,21 @@ public class EGanadoOnline {
 
     public void setTimeStmp(String timeStmp) {
         TimeStmp = timeStmp;
+    }
+
+    public Double getCashPrce() {
+        return CashPrce;
+    }
+
+    public void setCashPrce(Double nCashPrce) {
+        this.CashPrce = nCashPrce;
+    }
+
+    public String getPricexxx() {
+        return Pricexxx;
+    }
+
+    public void setPricexxx(String pricexxx) {
+        Pricexxx = pricexxx;
     }
 }

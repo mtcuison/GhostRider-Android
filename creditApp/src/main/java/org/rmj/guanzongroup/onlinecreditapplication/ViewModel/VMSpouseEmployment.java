@@ -16,6 +16,7 @@ import org.rmj.g3appdriver.GCircle.Apps.CreditApp.OnSaveInfoListener;
 import org.rmj.g3appdriver.GCircle.Apps.CreditApp.model.SpouseEmployments;
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.ECreditApplicantInfo;
+import org.rmj.g3appdriver.GCircle.room.Entities.EOccupationInfo;
 import org.rmj.g3appdriver.utils.Task.OnDoBackgroundTaskListener;
 import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 
@@ -128,81 +129,8 @@ public class VMSpouseEmployment extends AndroidViewModel implements CreditAppUI 
     public LiveData<List<DTownInfo.TownProvinceInfo>> GetTownProvinceList() {
         return poApp.GetTownProvinceList();
     }
+
+    public LiveData<List<EOccupationInfo>> GetOccupations() {
+        return poApp.GetOccupations();
+    }
 }
-//    private class ParseDataTask extends AsyncTask<ECreditApplicantInfo, Void, SpouseEmployments> {
-//
-//        private final OnParseListener listener;
-//
-//        public ParseDataTask(OnParseListener listener) {
-//            this.listener = listener;
-//        }
-//
-//        @Override
-//        protected SpouseEmployments doInBackground(ECreditApplicantInfo... app) {
-//            try {
-//                SpouseEmployments loDetail = (SpouseEmployments) poApp.Parse(app[0]);
-//                if (loDetail == null) {
-//                    message = poApp.getMessage();
-//                    return null;
-//                }
-//                return loDetail;
-//            } catch (NullPointerException e){
-//                e.printStackTrace();
-//                message = getLocalMessage(e);
-//                return null;
-//            }catch (Exception e){
-//                e.printStackTrace();
-//                message = getLocalMessage(e);
-//                return null;
-//            }
-//        }
-//
-//        @Override
-//        protected void onPostExecute(SpouseEmployments result) {
-//            super.onPostExecute(result);
-//            if (result == null) {
-//                Log.e(TAG, message);
-//            } else {
-//                listener.OnParse(result);
-//            }
-//        }
-//    }
-//
-//    private class SaveDataTask extends AsyncTask<SpouseEmployments, Void, Boolean> {
-//
-//        private final OnSaveInfoListener listener;
-//
-//        public SaveDataTask(OnSaveInfoListener listener) {
-//            this.listener = listener;
-//        }
-//
-//        @Override
-//        protected Boolean doInBackground(SpouseEmployments... info) {
-//            int lnResult = poApp.Validate(info[0]);
-//
-//            if (lnResult != 1) {
-//                message = poApp.getMessage();
-//                return false;
-//            }
-//
-//            String lsResult = poApp.Save(info[0]);
-//            if(lsResult == null){
-//                message = poApp.getMessage();
-//                return false;
-//            }
-//
-//            TransNox = info[0].getTransNox();
-//            return true;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(Boolean isSuccess) {
-//            super.onPostExecute(isSuccess);
-//            if (!isSuccess) {
-//                listener.OnFailed(message);
-//            } else {
-//                listener.OnSave(TransNox);
-//            }
-//        }
-//    }
-//}
