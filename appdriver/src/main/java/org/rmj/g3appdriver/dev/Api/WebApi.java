@@ -21,7 +21,7 @@ public abstract class WebApi {
 
     private final AppConfigPreference poConfig;
 
-    protected static final String LOCAL = "http://192.168.11.29/";
+    protected static final String LOCAL = "http://192.168.36.12/";
 
     private static final String PRIMARY_LIVE = "https://restgk.guanzongroup.com.ph/";
     private static final String SECONDARY_LIVE = "https://restgk1.guanzongroup.com.ph/";

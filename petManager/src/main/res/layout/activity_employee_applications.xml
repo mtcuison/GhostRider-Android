@@ -39,11 +39,12 @@
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/shapeableImageView"
+        style="@style/Activity_HeaderBackground"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        style="@style/Activity_HeaderBackground"
-        app:layout_constraintHeight_percent=".3"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent=".3"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

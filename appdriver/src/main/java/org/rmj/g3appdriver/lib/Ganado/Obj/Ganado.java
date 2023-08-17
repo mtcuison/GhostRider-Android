@@ -61,8 +61,9 @@ public class Ganado {
 
     public String CreateInquiry(InquiryInfo loInfo){
         try{
-            if(!loInfo.isDataValid()){
-                message = loInfo.getMessage();
+            InquiryInfo.InquiryInfoValidator loValid = new InquiryInfo.InquiryInfoValidator();
+            if(!loValid.isDataValid(loInfo)){
+                message = loValid.getMessage();
                 return null;
             }
 
@@ -78,6 +79,8 @@ public class Ganado {
             joProdct.put("sBrandIDx", loInfo.getBrandIDx());
             joProdct.put("sModelIDx", loInfo.getModelIDx());
             joProdct.put("sColorIDx", loInfo.getColorIDx());
+            joProdct.put("nSelPrice", loInfo.getCashPrce());
+            joProdct.put("dPricexxx", loInfo.getPricexxx());
             loDetail.setProdInfo(joProdct.toString());
 
             JSONObject joPayment = new JSONObject();

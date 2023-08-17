@@ -223,6 +223,19 @@
             </AndroidTestResultsTableState>
           </value>
         </entry>
+        <entry key="-648933658">
+          <value>
+            <AndroidTestResultsTableState>
+              <option name="preferredColumnWidths">
+                <map>
+                  <entry key="Duration" value="90" />
+                  <entry key="Resizable_Experimental_API_34" value="120" />
+                  <entry key="Tests" value="360" />
+                </map>
+              </option>
+            </AndroidTestResultsTableState>
+          </value>
+        </entry>
         <entry key="-625190845">
           <value>
             <AndroidTestResultsTableState>
@@ -284,6 +297,7 @@
                 <map>
                   <entry key="Duration" value="127" />
                   <entry key="R9YT602GSKT" value="120" />
+                  <entry key="Resizable_Experimental_API_34" value="120" />
                   <entry key="Tests" value="396" />
                   <entry key="samsung" value="120" />
                   <entry key="samsung&#10; SM-A035F" value="155" />
@@ -439,6 +453,7 @@
                 <map>
                   <entry key="Android_13_5.7" value="120" />
                   <entry key="Duration" value="90" />
+                  <entry key="Resizable_Experimental_API_34" value="120" />
                   <entry key="Tests" value="360" />
                 </map>
               </option>
@@ -595,6 +610,7 @@
                   <entry key="Duration" value="90" />
                   <entry key="Pixel_2_API_34" value="120" />
                   <entry key="Pixel_API_TiramisuPrivacySandbox" value="120" />
+                  <entry key="Resizable_Experimental_API_34" value="120" />
                   <entry key="Tests" value="360" />
                 </map>
               </option>

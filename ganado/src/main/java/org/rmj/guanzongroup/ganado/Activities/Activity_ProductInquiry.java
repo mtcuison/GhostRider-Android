@@ -2,6 +2,7 @@ package org.rmj.guanzongroup.ganado.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
@@ -20,6 +21,7 @@ import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textview.MaterialTextView;
 
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DGanadoOnline;
 import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.Ganado.model.GConstants;
@@ -39,7 +41,7 @@ public class Activity_ProductInquiry extends AppCompatActivity {
     private VMProductInquiry mViewModel;
     private MessageBox poMessage;
     private MaterialTextView txtBranchNm, txtBrandNm, txtModelNm, txtModelCd;
-    private TextInputEditText txtDownPymnt, txtAmort, txtDTarget;
+    private TextInputEditText txtCashPrce, txtDownPymnt, txtAmort, txtDTarget;
     private MaterialAutoCompleteTextView spn_color, spnPayment, spnAcctTerm;
     private MaterialButton btnContinue,btnCalculate;
     private ShapeableImageView imgMC;
@@ -50,14 +52,11 @@ public class Activity_ProductInquiry extends AppCompatActivity {
         setContentView(R.layout.activity_product_inquiry);
         initWidgets();
 
-        spnPayment.setText(GConstants.PAYMENT_FORM[0]);
         spnPayment.setAdapter(GConstants.getAdapter(Activity_ProductInquiry.this, GConstants.PAYMENT_FORM));
         spnAcctTerm.setText(GConstants.INSTALLMENT_TERM[0]);
         spnAcctTerm.setAdapter(GConstants.getAdapter(Activity_ProductInquiry.this, GConstants.INSTALLMENT_TERM));
         mViewModel.setBrandID(getIntent().getStringExtra("lsBrandID"));
         mViewModel.setModelID(getIntent().getStringExtra("lsModelID"));
-        mViewModel.getModel().setTermIDxx("36");
-        mViewModel.getModel().setPaymForm("1");
 
         lsBrandID = getIntent().getStringExtra("lsBrandID");
         lsModelID = getIntent().getStringExtra("lsModelID");
@@ -87,24 +86,32 @@ public class Activity_ProductInquiry extends AppCompatActivity {
                     String lsColor = colorList.get(x).getColorNme();
                     //                        String lsTown =  loList.get(x).sProvName ;
                     string.add(lsColor);
-
                 }
+
                 ArrayAdapter<String> adapters = new ArrayAdapter<>(Activity_ProductInquiry.this, android.R.layout.simple_spinner_dropdown_item, string.toArray(new String[0]));
-                spn_color.setText(colorList.get(0).getColorNme());
                 spn_color.setAdapter(adapters);
-            }catch (NullPointerException e){
+            } catch (NullPointerException e){
                 e.printStackTrace();
-            }catch (Exception e){
+            } catch (Exception e){
                 e.printStackTrace();
             }
         });
-        spn_color.setSelection(0);
         spn_color.setOnItemClickListener(new OnItemClickListener(spn_color));
         spnAcctTerm.setOnItemClickListener(new OnItemClickListener(spnAcctTerm));
         txtDownPymnt.addTextChangedListener(new FormatUIText.CurrencyFormat(txtDownPymnt));
 
         mViewModel.GetModelID().observe(Activity_ProductInquiry.this, modelID -> {
             try{
+                mViewModel.GetCashPrice(modelID).observe(Activity_ProductInquiry.this, cashPrice -> {
+                    try{
+                        txtCashPrce.setText(FormatUIText.getCurrencyUIFormat(String.valueOf(cashPrice.CashPrce)));
+                        mViewModel.getModel().setCashPrce(cashPrice.CashPrce);
+                        mViewModel.getModel().setPricexxx(cashPrice.Pricedxx);
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
+                });
+
                 mViewModel.GetMinimumDownpayment(modelID, new VMProductInquiry.OnRetrieveInstallmentInfo() {
                     @Override
                     public void OnRetrieve(InstallmentInfo loResult) {
@@ -145,6 +152,13 @@ public class Activity_ProductInquiry extends AppCompatActivity {
             }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
             StartTime.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
             StartTime.show();
+        });
+
+        spnPayment.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                mViewModel.getModel().setPaymForm(GConstants.PAYMENT_FORM[position]);
+            }
         });
 
         btnCalculate.setOnClickListener(view -> {
@@ -200,6 +214,7 @@ public class Activity_ProductInquiry extends AppCompatActivity {
         txtBrandNm = findViewById(R.id.lblBrand);
         txtModelCd = findViewById(R.id.lblModelCde);
         txtModelNm = findViewById(R.id.lblModelNme);
+        txtCashPrce = findViewById(R.id.txt_cashPrice);
         txtDownPymnt = findViewById(R.id.txt_downpayment);
         txtAmort = findViewById(R.id.txt_monthlyAmort);
         txtDTarget = findViewById(R.id.txt_targetDate);
