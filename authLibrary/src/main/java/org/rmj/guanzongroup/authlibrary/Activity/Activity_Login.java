@@ -51,6 +51,9 @@ public class Activity_Login extends AppCompatActivity implements LoginCallback {
         mtv_forgotpassw = findViewById(R.id.mtv_forgotpassw);
         btn_log = findViewById(R.id.btn_log);
 
+        tie_mobileno.setText(mViewModel.getMobileNo());
+        tie_mobileno.setVisibility(mViewModel.hasMobileNo());
+
         btn_log.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
