@@ -16,6 +16,7 @@ import static org.rmj.g3appdriver.lib.Firebase.CrashReportingUtil.reportExceptio
 
 import android.annotation.SuppressLint;
 import android.app.Application;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
