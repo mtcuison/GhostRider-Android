@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
@@ -41,7 +40,7 @@ public class RecyclerViewAdapter_BranchRate extends RecyclerView.Adapter<Recycle
     @NonNull
     @Override
     public RatingViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_rec_ratelist, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_evaluation, parent, false);
         return new RatingViewHolder(view);
     }
 

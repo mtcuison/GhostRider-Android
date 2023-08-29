@@ -2,6 +2,7 @@ package org.rmj.guanzongroup.pacitareward.Activity;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -100,10 +101,11 @@ public class Activity_BranchRecord_Details extends AppCompatActivity {
                                 String lsPayload = ePacitaEvaluation.getPayloadx();
                                 List<BranchRate> loRate = PacitaRule.ParseBranchRate(lsPayload, ePacitaRules);
 
-                                RecyclerViewAdapter_RecordDetails recyclerViewAdapter_recordDetails =
-                                        new RecyclerViewAdapter_RecordDetails(Activity_BranchRecord_Details.this, loRate);
-                                branch_rec.setAdapter(recyclerViewAdapter_recordDetails);
+                                RecyclerViewAdapter_RecordDetails loAdapter =
+                                        new RecyclerViewAdapter_RecordDetails(loRate);
                                 branch_rec.setLayoutManager(new LinearLayoutManager(Activity_BranchRecord_Details.this, RecyclerView.VERTICAL, false));
+                                branch_rec.setAdapter(loAdapter);
+                                Log.d("Adapter Item Count", "Count: " + loAdapter.getItemCount());
                             }
                         });
                     }
