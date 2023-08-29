@@ -33,7 +33,7 @@ public class RecyclerViewAdapter_EvalHistory extends RecyclerView.Adapter<Recycl
     @Override
     public RecyclerViewHolder_EvalHist onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
-        View view = layoutInflater.inflate(R.layout.layout_histeval, parent, false);
+        View view = layoutInflater.inflate(R.layout.list_item_evaluation_history, parent, false);
         return new RecyclerViewHolder_EvalHist(view);
     }
 
