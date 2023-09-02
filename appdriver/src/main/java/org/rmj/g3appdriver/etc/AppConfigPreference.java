@@ -222,7 +222,7 @@ public class AppConfigPreference {
     }
 
     public String getVersionInfo(){
-        return pref.getString(APP_NAME_VERSION, "") + " - " + pref.getString(APP_DATE_RELEASE, "");
+        return pref.getString(APP_NAME_VERSION, "");
     }
 
     public int getVersionCode(){

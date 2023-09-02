@@ -120,8 +120,6 @@ public class Activity_EmploymentInfo extends AppCompatActivity {
         mViewModel.getModel().setCompanyName(txtCompNm.getText().toString());
         mViewModel.getModel().setCompanyAddress((txtCompAd.getText()).toString());
 
-
-        mViewModel.getModel().setJobTitle((txtJobNme.getText()).toString());
         mViewModel.getModel().setSpecificJob((txtSpcfJb.getText()).toString());
 
         if (txtLngthS.getText().toString().isEmpty()) {
