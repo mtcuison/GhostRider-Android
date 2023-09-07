@@ -157,7 +157,14 @@ public class Activity_ProductInquiry extends AppCompatActivity {
         spnPayment.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mViewModel.getModel().setPaymForm(GConstants.PAYMENT_FORM[position]);
+                mViewModel.getModel().setPaymForm(String.valueOf(position));
+                if(position == 0){
+                    findViewById(R.id.txt_cashPrice).setVisibility(View.VISIBLE);
+                    findViewById(R.id.linearInstallment).setVisibility(View.GONE);
+                } else {
+                    findViewById(R.id.txt_cashPrice).setVisibility(View.GONE);
+                    findViewById(R.id.linearInstallment).setVisibility(View.VISIBLE);
+                }
             }
         });
 
