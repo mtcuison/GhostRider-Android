@@ -79,6 +79,21 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics:21.2.0'
 
     implementation 'com.google.firebase:firebase-messaging:23.1.1'
+    implementation project(path: ':dailyCollectionPlan')
+    implementation project(path: ':documentScanner')
+    implementation project(path: ':creditEvaluation')
+    implementation project(path: ':dataChecker')
+    implementation project(path: ':promotions')
+    implementation project(path: ':ahMonitoring')
+    implementation project(path: ':notifications')
+    implementation project(path: ':creditApp')
+    implementation project(path: ':itinerary')
+    implementation project(path: ':samsungKnox')
+    implementation project(path: ':settings')
+    implementation project(path: ':approvalCode')
+    implementation project(path: ':panalo')
+    implementation project(path: ':pacitaReward')
+    implementation project(path: ':petManager')
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
@@ -102,23 +117,12 @@ dependencies {
 
     implementation 'commons-io:commons-io:2.6'
     implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
-    implementation project(path: ':authLibrary')
-    implementation project(path: ':documentScanner')
-    implementation project(path: ':ahMonitoring')
-    implementation project(path: ':promotions')
-    implementation project(path: ':samsungKnox')
-    implementation project(path: ':approvalCode')
-    implementation project(path: ':panalo')
-    implementation project(path: ':notifications')
-    implementation project(path: ':dailyCollectionPlan')
-    implementation project(path: ':dataChecker')
-    implementation project(path: ':itinerary')
-    implementation project(path: ':appDriver')
-    implementation project(path: ':petManager')
-    implementation project(':settings')
-    implementation project(':creditApp')
-    implementation project(':creditEvaluation')
-    implementation project(':pacitaReward')
-    implementation project(':ganado')
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
+
+    //MIS Android Libraries
+    implementation 'com.github.MIS-SEG-Android-Team:app_driver:v.1.05'
+    implementation 'com.github.MIS-SEG-Android-Team:Authentication:1.0.01'
+    implementation 'com.github.MIS-SEG-Android-Team:Product_Inquiry:v1.0.7'
+
 }

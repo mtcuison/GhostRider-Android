@@ -41,7 +41,6 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation project(path: ':appDriver')
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
@@ -73,4 +72,7 @@ dependencies {
     testImplementation 'androidx.test.espresso:espresso-web:3.5.1'
     testImplementation 'androidx.test.espresso.idling:idling-concurrent:3.5.1'
     testImplementation 'androidx.test.espresso:espresso-idling-resource:3.5.1'
+
+    //MIS Android Libraries
+    implementation 'com.github.MIS-SEG-Android-Team:app_driver:v.1.05'
 }

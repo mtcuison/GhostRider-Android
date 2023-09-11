@@ -37,7 +37,6 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
 //    implementation project(path: ':imgCapture')
     implementation project(path: ':notifications')
-    implementation project(path: ':appDriver')
     testImplementation 'junit:junit:4.13.2'
     implementation 'androidx.sqlite:sqlite:2.3.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
@@ -77,5 +76,6 @@ dependencies {
 //  SPINNER MATERIAL DESIGN
     implementation 'com.google.firebase:firebase-core:21.1.1'
 
-//    implementation files('D:/Android_Libs/app_driver.aar')
+    //MIS Android Libraries
+    implementation 'com.github.MIS-SEG-Android-Team:app_driver:v.1.05'
 }
