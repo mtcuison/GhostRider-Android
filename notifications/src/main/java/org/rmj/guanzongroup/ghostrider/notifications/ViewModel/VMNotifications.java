@@ -6,9 +6,9 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import org.rmj.g3appdriver.lib.Notifications.Obj.Message;
-import org.rmj.g3appdriver.lib.Notifications.Obj.Notification;
-import org.rmj.g3appdriver.lib.Notifications.Obj.Payslip;
+import org.rmj.g3appdriver.lib.Notifications.obj.Message;
+import org.rmj.g3appdriver.lib.Notifications.obj.Notification;
+import org.rmj.g3appdriver.lib.Notifications.obj.Payslip;
 
 public class VMNotifications extends AndroidViewModel {
     private static final String TAG = VMNotifications.class.getSimpleName();

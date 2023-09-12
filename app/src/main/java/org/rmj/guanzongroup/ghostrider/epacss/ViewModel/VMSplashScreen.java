@@ -20,14 +20,15 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
+import org.rmj.g3appdriver.Config.AppConfig;
+import org.rmj.g3appdriver.Config.AppVersionConfig;
 import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
 import org.rmj.g3appdriver.GCircle.Account.EmployeeSession;
 import org.rmj.g3appdriver.GCircle.Apps.Dcp.model.LRDcp;
 import org.rmj.g3appdriver.GCircle.room.Entities.ETokenInfo;
 import org.rmj.g3appdriver.GCircle.room.Repositories.AppTokenManager;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.lib.Branch.Branch;
 import org.rmj.g3appdriver.lib.Etc.Barangay;
-import org.rmj.g3appdriver.lib.Etc.Branch;
 import org.rmj.g3appdriver.lib.Etc.Province;
 import org.rmj.g3appdriver.lib.Etc.Town;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
@@ -42,7 +43,6 @@ public class VMSplashScreen extends AndroidViewModel {
     private final Application instance;
 
     private final ConnectionUtil poConn;
-    private final AppConfigPreference poConfig;
     private final EmployeeMaster poUser;
     private final EmployeeSession poSession;
 
@@ -52,17 +52,18 @@ public class VMSplashScreen extends AndroidViewModel {
         super(application); 
         this.instance = application;
         this.poConn = new ConnectionUtil(instance);
-        this.poConfig = AppConfigPreference.getInstance(instance);
         this.poUser = new EmployeeMaster(instance);
         this.poSession = EmployeeSession.getInstance(instance);
-        this.poConfig.setPackageName(BuildConfig.APPLICATION_ID);
-        this.poConfig.setProductID("gRider");
-        this.poConfig.setUpdateLocally(false);
-        this.poConfig.setTestCase(false);
-        this.poConfig.setupAppVersionInfo(BuildConfig.VERSION_CODE, BuildConfig.VERSION_NAME, "");
-        ETokenInfo loToken = new ETokenInfo();
-        loToken.setTokenInf("temp_token");
+        setupConfiguration();
         CheckConnection();
+    }
+
+    private void setupConfiguration(){
+        AppConfig.getInstance(instance).setProductID("gRider");
+        AppConfig.getInstance(instance).setPackageName(BuildConfig.APPLICATION_ID);
+        AppVersionConfig.getInstance(instance).setVersionName(BuildConfig.VERSION_NAME);
+        AppVersionConfig.getInstance(instance).setVersionCode(BuildConfig.VERSION_CODE);
+
     }
 
     public void SaveFirebaseToken(String fsVal){
@@ -150,7 +151,7 @@ public class VMSplashScreen extends AndroidViewModel {
 
                         return 1;
                     } else {
-                        if(!poConfig.isAppFirstLaunch()){
+                        if(!AppConfig.getInstance(instance).isFirstLaunch()){
                             message = "Offline Mode.";
                             return 1;
                         }
@@ -168,7 +169,7 @@ public class VMSplashScreen extends AndroidViewModel {
             @Override
             public void OnProgress(int progress) {
                 String lsArgs;
-                if(poConfig.isAppFirstLaunch()){
+                if(AppConfig.getInstance(instance).isFirstLaunch()){
                     lsArgs = "Importing Data...";
                 } else {
                     lsArgs = "Updating Data...";

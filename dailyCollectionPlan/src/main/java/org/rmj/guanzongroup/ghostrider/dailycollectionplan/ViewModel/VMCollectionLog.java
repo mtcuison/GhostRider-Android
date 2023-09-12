@@ -20,18 +20,18 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import org.rmj.g3appdriver.GCircle.Apps.Dcp.obj.REMIT;
-import org.rmj.g3appdriver.GCircle.room.Entities.EAddressUpdate;
-import org.rmj.g3appdriver.GCircle.room.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GCircle.room.Entities.EDCPCollectionMaster;
 import org.rmj.g3appdriver.GCircle.room.Entities.EImageInfo;
-import org.rmj.g3appdriver.GCircle.room.Entities.EMobileUpdate;
 import org.rmj.g3appdriver.GCircle.room.Repositories.RBankInfo;
-import org.rmj.g3appdriver.lib.Etc.Branch;
 import org.rmj.g3appdriver.GCircle.room.Repositories.RCollectionUpdate;
 import org.rmj.g3appdriver.GCircle.room.Repositories.RImageInfo;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.GCircle.Apps.Dcp.model.LRDcp;
+import org.rmj.g3appdriver.lib.Branch.Branch;
+import org.rmj.g3appdriver.lib.Branch.entity.EBranchInfo;
+import org.rmj.g3appdriver.lib.addressbook.data.entity.EAddressUpdate;
+import org.rmj.g3appdriver.lib.addressbook.data.entity.EMobileUpdate;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

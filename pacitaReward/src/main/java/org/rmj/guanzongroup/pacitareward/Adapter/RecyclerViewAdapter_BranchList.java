@@ -8,7 +8,7 @@ import android.widget.Filter;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.g3appdriver.GCircle.room.Entities.EBranchInfo;
+import org.rmj.g3appdriver.lib.Branch.entity.EBranchInfo;
 import org.rmj.guanzongroup.pacitareward.R;
 import org.rmj.guanzongroup.pacitareward.ViewHolder.RecyclerViewHolder_BranchList;
 

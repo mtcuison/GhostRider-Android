@@ -20,15 +20,10 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.rmj.g3appdriver.GCircle.Apps.knox.Obj.KnoxGetStatus;
-import org.rmj.g3appdriver.dev.Api.WebClient;
-import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
 import org.rmj.g3appdriver.utils.Task.TaskExecutor;
-import org.rmj.guanzongroup.ghostrider.samsungknox.Etc.KnoxErrorCode;
 import org.rmj.guanzongroup.ghostrider.samsungknox.Etc.ViewModelCallBack;
 
 public class VMGetStatus extends AndroidViewModel {

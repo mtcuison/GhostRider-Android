@@ -7,8 +7,8 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import org.rmj.g3appdriver.GCircle.room.Entities.ECashCount;
-import org.rmj.g3appdriver.lib.Etc.Branch;
 import org.rmj.g3appdriver.GCircle.room.Repositories.RCashCount;
+import org.rmj.g3appdriver.lib.Branch.Branch;
 
 public class VMCashCountLogDetails extends AndroidViewModel {
     private static final String TAG = VMCashCountLogDetails.class.getSimpleName();

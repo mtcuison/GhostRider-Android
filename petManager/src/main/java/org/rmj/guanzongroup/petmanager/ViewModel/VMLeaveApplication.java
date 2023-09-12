@@ -22,8 +22,8 @@ import androidx.lifecycle.LiveData;
 
 import org.rmj.g3appdriver.GCircle.Apps.PetManager.Obj.EmployeeLeave;
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DEmployeeInfo;
-import org.rmj.g3appdriver.lib.Etc.Branch;
 import org.rmj.g3appdriver.GCircle.Apps.PetManager.pojo.LeaveApplication;
+import org.rmj.g3appdriver.lib.Branch.Branch;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 
 

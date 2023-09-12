@@ -20,8 +20,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.TextInputEditText;
 
-import org.rmj.g3appdriver.GCircle.room.Entities.EBranchInfo;
 import org.rmj.g3appdriver.etc.MessageBox;
+import org.rmj.g3appdriver.lib.Branch.entity.EBranchInfo;
 import org.rmj.guanzongroup.pacitareward.Adapter.RecyclerViewAdapter_BranchList;
 import org.rmj.guanzongroup.pacitareward.Dialog.Dialog_SelectAction;
 import org.rmj.guanzongroup.pacitareward.R;

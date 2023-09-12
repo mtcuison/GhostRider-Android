@@ -20,9 +20,9 @@ import androidx.lifecycle.MutableLiveData;
 
 import org.rmj.g3appdriver.GCircle.room.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GCircle.room.Entities.EImageInfo;
-import org.rmj.g3appdriver.lib.Etc.Branch;
 import org.rmj.g3appdriver.GCircle.room.Repositories.RDailyCollectionPlan;
 import org.rmj.g3appdriver.GCircle.room.Repositories.RImageInfo;
+import org.rmj.g3appdriver.lib.Branch.Branch;
 
 public class VMLogPromiseToPay extends AndroidViewModel {
     private RDailyCollectionPlan poCollect;

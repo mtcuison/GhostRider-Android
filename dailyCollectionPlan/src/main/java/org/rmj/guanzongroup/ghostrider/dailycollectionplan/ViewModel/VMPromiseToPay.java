@@ -21,10 +21,10 @@ import androidx.lifecycle.LiveData;
 
 import org.rmj.g3appdriver.GCircle.Apps.Dcp.obj.PTP;
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DEmployeeInfo;
-import org.rmj.g3appdriver.GCircle.room.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.EDCPCollectionDetail;
-import org.rmj.g3appdriver.lib.Etc.Branch;
 import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.lib.Branch.Branch;
+import org.rmj.g3appdriver.lib.Branch.entity.EBranchInfo;
 import org.rmj.g3appdriver.lib.Location.LocationRetriever;
 import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
 import org.rmj.g3appdriver.GCircle.Apps.Dcp.model.LRDcp;

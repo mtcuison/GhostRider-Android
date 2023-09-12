@@ -14,7 +14,7 @@ import android.os.Build;
 
 import androidx.core.app.NotificationCompat;
 
-import org.rmj.g3appdriver.GCircle.room.Entities.ENotificationMaster;
+import org.rmj.g3appdriver.lib.Notifications.data.entity.ENotificationMaster;
 import org.rmj.guanzongroup.ghostrider.notifications.R;
 
 public class MessageNotification implements RglNotification{

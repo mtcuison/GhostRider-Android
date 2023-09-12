@@ -10,9 +10,9 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DPayslip;
-import org.rmj.g3appdriver.GCircle.room.Entities.ENotificationMaster;
 import org.rmj.g3appdriver.lib.Notifications.NOTIFICATION_STATUS;
-import org.rmj.g3appdriver.lib.Notifications.Obj.Payslip;
+import org.rmj.g3appdriver.lib.Notifications.data.entity.ENotificationMaster;
+import org.rmj.g3appdriver.lib.Notifications.obj.Payslip;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
 import org.rmj.g3appdriver.utils.Task.TaskExecutor;

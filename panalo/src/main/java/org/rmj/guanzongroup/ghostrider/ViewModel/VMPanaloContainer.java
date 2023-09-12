@@ -6,8 +6,8 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import org.rmj.g3appdriver.GCircle.room.Entities.ERaffleStatus;
-import org.rmj.g3appdriver.lib.Panalo.Obj.ILOVEMYJOB;
+import org.rmj.g3appdriver.lib.Panalo.data.entity.ERaffleStatus;
+import org.rmj.g3appdriver.lib.Panalo.obj.ILOVEMYJOB;
 
 public class VMPanaloContainer extends AndroidViewModel {
     private static final String TAG = VMPanaloContainer.class.getSimpleName();

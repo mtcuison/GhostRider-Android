@@ -40,5 +40,5 @@ dependencies {
     implementation project(path: ':documentScanner')
 
     //MIS Android Libraries
-    implementation 'com.github.MIS-SEG-Android-Team:app_driver:v.1.05'
+    implementation 'com.github.MIS-SEG-Android-Team:app_driver:v.1.06'
 }

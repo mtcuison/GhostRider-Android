@@ -120,7 +120,7 @@ dependencies {
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
     //MIS Android Libraries
-    implementation 'com.github.MIS-SEG-Android-Team:app_driver:v.1.05'
+    implementation 'com.github.MIS-SEG-Android-Team:app_driver:v.1.06'
     implementation 'com.github.MIS-SEG-Android-Team:Authentication:1.0.01'
     implementation 'com.github.MIS-SEG-Android-Team:Product_Inquiry:v1.0.7'
 

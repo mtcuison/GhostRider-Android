@@ -19,7 +19,8 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
 
-import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.Config.AppConfig;
+import org.rmj.g3appdriver.Config.AppVersionConfig;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.Version.VersionInfo;
@@ -84,7 +85,7 @@ public class Activity_AppVersion extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
        /*set by default, the current build version of  app*/
-       String build_name = AppConfigPreference.getInstance(Activity_AppVersion.this).getVersionName(); //get build version
+       String build_name = AppVersionConfig.getInstance(Activity_AppVersion.this).getVersionName(); //get build version
        build_version.setText(build_name); //display build version
 
         //call method to get the list of versions

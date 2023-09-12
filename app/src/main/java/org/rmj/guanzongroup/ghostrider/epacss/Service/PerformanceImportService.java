@@ -16,7 +16,6 @@ import android.app.job.JobParameters;
 import android.app.job.JobService;
 import android.util.Log;
 
-import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.GCircle.ImportData.model.ImportDataCallback;
 import org.rmj.g3appdriver.GCircle.ImportData.model.ImportInstance;
@@ -69,7 +68,6 @@ public class PerformanceImportService extends JobService {
                     e.printStackTrace();
                 }
             }
-            AppConfigPreference.getInstance(PerformanceImportService.this).setLastSyncDate(AppConstants.CURRENT_DATE());
             jobFinished(params, false);
         }).start();
     }

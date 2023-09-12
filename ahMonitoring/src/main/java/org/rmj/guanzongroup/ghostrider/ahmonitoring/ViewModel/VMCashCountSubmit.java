@@ -19,11 +19,11 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import org.json.JSONObject;
-import org.rmj.g3appdriver.GCircle.room.Entities.EBranchInfo;
-import org.rmj.g3appdriver.lib.Etc.Branch;
 import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
 import org.rmj.g3appdriver.GCircle.Apps.CashCount.CashCount;
 import org.rmj.g3appdriver.GCircle.Apps.CashCount.QuickSearchNames;
+import org.rmj.g3appdriver.lib.Branch.Branch;
+import org.rmj.g3appdriver.lib.Branch.entity.EBranchInfo;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
 import org.rmj.g3appdriver.utils.Task.TaskExecutor;
@@ -109,46 +109,6 @@ public class VMCashCountSubmit extends AndroidViewModel {
             }
         });
     }
-//    private class GetSearchListTask extends AsyncTask<String, Void, List<QuickSearchNames>> {
-//        private final OnKwikSearchCallBack callback;
-//
-//        private String message;
-//
-//        public GetSearchListTask(OnKwikSearchCallBack callback) {
-//            this.callback = callback;
-//        }
-//
-//        @Override
-//        protected void onPreExecute() {
-//            super.onPreExecute();
-//            callback.onStartKwikSearch();
-//        }
-//
-//        @Override
-//        protected List<QuickSearchNames> doInBackground(String... name) {
-//            if(!poConn.isDeviceConnected()){
-//                message = poConn.getMessage();
-//                return null;
-//            }
-//
-//            List<QuickSearchNames> loList = poSys.GetQuickSearchNames(name[0]);
-//            if(loList == null){
-//                message = poSys.getMessage();
-//                return null;
-//            }
-//            return loList;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(List<QuickSearchNames> searchList) {
-//            super.onPostExecute(searchList);
-//            if(searchList == null){
-//                callback.onKwikSearchFailed(message);
-//            } else {
-//                callback.onSuccessKwikSearch(searchList);
-//            }
-//        }
-//    }
 
     public void SaveCashCount(JSONObject foVal, OnSaveCashCountCallBack callback) {
         TaskExecutor.Execute(foVal, new OnTaskExecuteListener() {

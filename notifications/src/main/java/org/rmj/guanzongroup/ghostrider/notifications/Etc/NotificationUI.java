@@ -3,7 +3,7 @@ package org.rmj.guanzongroup.ghostrider.notifications.Etc;
 import android.content.Context;
 import android.util.Log;
 
-import org.rmj.g3appdriver.GCircle.room.Entities.ENotificationMaster;
+import org.rmj.g3appdriver.lib.Notifications.data.entity.ENotificationMaster;
 import org.rmj.guanzongroup.ghostrider.notifications.Notifications.CustomerServiceNotification;
 import org.rmj.guanzongroup.ghostrider.notifications.Notifications.EventNotification;
 import org.rmj.guanzongroup.ghostrider.notifications.Notifications.InquiryNotification;

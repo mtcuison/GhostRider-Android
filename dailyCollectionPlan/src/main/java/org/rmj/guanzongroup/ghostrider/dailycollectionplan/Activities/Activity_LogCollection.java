@@ -38,12 +38,12 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.textview.MaterialTextView;
 
 
+import org.rmj.g3appdriver.Config.AppConfig;
 import org.rmj.g3appdriver.GCircle.room.Entities.EDCPCollectionDetail;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.dev.Http.WebFileServer;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.g3appdriver.GCircle.Account.EmployeeSession;
-import org.rmj.g3appdriver.dev.Api.WebFileServer;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.DayCheck;
 import org.rmj.g3appdriver.utils.FileRemover;
@@ -328,10 +328,6 @@ public class Activity_LogCollection extends AppCompatActivity {
         });
     }
 
-    private void checkDcpImages(List<EDCPCollectionDetail> poDcpList, OnDCPDownloadListener callBack) {
-        new DownloadDcpImageTask(getApplication(), callBack).execute(poDcpList);
-    }
-
     @Override
     public void onBackPressed() {
         finish();
@@ -356,127 +352,6 @@ public class Activity_LogCollection extends AppCompatActivity {
             return FileRemover.execute(Environment.getExternalStorageDirectory() + "/Android/data/org.rmj.guanzongroup.ghostrider.epacss/files/DCP");
         else
             return false;
-    }
-
-    private static class DownloadDcpImageTask extends AsyncTask<List<EDCPCollectionDetail>, Void, String> {
-
-        private final ConnectionUtil poConn;
-        private final EmployeeSession poUser;
-        private final AppConfigPreference poConfig;
-        private final OnDCPDownloadListener callBack;
-
-        DownloadDcpImageTask(Application application, OnDCPDownloadListener callBack) {
-            this.poConn = new ConnectionUtil(application);
-            this.poUser = EmployeeSession.getInstance(application);
-            this.poConfig = AppConfigPreference.getInstance(application);
-            this.callBack = callBack;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            callBack.onDowload();
-        }
-
-        @Override
-        protected String doInBackground(List<EDCPCollectionDetail>... lists) {
-            String lsResult = "";
-            List<EDCPCollectionDetail> loDcpList = lists[0];
-            try {
-                if (!poConn.isDeviceConnected()) {
-                    lsResult = AppConstants.NO_INTERNET();
-                } else {
-                    String lsClient = WebFileServer.RequestClientToken(poConfig.ProducID(), poUser.getClientId(), poUser.getUserID());
-                    String lsAccess = WebFileServer.RequestAccessToken(lsClient);
-
-                    if (lsClient.isEmpty() || lsAccess.isEmpty()) {
-                        lsResult = AppConstants.LOCAL_EXCEPTION_ERROR("Failed to request generated Client or Access token.");
-                    } else {
-                        if(loDcpList.size() > 0) {
-                            for(int x = 0 ; x < loDcpList.size(); x++) {
-                                File loFile = new File(loDcpList.get(x).getImageNme());
-                                if(loFile.exists()) {
-                                    continue;
-                                } else {
-                                    loFile.mkdirs();
-//                                    org.json.simple.JSONObject loDownload = WebFileServer.DownloadFile(lsAccess,
-//                                            "0020",
-//                                            loDcpList.get(x).getAcctNmbr(),
-//                                            loDcpList.get(x).getImageNme(),
-//                                            "DCPa",
-//                                            loDcpList.get(x).getTransNox(),
-//                                            "");
-
-//                                    String lsResponse = (String) loDownload.get("result");
-//                                    if (Objects.requireNonNull(lsResponse).equalsIgnoreCase("success")) {
-//                                        //convert to image and save to proper file location
-//                                        JSONParser loParser = new JSONParser();
-//                                        loDownload = (org.json.simple.JSONObject) loParser.parse(loDownload.get("payload").toString());
-//                                        String location = fileLoc.getAbsolutePath() + "/";
-//                                        if (WebFile.Base64ToFile((String) loDownload.get("data"),
-//                                                (String) loDownload.get("hash"),
-//                                                location,
-//                                                (String) loDownload.get("filename"))){
-//                                            Log.d(TAG, "File hash was converted to file successfully.");
-//                                            //insert entry to image info
-//                                            EImageInfo loImage = new EImageInfo();
-//                                            loImage.setTransNox((String) loDownload.get("transnox"));
-//                                            loImage.setSourceCD("COAD");
-//                                            loImage.setSourceNo(loDcpList.get(x).getTransNox());
-//                                            loImage.setDtlSrcNo(loDcpList.get(x).getTransNox());
-//                                            loImage.setFileCode("0029");
-//                                            loImage.setMD5Hashx((String) loDownload.get("hash"));
-//                                            loImage.setFileLoct(fileLoc.getAbsolutePath() +"/" + imageName);
-//                                            loImage.setImageNme((String) loDownload.get("filename"));
-//                                            loImage.setLatitude("0.0");
-//                                            loImage.setLongitud("0.0");
-//                                            loImage.setSendDate(new AppConstants().DATE_MODIFIED);
-//                                            loImage.setSendStat("1");
-//                                            //loImage....
-//                                            ScannerConstants.PhotoPath = loImage.getFileLoct();
-//                                            poImage.insertDownloadedImageInfo(loImage);
-//
-//                                            poCreditApp.updateApplicantImageStat(psSourceNo);
-//                                            //end - insert entry to image info
-//                                            Log.e(TAG,loDownload.get("transnox").toString());
-//                                            //todo:
-//                                            //insert/update entry to credit_online_application_documents
-//                                            //end - convert to image and save to proper file location
-//
-////                               new string response for success to convert file notification
-//                                            loDownload = (org.json.simple.JSONObject) loParser.parse("{\"result\":\"success\",\"convert\":\"true\",\"message\":\""+ fileLoc.getAbsolutePath() +"/" + imageName + "\"}");
-//                                            lsResult = String.valueOf(loDownload);
-//                                        } else{
-//                                            Log.e(TAG, "Unable to convert file.");
-//                                            loDownload = (org.json.simple.JSONObject) loParser.parse("{\"result\":\"success\",\"convert\":\"false\",\"message\":\"Unable to convert file.\"}");
-//                                            lsResult = String.valueOf(loDownload);
-//
-//                                        }
-//                                    }else{
-////                            default string response for error message
-//                                        lsResult = String.valueOf(loDownload);
-//                                    }
-//
-//                                    Thread.sleep(1000);
-
-                                }
-                            }
-                        } else {
-
-                        }
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                lsResult = AppConstants.LOCAL_EXCEPTION_ERROR(e.getMessage());
-            }
-            return lsResult;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-        }
     }
 
     public interface OnDCPDownloadListener {

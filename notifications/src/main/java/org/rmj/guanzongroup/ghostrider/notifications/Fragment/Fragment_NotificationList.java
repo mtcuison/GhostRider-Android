@@ -28,8 +28,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DNotification;
 import org.rmj.g3appdriver.etc.GToast;
+import org.rmj.g3appdriver.lib.Notifications.data.dao.DNotification;
 import org.rmj.guanzongroup.ghostrider.notifications.Activity.Activity_ViewNotification;
 import org.rmj.guanzongroup.ghostrider.notifications.Adapter.NotificationListAdapter;
 import org.rmj.guanzongroup.ghostrider.notifications.R;

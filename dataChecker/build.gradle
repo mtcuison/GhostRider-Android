@@ -49,5 +49,5 @@ dependencies {
     implementation project(':notifications')
 
     //MIS Android Libraries
-    implementation 'com.github.MIS-SEG-Android-Team:app_driver:v.1.05'
+    implementation 'com.github.MIS-SEG-Android-Team:app_driver:v.1.06'
 }

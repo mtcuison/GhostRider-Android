@@ -18,11 +18,11 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DNotification;
-import org.rmj.g3appdriver.GCircle.room.Entities.ENotificationMaster;
-import org.rmj.g3appdriver.GCircle.room.Entities.ENotificationRecipient;
 import org.rmj.g3appdriver.lib.Notifications.NOTIFICATION_STATUS;
-import org.rmj.g3appdriver.lib.Notifications.Obj.Notification;
+import org.rmj.g3appdriver.lib.Notifications.data.dao.DNotification;
+import org.rmj.g3appdriver.lib.Notifications.data.entity.ENotificationMaster;
+import org.rmj.g3appdriver.lib.Notifications.data.entity.ENotificationRecipient;
+import org.rmj.g3appdriver.lib.Notifications.obj.Notification;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
 import org.rmj.g3appdriver.utils.Task.TaskExecutor;

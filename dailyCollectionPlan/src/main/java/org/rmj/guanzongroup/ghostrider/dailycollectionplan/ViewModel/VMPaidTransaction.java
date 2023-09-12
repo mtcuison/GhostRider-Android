@@ -18,15 +18,14 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import org.rmj.g3appdriver.GCircle.Apps.Dcp.config.DCPConfig;
 import org.rmj.g3appdriver.GCircle.Apps.Dcp.obj.PAY;
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.EBankInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GCircle.room.Repositories.RBankInfo;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
-import org.rmj.g3appdriver.GCircle.Apps.Dcp.model.LRDcp;
 import org.rmj.g3appdriver.GCircle.Apps.Dcp.pojo.PaidDCP;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
@@ -45,10 +44,11 @@ import java.util.Locale;
 public class VMPaidTransaction extends AndroidViewModel {
     private static final String TAG = VMPaidTransaction.class.getSimpleName();
 
+    private final Application instance;
+
     private final EmployeeMaster poUser;
     private final RBankInfo poBank;
     private final ConnectionUtil poConn;
-    private final AppConfigPreference poConfig;
 
     private final PAY poSys;
 
@@ -67,10 +67,10 @@ public class VMPaidTransaction extends AndroidViewModel {
 
     public VMPaidTransaction(@NonNull Application application) {
         super(application);
+        this.instance = application;
         this.poUser = new EmployeeMaster(application);
         this.poSys = new PAY(application);
         this.poBank = new RBankInfo(application);
-        this.poConfig = AppConfigPreference.getInstance(application);
         this.poConn = new ConnectionUtil(application);
         this.pnRebate.setValue((double) 0);
         this.pnPenlty.setValue((double) 0);
@@ -86,7 +86,7 @@ public class VMPaidTransaction extends AndroidViewModel {
 
     public LiveData<String> GetPrNumber(){
         MutableLiveData<String> loPrNox = new MutableLiveData<>();
-        loPrNox.setValue(poConfig.getDCP_PRNox());
+        loPrNox.setValue(DCPConfig.getInstance(instance).getDcpPrNumber());
         return loPrNox;
     }
 
@@ -175,7 +175,7 @@ public class VMPaidTransaction extends AndroidViewModel {
                 double lnTotal = pnAmount + lnPnalty - 0.0;
                 pnTotalx.setValue(lnTotal);
             } else {
-                double reb = Double.parseDouble(poConfig.getDCP_CustomerRebate());
+                double reb = DCPConfig.getInstance(instance).getPaymentRebate();
 
                 double lnAmortx = loDetail.getMonAmort();
                 double lnAmtDue = loDetail.getAmtDuexx();

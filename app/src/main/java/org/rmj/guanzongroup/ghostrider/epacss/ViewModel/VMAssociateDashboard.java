@@ -21,17 +21,17 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import org.rmj.g3appdriver.Config.AppVersionConfig;
 import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
 import org.rmj.g3appdriver.GCircle.Apps.PetManager.Obj.EmployeeLeave;
 import org.rmj.g3appdriver.GCircle.Apps.PetManager.Obj.EmployeeOB;
 import org.rmj.g3appdriver.GCircle.Apps.PetManager.OnCheckEmployeeApplicationListener;
 import org.rmj.g3appdriver.GCircle.Apps.PetManager.model.PetMngr;
-import org.rmj.g3appdriver.GCircle.room.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeBusinessTrip;
 import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeLeave;
-import org.rmj.g3appdriver.lib.Etc.Branch;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.lib.Branch.Branch;
+import org.rmj.g3appdriver.lib.Branch.entity.EBranchInfo;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.Task.OnDoBackgroundTaskListener;
 import org.rmj.g3appdriver.utils.Task.TaskExecutor;
@@ -48,8 +48,6 @@ public class VMAssociateDashboard extends AndroidViewModel {
     private final Branch pobranch;
     private final ConnectionUtil poConn;
 
-    private final AppConfigPreference poConfigx;
-
     private final MutableLiveData<String> psVersion = new MutableLiveData<>();
     private String message;
 
@@ -58,8 +56,7 @@ public class VMAssociateDashboard extends AndroidViewModel {
         this.instance = application;
         this.poEmployee = new EmployeeMaster(application);
         this.pobranch = new Branch(application);
-        this.poConfigx = AppConfigPreference.getInstance(application);
-        this.psVersion.setValue(poConfigx.getVersionInfo());
+        this.psVersion.setValue(AppVersionConfig.getInstance(instance).getVersionName());
         this.poConn = new ConnectionUtil(application);
     }
 

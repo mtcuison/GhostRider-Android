@@ -18,12 +18,12 @@ import androidx.annotation.NonNull;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
-import org.rmj.g3appdriver.GCircle.room.Entities.ENotificationMaster;
+import org.rmj.g3appdriver.Config.AppConfig;
 import org.rmj.g3appdriver.GCircle.room.Repositories.AppTokenManager;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.lib.Notifications.model.NMM;
 import org.rmj.g3appdriver.lib.Notifications.NOTIFICATION_STATUS;
-import org.rmj.g3appdriver.lib.Notifications.model.iNotification;
+import org.rmj.g3appdriver.lib.Notifications.data.entity.ENotificationMaster;
+import org.rmj.g3appdriver.lib.Notifications.factory.NMM;
+import org.rmj.g3appdriver.lib.Notifications.factory.iNotification;
 import org.rmj.guanzongroup.ghostrider.notifications.Etc.NotificationUI;
 import org.rmj.guanzongroup.ghostrider.notifications.Etc.iNotificationUI;
 
@@ -35,7 +35,7 @@ public class GMessagingService extends FirebaseMessagingService {
         super.onNewToken(s);
         AppTokenManager poToken = new AppTokenManager(getApplication());
         poToken.SaveFirebaseToken(s);
-        AppConfigPreference.getInstance(GMessagingService.this).setAppToken(s);
+        AppConfig.getInstance(GMessagingService.this).setFirebaseToken(s);
     }
 
     @Override

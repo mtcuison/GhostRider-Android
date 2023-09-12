@@ -6,10 +6,10 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import org.rmj.g3appdriver.GCircle.room.Entities.ERaffleStatus;
-import org.rmj.g3appdriver.lib.Panalo.Obj.GPanalo;
-import org.rmj.g3appdriver.lib.Panalo.Obj.ILOVEMYJOB;
+import org.rmj.g3appdriver.lib.Panalo.data.entity.ERaffleStatus;
 import org.rmj.g3appdriver.lib.Panalo.model.PanaloRewards;
+import org.rmj.g3appdriver.lib.Panalo.obj.GPanalo;
+import org.rmj.g3appdriver.lib.Panalo.obj.ILOVEMYJOB;
 import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
 import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 

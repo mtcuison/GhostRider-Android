@@ -22,6 +22,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.rmj.g3appdriver.Config.AppConfig;
 import org.rmj.g3appdriver.etc.AppAssistantConfig;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
@@ -44,7 +45,7 @@ public class Activity_Help extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_help);
         initWidgets();
-        AppConfigPreference.getInstance(Activity_Help.this).setIsAppFirstLaunch(false);
+        AppConfig.getInstance(Activity_Help.this).setFirstLaunch(false);
         help = getIntent().getIntExtra("help", 0);
         img = SettingsConstants.getHelpImages(Activity_Help.this,getIntent().getIntExtra("help", 0));
         addBottomDots(0);

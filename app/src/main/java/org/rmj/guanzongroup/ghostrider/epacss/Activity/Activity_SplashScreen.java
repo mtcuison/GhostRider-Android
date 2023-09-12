@@ -34,7 +34,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 
-import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.Config.AppConfig;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.etc.TransparentToolbar;
@@ -90,10 +90,8 @@ public class Activity_SplashScreen extends AppCompatActivity {
                     }
 
                     // Get new FCM registration token
-                    String token = task.getResult();
-
-                    mViewModel.SaveFirebaseToken(token);
-                    AppConfigPreference.getInstance(Activity_SplashScreen.this).setAppToken(token);
+                    String lsToken = task.getResult();
+                    AppConfig.getInstance(Activity_SplashScreen.this).setFirebaseToken(lsToken);
                 });
 
         AppDirectoryCreator loCreator = new AppDirectoryCreator();

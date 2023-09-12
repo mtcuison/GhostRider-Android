@@ -36,9 +36,9 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textview.MaterialTextView;
 
+import org.rmj.g3appdriver.Config.AppConfig;
 import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeRole;
 import org.rmj.g3appdriver.GCircle.Etc.DeptCode;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
@@ -95,7 +95,7 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
 
         mViewModel.getEmployeeInfo().observe(this, eEmployeeInfo -> {
             try{
-                AppConfigPreference.getInstance(Activity_Main.this).setIsAppFirstLaunch(false);
+                AppConfig.getInstance(Activity_Main.this).setFirstLaunch(false);
                 imgDept.setImageResource(AppDeptIcon.getIcon(eEmployeeInfo.getDeptIDxx()));
                 lblDept.setText(DeptCode.getDepartmentName(eEmployeeInfo.getDeptIDxx()));
                 cSlfiex = eEmployeeInfo.getSlfieLog().equalsIgnoreCase("1");
@@ -244,7 +244,6 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
     private void initReceiver(){
         IntentFilter loFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
         registerReceiver(poNetRecvr, loFilter);
-        AppConfigPreference.getInstance(Activity_Main.this).setIsMainActive(true);
         Log.e(TAG, "Internet status receiver has been registered.");
     }
 
@@ -252,7 +251,6 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
     protected void onDestroy() {
         unregisterReceiver(poNetRecvr);
         Log.e(TAG, "Internet status receiver has been unregistered.");
-        AppConfigPreference.getInstance(Activity_Main.this).setIsMainActive(false);
         mViewModel.ResetRaffleStatus();
         super.onDestroy();
     }
@@ -302,7 +300,7 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
                 dialog.dismiss();
                 finish();
                 new EmployeeMaster(getApplication()).LogoutUserSession();
-                AppConfigPreference.getInstance(Activity_Main.this).setIsAppFirstLaunch(false);
+                AppConfig.getInstance(Activity_Main.this).setFirstLaunch(false);
                 startActivity(new Intent(Activity_Main.this, Activity_SplashScreen.class));
             });
             loMessage.setTitle("Account Session");

@@ -20,7 +20,6 @@ import androidx.lifecycle.LiveData;
 
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.EDCPCollectionDetail;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
 import org.rmj.g3appdriver.GCircle.Apps.Dcp.pojo.ImportParams;
 import org.rmj.g3appdriver.GCircle.Apps.Dcp.model.LRDcp;
@@ -36,7 +35,6 @@ public class VMCollectionList extends AndroidViewModel {
     private final EmployeeMaster poUser;
     private final LRDcp poSys;
     private final ConnectionUtil poConn;
-    private final AppConfigPreference poConfig;
 
     private String message;
 
@@ -64,7 +62,6 @@ public class VMCollectionList extends AndroidViewModel {
         this.poUser = new EmployeeMaster(application);
         this.poSys = new LRDcp(application);
         this.poConn = new ConnectionUtil(application);
-        this.poConfig = AppConfigPreference.getInstance(application);
     }
 
     public LiveData<DEmployeeInfo.EmployeeBranch> GetUserInfo(){
@@ -73,10 +70,6 @@ public class VMCollectionList extends AndroidViewModel {
 
     public LiveData<List<EDCPCollectionDetail>> GetColletionList(){
         return poSys.GetCollectionList();
-    }
-
-    public boolean IsTesting(){
-        return poConfig.getTestStatus();
     }
 
     public void DownloadDCP(ImportParams foVal, OnActionCallback callback){

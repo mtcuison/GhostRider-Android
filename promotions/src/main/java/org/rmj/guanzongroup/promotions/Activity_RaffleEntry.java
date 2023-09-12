@@ -60,13 +60,13 @@ public class Activity_RaffleEntry extends AppCompatActivity implements RaffleEnt
         setContentView(R.layout.activity_raffle_entry);
         initWidgets();
         mViewModel = new ViewModelProvider(this).get(VMRaffleEntry.class);
-        mViewModel.importDocuments();
+//        mViewModel.importDocuments();
 
-        mViewModel.getUserBranchInfo().observe(Activity_RaffleEntry.this, eBranchInfo -> {
-            BranchCd = eBranchInfo.getBranchCd();
-            lblbranch.setText(eBranchInfo.getBranchNm());
-            lblAddrss.setText(eBranchInfo.getAddressx());
-        });
+//        mViewModel.getUserBranchInfo().observe(Activity_RaffleEntry.this, eBranchInfo -> {
+//            BranchCd = eBranchInfo.getBranchCd();
+//            lblbranch.setText(eBranchInfo.getBranchNm());
+//            lblAddrss.setText(eBranchInfo.getAddressx());
+//        });
 
 //        get the latest entries of raffle entry to valid if the current entry is already exist.
 //        mViewModel.getDuplicateEntry(txtName.getText().toString(),
@@ -80,50 +80,50 @@ public class Activity_RaffleEntry extends AppCompatActivity implements RaffleEnt
 //            }
 //        });
 
-        btnSubmit.setOnClickListener(view -> {
-            voucher.setCustomerName(Objects.requireNonNull(txtName.getText()).toString());
-            voucher.setCustomerAddx(Objects.requireNonNull(txtAddress.getText()).toString());
-            voucher.setMobileNumber(Objects.requireNonNull(txtMobileNo.getText()).toString());
-            voucher.setDocumentNoxx(Objects.requireNonNull(txtDocuNo.getText()).toString());
-            voucher.setBranchCodexx(BranchCd);
-            voucher.setDocumentType(sReferCde);
-            mViewModel.submit(voucher, Activity_RaffleEntry.this);
-        });
+//        btnSubmit.setOnClickListener(view -> {
+//            voucher.setCustomerName(Objects.requireNonNull(txtName.getText()).toString());
+//            voucher.setCustomerAddx(Objects.requireNonNull(txtAddress.getText()).toString());
+//            voucher.setMobileNumber(Objects.requireNonNull(txtMobileNo.getText()).toString());
+//            voucher.setDocumentNoxx(Objects.requireNonNull(txtDocuNo.getText()).toString());
+//            voucher.setBranchCodexx(BranchCd);
+//            voucher.setDocumentType(sReferCde);
+//            mViewModel.submit(voucher, Activity_RaffleEntry.this);
+//        });
 
-        mViewModel.getTownProvinceInfo().observe(Activity_RaffleEntry.this, townProvinceInfos -> {
-            String[] laInfo = new String[townProvinceInfos.size()];
-            for(int x = 0; x < townProvinceInfos.size(); x++){
-                laInfo[x] = townProvinceInfos.get(x).sTownName + ", " + townProvinceInfos.get(x).sProvName;
-            }
-            ArrayAdapter<String> loAdapter = new ArrayAdapter<>(Activity_RaffleEntry.this, android.R.layout.simple_spinner_dropdown_item, laInfo);
-            txtTown.setAdapter(loAdapter);
-        });
+//        mViewModel.getTownProvinceInfo().observe(Activity_RaffleEntry.this, townProvinceInfos -> {
+//            String[] laInfo = new String[townProvinceInfos.size()];
+//            for(int x = 0; x < townProvinceInfos.size(); x++){
+//                laInfo[x] = townProvinceInfos.get(x).sTownName + ", " + townProvinceInfos.get(x).sProvName;
+//            }
+//            ArrayAdapter<String> loAdapter = new ArrayAdapter<>(Activity_RaffleEntry.this, android.R.layout.simple_spinner_dropdown_item, laInfo);
+//            txtTown.setAdapter(loAdapter);
+//        });
 
-        txtTown.setOnItemClickListener((adapterView, view, i, l) -> mViewModel.getTownProvinceInfo().observe(Activity_RaffleEntry.this, townProvinceInfos -> {
-            for(int x = 0; x < townProvinceInfos.size(); x++){
-                if(txtTown.getText().toString().equalsIgnoreCase(townProvinceInfos.get(x).sTownName + ", " + townProvinceInfos.get(x).sProvName)){
-                    voucher.setCustomerTown(townProvinceInfos.get(x).sTownIDxx);
-                    voucher.setCustomerProv(townProvinceInfos.get(x).sProvIDxx);
-                    break;
-                }
-            }
-        }));
+//        txtTown.setOnItemClickListener((adapterView, view, i, l) -> mViewModel.getTownProvinceInfo().observe(Activity_RaffleEntry.this, townProvinceInfos -> {
+//            for(int x = 0; x < townProvinceInfos.size(); x++){
+//                if(txtTown.getText().toString().equalsIgnoreCase(townProvinceInfos.get(x).sTownName + ", " + townProvinceInfos.get(x).sProvName)){
+//                    voucher.setCustomerTown(townProvinceInfos.get(x).sTownIDxx);
+//                    voucher.setCustomerProv(townProvinceInfos.get(x).sProvIDxx);
+//                    break;
+//                }
+//            }
+//        }));
 
-        mViewModel.getDocuments().observe(Activity_RaffleEntry.this, strings -> {
-            spnDocuType.setAdapter(new ArrayAdapter<>(Activity_RaffleEntry.this, R.layout.spinner_drop_down_item, strings));
-
-            spnDocuType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> adapterView, View view, final int i, long l) {
-                    mViewModel.getRaffleBasis().observe(Activity_RaffleEntry.this, raffleBases -> sReferCde = raffleBases.get(i).getReferCde());
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> adapterView) {
-
-                }
-            });
-        });
+//        mViewModel.getDocuments().observe(Activity_RaffleEntry.this, strings -> {
+//            spnDocuType.setAdapter(new ArrayAdapter<>(Activity_RaffleEntry.this, R.layout.spinner_drop_down_item, strings));
+//
+//            spnDocuType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//                @Override
+//                public void onItemSelected(AdapterView<?> adapterView, View view, final int i, long l) {
+//                    mViewModel.getRaffleBasis().observe(Activity_RaffleEntry.this, raffleBases -> sReferCde = raffleBases.get(i).getReferCde());
+//                }
+//
+//                @Override
+//                public void onNothingSelected(AdapterView<?> adapterView) {
+//
+//                }
+//            });
+//        });
     }
 
     private void initWidgets(){

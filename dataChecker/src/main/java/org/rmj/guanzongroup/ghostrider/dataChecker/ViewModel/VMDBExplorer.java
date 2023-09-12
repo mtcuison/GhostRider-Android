@@ -34,9 +34,8 @@ import androidx.lifecycle.AndroidViewModel;
 
 import org.json.JSONObject;
 import org.rmj.g3appdriver.GCircle.Api.GCircleApi;
-import org.rmj.g3appdriver.dev.Api.HttpHeaders;
-import org.rmj.g3appdriver.dev.Api.WebClient;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.dev.Http.HttpHeaderManager;
+import org.rmj.g3appdriver.dev.Http.WebClient;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.utils.SQLUtil;
 import org.rmj.g3appdriver.utils.SecUtil;
@@ -408,13 +407,11 @@ public class VMDBExplorer extends AndroidViewModel {
         private final List<DCPData> poDcp;
         private final UserInfo poUser;
         private final GCircleApi poApi;
-        private final AppConfigPreference loConfig;
 
         public PostCollectionTask(List<DCPData> foDcp, UserInfo foUser, OnPostCollectionListener listener) {
             this.poDcp = foDcp;
             this.poUser = foUser;
             this.mListener = listener;
-            this.loConfig = AppConfigPreference.getInstance(instance);
             this.poApi = new GCircleApi(instance);
         }
 
@@ -521,7 +518,10 @@ public class VMDBExplorer extends AndroidViewModel {
 //                        loJson.put("sUserIDxx", poUser.UserID);
                         loJson.put("sDeviceID", "355d1cbe24df1e1d");
 //                        params[x] = loJson.toString() + " \n";
-                        String lsResponse1 = WebClient.sendRequest(poApi.getUrlDcpSubmit(), loJson.toString(), HttpHeaders.getInstance(instance).getHeaders());
+                        String lsResponse1 = WebClient.sendRequest(
+                                poApi.getUrlDcpSubmit(),
+                                loJson.toString(),
+                                HttpHeaderManager.getInstance(instance).initializeHeader().getHeaders());
                         if (lsResponse1 == null) {
                             reason[x] = "Server no response \n";
                             isDataSent[x] = false;
@@ -555,7 +555,10 @@ public class VMDBExplorer extends AndroidViewModel {
                         if (allDataSent) {
                             JSONObject loparam = new JSONObject();
                             loparam.put("sTransNox", poDcp.get(0).sTransNox);
-                            String lsResponse2 = WebClient.sendRequest(poApi.getUrlPostDcpMaster(), loparam.toString(), HttpHeaders.getInstance(instance).getHeaders());
+                            String lsResponse2 = WebClient.sendRequest(
+                                    poApi.getUrlPostDcpMaster(),
+                                    loparam.toString(),
+                                    HttpHeaderManager.getInstance(instance).initializeHeader().getHeaders());
                             if (lsResponse2 == null) {
 //                                lsResult = AppConstants.LOCAL_EXCEPTION_ERROR("Server no response on posting DCP master detail. Tap 'Okay' to create dcp file for backup");
                             } else {
