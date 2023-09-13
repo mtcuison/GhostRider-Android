@@ -24,7 +24,6 @@ public class AccountInfo {
     private String Password;
     private String cPasswrd;
     private String MobileNo;
-
     private String message;
 
     public AccountInfo() {
@@ -35,10 +34,18 @@ public class AccountInfo {
     }
 
     public String getFullName(){
-        return LastName + ", " +
-                "" + FrstName + " " +
-                "" + MiddName + " " +
-                "" + Suffix;
+        String sFullname;
+        if (Suffix == null || Suffix.isEmpty()){
+            sFullname = LastName + ", " +
+                    "" + FrstName + " " +
+                    "" + MiddName;
+        }else {
+            sFullname = LastName + ", " +
+                    "" + FrstName + " " +
+                    "" + MiddName + " " +
+                    "" + Suffix;
+        }
+        return sFullname;
     }
 
     public void setLastName(String lastName) {

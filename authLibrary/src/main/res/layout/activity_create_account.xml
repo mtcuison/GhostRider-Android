@@ -105,13 +105,34 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:hint="@string/hint_last_name"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toStartOf="@id/til_ca_middleName"
+                app:layout_constraintEnd_toStartOf="@+id/suffix_layout"
                 app:layout_constraintTop_toBottomOf="@+id/til_ca_middleName"
-                app:layout_constraintWidth_percent=".900">
+                app:layout_constraintWidth_percent=".6">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/lastname"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/TextInputStyle"
+                android:id="@+id/suffix_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="@string/hint_suffix"
+                app:layout_constraintStart_toEndOf="@+id/lastname_layout"
+                app:layout_constraintEnd_toEndOf="@+id/til_ca_middleName"
+                app:layout_constraintTop_toBottomOf="@+id/til_ca_middleName">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tie_suffix"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:imeOptions="actionNext"
