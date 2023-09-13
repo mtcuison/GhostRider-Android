@@ -44,6 +44,7 @@ import com.google.android.material.textview.MaterialTextView;
 
 
 import org.json.JSONObject;
+import org.rmj.g3appdriver.Config.AppStatusConfig;
 import org.rmj.g3appdriver.GCircle.room.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.LoadDialog;
@@ -450,8 +451,7 @@ public class Activity_CollectionList extends AppCompatActivity {
     }
 
     public void showDownloadDcp(){
-        boolean isTesting = mViewModel.IsTesting();
-        if(isTesting){
+        if(AppStatusConfig.getInstance(Activity_CollectionList.this).isTestMode()){
             Dialog_DebugEntry loDebug = new Dialog_DebugEntry(Activity_CollectionList.this);
             loDebug.iniDialog(args -> {
                 try {

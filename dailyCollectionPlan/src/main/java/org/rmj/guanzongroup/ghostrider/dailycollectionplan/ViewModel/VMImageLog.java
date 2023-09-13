@@ -19,15 +19,12 @@ import androidx.lifecycle.LiveData;
 
 import org.rmj.g3appdriver.lib.Branch.Branch;
 import org.rmj.g3appdriver.lib.Branch.entity.EBranchInfo;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Core.DcpManager;
 
 public class VMImageLog extends AndroidViewModel {
-    private final DcpManager poDcpMngr;
     private final Branch poBranchx;
 
     public VMImageLog(@NonNull Application application) {
         super(application);
-        this.poDcpMngr = new DcpManager(application);
         this.poBranchx = new Branch(application);
     }
 

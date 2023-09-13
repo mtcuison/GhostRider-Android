@@ -20,8 +20,8 @@ import com.google.android.material.textview.MaterialTextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.g3appdriver.GCircle.room.Entities.EAddressUpdate;
-import org.rmj.g3appdriver.GCircle.room.Entities.EMobileUpdate;
+import org.rmj.g3appdriver.lib.addressbook.data.entity.EAddressUpdate;
+import org.rmj.g3appdriver.lib.addressbook.data.entity.EMobileUpdate;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 
 import java.util.List;

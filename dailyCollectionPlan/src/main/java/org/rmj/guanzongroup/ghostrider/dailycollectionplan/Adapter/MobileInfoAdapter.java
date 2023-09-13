@@ -18,7 +18,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DMobileUpdate;
+import org.rmj.g3appdriver.lib.addressbook.data.dao.DMobileUpdate;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 
 import com.google.android.material.textview.MaterialTextView;

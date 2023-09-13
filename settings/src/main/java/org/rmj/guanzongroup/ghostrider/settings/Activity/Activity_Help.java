@@ -24,7 +24,6 @@ import android.widget.TextView;
 
 import org.rmj.g3appdriver.Config.AppConfig;
 import org.rmj.g3appdriver.etc.AppAssistantConfig;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.guanzongroup.ghostrider.settings.R;
 import org.rmj.guanzongroup.ghostrider.settings.ViewModel.VMHelp;

@@ -21,7 +21,7 @@ import androidx.lifecycle.LiveData;
 import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
 import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeRole;
-import org.rmj.g3appdriver.lib.Panalo.Obj.ILOVEMYJOB;
+import org.rmj.g3appdriver.lib.Panalo.obj.ILOVEMYJOB;
 import org.rmj.g3appdriver.utils.Task.OnDoBackgroundTaskListener;
 import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
 import org.rmj.g3appdriver.utils.Task.TaskExecutor;
@@ -68,6 +68,7 @@ public class VMMainActivity extends AndroidViewModel {
     public Fragment GetUserFragments(EEmployeeInfo args) {
         Fragment userLevel;
         switch (args.getEmpLevID()) {
+
             case 3:
                 userLevel = new Fragment_BHDashboard();
                 break;

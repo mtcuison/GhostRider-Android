@@ -30,8 +30,6 @@ import androidx.lifecycle.MutableLiveData;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.GCircle.Api.GCircleApi;
-import org.rmj.g3appdriver.dev.Api.HttpHeaders;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 
@@ -46,15 +44,12 @@ import java.net.URL;
 public class VMCheckUpdate extends AndroidViewModel {
 
     private final Application instance;
-    private final AppConfigPreference poConfig;
 
     private final MutableLiveData<String> psVersion = new MutableLiveData<>();
 
     public VMCheckUpdate(@NonNull Application application) {
         super(application);
         this.instance = application;
-        this.poConfig = AppConfigPreference.getInstance(instance);
-        this.psVersion.setValue(poConfig.getVersionInfo());
     }
 
     public interface CheckUpdateCallback{
@@ -82,14 +77,11 @@ public class VMCheckUpdate extends AndroidViewModel {
     private static class CheckUpdate extends AsyncTask<String, Void, String>{
         private final CheckUpdateCallback callback;
         private final ConnectionUtil poConn;
-        private final HttpHeaders poHeaders;
         private final GCircleApi poApi;
 
         public CheckUpdate(Application application, CheckUpdateCallback callback){
             this.callback = callback;
             this.poConn = new ConnectionUtil(application);
-            this.poHeaders = HttpHeaders.getInstance(application);
-            AppConfigPreference loConfig = AppConfigPreference.getInstance(application);
             this.poApi = new GCircleApi(application);
         }
 
@@ -153,7 +145,6 @@ public class VMCheckUpdate extends AndroidViewModel {
         private final Application instance;
         private final SystemUpateCallback callback;
         private final ConnectionUtil poConn;
-        private final HttpHeaders poHeaders;
         private final String PATH;
         private final GCircleApi poApi;
 
@@ -161,9 +152,7 @@ public class VMCheckUpdate extends AndroidViewModel {
             this.instance = application;
             this.callback = callback;
             this.poConn = new ConnectionUtil(application);
-            this.poHeaders = HttpHeaders.getInstance(application);
             PATH = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/";
-            AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
             this.poApi = new GCircleApi(application);
         }
 

@@ -26,7 +26,6 @@ import androidx.lifecycle.MutableLiveData;
 import org.rmj.g3appdriver.GCircle.Api.GCircleApi;
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DRawDao;
 import org.rmj.g3appdriver.GCircle.room.Repositories.RRawData;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.GCircle.ImportData.Obj.ImportBarangay;
 import org.rmj.g3appdriver.GCircle.ImportData.Obj.ImportBranch;
 import org.rmj.g3appdriver.GCircle.ImportData.Obj.ImportBrand;
@@ -57,7 +56,6 @@ public class VMLocalData extends AndroidViewModel {
     private final RRawData poData;
     private List<LocalData> dataList = new ArrayList<>();
     private final GCircleApi poApi;
-    private final AppConfigPreference loConfig;
     private final MutableLiveData<List<LocalData>> loDataList = new MutableLiveData<>();
 
     private DRawDao.AppLocalData poAppData = new DRawDao.AppLocalData();
@@ -77,7 +75,6 @@ public class VMLocalData extends AndroidViewModel {
         super(application);
         this.instance = application;
         this.poData = new RRawData(application);
-        this.loConfig = AppConfigPreference.getInstance(instance);
         this.poApi = new GCircleApi(application);
     }
 

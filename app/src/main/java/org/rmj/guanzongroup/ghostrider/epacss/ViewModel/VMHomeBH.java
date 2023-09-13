@@ -17,9 +17,9 @@ import org.rmj.g3appdriver.GCircle.Apps.PetManager.OnCheckEmployeeApplicationLis
 import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeBusinessTrip;
 import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeLeave;
-import org.rmj.g3appdriver.GCircle.room.Entities.ERaffleStatus;
-import org.rmj.g3appdriver.lib.Notifications.Obj.Notification;
-import org.rmj.g3appdriver.lib.Panalo.Obj.ILOVEMYJOB;
+import org.rmj.g3appdriver.lib.Notifications.obj.Notification;
+import org.rmj.g3appdriver.lib.Panalo.data.entity.ERaffleStatus;
+import org.rmj.g3appdriver.lib.Panalo.obj.ILOVEMYJOB;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.Task.OnDoBackgroundTaskListener;
 import org.rmj.g3appdriver.utils.Task.TaskExecutor;

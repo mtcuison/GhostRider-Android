@@ -22,7 +22,7 @@ import com.google.android.material.textview.MaterialTextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DAddressRequest;
+import org.rmj.g3appdriver.lib.addressbook.data.dao.DAddressRequest;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 
 import java.util.ArrayList;

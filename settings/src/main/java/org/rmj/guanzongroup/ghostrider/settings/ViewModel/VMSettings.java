@@ -33,9 +33,8 @@ import androidx.lifecycle.MutableLiveData;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.GCircle.Api.GCircleApi;
-import org.rmj.g3appdriver.dev.Api.HttpHeaders;
-import org.rmj.g3appdriver.dev.Api.WebClient;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.dev.Http.HttpHeaderManager;
+import org.rmj.g3appdriver.dev.Http.WebClient;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 
@@ -193,16 +192,12 @@ public class VMSettings extends AndroidViewModel {
         private final Application instance;
         private final CheckUpdateCallback callback;
         private final ConnectionUtil poConn;
-        private final HttpHeaders poHeaders;
         private final GCircleApi poApi;
-        private final AppConfigPreference loConfig;
 
         public CheckUpdateTask(Application instance, CheckUpdateCallback callback) {
             this.instance = instance;
             this.callback = callback;
             this.poConn = new ConnectionUtil(instance);
-            this.poHeaders = HttpHeaders.getInstance(instance);
-            this.loConfig = AppConfigPreference.getInstance(instance);
             this.poApi = new GCircleApi(instance);
         }
 
@@ -221,7 +216,10 @@ public class VMSettings extends AndroidViewModel {
                 if(!poConn.isDeviceConnected()){
                     lsResult = AppConstants.NO_INTERNET();
                 } else {
-                    lsResult = WebClient.sendRequest(poApi.getUrlChangePassword(), param.toString(), poHeaders.getHeaders());
+                    lsResult = WebClient.sendRequest(
+                            poApi.getUrlChangePassword(),
+                            param.toString(),
+                            HttpHeaderManager.getInstance(instance).initializeHeader().getHeaders());
                     if(lsResult == null){
                         lsResult = AppConstants.SERVER_NO_RESPONSE();
                     }
@@ -271,16 +269,12 @@ public class VMSettings extends AndroidViewModel {
         private final Application instance;
         private final ChangePasswordCallback callback;
         private final ConnectionUtil poConn;
-        private final HttpHeaders poHeaders;
         private final GCircleApi poApi;
-        private final AppConfigPreference loConfig;
 
         public ChangePasswordTask(Application application, ChangePasswordCallback callback) {
             this.instance = application;
             this.callback = callback;
             this.poConn = new ConnectionUtil(instance);
-            this.poHeaders = HttpHeaders.getInstance(instance);
-            this.loConfig = AppConfigPreference.getInstance(instance);
             this.poApi = new GCircleApi(instance);
         }
 
@@ -293,7 +287,11 @@ public class VMSettings extends AndroidViewModel {
                 if(!poConn.isDeviceConnected()){
                     lsResult = AppConstants.NO_INTERNET();
                 } else {
-                    lsResult = WebClient.sendRequest(poApi.getUrlChangePassword(), param.toString(), poHeaders.getHeaders());
+                    lsResult = WebClient.sendRequest(
+                            poApi.getUrlChangePassword(),
+                            param.toString(),
+                            HttpHeaderManager.getInstance(instance).initializeHeader().getHeaders());
+
                     if(lsResult == null){
                         lsResult = AppConstants.SERVER_NO_RESPONSE();
                     }
@@ -348,7 +346,6 @@ public class VMSettings extends AndroidViewModel {
         public DownloadUpdateTask(Application application, SystemUpateCallback callback){
             this.instance = application;
             this.callback = callback;
-            AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
             this.poApi = new GCircleApi(instance);
             PATH = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/";
             this.poConn = new ConnectionUtil(instance);

@@ -18,11 +18,11 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DAddressRequest;
-import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DMobileRequest;
 import org.rmj.g3appdriver.GCircle.room.Entities.EImageInfo;
 import org.rmj.g3appdriver.GCircle.room.Repositories.RCollectionUpdate;
 import org.rmj.g3appdriver.GCircle.room.Repositories.RImageInfo;
+import org.rmj.g3appdriver.lib.addressbook.data.dao.DAddressRequest;
+import org.rmj.g3appdriver.lib.addressbook.data.dao.DMobileRequest;
 
 import java.util.List;
 

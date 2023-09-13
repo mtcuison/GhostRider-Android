@@ -103,7 +103,7 @@ public class Activity_SplashScreen extends AppCompatActivity {
     }
 
     private void InitializeAppContentDisclosure(){
-        boolean isFirstLaunch = AppConfigPreference.getInstance(Activity_SplashScreen.this).isAppFirstLaunch();
+        boolean isFirstLaunch = AppConfig.getInstance(Activity_SplashScreen.this).isFirstLaunch();
         if(isFirstLaunch) {
             MessageBox loMessage = new MessageBox(Activity_SplashScreen.this);
             loMessage.initDialog();
