@@ -39,7 +39,7 @@ public class GCircleSignupTest {
     public void setUp() throws Exception {
         this.instance = ApplicationProvider.getApplicationContext();
         AppConfigPreference.getInstance(instance).setProductID("gRider");
-        AppConfigPreference.getInstance(instance).setTestCase(true);
+        AppConfigPreference.getInstance(instance).setTestCase(false);
         this.poAccount = new AccountMaster(instance);
         this.poSys = poAccount.initGuanzonApp().getInstance(Auth.CREATE_ACCOUNT);
     }
@@ -55,7 +55,7 @@ public class GCircleSignupTest {
         loInfo.setFrstName("John");
         loInfo.setLastName("Cena");
         loInfo.setMiddName("Doe");
-        loInfo.setEmail("jdc123@gmail.com");
+        loInfo.setEmail("jdc123@domain.com");
         loInfo.setMobileNo("09171870011");
         loInfo.setPassword("123456");
         loInfo.setcPasswrd("123456");
