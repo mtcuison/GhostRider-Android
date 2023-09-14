@@ -120,8 +120,6 @@ public class Activity_EmploymentInfo extends AppCompatActivity {
         mViewModel.getModel().setCompanyName(txtCompNm.getText().toString());
         mViewModel.getModel().setCompanyAddress((txtCompAd.getText()).toString());
 
-
-        mViewModel.getModel().setJobTitle((txtJobNme.getText()).toString());
         mViewModel.getModel().setSpecificJob((txtSpcfJb.getText()).toString());
 
         if (txtLngthS.getText().toString().isEmpty()) {
@@ -323,8 +321,8 @@ public class Activity_EmploymentInfo extends AppCompatActivity {
                         String lsLabel = loList.get(x).getOccptnNm();
                         String lsSlctd = txtJobNme.getText().toString().trim();
                         if (lsSlctd.equalsIgnoreCase(lsLabel)) {
-                            mViewModel.getModel().setCountry(loList.get(x).getOccptnID());
-                            mViewModel.getModel().setsCountryN(lsLabel);
+                            mViewModel.getModel().setJobTitle(loList.get(x).getOccptnID());
+                            mViewModel.getModel().setsJobName(lsLabel);
                             break;
                         }
                     }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -10,7 +11,9 @@
         android:layout_height="match_parent"
         android:fillViewport="true"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="203dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/header"
@@ -31,271 +34,223 @@
                 android:id="@+id/tvCreateAcc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
                 android:text="@string/create_account"
                 android:textSize="23sp"
-                android:layout_marginTop="20dp"
-                android:layout_marginStart="20dp"
-                app:layout_constraintTop_toBottomOf="@+id/toolbar"
                 app:layout_constraintBottom_toTopOf="@id/tvCreateDesc"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
             <com.google.android.material.textview.MaterialTextView
                 style="@style/DescriptionHeaderStyle"
                 android:id="@+id/tvCreateDesc"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="3dp"
                 android:text="@string/create_account_description"
                 android:textSize="14sp"
-                android:layout_marginTop="3dp"
-                android:layout_marginHorizontal="20dp"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvCreateAcc" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/mtv_firstname"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginStart="20dp"
-                android:text="Firstname"
-                app:layout_constraintTop_toBottomOf="@+id/tvCreateDesc"
-                app:layout_constraintStart_toStartOf="parent"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/TextInputStyle"
                 android:id="@+id/til_ca_firstName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:hint="@string/hint_first_name"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/mtv_firstname"
+                app:layout_constraintTop_toBottomOf="@+id/tvCreateDesc"
                 app:layout_constraintWidth_percent=".900">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/tie_ca_firstName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp"
-                    android:textStyle="bold"
+                    android:imeOptions="actionNext"
                     android:inputType="text"
-                    android:imeOptions="actionNext"/>
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/mtv_middlename"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginStart="20dp"
-                android:text="Middlename"
-                app:layout_constraintTop_toBottomOf="@+id/til_ca_firstName"
-                app:layout_constraintStart_toStartOf="parent"/>
-
             <com.google.android.material.textfield.TextInputLayout
-                style="@style/TextInputStyle"
                 android:id="@+id/til_ca_middleName"
+                style="@style/TextInputStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
+                android:hint="@string/hint_middle_name"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/mtv_middlename"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/til_ca_firstName"
                 app:layout_constraintWidth_percent=".900">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/tie_ca_middleName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp"
-                    android:textStyle="bold"
+                    android:imeOptions="actionNext"
                     android:inputType="text"
-                    android:imeOptions="actionNext"/>
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/mtv_lastname"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="Lastname"
-                android:layout_marginStart="20dp"
-                app:layout_constraintTop_toBottomOf="@+id/til_ca_middleName"
-                app:layout_constraintStart_toStartOf="parent"/>
-
             <com.google.android.material.textfield.TextInputLayout
-                style="@style/TextInputStyle"
                 android:id="@+id/lastname_layout"
+                style="@style/TextInputStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                app:layout_constraintTop_toBottomOf="@+id/mtv_lastname"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintWidth_percent=".900">
+                android:hint="@string/hint_last_name"
+                app:layout_constraintStart_toStartOf="@id/til_ca_middleName"
+                app:layout_constraintEnd_toStartOf="@+id/suffix_layout"
+                app:layout_constraintTop_toBottomOf="@+id/til_ca_middleName"
+                app:layout_constraintWidth_percent=".6">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/lastname"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:textSize="15sp"
-                    android:textStyle="bold"
+                    android:imeOptions="actionNext"
                     android:inputType="text"
-                    android:imeOptions="actionNext"/>
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
             </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/mtv_email"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginStart="20dp"
-                android:text="Email"
-                app:layout_constraintTop_toBottomOf="@+id/lastname_layout"
-                app:layout_constraintStart_toStartOf="parent"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/TextInputStyle"
-                android:id="@+id/til_ca_email"
+                android:id="@+id/suffix_layout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="@string/hint_suffix"
+                app:layout_constraintStart_toEndOf="@+id/lastname_layout"
+                app:layout_constraintEnd_toEndOf="@+id/til_ca_middleName"
+                app:layout_constraintTop_toBottomOf="@+id/til_ca_middleName">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tie_suffix"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_ca_email"
+                style="@style/TextInputStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_email"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/mtv_email"
+                app:layout_constraintTop_toBottomOf="@+id/lastname_layout"
                 app:layout_constraintWidth_percent=".900">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/tie_ca_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp"
-                    android:textStyle="bold"
+                    android:imeOptions="actionNext"
                     android:inputType="textEmailAddress"
-                    android:imeOptions="actionNext"/>
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/mtv_mobile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginStart="20dp"
-                android:text="Mobile Number"
-                app:layout_constraintTop_toBottomOf="@+id/til_ca_email"
-                app:layout_constraintStart_toStartOf="parent"/>
-
             <com.google.android.material.textfield.TextInputLayout
-                style="@style/TextInputStyle"
                 android:id="@+id/til_ca_mobileNumber"
+                style="@style/TextInputStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:hint="@string/hint_mobile_number"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/mtv_mobile"
+                app:layout_constraintTop_toBottomOf="@+id/til_ca_email"
                 app:layout_constraintWidth_percent=".900">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/tie_ca_mobileNumber"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp"
-                    android:textStyle="bold"
+                    android:imeOptions="actionNext"
                     android:inputType="number"
                     android:maxLength="11"
-                    android:imeOptions="actionNext"/>
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/mtv_password"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginStart="20dp"
-                android:text="Password"
-                app:layout_constraintTop_toBottomOf="@+id/til_ca_mobileNumber"
-                app:layout_constraintStart_toStartOf="parent"/>
-
             <com.google.android.material.textfield.TextInputLayout
-                style="@style/TextInputStyle"
                 android:id="@+id/til_ca_password"
+                style="@style/TextInputStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:passwordToggleEnabled="true"
+                android:hint="@string/hint_password"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/mtv_password"
-                app:layout_constraintWidth_percent=".900">
+                app:layout_constraintTop_toBottomOf="@+id/til_ca_mobileNumber"
+                app:layout_constraintWidth_percent=".900"
+                app:passwordToggleEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/tie_ca_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp"
-                    android:textStyle="bold"
+                    android:imeOptions="actionNext"
                     android:inputType="textPassword"
-                    android:imeOptions="actionNext"/>
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/mtv_confpassword"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginStart="20dp"
-                android:text="Confirm Password"
-                app:layout_constraintTop_toBottomOf="@+id/til_ca_password"
-                app:layout_constraintStart_toStartOf="parent"/>
-
             <com.google.android.material.textfield.TextInputLayout
-                style="@style/TextInputStyle"
                 android:id="@+id/til_ca_confirmPass"
+                style="@style/TextInputStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:passwordToggleEnabled="true"
+                android:hint="@string/hint_confirm_password"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/mtv_confpassword"
-                app:layout_constraintWidth_percent=".900">
+                app:layout_constraintTop_toBottomOf="@+id/til_ca_password"
+                app:layout_constraintWidth_percent=".900"
+                app:passwordToggleEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/tie_ca_confirmPass"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp"
-                    android:textStyle="bold"
+                    android:imeOptions="actionNext"
                     android:inputType="textPassword"
-                    android:imeOptions="actionNext"/>
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.button.MaterialButton
+                style="@style/MaterialButtonAccent"
                 android:id="@+id/btn_createAccount"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="Create Account"
-                android:layout_marginTop="30dp"
-                android:layout_marginBottom="30dp"
-                app:cornerRadius="15dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/til_ca_confirmPass"
                 app:layout_constraintBottom_toTopOf="@+id/tvCompany"
-                app:layout_constraintWidth_percent=".650"
-                app:layout_constraintHeight_percent=".055"/>
+                app:layout_constraintTop_toBottomOf="@id/til_ca_confirmPass"/>
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tvCompany"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="3dp"
                 android:fontFamily="@font/roboto_bold"
                 android:text="@string/sLblCompName"
                 android:textSize="13sp"
                 app:layout_constraintBottom_toTopOf="@+id/tvCopyright"
-                app:layout_constraintTop_toBottomOf="@+id/btn_createAccount"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"/>
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tvCopyright"
@@ -304,7 +259,7 @@
                 android:fontFamily="@font/roboto_light"
                 android:text="@string/sLblCopyright"
                 android:textSize="11sp"
-                android:layout_marginBottom="3dp"
+                android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@+id/lbl_versionInfo"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -313,10 +268,10 @@
                 android:id="@+id/lbl_versionInfo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
                 android:fontFamily="@font/roboto_light"
                 android:text="@string/lblBuildVersion"
                 android:textSize="11sp"
-                android:layout_marginBottom="20dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />

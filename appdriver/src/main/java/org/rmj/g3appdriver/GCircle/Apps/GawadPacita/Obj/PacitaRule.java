@@ -57,7 +57,7 @@ public class PacitaRule {
             JSONObject loPayload = new JSONObject(val);
             return true;
         } catch (Exception e){
-            e.printStackTrace();
+//            e.printStackTrace();
             return false;
         }
     }

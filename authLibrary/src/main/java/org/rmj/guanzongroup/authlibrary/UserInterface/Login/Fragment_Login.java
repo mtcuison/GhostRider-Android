@@ -14,6 +14,7 @@ package org.rmj.guanzongroup.authlibrary.UserInterface.Login;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -95,7 +96,6 @@ public class Fragment_Login extends Fragment implements LoginCallback{
         btnLogin = v.findViewById(R.id.btn_login);
 
         tieMobileNo.setText(mViewModel.getMobileNo());
-
         tilMobileNo.setVisibility(mViewModel.hasMobileNo());
 
         cbAgree.setChecked(mViewModel.isAgreed());

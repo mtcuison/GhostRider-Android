@@ -18,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DAddressRequest;
@@ -121,6 +122,7 @@ import org.rmj.g3appdriver.GCircle.room.Entities.EInventoryMaster;
 import org.rmj.g3appdriver.GCircle.room.Entities.EItinerary;
 import org.rmj.g3appdriver.GCircle.room.Entities.ELoanTerm;
 import org.rmj.g3appdriver.GCircle.room.Entities.EMCColor;
+import org.rmj.g3appdriver.GCircle.room.Entities.EMCModelCashPrice;
 import org.rmj.g3appdriver.GCircle.room.Entities.EMcBrand;
 import org.rmj.g3appdriver.GCircle.room.Entities.EMcCategory;
 import org.rmj.g3appdriver.GCircle.room.Entities.EMcModel;
@@ -209,7 +211,8 @@ import org.rmj.g3appdriver.GCircle.room.Entities.EUncapturedClient;
         EPacitaRule.class,
         EPacitaEvaluation.class,
         ELoanTerm.class,
-        EGanadoOnline.class}, version = 39, exportSchema = false)
+        EGanadoOnline.class,
+        EMCModelCashPrice.class}, version = 40, exportSchema = false)
 public abstract class GGC_GCircleDB extends RoomDatabase {
     private static final String TAG = "GhostRider_DB_Manager";
     private static GGC_GCircleDB instance;
@@ -279,16 +282,15 @@ public abstract class GGC_GCircleDB extends RoomDatabase {
     public abstract DMessages messagesDao();
     public abstract DNotification notificationDao();
     public abstract DPacita pacitaDao();
-
     public abstract DGanadoOnline ganadoDao();
 
     public static synchronized GGC_GCircleDB getInstance(Context context){
         if(instance == null){
             instance = Room.databaseBuilder(context.getApplicationContext(),
                      GGC_GCircleDB.class, "GGC_ISysDBF.db")
-                    .fallbackToDestructiveMigration()
                     .allowMainThreadQueries()
                     .addCallback(roomCallBack)
+                    .addMigrations(MIGRATION_V40)
                     .build();
         }
         return instance;
@@ -299,6 +301,22 @@ public abstract class GGC_GCircleDB extends RoomDatabase {
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
             super.onCreate(db);
             Log.e(TAG, "Local database has been created.");
+        }
+    };
+
+    static final Migration MIGRATION_V40 = new Migration(39, 40) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            // Add the new column
+            database.execSQL("CREATE TABLE IF NOT EXISTS `MC_Cash_Price` " +
+                    "(`sModelIDx` TEXT NOT NULL, `sMCCatNme` TEXT NOT NULL, " +
+                    "`sModelNme` TEXT NOT NULL, `sBrandNme` TEXT, `nSelPrice` REAL, " +
+                    "`nLastPrce` REAL, `nDealrPrc` REAL, `dPricexxx` TEXT, " +
+                    "`sBrandIDx` TEXT, `sMCCatIDx` TEXT, " +
+                    "PRIMARY KEY(`sModelIDx`, `sMCCatNme`, `sModelNme`))");
+
+            database.execSQL("ALTER TABLE Ganado_Online ADD COLUMN nCashPrce REAL");
+            database.execSQL("ALTER TABLE Ganado_Online ADD COLUMN dPricexxx TEXT");
         }
     };
 }

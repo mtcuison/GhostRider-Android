@@ -19,10 +19,21 @@
     android:theme="@style/GhostRiderMaterialTheme"
     tools:context=".Fragment.Fragment_Employee_Applications">
 
-    <com.google.android.material.tabs.TabLayout
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/GhostRiderMaterialTheme.AppBarOverlay">
+
+        <com.google.android.material.tabs.TabLayout
         android:id="@+id/tablayout_approval_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
         app:tabIndicatorHeight="4dp"
         style="@style/Widget.MaterialComponents.TabLayout"
         app:tabGravity="fill"
@@ -31,12 +42,16 @@
         app:tabIndicatorAnimationDuration="1"
         app:tabIndicatorGravity="bottom"
         app:tabIndicatorFullWidth="true" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerview_applications"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:padding="10dp"/>
-
+    </com.google.android.material.appbar.AppBarLayout>
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerview_applications"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:padding="10dp"/>
+            </ScrollView>
+    </LinearLayout>
 </LinearLayout>

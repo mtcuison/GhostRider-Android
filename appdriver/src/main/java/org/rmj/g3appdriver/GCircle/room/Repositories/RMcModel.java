@@ -25,6 +25,7 @@ import org.json.JSONObject;
 import org.rmj.apprdiver.util.SQLUtil;
 import org.rmj.g3appdriver.GCircle.Api.GCircleApi;
 import org.rmj.g3appdriver.GCircle.room.Entities.EMCColor;
+import org.rmj.g3appdriver.GCircle.room.Entities.EMCModelCashPrice;
 import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DMcModel;
 import org.rmj.g3appdriver.GCircle.room.Entities.EMcModel;
@@ -176,7 +177,7 @@ public class RMcModel {
                 return false;
             }
 
-            JSONObject loResponse = new JSONObject(Objects.requireNonNull(lsResponse));
+            JSONObject loResponse = new JSONObject(lsResponse);
             String lsResult = loResponse.getString("result");
             if(lsResult.equalsIgnoreCase("error")){
                 JSONObject loError = loResponse.getJSONObject("error");
@@ -219,4 +220,83 @@ public class RMcModel {
             return false;
         }
     }
+
+    public boolean ImportCashPrices(){
+        try{
+            JSONObject params = new JSONObject();
+            params.put("sModelIDxx", "");
+            params.put("dPricedxxx", "");
+
+            EMCModelCashPrice loInfo = poDao.GetLatestMcCashPrice();
+
+            if(loInfo != null){
+                params.put("dPricedxxx", loInfo.getPricexxx());
+            }
+
+            String lsResponse = WebClient.sendRequest(
+                    poApi.getUrlImportMcModelPrices(),
+                    params.toString(),
+                    poHeaders.getHeaders());
+
+            if(lsResponse == null){
+                message = SERVER_NO_RESPONSE;
+                return false;
+            }
+
+            JSONObject loResponse = new JSONObject(lsResponse);
+            String lsResult = loResponse.getString("result");
+            if(lsResult.equalsIgnoreCase("error")){
+                JSONObject loError = loResponse.getJSONObject("error");
+                message = getErrorMessage(loError);
+                return false;
+            }
+
+            JSONArray laJson = loResponse.getJSONArray("detail");
+            for(int x = 0; x < laJson.length(); x++){
+                JSONObject loJson = laJson.getJSONObject(x);
+                String lsModelID = loJson.getString("sModelIDx");
+
+                EMCModelCashPrice loDetail = poDao.GetModelCashPriceInfo(lsModelID);
+
+                if(loDetail == null) {
+                    EMCModelCashPrice loModel = new EMCModelCashPrice();
+                    loModel.setModelIDx(loJson.getString("sModelIDx"));
+                    loModel.setMCCatNme(loJson.getString("sMCCatNme"));
+                    loModel.setModelNme(loJson.getString("sModelNme"));
+                    loModel.setBrandNme(loJson.getString("sBrandNme"));
+                    loModel.setSelPrice(loJson.getDouble("nSelPrice"));
+                    loModel.setLastPrce(loJson.getDouble("nLastPrce"));
+                    loModel.setDealrPrc(loJson.getDouble("nDealrPrc"));
+                    loModel.setPricexxx(loJson.getString("dPricexxx"));
+                    loModel.setBrandIDx(loJson.getString("sBrandIDx"));
+                    loModel.setMCCatIDx(loJson.getString("sMCCatIDx"));
+                    poDao.insert(loModel);
+                    Log.d(TAG, "Mc model price info has been saved.");
+                } else {
+                    Date ldDate1 = SQLUtil.toDate(loDetail.getPricexxx(), SQLUtil.FORMAT_SHORT_DATE);
+                    Date ldDate2 = SQLUtil.toDate((String) loJson.get("dPricexxx"), SQLUtil.FORMAT_SHORT_DATE);
+                    if (!ldDate1.equals(ldDate2)) {
+                        loDetail.setModelIDx(loJson.getString("sModelIDx"));
+                        loDetail.setMCCatNme(loJson.getString("sMCCatNme"));
+                        loDetail.setModelNme(loJson.getString("sModelNme"));
+                        loDetail.setBrandNme(loJson.getString("sBrandNme"));
+                        loDetail.setSelPrice(loJson.getDouble("nSelPrice"));
+                        loDetail.setLastPrce(loJson.getDouble("nLastPrce"));
+                        loDetail.setDealrPrc(loJson.getDouble("nDealrPrc"));
+                        loDetail.setPricexxx(loJson.getString("dPricexxx"));
+                        loDetail.setBrandIDx(loJson.getString("sBrandIDx"));
+                        loDetail.setMCCatIDx(loJson.getString("sMCCatIDx"));
+                        poDao.update(loDetail);
+                        Log.d(TAG, "Mc model price info has been updated.");
+                    }
+                }
+            }
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = getLocalMessage(e);
+            return false;
+        }
+    }
+
 }

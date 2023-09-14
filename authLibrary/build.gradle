@@ -13,7 +13,7 @@ apply plugin: 'com.android.library'
 
 android {
     namespace 'org.rmj.guanzongroup.authlibrary'
-    compileSdkVersion 33
+    compileSdk 34
     buildToolsVersion "30.0.3"
 
     compileOptions {
@@ -22,8 +22,8 @@ android {
     }
 
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 33
+        minSdk 21
+        targetSdk 34
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"

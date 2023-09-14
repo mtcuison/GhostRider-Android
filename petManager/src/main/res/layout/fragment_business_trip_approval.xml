@@ -10,7 +10,7 @@
   ~ project file last modified : 8/16/21 8:21 AM
   -->
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -29,7 +29,7 @@
            android:layout_height="wrap_content"
            android:theme="@style/GhostRiderMaterialTheme.AppBarOverlay">
 
-           <LinearLayout
+       <LinearLayout
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
                android:gravity="center"
@@ -117,6 +117,9 @@
            </LinearLayout>
 
        </com.google.android.material.appbar.AppBarLayout>
+       <ScrollView
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content">
 
        <LinearLayout
            android:layout_width="match_parent"
@@ -390,5 +393,6 @@
                </LinearLayout>
            </com.google.android.material.card.MaterialCardView>
        </LinearLayout>
+       </ScrollView>
    </LinearLayout>
-</ScrollView>
+</LinearLayout>

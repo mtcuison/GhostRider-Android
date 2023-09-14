@@ -285,11 +285,11 @@ public class Activity_PersonalInfo extends AppCompatActivity {
 
     private void SavePersonalInfo() {
         try {
-            mViewModel.getModel().setLastName(Objects.requireNonNull(txtLastNm.getText()).toString());
-            mViewModel.getModel().setFrstName(Objects.requireNonNull(txtFrstNm.getText()).toString());
-            mViewModel.getModel().setMiddName(Objects.requireNonNull(txtMiddNm.getText()).toString());
-            mViewModel.getModel().setSuffix(Objects.requireNonNull(txtSuffixx.getText()).toString());
-            mViewModel.getModel().setNickName(Objects.requireNonNull(txtNickNm.getText()).toString());
+            mViewModel.getModel().setLastName(Objects.requireNonNull(txtLastNm.getText()).toString().trim());
+            mViewModel.getModel().setFrstName(Objects.requireNonNull(txtFrstNm.getText()).toString().trim());
+            mViewModel.getModel().setMiddName(Objects.requireNonNull(txtMiddNm.getText()).toString().trim());
+            mViewModel.getModel().setSuffix(Objects.requireNonNull(txtSuffixx.getText()).toString().trim());
+            mViewModel.getModel().setNickName(Objects.requireNonNull(txtNickNm.getText()).toString().trim());
             mViewModel.getModel().setMotherNm(Objects.requireNonNull(txtMothNm.getText()).toString());
 
             if (!Objects.requireNonNull(txtMobileNo[0].getText()).toString().trim().isEmpty()) {

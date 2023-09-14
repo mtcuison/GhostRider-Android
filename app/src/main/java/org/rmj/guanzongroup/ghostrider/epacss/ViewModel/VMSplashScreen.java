@@ -25,11 +25,11 @@ import org.rmj.g3appdriver.GCircle.Account.EmployeeSession;
 import org.rmj.g3appdriver.GCircle.Apps.Dcp.model.LRDcp;
 import org.rmj.g3appdriver.GCircle.room.Entities.ETokenInfo;
 import org.rmj.g3appdriver.GCircle.room.Repositories.AppTokenManager;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.lib.Etc.Barangay;
 import org.rmj.g3appdriver.lib.Etc.Branch;
 import org.rmj.g3appdriver.lib.Etc.Province;
 import org.rmj.g3appdriver.lib.Etc.Town;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.Task.OnDoBackgroundTaskListener;
 import org.rmj.g3appdriver.utils.Task.OnLoadApplicationListener;
@@ -41,7 +41,6 @@ public class VMSplashScreen extends AndroidViewModel {
 
     private final Application instance;
 
-    private final AppConfigPreference poConfigx;
     private final ConnectionUtil poConn;
     private final AppConfigPreference poConfig;
     private final EmployeeMaster poUser;
@@ -52,16 +51,15 @@ public class VMSplashScreen extends AndroidViewModel {
     public VMSplashScreen(@NonNull Application application) {
         super(application); 
         this.instance = application;
-        this.poConfigx = AppConfigPreference.getInstance(application);
         this.poConn = new ConnectionUtil(instance);
         this.poConfig = AppConfigPreference.getInstance(instance);
         this.poUser = new EmployeeMaster(instance);
         this.poSession = EmployeeSession.getInstance(instance);
-        this.poConfigx.setPackageName(BuildConfig.APPLICATION_ID);
-        this.poConfigx.setProductID("gRider");
-        this.poConfigx.setUpdateLocally(false);
-        this.poConfigx.setTestCase(true);
-        this.poConfigx.setupAppVersionInfo(BuildConfig.VERSION_CODE, BuildConfig.VERSION_NAME, "");
+        this.poConfig.setPackageName(BuildConfig.APPLICATION_ID);
+        this.poConfig.setProductID("gRider");
+        this.poConfig.setUpdateLocally(false);
+        this.poConfig.setTestCase(false);
+        this.poConfig.setupAppVersionInfo(BuildConfig.VERSION_CODE, BuildConfig.VERSION_NAME, "");
         ETokenInfo loToken = new ETokenInfo();
         loToken.setTokenInf("temp_token");
         CheckConnection();

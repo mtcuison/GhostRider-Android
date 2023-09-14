@@ -259,11 +259,11 @@ public class Activity_SpouseInfo extends AppCompatActivity {
     }
 
     private void SaveSpouseInfo() {
-        mViewModel.getModel().setLastName(Objects.requireNonNull(txtLastName.getText()).toString());
-        mViewModel.getModel().setFrstName(Objects.requireNonNull(txtFirstName.getText()).toString());
-        mViewModel.getModel().setMiddName(Objects.requireNonNull(txtMiddName.getText()).toString());
-        mViewModel.getModel().setSuffix(Objects.requireNonNull(txtSuffix.getText()).toString());
-        mViewModel.getModel().setNickName(Objects.requireNonNull(txtNickName.getText()).toString());
+        mViewModel.getModel().setLastName(Objects.requireNonNull(txtLastName.getText()).toString().trim());
+        mViewModel.getModel().setFrstName(Objects.requireNonNull(txtFirstName.getText()).toString().trim());
+        mViewModel.getModel().setMiddName(Objects.requireNonNull(txtMiddName.getText()).toString().trim());
+        mViewModel.getModel().setSuffix(Objects.requireNonNull(txtSuffix.getText()).toString().trim());
+        mViewModel.getModel().setNickName(Objects.requireNonNull(txtNickName.getText()).toString().trim());
 
         if (txtPrimeCntc != null || !Objects.requireNonNull(txtPrimeCntc.getText()).toString().trim().isEmpty()) {
             poMobile[0].setMobileNo(txtPrimeCntc.getText().toString());

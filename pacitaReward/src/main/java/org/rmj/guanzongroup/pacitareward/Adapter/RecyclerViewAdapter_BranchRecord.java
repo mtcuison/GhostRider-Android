@@ -34,7 +34,7 @@ public class RecyclerViewAdapter_BranchRecord extends RecyclerView.Adapter<Recyc
     @Override
     public RecyclerViewHolder_BranchRecord onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
-        View view = layoutInflater.inflate(R.layout.layout_branchrecords, parent, false);
+        View view = layoutInflater.inflate(R.layout.list_item_branch_evaluations, parent, false);
         return new RecyclerViewHolder_BranchRecord(view);
     }
 

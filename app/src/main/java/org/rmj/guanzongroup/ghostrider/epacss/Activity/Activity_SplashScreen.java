@@ -71,9 +71,7 @@ public class Activity_SplashScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VMSplashScreen.class);
-//        SplashScreen splashScreen = SplashScreen.installSplashScreen(this);
         setContentView(R.layout.activity_splash_screen);
-//        splashScreen.setKeepOnScreenCondition(() -> true );
         InitActivityResultLaunchers();
         poDialog = new MessageBox(Activity_SplashScreen.this);
         new TransparentToolbar(Activity_SplashScreen.this).SetupActionbar();

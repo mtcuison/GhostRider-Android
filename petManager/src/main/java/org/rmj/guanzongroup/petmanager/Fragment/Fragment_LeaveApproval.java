@@ -103,6 +103,7 @@ public class Fragment_LeaveApproval extends Fragment implements VMLeaveApproval.
         Typeface typeface = ResourcesCompat.getFont(requireActivity(), R.font.roboto_bold);
         tilRemarks.setTypeface(typeface);
         String TransNox = Activity_Application.getInstance().getTransNox();
+
         if(TransNox.isEmpty()){
             lnSearch.setVisibility(View.VISIBLE);
         } else {
