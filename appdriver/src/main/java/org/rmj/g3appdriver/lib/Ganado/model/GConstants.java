@@ -48,6 +48,13 @@ public class GConstants {
     };
     public static String[] PAYMENT_FORM = {"Cash", "Installment"};
 
+    public static String[] INQUIRY_STATUS = {
+            "Open",
+            "Extracted",
+            "Engaged",
+            "Lost Sales",
+            "Bought"};
+
     public static ArrayAdapter<String> getAdapter(Context mContext, String[] data) {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_dropdown_item, data){
             @SuppressLint("ResourceAsColor")
